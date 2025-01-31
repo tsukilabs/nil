@@ -12,7 +12,7 @@ function onExit() {
 
 <template>
   <div class="flex size-full flex-col items-center justify-center gap-2">
-    <h1 class="-mt-16 mb-8 text-6xl font-extrabold">{{ t('title') }}</h1>
+    <h1 class="-mt-16 mb-8 text-4xl font-extrabold md:text-6xl">{{ t('title') }}</h1>
     <div class="flex flex-col gap-2">
       <Button>{{ t('home.join') }}</Button>
       <Button variant="secondary" disabled>{{ t('home.host') }}</Button>
