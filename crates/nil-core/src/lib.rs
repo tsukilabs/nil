@@ -7,7 +7,7 @@ pub mod world;
 pub use battle::{Battle, OffensivePower};
 pub use error::{Error, Result};
 pub use village::Village;
-pub use world::World;
+pub use world::{Cell, Coord, World};
 
 pub use unit::{
   Haul,

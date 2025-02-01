@@ -1,51 +1,48 @@
+use crate::error::{Error, Result};
 use crate::village::Village;
-use std::ops::{Index, IndexMut};
 
+#[derive(Debug)]
 pub struct World {
+  size: usize,
   cells: Vec<Cell>,
-  capacity: usize,
 }
 
 impl World {
   pub fn new(size: u8) -> Self {
-    let capacity = usize::from(size).pow(2);
+    let size = usize::from(size);
+    let capacity = size.pow(2);
+
     let mut cells = Vec::with_capacity(capacity);
     cells.resize_with(capacity, Cell::default);
     cells.shrink_to_fit();
-    Self { cells, capacity }
+
+    Self { cells, size }
   }
 
-  fn index(&self, coord: Coord) -> usize {
-    let Coord(x, y) = coord;
-    usize::from(y) * usize::from(self.capacity) + usize::from(x)
+  pub fn index(&self, coord: Coord) -> usize {
+    (coord.y * self.size) + coord.x
   }
 
-  pub fn get(&self, coord: impl Into<Coord>) -> &Cell {
-    let index = self.index(coord.into());
-    unsafe { self.cells.get_unchecked(index) }
+  pub fn get(&self, coord: impl Into<Coord>) -> Result<&Cell> {
+    let coord = coord.into();
+    let index = self.index(coord);
+    self
+      .cells
+      .get(index)
+      .ok_or(Error::OutOfBounds(coord))
   }
 
-  pub fn get_mut(&mut self, coord: impl Into<Coord>) -> &mut Cell {
-    let index = self.index(coord.into());
-    unsafe { self.cells.get_unchecked_mut(index) }
-  }
-}
-
-impl Index<Coord> for World {
-  type Output = Cell;
-
-  fn index(&self, coord: Coord) -> &Self::Output {
-    self.get(coord)
-  }
-}
-
-impl IndexMut<Coord> for World {
-  fn index_mut(&mut self, coord: Coord) -> &mut Self::Output {
-    self.get_mut(coord)
+  pub fn get_mut(&mut self, coord: impl Into<Coord>) -> Result<&mut Cell> {
+    let coord = coord.into();
+    let index = self.index(coord);
+    self
+      .cells
+      .get_mut(index)
+      .ok_or(Error::OutOfBounds(coord))
   }
 }
 
-#[derive(Default)]
+#[derive(Debug, Default)]
 pub enum Cell {
   #[default]
   Empty,
@@ -53,16 +50,19 @@ pub enum Cell {
 }
 
 #[derive(Clone, Copy, Debug)]
-pub struct Coord(u8, u8);
+pub struct Coord {
+  x: usize,
+  y: usize,
+}
 
 impl Coord {
-  pub const fn new(x: u8, y: u8) -> Self {
-    Self(x, y)
+  pub fn new(x: u8, y: u8) -> Self {
+    Self { x: usize::from(x), y: usize::from(y) }
   }
 }
 
 impl From<(u8, u8)> for Coord {
   fn from((x, y): (u8, u8)) -> Self {
-    Self(x, y)
+    Self::new(x, y)
   }
 }
