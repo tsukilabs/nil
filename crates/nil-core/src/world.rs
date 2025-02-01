@@ -3,8 +3,8 @@ use crate::village::Village;
 
 #[derive(Debug)]
 pub struct World {
-  size: usize,
   cells: Vec<Cell>,
+  size: usize,
 }
 
 impl World {

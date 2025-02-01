@@ -2414,6 +2414,7 @@ dependencies = [
  "bon",
  "derive_more 1.0.0",
  "itertools",
+ "nil-macros",
  "rand 0.9.0",
  "rayon",
  "serde",

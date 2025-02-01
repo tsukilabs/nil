@@ -1,10 +1,13 @@
 pub mod battle;
+pub mod building;
 pub mod error;
+pub mod player;
 pub mod unit;
 pub mod village;
 pub mod world;
 
 pub use battle::{Battle, OffensivePower};
+pub use building::{Building, BuildingId, BuildingLevel};
 pub use error::{Error, Result};
 pub use village::Village;
 pub use world::{Cell, Coord, World};
