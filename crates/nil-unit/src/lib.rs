@@ -13,6 +13,10 @@ where
   let skill = match id.get() {
     1 => Pikeman::new_boxed(amount),
     2 => Swordsman::new_boxed(amount),
+    3 => Axeman::new_boxed(amount),
+    4 => Archer::new_boxed(amount),
+    5 => LightCavalry::new_boxed(amount),
+    6 => HeavyCavalry::new_boxed(amount),
     _ => return Err(Error::UnitNotFound(id)),
   };
 
