@@ -17,6 +17,24 @@ pub trait Unit: Send + Sync {
     let total = f64::from(attack) * f64::from(amount);
     SquadAttack::new(total)
   }
+
+  fn squad_defense(&self) -> SquadDefense {
+    let amount = self.amount();
+
+    let general = self.stats().general_defense;
+    let cavalry = self.stats().cavalry_defense;
+    let ranged = self.stats().ranged_defense;
+
+    let general_total = f64::from(general) * f64::from(amount);
+    let cavalry_total = f64::from(cavalry) * f64::from(amount);
+    let ranged_total = f64::from(ranged) * f64::from(amount);
+    
+    SquadDefense {
+      general : general_total,
+      cavalry : cavalry_total,
+      ranged : ranged_total,
+    }
+  }
 }
 
 #[derive(Clone, Copy, Debug, Deref, Display)]
