@@ -28,11 +28,11 @@ pub trait Unit: Send + Sync {
     let general_total = f64::from(general) * f64::from(amount);
     let cavalry_total = f64::from(cavalry) * f64::from(amount);
     let ranged_total = f64::from(ranged) * f64::from(amount);
-    
+
     SquadDefense {
-      general : general_total,
-      cavalry : cavalry_total,
-      ranged : ranged_total,
+      general: general_total,
+      cavalry: cavalry_total,
+      ranged: ranged_total,
     }
   }
 }

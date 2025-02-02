@@ -1,1 +1,1 @@
-export type Route = 'home';
+export type Route = 'home' | 'host-game' | 'join-game';

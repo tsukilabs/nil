@@ -9,6 +9,16 @@ export const router = createRouter({
       name: 'home' satisfies Route,
       component: () => import('@/scenes/Home.vue'),
     },
+    {
+      path: '/host-game',
+      name: 'host-game' satisfies Route,
+      component: () => import('@/scenes/HostGame.vue'),
+    },
+    {
+      path: '/join-game',
+      name: 'join-game' satisfies Route,
+      component: () => import('@/scenes/JoinGame.vue'),
+    },
   ],
 });
 

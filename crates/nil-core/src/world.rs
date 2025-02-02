@@ -49,7 +49,7 @@ pub enum Cell {
   Village(Village),
 }
 
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub struct Coord {
   x: usize,
   y: usize,

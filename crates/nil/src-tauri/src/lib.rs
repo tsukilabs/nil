@@ -19,7 +19,6 @@ pub fn run() {
   #[cfg(desktop)]
   let builder = {
     tauri::Builder::default()
-      .plugin(plugin::single_instance())
       .plugin(plugin::prevent_default())
       .plugin(plugin::window_state())
   };

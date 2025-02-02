@@ -1,4 +1,5 @@
 import type { App } from 'vue';
+import type { go } from '@/router';
 import type { commands } from '@/lib/api';
 import type { MaybePromise } from '@tb-dev/utils';
 
