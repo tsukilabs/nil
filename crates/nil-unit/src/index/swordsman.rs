@@ -10,7 +10,7 @@ impl Swordsman {
   pub const KIND: UnitKind = UnitKind::Infantry;
   pub const STATS: UnitStats = UnitStats {
     attack: Power::new(25),
-    general_defense: Power::new(50),
+    infantry_defense: Power::new(50),
     cavalry_defense: Power::new(15),
     ranged_defense: Power::new(40),
     speed: Speed::new(22.0),

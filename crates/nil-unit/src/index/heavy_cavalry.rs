@@ -10,7 +10,7 @@ impl HeavyCavalry {
   pub const KIND: UnitKind = UnitKind::Cavalry;
   pub const STATS: UnitStats = UnitStats {
     attack: Power::new(150),
-    general_defense: Power::new(200),
+    infantry_defense: Power::new(200),
     cavalry_defense: Power::new(80),
     ranged_defense: Power::new(180),
     speed: Speed::new(11.0),

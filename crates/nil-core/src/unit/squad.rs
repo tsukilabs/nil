@@ -16,7 +16,7 @@ impl From<f64> for SquadAttack {
 }
 
 pub struct SquadDefense {
-  pub general: f64,
+  pub infantry: f64,
   pub cavalry: f64,
   pub ranged: f64,
 }

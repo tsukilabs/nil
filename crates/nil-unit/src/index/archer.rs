@@ -10,7 +10,7 @@ impl Archer {
   pub const KIND: UnitKind = UnitKind::Ranged;
   pub const STATS: UnitStats = UnitStats {
     attack: Power::new(15),
-    general_defense: Power::new(50),
+    infantry_defense: Power::new(50),
     cavalry_defense: Power::new(40),
     ranged_defense: Power::new(5),
     speed: Speed::new(18.0),

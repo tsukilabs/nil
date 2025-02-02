@@ -10,7 +10,7 @@ impl Axeman {
   pub const KIND: UnitKind = UnitKind::Infantry;
   pub const STATS: UnitStats = UnitStats {
     attack: Power::new(40),
-    general_defense: Power::new(10),
+    infantry_defense: Power::new(10),
     cavalry_defense: Power::new(5),
     ranged_defense: Power::new(10),
     speed: Speed::new(18.0),

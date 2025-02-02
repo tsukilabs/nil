@@ -21,7 +21,7 @@ pub trait Unit: Send + Sync {
   fn squad_defense(&self) -> SquadDefense {
     let amount = self.amount();
 
-    let general = self.stats().general_defense;
+    let general = self.stats().infantry_defense;
     let cavalry = self.stats().cavalry_defense;
     let ranged = self.stats().ranged_defense;
 
@@ -30,7 +30,7 @@ pub trait Unit: Send + Sync {
     let ranged_total = f64::from(ranged) * f64::from(amount);
 
     SquadDefense {
-      general: general_total,
+      infantry: general_total,
       cavalry: cavalry_total,
       ranged: ranged_total,
     }
@@ -68,7 +68,7 @@ pub enum UnitKind {
 #[derive(Clone, Copy, Debug)]
 pub struct UnitStats {
   pub attack: Power,
-  pub general_defense: Power,
+  pub infantry_defense: Power,
   pub cavalry_defense: Power,
   pub ranged_defense: Power,
   pub speed: Speed,
