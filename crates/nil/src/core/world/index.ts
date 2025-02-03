@@ -48,6 +48,7 @@ export class World {
       player: world.player as Readonly<typeof world.player>,
       playerId: world.playerId,
       currentVillage: world.currentVillage as Readonly<typeof world.currentVillage>,
+      join: world.join.bind(world),
       host: world.host.bind(world),
       updatePlayer: world.updatePlayer.bind(world),
     };

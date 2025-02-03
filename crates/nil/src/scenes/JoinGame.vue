@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import { useLocale } from '@/locale';
+import { World } from '@/core/world';
 import type { PlayerConfig } from '@/types/player';
 import { isIp, isPlayerConfig } from '@/lib/schema';
 import { Button, Card, InputText, Label } from '@/components';
+
+const world = World.use();
 
 const { t } = useLocale();
 
@@ -15,6 +18,12 @@ const player = ref<PlayerConfig>({
 const canJoin = computed(() => {
   return isPlayerConfig(player.value) && isIp(server.value);
 });
+
+async function join() {
+  if (canJoin.value) {
+    await world.join(server.value, player.value);
+  }
+}
 </script>
 
 <template>
@@ -37,7 +46,7 @@ const canJoin = computed(() => {
         </div>
 
         <div class="flex items-center justify-center gap-2">
-          <Button :disabled="!canJoin">{{ t('misc.join') }}</Button>
+          <Button :disabled="!canJoin" @click="() => join()">{{ t('misc.join') }}</Button>
           <Button variant="secondary" @click="() => $go('home')">{{ t('misc.cancel') }}</Button>
         </div>
       </div>
