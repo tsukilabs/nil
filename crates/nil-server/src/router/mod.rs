@@ -1,4 +1,5 @@
 mod player;
+mod village;
 
 use crate::state::ServerState;
 use crate::websocket::handle_socket;
@@ -13,9 +14,11 @@ use std::net::SocketAddr;
 pub(crate) fn create() -> Router<ServerState> {
   Router::new()
     .route("/", get(ok))
-    .route("/version", get(version))
     .route("/player", post(player::get))
     .route("/player/spawn", put(player::spawn))
+    .route("/player/villages", post(player::get_villages))
+    .route("/version", get(version))
+    .route("/village", post(village::get))
     .route("/ws", any(ws_handler))
 }
 

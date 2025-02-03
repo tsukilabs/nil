@@ -1,4 +1,5 @@
 mod player;
+mod village;
 
 use crate::error::Result;
 use std::net::IpAddr;

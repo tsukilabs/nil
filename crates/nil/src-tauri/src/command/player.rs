@@ -1,12 +1,20 @@
 use crate::error::CResult;
 use crate::manager::ManagerExt;
-use nil_core::{Player, PlayerConfig, PlayerId};
+use nil_core::{Coord, Player, PlayerConfig, PlayerId};
 use tauri::AppHandle;
 
 #[tauri::command]
 pub async fn get_player(app: AppHandle, id: PlayerId) -> CResult<Player> {
   app
     .with_client(async |client| client.get_player(id).await)
+    .await?
+    .map_err(Into::into)
+}
+
+#[tauri::command]
+pub async fn get_player_villages(app: AppHandle, id: PlayerId) -> CResult<Vec<Coord>> {
+  app
+    .with_client(async |client| client.get_player_villages(id).await)
     .await?
     .map_err(Into::into)
 }

@@ -4,6 +4,7 @@ use axum::extract::connect_info::ConnectInfo;
 use axum::extract::{Json, State};
 use axum::http::StatusCode;
 use axum::response::{IntoResponse, Response};
+use futures::FutureExt;
 use nil_core::{Player, PlayerConfig, PlayerId};
 use std::net::SocketAddr;
 
@@ -15,6 +16,14 @@ pub async fn get(State(state): State<ServerState>, Json(id): Json<PlayerId>) -> 
     Ok(player) => (StatusCode::OK, Json(player)).into_response(),
     Err(e) => err!(NOT_FOUND, e),
   }
+}
+
+pub async fn get_villages(State(state): State<ServerState>, Json(id): Json<PlayerId>) -> Response {
+  state
+    .world(|world| world.get_player_villages(id))
+    .map(|villages| (StatusCode::OK, Json(villages)))
+    .await
+    .into_response()
 }
 
 pub async fn spawn(

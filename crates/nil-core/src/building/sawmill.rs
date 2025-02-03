@@ -1,7 +1,9 @@
 use super::BuildingLevel;
 use nil_macros::Building;
+use serde::{Deserialize, Serialize};
 
-#[derive(Building, Debug)]
+#[derive(Building, Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct Sawmill {
   level: BuildingLevel,
 }

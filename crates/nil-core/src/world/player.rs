@@ -47,6 +47,12 @@ impl World {
   }
 
   pub fn get_player_villages(&self, player: PlayerId) -> Vec<Coord> {
-    todo!()
+    self
+      .cells
+      .iter()
+      .filter_map(|it| it.try_unwrap_village_ref().ok())
+      .filter(|it| it.owner.is_some_and(|id| id == player))
+      .map(|it| it.coord)
+      .collect()
   }
 }

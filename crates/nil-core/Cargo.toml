@@ -25,7 +25,7 @@ thiserror = "2.0"
 
 [dependencies.derive_more]
 version = "1.0"
-features = ["deref", "deref_mut", "display"]
+features = ["deref", "deref_mut", "display", "try_unwrap"]
 
 [dependencies.indexmap]
 version = "2.7"

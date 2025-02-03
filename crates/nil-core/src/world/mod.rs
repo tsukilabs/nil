@@ -5,8 +5,9 @@ use crate::error::{Error, Result};
 use crate::player::{Player, PlayerId};
 use crate::village::Village;
 use bon::Builder;
+use derive_more::TryUnwrap;
 use indexmap::IndexMap;
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 use std::num::NonZeroU8;
 use strum::EnumIs;
 
@@ -98,14 +99,16 @@ impl Default for WorldConfig {
   }
 }
 
-#[derive(Debug, Default, EnumIs)]
+#[derive(Debug, Default, EnumIs, TryUnwrap)]
+#[try_unwrap(ref)]
 pub enum Cell {
   #[default]
+  #[try_unwrap(ignore)]
   Empty,
   Village(Village),
 }
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, Deserialize, Serialize)]
 pub struct Coord {
   x: u8,
   y: u8,

@@ -1,3 +1,4 @@
+import { gameRoutes } from './game';
 import type { Route } from './types';
 import { createMemoryHistory, createRouter } from 'vue-router';
 
@@ -23,6 +24,12 @@ export const router = createRouter({
       path: '/settings',
       name: 'settings' satisfies Route,
       component: () => import('@/scenes/Settings.vue'),
+    },
+
+    {
+      path: '/game',
+      component: () => import('@/scenes/Game.vue'),
+      children: gameRoutes,
     },
   ],
 });

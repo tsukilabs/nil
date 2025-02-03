@@ -1,10 +1,13 @@
-import { PlayerImpl } from '@/core/player';
+import type { Coord } from '@/types/world';
 import { invoke } from '@tauri-apps/api/core';
 import type { Player, PlayerConfig, PlayerId } from '@/types/player';
 
-export async function getPlayer(id: PlayerId) {
-  const player = await invoke<Player>('get_player', { id });
-  return new PlayerImpl(player);
+export function getPlayer(id: PlayerId) {
+  return invoke<Player>('get_player', { id });
+}
+
+export async function getPlayerVillages(id: PlayerId) {
+  return invoke<Coord[]>('get_player_villages', { id });
 }
 
 export function spawnPlayer(config: PlayerConfig) {

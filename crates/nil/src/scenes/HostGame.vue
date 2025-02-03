@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import { useLocale } from '@/locale';
-import * as dialog from '@/lib/dialog';
-import * as commands from '@/commands';
+import { World } from '@/core/world';
 import type { WorldConfig } from '@/types/world';
 import type { PlayerConfig } from '@/types/player';
 import { isPlayerConfig, isWorldConfig } from '@/lib/schema';
 import { Button, Card, InputNumber, InputText, Label } from '@/components';
+
+const world = World.use();
 
 const { t } = useLocale();
 
@@ -23,12 +24,8 @@ const canHost = computed(() => {
 });
 
 async function host() {
-  try {
-    await commands.startServer(worldConfig.value);
-    await commands.startClient('127.0.0.1');
-    dialog.info(await commands.spawnPlayer(playerConfig.value));
-  } catch (err) {
-    dialog.error(String(err));
+  if (canHost.value) {
+    await world.host(worldConfig.value, playerConfig.value);
   }
 }
 </script>

@@ -37,11 +37,13 @@ pub fn run() {
       command::client::start_client,
       command::client::stop_client,
       command::player::get_player,
+      command::player::get_player_villages,
       command::player::spawn_player,
       command::server::get_server_version,
       command::server::is_server_ok,
       command::server::start_server,
       command::server::stop_server,
+      command::village::get_village
     ])
     .run(tauri::generate_context!())
     .expect("failed to start nil");

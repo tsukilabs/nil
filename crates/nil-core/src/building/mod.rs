@@ -21,23 +21,14 @@ pub mod prelude {
 }
 
 use derive_more::Deref;
-use std::num::NonZeroU8;
+use serde::{Deserialize, Serialize};
 
 pub trait Building {
   fn level(&self) -> BuildingLevel;
   fn max_level(&self) -> BuildingLevel;
 }
 
-#[derive(Clone, Copy, Debug, Deref)]
-pub struct BuildingId(NonZeroU8);
-
-impl BuildingId {
-  pub const fn new(id: u8) -> Self {
-    Self(NonZeroU8::new(id).unwrap())
-  }
-}
-
-#[derive(Clone, Copy, Debug, Default, Deref)]
+#[derive(Clone, Copy, Debug, Default, Deref, Deserialize, Serialize)]
 pub struct BuildingLevel(u8);
 
 impl BuildingLevel {

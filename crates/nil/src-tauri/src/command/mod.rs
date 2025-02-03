@@ -1,6 +1,7 @@
 pub mod client;
 pub mod player;
 pub mod server;
+pub mod village;
 
 use crate::error::{CResult, Error};
 use tauri::WebviewWindow;

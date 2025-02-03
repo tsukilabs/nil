@@ -2,8 +2,10 @@ use crate::building::prelude::*;
 use crate::player::PlayerId;
 use crate::world::Coord;
 use bon::Builder;
+use serde::{Deserialize, Serialize};
 
-#[derive(Builder, Debug)]
+#[derive(Builder, Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct Village {
   #[builder(start_fn, into)]
   pub coord: Coord,
@@ -15,7 +17,8 @@ pub struct Village {
   pub infrastructure: Infrastructure,
 }
 
-#[derive(Debug, Default)]
+#[derive(Clone, Debug, Default, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct Infrastructure {
   pub prefecture: Prefecture,
   pub academy: Academy,

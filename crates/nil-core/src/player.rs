@@ -1,5 +1,5 @@
 use bon::Builder;
-use derive_more::Display;
+use derive_more::{Deref, Display};
 use serde::{Deserialize, Serialize};
 use std::net::SocketAddr;
 
@@ -23,7 +23,7 @@ impl Player {
   }
 }
 
-#[derive(Clone, Copy, Debug, Display, PartialEq, Eq, Hash, Deserialize, Serialize)]
+#[derive(Clone, Copy, Debug, Deref, Display, PartialEq, Eq, Hash, Deserialize, Serialize)]
 pub struct PlayerId(SocketAddr);
 
 impl From<SocketAddr> for PlayerId {
