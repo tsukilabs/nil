@@ -101,7 +101,7 @@ impl DefensivePower {
     ranged *= offensive_power.ranged_ratio;
 
     let mut total = infantry + cavalry + ranged;
-    
+
     if f64::from(units_by_kind.ranged) / f64::from(units_by_kind.units_amount) > 0.5 {
       total -= sum_ranged_debuff(units);
     }

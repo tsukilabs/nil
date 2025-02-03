@@ -4,6 +4,7 @@ mod iron_mine;
 mod prefecture;
 mod quarry;
 mod sawmill;
+mod silo;
 mod stable;
 mod wall;
 mod warehouse;
@@ -15,6 +16,7 @@ pub mod prelude {
   pub use super::prefecture::Prefecture;
   pub use super::quarry::Quarry;
   pub use super::sawmill::Sawmill;
+  pub use super::silo::Silo;
   pub use super::stable::Stable;
   pub use super::wall::Wall;
   pub use super::warehouse::Warehouse;

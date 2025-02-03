@@ -16,6 +16,7 @@ export interface Infrastructure {
   readonly prefecture: building.Prefecture;
   readonly quarry: building.Quarry;
   readonly sawmill: building.Sawmill;
+  readonly silo: building.Silo;
   readonly stable: building.Stable;
   readonly wall: building.Wall;
   readonly warehouse: building.Warehouse;

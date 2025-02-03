@@ -126,5 +126,5 @@ fn ranged_debuff_test() {
   };
 
   let attack_power = battle.offensive_power();
-assert_eq!(attack_power.total, 370000.0);
+  assert_eq!(attack_power.total, 370000.0);
 }

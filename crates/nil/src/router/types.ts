@@ -7,6 +7,7 @@ export type GameRoute =
   | 'prefecture'
   | 'quarry'
   | 'sawmill'
+  | 'silo'
   | 'stable'
   | 'village'
   | 'wall'

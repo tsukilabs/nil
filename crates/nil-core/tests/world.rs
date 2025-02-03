@@ -15,10 +15,15 @@ fn index_to_coord() {
   });
 }
 
-fn each_coord<F>(f: F)
-where
-  F: Fn(&mut World, Coord),
-{
+#[test]
+fn default_world_is_empty() {
+  each_coord(|world, coord| {
+    let cell = world.cell(coord).unwrap();
+    assert!(cell.is_empty());
+  });
+}
+
+fn each_coord(f: impl Fn(&mut World, Coord)) {
   let mut world = World::default();
   (0..100).into_iter().for_each(|x| {
     (0..100).into_iter().for_each(|y| {

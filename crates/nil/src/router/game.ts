@@ -33,6 +33,11 @@ export const gameRoutes: RouteRecordRaw[] = [
     component: () => import('@/scenes/game/Sawmill.vue'),
   },
   {
+    path: 'silo',
+    name: 'silo' satisfies GameRoute,
+    component: () => import('@/scenes/game/Silo.vue'),
+  },
+  {
     path: 'stable',
     name: 'stable' satisfies GameRoute,
     component: () => import('@/scenes/game/Stable.vue'),

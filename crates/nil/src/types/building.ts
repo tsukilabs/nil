@@ -10,4 +10,5 @@ export type Quarry = Building;
 export type IronMine = Building;
 export type Farm = Building;
 export type Warehouse = Building;
+export type Silo = Building;
 export type Wall = Building;
