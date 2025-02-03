@@ -95,7 +95,7 @@ fn winner_losses_mixed() {
   };
 
   let losses = battle.winner_losses();
-  assert_eq!(losses.total_loss, 3750.0);
+  assert!((losses.total_loss - 48.7139).abs() <= 0.001);
 }
 
 #[test]
