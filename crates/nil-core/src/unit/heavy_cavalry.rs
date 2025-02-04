@@ -1,9 +1,8 @@
-use super::prelude::*;
+use super::{Haul, Power, Speed, UnitId, UnitKind, UnitStats};
+use nil_macros::Unit;
 
 #[derive(Unit)]
-pub struct HeavyCavalry {
-  amount: u32,
-}
+pub struct HeavyCavalry;
 
 impl HeavyCavalry {
   pub const ID: UnitId = UnitId::new(6);

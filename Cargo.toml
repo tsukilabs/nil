@@ -5,7 +5,6 @@ members = [
   "crates/nil-core",
   "crates/nil-macros",
   "crates/nil-server",
-  "crates/nil-unit",
   "crates/nil/src-tauri",
 ]
 

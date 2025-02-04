@@ -1,9 +1,8 @@
-use super::prelude::*;
+use super::{Haul, Power, Speed, UnitId, UnitKind, UnitStats};
+use nil_macros::Unit;
 
 #[derive(Unit)]
-pub struct Axeman {
-  amount: u32,
-}
+pub struct Axeman;
 
 impl Axeman {
   pub const ID: UnitId = UnitId::new(3);

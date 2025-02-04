@@ -17,6 +17,7 @@ pub use unit::{
   Haul,
   Power,
   Speed,
+  Squad,
   SquadAttack,
   SquadDefense,
   Unit,

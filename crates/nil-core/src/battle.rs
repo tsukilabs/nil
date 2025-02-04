@@ -1,12 +1,12 @@
-use crate::unit::{UnitBox, UnitKind};
+use crate::unit::{Squad, UnitKind};
 use bon::Builder;
 
 #[derive(Builder)]
 pub struct Battle {
   #[builder(default, into)]
-  attacker: Vec<UnitBox>,
+  attacker: Vec<Squad>,
   #[builder(default, into)]
-  defender: Vec<UnitBox>,
+  defender: Vec<Squad>,
 }
 
 impl Battle {
@@ -38,28 +38,28 @@ pub struct OffensivePower {
 }
 
 impl OffensivePower {
-  pub fn new(units: &[UnitBox]) -> Self {
-    let units_by_kind = units_by_kind(units);
+  pub fn new(squads: &[Squad]) -> Self {
+    let units_by_kind = units_by_kind(squads);
     let mut infantry = 0.0;
     let mut cavalry = 0.0;
     let mut ranged = 0.0;
 
-    for unit in units {
-      match unit.kind() {
+    for squad in squads {
+      match squad.kind() {
         UnitKind::Infantry => {
-          infantry += *unit.squad_attack();
+          infantry += *squad.attack();
         }
         UnitKind::Cavalry => {
-          cavalry += *unit.squad_attack();
+          cavalry += *squad.attack();
         }
         UnitKind::Ranged => {
-          ranged += *unit.squad_attack();
+          ranged += *squad.attack();
         }
       }
     }
 
     if f64::from(units_by_kind.ranged) / f64::from(units_by_kind.units_amount) > 0.3 {
-      ranged -= sum_ranged_debuff(units);
+      ranged -= sum_ranged_debuff(squads);
     }
 
     let total = infantry + cavalry + ranged;
@@ -84,16 +84,16 @@ pub struct DefensivePower {
 }
 
 impl DefensivePower {
-  pub fn new(units: &[UnitBox], offensive_power: OffensivePower) -> Self {
-    let units_by_kind = units_by_kind(units);
+  pub fn new(squads: &[Squad], offensive_power: OffensivePower) -> Self {
+    let units_by_kind = units_by_kind(squads);
     let mut infantry = 0.0;
     let mut cavalry = 0.0;
     let mut ranged = 0.0;
 
-    for unit in units {
-      infantry += unit.squad_defense().infantry;
-      cavalry += unit.squad_defense().cavalry;
-      ranged += unit.squad_defense().ranged;
+    for squad in squads {
+      infantry += squad.defense().infantry;
+      cavalry += squad.defense().cavalry;
+      ranged += squad.defense().ranged;
     }
 
     infantry *= offensive_power.infantry_ratio;
@@ -103,7 +103,7 @@ impl DefensivePower {
     let mut total = infantry + cavalry + ranged;
 
     if f64::from(units_by_kind.ranged) / f64::from(units_by_kind.units_amount) > 0.5 {
-      total -= sum_ranged_debuff(units);
+      total -= sum_ranged_debuff(squads);
     }
 
     DefensivePower {
@@ -185,25 +185,27 @@ pub struct UnitsByKind {
   units_amount: u32,
 }
 
-fn units_by_kind(units: &[UnitBox]) -> UnitsByKind {
+fn units_by_kind(squads: &[Squad]) -> UnitsByKind {
   let mut infantry = 0;
   let mut cavalry = 0;
   let mut ranged = 0;
   let mut units_amount = 0;
 
-  for unit in units {
-    match unit.kind() {
+  for squad in squads {
+    let amount = squad.amount();
+    match squad.kind() {
       UnitKind::Infantry => {
-        infantry += unit.amount();
+        infantry += amount;
       }
       UnitKind::Cavalry => {
-        cavalry += unit.amount();
+        cavalry += amount;
       }
       UnitKind::Ranged => {
-        ranged += unit.amount();
+        ranged += amount;
       }
     }
-    units_amount += unit.amount();
+
+    units_amount += amount;
   }
 
   UnitsByKind {
@@ -214,11 +216,12 @@ fn units_by_kind(units: &[UnitBox]) -> UnitsByKind {
   }
 }
 
-fn sum_ranged_debuff(units: &[UnitBox]) -> f64 {
+fn sum_ranged_debuff(squads: &[Squad]) -> f64 {
   let mut ranged_debuff = 0.0;
-  for unit in units {
-    if unit.kind() == UnitKind::Ranged {
-      ranged_debuff += unit.stats().ranged_debuff * f64::from(unit.amount());
+  for squad in squads {
+    if squad.kind() == UnitKind::Ranged {
+      let unit = squad.unit();
+      ranged_debuff += unit.stats().ranged_debuff * f64::from(squad.amount());
     }
   }
   ranged_debuff

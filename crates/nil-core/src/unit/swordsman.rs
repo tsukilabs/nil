@@ -1,9 +1,8 @@
-use super::prelude::*;
+use super::{Haul, Power, Speed, UnitId, UnitKind, UnitStats};
+use nil_macros::Unit;
 
 #[derive(Unit)]
-pub struct Swordsman {
-  amount: u32,
-}
+pub struct Swordsman;
 
 impl Swordsman {
   pub const ID: UnitId = UnitId::new(2);

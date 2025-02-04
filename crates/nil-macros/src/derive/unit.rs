@@ -7,11 +7,11 @@ pub fn impl_unit(ast: &DeriveInput) -> TokenStream {
   let stream = quote! {
     mod __impl_unit {
       use super::#name;
-      use nil_core::{Unit, UnitBox, UnitId, UnitKind, UnitStats};
+      use crate::unit::{Unit, UnitBox, UnitId, UnitKind, UnitStats};
 
       impl #name {
-        pub fn new_boxed(amount: u32) -> UnitBox {
-          UnitBox::new(Box::new(Self { amount }))
+        pub fn new_boxed() -> UnitBox {
+          UnitBox::new(Box::new(Self))
         }
       }
 
@@ -22,10 +22,6 @@ pub fn impl_unit(ast: &DeriveInput) -> TokenStream {
 
         fn kind(&self) -> UnitKind {
           Self::KIND
-        }
-
-        fn amount(&self) -> u32 {
-          self.amount
         }
 
         fn stats(&self) -> UnitStats {
