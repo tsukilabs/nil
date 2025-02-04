@@ -2,20 +2,18 @@ mod player;
 mod village;
 
 use crate::error::Result;
-use std::net::IpAddr;
+use std::net::SocketAddrV4;
 
 pub struct Client {
-  pub(crate) server_ip: IpAddr,
+  pub(crate) server_addr: SocketAddrV4,
 }
 
 impl Client {
-  pub const SERVER_PORT: u16 = 8050;
-
-  pub fn new(server_ip: IpAddr) -> Self {
-    Client { server_ip }
+  pub fn new(server_addr: SocketAddrV4) -> Self {
+    Client { server_addr }
   }
 
-  pub async fn ok(&self) -> Result<bool> {
+  pub async fn ready(&self) -> Result<bool> {
     self
       .get("")
       .await

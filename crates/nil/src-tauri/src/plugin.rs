@@ -1,29 +1,35 @@
+use crate::manager::WindowExt;
+use anyhow::Result;
 use tauri::Wry;
 use tauri::plugin::TauriPlugin;
 
 pub fn prevent_default() -> TauriPlugin<Wry> {
-  use tauri_plugin_prevent_default::Flags;
+  use tauri_plugin_prevent_default::{Builder, Flags};
 
-  let mut builder = tauri_plugin_prevent_default::Builder::new();
-
-  #[cfg(debug_assertions)]
-  {
-    builder = builder.with_flags(Flags::all().difference(Flags::DEV_TOOLS | Flags::RELOAD));
-  }
-
-  #[cfg(not(debug_assertions))]
-  {
-    builder = builder.with_flags(Flags::all());
-  }
+  #[cfg_attr(not(windows), allow(unused_mut))]
+  let mut builder = Builder::new().with_flags(Flags::debug());
 
   #[cfg(windows)]
   {
-    builder = builder
-      .general_autofill(false)
-      .password_autosave(false)
+    use tauri_plugin_prevent_default::WindowsOptions;
+    builder = builder.platform(WindowsOptions {
+      general_autofill: false,
+      password_autosave: false,
+    });
   };
 
   builder.build()
+}
+
+pub fn single_instance() -> TauriPlugin<Wry> {
+  tauri_plugin_single_instance::init(|app, _, _| {
+    let window = app.main_window();
+    let _: Result<()> = try {
+      window.show()?;
+      window.unminimize()?;
+      window.set_focus()?;
+    };
+  })
 }
 
 pub fn window_state() -> TauriPlugin<Wry> {

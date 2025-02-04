@@ -105,8 +105,8 @@ impl Client {
   }
 
   fn url(&self, route: &str) -> String {
-    let ip = self.server_ip;
-    let port = Self::SERVER_PORT;
+    let ip = self.server_addr.ip();
+    let port = self.server_addr.port();
     format!("http://{ip}:{port}/{route}")
   }
 }

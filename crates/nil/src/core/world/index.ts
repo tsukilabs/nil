@@ -4,6 +4,7 @@ import * as commands from '@/commands';
 import { HandleError } from '@/lib/error';
 import { PlayerImpl } from '@/core/player';
 import type { Option } from '@tb-dev/utils';
+import { SocketAddrV4 } from '@/lib/net/addr';
 import type { PlayerConfig } from '@/types/player';
 import type { Coord, WorldConfig } from '@/types/world';
 import { fallibleInject, provide, runWithContext } from '@/lib/app';
@@ -24,7 +25,7 @@ export class World {
   }
 
   @HandleError({ async: true })
-  public async join(server: string, player: PlayerConfig) {
+  public async join(server: SocketAddrV4, player: PlayerConfig) {
     await commands.startClient(server);
     const playerId = await commands.spawnPlayer(player);
     this.player.value = await PlayerImpl.load(playerId);
@@ -35,8 +36,9 @@ export class World {
 
   @HandleError({ async: true })
   public async host(world: WorldConfig, player: PlayerConfig) {
-    await commands.startServer(world);
-    await this.join('127.0.0.1', player);
+    const info = await commands.startServer(world);
+    const addr = SocketAddrV4.parse(`127.0.0.1:${info.port}`);
+    await this.join(addr, player);
   }
 
   private async updatePlayer() {

@@ -1,8 +1,8 @@
 use crate::error::{Error, Result};
 use nil_client::Client;
 use nil_core::World;
-use nil_server::Server;
-use std::net::IpAddr;
+use nil_server::{Server, ServerInfo};
+use std::net::SocketAddrV4;
 use std::sync::Arc;
 use tokio::sync::RwLock;
 
@@ -30,20 +30,23 @@ impl Nil {
     }
   }
 
-  pub async fn start_client(&self, server_ip: IpAddr) {
+  pub async fn start_client(&self, server_addr: SocketAddrV4) {
     self
       .client
       .write()
       .await
-      .replace(Client::new(server_ip));
+      .replace(Client::new(server_addr));
   }
 
-  pub async fn start_server(&self, world: World) {
-    self
-      .server
-      .write()
-      .await
-      .replace(Server::serve(world));
+  pub async fn start_server(&self, world: World) -> Result<ServerInfo> {
+    let mut lock = self.server.write().await;
+    lock.take();
+
+    let server = Server::serve(world).await?;
+    let server_info = server.info();
+    *lock = Some(server);
+
+    Ok(server_info)
   }
 
   pub async fn stop_client(&self) {

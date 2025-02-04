@@ -13,15 +13,15 @@ function onExit() {
 <template>
   <div class="flex size-full flex-col items-center justify-center gap-2">
     <h1 class="font-nil -mt-16 mb-8 text-4xl font-extrabold sm:text-5xl md:text-6xl lg:text-8xl">
-      {{ t('title') }}
+      {{ t('game-title') }}
     </h1>
     <div class="flex flex-col gap-2">
-      <Button @click="() => $go('join-game')">{{ t('misc.join-game') }}</Button>
-      <Button variant="secondary" @click="() => $go('host-game')">{{ t('misc.host-game') }}</Button>
+      <Button @click="() => $go('join-game')">{{ t('join-game') }}</Button>
+      <Button variant="secondary" @click="() => $go('host-game')">{{ t('host-game') }}</Button>
       <Button variant="secondary" disabled @click="() => $go('settings')">
-        {{ t('misc.settings') }}
+        {{ t('settings') }}
       </Button>
-      <Button variant="secondary" @click="onExit">{{ t('misc.exit') }}</Button>
+      <Button variant="secondary" @click="onExit">{{ t('exit') }}</Button>
     </div>
   </div>
 </template>

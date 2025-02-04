@@ -20,6 +20,7 @@ pub fn run() {
   #[cfg(desktop)]
   let builder = {
     tauri::Builder::default()
+      .plugin(plugin::single_instance())
       .plugin(plugin::prevent_default())
       .plugin(plugin::window_state())
   };
@@ -40,7 +41,7 @@ pub fn run() {
       command::player::get_player_villages,
       command::player::spawn_player,
       command::server::get_server_version,
-      command::server::is_server_ok,
+      command::server::is_server_ready,
       command::server::start_server,
       command::server::stop_server,
       command::village::get_village

@@ -7,7 +7,12 @@ pub type Result<T> = StdResult<T, Error>;
 
 #[non_exhaustive]
 #[derive(Debug, thiserror::Error)]
-pub enum Error {}
+pub enum Error {
+  #[error("failed to bind listener: {0}")]
+  FailedToBindListener(#[source] std::io::Error),
+  #[error("failed to get server port: {0}")]
+  FailedToGetServerPort(#[source] std::io::Error),
+}
 
 impl Serialize for Error {
   fn serialize<S>(&self, serializer: S) -> StdResult<S::Ok, S::Error>

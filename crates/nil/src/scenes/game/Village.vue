@@ -17,15 +17,16 @@ const village = computedAsync(null, () => {
     <div v-if="village" class="size-full">
       <div>{{ `${village.name} (${village.coord.format()})` }}</div>
       <div class="flex flex-col gap-2">
-        <div>{{ t('misc.prefecture') }}</div>
-        <div>{{ t('misc.academy') }}</div>
-        <div>{{ t('misc.stable') }}</div>
-        <div>{{ t('misc.sawmill') }}</div>
-        <div>{{ t('misc.quarry') }}</div>
-        <div>{{ t('misc.iron-mine') }}</div>
-        <div>{{ t('misc.farm') }}</div>
-        <div>{{ t('misc.warehouse') }}</div>
-        <div>{{ t('misc.wall') }}</div>
+        <div>{{ t('prefecture') }}</div>
+        <div>{{ t('academy') }}</div>
+        <div>{{ t('stable') }}</div>
+        <div>{{ t('sawmill') }}</div>
+        <div>{{ t('quarry') }}</div>
+        <div>{{ t('iron-mine') }}</div>
+        <div>{{ t('farm') }}</div>
+        <div>{{ t('warehouse') }}</div>
+        <div>{{ t('silo') }}</div>
+        <div>{{ t('wall') }}</div>
       </div>
     </div>
   </div>

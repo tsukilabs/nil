@@ -1,10 +1,10 @@
 use crate::manager::ManagerExt;
-use std::net::IpAddr;
+use std::net::SocketAddrV4;
 use tauri::AppHandle;
 
 #[tauri::command]
-pub async fn start_client(app: AppHandle, server_ip: IpAddr) {
-  app.nil().start_client(server_ip).await;
+pub async fn start_client(app: AppHandle, server_addr: SocketAddrV4) {
+  app.nil().start_client(server_addr).await;
 }
 
 #[tauri::command]

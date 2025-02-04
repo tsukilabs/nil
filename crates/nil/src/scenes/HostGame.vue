@@ -33,24 +33,24 @@ async function host() {
   <div class="bg-muted/40 flex size-full flex-col items-center justify-center gap-2">
     <Card class="p-2 sm:min-w-72">
       <template #title>
-        <h1 class="text-xl">{{ t('misc.host-game') }}</h1>
+        <h1 class="text-xl">{{ t('host-game') }}</h1>
       </template>
 
       <div class="flex flex-col gap-6">
         <div class="flex flex-col gap-4">
           <Label>
-            <span>{{ t('misc.name') }}</span>
+            <span>{{ t('name') }}</span>
             <InputText v-model="playerConfig.name" />
           </Label>
           <Label>
-            <span>{{ t('misc.world-size') }}</span>
+            <span>{{ t('world-size') }}</span>
             <InputNumber v-model="worldConfig.size" :min="10" :max="255" />
           </Label>
         </div>
 
         <div class="flex items-center justify-center gap-2">
-          <Button :disabled="!canHost" @click="() => host()">{{ t('misc.host') }}</Button>
-          <Button variant="secondary" @click="() => $go('home')">{{ t('misc.cancel') }}</Button>
+          <Button :disabled="!canHost" @click="() => host()">{{ t('host') }}</Button>
+          <Button variant="secondary" @click="() => $go('home')">{{ t('cancel') }}</Button>
         </div>
       </div>
     </Card>
