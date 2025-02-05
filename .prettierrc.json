@@ -11,5 +11,16 @@
   "bracketSameLine": false,
   "arrowParens": "always",
   "vueIndentScriptAndStyle": false,
-  "tailwindAttributes": ["class", "button-class"]
+  "tailwindAttributes": [
+    "class",
+    "button-class",
+    "content-class",
+    "description-class",
+    "footer-class",
+    "header-class",
+    "icon-class",
+    "link-class",
+    "scroll-area-class",
+    "title-class"
+  ]
 }

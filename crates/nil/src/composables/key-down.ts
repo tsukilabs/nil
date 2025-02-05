@@ -55,8 +55,8 @@ export function onKeyDown(
 
   const stop = onKeyStroke(key, callback, {
     ...options,
-    eventName: 'keydown',
     dedupe: true,
+    eventName: 'keydown',
   });
 
   tryOnScopeDispose(() => stop());

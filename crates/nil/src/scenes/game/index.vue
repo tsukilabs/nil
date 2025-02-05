@@ -1,20 +1,25 @@
 <script setup lang="ts">
-import Topbar from './Topbar.vue';
-import Sidebar from './Sidebar.vue';
+import Header from './Header.vue';
+import { Sidebar } from '@/components';
 </script>
 
 <template>
-  <div class="absolute inset-0 overflow-hidden">
-    <Sidebar class="absolute inset-y-0 left-0 hidden sm:block sm:w-12" />
-    <div class="absolute inset-0 overflow-hidden sm:left-12">
-      <Topbar class="sticky top-0 h-16" />
-      <div class="size-full">
-        <RouterView #default="{ Component }">
-          <template v-if="Component">
-            <component :is="Component" />
-          </template>
-        </RouterView>
+  <Sidebar>
+    <template #inset>
+      <div class="bg-muted/40 absolute inset-0 overflow-hidden">
+        <Header class="bg-background absolute inset-x-0 top-0 h-16 border-b px-4" />
+        <div class="absolute inset-x-0 bottom-0 top-16 overflow-hidden p-4">
+          <RouterView #default="{ Component }">
+            <template v-if="Component">
+              <component :is="Component" />
+            </template>
+          </RouterView>
+        </div>
       </div>
-    </div>
-  </div>
+    </template>
+
+    <template #content> Content </template>
+
+    <template #footer> Footer </template>
+  </Sidebar>
 </template>

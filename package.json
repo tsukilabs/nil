@@ -12,7 +12,8 @@
     "eslint": "eslint . --config eslint.config.js",
     "format": "prettier . --write && cargo fmt --all",
     "miri": "cargo miri test --tests",
-    "test": "cargo test --tests"
+    "test": "cargo test --tests",
+    "type-check": "pnpm run -r --bail type-check"
   },
   "devDependencies": {
     "@tb-dev/eslint-config": "^6.2.5",
@@ -26,7 +27,7 @@
     "tailwindcss": "^3.4.17",
     "tslib": "^2.8.1",
     "typescript": "~5.7.3",
-    "vite": "^6.0.11",
+    "vite": "^6.1.0",
     "vue-tsc": "~2.2.0"
   }
 }

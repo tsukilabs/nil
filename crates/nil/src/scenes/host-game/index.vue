@@ -8,7 +8,7 @@ import { isPlayerConfig, isWorldConfig } from '@/lib/schema';
 import { Button, ButtonLink, Card, InputNumber, InputText, Label } from '@/components';
 
 const { t } = useLocale();
-const world = Game.use();
+const game = Game.use();
 
 const worldConfig = ref<WorldConfig>({
   size: 100,
@@ -24,7 +24,7 @@ const canHost = computed(() => {
 
 async function host() {
   if (canHost.value) {
-    await world.host(worldConfig.value, playerConfig.value);
+    await game.host(worldConfig.value, playerConfig.value);
   }
 }
 </script>
@@ -36,7 +36,7 @@ async function host() {
         <h1 class="text-xl">{{ t('host-game') }}</h1>
       </template>
 
-      <div class="flex flex-col gap-6">
+      <div class="flex flex-col gap-6 px-4 pb-4">
         <div class="flex flex-col gap-4">
           <Label>
             <span>{{ t('player-name') }}</span>

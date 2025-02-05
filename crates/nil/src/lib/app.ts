@@ -5,15 +5,15 @@ export function app() {
 }
 
 export function runWithContext<T>(fn: () => T) {
-  return window.__NIL__.app.runWithContext(fn);
+  return app().runWithContext(fn);
 }
 
 export function provide<T>(key: InjectionKey<T> | string, value: T) {
-  window.__NIL__.app.provide(key, value);
+  app().provide(key, value);
 }
 
 export function inject<T>(key: InjectionKey<T>): T {
-  const value = fallibleInject(key);
+  const value = tryInject(key);
   if (typeof value === 'undefined') {
     throw new TypeError('injection failed: value was not provided');
   }
@@ -21,6 +21,6 @@ export function inject<T>(key: InjectionKey<T>): T {
   return value;
 }
 
-export function fallibleInject<T>(key: InjectionKey<T>) {
-  return window.__NIL__.app.runWithContext(() => originalInject(key));
+export function tryInject<T>(key: InjectionKey<T>) {
+  return app().runWithContext(() => originalInject(key));
 }

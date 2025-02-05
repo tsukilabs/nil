@@ -1,5 +1,5 @@
 import * as commands from '@/commands';
-import type { Coord } from '@/types/world';
+import type { Coord } from '@/types/village';
 import { CoordImpl } from '@/core/village/coord';
 import type { Player, PlayerId } from '@/types/player';
 

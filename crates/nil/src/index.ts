@@ -13,8 +13,8 @@ const app = createApp(App);
 Object.defineProperty(window, '__NIL__', {
   configurable: false,
   enumerable: true,
-  writable: false,
   value: Object.freeze({ app }),
+  writable: false,
 });
 
 app.config.globalProperties.$go = go;
@@ -22,9 +22,9 @@ app.config.globalProperties.$c = commands;
 app.config.errorHandler = (err) => handleError(err);
 
 const i18n = createI18n<[LocaleSchema], Locale>({
+  fallbackLocale: ['en-US', 'pt-BR'],
   legacy: false,
   locale: 'en-US',
-  fallbackLocale: ['en-US', 'pt-BR'],
   messages: locales,
 });
 

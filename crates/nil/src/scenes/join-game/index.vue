@@ -8,7 +8,7 @@ import type { PlayerConfig } from '@/types/player';
 import { Button, ButtonLink, Card, InputText, Label } from '@/components';
 
 const { t } = useLocale();
-const world = Game.use();
+const game = Game.use();
 
 const player = ref<PlayerConfig>({
   name: '',
@@ -23,7 +23,7 @@ const canJoin = computed(() => {
 
 async function join() {
   if (canJoin.value && serverAddr.value) {
-    await world.join(serverAddr.value, player.value);
+    await game.join(serverAddr.value, player.value);
   }
 }
 </script>
@@ -35,7 +35,7 @@ async function join() {
         <h1 class="text-xl">{{ t('join-game') }}</h1>
       </template>
 
-      <div class="flex flex-col gap-6">
+      <div class="flex flex-col gap-6 px-4 pb-4">
         <div class="flex flex-col gap-4">
           <Label>
             <span>{{ t('player-name') }}</span>

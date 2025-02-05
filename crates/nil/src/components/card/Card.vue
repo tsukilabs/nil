@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { VNode } from 'vue';
+import { cn } from '@/lib/utils';
 import { toPixel } from '@tb-dev/utils';
 import { ScrollArea as UiScrollArea } from '@/components/base/scroll-area';
 import {
@@ -40,7 +41,7 @@ defineSlots<{
         <slot name="description"></slot>
       </BaseCardDescription>
     </BaseCardHeader>
-    <BaseCardContent :class="contentClass">
+    <BaseCardContent :class="cn('p-0', contentClass)">
       <UiScrollArea
         v-if="scrollAreaHeight && scrollAreaHeight !== 'auto'"
         :class="scrollAreaClass"

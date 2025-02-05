@@ -4,6 +4,7 @@ import { useLocale } from '@/locale';
 import { Button, ButtonLink } from '@/components';
 
 const { t } = useLocale();
+const game = Game.use();
 </script>
 
 <template>
@@ -21,7 +22,7 @@ const { t } = useLocale();
       <ButtonLink to="settings" variant="secondary">
         <span>{{ t('settings') }}</span>
       </ButtonLink>
-      <Button variant="secondary" @click="() => Game.exit()">
+      <Button variant="secondary" @click="() => game.exit()">
         <span>{{ t('exit') }}</span>
       </Button>
     </div>

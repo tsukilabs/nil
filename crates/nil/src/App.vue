@@ -8,9 +8,9 @@ import { onCtrlKeyDown } from '@/composables/key-down';
 
 useColorMode({
   initialValue: 'dark',
+  onError: handleError,
   storageKey: 'nil:color-mode',
   writeDefaults: true,
-  onError: handleError,
 });
 
 onCtrlKeyDown('Home', async () => {
