@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import Header from './Header.vue';
 import { Game } from '@/core/game';
-import { useLocale } from '@/locale';
 import { LogOut } from 'lucide-vue-next';
-import { Button, ButtonIcon, Sidebar } from '@/components';
+import { ButtonIcon, Sidebar } from '@/components';
 
-const { t } = useLocale();
 const game = Game.use();
 </script>
 
@@ -28,7 +26,6 @@ const game = Game.use();
 
     <template #footer>
       <div class="flex items-center justify-center gap-4">
-        <Button disabled>{{ t('save') }}</Button>
         <ButtonIcon :icon="LogOut" button-class="p-4" @click="() => game.leave()" />
       </div>
     </template>

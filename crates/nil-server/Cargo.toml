@@ -28,17 +28,23 @@ features = ["macros", "ws"]
 version = "*"
 path = "../nil-core"
 
+[dependencies.nil-util]
+version = "*"
+path = "../nil-util"
+
 [dependencies.serde]
 version = "1.0"
 features = ["derive"]
 
 [dependencies.tauri]
 version = "2.2"
+default-features = false
 features = ["rustls-tls"]
 
 [dependencies.tokio]
 version = "1.43"
-features = ["full"]
+default-features = false
+features = ["time"]
 
 [dependencies.tracing]
 version = "0.1"
@@ -46,4 +52,4 @@ optional = true
 features = ["release_max_level_off"]
 
 [features]
-tracing = ["dep:tracing"]
+tracing = ["dep:tracing", "nil-core/tracing"]

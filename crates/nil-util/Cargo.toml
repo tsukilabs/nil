@@ -1,0 +1,32 @@
+[package]
+name = "nil-util"
+
+[package.version]
+workspace = true
+
+[package.description]
+workspace = true
+
+[package.edition]
+workspace = true
+
+[package.rust-version]
+workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+bytes = "1.10"
+serde = "1.0"
+serde_json = "1.0"
+thiserror = "2.0"
+
+[dependencies.tauri]
+version = "2.2"
+default-features = false
+
+[dependencies.tokio]
+version = "1.43"
+default-features = false
+features = []

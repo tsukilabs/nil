@@ -1,3 +1,4 @@
+use crate::event::EventError;
 use crate::player::PlayerId;
 use crate::unit::UnitId;
 use crate::village::Coord;
@@ -18,6 +19,8 @@ pub enum Error {
   IndexOutOfBounds(usize),
   #[error("not a village: {0:?}")]
   NotAVillage(Coord),
+  #[error("no player to schedule")]
+  NoPlayerToSchedule,
   #[error("player already exists")]
   PlayerAlreadyExists,
   #[error("player not found: {0}")]
@@ -26,6 +29,9 @@ pub enum Error {
   UnitNotFound(UnitId),
   #[error("world is full")]
   WorldIsFull,
+
+  #[error(transparent)]
+  Event(#[from] EventError),
 }
 
 impl Serialize for Error {

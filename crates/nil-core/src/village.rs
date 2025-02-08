@@ -1,6 +1,7 @@
 use crate::building::prelude::*;
 use crate::player::PlayerId;
 use bon::Builder;
+use glam::U8Vec2;
 use serde::{Deserialize, Serialize};
 
 #[derive(Builder, Clone, Debug, Deserialize, Serialize)]
@@ -32,22 +33,19 @@ pub struct Infrastructure {
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, Deserialize, Serialize)]
-pub struct Coord {
-  x: u8,
-  y: u8,
-}
+pub struct Coord(U8Vec2);
 
 impl Coord {
   pub const fn new(x: u8, y: u8) -> Self {
-    Self { x, y }
+    Self(U8Vec2::new(x, y))
   }
 
   pub const fn x(&self) -> u8 {
-    self.x
+    self.0.x
   }
 
   pub const fn y(&self) -> u8 {
-    self.y
+    self.0.y
   }
 }
 

@@ -10,8 +10,8 @@ pub type Result<T> = StdResult<T, Error>;
 pub enum Error {
   #[error("failed to bind listener: {0}")]
   FailedToBindListener(#[source] std::io::Error),
-  #[error("failed to get server port: {0}")]
-  FailedToGetServerPort(#[source] std::io::Error),
+  #[error("failed to get server addr: {0}")]
+  FailedToGetServerAddr(#[source] std::io::Error),
 }
 
 impl Serialize for Error {

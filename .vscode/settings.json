@@ -3,6 +3,7 @@
   "evenBetterToml.formatter.columnWidth": 100,
   "evenBetterToml.formatter.reorderArrays": true,
   "evenBetterToml.formatter.trailingNewline": true,
+  "rust-analyzer.cargo.features": ["tracing"],
   "tailwindCSS.classAttributes": [
     "class",
     "button-class",

@@ -23,6 +23,7 @@ workspace = true
 [dependencies]
 anyhow = "1.0"
 itertools = "0.14"
+remain = "0.2"
 tauri-plugin-dialog = "2.2"
 tauri-plugin-process = "2.2"
 thiserror = "2.0"
@@ -42,6 +43,10 @@ path = "../../nil-core"
 [dependencies.nil-server]
 version = "*"
 path = "../../nil-server"
+
+[dependencies.nil-util]
+version = "*"
+path = "../../nil-util"
 
 [dependencies.tauri]
 version = "2.2"
@@ -71,7 +76,6 @@ version = "2.0"
 features = []
 
 [features]
-default = ["tracing"]
 tracing = [
   "dep:tracing",
   "dep:tracing-subscriber",

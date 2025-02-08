@@ -13,6 +13,7 @@ mod log;
 
 use anyhow::Result;
 use error::BoxResult;
+use state::Nil;
 use tauri::{AppHandle, Manager, WebviewUrl, WebviewWindowBuilder};
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
@@ -54,7 +55,7 @@ fn setup(app: &AppHandle) -> BoxResult<()> {
   #[cfg(feature = "tracing")]
   log::setup()?;
 
-  app.manage(state::Nil::default());
+  app.manage(Nil::new(app));
 
   open_window(app)?;
   Ok(())

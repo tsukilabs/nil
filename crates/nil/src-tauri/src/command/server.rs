@@ -22,7 +22,7 @@ pub async fn stop_server(app: AppHandle) {
 #[tauri::command]
 pub async fn get_server_version(app: AppHandle) -> CResult<String> {
   app
-    .with_client(async |client| client.version().await)
+    .client(async |it| it.version().await)
     .await?
     .map_err(Into::into)
 }
@@ -30,7 +30,7 @@ pub async fn get_server_version(app: AppHandle) -> CResult<String> {
 #[tauri::command]
 pub async fn is_server_ready(app: AppHandle) -> CResult<bool> {
   app
-    .with_client(async |client| client.ready().await)
+    .client(async |it| it.ready().await)
     .await?
     .map_err(Into::into)
 }

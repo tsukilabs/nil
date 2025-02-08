@@ -9,6 +9,8 @@ pub type Result<T> = StdResult<T, Error>;
 #[non_exhaustive]
 #[derive(Debug, thiserror::Error)]
 pub enum Error {
+  #[error("failed to connect websocket: {reason}")]
+  FailedToConnectWebsocket { reason: String },
   #[error("failed to decode response: {reason}")]
   FailedToDecodeResponse { reason: String },
   #[error("request failed: {reason}")]

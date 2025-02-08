@@ -8,23 +8,25 @@ mod websocket;
 
 pub use error::{Error, Result};
 use nil_core::World;
+use nil_util::spawn;
 use serde::Serialize;
 use state::ServerState;
+use std::fmt;
 use std::net::SocketAddr;
-use tauri::async_runtime::spawn;
 use tokio::net::TcpListener;
 use tokio::sync::oneshot;
 use tokio::task::AbortHandle;
 
 #[cfg(feature = "tracing")]
-use tracing::{error, info};
+use tracing::{info, instrument};
 
 pub struct Server {
-  port: u16,
+  addr: SocketAddr,
   abort_handle: AbortHandle,
 }
 
 impl Server {
+  #[cfg_attr(feature = "tracing", instrument(skip_all, err, ret))]
   pub async fn serve(world: World) -> Result<Self> {
     let (tx, rx) = oneshot::channel();
     let task = spawn(async move {
@@ -32,51 +34,56 @@ impl Server {
         .with_state(ServerState::new(world))
         .into_make_service_with_connect_info::<SocketAddr>();
 
-      let result: Result<(TcpListener, u16)> = try {
+      let result: Result<(TcpListener, SocketAddr)> = try {
         let listener = TcpListener::bind("0.0.0.0:0")
           .await
           .map_err(Error::FailedToBindListener)?;
 
-        let port = listener
+        let addr = listener
           .local_addr()
-          .map_err(Error::FailedToGetServerPort)?
-          .port();
+          .map_err(Error::FailedToGetServerAddr)?;
 
-        (listener, port)
+        (listener, addr)
       };
 
       match result {
-        Ok((listener, port)) => {
+        Ok((listener, addr)) => {
           #[cfg(feature = "tracing")]
-          info!("listening on port {port}");
+          info!("listening on port {addr}");
 
-          tx.send(Ok(port)).ok();
-
-          axum::serve(listener, router).await.unwrap();
+          let _ = tx.send(Ok(addr));
+          axum::serve(listener, router)
+            .await
+            .expect("failed to start server");
         }
         Err(err) => {
-          #[cfg(feature = "tracing")]
-          error!("failed to start server: {err}");
-
           tx.send(Err(err)).ok();
         }
       }
     });
 
-    let port = rx.await.unwrap()?;
-    let abort_handle = task.inner().abort_handle();
+    let addr = rx.await.unwrap()?;
+    let abort_handle = task.abort_handle();
 
-    Ok(Self { port, abort_handle })
+    Ok(Self { addr, abort_handle })
   }
 
   pub fn info(&self) -> ServerInfo {
-    ServerInfo { port: self.port }
+    ServerInfo { port: self.addr.port() }
   }
 }
 
 impl Drop for Server {
   fn drop(&mut self) {
     self.abort_handle.abort();
+  }
+}
+
+impl fmt::Debug for Server {
+  fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+    f.debug_struct("Server")
+      .field("addr", &self.addr)
+      .finish_non_exhaustive()
   }
 }
 

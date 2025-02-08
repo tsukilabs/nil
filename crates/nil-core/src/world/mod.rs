@@ -1,8 +1,9 @@
 mod player;
-mod village;
 
 use crate::error::{Error, Result};
+use crate::event::{Emitter, Listener};
 use crate::player::{Player, PlayerId};
+use crate::turn::TurnScheduler;
 use crate::village::{Coord, Village};
 use bon::Builder;
 use derive_more::TryUnwrap;
@@ -16,13 +17,16 @@ pub struct World {
   cells: Vec<Cell>,
   size: usize,
   players: IndexMap<PlayerId, Player>,
+  turn_scheduler: TurnScheduler,
+  emitter: Emitter,
 }
 
 impl World {
-  pub const MIN_SIZE: u8 = 10;
+  pub const MIN_SIZE: NonZeroU8 = NonZeroU8::new(10).unwrap();
+  pub const DEFAULT_SIZE: NonZeroU8 = NonZeroU8::new(100).unwrap();
 
   pub fn new(config: WorldConfig) -> Self {
-    let size = config.size.get().max(Self::MIN_SIZE);
+    let size = config.size.get().max(Self::MIN_SIZE.get());
     let size = usize::from(size);
     let capacity = size.pow(2);
 
@@ -30,10 +34,14 @@ impl World {
     cells.resize_with(capacity, Cell::default);
     cells.shrink_to_fit();
 
+    let emitter = Emitter::default();
+
     Self {
       cells,
       size,
       players: IndexMap::new(),
+      turn_scheduler: TurnScheduler::new(emitter.clone()),
+      emitter,
     }
   }
 
@@ -72,6 +80,44 @@ impl World {
       .get_mut(index)
       .ok_or(Error::CoordOutOfBounds(coord))
   }
+
+  pub fn village(&self, coord: impl Into<Coord>) -> Result<&Village> {
+    let coord = coord.into();
+    match self.cell(coord)? {
+      Cell::Village(village) => Ok(village),
+      _ => Err(Error::NotAVillage(coord)),
+    }
+  }
+
+  pub fn village_mut(&mut self, coord: impl Into<Coord>) -> Result<&mut Village> {
+    let coord = coord.into();
+    match self.cell_mut(coord)? {
+      Cell::Village(village) => Ok(village),
+      _ => Err(Error::NotAVillage(coord)),
+    }
+  }
+
+  pub fn player(&self, id: PlayerId) -> Result<&Player> {
+    self
+      .players
+      .get(&id)
+      .ok_or(Error::PlayerNotFound(id))
+  }
+
+  pub fn player_mut(&mut self, id: PlayerId) -> Result<&mut Player> {
+    self
+      .players
+      .get_mut(&id)
+      .ok_or(Error::PlayerNotFound(id))
+  }
+
+  pub fn turn_scheduler(&self) -> &TurnScheduler {
+    &self.turn_scheduler
+  }
+
+  pub fn subscribe(&self) -> Listener {
+    self.emitter.subscribe()
+  }
 }
 
 impl Default for World {
@@ -83,7 +129,7 @@ impl Default for World {
 #[derive(Builder, Clone, Copy, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct WorldConfig {
-  #[builder(default = NonZeroU8::new(100).unwrap())]
+  #[builder(default = World::DEFAULT_SIZE)]
   pub size: NonZeroU8,
 }
 

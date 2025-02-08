@@ -1,30 +1,22 @@
 use super::{Cell, World};
 use crate::error::{Error, Result};
+use crate::event::Event;
 use crate::player::{Player, PlayerId};
 use crate::village::{Coord, Village};
 
 impl World {
-  pub fn player(&self, id: PlayerId) -> Result<&Player> {
-    self
-      .players
-      .get(&id)
-      .ok_or(Error::PlayerNotFound(id))
-  }
-
-  pub fn player_mut(&mut self, id: PlayerId) -> Result<&mut Player> {
-    self
-      .players
-      .get_mut(&id)
-      .ok_or(Error::PlayerNotFound(id))
-  }
-
   pub fn spawn_player(&mut self, player: Player) -> Result<()> {
     let id = player.id();
     if self.players.contains_key(&id) {
       Err(Error::PlayerAlreadyExists)
     } else {
-      self.players.insert(id, player);
-      self.spawn_player_village(id)
+      self.players.insert(id, player.clone());
+      self.turn_scheduler.add_player(id);
+      self.spawn_player_village(id)?;
+
+      self
+        .emitter
+        .emit(Event::PlayerJoined { player })
     }
   }
 

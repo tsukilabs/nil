@@ -1,4 +1,4 @@
-use crate::client::Client;
+use super::{Client, USER_AGENT};
 use crate::error::{Error, Result};
 use http::Method;
 use reqwest::{Client as HttpClient, Response};
@@ -10,8 +10,6 @@ use tokio::time::Duration;
 
 #[cfg(feature = "tracing")]
 use tracing::trace;
-
-const USER_AGENT: &str = concat!("nil/", env!("CARGO_PKG_VERSION"));
 
 static HTTP: LazyLock<HttpClient> = LazyLock::new(|| {
   HttpClient::builder()
@@ -55,11 +53,11 @@ impl Client {
       .map_err(Error::request_failed)
   }
 
-  pub(crate) async fn get(&self, route: &str) -> Result<Response> {
+  pub(super) async fn get(&self, route: &str) -> Result<Response> {
     self.request(Method::GET, route).await
   }
 
-  pub(crate) async fn get_text(&self, route: &str) -> Result<String> {
+  pub(super) async fn get_text(&self, route: &str) -> Result<String> {
     self
       .get(route)
       .await?
@@ -68,13 +66,13 @@ impl Client {
       .map_err(Error::failed_to_decode)
   }
 
-  pub(crate) async fn post(&self, route: &str, body: impl Serialize + Debug) -> Result<Response> {
+  pub(super) async fn post(&self, route: &str, body: impl Serialize + Debug) -> Result<Response> {
     self
       .request_with_body(Method::POST, route, body)
       .await
   }
 
-  pub(crate) async fn post_json<R>(&self, route: &str, body: impl Serialize + Debug) -> Result<R>
+  pub(super) async fn post_json<R>(&self, route: &str, body: impl Serialize + Debug) -> Result<R>
   where
     R: DeserializeOwned,
   {
@@ -86,13 +84,13 @@ impl Client {
       .map_err(Error::failed_to_decode)
   }
 
-  pub(crate) async fn put(&self, route: &str, body: impl Serialize + Debug) -> Result<Response> {
+  pub(super) async fn put(&self, route: &str, body: impl Serialize + Debug) -> Result<Response> {
     self
       .request_with_body(Method::PUT, route, body)
       .await
   }
 
-  pub(crate) async fn put_json<R>(&self, route: &str, body: impl Serialize + Debug) -> Result<R>
+  pub(super) async fn put_json<R>(&self, route: &str, body: impl Serialize + Debug) -> Result<R>
   where
     R: DeserializeOwned,
   {
