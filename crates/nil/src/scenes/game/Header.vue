@@ -3,9 +3,9 @@ import { cn } from '@/lib/utils';
 import { Game } from '@/core/game';
 import { ButtonLink, SidebarTrigger } from '@/components';
 
-interface Props {
+type Props = {
   class?: string;
-}
+};
 
 const props = defineProps<Props>();
 

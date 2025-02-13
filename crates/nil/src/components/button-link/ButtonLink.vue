@@ -5,13 +5,13 @@ import { RouterLink } from 'vue-router';
 import type { Route } from '@/router/types';
 import { Button, type ButtonSize, type ButtonVariant } from '../button';
 
-interface Props {
+type Props = {
   buttonClass?: string;
   label?: string;
   size?: ButtonSize;
   to: Route;
   variant?: ButtonVariant;
-}
+};
 
 withDefaults(defineProps<Props>(), {
   size: 'default',

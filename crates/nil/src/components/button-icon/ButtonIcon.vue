@@ -5,14 +5,14 @@ import type { Component, VNode } from 'vue';
 import type { Route } from '@/router/types';
 import { ButtonLink } from '../button-link';
 
-interface Props {
+type Props = {
   buttonClass?: string;
   class?: string;
   icon: Component;
   iconClass?: string;
   iconSize?: number;
   to?: Route;
-}
+};
 
 const props = defineProps<Props>();
 

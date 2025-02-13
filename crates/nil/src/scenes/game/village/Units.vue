@@ -15,9 +15,11 @@ const { t } = useLocale();
       <TableRow>
         <TableCell>{{ `8000 ${t('pikeman', 8000)}` }}</TableCell>
       </TableRow>
+
       <TableRow>
         <TableCell>{{ `8000 ${t('archer', 8000)}` }}</TableCell>
       </TableRow>
+
       <TableRow>
         <TableCell>{{ `1000 ${t('heavy-cavalry', 1000)}` }}</TableCell>
       </TableRow>

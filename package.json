@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "",
   "type": "module",
-  "packageManager": "pnpm@10.2.1",
+  "packageManager": "pnpm@10.3.0",
   "private": true,
   "scripts": {
     "build": "cargo tauri build",
@@ -16,12 +16,12 @@
     "type-check": "pnpm run -r --bail type-check"
   },
   "devDependencies": {
-    "@tb-dev/eslint-config": "^6.2.5",
+    "@tb-dev/eslint-config": "^6.2.9",
     "@types/node": "^22.13.1",
     "@vitejs/plugin-vue": "^5.2.1",
     "autoprefixer": "^10.4.20",
-    "eslint": "^9.20.0",
-    "prettier": "^3.4.2",
+    "eslint": "^9.20.1",
+    "prettier": "^3.5.0",
     "prettier-plugin-css-order": "^2.1.2",
     "prettier-plugin-tailwindcss": "^0.6.11",
     "tailwindcss": "^3.4.17",

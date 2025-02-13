@@ -16,14 +16,17 @@ const { t } = useLocale();
         <TableCellLink to="sawmill">{{ t('wood') }}</TableCellLink>
         <TableCell>{{ t('x-per-turn', [2400]) }}</TableCell>
       </TableRow>
+
       <TableRow>
         <TableCellLink to="quarry">{{ t('stone') }}</TableCellLink>
         <TableCell>{{ t('x-per-turn', [2400]) }}</TableCell>
       </TableRow>
+
       <TableRow>
         <TableCellLink to="iron-mine">{{ t('iron') }}</TableCellLink>
         <TableCell>{{ t('x-per-turn', [2400]) }}</TableCell>
       </TableRow>
+
       <TableRow>
         <TableCellLink to="farm">{{ t('food') }}</TableCellLink>
         <TableCell>{{ t('x-per-turn', [2400]) }}</TableCell>

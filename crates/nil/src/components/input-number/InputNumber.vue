@@ -9,14 +9,14 @@ import {
   NumberFieldInput,
 } from '@/components/base/number-field';
 
-interface Props {
+type Props = {
   defaultValue?: number;
   disabled?: boolean;
   formatOptions?: Intl.NumberFormatOptions;
   max?: number;
   min?: number;
   modelValue: Option<number>;
-}
+};
 
 const props = withDefaults(defineProps<Props>(), {
   formatOptions: () => ({ useGrouping: false }),

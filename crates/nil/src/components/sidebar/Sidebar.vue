@@ -9,9 +9,9 @@ import {
   SidebarProvider,
 } from '../base/sidebar';
 
-interface Props {
+type Props = {
   defaultOpen?: boolean;
-}
+};
 
 defineProps<Props>();
 

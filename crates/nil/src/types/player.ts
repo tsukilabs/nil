@@ -1,10 +1,10 @@
-export interface Player {
+export type Player = {
   readonly id: PlayerId;
   readonly name: string;
 }
 
 export type PlayerId = string;
 
-export interface PlayerConfig {
+export type PlayerConfig = {
   readonly name: string;
 }

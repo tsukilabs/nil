@@ -1,3 +1,3 @@
-export interface ServerInfo {
+export type ServerInfo = {
   readonly port: number;
 }

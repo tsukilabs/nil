@@ -11,14 +11,14 @@ import {
   CardTitle as BaseCardTitle,
 } from '@/components/base/card';
 
-interface Props {
+type Props = {
   contentClass?: string;
   descriptionClass?: string;
   headerClass?: string;
   scrollAreaClass?: string;
   scrollAreaHeight?: number | string;
   titleClass?: string;
-}
+};
 
 withDefaults(defineProps<Props>(), {
   scrollAreaHeight: 'auto',

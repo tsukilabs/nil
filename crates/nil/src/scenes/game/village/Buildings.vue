@@ -3,9 +3,9 @@ import { useLocale } from '@/locale';
 import type { VillageImpl } from '@/core/village';
 import { Card, Table, TableCellLink, TableRow } from '@/components';
 
-interface Props {
+type Props = {
   village: VillageImpl;
-}
+};
 
 defineProps<Props>();
 
@@ -23,6 +23,7 @@ const { t } = useLocale();
           </span>
         </TableCellLink>
       </TableRow>
+
       <TableRow v-if="village.academy.level > 0">
         <TableCellLink to="academy" link-class="gap-2 p-1">
           <span>{{ t('academy') }}</span>
@@ -31,6 +32,7 @@ const { t } = useLocale();
           </span>
         </TableCellLink>
       </TableRow>
+
       <TableRow v-if="village.stable.level > 0">
         <TableCellLink to="stable" link-class="gap-2 p-1">
           <span>{{ t('stable') }}</span>
@@ -39,6 +41,7 @@ const { t } = useLocale();
           </span>
         </TableCellLink>
       </TableRow>
+
       <TableRow v-if="village.sawmill.level > 0">
         <TableCellLink to="sawmill" link-class="gap-2 p-1">
           <span>{{ t('sawmill') }}</span>
@@ -47,6 +50,7 @@ const { t } = useLocale();
           </span>
         </TableCellLink>
       </TableRow>
+
       <TableRow v-if="village.quarry.level > 0">
         <TableCellLink to="quarry" link-class="gap-2 p-1">
           <span>{{ t('quarry') }}</span>
@@ -55,6 +59,7 @@ const { t } = useLocale();
           </span>
         </TableCellLink>
       </TableRow>
+
       <TableRow v-if="village.ironMine.level > 0">
         <TableCellLink to="iron-mine" link-class="gap-2 p-1">
           <span>{{ t('iron-mine') }}</span>
@@ -63,6 +68,7 @@ const { t } = useLocale();
           </span>
         </TableCellLink>
       </TableRow>
+
       <TableRow v-if="village.farm.level > 0">
         <TableCellLink to="farm" link-class="gap-2 p-1">
           <span>{{ t('farm') }}</span>
@@ -71,6 +77,7 @@ const { t } = useLocale();
           </span>
         </TableCellLink>
       </TableRow>
+
       <TableRow v-if="village.warehouse.level > 0">
         <TableCellLink to="warehouse" link-class="gap-2 p-1">
           <span>{{ t('warehouse') }}</span>
@@ -79,6 +86,7 @@ const { t } = useLocale();
           </span>
         </TableCellLink>
       </TableRow>
+
       <TableRow v-if="village.silo.level > 0">
         <TableCellLink to="silo" link-class="gap-2 p-1">
           <span>{{ t('silo') }}</span>
@@ -87,6 +95,7 @@ const { t } = useLocale();
           </span>
         </TableCellLink>
       </TableRow>
+
       <TableRow v-if="village.wall.level > 0">
         <TableCellLink to="wall" link-class="gap-2 p-1">
           <span>{{ t('wall') }}</span>

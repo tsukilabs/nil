@@ -4,13 +4,13 @@ import { cn } from '@/lib/utils';
 import type { Option } from '@tb-dev/utils';
 import { Input as BaseInput } from '@/components/base/input';
 
-interface Props {
+type Props = {
   class?: string;
   disabled?: boolean;
   modelValue: Option<string>;
   onBlur?: () => void;
   placeholder?: string;
-}
+};
 
 const props = defineProps<Props>();
 

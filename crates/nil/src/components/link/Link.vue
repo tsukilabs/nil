@@ -3,10 +3,10 @@ import type { VNode } from 'vue';
 import { RouterLink } from 'vue-router';
 import type { Route } from '@/router/types';
 
-interface Props {
+type Props = {
   label?: string;
   to: Route;
-}
+};
 
 defineProps<Props>();
 

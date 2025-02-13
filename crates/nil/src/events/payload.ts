@@ -1,12 +1,12 @@
 import type { Turn } from '@/types/turn';
 import type { Player } from '@/types/player';
 
-export interface PlayerJoinedPayload {
+export type PlayerJoinedPayload = {
   kind: 'player-joined';
   player: Player;
-}
+};
 
-export interface TurnUpdatedPayload {
+export type TurnUpdatedPayload = {
   kind: 'turn-updated';
   turn: Turn;
-}
+};

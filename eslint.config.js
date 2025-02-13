@@ -6,8 +6,6 @@ export default defineConfig({
 
   features: {
     perfectionist: true,
-    react: false,
-    svelte: false,
     tailwind: true,
     unicorn: true,
     vue: true,
@@ -33,6 +31,9 @@ export default defineConfig({
           type: 'natural',
         },
       ],
+    },
+    typescript: {
+      '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
     },
     vue: {
       'vue/v-on-handler-style': 'off',

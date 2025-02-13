@@ -5,11 +5,11 @@ import { cn } from '@/lib/utils';
 import { TableCell } from '../base/table';
 import type { Route } from '@/router/types';
 
-interface Props {
+type Props = {
   label?: string;
   linkClass?: string;
   to: Route;
-}
+};
 
 defineProps<Props>();
 

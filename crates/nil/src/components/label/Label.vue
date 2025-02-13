@@ -3,9 +3,9 @@ import { cn } from '@/lib/utils';
 import type { VNode } from 'vue';
 import { Label as BaseLabel } from '@/components/base/label';
 
-interface Props {
+type Props = {
   class?: string;
-}
+};
 
 const props = defineProps<Props>();
 

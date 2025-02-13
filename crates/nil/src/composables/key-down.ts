@@ -9,13 +9,13 @@ import {
 
 export type KeyDownEventHandler = Option<(event: KeyboardEvent) => MaybePromise<unknown>>;
 
-export interface OnKeyDownOptions extends Omit<OnKeyStrokeOptions, 'eventName'> {
+export type OnKeyDownOptions = Omit<OnKeyStrokeOptions, 'eventName'> & {
   altKey?: boolean;
   ctrlKey?: boolean;
   metaKey?: boolean;
   prevent?: boolean;
   shiftKey?: boolean;
-}
+};
 
 export function onKeyDown(
   key: KeyFilter,

@@ -22,11 +22,11 @@ type AcceptableFinallyMethod<T extends object> = {
 };
 type FinallyMethod<T extends object> = AcceptableFinallyMethod<T>[keyof T];
 
-interface HandleOptions<T extends object> {
+type HandleOptions<T extends object> = {
   readonly async?: boolean;
   readonly catch?: CatchFn<T> | CatchMethod<T>;
   readonly finally?: FinallyFn<T> | FinallyMethod<T>;
-}
+};
 
 /** **DO NOT** use this decorator on a method that returns a value. */
 export function HandleError<T extends object>(options: HandleOptions<T> = {}) {

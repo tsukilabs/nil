@@ -1,6 +1,6 @@
-export interface Building {
+export type Building = {
   readonly level: number;
-}
+};
 
 export type Prefecture = Building;
 export type Academy = Building;
