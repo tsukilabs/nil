@@ -114,7 +114,6 @@ fn overall_test() {
   assert!((winner_losses.total_loss - 6272.674503).abs() <= 0.001);
   assert!((winner_losses.infantry - 4181.783).abs() <= 0.001);
 
-
   let battle = unsafe {
     Battle::builder()
       .attacker([squad(5, 3000), squad(3, 3000), squad(4, 2000)])

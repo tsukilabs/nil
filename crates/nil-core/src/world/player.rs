@@ -11,12 +11,14 @@ impl World {
       Err(Error::PlayerAlreadyExists)
     } else {
       self.players.insert(id, player.clone());
-      self.turn_scheduler.add_player(id);
+      self.scheduler.add_player(id);
       self.spawn_player_village(id)?;
 
       self
         .emitter
-        .emit(Event::PlayerJoined { player })
+        .emit(Event::PlayerJoined { player });
+
+      Ok(())
     }
   }
 

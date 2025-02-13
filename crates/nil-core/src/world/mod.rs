@@ -17,7 +17,7 @@ pub struct World {
   cells: Vec<Cell>,
   size: usize,
   players: IndexMap<PlayerId, Player>,
-  turn_scheduler: TurnScheduler,
+  scheduler: TurnScheduler,
   emitter: Emitter,
 }
 
@@ -40,7 +40,7 @@ impl World {
       cells,
       size,
       players: IndexMap::new(),
-      turn_scheduler: TurnScheduler::new(emitter.clone()),
+      scheduler: TurnScheduler::new(emitter.clone()),
       emitter,
     }
   }
@@ -83,17 +83,19 @@ impl World {
 
   pub fn village(&self, coord: impl Into<Coord>) -> Result<&Village> {
     let coord = coord.into();
-    match self.cell(coord)? {
-      Cell::Village(village) => Ok(village),
-      _ => Err(Error::NotAVillage(coord)),
+    if let Cell::Village(village) = self.cell(coord)? {
+      Ok(village)
+    } else {
+      Err(Error::NotAVillage(coord))
     }
   }
 
   pub fn village_mut(&mut self, coord: impl Into<Coord>) -> Result<&mut Village> {
     let coord = coord.into();
-    match self.cell_mut(coord)? {
-      Cell::Village(village) => Ok(village),
-      _ => Err(Error::NotAVillage(coord)),
+    if let Cell::Village(village) = self.cell_mut(coord)? {
+      Ok(village)
+    } else {
+      Err(Error::NotAVillage(coord))
     }
   }
 
@@ -111,8 +113,12 @@ impl World {
       .ok_or(Error::PlayerNotFound(id))
   }
 
-  pub fn turn_scheduler(&self) -> &TurnScheduler {
-    &self.turn_scheduler
+  pub fn scheduler(&self) -> &TurnScheduler {
+    &self.scheduler
+  }
+
+  pub fn scheduler_mut(&mut self) -> &mut TurnScheduler {
+    &mut self.scheduler
   }
 
   pub fn subscribe(&self) -> Listener {

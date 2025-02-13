@@ -14,12 +14,8 @@ pub(crate) async fn handle_socket(socket: WebSocket, listener: Listener) {
   let mut rx_task = spawn_rx(socket_rx);
 
   select! {
-    _ = (&mut tx_task) => {
-      rx_task.abort();
-    }
-    _ = (&mut rx_task) => {
-      tx_task.abort();
-    }
+    _ = (&mut tx_task) => rx_task.abort(),
+    _ = (&mut rx_task) => tx_task.abort()
   }
 }
 

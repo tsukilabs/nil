@@ -29,10 +29,6 @@ thiserror = "2.0"
 version = "2.0"
 features = ["deref", "deref_mut", "display", "try_unwrap"]
 
-[dependencies.glam]
-version = "0.29"
-features = ["serde"]
-
 [dependencies.indexmap]
 version = "2.7"
 features = ["serde"]
@@ -56,11 +52,3 @@ features = ["derive"]
 [dependencies.tokio]
 version = "1.43"
 default-features = false
-
-[dependencies.tracing]
-version = "0.1"
-optional = true
-features = ["release_max_level_off"]
-
-[features]
-tracing = ["dep:tracing"]

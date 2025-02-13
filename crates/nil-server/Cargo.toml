@@ -45,11 +45,3 @@ features = ["rustls-tls"]
 version = "1.43"
 default-features = false
 features = ["time"]
-
-[dependencies.tracing]
-version = "0.1"
-optional = true
-features = ["release_max_level_off"]
-
-[features]
-tracing = ["dep:tracing", "nil-core/tracing"]

@@ -8,9 +8,6 @@ use std::fmt::Debug;
 use std::sync::LazyLock;
 use tokio::time::Duration;
 
-#[cfg(feature = "tracing")]
-use tracing::trace;
-
 static HTTP: LazyLock<HttpClient> = LazyLock::new(|| {
   HttpClient::builder()
     .use_rustls_tls()
@@ -22,13 +19,8 @@ static HTTP: LazyLock<HttpClient> = LazyLock::new(|| {
 
 impl Client {
   async fn request(&self, method: Method, route: &str) -> Result<Response> {
-    let url = self.url(route);
-
-    #[cfg(feature = "tracing")]
-    trace!("{method}: {url}");
-
     HTTP
-      .request(method, url)
+      .request(method, self.url(route))
       .send()
       .await
       .and_then(Response::error_for_status)
@@ -39,13 +31,8 @@ impl Client {
   where
     T: Serialize + Debug,
   {
-    let url = self.url(route);
-
-    #[cfg(feature = "tracing")]
-    trace!("{method}: {url}\n{body:?}");
-
     HTTP
-      .request(method, url)
+      .request(method, self.url(route))
       .json(&body)
       .send()
       .await

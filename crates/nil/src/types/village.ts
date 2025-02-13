@@ -6,7 +6,7 @@ export type Village = {
   readonly infrastructure: Infrastructure;
   readonly name: string;
   readonly owner: Option<string>;
-}
+};
 
 export type Infrastructure = {
   readonly academy: building.Academy;
@@ -19,9 +19,9 @@ export type Infrastructure = {
   readonly stable: building.Stable;
   readonly wall: building.Wall;
   readonly warehouse: building.Warehouse;
-}
+};
 
 export type Coord = {
   readonly x: number;
   readonly y: number;
-}
+};

@@ -17,16 +17,12 @@ use tokio::net::TcpListener;
 use tokio::sync::oneshot;
 use tokio::task::AbortHandle;
 
-#[cfg(feature = "tracing")]
-use tracing::{info, instrument};
-
 pub struct Server {
   addr: SocketAddr,
   abort_handle: AbortHandle,
 }
 
 impl Server {
-  #[cfg_attr(feature = "tracing", instrument(skip_all, err, ret))]
   pub async fn serve(world: World) -> Result<Self> {
     let (tx, rx) = oneshot::channel();
     let task = spawn(async move {
@@ -48,13 +44,10 @@ impl Server {
 
       match result {
         Ok((listener, addr)) => {
-          #[cfg(feature = "tracing")]
-          info!("listening on port {addr}");
-
           let _ = tx.send(Ok(addr));
           axum::serve(listener, router)
             .await
-            .expect("failed to start server");
+            .expect("failed to start nil server");
         }
         Err(err) => {
           tx.send(Err(err)).ok();

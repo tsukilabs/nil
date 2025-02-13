@@ -18,9 +18,6 @@ use tokio_tungstenite::tungstenite::client::IntoClientRequest;
 use tokio_tungstenite::tungstenite::protocol::Message;
 use tokio_tungstenite::{MaybeTlsStream, WebSocketStream, connect_async};
 
-#[cfg(feature = "tracing")]
-use tracing::instrument;
-
 type ReceiverStream = SplitStream<WebSocketStream<MaybeTlsStream<TcpStream>>>;
 
 pub(super) struct WebSocketClient {
@@ -29,7 +26,6 @@ pub(super) struct WebSocketClient {
 }
 
 impl WebSocketClient {
-  #[cfg_attr(feature = "tracing", instrument(skip(on_event), err, ret))]
   pub async fn connect<F>(addr: &SocketAddrV4, on_event: F) -> Result<Self>
   where
     F: Fn(Event) + Send + Sync + 'static,
@@ -161,9 +157,7 @@ impl Receiver {
     let ws_receiver_task = spawn(async move {
       while let Some(Ok(message)) = ws_receiver.next().await {
         if let Message::Binary(bytes) = message {
-          if let Ok(event) = Event::try_from(bytes) {
-            on_event(event);
-          }
+          on_event(Event::from(bytes));
         } else if let Message::Close(_) = message {
           break;
         }

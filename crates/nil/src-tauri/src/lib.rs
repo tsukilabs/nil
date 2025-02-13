@@ -8,9 +8,6 @@ mod state;
 #[cfg(desktop)]
 mod plugin;
 
-#[cfg(feature = "tracing")]
-mod log;
-
 use anyhow::Result;
 use error::BoxResult;
 use state::Nil;
@@ -52,11 +49,7 @@ pub fn run() {
 }
 
 fn setup(app: &AppHandle) -> BoxResult<()> {
-  #[cfg(feature = "tracing")]
-  log::setup()?;
-
   app.manage(Nil::new(app));
-
   open_window(app)?;
   Ok(())
 }

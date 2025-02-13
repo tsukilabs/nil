@@ -33,18 +33,39 @@ impl TurnScheduler {
     self.players.insert(player)
   }
 
+  pub fn current_player(&self) -> Option<PlayerId> {
+    match self.turn.state {
+      TurnState::Idle => None,
+      TurnState::Waiting { player } => Some(player),
+    }
+  }
+
+  pub fn is_turn_of(&self, player: PlayerId) -> bool {
+    matches!(self.current_player(), Some(it) if it == player)
+  }
+
+  pub fn assert_turn_of(&self, player: PlayerId) -> Result<()> {
+    if !self.is_turn_of(player) {
+      return Err(Error::NotTurnOf(player));
+    }
+
+    Ok(())
+  }
+
   pub fn next_player(&mut self) -> Result<()> {
     if self.players.is_empty() {
       return Err(Error::NoPlayerToSchedule);
     }
 
-    self.update_state();
+    self.update();
     self
       .emitter
-      .emit(Event::TurnUpdated { turn: self.turn })
+      .emit(Event::TurnUpdated { turn: self.turn });
+
+    Ok(())
   }
 
-  fn update_state(&mut self) {
+  fn update(&mut self) {
     match self.turn.state {
       TurnState::Idle => {
         self.queue.clear();
@@ -62,7 +83,7 @@ impl TurnScheduler {
         } else {
           self.turn.id.next();
           self.turn.state = TurnState::Idle;
-          self.update_state();
+          self.update();
         }
       }
     }

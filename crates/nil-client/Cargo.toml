@@ -54,11 +54,3 @@ features = ["time"]
 [dependencies.tokio-tungstenite]
 version = "0.26"
 features = []
-
-[dependencies.tracing]
-version = "0.1"
-optional = true
-features = ["release_max_level_off"]
-
-[features]
-tracing = ["dep:tracing", "nil-core/tracing"]

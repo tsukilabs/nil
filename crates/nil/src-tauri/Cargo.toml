@@ -56,16 +56,6 @@ features = ["protocol-asset", "rustls-tls"]
 version = "1.43"
 features = ["full"]
 
-[dependencies.tracing]
-version = "0.1"
-optional = true
-features = ["release_max_level_off"]
-
-[dependencies.tracing-subscriber]
-version = "0.3"
-optional = true
-features = ["chrono", "env-filter", "fmt", "registry"]
-
 [target.'cfg(not(any(target_os = "android", target_os = "ios")))'.dependencies]
 tauri-plugin-prevent-default = { version = "1.1", features = ["unstable-windows"] }
 tauri-plugin-single-instance = "2.2"
@@ -74,12 +64,3 @@ tauri-plugin-window-state = "2.2"
 [build-dependencies.tauri-build]
 version = "2.0"
 features = []
-
-[features]
-tracing = [
-  "dep:tracing",
-  "dep:tracing-subscriber",
-  "nil-client/tracing",
-  "nil-core/tracing",
-  "nil-server/tracing",
-]

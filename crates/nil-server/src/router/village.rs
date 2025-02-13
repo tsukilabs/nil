@@ -1,16 +1,14 @@
-use crate::err;
+use crate::res;
 use crate::state::ServerState;
 use axum::extract::{Json, State};
-use axum::http::StatusCode;
-use axum::response::{IntoResponse, Response};
+use axum::response::Response;
+use futures::TryFutureExt;
 use nil_core::Coord;
 
 pub async fn get(State(state): State<ServerState>, Json(coord): Json<Coord>) -> Response {
-  match state
+  state
     .world(|world| world.village(coord).cloned())
+    .map_ok(|village| res!(OK, Json(village)))
+    .unwrap_or_else(|err| res!(NOT_FOUND, err.to_string()))
     .await
-  {
-    Ok(it) => (StatusCode::OK, Json(it)).into_response(),
-    Err(e) => err!(NOT_FOUND, e),
-  }
 }

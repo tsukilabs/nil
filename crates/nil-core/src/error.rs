@@ -1,4 +1,3 @@
-use crate::event::EventError;
 use crate::player::PlayerId;
 use crate::unit::UnitId;
 use crate::village::Coord;
@@ -12,15 +11,18 @@ pub type Result<T> = StdResult<T, Error>;
 
 #[non_exhaustive]
 #[derive(Debug, EnumIs, thiserror::Error)]
+#[remain::sorted]
 pub enum Error {
   #[error("coord out of bounds: {0:?}")]
   CoordOutOfBounds(Coord),
   #[error("index out of bounds: {0}")]
   IndexOutOfBounds(usize),
-  #[error("not a village: {0:?}")]
-  NotAVillage(Coord),
   #[error("no player to schedule")]
   NoPlayerToSchedule,
+  #[error("not a village: {0:?}")]
+  NotAVillage(Coord),
+  #[error("not turn of player: {0}")]
+  NotTurnOf(PlayerId),
   #[error("player already exists")]
   PlayerAlreadyExists,
   #[error("player not found: {0}")]
@@ -29,9 +31,6 @@ pub enum Error {
   UnitNotFound(UnitId),
   #[error("world is full")]
   WorldIsFull,
-
-  #[error(transparent)]
-  Event(#[from] EventError),
 }
 
 impl Serialize for Error {
