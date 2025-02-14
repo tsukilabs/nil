@@ -1,54 +1,64 @@
 import { go } from '@/router';
 import { until } from '@vueuse/core';
 import * as commands from '@/commands';
-import { HandleError } from '@/lib/error';
 import { PlayerImpl } from '@/core/player';
 import type { Option } from '@tb-dev/utils';
+import { maybe } from '@/composables/maybe';
 import { VillageImpl } from '@/core/village';
-import { SocketAddrV4 } from '@/lib/net/addr';
 import { provide, tryInject } from '@/lib/app';
-import type { WorldConfig } from '@/types/world';
+import type { RoundState } from '@/types/round';
+import { SocketAddrV4 } from '@/lib/net/addr-v4';
+import type { WorldOptions } from '@/types/world';
 import { exit } from '@tauri-apps/plugin-process';
-import type { PlayerConfig } from '@/types/player';
+import { asyncRef } from '@/composables/async-ref';
 import type { CoordImpl } from '@/core/village/coord';
-import { computedAsync } from '@/composables/computed-async';
-import { computed, effectScope, type InjectionKey, shallowRef, watch } from 'vue';
+import { asyncComputed } from '@/composables/async-computed';
+import type { PlayerId, PlayerOptions } from '@/types/player';
+import { effectScope, type InjectionKey, ref, shallowRef, watch } from 'vue';
 
 export class Game {
-  private readonly player = shallowRef<Option<PlayerImpl>>();
-  private readonly playerId = computed(() => this.player.value?.id ?? null);
+  private readonly round = shallowRef<Option<RoundState>>();
+  private readonly playerId = ref<Option<PlayerId>>();
+  private readonly player = asyncRef(null, async () => {
+    return maybe(this.playerId, PlayerImpl.load.bind(PlayerImpl));
+  });
 
   private readonly coord = shallowRef<Option<CoordImpl>>();
-  private readonly village = computedAsync(null, () => {
-    const coord = this.coord.value;
-    return coord ? VillageImpl.load(coord) : null;
+  private readonly village = asyncComputed(null, async () => {
+    return maybe(this.coord, VillageImpl.load.bind(VillageImpl));
   });
 
   private constructor() {
+    watch(this.playerId, () => this.updatePlayer());
     watch(this.player, (it) => this.onPlayerUpdate(it));
   }
 
-  @HandleError({ async: true })
-  private async join(server: SocketAddrV4, player: PlayerConfig) {
+  private async join(server: SocketAddrV4, player: PlayerOptions) {
     await commands.startClient(server);
-    const playerId = await commands.spawnPlayer(player);
-    this.player.value = await PlayerImpl.load(playerId);
+    await commands.spawnPlayer(player);
+    this.playerId.value = player.id;
+    await this.update();
 
     await until(this.coord).toBeTruthy();
     go('village');
   }
 
-  @HandleError({ async: true })
-  private async host(world: WorldConfig, player: PlayerConfig) {
+  private async host(world: WorldOptions, player: PlayerOptions) {
     const info = await commands.startServer(world);
     const addr = SocketAddrV4.parse(`127.0.0.1:${info.port}`);
     await this.join(addr, player);
   }
 
+  private async update() {
+    await Promise.all([this.updateRound(), this.updatePlayer()]);
+  }
+
   private async updatePlayer() {
-    if (this.playerId.value) {
-      this.player.value = await PlayerImpl.load(this.playerId.value);
-    }
+    await this.player.execute();
+  }
+
+  private async updateRound() {
+    this.round.value = await commands.getRoundState();
   }
 
   private onPlayerUpdate(player: Option<PlayerImpl>) {
@@ -64,11 +74,10 @@ export class Game {
     await commands.stopServer();
 
     go('home');
-    this.player.value = null;
+    this.playerId.value = null;
     this.coord.value = null;
   }
 
-  @HandleError({ async: true })
   private async exit() {
     await this.leave();
     await exit(0);
@@ -94,7 +103,7 @@ export class Game {
       join: game.join.bind(game),
       leave: game.leave.bind(game),
       player: game.player as Readonly<typeof game.player>,
-      playerId: game.playerId,
+      update: game.update.bind(game),
       updatePlayer: game.updatePlayer.bind(game),
       village: game.village,
     };

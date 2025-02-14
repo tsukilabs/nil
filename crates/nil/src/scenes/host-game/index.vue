@@ -2,29 +2,29 @@
 import { Game } from '@/core/game';
 import { computed, ref } from 'vue';
 import { useLocale } from '@/locale';
-import type { WorldConfig } from '@/types/world';
-import type { PlayerConfig } from '@/types/player';
-import { isPlayerConfig, isWorldConfig } from '@/lib/schema';
+import type { WorldOptions } from '@/types/world';
+import type { PlayerOptions } from '@/types/player';
+import { isPlayerOptions, isWorldOptions } from '@/lib/schema';
 import { Button, ButtonLink, Card, InputNumber, InputText, Label } from '@/components';
 
 const { t } = useLocale();
 const game = Game.use();
 
-const worldConfig = ref<WorldConfig>({
+const world = ref<WorldOptions>({
   size: 100,
 });
 
-const playerConfig = ref<PlayerConfig>({
-  name: '',
+const player = ref<PlayerOptions>({
+  id: '',
 });
 
 const canHost = computed(() => {
-  return isWorldConfig(worldConfig.value) && isPlayerConfig(playerConfig.value);
+  return isWorldOptions(world.value) && isPlayerOptions(player.value);
 });
 
 async function host() {
   if (canHost.value) {
-    await game.host(worldConfig.value, playerConfig.value);
+    await game.host(world.value, player.value);
   }
 }
 </script>
@@ -40,11 +40,11 @@ async function host() {
         <div class="flex flex-col gap-4">
           <Label>
             <span>{{ t('player-name') }}</span>
-            <InputText v-model="playerConfig.name" />
+            <InputText v-model="player.id" />
           </Label>
           <Label>
             <span>{{ t('world-size') }}</span>
-            <InputNumber v-model="worldConfig.size" :min="10" :max="255" />
+            <InputNumber v-model="world.size" :min="10" :max="255" />
           </Label>
         </div>
 

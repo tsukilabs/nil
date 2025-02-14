@@ -31,17 +31,18 @@ pub fn run() {
     .plugin(tauri_plugin_process::init())
     .setup(|app| setup(app.app_handle()))
     .invoke_handler(tauri::generate_handler![
+      command::get_server_version,
       command::is_dev,
+      command::is_server_ready,
       command::show_window,
-      command::client::start_client,
-      command::client::stop_client,
+      command::start_client,
+      command::start_server,
+      command::stop_client,
+      command::stop_server,
       command::player::get_player,
       command::player::get_player_villages,
       command::player::spawn_player,
-      command::server::get_server_version,
-      command::server::is_server_ready,
-      command::server::start_server,
-      command::server::stop_server,
+      command::round::get_round_state,
       command::village::get_village
     ])
     .run(tauri::generate_context!())

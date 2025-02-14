@@ -14,7 +14,9 @@ export class CoordImpl implements Coord {
   }
 
   public format() {
-    return `${CoordImpl.intl.format(this.x)}|${CoordImpl.intl.format(this.y)}`;
+    const x = CoordImpl.intl.format(this.x);
+    const y = CoordImpl.intl.format(this.y);
+    return `${x}|${y}`;
   }
 
   public static create(coord: Coord) {

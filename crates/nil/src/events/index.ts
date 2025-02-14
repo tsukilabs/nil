@@ -21,6 +21,7 @@ class Listener<T> {
   public static create() {
     return {
       onPlayerJoined: new this<$.PlayerJoinedPayload>('player-joined'),
+      onRoundUpdated: new this<$.RoundUpdatedPayload>('round-updated'),
     };
   }
 }

@@ -7,19 +7,16 @@ use crate::village::{Coord, Village};
 impl World {
   pub fn spawn_player(&mut self, player: Player) -> Result<()> {
     let id = player.id();
-    if self.players.contains_key(&id) {
-      Err(Error::PlayerAlreadyExists)
-    } else {
-      self.players.insert(id, player.clone());
-      self.scheduler.add_player(id);
-      self.spawn_player_village(id)?;
-
+    if !self.players.contains_key(&id) {
       self
-        .emitter
-        .emit(Event::PlayerJoined { player });
+        .players
+        .insert(id.clone(), player.clone());
 
-      Ok(())
+      self.spawn_player_village(id)?;
+      self.emit(Event::PlayerJoined { player });
     }
+
+    Ok(())
   }
 
   pub fn spawn_player_village(&mut self, player: PlayerId) -> Result<()> {
@@ -31,7 +28,7 @@ impl World {
       .ok_or(Error::WorldIsFull)??;
 
     let village = Village::builder(coord)
-      .name(player.to_string())
+      .name(&**player)
       .owner(player)
       .build();
 
@@ -40,13 +37,13 @@ impl World {
     Ok(())
   }
 
-  pub fn get_player_villages(&self, player: PlayerId) -> Vec<Coord> {
+  pub fn get_player_villages(&self, player: &PlayerId) -> Vec<Coord> {
     self
       .cells
       .iter()
-      .filter_map(|it| it.try_unwrap_village_ref().ok())
-      .filter(|it| it.owner.is_some_and(|id| id == player))
-      .map(|it| it.coord)
+      .filter_map(|cell| cell.try_unwrap_village_ref().ok())
+      .filter(|vil| vil.owner().is_some_and(|id| id == *player))
+      .map(Village::coord)
       .collect()
   }
 }

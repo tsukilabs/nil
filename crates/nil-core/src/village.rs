@@ -7,28 +7,38 @@ use serde::{Deserialize, Serialize};
 #[serde(rename_all = "camelCase")]
 pub struct Village {
   #[builder(start_fn, into)]
-  pub coord: Coord,
+  coord: Coord,
   #[builder(into)]
-  pub name: String,
+  name: String,
   #[builder(into)]
-  pub owner: Option<PlayerId>,
+  owner: Option<PlayerId>,
   #[builder(default)]
-  pub infrastructure: Infrastructure,
+  infrastructure: Infrastructure,
+}
+
+impl Village {
+  pub fn coord(&self) -> Coord {
+    self.coord
+  }
+
+  pub fn owner(&self) -> Option<PlayerId> {
+    self.owner.clone()
+  }
 }
 
 #[derive(Clone, Debug, Default, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Infrastructure {
-  pub prefecture: Prefecture,
-  pub academy: Academy,
-  pub stable: Stable,
-  pub sawmill: Sawmill,
-  pub quarry: Quarry,
-  pub iron_mine: IronMine,
-  pub farm: Farm,
-  pub warehouse: Warehouse,
-  pub silo: Silo,
-  pub wall: Wall,
+  prefecture: Prefecture,
+  academy: Academy,
+  stable: Stable,
+  sawmill: Sawmill,
+  quarry: Quarry,
+  iron_mine: IronMine,
+  farm: Farm,
+  warehouse: Warehouse,
+  silo: Silo,
+  wall: Wall,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, Deserialize, Serialize)]

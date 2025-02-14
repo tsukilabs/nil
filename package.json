@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "",
   "type": "module",
-  "packageManager": "pnpm@10.3.0",
+  "packageManager": "pnpm@10.4.0",
   "private": true,
   "scripts": {
     "build": "cargo tauri build",
@@ -17,7 +17,7 @@
   },
   "devDependencies": {
     "@tb-dev/eslint-config": "^6.2.9",
-    "@types/node": "^22.13.2",
+    "@types/node": "^22.13.4",
     "@vitejs/plugin-vue": "^5.2.1",
     "autoprefixer": "^10.4.20",
     "eslint": "^9.20.1",

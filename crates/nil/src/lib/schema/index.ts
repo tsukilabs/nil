@@ -1,14 +1,14 @@
 import * as base from './base';
-import * as config from './config';
+import * as options from './options';
 
 export function isIp(value: unknown) {
   return base.ip.safeParse(value).success;
 }
 
-export function isPlayerConfig(value: unknown) {
-  return config.playerConfig.safeParse(value).success;
+export function isPlayerOptions(value: unknown) {
+  return options.player.safeParse(value).success;
 }
 
-export function isWorldConfig(value: unknown) {
-  return config.worldConfig.safeParse(value).success;
+export function isWorldOptions(value: unknown) {
+  return options.world.safeParse(value).success;
 }

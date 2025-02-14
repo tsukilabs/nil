@@ -17,14 +17,12 @@ pub enum Error {
   CoordOutOfBounds(Coord),
   #[error("index out of bounds: {0}")]
   IndexOutOfBounds(usize),
-  #[error("no player to schedule")]
-  NoPlayerToSchedule,
+  #[error("no player found")]
+  NoPlayer,
   #[error("not a village: {0:?}")]
   NotAVillage(Coord),
   #[error("not turn of player: {0}")]
   NotTurnOf(PlayerId),
-  #[error("player already exists")]
-  PlayerAlreadyExists,
   #[error("player not found: {0}")]
   PlayerNotFound(PlayerId),
   #[error("unit not found: {0}")]

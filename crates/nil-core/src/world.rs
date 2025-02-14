@@ -1,9 +1,10 @@
 mod player;
+mod round;
 
 use crate::error::{Error, Result};
-use crate::event::{Emitter, Listener};
+use crate::event::{Emitter, Event, Listener};
 use crate::player::{Player, PlayerId};
-use crate::turn::TurnScheduler;
+use crate::round::Round;
 use crate::village::{Coord, Village};
 use bon::Builder;
 use derive_more::TryUnwrap;
@@ -17,7 +18,7 @@ pub struct World {
   cells: Vec<Cell>,
   size: usize,
   players: IndexMap<PlayerId, Player>,
-  scheduler: TurnScheduler,
+  round: Round,
   emitter: Emitter,
 }
 
@@ -25,7 +26,7 @@ impl World {
   pub const MIN_SIZE: NonZeroU8 = NonZeroU8::new(10).unwrap();
   pub const DEFAULT_SIZE: NonZeroU8 = NonZeroU8::new(100).unwrap();
 
-  pub fn new(config: WorldConfig) -> Self {
+  pub fn new(config: WorldOptions) -> Self {
     let size = config.size.get().max(Self::MIN_SIZE.get());
     let size = usize::from(size);
     let capacity = size.pow(2);
@@ -40,7 +41,7 @@ impl World {
       cells,
       size,
       players: IndexMap::new(),
-      scheduler: TurnScheduler::new(emitter.clone()),
+      round: Round::new(emitter.clone()),
       emitter,
     }
   }
@@ -113,12 +114,12 @@ impl World {
       .ok_or(Error::PlayerNotFound(id))
   }
 
-  pub fn scheduler(&self) -> &TurnScheduler {
-    &self.scheduler
+  pub fn round(&self) -> &Round {
+    &self.round
   }
 
-  pub fn scheduler_mut(&mut self) -> &mut TurnScheduler {
-    &mut self.scheduler
+  fn emit(&self, event: Event) {
+    self.emitter.emit(event);
   }
 
   pub fn subscribe(&self) -> Listener {
@@ -128,24 +129,24 @@ impl World {
 
 impl Default for World {
   fn default() -> Self {
-    Self::new(WorldConfig::default())
+    Self::new(WorldOptions::default())
   }
 }
 
 #[derive(Builder, Clone, Copy, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct WorldConfig {
+pub struct WorldOptions {
   #[builder(default = World::DEFAULT_SIZE)]
   pub size: NonZeroU8,
 }
 
-impl WorldConfig {
+impl WorldOptions {
   pub fn into_world(self) -> World {
     World::new(self)
   }
 }
 
-impl Default for WorldConfig {
+impl Default for WorldOptions {
   fn default() -> Self {
     Self::builder().build()
   }

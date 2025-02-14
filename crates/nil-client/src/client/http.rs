@@ -40,23 +40,32 @@ impl Client {
       .map_err(Error::request_failed)
   }
 
-  pub(super) async fn get(&self, route: &str) -> Result<Response> {
-    self.request(Method::GET, route).await
+  pub(super) async fn get(&self, route: &str) -> Result<()> {
+    self
+      .request(Method::GET, route)
+      .await
+      .map(drop)
   }
 
   pub(super) async fn get_text(&self, route: &str) -> Result<String> {
     self
-      .get(route)
+      .request(Method::GET, route)
       .await?
       .text()
       .await
       .map_err(Error::failed_to_decode)
   }
 
-  pub(super) async fn post(&self, route: &str, body: impl Serialize + Debug) -> Result<Response> {
+  pub(super) async fn get_json<R>(&self, route: &str) -> Result<R>
+  where
+    R: DeserializeOwned,
+  {
     self
-      .request_with_body(Method::POST, route, body)
+      .request(Method::GET, route)
+      .await?
+      .json()
       .await
+      .map_err(Error::failed_to_decode)
   }
 
   pub(super) async fn post_json<R>(&self, route: &str, body: impl Serialize + Debug) -> Result<R>
@@ -64,29 +73,18 @@ impl Client {
     R: DeserializeOwned,
   {
     self
-      .post(route, body)
+      .request_with_body(Method::POST, route, body)
       .await?
       .json()
       .await
       .map_err(Error::failed_to_decode)
   }
 
-  pub(super) async fn put(&self, route: &str, body: impl Serialize + Debug) -> Result<Response> {
+  pub(super) async fn put(&self, route: &str, body: impl Serialize + Debug) -> Result<()> {
     self
       .request_with_body(Method::PUT, route, body)
       .await
-  }
-
-  pub(super) async fn put_json<R>(&self, route: &str, body: impl Serialize + Debug) -> Result<R>
-  where
-    R: DeserializeOwned,
-  {
-    self
-      .put(route, body)
-      .await?
-      .json()
-      .await
-      .map_err(Error::failed_to_decode)
+      .map(drop)
   }
 
   fn url(&self, route: &str) -> String {

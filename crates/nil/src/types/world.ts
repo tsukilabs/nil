@@ -1,3 +1,3 @@
-export type WorldConfig = {
+export type WorldOptions = {
   readonly size: number;
 };

@@ -25,7 +25,7 @@ macro_rules! res {
 pub fn from_err(err: Error) -> Response {
   let text = err.to_string();
   match err {
-    Error::NoPlayerToSchedule => res!(BAD_REQUEST, text),
+    Error::NoPlayer => res!(BAD_REQUEST, text),
     Error::NotAVillage(_) => res!(BAD_REQUEST, text),
     Error::NotTurnOf(_) => res!(FORBIDDEN, text),
     Error::PlayerNotFound(_) => res!(NOT_FOUND, text),

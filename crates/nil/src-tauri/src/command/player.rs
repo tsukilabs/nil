@@ -1,6 +1,6 @@
 use crate::error::CResult;
 use crate::manager::ManagerExt;
-use nil_core::{Coord, Player, PlayerConfig, PlayerId};
+use nil_core::{Coord, Player, PlayerId, PlayerOptions};
 use tauri::AppHandle;
 
 #[tauri::command]
@@ -20,9 +20,9 @@ pub async fn get_player_villages(app: AppHandle, id: PlayerId) -> CResult<Vec<Co
 }
 
 #[tauri::command]
-pub async fn spawn_player(app: AppHandle, config: PlayerConfig) -> CResult<PlayerId> {
+pub async fn spawn_player(app: AppHandle, options: PlayerOptions) -> CResult<()> {
   app
-    .client(async |it| it.spawn_player(config).await)
+    .client(async |it| it.spawn_player(options).await)
     .await?
     .map_err(Into::into)
 }

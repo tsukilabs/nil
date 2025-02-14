@@ -21,6 +21,12 @@ app.config.globalProperties.$go = go;
 app.config.globalProperties.$c = commands;
 app.config.errorHandler = (err) => handleError(err);
 
+app.config.warnHandler = (message, _, trace) => {
+  if (!message.includes('"Symbol(game)" not found')) {
+    console.warn(`[Vue warn]: ${message}\n${trace}`);
+  }
+};
+
 const i18n = createI18n<[LocaleSchema], Locale>({
   fallbackLocale: ['en-US', 'pt-BR'],
   legacy: false,
