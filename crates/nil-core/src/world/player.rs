@@ -41,7 +41,7 @@ impl World {
     self
       .cells
       .iter()
-      .filter_map(Cell::as_village)
+      .filter_map(Cell::village)
       .filter(|village| village.is_owned_by(player))
       .map(Village::coord)
       .collect()

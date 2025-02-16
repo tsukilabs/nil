@@ -85,7 +85,7 @@ impl World {
     let coord = coord.into();
     self
       .cell(coord)?
-      .as_village()
+      .village()
       .ok_or(Error::NotAVillage(coord))
   }
 
@@ -93,7 +93,7 @@ impl World {
     let coord = coord.into();
     self
       .cell_mut(coord)?
-      .as_village_mut()
+      .village_mut()
       .ok_or(Error::NotAVillage(coord))
   }
 
@@ -157,7 +157,7 @@ pub enum Cell {
 }
 
 impl Cell {
-  fn as_village(&self) -> Option<&Village> {
+  fn village(&self) -> Option<&Village> {
     if let Self::Village(village) = self {
       Some(village)
     } else {
@@ -165,7 +165,7 @@ impl Cell {
     }
   }
 
-  fn as_village_mut(&mut self) -> Option<&mut Village> {
+  fn village_mut(&mut self) -> Option<&mut Village> {
     if let Self::Village(village) = self {
       Some(village)
     } else {
