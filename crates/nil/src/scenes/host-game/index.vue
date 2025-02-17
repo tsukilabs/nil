@@ -24,7 +24,10 @@ const canHost = computed(() => {
 
 async function host() {
   if (canHost.value) {
-    await game.host(world.value, player.value);
+    await game.host({
+      player: player.value,
+      world: world.value,
+    });
   }
 }
 </script>

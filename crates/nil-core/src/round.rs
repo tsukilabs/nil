@@ -15,8 +15,8 @@ pub struct Round {
 impl Round {
   pub(crate) fn new(emitter: Emitter) -> Self {
     Self {
-      id: RoundId::default(),
-      pending: HashSet::new(),
+      id: Default::default(),
+      pending: Default::default(),
       emitter,
     }
   }

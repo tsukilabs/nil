@@ -28,7 +28,7 @@ impl Village {
   pub fn is_owned_by(&self, player: &PlayerId) -> bool {
     self
       .owner
-      .as_player()
+      .player()
       .is_some_and(|id| id == player)
   }
 }
@@ -44,7 +44,7 @@ pub enum VillageOwner {
 }
 
 impl VillageOwner {
-  pub fn as_player(&self) -> Option<&PlayerId> {
+  pub fn player(&self) -> Option<&PlayerId> {
     if let Self::Player { id } = self {
       Some(id)
     } else {

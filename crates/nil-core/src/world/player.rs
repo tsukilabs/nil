@@ -1,5 +1,5 @@
-use super::{Cell, World};
-use crate::error::{Error, Result};
+use super::World;
+use crate::error::Result;
 use crate::event::Event;
 use crate::player::{Player, PlayerId};
 use crate::village::{Coord, Village};
@@ -7,43 +7,28 @@ use crate::village::{Coord, Village};
 impl World {
   pub fn spawn_player(&mut self, player: Player) -> Result<()> {
     let id = player.id();
-    if !self.players.contains_key(&id) {
-      self
-        .players
-        .insert(id.clone(), player.clone());
-
-      self.spawn_player_village(id)?;
-      self.emit(Event::PlayerJoined { player });
+    if !self.player_manager.has(&id) {
+      self.spawn_player_village(id.clone())?;
+      self.player_manager.insert(player.clone());
     }
 
+    self.emit(Event::PlayerJoined { player });
+
     Ok(())
   }
 
-  pub fn spawn_player_village(&mut self, player: PlayerId) -> Result<()> {
-    let coord = self
-      .cells
-      .iter()
-      .position(Cell::is_empty)
-      .map(|index| self.coord(index))
-      .ok_or(Error::WorldIsFull)??;
-
-    let village = Village::builder(coord)
-      .name(&**player)
+  fn spawn_player_village(&mut self, player: PlayerId) -> Result<()> {
+    let coord = self.continent.find_empty()?;
+    *self.cell_mut(coord)? = Village::builder(coord)
+      .name(&*player)
       .owner(player)
-      .build();
-
-    *self.cell_mut(coord)? = Cell::Village(village);
+      .build()
+      .into();
 
     Ok(())
   }
 
-  pub fn get_player_villages(&self, player: &PlayerId) -> Vec<Coord> {
-    self
-      .cells
-      .iter()
-      .filter_map(Cell::village)
-      .filter(|village| village.is_owned_by(player))
-      .map(Village::coord)
-      .collect()
+  pub fn villages_of(&self, player: &PlayerId) -> Vec<Coord> {
+    self.continent.villages_of(player)
   }
 }

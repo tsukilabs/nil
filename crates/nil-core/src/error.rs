@@ -21,8 +21,6 @@ pub enum Error {
   NoPlayer,
   #[error("not a village: {0:?}")]
   NotAVillage(Coord),
-  #[error("not turn of player: {0}")]
-  NotTurnOf(PlayerId),
   #[error("player not found: {0}")]
   PlayerNotFound(PlayerId),
   #[error("unit not found: {0}")]

@@ -27,7 +27,6 @@ pub fn from_err(err: Error) -> Response {
   match err {
     Error::NoPlayer => res!(BAD_REQUEST, text),
     Error::NotAVillage(_) => res!(BAD_REQUEST, text),
-    Error::NotTurnOf(_) => res!(FORBIDDEN, text),
     Error::PlayerNotFound(_) => res!(NOT_FOUND, text),
     Error::UnitNotFound(_) => res!(NOT_FOUND, text),
     _ => res!(INTERNAL_SERVER_ERROR, text),

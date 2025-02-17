@@ -6,14 +6,15 @@ import type { Option } from '@tb-dev/utils';
 import { maybe } from '@/composables/maybe';
 import { VillageImpl } from '@/core/village';
 import { provide, tryInject } from '@/lib/app';
+import type { PlayerId } from '@/types/player';
 import type { RoundState } from '@/types/round';
 import { SocketAddrV4 } from '@/lib/net/addr-v4';
-import type { WorldOptions } from '@/types/world';
 import { exit } from '@tauri-apps/plugin-process';
+import type { HostOptions } from '@/types/server';
+import type { JoinOptions } from '@/types/client';
 import { asyncRef } from '@/composables/async-ref';
 import type { CoordImpl } from '@/core/village/coord';
 import { asyncComputed } from '@/composables/async-computed';
-import type { PlayerId, PlayerOptions } from '@/types/player';
 import { effectScope, type InjectionKey, ref, shallowRef, watch } from 'vue';
 
 export class Game {
@@ -33,20 +34,20 @@ export class Game {
     watch(this.player, (it) => this.onPlayerUpdate(it));
   }
 
-  private async join(server: SocketAddrV4, player: PlayerOptions) {
-    await commands.startClient(server);
-    await commands.spawnPlayer(player);
-    this.playerId.value = player.id;
+  private async join(options: JoinOptions) {
+    await commands.startClient(options.server);
+    await commands.spawnPlayer(options.player);
+    this.playerId.value = options.player.id;
     await this.update();
 
     await until(this.coord).toBeTruthy();
     go('village');
   }
 
-  private async host(world: WorldOptions, player: PlayerOptions) {
-    const info = await commands.startServer(world);
-    const addr = SocketAddrV4.parse(`127.0.0.1:${info.port}`);
-    await this.join(addr, player);
+  private async host(options: HostOptions) {
+    const info = await commands.startServer(options.world);
+    const server = SocketAddrV4.parse(`127.0.0.1:${info.port}`);
+    await this.join({ player: options.player, server });
   }
 
   private async update() {

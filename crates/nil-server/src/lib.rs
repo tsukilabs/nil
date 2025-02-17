@@ -10,7 +10,7 @@ pub use error::{Error, Result};
 use nil_core::World;
 use nil_util::spawn;
 use serde::Serialize;
-use state::ServerState;
+use state::App;
 use std::fmt;
 use std::net::SocketAddr;
 use tokio::net::TcpListener;
@@ -27,7 +27,7 @@ impl Server {
     let (tx, rx) = oneshot::channel();
     let task = spawn(async move {
       let router = router::create()
-        .with_state(ServerState::new(world))
+        .with_state(App::new(world))
         .into_make_service_with_connect_info::<SocketAddr>();
 
       let result: Result<(TcpListener, SocketAddr)> = try {

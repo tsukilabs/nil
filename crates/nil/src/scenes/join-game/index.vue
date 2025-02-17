@@ -23,7 +23,10 @@ const canJoin = computed(() => {
 
 async function join() {
   if (canJoin.value && serverAddr.value) {
-    await game.join(serverAddr.value, player.value);
+    await game.join({
+      player: player.value,
+      server: serverAddr.value,
+    });
   }
 }
 </script>
