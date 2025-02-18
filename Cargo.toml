@@ -26,9 +26,8 @@ inherits = "release"
 codegen-units = 16
 lto = "off"
 opt-level = 0
-strip = "symbols"
-debug = false
-debug-assertions = false
+debug = true
+debug-assertions = true
 
 [workspace.lints.rust]
 async_fn_in_trait = "allow"
