@@ -4,16 +4,16 @@ import { useLocale } from '@/locale';
 import { joinGame } from '@/core/game';
 import { isPlayerOptions } from '@/lib/schema';
 import { SocketAddrV4 } from '@/lib/net/addr-v4';
-import type { PlayerOptions } from '@/types/player';
+import type { PartialNull, Writeable } from '@tb-dev/utils';
 import { Button, ButtonLink, Card, InputText, Label } from '@/components';
 
 const { t } = useLocale();
 
-const player = ref<PlayerOptions>({
-  id: '',
+const player = ref<Writeable<PartialNull<PlayerOptions>>>({
+  id: null,
 });
 
-const server = ref('');
+const server = ref<null | string>(null);
 const serverAddr = computed(() => SocketAddrV4.tryParse(server.value));
 
 const canJoin = computed(() => {
@@ -21,7 +21,7 @@ const canJoin = computed(() => {
 });
 
 async function join() {
-  if (canJoin.value && serverAddr.value) {
+  if (isPlayerOptions(player.value) && serverAddr.value) {
     await joinGame({
       player: player.value,
       serverAddr: serverAddr.value,

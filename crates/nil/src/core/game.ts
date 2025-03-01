@@ -4,7 +4,6 @@ import { until } from '@vueuse/core';
 import { Entity } from '@/core/entity';
 import * as commands from '@/commands';
 import { exit } from '@tauri-apps/plugin-process';
-import type { HostOptions, JoinOptions } from '@/types/net';
 
 export async function joinGame(options: JoinOptions) {
   await commands.startClient(options.serverAddr);

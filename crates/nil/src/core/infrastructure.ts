@@ -1,17 +1,14 @@
-import * as building from '@/types/building';
-import type { Infrastructure } from '@/types/village';
-
 export class InfrastructureImpl implements Infrastructure {
-  public readonly academy: building.Academy;
-  public readonly farm: building.Farm;
-  public readonly ironMine: building.IronMine;
-  public readonly prefecture: building.Prefecture;
-  public readonly quarry: building.Quarry;
-  public readonly sawmill: building.Sawmill;
-  public readonly silo: building.Silo;
-  public readonly stable: building.Stable;
-  public readonly wall: building.Wall;
-  public readonly warehouse: building.Warehouse;
+  public readonly academy: Academy;
+  public readonly farm: Farm;
+  public readonly ironMine: IronMine;
+  public readonly prefecture: Prefecture;
+  public readonly quarry: Quarry;
+  public readonly sawmill: Sawmill;
+  public readonly silo: Silo;
+  public readonly stable: Stable;
+  public readonly wall: Wall;
+  public readonly warehouse: Warehouse;
 
   private constructor(infrastructure: Infrastructure) {
     this.academy = infrastructure.academy;

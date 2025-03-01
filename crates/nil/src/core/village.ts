@@ -1,7 +1,6 @@
 import * as commands from '@/commands';
 import { CoordImpl } from '@/core/coord';
 import { InfrastructureImpl } from '@/core/infrastructure';
-import type { Coord, Village, VillageOwner } from '@/types/village';
 
 export class VillageImpl implements Village {
   public readonly coord: CoordImpl;

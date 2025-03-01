@@ -50,7 +50,8 @@ export class SocketAddrV4 {
     return new SocketAddrV4(ip, port);
   }
 
-  public static tryParse(addr: string) {
+  public static tryParse(addr: Option<string>) {
+    if (!addr) return null;
     try {
       return SocketAddrV4.parse(addr);
     } catch {

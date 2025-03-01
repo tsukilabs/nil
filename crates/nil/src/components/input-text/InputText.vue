@@ -30,7 +30,7 @@ const value = computed<string | undefined>({
 
 <template>
   <BaseInput
-    v-model.trim="value"
+    v-model.trim="value as string | undefined"
     type="text"
     :placeholder
     :disabled

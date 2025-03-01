@@ -1,6 +1,4 @@
-import type { Coord } from '@/types/village';
 import { invoke } from '@tauri-apps/api/core';
-import type { Player, PlayerId, PlayerOptions } from '@/types/player';
 
 export function getPlayer(id: PlayerId) {
   return invoke<Player>('get_player', { id });

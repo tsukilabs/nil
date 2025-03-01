@@ -3,7 +3,6 @@ import { Entity } from '@/core/entity';
 import { PlayerImpl } from '@/core/player';
 import { maybe } from '@/composables/maybe';
 import type { Option } from '@tb-dev/utils';
-import type { PlayerId } from '@/types/player';
 import { asyncRef } from '@/composables/async-ref';
 
 export class CurrentPlayer extends Entity {

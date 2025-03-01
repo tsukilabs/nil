@@ -1,7 +1,5 @@
 import * as commands from '@/commands';
 import { CoordImpl } from '@/core/coord';
-import type { Coord } from '@/types/village';
-import type { Player, PlayerId } from '@/types/player';
 
 export class PlayerImpl implements Player {
   public readonly id: string;

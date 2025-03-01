@@ -2,7 +2,6 @@ import { shallowRef } from 'vue';
 import * as commands from '@/commands';
 import { Entity } from '@/core/entity';
 import type { Option } from '@tb-dev/utils';
-import type { RoundState } from '@/types/round';
 
 export class Round extends Entity {
   private readonly state = shallowRef<Option<RoundState>>();

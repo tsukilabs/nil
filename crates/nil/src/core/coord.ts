@@ -1,5 +1,3 @@
-import type { Coord } from '@/types/village';
-
 export class CoordImpl implements Coord {
   public readonly x: number;
   public readonly y: number;

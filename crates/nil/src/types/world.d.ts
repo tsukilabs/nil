@@ -1,8 +1,8 @@
-export type WorldState = {
+type WorldState = {
   readonly name: string;
 };
 
-export type WorldOptions = {
+type WorldOptions = {
   readonly name: string;
   readonly size: number;
 };

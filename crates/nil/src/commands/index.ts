@@ -1,6 +1,5 @@
 import { invoke } from '@tauri-apps/api/core';
 import { SocketAddrV4 } from '@/lib/net/addr-v4';
-import type { WorldOptions } from '@/types/world';
 
 export * from './round';
 export * from './world';

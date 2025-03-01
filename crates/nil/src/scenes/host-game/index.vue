@@ -2,20 +2,19 @@
 import { computed, ref } from 'vue';
 import { useLocale } from '@/locale';
 import { hostGame } from '@/core/game';
-import type { WorldOptions } from '@/types/world';
-import type { PlayerOptions } from '@/types/player';
+import type { PartialNull, Writeable } from '@tb-dev/utils';
 import { isPlayerOptions, isWorldOptions } from '@/lib/schema';
 import { Button, ButtonLink, Card, InputNumber, InputText, Label } from '@/components';
 
 const { t } = useLocale();
 
-const world = ref<WorldOptions>({
-  name: '',
+const world = ref<Writeable<PartialNull<WorldOptions>>>({
+  name: null,
   size: 100,
 });
 
-const player = ref<PlayerOptions>({
-  id: '',
+const player = ref<Writeable<PartialNull<PlayerOptions>>>({
+  id: null,
 });
 
 const canHost = computed(() => {
@@ -23,7 +22,7 @@ const canHost = computed(() => {
 });
 
 async function host() {
-  if (canHost.value) {
+  if (isWorldOptions(world.value) && isPlayerOptions(player.value)) {
     await hostGame({
       player: player.value,
       world: world.value,

@@ -64,15 +64,6 @@ export function onKeyDown(
   return stop;
 }
 
-export function onEnterKey(handler: KeyDownEventHandler, options: OnKeyDownOptions = {}) {
-  return onKeyDown('Enter', handler, {
-    ...options,
-    altKey: false,
-    ctrlKey: false,
-    shiftKey: false,
-  });
-}
-
 export function onAltKeyDown(
   key: KeyFilter,
   handler?: KeyDownEventHandler,
