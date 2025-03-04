@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import { useLocale } from '@/locale';
 import { exitGame } from '@/core/game';
+import { command } from '@/composables/command';
 import { Button, ButtonLink } from '@/components';
 
 const { t } = useLocale();
+
+const mobile = command('isMobile', null);
 </script>
 
 <template>
@@ -15,13 +18,13 @@ const { t } = useLocale();
       <ButtonLink to="join-game" variant="default">
         <span>{{ t('join-game') }}</span>
       </ButtonLink>
-      <ButtonLink to="host-game" variant="secondary">
+      <ButtonLink to="host-game" variant="secondary" :disabled="mobile">
         <span>{{ t('host-game') }}</span>
       </ButtonLink>
       <ButtonLink to="settings" variant="secondary">
         <span>{{ t('settings') }}</span>
       </ButtonLink>
-      <Button variant="secondary" @click="() => exitGame()">
+      <Button variant="secondary" @click="exitGame">
         <span>{{ t('exit') }}</span>
       </Button>
     </div>

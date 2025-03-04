@@ -2,9 +2,13 @@ import type { ShallowRef } from 'vue';
 import { handleError } from '@/lib/error';
 import { useAsyncState } from '@vueuse/core';
 
-export function asyncRef<T>(initial: T, fn: () => Promise<T>) {
+export type AsyncRefOptions = {
+  immediate?: boolean;
+};
+
+export function asyncRef<T>(initial: T, fn: () => Promise<T>, options?: AsyncRefOptions) {
   const { execute, state } = useAsyncState<T>(fn, initial, {
-    immediate: true,
+    immediate: options?.immediate ?? true,
     onError: handleError,
     resetOnExecute: false,
     shallow: true,

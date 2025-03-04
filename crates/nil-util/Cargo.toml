@@ -23,7 +23,7 @@ serde_json = "1.0"
 thiserror = "2.0"
 
 [dependencies.tauri]
-version = "2.2"
+version = "2.3"
 default-features = false
 
 [dependencies.tokio]

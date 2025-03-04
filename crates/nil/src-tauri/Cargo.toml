@@ -22,6 +22,7 @@ workspace = true
 
 [dependencies]
 anyhow = "1.0"
+futures = "0.3"
 itertools = "0.14"
 remain = "0.2"
 tauri-plugin-dialog = "2.2"
@@ -49,7 +50,7 @@ version = "*"
 path = "../../nil-util"
 
 [dependencies.tauri]
-version = "2.2"
+version = "2.3"
 features = ["protocol-asset", "rustls-tls"]
 
 [dependencies.tokio]

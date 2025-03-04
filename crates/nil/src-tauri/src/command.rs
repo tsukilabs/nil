@@ -5,6 +5,7 @@ pub mod world;
 
 use crate::error::{CResult, Error};
 use crate::manager::ManagerExt;
+use anyhow::anyhow;
 use nil_core::WorldOptions;
 use std::net::SocketAddrV4;
 use tauri::{AppHandle, WebviewWindow};
@@ -31,6 +32,16 @@ pub async fn is_dev() -> bool {
 }
 
 #[tauri::command]
+pub async fn is_host(app: AppHandle) -> bool {
+  app.nil().is_host().await
+}
+
+#[tauri::command]
+pub async fn is_mobile() -> bool {
+  cfg!(mobile)
+}
+
+#[tauri::command]
 pub async fn is_server_ready(app: AppHandle) -> CResult<bool> {
   app
     .client(async |it| it.ready().await)
@@ -39,19 +50,15 @@ pub async fn is_server_ready(app: AppHandle) -> CResult<bool> {
 }
 
 #[tauri::command]
-#[cfg(desktop)]
 pub async fn show_window(window: WebviewWindow) -> CResult<()> {
-  window
-    .show()
-    .and_then(|()| window.unminimize())
-    .and_then(|()| window.set_focus())
-    .map_err(Into::<Error>::into)
-    .map_err(Into::into)
-}
+  if cfg!(desktop) {
+    window
+      .show()
+      .and_then(|()| window.unminimize())
+      .and_then(|()| window.set_focus())
+      .map_err(Into::<Error>::into)?;
+  }
 
-#[tauri::command]
-#[cfg(mobile)]
-pub async fn show_window() -> CResult<()> {
   Ok(())
 }
 
@@ -66,11 +73,17 @@ pub async fn start_client(app: AppHandle, server_addr: SocketAddrV4) -> CResult<
 
 #[tauri::command]
 pub async fn start_server(app: AppHandle, world_options: WorldOptions) -> CResult<SocketAddrV4> {
-  app
-    .nil()
-    .start_server(world_options)
-    .await
-    .map_err(Into::into)
+  if cfg!(desktop) {
+    app
+      .nil()
+      .start_server(world_options)
+      .await
+      .map_err(Into::into)
+  } else {
+    Err(anyhow!("cannot start server on mobile"))
+      .map_err(Into::<Error>::into)
+      .map_err(Into::into)
+  }
 }
 
 #[tauri::command]

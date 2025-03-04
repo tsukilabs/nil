@@ -21,7 +21,6 @@ declare global {
       readonly use: (typeof CurrentPlayer)['use'];
     };
     readonly round: {
-      readonly isIdle: (typeof Round)['isIdle'];
       readonly refs: (typeof Round)['refs'];
       readonly update: (typeof Round)['update'];
       readonly use: (typeof Round)['use'];

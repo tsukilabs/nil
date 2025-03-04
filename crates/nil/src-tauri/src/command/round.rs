@@ -10,3 +10,12 @@ pub async fn get_round_state(app: AppHandle) -> CResult<RoundState> {
     .await?
     .map_err(Into::into)
 }
+
+#[tauri::command]
+pub async fn is_round_idle(app: AppHandle) -> CResult<bool> {
+  app
+    .client(async |it| it.round_state().await)
+    .await?
+    .map(|round| round.is_idle())
+    .map_err(Into::into)
+}

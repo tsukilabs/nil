@@ -12,7 +12,7 @@ export async function joinGame(options: JoinOptions) {
   NIL.player.setId(options.player.id);
   await updateGame();
 
-  if (NIL.round.isIdle()) {
+  if (await commands.isRoundIdle()) {
     go('lobby');
   } else {
     const { coord } = NIL.village.refs();

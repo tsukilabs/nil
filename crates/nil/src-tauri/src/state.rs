@@ -36,6 +36,10 @@ impl Nil {
     }
   }
 
+  pub async fn is_host(&self) -> bool {
+    self.server.read().await.is_some()
+  }
+
   pub async fn start_client(&self, server_addr: SocketAddrV4) -> Result<()> {
     let mut lock = self.client.write().await;
     lock.take();

@@ -39,6 +39,8 @@ pub fn run() {
       command::get_server_addr,
       command::get_server_version,
       command::is_dev,
+      command::is_host,
+      command::is_mobile,
       command::is_server_ready,
       command::show_window,
       command::start_client,
@@ -50,6 +52,7 @@ pub fn run() {
       command::player::get_players,
       command::player::spawn_player,
       command::round::get_round_state,
+      command::round::is_round_idle,
       command::village::get_village,
       command::world::get_world_state,
     ])

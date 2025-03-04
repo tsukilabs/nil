@@ -41,6 +41,7 @@ defineSlots<{
         <slot name="description"></slot>
       </BaseCardDescription>
     </BaseCardHeader>
+
     <BaseCardContent :class="cn('p-0', contentClass)">
       <UiScrollArea
         v-if="scrollAreaHeight && scrollAreaHeight !== 'auto'"

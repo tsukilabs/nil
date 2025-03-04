@@ -4,6 +4,7 @@ use derive_more::Deref;
 use serde::{Deserialize, Serialize};
 use std::collections::HashSet;
 use std::num::NonZeroU32;
+use strum::EnumIs;
 
 #[derive(Debug)]
 pub struct Round {
@@ -41,7 +42,7 @@ impl Default for RoundId {
   }
 }
 
-#[derive(Clone, Debug, Default, Deserialize, Serialize)]
+#[derive(Clone, Debug, Default, Deserialize, Serialize, EnumIs)]
 #[serde(tag = "kind", rename_all = "kebab-case")]
 pub enum Phase {
   #[default]
@@ -55,6 +56,12 @@ pub enum Phase {
 pub struct RoundState {
   id: RoundId,
   phase: Phase,
+}
+
+impl RoundState {
+  pub const fn is_idle(&self) -> bool {
+    self.phase.is_idle()
+  }
 }
 
 impl From<&Round> for RoundState {

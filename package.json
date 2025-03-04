@@ -7,13 +7,13 @@
   "private": true,
   "scripts": {
     "build": "cargo tauri build",
+    "build:android": "cargo tauri android build",
     "clippy": "cargo clippy --workspace",
     "dev": "cargo tauri dev",
     "eslint": "eslint . --config eslint.config.js",
     "format": "prettier . --write && cargo fmt --all",
     "miri": "cargo miri test --tests",
     "preview": "cargo tauri build --no-bundle -- --profile preview",
-    "preview:android": "cargo tauri android build -- --profile preview",
     "test": "cargo test --tests",
     "type-check": "pnpm run -r --bail type-check"
   },

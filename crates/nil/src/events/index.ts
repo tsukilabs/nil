@@ -1,8 +1,9 @@
 import type * as $ from './payload';
-import type { Fn, Option } from '@tb-dev/utils';
+import { handleError } from '@/lib/error';
+import type { Fn, MaybePromise, Option } from '@tb-dev/utils';
 import { getCurrentWebviewWindow, type WebviewWindow } from '@tauri-apps/api/webviewWindow';
 
-export type ListenerFn<T> = (payload: T) => void;
+export type ListenerFn<T> = (payload: T) => MaybePromise<unknown>;
 
 class Listener<T> {
   private static webview: Option<WebviewWindow>;
@@ -13,7 +14,13 @@ class Listener<T> {
     this.on = (fn: ListenerFn<T>) => {
       Listener.webview ??= getCurrentWebviewWindow();
       return Listener.webview.listen<T>(id, ({ payload }) => {
-        fn(payload);
+        (async () => {
+          try {
+            await fn(payload);
+          } catch (err) {
+            handleError(err);
+          }
+        })();
       });
     };
   }
@@ -26,20 +33,18 @@ class Listener<T> {
   }
 }
 
-export type EventObject = ReturnType<typeof Listener.create>;
+type EventObject = ReturnType<typeof Listener.create>;
 
-export const events = new Proxy(
-  Listener.create() as unknown as {
-    [K in keyof EventObject]: EventObject[K]['on'];
+export type EventProxy = {
+  [K in keyof EventObject]: EventObject[K]['on'];
+};
+
+export const events = new Proxy(Listener.create() as unknown as EventProxy, {
+  get: (target: EventProxy, key: keyof EventProxy) => {
+    return Reflect.get(Reflect.get(target, key), 'on');
   },
-  {
-    // @ts-expect-error TODO: this should be properly typed.
-    get: (target: EventObject, key: keyof EventObject) => {
-      return Reflect.get(Reflect.get(target, key), 'on');
-    },
 
-    defineProperty: () => false,
-    deleteProperty: () => false,
-    set: () => false,
-  }
-);
+  defineProperty: () => false,
+  deleteProperty: () => false,
+  set: () => false,
+});

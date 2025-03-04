@@ -38,11 +38,6 @@ path = "../nil-util"
 version = "1.0"
 features = ["derive"]
 
-[dependencies.tauri]
-version = "2.2"
-default-features = false
-features = ["rustls-tls"]
-
 [dependencies.tokio]
 version = "1.43"
 default-features = false

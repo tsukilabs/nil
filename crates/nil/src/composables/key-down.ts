@@ -12,6 +12,7 @@ export type KeyDownEventHandler = Option<(event: KeyboardEvent) => MaybePromise<
 export type OnKeyDownOptions = Omit<OnKeyStrokeOptions, 'eventName'> & {
   altKey?: boolean;
   ctrlKey?: boolean;
+  detached?: boolean;
   metaKey?: boolean;
   prevent?: boolean;
   shiftKey?: boolean;
@@ -25,6 +26,7 @@ export function onKeyDown(
   const {
     altKey = false,
     ctrlKey = false,
+    detached = false,
     metaKey = false,
     prevent = true,
     shiftKey = false,
@@ -59,7 +61,9 @@ export function onKeyDown(
     eventName: 'keydown',
   });
 
-  tryOnScopeDispose(() => stop());
+  if (!detached) {
+    tryOnScopeDispose(() => stop());
+  }
 
   return stop;
 }

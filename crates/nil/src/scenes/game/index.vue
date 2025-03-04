@@ -20,7 +20,7 @@ import { ButtonIcon, Sidebar } from '@/components';
       </div>
     </template>
 
-    <template #content> Content </template>
+    <template #content>Content</template>
 
     <template #footer>
       <div class="flex items-center justify-center gap-4">

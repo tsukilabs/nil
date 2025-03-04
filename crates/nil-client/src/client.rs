@@ -2,13 +2,14 @@ mod http;
 mod websocket;
 
 use crate::error::Result;
+use local_ip_address::local_ip;
 use nil_core::event::Event;
 use nil_core::player::{Player, PlayerId, PlayerOptions};
 use nil_core::round::RoundState;
 use nil_core::village::{Coord, Village};
 use nil_core::world::WorldState;
 use std::fmt;
-use std::net::SocketAddrV4;
+use std::net::{IpAddr, SocketAddrV4};
 use websocket::WebSocketClient;
 
 const USER_AGENT: &str = concat!("nil/", env!("CARGO_PKG_VERSION"));
@@ -30,7 +31,14 @@ impl Client {
   }
 
   pub fn server_addr(&self) -> SocketAddrV4 {
-    self.server_addr
+    let mut addr = self.server_addr;
+    if addr.ip().is_loopback() {
+      if let Ok(IpAddr::V4(ip)) = local_ip() {
+        addr.set_ip(ip);
+      }
+    }
+
+    addr
   }
 
   /// GET `/`

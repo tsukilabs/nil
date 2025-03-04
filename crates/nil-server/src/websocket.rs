@@ -2,8 +2,9 @@ use axum::extract::ws::{Message, WebSocket};
 use futures::sink::SinkExt;
 use futures::stream::{SplitSink, SplitStream, StreamExt};
 use nil_core::Listener;
-use tauri::async_runtime::{JoinHandle, spawn};
+use nil_util::spawn;
 use tokio::select;
+use tokio::task::JoinHandle;
 
 type Sender = SplitSink<WebSocket, Message>;
 type Receiver = SplitStream<WebSocket>;

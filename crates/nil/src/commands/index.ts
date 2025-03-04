@@ -19,6 +19,14 @@ export function isDev() {
   return invoke<boolean>('is_dev');
 }
 
+export function isHost() {
+  return invoke<boolean>('is_host');
+}
+
+export function isMobile() {
+  return invoke<boolean>('is_mobile');
+}
+
 export function isServerReady() {
   return invoke<boolean>('is_server_ready');
 }

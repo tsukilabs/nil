@@ -6,10 +6,6 @@ import type { Option } from '@tb-dev/utils';
 export class Round extends Entity {
   private readonly state = shallowRef<Option<RoundState>>();
 
-  public isIdle() {
-    return this.state.value?.phase.kind === 'idle';
-  }
-
   public async update() {
     this.state.value = await commands.getRoundState();
   }
@@ -25,10 +21,6 @@ export class Round extends Entity {
     };
   }
 
-  public static isIdle() {
-    return this.use().isIdle();
-  }
-
   public static update() {
     return this.use().update();
   }
@@ -36,7 +28,6 @@ export class Round extends Entity {
   public static init() {
     if (!Object.hasOwn(window.NIL, 'round')) {
       const round: (typeof window.NIL)['round'] = {
-        isIdle: Round.isIdle.bind(Round),
         refs: Round.refs.bind(Round),
         update: Round.update.bind(Round),
         use: Round.use.bind(Round),

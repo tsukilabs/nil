@@ -1,5 +1,5 @@
 import { tryOnScopeDispose } from '@vueuse/core';
-import { type EventObject, events, type ListenerFn } from '@/events';
+import { type EventProxy, events, type ListenerFn } from '@/events';
 import { type Fn, type MaybeArray, type MaybePromise, toArray } from '@tb-dev/utils';
 import {
   watch,
@@ -10,6 +10,10 @@ import {
   type WatchOptions,
   type WatchSource,
 } from 'vue';
+
+type Event = {
+  [K in keyof EventProxy]: (fn: Parameters<EventProxy[K]>[0]) => Event;
+};
 
 export class ListenerSet {
   private readonly set = new Set<Fn>();
@@ -46,7 +50,7 @@ export class ListenerSet {
     this.disposed = true;
   }
 
-  public readonly event = new Proxy({} as EventObject, {
+  public readonly event = new Proxy({} as Event, {
     get: <T extends keyof typeof events>(_: unknown, key: T) => {
       return (cb: ListenerFn<T>) => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
