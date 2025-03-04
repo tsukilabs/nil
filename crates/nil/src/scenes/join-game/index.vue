@@ -4,7 +4,8 @@ import { useLocale } from '@/locale';
 import { joinGame } from '@/core/game';
 import { isPlayerOptions } from '@/lib/schema';
 import { SocketAddrV4 } from '@/lib/net/addr-v4';
-import type { PartialNull, Writeable } from '@tb-dev/utils';
+import { localRef } from '@/composables/local-ref';
+import type { Option, PartialNull, Writeable } from '@tb-dev/utils';
 import { Button, ButtonLink, Card, InputText, Label } from '@/components';
 
 const { t } = useLocale();
@@ -13,7 +14,7 @@ const player = ref<Writeable<PartialNull<PlayerOptions>>>({
   id: null,
 });
 
-const server = ref<null | string>(null);
+const server = localRef<Option<string>>('join-game:server-addr', null);
 const serverAddr = computed(() => SocketAddrV4.tryParse(server.value));
 
 const canJoin = computed(() => {

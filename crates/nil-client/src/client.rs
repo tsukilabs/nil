@@ -15,19 +15,25 @@ use websocket::WebSocketClient;
 const USER_AGENT: &str = concat!("nil/", env!("CARGO_PKG_VERSION"));
 
 pub struct Client {
+  player_id: PlayerId,
   server_addr: SocketAddrV4,
   websocket: WebSocketClient,
 }
 
 impl Client {
-  pub async fn start<F>(server_addr: SocketAddrV4, on_event: F) -> Result<Self>
+  pub async fn start<F>(player_id: PlayerId, server_addr: SocketAddrV4, on_event: F) -> Result<Self>
   where
     F: Fn(Event) + Send + Sync + 'static,
   {
     Ok(Client {
+      player_id,
       server_addr,
       websocket: WebSocketClient::connect(&server_addr, on_event).await?,
     })
+  }
+
+  pub fn player_id(&self) -> PlayerId {
+    self.player_id.clone()
   }
 
   pub fn server_addr(&self) -> SocketAddrV4 {
@@ -60,9 +66,14 @@ impl Client {
     self.post_json("player", id).await
   }
 
-  /// PUT `/player/spawn`
+  /// POST `/player/remove`
+  pub async fn remove_player(&self, id: PlayerId) -> Result<()> {
+    self.post("player/remove", id).await
+  }
+
+  /// POST `/player/spawn`
   pub async fn spawn_player(&self, options: PlayerOptions) -> Result<()> {
-    self.put("player/spawn", options).await
+    self.post("player/spawn", options).await
   }
 
   /// POST `/player/village`
@@ -94,6 +105,7 @@ impl Client {
 impl fmt::Debug for Client {
   fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
     f.debug_struct("Client")
+      .field("player_id", &self.player_id)
       .field("server_addr", &self.server_addr)
       .field("websocket", &self.websocket)
       .finish()

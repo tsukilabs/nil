@@ -46,7 +46,8 @@ impl fmt::Debug for Emitter {
 #[remain::sorted]
 pub enum Event {
   PlayerJoined { player: Player },
-  RoundUpdated { round: RoundState },
+  PlayerLeft { player: Player },
+  RoundUpdated { round: Box<RoundState> },
 }
 
 impl From<Event> for Bytes {

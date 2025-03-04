@@ -9,8 +9,10 @@ const world = command('getWorldState', null);
 const players = command('getPlayers', []);
 const isHost = command('isHost', false);
 
-const set = new ListenerSet();
-set.event.onPlayerJoined(() => players.execute());
+// prettier-ignore
+ListenerSet.create().event
+  .onPlayerJoined(() => players.execute())
+  .onPlayerLeft(() => players.execute());
 </script>
 
 <template>

@@ -35,9 +35,9 @@ export function showWindow() {
   return invoke<null>('show_window');
 }
 
-export function startClient(addr: SocketAddrV4) {
+export function startClient(id: PlayerId, addr: SocketAddrV4) {
   const serverAddr = addr.format();
-  return invoke<null>('start_client', { serverAddr });
+  return invoke<null>('start_client', { playerId: id, serverAddr });
 }
 
 export async function startServer(worldOptions: WorldOptions) {

@@ -10,7 +10,7 @@ use axum::extract::State;
 use axum::extract::ws::WebSocketUpgrade;
 use axum::http::StatusCode;
 use axum::response::Response;
-use axum::routing::{any, get, post, put};
+use axum::routing::{any, get, post};
 use nil_core::World;
 
 pub(crate) fn create() -> Router<App> {
@@ -18,7 +18,8 @@ pub(crate) fn create() -> Router<App> {
     .route("/", get(ok))
     .route("/player", get(player::get_all))
     .route("/player", post(player::get))
-    .route("/player/spawn", put(player::spawn))
+    .route("/player/remove", post(player::remove))
+    .route("/player/spawn", post(player::spawn))
     .route("/player/village", post(player::villages))
     .route("/round", get(round::get))
     .route("/version", get(version))

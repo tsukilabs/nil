@@ -24,4 +24,12 @@ impl World {
 
     Ok(())
   }
+
+  pub fn remove_player(&mut self, id: &PlayerId) -> Result<()> {
+    if let Some(player) = self.player_manager.remove(id) {
+      self.emit(Event::PlayerLeft { player });
+    }
+
+    Ok(())
+  }
 }

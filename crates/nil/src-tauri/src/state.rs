@@ -1,6 +1,6 @@
 use crate::error::{Error, Result};
 use nil_client::Client;
-use nil_core::{Event, WorldOptions};
+use nil_core::{Event, PlayerId, WorldOptions};
 use nil_server::Server;
 use std::net::SocketAddrV4;
 use std::sync::Arc;
@@ -40,12 +40,12 @@ impl Nil {
     self.server.read().await.is_some()
   }
 
-  pub async fn start_client(&self, server_addr: SocketAddrV4) -> Result<()> {
+  pub async fn start_client(&self, player_id: PlayerId, server_addr: SocketAddrV4) -> Result<()> {
     let mut lock = self.client.write().await;
     lock.take();
 
     let on_event = on_event(self.app.clone());
-    let client = Client::start(server_addr, on_event).await?;
+    let client = Client::start(player_id, server_addr, on_event).await?;
     *lock = Some(client);
 
     Ok(())
@@ -61,8 +61,14 @@ impl Nil {
     Ok(addr)
   }
 
-  pub async fn stop_client(&self) {
-    self.client.write().await.take();
+  pub async fn stop_client(&self) -> Result<()> {
+    let mut lock = self.client.write().await;
+    if let Some(client) = lock.take() {
+      let player = client.player_id();
+      client.remove_player(player).await?;
+    }
+
+    Ok(())
   }
 
   pub async fn stop_server(&self) {

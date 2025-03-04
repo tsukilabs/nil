@@ -6,7 +6,7 @@ import * as commands from '@/commands';
 import { exit } from '@tauri-apps/plugin-process';
 
 export async function joinGame(options: JoinOptions) {
-  await commands.startClient(options.serverAddr);
+  await commands.startClient(options.player.id, options.serverAddr);
   await commands.spawnPlayer(options.player);
 
   NIL.player.setId(options.player.id);

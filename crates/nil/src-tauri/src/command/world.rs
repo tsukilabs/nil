@@ -6,7 +6,7 @@ use tauri::AppHandle;
 #[tauri::command]
 pub async fn get_world_state(app: AppHandle) -> CResult<WorldState> {
   app
-    .client(async |it| it.world().await)
+    .client(async |cl| cl.world().await)
     .await?
     .map_err(Into::into)
 }

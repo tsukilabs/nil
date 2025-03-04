@@ -21,10 +21,11 @@ pub async fn get_all(State(app): State<App>) -> Response {
     .await
 }
 
-pub async fn villages(State(app): State<App>, Json(id): Json<PlayerId>) -> Response {
+pub async fn remove(State(app): State<App>, Json(id): Json<PlayerId>) -> Response {
   app
-    .continent(|k| k.villages_of(&id))
-    .map(|villages| res!(OK, Json(villages)))
+    .world_mut(|world| world.remove_player(&id))
+    .map_ok(|()| res!(NO_CONTENT))
+    .unwrap_or_else(response::from_err)
     .await
 }
 
@@ -34,5 +35,12 @@ pub async fn spawn(State(app): State<App>, Json(options): Json<PlayerOptions>) -
     .world_mut(|world| world.spawn_player(player))
     .map_ok(|()| res!(CREATED))
     .unwrap_or_else(response::from_err)
+    .await
+}
+
+pub async fn villages(State(app): State<App>, Json(id): Json<PlayerId>) -> Response {
+  app
+    .continent(|k| k.villages_of(&id))
+    .map(|villages| res!(OK, Json(villages)))
     .await
 }

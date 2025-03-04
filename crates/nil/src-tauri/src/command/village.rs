@@ -6,7 +6,7 @@ use tauri::AppHandle;
 #[tauri::command]
 pub async fn get_village(app: AppHandle, coord: Coord) -> CResult<Village> {
   app
-    .client(async |it| it.village(coord).await)
+    .client(async |cl| cl.village(coord).await)
     .await?
     .map_err(Into::into)
 }

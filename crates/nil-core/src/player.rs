@@ -34,6 +34,10 @@ impl PlayerManager {
   pub(crate) fn insert(&mut self, player: Player) {
     self.0.insert(player.id(), player);
   }
+
+  pub(crate) fn remove(&mut self, id: &PlayerId) -> Option<Player> {
+    self.0.shift_remove(id)
+  }
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]

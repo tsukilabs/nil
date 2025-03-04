@@ -68,6 +68,13 @@ impl Client {
       .map_err(Error::failed_to_decode)
   }
 
+  pub(super) async fn post(&self, route: &str, body: impl Serialize + Debug) -> Result<()> {
+    self
+      .request_with_body(Method::POST, route, body)
+      .await
+      .map(drop)
+  }
+
   pub(super) async fn post_json<R>(&self, route: &str, body: impl Serialize + Debug) -> Result<R>
   where
     R: DeserializeOwned,
@@ -78,13 +85,6 @@ impl Client {
       .json()
       .await
       .map_err(Error::failed_to_decode)
-  }
-
-  pub(super) async fn put(&self, route: &str, body: impl Serialize + Debug) -> Result<()> {
-    self
-      .request_with_body(Method::PUT, route, body)
-      .await
-      .map(drop)
   }
 
   fn url(&self, route: &str) -> String {

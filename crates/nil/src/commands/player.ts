@@ -12,6 +12,10 @@ export function getPlayers() {
   return invoke<readonly Player[]>('get_players');
 }
 
+export function removePlayer(id: PlayerId) {
+  return invoke<null>('remove_player', { id });
+}
+
 export function spawnPlayer(options: PlayerOptions) {
   return invoke<null>('spawn_player', { options });
 }

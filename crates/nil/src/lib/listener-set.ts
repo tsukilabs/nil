@@ -71,4 +71,8 @@ export class ListenerSet {
   public watchEffect(effect: WatchEffect, options?: WatchEffectOptions) {
     return this.on(watchEffect(effect, options));
   }
+
+  public static create(detached?: boolean) {
+    return new this(detached);
+  }
 }

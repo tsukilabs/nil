@@ -1,7 +1,22 @@
-use crate::manager::WindowExt;
+use crate::manager::{ManagerExt, WindowExt};
 use anyhow::Result;
-use tauri::Wry;
-use tauri::plugin::TauriPlugin;
+use tauri::async_runtime::block_on;
+use tauri::plugin::{Builder, TauriPlugin};
+use tauri::{RunEvent, Wry};
+
+pub fn on_exit() -> TauriPlugin<Wry> {
+  Builder::new("on-exit")
+    .on_event(|app, event| {
+      if let RunEvent::Exit = event {
+        block_on(async {
+          let nil = app.nil();
+          let _ = nil.stop_client().await;
+          nil.stop_server().await;
+        });
+      }
+    })
+    .build()
+}
 
 pub fn prevent_default() -> TauriPlugin<Wry> {
   #[cfg(windows)]
