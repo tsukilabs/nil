@@ -1,4 +1,4 @@
-import { ref } from 'vue';
+import { ref, type Ref } from 'vue';
 import { Entity } from '@/core/entity';
 import { PlayerImpl } from '@/core/player';
 import type { Option } from '@tb-dev/utils';
@@ -6,17 +6,26 @@ import { asyncRef, maybe } from '@tb-dev/vue';
 
 export class CurrentPlayer extends Entity {
   private readonly id = ref<Option<PlayerId>>();
-  private readonly player = asyncRef(null, async () => {
-    return maybe(this.id, (id) => PlayerImpl.load(id));
-  });
+  private readonly player: Ref<null | PlayerImpl>;
+  private readonly updatePlayer: () => Promise<void>;
 
   constructor() {
     super();
+
+    const player = asyncRef(null, async () => {
+      return maybe(this.id, (id) => PlayerImpl.load(id));
+    });
+
+    this.player = player.state;
+    this.updatePlayer = async () => {
+      await player.execute();
+    };
+
     this.watch(this.id, () => this.update());
   }
 
   public async update() {
-    await this.player.execute();
+    await this.updatePlayer();
   }
 
   public static use() {

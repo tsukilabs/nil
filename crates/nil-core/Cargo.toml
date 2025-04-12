@@ -26,12 +26,12 @@ version = "2.0"
 features = ["deref", "deref_mut", "display", "try_unwrap"]
 
 [dependencies.indexmap]
-version = "2.8"
+version = "2.9"
 features = ["serde"]
 
-[dependencies.nil-macros]
+[dependencies.nil-core-macros]
 version = "*"
-path = "../nil-macros"
+path = "../nil-core-macros"
 
 [dependencies.nil-util]
 version = "*"

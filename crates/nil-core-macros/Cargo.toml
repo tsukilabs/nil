@@ -1,5 +1,5 @@
 [package]
-name = "nil-macros"
+name = "nil-core-macros"
 version = "0.1.0"
 publish = false
 

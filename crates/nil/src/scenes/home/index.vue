@@ -6,7 +6,7 @@ import { Button, ButtonLink } from '@/components';
 
 const { t } = useLocale();
 
-const mobile = command('isMobile', null);
+const { state: mobile } = command('isMobile', null);
 </script>
 
 <template>

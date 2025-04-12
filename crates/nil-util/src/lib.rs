@@ -1,9 +1,8 @@
-mod error;
 mod task;
 
-pub use error::{Error, Result};
 pub use task::spawn;
 
+use anyhow::Result;
 use bytes::Bytes;
 use serde::Serialize;
 

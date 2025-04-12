@@ -3,17 +3,5 @@
   "evenBetterToml.formatter.columnWidth": 100,
   "evenBetterToml.formatter.reorderArrays": true,
   "evenBetterToml.formatter.trailingNewline": true,
-  "rust-analyzer.cargo.targetDir": true,
-  "tailwindCSS.classAttributes": [
-    "class",
-    "button-class",
-    "content-class",
-    "description-class",
-    "footer-class",
-    "header-class",
-    "icon-class",
-    "link-class",
-    "scroll-area-class",
-    "title-class"
-  ]
+  "rust-analyzer.cargo.targetDir": true
 }

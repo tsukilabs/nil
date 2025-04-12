@@ -3,7 +3,7 @@ resolver = "3"
 members = [
   "crates/nil-client",
   "crates/nil-core",
-  "crates/nil-macros",
+  "crates/nil-core-macros",
   "crates/nil-server",
   "crates/nil-util",
   "crates/nil/src-tauri",

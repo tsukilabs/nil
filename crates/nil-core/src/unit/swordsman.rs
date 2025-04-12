@@ -1,5 +1,5 @@
 use super::{Haul, Power, Speed, UnitId, UnitKind, UnitStats};
-use nil_macros::Unit;
+use nil_core_macros::Unit;
 
 #[derive(Unit)]
 pub struct Swordsman;

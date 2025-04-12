@@ -8,10 +8,10 @@ import { ListenerSet } from '@/lib/listener-set';
 import { writeText } from '@tauri-apps/plugin-clipboard-manager';
 import { Button, Card, Table, TableCell, TableRow } from '@/components';
 
-const serverAddr = command('getServerAddr', null);
-const world = command('getWorldState', null);
-const players = command('getPlayers', []);
-const isHost = command('isHost', false);
+const { state: serverAddr } = command('getServerAddr', null);
+const { state: world } = command('getWorldState', null);
+const { execute: getPlayers, state: players } = command('getPlayers', []);
+const { state: isHost } = command('isHost', false);
 
 const loading = ref(false);
 const started = ref(false);
@@ -20,8 +20,8 @@ const listener = new ListenerSet();
 
 // prettier-ignore
 listener.event
-  .onPlayerJoined(() => players.execute())
-  .onPlayerLeft(() => players.execute())
+  .onPlayerJoined(() => getPlayers())
+  .onPlayerLeft(() => getPlayers())
   .onRoundUpdated((payload) => onRoundUpdated(payload.round));
 
 async function start() {

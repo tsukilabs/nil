@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as commands from '@/commands';
-import { asyncRef, type AsyncRefOptions } from './async-ref';
+import { asyncRef, type AsyncRefOptions } from '@tb-dev/vue';
 
 type Command = typeof commands;
 

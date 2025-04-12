@@ -1,5 +1,5 @@
 use super::BuildingLevel;
-use nil_macros::Building;
+use nil_core_macros::Building;
 use serde::{Deserialize, Serialize};
 
 #[derive(Building, Clone, Debug, Deserialize, Serialize)]
