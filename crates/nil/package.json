@@ -10,28 +10,20 @@
     "vite:dev": "vite"
   },
   "devDependencies": {
-    "@radix-icons/vue": "^1.0.0",
     "@tauri-apps/api": "^2.4.1",
     "@tauri-apps/plugin-clipboard-manager": "^2.2.2",
     "@tauri-apps/plugin-dialog": "^2.2.1",
     "@tauri-apps/plugin-process": "^2.2.1",
-    "@tb-dev/utils": "^6.0.0",
+    "@tb-dev/utils": "^6.0.1",
+    "@tb-dev/vue": "^0.3.8",
     "@vueuse/core": "^13.1.0",
     "@vueuse/router": "^13.1.0",
-    "class-variance-authority": "^0.7.1",
-    "clsx": "^2.1.1",
     "es-toolkit": "^1.34.1",
-    "lucide-vue-next": "^0.487.0",
-    "radix-vue": "^1.9.17",
-    "tailwind-merge": "^3.2.0",
-    "tailwindcss-animate": "^1.0.7",
+    "lucide-vue-next": "^0.488.0",
     "vite-plugin-vue-devtools": "^7.7.2",
     "vue": "^3.5.13",
     "vue-i18n": "^11.1.3",
     "vue-router": "^4.5.0",
     "zod": "^3.24.2"
-  },
-  "dependencies": {
-    "@tb-dev/vue": "^0.3.5"
   }
 }

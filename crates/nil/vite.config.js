@@ -1,22 +1,16 @@
 /* eslint-disable perfectionist/sort-objects */
-import tailwind from 'tailwindcss';
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
-import autoprefixer from 'autoprefixer';
+import tailwind from '@tailwindcss/vite';
 import dev from 'vite-plugin-vue-devtools';
 import { fileURLToPath, URL } from 'node:url';
 
 export default defineConfig({
-  plugins: [vue(), dev()],
+  plugins: [vue(), tailwind(), dev()],
   clearScreen: false,
   resolve: {
     alias: {
-      '@': url('src'),
-    },
-  },
-  css: {
-    postcss: {
-      plugins: [tailwind(), autoprefixer()],
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
   build: {
@@ -35,7 +29,3 @@ export default defineConfig({
     },
   },
 });
-
-function url(path) {
-  return fileURLToPath(new URL(path, import.meta.url));
-}

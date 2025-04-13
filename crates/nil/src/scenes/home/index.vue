@@ -2,7 +2,7 @@
 import { useLocale } from '@/locale';
 import { exitGame } from '@/core/game';
 import { command } from '@/composables/command';
-import { Button, ButtonLink } from '@/components';
+import { Button, ButtonLink } from '@tb-dev/vue';
 
 const { t } = useLocale();
 

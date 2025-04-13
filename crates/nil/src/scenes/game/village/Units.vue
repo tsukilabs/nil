@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { useLocale } from '@/locale';
-import { Card, Table, TableCell, TableRow } from '@/components';
+import { Card, Table, TableCell, TableRow } from '@tb-dev/vue';
 
 const { t } = useLocale();
 </script>
 
 <template>
-  <Card content-class="p-4 pb-8 pt-0">
+  <Card content-class="p-4 pt-0 pb-8">
     <template #title>
       <span>{{ t('unit', 2) }}</span>
     </template>

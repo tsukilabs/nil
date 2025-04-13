@@ -6,7 +6,7 @@ import { handleError } from '@/lib/error';
 import { command } from '@/composables/command';
 import { ListenerSet } from '@/lib/listener-set';
 import { writeText } from '@tauri-apps/plugin-clipboard-manager';
-import { Button, Card, Table, TableCell, TableRow } from '@/components';
+import { Button, Card, Table, TableCell, TableRow } from '@tb-dev/vue';
 
 const { state: serverAddr } = command('getServerAddr', null);
 const { state: world } = command('getWorldState', null);
@@ -81,6 +81,7 @@ function copyServerAddr() {
         </Button>
       </div>
     </div>
+
     <div class="px-2">
       <Card>
         <Table>

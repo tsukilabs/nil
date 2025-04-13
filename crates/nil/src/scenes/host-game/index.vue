@@ -2,10 +2,9 @@
 import { computed } from 'vue';
 import { useLocale } from '@/locale';
 import { hostGame } from '@/core/game';
-import { localRef } from '@tb-dev/vue';
 import type { WritablePartial } from '@tb-dev/utils';
 import { isPlayerOptions, isWorldOptions } from '@/lib/schema';
-import { Button, ButtonLink, Card, InputNumber, InputText, Label } from '@/components';
+import { Button, ButtonLink, Card, InputNumber, InputText, localRef } from '@tb-dev/vue';
 
 const { t } = useLocale();
 
@@ -41,18 +40,9 @@ async function host() {
 
       <div class="flex flex-col gap-6 px-4 pb-4">
         <div class="flex flex-col gap-4">
-          <Label>
-            <span>{{ t('world-name') }}</span>
-            <InputText v-model="world.name" :max="30" />
-          </Label>
-          <Label>
-            <span>{{ t('world-size') }}</span>
-            <InputNumber v-model="world.size" :min="10" :max="255" />
-          </Label>
-          <Label>
-            <span>{{ t('player-name') }}</span>
-            <InputText v-model="player.id" :max="20" />
-          </Label>
+          <InputText v-model="world.name" :label="t('world-name')" :max="30" />
+          <InputNumber v-model="world.size" :label="t('world-size')" :min="10" :max="255" />
+          <InputText v-model="player.id" :label="t('player-name')" :max="20" />
         </div>
 
         <div class="flex items-center justify-center gap-2">

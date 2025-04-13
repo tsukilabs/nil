@@ -2,11 +2,10 @@
 import { computed } from 'vue';
 import { useLocale } from '@/locale';
 import { joinGame } from '@/core/game';
-import { localRef } from '@tb-dev/vue';
 import { isPlayerOptions } from '@/lib/schema';
 import { SocketAddrV4 } from '@/lib/net/addr-v4';
 import type { Option, WritablePartial } from '@tb-dev/utils';
-import { Button, ButtonLink, Card, InputText, Label } from '@/components';
+import { Button, ButtonLink, Card, InputText, localRef } from '@tb-dev/vue';
 
 const { t } = useLocale();
 
@@ -40,14 +39,8 @@ async function join() {
 
       <div class="flex flex-col gap-6 px-4 pb-4">
         <div class="flex flex-col gap-4">
-          <Label>
-            <span>{{ t('player-name') }}</span>
-            <InputText v-model="player.id" :max="20" />
-          </Label>
-          <Label>
-            <span>{{ t('server') }}</span>
-            <InputText v-model="server" />
-          </Label>
+          <InputText v-model="player.id" :label="t('player-name')" :max="20" />
+          <InputText v-model="server" :label="t('server')" />
         </div>
 
         <div class="flex items-center justify-center gap-2">

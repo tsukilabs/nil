@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { cn } from '@/lib/utils';
-import { ButtonLink, SidebarTrigger } from '@/components';
+import { ButtonLink, cn, SidebarTrigger } from '@tb-dev/vue';
 
 type Props = {
   class?: string;
