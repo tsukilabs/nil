@@ -67,7 +67,7 @@ version = "2.1"
 features = ["unstable-windows"]
 
 [dependencies.tokio]
-version = "1.45"
+version = "1.46"
 features = ["full"]
 
 [dependencies.tracing]

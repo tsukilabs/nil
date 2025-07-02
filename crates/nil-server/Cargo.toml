@@ -3,12 +3,23 @@ name = "nil-server"
 version = "0.1.0"
 publish = false
 
-edition.workspace = true
-rust-version.workspace = true
-license-file.workspace = true
-homepage.workspace = true
-repository.workspace = true
-authors.workspace = true
+[package.edition]
+workspace = true
+
+[package.rust-version]
+workspace = true
+
+[package.license-file]
+workspace = true
+
+[package.homepage]
+workspace = true
+
+[package.repository]
+workspace = true
+
+[package.authors]
+workspace = true
 
 [lints]
 workspace = true
@@ -40,7 +51,7 @@ version = "1.0"
 features = ["derive"]
 
 [dependencies.tokio]
-version = "1.45"
+version = "1.46"
 default-features = false
 features = ["time"]
 
