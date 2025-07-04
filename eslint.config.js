@@ -12,24 +12,18 @@ export default defineConfig({
       'no-undefined': 'off',
     },
     perfectionist: {
+      'perfectionist/sort-interfaces': 'off',
       'perfectionist/sort-object-types': 'off',
-      '@typescript-eslint/sort-type-constituents': 'off',
-      'perfectionist/sort-union-types': [
-        'error',
-        {
-          order: 'asc',
-          partitionByNewLine: true,
-          type: 'natural',
-        },
-      ],
+      'perfectionist/sort-union-types': 'off',
     },
     typescript: {
-      '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
+      '@typescript-eslint/consistent-type-definitions': 'off',
       '@typescript-eslint/naming-convention': 'off',
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-non-null-assertion': 'off',
       '@typescript-eslint/no-unsafe-call': 'off',
       '@typescript-eslint/no-unsafe-member-access': 'off',
+      '@typescript-eslint/sort-type-constituents': 'off',
     },
   },
 });

@@ -13,7 +13,7 @@ defineProps<{
 </script>
 
 <template>
-  <div class="flex max-w-fit items-center justify-center gap-1">
+  <div class="flex items-center justify-start gap-1">
     <Tooltip>
       <template #trigger>
         <div
@@ -21,6 +21,7 @@ defineProps<{
           :style="{ backgroundColor: color }"
         ></div>
       </template>
+
       <div class="select-none">{{ name }}</div>
     </Tooltip>
 

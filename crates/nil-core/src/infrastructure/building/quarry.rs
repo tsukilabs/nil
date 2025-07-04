@@ -3,10 +3,8 @@
 
 use super::{BuildingId, BuildingLevel};
 use crate::check_total_resource_ratio;
-use crate::infrastructure::mine::{MineProduction, MineProductionGrowth};
-use nil_core_macros::{Building, Mine};
-use serde::{Deserialize, Serialize};
-
+use crate::infrastructure::mine::{MineId, MineProduction, MineProductionGrowth};
+use crate::infrastructure::requirements::InfrastructureRequirements;
 use crate::resource::{
   BaseCost,
   BaseCostGrowth,
@@ -15,6 +13,8 @@ use crate::resource::{
   Workforce,
   WorkforceGrowth,
 };
+use nil_core_macros::{Building, Mine};
+use serde::{Deserialize, Serialize};
 
 #[derive(Building, Mine, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
@@ -25,6 +25,9 @@ pub struct Quarry {
 
 impl Quarry {
   pub const ID: BuildingId = BuildingId::Quarry;
+  pub const MINE_ID: MineId = MineId::Quarry;
+
+  pub const MIN_LEVEL: BuildingLevel = BuildingLevel::ZERO;
   pub const MAX_LEVEL: BuildingLevel = BuildingLevel::new(30);
 
   pub const BASE_COST: BaseCost = BaseCost::new(72_000);
@@ -40,6 +43,9 @@ impl Quarry {
 
   pub const PRODUCTION: MineProduction = MineProduction::new(3600);
   pub const PRODUCTION_GROWTH: MineProductionGrowth = MineProductionGrowth::new(0.2);
+
+  pub const INFRASTRUCTURE_REQUIREMENTS: InfrastructureRequirements =
+    InfrastructureRequirements::none();
 }
 
 impl Default for Quarry {

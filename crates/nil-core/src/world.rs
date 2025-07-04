@@ -3,6 +3,7 @@
 
 mod chat;
 mod event;
+mod infrastructure;
 mod player;
 mod round;
 mod savedata;
@@ -199,5 +200,10 @@ impl WorldStats {
     Self {
       infrastructure: Arc::new(InfrastructureStats::new()),
     }
+  }
+
+  #[inline]
+  pub fn infrastructure(&self) -> Arc<InfrastructureStats> {
+    Arc::clone(&self.infrastructure)
   }
 }

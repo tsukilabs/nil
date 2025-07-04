@@ -12,7 +12,7 @@ export class CurrentPlayerEntity extends Entity {
   private readonly player: Ref<Option<PlayerImpl>>;
   private readonly resources: Ref<Option<Resources>>;
 
-  readonly #updatePlayer: () => Promise<void>;
+  private readonly updatePlayer: () => Promise<void>;
 
   constructor() {
     super();
@@ -22,18 +22,24 @@ export class CurrentPlayerEntity extends Entity {
     });
 
     this.player = player.state;
-    this.#updatePlayer = player.execute;
+    this.updatePlayer = player.execute;
 
     this.resources = computed(() => {
       return this.player.value?.resources;
     });
 
+    this.initListeners();
+  }
+
+  protected override initListeners() {
     this.watch(this.id, this.update.bind(this));
-    this.event.onVillageSpawned(this.onVillageSpawned.bind(this));
+    this.event
+      .onPlayerResourcesUpdated(this.update.bind(this))
+      .onVillageSpawned(this.onVillageSpawned.bind(this));
   }
 
   public override async update() {
-    await this.#updatePlayer();
+    await this.updatePlayer();
   }
 
   private async onVillageSpawned({ village }: VillageSpawnedPayload) {

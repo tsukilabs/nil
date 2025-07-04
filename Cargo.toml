@@ -1,13 +1,6 @@
 [workspace]
 resolver = "3"
-members = [
-  "crates/nil",
-  "crates/nil-client",
-  "crates/nil-core",
-  "crates/nil-core-macros",
-  "crates/nil-server",
-  "crates/nil-util",
-]
+members = ["crates/*"]
 
 [workspace.package]
 edition = "2024"
@@ -30,6 +23,114 @@ lto = "off"
 opt-level = 0
 debug = true
 debug-assertions = true
+
+[workspace.dependencies]
+anyhow = "1.0"
+bon = "3.6"
+bytes = "1.10"
+futures = "0.3"
+http = "1.3"
+itertools = "0.14"
+local-ip-address = "=0.6.5"
+proc-macro2 = "1.0"
+quote = "1.0"
+remain = "0.2"
+serde_json = "1.0"
+tauri-plugin-clipboard-manager = "2.3"
+tauri-plugin-dialog = "2.3"
+tauri-plugin-fs = "2.4"
+tauri-plugin-persisted-scope = "2.3"
+tauri-plugin-process = "2.3"
+tauri-plugin-single-instance = "2.3"
+tauri-plugin-window-state = "2.3"
+thiserror = "2.0"
+tokio-tungstenite = "0.27"
+
+[workspace.dependencies.axum]
+version = "0.8"
+features = ["macros", "ws"]
+
+[workspace.dependencies.derive_more]
+version = "2.0"
+features = ["deref", "deref_mut", "display", "from"]
+
+[workspace.dependencies.indexmap]
+version = "2.10"
+features = ["serde"]
+
+[workspace.dependencies.jiff]
+version = "0.2"
+features = ["serde"]
+
+[workspace.dependencies.mlua]
+version = "0.10"
+features = ["error-send", "lua54", "send", "serialize", "vendored"]
+
+[workspace.dependencies.nil-client]
+version = "*"
+path = "./crates/nil-client"
+
+[workspace.dependencies.nil-core]
+version = "*"
+path = "./crates/nil-core"
+
+[workspace.dependencies.nil-core-macros]
+version = "*"
+path = "./crates/nil-core-macros"
+
+[workspace.dependencies.nil-num]
+version = "*"
+path = "./crates/nil-num"
+
+[workspace.dependencies.nil-server]
+version = "*"
+path = "./crates/nil-server"
+
+[workspace.dependencies.nil-util]
+version = "*"
+path = "./crates/nil-util"
+
+[workspace.dependencies.nil-util-macros]
+version = "*"
+path = "./crates/nil-util-macros"
+
+[workspace.dependencies.reqwest]
+version = "0.12"
+default-features = false
+features = ["charset", "json", "rustls-tls"]
+
+[workspace.dependencies.serde]
+version = "1.0"
+features = ["derive"]
+
+[workspace.dependencies.strum]
+version = "0.27"
+features = ["derive"]
+
+[workspace.dependencies.syn]
+version = "2.0"
+features = ["derive"]
+
+[workspace.dependencies.tauri-plugin-prevent-default]
+version = "2.1"
+features = ["unstable-windows"]
+
+[workspace.dependencies.tokio]
+version = "1.46"
+features = ["full"]
+
+[workspace.dependencies.tower-http]
+version = "0.6"
+features = ["trace"]
+
+[workspace.dependencies.tracing]
+version = "0.1"
+features = ["release_max_level_off"]
+
+[workspace.dependencies.tracing-subscriber]
+version = "0.3"
+default-features = false
+features = ["ansi", "chrono", "env-filter", "fmt", "parking_lot", "registry", "smallvec", "std"]
 
 [workspace.lints.rust]
 async_fn_in_trait = "allow"

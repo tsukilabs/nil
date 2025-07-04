@@ -6,7 +6,7 @@ import { onKeyDown } from '@tb-dev/vue';
 import { handleError } from '@/lib/error';
 import type { Option } from '@tb-dev/utils';
 import { pushChatMessage } from '@/commands';
-import PlayerMessage from './PlayerMessage.vue';
+import MessagePlayer from './MessagePlayer.vue';
 import { Button, InputText, ScrollArea } from '@tb-dev/vue-components';
 import { computed, nextTick, onMounted, ref, useTemplateRef } from 'vue';
 
@@ -52,7 +52,7 @@ function toElementId(id: ChatMessageId) {
 
 onMounted(() => {
   const last = chat.value.at(-1);
-  if (last) scroll(last.id).err();
+  if (last) scroll(last.message.id).err();
 });
 </script>
 
@@ -62,8 +62,8 @@ onMounted(() => {
       <div class="flex h-full flex-col gap-4 overflow-hidden">
         <ScrollArea class="h-[calc(100%-50px)]">
           <div ref="contentEl" class="flex flex-col gap-3 pr-6 pl-4">
-            <div v-for="message of chat" :id="toElementId(message.id)" :key="message.id">
-              <PlayerMessage v-if="message.kind === 'player'" :message />
+            <div v-for="{ kind, message } of chat" :id="toElementId(message.id)" :key="message.id">
+              <MessagePlayer v-if="kind === 'player'" :message />
             </div>
           </div>
         </ScrollArea>

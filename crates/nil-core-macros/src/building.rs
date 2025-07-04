@@ -16,7 +16,8 @@ pub fn impl_building(ast: &DeriveInput) -> TokenStream {
   let stream = quote! {
     mod __impl_building {
       use super::#name;
-      use crate::error::{Error, Result, WrapOk};
+      use crate::error::Result;
+      use crate::infrastructure::requirements::InfrastructureRequirements;
       use crate::infrastructure::building::{
         Building,
         BuildingId,
@@ -38,16 +39,20 @@ pub fn impl_building(ast: &DeriveInput) -> TokenStream {
           Self::ID
         }
 
+        fn is_enabled(&self) -> bool {
+          self.enabled
+        }
+
         fn level(&self) -> BuildingLevel {
           self.level
         }
 
-        fn max_level(&self) -> BuildingLevel {
-          Self::MAX_LEVEL
+        fn min_level(&self) -> BuildingLevel {
+          Self::MIN_LEVEL
         }
 
-        fn is_enabled(&self) -> bool {
-          self.enabled
+        fn max_level(&self) -> BuildingLevel {
+          Self::MAX_LEVEL
         }
 
         fn base_cost(&self) -> BaseCost {
@@ -59,11 +64,7 @@ pub fn impl_building(ast: &DeriveInput) -> TokenStream {
         }
 
         fn maintenance(&self, stats: &BuildingStatsTable) -> Result<Maintenance> {
-          stats
-            .get(&self.level)
-            .ok_or_else(|| Error::BuildingStatsNotFoundForLevel(self.id(), self.level))?
-            .maintenance
-            .wrap_ok()
+          Ok(stats.get(self.level)?.maintenance)
         }
 
         fn maintenance_ratio(&self) -> MaintenanceRatio {
@@ -88,6 +89,10 @@ pub fn impl_building(ast: &DeriveInput) -> TokenStream {
 
         fn workforce_growth(&self) -> WorkforceGrowth {
           Self::WORKFORCE_GROWTH
+        }
+
+        fn infrastructure_requirements(&self) -> &InfrastructureRequirements {
+          &Self::INFRASTRUCTURE_REQUIREMENTS
         }
       }
     }

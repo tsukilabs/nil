@@ -13,13 +13,8 @@ pub mod stable;
 pub mod wall;
 pub mod warehouse;
 
-use crate::error::Result;
-use derive_more::Deref;
-use serde::{Deserialize, Serialize};
-use std::collections::HashMap;
-use std::{cmp, fmt};
-use strum::{Display, EnumIter};
-
+use crate::error::{Error, Result};
+use crate::infrastructure::requirements::InfrastructureRequirements;
 use crate::resource::{
   BaseCost,
   BaseCostGrowth,
@@ -34,26 +29,40 @@ use crate::resource::{
   Workforce,
   WorkforceGrowth,
 };
+use derive_more::Deref;
+use serde::{Deserialize, Serialize};
+use std::collections::HashMap;
+use std::ops::{Add, AddAssign, Sub, SubAssign};
+use std::{cmp, fmt};
+use strum::{Display, EnumIter};
 
 pub trait Building {
   fn id(&self) -> BuildingId;
-  fn level(&self) -> BuildingLevel;
-  fn max_level(&self) -> BuildingLevel;
   fn is_enabled(&self) -> bool;
+
+  fn level(&self) -> BuildingLevel;
+  fn min_level(&self) -> BuildingLevel;
+  fn max_level(&self) -> BuildingLevel;
 
   fn base_cost(&self) -> BaseCost;
   fn base_cost_growth(&self) -> BaseCostGrowth;
 
   /// Taxa de manutenção do edifício em seu nível atual.
   fn maintenance(&self, stats: &BuildingStatsTable) -> Result<Maintenance>;
+  /// Proporção do custo base que deve ser usado como taxa de manutenção.
   fn maintenance_ratio(&self) -> MaintenanceRatio;
 
   fn wood_ratio(&self) -> ResourceRatio;
   fn stone_ratio(&self) -> ResourceRatio;
   fn iron_ratio(&self) -> ResourceRatio;
 
+  /// Força de trabalho exigida para o nível máximo do edifício.
   fn workforce(&self) -> Workforce;
+  /// Crescimento da força de trabalho a cada nível.
   fn workforce_growth(&self) -> WorkforceGrowth;
+
+  /// Níveis exigidos para a construção do edifício.
+  fn infrastructure_requirements(&self) -> &InfrastructureRequirements;
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, Deserialize, Serialize, Display, EnumIter)]
@@ -84,8 +93,14 @@ pub struct BuildingStats {
   pub workforce: Workforce,
 }
 
-#[derive(Clone, Debug, Deref, Deserialize, Serialize)]
-pub struct BuildingStatsTable(HashMap<BuildingLevel, BuildingStats>);
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct BuildingStatsTable {
+  id: BuildingId,
+  min_level: BuildingLevel,
+  max_level: BuildingLevel,
+  table: HashMap<BuildingLevel, BuildingStats>,
+}
 
 impl BuildingStatsTable {
   pub(crate) fn new(building: &dyn Building) -> Self {
@@ -140,14 +155,46 @@ impl BuildingStatsTable {
 
     table.shrink_to_fit();
 
-    Self(table)
+    Self {
+      id: building.id(),
+      min_level: building.min_level(),
+      max_level,
+      table,
+    }
+  }
+
+  #[inline]
+  pub fn id(&self) -> BuildingId {
+    self.id
+  }
+
+  #[inline]
+  pub fn min_level(&self) -> BuildingLevel {
+    self.min_level
+  }
+
+  #[inline]
+  pub fn max_level(&self) -> BuildingLevel {
+    self.max_level
+  }
+
+  #[inline]
+  pub fn get(&self, level: BuildingLevel) -> Result<&BuildingStats> {
+    self
+      .table
+      .get(&level)
+      .ok_or(Error::BuildingStatsNotFoundForLevel(self.id, level))
   }
 }
 
-#[derive(Clone, Copy, Debug, Default, Deref, PartialEq, Eq, Hash, Deserialize, Serialize)]
+#[derive(
+  Clone, Copy, Debug, Default, Deref, PartialEq, Eq, PartialOrd, Ord, Hash, Deserialize, Serialize,
+)]
 pub struct BuildingLevel(u8);
 
 impl BuildingLevel {
+  pub const ZERO: BuildingLevel = BuildingLevel(0);
+
   #[inline]
   pub const fn new(level: u8) -> Self {
     Self(level)
@@ -163,6 +210,90 @@ impl PartialEq<u8> for BuildingLevel {
 impl PartialOrd<u8> for BuildingLevel {
   fn partial_cmp(&self, other: &u8) -> Option<cmp::Ordering> {
     self.0.partial_cmp(other)
+  }
+}
+
+impl Add for BuildingLevel {
+  type Output = Self;
+
+  fn add(self, rhs: Self) -> Self {
+    Self(self.0.saturating_add(rhs.0))
+  }
+}
+
+impl AddAssign for BuildingLevel {
+  fn add_assign(&mut self, rhs: Self) {
+    *self = *self + rhs;
+  }
+}
+
+impl Sub for BuildingLevel {
+  type Output = Self;
+
+  fn sub(self, rhs: Self) -> Self {
+    Self(self.0.saturating_sub(rhs.0))
+  }
+}
+
+impl SubAssign for BuildingLevel {
+  fn sub_assign(&mut self, rhs: Self) {
+    *self = *self - rhs;
+  }
+}
+
+impl Add<u8> for BuildingLevel {
+  type Output = Self;
+
+  fn add(self, rhs: u8) -> Self {
+    Self(self.0.saturating_add(rhs))
+  }
+}
+
+impl Add<i8> for BuildingLevel {
+  type Output = Self;
+
+  fn add(self, rhs: i8) -> Self {
+    Self(self.0.saturating_add_signed(rhs))
+  }
+}
+
+impl AddAssign<u8> for BuildingLevel {
+  fn add_assign(&mut self, rhs: u8) {
+    *self = *self + rhs;
+  }
+}
+
+impl AddAssign<i8> for BuildingLevel {
+  fn add_assign(&mut self, rhs: i8) {
+    *self = *self + rhs;
+  }
+}
+
+impl Sub<u8> for BuildingLevel {
+  type Output = Self;
+
+  fn sub(self, rhs: u8) -> Self {
+    Self(self.0.saturating_sub(rhs))
+  }
+}
+
+impl Sub<i8> for BuildingLevel {
+  type Output = Self;
+
+  fn sub(self, rhs: i8) -> Self {
+    Self(self.0.saturating_sub_signed(rhs))
+  }
+}
+
+impl SubAssign<u8> for BuildingLevel {
+  fn sub_assign(&mut self, rhs: u8) {
+    *self = *self - rhs;
+  }
+}
+
+impl SubAssign<i8> for BuildingLevel {
+  fn sub_assign(&mut self, rhs: i8) {
+    *self = *self - rhs;
   }
 }
 

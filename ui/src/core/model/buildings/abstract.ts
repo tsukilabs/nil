@@ -8,6 +8,7 @@ export abstract class BuildingImpl implements Building {
   public readonly level: BuildingLevel;
   public readonly enabled: boolean;
 
+  #minLevel: Option<BuildingLevel> = null;
   #maxLevel: Option<BuildingLevel> = null;
 
   protected constructor(building: Building) {
@@ -17,7 +18,7 @@ export abstract class BuildingImpl implements Building {
 
   public getStatsTable() {
     const { stats } = NIL.world.refs();
-    return stats.value?.infrastructure.building.get(this.id);
+    return stats.value?.infrastructure.getBuilding(this.id);
   }
 
   public getStats() {
@@ -64,13 +65,17 @@ export abstract class BuildingImpl implements Building {
     return this.level >= this.maxLevel;
   }
 
+  get minLevel() {
+    if (typeof this.#minLevel !== 'number') {
+      this.#minLevel = this.getStatsTable()?.minLevel;
+    }
+
+    return this.#minLevel ?? 0;
+  }
+
   get maxLevel() {
     if (typeof this.#maxLevel !== 'number') {
-      this.#maxLevel = this.getStatsTable()
-        ?.keys()
-        .toArray()
-        .toSorted((a, b) => a - b)
-        .pop();
+      this.#maxLevel = this.getStatsTable()?.maxLevel;
     }
 
     return this.#maxLevel ?? 0;
@@ -82,7 +87,7 @@ export abstract class MineImpl extends BuildingImpl {
 
   public getMineStatsTable() {
     const { stats } = NIL.world.refs();
-    return stats.value?.infrastructure.mine.get(this.id);
+    return stats.value?.infrastructure.getMine(this.id);
   }
 
   public getMineStats() {
@@ -107,7 +112,7 @@ export abstract class StorageImpl extends BuildingImpl {
 
   public getStorageStatsTable() {
     const { stats } = NIL.world.refs();
-    return stats.value?.infrastructure.storage.get(this.id);
+    return stats.value?.infrastructure.getStorage(this.id);
   }
 
   public getStorageStats() {

@@ -15,12 +15,16 @@ use std::fmt;
 pub struct Village {
   #[builder(start_fn, into)]
   coord: Coord,
+
   #[builder(into)]
   name: String,
+
   #[builder(into)]
   owner: VillageOwner,
+
   #[builder(default)]
   infrastructure: Infrastructure,
+
   #[builder(default)]
   stability: Stability,
 }

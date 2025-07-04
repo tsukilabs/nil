@@ -10,13 +10,6 @@ use futures::{FutureExt, TryFutureExt};
 use itertools::Itertools;
 use nil_core::player::{Player, PlayerId, PlayerOptions, PlayerStatus};
 
-pub async fn coords(State(app): State<App>, Json(id): Json<PlayerId>) -> Response {
-  app
-    .continent(|k| k.player_coords(&id).collect_vec())
-    .map(|coords| res!(OK, Json(coords)))
-    .await
-}
-
 pub async fn exists(State(app): State<App>, Json(id): Json<PlayerId>) -> Response {
   app
     .world(|world| world.has_player(&id))
@@ -36,6 +29,13 @@ pub async fn get_all(State(app): State<App>) -> Response {
   app
     .player_manager(|pm| pm.players().cloned().collect_vec())
     .map(|players| res!(OK, Json(players)))
+    .await
+}
+
+pub async fn get_coords(State(app): State<App>, Json(id): Json<PlayerId>) -> Response {
+  app
+    .continent(|k| k.player_coords(&id).collect_vec())
+    .map(|coords| res!(OK, Json(coords)))
     .await
 }
 

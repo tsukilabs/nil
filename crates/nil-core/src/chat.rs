@@ -5,8 +5,8 @@ use crate::error::Result;
 use crate::player::PlayerId;
 use derive_more::{Deref, DerefMut};
 use jiff::Zoned;
-use serde::de::Error as _;
-use serde::{Deserialize, Deserializer, Serialize, Serializer};
+use nil_util_macros::BigIntU64;
+use serde::{Deserialize, Serialize};
 use std::collections::VecDeque;
 use std::num::NonZeroUsize;
 use std::sync::Arc;
@@ -71,13 +71,13 @@ impl ChatHistory {
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(tag = "kind", rename_all = "kebab-case")]
 pub enum ChatMessage {
-  Player(ChatMessagePlayer),
+  Player { message: ChatMessagePlayer },
 }
 
 impl ChatMessage {
   fn id_mut(&mut self) -> &mut ChatMessageId {
     match self {
-      ChatMessage::Player(it) => &mut it.id,
+      ChatMessage::Player { message } => &mut message.id,
     }
   }
 }
@@ -104,11 +104,11 @@ impl ChatMessagePlayer {
 
 impl From<ChatMessagePlayer> for ChatMessage {
   fn from(message: ChatMessagePlayer) -> Self {
-    ChatMessage::Player(message)
+    ChatMessage::Player { message }
   }
 }
 
-#[derive(Clone, Copy, Debug, Default, Deref, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[derive(Clone, Copy, Debug, Default, Deref, PartialEq, Eq, PartialOrd, Ord, Hash, BigIntU64)]
 pub struct ChatMessageId(u64);
 
 impl ChatMessageId {
@@ -116,27 +116,6 @@ impl ChatMessageId {
   #[must_use]
   const fn next(self) -> Self {
     Self(self.0.wrapping_add(1))
-  }
-}
-
-impl Serialize for ChatMessageId {
-  fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-  where
-    S: Serializer,
-  {
-    serializer.serialize_str(&self.0.to_string())
-  }
-}
-
-impl<'de> Deserialize<'de> for ChatMessageId {
-  fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-  where
-    D: Deserializer<'de>,
-  {
-    String::deserialize(deserializer)?
-      .parse::<u64>()
-      .map(Self)
-      .map_err(D::Error::custom)
   }
 }
 

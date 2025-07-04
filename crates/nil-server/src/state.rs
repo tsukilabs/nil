@@ -3,12 +3,10 @@
 
 use nil_core::chat::Chat;
 use nil_core::continent::Continent;
-use nil_core::error::Result;
 use nil_core::lobby::Lobby;
 use nil_core::player::PlayerManager;
 use nil_core::round::Round;
 use nil_core::script::Scripting;
-use nil_core::village::{Coord, Village};
 use nil_core::world::World;
 use std::sync::Arc;
 use tokio::sync::RwLock;
@@ -102,15 +100,6 @@ impl App {
   {
     self
       .world_mut(|world| f(world.scripting_mut()))
-      .await
-  }
-
-  pub async fn village<F, T>(&self, coord: Coord, f: F) -> Result<T>
-  where
-    F: FnOnce(&Village) -> T,
-  {
-    self
-      .world(move |world| world.village(coord).map(f))
       .await
   }
 }

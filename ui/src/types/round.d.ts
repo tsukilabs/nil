@@ -1,20 +1,20 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-type Round = {
+interface Round {
   readonly id: RoundId;
   readonly phase: RoundPhase;
-};
+}
 
 type RoundId = number;
 
 type RoundPhase = RoundPhaseIdle | RoundPhasePlayer;
 
-type RoundPhaseIdle = {
+interface RoundPhaseIdle {
   readonly kind: 'idle';
-};
+}
 
-type RoundPhasePlayer = {
+interface RoundPhasePlayer {
   readonly kind: 'player';
   readonly pending: readonly PlayerId[];
-};
+}

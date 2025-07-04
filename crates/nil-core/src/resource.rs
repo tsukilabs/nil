@@ -9,6 +9,8 @@ mod workforce;
 use crate::infrastructure::mine::MineProduction;
 use crate::village::Stability;
 use derive_more::{Deref, Display};
+use nil_num::impl_mul_ceil;
+use nil_num::ops::MulCeil;
 use serde::{Deserialize, Serialize};
 use std::ops::{Add, AddAssign, Div, Mul, MulAssign, Sub, SubAssign};
 
@@ -36,7 +38,7 @@ impl Resources {
   };
 
   /// Retorna `None` se não houver recursos o suficiente.
-  pub fn checked_sub(self, rhs: &Self) -> Option<Self> {
+  pub fn checked_sub(&self, rhs: &Self) -> Option<Self> {
     Some(Self {
       food: self.food.checked_sub(rhs.food)?,
       iron: self.iron.checked_sub(rhs.iron)?,
@@ -111,6 +113,7 @@ macro_rules! decl_resource {
           Self(0)
         }
 
+        #[inline]
         pub fn checked_sub(self, rhs: Self) -> Option<Self> {
           self.0.checked_sub(rhs.0).map(Self::new)
         }
@@ -156,6 +159,12 @@ macro_rules! decl_resource {
         }
       }
 
+      impl From<$name> for f64 {
+        fn from(value: $name) -> f64 {
+          f64::from(value.0)
+        }
+      }
+
       impl Mul<f64> for $name {
         type Output = f64;
 
@@ -176,8 +185,7 @@ macro_rules! decl_resource {
         type Output = $name;
 
         fn mul(self, rhs: Stability) -> Self::Output {
-          let result = f64::from(self.0) * (*rhs);
-          Self::from(result.ceil())
+          Self::from(self.mul_ceil(*rhs))
         }
       }
 
@@ -202,6 +210,8 @@ macro_rules! decl_resource {
           self / f64::from(rhs.0)
         }
       }
+
+      impl_mul_ceil!($name);
     )+
   };
 }

@@ -12,6 +12,8 @@ export * from './client';
 export * from './server';
 export * from './player';
 export * from './village';
+export * from './continent';
+export * from './infrastructure';
 
 export function isDev() {
   return invoke<boolean>('is_dev');

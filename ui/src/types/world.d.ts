@@ -1,15 +1,15 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-type WorldOptions = {
+interface WorldOptions {
   readonly name: string;
   readonly size: number;
-};
+}
 
-type WorldConfig = {
+interface WorldConfig {
   readonly name: string;
-};
+}
 
-type WorldStats = {
+interface WorldStats {
   readonly infrastructure: InfrastructureStats;
-};
+}

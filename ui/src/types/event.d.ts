@@ -6,48 +6,61 @@ type EventPayload =
   | FailedToSaveWorldPayload
   | GuestLeftPayload
   | LobbyUpdatedPayload
+  | PlayerResourcesUpdatedPayload
   | PlayerSpawnedPayload
   | PlayerStatusUpdatedPayload
+  | PrefectureBuildQueueUpdatedPayload
   | RoundUpdatedPayload
   | VillageSpawnedPayload;
 
-type ChatMessagePayload = {
+interface ChatMessagePayload {
   readonly kind: 'chat-message';
   readonly message: ChatMessage;
-};
+}
 
-type FailedToSaveWorldPayload = {
+interface FailedToSaveWorldPayload {
   readonly kind: 'failed-to-save-world';
   readonly error: string;
-};
+}
 
-type GuestLeftPayload = {
+interface GuestLeftPayload {
   readonly kind: 'guest-left';
   readonly guest: Player;
-};
+}
 
-type LobbyUpdatedPayload = {
+interface LobbyUpdatedPayload {
   readonly kind: 'lobby-updated';
   readonly lobby: Lobby;
-};
+}
 
-type PlayerSpawnedPayload = {
+interface PlayerResourcesUpdatedPayload {
+  readonly kind: 'player-resources-updated';
+}
+
+interface PlayerSpawnedPayload {
   readonly kind: 'player-spawned';
   readonly player: Player;
-};
+}
 
-type PlayerStatusUpdatedPayload = {
+interface PlayerStatusUpdatedPayload {
   readonly kind: 'player-status-updated';
   readonly player: PlayerId;
   readonly status: PlayerStatus;
-};
+}
 
-type RoundUpdatedPayload = {
+interface PrefectureBuildQueueUpdatedPayload {
+  readonly kind: 'prefecture-build-queue-updated';
+  readonly coord: Coord;
+  readonly id: PrefectureBuildOrderId;
+  readonly orderKind: PrefectureBuildOrderKind;
+}
+
+interface RoundUpdatedPayload {
   readonly kind: 'round-updated';
   readonly round: Round;
-};
+}
 
-type VillageSpawnedPayload = {
+interface VillageSpawnedPayload {
   readonly kind: 'village-spawned';
   readonly village: VillagePublicState;
-};
+}

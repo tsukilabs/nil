@@ -3,9 +3,9 @@
 
 type Resource = 'food' | 'iron' | 'stone' | 'wood';
 
-type Resources = {
+interface Resources {
   readonly food: number;
   readonly iron: number;
   readonly stone: number;
   readonly wood: number;
-};
+}

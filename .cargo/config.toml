@@ -1,6 +1,6 @@
 [build]
 target-dir = "target"
-rustflags = ["-Zthreads=8"]
+rustflags = []
 
 [env]
 CARGO_TARGET_DIR = "target"

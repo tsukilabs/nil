@@ -56,7 +56,6 @@ export class ListenerSet {
   public readonly event = new Proxy({} as Event, {
     get: <T extends keyof typeof events>(_: unknown, key: T) => {
       return (cb: ListenerFn<T>) => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         this.on(events[key](cb as any));
         return this.event;
       };

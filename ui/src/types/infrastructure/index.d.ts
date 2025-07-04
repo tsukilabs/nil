@@ -1,7 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-type Infrastructure = {
+interface Infrastructure {
   readonly academy: Academy;
   readonly farm: Farm;
   readonly ironMine: IronMine;
@@ -12,10 +12,14 @@ type Infrastructure = {
   readonly stable: Stable;
   readonly wall: Wall;
   readonly warehouse: Warehouse;
-};
+}
 
-type InfrastructureStats = {
-  readonly building: BuildingStatsTable;
-  readonly mine: MineStatsTable;
-  readonly storage: StorageStatsTable;
+interface InfrastructureStats {
+  readonly building: ReadonlyMap<BuildingId, BuildingStatsTable>;
+  readonly mine: ReadonlyMap<MineId, MineStatsTable>;
+  readonly storage: ReadonlyMap<StorageId, StorageStatsTable>;
+}
+
+type InfrastructureRequirements = {
+  readonly [B in keyof Infrastructure]: BuildingLevel;
 };

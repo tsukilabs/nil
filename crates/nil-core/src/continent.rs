@@ -34,6 +34,11 @@ impl Continent {
     Self { cells, size }
   }
 
+  #[inline]
+  pub fn size(&self) -> usize {
+    self.size.get()
+  }
+
   pub fn cell(&self, coord: Coord) -> Result<&Cell> {
     let index = self.index(coord);
     self
@@ -85,6 +90,7 @@ impl Continent {
       .map(Village::coord)
   }
 
+  /// Determina a posição da coordenada no vetor.
   fn index(&self, coord: Coord) -> usize {
     let x = usize::from(coord.x());
     let y = usize::from(coord.y());
@@ -93,6 +99,7 @@ impl Continent {
     index
   }
 
+  /// Determina a coordenada a partir de sua posição no vetor.
   fn coord(&self, index: usize) -> Result<Coord> {
     let x = index % self.size;
     let y = index / self.size;
@@ -124,12 +131,14 @@ impl Default for Continent {
 pub enum Cell {
   #[default]
   Empty,
-  Village(Village),
+  Village {
+    village: Village,
+  },
 }
 
 impl Cell {
   fn village(&self) -> Option<&Village> {
-    if let Self::Village(village) = self {
+    if let Self::Village { village } = self {
       Some(village)
     } else {
       None
@@ -137,7 +146,7 @@ impl Cell {
   }
 
   fn village_mut(&mut self) -> Option<&mut Village> {
-    if let Self::Village(village) = self {
+    if let Self::Village { village } = self {
       Some(village)
     } else {
       None
@@ -147,6 +156,6 @@ impl Cell {
 
 impl From<Village> for Cell {
   fn from(village: Village) -> Self {
-    Self::Village(village)
+    Self::Village { village }
   }
 }

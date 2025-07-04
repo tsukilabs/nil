@@ -40,8 +40,11 @@ export class PlayerImpl implements Player {
   }
 
   public static async load(id: PlayerId) {
-    const player = await commands.getPlayer(id);
-    const coords = await commands.getPlayerCoords(id);
+    const [player, coords] = await Promise.all([
+      commands.getPlayer(id),
+      commands.getPlayerCoords(id),
+    ]);
+
     return new PlayerImpl(player, coords);
   }
 }

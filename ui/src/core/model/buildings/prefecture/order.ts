@@ -3,15 +3,19 @@
 
 export class PrefectureBuildOrderImpl implements PrefectureBuildOrder {
   public readonly id: string;
+  public readonly kind: PrefectureBuildOrderKind;
   public readonly building: BuildingId;
   public readonly level: number;
+  public readonly resources: Resources;
   public readonly workforce: number;
   public readonly status: PrefectureBuildOrderStatus;
 
   private constructor(order: PrefectureBuildOrder) {
     this.id = order.id;
+    this.kind = order.kind;
     this.building = order.building;
     this.level = order.level;
+    this.resources = order.resources;
     this.workforce = order.workforce;
     this.status = order.status;
   }
