@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 mod chat;
+mod continent;
+mod infrastructure;
 mod lobby;
 mod player;
 mod round;
@@ -21,6 +23,7 @@ use axum::http::StatusCode;
 use axum::response::Response;
 use axum::routing::{any, get, post};
 use axum::{Extension, Router, middleware};
+use infrastructure::prelude::*;
 use nil_core::player::{PlayerId, PlayerStatus};
 use nil_core::world::World;
 
@@ -37,16 +40,20 @@ use {
 };
 
 pub(crate) fn create() -> Router<App> {
+  #[rustfmt::skip]
   let router = Router::new()
     .route("/", get(ok))
     .route("/chat", get(chat::get_all))
     .route("/chat/push", post(chat::push))
+    .route("/continent/size", get(continent::size))
+    .route("/infrastructure/prefecture/build", post(prefecture::add_build_order))
+    .route("/infrastructure/prefecture/catalog", post(prefecture::get_catalog))
     .route("/leave", post(leave))
     .route("/lobby", get(lobby::get))
     .route("/lobby/ready", post(lobby::ready))
     .route("/player", get(player::get_all))
     .route("/player", post(player::get))
-    .route("/player/coord", post(player::coords))
+    .route("/player/coord", post(player::get_coords))
     .route("/player/exists", post(player::exists))
     .route("/player/remove-guest", post(player::remove_guest))
     .route("/player/set-status", post(player::set_status))

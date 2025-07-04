@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use super::building::{Building, BuildingId, BuildingLevel};
-use crate::error::Result;
+use crate::error::{Error, Result};
 use derive_more::Deref;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
@@ -10,6 +10,7 @@ use strum::{Display, EnumIter};
 
 /// Um edifício que gera recursos.
 pub trait Mine: Building {
+  fn mine_id(&self) -> MineId;
   /// Quantidade recursos gerados pela mina em seu nível máximo.
   fn production(&self) -> MineProduction;
   /// Taxa de crescimento da produção da mina.
@@ -47,8 +48,12 @@ pub struct MineStats {
   pub production: MineProduction,
 }
 
-#[derive(Clone, Debug, Deref, Deserialize, Serialize)]
-pub struct MineStatsTable(HashMap<BuildingLevel, MineStats>);
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct MineStatsTable {
+  id: MineId,
+  table: HashMap<BuildingLevel, MineStats>,
+}
 
 impl MineStatsTable {
   pub(crate) fn new(mine: &dyn Mine) -> Self {
@@ -76,7 +81,20 @@ impl MineStatsTable {
 
     table.shrink_to_fit();
 
-    Self(table)
+    Self { id: mine.mine_id(), table }
+  }
+
+  #[inline]
+  pub fn id(&self) -> MineId {
+    self.id
+  }
+
+  #[inline]
+  pub fn get(&self, level: BuildingLevel) -> Result<&MineStats> {
+    self
+      .table
+      .get(&level)
+      .ok_or(Error::MineStatsNotFoundForLevel(self.id, level))
   }
 }
 

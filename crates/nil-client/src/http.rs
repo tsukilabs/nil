@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::error::{Error, Result};
+use futures::TryFutureExt;
 use http::header::AUTHORIZATION;
 use http::{HeaderValue, Method};
 use nil_core::player::PlayerId;
@@ -10,6 +11,9 @@ use serde::Serialize;
 use serde::de::DeserializeOwned;
 use std::net::SocketAddrV4;
 use tokio::time::Duration;
+
+#[cfg(debug_assertions)]
+use tracing::error;
 
 pub const USER_AGENT: &str = concat!("nil/", env!("CARGO_PKG_VERSION"));
 
@@ -92,10 +96,8 @@ impl Http {
   {
     self
       .request(Method::GET, route)
-      .await?
-      .json()
+      .and_then(async |res| json::<R>(res).await)
       .await
-      .map_err(Into::into)
   }
 
   pub(crate) async fn post(&self, route: &str, body: impl Serialize) -> Result<()> {
@@ -111,10 +113,8 @@ impl Http {
   {
     self
       .request_with_body(Method::POST, route, body)
-      .await?
-      .json()
+      .and_then(async |res| json::<R>(res).await)
       .await
-      .map_err(Into::into)
   }
 }
 
@@ -122,4 +122,19 @@ fn url(server: SocketAddrV4, route: &str) -> String {
   let ip = server.ip();
   let port = server.port();
   format!("http://{ip}:{port}/{route}")
+}
+
+async fn json<R>(response: Response) -> Result<R>
+where
+  R: DeserializeOwned,
+{
+  match response.json::<R>().await {
+    Ok(value) => Ok(value),
+    Err(err) => {
+      #[cfg(debug_assertions)]
+      error!(message = %err, error = ?err);
+
+      Err(Error::Reqwest(err))
+    }
+  }
 }

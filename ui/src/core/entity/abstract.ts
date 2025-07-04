@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable @typescript-eslint/class-methods-use-this */
-import { asyncNoop } from 'es-toolkit';
 import type { Option } from '@tb-dev/utils';
+import { asyncNoop, noop } from 'es-toolkit';
 import { ListenerSet } from '@/lib/listener-set';
 import { type EffectScope, effectScope } from 'vue';
 
@@ -39,6 +39,10 @@ export abstract class Entity {
   private readonly dispose = this.listeners.dispose.bind(this.listeners);
   protected readonly watch = this.listeners.watch.bind(this.listeners);
   protected readonly watchEffect = this.listeners.watchEffect.bind(this.listeners);
+
+  protected initListeners() {
+    noop();
+  }
 
   public update() {
     return asyncNoop();

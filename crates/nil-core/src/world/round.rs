@@ -6,7 +6,6 @@ use crate::error::Result;
 use crate::player::{Player, PlayerId};
 use crate::resource::ResourcesDiff;
 use std::collections::HashMap;
-use std::sync::Arc;
 
 impl World {
   pub fn start_round(&mut self) -> Result<()> {
@@ -58,14 +57,14 @@ impl World {
   /// Atualiza os recursos do jogador, aumentando-os de acordo com a produção,
   /// e então deduzindo todos os custos relacionados à manutenção.
   fn update_player_resources(&mut self) -> Result<()> {
-    let stats = Arc::clone(&self.stats.infrastructure);
+    let stats = self.stats.infrastructure.as_ref();
     let mut diff: HashMap<PlayerId, ResourcesDiff> = HashMap::new();
 
     for village in self.continent.villages() {
       if let Some(player_id) = village.owner().player() {
         let resources = diff.entry(player_id.clone()).or_default();
-        *resources += village.round_production(&stats)?;
-        resources.food -= village.round_maintenance(&stats)?;
+        *resources += village.round_production(stats)?;
+        resources.food -= village.round_maintenance(stats)?;
       }
     }
 

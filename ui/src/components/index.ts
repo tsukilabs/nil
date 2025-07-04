@@ -6,21 +6,23 @@ import Food from './resource/Food.vue';
 import Iron from './resource/Iron.vue';
 import Wood from './resource/Wood.vue';
 import Stone from './resource/Stone.vue';
+import Workforce from './resource/Workforce.vue';
 
 export function registerGlobalComponents(app: App) {
   app
     .component('Food', Food)
     .component('Iron', Iron)
     .component('Stone', Stone)
-    .component('Wood', Wood);
+    .component('Wood', Wood)
+    .component('Workforce', Workforce);
 }
 
 declare module 'vue' {
-  // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
   interface GlobalComponents {
     Food: typeof Food;
     Iron: typeof Iron;
     Stone: typeof Stone;
     Wood: typeof Wood;
+    Workforce: typeof Workforce;
   }
 }

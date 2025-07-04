@@ -3,62 +3,26 @@ name = "nil-server"
 version = "0.1.0"
 publish = false
 
-[package.edition]
-workspace = true
-
-[package.rust-version]
-workspace = true
-
-[package.license-file]
-workspace = true
-
-[package.homepage]
-workspace = true
-
-[package.repository]
-workspace = true
-
-[package.authors]
-workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license-file.workspace = true
+homepage.workspace = true
+repository.workspace = true
+authors.workspace = true
 
 [lints]
 workspace = true
 
 [dependencies]
-anyhow = "1.0"
-futures = "0.3"
-itertools = "0.14"
-thiserror = "2.0"
-
-[dependencies.axum]
-version = "0.8"
-features = ["macros", "ws"]
-
-[dependencies.derive_more]
-version = "2.0"
-features = ["deref"]
-
-[dependencies.nil-core]
-version = "*"
-path = "../nil-core"
-
-[dependencies.nil-util]
-version = "*"
-path = "../nil-util"
-
-[dependencies.serde]
-version = "1.0"
-features = ["derive"]
-
-[dependencies.tokio]
-version = "1.46"
-default-features = false
-features = ["time"]
-
-[dependencies.tower-http]
-version = "0.6"
-features = ["trace"]
-
-[dependencies.tracing]
-version = "0.1"
-features = ["release_max_level_off"]
+anyhow.workspace = true
+axum.workspace = true
+derive_more.workspace = true
+futures.workspace = true
+itertools.workspace = true
+nil-core.workspace = true
+nil-util.workspace = true
+serde.workspace = true
+thiserror.workspace = true
+tokio.workspace = true
+tower-http.workspace = true
+tracing.workspace = true

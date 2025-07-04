@@ -3,10 +3,8 @@
 
 use super::{BuildingId, BuildingLevel};
 use crate::check_total_resource_ratio;
-use crate::infrastructure::storage::{StorageCapacity, StorageCapacityGrowth};
-use nil_core_macros::{Building, Storage};
-use serde::{Deserialize, Serialize};
-
+use crate::infrastructure::requirements::InfrastructureRequirements;
+use crate::infrastructure::storage::{StorageCapacity, StorageCapacityGrowth, StorageId};
 use crate::resource::{
   BaseCost,
   BaseCostGrowth,
@@ -15,6 +13,8 @@ use crate::resource::{
   Workforce,
   WorkforceGrowth,
 };
+use nil_core_macros::{Building, Storage};
+use serde::{Deserialize, Serialize};
 
 #[derive(Building, Storage, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
@@ -25,6 +25,9 @@ pub struct Warehouse {
 
 impl Warehouse {
   pub const ID: BuildingId = BuildingId::Warehouse;
+  pub const STORAGE_ID: StorageId = StorageId::Warehouse;
+
+  pub const MIN_LEVEL: BuildingLevel = BuildingLevel::ZERO;
   pub const MAX_LEVEL: BuildingLevel = BuildingLevel::new(30);
 
   pub const BASE_COST: BaseCost = BaseCost::new(100_000);
@@ -40,6 +43,9 @@ impl Warehouse {
 
   pub const CAPACITY: StorageCapacity = StorageCapacity::new(400_000);
   pub const CAPACITY_GROWTH: StorageCapacityGrowth = StorageCapacityGrowth::new(0.2);
+
+  pub const INFRASTRUCTURE_REQUIREMENTS: InfrastructureRequirements =
+    InfrastructureRequirements::none();
 }
 
 impl Default for Warehouse {

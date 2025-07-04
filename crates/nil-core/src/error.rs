@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::infrastructure::building::{BuildingId, BuildingLevel};
+use crate::infrastructure::mine::MineId;
+use crate::infrastructure::storage::StorageId;
 use crate::player::PlayerId;
 use crate::script::ScriptId;
 use crate::village::Coord;
@@ -21,6 +23,12 @@ pub enum Error {
   #[error("No stats found for building \"{0}\" at level {1}")]
   BuildingStatsNotFoundForLevel(BuildingId, BuildingLevel),
 
+  #[error("Building \"{0}\" is already at its minimum level")]
+  CannotDecreaseBuildingLevel(BuildingId),
+
+  #[error("Building \"{0}\" is already at its maximum level")]
+  CannotIncreaseBuildingLevel(BuildingId),
+
   #[error("Coord out of bounds: {0}")]
   CoordOutOfBounds(Coord),
 
@@ -35,6 +43,12 @@ pub enum Error {
 
   #[error("Insufficient resources")]
   InsufficientResources,
+
+  #[error("No stats found for mine \"{0}\"")]
+  MineStatsNotFound(MineId),
+
+  #[error("No stats found for mine \"{0}\" at level {1}")]
+  MineStatsNotFoundForLevel(MineId, BuildingLevel),
 
   #[error("No players in the world")]
   NoPlayer,
@@ -59,6 +73,12 @@ pub enum Error {
 
   #[error("Script not found: {0}")]
   ScriptNotFound(ScriptId),
+
+  #[error("No stats found for storage \"{0}\"")]
+  StorageStatsNotFound(StorageId),
+
+  #[error("No stats found for storage \"{0}\" at level {1}")]
+  StorageStatsNotFoundForLevel(StorageId, BuildingLevel),
 
   #[error("Village not found: {0}")]
   VillageNotFound(Coord),

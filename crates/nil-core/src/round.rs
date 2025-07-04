@@ -55,7 +55,6 @@ impl Round {
     &self.phase
   }
 
-  #[inline]
   pub(crate) fn phase_mut(&mut self) -> &mut Phase {
     &mut self.phase
   }

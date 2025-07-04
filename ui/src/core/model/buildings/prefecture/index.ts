@@ -6,19 +6,46 @@ import { PrefectureBuildQueueImpl } from './queue';
 
 export class PrefectureImpl extends BuildingImpl implements Prefecture {
   public readonly id: BuildingId = 'prefecture';
-  public readonly queue: PrefectureBuildQueue;
+  public readonly buildQueue: PrefectureBuildQueueImpl;
 
-  private constructor(prefecture: Building & { queue: PrefectureBuildQueueImpl }) {
+  private constructor(prefecture: Building & { buildQueue: PrefectureBuildQueueImpl }) {
     super(prefecture);
-    this.queue = prefecture.queue;
+    this.buildQueue = prefecture.buildQueue;
+  }
+
+  public hasBuildOrder(id: PrefectureBuildOrderId) {
+    return this.buildQueue.orders.some((order) => order.id === id);
+  }
+
+  public resolveBuildingLevel(building: BuildingId, level: BuildingLevel) {
+    const { stats } = NIL.world.refs();
+    const min = stats.value?.getBuildingMinLevel(building) ?? 0;
+    const max = stats.value?.getBuildingMaxLevel(building) ?? 255;
+
+    for (const order of this.buildQueue) {
+      if (order.building === building) {
+        switch (order.kind) {
+          case 'construction': {
+            level = Math.max(level + 1, max);
+            break;
+          }
+          case 'demolition': {
+            level = Math.min(level - 1, min);
+            break;
+          }
+        }
+      }
+    }
+
+    return level;
   }
 
   public static create(prefecture: Prefecture) {
-    const queue = PrefectureBuildQueueImpl.create(prefecture.queue);
+    const buildQueue = PrefectureBuildQueueImpl.create(prefecture.buildQueue);
     return new PrefectureImpl({
       level: prefecture.level,
       enabled: prefecture.enabled,
-      queue,
+      buildQueue,
     });
   }
 }

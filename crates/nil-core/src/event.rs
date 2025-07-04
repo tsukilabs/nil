@@ -2,10 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::chat::ChatMessage;
+use crate::infrastructure::building::prefecture::{
+  PrefectureBuildOrderId,
+  PrefectureBuildOrderKind,
+};
 use crate::lobby::LobbyState;
 use crate::player::{Player, PlayerId, PlayerStatus};
 use crate::round::Round;
-use crate::village::VillagePublicState;
+use crate::village::{Coord, VillagePublicState};
 use nil_util::serde::{Bytes, from_slice, to_bytes};
 use serde::{Deserialize, Serialize};
 use std::fmt;
@@ -20,9 +24,18 @@ pub(crate) struct Emitter {
 }
 
 impl Emitter {
+  fn new(capacity: usize) -> Self {
+    let (sender, _) = channel(capacity);
+    Self { sender }
+  }
+
   pub(crate) fn emit(&self, event: Event, target: EventTarget) {
     let bytes = Bytes::from(event);
     let _ = self.sender.send((bytes, target));
+  }
+
+  pub(crate) fn emit_to(&self, target: PlayerId, event: Event) {
+    self.emit(event, EventTarget::Player(target));
   }
 
   pub(crate) fn broadcast(&self, event: Event) {
@@ -36,8 +49,7 @@ impl Emitter {
 
 impl Default for Emitter {
   fn default() -> Self {
-    let (sender, _) = channel(100);
-    Self { sender }
+    Self::new(100)
   }
 }
 
@@ -57,22 +69,37 @@ pub enum Event {
   ChatMessage {
     message: ChatMessage,
   },
+
   GuestLeft {
     guest: Player,
   },
+
   LobbyUpdated {
     lobby: LobbyState,
   },
+
+  PlayerResourcesUpdated,
+
   PlayerSpawned {
     player: Player,
   },
+
   PlayerStatusUpdated {
     player: PlayerId,
     status: PlayerStatus,
   },
+
+  #[serde(rename_all = "camelCase")]
+  PrefectureBuildQueueUpdated {
+    coord: Coord,
+    id: PrefectureBuildOrderId,
+    order_kind: PrefectureBuildOrderKind,
+  },
+
   RoundUpdated {
     round: Round,
   },
+
   VillageSpawned {
     village: VillagePublicState,
   },

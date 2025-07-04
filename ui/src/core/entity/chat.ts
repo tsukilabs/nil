@@ -10,25 +10,29 @@ import { type ShallowRef, triggerRef } from 'vue';
 export class ChatEntity extends Entity {
   private readonly chat: ShallowRef<ChatMessage[]>;
 
-  readonly #updateChat: () => Promise<void>;
+  private readonly updateChat: () => Promise<void>;
 
   constructor() {
     super();
 
     const chat = asyncRef([], getChatMessages);
     this.chat = chat.state;
-    this.#updateChat = chat.execute;
+    this.updateChat = chat.execute;
 
+    this.initListeners();
+  }
+
+  protected override initListeners() {
     this.event.onChatMessage(this.onChatMessage.bind(this));
   }
 
   public override async update() {
-    await this.#updateChat();
+    await this.updateChat();
   }
 
   private onChatMessage({ message }: ChatMessagePayload) {
     this.chat.value.push(message);
-    this.chat.value.sort((a, b) => compare(a.id, b.id));
+    this.chat.value.sort((a, b) => compare(a.message.id, b.message.id));
     triggerRef(this.chat);
   }
 

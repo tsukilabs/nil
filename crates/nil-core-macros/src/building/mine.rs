@@ -14,12 +14,17 @@ pub fn impl_mine(ast: &DeriveInput) -> TokenStream {
       use crate::infrastructure::building::Building;
       use crate::infrastructure::mine::{
         Mine,
+        MineId,
         MineProduction,
         MineProductionGrowth,
         MineStatsTable
       };
 
       impl Mine for #name {
+        fn mine_id(&self) -> MineId {
+          Self::MINE_ID
+        }
+
         fn production(&self) -> MineProduction {
           Self::PRODUCTION
         }
@@ -29,11 +34,7 @@ pub fn impl_mine(ast: &DeriveInput) -> TokenStream {
         }
 
         fn current_production(&self, stats: &MineStatsTable) -> Result<MineProduction> {
-          stats
-            .get(&self.level)
-            .ok_or_else(|| Error::BuildingStatsNotFoundForLevel(self.id(), self.level))?
-            .production
-            .wrap_ok()
+          Ok(stats.get(self.level)?.production)
         }
       }
     }

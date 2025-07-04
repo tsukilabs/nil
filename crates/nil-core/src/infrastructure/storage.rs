@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use super::building::{Building, BuildingId, BuildingLevel};
+use crate::error::{Error, Result};
 use derive_more::Deref;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
@@ -10,6 +11,7 @@ use strum::{Display, EnumIter};
 
 /// Um edifício que armazena recursos.
 pub trait Storage: Building {
+  fn storage_id(&self) -> StorageId;
   /// Capacidade máxima de armazenamento em seu nível máximo.
   fn capacity(&self) -> StorageCapacity;
   /// Taxa de crescimento da capacidade de armazenamento.
@@ -41,8 +43,12 @@ pub struct StorageStats {
   pub capacity: StorageCapacity,
 }
 
-#[derive(Clone, Debug, Deref, Deserialize, Serialize)]
-pub struct StorageStatsTable(HashMap<BuildingLevel, StorageStats>);
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct StorageStatsTable {
+  id: StorageId,
+  table: HashMap<BuildingLevel, StorageStats>,
+}
 
 impl StorageStatsTable {
   pub(crate) fn new(storage: &dyn Storage) -> Self {
@@ -70,7 +76,20 @@ impl StorageStatsTable {
 
     table.shrink_to_fit();
 
-    Self(table)
+    Self { id: storage.storage_id(), table }
+  }
+
+  #[inline]
+  pub fn id(&self) -> StorageId {
+    self.id
+  }
+
+  #[inline]
+  pub fn get(&self, level: BuildingLevel) -> Result<&StorageStats> {
+    self
+      .table
+      .get(&level)
+      .ok_or(Error::StorageStatsNotFoundForLevel(self.id, level))
   }
 }
 

@@ -3,10 +3,12 @@
 
 pub mod building;
 pub mod mine;
+pub mod requirements;
 pub mod storage;
 
 use crate::error::{Error, Result};
 use crate::resource::{Maintenance, Resources};
+use building::prefecture::{PrefectureBuildOrder, PrefectureBuildOrderOptions};
 use building::prelude::*;
 use building::{Building, BuildingId, BuildingStatsTable};
 use mine::{Mine, MineId, MineStatsTable};
@@ -19,16 +21,16 @@ use strum::IntoEnumIterator;
 #[derive(Clone, Debug, Default, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Infrastructure {
-  prefecture: Prefecture,
   academy: Academy,
-  stable: Stable,
-  sawmill: Sawmill,
-  quarry: Quarry,
-  iron_mine: IronMine,
   farm: Farm,
-  warehouse: Warehouse,
+  iron_mine: IronMine,
+  prefecture: Prefecture,
+  quarry: Quarry,
+  sawmill: Sawmill,
   silo: Silo,
+  stable: Stable,
   wall: Wall,
+  warehouse: Warehouse,
 }
 
 impl Infrastructure {
@@ -119,8 +121,17 @@ impl Infrastructure {
     self.prefecture.process_queue();
   }
 
-  pub(crate) fn add_build_order(&mut self) -> Result<()> {
-    todo!()
+  pub(crate) fn add_prefecture_build_order(
+    &mut self,
+    table: &BuildingStatsTable,
+    current_resources: Option<&Resources>,
+    options: &PrefectureBuildOrderOptions,
+  ) -> Result<&PrefectureBuildOrder> {
+    let level = self.building(options.building).level();
+    self
+      .prefecture
+      .build_queue_mut()
+      .build(table, level, current_resources, options)
   }
 }
 
@@ -151,6 +162,7 @@ impl InfrastructureStats {
     Self { building, mine, storage }
   }
 
+  #[inline]
   pub fn building(&self, id: BuildingId) -> Result<&BuildingStatsTable> {
     self
       .building
@@ -158,17 +170,19 @@ impl InfrastructureStats {
       .ok_or(Error::BuildingStatsNotFound(id))
   }
 
+  #[inline]
   pub fn mine(&self, id: MineId) -> Result<&MineStatsTable> {
     self
       .mine
       .get(&id)
-      .ok_or_else(|| Error::BuildingStatsNotFound(id.into()))
+      .ok_or(Error::MineStatsNotFound(id))
   }
 
+  #[inline]
   pub fn storage(&self, id: StorageId) -> Result<&StorageStatsTable> {
     self
       .storage
       .get(&id)
-      .ok_or_else(|| Error::BuildingStatsNotFound(id.into()))
+      .ok_or(Error::StorageStatsNotFound(id))
   }
 }

@@ -24,7 +24,7 @@ export class InfrastructureImpl implements Infrastructure {
   public readonly wall: WallImpl;
   public readonly warehouse: WarehouseImpl;
 
-  private constructor(infrastructure: {
+  private constructor(args: {
     academy: AcademyImpl;
     farm: FarmImpl;
     ironMine: IronMineImpl;
@@ -36,16 +36,16 @@ export class InfrastructureImpl implements Infrastructure {
     wall: WallImpl;
     warehouse: WarehouseImpl;
   }) {
-    this.academy = infrastructure.academy;
-    this.farm = infrastructure.farm;
-    this.ironMine = infrastructure.ironMine;
-    this.prefecture = infrastructure.prefecture;
-    this.quarry = infrastructure.quarry;
-    this.sawmill = infrastructure.sawmill;
-    this.silo = infrastructure.silo;
-    this.stable = infrastructure.stable;
-    this.wall = infrastructure.wall;
-    this.warehouse = infrastructure.warehouse;
+    this.academy = args.academy;
+    this.farm = args.farm;
+    this.ironMine = args.ironMine;
+    this.prefecture = args.prefecture;
+    this.quarry = args.quarry;
+    this.sawmill = args.sawmill;
+    this.silo = args.silo;
+    this.stable = args.stable;
+    this.wall = args.wall;
+    this.warehouse = args.warehouse;
   }
 
   public static create(infrastructure: Infrastructure) {

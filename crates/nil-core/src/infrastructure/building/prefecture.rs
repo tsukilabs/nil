@@ -1,10 +1,12 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-mod queue;
+mod build_queue;
+mod catalog;
 
 use super::{BuildingId, BuildingLevel};
 use crate::check_total_resource_ratio;
+use crate::infrastructure::requirements::InfrastructureRequirements;
 use crate::resource::{
   BaseCost,
   BaseCostGrowth,
@@ -16,7 +18,15 @@ use crate::resource::{
 use nil_core_macros::Building;
 use serde::{Deserialize, Serialize};
 
-pub use queue::{BuildOrder, BuildOrderId, BuildOrderStatus, BuildQueue};
+pub use build_queue::{
+  PrefectureBuildOrder,
+  PrefectureBuildOrderId,
+  PrefectureBuildOrderKind,
+  PrefectureBuildOrderOptions,
+  PrefectureBuildOrderStatus,
+  PrefectureBuildQueue,
+};
+pub use catalog::{PrefectureCatalog, PrefectureCatalogEntry, PrefectureCatalogRecipe};
 
 /// Centro logístico da aldeia, responsável pela construção de edifícios.
 #[derive(Building, Clone, Debug, Deserialize, Serialize)]
@@ -24,11 +34,13 @@ pub use queue::{BuildOrder, BuildOrderId, BuildOrderStatus, BuildQueue};
 pub struct Prefecture {
   level: BuildingLevel,
   enabled: bool,
-  queue: BuildQueue,
+  build_queue: PrefectureBuildQueue,
 }
 
 impl Prefecture {
   pub const ID: BuildingId = BuildingId::Prefecture;
+
+  pub const MIN_LEVEL: BuildingLevel = BuildingLevel::new(1);
   pub const MAX_LEVEL: BuildingLevel = BuildingLevel::new(30);
 
   pub const BASE_COST: BaseCost = BaseCost::new(150_000);
@@ -42,8 +54,17 @@ impl Prefecture {
   pub const WORKFORCE: Workforce = Workforce::new(50);
   pub const WORKFORCE_GROWTH: WorkforceGrowth = WorkforceGrowth::new(0.2);
 
+  pub const INFRASTRUCTURE_REQUIREMENTS: InfrastructureRequirements =
+    InfrastructureRequirements::none();
+
+  pub(crate) fn build_queue_mut(&mut self) -> &mut PrefectureBuildQueue {
+    &mut self.build_queue
+  }
+
   pub(crate) fn process_queue(&mut self) {
-    self.queue.process(self.level.into());
+    if self.enabled {
+      self.build_queue.process(self.level.into());
+    }
   }
 }
 
@@ -52,7 +73,7 @@ impl Default for Prefecture {
     Self {
       level: BuildingLevel::new(1),
       enabled: true,
-      queue: BuildQueue::default(),
+      build_queue: PrefectureBuildQueue::default(),
     }
   }
 }

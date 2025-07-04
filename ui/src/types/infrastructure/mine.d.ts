@@ -3,9 +3,12 @@
 
 type MineId = 'farm' | 'iron-mine' | 'quarry' | 'sawmill';
 
-type MineStats = {
+interface MineStats {
   readonly level: BuildingLevel;
   readonly production: number;
-};
+}
 
-type MineStatsTable = ReadonlyMap<MineId, ReadonlyMap<BuildingLevel, MineStats>>;
+type MineStatsTable = {
+  readonly id: MineId;
+  readonly table: ReadonlyMap<BuildingLevel, MineStats>;
+};

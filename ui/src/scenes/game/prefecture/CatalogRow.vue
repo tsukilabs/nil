@@ -1,0 +1,121 @@
+<!-- Copyright (C) Call of Nil contributors -->
+<!-- SPDX-License-Identifier: AGPL-3.0-only -->
+
+<script setup lang="ts">
+import { computed, nextTick } from 'vue';
+import type { BuildingImpl } from '@/core/model/buildings/abstract';
+import { Button, TableCell, TableRow } from '@tb-dev/vue-components';
+import type { PrefectureImpl } from '@/core/model/buildings/prefecture';
+
+const props = defineProps<{
+  entry: PrefectureCatalogEntry;
+  building: BuildingImpl;
+  prefecture: PrefectureImpl;
+  scene: GameScene;
+  loading: boolean;
+  onBuildOrder: (kind: PrefectureBuildOrderKind) => void;
+}>();
+
+const { player } = NIL.player.refs();
+const { isPlayerTurn } = NIL.round.refs();
+
+const nextLevel = computed(() => {
+  const id = props.building.id;
+  const level = props.building.level;
+  return props.prefecture.resolveBuildingLevel(id, level);
+});
+
+const canBuild = computed(() => {
+  if (
+    !props.loading &&
+    player.value &&
+    isPlayerTurn.value &&
+    props.prefecture.enabled &&
+    nextLevel.value <= props.building.maxLevel &&
+    props.entry.kind === 'available'
+  ) {
+    return player.value.hasResources(props.entry.recipe.resources);
+  }
+
+  return false;
+});
+
+const canDemolish = computed(() => {
+  return (
+    !props.loading &&
+    player.value &&
+    isPlayerTurn.value &&
+    props.prefecture.enabled &&
+    nextLevel.value >= props.building.minLevel
+  );
+});
+
+async function emitOrder(kind: PrefectureBuildOrderKind) {
+  await nextTick();
+  if ((kind === 'construction' && canBuild.value) || (kind === 'demolition' && canDemolish.value)) {
+    props.onBuildOrder(kind);
+  }
+}
+</script>
+
+<template>
+  <TableRow v-if="entry.kind === 'available'">
+    <TableCell class="min-w-24">
+      <div class="flex flex-col gap-1">
+        <RouterLink :to="{ name: scene }">{{ $t(building.id) }}</RouterLink>
+        <span class="text-muted-foreground text-xs">
+          {{ $t('level-x', [building.level]) }}
+        </span>
+      </div>
+    </TableCell>
+    <TableCell>
+      <div class="grid grid-cols-3 items-center justify-start gap-4">
+        <Wood :amount="entry.recipe.resources.wood" />
+        <Stone :amount="entry.recipe.resources.stone" />
+        <Iron :amount="entry.recipe.resources.iron" />
+      </div>
+    </TableCell>
+    <TableCell>
+      <div class="flex items-center justify-start">
+        <Food :amount="entry.recipe.maintenance" />
+      </div>
+    </TableCell>
+    <TableCell>
+      <div class="flex items-center justify-start">
+        <Workforce :amount="entry.recipe.workforce" />
+      </div>
+    </TableCell>
+    <TableCell class="min-w-30">
+      <div class="grid max-w-fit grid-cols-2 items-center justify-start gap-4">
+        <Button
+          size="sm"
+          :disabled="!canBuild"
+          class="max-w-24"
+          @click="() => emitOrder('construction')"
+        >
+          <span>{{ $t('build') }}</span>
+        </Button>
+        <Button
+          variant="destructive"
+          size="sm"
+          :disabled="!canDemolish"
+          class="max-w-24"
+          @click="() => emitOrder('demolition')"
+        >
+          <span>{{ $t('demolish') }}</span>
+        </Button>
+      </div>
+    </TableCell>
+  </TableRow>
+
+  <TableRow v-else-if="entry.kind === 'maxed'">
+    <TableCell>
+      <span>{{ $t(building.id) }}</span>
+    </TableCell>
+    <TableCell colspan="4" class="w-full">
+      <div class="text-muted-foreground flex w-full items-center justify-center text-sm">
+        <span>{{ $t('building-fully-constructed') }}</span>
+      </div>
+    </TableCell>
+  </TableRow>
+</template>

@@ -15,14 +15,14 @@ export class RoundEntity extends Entity {
   private readonly round: Ref<Option<RoundImpl>>;
   private readonly isPlayerTurn: ComputedRef<boolean>;
 
-  readonly #updateRound: () => Promise<void>;
+  private readonly updateRound: () => Promise<void>;
 
   constructor() {
     super();
 
     const round = asyncRef(null, () => RoundImpl.load());
     this.round = round.state;
-    this.#updateRound = round.execute;
+    this.updateRound = round.execute;
 
     const { player } = NIL.player.refs();
     this.isPlayerTurn = computed(() => {
@@ -31,11 +31,15 @@ export class RoundEntity extends Entity {
       return pending ?? false;
     });
 
+    this.initListeners();
+  }
+
+  protected override initListeners() {
     this.event.onRoundUpdated(this.onRoundUpdated.bind(this));
   }
 
   public override async update() {
-    await this.#updateRound();
+    await this.updateRound();
   }
 
   private async onRoundUpdated({ round }: RoundUpdatedPayload) {

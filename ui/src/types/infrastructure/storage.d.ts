@@ -3,9 +3,12 @@
 
 type StorageId = 'silo' | 'warehouse';
 
-type StorageStats = {
+interface StorageStats {
   readonly capacity: number;
   readonly level: BuildingLevel;
-};
+}
 
-type StorageStatsTable = ReadonlyMap<StorageId, ReadonlyMap<BuildingLevel, StorageStats>>;
+type StorageStatsTable = {
+  readonly id: StorageId;
+  readonly table: ReadonlyMap<BuildingLevel, StorageStats>;
+};

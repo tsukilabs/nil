@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable no-inner-declarations */
-/* eslint-disable @typescript-eslint/consistent-type-definitions */
 import type { App } from 'vue';
 import type { go } from '@/router';
 import type { commands } from '@/lib/api';

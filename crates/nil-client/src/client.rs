@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 mod chat;
+mod continent;
+mod infrastructure;
 mod lobby;
 mod player;
 mod round;

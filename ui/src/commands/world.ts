@@ -3,7 +3,7 @@
 
 import { invoke } from '@tauri-apps/api/core';
 import { WorldConfigImpl } from '@/core/model/world-config';
-import { type RawWorldStats, WorldStatsImpl } from '@/core/model/world-stats';
+import { type RawWorldStats, WorldStatsImpl } from '@/core/model/stats/world-stats';
 
 export async function getWorldConfig(): Promise<WorldConfigImpl> {
   const config = await invoke<WorldConfig>('get_world_config');

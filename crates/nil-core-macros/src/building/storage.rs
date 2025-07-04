@@ -14,9 +14,14 @@ pub fn impl_storage(ast: &DeriveInput) -> TokenStream {
         Storage,
         StorageCapacity,
         StorageCapacityGrowth,
+        StorageId
       };
 
       impl Storage for #name {
+        fn storage_id(&self) -> StorageId {
+          Self::STORAGE_ID
+        }
+
         fn capacity(&self) -> StorageCapacity {
           Self::CAPACITY
         }

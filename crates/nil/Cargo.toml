@@ -3,81 +3,42 @@ name = "nil"
 version = "0.1.0"
 publish = false
 
-[package.edition]
-workspace = true
-
-[package.rust-version]
-workspace = true
-
-[package.license-file]
-workspace = true
-
-[package.homepage]
-workspace = true
-
-[package.repository]
-workspace = true
-
-[package.authors]
-workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license-file.workspace = true
+homepage.workspace = true
+repository.workspace = true
+authors.workspace = true
 
 [lints]
 workspace = true
 
 [dependencies]
-anyhow = "1.0"
-futures = "0.3"
-itertools = "0.14"
-remain = "0.2"
-tauri-plugin-clipboard-manager = "2.3"
-tauri-plugin-dialog = "2.3"
-tauri-plugin-fs = "2.4"
-tauri-plugin-persisted-scope = "2.3"
-tauri-plugin-process = "2.3"
-tauri-plugin-single-instance = "2.3"
-tauri-plugin-window-state = "2.3"
-thiserror = "2.0"
-
-[dependencies.serde]
-version = "1.0"
-features = ["derive"]
-
-[dependencies.nil-client]
-version = "*"
-path = "../nil-client"
-
-[dependencies.nil-core]
-version = "*"
-path = "../nil-core"
-
-[dependencies.nil-server]
-version = "*"
-path = "../nil-server"
-
-[dependencies.nil-util]
-version = "*"
-path = "../nil-util"
+anyhow.workspace = true
+futures.workspace = true
+itertools.workspace = true
+nil-client.workspace = true
+nil-core.workspace = true
+nil-server.workspace = true
+nil-util.workspace = true
+remain.workspace = true
+serde.workspace = true
+tauri-plugin-clipboard-manager.workspace = true
+tauri-plugin-dialog.workspace = true
+tauri-plugin-fs.workspace = true
+tauri-plugin-persisted-scope.workspace = true
+tauri-plugin-prevent-default.workspace = true
+tauri-plugin-process.workspace = true
+tauri-plugin-single-instance.workspace = true
+tauri-plugin-window-state.workspace = true
+thiserror.workspace = true
+tokio.workspace = true
+tracing.workspace = true
+tracing-subscriber.workspace = true
 
 [dependencies.tauri]
 version = "2.6"
 features = ["protocol-asset", "rustls-tls"]
-
-[dependencies.tauri-plugin-prevent-default]
-version = "2.1"
-features = ["unstable-windows"]
-
-[dependencies.tokio]
-version = "1.46"
-features = ["full"]
-
-[dependencies.tracing]
-version = "0.1"
-features = ["release_max_level_off"]
-
-[dependencies.tracing-subscriber]
-version = "0.3"
-default-features = false
-features = ["ansi", "chrono", "env-filter", "fmt", "parking_lot", "registry", "smallvec", "std"]
 
 [build-dependencies.tauri-build]
 version = "2.3"

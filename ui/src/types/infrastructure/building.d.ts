@@ -15,10 +15,10 @@ type BuildingId =
 
 type BuildingLevel = number;
 
-type Building = {
+interface Building {
   readonly enabled: boolean;
   readonly level: BuildingLevel;
-};
+}
 
 type Academy = Building;
 type Stable = Building;
@@ -30,12 +30,17 @@ type Warehouse = Building;
 type Silo = Building;
 type Wall = Building;
 
-type BuildingStats = {
+interface BuildingStats {
   readonly baseCost: number;
   readonly level: BuildingLevel;
   readonly maintenance: number;
   readonly resources: Resources;
   readonly workforce: number;
-};
+}
 
-type BuildingStatsTable = ReadonlyMap<BuildingId, ReadonlyMap<BuildingLevel, BuildingStats>>;
+interface BuildingStatsTable {
+  readonly id: BuildingId;
+  readonly minLevel: BuildingLevel;
+  readonly maxLevel: BuildingLevel;
+  readonly table: ReadonlyMap<BuildingLevel, BuildingStats>;
+}

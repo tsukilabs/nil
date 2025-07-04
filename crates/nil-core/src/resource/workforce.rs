@@ -4,15 +4,18 @@
 use crate::infrastructure::building::BuildingLevel;
 use crate::village::Stability;
 use derive_more::Deref;
+use nil_num::impl_mul_ceil;
+use nil_num::ops::MulCeil;
 use serde::{Deserialize, Serialize};
+use std::cmp::Ordering;
 use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Sub, SubAssign};
 
 /// Força de trabalho é um recurso especial usado para construir edifícios e recrutar tropas.
 /// A quantidade gerada por turno será sempre igual ao nível do edifício relevante (ex.: prefeitura).
 ///
 /// Ao contrário dos outros recursos, a força de trabalho jamais deve acumular para o próximo turno.
-/// Tudo o que não for usado, deve ser descartado.
-#[derive(Clone, Copy, Debug, Deref, PartialEq, Eq, Deserialize, Serialize)]
+/// Tudo o que não for usado deve ser descartado.
+#[derive(Clone, Copy, Debug, Deref, PartialEq, Eq, PartialOrd, Ord, Deserialize, Serialize)]
 pub struct Workforce(u32);
 
 impl Workforce {
@@ -43,6 +46,12 @@ impl From<f64> for Workforce {
 impl PartialEq<u32> for Workforce {
   fn eq(&self, other: &u32) -> bool {
     self.0 == *other
+  }
+}
+
+impl PartialOrd<u32> for Workforce {
+  fn partial_cmp(&self, other: &u32) -> Option<Ordering> {
+    self.0.partial_cmp(other)
   }
 }
 
@@ -108,8 +117,7 @@ impl Mul<Stability> for Workforce {
   type Output = Workforce;
 
   fn mul(self, rhs: Stability) -> Self::Output {
-    let result = f64::from(self.0) * (*rhs);
-    Self::from(result.ceil())
+    Self::from(self.mul_ceil(*rhs))
   }
 }
 
@@ -148,6 +156,8 @@ impl Div<Workforce> for f64 {
     self / f64::from(rhs.0)
   }
 }
+
+impl_mul_ceil!(Workforce);
 
 #[derive(Clone, Copy, Debug, Deref, Deserialize, Serialize)]
 pub struct WorkforceGrowth(f64);

@@ -5,15 +5,29 @@ import { PrefectureBuildOrderImpl } from './order';
 
 export class PrefectureBuildQueueImpl implements PrefectureBuildQueue {
   public readonly orders: readonly PrefectureBuildOrderImpl[];
-  public readonly currentId: string;
 
-  private constructor(queue: { orders: PrefectureBuildOrderImpl[]; currentId: string }) {
+  private constructor(queue: { orders: PrefectureBuildOrderImpl[] }) {
     this.orders = queue.orders;
-    this.currentId = queue.currentId;
+  }
+
+  public *[Symbol.iterator]() {
+    yield* this.orders;
+  }
+
+  public first() {
+    return this.orders.at(0);
+  }
+
+  public last() {
+    return this.orders.at(-1);
   }
 
   public static create(queue: PrefectureBuildQueue) {
     const orders = queue.orders.map((it) => PrefectureBuildOrderImpl.create(it));
-    return new PrefectureBuildQueueImpl({ orders, currentId: queue.currentId });
+    return new PrefectureBuildQueueImpl({ orders });
+  }
+
+  get size() {
+    return this.orders.length;
   }
 }

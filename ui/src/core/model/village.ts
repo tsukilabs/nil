@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as commands from '@/commands';
-import type { Option } from '@tb-dev/utils';
 import { CoordImpl } from '@/core/model/coord';
 import { InfrastructureImpl } from '@/core/model/infrastructure';
 
@@ -33,7 +32,7 @@ export class VillageImpl implements Village {
       iron: this.ironMine.getProduction(),
       stone: this.quarry.getProduction(),
       wood: this.sawmill.getProduction(),
-    } satisfies Record<keyof Resources, Option<number>>;
+    } satisfies Partial<Resources>;
   }
 
   get academy() {
