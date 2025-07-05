@@ -8,7 +8,11 @@ pub mod storage;
 
 use crate::error::{Error, Result};
 use crate::resource::{Maintenance, Resources};
-use building::prefecture::{PrefectureBuildOrder, PrefectureBuildOrderOptions};
+use building::prefecture::{
+  PrefectureBuildOrder,
+  PrefectureBuildOrderKind,
+  PrefectureBuildOrderOptions,
+};
 use building::prelude::*;
 use building::{Building, BuildingId, BuildingStatsTable};
 use mine::{Mine, MineId, MineStatsTable};
@@ -46,6 +50,21 @@ impl Infrastructure {
       BuildingId::Stable => &self.stable,
       BuildingId::Wall => &self.wall,
       BuildingId::Warehouse => &self.warehouse,
+    }
+  }
+
+  const fn building_mut(&mut self, id: BuildingId) -> &mut dyn Building {
+    match id {
+      BuildingId::Academy => &mut self.academy,
+      BuildingId::Farm => &mut self.farm,
+      BuildingId::IronMine => &mut self.iron_mine,
+      BuildingId::Prefecture => &mut self.prefecture,
+      BuildingId::Quarry => &mut self.quarry,
+      BuildingId::Sawmill => &mut self.sawmill,
+      BuildingId::Silo => &mut self.silo,
+      BuildingId::Stable => &mut self.stable,
+      BuildingId::Wall => &mut self.wall,
+      BuildingId::Warehouse => &mut self.warehouse,
     }
   }
 
@@ -116,9 +135,19 @@ impl Infrastructure {
     Ok(maintenance)
   }
 
-  /// Processa a fila de construção ou de recrutamento dos edifícios que as possuem.
-  pub(crate) fn process_queue(&mut self) {
-    self.prefecture.process_queue();
+  /// Processa a fila de construção da prefeitura.
+  pub(crate) fn process_prefecture_build_queue(&mut self) -> Result<()> {
+    if let Some(orders) = self.prefecture.process_queue() {
+      for order in orders {
+        let building = self.building_mut(order.building());
+        match order.kind() {
+          PrefectureBuildOrderKind::Construction => building.increase_level()?,
+          PrefectureBuildOrderKind::Demolition => building.decrease_level()?,
+        }
+      }
+    }
+
+    Ok(())
   }
 
   pub(crate) fn add_prefecture_build_order(

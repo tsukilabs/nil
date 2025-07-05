@@ -17,6 +17,7 @@ use crate::resource::{
 };
 use nil_core_macros::Building;
 use serde::{Deserialize, Serialize};
+use std::ops::Not;
 
 pub use build_queue::{
   PrefectureBuildOrder,
@@ -61,9 +62,14 @@ impl Prefecture {
     &mut self.build_queue
   }
 
-  pub(crate) fn process_queue(&mut self) {
+  /// Processa a fila de construção da prefeitura.
+  #[must_use]
+  pub(crate) fn process_queue(&mut self) -> Option<Vec<PrefectureBuildOrder>> {
     if self.enabled {
-      self.build_queue.process(self.level.into());
+      let orders = self.build_queue.process(self.level.into());
+      orders.is_empty().not().then_some(orders)
+    } else {
+      None
     }
   }
 }

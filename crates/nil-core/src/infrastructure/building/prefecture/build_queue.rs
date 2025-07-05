@@ -84,17 +84,24 @@ impl PrefectureBuildQueue {
   }
 
   /// Consome força de trabalho até que ela se esgote ou toda a fila de construção seja concluída.
-  pub(super) fn process(&mut self, mut workforce: Workforce) {
+  #[must_use]
+  pub(super) fn process(&mut self, mut workforce: Workforce) -> Vec<PrefectureBuildOrder> {
+    let mut orders = Vec::new();
     loop {
-      if workforce == 0
-        || self
-          .orders
-          .pop_front_if(|order| order.update(&mut workforce))
-          .is_none()
-      {
+      if workforce == 0 {
         break;
       }
+
+      match self
+        .orders
+        .pop_front_if(|order| order.update(&mut workforce))
+      {
+        Some(order) => orders.push(order),
+        None => break,
+      }
     }
+
+    orders
   }
 
   pub fn iter(&self) -> impl Iterator<Item = &PrefectureBuildOrder> {

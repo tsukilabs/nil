@@ -16,7 +16,7 @@ pub fn impl_building(ast: &DeriveInput) -> TokenStream {
   let stream = quote! {
     mod __impl_building {
       use super::#name;
-      use crate::error::Result;
+      use crate::error::{Error, Result};
       use crate::infrastructure::requirements::InfrastructureRequirements;
       use crate::infrastructure::building::{
         Building,
@@ -53,6 +53,26 @@ pub fn impl_building(ast: &DeriveInput) -> TokenStream {
 
         fn max_level(&self) -> BuildingLevel {
           Self::MAX_LEVEL
+        }
+
+        fn increase_level(&mut self) -> Result<()> {
+          if self.level >= Self::MAX_LEVEL {
+            return Err(Error::CannotIncreaseBuildingLevel(Self::ID));
+          }
+
+          self.level += 1u8;
+
+          Ok(())
+        }
+
+        fn decrease_level(&mut self) -> Result<()> {
+          if self.level <= Self::MIN_LEVEL {
+            return Err(Error::CannotDecreaseBuildingLevel(Self::ID));
+          }
+
+          self.level -= 1u8;
+
+          Ok(())
         }
 
         fn base_cost(&self) -> BaseCost {

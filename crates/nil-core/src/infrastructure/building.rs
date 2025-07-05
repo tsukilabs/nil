@@ -43,6 +43,8 @@ pub trait Building {
   fn level(&self) -> BuildingLevel;
   fn min_level(&self) -> BuildingLevel;
   fn max_level(&self) -> BuildingLevel;
+  fn increase_level(&mut self) -> Result<()>;
+  fn decrease_level(&mut self) -> Result<()>;
 
   fn base_cost(&self) -> BaseCost;
   fn base_cost_growth(&self) -> BaseCostGrowth;
