@@ -5,13 +5,14 @@
 import { go } from '@/router';
 import Header from './Header.vue';
 import Footer from './Footer.vue';
-import { endTurn } from '@/commands';
+import * as commands from '@/commands';
 import { useToggle } from '@vueuse/core';
 import { onCtrlKeyDown } from '@tb-dev/vue';
-import { nextTick, useTemplateRef } from 'vue';
 import { onBeforeRouteUpdate } from 'vue-router';
 import { leaveGame, saveGame } from '@/core/game';
+import { defineGlobalCheats } from '@/lib/console';
 import { Button, Sidebar } from '@tb-dev/vue-components';
+import { nextTick, onMounted, useTemplateRef } from 'vue';
 import { type OnClickOutsideProps, vOnClickOutside } from '@vueuse/components';
 
 const { isPlayerTurn } = NIL.round.refs();
@@ -27,14 +28,16 @@ const onClickOutsideOptions: OnClickOutsideProps['options'] = {
 onCtrlKeyDown(['b', 'B'], () => toggleSidebar());
 onCtrlKeyDown(['m', 'M'], () => go('map'));
 onCtrlKeyDown(['s', 'S'], () => saveGame());
-onCtrlKeyDown(' ', () => onTurnEnd());
+onCtrlKeyDown(' ', () => endTurn());
 
 onBeforeRouteUpdate(closeSidebar);
 
-async function onTurnEnd() {
+onMounted(() => defineGlobalCheats());
+
+async function endTurn() {
   await nextTick();
   if (isPlayerTurn.value) {
-    endTurn().err();
+    commands.endTurn().err();
   }
 }
 </script>
@@ -44,7 +47,7 @@ async function onTurnEnd() {
     <div class="bg-muted/40 absolute inset-0 overflow-hidden">
       <Header
         class="bg-background absolute inset-x-0 top-0 h-16 border-b px-4"
-        @turn-end="onTurnEnd"
+        @turn-end="endTurn"
       />
 
       <div class="absolute inset-x-0 top-16 bottom-10 overflow-hidden">

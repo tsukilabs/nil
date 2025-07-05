@@ -62,8 +62,8 @@ export class ChatEntity extends Entity {
       Object.defineProperty(window.NIL, 'chat', {
         configurable: false,
         enumerable: true,
-        value: chat,
         writable: false,
+        value: chat,
       });
     }
   }

@@ -81,8 +81,8 @@ export class CurrentPlayerEntity extends Entity {
       Object.defineProperty(window.NIL, 'player', {
         configurable: false,
         enumerable: true,
-        value: player,
         writable: false,
+        value: player,
       });
     }
   }

@@ -4,6 +4,7 @@
 <script setup lang="ts">
 import { computed, nextTick } from 'vue';
 import CatalogCellBuilding from './CatalogCellBuilding.vue';
+import { useBuildingLevel } from '@/composables/prefecture';
 import type { BuildingImpl } from '@/core/model/buildings/abstract';
 import { Button, TableCell, TableRow } from '@tb-dev/vue-components';
 import type { PrefectureImpl } from '@/core/model/buildings/prefecture';
@@ -20,11 +21,10 @@ const props = defineProps<{
 const { player } = NIL.player.refs();
 const { isPlayerTurn } = NIL.round.refs();
 
-const nextLevel = computed(() => {
-  const id = props.building.id;
-  const level = props.building.level;
-  return props.prefecture.resolveBuildingLevel(id, level);
-});
+const level = useBuildingLevel(
+  () => props.prefecture,
+  () => props.building
+);
 
 const canBuild = computed(() => {
   if (
@@ -32,7 +32,7 @@ const canBuild = computed(() => {
     player.value &&
     isPlayerTurn.value &&
     props.prefecture.enabled &&
-    nextLevel.value <= props.building.maxLevel &&
+    level.value.next <= level.value.max &&
     props.entry.kind === 'available'
   ) {
     return player.value.hasResources(props.entry.recipe.resources);
@@ -47,7 +47,7 @@ const canDemolish = computed(() => {
     player.value &&
     isPlayerTurn.value &&
     props.prefecture.enabled &&
-    nextLevel.value >= props.building.minLevel
+    level.value.previous >= level.value.min
   );
 });
 

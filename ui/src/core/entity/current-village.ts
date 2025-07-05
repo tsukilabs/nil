@@ -142,8 +142,8 @@ export class CurrentVillageEntity extends Entity {
       Object.defineProperty(window.NIL, 'village', {
         configurable: false,
         enumerable: true,
-        value: village,
         writable: false,
+        value: village,
       });
     }
   }

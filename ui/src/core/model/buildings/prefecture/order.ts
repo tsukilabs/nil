@@ -28,6 +28,15 @@ export class PrefectureBuildOrderImpl implements PrefectureBuildOrder {
     return this.status.kind === 'pending';
   }
 
+  public getPendingWorkforce() {
+    switch (this.status.kind) {
+      case 'pending':
+        return this.status.workforce;
+      default:
+        return 0;
+    }
+  }
+
   public static create(order: PrefectureBuildOrder) {
     return new PrefectureBuildOrderImpl(order);
   }

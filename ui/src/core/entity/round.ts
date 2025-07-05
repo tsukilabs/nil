@@ -78,8 +78,8 @@ export class RoundEntity extends Entity {
       Object.defineProperty(window.NIL, 'round', {
         configurable: false,
         enumerable: true,
-        value: round,
         writable: false,
+        value: round,
       });
     }
   }

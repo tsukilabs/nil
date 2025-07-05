@@ -17,13 +17,13 @@ export class PrefectureImpl extends BuildingImpl implements Prefecture {
     return this.buildQueue.orders.some((order) => order.id === id);
   }
 
-  public resolveBuildingLevel(building: BuildingId, level: BuildingLevel) {
-    const { stats } = NIL.world.refs();
-    const min = stats.value?.getBuildingMinLevel(building) ?? 0;
-    const max = stats.value?.getBuildingMaxLevel(building) ?? 255;
+  public resolveBuildingLevel(building: BuildingImpl) {
+    let level = building.level;
+    const min = building.minLevel;
+    const max = building.maxLevel;
 
     for (const order of this.buildQueue) {
-      if (order.building === building) {
+      if (order.building === building.id) {
         switch (order.kind) {
           case 'construction': {
             level = Math.min(level + 1, max);

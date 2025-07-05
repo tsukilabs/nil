@@ -45,8 +45,8 @@ export class WorldEntity extends Entity {
       Object.defineProperty(window.NIL, 'world', {
         configurable: false,
         enumerable: true,
-        value: world,
         writable: false,
+        value: world,
       });
     }
   }

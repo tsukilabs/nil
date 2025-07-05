@@ -4,18 +4,18 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
 import { throttle } from 'es-toolkit';
-import * as commands from '@/commands';
 import { showWindow } from '@/commands';
 import { onKeyDown } from '@tb-dev/vue';
 import { handleError } from '@/lib/error';
 import { useColorMode } from '@vueuse/core';
 import { Sonner } from '@tb-dev/vue-components';
+import { defineGlobalCommands } from '@/lib/console';
 
 useColorMode({
-  initialValue: 'dark',
-  onError: handleError,
   storageKey: 'nil:color-mode',
+  initialValue: 'dark',
   writeDefaults: true,
+  onError: handleError,
 });
 
 onKeyDown('F5', throttle(NIL.update, 1000));
@@ -23,9 +23,7 @@ onKeyDown('F5', throttle(NIL.update, 1000));
 onMounted(async () => {
   try {
     await showWindow();
-    if (await commands.isDev()) {
-      (window as any).$c = commands;
-    }
+    await defineGlobalCommands();
   } catch (err) {
     handleError(err);
   }

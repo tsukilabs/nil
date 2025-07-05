@@ -56,10 +56,8 @@ pub enum PrefectureCatalogEntry {
   Available {
     recipe: Box<PrefectureCatalogRecipe>,
   },
-
   /// Edifício já está no nível máximo.
   Maxed,
-
   /// Aldeia não atende aos requerimentos para a construção.
   Unmet {
     requirements: InfrastructureRequirements,
@@ -88,7 +86,7 @@ impl PrefectureCatalogEntry {
         }
       });
 
-    if target_level >= building.max_level() {
+    if target_level > building.max_level() {
       Ok(Self::Maxed)
     } else {
       let stats = table.get(target_level)?;

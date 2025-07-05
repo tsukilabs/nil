@@ -33,37 +33,39 @@ const last = computed(() => props.prefecture.buildQueue.last());
       </TableRow>
     </template>
 
-    <TableRow v-for="order of prefecture.buildQueue" :key="order.id">
-      <TableCell>
-        <div class="flex items-center justify-start gap-2">
-          <ChevronUpIcon
-            v-if="order.kind === 'construction'"
-            color="#00bd7e"
-            stroke-width="2px"
-            class="size-5"
-          />
-          <ChevronDownIcon
-            v-else-if="order.kind === 'demolition'"
-            color="#e61001"
-            stroke-width="2px"
-            class="size-5"
-          />
+    <template v-for="order of prefecture.buildQueue" :key="order.id">
+      <TableRow v-if="order.status.kind === 'pending'">
+        <TableCell>
+          <div class="flex items-center justify-start gap-2">
+            <ChevronUpIcon
+              v-if="order.kind === 'construction'"
+              color="#00bd7e"
+              stroke-width="2px"
+              class="size-5"
+            />
+            <ChevronDownIcon
+              v-else-if="order.kind === 'demolition'"
+              color="#e61001"
+              stroke-width="2px"
+              class="size-5"
+            />
 
-          <span>{{ `${$t(order.building)} (${$t('level-x', [order.level])})` }}</span>
-        </div>
-      </TableCell>
-      <TableCell>
-        <div class="flex items-center justify-start">
-          <Workforce :amount="order.workforce" />
-        </div>
-      </TableCell>
-      <TableCell>
-        <div v-if="order.id === last?.id" class="flex items-center justify-center">
-          <Button variant="destructive" size="sm" :disabled="loading" @click="onCancel">
-            <span>{{ $t('cancel') }}</span>
-          </Button>
-        </div>
-      </TableCell>
-    </TableRow>
+            <span>{{ `${$t(order.building)} (${$t('level-x', [order.level])})` }}</span>
+          </div>
+        </TableCell>
+        <TableCell>
+          <div class="flex items-center justify-start">
+            <Workforce :amount="order.status.workforce" />
+          </div>
+        </TableCell>
+        <TableCell>
+          <div v-if="order.id === last?.id" class="flex items-center justify-center">
+            <Button variant="destructive" size="sm" :disabled="loading" @click="onCancel">
+              <span>{{ $t('cancel') }}</span>
+            </Button>
+          </div>
+        </TableCell>
+      </TableRow>
+    </template>
   </Table>
 </template>

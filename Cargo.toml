@@ -45,6 +45,7 @@ tauri-plugin-single-instance = "2.3"
 tauri-plugin-window-state = "2.3"
 thiserror = "2.0"
 tokio-tungstenite = "0.27"
+wasm-bindgen = "0.2"
 
 [workspace.dependencies.axum]
 version = "0.8"
