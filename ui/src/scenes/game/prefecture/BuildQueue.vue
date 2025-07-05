@@ -6,7 +6,7 @@ import { computed } from 'vue';
 import type { MaybePromise } from '@tb-dev/utils';
 import { ChevronDownIcon, ChevronUpIcon } from 'lucide-vue-next';
 import type { PrefectureImpl } from '@/core/model/buildings/prefecture';
-import { Button, Table, TableCell, TableHead, TableRow } from '@tb-dev/vue-components';
+import { Button, cn, Table, TableCell, TableHead, TableRow } from '@tb-dev/vue-components';
 
 const props = defineProps<{
   prefecture: PrefectureImpl;
@@ -15,10 +15,14 @@ const props = defineProps<{
 }>();
 
 const last = computed(() => props.prefecture.buildQueue.last());
+
+const tableClass = computed(() => {
+  return props.prefecture.buildQueue.size === 0 ? 'hidden' : null;
+});
 </script>
 
 <template>
-  <Table>
+  <Table :class="cn(tableClass, 'xl:table xl:w-2/5 xl:max-w-[500px] xl:min-w-[250px]')">
     <template #header>
       <TableRow class="bg-background hover:bg-background">
         <TableHead>

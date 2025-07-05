@@ -76,13 +76,7 @@ async function cancelBuildOrder() {
       </template>
 
       <div class="flex w-full flex-col gap-4 xl:flex-row-reverse">
-        <BuildQueue
-          v-if="prefecture && prefecture.buildQueue.size > 0"
-          :prefecture
-          :loading
-          class="xl:w-2/5 xl:max-w-[500px] xl:min-w-[250px]"
-          @cancel="cancelBuildOrder"
-        />
+        <BuildQueue v-if="prefecture" :prefecture :loading @cancel="cancelBuildOrder" />
         <Catalog v-if="catalog" :catalog :infrastructure :loading @build-order="addBuildOrder" />
       </div>
     </Card>
