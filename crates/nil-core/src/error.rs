@@ -29,6 +29,9 @@ pub enum Error {
   #[error("Building \"{0}\" is already at its maximum level")]
   CannotIncreaseBuildingLevel(BuildingId),
 
+  #[error("Cheating is not allowed in this world")]
+  CheatingNotAllowed,
+
   #[error("Coord out of bounds: {0}")]
   CoordOutOfBounds(Coord),
 

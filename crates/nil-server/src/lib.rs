@@ -54,7 +54,7 @@ impl Server {
   }
 }
 
-pub async fn new_game(options: WorldOptions) -> Result<(Server, SocketAddrV4)> {
+pub async fn new_game(options: &WorldOptions) -> Result<(Server, SocketAddrV4)> {
   Server::serve(options.into()).await
 }
 

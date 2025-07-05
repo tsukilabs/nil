@@ -4,10 +4,12 @@
 interface WorldOptions {
   readonly name: string;
   readonly size: number;
+  readonly allowCheats: bool;
 }
 
 interface WorldConfig {
   readonly name: string;
+  readonly allowCheats: bool;
 }
 
 interface WorldStats {

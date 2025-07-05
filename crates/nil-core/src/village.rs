@@ -61,6 +61,11 @@ impl Village {
   }
 
   #[inline]
+  pub(crate) fn stability_mut(&mut self) -> &mut Stability {
+    &mut self.stability
+  }
+
+  #[inline]
   pub fn player(&self) -> Option<PlayerId> {
     self.owner().player().cloned()
   }
@@ -152,15 +157,18 @@ impl fmt::Display for Coord {
 pub struct Stability(f64);
 
 impl Stability {
+  pub const MIN: Stability = Stability(0.0);
+  pub const MAX: Stability = Stability(1.0);
+
   #[inline]
   pub const fn new(value: f64) -> Self {
-    Self(value.clamp(0.0, 1.0))
+    Self(value.clamp(Self::MIN.0, Self::MAX.0))
   }
 }
 
 impl Default for Stability {
   fn default() -> Self {
-    Self(1.0)
+    Self::MAX
   }
 }
 

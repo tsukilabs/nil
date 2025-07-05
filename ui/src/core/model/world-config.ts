@@ -3,12 +3,14 @@
 
 export class WorldConfigImpl implements WorldConfig {
   public readonly name: string;
+  public readonly allowCheats: boolean;
 
-  private constructor(state: { name: string }) {
-    this.name = state.name;
+  private constructor(args: WorldConfig) {
+    this.name = args.name;
+    this.allowCheats = args.allowCheats;
   }
 
   public static create(config: WorldConfig) {
-    return new WorldConfigImpl({ name: config.name });
+    return new WorldConfigImpl(config);
   }
 }

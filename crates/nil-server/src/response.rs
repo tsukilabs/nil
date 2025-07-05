@@ -42,6 +42,7 @@ pub(crate) fn from_core_err(err: CoreError) -> Response {
     BuildingStatsNotFoundForLevel(_, _) => res!(NOT_FOUND, text),
     CannotDecreaseBuildingLevel(_) => res!(BAD_REQUEST, text),
     CannotIncreaseBuildingLevel(_) => res!(BAD_REQUEST, text),
+    CheatingNotAllowed => res!(BAD_REQUEST, text),
     CoordOutOfBounds(_) => res!(BAD_REQUEST, text),
     FailedToLoadWorld => res!(INTERNAL_SERVER_ERROR, text),
     FailedToSaveWorld => res!(INTERNAL_SERVER_ERROR, text),

@@ -3,6 +3,7 @@
 
 <script setup lang="ts">
 import { computed, nextTick } from 'vue';
+import CatalogCellBuilding from './CatalogCellBuilding.vue';
 import type { BuildingImpl } from '@/core/model/buildings/abstract';
 import { Button, TableCell, TableRow } from '@tb-dev/vue-components';
 import type { PrefectureImpl } from '@/core/model/buildings/prefecture';
@@ -61,12 +62,7 @@ async function emitOrder(kind: PrefectureBuildOrderKind) {
 <template>
   <TableRow v-if="entry.kind === 'available'">
     <TableCell class="min-w-24">
-      <div class="flex flex-col gap-1">
-        <RouterLink :to="{ name: scene }">{{ $t(building.id) }}</RouterLink>
-        <span class="text-muted-foreground text-xs">
-          {{ $t('level-x', [building.level]) }}
-        </span>
-      </div>
+      <CatalogCellBuilding :building :scene />
     </TableCell>
     <TableCell>
       <div class="grid grid-cols-3 items-center justify-start gap-4">
@@ -110,7 +106,7 @@ async function emitOrder(kind: PrefectureBuildOrderKind) {
 
   <TableRow v-else-if="entry.kind === 'maxed'">
     <TableCell>
-      <span>{{ $t(building.id) }}</span>
+      <CatalogCellBuilding :building :scene />
     </TableCell>
     <TableCell colspan="4" class="w-full">
       <div class="text-muted-foreground flex w-full items-center justify-center text-sm">

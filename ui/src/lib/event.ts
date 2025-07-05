@@ -38,6 +38,7 @@ class Listener<T extends EventPayload> {
     onPrefectureBuildQueueUpdated: new this<PrefectureBuildQueueUpdatedPayload>('prefecture-build-queue-updated'),
     onRoundUpdated: new this<RoundUpdatedPayload>('round-updated'),
     onVillageSpawned: new this<VillageSpawnedPayload>('village-spawned'),
+    onVillageStabilityUpdated: new this<VillageStabilityUpdatedPayload>('village-stability-updated')
   } as const;
 }
 

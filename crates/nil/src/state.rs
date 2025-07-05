@@ -76,7 +76,7 @@ impl Nil {
 
   pub async fn start_server_with_options(&self, options: WorldOptions) -> Result<SocketAddrV4> {
     self
-      .start_server(async move || Ok(new_game(options).await?))
+      .start_server(async move || Ok(new_game(&options).await?))
       .await
   }
 

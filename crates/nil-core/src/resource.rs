@@ -37,6 +37,38 @@ impl Resources {
     wood: Wood::new(1_000),
   };
 
+  /// Quantidade máxima de recursos possível.
+  pub const MAX: Self = Self {
+    food: Food::MAX,
+    iron: Iron::MAX,
+    stone: Stone::MAX,
+    wood: Wood::MAX,
+  };
+
+  #[inline]
+  #[must_use]
+  pub fn with_food(&self, food: Food) -> Self {
+    Self { food, ..self.clone() }
+  }
+
+  #[inline]
+  #[must_use]
+  pub fn with_iron(&self, iron: Iron) -> Self {
+    Self { iron, ..self.clone() }
+  }
+
+  #[inline]
+  #[must_use]
+  pub fn with_stone(&self, stone: Stone) -> Self {
+    Self { stone, ..self.clone() }
+  }
+
+  #[inline]
+  #[must_use]
+  pub fn with_wood(&self, wood: Wood) -> Self {
+    Self { wood, ..self.clone() }
+  }
+
   /// Retorna `None` se não houver recursos o suficiente.
   pub fn checked_sub(&self, rhs: &Self) -> Option<Self> {
     Some(Self {
@@ -151,14 +183,12 @@ macro_rules! decl_resource {
       pub struct $name(u32);
 
       impl $name {
+        pub const MIN: Self = Self::new(0);
+        pub const MAX: Self = Self::new(u32::MAX);
+
         #[inline]
         pub const fn new(value: u32) -> Self {
           Self(value)
-        }
-
-        #[inline]
-        pub const fn zero() -> Self {
-          Self(0)
         }
 
         #[inline]

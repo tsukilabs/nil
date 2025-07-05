@@ -115,6 +115,7 @@ impl PrefectureBuildQueue {
   }
 }
 
+#[must_use]
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct PrefectureBuildOrder {

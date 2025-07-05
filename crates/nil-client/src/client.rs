@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 mod chat;
+mod cheat;
 mod continent;
 mod infrastructure;
 mod lobby;

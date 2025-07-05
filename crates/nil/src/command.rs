@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 pub mod chat;
+pub mod cheat;
 pub mod client;
 pub mod continent;
 pub mod infrastructure;

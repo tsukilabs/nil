@@ -57,6 +57,6 @@ pub fn window_state() -> TauriPlugin<Wry> {
   use tauri_plugin_window_state::StateFlags as Flags;
 
   tauri_plugin_window_state::Builder::new()
-    .with_state_flags(Flags::POSITION)
+    .with_state_flags(Flags::MAXIMIZED | Flags::POSITION)
     .build()
 }

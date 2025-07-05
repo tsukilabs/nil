@@ -2,10 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::chat::ChatMessage;
-use crate::infrastructure::building::prefecture::{
-  PrefectureBuildOrderId,
-  PrefectureBuildOrderKind,
-};
 use crate::lobby::LobbyState;
 use crate::player::{Player, PlayerId, PlayerStatus};
 use crate::round::Round;
@@ -15,6 +11,9 @@ use serde::{Deserialize, Serialize};
 use std::fmt;
 use strum::Display;
 use tokio::sync::broadcast::{Receiver, Sender, channel};
+
+#[cfg(debug_assertions)]
+use tracing::info;
 
 pub type Listener = Receiver<(Bytes, EventTarget)>;
 
@@ -30,6 +29,9 @@ impl Emitter {
   }
 
   pub(crate) fn emit(&self, event: Event, target: EventTarget) {
+    #[cfg(debug_assertions)]
+    info!(?target, ?event);
+
     let bytes = Bytes::from(event);
     let _ = self.sender.send((bytes, target));
   }
@@ -69,39 +71,31 @@ pub enum Event {
   ChatMessage {
     message: ChatMessage,
   },
-
   GuestLeft {
     guest: Player,
   },
-
   LobbyUpdated {
     lobby: LobbyState,
   },
-
   PlayerResourcesUpdated,
-
   PlayerSpawned {
     player: Player,
   },
-
   PlayerStatusUpdated {
     player: PlayerId,
     status: PlayerStatus,
   },
-
-  #[serde(rename_all = "camelCase")]
   PrefectureBuildQueueUpdated {
     coord: Coord,
-    id: PrefectureBuildOrderId,
-    order_kind: PrefectureBuildOrderKind,
   },
-
   RoundUpdated {
     round: Round,
   },
-
   VillageSpawned {
     village: VillagePublicState,
+  },
+  VillageStabilityUpdated {
+    coord: Coord,
   },
 }
 

@@ -47,11 +47,17 @@ export class CurrentVillageEntity extends Entity {
       .watch(this.coord, this.updateVillage)
       .watch(player, this.onPlayerUpdate.bind(this));
 
-    this.event.onPrefectureBuildQueueUpdated(this.onPrefectureBuildQueueUpdated.bind(this));
+    this.event
+      .onPrefectureBuildQueueUpdated(this.onPrefectureBuildQueueUpdated.bind(this))
+      .onVillageStabilityUpdated(this.onVillageStabilityUpdated.bind(this));
   }
 
   public override async update() {
     await this.updateVillage();
+  }
+
+  public isCoord(coord: Coord) {
+    return this.village.value?.coord.is(coord) ?? false;
   }
 
   private onPlayerUpdate(player: Option<PlayerImpl>) {
@@ -63,9 +69,11 @@ export class CurrentVillageEntity extends Entity {
   }
 
   private async onPrefectureBuildQueueUpdated(payload: PrefectureBuildQueueUpdatedPayload) {
-    if (this.village.value?.coord.is(payload.coord)) {
-      await this.update();
-    }
+    if (this.isCoord(payload.coord)) await this.update();
+  }
+
+  private async onVillageStabilityUpdated(payload: VillageStabilityUpdatedPayload) {
+    if (this.isCoord(payload.coord)) await this.update();
   }
 
   get academy() {

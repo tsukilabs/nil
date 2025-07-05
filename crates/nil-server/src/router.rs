@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 mod chat;
+mod cheat;
 mod continent;
 mod infrastructure;
 mod lobby;
@@ -45,6 +46,13 @@ pub(crate) fn create() -> Router<App> {
     .route("/", get(ok))
     .route("/chat", get(chat::get_all))
     .route("/chat/push", post(chat::push))
+    .route("/cheat/resources", get(cheat::set_max_resources))
+    .route("/cheat/resources", post(cheat::set_resources))
+    .route("/cheat/resources/food", post(cheat::set_food))
+    .route("/cheat/resources/iron", post(cheat::set_iron))
+    .route("/cheat/resources/stone", post(cheat::set_stone))
+    .route("/cheat/resources/wood", post(cheat::set_wood))
+    .route("/cheat/village/stability", post(cheat::set_stability))
     .route("/continent/size", get(continent::size))
     .route("/infrastructure/prefecture/build", post(prefecture::add_build_order))
     .route("/infrastructure/prefecture/cancel-build", post(prefecture::cancel_build_order))

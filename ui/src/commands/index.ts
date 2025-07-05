@@ -4,6 +4,7 @@
 import { invoke } from '@tauri-apps/api/core';
 
 export * from './chat';
+export * from './cheat';
 export * from './round';
 export * from './world';
 export * from './lobby';

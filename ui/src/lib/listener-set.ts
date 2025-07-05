@@ -49,8 +49,11 @@ export class ListenerSet {
   }
 
   public dispose() {
-    this.off();
-    this.disposed = true;
+    try {
+      this.off();
+    } finally {
+      this.disposed = true;
+    }
   }
 
   public readonly event = new Proxy({} as Event, {

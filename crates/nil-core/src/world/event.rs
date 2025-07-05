@@ -4,15 +4,8 @@
 use super::World;
 use crate::chat::ChatMessage;
 use crate::event::{Event, Listener};
-use crate::infrastructure::building::prefecture::{
-  PrefectureBuildOrderId,
-  PrefectureBuildOrderKind,
-};
 use crate::player::{Player, PlayerId, PlayerStatus};
 use crate::village::{Coord, VillagePublicState};
-
-#[cfg(debug_assertions)]
-use tracing::info;
 
 impl World {
   #[inline]
@@ -20,18 +13,20 @@ impl World {
     self.emitter.subscribe()
   }
 
-  pub(super) fn emit_to(&self, target: PlayerId, event: Event) {
-    #[cfg(debug_assertions)]
-    info!(%target, ?event);
+  fn broadcast(&self, event: Event) {
+    self.emitter.broadcast(event);
+  }
 
+  fn emit_to(&self, target: PlayerId, event: Event) {
     self.emitter.emit_to(target, event);
   }
 
-  pub(super) fn broadcast(&self, event: Event) {
-    #[cfg(debug_assertions)]
-    info!(?event);
-
-    self.emitter.broadcast(event);
+  fn emit_to_owner(&self, coord: Coord, event: Event) {
+    if let Ok(village) = self.village(coord)
+      && let Some(player) = village.player()
+    {
+      self.emitter.emit_to(player, event);
+    }
   }
 
   pub(super) fn emit_chat_message(&self, message: ChatMessage) {
@@ -54,15 +49,8 @@ impl World {
     self.broadcast(Event::PlayerStatusUpdated { player: id, status });
   }
 
-  pub(super) fn emit_prefecture_build_queue_updated(
-    &self,
-    target: PlayerId,
-    coord: Coord,
-    id: PrefectureBuildOrderId,
-    order_kind: PrefectureBuildOrderKind,
-  ) {
-    let event = Event::PrefectureBuildQueueUpdated { coord, id, order_kind };
-    self.emit_to(target, event);
+  pub(super) fn emit_prefecture_build_queue_updated(&self, coord: Coord) {
+    self.emit_to_owner(coord, Event::PrefectureBuildQueueUpdated { coord });
   }
 
   pub(super) fn emit_round_update(&self) {
@@ -72,5 +60,9 @@ impl World {
 
   pub(super) fn emit_village_spawned(&self, village: VillagePublicState) {
     self.broadcast(Event::VillageSpawned { village });
+  }
+
+  pub(super) fn emit_village_stability_updated(&self, coord: Coord) {
+    self.emit_to_owner(coord, Event::VillageStabilityUpdated { coord });
   }
 }

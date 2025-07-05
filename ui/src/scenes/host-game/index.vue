@@ -9,11 +9,20 @@ import type { WritablePartial } from '@tb-dev/utils';
 import { hostGame, hostSavedGame } from '@/core/game';
 import { open as pickFile } from '@tauri-apps/plugin-dialog';
 import { isPlayerOptions, isWorldOptions } from '@/lib/schema';
-import { Button, ButtonLink, Card, InputNumber, InputText, Label } from '@tb-dev/vue-components';
+import {
+  Button,
+  ButtonLink,
+  Card,
+  Checkbox,
+  InputNumber,
+  InputText,
+  Label,
+} from '@tb-dev/vue-components';
 
 const world = localRef<WritablePartial<WorldOptions>>('host-game:world', {
   name: null,
   size: 100,
+  allowCheats: false,
 });
 
 const player = localRef<WritablePartial<PlayerOptions>>('host-game:player', {
@@ -83,14 +92,25 @@ async function hostSaved() {
             <span>{{ $t('player-name') }}</span>
             <InputText v-model="player.id" :disabled="loading" :min="1" :max="20" />
           </Label>
+
+          <div class="flex items-center justify-center py-1">
+            <Label>
+              <Checkbox v-model="world.allowCheats" />
+              <span>{{ $t('allow-cheats') }}</span>
+            </Label>
+          </div>
         </div>
 
         <div class="grid grid-cols-3 items-center justify-center gap-2 px-4">
-          <Button :disabled="!canHost || loading" @click="host">{{ $t('host') }}</Button>
-          <Button variant="secondary" :disabled="!isValidPlayer || loading" @click="hostSaved">
-            {{ $t('load') }}
+          <Button :disabled="loading || !canHost" @click="host">
+            <span>{{ $t('host') }}</span>
           </Button>
-          <ButtonLink to="home" variant="secondary">{{ $t('cancel') }}</ButtonLink>
+          <Button variant="secondary" :disabled="loading || !isValidPlayer" @click="hostSaved">
+            <span>{{ $t('load') }}</span>
+          </Button>
+          <ButtonLink to="home" variant="secondary">
+            <span>{{ $t('cancel') }}</span>
+          </ButtonLink>
         </div>
       </div>
     </Card>

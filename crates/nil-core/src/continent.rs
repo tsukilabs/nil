@@ -39,6 +39,7 @@ impl Continent {
     self.size.get()
   }
 
+  #[inline]
   pub fn cell(&self, coord: Coord) -> Result<&Cell> {
     let index = self.index(coord);
     self
@@ -47,6 +48,7 @@ impl Continent {
       .ok_or(Error::CoordOutOfBounds(coord))
   }
 
+  #[inline]
   pub fn cell_mut(&mut self, coord: Coord) -> Result<&mut Cell> {
     let index = self.index(coord);
     self
@@ -55,6 +57,7 @@ impl Continent {
       .ok_or(Error::CoordOutOfBounds(coord))
   }
 
+  #[inline]
   pub fn village(&self, coord: Coord) -> Result<&Village> {
     self
       .cell(coord)?
@@ -62,6 +65,7 @@ impl Continent {
       .ok_or(Error::VillageNotFound(coord))
   }
 
+  #[inline]
   pub fn village_mut(&mut self, coord: Coord) -> Result<&mut Village> {
     self
       .cell_mut(coord)?

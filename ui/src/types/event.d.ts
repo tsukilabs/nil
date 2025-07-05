@@ -11,7 +11,8 @@ type EventPayload =
   | PlayerStatusUpdatedPayload
   | PrefectureBuildQueueUpdatedPayload
   | RoundUpdatedPayload
-  | VillageSpawnedPayload;
+  | VillageSpawnedPayload
+  | VillageStabilityUpdatedPayload;
 
 interface ChatMessagePayload {
   readonly kind: 'chat-message';
@@ -51,8 +52,6 @@ interface PlayerStatusUpdatedPayload {
 interface PrefectureBuildQueueUpdatedPayload {
   readonly kind: 'prefecture-build-queue-updated';
   readonly coord: Coord;
-  readonly id: PrefectureBuildOrderId;
-  readonly orderKind: PrefectureBuildOrderKind;
 }
 
 interface RoundUpdatedPayload {
@@ -63,4 +62,9 @@ interface RoundUpdatedPayload {
 interface VillageSpawnedPayload {
   readonly kind: 'village-spawned';
   readonly village: VillagePublicState;
+}
+
+interface VillageStabilityUpdatedPayload {
+  readonly kind: 'village-stability-updated';
+  readonly coord: Coord;
 }

@@ -124,7 +124,7 @@ impl BuildingStatsTable {
     for level in (0..=max_level.0).rev() {
       let level = BuildingLevel::new(level);
       let resources = Resources {
-        food: Food::zero(),
+        food: Food::MIN,
         iron: Iron::from((base_cost * wood_ratio).ceil()),
         stone: Stone::from((base_cost * stone_ratio).ceil()),
         wood: Wood::from((base_cost * iron_ratio).ceil()),

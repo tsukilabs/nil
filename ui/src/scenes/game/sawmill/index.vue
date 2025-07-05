@@ -31,10 +31,9 @@ const stabilityLoss = computed(() => {
 });
 
 const actual = computed(() => {
-  return {
-    current: Math.ceil(base.value.current + stabilityLoss.value.current),
-    next: Math.ceil(base.value.next + stabilityLoss.value.next),
-  };
+  const current = Math.ceil(base.value.current - stabilityLoss.value.current);
+  const next = Math.ceil(base.value.next - stabilityLoss.value.next);
+  return { current: Math.max(current, 0), next: Math.max(next, 0) };
 });
 </script>
 

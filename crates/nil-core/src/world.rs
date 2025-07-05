@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 mod chat;
+mod cheat;
 mod event;
 mod infrastructure;
 mod player;
@@ -38,8 +39,8 @@ pub struct World {
 }
 
 impl World {
-  pub fn new(options: WorldOptions) -> Self {
-    let config = WorldConfig { name: options.name.into() };
+  pub fn new(options: &WorldOptions) -> Self {
+    let config = WorldConfig::from(options);
     Self {
       continent: Continent::new(options.size.get()),
       player_manager: PlayerManager::default(),
@@ -169,8 +170,8 @@ impl World {
   }
 }
 
-impl From<WorldOptions> for World {
-  fn from(options: WorldOptions) -> Self {
+impl From<&WorldOptions> for World {
+  fn from(options: &WorldOptions) -> Self {
     Self::new(options)
   }
 }
@@ -180,12 +181,23 @@ impl From<WorldOptions> for World {
 pub struct WorldOptions {
   pub name: String,
   pub size: NonZeroU8,
+  pub allow_cheats: bool,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct WorldConfig {
   name: Arc<str>,
+  allow_cheats: bool,
+}
+
+impl From<&WorldOptions> for WorldConfig {
+  fn from(options: &WorldOptions) -> Self {
+    Self {
+      name: Arc::from(options.name.as_str()),
+      allow_cheats: options.allow_cheats,
+    }
+  }
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
