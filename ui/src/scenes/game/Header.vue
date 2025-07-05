@@ -3,7 +3,10 @@
 
 <script setup lang="ts">
 import Round from './Round.vue';
+import type { MaybePromise } from '@tb-dev/utils';
 import { ButtonLink, SidebarTrigger } from '@tb-dev/vue-components';
+
+defineProps<{ onTurnEnd: () => MaybePromise<void> }>();
 
 const { village } = NIL.village.refs();
 </script>
@@ -19,7 +22,7 @@ const { village } = NIL.village.refs();
     </div>
 
     <div class="flex items-center">
-      <Round />
+      <Round @turn-end="onTurnEnd" />
     </div>
   </header>
 </template>

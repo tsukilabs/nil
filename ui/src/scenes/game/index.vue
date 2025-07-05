@@ -2,15 +2,19 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
+import { go } from '@/router';
 import Header from './Header.vue';
 import Footer from './Footer.vue';
-import { useTemplateRef } from 'vue';
+import { endTurn } from '@/commands';
 import { useToggle } from '@vueuse/core';
 import { onCtrlKeyDown } from '@tb-dev/vue';
+import { nextTick, useTemplateRef } from 'vue';
 import { onBeforeRouteUpdate } from 'vue-router';
 import { leaveGame, saveGame } from '@/core/game';
 import { Button, Sidebar } from '@tb-dev/vue-components';
 import { type OnClickOutsideProps, vOnClickOutside } from '@vueuse/components';
+
+const { isPlayerTurn } = NIL.round.refs();
 
 const [isSidebarOpen, toggleSidebar] = useToggle(false);
 const closeSidebar = () => void toggleSidebar(false);
@@ -21,13 +25,28 @@ const onClickOutsideOptions: OnClickOutsideProps['options'] = {
 };
 
 onCtrlKeyDown(['b', 'B'], () => toggleSidebar());
+onCtrlKeyDown(['m', 'M'], () => go('map'));
+onCtrlKeyDown(['s', 'S'], () => saveGame());
+onCtrlKeyDown(' ', () => onTurnEnd());
+
 onBeforeRouteUpdate(closeSidebar);
+
+async function onTurnEnd() {
+  await nextTick();
+  if (isPlayerTurn.value) {
+    endTurn().err();
+  }
+}
 </script>
 
 <template>
   <Sidebar v-model:open="isSidebarOpen">
     <div class="bg-muted/40 absolute inset-0 overflow-hidden">
-      <Header class="bg-background absolute inset-x-0 top-0 h-16 border-b px-4" />
+      <Header
+        class="bg-background absolute inset-x-0 top-0 h-16 border-b px-4"
+        @turn-end="onTurnEnd"
+      />
+
       <div class="absolute inset-x-0 top-16 bottom-10 overflow-hidden">
         <RouterView #default="{ Component }">
           <template v-if="Component">

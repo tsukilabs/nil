@@ -20,6 +20,11 @@ export const gameRoutes: RouteRecordRaw[] = [
     path: 'iron-mine',
   },
   {
+    component: () => import('@/scenes/game/map/index.vue'),
+    name: 'map' satisfies GameScene,
+    path: 'map',
+  },
+  {
     component: () => import('@/scenes/game/prefecture/index.vue'),
     name: 'prefecture' satisfies GameScene,
     path: 'prefecture',

@@ -7,6 +7,7 @@ type GameScene =
   | 'academy'
   | 'farm'
   | 'iron-mine'
+  | 'map'
   | 'prefecture'
   | 'quarry'
   | 'sawmill'

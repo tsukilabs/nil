@@ -2,22 +2,13 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { endTurn } from '@/commands';
-import { handleError } from '@/lib/error';
 import { Button } from '@tb-dev/vue-components';
+import type { MaybePromise } from '@tb-dev/utils';
+
+defineProps<{ onTurnEnd: () => MaybePromise<void> }>();
 
 const { player } = NIL.player.refs();
 const { isPlayerTurn, round } = NIL.round.refs();
-
-async function onTurnEnd() {
-  if (isPlayerTurn.value) {
-    try {
-      await endTurn();
-    } catch (err) {
-      handleError(err);
-    }
-  }
-}
 </script>
 
 <template>
