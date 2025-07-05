@@ -7,7 +7,7 @@ use crate::resource::{Resources, Workforce};
 use crate::village::Coord;
 use derive_more::Deref;
 use nil_num::ops::MulCeil;
-use nil_util_macros::BigIntU64;
+use nil_num_macros::BigIntU64;
 use serde::{Deserialize, Serialize};
 use std::collections::VecDeque;
 use strum::EnumIs;

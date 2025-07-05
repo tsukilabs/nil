@@ -2606,8 +2606,8 @@ dependencies = [
  "mlua",
  "nil-core-macros",
  "nil-num",
+ "nil-num-macros",
  "nil-util",
- "nil-util-macros",
  "remain",
  "serde",
  "strum",
@@ -2628,6 +2628,15 @@ dependencies = [
 [[package]]
 name = "nil-num"
 version = "0.1.0"
+
+[[package]]
+name = "nil-num-macros"
+version = "0.1.0"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 2.0.104",
+]
 
 [[package]]
 name = "nil-server"
@@ -2658,15 +2667,6 @@ dependencies = [
  "tauri",
  "tokio",
  "tracing",
-]
-
-[[package]]
-name = "nil-util-macros"
-version = "0.1.0"
-dependencies = [
- "proc-macro2",
- "quote",
- "syn 2.0.104",
 ]
 
 [[package]]
