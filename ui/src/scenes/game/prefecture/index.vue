@@ -8,7 +8,11 @@ import BuildQueue from './BuildQueue.vue';
 import { handleError } from '@/lib/error';
 import { computed, ref, watch } from 'vue';
 import { Card } from '@tb-dev/vue-components';
-import { addPrefectureBuildOrder, getPrefectureCatalog } from '@/commands';
+import {
+  addPrefectureBuildOrder,
+  cancelPrefectureBuildOrder,
+  getPrefectureCatalog,
+} from '@/commands';
 
 const { coord, village } = NIL.village.refs();
 
@@ -23,9 +27,10 @@ const {
   return coord.value ? getPrefectureCatalog(coord.value) : null;
 });
 
-const isWaitingCommand = ref(false);
+const isWaitingAddCmd = ref(false);
+const isWaitingCancelCmd = ref(false);
 const loading = computed(() => {
-  return isLoadingCatalog.value || isWaitingCommand.value;
+  return isLoadingCatalog.value || isWaitingAddCmd.value || isWaitingCancelCmd.value;
 });
 
 watch(coord, loadCatalog);
@@ -33,13 +38,27 @@ watch(coord, loadCatalog);
 async function addBuildOrder(building: BuildingId, kind: PrefectureBuildOrderKind) {
   if (coord.value && !loading.value) {
     try {
-      isWaitingCommand.value = true;
+      isWaitingAddCmd.value = true;
       await addPrefectureBuildOrder({ coord: coord.value, building, kind });
       await loadCatalog();
     } catch (err) {
       handleError(err);
     } finally {
-      isWaitingCommand.value = false;
+      isWaitingAddCmd.value = false;
+    }
+  }
+}
+
+async function cancelBuildOrder() {
+  if (coord.value && !loading.value) {
+    try {
+      isWaitingCancelCmd.value = true;
+      await cancelPrefectureBuildOrder(coord.value);
+      await loadCatalog();
+    } catch (err) {
+      handleError(err);
+    } finally {
+      isWaitingCancelCmd.value = false;
     }
   }
 }
@@ -62,6 +81,7 @@ async function addBuildOrder(building: BuildingId, kind: PrefectureBuildOrderKin
           :prefecture
           :loading
           class="xl:w-2/5 xl:max-w-[500px] xl:min-w-[250px]"
+          @cancel="cancelBuildOrder"
         />
         <Catalog v-if="catalog" :catalog :infrastructure :loading @build-order="addBuildOrder" />
       </div>

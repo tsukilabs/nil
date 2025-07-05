@@ -21,7 +21,7 @@ impl World {
   }
 
   pub fn end_turn(&mut self, player: &PlayerId) -> Result<()> {
-    if self.round.end_turn(player) {
+    if self.round.phase_mut().end_turn(player) {
       self.emit_round_update();
     }
 

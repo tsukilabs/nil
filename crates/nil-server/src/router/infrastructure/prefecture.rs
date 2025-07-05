@@ -21,9 +21,41 @@ pub async fn add_build_order(
 ) -> Response {
   let result: CoreResult<()> = try {
     let mut world = app.world.write().await;
-    let village = world.village(options.coord)?;
-    if village.is_owned_by_player_and(|id| *current_player == *id) {
+    world
+      .round()
+      .check_if_player_is_pending(&current_player.0)?;
+
+    if world
+      .village(options.coord)?
+      .is_owned_by_player_and(|id| &current_player.0 == id)
+    {
       world.add_prefecture_build_order(&options)?;
+    } else {
+      return res!(FORBIDDEN);
+    }
+  };
+
+  result
+    .map(|()| res!(OK))
+    .unwrap_or_else(from_core_err)
+}
+
+pub async fn cancel_build_order(
+  State(app): State<App>,
+  Extension(current_player): Extension<CurrentPlayer>,
+  Json(coord): Json<Coord>,
+) -> Response {
+  let result: CoreResult<()> = try {
+    let mut world = app.world.write().await;
+    world
+      .round()
+      .check_if_player_is_pending(&current_player.0)?;
+
+    if world
+      .village(coord)?
+      .is_owned_by_player_and(|id| &current_player.0 == id)
+    {
+      world.cancel_prefecture_build_order(coord)?;
     } else {
       return res!(FORBIDDEN);
     }

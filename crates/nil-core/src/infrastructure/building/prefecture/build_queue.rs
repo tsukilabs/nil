@@ -83,6 +83,12 @@ impl PrefectureBuildQueue {
     })
   }
 
+  /// Cancela a última ordem de construção da fila.
+  #[must_use]
+  pub(crate) fn cancel(&mut self) -> Option<PrefectureBuildOrder> {
+    self.orders.pop_back()
+  }
+
   /// Consome força de trabalho até que ela se esgote ou toda a fila de construção seja concluída.
   #[must_use]
   pub(super) fn process(&mut self, mut workforce: Workforce) -> Vec<PrefectureBuildOrder> {

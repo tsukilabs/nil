@@ -51,6 +51,7 @@ fn main() {
       command::client::stop_client,
       command::continent::get_continent_size,
       command::infrastructure::add_prefecture_build_order,
+      command::infrastructure::cancel_prefecture_build_order,
       command::infrastructure::get_prefecture_catalog,
       command::lobby::get_lobby,
       command::lobby::set_lobby_ready,

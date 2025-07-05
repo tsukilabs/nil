@@ -53,11 +53,14 @@ pub enum Error {
   #[error("No players in the world")]
   NoPlayer,
 
-  #[error("Player is not a guest: {0}")]
+  #[error("Player \"{0}\" is not a guest")]
   NotAGuest(PlayerId),
 
   #[error("Player already spawned: {0}")]
   PlayerAlreadySpawned(PlayerId),
+
+  #[error("Player \"{0}\" has already taken their turn")]
+  PlayerIsNotPending(PlayerId),
 
   #[error("Player not found: {0}")]
   PlayerNotFound(PlayerId),

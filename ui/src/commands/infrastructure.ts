@@ -7,6 +7,10 @@ export function addPrefectureBuildOrder(options: PrefectureBuildOrderOptions) {
   return invoke<null>('add_prefecture_build_order', { options });
 }
 
+export function cancelPrefectureBuildOrder(coord: Coord) {
+  return invoke<null>('cancel_prefecture_build_order', { coord });
+}
+
 export function getPrefectureCatalog(coord: Coord) {
   return invoke<PrefectureCatalog>('get_prefecture_catalog', { coord });
 }

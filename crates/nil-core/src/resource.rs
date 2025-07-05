@@ -12,7 +12,7 @@ use derive_more::{Deref, Display};
 use nil_num::impl_mul_ceil;
 use nil_num::ops::MulCeil;
 use serde::{Deserialize, Serialize};
-use std::ops::{Add, AddAssign, Div, Mul, MulAssign, Sub, SubAssign};
+use std::ops::{Add, AddAssign, Mul, MulAssign, Sub, SubAssign};
 
 pub use cost::{BaseCost, BaseCostGrowth, ResourceRatio};
 pub use diff::{FoodDiff, IronDiff, ResourcesDiff, StoneDiff, WoodDiff};
@@ -61,8 +61,32 @@ impl Add for Resources {
   }
 }
 
+impl Add<&Resources> for Resources {
+  type Output = Self;
+
+  fn add(self, rhs: &Resources) -> Self {
+    Self {
+      food: self.food + rhs.food,
+      iron: self.iron + rhs.iron,
+      stone: self.stone + rhs.stone,
+      wood: self.wood + rhs.wood,
+    }
+  }
+}
+
 impl AddAssign for Resources {
   fn add_assign(&mut self, rhs: Self) {
+    *self = Self {
+      food: self.food + rhs.food,
+      iron: self.iron + rhs.iron,
+      stone: self.stone + rhs.stone,
+      wood: self.wood + rhs.wood,
+    };
+  }
+}
+
+impl AddAssign<&Resources> for Resources {
+  fn add_assign(&mut self, rhs: &Resources) {
     *self = Self {
       food: self.food + rhs.food,
       iron: self.iron + rhs.iron,
@@ -85,8 +109,32 @@ impl Sub for Resources {
   }
 }
 
+impl Sub<&Resources> for Resources {
+  type Output = Self;
+
+  fn sub(self, rhs: &Resources) -> Self {
+    Self {
+      food: self.food - rhs.food,
+      iron: self.iron - rhs.iron,
+      stone: self.stone - rhs.stone,
+      wood: self.wood - rhs.wood,
+    }
+  }
+}
+
 impl SubAssign for Resources {
   fn sub_assign(&mut self, rhs: Self) {
+    *self = Self {
+      food: self.food - rhs.food,
+      iron: self.iron - rhs.iron,
+      stone: self.stone - rhs.stone,
+      wood: self.wood - rhs.wood,
+    };
+  }
+}
+
+impl SubAssign<&Resources> for Resources {
+  fn sub_assign(&mut self, rhs: &Resources) {
     *self = Self {
       food: self.food - rhs.food,
       iron: self.iron - rhs.iron,
@@ -192,22 +240,6 @@ macro_rules! decl_resource {
       impl MulAssign<Stability> for $name {
         fn mul_assign(&mut self, rhs: Stability) {
           *self = *self * rhs;
-        }
-      }
-
-      impl Div<f64> for $name {
-        type Output = f64;
-
-        fn div(self, rhs: f64) -> Self::Output {
-          f64::from(self.0) / rhs
-        }
-      }
-
-      impl Div<$name> for f64 {
-        type Output = f64;
-
-        fn div(self, rhs: $name) -> Self::Output {
-          self / f64::from(rhs.0)
         }
       }
 

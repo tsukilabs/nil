@@ -60,6 +60,11 @@ impl Village {
     self.stability
   }
 
+  #[inline]
+  pub fn player(&self) -> Option<PlayerId> {
+    self.owner().player().cloned()
+  }
+
   /// Indica se a aldeia pertence a algum jogador.
   #[inline]
   pub fn is_owned_by_player(&self) -> bool {

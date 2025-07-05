@@ -59,39 +59,36 @@ impl Round {
     &mut self.phase
   }
 
-  fn pending_players(&self) -> Option<&HashSet<PlayerId>> {
-    if let Phase::Player { pending } = &self.phase {
-      Some(pending)
-    } else {
-      None
-    }
-  }
-
-  fn pending_players_mut(&mut self) -> Option<&mut HashSet<PlayerId>> {
-    if let Phase::Player { pending } = &mut self.phase {
-      Some(pending)
-    } else {
-      None
-    }
-  }
-
-  pub(crate) fn end_turn(&mut self, player: &PlayerId) -> bool {
-    if let Some(pending) = self.pending_players_mut() {
-      pending.remove(player)
-    } else {
-      false
-    }
-  }
-
+  #[inline]
   pub fn is_idle(&self) -> bool {
     self.phase.is_idle()
   }
 
+  /// Verifica se o jogador está pendente, retornando um erro em caso negativo.
+  #[inline]
+  pub fn check_if_player_is_pending(&self, player: &PlayerId) -> Result<()> {
+    if self.is_player_pending(player) {
+      Ok(())
+    } else {
+      Err(Error::PlayerIsNotPending(player.clone()))
+    }
+  }
+
+  /// Determina se o jogador consta como pendente no round atual.
+  #[inline]
+  pub fn is_player_pending(&self, player: &PlayerId) -> bool {
+    self
+      .phase
+      .pending_players()
+      .is_some_and(|it| it.contains(player))
+  }
+
+  #[inline]
   pub fn has_pending_players(&self) -> bool {
     self
+      .phase
       .pending_players()
-      .map(|p| !p.is_empty())
-      .unwrap_or(false)
+      .is_some_and(|it| !it.is_empty())
   }
 }
 
@@ -118,6 +115,33 @@ pub enum Phase {
   /// Jogo ainda não começou.
   #[default]
   Idle,
-  /// Esperando que os jogadores façam seus movimentos.
+
+  /// Há jogadores que ainda não encerraram o turno.
   Player { pending: HashSet<PlayerId> },
+}
+
+impl Phase {
+  fn pending_players(&self) -> Option<&HashSet<PlayerId>> {
+    if let Phase::Player { pending } = self {
+      Some(pending)
+    } else {
+      None
+    }
+  }
+
+  fn pending_players_mut(&mut self) -> Option<&mut HashSet<PlayerId>> {
+    if let Phase::Player { pending } = self {
+      Some(pending)
+    } else {
+      None
+    }
+  }
+
+  pub(crate) fn end_turn(&mut self, player: &PlayerId) -> bool {
+    if let Some(pending) = self.pending_players_mut() {
+      pending.remove(player)
+    } else {
+      false
+    }
+  }
 }

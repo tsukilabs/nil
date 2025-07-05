@@ -26,11 +26,11 @@ export class PrefectureImpl extends BuildingImpl implements Prefecture {
       if (order.building === building) {
         switch (order.kind) {
           case 'construction': {
-            level = Math.max(level + 1, max);
+            level = Math.min(level + 1, max);
             break;
           }
           case 'demolition': {
-            level = Math.min(level - 1, min);
+            level = Math.max(level - 1, min);
             break;
           }
         }

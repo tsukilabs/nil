@@ -162,6 +162,10 @@ impl Infrastructure {
       .build_queue_mut()
       .build(table, level, current_resources, options)
   }
+
+  pub(crate) fn cancel_prefecture_build_order(&mut self) -> Option<PrefectureBuildOrder> {
+    self.prefecture.build_queue_mut().cancel()
+  }
 }
 
 #[derive(Debug, Deserialize, Serialize)]

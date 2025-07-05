@@ -4,6 +4,7 @@
 use super::World;
 use crate::error::{Error, Result};
 use crate::infrastructure::building::prefecture::PrefectureBuildOrderOptions;
+use crate::village::Coord;
 use std::sync::Arc;
 
 impl World {
@@ -14,12 +15,7 @@ impl World {
     let stats = Arc::clone(&self.stats.infrastructure);
     let table = stats.building(options.building)?;
 
-    let player_id = self
-      .village(options.coord)?
-      .owner()
-      .player()
-      .cloned();
-
+    let player_id = self.village(options.coord)?.player();
     let curr_res = if let Some(id) = &player_id {
       Some(self.player(id)?.resources().clone())
     } else {
@@ -34,7 +30,8 @@ impl World {
       .clone();
 
     if let Some(id) = player_id {
-      if order.kind().is_construction() {
+      let kind = order.kind();
+      if kind.is_construction() {
         let player = self.player_mut(&id)?;
         let resources = player.resources_mut();
         *resources = resources
@@ -44,7 +41,30 @@ impl World {
         self.emit_player_resources_updated(id.clone());
       }
 
-      self.emit_prefecture_build_queue_updated(id, coord, order.id(), order.kind());
+      self.emit_prefecture_build_queue_updated(id, coord, order.id(), kind);
+    }
+
+    Ok(())
+  }
+
+  /// Cancela a última ordem de construção da prefeitura.
+  pub fn cancel_prefecture_build_order(&mut self, coord: Coord) -> Result<()> {
+    let village = self.village_mut(coord)?;
+    if let Some(order) = village
+      .infrastructure_mut()
+      .cancel_prefecture_build_order()
+      && let Some(id) = village.player()
+    {
+      let kind = order.kind();
+      if kind.is_construction() {
+        let player = self.player_mut(&id)?;
+        let resources = player.resources_mut();
+        *resources += order.resources();
+
+        self.emit_player_resources_updated(id.clone());
+      }
+
+      self.emit_prefecture_build_queue_updated(id, coord, order.id(), kind);
     }
 
     Ok(())

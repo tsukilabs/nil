@@ -21,6 +21,14 @@ impl Client {
       .await
   }
 
+  /// POST `/infrastructure/prefecture/cancel-build`
+  pub async fn cancel_prefecture_build_order(&self, coord: Coord) -> Result<()> {
+    self
+      .http
+      .post("infrastructure/prefecture/cancel-build", coord)
+      .await
+  }
+
   /// POST `/infrastructure/prefecture/catalog`
   pub async fn get_prefecture_catalog(&self, coord: Coord) -> Result<PrefectureCatalog> {
     self

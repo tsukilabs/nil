@@ -8,7 +8,7 @@ use nil_num::impl_mul_ceil;
 use nil_num::ops::MulCeil;
 use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
-use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Sub, SubAssign};
+use std::ops::{Add, AddAssign, Mul, MulAssign, Sub, SubAssign};
 
 /// Força de trabalho é um recurso especial usado para construir edifícios e recrutar tropas.
 /// A quantidade gerada por turno será sempre igual ao nível do edifício relevante (ex.: prefeitura).
@@ -124,36 +124,6 @@ impl Mul<Stability> for Workforce {
 impl MulAssign<Stability> for Workforce {
   fn mul_assign(&mut self, rhs: Stability) {
     *self = *self * rhs;
-  }
-}
-
-impl Div for Workforce {
-  type Output = Workforce;
-
-  fn div(self, rhs: Workforce) -> Self::Output {
-    Self(self.0.saturating_div(rhs.0))
-  }
-}
-
-impl DivAssign for Workforce {
-  fn div_assign(&mut self, rhs: Self) {
-    *self = *self / rhs;
-  }
-}
-
-impl Div<f64> for Workforce {
-  type Output = f64;
-
-  fn div(self, rhs: f64) -> Self::Output {
-    f64::from(self.0) / rhs
-  }
-}
-
-impl Div<Workforce> for f64 {
-  type Output = f64;
-
-  fn div(self, rhs: Workforce) -> Self::Output {
-    self / f64::from(rhs.0)
   }
 }
 

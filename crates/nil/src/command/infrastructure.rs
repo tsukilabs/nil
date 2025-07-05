@@ -22,6 +22,14 @@ pub async fn add_prefecture_build_order(
 }
 
 #[tauri::command]
+pub async fn cancel_prefecture_build_order(app: AppHandle, coord: Coord) -> Result<()> {
+  app
+    .client(async |cl| cl.cancel_prefecture_build_order(coord).await)
+    .await?
+    .map_err(Into::into)
+}
+
+#[tauri::command]
 pub async fn get_prefecture_catalog(app: AppHandle, coord: Coord) -> Result<PrefectureCatalog> {
   app
     .client(async |cl| cl.get_prefecture_catalog(coord).await)

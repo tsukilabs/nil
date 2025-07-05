@@ -3,6 +3,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
+import type { MaybePromise } from '@tb-dev/utils';
 import { ChevronDownIcon, ChevronUpIcon } from 'lucide-vue-next';
 import type { PrefectureImpl } from '@/core/model/buildings/prefecture';
 import { Button, Table, TableCell, TableHead, TableRow } from '@tb-dev/vue-components';
@@ -10,6 +11,7 @@ import { Button, Table, TableCell, TableHead, TableRow } from '@tb-dev/vue-compo
 const props = defineProps<{
   prefecture: PrefectureImpl;
   loading: boolean;
+  onCancel: () => MaybePromise<void>;
 }>();
 
 const last = computed(() => props.prefecture.buildQueue.last());
@@ -57,7 +59,7 @@ const last = computed(() => props.prefecture.buildQueue.last());
       </TableCell>
       <TableCell>
         <div v-if="order.id === last?.id" class="flex items-center justify-center">
-          <Button variant="destructive" size="sm" :disabled="loading">
+          <Button variant="destructive" size="sm" :disabled="loading" @click="onCancel">
             <span>{{ $t('cancel') }}</span>
           </Button>
         </div>
