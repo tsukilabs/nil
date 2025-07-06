@@ -4,14 +4,14 @@
 use crate::error::{Error, Result};
 use crate::http::USER_AGENT;
 use anyhow::Result as AnyResult;
+use bytes::Bytes;
 use futures::future::BoxFuture;
 use futures::stream::{SplitSink, SplitStream};
 use futures::{Sink, SinkExt, StreamExt};
 use http::{HeaderValue, header};
 use nil_core::event::Event;
 use nil_core::player::PlayerId;
-use nil_util::serde::Bytes;
-use nil_util::task::spawn;
+use nil_future::task::spawn;
 use std::net::SocketAddrV4;
 use std::ops::ControlFlow;
 use tokio::net::TcpStream;

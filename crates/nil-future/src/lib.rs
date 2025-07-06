@@ -5,4 +5,4 @@
 #![doc(html_favicon_url = "https://nil.dev.br/favicon.png")]
 #![feature(try_blocks)]
 
-pub mod serde;
+pub mod task;

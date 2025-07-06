@@ -79,6 +79,10 @@ path = "./crates/nil-core"
 version = "*"
 path = "./crates/nil-core-macros"
 
+[workspace.dependencies.nil-future]
+version = "*"
+path = "./crates/nil-future"
+
 [workspace.dependencies.nil-num]
 version = "*"
 path = "./crates/nil-num"

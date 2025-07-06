@@ -20,6 +20,7 @@ derive_more.workspace = true
 futures.workspace = true
 itertools.workspace = true
 nil-core.workspace = true
+nil-future.workspace = true
 nil-util.workspace = true
 serde.workspace = true
 thiserror.workspace = true

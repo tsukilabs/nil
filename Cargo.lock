@@ -2581,11 +2581,12 @@ name = "nil-client"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "bytes",
  "futures",
  "http",
  "local-ip-address",
  "nil-core",
- "nil-util",
+ "nil-future",
  "reqwest",
  "serde",
  "thiserror 2.0.12",
@@ -2599,6 +2600,7 @@ name = "nil-core"
 version = "0.1.0"
 dependencies = [
  "bon",
+ "bytes",
  "derive_more 2.0.1",
  "indexmap 2.10.0",
  "itertools",
@@ -2626,6 +2628,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "nil-future"
+version = "0.1.0"
+dependencies = [
+ "tauri",
+ "tokio",
+]
+
+[[package]]
 name = "nil-num"
 version = "0.1.0"
 
@@ -2648,6 +2658,7 @@ dependencies = [
  "futures",
  "itertools",
  "nil-core",
+ "nil-future",
  "nil-util",
  "serde",
  "thiserror 2.0.12",
@@ -3250,9 +3261,9 @@ checksum = "7edddbd0b52d732b21ad9a5fab5c704c14cd949e5e9a1ec5929a24fded1b904c"
 
 [[package]]
 name = "plist"
-version = "1.7.2"
+version = "1.7.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3d77244ce2d584cd84f6a15f86195b8c9b2a0dfbfd817c09e0464244091a58ed"
+checksum = "546b279bf0638ee811d9e47de2ca5b66575a543035d79fdf83959dd2f5c3b4c3"
 dependencies = [
  "base64 0.22.1",
  "indexmap 2.10.0",

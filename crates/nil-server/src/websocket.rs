@@ -6,7 +6,7 @@ use futures::sink::SinkExt;
 use futures::stream::{SplitSink, SplitStream, StreamExt};
 use nil_core::event::{EventTarget, Listener};
 use nil_core::player::PlayerId;
-use nil_util::task::spawn;
+use nil_future::task::spawn;
 use tokio::select;
 use tokio::task::JoinHandle;
 

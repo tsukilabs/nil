@@ -14,7 +14,7 @@ mod websocket;
 
 use error::{AnyResult, Result};
 use nil_core::world::{World, WorldOptions};
-use nil_util::task::spawn;
+use nil_future::task::spawn;
 use state::App;
 use std::net::{SocketAddr, SocketAddrV4};
 use std::path::Path;
