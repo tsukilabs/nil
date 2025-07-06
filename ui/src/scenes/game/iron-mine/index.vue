@@ -3,14 +3,13 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { useMineLevel, useMineProduction } from '@/composables/mine';
+import { useMineProduction } from '@/composables/mine';
 import { Card, Table, TableCell, TableHead, TableRow } from '@tb-dev/vue-components';
 
 const { village } = NIL.village.refs();
 
 const ironMine = computed(() => village.value?.ironMine);
-const level = useMineLevel(ironMine);
-const { actual, base, stabilityLoss } = useMineProduction(ironMine, level);
+const { level, actual, base, stabilityLoss } = useMineProduction(ironMine);
 </script>
 
 <template>

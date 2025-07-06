@@ -6,8 +6,6 @@ import type { MaybeNilRef } from '@tb-dev/vue';
 import { computed, type Ref, toRef } from 'vue';
 import type { MineImpl } from '@/core/model/buildings/abstract';
 
-type MineLevelRef = ReturnType<typeof useMineLevel>;
-
 export function useMineLevel(mine: MaybeNilRef<MineImpl>) {
   const mineRef = toRef(mine) as Ref<Option<MineImpl>>;
   return computed(() => {
@@ -26,9 +24,10 @@ export function useMineLevel(mine: MaybeNilRef<MineImpl>) {
   });
 }
 
-export function useMineProduction(mine: MaybeNilRef<MineImpl>, level: MineLevelRef) {
+export function useMineProduction(mine: MaybeNilRef<MineImpl>) {
   const { village } = NIL.village.refs();
   const mineRef = toRef(mine) as Ref<Option<MineImpl>>;
+  const level = useMineLevel(mineRef);
 
   const base = computed(() => {
     return {
@@ -51,5 +50,5 @@ export function useMineProduction(mine: MaybeNilRef<MineImpl>, level: MineLevelR
     return { current: Math.max(current, 0), next: Math.max(next, 0) };
   });
 
-  return { base, stabilityLoss, actual };
+  return { level, base, stabilityLoss, actual };
 }
