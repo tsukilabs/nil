@@ -5,7 +5,7 @@ use crate::error::Result;
 use crate::player::PlayerId;
 use derive_more::{Deref, DerefMut};
 use jiff::Zoned;
-use nil_num_macros::BigIntU64;
+use nil_num::BigIntU64;
 use serde::{Deserialize, Serialize};
 use std::collections::VecDeque;
 use std::num::NonZeroUsize;

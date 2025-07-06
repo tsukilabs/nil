@@ -23,7 +23,6 @@ jiff.workspace = true
 mlua.workspace = true
 nil-core-macros.workspace = true
 nil-num.workspace = true
-nil-num-macros.workspace = true
 nil-util.workspace = true
 remain.workspace = true
 serde.workspace = true

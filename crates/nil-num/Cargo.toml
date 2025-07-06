@@ -12,3 +12,6 @@ authors.workspace = true
 
 [lints]
 workspace = true
+
+[dependencies]
+nil-num-macros.workspace = true

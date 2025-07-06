@@ -6,8 +6,8 @@ use crate::infrastructure::building::{BuildingId, BuildingLevel, BuildingStatsTa
 use crate::resource::{Resources, Workforce};
 use crate::village::Coord;
 use derive_more::Deref;
+use nil_num::BigIntU64;
 use nil_num::ops::MulCeil;
-use nil_num_macros::BigIntU64;
 use serde::{Deserialize, Serialize};
 use std::collections::VecDeque;
 use strum::EnumIs;
@@ -105,6 +105,10 @@ impl PrefectureBuildQueue {
         Some(order) => orders.push(order),
         None => break,
       }
+    }
+
+    if !orders.is_empty() {
+      self.orders.shrink_to_fit();
     }
 
     orders
