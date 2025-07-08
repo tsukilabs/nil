@@ -24,7 +24,7 @@
     "@vueuse/core": "^13.5.0",
     "@vueuse/router": "^13.5.0",
     "date-fns": "^4.1.0",
-    "es-toolkit": "^1.39.6",
+    "es-toolkit": "^1.39.7",
     "lucide-vue-next": "^0.525.0",
     "monaco-editor-core": "^0.52.2",
     "nil-continent": "workspace:*",
