@@ -23,7 +23,6 @@ export default defineConfig({
       '@typescript-eslint/consistent-type-definitions': 'off',
       '@typescript-eslint/naming-convention': 'off',
       '@typescript-eslint/no-explicit-any': 'off',
-      '@typescript-eslint/no-invalid-void-type': 'off',
       '@typescript-eslint/no-non-null-assertion': 'off',
       '@typescript-eslint/no-unsafe-call': 'off',
       '@typescript-eslint/no-unsafe-member-access': 'off',
