@@ -22,12 +22,12 @@ export class PrefectureBuildQueueImpl implements PrefectureBuildQueue {
     return this.orders.at(-1);
   }
 
+  get size() {
+    return this.orders.length;
+  }
+
   public static create(queue: PrefectureBuildQueue) {
     const orders = queue.orders.map((it) => PrefectureBuildOrderImpl.create(it));
     return new PrefectureBuildQueueImpl({ orders });
-  }
-
-  get size() {
-    return this.orders.length;
   }
 }

@@ -6,15 +6,16 @@
   "license": "AGPL-3.0-only",
   "private": true,
   "scripts": {
-    "build": "cargo tauri build",
+    "build": "pwsh scripts/build-bin.ps1",
     "clippy": "cargo clippy --workspace",
     "dev": "cargo tauri dev",
     "eslint": "eslint . --config eslint.config.js",
     "format": "prettier . --write && cargo fmt --all",
     "miri": "cargo miri test --tests",
-    "preview": "cargo tauri build --no-bundle -- --profile preview",
+    "preview": "pwsh scripts/build-bin.ps1 -Preview",
     "test": "cargo test --tests",
-    "type-check": "pnpm run -r --bail type-check"
+    "type-check": "pnpm run -r --bail type-check",
+    "wasm": "pwsh scripts/build-wasm.ps1"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.1.11",
@@ -29,6 +30,7 @@
     "tslib": "^2.8.1",
     "typescript": "~5.8.3",
     "vite": "^7.0.2",
+    "vite-plugin-wasm": "~3.4.1",
     "vue-tsc": "~3.0.1"
   }
 }

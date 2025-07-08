@@ -49,28 +49,17 @@ export class InfrastructureImpl implements Infrastructure {
   }
 
   public static create(infrastructure: Infrastructure) {
-    const academy = AcademyImpl.create(infrastructure.academy);
-    const farm = FarmImpl.create(infrastructure.farm);
-    const ironMine = IronMineImpl.create(infrastructure.ironMine);
-    const prefecture = PrefectureImpl.create(infrastructure.prefecture);
-    const quarry = QuarryImpl.create(infrastructure.quarry);
-    const sawmill = SawmillImpl.create(infrastructure.sawmill);
-    const silo = SiloImpl.create(infrastructure.silo);
-    const stable = StableImpl.create(infrastructure.stable);
-    const wall = WallImpl.create(infrastructure.wall);
-    const warehouse = WarehouseImpl.create(infrastructure.warehouse);
-
     return new InfrastructureImpl({
-      academy,
-      farm,
-      ironMine,
-      prefecture,
-      quarry,
-      sawmill,
-      silo,
-      stable,
-      wall,
-      warehouse,
+      academy: AcademyImpl.create(infrastructure.academy),
+      farm: FarmImpl.create(infrastructure.farm),
+      ironMine: IronMineImpl.create(infrastructure.ironMine),
+      prefecture: PrefectureImpl.create(infrastructure.prefecture),
+      quarry: QuarryImpl.create(infrastructure.quarry),
+      sawmill: SawmillImpl.create(infrastructure.sawmill),
+      silo: SiloImpl.create(infrastructure.silo),
+      stable: StableImpl.create(infrastructure.stable),
+      wall: WallImpl.create(infrastructure.wall),
+      warehouse: WarehouseImpl.create(infrastructure.warehouse),
     });
   }
 }

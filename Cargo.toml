@@ -14,6 +14,10 @@ authors = ["Andrew Ferreira <andrew.shien2@gmail.com>", "Danilo Soares <danilofs
 codegen-units = 1
 lto = "fat"
 opt-level = 3
+panic = "abort"
+
+[profile.release-bin]
+inherits = "release"
 strip = "symbols"
 
 [profile.preview]
@@ -31,6 +35,7 @@ bytes = "1.10"
 futures = "0.3"
 http = "1.3"
 itertools = "0.14"
+js-sys = "0.3"
 local-ip-address = "=0.6.5"
 proc-macro2 = "1.0"
 quote = "1.0"
@@ -136,6 +141,10 @@ features = ["release_max_level_off"]
 version = "0.3"
 default-features = false
 features = ["ansi", "chrono", "env-filter", "fmt", "parking_lot", "registry", "smallvec", "std"]
+
+[workspace.dependencies.web-sys]
+version = "0.3"
+features = ["console"]
 
 [workspace.lints.rust]
 async_fn_in_trait = "allow"

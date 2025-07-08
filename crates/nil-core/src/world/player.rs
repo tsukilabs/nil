@@ -4,7 +4,7 @@
 use super::World;
 use crate::error::{Error, Result};
 use crate::player::{Player, PlayerId, PlayerStatus};
-use crate::village::Village;
+use crate::village::{PublicVillage, Village};
 
 impl World {
   #[inline]
@@ -51,8 +51,8 @@ impl World {
         .owner(&id)
         .build();
 
-      let public = village.public_state();
-      *self.continent.cell_mut(coord)? = village.into();
+      let public = PublicVillage::from(&village);
+      *self.continent.field_mut(coord)? = village.into();
       self.set_player_status(&id, PlayerStatus::Active)?;
 
       self.emit_village_spawned(public);

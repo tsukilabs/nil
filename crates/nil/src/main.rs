@@ -58,6 +58,8 @@ fn main() {
       command::cheat::cheat_set_wood,
       command::client::start_client,
       command::client::stop_client,
+      command::continent::get_field,
+      command::continent::get_fields,
       command::continent::get_continent_size,
       command::infrastructure::prefecture::add_prefecture_build_order,
       command::infrastructure::prefecture::cancel_prefecture_build_order,

@@ -1,11 +1,12 @@
 import { defineConfig } from 'vite';
+import wasm from 'vite-plugin-wasm';
 import vue from '@vitejs/plugin-vue';
 import tailwind from '@tailwindcss/vite';
 import dev from 'vite-plugin-vue-devtools';
 import { fileURLToPath, URL } from 'node:url';
 
 export default defineConfig({
-  plugins: [vue(), tailwind(), dev()],
+  plugins: [wasm(), vue(), tailwind(), dev()],
   clearScreen: false,
   resolve: {
     alias: {

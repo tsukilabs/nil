@@ -1,2 +1,5 @@
+ignoreWorkspaceRootCheck: true
+
 packages:
   - 'ui'
+  - 'crates/nil-continent/pkg'

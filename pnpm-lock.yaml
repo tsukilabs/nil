@@ -44,9 +44,14 @@ importers:
       vite:
         specifier: ^7.0.2
         version: 7.0.2(@types/node@24.0.10)(jiti@2.4.2)(lightningcss@1.30.1)
+      vite-plugin-wasm:
+        specifier: ~3.4.1
+        version: 3.4.1(vite@7.0.2(@types/node@24.0.10)(jiti@2.4.2)(lightningcss@1.30.1))
       vue-tsc:
         specifier: ~3.0.1
         version: 3.0.1(typescript@5.8.3)
+
+  crates/nil-continent/pkg: {}
 
   ui:
     devDependencies:
@@ -72,11 +77,11 @@ importers:
         specifier: ^7.0.5
         version: 7.0.5
       '@tb-dev/vue':
-        specifier: ^2.0.10
-        version: 2.0.10(typescript@5.8.3)
+        specifier: ^2.0.11
+        version: 2.0.11(typescript@5.8.3)
       '@tb-dev/vue-components':
-        specifier: ^2.2.4
-        version: 2.2.4(typescript@5.8.3)
+        specifier: ^3.0.0
+        version: 3.0.0(typescript@5.8.3)
       '@vueuse/components':
         specifier: ^13.5.0
         version: 13.5.0(vue@3.5.17(typescript@5.8.3))
@@ -98,6 +103,9 @@ importers:
       monaco-editor-core:
         specifier: ^0.52.2
         version: 0.52.2
+      nil-continent:
+        specifier: workspace:*
+        version: link:../crates/nil-continent/pkg
       shiki:
         specifier: ^3.7.0
         version: 3.7.0
@@ -117,8 +125,8 @@ importers:
         specifier: ^2.0.1
         version: 2.0.1
       zod:
-        specifier: ^3.25.74
-        version: 3.25.74
+        specifier: ^3.25.75
+        version: 3.25.75
 
 packages:
 
@@ -841,11 +849,11 @@ packages:
   '@tb-dev/utils@7.0.5':
     resolution: {integrity: sha512-aFPwXTw0n30tzF9qv0/jx6bEQflc901zksaOooTXEzQZy7M/Y8XgJ6XAJZNTnsfcGzZaRnWvg3WEzDKxQcD8KA==}
 
-  '@tb-dev/vue-components@2.2.4':
-    resolution: {integrity: sha512-lXxBOqP5n+yXvFnXnXl0P/Belo8rGGRl3cLhN4n4JnOyFM0yldqihRTLpEG9Nk8J+dNxGg+apFdu1h6buZoFWA==}
+  '@tb-dev/vue-components@3.0.0':
+    resolution: {integrity: sha512-NDTHCW4NqSFxvU8iJ9WY3l10ZQvu44lCjONc7DXfs6cOsErdsvthZ9Qlyjz3UreBGhrIrYx+PfEDZAWLSbMUIA==}
 
-  '@tb-dev/vue@2.0.10':
-    resolution: {integrity: sha512-Q/Yu4TO2uW6ntD8vw6BPBDkBhnCcRA/37Q7JQa5V//byWfgr6+a2RcyS0ys5MuB3RmMfj0WL090z+CNn+LsCWA==}
+  '@tb-dev/vue@2.0.11':
+    resolution: {integrity: sha512-BTNgLEtCrt4jDxxKf1bwQbw6jcyHXqOmcSBfb0PipUblQ6J9861xHdpmCFGHB4o1p3AblKAz5Yj20wHzDKQvTg==}
 
   '@types/estree@1.0.7':
     resolution: {integrity: sha512-w28IoSUCJpidD/TGviZwwMJckNESJZXFu7NBZ5YJ4mEUnNraUn9Pm8HSZm/jDF1pDWYKspWE7oVphigUPRakIQ==}
@@ -2085,8 +2093,8 @@ packages:
   tslib@2.8.1:
     resolution: {integrity: sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==}
 
-  tw-animate-css@1.3.4:
-    resolution: {integrity: sha512-dd1Ht6/YQHcNbq0znIT6dG8uhO7Ce+VIIhZUhjsryXsMPJQz3bZg7Q2eNzLwipb25bRZslGb2myio5mScd1TFg==}
+  tw-animate-css@1.3.5:
+    resolution: {integrity: sha512-t3u+0YNoloIhj1mMXs779P6MO9q3p3mvGn4k1n3nJPqJw/glZcuijG2qTSN4z4mgNRfW5ZC3aXJFLwDtiipZXA==}
 
   type-check@0.4.0:
     resolution: {integrity: sha512-XleUoc9uwGXqjWwXaUTZAmzMcFZ5858QA2vvx1Ur5xIcixXIP+8LnFDgRplU30us6teqdlskFfu+ae4K79Ooew==}
@@ -2166,6 +2174,11 @@ packages:
     resolution: {integrity: sha512-cBk172kZKTdvGpJuzCCLg8lJ909wopwsu3Ve9FsL1XsnLBiRT9U3MePcqrgGHgCX2ZgkqZmAGR8taxw+TV6s7A==}
     peerDependencies:
       vite: ^3.0.0-0 || ^4.0.0-0 || ^5.0.0-0 || ^6.0.0-0
+
+  vite-plugin-wasm@3.4.1:
+    resolution: {integrity: sha512-ja3nSo2UCkVeitltJGkS3pfQHAanHv/DqGatdI39ja6McgABlpsZ5hVgl6wuR8Qx5etY3T5qgDQhOWzc5RReZA==}
+    peerDependencies:
+      vite: ^2 || ^3 || ^4 || ^5 || ^6
 
   vite@7.0.2:
     resolution: {integrity: sha512-hxdyZDY1CM6SNpKI4w4lcUc3Mtkd9ej4ECWVHSMrOdSinVc2zYOAppHeGc/hzmRo3pxM5blMzkuWHOJA/3NiFw==}
@@ -2283,8 +2296,8 @@ packages:
     resolution: {integrity: sha512-GQHQqAopRhwU8Kt1DDM8NjibDXHC8eoh1erhGAJPEyveY9qqVeXvVikNKrDz69sHowPMorbPUrH/mx8c50eiBQ==}
     engines: {node: '>=18'}
 
-  zod@3.25.74:
-    resolution: {integrity: sha512-J8poo92VuhKjNknViHRAIuuN6li/EwFbAC8OedzI8uxpEPGiXHGQu9wemIAioIpqgfB4SySaJhdk0mH5Y4ICBg==}
+  zod@3.25.75:
+    resolution: {integrity: sha512-OhpzAmVzabPOL6C3A3gpAifqr9MqihV/Msx3gor2b2kviCgcb+HM9SEOpMWwwNp9MRunWnhtAKUoo0AHhjyPPg==}
 
   zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
@@ -2952,18 +2965,18 @@ snapshots:
 
   '@tb-dev/utils@7.0.5': {}
 
-  '@tb-dev/vue-components@2.2.4(typescript@5.8.3)':
+  '@tb-dev/vue-components@3.0.0(typescript@5.8.3)':
     dependencies:
       '@tanstack/vue-table': 8.21.3(vue@3.5.17(typescript@5.8.3))
       '@tb-dev/utils': 7.0.5
-      '@tb-dev/vue': 2.0.10(typescript@5.8.3)
+      '@tb-dev/vue': 2.0.11(typescript@5.8.3)
       '@vueuse/core': 13.5.0(vue@3.5.17(typescript@5.8.3))
       class-variance-authority: 0.7.1
       clsx: 2.1.1
       lucide-vue-next: 0.525.0(vue@3.5.17(typescript@5.8.3))
       reka-ui: 2.3.2(typescript@5.8.3)(vue@3.5.17(typescript@5.8.3))
       tailwind-merge: 3.3.1
-      tw-animate-css: 1.3.4
+      tw-animate-css: 1.3.5
       vue: 3.5.17(typescript@5.8.3)
       vue-router: 4.5.1(vue@3.5.17(typescript@5.8.3))
       vue-sonner: 2.0.1
@@ -2971,7 +2984,7 @@ snapshots:
       - '@vue/composition-api'
       - typescript
 
-  '@tb-dev/vue@2.0.10(typescript@5.8.3)':
+  '@tb-dev/vue@2.0.11(typescript@5.8.3)':
     dependencies:
       '@tb-dev/utils': 7.0.5
       '@vueuse/core': 13.5.0(vue@3.5.17(typescript@5.8.3))
@@ -4251,7 +4264,7 @@ snapshots:
 
   tslib@2.8.1: {}
 
-  tw-animate-css@1.3.4: {}
+  tw-animate-css@1.3.5: {}
 
   type-check@0.4.0:
     dependencies:
@@ -4361,6 +4374,10 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  vite-plugin-wasm@3.4.1(vite@7.0.2(@types/node@24.0.10)(jiti@2.4.2)(lightningcss@1.30.1)):
+    dependencies:
+      vite: 7.0.2(@types/node@24.0.10)(jiti@2.4.2)(lightningcss@1.30.1)
+
   vite@7.0.2(@types/node@24.0.10)(jiti@2.4.2)(lightningcss@1.30.1):
     dependencies:
       esbuild: 0.25.2
@@ -4439,6 +4456,6 @@ snapshots:
 
   yoctocolors@2.1.1: {}
 
-  zod@3.25.74: {}
+  zod@3.25.75: {}
 
   zwitch@2.0.4: {}

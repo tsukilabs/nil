@@ -3,7 +3,7 @@
 
 <script setup lang="ts">
 import type { Option } from '@tb-dev/utils';
-import { Tooltip } from '@tb-dev/vue-components';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@tb-dev/vue-components';
 
 defineProps<{
   amount?: Option<number>;
@@ -14,16 +14,20 @@ defineProps<{
 
 <template>
   <div class="flex items-center justify-start gap-1">
-    <Tooltip>
-      <template #trigger>
-        <div
-          class="size-3 min-h-3 min-w-3 overflow-hidden rounded-full"
-          :style="{ backgroundColor: color }"
-        ></div>
-      </template>
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger as-child>
+          <div
+            class="size-3 min-h-3 min-w-3 overflow-hidden rounded-full"
+            :style="{ backgroundColor: color }"
+          ></div>
+        </TooltipTrigger>
 
-      <div class="select-none">{{ name }}</div>
-    </Tooltip>
+        <TooltipContent>
+          <div class="select-none">{{ name }}</div>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
 
     <div v-if="typeof amount === 'number'">{{ amount }}</div>
   </div>

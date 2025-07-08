@@ -55,6 +55,8 @@ pub(crate) fn create() -> Router<App> {
     .route("/cheat/resources/stone", post(cheat::set_stone))
     .route("/cheat/resources/wood", post(cheat::set_wood))
     .route("/cheat/village/stability", post(cheat::set_stability))
+    .route("/continent/field", post(continent::get_field))
+    .route("/continent/fields", post(continent::get_fields))
     .route("/continent/size", get(continent::size))
     .route("/infrastructure/prefecture/build/add", post(prefecture::add_build_order))
     .route("/infrastructure/prefecture/build/cancel", post(prefecture::cancel_build_order))

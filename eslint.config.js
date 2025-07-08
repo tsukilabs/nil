@@ -2,6 +2,7 @@ import { defineConfig } from '@tb-dev/eslint-config';
 
 export default defineConfig({
   project: ['ui/tsconfig.json'],
+  ignores: ['crates/**'],
   features: {
     perfectionist: true,
     unicorn: true,
@@ -13,7 +14,9 @@ export default defineConfig({
     },
     perfectionist: {
       'perfectionist/sort-interfaces': 'off',
+      'perfectionist/sort-enums': 'off',
       'perfectionist/sort-object-types': 'off',
+      'perfectionist/sort-switch-case': 'off',
       'perfectionist/sort-union-types': 'off',
     },
     typescript: {

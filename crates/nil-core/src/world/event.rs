@@ -5,7 +5,7 @@ use super::World;
 use crate::chat::ChatMessage;
 use crate::event::{Event, Listener};
 use crate::player::{Player, PlayerId, PlayerStatus};
-use crate::village::{Coord, VillagePublicState};
+use crate::village::{Coord, PublicVillage};
 
 impl World {
   #[inline]
@@ -54,7 +54,7 @@ impl World {
     self.broadcast(Event::RoundUpdated { round });
   }
 
-  pub(super) fn emit_village_spawned(&self, village: VillagePublicState) {
+  pub(super) fn emit_village_spawned(&self, village: PublicVillage) {
     self.broadcast(Event::VillageSpawned { village });
   }
 

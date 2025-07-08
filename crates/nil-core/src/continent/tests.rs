@@ -7,7 +7,7 @@ use crate::village::Coord;
 #[test]
 fn cell() {
   each_coord(|continent, coord| {
-    assert!(continent.cell(coord).is_ok());
+    assert!(continent.field(coord).is_ok());
   });
 }
 
@@ -22,8 +22,8 @@ fn index_to_coord() {
 #[test]
 fn default_continent_is_empty() {
   each_coord(|continent, coord| {
-    let cell = continent.cell(coord).unwrap();
-    assert!(cell.is_empty());
+    let field = continent.field(coord).unwrap();
+    assert!(field.is_empty());
   });
 }
 

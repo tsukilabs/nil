@@ -10,6 +10,11 @@ export const gameRoutes: RouteRecordRaw[] = [
     path: 'academy',
   },
   {
+    component: () => import('@/scenes/game/continent/index.vue'),
+    name: 'continent' satisfies GameScene,
+    path: 'continent',
+  },
+  {
     component: () => import('@/scenes/game/farm/index.vue'),
     name: 'farm' satisfies GameScene,
     path: 'farm',
@@ -18,11 +23,6 @@ export const gameRoutes: RouteRecordRaw[] = [
     component: () => import('@/scenes/game/iron-mine/index.vue'),
     name: 'iron-mine' satisfies GameScene,
     path: 'iron-mine',
-  },
-  {
-    component: () => import('@/scenes/game/map/index.vue'),
-    name: 'map' satisfies GameScene,
-    path: 'map',
   },
   {
     component: () => import('@/scenes/game/prefecture/index.vue'),

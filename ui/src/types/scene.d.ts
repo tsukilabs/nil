@@ -5,9 +5,9 @@ type Scene = 'home' | 'host-game' | 'join-game' | 'lobby' | 'settings' | GameSce
 
 type GameScene =
   | 'academy'
+  | 'continent'
   | 'farm'
   | 'iron-mine'
-  | 'map'
   | 'prefecture'
   | 'quarry'
   | 'sawmill'

@@ -9,7 +9,7 @@ export function addScript(script: Script) {
 }
 
 export function addScripts(scripts: Script[]) {
-  return invoke<ScriptId[]>('add_scripts', { scripts });
+  return invoke<readonly ScriptId[]>('add_scripts', { scripts });
 }
 
 export function exportScript(dir: string, script: Script) {
@@ -25,7 +25,7 @@ export function getScripts() {
 }
 
 export function importScripts(paths: string[]) {
-  return invoke<ScriptId[]>('import_scripts', { paths });
+  return invoke<readonly ScriptId[]>('import_scripts', { paths });
 }
 
 export function removeScript(id: ScriptId) {

@@ -2,28 +2,18 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as commands from '@/commands';
-import { CoordImpl } from '@/core/model/coord';
+import { PublicVillageImpl } from './public';
 import { InfrastructureImpl } from '@/core/model/infrastructure';
 
-export class VillageImpl implements Village {
-  public readonly coord: CoordImpl;
+export class VillageImpl extends PublicVillageImpl implements Village {
   public readonly infrastructure: InfrastructureImpl;
-  public readonly name: string;
-  public readonly owner: VillageOwner;
   public readonly stability: number;
 
   private constructor(village: Village, infrastructure: InfrastructureImpl) {
-    this.coord = CoordImpl.create(village.coord);
-    this.infrastructure = infrastructure;
-    this.name = village.name;
-    this.owner = village.owner;
-    this.stability = village.stability;
-  }
+    super(village);
 
-  public static async load(coord: Coord) {
-    const village = await commands.getVillage(coord);
-    const infrastructure = InfrastructureImpl.create(village.infrastructure);
-    return new VillageImpl(village, infrastructure);
+    this.infrastructure = infrastructure;
+    this.stability = village.stability;
   }
 
   public getProduction() {
@@ -73,5 +63,11 @@ export class VillageImpl implements Village {
 
   get warehouse() {
     return this.infrastructure.warehouse;
+  }
+
+  public static async load(coord: Coord) {
+    const village = await commands.getVillage(coord);
+    const infrastructure = InfrastructureImpl.create(village.infrastructure);
+    return new VillageImpl(village, infrastructure);
   }
 }

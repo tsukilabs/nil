@@ -17,7 +17,7 @@ impl<T: Manager<Wry>> WindowExt for T {
 pub fn open(app: &AppHandle) -> Result<()> {
   let url = WebviewUrl::App("index.html".into());
   WebviewWindowBuilder::new(app, "main", url)
-    .title("Nil")
+    .title("Call of Nil")
     .inner_size(1024.0, 768.0)
     .min_inner_size(800.0, 600.0)
     .resizable(true)

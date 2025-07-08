@@ -3,6 +3,15 @@
 
 import { invoke } from '@tauri-apps/api/core';
 
+export function getField(coord: Coord) {
+  return invoke<PublicField>('get_field', { coord });
+}
+
+export function getFields(coords: Coord[]) {
+  type Fields = [Coord, PublicField][];
+  return invoke<Fields>('get_fields', { coords });
+}
+
 export function getContinentSize() {
   return invoke<number>('get_continent_size');
 }

@@ -5,7 +5,7 @@ use crate::chat::ChatMessage;
 use crate::lobby::LobbyState;
 use crate::player::{Player, PlayerId, PlayerStatus};
 use crate::round::Round;
-use crate::village::{Coord, VillagePublicState};
+use crate::village::{Coord, PublicVillage};
 use bytes::Bytes;
 use nil_util::serde::{from_slice, to_bytes};
 use serde::{Deserialize, Serialize};
@@ -92,7 +92,7 @@ pub enum Event {
     round: Round,
   },
   VillageSpawned {
-    village: VillagePublicState,
+    village: PublicVillage,
   },
   VillageUpdated {
     coord: Coord,

@@ -10,7 +10,9 @@ type EventPayload =
   | PlayerUpdatedPayload
   | RoundUpdatedPayload
   | VillageSpawnedPayload
-  | VillageStabilityUpdatedPayload;
+  | VillageUpdatedPayload;
+
+type EventPayloadKind = EventPayload['kind'];
 
 interface ChatMessagePayload {
   readonly kind: 'chat-message';
@@ -50,7 +52,7 @@ interface RoundUpdatedPayload {
 
 interface VillageSpawnedPayload {
   readonly kind: 'village-spawned';
-  readonly village: VillagePublicState;
+  readonly village: PublicVillage;
 }
 
 interface VillageUpdatedPayload {

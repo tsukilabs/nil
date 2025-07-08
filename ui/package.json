@@ -18,8 +18,8 @@
     "@tauri-apps/plugin-process": "^2.3.0",
     "@tb-dev/prototype-dom": "^7.0.17",
     "@tb-dev/utils": "^7.0.5",
-    "@tb-dev/vue": "^2.0.10",
-    "@tb-dev/vue-components": "^2.2.4",
+    "@tb-dev/vue": "^2.0.11",
+    "@tb-dev/vue-components": "^3.0.0",
     "@vueuse/components": "^13.5.0",
     "@vueuse/core": "^13.5.0",
     "@vueuse/router": "^13.5.0",
@@ -27,12 +27,13 @@
     "es-toolkit": "^1.39.6",
     "lucide-vue-next": "^0.525.0",
     "monaco-editor-core": "^0.52.2",
+    "nil-continent": "workspace:*",
     "shiki": "^3.7.0",
     "vite-plugin-vue-devtools": "^7.7.7",
     "vue": "^3.5.17",
     "vue-i18n": "^11.1.9",
     "vue-router": "^4.5.1",
     "vue-sonner": "^2.0.1",
-    "zod": "^3.25.74"
+    "zod": "^3.25.75"
   }
 }

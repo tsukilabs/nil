@@ -11,8 +11,8 @@ import { onCtrlKeyDown } from '@tb-dev/vue';
 import { onBeforeRouteUpdate } from 'vue-router';
 import { leaveGame, saveGame } from '@/core/game';
 import { defineGlobalCheats } from '@/lib/console';
-import { Button, Sidebar } from '@tb-dev/vue-components';
 import { nextTick, onMounted, useTemplateRef } from 'vue';
+import { Button, Loading, Sidebar } from '@tb-dev/vue-components';
 import { type OnClickOutsideProps, vOnClickOutside } from '@vueuse/components';
 
 const { isPlayerTurn } = NIL.round.refs();
@@ -26,7 +26,7 @@ const onClickOutsideOptions: OnClickOutsideProps['options'] = {
 };
 
 onCtrlKeyDown(['b', 'B'], () => toggleSidebar());
-onCtrlKeyDown(['m', 'M'], () => go('map'));
+onCtrlKeyDown(['m', 'M'], () => go('continent'));
 onCtrlKeyDown(['s', 'S'], () => saveGame());
 onCtrlKeyDown(' ', () => endTurn());
 
@@ -53,7 +53,14 @@ async function endTurn() {
       <div class="absolute inset-x-0 top-16 bottom-10 overflow-hidden">
         <RouterView #default="{ Component }">
           <template v-if="Component">
-            <component :is="Component" />
+            <Suspense>
+              <component :is="Component" />
+              <template #fallback>
+                <div class="absolute inset-0 flex items-center justify-center">
+                  <Loading />
+                </div>
+              </template>
+            </Suspense>
           </template>
         </RouterView>
       </div>

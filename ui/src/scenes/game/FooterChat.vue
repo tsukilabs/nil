@@ -5,17 +5,17 @@
 import { useToggle } from '@vueuse/core';
 import Chat from '@/components/chat/Chat.vue';
 import { MessageSquareTextIcon } from 'lucide-vue-next';
-import { ButtonIcon, Popover, PopoverContent } from '@tb-dev/vue-components';
+import { ButtonIcon, Popover, PopoverContent, PopoverTrigger } from '@tb-dev/vue-components';
 
 const [isChatOpen, toggleChat] = useToggle(false);
 const closeChat = () => void toggleChat(false);
 </script>
 
 <template>
-  <Popover v-model="isChatOpen">
-    <template #trigger>
+  <Popover v-model:open="isChatOpen">
+    <PopoverTrigger as-child>
       <ButtonIcon :icon="MessageSquareTextIcon" />
-    </template>
+    </PopoverTrigger>
 
     <PopoverContent
       align="end"

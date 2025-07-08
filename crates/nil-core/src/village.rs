@@ -83,14 +83,6 @@ impl Village {
     self.owner.player().is_some_and(f)
   }
 
-  pub fn public_state(&self) -> VillagePublicState {
-    VillagePublicState {
-      coord: self.coord,
-      name: self.name.clone(),
-      owner: self.owner.clone(),
-    }
-  }
-
   /// Determina a quantidade de recursos gerados pelas minas da aldeia,
   /// aplicando todos os modificadores relevantes, como, por exemplo, a estabilidade atual.
   pub fn round_production(&self, stats: &InfrastructureStats) -> Result<Resources> {
@@ -208,8 +200,18 @@ impl From<&PlayerId> for VillageOwner {
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-pub struct VillagePublicState {
+pub struct PublicVillage {
   coord: Coord,
   name: String,
   owner: VillageOwner,
+}
+
+impl From<&Village> for PublicVillage {
+  fn from(village: &Village) -> Self {
+    Self {
+      coord: village.coord,
+      name: village.name.clone(),
+      owner: village.owner.clone(),
+    }
+  }
 }
