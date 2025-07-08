@@ -3,12 +3,7 @@
 
 #![cfg_attr(docsrs, feature(doc_auto_cfg))]
 #![doc(html_favicon_url = "https://nil.dev.br/favicon.png")]
-#![feature(
-  iterator_try_collect,
-  mixed_integer_ops_unsigned_sub,
-  try_blocks,
-  vec_deque_pop_if
-)]
+#![feature(iterator_try_collect, try_blocks, vec_deque_pop_if)]
 
 pub mod battle;
 pub mod chat;

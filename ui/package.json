@@ -19,7 +19,7 @@
     "@tb-dev/prototype-dom": "^7.0.17",
     "@tb-dev/utils": "^7.0.5",
     "@tb-dev/vue": "^2.0.11",
-    "@tb-dev/vue-components": "^3.0.0",
+    "@tb-dev/vue-components": "^4.0.0",
     "@vueuse/components": "^13.5.0",
     "@vueuse/core": "^13.5.0",
     "@vueuse/router": "^13.5.0",

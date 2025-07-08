@@ -12,8 +12,15 @@ import { onBeforeRouteUpdate } from 'vue-router';
 import { leaveGame, saveGame } from '@/core/game';
 import { defineGlobalCheats } from '@/lib/console';
 import { nextTick, onMounted, useTemplateRef } from 'vue';
-import { Button, Loading, Sidebar } from '@tb-dev/vue-components';
 import { type OnClickOutsideProps, vOnClickOutside } from '@vueuse/components';
+import {
+  Button,
+  Loading,
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarProvider,
+} from '@tb-dev/vue-components';
 
 const { isPlayerTurn } = NIL.round.refs();
 
@@ -43,7 +50,29 @@ async function endTurn() {
 </script>
 
 <template>
-  <Sidebar v-model:open="isSidebarOpen">
+  <SidebarProvider v-model:open="isSidebarOpen">
+    <Sidebar class="z-50">
+      <SidebarContent>
+        <div v-on-click-outside="[closeSidebar, onClickOutsideOptions]" class="size-full p-4">
+          <RouterLink :to="{ name: 'script' satisfies GameScene }">Scripts</RouterLink>
+        </div>
+      </SidebarContent>
+
+      <SidebarFooter>
+        <div
+          ref="sidebarFooterEl"
+          class="grid grid-cols-2 items-center justify-center gap-4 px-6 pb-4"
+        >
+          <Button size="sm" @click="saveGame">
+            <span>{{ $t('save') }}</span>
+          </Button>
+          <Button variant="destructive" size="sm" @click="leaveGame">
+            <span>{{ $t('leave') }}</span>
+          </Button>
+        </div>
+      </SidebarFooter>
+    </Sidebar>
+
     <div class="bg-muted/40 absolute inset-0 overflow-hidden">
       <Header
         class="bg-background absolute inset-x-0 top-0 h-16 border-b px-4"
@@ -56,31 +85,14 @@ async function endTurn() {
             <Suspense>
               <component :is="Component" />
               <template #fallback>
-                <div class="absolute inset-0 flex items-center justify-center">
-                  <Loading />
-                </div>
+                <Loading class="absolute inset-0" />
               </template>
             </Suspense>
           </template>
         </RouterView>
       </div>
+
       <Footer class="bg-background absolute inset-x-0 bottom-0 h-10 border-t px-6" />
     </div>
-
-    <template #content>
-      <div v-on-click-outside="[closeSidebar, onClickOutsideOptions]" class="size-full p-4">
-        <RouterLink :to="{ name: 'script' }">Scripts</RouterLink>
-      </div>
-    </template>
-
-    <template #footer>
-      <div
-        ref="sidebarFooterEl"
-        class="grid grid-cols-2 items-center justify-center gap-4 px-6 pb-4"
-      >
-        <Button size="sm" @click="saveGame">{{ $t('save') }}</Button>
-        <Button variant="destructive" size="sm" @click="leaveGame">{{ $t('leave') }}</Button>
-      </div>
-    </template>
-  </Sidebar>
+  </SidebarProvider>
 </template>
