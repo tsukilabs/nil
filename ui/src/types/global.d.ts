@@ -14,6 +14,7 @@ import type { CurrentVillageEntity } from '@/core/entity/current-village';
 
 declare global {
   var __APP__: App;
+  var __DEBUG_ASSERTIONS__: boolean;
 
   var NIL: {
     readonly chat: {

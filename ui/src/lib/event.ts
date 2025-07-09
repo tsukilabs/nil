@@ -11,10 +11,15 @@ class Listener<T extends EventPayload> {
   public readonly on: (fn: ListenerFn<T>) => Promise<Fn>;
 
   private constructor(id: T['kind']) {
+    const name = `nil://${id}`;
     this.on = (fn: ListenerFn<T>) => {
       Listener.webview ??= getCurrentWebviewWindow();
-      return Listener.webview.listen<T>(`nil://${id}`, ({ payload }) => {
+      return Listener.webview.listen<T>(name, ({ payload }) => {
         (async () => {
+          if (__DEBUG_ASSERTIONS__) {
+            console.log(payload);
+          }
+
           try {
             await fn(payload);
           } catch (err) {
@@ -35,6 +40,7 @@ class Listener<T extends EventPayload> {
     onPlayerSpawned: new this<PlayerSpawnedPayload>('player-spawned'),
     onPlayerStatusUpdated: new this<PlayerStatusUpdatedPayload>('player-status-updated'),
     onPlayerUpdated: new this<PlayerUpdatedPayload>('player-updated'),
+    onPublicVillageUpdated: new this<PublicVillageUpdatedPayload>('public-village-updated'),
     onRoundUpdated: new this<RoundUpdatedPayload>('round-updated'),
     onVillageSpawned: new this<VillageSpawnedPayload>('village-spawned'),
     onVillageUpdated: new this<VillageUpdatedPayload>('village-updated')

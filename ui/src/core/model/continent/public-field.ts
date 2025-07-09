@@ -1,50 +1,80 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { getFields } from '@/commands';
-import type { Option } from '@tb-dev/utils';
+import { getField, getFields } from '@/commands';
 import { tryOnScopeDispose } from '@vueuse/core';
 import type { CoordImpl } from '@/core/model/coord';
+import type { MaybePromise, Option } from '@tb-dev/utils';
 import { PublicVillageImpl } from '@/core/model/village/public';
 
-const enum Kind {
-  Uninit = 0,
-  Empty = 1,
-  Village = 2,
+enum PublicFieldFlags {
+  Uninit = 1,
+  Loading = 1 << 1,
+  Empty = 1 << 2,
+  Village = 1 << 3,
 }
 
 export class PublicFieldImpl {
   public readonly coord: CoordImpl;
-  #kind: Kind = Kind.Uninit;
+  #flags: PublicFieldFlags = PublicFieldFlags.Uninit;
   #village: Option<PublicVillageImpl>;
 
   private constructor(coord: CoordImpl) {
     this.coord = coord;
   }
 
-  public init(field: PublicField) {
-    if (this.#kind !== Kind.Uninit) {
-      return false;
+  public async load(options?: LoadOptions) {
+    if (!(this.#flags & PublicFieldFlags.Loading)) {
+      this.#flags |= PublicFieldFlags.Loading;
+      try {
+        await options?.onBeforeLoad?.();
+        this.set(await getField(this.coord));
+        await options?.onLoad?.();
+      } catch (err) {
+        this.#flags ^= PublicFieldFlags.Loading;
+        throw err;
+      }
+    }
+  }
+
+  private init(field: PublicField) {
+    if (this.#flags & PublicFieldFlags.Uninit) {
+      this.set(field);
+      return true;
     }
 
-    if (field.kind === 'village') {
-      this.#kind = Kind.Village;
-      this.#village = PublicVillageImpl.create(field.village);
-    }
+    return false;
+  }
 
-    return true;
+  private set(field: PublicField) {
+    switch (field.kind) {
+      case 'empty': {
+        this.#flags = PublicFieldFlags.Empty;
+        this.#village = null;
+        break;
+      }
+      case 'village': {
+        this.#flags = PublicFieldFlags.Village;
+        this.#village = PublicVillageImpl.create(field.village);
+        break;
+      }
+    }
   }
 
   public isUninit() {
-    return this.#kind === Kind.Uninit;
+    return this.#flags & PublicFieldFlags.Uninit;
+  }
+
+  public isLoading() {
+    return this.#flags & PublicFieldFlags.Loading;
   }
 
   public isEmpty() {
-    return this.#kind === Kind.Empty;
+    return this.#flags & PublicFieldFlags.Empty;
   }
 
   public isVillage() {
-    return this.#kind === Kind.Village;
+    return this.#flags & PublicFieldFlags.Village;
   }
 
   public isOutside(size: number) {
@@ -63,8 +93,8 @@ export class PublicFieldImpl {
     return this.coord.id;
   }
 
-  get kind() {
-    return this.#kind;
+  get flags() {
+    return this.#flags;
   }
 
   get village() {
@@ -91,7 +121,7 @@ export class PublicFieldImpl {
       const coords: Coord[] = [];
       for (const field of fields) {
         if (
-          field.kind === Kind.Uninit &&
+          field.flags === PublicFieldFlags.Uninit &&
           !isInitializing.has(field.id) &&
           !field.coord.isOutside(continentSize)
         ) {
@@ -115,4 +145,9 @@ export class PublicFieldImpl {
       return counter;
     };
   }
+}
+
+interface LoadOptions {
+  onBeforeLoad?: () => MaybePromise<void>;
+  onLoad?: () => MaybePromise<void>;
 }

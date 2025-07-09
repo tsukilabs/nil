@@ -8,6 +8,7 @@ type EventPayload =
   | PlayerSpawnedPayload
   | PlayerStatusUpdatedPayload
   | PlayerUpdatedPayload
+  | PublicVillageUpdatedPayload
   | RoundUpdatedPayload
   | VillageSpawnedPayload
   | VillageUpdatedPayload;
@@ -43,6 +44,11 @@ interface PlayerStatusUpdatedPayload {
 interface PlayerUpdatedPayload {
   readonly kind: 'player-updated';
   readonly player: PlayerId;
+}
+
+interface PublicVillageUpdatedPayload {
+  readonly kind: 'public-village-updated';
+  readonly coord: Coord;
 }
 
 interface RoundUpdatedPayload {

@@ -9,7 +9,7 @@ import { onKeyDown } from '@tb-dev/vue';
 import { handleError } from '@/lib/error';
 import { useColorMode } from '@vueuse/core';
 import { Sonner } from '@tb-dev/vue-components';
-import { defineGlobalCommands } from '@/lib/console';
+import { defineGlobalCommands } from '@/lib/global';
 
 useColorMode({
   storageKey: 'nil:color-mode',
@@ -23,7 +23,7 @@ onKeyDown('F5', throttle(NIL.update, 1000));
 onMounted(async () => {
   try {
     await showWindow();
-    await defineGlobalCommands();
+    defineGlobalCommands();
   } catch (err) {
     handleError(err);
   }

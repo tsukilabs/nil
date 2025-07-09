@@ -16,10 +16,6 @@ export * from './village';
 export * from './continent';
 export * from './infrastructure';
 
-export function isDev() {
-  return invoke<boolean>('is_dev');
-}
-
 export function isHost() {
   return invoke<boolean>('is_host');
 }

@@ -5,10 +5,12 @@ import * as dialog from '@/lib/dialog';
 import type { Option } from '@tb-dev/utils';
 
 export function handleError(err: unknown, message?: Option<string>) {
-  if (err instanceof Error) {
-    console.error(`${err.message}\n${err.stack}`);
-  } else {
-    console.error(err);
+  if (__DEBUG_ASSERTIONS__) {
+    if (err instanceof Error) {
+      console.error(`${err.message}\n${err.stack}`);
+    } else {
+      console.error(err);
+    }
   }
 
   if (message) {

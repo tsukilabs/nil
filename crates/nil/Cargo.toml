@@ -23,6 +23,7 @@ nil-server.workspace = true
 nil-util.workspace = true
 remain.workspace = true
 serde.workspace = true
+serde_json.workspace = true
 tauri-plugin-clipboard-manager.workspace = true
 tauri-plugin-dialog.workspace = true
 tauri-plugin-fs.workspace = true

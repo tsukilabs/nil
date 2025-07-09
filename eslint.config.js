@@ -9,16 +9,6 @@ export default defineConfig({
     vue: true,
   },
   overrides: {
-    javascript: {
-      'no-undefined': 'off',
-    },
-    perfectionist: {
-      'perfectionist/sort-interfaces': 'off',
-      'perfectionist/sort-enums': 'off',
-      'perfectionist/sort-object-types': 'off',
-      'perfectionist/sort-switch-case': 'off',
-      'perfectionist/sort-union-types': 'off',
-    },
     typescript: {
       '@typescript-eslint/consistent-type-definitions': 'off',
       '@typescript-eslint/naming-convention': 'off',
@@ -26,7 +16,6 @@ export default defineConfig({
       '@typescript-eslint/no-non-null-assertion': 'off',
       '@typescript-eslint/no-unsafe-call': 'off',
       '@typescript-eslint/no-unsafe-member-access': 'off',
-      '@typescript-eslint/sort-type-constituents': 'off',
     },
   },
 });

@@ -42,7 +42,6 @@ fn main() {
     .plugin(tauri_plugin_process::init())
     .setup(|app| setup(app.app_handle()))
     .invoke_handler(tauri::generate_handler![
-      command::is_dev,
       command::is_host,
       command::show_window,
       command::chat::get_chat_messages,

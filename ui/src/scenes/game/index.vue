@@ -11,7 +11,7 @@ import { useToggle } from '@vueuse/core';
 import { onCtrlKeyDown } from '@tb-dev/vue';
 import { onBeforeRouteUpdate } from 'vue-router';
 import { leaveGame, saveGame } from '@/core/game';
-import { defineGlobalCheats } from '@/lib/console';
+import { defineGlobalCheats } from '@/lib/global';
 import { nextTick, onMounted, useTemplateRef } from 'vue';
 import { type OnClickOutsideProps, vOnClickOutside } from '@vueuse/components';
 import {

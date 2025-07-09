@@ -22,10 +22,8 @@ export class ListenerSet {
   private readonly set = new Set<Fn>();
   private disposed = false;
 
-  constructor(detached = false) {
-    if (!detached) {
-      tryOnScopeDispose(() => this.dispose());
-    }
+  constructor() {
+    tryOnScopeDispose(() => this.dispose());
   }
 
   private async add(listener: MaybePromise<MaybeArray<Fn>>) {

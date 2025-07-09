@@ -10,6 +10,7 @@ import { Card } from '@tb-dev/vue-components';
 import { getContinentSize } from '@/commands';
 import { CoordImpl } from '@/core/model/coord';
 import { onKeyDown, until } from '@vueuse/core';
+import { ListenerSet } from '@/lib/listener-set';
 import { memory } from 'nil-continent/nil_continent_bg.wasm';
 import { Continent, Coord as WasmCoord } from 'nil-continent';
 import { PublicFieldImpl } from '@/core/model/continent/public-field';
@@ -35,6 +36,7 @@ const size = await getContinentSize();
 const fields = shallowRef<PublicFieldImpl[]>([]);
 const cache = new Map<string, PublicFieldImpl>();
 const bulkInit = PublicFieldImpl.createBulkInitializer(size);
+const triggerFields = () => triggerRef(fields);
 
 const containerEl = useTemplateRef('container');
 const containerSize = useElementSize(containerEl);
@@ -68,6 +70,26 @@ const rows = computed(() => {
   }
 
   return values;
+});
+
+const listener = new ListenerSet();
+listener.event.onPublicVillageUpdated(async ({ coord }) => {
+  const field = fields.value.find((it) => it.coord.is(coord));
+  if (field && !field.isLoading()) {
+    // Quando começa a carregar, a classe modifica suas flags
+    // de modo a registrar que uma atualização está ocorrendo.
+    //
+    // Sendo assim, é preciso acionar a reatividade de `fields` antes que a atualização termine,
+    // para que o Vue saiba que estão havendo mudanças, já que ele se baseia exclusivamente
+    // nas flags para determinar isso (devido ao uso de `key` no loop do grid).
+    //
+    // Se a reatividade for acionada apenas ao término, para o Vue será como se nada tivesse acontecido,
+    // visto que as flags muito provavelmente serão as mesmas nesse ponto.
+    await field.load({
+      onBeforeLoad: triggerFields,
+      onLoad: triggerFields,
+    });
+  }
 });
 
 watchEffect(() => {
@@ -125,7 +147,7 @@ function updateCoordsWithin() {
   }
 
   bulkInit(result)
-    .then((counter) => counter && triggerRef(fields))
+    .then((counter) => counter && triggerFields())
     .err();
 
   fields.value = result;
@@ -181,7 +203,7 @@ function move(dir: 'up' | 'down' | 'left' | 'right') {
         <div id="continent-grid">
           <Field
             v-for="field of fields"
-            :key="`${field.id}-${field.kind}`"
+            :key="`${field.id}-${field.flags}`"
             :field
             :continent-size="size"
           />

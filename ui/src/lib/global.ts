@@ -5,9 +5,9 @@ import { camelCase } from 'es-toolkit';
 import * as commands from '@/commands';
 import * as cheats from '@/commands/cheat';
 
-export async function defineGlobalCommands() {
-  if (!Object.hasOwn(window, '$c') && (await commands.isDev())) {
-    Object.defineProperty(window, '$c', {
+export function defineGlobalCommands() {
+  if (__DEBUG_ASSERTIONS__ && !Object.hasOwn(window.NIL, 'cmd')) {
+    Object.defineProperty(window.NIL, 'cmd', {
       configurable: false,
       enumerable: true,
       writable: false,

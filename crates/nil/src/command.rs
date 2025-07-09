@@ -19,11 +19,6 @@ use crate::manager::ManagerExt;
 use tauri::{AppHandle, WebviewWindow};
 
 #[tauri::command]
-pub async fn is_dev() -> bool {
-  tauri::is_dev()
-}
-
-#[tauri::command]
 pub async fn is_host(app: AppHandle) -> bool {
   app.nil().is_host().await
 }
