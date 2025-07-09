@@ -34,9 +34,9 @@ export const router = createRouter({
     },
 
     {
-      children: gameRoutes,
       component: () => import('@/scenes/game/index.vue'),
       path: '/game',
+      children: gameRoutes,
     },
   ],
 });

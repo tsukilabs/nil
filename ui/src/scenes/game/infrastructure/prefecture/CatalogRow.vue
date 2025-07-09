@@ -51,7 +51,7 @@ const canDemolish = computed(() => {
   );
 });
 
-async function emitOrder(kind: PrefectureBuildOrderKind) {
+async function makeOrder(kind: PrefectureBuildOrderKind) {
   await nextTick();
   if ((kind === 'construction' && canBuild.value) || (kind === 'demolition' && canDemolish.value)) {
     props.onBuildOrder(kind);
@@ -87,7 +87,7 @@ async function emitOrder(kind: PrefectureBuildOrderKind) {
           size="sm"
           :disabled="!canBuild"
           class="max-w-24"
-          @click="() => emitOrder('construction')"
+          @click="() => makeOrder('construction')"
         >
           <span>{{ $t('build') }}</span>
         </Button>
@@ -96,7 +96,7 @@ async function emitOrder(kind: PrefectureBuildOrderKind) {
           size="sm"
           :disabled="!canDemolish"
           class="max-w-24"
-          @click="() => emitOrder('demolition')"
+          @click="() => makeOrder('demolition')"
         >
           <span>{{ $t('demolish') }}</span>
         </Button>

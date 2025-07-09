@@ -3,17 +3,16 @@
 
 type Scene = 'home' | 'host-game' | 'join-game' | 'lobby' | 'settings' | GameScene;
 
-type GameScene =
+type GameScene = 'continent' | 'script' | 'village' | InfrastructureScene;
+
+type InfrastructureScene =
   | 'academy'
-  | 'continent'
   | 'farm'
   | 'iron-mine'
   | 'prefecture'
   | 'quarry'
   | 'sawmill'
-  | 'script'
   | 'silo'
   | 'stable'
-  | 'village'
   | 'wall'
   | 'warehouse';

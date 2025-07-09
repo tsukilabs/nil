@@ -108,7 +108,7 @@ pub enum Event {
   /// Indica mudanças no round, como o término do turno de algum jogador
   /// ou a passagem de um round para outro após todos os jogadores concluírem suas ações.
   ///
-  /// Quando emitido após ao início ou fim de um round, [`Event::RoundUpdated`] geralmente torna
+  /// Quando emitido ao início ou fim de um round, [`Event::RoundUpdated`] geralmente torna
   /// desnecessária a emissão de outros eventos, visto que essa situação já naturalmente exige que todas
   /// as entidades gerenciadas pelo JavaScript solicitem dados novos.
   RoundUpdated {
