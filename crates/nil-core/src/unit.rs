@@ -46,7 +46,7 @@ pub struct UnitStats {
   pub infantry_defense: Power,
   pub cavalry_defense: Power,
   pub ranged_defense: Power,
-  pub ranged_debuff: f64,
+  pub ranged_debuff: RangedDebuff,
   pub speed: Speed,
   pub haul: Haul,
 }
@@ -112,6 +112,16 @@ impl Div<Power> for u32 {
 
   fn div(self, rhs: Power) -> Self::Output {
     self.saturating_div(rhs.0)
+  }
+}
+
+#[derive(Clone, Copy, Debug, Deref, Deserialize, Serialize)]
+pub struct RangedDebuff(f64);
+
+impl RangedDebuff {
+  #[inline]
+  pub const fn new(value: f64) -> Self {
+    Self(value)
   }
 }
 
