@@ -5,6 +5,7 @@
 import { go } from '@/router';
 import Header from './Header.vue';
 import Footer from './Footer.vue';
+import { useI18n } from 'vue-i18n';
 import * as commands from '@/commands';
 import { useToggle } from '@vueuse/core';
 import { onCtrlKeyDown } from '@tb-dev/vue';
@@ -21,6 +22,8 @@ import {
   SidebarFooter,
   SidebarProvider,
 } from '@tb-dev/vue-components';
+
+const { t } = useI18n();
 
 const { isPlayerTurn } = NIL.round.refs();
 
@@ -64,10 +67,10 @@ async function endTurn() {
           class="grid grid-cols-2 items-center justify-center gap-4 px-6 pb-4"
         >
           <Button size="sm" @click="saveGame">
-            <span>{{ $t('save') }}</span>
+            <span>{{ t('save') }}</span>
           </Button>
           <Button variant="destructive" size="sm" @click="leaveGame">
-            <span>{{ $t('leave') }}</span>
+            <span>{{ t('leave') }}</span>
           </Button>
         </div>
       </SidebarFooter>

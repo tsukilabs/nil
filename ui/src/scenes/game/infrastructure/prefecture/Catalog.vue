@@ -3,6 +3,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import CatalogRow from './CatalogRow.vue';
 import type { MaybePromise } from '@tb-dev/utils';
 import { Table, TableHead, TableRow } from '@tb-dev/vue-components';
@@ -15,6 +16,8 @@ const props = defineProps<{
   onBuildOrder: (id: BuildingId, kind: PrefectureBuildOrderKind) => MaybePromise<void>;
 }>();
 
+const { t } = useI18n();
+
 const hasSomeAvailable = computed(() => {
   return Object.values(props.catalog).some((it) => it.kind === 'available');
 });
@@ -25,16 +28,16 @@ const hasSomeAvailable = computed(() => {
     <template #header>
       <TableRow class="bg-background hover:bg-background">
         <TableHead>
-          <span>{{ $t('building') }}</span>
+          <span>{{ t('building') }}</span>
         </TableHead>
         <TableHead v-if="hasSomeAvailable">
-          <span>{{ $t('cost') }}</span>
+          <span>{{ t('cost') }}</span>
         </TableHead>
         <TableHead v-if="hasSomeAvailable">
-          <span>{{ $t('maintenance') }}</span>
+          <span>{{ t('maintenance') }}</span>
         </TableHead>
         <TableHead v-if="hasSomeAvailable">
-          <span>{{ $t('workforce') }}</span>
+          <span>{{ t('workforce') }}</span>
         </TableHead>
         <TableHead :colspan="hasSomeAvailable ? 1 : 4">
           <span></span>

@@ -2,6 +2,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
 import { computed, nextTick } from 'vue';
 import CatalogCellBuilding from './CatalogCellBuilding.vue';
 import { useBuildingLevel } from '@/composables/prefecture';
@@ -17,6 +18,8 @@ const props = defineProps<{
   loading: boolean;
   onBuildOrder: (kind: PrefectureBuildOrderKind) => void;
 }>();
+
+const { t } = useI18n();
 
 const { player } = NIL.player.refs();
 const { isPlayerTurn } = NIL.round.refs();
@@ -89,7 +92,7 @@ async function makeOrder(kind: PrefectureBuildOrderKind) {
           class="max-w-24"
           @click="() => makeOrder('construction')"
         >
-          <span>{{ $t('build') }}</span>
+          <span>{{ t('build') }}</span>
         </Button>
         <Button
           variant="destructive"
@@ -98,7 +101,7 @@ async function makeOrder(kind: PrefectureBuildOrderKind) {
           class="max-w-24"
           @click="() => makeOrder('demolition')"
         >
-          <span>{{ $t('demolish') }}</span>
+          <span>{{ t('demolish') }}</span>
         </Button>
       </div>
     </TableCell>
@@ -110,7 +113,7 @@ async function makeOrder(kind: PrefectureBuildOrderKind) {
     </TableCell>
     <TableCell colspan="4" class="w-full">
       <div class="text-muted-foreground flex w-full items-center justify-center text-sm">
-        <span>{{ $t('building-fully-constructed') }}</span>
+        <span>{{ t('building-fully-constructed') }}</span>
       </div>
     </TableCell>
   </TableRow>

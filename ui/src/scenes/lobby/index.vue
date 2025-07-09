@@ -2,6 +2,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
 import * as commands from '@/commands';
 import { asyncRef } from '@tb-dev/vue';
 import { leaveGame } from '@/core/game';
@@ -21,6 +22,8 @@ import {
   TableRow,
   toBooleanCheckboxValue,
 } from '@tb-dev/vue-components';
+
+const { t } = useI18n();
 
 const { config } = NIL.world.refs();
 const { player: currentPlayer } = NIL.player.refs();
@@ -133,10 +136,10 @@ function isHostReady() {
       </div>
       <div class="flex items-center justify-end gap-2">
         <Button v-if="isHost" :disabled="!canStart" @click="start">
-          {{ $t('start') }}
+          {{ t('start') }}
         </Button>
         <Button variant="secondary" :disabled="loading" @click="leave">
-          {{ $t('leave') }}
+          {{ t('leave') }}
         </Button>
       </div>
     </div>
@@ -146,10 +149,10 @@ function isHostReady() {
         <template #header>
           <TableRow class="bg-background hover:bg-background">
             <TableHead>
-              <span>{{ $t('player') }}</span>
+              <span>{{ t('player') }}</span>
             </TableHead>
             <TableHead class="w-20">
-              <span>{{ $t('ready') }}</span>
+              <span>{{ t('ready') }}</span>
             </TableHead>
           </TableRow>
         </template>
@@ -170,7 +173,7 @@ function isHostReady() {
 
       <div class="flex h-full w-2/5 max-w-[500px] min-w-[250px] flex-col gap-4 pb-8">
         <div class="h-8">
-          <h1 class="text-xl font-bold">{{ $t('chat') }}</h1>
+          <h1 class="text-xl font-bold">{{ t('chat') }}</h1>
         </div>
         <Chat class="size-full" />
       </div>

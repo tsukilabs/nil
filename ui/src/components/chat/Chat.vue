@@ -2,6 +2,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
 import { onKeyDown } from '@tb-dev/vue';
 import { handleError } from '@/lib/error';
 import type { Option } from '@tb-dev/utils';
@@ -9,6 +10,8 @@ import { pushChatMessage } from '@/commands';
 import MessagePlayer from './MessagePlayer.vue';
 import { Button, InputText, ScrollArea } from '@tb-dev/vue-components';
 import { computed, nextTick, onMounted, ref, useTemplateRef } from 'vue';
+
+const { t } = useI18n();
 
 const { chat } = NIL.chat.refs();
 
@@ -70,7 +73,7 @@ onMounted(() => {
 
         <div class="flex h-[30px] items-center justify-between gap-2">
           <InputText ref="chatInputEl" v-model="draft" :disabled="loading" :max="200" />
-          <Button :disabled="!draft || loading" @click="send">{{ $t('send') }}</Button>
+          <Button :disabled="!draft || loading" @click="send">{{ t('send') }}</Button>
         </div>
       </div>
     </div>

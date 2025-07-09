@@ -3,6 +3,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import type { MaybePromise } from '@tb-dev/utils';
 import { ChevronDownIcon, ChevronUpIcon } from 'lucide-vue-next';
 import type { PrefectureImpl } from '@/core/model/buildings/prefecture';
@@ -13,6 +14,8 @@ const props = defineProps<{
   loading: boolean;
   onCancel: () => MaybePromise<void>;
 }>();
+
+const { t } = useI18n();
 
 const last = computed(() => props.prefecture.buildQueue.last());
 
@@ -26,10 +29,10 @@ const tableClass = computed(() => {
     <template #header>
       <TableRow class="bg-background hover:bg-background">
         <TableHead>
-          <span>{{ $t('order') }}</span>
+          <span>{{ t('order') }}</span>
         </TableHead>
         <TableHead>
-          <span>{{ $t('workforce') }}</span>
+          <span>{{ t('workforce') }}</span>
         </TableHead>
         <TableHead>
           <span></span>
@@ -54,7 +57,7 @@ const tableClass = computed(() => {
               class="size-5"
             />
 
-            <span>{{ `${$t(order.building)} (${$t('level-x', [order.level])})` }}</span>
+            <span>{{ `${t(order.building)} (${t('level-x', [order.level])})` }}</span>
           </div>
         </TableCell>
         <TableCell>
@@ -65,7 +68,7 @@ const tableClass = computed(() => {
         <TableCell>
           <div v-if="order.id === last?.id" class="flex items-center justify-center">
             <Button variant="destructive" size="sm" :disabled="loading" @click="onCancel">
-              <span>{{ $t('cancel') }}</span>
+              <span>{{ t('cancel') }}</span>
             </Button>
           </div>
         </TableCell>

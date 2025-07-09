@@ -2,6 +2,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
 import * as commands from '@/commands';
 import * as dialog from '@/lib/dialog';
 import { handleError } from '@/lib/error';
@@ -18,6 +19,8 @@ const props = defineProps<{
 }>();
 
 const loading = defineModel<boolean>('loading', { required: true });
+
+const { t } = useI18n();
 
 async function saveScript() {
   await props.waitToLoad();
@@ -103,16 +106,16 @@ async function removeScript() {
 <template>
   <div class="grid-cols-4 gap-2">
     <Button size="sm" :disabled="!current || loading" @click="saveScript">
-      {{ $t('save') }}
+      {{ t('save') }}
     </Button>
     <Button size="sm" :disabled="loading" @click="importScripts">
-      {{ $t('import') }}
+      {{ t('import') }}
     </Button>
     <Button size="sm" :disabled="!current || loading" @click="exportScripts">
-      {{ $t('export') }}
+      {{ t('export') }}
     </Button>
     <Button size="sm" variant="destructive" :disabled="!current || loading" @click="removeScript">
-      {{ $t('remove') }}
+      {{ t('remove') }}
     </Button>
   </div>
 </template>

@@ -2,6 +2,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
 import * as commands from '@/commands';
 import { useHeight } from '@tb-dev/vue';
 import { handleError } from '@/lib/error';
@@ -17,6 +18,8 @@ const props = defineProps<{
 }>();
 
 const loading = defineModel<boolean>('loading', { required: true });
+
+const { t } = useI18n();
 
 const { player } = NIL.player.refs();
 
@@ -89,7 +92,7 @@ function toElementId(id: ScriptId) {
 
     <div ref="footerEl" class="h-20 p-4">
       <Button variant="outline" :disabled="!player || loading" class="w-full" @click="createScript">
-        {{ $t('new') }}
+        {{ t('new') }}
       </Button>
     </div>
   </div>

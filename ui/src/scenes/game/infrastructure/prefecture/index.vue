@@ -2,6 +2,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
 import Catalog from './Catalog.vue';
 import BuildQueue from './BuildQueue.vue';
 import { handleError } from '@/lib/error';
@@ -13,6 +14,8 @@ import {
   cancelPrefectureBuildOrder,
   getPrefectureBuildCatalog,
 } from '@/commands';
+
+const { t } = useI18n();
 
 const { coord, village } = NIL.village.refs();
 
@@ -72,7 +75,7 @@ async function cancelBuildOrder() {
       content-class="overflow-x-hidden overflow-y-auto px-2"
     >
       <template #title>
-        <span>{{ `${$t('prefecture')} (${$t('level-x', [prefecture.level])})` }}</span>
+        <span>{{ `${t('prefecture')} (${t('level-x', [prefecture.level])})` }}</span>
       </template>
 
       <div class="flex w-full flex-col gap-4 xl:flex-row-reverse">
