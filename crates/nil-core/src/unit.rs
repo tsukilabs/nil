@@ -11,7 +11,7 @@ pub mod swordsman;
 
 use derive_more::Deref;
 use serde::{Deserialize, Serialize};
-use std::ops::{Div, Mul};
+use std::ops::{Div, Mul, MulAssign};
 use strum::EnumIter;
 
 pub trait Unit {
@@ -124,6 +124,29 @@ impl RangedDebuff {
     Self(value)
   }
 }
+
+impl Mul for RangedDebuff {
+  type Output = RangedDebuff;
+
+  fn mul(self, rhs: RangedDebuff) -> Self::Output {
+    Self(self.0 * rhs.0)
+  }
+}
+
+impl MulAssign for RangedDebuff {
+  fn mul_assign(&mut self, rhs: Self) {
+    *self = *self * rhs;
+  }
+}
+
+impl Mul<f64> for RangedDebuff {
+  type Output = f64;
+
+  fn mul(self, rhs: f64) -> Self::Output {
+    self.0 * rhs
+  }
+}
+
 
 #[derive(Clone, Copy, Debug, Deref, Deserialize, Serialize)]
 pub struct Speed(f64);
