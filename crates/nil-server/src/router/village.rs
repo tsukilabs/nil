@@ -39,7 +39,7 @@ pub async fn rename(
     let mut world = app.world.write().await;
     let village = world.village(coord)?;
     if village.is_owned_by_player_and(|id| *current_player == *id) {
-      world.rename_village(coord, &name)?
+      world.rename_village(coord, &name)?;
     } else {
       return res!(FORBIDDEN);
     }
