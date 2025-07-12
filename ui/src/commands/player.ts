@@ -38,7 +38,3 @@ export function setPlayerStatus(status: PlayerStatus) {
 export function spawnPlayer(options: PlayerOptions) {
   return invoke<null>('spawn_player', { options });
 }
-
-export function spawnPlayerVillage(id: PlayerId) {
-  return invoke<null>('spawn_player_village', { id });
-}

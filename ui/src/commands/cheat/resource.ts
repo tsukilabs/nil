@@ -1,13 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { clamp } from 'es-toolkit';
 import { invoke } from '@tauri-apps/api/core';
-
-export function cheatSetBuildingLevel(coord: Coord, id: BuildingId, level: BuildingLevel) {
-  level = Math.trunc(clamp(level, 0, 255));
-  return invoke<null>('cheat_set_building_level', { coord, id, level });
-}
 
 export function cheatSetFood(food: number) {
   food = Math.trunc(Math.max(0, food));
@@ -19,8 +13,12 @@ export function cheatSetIron(iron: number) {
   return invoke<null>('cheat_set_iron', { iron });
 }
 
-export function cheatSetMaxInfrastructure(coord: Coord) {
-  return invoke<null>('cheat_set_max_infrastructure', { coord });
+export function cheatSetMaxFood() {
+  return invoke<null>('cheat_set_max_food');
+}
+
+export function cheatSetMaxIron() {
+  return invoke<null>('cheat_set_max_iron');
 }
 
 export function cheatSetMaxResources() {
@@ -31,17 +29,20 @@ export function cheatSetMaxSiloResources() {
   return invoke<null>('cheat_set_max_silo_resources');
 }
 
+export function cheatSetMaxStone() {
+  return invoke<null>('cheat_set_max_stone');
+}
+
 export function cheatSetMaxWarehouseResources() {
   return invoke<null>('cheat_set_max_warehouse_resources');
 }
 
-export function cheatSetResources(resources: Resources) {
-  return invoke<null>('cheat_set_resources', { resources });
+export function cheatSetMaxWood() {
+  return invoke<null>('cheat_set_max_wood');
 }
 
-export function cheatSetStability(coord: Coord, stability: number) {
-  stability = clamp(stability, 0.0, 1.0);
-  return invoke<null>('cheat_set_stability', { coord, stability });
+export function cheatSetResources(resources: Resources) {
+  return invoke<null>('cheat_set_resources', { resources });
 }
 
 export function cheatSetStone(stone: number) {
