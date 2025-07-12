@@ -9,6 +9,7 @@ mod tests;
 use crate::error::{Error, Result};
 use crate::player::PlayerId;
 use crate::village::{Coord, Village};
+use num_traits::ToPrimitive;
 use rand::seq::IndexedRandom;
 use serde::{Deserialize, Serialize};
 use std::num::NonZeroU8;
@@ -156,14 +157,15 @@ impl Continent {
         return Err(Error::WorldIsFull);
       }
 
-      coords.clear();
-      self.collect_within_spawn_radius(&mut coords);
+      let len = self.collect_within_spawn_radius(&mut coords);
+      coords.retain(|it| self.field(*it).is_ok_and(Field::is_empty));
 
-      let amount = coords.len() as f64;
-
-      coords.retain(|c| self.field(*c).is_ok_and(|f| f.is_empty()));
-
-      if (coords.len() as f64 / amount) <= 0.2 {
+      if let Some(len) = len.to_f64()
+        && let Some(new_len) = coords.len().to_f64()
+        && len.is_normal()
+        && new_len.is_normal()
+        && (new_len / len) <= 0.2
+      {
         self.spawn_radius = self.spawn_radius.saturating_add(1);
       }
 
@@ -175,13 +177,15 @@ impl Continent {
     Ok((coord, self.field_mut(coord)?))
   }
 
-  fn collect_within_spawn_radius(&self, buf: &mut Vec<Coord>) {
+  fn collect_within_spawn_radius(&self, buf: &mut Vec<Coord>) -> usize {
     let size = i16::from(self.size());
     let distance = i16::from(self.spawn_radius.get());
 
     let center = self.center();
     let x0 = i16::from(center.x());
     let y0 = i16::from(center.y());
+
+    buf.clear();
 
     for x in (x0 - distance)..=(x0 + distance) {
       if x >= size || x < 0 {
@@ -203,6 +207,8 @@ impl Continent {
         }
       }
     }
+
+    buf.len()
   }
 }
 

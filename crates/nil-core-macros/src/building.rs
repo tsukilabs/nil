@@ -25,13 +25,11 @@ pub fn impl_building(ast: &DeriveInput) -> TokenStream {
         BuildingStatsTable,
       };
       use crate::resource::{
-        BaseCost,
-        BaseCostGrowth,
+        Cost,
         Maintenance,
         MaintenanceRatio,
         ResourceRatio,
         Workforce,
-        WorkforceGrowth,
       };
 
       impl Building for #name {
@@ -79,20 +77,12 @@ pub fn impl_building(ast: &DeriveInput) -> TokenStream {
           self.set_level(self.level - amount)
         }
 
-        fn base_cost(&self) -> BaseCost {
-          Self::BASE_COST
+        fn min_cost(&self) -> Cost {
+          Self::MIN_COST
         }
 
-        fn base_cost_growth(&self) -> BaseCostGrowth {
-          Self::BASE_COST_GROWTH
-        }
-
-        fn maintenance(&self, stats: &BuildingStatsTable) -> Result<Maintenance> {
-          Ok(stats.get(self.level)?.maintenance)
-        }
-
-        fn maintenance_ratio(&self) -> MaintenanceRatio {
-          Self::MAINTENANCE_RATIO
+        fn max_cost(&self) -> Cost {
+          Self::MAX_COST
         }
 
         fn wood_ratio(&self) -> ResourceRatio {
@@ -107,12 +97,20 @@ pub fn impl_building(ast: &DeriveInput) -> TokenStream {
           Self::IRON_RATIO
         }
 
-        fn workforce(&self) -> Workforce {
-          Self::WORKFORCE
+        fn maintenance(&self, stats: &BuildingStatsTable) -> Result<Maintenance> {
+          Ok(stats.get(self.level)?.maintenance)
         }
 
-        fn workforce_growth(&self) -> WorkforceGrowth {
-          Self::WORKFORCE_GROWTH
+        fn maintenance_ratio(&self) -> MaintenanceRatio {
+          Self::MAINTENANCE_RATIO
+        }
+
+        fn min_workforce(&self) -> Workforce {
+          Self::MIN_WORKFORCE
+        }
+
+        fn max_workforce(&self) -> Workforce {
+          Self::MAX_WORKFORCE
         }
 
         fn infrastructure_requirements(&self) -> &InfrastructureRequirements {

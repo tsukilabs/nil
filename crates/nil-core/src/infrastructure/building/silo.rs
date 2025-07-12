@@ -4,15 +4,8 @@
 use super::{BuildingId, BuildingLevel};
 use crate::check_total_resource_ratio;
 use crate::infrastructure::requirements::InfrastructureRequirements;
-use crate::infrastructure::storage::{StorageCapacity, StorageCapacityGrowth, StorageId};
-use crate::resource::{
-  BaseCost,
-  BaseCostGrowth,
-  MaintenanceRatio,
-  ResourceRatio,
-  Workforce,
-  WorkforceGrowth,
-};
+use crate::infrastructure::storage::{StorageCapacity, StorageId};
+use crate::resource::{Cost, MaintenanceRatio, ResourceRatio, Workforce};
 use nil_core_macros::{Building, Storage};
 use serde::{Deserialize, Serialize};
 
@@ -30,19 +23,20 @@ impl Silo {
   pub const MIN_LEVEL: BuildingLevel = BuildingLevel::ZERO;
   pub const MAX_LEVEL: BuildingLevel = BuildingLevel::new(30);
 
-  pub const BASE_COST: BaseCost = BaseCost::new(100_000);
-  pub const BASE_COST_GROWTH: BaseCostGrowth = BaseCostGrowth::new(0.2);
+  pub const MIN_COST: Cost = Cost::new(1_000);
+  pub const MAX_COST: Cost = Cost::new(100_000);
+
   pub const MAINTENANCE_RATIO: MaintenanceRatio = MaintenanceRatio::new(0.0025);
 
   pub const WOOD_RATIO: ResourceRatio = ResourceRatio::new(0.45);
   pub const STONE_RATIO: ResourceRatio = ResourceRatio::new(0.25);
   pub const IRON_RATIO: ResourceRatio = ResourceRatio::new(0.3);
 
-  pub const WORKFORCE: Workforce = Workforce::new(250);
-  pub const WORKFORCE_GROWTH: WorkforceGrowth = WorkforceGrowth::new(0.2);
+  pub const MIN_WORKFORCE: Workforce = Workforce::new(2);
+  pub const MAX_WORKFORCE: Workforce = Workforce::new(250);
 
-  pub const CAPACITY: StorageCapacity = StorageCapacity::new(250_000);
-  pub const CAPACITY_GROWTH: StorageCapacityGrowth = StorageCapacityGrowth::new(0.2);
+  pub const MIN_CAPACITY: StorageCapacity = StorageCapacity::new(1_000);
+  pub const MAX_CAPACITY: StorageCapacity = StorageCapacity::new(250_000);
 
   pub const INFRASTRUCTURE_REQUIREMENTS: InfrastructureRequirements =
     InfrastructureRequirements::none();

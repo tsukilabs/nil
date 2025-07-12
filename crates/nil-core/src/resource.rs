@@ -16,10 +16,10 @@ use nil_num::ops::MulCeil;
 use serde::{Deserialize, Serialize};
 use std::ops::{Add, AddAssign, Mul, MulAssign, Sub, SubAssign};
 
-pub use cost::{BaseCost, BaseCostGrowth, ResourceRatio};
+pub use cost::{Cost, ResourceRatio};
 pub use diff::{FoodDiff, IronDiff, ResourcesDiff, StoneDiff, WoodDiff};
 pub use maintenance::{Maintenance, MaintenanceRatio};
-pub use workforce::{Workforce, WorkforceGrowth};
+pub use workforce::Workforce;
 
 #[derive(Clone, Debug, Default, Deserialize, Serialize)]
 #[serde(default, rename_all = "camelCase")]
@@ -33,10 +33,10 @@ pub struct Resources {
 impl Resources {
   /// Quantidade padrão de recursos para um novo jogador.
   pub const PLAYER: Self = Self {
-    food: Food::new(1_000),
-    iron: Iron::new(1_000),
-    stone: Stone::new(1_000),
-    wood: Wood::new(1_000),
+    food: Food::new(800),
+    iron: Iron::new(800),
+    stone: Stone::new(800),
+    wood: Wood::new(800),
   };
 
   /// Quantidade máxima de recursos possível.

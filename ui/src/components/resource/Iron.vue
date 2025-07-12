@@ -8,12 +8,12 @@ import type { Option } from '@tb-dev/utils';
 
 defineProps<{
   amount?: Option<number>;
-  capacity?: Option<number>;
+  limit?: Option<number>;
 }>();
 
 const { t } = useI18n();
 </script>
 
 <template>
-  <Base :amount :capacity :name="t('iron')" color="oklch(0.7 0.1653 297.53)" />
+  <Base :amount :limit :name="t('iron')" color="oklch(0.7 0.1653 297.53)" />
 </template>

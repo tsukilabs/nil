@@ -6,34 +6,24 @@ use serde::{Deserialize, Serialize};
 
 /// Custo base de uma entidade, como edifícios ou unidades.
 #[derive(Clone, Copy, Debug, Deref, Deserialize, Serialize)]
-pub struct BaseCost(u32);
+pub struct Cost(u32);
 
-impl BaseCost {
+impl Cost {
   #[inline]
   pub const fn new(value: u32) -> Self {
     Self(value)
   }
 }
 
-impl From<BaseCost> for f64 {
-  fn from(value: BaseCost) -> Self {
+impl From<Cost> for f64 {
+  fn from(value: Cost) -> Self {
     f64::from(value.0)
   }
 }
 
-impl From<f64> for BaseCost {
+impl From<f64> for Cost {
   fn from(value: f64) -> Self {
     Self::new(value as u32)
-  }
-}
-
-#[derive(Clone, Copy, Debug, Deref, Deserialize, Serialize)]
-pub struct BaseCostGrowth(f64);
-
-impl BaseCostGrowth {
-  #[inline]
-  pub const fn new(value: f64) -> Self {
-    Self(value.clamp(0.0, 1.0))
   }
 }
 

@@ -29,12 +29,12 @@ export abstract class BuildingImpl implements Building {
     return this.getStatsTable()?.get(level);
   }
 
-  public getBaseCost() {
-    return this.getBaseCostBy(this.level);
+  public getCost() {
+    return this.getCostBy(this.level);
   }
 
-  public getBaseCostBy(level: BuildingLevel) {
-    return this.getStatsBy(level)?.baseCost;
+  public getCostBy(level: BuildingLevel) {
+    return this.getStatsBy(level)?.cost;
   }
 
   public getMaintenance() {

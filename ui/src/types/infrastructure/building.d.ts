@@ -31,10 +31,10 @@ type Silo = Building;
 type Wall = Building;
 
 interface BuildingStats {
-  readonly baseCost: number;
   readonly level: BuildingLevel;
-  readonly maintenance: number;
+  readonly cost: number;
   readonly resources: Resources;
+  readonly maintenance: number;
   readonly workforce: number;
 }
 

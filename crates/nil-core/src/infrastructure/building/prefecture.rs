@@ -7,14 +7,7 @@ mod build_queue;
 use super::{BuildingId, BuildingLevel};
 use crate::check_total_resource_ratio;
 use crate::infrastructure::requirements::InfrastructureRequirements;
-use crate::resource::{
-  BaseCost,
-  BaseCostGrowth,
-  MaintenanceRatio,
-  ResourceRatio,
-  Workforce,
-  WorkforceGrowth,
-};
+use crate::resource::{Cost, MaintenanceRatio, ResourceRatio, Workforce};
 use nil_core_macros::Building;
 use serde::{Deserialize, Serialize};
 use std::ops::Not;
@@ -48,16 +41,16 @@ impl Prefecture {
   pub const MIN_LEVEL: BuildingLevel = BuildingLevel::new(1);
   pub const MAX_LEVEL: BuildingLevel = BuildingLevel::new(30);
 
-  pub const BASE_COST: BaseCost = BaseCost::new(150_000);
-  pub const BASE_COST_GROWTH: BaseCostGrowth = BaseCostGrowth::new(0.2);
-  pub const MAINTENANCE_RATIO: MaintenanceRatio = MaintenanceRatio::new(0.005);
+  pub const MIN_COST: Cost = Cost::new(1000);
+  pub const MAX_COST: Cost = Cost::new(150_000);
 
   pub const WOOD_RATIO: ResourceRatio = ResourceRatio::new(0.3);
   pub const STONE_RATIO: ResourceRatio = ResourceRatio::new(0.5);
   pub const IRON_RATIO: ResourceRatio = ResourceRatio::new(0.2);
+  pub const MAINTENANCE_RATIO: MaintenanceRatio = MaintenanceRatio::new(0.005);
 
-  pub const WORKFORCE: Workforce = Workforce::new(50);
-  pub const WORKFORCE_GROWTH: WorkforceGrowth = WorkforceGrowth::new(0.2);
+  pub const MIN_WORKFORCE: Workforce = Workforce::new(1);
+  pub const MAX_WORKFORCE: Workforce = Workforce::new(50);
 
   pub const INFRASTRUCTURE_REQUIREMENTS: InfrastructureRequirements =
     InfrastructureRequirements::none();

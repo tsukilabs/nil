@@ -4,6 +4,7 @@
 use super::building::{Building, BuildingId, BuildingLevel};
 use crate::error::{Error, Result};
 use derive_more::Deref;
+use nil_num::growth::growth;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::ops::{Add, AddAssign, Sub, SubAssign};
@@ -12,12 +13,12 @@ use strum::{Display, EnumIter};
 /// Um edifício que armazena recursos.
 pub trait Storage: Building {
   fn storage_id(&self) -> StorageId;
-  /// Capacidade máxima de armazenamento em seu nível máximo.
-  fn capacity(&self) -> StorageCapacity;
-  /// Taxa de crescimento da capacidade de armazenamento.
-  fn capacity_growth(&self) -> StorageCapacityGrowth;
-  /// Capacidade de armazenamento em seu nível atual.
-  fn current_capacity(&self, stats: &StorageStatsTable) -> Result<StorageCapacity>;
+  /// Capacidade de armazenamento no nível atual.
+  fn capacity(&self, stats: &StorageStatsTable) -> Result<StorageCapacity>;
+  /// Capacidade máxima de armazenamento em seu nível **mínimo**.
+  fn min_capacity(&self) -> StorageCapacity;
+  /// Capacidade máxima de armazenamento em seu nível **máximo**.
+  fn max_capacity(&self) -> StorageCapacity;
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, Deserialize, Serialize, Display, EnumIter)]
@@ -54,13 +55,19 @@ pub struct StorageStatsTable {
 
 impl StorageStatsTable {
   pub(crate) fn new(storage: &dyn Storage) -> Self {
+    let min_level = storage.min_level();
     let max_level = *storage.max_level();
-    let mut table = HashMap::with_capacity((max_level + 1).into());
+    let mut table = HashMap::with_capacity((max_level).into());
 
-    let mut capacity = f64::from(storage.capacity());
-    let capacity_growth = *storage.capacity_growth();
+    let mut capacity = f64::from(storage.min_capacity());
+    let capacity_growth = growth()
+      .floor(capacity)
+      .ceil(storage.max_capacity())
+      .min_level(min_level)
+      .max_level(max_level)
+      .call();
 
-    for level in (0..=max_level).rev() {
+    for level in 1..=max_level {
       let level = BuildingLevel::new(level);
       table.insert(
         level,
@@ -70,10 +77,9 @@ impl StorageStatsTable {
         },
       );
 
-      debug_assert!(capacity.is_finite());
-      debug_assert!(capacity >= 0.0);
+      debug_assert!(capacity.is_normal());
 
-      capacity -= capacity * capacity_growth;
+      capacity += capacity * capacity_growth;
     }
 
     table.shrink_to_fit();
@@ -171,15 +177,5 @@ impl From<StorageCapacity> for f64 {
 impl From<f64> for StorageCapacity {
   fn from(value: f64) -> Self {
     Self::new(value as u32)
-  }
-}
-
-#[derive(Clone, Copy, Debug, Deref, Deserialize, Serialize)]
-pub struct StorageCapacityGrowth(f64);
-
-impl StorageCapacityGrowth {
-  #[inline]
-  pub const fn new(value: f64) -> Self {
-    Self(value.clamp(0.0, 1.0))
   }
 }
