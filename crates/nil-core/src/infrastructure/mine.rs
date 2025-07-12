@@ -59,7 +59,6 @@ pub struct MineStatsTable {
 
 impl MineStatsTable {
   pub(crate) fn new(mine: &dyn Mine) -> Self {
-    let min_level = mine.min_level();
     let max_level = *mine.max_level();
     let mut table = HashMap::with_capacity((max_level).into());
 
@@ -67,7 +66,6 @@ impl MineStatsTable {
     let production_growth = growth()
       .floor(production)
       .ceil(mine.max_production())
-      .min_level(min_level)
       .max_level(max_level)
       .call();
 

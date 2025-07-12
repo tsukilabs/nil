@@ -55,7 +55,6 @@ pub struct StorageStatsTable {
 
 impl StorageStatsTable {
   pub(crate) fn new(storage: &dyn Storage) -> Self {
-    let min_level = storage.min_level();
     let max_level = *storage.max_level();
     let mut table = HashMap::with_capacity((max_level).into());
 
@@ -63,7 +62,6 @@ impl StorageStatsTable {
     let capacity_growth = growth()
       .floor(capacity)
       .ceil(storage.max_capacity())
-      .min_level(min_level)
       .max_level(max_level)
       .call();
 

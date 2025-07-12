@@ -132,7 +132,6 @@ impl BuildingStatsTable {
     let cost_growth = growth()
       .floor(cost)
       .ceil(building.max_cost())
-      .min_level(min_level)
       .max_level(max_level)
       .call();
 
@@ -140,7 +139,6 @@ impl BuildingStatsTable {
     let workforce_growth = growth()
       .floor(workforce)
       .ceil(building.max_workforce())
-      .min_level(min_level)
       .max_level(max_level)
       .call();
 
@@ -186,7 +184,7 @@ impl BuildingStatsTable {
 
     Self {
       id: building.id(),
-      min_level: building.min_level(),
+      min_level,
       max_level,
       table,
     }
