@@ -73,7 +73,7 @@ impl Resources {
     Self { wood, ..self.clone() }
   }
 
-  pub fn add_if_within_capacity(&mut self, diff: ResourcesDiff, capacity: PlayerStorageCapacity) {
+  pub fn add_if_within_capacity(&mut self, diff: &ResourcesDiff, capacity: &PlayerStorageCapacity) {
     self
       .food
       .add_if_within_capacity(diff.food, capacity.silo);

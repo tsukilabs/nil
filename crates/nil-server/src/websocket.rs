@@ -6,9 +6,8 @@ use futures::sink::SinkExt;
 use futures::stream::{SplitSink, SplitStream, StreamExt};
 use nil_core::event::{EventTarget, Listener};
 use nil_core::player::PlayerId;
-use nil_future::task::spawn;
-use tokio::select;
 use tokio::task::JoinHandle;
+use tokio::{select, spawn};
 
 type Sender = SplitSink<WebSocket, Message>;
 type Receiver = SplitStream<WebSocket>;

@@ -2622,7 +2622,6 @@ dependencies = [
  "http",
  "local-ip-address",
  "nil-core",
- "nil-future",
  "reqwest",
  "serde",
  "thiserror 2.0.12",
@@ -2675,14 +2674,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "nil-future"
-version = "0.1.0"
-dependencies = [
- "tauri",
- "tokio",
-]
-
-[[package]]
 name = "nil-num"
 version = "0.1.0"
 dependencies = [
@@ -2709,7 +2700,6 @@ dependencies = [
  "futures",
  "itertools",
  "nil-core",
- "nil-future",
  "nil-util",
  "serde",
  "thiserror 2.0.12",

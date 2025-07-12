@@ -74,7 +74,7 @@ impl World {
       self
         .player_mut(&player_id)?
         .resources_mut()
-        .add_if_within_capacity(resources, capacity);
+        .add_if_within_capacity(&resources, &capacity);
     }
 
     Ok(())

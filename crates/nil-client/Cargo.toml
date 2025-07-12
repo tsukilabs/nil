@@ -20,7 +20,6 @@ futures.workspace = true
 http.workspace = true
 local-ip-address.workspace = true
 nil-core.workspace = true
-nil-future.workspace = true
 reqwest.workspace = true
 serde.workspace = true
 thiserror.workspace = true

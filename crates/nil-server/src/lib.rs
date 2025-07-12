@@ -14,11 +14,11 @@ mod websocket;
 
 use error::{AnyResult, Result};
 use nil_core::world::{World, WorldOptions};
-use nil_future::task::spawn;
 use state::App;
 use std::net::{SocketAddr, SocketAddrV4};
 use std::path::Path;
 use tokio::net::TcpListener;
+use tokio::spawn;
 use tokio::sync::oneshot;
 use tokio::task::AbortHandle;
 
