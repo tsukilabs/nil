@@ -14,4 +14,5 @@ authors.workspace = true
 workspace = true
 
 [dependencies]
+bon.workspace = true
 nil-num-macros.workspace = true

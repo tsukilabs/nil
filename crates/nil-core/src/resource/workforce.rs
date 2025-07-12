@@ -128,13 +128,3 @@ impl MulAssign<Stability> for Workforce {
 }
 
 impl_mul_ceil!(Workforce);
-
-#[derive(Clone, Copy, Debug, Deref, Deserialize, Serialize)]
-pub struct WorkforceGrowth(f64);
-
-impl WorkforceGrowth {
-  #[inline]
-  pub const fn new(value: f64) -> Self {
-    Self(value.clamp(0.0, 1.0))
-  }
-}

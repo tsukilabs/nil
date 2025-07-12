@@ -14,7 +14,6 @@ pub fn impl_storage(ast: &DeriveInput) -> TokenStream {
       use crate::infrastructure::storage::{
         Storage,
         StorageCapacity,
-        StorageCapacityGrowth,
         StorageId,
         StorageStatsTable
       };
@@ -24,16 +23,16 @@ pub fn impl_storage(ast: &DeriveInput) -> TokenStream {
           Self::STORAGE_ID
         }
 
-        fn capacity(&self) -> StorageCapacity {
-          Self::CAPACITY
-        }
-
-        fn capacity_growth(&self) -> StorageCapacityGrowth {
-          Self::CAPACITY_GROWTH
-        }
-
-        fn current_capacity(&self, stats: &StorageStatsTable) -> Result<StorageCapacity> {
+        fn capacity(&self, stats: &StorageStatsTable) -> Result<StorageCapacity> {
           Ok(stats.get(self.level)?.capacity)
+        }
+
+        fn min_capacity(&self) -> StorageCapacity {
+          Self::MIN_CAPACITY
+        }
+
+        fn max_capacity(&self) -> StorageCapacity {
+          Self::MAX_CAPACITY
         }
       }
     }

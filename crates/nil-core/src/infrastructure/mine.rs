@@ -4,6 +4,7 @@
 use super::building::{Building, BuildingId, BuildingLevel};
 use crate::error::{Error, Result};
 use derive_more::Deref;
+use nil_num::growth::growth;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use strum::{Display, EnumIter};
@@ -11,12 +12,13 @@ use strum::{Display, EnumIter};
 /// Um edifício que gera recursos.
 pub trait Mine: Building {
   fn mine_id(&self) -> MineId;
-  /// Quantidade recursos gerados pela mina em seu nível máximo.
-  fn production(&self) -> MineProduction;
-  /// Taxa de crescimento da produção da mina.
-  fn production_growth(&self) -> MineProductionGrowth;
+
   /// Quantidade recursos gerados pela mina em seu nível atual.
-  fn current_production(&self, stats: &MineStatsTable) -> Result<MineProduction>;
+  fn production(&self, stats: &MineStatsTable) -> Result<MineProduction>;
+  /// Quantidade recursos gerados pela mina em seu nível **mínimo**.
+  fn min_production(&self) -> MineProduction;
+  /// Quantidade recursos gerados pela mina em seu nível **máximo**.
+  fn max_production(&self) -> MineProduction;
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, Deserialize, Serialize, Display, EnumIter)]
@@ -57,26 +59,31 @@ pub struct MineStatsTable {
 
 impl MineStatsTable {
   pub(crate) fn new(mine: &dyn Mine) -> Self {
+    let min_level = mine.min_level();
     let max_level = *mine.max_level();
-    let mut table = HashMap::with_capacity((max_level + 1).into());
+    let mut table = HashMap::with_capacity((max_level).into());
 
-    let mut production = f64::from(mine.production());
-    let production_growth = *mine.production_growth();
+    let mut production = f64::from(mine.min_production());
+    let production_growth = growth()
+      .floor(production)
+      .ceil(mine.max_production())
+      .min_level(min_level)
+      .max_level(max_level)
+      .call();
 
-    for level in (0..=max_level).rev() {
+    for level in 1..=max_level {
       let level = BuildingLevel::new(level);
       table.insert(
         level,
         MineStats {
           level,
-          production: MineProduction::from(production.ceil()),
+          production: MineProduction::from(production.round()),
         },
       );
 
-      debug_assert!(production.is_finite());
-      debug_assert!(production >= 0.0);
+      debug_assert!(production.is_normal());
 
-      production -= production * production_growth;
+      production += production * production_growth;
     }
 
     table.shrink_to_fit();
@@ -118,15 +125,5 @@ impl From<MineProduction> for f64 {
 impl From<f64> for MineProduction {
   fn from(value: f64) -> Self {
     Self::new(value as u32)
-  }
-}
-
-#[derive(Clone, Copy, Debug, Deref, Deserialize, Serialize)]
-pub struct MineProductionGrowth(f64);
-
-impl MineProductionGrowth {
-  #[inline]
-  pub const fn new(value: f64) -> Self {
-    Self(value.clamp(0.0, 1.0))
   }
 }

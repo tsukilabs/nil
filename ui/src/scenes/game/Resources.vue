@@ -11,9 +11,9 @@ const capacity = usePlayerStorageCapacity();
 
 <template>
   <div class="grid grid-cols-4 items-center gap-8">
-    <Wood :amount="resources?.wood" :capacity="capacity?.warehouse" />
-    <Stone :amount="resources?.stone" :capacity="capacity?.warehouse" />
-    <Iron :amount="resources?.iron" :capacity="capacity?.warehouse" />
-    <Food :amount="resources?.food" :capacity="capacity?.silo" />
+    <Wood :amount="resources?.wood" :limit="capacity?.warehouse" />
+    <Stone :amount="resources?.stone" :limit="capacity?.warehouse" />
+    <Iron :amount="resources?.iron" :limit="capacity?.warehouse" />
+    <Food :amount="resources?.food" :limit="capacity?.silo" />
   </div>
 </template>

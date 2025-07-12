@@ -26,11 +26,11 @@ impl World {
         let infra = village.infrastructure();
         acc.silo += infra
           .storage(StorageId::Silo)
-          .current_capacity(silo_stats)?;
+          .capacity(silo_stats)?;
 
         acc.warehouse += infra
           .storage(StorageId::Warehouse)
-          .current_capacity(warehouse_stats)?;
+          .capacity(warehouse_stats)?;
 
         Ok(acc)
       })

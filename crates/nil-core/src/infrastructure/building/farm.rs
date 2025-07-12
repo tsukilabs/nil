@@ -3,16 +3,9 @@
 
 use super::{BuildingId, BuildingLevel};
 use crate::check_total_resource_ratio;
-use crate::infrastructure::mine::{MineId, MineProduction, MineProductionGrowth};
+use crate::infrastructure::mine::{MineId, MineProduction};
 use crate::infrastructure::requirements::InfrastructureRequirements;
-use crate::resource::{
-  BaseCost,
-  BaseCostGrowth,
-  MaintenanceRatio,
-  ResourceRatio,
-  Workforce,
-  WorkforceGrowth,
-};
+use crate::resource::{Cost, MaintenanceRatio, ResourceRatio, Workforce};
 use nil_core_macros::{Building, Mine};
 use serde::{Deserialize, Serialize};
 
@@ -30,19 +23,19 @@ impl Farm {
   pub const MIN_LEVEL: BuildingLevel = BuildingLevel::ZERO;
   pub const MAX_LEVEL: BuildingLevel = BuildingLevel::new(30);
 
-  pub const BASE_COST: BaseCost = BaseCost::new(300_000);
-  pub const BASE_COST_GROWTH: BaseCostGrowth = BaseCostGrowth::new(0.18);
-  pub const MAINTENANCE_RATIO: MaintenanceRatio = MaintenanceRatio::new(0.0);
+  pub const MIN_COST: Cost = Cost::new(3_000);
+  pub const MAX_COST: Cost = Cost::new(300_000);
 
   pub const WOOD_RATIO: ResourceRatio = ResourceRatio::new(0.35);
   pub const STONE_RATIO: ResourceRatio = ResourceRatio::new(0.5);
   pub const IRON_RATIO: ResourceRatio = ResourceRatio::new(0.15);
+  pub const MAINTENANCE_RATIO: MaintenanceRatio = MaintenanceRatio::new(0.0);
 
-  pub const WORKFORCE: Workforce = Workforce::new(300);
-  pub const WORKFORCE_GROWTH: WorkforceGrowth = WorkforceGrowth::new(0.2);
+  pub const MIN_WORKFORCE: Workforce = Workforce::new(5);
+  pub const MAX_WORKFORCE: Workforce = Workforce::new(300);
 
-  pub const PRODUCTION: MineProduction = MineProduction::new(3600);
-  pub const PRODUCTION_GROWTH: MineProductionGrowth = MineProductionGrowth::new(0.2);
+  pub const MIN_PRODUCTION: MineProduction = MineProduction::new(30);
+  pub const MAX_PRODUCTION: MineProduction = MineProduction::new(2400);
 
   pub const INFRASTRUCTURE_REQUIREMENTS: InfrastructureRequirements =
     InfrastructureRequirements::none();

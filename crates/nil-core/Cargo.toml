@@ -25,6 +25,7 @@ mlua.workspace = true
 nil-core-macros.workspace = true
 nil-num.workspace = true
 nil-util.workspace = true
+num-traits.workspace = true
 rand.workspace = true
 remain.workspace = true
 serde.workspace = true

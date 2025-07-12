@@ -7,7 +7,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@tb-de
 
 const props = defineProps<{
   amount?: Option<number>;
-  capacity?: Option<number>;
+  limit?: Option<number>;
   color: string;
   name: string;
 }>();
@@ -15,8 +15,8 @@ const props = defineProps<{
 function isOverflowing() {
   return (
     typeof props.amount === 'number' &&
-    typeof props.capacity === 'number' &&
-    props.amount >= props.capacity
+    typeof props.limit === 'number' &&
+    props.amount >= props.limit
   );
 }
 </script>

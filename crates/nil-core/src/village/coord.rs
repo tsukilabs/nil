@@ -116,6 +116,7 @@ impl<'de> Deserialize<'de> for Coord {
     }
 
     const FIELD: [&str; 2] = ["x", "y"];
+
     deserializer.deserialize_struct("Coord", &FIELD, CoordVisitor)
   }
 }

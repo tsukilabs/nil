@@ -4,6 +4,8 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import { computed, nextTick } from 'vue';
+import type { Option } from '@tb-dev/utils';
+import type { ResourcesImpl } from '@/core/model/resource';
 import BuildCatalogBuilding from './BuildCatalogBuilding.vue';
 import type { BuildingImpl } from '@/core/model/buildings/abstract';
 import { Button, TableCell, TableRow } from '@tb-dev/vue-components';
@@ -19,6 +21,7 @@ const props = defineProps<{
   scene: GameScene;
   loading: boolean;
   isPlayerTurn: boolean;
+  playerResources: Option<ResourcesImpl>;
   onBuildOrder: (kind: PrefectureBuildOrderKind) => void;
   onToggle: () => void;
 }>();
@@ -74,9 +77,9 @@ async function makeOrder(kind: PrefectureBuildOrderKind) {
     </TableCell>
     <TableCell>
       <div class="grid grid-cols-3 items-center justify-start gap-4">
-        <Wood :amount="entry.recipe.resources.wood" />
-        <Stone :amount="entry.recipe.resources.stone" />
-        <Iron :amount="entry.recipe.resources.iron" />
+        <Wood :amount="entry.recipe.resources.wood" :limit="playerResources?.wood" />
+        <Stone :amount="entry.recipe.resources.stone" :limit="playerResources?.stone" />
+        <Iron :amount="entry.recipe.resources.iron" :limit="playerResources?.iron" />
       </div>
     </TableCell>
     <TableCell>

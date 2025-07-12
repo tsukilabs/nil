@@ -11,12 +11,10 @@ pub fn impl_mine(ast: &DeriveInput) -> TokenStream {
     mod __impl_mine {
       use super::#name;
       use crate::error::Result;
-      use crate::infrastructure::building::Building;
       use crate::infrastructure::mine::{
         Mine,
         MineId,
         MineProduction,
-        MineProductionGrowth,
         MineStatsTable
       };
 
@@ -25,16 +23,16 @@ pub fn impl_mine(ast: &DeriveInput) -> TokenStream {
           Self::MINE_ID
         }
 
-        fn production(&self) -> MineProduction {
-          Self::PRODUCTION
-        }
-
-        fn production_growth(&self) -> MineProductionGrowth {
-          Self::PRODUCTION_GROWTH
-        }
-
-        fn current_production(&self, stats: &MineStatsTable) -> Result<MineProduction> {
+        fn production(&self, stats: &MineStatsTable) -> Result<MineProduction> {
           Ok(stats.get(self.level)?.production)
+        }
+
+        fn min_production(&self) -> MineProduction {
+          Self::MIN_PRODUCTION
+        }
+
+        fn max_production(&self) -> MineProduction {
+          Self::MAX_PRODUCTION
         }
       }
     }

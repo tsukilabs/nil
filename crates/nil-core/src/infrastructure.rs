@@ -94,7 +94,7 @@ impl Infrastructure {
         let mine = &self.$mine;
         if mine.level() > 0u8 && mine.is_enabled() {
           let mine_stats = stats.mine(MineId::$id)?;
-          resources.$resource = mine.current_production(mine_stats)?.into();
+          resources.$resource = mine.production(mine_stats)?.into();
         }
       };
     }

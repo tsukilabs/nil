@@ -16,8 +16,7 @@ pub mod warehouse;
 use crate::error::{Error, Result};
 use crate::infrastructure::requirements::InfrastructureRequirements;
 use crate::resource::{
-  BaseCost,
-  BaseCostGrowth,
+  Cost,
   Food,
   Iron,
   Maintenance,
@@ -27,9 +26,9 @@ use crate::resource::{
   Stone,
   Wood,
   Workforce,
-  WorkforceGrowth,
 };
 use derive_more::Deref;
+use nil_num::growth::growth;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::ops::{Add, AddAssign, Sub, SubAssign};
@@ -39,34 +38,48 @@ use strum::{Display, EnumIter};
 pub trait Building {
   fn id(&self) -> BuildingId;
 
+  /// Verifica se o edifício está ativo.
   fn is_enabled(&self) -> bool;
+  /// Ativa ou desativa o edifício.
   fn toggle(&mut self, enabled: bool);
 
+  /// Nível atual do edifício.
   fn level(&self) -> BuildingLevel;
+  /// Nível **mínimo** do edifício.
   fn min_level(&self) -> BuildingLevel;
+  /// Nível **máximo** do edifício.
   fn max_level(&self) -> BuildingLevel;
+  /// Define o nível do edifício, certificando-se de permanecer dentro do limite.
   fn set_level(&mut self, level: BuildingLevel);
+  /// Aumenta o nível do edifício em um, se possível.
   fn increase_level(&mut self);
+  /// Aumenta o nível do edifício em uma determinada quantia, se possível.
   fn increase_level_by(&mut self, amount: u8);
+  /// Reduz o nível do edifício em um, se possível.
   fn decrease_level(&mut self);
+  /// Reduz o nível do edifício em uma determinada quantia, se possível.
   fn decrease_level_by(&mut self, amount: u8);
 
-  fn base_cost(&self) -> BaseCost;
-  fn base_cost_growth(&self) -> BaseCostGrowth;
+  /// Custo total para o nível **mínimo** do edifício.
+  fn min_cost(&self) -> Cost;
+  /// Custo total para o nível **máximo** do edifício.
+  fn max_cost(&self) -> Cost;
+  /// Porcentagem do custo total referente à madeira.
+  fn wood_ratio(&self) -> ResourceRatio;
+  /// Porcentagem do custo total referente à pedra.
+  fn stone_ratio(&self) -> ResourceRatio;
+  /// Porcentagem do custo total referente ao ferro.
+  fn iron_ratio(&self) -> ResourceRatio;
 
   /// Taxa de manutenção do edifício em seu nível atual.
   fn maintenance(&self, stats: &BuildingStatsTable) -> Result<Maintenance>;
   /// Proporção do custo base que deve ser usado como taxa de manutenção.
   fn maintenance_ratio(&self) -> MaintenanceRatio;
 
-  fn wood_ratio(&self) -> ResourceRatio;
-  fn stone_ratio(&self) -> ResourceRatio;
-  fn iron_ratio(&self) -> ResourceRatio;
-
-  /// Força de trabalho exigida para o nível máximo do edifício.
-  fn workforce(&self) -> Workforce;
-  /// Crescimento da força de trabalho a cada nível.
-  fn workforce_growth(&self) -> WorkforceGrowth;
+  /// Força de trabalho exigida para o nível **mínimo** do edifício.
+  fn min_workforce(&self) -> Workforce;
+  /// Força de trabalho exigida para o nível **máximo** do edifício.
+  fn max_workforce(&self) -> Workforce;
 
   /// Níveis exigidos para a construção do edifício.
   fn infrastructure_requirements(&self) -> &InfrastructureRequirements;
@@ -94,7 +107,7 @@ pub enum BuildingId {
 #[serde(rename_all = "camelCase")]
 pub struct BuildingStats {
   pub level: BuildingLevel,
-  pub base_cost: BaseCost,
+  pub cost: Cost,
   pub resources: Resources,
   pub maintenance: Maintenance,
   pub workforce: Workforce,
@@ -111,53 +124,62 @@ pub struct BuildingStatsTable {
 
 impl BuildingStatsTable {
   pub(crate) fn new(building: &dyn Building) -> Self {
+    let min_level = building.min_level();
     let max_level = building.max_level();
-    let mut table = HashMap::with_capacity((max_level.0 + 1).into());
+    let mut table = HashMap::with_capacity((max_level.0).into());
+
+    let mut cost = f64::from(building.min_cost());
+    let cost_growth = growth()
+      .floor(cost)
+      .ceil(building.max_cost())
+      .min_level(min_level)
+      .max_level(max_level)
+      .call();
+
+    let mut workforce = f64::from(building.min_workforce());
+    let workforce_growth = growth()
+      .floor(workforce)
+      .ceil(building.max_workforce())
+      .min_level(min_level)
+      .max_level(max_level)
+      .call();
 
     let wood_ratio = *building.wood_ratio();
     let stone_ratio = *building.stone_ratio();
     let iron_ratio = *building.iron_ratio();
+
     let maintenance_ratio = *building.maintenance_ratio();
+    let mut maintenance = cost * maintenance_ratio;
 
-    let mut base_cost = f64::from(building.base_cost());
-    let mut maintenance = base_cost * maintenance_ratio;
-    let mut workforce = f64::from(building.workforce());
-
-    let base_cost_growth = *building.base_cost_growth();
-    let workforce_growth = *building.workforce_growth();
-
-    for level in (0..=max_level.0).rev() {
+    for level in 1..=max_level.0 {
       let level = BuildingLevel::new(level);
       let resources = Resources {
         food: Food::MIN,
-        iron: Iron::from((base_cost * wood_ratio).ceil()),
-        stone: Stone::from((base_cost * stone_ratio).ceil()),
-        wood: Wood::from((base_cost * iron_ratio).ceil()),
+        iron: Iron::from((cost * wood_ratio).round()),
+        stone: Stone::from((cost * stone_ratio).round()),
+        wood: Wood::from((cost * iron_ratio).round()),
       };
 
       table.insert(
         level,
         BuildingStats {
           level,
-          base_cost: BaseCost::from(base_cost.ceil()),
+          cost: Cost::from(cost.round()),
           resources,
-          maintenance: Maintenance::from(maintenance.ceil()),
-          workforce: Workforce::from(workforce.ceil()),
+          maintenance: Maintenance::from(maintenance.round()),
+          workforce: Workforce::from(workforce.round()),
         },
       );
 
-      debug_assert!(base_cost.is_finite());
-      debug_assert!(base_cost >= 0.0);
+      debug_assert!(cost.is_normal());
+      debug_assert!(workforce.is_normal());
 
       debug_assert!(maintenance.is_finite());
       debug_assert!(maintenance >= 0.0);
 
-      debug_assert!(workforce.is_finite());
-      debug_assert!(workforce >= 0.0);
-
-      base_cost -= base_cost * base_cost_growth;
-      maintenance = base_cost * maintenance_ratio;
-      workforce -= workforce * workforce_growth;
+      cost += cost * cost_growth;
+      maintenance = cost * maintenance_ratio;
+      workforce += workforce * workforce_growth;
     }
 
     table.shrink_to_fit();
@@ -301,6 +323,12 @@ impl SubAssign<u8> for BuildingLevel {
 impl SubAssign<i8> for BuildingLevel {
   fn sub_assign(&mut self, rhs: i8) {
     *self = *self - rhs;
+  }
+}
+
+impl From<BuildingLevel> for f64 {
+  fn from(level: BuildingLevel) -> Self {
+    f64::from(level.0)
   }
 }
 
