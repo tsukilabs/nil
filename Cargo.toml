@@ -60,6 +60,10 @@ features = ["macros", "ws"]
 version = "2.0"
 features = ["deref", "deref_mut", "display", "from"]
 
+[workspace.dependencies.glam]
+version = "0.30"
+features = ["core-simd"]
+
 [workspace.dependencies.indexmap]
 version = "2.10"
 features = ["serde"]
@@ -103,6 +107,10 @@ path = "./crates/nil-server"
 [workspace.dependencies.nil-util]
 version = "*"
 path = "./crates/nil-util"
+
+[workspace.dependencies.rand]
+version = "0.9"
+features = ["nightly", "simd_support"]
 
 [workspace.dependencies.reqwest]
 version = "0.12"

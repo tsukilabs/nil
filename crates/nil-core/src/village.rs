@@ -1,6 +1,8 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+mod coord;
+
 use crate::error::Result;
 use crate::infrastructure::{Infrastructure, InfrastructureStats};
 use crate::player::PlayerId;
@@ -8,8 +10,9 @@ use crate::resource::{Maintenance, Resources};
 use bon::Builder;
 use derive_more::Deref;
 use serde::{Deserialize, Serialize};
-use std::fmt;
 use std::sync::Arc;
+
+pub use coord::Coord;
 
 #[derive(Builder, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
@@ -109,42 +112,6 @@ impl Village {
     self
       .infrastructure
       .round_base_maintenance(stats)
-  }
-}
-
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, Deserialize, Serialize)]
-#[serde(rename_all = "camelCase")]
-pub struct Coord {
-  x: u8,
-  y: u8,
-}
-
-impl Coord {
-  #[inline]
-  pub const fn new(x: u8, y: u8) -> Self {
-    Self { x, y }
-  }
-
-  #[inline]
-  pub const fn x(&self) -> u8 {
-    self.x
-  }
-
-  #[inline]
-  pub const fn y(&self) -> u8 {
-    self.y
-  }
-}
-
-impl From<(u8, u8)> for Coord {
-  fn from((x, y): (u8, u8)) -> Self {
-    Self::new(x, y)
-  }
-}
-
-impl fmt::Display for Coord {
-  fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-    write!(f, "{:03}|{:03}", self.x, self.y)
   }
 }
 

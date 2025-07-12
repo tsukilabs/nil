@@ -5,30 +5,34 @@ use super::Continent;
 use crate::village::Coord;
 
 #[test]
-fn cell() {
-  each_coord(|continent, coord| {
+fn field() {
+  each_coord(100, |continent, coord| {
     assert!(continent.field(coord).is_ok());
   });
 }
 
 #[test]
-fn index_to_coord() {
-  each_coord(|continent, coord| {
-    let index = continent.index(coord);
-    assert_eq!(coord, continent.coord(index).unwrap());
-  });
-}
-
-#[test]
 fn default_continent_is_empty() {
-  each_coord(|continent, coord| {
+  each_coord(100, |continent, coord| {
     let field = continent.field(coord).unwrap();
     assert!(field.is_empty());
   });
 }
 
-fn each_coord(f: impl Fn(&mut Continent, Coord)) {
-  let mut continent = Continent::default();
+#[test]
+fn center() {
+  let mut continent = Continent::new(50);
+  assert_eq!(continent.center(), Coord::splat(25));
+
+  continent = Continent::new(100);
+  assert_eq!(continent.center(), Coord::splat(50));
+
+  continent = Continent::new(200);
+  assert_eq!(continent.center(), Coord::splat(100));
+}
+
+fn each_coord(size: u8, f: impl Fn(&mut Continent, Coord)) {
+  let mut continent = Continent::new(size);
   (0..100).into_iter().for_each(|x| {
     (0..100).into_iter().for_each(|y| {
       f(&mut continent, Coord::new(x, y));

@@ -16,11 +16,8 @@ export class WorldEntity extends Entity {
   constructor() {
     super();
 
-    const config = asyncRef(null, getWorldConfig);
-    const stats = asyncRef(null, getWorldStats);
-
-    this.config = config.state;
-    this.stats = stats.state;
+    this.config = asyncRef(null, getWorldConfig).state;
+    this.stats = asyncRef(null, getWorldStats).state;
   }
 
   public static use() {

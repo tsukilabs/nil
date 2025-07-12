@@ -9,37 +9,55 @@ mod tests;
 use crate::error::{Error, Result};
 use crate::player::PlayerId;
 use crate::village::{Coord, Village};
+use rand::seq::IndexedRandom;
 use serde::{Deserialize, Serialize};
-use std::num::{NonZeroU8, NonZeroUsize};
+use std::num::NonZeroU8;
 
 pub use field::{Field, PublicField};
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Continent {
+  size: NonZeroU8,
   fields: Vec<Field>,
-  size: NonZeroUsize,
+  spawn_radius: NonZeroU8,
 }
 
 impl Continent {
   pub const MIN_SIZE: NonZeroU8 = NonZeroU8::new(10).unwrap();
+  pub const MAX_SIZE: NonZeroU8 = NonZeroU8::new(200).unwrap();
   pub const DEFAULT_SIZE: NonZeroU8 = NonZeroU8::new(100).unwrap();
 
   pub(crate) fn new(size: u8) -> Self {
-    let size = size.max(Self::MIN_SIZE.get());
-    let size = unsafe { NonZeroUsize::new_unchecked(size.into()) };
-    let capacity = size.get().pow(2);
+    let size = size
+      .clamp(Self::MIN_SIZE.get(), Self::MAX_SIZE.get())
+      .next_multiple_of(2);
 
+    let capacity = usize::from(size).pow(2);
     let mut fields = Vec::with_capacity(capacity);
     fields.resize_with(capacity, Field::default);
     fields.shrink_to_fit();
 
-    Self { fields, size }
+    Self {
+      size: unsafe { NonZeroU8::new_unchecked(size) },
+      fields,
+      spawn_radius: unsafe { NonZeroU8::new_unchecked(10) },
+    }
   }
 
   #[inline]
-  pub fn size(&self) -> usize {
+  pub fn size(&self) -> u8 {
     self.size.get()
+  }
+
+  #[inline]
+  pub fn radius(&self) -> u8 {
+    self.size().div_ceil(2)
+  }
+
+  #[inline]
+  pub fn center(&self) -> Coord {
+    Coord::splat(self.radius())
   }
 
   #[inline]
@@ -117,7 +135,7 @@ impl Continent {
 
   /// Determina a posição da coordenada no vetor.
   fn index(&self, coord: Coord) -> usize {
-    let size = self.size.get();
+    let size = usize::from(self.size());
     let x = usize::from(coord.x());
     let y = usize::from(coord.y());
     let index = (y * size) + x;
@@ -129,29 +147,62 @@ impl Continent {
     index
   }
 
-  /// Determina a coordenada a partir de sua posição no vetor.
-  fn coord(&self, index: usize) -> Result<Coord> {
-    let size = self.size.get();
-    let x = index % size;
-    let y = index / size;
+  pub(crate) fn find_spawn_point(&mut self) -> Result<(Coord, &mut Field)> {
+    let mut coords = Vec::new();
+    let mut rng = rand::rng();
 
-    debug_assert!(x < size);
-    debug_assert!(y < size);
+    let coord = loop {
+      if self.spawn_radius.get() > self.radius() {
+        return Err(Error::WorldIsFull);
+      }
 
-    Ok(Coord::new(
-      u8::try_from(x).map_err(|_| Error::IndexOutOfBounds(index))?,
-      u8::try_from(y).map_err(|_| Error::IndexOutOfBounds(index))?,
-    ))
+      coords.clear();
+      self.collect_within_spawn_radius(&mut coords);
+
+      let amount = coords.len() as f64;
+
+      coords.retain(|c| self.field(*c).is_ok_and(|f| f.is_empty()));
+
+      if (coords.len() as f64 / amount) <= 0.2 {
+        self.spawn_radius = self.spawn_radius.saturating_add(1);
+      }
+
+      if let Some(coord) = coords.choose(&mut rng) {
+        break *coord;
+      }
+    };
+
+    Ok((coord, self.field_mut(coord)?))
   }
 
-  pub(crate) fn find_spawn_point(&mut self) -> Result<(Coord, &mut Field)> {
-    self
-      .fields
-      .iter()
-      .position(Field::is_empty)
-      .ok_or(Error::WorldIsFull)
-      .and_then(|index| self.coord(index))
-      .and_then(|coord| Ok((coord, self.field_mut(coord)?)))
+  fn collect_within_spawn_radius(&self, buf: &mut Vec<Coord>) {
+    let size = i16::from(self.size());
+    let distance = i16::from(self.spawn_radius.get());
+
+    let center = self.center();
+    let x0 = i16::from(center.x());
+    let y0 = i16::from(center.y());
+
+    for x in (x0 - distance)..=(x0 + distance) {
+      if x >= size || x < 0 {
+        continue;
+      }
+
+      for y in (y0 - distance)..=(y0 + distance) {
+        if y >= size || y < 0 {
+          continue;
+        }
+
+        let absx = (x - x0).abs();
+        let absy = (y - y0).abs();
+        if absx.max(absy) <= distance
+          && let Ok(x) = u8::try_from(x)
+          && let Ok(y) = u8::try_from(y)
+        {
+          buf.push(Coord::new(x, y));
+        }
+      }
+    }
   }
 }
 

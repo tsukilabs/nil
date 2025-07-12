@@ -18,23 +18,20 @@ export function defineGlobalCommands() {
 
 export function defineGlobalCheats() {
   if (!Object.hasOwn(window.NIL, 'cheat')) {
-    const { config } = NIL.world.refs();
-    if (config.value?.allowCheats) {
-      const regex = /^cheat/;
-      const value = Array.from(Object.entries(cheats))
-        .filter(([key, _]) => key.startsWith('cheat'))
-        .filter(([_, fn]) => typeof fn === 'function')
-        .map(([key, fn]) => {
-          key = camelCase(key.replace(regex, ''));
-          return [key, fn];
-        });
-
-      Object.defineProperty(window.NIL, 'cheat', {
-        configurable: false,
-        enumerable: true,
-        writable: false,
-        value: Object.fromEntries(value),
+    const regex = /^cheat/;
+    const value = Array.from(Object.entries(cheats))
+      .filter(([key, _]) => key.startsWith('cheat'))
+      .filter(([_, fn]) => typeof fn === 'function')
+      .map(([key, fn]) => {
+        key = camelCase(key.replace(regex, ''));
+        return [key, fn];
       });
-    }
+
+    Object.defineProperty(window.NIL, 'cheat', {
+      configurable: false,
+      enumerable: true,
+      writable: false,
+      value: Object.fromEntries(value),
+    });
   }
 }
