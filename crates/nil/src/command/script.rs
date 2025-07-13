@@ -12,14 +12,6 @@ use tokio::fs::{self, File};
 use tokio::io::{AsyncWriteExt, BufWriter};
 
 #[tauri::command]
-pub async fn add_script(app: AppHandle, script: Script) -> Result<ScriptId> {
-  app
-    .client(async |cl| cl.add_script(script).await)
-    .await?
-    .map_err(Into::into)
-}
-
-#[tauri::command]
 pub async fn add_scripts(app: AppHandle, scripts: Vec<Script>) -> Result<Vec<ScriptId>> {
   if scripts.is_empty() {
     Ok(Vec::new())

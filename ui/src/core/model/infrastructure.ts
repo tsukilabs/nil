@@ -1,16 +1,16 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { FarmImpl } from './buildings/farm';
-import { SiloImpl } from './buildings/silo';
-import { WallImpl } from './buildings/wall';
-import { QuarryImpl } from './buildings/quarry';
-import { StableImpl } from './buildings/stable';
-import { AcademyImpl } from './buildings/academy';
-import { SawmillImpl } from './buildings/sawmill';
-import { IronMineImpl } from './buildings/iron-mine';
-import { WarehouseImpl } from './buildings/warehouse';
-import { PrefectureImpl } from './buildings/prefecture';
+import { FarmImpl } from './building/farm';
+import { SiloImpl } from './building/silo';
+import { WallImpl } from './building/wall';
+import { QuarryImpl } from './building/quarry';
+import { StableImpl } from './building/stable';
+import { AcademyImpl } from './building/academy';
+import { SawmillImpl } from './building/sawmill';
+import { IronMineImpl } from './building/iron-mine';
+import { WarehouseImpl } from './building/warehouse';
+import { PrefectureImpl } from './building/prefecture';
 
 export class InfrastructureImpl implements Infrastructure {
   public readonly academy: AcademyImpl;

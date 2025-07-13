@@ -82,7 +82,6 @@ pub(crate) fn create() -> Router<App> {
     .route("/round/start", get(round::start))
     .route("/script", post(script::get))
     .route("/script/add", post(script::add))
-    .route("/script/add-many", post(script::add_many))
     .route("/script/all", post(script::get_all))
     .route("/script/remove", post(script::remove))
     .route("/script/update", post(script::update))

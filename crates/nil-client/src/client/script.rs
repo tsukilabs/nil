@@ -12,18 +12,10 @@ impl Client {
   }
 
   /// POST `/script/add`
-  pub async fn add_script(&self, script: Script) -> Result<ScriptId> {
-    self
-      .http
-      .post_json("script/add", script)
-      .await
-  }
-
-  /// POST `/script/add-many`
   pub async fn add_scripts(&self, scripts: Vec<Script>) -> Result<Vec<ScriptId>> {
     self
       .http
-      .post_json("script/add-many", scripts)
+      .post_json("script/add", scripts)
       .await
   }
 

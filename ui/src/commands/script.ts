@@ -4,10 +4,6 @@
 import type { Option } from '@tb-dev/utils';
 import { invoke } from '@tauri-apps/api/core';
 
-export function addScript(script: Script) {
-  return invoke<ScriptId>('add_script', { script });
-}
-
 export function addScripts(scripts: Script[]) {
   return invoke<readonly ScriptId[]>('add_scripts', { scripts });
 }

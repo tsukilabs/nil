@@ -2,8 +2,8 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { usePlayerResources } from '@/composables/usePlayerResources';
-import { usePlayerStorageCapacity } from '@/composables/usePlayerStorageCapacity';
+import { usePlayerResources } from '@/composables/player/usePlayerResources';
+import { usePlayerStorageCapacity } from '@/composables/player/usePlayerStorageCapacity';
 
 const resources = usePlayerResources();
 const capacity = usePlayerStorageCapacity();

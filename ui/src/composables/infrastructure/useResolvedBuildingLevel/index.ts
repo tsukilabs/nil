@@ -1,10 +1,10 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { usePrefecture } from '../useBuilding';
-import { useBuildingLevel } from '../useBuildingLevel';
-import type { BuildingImpl } from '@/core/model/buildings/abstract';
+import type { BuildingImpl } from '@/core/model/building/abstract';
 import { computed, type MaybeRefOrGetter, type Ref, toRef } from 'vue';
+import { usePrefecture } from '@/composables/infrastructure/useBuilding';
+import { useBuildingLevel } from '@/composables/infrastructure/useBuildingLevel';
 
 export function useResolvedBuildingLevel(building: MaybeRefOrGetter<BuildingImpl>) {
   const prefecture = usePrefecture();

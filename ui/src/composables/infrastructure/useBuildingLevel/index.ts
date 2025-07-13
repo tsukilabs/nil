@@ -4,7 +4,7 @@
 import type { Option } from '@tb-dev/utils';
 import type { MaybeNilRef } from '@tb-dev/vue';
 import { computed, type Ref, toRef } from 'vue';
-import type { BuildingImpl } from '@/core/model/buildings/abstract';
+import type { BuildingImpl } from '@/core/model/building/abstract';
 
 export function useBuildingLevel(building: MaybeNilRef<BuildingImpl>) {
   const buildingRef = toRef(building) as Ref<Option<BuildingImpl>>;

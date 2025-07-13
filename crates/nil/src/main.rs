@@ -83,7 +83,6 @@ fn main() {
       command::round::get_round,
       command::round::is_round_idle,
       command::round::start_round,
-      command::script::add_script,
       command::script::add_scripts,
       command::script::export_script,
       command::script::get_script,

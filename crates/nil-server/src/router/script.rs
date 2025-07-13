@@ -13,21 +13,6 @@ use nil_core::script::{Script, ScriptId};
 pub async fn add(
   State(app): State<App>,
   Extension(current_player): Extension<CurrentPlayer>,
-  Json(script): Json<Script>,
-) -> Response {
-  if *current_player == script.owner {
-    app
-      .scripting_mut(|s| s.add(script))
-      .map(|id| res!(CREATED, Json(id)))
-      .await
-  } else {
-    res!(FORBIDDEN)
-  }
-}
-
-pub async fn add_many(
-  State(app): State<App>,
-  Extension(current_player): Extension<CurrentPlayer>,
   Json(scripts): Json<Vec<Script>>,
 ) -> Response {
   if scripts.is_empty() {
@@ -38,10 +23,9 @@ pub async fn add_many(
   let scripting = world.scripting_mut();
   let mut ids = Vec::with_capacity(scripts.len());
 
-  for script in scripts {
-    if *current_player == script.owner {
-      ids.push(scripting.add(script));
-    }
+  for mut script in scripts {
+    script.owner = current_player.0.clone();
+    ids.push(scripting.add(script));
   }
 
   res!(CREATED, Json(ids))

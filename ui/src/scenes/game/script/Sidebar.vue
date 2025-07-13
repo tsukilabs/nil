@@ -3,25 +3,19 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import * as commands from '@/commands';
 import { useHeight } from '@tb-dev/vue';
-import { handleError } from '@/lib/error';
 import { computed, useTemplateRef } from 'vue';
 import { type MaybePromise, toPixel } from '@tb-dev/utils';
 import { Button, ScrollArea } from '@tb-dev/vue-components';
 
-const props = defineProps<{
+defineProps<{
   scripts: Script[];
-  onCreate: (id: ScriptId) => MaybePromise<unknown>;
-  onScriptClick: (script: Script) => MaybePromise<unknown>;
-  waitToLoad: () => Promise<void>;
+  loading: boolean;
+  onCreate: () => MaybePromise<void>;
+  onScriptClick: (script: Script) => MaybePromise<void>;
 }>();
 
-const loading = defineModel<boolean>('loading', { required: true });
-
 const { t } = useI18n();
-
-const { player } = NIL.player.refs();
 
 const container = useTemplateRef('containerEl');
 const containerHeight = useHeight(container);
@@ -30,35 +24,8 @@ const footer = useTemplateRef('footerEl');
 const footerHeight = useHeight(footer);
 
 const contentHeight = computed(() => {
-  const height = containerHeight.value - footerHeight.value;
-  return Math.max(height - 20, 0);
+  return Math.max(containerHeight.value - footerHeight.value - 20, 0);
 });
-
-async function createScript() {
-  await props.waitToLoad();
-  if (player.value) {
-    try {
-      loading.value = true;
-      const id = await commands.addScript({
-        id: 0,
-        name: 'Script',
-        code: '',
-        owner: player.value.id,
-      });
-
-      await props.onCreate(id);
-      const elementId = `#${toElementId(id)}`;
-      void container.value?.waitScroll(elementId, {
-        timeout: 1000,
-        throwOnTimeout: false,
-      });
-    } catch (err) {
-      handleError(err);
-    } finally {
-      loading.value = false;
-    }
-  }
-}
 
 function toElementId(id: ScriptId) {
   return `player-script-${id}`;
@@ -91,7 +58,7 @@ function toElementId(id: ScriptId) {
     </div>
 
     <div ref="footerEl" class="h-20 p-4">
-      <Button variant="outline" :disabled="!player || loading" class="w-full" @click="createScript">
+      <Button variant="outline" :disabled="loading" class="w-full" @click="onCreate">
         {{ t('new') }}
       </Button>
     </div>

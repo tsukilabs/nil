@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { computed } from 'vue';
-import { toVillageRef } from '../toRef';
 import type { MaybeNilRef } from '@tb-dev/vue';
+import { toVillageRef } from '@/composables/util/toRef';
 import type { VillageImpl } from '@/core/model/village';
 
 export function useAcademy(village?: MaybeNilRef<VillageImpl>) {
