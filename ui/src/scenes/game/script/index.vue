@@ -18,6 +18,7 @@ const {
   current,
   loading,
   loadScripts,
+  executeScript,
   saveScript,
   createScript,
   removeScript,
@@ -63,6 +64,7 @@ function onScriptClick(script: Script) {
               :current
               :loading
               class="hidden lg:grid"
+              @execute="executeScript"
               @import="importScripts"
               @export="exportScripts"
               @remove="removeScript"

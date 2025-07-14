@@ -45,8 +45,10 @@ pub(crate) fn from_core_err(err: CoreError) -> Response {
     CannotIncreaseBuildingLevel(_) => res!(BAD_REQUEST, text),
     CheatingNotAllowed => res!(BAD_REQUEST, text),
     CoordOutOfBounds(_) => res!(BAD_REQUEST, text),
+    FailedToExecuteScript => res!(INTERNAL_SERVER_ERROR, text),
     FailedToLoadWorld => res!(INTERNAL_SERVER_ERROR, text),
     FailedToSaveWorld => res!(INTERNAL_SERVER_ERROR, text),
+    Forbidden => res!(FORBIDDEN, text),
     IndexOutOfBounds(_) => res!(BAD_REQUEST, text),
     InsufficientResources => res!(BAD_REQUEST, text),
     MineStatsNotFound(_) => res!(NOT_FOUND, text),
@@ -74,6 +76,16 @@ macro_rules! bail_not_pending {
       use nil_core::error::Error;
       let err = Error::PlayerIsNotPending($player.clone());
       return $crate::response::from_core_err(err);
+    }
+  };
+}
+
+#[doc(hidden)]
+#[macro_export]
+macro_rules! bail_not_player {
+  ($current_player:expr, $player:expr) => {
+    if $current_player != $player {
+      return $crate::res!(FORBIDDEN);
     }
   };
 }

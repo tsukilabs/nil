@@ -9,6 +9,7 @@ import type { MaybePromise, Option } from '@tb-dev/utils';
 defineProps<{
   current: Option<Script>;
   loading: boolean;
+  onExecute: () => MaybePromise<void>;
   onImport: () => MaybePromise<void>;
   onExport: () => MaybePromise<void>;
   onRemove: () => MaybePromise<void>;
@@ -19,17 +20,32 @@ const { t } = useI18n();
 </script>
 
 <template>
-  <div class="grid-cols-4 gap-2">
-    <Button size="sm" :disabled="!current || loading" @click="onSave">
+  <div class="grid-cols-3 gap-2 xl:grid-cols-5">
+    <Button variant="default" size="sm" :disabled="!current?.id || loading" @click="onExecute">
+      {{ t('execute') }}
+    </Button>
+    <Button variant="secondary" size="sm" :disabled="!current || loading" @click="onSave">
       {{ t('save') }}
     </Button>
-    <Button size="sm" :disabled="loading" @click="onImport">
+    <Button
+      variant="secondary"
+      size="sm"
+      :disabled="loading"
+      class="hidden xl:inline-flex"
+      @click="onImport"
+    >
       {{ t('import') }}
     </Button>
-    <Button size="sm" :disabled="!current || loading" @click="onExport">
+    <Button
+      variant="secondary"
+      size="sm"
+      :disabled="!current || loading"
+      class="hidden xl:inline-flex"
+      @click="onExport"
+    >
       {{ t('export') }}
     </Button>
-    <Button size="sm" variant="destructive" :disabled="!current || loading" @click="onRemove">
+    <Button variant="destructive" size="sm" :disabled="!current || loading" @click="onRemove">
       {{ t('remove') }}
     </Button>
   </div>

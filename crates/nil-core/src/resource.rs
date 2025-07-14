@@ -51,6 +51,12 @@ impl Resources {
 
   #[inline]
   #[must_use]
+  pub fn new() -> Self {
+    Self::default()
+  }
+
+  #[inline]
+  #[must_use]
   pub fn with_food(&self, food: Food) -> Self {
     Self { food, ..self.clone() }
   }
@@ -74,21 +80,17 @@ impl Resources {
   }
 
   pub fn add_if_within_capacity(&mut self, diff: &ResourcesDiff, capacity: &PlayerStorageCapacity) {
-    self
-      .food
-      .add_if_within_capacity(diff.food, capacity.silo);
+    macro_rules! add {
+      ($($res:ident => $storage:ident),+ $(,)?) => {
+        $(
+          self
+            .$res
+            .add_if_within_capacity(diff.$res, capacity.$storage);
+        )+
+      };
+    }
 
-    self
-      .iron
-      .add_if_within_capacity(diff.iron, capacity.warehouse);
-
-    self
-      .stone
-      .add_if_within_capacity(diff.stone, capacity.warehouse);
-
-    self
-      .wood
-      .add_if_within_capacity(diff.wood, capacity.warehouse);
+    add!(food => silo, iron => warehouse, stone => warehouse, wood => warehouse);
   }
 
   /// Checked resource subtraction.

@@ -1,18 +1,20 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+use crate::error::CoreResult;
 use crate::middleware::CurrentPlayer;
-use crate::res;
+use crate::response::from_core_err;
 use crate::state::App;
+use crate::{bail_not_player, res};
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
-use futures::FutureExt;
+use futures::{FutureExt, TryFutureExt};
 use nil_core::player::PlayerId;
 use nil_core::script::{Script, ScriptId};
 
 pub async fn add(
   State(app): State<App>,
-  Extension(current_player): Extension<CurrentPlayer>,
+  Extension(player): Extension<CurrentPlayer>,
   Json(scripts): Json<Vec<Script>>,
 ) -> Response {
   if scripts.is_empty() {
@@ -24,27 +26,46 @@ pub async fn add(
   let mut ids = Vec::with_capacity(scripts.len());
 
   for mut script in scripts {
-    script.owner = current_player.0.clone();
+    script.owner = player.0.clone();
     ids.push(scripting.add(script));
   }
 
   res!(CREATED, Json(ids))
 }
 
-pub async fn get(
+pub async fn execute(
   State(app): State<App>,
-  Extension(current_player): Extension<CurrentPlayer>,
+  Extension(player): Extension<CurrentPlayer>,
   Json(id): Json<ScriptId>,
 ) -> Response {
-  let Some(script) = app.scripting(|s| s.get(id).cloned()).await else {
-    return res!(OK, Json(None::<Script>));
+  let result: CoreResult<()> = try {
+    let mut world = app.world.write().await;
+    let scripting = world.scripting();
+    let script = scripting.get(id)?;
+    bail_not_player!(player.0, script.owner);
+    world.execute_script(id)?;
   };
 
-  if *current_player == script.owner {
-    res!(OK, Json(Some(script)))
-  } else {
-    res!(FORBIDDEN)
-  }
+  result
+    .map(|()| res!(OK))
+    .unwrap_or_else(from_core_err)
+}
+
+pub async fn get(
+  State(app): State<App>,
+  Extension(player): Extension<CurrentPlayer>,
+  Json(id): Json<ScriptId>,
+) -> Response {
+  let result: CoreResult<Script> = try {
+    let world = app.world.read().await;
+    let script = world.scripting().get(id)?;
+    bail_not_player!(player.0, script.owner);
+    script.clone()
+  };
+
+  result
+    .map(|script| res!(OK, Json(script)))
+    .unwrap_or_else(from_core_err)
 }
 
 pub async fn get_all(State(app): State<App>, Json(id): Json<PlayerId>) -> Response {
@@ -56,35 +77,34 @@ pub async fn get_all(State(app): State<App>, Json(id): Json<PlayerId>) -> Respon
 
 pub async fn remove(
   State(app): State<App>,
-  Extension(current_player): Extension<CurrentPlayer>,
+  Extension(player): Extension<CurrentPlayer>,
   Json(id): Json<ScriptId>,
 ) -> Response {
-  let mut world = app.world.write().await;
-  let scripting = world.scripting_mut();
+  let result: CoreResult<()> = try {
+    let mut world = app.world.write().await;
+    let scripting = world.scripting_mut();
+    let script = scripting.get(id)?;
+    bail_not_player!(player.0, script.owner);
+    scripting.remove(id);
+  };
 
-  let mut removed = false;
-  if let Some(script) = scripting.get(id) {
-    if *current_player == script.owner {
-      removed = scripting.remove(id);
-    } else {
-      return res!(FORBIDDEN);
-    }
-  }
-
-  if removed { res!(OK) } else { res!(GONE) }
+  result
+    .map(|()| res!(OK))
+    .unwrap_or_else(from_core_err)
 }
 
 pub async fn update(
   State(app): State<App>,
-  Extension(current_player): Extension<CurrentPlayer>,
+  Extension(player): Extension<CurrentPlayer>,
   Json(script): Json<Script>,
 ) -> Response {
   if *script.id == 0 {
     res!(BAD_REQUEST, "Missing script identifier")
-  } else if *current_player == script.owner {
+  } else if *player == script.owner {
     app
       .scripting_mut(|s| s.update(script))
-      .map(|()| res!(OK))
+      .map_ok(|()| res!(OK))
+      .unwrap_or_else(from_core_err)
       .await
   } else {
     res!(FORBIDDEN)

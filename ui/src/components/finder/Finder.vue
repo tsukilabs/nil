@@ -63,7 +63,7 @@ const items = computed<FinderItem[]>(() => {
     },
     {
       value: 'script',
-      label: t('script'),
+      label: t('script', 2),
     },
     {
       value: 'village',

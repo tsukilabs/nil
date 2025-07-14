@@ -84,6 +84,7 @@ fn main() {
       command::round::is_round_idle,
       command::round::start_round,
       command::script::add_scripts,
+      command::script::execute_script,
       command::script::export_script,
       command::script::get_script,
       command::script::get_scripts,

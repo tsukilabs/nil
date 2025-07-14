@@ -24,6 +24,14 @@ pub async fn add_scripts(app: AppHandle, scripts: Vec<Script>) -> Result<Vec<Scr
 }
 
 #[tauri::command]
+pub async fn execute_script(app: AppHandle, id: ScriptId) -> Result<()> {
+  app
+    .client(async |cl| cl.execute_script(id).await)
+    .await?
+    .map_err(Into::into)
+}
+
+#[tauri::command]
 pub async fn export_script(dir: PathBuf, script: Script) -> Result<()> {
   if dir.is_dir() {
     let mut path = dir.join(&script.name);
@@ -41,7 +49,7 @@ pub async fn export_script(dir: PathBuf, script: Script) -> Result<()> {
 }
 
 #[tauri::command]
-pub async fn get_script(app: AppHandle, id: ScriptId) -> Result<Option<Script>> {
+pub async fn get_script(app: AppHandle, id: ScriptId) -> Result<Script> {
   app
     .client(async |cl| cl.get_script(id).await)
     .await?

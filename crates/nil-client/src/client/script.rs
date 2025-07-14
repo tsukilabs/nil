@@ -7,7 +7,7 @@ use nil_core::script::{Script, ScriptId};
 
 impl Client {
   /// POST `/script`
-  pub async fn get_script(&self, id: ScriptId) -> Result<Option<Script>> {
+  pub async fn get_script(&self, id: ScriptId) -> Result<Script> {
     self.http.post_json("script", id).await
   }
 
@@ -25,6 +25,11 @@ impl Client {
       .http
       .post_json("script/all", &self.player)
       .await
+  }
+
+  /// POST `/script/execute`
+  pub async fn execute_script(&self, id: ScriptId) -> Result<()> {
+    self.http.post("script/execute", id).await
   }
 
   /// POST `/script/remove`
