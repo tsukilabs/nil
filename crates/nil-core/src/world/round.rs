@@ -9,14 +9,16 @@ use std::collections::HashMap;
 
 impl World {
   pub fn start_round(&mut self) -> Result<()> {
-    let ids = self
-      .player_manager
-      .players()
-      .filter(|player| !player.is_inactive())
-      .map(Player::id);
+    if self.round.is_idle() {
+      let ids = self
+        .player_manager
+        .players()
+        .filter(|player| !player.is_inactive())
+        .map(Player::id);
 
-    self.round.start(ids)?;
-    self.emit_round_updated();
+      self.round.start(ids)?;
+      self.emit_round_updated();
+    }
 
     Ok(())
   }

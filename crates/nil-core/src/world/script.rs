@@ -2,7 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 mod cheat;
+mod infrastructure;
 mod player;
+mod round;
 mod village;
 
 use super::World;
@@ -101,7 +103,9 @@ macro_rules! bail_not_owned_by {
 impl UserData for WorldUserData<'_> {
   fn add_methods<M: UserDataMethods<Self>>(methods: &mut M) {
     cheat::add_methods(methods);
+    infrastructure::add_methods(methods);
     player::add_methods(methods);
+    round::add_methods(methods);
     village::add_methods(methods);
   }
 }
