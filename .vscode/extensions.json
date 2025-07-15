@@ -6,7 +6,7 @@
     "rust-lang.rust-analyzer",
     "bradlc.vscode-tailwindcss",
     "tamasfe.even-better-toml",
-    "sumneko.lua",
-    "vivaxy.vscode-conventional-commits"
+    "vivaxy.vscode-conventional-commits",
+    "github.vscode-pull-request-github"
   ]
 }

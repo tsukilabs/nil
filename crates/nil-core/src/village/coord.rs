@@ -6,6 +6,7 @@ use glam::u8::U8Vec2;
 use serde::de::{self, Error as _, MapAccess, SeqAccess, Visitor};
 use serde::ser::SerializeStruct;
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
+use std::borrow::Cow;
 use std::fmt;
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
@@ -108,8 +109,10 @@ impl<'de> Visitor<'de> for CoordVisitor {
     let mut x = None;
     let mut y = None;
 
-    while let Some(key) = map.next_key()? {
-      match key {
+    // Lua wouldn't be able to deserialize it if we used a plain `&str` here.
+    type Key = Cow<'static, str>;
+    while let Some(key) = map.next_key::<Key>()? {
+      match key.as_ref() {
         "x" => x = Some(map.next_value()?),
         "y" => y = Some(map.next_value()?),
         _ => {}

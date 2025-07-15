@@ -1,7 +1,4 @@
 {
-  "[lua]": {
-    "editor.defaultFormatter": "sumneko.lua"
-  },
   "[rust]": {
     "editor.defaultFormatter": "rust-lang.rust-analyzer"
   },
@@ -14,9 +11,21 @@
   "[vue]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
+  "conventionalCommits.promptScopes": false,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit"
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "eslint.codeActionsOnSave.mode": "problems",
+  "eslint.useFlatConfig": true,
   "evenBetterToml.formatter.allowedBlankLines": 1,
   "evenBetterToml.formatter.columnWidth": 100,
   "evenBetterToml.formatter.reorderArrays": true,
   "evenBetterToml.formatter.trailingNewline": true,
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
+  "githubPullRequests.defaultMergeMethod": "squash",
   "rust-analyzer.cargo.targetDir": true
 }

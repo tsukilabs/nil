@@ -29,6 +29,7 @@ pub struct NsrScriptFrontmatter {
   author: String,
   version: Version,
   official: bool,
+  readonly: bool,
 }
 
 pub async fn registry() -> Result<Vec<NsrScript>> {

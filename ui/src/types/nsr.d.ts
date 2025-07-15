@@ -14,4 +14,5 @@ interface NsrScriptFrontmatter {
   readonly author: string;
   readonly version: string;
   readonly official: boolean;
+  readonly readonly: boolean;
 }

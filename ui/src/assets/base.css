@@ -42,14 +42,6 @@
   --font-nil: 'Syne Mono';
 }
 
-@font-face {
-  font-style: normal;
-  font-weight: 400;
-  src: url(/fonts/SyneMono-Regular.ttf) format('truetype');
-  font-family: 'Syne Mono';
-  font-display: swap;
-}
-
 :root {
   --game-sidebar-z-index: 100;
 }

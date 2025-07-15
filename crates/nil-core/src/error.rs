@@ -36,7 +36,7 @@ pub enum Error {
   CoordOutOfBounds(Coord),
 
   #[error("Failed to execute script")]
-  FailedToExecuteScript,
+  FailedToExecuteScript(#[from] mlua::Error),
 
   #[error("Failed to load world")]
   FailedToLoadWorld,
@@ -108,12 +108,6 @@ impl Serialize for Error {
 impl From<Error> for mlua::Error {
   fn from(err: Error) -> Self {
     err.into_lua_err()
-  }
-}
-
-impl From<mlua::Error> for Error {
-  fn from(_: mlua::Error) -> Self {
-    Self::FailedToExecuteScript
   }
 }
 

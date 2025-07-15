@@ -26,31 +26,8 @@ function toHtml(raw: string) {
 </script>
 
 <template>
-  <div class="flex size-full flex-col gap-4 p-4 select-text">
-    <div v-if="contents" v-html="contents.about"></div>
-    <div v-if="code" v-html="code"></div>
+  <div class="flex size-full flex-col gap-4 overflow-x-hidden overflow-y-auto p-4 select-text">
+    <div v-if="contents" class="nsr-markdown" v-html="contents.about"></div>
+    <div v-if="code" class="nsr-markdown" v-html="code"></div>
   </div>
 </template>
-
-<style scoped>
-:deep(h1, h2, h3, h4, h5, h6) {
-  margin-bottom: 1rem;
-  font-weight: 400;
-  font-size: 1.5rem;
-  line-height: 24px;
-}
-
-:deep(h1) {
-  margin-bottom: 1rem;
-  font-size: 1.5rem;
-}
-
-:deep(h1, h2, h3, h4, h5, h6, li, p) {
-  overflow-wrap: break-word;
-}
-
-:deep(pre) {
-  border-radius: var(--radius);
-  padding: 1rem;
-}
-</style>

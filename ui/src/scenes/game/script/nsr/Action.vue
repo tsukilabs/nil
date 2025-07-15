@@ -2,13 +2,25 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { Button } from '@tb-dev/vue-components';
-import type { MaybePromise } from '@tb-dev/utils';
 import ActionTooltip from '../root/ActionTooltip.vue';
-import { DownloadIcon, FileCodeIcon, PlayIcon, RefreshCwIcon, SaveIcon } from 'lucide-vue-next';
+import type { MaybePromise, Option } from '@tb-dev/utils';
+import { writeText } from '@tauri-apps/plugin-clipboard-manager';
+import type { ScriptContents } from '@/composables/script/useNsr';
+import {
+  CopyIcon,
+  DownloadIcon,
+  FileCodeIcon,
+  PlayIcon,
+  RefreshCwIcon,
+  SaveIcon,
+} from 'lucide-vue-next';
 
-defineProps<{
+const props = defineProps<{
+  current: Option<NsrScript>;
+  contents: Option<ScriptContents>;
   loading: boolean;
   onDowload: () => MaybePromise<void>;
   onExecute: () => MaybePromise<void>;
@@ -17,13 +29,21 @@ defineProps<{
 }>();
 
 const { t } = useI18n();
+
+const isReadonly = computed(() => props.current?.frontmatter.readonly ?? true);
+
+function onCopy() {
+  if (props.contents?.script) {
+    writeText(props.contents.script).err();
+  }
+}
 </script>
 
 <template>
   <div class="flex items-center justify-end">
-    <div class="grid max-w-fit grid-cols-5 gap-2">
+    <div class="grid max-w-fit grid-cols-6 gap-2">
       <ActionTooltip :label="t('execute')">
-        <Button variant="ghost" size="icon" :disabled="loading" @click="onExecute">
+        <Button variant="ghost" size="icon" :disabled="isReadonly || loading" @click="onExecute">
           <PlayIcon />
         </Button>
       </ActionTooltip>
@@ -31,6 +51,12 @@ const { t } = useI18n();
       <ActionTooltip :label="t('save')">
         <Button variant="ghost" size="icon" :disabled="loading" @click="onSave">
           <SaveIcon />
+        </Button>
+      </ActionTooltip>
+
+      <ActionTooltip :label="t('copy')">
+        <Button variant="ghost" size="icon" :disabled="!contents" @click="onCopy">
+          <CopyIcon />
         </Button>
       </ActionTooltip>
 
