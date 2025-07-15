@@ -45,11 +45,10 @@ pub async fn get_coords(State(app): State<App>, Json(id): Json<PlayerId>) -> Res
 
 pub async fn get_maintenance(
   State(app): State<App>,
-  Extension(current_player): Extension<CurrentPlayer>,
+  Extension(player): Extension<CurrentPlayer>,
 ) -> Response {
-  let id = &current_player.0;
   app
-    .world(|world| world.get_player_maintenance(id))
+    .world(|world| world.get_player_maintenance(&player.0))
     .map_ok(|maintenance| res!(OK, Json(maintenance)))
     .unwrap_or_else(from_core_err)
     .await
@@ -65,11 +64,10 @@ pub async fn get_status(State(app): State<App>, Json(id): Json<PlayerId>) -> Res
 
 pub async fn get_storage_capacity(
   State(app): State<App>,
-  Extension(current_player): Extension<CurrentPlayer>,
+  Extension(player): Extension<CurrentPlayer>,
 ) -> Response {
-  let id = &current_player.0;
   app
-    .world(|world| world.get_player_storage_capacity(id))
+    .world(|world| world.get_player_storage_capacity(&player.0))
     .map_ok(|capacity| res!(OK, Json(capacity)))
     .unwrap_or_else(from_core_err)
     .await
@@ -77,12 +75,11 @@ pub async fn get_storage_capacity(
 
 pub async fn set_status(
   State(app): State<App>,
-  Extension(current_player): Extension<CurrentPlayer>,
+  Extension(player): Extension<CurrentPlayer>,
   Json(status): Json<PlayerStatus>,
 ) -> Response {
-  let id = &current_player.0;
   app
-    .world_mut(|world| world.set_player_status(id, status))
+    .world_mut(|world| world.set_player_status(&player.0, status))
     .map_ok(|()| res!(OK))
     .unwrap_or_else(from_core_err)
     .await

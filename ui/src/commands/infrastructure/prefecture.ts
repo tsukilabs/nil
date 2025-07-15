@@ -3,8 +3,8 @@
 
 import { invoke } from '@tauri-apps/api/core';
 
-export function addPrefectureBuildOrder(options: PrefectureBuildOrderOptions) {
-  return invoke<null>('add_prefecture_build_order', { options });
+export function addPrefectureBuildOrder(request: PrefectureBuildOrderRequest) {
+  return invoke<null>('add_prefecture_build_order', { request });
 }
 
 export function cancelPrefectureBuildOrder(coord: Coord) {

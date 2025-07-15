@@ -6,10 +6,6 @@ import '@tb-dev/prototype-dom';
 import { handleError } from '@/lib/error';
 import type { Option } from '@tb-dev/utils';
 
-Error.panic = function (message: string): never {
-  throw new this(message);
-};
-
 Error.throw = function (message: string): never {
   throw new this(message);
 };

@@ -3,27 +3,19 @@
 
 use super::Client;
 use crate::error::Result;
-use nil_core::script::{Script, ScriptId};
+use nil_core::script::{Script, ScriptId, Stdio};
 
 impl Client {
   /// POST `/script`
-  pub async fn get_script(&self, id: ScriptId) -> Result<Option<Script>> {
+  pub async fn get_script(&self, id: ScriptId) -> Result<Script> {
     self.http.post_json("script", id).await
   }
 
   /// POST `/script/add`
-  pub async fn add_script(&self, script: Script) -> Result<ScriptId> {
-    self
-      .http
-      .post_json("script/add", script)
-      .await
-  }
-
-  /// POST `/script/add-many`
   pub async fn add_scripts(&self, scripts: Vec<Script>) -> Result<Vec<ScriptId>> {
     self
       .http
-      .post_json("script/add-many", scripts)
+      .post_json("script/add", scripts)
       .await
   }
 
@@ -32,6 +24,22 @@ impl Client {
     self
       .http
       .post_json("script/all", &self.player)
+      .await
+  }
+
+  /// POST `/script/chunk`
+  pub async fn execute_script_chunk(&self, chunk: &str) -> Result<Stdio> {
+    self
+      .http
+      .post_json("script/chunk", chunk)
+      .await
+  }
+
+  /// POST `/script/execute`
+  pub async fn execute_script(&self, id: ScriptId) -> Result<Stdio> {
+    self
+      .http
+      .post_json("script/execute", id)
       .await
   }
 

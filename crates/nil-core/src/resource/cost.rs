@@ -4,7 +4,7 @@
 use derive_more::Deref;
 use serde::{Deserialize, Serialize};
 
-/// Custo base de uma entidade, como edifícios ou unidades.
+/// Base cost of an entity, such as buildings or units.
 #[derive(Clone, Copy, Debug, Deref, Deserialize, Serialize)]
 pub struct Cost(u32);
 
@@ -27,7 +27,7 @@ impl From<f64> for Cost {
   }
 }
 
-/// Proporção entre o custo total e um dado recurso.
+/// Proportion between the total cost and a given resource.
 #[derive(Clone, Copy, Debug, Deref, Deserialize, Serialize)]
 pub struct ResourceRatio(f64);
 
@@ -43,7 +43,7 @@ impl ResourceRatio {
   }
 }
 
-/// Verifica, durante a compilação, se a soma das proporções dos recursos é igual a 1.
+/// Checks, at compile time, if the sum of the resource ratios equals 1.
 #[macro_export]
 macro_rules! check_total_resource_ratio {
   ($first:expr, $($other:expr),+ $(,)?) => {

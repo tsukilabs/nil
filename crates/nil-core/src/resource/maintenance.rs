@@ -7,9 +7,11 @@ use derive_more::{Deref, Display};
 use serde::{Deserialize, Serialize};
 use std::ops::{Add, AddAssign, Sub, SubAssign};
 
-/// Taxa de manutenção de uma entidade.
+/// Maintenance tax of an entity.
 ///
-/// Seu valor equivale a uma porcentagem do custo base dela.
+/// Its value is equivalent to a percentage of the [base cost].
+///
+/// [base cost]: crate::resource::cost::Cost
 #[derive(Clone, Copy, Debug, Default, Deref, Display, Deserialize, Serialize)]
 pub struct Maintenance(Food);
 
@@ -128,7 +130,7 @@ impl SubAssign<Maintenance> for FoodDiff {
   }
 }
 
-/// Proporção do custo base que deve ser usado como taxa de manutenção.
+/// Proportion of the base cost that should be used as a maintenance tax.
 #[derive(Clone, Copy, Debug, Deref, Deserialize, Serialize)]
 pub struct MaintenanceRatio(f64);
 

@@ -6,6 +6,7 @@ use glam::u8::U8Vec2;
 use serde::de::{self, Error as _, MapAccess, SeqAccess, Visitor};
 use serde::ser::SerializeStruct;
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
+use std::borrow::Cow;
 use std::fmt;
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
@@ -69,54 +70,57 @@ impl<'de> Deserialize<'de> for Coord {
   where
     D: Deserializer<'de>,
   {
-    struct CoordVisitor;
+    deserializer.deserialize_struct("Coord", &CoordVisitor::FIELD, CoordVisitor)
+  }
+}
 
-    impl<'de> Visitor<'de> for CoordVisitor {
-      type Value = Coord;
+struct CoordVisitor;
 
-      fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-        formatter.write_str("struct Coord")
-      }
+impl CoordVisitor {
+  const FIELD: [&str; 2] = ["x", "y"];
+}
 
-      fn visit_seq<V>(self, mut seq: V) -> Result<Coord, V::Error>
-      where
-        V: SeqAccess<'de>,
-      {
-        let x = seq
-          .next_element()?
-          .ok_or_else(|| de::Error::invalid_length(0, &self))?;
+impl<'de> Visitor<'de> for CoordVisitor {
+  type Value = Coord;
 
-        let y = seq
-          .next_element()?
-          .ok_or_else(|| de::Error::invalid_length(1, &self))?;
+  fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+    formatter.write_str("struct Coord")
+  }
 
-        Ok(Coord::new(x, y))
-      }
+  fn visit_seq<V>(self, mut seq: V) -> Result<Coord, V::Error>
+  where
+    V: SeqAccess<'de>,
+  {
+    let x = seq
+      .next_element()?
+      .ok_or_else(|| de::Error::invalid_length(0, &self))?;
 
-      fn visit_map<V>(self, mut map: V) -> Result<Coord, V::Error>
-      where
-        V: MapAccess<'de>,
-      {
-        let mut x = None;
-        let mut y = None;
+    let y = seq
+      .next_element()?
+      .ok_or_else(|| de::Error::invalid_length(1, &self))?;
 
-        while let Some(key) = map.next_key()? {
-          match key {
-            "x" => x = Some(map.next_value()?),
-            "y" => y = Some(map.next_value()?),
-            _ => {}
-          }
-        }
+    Ok(Coord::new(x, y))
+  }
 
-        let x = x.ok_or_else(|| V::Error::missing_field("x"))?;
-        let y = y.ok_or_else(|| V::Error::missing_field("y"))?;
+  fn visit_map<V>(self, mut map: V) -> Result<Coord, V::Error>
+  where
+    V: MapAccess<'de>,
+  {
+    let mut x = None;
+    let mut y = None;
 
-        Ok(Coord::new(x, y))
+    // Lua wouldn't be able to deserialize it if we used a plain `&str` here.
+    while let Some(key) = map.next_key::<Cow<'static, str>>()? {
+      match key.as_ref() {
+        "x" => x = Some(map.next_value()?),
+        "y" => y = Some(map.next_value()?),
+        _ => {}
       }
     }
 
-    const FIELD: [&str; 2] = ["x", "y"];
-
-    deserializer.deserialize_struct("Coord", &FIELD, CoordVisitor)
+    Ok(Coord::new(
+      x.ok_or_else(|| V::Error::missing_field("x"))?,
+      y.ok_or_else(|| V::Error::missing_field("y"))?,
+    ))
   }
 }

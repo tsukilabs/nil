@@ -2,31 +2,27 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::error::{Error, Result};
-use crate::infrastructure::building::prefecture::PrefectureBuildOrderOptions;
+use crate::infrastructure::building::prefecture::PrefectureBuildOrderRequest;
 use crate::village::Coord;
 use crate::world::World;
 use std::sync::Arc;
 
 impl World {
-  pub fn add_prefecture_build_order(
-    &mut self,
-    options: &PrefectureBuildOrderOptions,
-  ) -> Result<()> {
+  pub fn add_prefecture_build_order(&mut self, req: &PrefectureBuildOrderRequest) -> Result<()> {
     let stats = Arc::clone(&self.stats.infrastructure);
-    let table = stats.building(options.building)?;
+    let table = stats.building(req.building)?;
 
-    let player_id = self.village(options.coord)?.player();
+    let player_id = self.village(req.coord)?.player();
     let curr_res = if let Some(id) = &player_id {
       Some(self.player(id)?.resources().clone())
     } else {
       None
     };
 
-    let coord = options.coord;
     let order = self
-      .village_mut(coord)?
+      .village_mut(req.coord)?
       .infrastructure_mut()
-      .add_prefecture_build_order(table, curr_res.as_ref(), options)?
+      .add_prefecture_build_order(table, curr_res.as_ref(), req)?
       .clone();
 
     if let Some(id) = player_id {
@@ -41,13 +37,13 @@ impl World {
         self.emit_player_updated(id);
       }
 
-      self.emit_village_updated(coord);
+      self.emit_village_updated(req.coord);
     }
 
     Ok(())
   }
 
-  /// Cancela a última ordem de construção da prefeitura.
+  /// Cancels the most recent build order from the prefecture.
   pub fn cancel_prefecture_build_order(&mut self, coord: Coord) -> Result<()> {
     let village = self.village_mut(coord)?;
     if let Some(order) = village

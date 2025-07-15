@@ -38,50 +38,50 @@ use strum::{Display, EnumIter};
 pub trait Building {
   fn id(&self) -> BuildingId;
 
-  /// Verifica se o edifício está ativo.
+  /// Checks whether the building is enabled.
   fn is_enabled(&self) -> bool;
-  /// Ativa ou desativa o edifício.
+  /// Enables or disables the building.
   fn toggle(&mut self, enabled: bool);
 
-  /// Nível atual do edifício.
+  /// Current building level.
   fn level(&self) -> BuildingLevel;
-  /// Nível **mínimo** do edifício.
+  /// Minimum building level.
   fn min_level(&self) -> BuildingLevel;
-  /// Nível **máximo** do edifício.
+  /// Maximum building level.
   fn max_level(&self) -> BuildingLevel;
-  /// Define o nível do edifício, certificando-se de permanecer dentro do limite.
+  /// Sets the building's level while ensuring it remains within the level limit.
   fn set_level(&mut self, level: BuildingLevel);
-  /// Aumenta o nível do edifício em um, se possível.
+  /// Increases the building level by one, if possible.
   fn increase_level(&mut self);
-  /// Aumenta o nível do edifício em uma determinada quantia, se possível.
+  /// Increases the level of the building by a certain amount, if possible.
   fn increase_level_by(&mut self, amount: u8);
-  /// Reduz o nível do edifício em um, se possível.
+  /// Decreases the building level by one, if possible.
   fn decrease_level(&mut self);
-  /// Reduz o nível do edifício em uma determinada quantia, se possível.
+  /// Decreases the level of the building by a certain amount, if possible.
   fn decrease_level_by(&mut self, amount: u8);
 
-  /// Custo total para o nível **mínimo** do edifício.
+  /// Total cost for the **minimum** level of the building.
   fn min_cost(&self) -> Cost;
-  /// Custo total para o nível **máximo** do edifício.
+  /// Total cost for the **maximum** level of the building.
   fn max_cost(&self) -> Cost;
-  /// Porcentagem do custo total referente à madeira.
+  /// Percentage of the total cost related to wood.
   fn wood_ratio(&self) -> ResourceRatio;
-  /// Porcentagem do custo total referente à pedra.
+  /// Percentage of the total cost related to stone.
   fn stone_ratio(&self) -> ResourceRatio;
-  /// Porcentagem do custo total referente ao ferro.
+  /// Percentage of the total cost related to iron.
   fn iron_ratio(&self) -> ResourceRatio;
 
-  /// Taxa de manutenção do edifício em seu nível atual.
+  /// Building maintenance tax at its current level.
   fn maintenance(&self, stats: &BuildingStatsTable) -> Result<Maintenance>;
-  /// Proporção do custo base que deve ser usado como taxa de manutenção.
+  /// Proportion of the base cost used as a maintenance tax.
   fn maintenance_ratio(&self) -> MaintenanceRatio;
 
-  /// Força de trabalho exigida para o nível **mínimo** do edifício.
+  /// Workforce required for the **minimum** level of the building.
   fn min_workforce(&self) -> Workforce;
-  /// Força de trabalho exigida para o nível **máximo** do edifício.
+  /// Workforce required for the **maximum** level of the building.
   fn max_workforce(&self) -> Workforce;
 
-  /// Níveis exigidos para a construção do edifício.
+  /// Levels required to construct the building.
   fn infrastructure_requirements(&self) -> &InfrastructureRequirements;
 }
 
@@ -102,7 +102,7 @@ pub enum BuildingId {
   Warehouse,
 }
 
-/// Informações sobre o edifício num determinado nível.
+/// Information about a building at a given level.
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct BuildingStats {

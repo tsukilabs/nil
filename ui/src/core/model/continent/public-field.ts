@@ -8,7 +8,7 @@ import type { MaybePromise, Option } from '@tb-dev/utils';
 import { PublicVillageImpl } from '@/core/model/village/public';
 
 enum Flags {
-  Uninit = 1,
+  Uninit = 1 << 0,
   Loading = 1 << 1,
   Empty = 1 << 2,
   Village = 1 << 3,

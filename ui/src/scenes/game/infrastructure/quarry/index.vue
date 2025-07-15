@@ -3,10 +3,10 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import { useQuarry } from '@/composables/useBuilding';
-import { useMineProduction } from '@/composables/useMineProduction';
+import { useQuarry } from '@/composables/infrastructure/useBuilding';
 import enUS from '@/locale/en-US/scenes/game/infrastructure/mine.json';
 import ptBR from '@/locale/pt-BR/scenes/game/infrastructure/mine.json';
+import { useMineProduction } from '@/composables/infrastructure/useMineProduction';
 import { Card, Table, TableCell, TableHead, TableRow } from '@tb-dev/vue-components';
 
 const { t } = useI18n({

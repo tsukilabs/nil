@@ -5,7 +5,7 @@ use crate::error::Result;
 use crate::manager::ManagerExt;
 use nil_core::infrastructure::building::prefecture::{
   PrefectureBuildCatalog,
-  PrefectureBuildOrderOptions,
+  PrefectureBuildOrderRequest,
 };
 use nil_core::village::Coord;
 use tauri::AppHandle;
@@ -13,10 +13,10 @@ use tauri::AppHandle;
 #[tauri::command]
 pub async fn add_prefecture_build_order(
   app: AppHandle,
-  options: PrefectureBuildOrderOptions,
+  request: PrefectureBuildOrderRequest,
 ) -> Result<()> {
   app
-    .client(async |cl| cl.add_prefecture_build_order(options).await)
+    .client(async |cl| cl.add_prefecture_build_order(request).await)
     .await?
     .map_err(Into::into)
 }

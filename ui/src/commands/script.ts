@@ -1,23 +1,34 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Option } from '@tb-dev/utils';
 import { invoke } from '@tauri-apps/api/core';
 
-export function addScript(script: Script) {
-  return invoke<ScriptId>('add_script', { script });
+export async function addScript(script: Script) {
+  return addScripts([script]).then(([id]) => id);
 }
 
 export function addScripts(scripts: Script[]) {
   return invoke<readonly ScriptId[]>('add_scripts', { scripts });
 }
 
-export function exportScript(dir: string, script: Script) {
-  return invoke<null>('export_script', { dir, script });
+export async function executeScript(id: ScriptId) {
+  const stdio = await invoke<Stdio>('execute_script', { id });
+  if (__DEBUG_ASSERTIONS__) console.log(stdio.stdout.join('\n'));
+  return stdio;
+}
+
+export async function executeScriptChunk(chunk: string) {
+  const stdio = await invoke<Stdio>('execute_script_chunk', { chunk });
+  if (__DEBUG_ASSERTIONS__) console.log(stdio.stdout.join('\n'));
+  return stdio;
+}
+
+export function exportScript(dir: string, name: string, code: string) {
+  return invoke<null>('export_script', { dir, name, code });
 }
 
 export function getScript(id: ScriptId) {
-  return invoke<Option<Script>>('get_script', { id });
+  return invoke<Script>('get_script', { id });
 }
 
 export function getScripts() {

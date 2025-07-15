@@ -5,9 +5,9 @@
 import { watch } from 'vue';
 import BuildQueue from './BuildQueue.vue';
 import BuildCatalog from './BuildCatalog.vue';
-import { usePrefecture } from '@/composables/useBuilding';
-import { useInfrastructure } from '@/composables/useInfrastructure';
-import { usePrefectureBuildCatalog } from '@/composables/usePrefectureBuildCatalog';
+import { usePrefecture } from '@/composables/infrastructure/useBuilding';
+import { useInfrastructure } from '@/composables/infrastructure/useInfrastructure';
+import { usePrefectureBuildCatalog } from '@/composables/infrastructure/usePrefectureBuildCatalog';
 
 const { coord, village } = NIL.village.refs();
 

@@ -10,14 +10,14 @@ use std::collections::HashMap;
 use std::ops::{Add, AddAssign, Sub, SubAssign};
 use strum::{Display, EnumIter};
 
-/// Um edifício que armazena recursos.
+/// A building that stores resources.
 pub trait Storage: Building {
   fn storage_id(&self) -> StorageId;
-  /// Capacidade de armazenamento no nível atual.
+  /// Storage capacity at the **current** level.
   fn capacity(&self, stats: &StorageStatsTable) -> Result<StorageCapacity>;
-  /// Capacidade máxima de armazenamento em seu nível **mínimo**.
+  /// Storage capacity at its **minimum** level.
   fn min_capacity(&self) -> StorageCapacity;
-  /// Capacidade máxima de armazenamento em seu nível **máximo**.
+  /// Storage capacity at its **maximum** level.
   fn max_capacity(&self) -> StorageCapacity;
 }
 
@@ -99,7 +99,7 @@ impl StorageStatsTable {
   }
 }
 
-/// Capacidade de armazenamento do edifício.
+/// Storage capacity of a building.
 #[derive(Clone, Copy, Debug, Deref, Default, Deserialize, Serialize)]
 pub struct StorageCapacity(u32);
 

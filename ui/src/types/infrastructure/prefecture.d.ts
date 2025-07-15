@@ -36,7 +36,7 @@ interface PrefectureBuildOrderStatusPending {
   readonly workforce: number;
 }
 
-interface PrefectureBuildOrderOptions {
+interface PrefectureBuildOrderRequest {
   readonly coord: Coord;
   readonly building: BuildingId;
   readonly kind: PrefectureBuildOrderKind;

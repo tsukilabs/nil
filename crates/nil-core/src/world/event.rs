@@ -13,17 +13,17 @@ impl World {
     self.emitter.subscribe()
   }
 
-  /// Emite o evento para todos os jogadores.
+  /// Emits the event to all players.
   fn broadcast(&self, event: Event) {
     self.emitter.broadcast(event);
   }
 
-  /// Emite o evento para um jogador em específico.
+  /// Emits the event for a specific player.
   fn emit_to(&self, target: PlayerId, event: Event) {
     self.emitter.emit_to(target, event);
   }
 
-  /// Emite o evento para o dono da aldeia na coordenada especificada, se houver.
+  /// Emits the event to the owner of the village at the specified coordinate, if any.
   fn emit_to_owner(&self, coord: Coord, event: Event) {
     if let Ok(village) = self.village(coord)
       && let Some(player) = village.player()
@@ -32,28 +32,28 @@ impl World {
     }
   }
 
-  /// Emite [`Event::ChatMessage`].
+  /// Emits [`Event::ChatMessage`].
   pub(super) fn emit_chat_updated(&self, message: ChatMessage) {
     self.broadcast(Event::ChatUpdated { message });
   }
 
-  /// Emite [`Event::PlayerUpdated`].
+  /// Emits [`Event::PlayerUpdated`].
   pub(super) fn emit_player_updated(&self, player: PlayerId) {
     self.emit_to(player.clone(), Event::PlayerUpdated { player });
   }
 
-  /// Emite [`Event::PublicVillageUpdated`].
+  /// Emits [`Event::PublicVillageUpdated`].
   pub(super) fn emit_public_village_updated(&self, coord: Coord) {
     self.broadcast(Event::PublicVillageUpdated { coord });
   }
 
-  /// Emite [`Event::RoundUpdated`].
+  /// Emits [`Event::RoundUpdated`].
   pub(super) fn emit_round_updated(&self) {
     let round = self.round.clone();
     self.broadcast(Event::RoundUpdated { round });
   }
 
-  /// Emite [`Event::VillageUpdated`].
+  /// Emits [`Event::VillageUpdated`].
   pub(super) fn emit_village_updated(&self, coord: Coord) {
     self.emit_to_owner(coord, Event::VillageUpdated { coord });
   }

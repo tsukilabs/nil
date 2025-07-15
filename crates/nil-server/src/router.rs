@@ -29,13 +29,7 @@ use nil_core::world::World;
 
 #[cfg(debug_assertions)]
 use {
-  tower_http::trace::{
-    DefaultMakeSpan,
-    DefaultOnFailure,
-    DefaultOnRequest,
-    DefaultOnResponse,
-    TraceLayer,
-  },
+  tower_http::trace::{DefaultMakeSpan, DefaultOnResponse, TraceLayer},
   tracing::Level,
 };
 
@@ -82,8 +76,9 @@ pub(crate) fn create() -> Router<App> {
     .route("/round/start", get(round::start))
     .route("/script", post(script::get))
     .route("/script/add", post(script::add))
-    .route("/script/add-many", post(script::add_many))
     .route("/script/all", post(script::get_all))
+    .route("/script/chunk", post(script::execute_chunk))
+    .route("/script/execute", post(script::execute))
     .route("/script/remove", post(script::remove))
     .route("/script/update", post(script::update))
     .route("/version", get(version))
@@ -99,9 +94,9 @@ pub(crate) fn create() -> Router<App> {
   let router = router.layer(
     TraceLayer::new_for_http()
       .make_span_with(DefaultMakeSpan::new().level(Level::DEBUG))
-      .on_request(DefaultOnRequest::new().level(Level::TRACE))
+      .on_request(())
       .on_response(DefaultOnResponse::new().level(Level::TRACE))
-      .on_failure(DefaultOnFailure::new().level(Level::ERROR))
+      .on_failure(())
       .on_body_chunk(())
       .on_eos(()),
   );

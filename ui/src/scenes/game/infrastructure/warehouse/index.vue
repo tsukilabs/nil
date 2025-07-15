@@ -3,10 +3,10 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import { useWarehouse } from '@/composables/useBuilding';
-import { useStorageCapacity } from '@/composables/useStorageCapacity';
+import { useWarehouse } from '@/composables/infrastructure/useBuilding';
 import enUS from '@/locale/en-US/scenes/game/infrastructure/storage.json';
 import ptBR from '@/locale/pt-BR/scenes/game/infrastructure/storage.json';
+import { useStorageCapacity } from '@/composables/infrastructure/useStorageCapacity';
 import { Card, Table, TableCell, TableHead, TableRow } from '@tb-dev/vue-components';
 
 const { t } = useI18n({

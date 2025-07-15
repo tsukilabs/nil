@@ -14,7 +14,7 @@ export async function joinGame(options: { player: PlayerOptions; serverAddr: Soc
   await commands.startClient(options.player.id, options.serverAddr);
 
   if (await commands.playerExists(id)) {
-    // TODO: o que fazer se o jogador já estiver ativo?
+    // TODO: what if the player is already active?
     const status = await commands.getPlayerStatus(id);
     if (status === 'inactive') {
       await commands.setPlayerStatus('active');

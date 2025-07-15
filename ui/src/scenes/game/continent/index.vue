@@ -76,13 +76,12 @@ const listener = new ListenerSet();
 listener.event.onPublicVillageUpdated(async ({ coord }) => {
   const field = fields.value.find((it) => it.coord.is(coord));
   if (field && !field.isLoading()) {
-    // Quando começa a carregar, a classe modifica suas flags de modo a registrar
-    // que uma atualização está ocorrendo. Tendo em vista que o Vue depende delas
-    // para saber que estão havendo mudanças (devido ao uso de `key` no loop do grid),
-    // é preciso acionar a reatividade de `fields` tanto antes quanto depois da atualização terminar.
+    // When loading begins, `PublicFieldImpl` modifies its flags to indicate that an update is taking place.
+    // Since Vue relies on these flags to detect changes (due to the use of `key` in the grid loop),
+    // we need to trigger the `fields` ref both before and after the update is completed.
     //
-    // Se a reatividade fosse acionada apenas ao término, o Vue não atualizaria a interface,
-    // já que nesse ponto o valor da flag muito provavelmente já teria voltado ao seu valor inicial.
+    // If the ref were only triggered at the end, Vue would not update the grid because the value
+    // of the flag would most likely have already reverted to its initial state by that time.
     await field.load({
       onBeforeLoad: triggerFields,
       onLoad: triggerFields,

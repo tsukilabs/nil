@@ -3,21 +3,13 @@
 
 use crate::error::{Error, Result};
 use crate::manager::ManagerExt;
-use nil_core::script::{Script, ScriptId};
+use nil_core::script::{EXTENSION, Script, ScriptId, Stdio};
 use std::ffi::OsStr;
 use std::io::ErrorKind::NotADirectory;
 use std::path::PathBuf;
 use tauri::AppHandle;
 use tokio::fs::{self, File};
 use tokio::io::{AsyncWriteExt, BufWriter};
-
-#[tauri::command]
-pub async fn add_script(app: AppHandle, script: Script) -> Result<ScriptId> {
-  app
-    .client(async |cl| cl.add_script(script).await)
-    .await?
-    .map_err(Into::into)
-}
 
 #[tauri::command]
 pub async fn add_scripts(app: AppHandle, scripts: Vec<Script>) -> Result<Vec<ScriptId>> {
@@ -32,12 +24,28 @@ pub async fn add_scripts(app: AppHandle, scripts: Vec<Script>) -> Result<Vec<Scr
 }
 
 #[tauri::command]
-pub async fn export_script(dir: PathBuf, script: Script) -> Result<()> {
-  if dir.is_dir() {
-    let mut path = dir.join(&script.name);
-    path.set_extension(Script::EXTENSION);
+pub async fn execute_script(app: AppHandle, id: ScriptId) -> Result<Stdio> {
+  app
+    .client(async |cl| cl.execute_script(id).await)
+    .await?
+    .map_err(Into::into)
+}
 
-    let bytes = script.code.as_bytes();
+#[tauri::command]
+pub async fn execute_script_chunk(app: AppHandle, chunk: String) -> Result<Stdio> {
+  app
+    .client(async |cl| cl.execute_script_chunk(&chunk).await)
+    .await?
+    .map_err(Into::into)
+}
+
+#[tauri::command]
+pub async fn export_script(dir: PathBuf, name: String, code: String) -> Result<()> {
+  if dir.is_dir() {
+    let mut path = dir.join(&name);
+    path.set_extension(EXTENSION);
+
+    let bytes = code.as_bytes();
     let file = File::create(&path).await?;
     let mut buffer = BufWriter::new(file);
     buffer.write_all(bytes).await?;
@@ -49,7 +57,7 @@ pub async fn export_script(dir: PathBuf, script: Script) -> Result<()> {
 }
 
 #[tauri::command]
-pub async fn get_script(app: AppHandle, id: ScriptId) -> Result<Option<Script>> {
+pub async fn get_script(app: AppHandle, id: ScriptId) -> Result<Script> {
   app
     .client(async |cl| cl.get_script(id).await)
     .await?

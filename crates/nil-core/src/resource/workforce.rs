@@ -10,11 +10,11 @@ use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
 use std::ops::{Add, AddAssign, Mul, MulAssign, Sub, SubAssign};
 
-/// Força de trabalho é um recurso especial usado para construir edifícios e recrutar tropas.
-/// A quantidade gerada por turno será sempre igual ao nível do edifício relevante (ex.: prefeitura).
+/// Workforce is a special resource used to construct buildings and recruit troops.
+/// The amount generated per turn will always be equal to the level of the relevant building.
 ///
-/// Ao contrário dos outros recursos, a força de trabalho jamais deve acumular para o próximo turno.
-/// Tudo o que não for usado deve ser descartado.
+/// Unlike other resources, the workforce should never accumulate for the next round.
+/// Anything that is not used should be discarded.
 #[derive(Clone, Copy, Debug, Deref, PartialEq, Eq, PartialOrd, Ord, Deserialize, Serialize)]
 pub struct Workforce(u32);
 

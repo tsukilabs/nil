@@ -7,14 +7,14 @@ use crate::infrastructure::storage::StorageId;
 use crate::player::PlayerId;
 use crate::script::ScriptId;
 use crate::village::Coord;
+use mlua::ExternalError as _;
 use serde::Serialize;
 use serde::ser::Serializer;
 use std::result::Result as StdResult;
-use strum::EnumIs;
 
 pub type Result<T, E = Error> = StdResult<T, E>;
 
-#[derive(Debug, EnumIs, thiserror::Error)]
+#[derive(Clone, Debug, thiserror::Error)]
 #[remain::sorted]
 pub enum Error {
   #[error("No stats found for building \"{0}\"")]
@@ -35,11 +35,17 @@ pub enum Error {
   #[error("Coord out of bounds: {0}")]
   CoordOutOfBounds(Coord),
 
+  #[error("Failed to execute script")]
+  FailedToExecuteScript(#[from] mlua::Error),
+
   #[error("Failed to load world")]
   FailedToLoadWorld,
 
   #[error("Failed to save world")]
   FailedToSaveWorld,
+
+  #[error("Not authorized to execute this action")]
+  Forbidden,
 
   #[error("Index out of bounds: {0}")]
   IndexOutOfBounds(usize),
@@ -96,6 +102,12 @@ impl Serialize for Error {
     S: Serializer,
   {
     serializer.serialize_str(self.to_string().as_str())
+  }
+}
+
+impl From<Error> for mlua::Error {
+  fn from(err: Error) -> Self {
+    err.into_lua_err()
   }
 }
 

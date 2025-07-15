@@ -3,26 +3,22 @@
 
 use crate::error::CoreResult;
 use crate::middleware::CurrentPlayer;
-use crate::res;
 use crate::response::from_core_err;
 use crate::state::App;
+use crate::{bail_not_owned_by, res};
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
 use nil_core::village::{Coord, Village};
 
 pub async fn get(
   State(app): State<App>,
-  Extension(current_player): Extension<CurrentPlayer>,
+  Extension(player): Extension<CurrentPlayer>,
   Json(coord): Json<Coord>,
 ) -> Response {
   let result: CoreResult<Village> = try {
     let world = app.world.read().await;
-    let village = world.village(coord)?;
-    if village.is_owned_by_player_and(|id| *current_player == *id) {
-      village.clone()
-    } else {
-      return res!(FORBIDDEN);
-    }
+    bail_not_owned_by!(world, &player.0, coord);
+    world.village(coord)?.clone()
   };
 
   result
@@ -32,17 +28,13 @@ pub async fn get(
 
 pub async fn rename(
   State(app): State<App>,
-  Extension(current_player): Extension<CurrentPlayer>,
+  Extension(player): Extension<CurrentPlayer>,
   Json((coord, name)): Json<(Coord, String)>,
 ) -> Response {
   let result: CoreResult<()> = try {
     let mut world = app.world.write().await;
-    let village = world.village(coord)?;
-    if village.is_owned_by_player_and(|id| *current_player == *id) {
-      world.rename_village(coord, &name)?;
-    } else {
-      return res!(FORBIDDEN);
-    }
+    bail_not_owned_by!(world, &player.0, coord);
+    world.rename_village(coord, &name)?;
   };
 
   result

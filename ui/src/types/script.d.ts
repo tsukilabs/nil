@@ -1,6 +1,8 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+type ScriptId = number;
+
 interface Script {
   readonly id: ScriptId;
   readonly owner: PlayerId;
@@ -8,4 +10,6 @@ interface Script {
   code: string;
 }
 
-type ScriptId = number;
+interface Stdio {
+  readonly stdout: readonly string[];
+}

@@ -5,7 +5,7 @@
 import { useI18n } from 'vue-i18n';
 import { Button } from '@tb-dev/vue-components';
 import type { MaybePromise } from '@tb-dev/utils';
-import { usePlayerTurn } from '@/composables/usePlayerTurn';
+import { usePlayerTurn } from '@/composables/player/usePlayerTurn';
 
 defineProps<{
   isHost: boolean;

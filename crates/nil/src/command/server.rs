@@ -23,7 +23,9 @@ pub async fn get_server_version(app: AppHandle) -> Result<String> {
 
 #[tauri::command]
 pub async fn is_server_ready(app: AppHandle) -> Result<bool> {
-  app.client(async |cl| cl.ready().await).await
+  app
+    .client(async |cl| cl.is_ready().await)
+    .await
 }
 
 #[tauri::command]

@@ -13,8 +13,8 @@ import { leaveGame, saveGame } from '@/core/game';
 import { defineGlobalCheats } from '@/lib/global';
 import Finder from '@/components/finder/Finder.vue';
 import { asyncRef, onCtrlKeyDown } from '@tb-dev/vue';
-import { usePlayerTurn } from '@/composables/usePlayerTurn';
 import { Loading, SidebarProvider } from '@tb-dev/vue-components';
+import { usePlayerTurn } from '@/composables/player/usePlayerTurn';
 
 const { round } = NIL.round.refs();
 
