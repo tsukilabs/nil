@@ -36,10 +36,17 @@ export async function createHighlighter() {
 }
 
 export async function createEditor(element: HTMLElement) {
+  if (!cache.highlighter) {
+    await createHighlighter();
+  }
+
   if (!cache.editor) {
-    const highlighter = await createHighlighter();
-    monaco.languages.register({ id: 'lua' });
-    shikiToMonaco(highlighter, monaco);
+    const languages = monaco.languages.getLanguages();
+    if (languages.every((it) => it.id !== 'lua')) {
+      monaco.languages.register({ id: 'lua' });
+    }
+
+    shikiToMonaco(cache.highlighter!, monaco);
 
     cache.editor = monaco.editor.create(element, {
       language: 'lua',
