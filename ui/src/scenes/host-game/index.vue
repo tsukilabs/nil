@@ -96,7 +96,13 @@ async function hostSaved() {
           </Label>
           <Label>
             <span>{{ t('world-size') }}</span>
-            <InputNumber v-model="world.size" :disabled="loading" :min="10" :max="200" :step="2" />
+            <InputNumber
+              v-model="world.size"
+              :disabled="loading"
+              :min="100"
+              :max="200"
+              :step="10"
+            />
           </Label>
           <Label>
             <span>{{ t('player-name') }}</span>

@@ -32,12 +32,20 @@ pub async fn execute_script(app: AppHandle, id: ScriptId) -> Result<Stdio> {
 }
 
 #[tauri::command]
-pub async fn export_script(dir: PathBuf, script: Script) -> Result<()> {
+pub async fn execute_script_chunk(app: AppHandle, chunk: String) -> Result<Stdio> {
+  app
+    .client(async |cl| cl.execute_script_chunk(&chunk).await)
+    .await?
+    .map_err(Into::into)
+}
+
+#[tauri::command]
+pub async fn export_script(dir: PathBuf, name: String, code: String) -> Result<()> {
   if dir.is_dir() {
-    let mut path = dir.join(&script.name);
+    let mut path = dir.join(&name);
     path.set_extension(EXTENSION);
 
-    let bytes = script.code.as_bytes();
+    let bytes = code.as_bytes();
     let file = File::create(&path).await?;
     let mut buffer = BufWriter::new(file);
     buffer.write_all(bytes).await?;

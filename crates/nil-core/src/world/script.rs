@@ -22,10 +22,10 @@ static LUA: LazyLock<Lua> = LazyLock::new(|| {
 impl World {
   pub fn execute_script(&mut self, id: ScriptId) -> Result<Stdio> {
     let script = self.scripting.get(id).cloned()?;
-    self.execute_chunk(script.owner, &script.code)
+    self.execute_script_chunk(script.owner, &script.code)
   }
 
-  fn execute_chunk(&mut self, player: PlayerId, chunk: &str) -> Result<Stdio> {
+  pub fn execute_script_chunk(&mut self, player: PlayerId, chunk: &str) -> Result<Stdio> {
     WorldUserData::new(self, player).execute(chunk)
   }
 }
@@ -66,7 +66,9 @@ impl<'a> WorldUserData<'a> {
       globals.set("print", print)?;
 
       LUA.set_globals(globals)?;
-      LUA.load(chunk).exec()
+      LUA.load(chunk).exec()?;
+
+      Ok(())
     });
 
     if let Err(err) = &result

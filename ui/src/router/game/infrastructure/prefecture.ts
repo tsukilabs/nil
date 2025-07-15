@@ -11,7 +11,7 @@ export const prefectureRoutes: RouteRecordRaw[] = [
   },
   {
     component: () => import('@/scenes/game/infrastructure/prefecture/management/index.vue'),
-    path: 'management',
+    path: 'village-management',
     name: 'village-management' satisfies PrefectureScene,
   },
 ];

@@ -18,6 +18,8 @@ pub enum Error {
 
   #[error(transparent)]
   Core(#[from] CoreError),
+  #[error(transparent)]
+  Unknown(#[from] anyhow::Error),
 }
 
 impl Serialize for Error {

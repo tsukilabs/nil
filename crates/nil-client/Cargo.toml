@@ -15,12 +15,15 @@ workspace = true
 
 [dependencies]
 anyhow.workspace = true
+bon.workspace = true
 bytes.workspace = true
 futures.workspace = true
 http.workspace = true
 local-ip-address.workspace = true
+markdown.workspace = true
 nil-core.workspace = true
 reqwest.workspace = true
+semver.workspace = true
 serde.workspace = true
 thiserror.workspace = true
 tokio.workspace = true

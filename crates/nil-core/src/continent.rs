@@ -25,14 +25,13 @@ pub struct Continent {
 }
 
 impl Continent {
-  pub const MIN_SIZE: NonZeroU8 = NonZeroU8::new(10).unwrap();
+  pub const MIN_SIZE: NonZeroU8 = NonZeroU8::new(100).unwrap();
   pub const MAX_SIZE: NonZeroU8 = NonZeroU8::new(200).unwrap();
-  pub const DEFAULT_SIZE: NonZeroU8 = NonZeroU8::new(100).unwrap();
 
   pub(crate) fn new(size: u8) -> Self {
     let size = size
       .clamp(Self::MIN_SIZE.get(), Self::MAX_SIZE.get())
-      .next_multiple_of(2);
+      .next_multiple_of(10);
 
     let capacity = usize::from(size).pow(2);
     let mut fields = Vec::with_capacity(capacity);
@@ -214,6 +213,6 @@ impl Continent {
 
 impl Default for Continent {
   fn default() -> Self {
-    Self::new(Self::DEFAULT_SIZE.get())
+    Self::new(Self::MIN_SIZE.get())
   }
 }

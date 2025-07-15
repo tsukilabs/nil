@@ -51,6 +51,18 @@ pub async fn execute(
     .unwrap_or_else(from_core_err)
 }
 
+pub async fn execute_chunk(
+  State(app): State<App>,
+  Extension(player): Extension<CurrentPlayer>,
+  Json(chunk): Json<String>,
+) -> Response {
+  app
+    .world_mut(|world| world.execute_script_chunk(player.0, &chunk))
+    .map_ok(|stdio| res!(OK, Json(stdio)))
+    .unwrap_or_else(from_core_err)
+    .await
+}
+
 pub async fn get(
   State(app): State<App>,
   Extension(player): Extension<CurrentPlayer>,

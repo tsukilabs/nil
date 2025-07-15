@@ -3,9 +3,9 @@
 
 <script setup lang="ts">
 import type { Option } from '@tb-dev/utils';
-import { useElementBounding } from '@vueuse/core';
-import { type CodeEditor, createEditor } from '@/lib/editor';
+import { until, useElementBounding } from '@vueuse/core';
 import { onMounted, onUnmounted, useTemplateRef, watch } from 'vue';
+import { type CodeEditor, createEditor, disposeEditor } from '@/lib/editor';
 
 const editor = defineModel<Option<CodeEditor>>({ required: true });
 
@@ -23,16 +23,19 @@ watch([width, height], ([x, y]) => {
 });
 
 onMounted(async () => {
+  await until(container).toBeTruthy();
   editor.value ??= await createEditor(container.value!);
   requestAnimationFrame(() => setLayout());
 });
 
 onUnmounted(() => {
-  editor.value?.dispose();
+  disposeEditor();
   editor.value = null;
 });
 
-function setLayout(x = width.value, y = height.value) {
+function setLayout(x?: number, y?: number) {
+  x ??= width.value;
+  y ??= height.value;
   editor.value?.layout({ width: x - 20, height: y - 20 });
 }
 </script>

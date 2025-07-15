@@ -9,7 +9,7 @@ import { type MaybePromise, toPixel } from '@tb-dev/utils';
 import { Button, ScrollArea } from '@tb-dev/vue-components';
 
 defineProps<{
-  scripts: Script[];
+  scripts: readonly Script[];
   loading: boolean;
   onCreate: () => MaybePromise<void>;
   onScriptClick: (script: Script) => MaybePromise<void>;

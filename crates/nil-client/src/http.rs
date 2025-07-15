@@ -10,15 +10,21 @@ use reqwest::{Client as HttpClient, Response};
 use serde::Serialize;
 use serde::de::DeserializeOwned;
 use std::net::SocketAddrV4;
+use std::sync::LazyLock;
 use tokio::time::Duration;
-
-#[cfg(debug_assertions)]
-use tracing::error;
 
 pub const USER_AGENT: &str = concat!("nil/", env!("CARGO_PKG_VERSION"));
 
+static HTTP: LazyLock<HttpClient> = LazyLock::new(|| {
+  HttpClient::builder()
+    .use_rustls_tls()
+    .user_agent(USER_AGENT)
+    .timeout(Duration::from_secs(10))
+    .build()
+    .expect("Failed to create HTTP client")
+});
+
 pub struct Http {
-  http: HttpClient,
   server: SocketAddrV4,
   authorization: HeaderValue,
 }
@@ -29,61 +35,23 @@ impl Http {
       return Err(Error::InvalidPlayerId(player.clone()));
     };
 
-    let http = HttpClient::builder()
-      .use_rustls_tls()
-      .user_agent(USER_AGENT)
-      .timeout(Duration::from_secs(10))
-      .build()?;
-
-    Ok(Self { http, server, authorization })
-  }
-
-  async fn request(&self, method: Method, route: &str) -> Result<Response> {
-    let response = self
-      .http
-      .request(method, url(self.server, route))
-      .header(AUTHORIZATION, &self.authorization)
-      .send()
-      .await?;
-
-    if response.status().is_success() {
-      Ok(response)
-    } else {
-      let text = response.text().await?;
-      Err(Error::RequestFailed(text))
-    }
-  }
-
-  async fn request_with_body<T>(&self, method: Method, route: &str, body: T) -> Result<Response>
-  where
-    T: Serialize,
-  {
-    let response = self
-      .http
-      .request(method, url(self.server, route))
-      .header(AUTHORIZATION, &self.authorization)
-      .json(&body)
-      .send()
-      .await?;
-
-    if response.status().is_success() {
-      Ok(response)
-    } else {
-      let text = response.text().await?;
-      Err(Error::RequestFailed(text))
-    }
+    Ok(Self { server, authorization })
   }
 
   pub(crate) async fn get(&self, route: &str) -> Result<()> {
-    self
-      .request(Method::GET, route)
+    let url = url(self.server, route);
+    request(Method::GET, &url)
+      .authorization(&self.authorization)
+      .call()
       .await
       .map(drop)
   }
 
   pub(crate) async fn get_text(&self, route: &str) -> Result<String> {
-    self
-      .request(Method::GET, route)
+    let url = url(self.server, route);
+    request(Method::GET, &url)
+      .authorization(&self.authorization)
+      .call()
       .await?
       .text()
       .await
@@ -94,15 +62,19 @@ impl Http {
   where
     R: DeserializeOwned,
   {
-    self
-      .request(Method::GET, route)
+    let url = url(self.server, route);
+    request(Method::GET, &url)
+      .authorization(&self.authorization)
+      .call()
       .and_then(async |res| json::<R>(res).await)
       .await
   }
 
   pub(crate) async fn post(&self, route: &str, body: impl Serialize) -> Result<()> {
-    self
-      .request_with_body(Method::POST, route, body)
+    let url = url(self.server, route);
+    request_with_body(Method::POST, &url, body)
+      .authorization(&self.authorization)
+      .call()
       .await
       .map(drop)
   }
@@ -111,20 +83,62 @@ impl Http {
   where
     R: DeserializeOwned,
   {
-    self
-      .request_with_body(Method::POST, route, body)
+    let url = url(self.server, route);
+    request_with_body(Method::POST, &url, body)
+      .authorization(&self.authorization)
+      .call()
       .and_then(async |res| json::<R>(res).await)
       .await
   }
 }
 
-fn url(server: SocketAddrV4, route: &str) -> String {
-  let ip = server.ip();
-  let port = server.port();
-  format!("http://{ip}:{port}/{route}")
+#[bon::builder]
+pub(crate) async fn request(
+  #[builder(start_fn)] method: Method,
+  #[builder(start_fn)] url: &str,
+  authorization: Option<&HeaderValue>,
+) -> Result<Response> {
+  let mut request = HTTP.request(method, url);
+  if let Some(authorization) = authorization {
+    request = request.header(AUTHORIZATION, authorization)
+  }
+
+  let response = request.send().await?;
+
+  if response.status().is_success() {
+    Ok(response)
+  } else {
+    let text = response.text().await?;
+    Err(Error::RequestFailed(text))
+  }
 }
 
-async fn json<R>(response: Response) -> Result<R>
+#[bon::builder]
+pub(crate) async fn request_with_body<T>(
+  #[builder(start_fn)] method: Method,
+  #[builder(start_fn)] url: &str,
+  #[builder(start_fn)] body: T,
+  authorization: Option<&HeaderValue>,
+) -> Result<Response>
+where
+  T: Serialize,
+{
+  let mut request = HTTP.request(method, url);
+  if let Some(authorization) = authorization {
+    request = request.header(AUTHORIZATION, authorization)
+  }
+
+  let response = request.json(&body).send().await?;
+
+  if response.status().is_success() {
+    Ok(response)
+  } else {
+    let text = response.text().await?;
+    Err(Error::RequestFailed(text))
+  }
+}
+
+pub(crate) async fn json<R>(response: Response) -> Result<R>
 where
   R: DeserializeOwned,
 {
@@ -132,9 +146,15 @@ where
     Ok(value) => Ok(value),
     Err(err) => {
       #[cfg(debug_assertions)]
-      error!(message = %err, error = ?err);
+      tracing::error!(message = %err, error = ?err);
 
       Err(Error::Reqwest(err))
     }
   }
+}
+
+fn url(server: SocketAddrV4, route: &str) -> String {
+  let ip = server.ip();
+  let port = server.port();
+  format!("http://{ip}:{port}/{route}")
 }

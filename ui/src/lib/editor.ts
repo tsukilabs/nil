@@ -1,11 +1,12 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { Option } from '@tb-dev/utils';
 import * as monaco from 'monaco-editor-core';
 import { shikiToMonaco } from '@shikijs/monaco';
-import { createHighlighterCore } from 'shiki/core';
 import { createOnigurumaEngine } from 'shiki/engine/oniguruma';
 import type { editor as MonacoEditor } from 'monaco-editor-core';
+import { createHighlighterCore, type HighlighterCore } from 'shiki/core';
 import EditorWorker from 'monaco-editor-core/esm/vs/editor/editor.worker?worker';
 
 export type CodeEditor = MonacoEditor.IStandaloneCodeEditor;
@@ -14,25 +15,54 @@ export type CodeEditor = MonacoEditor.IStandaloneCodeEditor;
   getWorker: () => new EditorWorker(),
 };
 
-let ready = false;
+interface Cache {
+  editor: Option<CodeEditor>;
+  highlighter: Option<HighlighterCore>;
+}
+
+const cache: Cache = {
+  editor: null,
+  highlighter: null,
+};
+
+export async function createHighlighter() {
+  cache.highlighter ??= await createHighlighterCore({
+    engine: createOnigurumaEngine(import('shiki/wasm')),
+    langs: [import('shiki/langs/lua.mjs')],
+    themes: [import('shiki/themes/vesper.mjs')],
+  });
+
+  return cache.highlighter;
+}
 
 export async function createEditor(element: HTMLElement) {
-  if (!ready) {
-    const highlighter = await createHighlighterCore({
-      engine: createOnigurumaEngine(import('shiki/wasm')),
-      langs: [import('shiki/langs/lua.mjs')],
-      themes: [import('shiki/themes/vesper.mjs')],
-    });
-
+  if (!cache.editor) {
+    const highlighter = await createHighlighter();
     monaco.languages.register({ id: 'lua' });
     shikiToMonaco(highlighter, monaco);
-    ready ||= true;
+
+    cache.editor = monaco.editor.create(element, {
+      language: 'lua',
+      theme: 'vesper',
+      value: '',
+      minimap: { enabled: false },
+    });
   }
 
-  return monaco.editor.create(element, {
-    language: 'lua',
-    theme: 'vesper',
-    value: '',
-    minimap: { enabled: false },
-  });
+  return cache.editor;
+}
+
+export function dispose() {
+  disposeEditor();
+  disposeHighlighter();
+}
+
+export function disposeEditor() {
+  cache.editor?.dispose();
+  cache.editor = null;
+}
+
+export function disposeHighlighter() {
+  cache.highlighter?.dispose();
+  cache.highlighter = null;
 }

@@ -11,12 +11,20 @@ export function addScripts(scripts: Script[]) {
   return invoke<readonly ScriptId[]>('add_scripts', { scripts });
 }
 
-export function executeScript(id: ScriptId) {
-  return invoke<Stdio>('execute_script', { id });
+export async function executeScript(id: ScriptId) {
+  const stdio = await invoke<Stdio>('execute_script', { id });
+  if (__DEBUG_ASSERTIONS__) console.log(stdio.stdout.join('\n'));
+  return stdio;
 }
 
-export function exportScript(dir: string, script: Script) {
-  return invoke<null>('export_script', { dir, script });
+export async function executeScriptChunk(chunk: string) {
+  const stdio = await invoke<Stdio>('execute_script_chunk', { chunk });
+  if (__DEBUG_ASSERTIONS__) console.log(stdio.stdout.join('\n'));
+  return stdio;
+}
+
+export function exportScript(dir: string, name: string, code: string) {
+  return invoke<null>('export_script', { dir, name, code });
 }
 
 export function getScript(id: ScriptId) {

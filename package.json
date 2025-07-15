@@ -20,7 +20,7 @@
   "devDependencies": {
     "@tailwindcss/vite": "^4.1.11",
     "@tb-dev/eslint-config": "^8.0.0",
-    "@types/node": "^24.0.13",
+    "@types/node": "^24.0.14",
     "@vitejs/plugin-vue": "^6.0.0",
     "eslint": "^9.31.0",
     "prettier": "^3.6.2",

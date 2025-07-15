@@ -27,6 +27,14 @@ impl Client {
       .await
   }
 
+  /// POST `/script/chunk`
+  pub async fn execute_script_chunk(&self, chunk: &str) -> Result<Stdio> {
+    self
+      .http
+      .post_json("script/chunk", chunk)
+      .await
+  }
+
   /// POST `/script/execute`
   pub async fn execute_script(&self, id: ScriptId) -> Result<Stdio> {
     self

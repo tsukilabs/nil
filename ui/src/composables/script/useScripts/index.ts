@@ -27,11 +27,7 @@ export function useScripts(editor: Ref<Option<CodeEditor>>) {
       try {
         await saveScript();
         loading.value = true;
-        const stdio = await commands.executeScript(current.value.id);
-
-        if (__DEBUG_ASSERTIONS__) {
-          console.log(stdio.stdout.join('\n'));
-        }
+        await commands.executeScript(current.value.id);
       } catch (err) {
         handleError(err);
       } finally {
@@ -149,7 +145,7 @@ export function useScripts(editor: Ref<Option<CodeEditor>>) {
         });
 
         if (dir) {
-          await commands.exportScript(dir, script);
+          await commands.exportScript(dir, script.name, script.code);
         }
       } catch (err) {
         handleError(err);
@@ -182,11 +178,11 @@ export function useScripts(editor: Ref<Option<CodeEditor>>) {
   };
 }
 
-function createEmptyScript(owner: PlayerId) {
+export function createEmptyScript(owner: PlayerId) {
   return {
     id: 0,
     name: 'Script',
-    code: '',
+    code: '\n\n',
     owner,
   };
 }
