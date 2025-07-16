@@ -11,9 +11,9 @@ import { UseOnline } from '@vueuse/components';
 import RegistryEntry from './RegistryEntry.vue';
 import { createHighlighter } from '@/lib/editor';
 import { useNsr } from '@/composables/script/useNsr';
-import { Card, Separator } from '@tb-dev/vue-components';
 import enUS from '@/locale/en-US/scenes/game/script/nsr.json';
 import ptBR from '@/locale/pt-BR/scenes/game/script/nsr.json';
+import { Card, CardContent, Separator } from '@tb-dev/vue-components';
 
 const { t } = useI18n({
   messages: {
@@ -48,36 +48,38 @@ onBeforeMount(loadRegistry);
 
 <template>
   <div class="game-layout">
-    <Card class="size-full p-0" content-class="relative size-full overflow-hidden rounded-xl">
-      <UseOnline #default="{ isOnline }: { isOnline: boolean }">
-        <div v-if="isOnline" class="flex size-full items-center justify-between">
-          <Sidebar :registry @entry-click="setCurrent" />
+    <Card class="size-full p-0">
+      <CardContent class="relative size-full overflow-hidden rounded-xl p-0">
+        <UseOnline #default="{ isOnline }: { isOnline: boolean }">
+          <div v-if="isOnline" class="flex size-full items-center justify-between">
+            <Sidebar :registry @entry-click="setCurrent" />
 
-          <Separator orientation="vertical" />
+            <Separator orientation="vertical" />
 
-          <div class="flex size-full flex-col pl-4">
-            <Action
-              :current
-              :contents
-              :loading
-              class="py-4 pr-4"
-              @execute="execute"
-              @save="save"
-              @dowload="download"
-              @reload="reload"
-            />
+            <div class="flex size-full flex-col pl-4">
+              <Action
+                :current
+                :contents
+                :loading
+                class="py-4 pr-4"
+                @execute="execute"
+                @save="save"
+                @dowload="download"
+                @reload="reload"
+              />
 
-            <RegistryEntry v-if="highlighter" :contents :highlighter />
+              <RegistryEntry v-if="highlighter" :contents :highlighter />
+            </div>
           </div>
-        </div>
 
-        <div v-else class="absolute inset-0 flex flex-col items-center justify-center gap-2">
-          <div class="text-4xl">{{ t('offline') }}</div>
-          <div class="text-muted-foreground text-xl">
-            {{ t('need-connection') }}
+          <div v-else class="absolute inset-0 flex flex-col items-center justify-center gap-2">
+            <div class="text-4xl">{{ t('offline') }}</div>
+            <div class="text-muted-foreground text-xl">
+              {{ t('need-connection') }}
+            </div>
           </div>
-        </div>
-      </UseOnline>
+        </UseOnline>
+      </CardContent>
     </Card>
   </div>
 </template>

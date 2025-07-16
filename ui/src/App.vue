@@ -3,20 +3,26 @@
 
 <script setup lang="ts">
 import { onMounted } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { storeToRefs } from 'pinia';
 import { throttle } from 'es-toolkit';
+import type { Locale } from '@/locale';
 import { showWindow } from '@/commands';
 import { onKeyDown } from '@tb-dev/vue';
 import { handleError } from '@/lib/error';
-import { useColorMode } from '@vueuse/core';
+import { setTheme } from '@/lib/settings';
+import { watchImmediate } from '@vueuse/core';
 import { Sonner } from '@tb-dev/vue-components';
 import { defineGlobalCommands } from '@/lib/global';
+import { useSettingsStore } from '@/stores/settings';
 
-useColorMode({
-  storageKey: 'nil:color-mode',
-  initialValue: 'dark',
-  writeDefaults: true,
-  onError: handleError,
-});
+const i18n = useI18n();
+
+const settings = useSettingsStore();
+const { locale, theme } = storeToRefs(settings);
+
+watchImmediate(locale, setLocale);
+watchImmediate(theme, setTheme);
 
 onKeyDown('F5', throttle(NIL.update, 1000));
 
@@ -28,6 +34,10 @@ onMounted(async () => {
     handleError(err);
   }
 });
+
+function setLocale(value: Locale) {
+  i18n.locale.value = value;
+}
 </script>
 
 <template>

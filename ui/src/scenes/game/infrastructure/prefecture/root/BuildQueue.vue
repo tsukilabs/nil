@@ -9,7 +9,16 @@ import { ChevronDownIcon, ChevronUpIcon } from 'lucide-vue-next';
 import type { PrefectureImpl } from '@/core/model/building/prefecture';
 import enUS from '@/locale/en-US/scenes/game/infrastructure/prefecture.json';
 import ptBR from '@/locale/pt-BR/scenes/game/infrastructure/prefecture.json';
-import { Button, cn, Table, TableCell, TableHead, TableRow } from '@tb-dev/vue-components';
+import {
+  Button,
+  cn,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@tb-dev/vue-components';
 
 const props = defineProps<{
   prefecture: PrefectureImpl;
@@ -33,8 +42,8 @@ const tableClass = computed(() => {
 
 <template>
   <Table :class="cn(tableClass, 'xl:table xl:w-2/5 xl:max-w-[500px] xl:min-w-[250px]')">
-    <template #header>
-      <TableRow class="bg-background hover:bg-background">
+    <TableHeader>
+      <TableRow class="bg-card">
         <TableHead>
           <span>{{ t('order') }}</span>
         </TableHead>
@@ -45,41 +54,42 @@ const tableClass = computed(() => {
           <span></span>
         </TableHead>
       </TableRow>
-    </template>
+    </TableHeader>
 
-    <template v-for="order of prefecture.buildQueue" :key="order.id">
-      <TableRow v-if="order.status.kind === 'pending'">
-        <TableCell>
-          <div class="flex items-center justify-start gap-2">
-            <ChevronUpIcon
-              v-if="order.kind === 'construction'"
-              color="#00bd7e"
-              stroke-width="2px"
-              class="size-5"
-            />
-            <ChevronDownIcon
-              v-else-if="order.kind === 'demolition'"
-              color="#e61001"
-              stroke-width="2px"
-              class="size-5"
-            />
-
-            <span>{{ `${t(order.building)} (${t('level-x', [order.level])})` }}</span>
-          </div>
-        </TableCell>
-        <TableCell>
-          <div class="flex items-center justify-start">
-            <Workforce :amount="order.status.workforce" />
-          </div>
-        </TableCell>
-        <TableCell>
-          <div v-if="order.id === last?.id" class="flex items-center justify-center">
-            <Button variant="destructive" size="sm" :disabled="loading" @click="onCancel">
-              <span>{{ t('cancel') }}</span>
-            </Button>
-          </div>
-        </TableCell>
-      </TableRow>
-    </template>
+    <TableBody>
+      <template v-for="order of prefecture.buildQueue" :key="order.id">
+        <TableRow v-if="order.status.kind === 'pending'">
+          <TableCell>
+            <div class="flex items-center justify-start gap-2">
+              <ChevronUpIcon
+                v-if="order.kind === 'construction'"
+                color="#00bd7e"
+                stroke-width="2px"
+                class="size-5"
+              />
+              <ChevronDownIcon
+                v-else-if="order.kind === 'demolition'"
+                color="#e61001"
+                stroke-width="2px"
+                class="size-5"
+              />
+              <span>{{ `${t(order.building)} (${t('level-x', [order.level])})` }}</span>
+            </div>
+          </TableCell>
+          <TableCell>
+            <div class="flex items-center justify-start">
+              <Workforce :amount="order.status.workforce" />
+            </div>
+          </TableCell>
+          <TableCell>
+            <div v-if="order.id === last?.id" class="flex items-center justify-center">
+              <Button variant="destructive" size="sm" :disabled="loading" @click="onCancel">
+                <span>{{ t('cancel') }}</span>
+              </Button>
+            </div>
+          </TableCell>
+        </TableRow>
+      </template>
+    </TableBody>
   </Table>
 </template>

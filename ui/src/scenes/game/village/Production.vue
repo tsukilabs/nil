@@ -3,7 +3,16 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import { Card, Table, TableCell, TableLink, TableRow } from '@tb-dev/vue-components';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  Table,
+  TableBody,
+  TableCell,
+  TableRow,
+} from '@tb-dev/vue-components';
 
 const { t } = useI18n();
 
@@ -11,31 +20,53 @@ const { production } = NIL.village.refs();
 </script>
 
 <template>
-  <Card content-class="px-2">
-    <template #title>
-      <span>{{ t('production') }}</span>
-    </template>
+  <Card>
+    <CardHeader>
+      <CardTitle>
+        <span>{{ t('production') }}</span>
+      </CardTitle>
+    </CardHeader>
 
-    <Table>
-      <TableRow v-if="production?.wood">
-        <TableLink to="sawmill">{{ t('wood') }}</TableLink>
-        <TableCell>{{ t('x-per-turn', [production.wood]) }}</TableCell>
-      </TableRow>
+    <CardContent class="px-2 py-0">
+      <Table>
+        <TableBody>
+          <TableRow v-if="production?.wood">
+            <TableCell>
+              <RouterLink :to="{ name: 'sawmill' satisfies InfrastructureScene }">
+                {{ t('wood') }}
+              </RouterLink>
+            </TableCell>
+            <TableCell>{{ t('x-per-turn', [production.wood]) }}</TableCell>
+          </TableRow>
 
-      <TableRow v-if="production?.stone">
-        <TableLink to="quarry">{{ t('stone') }}</TableLink>
-        <TableCell>{{ t('x-per-turn', [production.stone]) }}</TableCell>
-      </TableRow>
+          <TableRow v-if="production?.stone">
+            <TableCell>
+              <RouterLink :to="{ name: 'quarry' satisfies InfrastructureScene }">
+                {{ t('stone') }}
+              </RouterLink>
+            </TableCell>
+            <TableCell>{{ t('x-per-turn', [production.stone]) }}</TableCell>
+          </TableRow>
 
-      <TableRow v-if="production?.iron">
-        <TableLink to="iron-mine">{{ t('iron') }}</TableLink>
-        <TableCell>{{ t('x-per-turn', [production.iron]) }}</TableCell>
-      </TableRow>
+          <TableRow v-if="production?.iron">
+            <TableCell>
+              <RouterLink :to="{ name: 'iron-mine' satisfies InfrastructureScene }">
+                {{ t('iron') }}
+              </RouterLink>
+            </TableCell>
+            <TableCell>{{ t('x-per-turn', [production.iron]) }}</TableCell>
+          </TableRow>
 
-      <TableRow v-if="production?.food">
-        <TableLink to="farm">{{ t('food') }}</TableLink>
-        <TableCell>{{ t('x-per-turn', [production.food]) }}</TableCell>
-      </TableRow>
-    </Table>
+          <TableRow v-if="production?.food">
+            <TableCell>
+              <RouterLink :to="{ name: 'farm' satisfies InfrastructureScene }">
+                {{ t('food') }}
+              </RouterLink>
+            </TableCell>
+            <TableCell>{{ t('x-per-turn', [production.food]) }}</TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+    </CardContent>
   </Card>
 </template>

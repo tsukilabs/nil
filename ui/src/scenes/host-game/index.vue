@@ -4,7 +4,6 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import { computed, ref } from 'vue';
-import { until } from '@vueuse/core';
 import { localRef } from '@tb-dev/vue';
 import type { WritablePartial } from '@tb-dev/utils';
 import { hostGame, hostSavedGame } from '@/core/game';
@@ -14,12 +13,19 @@ import { open as pickFile } from '@tauri-apps/plugin-dialog';
 import { isPlayerOptions, isWorldOptions } from '@/lib/schema';
 import {
   Button,
-  ButtonLink,
   Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
   Checkbox,
-  InputNumber,
-  InputText,
+  Input,
   Label,
+  NumberField,
+  NumberFieldContent,
+  NumberFieldDecrement,
+  NumberFieldIncrement,
+  NumberFieldInput,
 } from '@tb-dev/vue-components';
 
 const { t } = useI18n({
@@ -45,8 +51,7 @@ const isValidWorld = computed(() => isWorldOptions(world.value));
 const canHost = computed(() => isValidPlayer.value && isValidWorld.value);
 
 async function host() {
-  if (isValidPlayer.value && isValidWorld.value) {
-    await until(loading).not.toBeTruthy();
+  if (isValidPlayer.value && isValidWorld.value && !loading.value) {
     try {
       loading.value = true;
       await hostGame({
@@ -60,20 +65,21 @@ async function host() {
 }
 
 async function hostSaved() {
-  const path = await pickFile({
-    directory: false,
-    filters: [{ extensions: ['nil'], name: 'NIL' }],
-    multiple: false,
-  });
-
-  if (path && isValidPlayer.value) {
-    await until(loading).not.toBeTruthy();
+  if (isValidPlayer.value && !loading.value) {
     try {
       loading.value = true;
-      await hostSavedGame({
-        path,
-        player: player.value as PlayerOptions,
+      const path = await pickFile({
+        directory: false,
+        filters: [{ extensions: ['nil'], name: 'NIL' }],
+        multiple: false,
       });
+
+      if (path) {
+        await hostSavedGame({
+          path,
+          player: player.value as PlayerOptions,
+        });
+      }
     } finally {
       loading.value = false;
     }
@@ -82,53 +88,76 @@ async function hostSaved() {
 </script>
 
 <template>
-  <div class="bg-muted/40 flex size-full flex-col items-center justify-center gap-2">
-    <Card class="p-2 sm:min-w-72">
-      <template #title>
-        <span class="text-xl">{{ t('host-game') }}</span>
-      </template>
+  <div class="flex size-full flex-col items-center justify-center gap-2">
+    <Card class="p-2 sm:min-w-80">
+      <CardHeader class="pt-4">
+        <CardTitle>
+          <span class="text-xl">{{ t('host-game') }}</span>
+        </CardTitle>
+      </CardHeader>
 
-      <div class="flex flex-col gap-6 px-4 pb-4">
-        <div class="flex flex-col gap-4">
-          <Label>
-            <span>{{ t('world-name') }}</span>
-            <InputText v-model="world.name" :disabled="loading" :min="1" :max="30" />
-          </Label>
-          <Label>
-            <span>{{ t('world-size') }}</span>
-            <InputNumber
-              v-model="world.size"
-              :disabled="loading"
-              :min="100"
-              :max="200"
-              :step="10"
-            />
-          </Label>
-          <Label>
-            <span>{{ t('player-name') }}</span>
-            <InputText v-model="player.id" :disabled="loading" :min="1" :max="20" />
-          </Label>
+      <CardContent class="flex flex-col gap-4 px-4">
+        <Label>
+          <span>{{ t('world-name') }}</span>
+          <Input
+            v-model="world.name"
+            type="text"
+            :disabled="loading"
+            :minlength="1"
+            :maxlength="30"
+          />
+        </Label>
 
-          <div class="flex items-center justify-center py-1">
-            <Label>
-              <Checkbox v-model="world.allowCheats" />
-              <span>{{ t('allow-cheats') }}</span>
-            </Label>
-          </div>
+        <Label>
+          <span>{{ t('world-size') }}</span>
+          <NumberField
+            v-model="world.size"
+            :disabled="loading"
+            :min="100"
+            :max="200"
+            :step="10"
+            class="w-full"
+          >
+            <NumberFieldContent>
+              <NumberFieldDecrement />
+              <NumberFieldInput />
+              <NumberFieldIncrement />
+            </NumberFieldContent>
+          </NumberField>
+        </Label>
+
+        <Label>
+          <span>{{ t('player-name') }}</span>
+          <Input
+            v-model="player.id"
+            type="text"
+            :disabled="loading"
+            :minlength="1"
+            :maxlength="20"
+          />
+        </Label>
+
+        <div class="flex items-center justify-center py-1">
+          <Label>
+            <Checkbox v-model="world.allowCheats" :disabled="loading" />
+            <span>{{ t('allow-cheats') }}</span>
+          </Label>
         </div>
+      </CardContent>
 
-        <div class="grid grid-cols-3 items-center justify-center gap-2 px-4">
-          <Button :disabled="loading || !canHost" @click="host">
-            <span>{{ t('host') }}</span>
-          </Button>
-          <Button variant="secondary" :disabled="loading || !isValidPlayer" @click="hostSaved">
-            <span>{{ t('load') }}</span>
-          </Button>
-          <ButtonLink to="home" variant="secondary">
-            <span>{{ t('cancel') }}</span>
-          </ButtonLink>
-        </div>
-      </div>
+      <CardFooter class="grid grid-cols-3 items-center justify-center gap-2 px-6 pb-6">
+        <Button :disabled="loading || !canHost" @click="host">
+          <span>{{ t('host') }}</span>
+        </Button>
+        <Button variant="secondary" :disabled="loading || !isValidPlayer" @click="hostSaved">
+          <span>{{ t('load') }}</span>
+        </Button>
+        <Button to="home" variant="secondary">
+          <RouterLink :to="{ name: 'home' as Scene }">
+            {{ t('cancel') }}
+          </RouterLink>
+        </Button>
+      </CardFooter>
     </Card>
   </div>
 </template>

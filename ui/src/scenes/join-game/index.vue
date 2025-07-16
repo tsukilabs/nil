@@ -4,7 +4,6 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import { computed, ref } from 'vue';
-import { until } from '@vueuse/core';
 import { joinGame } from '@/core/game';
 import { localRef } from '@tb-dev/vue';
 import { isPlayerOptions } from '@/lib/schema';
@@ -12,7 +11,16 @@ import { SocketAddrV4 } from '@/lib/net/addr-v4';
 import enUS from '@/locale/en-US/scenes/join-game.json';
 import ptBR from '@/locale/pt-BR/scenes/join-game.json';
 import type { Option, WritablePartial } from '@tb-dev/utils';
-import { Button, ButtonLink, Card, InputText, Label } from '@tb-dev/vue-components';
+import {
+  Button,
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+  Input,
+  Label,
+} from '@tb-dev/vue-components';
 
 const { t } = useI18n({
   messages: {
@@ -34,8 +42,7 @@ const canJoin = computed(() => {
 });
 
 async function join() {
-  if (canJoin.value) {
-    await until(loading).not.toBeTruthy();
+  if (canJoin.value && !loading.value) {
     try {
       loading.value = true;
       await joinGame({
@@ -50,29 +57,41 @@ async function join() {
 </script>
 
 <template>
-  <div class="bg-muted/40 flex size-full flex-col items-center justify-center gap-2">
-    <Card class="p-2 sm:min-w-72">
-      <template #title>
-        <span class="text-xl">{{ t('join-game') }}</span>
-      </template>
+  <div class="flex size-full flex-col items-center justify-center gap-2">
+    <Card class="p-2 sm:min-w-80">
+      <CardHeader class="pt-4">
+        <CardTitle>
+          <span class="text-xl">{{ t('join-game') }}</span>
+        </CardTitle>
+      </CardHeader>
 
-      <div class="flex flex-col gap-6 px-4 pb-4">
-        <div class="flex flex-col gap-4">
-          <Label>
-            <span>{{ t('player-name') }}</span>
-            <InputText v-model="player.id" :disabled="loading" :min="1" :max="20" />
-          </Label>
-          <Label>
-            <span>{{ t('server') }}</span>
-            <InputText v-model="server" :disabled="loading" :min="1" :max="50" />
-          </Label>
-        </div>
+      <CardContent class="flex flex-col gap-4 px-4">
+        <Label>
+          <span>{{ t('player-name') }}</span>
+          <Input
+            v-model="player.id"
+            type="text"
+            :disabled="loading"
+            :minlength="1"
+            :maxlength="20"
+          />
+        </Label>
+        <Label>
+          <span>{{ t('server') }}</span>
+          <Input v-model="server" type="text" :disabled="loading" :minlength="1" :maxlength="50" />
+        </Label>
+      </CardContent>
 
-        <div class="grid grid-cols-2 items-center justify-center gap-2 px-4">
-          <Button :disabled="!canJoin || loading" @click="join">{{ t('join') }}</Button>
-          <ButtonLink to="home" variant="secondary">{{ t('cancel') }}</ButtonLink>
-        </div>
-      </div>
+      <CardFooter class="grid grid-cols-2 items-center justify-center gap-2 px-6 pb-6">
+        <Button :disabled="!canJoin || loading" @click="join">
+          {{ t('join') }}
+        </Button>
+        <Button variant="secondary">
+          <RouterLink :to="{ name: 'home' satisfies Scene }">
+            {{ t('cancel') }}
+          </RouterLink>
+        </Button>
+      </CardFooter>
     </Card>
   </div>
 </template>

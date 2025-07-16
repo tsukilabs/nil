@@ -8,6 +8,9 @@ import enUS from '@/locale/en-US/scenes/game/infrastructure/prefecture.json';
 import ptBR from '@/locale/pt-BR/scenes/game/infrastructure/prefecture.json';
 import {
   Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
   Loading,
   NavigationMenu,
   NavigationMenuItem,
@@ -27,49 +30,49 @@ const prefecture = usePrefecture();
 
 <template>
   <div class="game-layout">
-    <Card
-      v-if="prefecture"
-      class="size-full"
-      content-class="overflow-x-hidden overflow-y-auto px-2"
-    >
-      <template #title>
-        <div class="flex items-center justify-between">
-          <span>{{ `${t('prefecture')} (${t('level-x', [prefecture.level])})` }}</span>
-          <div>
-            <NavigationMenu>
-              <NavigationMenuList>
-                <NavigationMenuItem>
-                  <NavigationMenuLink as-child>
-                    <RouterLink :to="{ name: 'prefecture' satisfies PrefectureScene }">
-                      {{ t('building', 2) }}
-                    </RouterLink>
-                  </NavigationMenuLink>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                  <NavigationMenuLink as-child>
-                    <RouterLink :to="{ name: 'village-management' satisfies PrefectureScene }">
-                      {{ t('management') }}
-                    </RouterLink>
-                  </NavigationMenuLink>
-                </NavigationMenuItem>
-              </NavigationMenuList>
-            </NavigationMenu>
+    <Card v-if="prefecture" class="size-full">
+      <CardHeader>
+        <CardTitle>
+          <div class="flex items-center justify-between">
+            <span>{{ `${t('prefecture')} (${t('level-x', [prefecture.level])})` }}</span>
+            <div>
+              <NavigationMenu>
+                <NavigationMenuList>
+                  <NavigationMenuItem>
+                    <NavigationMenuLink as-child>
+                      <RouterLink :to="{ name: 'prefecture' satisfies PrefectureScene }">
+                        {{ t('building', 2) }}
+                      </RouterLink>
+                    </NavigationMenuLink>
+                  </NavigationMenuItem>
+                  <NavigationMenuItem>
+                    <NavigationMenuLink as-child>
+                      <RouterLink :to="{ name: 'village-management' satisfies PrefectureScene }">
+                        {{ t('management') }}
+                      </RouterLink>
+                    </NavigationMenuLink>
+                  </NavigationMenuItem>
+                </NavigationMenuList>
+              </NavigationMenu>
+            </div>
           </div>
-        </div>
-      </template>
+        </CardTitle>
+      </CardHeader>
 
-      <RouterView #default="{ Component }">
-        <template v-if="Component">
-          <KeepAlive>
-            <Suspense>
-              <component :is="Component" />
-              <template #fallback>
-                <Loading class="absolute inset-0" />
-              </template>
-            </Suspense>
-          </KeepAlive>
-        </template>
-      </RouterView>
+      <CardContent class="overflow-x-hidden overflow-y-auto px-2 py-0">
+        <RouterView #default="{ Component }">
+          <template v-if="Component">
+            <KeepAlive>
+              <Suspense>
+                <component :is="Component" />
+                <template #fallback>
+                  <Loading class="absolute inset-0" />
+                </template>
+              </Suspense>
+            </KeepAlive>
+          </template>
+        </RouterView>
+      </CardContent>
     </Card>
   </div>
 </template>

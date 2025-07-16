@@ -8,7 +8,7 @@ import { handleError } from '@/lib/error';
 import type { Option } from '@tb-dev/utils';
 import { pushChatMessage } from '@/commands';
 import MessagePlayer from './MessagePlayer.vue';
-import { Button, InputText, ScrollArea } from '@tb-dev/vue-components';
+import { Button, Input, ScrollArea } from '@tb-dev/vue-components';
 import { computed, nextTick, onMounted, ref, useTemplateRef } from 'vue';
 
 const { t } = useI18n();
@@ -71,8 +71,14 @@ onMounted(() => {
           </div>
         </ScrollArea>
 
-        <div class="flex h-[30px] items-center justify-between gap-2">
-          <InputText ref="chatInputEl" v-model="draft" :disabled="loading" :max="200" />
+        <div class="flex h-[30px] items-center justify-between gap-2 px-2 pb-2">
+          <Input
+            ref="chatInputEl"
+            v-model="draft"
+            type="text"
+            :disabled="loading"
+            :maxlength="200"
+          />
           <Button :disabled="!draft || loading" @click="send">{{ t('send') }}</Button>
         </div>
       </div>

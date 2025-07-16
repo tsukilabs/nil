@@ -4,7 +4,7 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import { exitGame } from '@/core/game';
-import { Button, ButtonLink } from '@tb-dev/vue-components';
+import { Button } from '@tb-dev/vue-components';
 
 const { t } = useI18n();
 </script>
@@ -15,15 +15,21 @@ const { t } = useI18n();
       <span>Call of Nil</span>
     </h1>
     <div class="flex flex-col gap-2">
-      <ButtonLink to="host-game" variant="default">
-        <span>{{ t('host-game') }}</span>
-      </ButtonLink>
-      <ButtonLink to="join-game" variant="secondary">
-        <span>{{ t('join-game') }}</span>
-      </ButtonLink>
-      <ButtonLink to="settings" variant="secondary">
-        <span>{{ t('settings') }}</span>
-      </ButtonLink>
+      <Button variant="default">
+        <RouterLink :to="{ name: 'host-game' as Scene }">
+          {{ t('host-game') }}
+        </RouterLink>
+      </Button>
+      <Button variant="secondary">
+        <RouterLink :to="{ name: 'join-game' as Scene }">
+          {{ t('join-game') }}
+        </RouterLink>
+      </Button>
+      <Button variant="secondary">
+        <RouterLink :to="{ name: 'settings' as Scene }">
+          {{ t('settings') }}
+        </RouterLink>
+      </Button>
       <Button variant="secondary" @click="exitGame">
         <span>{{ t('exit') }}</span>
       </Button>

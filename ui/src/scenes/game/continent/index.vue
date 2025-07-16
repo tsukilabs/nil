@@ -6,11 +6,11 @@ import Field from './Field.vue';
 import { useRoute } from 'vue-router';
 import type { Option } from '@tb-dev/utils';
 import { useElementSize } from '@tb-dev/vue';
-import { Card } from '@tb-dev/vue-components';
 import { getContinentSize } from '@/commands';
 import { CoordImpl } from '@/core/model/coord';
 import { onKeyDown, until } from '@vueuse/core';
 import { ListenerSet } from '@/lib/listener-set';
+import { Card, CardContent } from '@tb-dev/vue-components';
 import { memory } from 'nil-continent/nil_continent_bg.wasm';
 import { Continent, Coord as WasmCoord } from 'nil-continent';
 import { PublicFieldImpl } from '@/core/model/continent/public-field';
@@ -190,37 +190,36 @@ function move(dir: 'up' | 'down' | 'left' | 'right') {
 
 <template>
   <div class="game-layout">
-    <Card
-      class="size-full overflow-hidden p-0"
-      content-class="relative size-full overflow-hidden p-0 select-none"
-    >
-      <div
-        ref="container"
-        class="bg-card absolute inset-0 bottom-[50px] left-[50px] z-10 overflow-hidden"
-      >
-        <div id="continent-grid">
-          <Field
-            v-for="field of fields"
-            :key="`${field.id}-${field.flags}`"
-            :field
-            :continent-size="size"
-          />
+    <Card class="size-full overflow-hidden p-0">
+      <CardContent class="relative size-full overflow-hidden p-0 select-none">
+        <div
+          ref="container"
+          class="bg-card absolute inset-0 bottom-[50px] left-[50px] z-10 overflow-hidden"
+        >
+          <div id="continent-grid">
+            <Field
+              v-for="field of fields"
+              :key="`${field.id}-${field.flags}`"
+              :field
+              :continent-size="size"
+            />
+          </div>
         </div>
-      </div>
 
-      <div id="rule-horizontal" class="rule bg-accent font-nil text-lg">
-        <div v-for="[idx, col] of cols" :key="idx">
-          <span v-if="typeof col === 'number'">{{ col }}</span>
+        <div id="rule-horizontal" class="rule bg-accent font-nil text-lg">
+          <div v-for="[idx, col] of cols" :key="idx">
+            <span v-if="typeof col === 'number'">{{ col }}</span>
+          </div>
         </div>
-      </div>
 
-      <div id="rule-vertical" class="rule bg-accent font-nil text-lg">
-        <div v-for="[idx, row] of rows" :key="idx">
-          <span v-if="typeof row === 'number'">{{ row }}</span>
+        <div id="rule-vertical" class="rule bg-accent font-nil text-lg">
+          <div v-for="[idx, row] of rows" :key="idx">
+            <span v-if="typeof row === 'number'">{{ row }}</span>
+          </div>
         </div>
-      </div>
 
-      <div id="container-fill" class="bg-accent"></div>
+        <div id="container-fill" class="bg-accent"></div>
+      </CardContent>
     </Card>
   </div>
 </template>

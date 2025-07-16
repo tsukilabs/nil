@@ -1,0 +1,57 @@
+button {
+  cursor: pointer;
+}
+
+label:where(
+  :has(input[type='number']),
+  :has(input[type='text']),
+  :has(input[type='url']),
+  :has(select),
+  :has(textarea),
+  :has(button[role='combobox'])
+) {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 0.5rem;
+  width: 100%;
+  font-weight: 400;
+
+  & > span {
+    width: 100%;
+  }
+}
+
+label:where(:has(button[role='switch']), :has(input[type='checkbox']), :has(input[type='radio'])) {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 400;
+
+  & > span {
+    width: 100%;
+  }
+}
+
+[data-sonner-toast] [data-description] {
+  color: var(--foreground) !important;
+}
+
+.ellipsis {
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.game-layout {
+  display: flex;
+  padding: 1rem;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+}

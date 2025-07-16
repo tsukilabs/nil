@@ -7,7 +7,19 @@ import { useSawmill } from '@/composables/infrastructure/useBuilding';
 import enUS from '@/locale/en-US/scenes/game/infrastructure/mine.json';
 import ptBR from '@/locale/pt-BR/scenes/game/infrastructure/mine.json';
 import { useMineProduction } from '@/composables/infrastructure/useMineProduction';
-import { Card, Table, TableCell, TableHead, TableRow } from '@tb-dev/vue-components';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  Table,
+  TableBody,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@tb-dev/vue-components';
 
 const { t } = useI18n({
   messages: {
@@ -22,61 +34,67 @@ const { level, actual, base, stabilityLoss } = useMineProduction(sawmill);
 
 <template>
   <div class="game-layout flex-col">
-    <Card v-if="sawmill" class="w-full" content-class="px-2">
-      <template #title>
-        <span>{{ `${t('sawmill')} (${t('level-x', [level.current])})` }}</span>
-      </template>
+    <Card v-if="sawmill" class="w-full">
+      <CardHeader>
+        <CardTitle>
+          <span>{{ `${t('sawmill')} (${t('level-x', [level.current])})` }}</span>
+        </CardTitle>
+      </CardHeader>
 
-      <Table>
-        <template #header>
-          <TableRow class="bg-background hover:bg-background">
-            <TableHead />
-            <TableHead>{{ t('current-level') }}</TableHead>
-            <TableHead v-if="!level.isMax">{{ t('next-level') }}</TableHead>
-          </TableRow>
-        </template>
+      <CardContent class="px-2 py-0">
+        <Table>
+          <TableHeader>
+            <TableRow class="bg-card hover:bg-card">
+              <TableHead />
+              <TableHead>{{ t('current-level') }}</TableHead>
+              <TableHead v-if="!level.isMax">{{ t('next-level') }}</TableHead>
+            </TableRow>
+          </TableHeader>
 
-        <TableRow>
-          <TableCell>{{ t('base-production') }}</TableCell>
-          <TableCell>
-            <Wood :amount="base.current" />
-          </TableCell>
-          <TableCell v-if="!level.isMax">
-            <Wood :amount="base.next" />
-          </TableCell>
-        </TableRow>
+          <TableBody>
+            <TableRow>
+              <TableCell>{{ t('base-production') }}</TableCell>
+              <TableCell>
+                <Wood :amount="base.current" />
+              </TableCell>
+              <TableCell v-if="!level.isMax">
+                <Wood :amount="base.next" />
+              </TableCell>
+            </TableRow>
 
-        <TableRow>
-          <TableCell>{{ t('loss-by-stability') }}</TableCell>
-          <TableCell>
-            <Wood :amount="stabilityLoss.current" />
-          </TableCell>
-          <TableCell v-if="!level.isMax">
-            <Wood :amount="stabilityLoss.next" />
-          </TableCell>
-        </TableRow>
+            <TableRow>
+              <TableCell>{{ t('loss-by-stability') }}</TableCell>
+              <TableCell>
+                <Wood :amount="stabilityLoss.current" />
+              </TableCell>
+              <TableCell v-if="!level.isMax">
+                <Wood :amount="stabilityLoss.next" />
+              </TableCell>
+            </TableRow>
 
-        <TableRow>
-          <TableCell>{{ t('current-production') }}</TableCell>
-          <TableCell>
-            <Wood :amount="actual.current" />
-          </TableCell>
-          <TableCell v-if="!level.isMax">
-            <Wood :amount="actual.next" />
-          </TableCell>
-        </TableRow>
+            <TableRow>
+              <TableCell>{{ t('current-production') }}</TableCell>
+              <TableCell>
+                <Wood :amount="actual.current" />
+              </TableCell>
+              <TableCell v-if="!level.isMax">
+                <Wood :amount="actual.next" />
+              </TableCell>
+            </TableRow>
+          </TableBody>
 
-        <template #footer>
-          <TableRow class="bg-background hover:bg-background">
-            <TableCell :colspan="level.isMax ? 2 : 3">
-              <div class="flex w-full items-center justify-end gap-2 px-2 pt-4">
-                <div>{{ `${t('maintenance')}:` }}</div>
-                <Food :amount="sawmill.getMaintenance()" />
-              </div>
-            </TableCell>
-          </TableRow>
-        </template>
-      </Table>
+          <TableFooter>
+            <TableRow class="bg-card hover:bg-card">
+              <TableCell :colspan="level.isMax ? 2 : 3">
+                <div class="flex w-full items-center justify-end gap-2 px-2 pt-4">
+                  <div>{{ `${t('maintenance')}:` }}</div>
+                  <Food :amount="sawmill.getMaintenance()" />
+                </div>
+              </TableCell>
+            </TableRow>
+          </TableFooter>
+        </Table>
+      </CardContent>
     </Card>
   </div>
 </template>

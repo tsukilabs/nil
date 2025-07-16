@@ -36,8 +36,8 @@ const classList = computed(() => {
 }
 
 .field.inside {
-  border-top-width: v-bind("field.y === (continentSize -1) ? '1px' : 0");
-  border-right-width: v-bind("field.x === (continentSize -1) ? '1px' : 0");
+  border-top-width: v-bind("field.y === (continentSize - 1) ? '1px' : 0");
+  border-right-width: v-bind("field.x === (continentSize - 1) ? '1px' : 0");
   border-bottom-width: 1px;
   border-left-width: 1px;
   border-style: solid;

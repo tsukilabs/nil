@@ -1,4 +1,5 @@
 @import 'tailwindcss';
+@import 'tw-animate-css';
 
 @source "../../node_modules/@tb-dev/vue-components";
 
@@ -42,63 +43,11 @@
   --font-nil: 'Syne Mono';
 }
 
-:root {
-  --game-sidebar-z-index: 100;
-}
-
-button {
-  cursor: pointer;
-}
-
-label:where(
-  :has(input[type='number']),
-  :has(input[type='text']),
-  :has(input[type='url']),
-  :has(select),
-  :has(textarea)
-) {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 0.5rem;
-  width: 100%;
-  font-weight: 400;
-
-  & > span {
-    width: 100%;
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
   }
-}
-
-label:where(:has(button[role='switch']), :has(input[type='checkbox']), :has(input[type='radio'])) {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 0.5rem;
-  font-weight: 400;
-
-  & > span {
-    width: 100%;
+  body {
+    @apply bg-background text-foreground;
   }
-}
-
-[data-sonner-toast] [data-description] {
-  color: var(--foreground) !important;
-}
-
-.ellipsis {
-  display: inline-block;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.game-layout {
-  display: flex;
-  padding: 1rem;
-  width: 100%;
-  height: 100%;
-  overflow-x: hidden;
-  overflow-y: auto;
 }

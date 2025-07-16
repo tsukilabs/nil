@@ -7,7 +7,19 @@ import { useSilo } from '@/composables/infrastructure/useBuilding';
 import enUS from '@/locale/en-US/scenes/game/infrastructure/storage.json';
 import ptBR from '@/locale/pt-BR/scenes/game/infrastructure/storage.json';
 import { useStorageCapacity } from '@/composables/infrastructure/useStorageCapacity';
-import { Card, Table, TableCell, TableHead, TableRow } from '@tb-dev/vue-components';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  Table,
+  TableBody,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@tb-dev/vue-components';
 
 const { t } = useI18n({
   messages: {
@@ -21,49 +33,55 @@ const { level, capacity } = useStorageCapacity(silo);
 </script>
 
 <template>
-  <div class="game-layout">
-    <Card v-if="silo" class="w-full" content-class="px-2">
-      <template #title>
-        <span>{{ `${t('silo')} (${t('level-x', [level.current])})` }}</span>
-      </template>
+  <div class="game-layout flex-col">
+    <Card v-if="silo" class="w-full">
+      <CardHeader>
+        <CardTitle>
+          <span>{{ `${t('silo')} (${t('level-x', [level.current])})` }}</span>
+        </CardTitle>
+      </CardHeader>
 
-      <Table>
-        <template #header>
-          <TableRow class="bg-background hover:bg-background">
-            <TableHead></TableHead>
-            <TableHead>{{ t('capacity') }}</TableHead>
-          </TableRow>
-        </template>
+      <CardContent class="px-2 py-0">
+        <Table>
+          <TableHeader>
+            <TableRow class="bg-card hover:bg-card">
+              <TableHead></TableHead>
+              <TableHead>{{ t('capacity') }}</TableHead>
+            </TableRow>
+          </TableHeader>
 
-        <TableRow>
-          <TableCell class="w-72">
-            <span>{{ t('current-capacity') }}</span>
-          </TableCell>
-          <TableCell>
-            <span>{{ capacity.current }}</span>
-          </TableCell>
-        </TableRow>
+          <TableBody>
+            <TableRow>
+              <TableCell class="w-72">
+                <span>{{ t('current-capacity') }}</span>
+              </TableCell>
+              <TableCell>
+                <span>{{ capacity.current }}</span>
+              </TableCell>
+            </TableRow>
 
-        <TableRow v-if="!level.isMax">
-          <TableCell class="w-72">
-            <span>{{ t('capacity-on-level-x', [level.next]) }}</span>
-          </TableCell>
-          <TableCell>
-            <span>{{ capacity.next }}</span>
-          </TableCell>
-        </TableRow>
+            <TableRow v-if="!level.isMax">
+              <TableCell class="w-72">
+                <span>{{ t('capacity-on-level-x', [level.next]) }}</span>
+              </TableCell>
+              <TableCell>
+                <span>{{ capacity.next }}</span>
+              </TableCell>
+            </TableRow>
+          </TableBody>
 
-        <template #footer>
-          <TableRow class="bg-background hover:bg-background">
-            <TableCell colspan="2">
-              <div class="flex w-full items-center justify-end gap-2 px-2 pt-4">
-                <div>{{ `${t('maintenance')}:` }}</div>
-                <Food :amount="silo.getMaintenance()" />
-              </div>
-            </TableCell>
-          </TableRow>
-        </template>
-      </Table>
+          <TableFooter>
+            <TableRow class="bg-card hover:bg-card">
+              <TableCell colspan="2">
+                <div class="flex w-full items-center justify-end gap-2 px-2 pt-4">
+                  <div>{{ `${t('maintenance')}:` }}</div>
+                  <Food :amount="silo.getMaintenance()" />
+                </div>
+              </TableCell>
+            </TableRow>
+          </TableFooter>
+        </Table>
+      </CardContent>
     </Card>
   </div>
 </template>

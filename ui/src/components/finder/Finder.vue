@@ -19,7 +19,7 @@ const open = defineModel<boolean>('open', { required: true });
 const { t } = useI18n();
 
 interface FinderItem {
-  value: GameScene;
+  value: GameScene | 'settings';
   label: string;
 }
 
@@ -56,6 +56,10 @@ const items = computed<FinderItem[]>(() => {
     {
       value: 'sawmill',
       label: t('sawmill'),
+    },
+    {
+      value: 'settings',
+      label: t('settings'),
     },
     {
       value: 'silo',
