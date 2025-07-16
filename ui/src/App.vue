@@ -10,11 +10,10 @@ import type { Locale } from '@/locale';
 import { showWindow } from '@/commands';
 import { onKeyDown } from '@tb-dev/vue';
 import { handleError } from '@/lib/error';
-import { setTheme } from '@/lib/settings';
 import { watchImmediate } from '@vueuse/core';
 import { Sonner } from '@tb-dev/vue-components';
 import { defineGlobalCommands } from '@/lib/global';
-import { useSettingsStore } from '@/stores/settings';
+import { setTheme, useSettingsStore } from '@/stores/settings';
 
 const i18n = useI18n();
 

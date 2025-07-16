@@ -18,10 +18,11 @@ const { chat } = NIL.chat.refs();
 const content = useTemplateRef('contentEl');
 const chatInput = useTemplateRef('chatInputEl');
 const chatInputInner = computed(() => chatInput.value?.$el);
-onKeyDown('Enter', send, { target: chatInputInner });
 
 const draft = ref<Option<string>>();
 const loading = ref(false);
+
+onKeyDown('Enter', send, { target: chatInputInner });
 
 async function send() {
   if (draft.value && !loading.value) {
@@ -29,7 +30,7 @@ async function send() {
       loading.value = true;
       const id = await pushChatMessage(draft.value);
       draft.value = null;
-      scroll(id).err();
+      void scroll(id);
     } catch (err) {
       handleError(err);
     } finally {
@@ -55,7 +56,9 @@ function toElementId(id: ChatMessageId) {
 
 onMounted(() => {
   const last = chat.value.at(-1);
-  if (last) scroll(last.message.id).err();
+  if (last) {
+    void scroll(last.message.id);
+  }
 });
 </script>
 
@@ -74,7 +77,7 @@ onMounted(() => {
         <div class="flex h-[30px] items-center justify-between gap-2 px-2 pb-2">
           <Input
             ref="chatInputEl"
-            v-model="draft"
+            v-model.trim="draft"
             type="text"
             :disabled="loading"
             :maxlength="200"

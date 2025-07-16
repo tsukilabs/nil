@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import 'vue-sonner/style.css';
-import '@/assets/base.css';
-import '@/assets/fonts.css';
-import '@/assets/vars.css';
-import '@/assets/themes.css';
-import '@/assets/style.css';
-import '@/assets/nsr.css';
+import '@/assets/style/base.css';
+import '@/assets/style/vars.css';
+import '@/assets/style/themes.css';
+import '@/assets/style/fonts.css';
+import '@/assets/style/main.css';
+import '@/assets/style/nsr.css';
 import '@/lib/prototype';
 import App from '@/App.vue';
 import { createApp } from 'vue';

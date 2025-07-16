@@ -100,7 +100,7 @@ async function hostSaved() {
         <Label>
           <span>{{ t('world-name') }}</span>
           <Input
-            v-model="world.name"
+            v-model.trim="world.name"
             type="text"
             :disabled="loading"
             :minlength="1"
@@ -120,7 +120,7 @@ async function hostSaved() {
           >
             <NumberFieldContent>
               <NumberFieldDecrement />
-              <NumberFieldInput />
+              <NumberFieldInput class="dark:bg-input/40" />
               <NumberFieldIncrement />
             </NumberFieldContent>
           </NumberField>
@@ -129,7 +129,7 @@ async function hostSaved() {
         <Label>
           <span>{{ t('player-name') }}</span>
           <Input
-            v-model="player.id"
+            v-model.trim="player.id"
             type="text"
             :disabled="loading"
             :minlength="1"

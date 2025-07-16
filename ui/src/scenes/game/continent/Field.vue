@@ -16,13 +16,21 @@ const isOutside = computed(() => {
 });
 
 const classList = computed(() => {
-  return isOutside.value ? 'field' : 'field inside';
+  let cl = isOutside.value ? 'field' : 'field inside';
+  if (isOutside.value) {
+    cl += ' border-0';
+  } else {
+    cl += props.field.x === props.continentSize - 1 ? ' border-r' : ' border-r-0';
+    cl += props.field.y === props.continentSize - 1 ? ' border-t' : ' border-t-0';
+  }
+
+  return cl;
 });
 </script>
 
 <template>
   <div :data-x="field.x" :data-y="field.y" :class="classList">
-    <div class="bg-primary-foreground relative flex size-full flex-col">
+    <div class="relative flex size-full flex-col">
       <FieldVillage v-if="field.isVillage() && field.village" :field :village="field.village" />
     </div>
   </div>
@@ -36,12 +44,15 @@ const classList = computed(() => {
 }
 
 .field.inside {
-  border-top-width: v-bind("field.y === (continentSize - 1) ? '1px' : 0");
-  border-right-width: v-bind("field.x === (continentSize - 1) ? '1px' : 0");
   border-bottom-width: 1px;
   border-left-width: 1px;
   border-style: solid;
   border-color: var(--border);
+  background-color: var(--primary-foreground);
+}
+
+.field:not(.inside) {
+  background-color: color-mix(in oklab, var(--background) 40%, transparent);
 }
 
 .field:not(.inside) > :deep(div) {
