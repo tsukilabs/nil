@@ -7,8 +7,8 @@ pub mod requirements;
 pub mod storage;
 
 use crate::error::{Error, Result};
-use crate::infrastructure::building::BuildingLevel;
-use crate::infrastructure::building::wall::{WallStatsTable, WallStats};
+
+use crate::infrastructure::building::wall::WallStatsTable;
 use crate::resource::{Maintenance, Resources};
 use building::prefecture::{
   PrefectureBuildOrder,
@@ -178,7 +178,7 @@ pub struct InfrastructureStats {
   building: HashMap<BuildingId, BuildingStatsTable>,
   mine: HashMap<MineId, MineStatsTable>,
   storage: HashMap<StorageId, StorageStatsTable>,
-  wall: HashMap<BuildingLevel, WallStats>,
+  wall: WallStatsTable,
 }
 
 #[expect(clippy::new_without_default)]

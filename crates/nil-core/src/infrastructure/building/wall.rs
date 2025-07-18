@@ -76,7 +76,7 @@ impl WallDefensePercent {
 
 impl From<WallDefensePercent> for f64 {
   fn from(value: WallDefensePercent) -> Self {
-    f64::from(value.0)
+    value.0
   }
 }
 
@@ -118,14 +118,10 @@ pub struct WallStats {
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
-#[serde(rename_all = "camelCase")]
-pub struct WallStatsTable {
-  level: BuildingLevel,
-  table: HashMap<BuildingLevel, WallStats>,
-}
+pub struct WallStatsTable(HashMap<BuildingLevel, WallStats>);
 
 impl WallStatsTable {
-  pub fn new() -> HashMap<BuildingLevel, WallStats> {
+  pub fn new() -> Self {
     let max_level = Wall::MAX_LEVEL;
     let mut table = HashMap::with_capacity((*max_level).into());
 
@@ -161,6 +157,12 @@ impl WallStatsTable {
 
     table.shrink_to_fit();
 
-    table
+    Self(table)
+  }
+}
+
+impl Default for WallStatsTable {
+  fn default() -> Self {
+    Self::new()
   }
 }
