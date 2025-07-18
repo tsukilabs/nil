@@ -59,7 +59,7 @@ impl Client {
   }
 
   /// GET `/`
-  pub async fn ready(&self) -> bool {
+  pub async fn is_ready(&self) -> bool {
     self
       .http
       .get("")

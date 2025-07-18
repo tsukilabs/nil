@@ -8,8 +8,7 @@ use crate::state::App;
 use axum::extract::{Json, State};
 use axum::response::Response;
 use futures::{FutureExt, TryFutureExt};
-use nil_core::continent::{Continent, PublicField};
-use nil_core::village::Coord;
+use nil_core::continent::{Continent, Coord, PublicField};
 
 pub async fn get_field(State(app): State<App>, Json(coord): Json<Coord>) -> Response {
   app
@@ -22,12 +21,15 @@ pub async fn get_field(State(app): State<App>, Json(coord): Json<Coord>) -> Resp
 pub async fn get_fields(State(app): State<App>, Json(coords): Json<Vec<Coord>>) -> Response {
   let result: CoreResult<Vec<(Coord, PublicField)>> = try {
     let world = app.world.read().await;
-    world
-      .continent()
-      .fields(coords)?
-      .into_iter()
-      .map(|(coord, field)| (coord, PublicField::from(field)))
-      .collect()
+    let continent = world.continent();
+    let mut fields = Vec::with_capacity(coords.len());
+
+    for coord in coords {
+      let field = continent.field(coord)?;
+      fields.push((coord, PublicField::from(field)));
+    }
+
+    fields
   };
 
   result

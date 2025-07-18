@@ -2,8 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::bail_cheat_not_allowed;
+use crate::continent::Coord;
 use crate::error::{Error, Result};
-use crate::village::{Coord, Stability};
+use crate::village::Stability;
 use crate::world::World;
 
 impl World {

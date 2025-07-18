@@ -12,18 +12,19 @@ interface Village extends PublicVillage {
   readonly stability: number;
 }
 
-interface Coord {
-  readonly x: number;
-  readonly y: number;
-}
+type VillageOwner = VillageOwnerBot | VillageOwnerPlayer | VillageOwnerPrecursor;
 
-type VillageOwner = VillageOwnerNone | VillageOwnerPlayer;
-
-interface VillageOwnerNone {
-  readonly kind: 'none';
+interface VillageOwnerBot {
+  readonly kind: 'bot';
+  readonly id: BotId;
 }
 
 interface VillageOwnerPlayer {
   readonly kind: 'player';
   readonly id: PlayerId;
+}
+
+interface VillageOwnerPrecursor {
+  readonly kind: 'precursor';
+  readonly id: PrecursorId;
 }

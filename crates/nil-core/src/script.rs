@@ -1,21 +1,14 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+use crate::error::{Error, Result};
 use crate::player::PlayerId;
 use derive_more::{Deref, Display};
 use itertools::Itertools;
-use mlua::{Lua, LuaOptions, StdLib};
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
-use std::sync::LazyLock;
 
-static _LUA: LazyLock<Lua> = LazyLock::new(|| {
-  Lua::new_with(
-    StdLib::MATH | StdLib::STRING | StdLib::TABLE,
-    LuaOptions::default(),
-  )
-  .expect("Failed to create the Lua state")
-});
+pub const EXTENSION: &str = "lua";
 
 #[derive(Clone, Debug, Default, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
@@ -31,13 +24,18 @@ impl Scripting {
   }
 
   #[inline]
-  pub fn get(&self, id: ScriptId) -> Option<&Script> {
-    self.scripts.get(&id)
+  pub fn get(&self, id: ScriptId) -> Result<&Script> {
+    self
+      .scripts
+      .get(&id)
+      .ok_or(Error::ScriptNotFound(id))
   }
 
-  #[inline]
-  pub fn get_mut(&mut self, id: ScriptId) -> Option<&mut Script> {
-    self.scripts.get_mut(&id)
+  fn get_mut(&mut self, id: ScriptId) -> Result<&mut Script> {
+    self
+      .scripts
+      .get_mut(&id)
+      .ok_or(Error::ScriptNotFound(id))
   }
 
   pub fn get_owned_by(&self, owner: &PlayerId) -> Vec<Script> {
@@ -50,7 +48,7 @@ impl Scripting {
       .collect()
   }
 
-  /// Adiciona um novo script.
+  /// Adds a new script.
   pub fn add(&mut self, mut script: Script) -> ScriptId {
     self.current_id = self.current_id.next();
     script.id = self.current_id;
@@ -58,17 +56,18 @@ impl Scripting {
     self.current_id
   }
 
-  /// Atualiza um script já existente.
+  /// Updates an existing script.
   #[inline]
-  pub fn update(&mut self, script: Script) {
-    if let Some(old) = self.get_mut(script.id) {
-      *old = script;
-    }
+  pub fn update(&mut self, script: Script) -> Result<()> {
+    let current = self.get_mut(script.id)?;
+    *current = script;
+    Ok(())
   }
 
+  /// Removes a script.
   #[inline]
-  pub fn remove(&mut self, id: ScriptId) -> bool {
-    self.scripts.remove(&id).is_some()
+  pub fn remove(&mut self, id: ScriptId) {
+    self.scripts.remove(&id);
   }
 }
 
@@ -80,10 +79,6 @@ pub struct Script {
   pub name: String,
   pub code: String,
   pub owner: PlayerId,
-}
-
-impl Script {
-  pub const EXTENSION: &str = "lua";
 }
 
 #[derive(
@@ -108,5 +103,18 @@ impl ScriptId {
   #[must_use]
   const fn next(self) -> Self {
     Self(self.0.wrapping_add(1))
+  }
+}
+
+#[must_use]
+#[derive(Clone, Debug, Default, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Stdio {
+  stdout: Vec<Box<str>>,
+}
+
+impl Stdio {
+  pub(crate) fn push_stdout(&mut self, value: &str) {
+    self.stdout.push(Box::from(value));
   }
 }

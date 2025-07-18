@@ -1,7 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { CoordImpl } from '@/core/model/coord';
+import { CoordImpl } from '@/core/model/continent/coord';
 
 export class PublicVillageImpl implements PublicVillage {
   public readonly coord: CoordImpl;

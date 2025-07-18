@@ -1,10 +1,10 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+use crate::continent::Coord;
 use crate::error::{Error, Result};
 use crate::infrastructure::building::{BuildingId, BuildingLevel, BuildingStatsTable};
 use crate::resource::{Resources, Workforce};
-use crate::village::Coord;
 use derive_more::Deref;
 use nil_num::BigIntU64;
 use nil_num::ops::MulCeil;
@@ -25,7 +25,7 @@ impl PrefectureBuildQueue {
     table: &BuildingStatsTable,
     current_level: BuildingLevel,
     current_resources: Option<&Resources>,
-    options: &PrefectureBuildOrderOptions,
+    request: &PrefectureBuildOrderRequest,
   ) -> Result<&PrefectureBuildOrder> {
     let id = table.id();
     let mut target_level = self
@@ -38,7 +38,7 @@ impl PrefectureBuildQueue {
         }
       });
 
-    let kind = options.kind;
+    let kind = request.kind;
     if kind.is_demolition() && target_level <= table.min_level() {
       return Err(Error::CannotDecreaseBuildingLevel(id));
     } else if kind.is_construction() && target_level >= table.max_level() {
@@ -229,7 +229,7 @@ impl PrefectureBuildOrderStatus {
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-pub struct PrefectureBuildOrderOptions {
+pub struct PrefectureBuildOrderRequest {
   pub coord: Coord,
   pub building: BuildingId,
   pub kind: PrefectureBuildOrderKind,

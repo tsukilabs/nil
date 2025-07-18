@@ -4,7 +4,7 @@
 <script setup lang="ts">
 import Round from './Round.vue';
 import type { MaybePromise } from '@tb-dev/utils';
-import { ButtonLink, SidebarTrigger } from '@tb-dev/vue-components';
+import { Button, SidebarTrigger } from '@tb-dev/vue-components';
 
 defineProps<{
   isHost: boolean;
@@ -19,15 +19,12 @@ const { village } = NIL.village.refs();
   <header class="flex items-center justify-between">
     <div class="flex items-center gap-2">
       <SidebarTrigger />
-      <ButtonLink
-        v-if="village"
-        to="village"
-        variant="ghost"
-        button-class="py-2 text-base lg:text-lg"
-      >
-        <span>{{ village.name }}</span>
-        <span>({{ village.coord.format() }})</span>
-      </ButtonLink>
+      <Button v-if="village" variant="ghost" class="py-2 text-base lg:text-lg">
+        <RouterLink :to="{ name: 'village' satisfies GameScene }" class="space-x-1">
+          <span>{{ village.name }}</span>
+          <span>({{ village.coord.format() }})</span>
+        </RouterLink>
+      </Button>
     </div>
 
     <div class="flex items-center">

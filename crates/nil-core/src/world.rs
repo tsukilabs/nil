@@ -3,22 +3,27 @@
 
 mod chat;
 mod cheat;
+mod continent;
 mod event;
 mod infrastructure;
+mod npc;
 mod player;
 mod round;
 mod savedata;
+mod script;
 mod village;
 
 use crate::chat::Chat;
-use crate::continent::Continent;
-use crate::error::Result;
+use crate::continent::{Continent, Coord};
+use crate::error::{Error, Result};
 use crate::event::Emitter;
 use crate::infrastructure::{Infrastructure, InfrastructureStats};
+use crate::npc::bot::BotManager;
+use crate::npc::precursor::PrecursorManager;
 use crate::player::{Player, PlayerId, PlayerManager};
 use crate::round::Round;
 use crate::script::Scripting;
-use crate::village::{Coord, Village};
+use crate::village::Village;
 use savedata::Savedata;
 use serde::{Deserialize, Serialize};
 use std::num::NonZeroU8;
@@ -27,25 +32,33 @@ use std::sync::Arc;
 
 #[derive(Debug)]
 pub struct World {
+  round: Round,
   continent: Continent,
   player_manager: PlayerManager,
-  round: Round,
+  bot_manager: BotManager,
+  precursor_manager: PrecursorManager,
   config: WorldConfig,
   stats: WorldStats,
   chat: Chat,
   scripting: Scripting,
 
+  // These are not included in the savedata.
   emitter: Emitter,
   pending_save: Option<PathBuf>,
 }
 
 impl World {
-  pub fn new(options: &WorldOptions) -> Self {
+  pub fn new(options: &WorldOptions) -> Result<Self> {
     let config = WorldConfig::from(options);
-    Self {
-      continent: Continent::new(options.size.get()),
-      player_manager: PlayerManager::default(),
+    let continent = Continent::new(options.size.get());
+    let precursor_manager = PrecursorManager::new(continent.size());
+
+    let mut world = Self {
       round: Round::default(),
+      continent,
+      player_manager: PlayerManager::default(),
+      bot_manager: BotManager::default(),
+      precursor_manager,
       config,
       stats: WorldStats::new(),
       chat: Chat::default(),
@@ -53,14 +66,25 @@ impl World {
 
       emitter: Emitter::default(),
       pending_save: None,
+    };
+
+    world.spawn_precursors()?;
+
+    let size = u16::from(world.continent.size());
+    for _ in 0..(size.saturating_mul(2)) {
+      world.spawn_bot()?;
     }
+
+    Ok(world)
   }
 
   pub fn with_savedata(savedata: Savedata) -> Self {
     Self {
+      round: savedata.round,
       continent: savedata.continent,
       player_manager: savedata.player_manager,
-      round: savedata.round,
+      bot_manager: savedata.bot_manager,
+      precursor_manager: savedata.precursor_manager,
       config: savedata.config,
       stats: savedata.stats,
       chat: savedata.chat,
@@ -166,8 +190,10 @@ impl World {
   }
 }
 
-impl From<&WorldOptions> for World {
-  fn from(options: &WorldOptions) -> Self {
+impl TryFrom<&WorldOptions> for World {
+  type Error = Error;
+
+  fn try_from(options: &WorldOptions) -> Result<Self> {
     Self::new(options)
   }
 }

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use super::{Food, Iron, Resources, Stone, Wood};
-use derive_more::{Deref, Display};
+use derive_more::{Deref, Display, Into};
 use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
 use std::ops::{Add, AddAssign, Sub, SubAssign};
@@ -157,6 +157,7 @@ macro_rules! decl_resource_diff {
         Default,
         Deref,
         Display,
+        Into,
         PartialEq,
         Eq,
         PartialOrd,
@@ -164,6 +165,7 @@ macro_rules! decl_resource_diff {
         Deserialize,
         Serialize,
       )]
+      #[into(i32, f64)]
       pub struct $diff(i32);
 
       impl $diff {

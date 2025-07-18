@@ -1,10 +1,10 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use super::{BuildingId, BuildingLevel};
+use super::{BuildingId, BuildingLevel, StorageId};
 use crate::check_total_resource_ratio;
 use crate::infrastructure::requirements::InfrastructureRequirements;
-use crate::infrastructure::storage::{StorageCapacity, StorageId};
+use crate::infrastructure::storage::StorageCapacity;
 use crate::resource::{Cost, MaintenanceRatio, ResourceRatio, Workforce};
 use nil_core_macros::{Building, Storage};
 use serde::{Deserialize, Serialize};

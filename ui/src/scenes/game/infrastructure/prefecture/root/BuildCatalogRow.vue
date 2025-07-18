@@ -7,12 +7,12 @@ import { computed, nextTick } from 'vue';
 import type { Option } from '@tb-dev/utils';
 import type { ResourcesImpl } from '@/core/model/resource';
 import BuildCatalogBuilding from './BuildCatalogBuilding.vue';
-import type { BuildingImpl } from '@/core/model/buildings/abstract';
+import type { BuildingImpl } from '@/core/model/building/abstract';
 import { Button, TableCell, TableRow } from '@tb-dev/vue-components';
-import type { PrefectureImpl } from '@/core/model/buildings/prefecture';
+import type { PrefectureImpl } from '@/core/model/building/prefecture';
 import enUS from '@/locale/en-US/scenes/game/infrastructure/prefecture.json';
 import ptBR from '@/locale/pt-BR/scenes/game/infrastructure/prefecture.json';
-import { useResolvedBuildingLevel } from '@/composables/useResolvedBuildingLevel';
+import { useResolvedBuildingLevel } from '@/composables/infrastructure/useResolvedBuildingLevel';
 
 const props = defineProps<{
   entry: PrefectureBuildCatalogEntry;

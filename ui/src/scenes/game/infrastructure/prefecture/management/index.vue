@@ -5,7 +5,7 @@
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { renameVillage } from '@/commands';
-import { Button, InputText, Label } from '@tb-dev/vue-components';
+import { Button, Input, Label } from '@tb-dev/vue-components';
 import enUS from '@/locale/en-US/scenes/game/infrastructure/prefecture.json';
 import ptBR from '@/locale/pt-BR/scenes/game/infrastructure/prefecture.json';
 
@@ -33,7 +33,13 @@ function rename() {
       <Label class="max-w-80">
         <span class="text-muted-foreground">{{ t('rename-village') }}</span>
         <div class="flex items-center gap-2">
-          <InputText v-model="villageName" min="1" max="50" spellcheck="false" />
+          <Input
+            v-model="villageName"
+            type="text"
+            minlength="1"
+            maxlength="50"
+            spellcheck="false"
+          />
           <Button size="sm" :disabled="!village" @click="rename">
             <span>{{ t('rename') }}</span>
           </Button>

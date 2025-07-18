@@ -2,9 +2,9 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { compare } from '@/lib/intl';
+import { computed, nextTick } from 'vue';
 import {
   CommandDialog,
   CommandEmpty,
@@ -19,7 +19,7 @@ const open = defineModel<boolean>('open', { required: true });
 const { t } = useI18n();
 
 interface FinderItem {
-  value: GameScene;
+  value: GameScene | 'settings';
   label: string;
 }
 
@@ -42,6 +42,10 @@ const items = computed<FinderItem[]>(() => {
       label: t('iron-mine'),
     },
     {
+      value: 'nsr',
+      label: 'NSR',
+    },
+    {
       value: 'prefecture',
       label: t('prefecture'),
     },
@@ -54,6 +58,10 @@ const items = computed<FinderItem[]>(() => {
       label: t('sawmill'),
     },
     {
+      value: 'settings',
+      label: t('settings'),
+    },
+    {
       value: 'silo',
       label: t('silo'),
     },
@@ -63,7 +71,7 @@ const items = computed<FinderItem[]>(() => {
     },
     {
       value: 'script',
-      label: t('script'),
+      label: t('script', 2),
     },
     {
       value: 'village',
@@ -87,6 +95,11 @@ const items = computed<FinderItem[]>(() => {
 
   return _items;
 });
+
+async function onClick() {
+  await nextTick();
+  open.value = false;
+}
 </script>
 
 <template>
@@ -95,8 +108,8 @@ const items = computed<FinderItem[]>(() => {
     <CommandList>
       <CommandEmpty>{{ t('no-results-found') }}</CommandEmpty>
       <CommandGroup>
-        <CommandItem v-for="item of items" :key="item.value" :value="item.value">
-          <RouterLink :to="{ name: item.value }" class="w-full" @click="() => (open = false)">
+        <CommandItem v-for="item of items" :key="item.value" :value="item.value" as-child>
+          <RouterLink :to="{ name: item.value }" class="w-full cursor-pointer" @click="onClick">
             {{ item.label }}
           </RouterLink>
         </CommandItem>

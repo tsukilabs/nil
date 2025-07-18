@@ -9,14 +9,16 @@ use std::collections::HashMap;
 
 impl World {
   pub fn start_round(&mut self) -> Result<()> {
-    let ids = self
-      .player_manager
-      .players()
-      .filter(|player| !player.is_inactive())
-      .map(Player::id);
+    if self.round.is_idle() {
+      let ids = self
+        .player_manager
+        .players()
+        .filter(|player| !player.is_inactive())
+        .map(Player::id);
 
-    self.round.start(ids)?;
-    self.emit_round_updated();
+      self.round.start(ids)?;
+      self.emit_round_updated();
+    }
 
     Ok(())
   }
@@ -55,8 +57,8 @@ impl World {
     Ok(())
   }
 
-  /// Atualiza os recursos do jogador, aumentando-os de acordo com a produção,
-  /// e então deduzindo todos os custos relacionados à manutenção.
+  /// Updates all players' resources by increasing them with the amount generated
+  /// in the current round and then deducting all maintenance-related costs.
   fn update_player_resources(&mut self) -> Result<()> {
     let stats = self.stats.infrastructure.as_ref();
     let mut diff: HashMap<PlayerId, ResourcesDiff> = HashMap::new();
@@ -80,7 +82,7 @@ impl World {
     Ok(())
   }
 
-  /// Processa as filas de construção e de recrutamento de todas as aldeias.
+  /// Processes the build and recruitment queues for all villages.
   fn process_village_queues(&mut self) {
     for village in self.continent.villages_mut() {
       let infra = village.infrastructure_mut();

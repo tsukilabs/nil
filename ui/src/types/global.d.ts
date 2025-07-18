@@ -54,7 +54,6 @@ declare global {
   };
 
   interface ErrorConstructor {
-    panic: (message: string) => never;
     throw: (message: string) => never;
     todo: (message?: Option<string>) => never;
   }

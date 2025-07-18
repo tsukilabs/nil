@@ -1,10 +1,9 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use super::BuildingId;
 use crate::error::Result;
 use crate::infrastructure::building::prefecture::PrefectureBuildOrderKind;
-use crate::infrastructure::building::{BuildingLevel, BuildingStatsTable};
+use crate::infrastructure::building::{BuildingId, BuildingLevel, BuildingStatsTable};
 use crate::infrastructure::requirements::InfrastructureRequirements;
 use crate::infrastructure::{Infrastructure, InfrastructureStats};
 use crate::resource::{Maintenance, Resources, Workforce};

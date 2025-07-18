@@ -3,29 +3,42 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import { Card, Table, TableCell, TableRow } from '@tb-dev/vue-components';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  Table,
+  TableBody,
+  TableCell,
+  TableRow,
+} from '@tb-dev/vue-components';
 
 const { t } = useI18n();
 </script>
 
 <template>
-  <Card content-class="px-2">
-    <template #title>
-      <span>{{ t('unit', 2) }}</span>
-    </template>
+  <Card>
+    <CardHeader>
+      <CardTitle>
+        <span>{{ t('unit', 2) }}</span>
+      </CardTitle>
+    </CardHeader>
 
-    <Table>
-      <TableRow>
-        <TableCell>{{ `8000 ${t('pikeman', 8000)}` }}</TableCell>
-      </TableRow>
-
-      <TableRow>
-        <TableCell>{{ `8000 ${t('archer', 8000)}` }}</TableCell>
-      </TableRow>
-
-      <TableRow>
-        <TableCell>{{ `1000 ${t('heavy-cavalry', 1000)}` }}</TableCell>
-      </TableRow>
-    </Table>
+    <CardContent class="px-2 py-0">
+      <Table>
+        <TableBody>
+          <TableRow>
+            <TableCell>{{ `8000 ${t('pikeman', 8000)}` }}</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>{{ `8000 ${t('archer', 8000)}` }}</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>{{ `1000 ${t('heavy-cavalry', 1000)}` }}</TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+    </CardContent>
   </Card>
 </template>

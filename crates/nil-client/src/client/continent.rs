@@ -3,8 +3,7 @@
 
 use super::Client;
 use crate::error::Result;
-use nil_core::continent::PublicField;
-use nil_core::village::Coord;
+use nil_core::continent::{Coord, PublicField};
 
 impl Client {
   /// POST `/continent/field`

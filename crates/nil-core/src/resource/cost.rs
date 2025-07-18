@@ -1,11 +1,12 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use derive_more::Deref;
+use derive_more::{Deref, Into};
 use serde::{Deserialize, Serialize};
 
-/// Custo base de uma entidade, como edifícios ou unidades.
-#[derive(Clone, Copy, Debug, Deref, Deserialize, Serialize)]
+/// Base cost of an entity, such as buildings or units.
+#[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize)]
+#[into(u32, f64)]
 pub struct Cost(u32);
 
 impl Cost {
@@ -15,20 +16,14 @@ impl Cost {
   }
 }
 
-impl From<Cost> for f64 {
-  fn from(value: Cost) -> Self {
-    f64::from(value.0)
-  }
-}
-
 impl From<f64> for Cost {
   fn from(value: f64) -> Self {
     Self::new(value as u32)
   }
 }
 
-/// Proporção entre o custo total e um dado recurso.
-#[derive(Clone, Copy, Debug, Deref, Deserialize, Serialize)]
+/// Proportion between the total cost and a given resource.
+#[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize)]
 pub struct ResourceRatio(f64);
 
 impl ResourceRatio {
@@ -43,7 +38,7 @@ impl ResourceRatio {
   }
 }
 
-/// Verifica, durante a compilação, se a soma das proporções dos recursos é igual a 1.
+/// Checks, at compile time, if the sum of the resource ratios equals 1.
 #[macro_export]
 macro_rules! check_total_resource_ratio {
   ($first:expr, $($other:expr),+ $(,)?) => {

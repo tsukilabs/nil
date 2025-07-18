@@ -11,7 +11,7 @@ use crate::infrastructure::mine::MineProduction;
 use crate::infrastructure::storage::StorageCapacity;
 use crate::player::PlayerStorageCapacity;
 use crate::village::Stability;
-use derive_more::{Deref, Display};
+use derive_more::{Deref, Display, Into};
 use nil_num::impl_mul_ceil;
 use nil_num::ops::MulCeil;
 use serde::{Deserialize, Serialize};
@@ -33,7 +33,7 @@ pub struct Resources {
 }
 
 impl Resources {
-  /// Quantidade padrão de recursos para um novo jogador.
+  /// Default amount of resources for a player.
   pub const PLAYER: Self = Self {
     food: Food::new(800),
     iron: Iron::new(800),
@@ -41,13 +41,35 @@ impl Resources {
     wood: Wood::new(800),
   };
 
-  /// Quantidade máxima de recursos possível.
+  /// Default amount of resources for a bot.
+  pub const BOT: Self = Self {
+    food: Food::new(2500),
+    iron: Iron::new(2500),
+    stone: Stone::new(2500),
+    wood: Wood::new(2500),
+  };
+
+  /// Default amount of resources for a precursor.
+  pub const PRECURSOR: Self = Self {
+    food: Food::new(5_000_000),
+    iron: Iron::new(5_000_000),
+    stone: Stone::new(5_000_000),
+    wood: Wood::new(5_000_000),
+  };
+
+  /// Maximum possible amount of resources.
   pub const MAX: Self = Self {
     food: Food::MAX,
     iron: Iron::MAX,
     stone: Stone::MAX,
     wood: Wood::MAX,
   };
+
+  #[inline]
+  #[must_use]
+  pub fn new() -> Self {
+    Self::default()
+  }
 
   #[inline]
   #[must_use]
@@ -74,21 +96,21 @@ impl Resources {
   }
 
   pub fn add_if_within_capacity(&mut self, diff: &ResourcesDiff, capacity: &PlayerStorageCapacity) {
-    self
-      .food
-      .add_if_within_capacity(diff.food, capacity.silo);
-    self
-      .iron
-      .add_if_within_capacity(diff.iron, capacity.warehouse);
-    self
-      .stone
-      .add_if_within_capacity(diff.stone, capacity.warehouse);
-    self
-      .wood
-      .add_if_within_capacity(diff.wood, capacity.warehouse);
+    macro_rules! add {
+      ($($res:ident => $storage:ident),+ $(,)?) => {
+        $(
+          self
+            .$res
+            .add_if_within_capacity(diff.$res, capacity.$storage);
+        )+
+      };
+    }
+
+    add!(food => silo, iron => warehouse, stone => warehouse, wood => warehouse);
   }
 
-  /// Retorna `None` se não houver recursos o suficiente.
+  /// Checked resource subtraction.
+  /// Returns `None` if there are not enough resources available.
   pub fn checked_sub(&self, rhs: &Self) -> Option<Self> {
     Some(Self {
       food: self.food.checked_sub(rhs.food)?,
@@ -205,6 +227,7 @@ macro_rules! decl_resource {
         Default,
         Deref,
         Display,
+        Into,
         PartialEq,
         Eq,
         PartialOrd,
@@ -212,6 +235,7 @@ macro_rules! decl_resource {
         Deserialize,
         Serialize,
       )]
+      #[into(u32, f64)]
       pub struct $name(u32);
 
       impl $name {
@@ -293,12 +317,6 @@ macro_rules! decl_resource {
       impl From<f64> for $name {
         fn from(value: f64) -> Self {
           Self::new(value as u32)
-        }
-      }
-
-      impl From<$name> for f64 {
-        fn from(value: $name) -> f64 {
-          f64::from(value.0)
         }
       }
 

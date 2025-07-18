@@ -7,8 +7,8 @@ use crate::state::App;
 use axum::extract::{Json, State};
 use axum::response::Response;
 use futures::TryFutureExt;
+use nil_core::continent::Coord;
 use nil_core::infrastructure::building::{BuildingId, BuildingLevel};
-use nil_core::village::Coord;
 
 pub async fn set_building_level(
   State(app): State<App>,

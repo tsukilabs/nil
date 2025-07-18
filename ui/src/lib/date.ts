@@ -4,7 +4,7 @@
 const ZONE_REGEX = /\[.+?\]/;
 
 /**
- * Exemplo:
+ * Example:
  *
  * 2025-06-02T22:08:36.6360753-03:00[America/Sao_Paulo]
  */

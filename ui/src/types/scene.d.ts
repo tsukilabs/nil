@@ -3,7 +3,7 @@
 
 type Scene = 'home' | 'host-game' | 'join-game' | 'settings' | GameScene;
 
-type GameScene = 'continent' | 'script' | 'village' | InfrastructureScene;
+type GameScene = 'continent' | 'village' | InfrastructureScene | ScriptScene;
 
 type InfrastructureScene =
   | 'academy'
@@ -18,3 +18,5 @@ type InfrastructureScene =
   | PrefectureScene;
 
 type PrefectureScene = 'prefecture' | 'village-management';
+
+type ScriptScene = 'script' | 'nsr';

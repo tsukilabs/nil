@@ -6,6 +6,7 @@ pub mod cheat;
 pub mod client;
 pub mod continent;
 pub mod infrastructure;
+pub mod nsr;
 pub mod player;
 pub mod round;
 pub mod script;

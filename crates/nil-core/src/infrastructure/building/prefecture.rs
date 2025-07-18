@@ -21,12 +21,11 @@ pub use build_queue::{
   PrefectureBuildOrder,
   PrefectureBuildOrderId,
   PrefectureBuildOrderKind,
-  PrefectureBuildOrderOptions,
+  PrefectureBuildOrderRequest,
   PrefectureBuildOrderStatus,
   PrefectureBuildQueue,
 };
 
-/// Centro logístico da aldeia, responsável pela construção de edifícios.
 #[derive(Building, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Prefecture {
@@ -59,7 +58,7 @@ impl Prefecture {
     &mut self.build_queue
   }
 
-  /// Processa a fila de construção da prefeitura.
+  /// Process the prefecture's build queue.
   #[must_use]
   pub(crate) fn process_queue(&mut self) -> Option<Vec<PrefectureBuildOrder>> {
     if self.enabled {

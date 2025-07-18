@@ -1,0 +1,111 @@
+// Copyright (C) Call of Nil contributors
+// SPDX-License-Identifier: AGPL-3.0-only
+
+mod cheat;
+mod infrastructure;
+mod player;
+mod round;
+mod village;
+
+use super::World;
+use crate::error::{Error, Result};
+use crate::player::PlayerId;
+use crate::script::{ScriptId, Stdio};
+use mlua::{Lua, LuaOptions, StdLib, UserData, UserDataMethods, Value, Variadic};
+use std::cell::RefCell;
+use std::rc::Rc;
+use std::sync::LazyLock;
+
+static LUA: LazyLock<Lua> = LazyLock::new(|| {
+  Lua::new_with(StdLib::MATH | StdLib::STRING, LuaOptions::default())
+    .expect("Failed to create the Lua state")
+});
+
+impl World {
+  pub fn execute_script(&mut self, id: ScriptId) -> Result<Stdio> {
+    let script = self.scripting.get(id).cloned()?;
+    self.execute_script_chunk(script.owner, &script.code)
+  }
+
+  pub fn execute_script_chunk(&mut self, player: PlayerId, chunk: &str) -> Result<Stdio> {
+    WorldUserData::new(self, player).execute(chunk)
+  }
+}
+
+struct WorldUserData<'a> {
+  world: &'a mut World,
+  player: PlayerId,
+}
+
+impl<'a> WorldUserData<'a> {
+  fn new(world: &'a mut World, player: PlayerId) -> Self {
+    Self { world, player }
+  }
+
+  fn execute(self, chunk: &str) -> Result<Stdio> {
+    let stdio = Rc::new(RefCell::new(Stdio::default()));
+    let result = LUA.scope(|scope| {
+      let globals = LUA.create_table()?;
+      let world = scope.create_userdata(self)?;
+      let print = scope.create_function_mut({
+        let stdio = Rc::downgrade(&stdio);
+        move |_, values: Variadic<Value>| {
+          if let Some(stdio) = stdio.upgrade() {
+            for value in values {
+              let value = value.to_string()?;
+              stdio.borrow_mut().push_stdout(&value);
+
+              #[cfg(debug_assertions)]
+              tracing::info!(lua_print = %value);
+            }
+          }
+
+          Ok(())
+        }
+      })?;
+
+      globals.set("world", world)?;
+      globals.set("print", print)?;
+
+      LUA.set_globals(globals)?;
+      LUA.load(chunk).exec()?;
+
+      Ok(())
+    });
+
+    if let Err(err) = &result
+      && let mlua::Error::CallbackError { cause, .. } = err
+      && let Some(err) = cause.downcast_ref::<Error>()
+    {
+      Err(err.clone())
+    } else {
+      result?;
+      Ok(Rc::unwrap_or_clone(stdio).into_inner())
+    }
+  }
+}
+
+#[doc(hidden)]
+#[macro_export]
+macro_rules! bail_not_owned_by {
+  ($this:expr, $coord:expr) => {
+    if !$this
+      .world
+      .continent
+      .village($coord)?
+      .is_owned_by_player_and(|id| id == &$this.player)
+    {
+      return Err($crate::error::Error::Forbidden.into());
+    }
+  };
+}
+
+impl UserData for WorldUserData<'_> {
+  fn add_methods<M: UserDataMethods<Self>>(methods: &mut M) {
+    cheat::add_methods(methods);
+    infrastructure::add_methods(methods);
+    player::add_methods(methods);
+    round::add_methods(methods);
+    village::add_methods(methods);
+  }
+}

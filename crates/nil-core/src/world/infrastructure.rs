@@ -4,9 +4,9 @@
 mod prefecture;
 
 use super::World;
+use crate::continent::Coord;
 use crate::error::Result;
 use crate::infrastructure::building::BuildingId;
-use crate::village::Coord;
 
 impl World {
   pub fn toggle_building(&mut self, coord: Coord, id: BuildingId, enabled: bool) -> Result<()> {

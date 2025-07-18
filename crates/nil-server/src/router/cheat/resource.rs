@@ -12,12 +12,11 @@ use nil_core::resource::prelude::*;
 
 pub async fn set_food(
   State(app): State<App>,
-  Extension(current_player): Extension<CurrentPlayer>,
+  Extension(player): Extension<CurrentPlayer>,
   Json(food): Json<Food>,
 ) -> Response {
-  let player = current_player.0;
   app
-    .world_mut(|world| world.cheat_set_food(player, food))
+    .world_mut(|world| world.cheat_set_food(player.0, food))
     .map_ok(|()| res!(OK))
     .unwrap_or_else(from_core_err)
     .await
@@ -25,12 +24,11 @@ pub async fn set_food(
 
 pub async fn set_iron(
   State(app): State<App>,
-  Extension(current_player): Extension<CurrentPlayer>,
+  Extension(player): Extension<CurrentPlayer>,
   Json(iron): Json<Iron>,
 ) -> Response {
-  let player = current_player.0;
   app
-    .world_mut(|world| world.cheat_set_iron(player, iron))
+    .world_mut(|world| world.cheat_set_iron(player.0, iron))
     .map_ok(|()| res!(OK))
     .unwrap_or_else(from_core_err)
     .await
@@ -38,11 +36,10 @@ pub async fn set_iron(
 
 pub async fn set_max_food(
   State(app): State<App>,
-  Extension(current_player): Extension<CurrentPlayer>,
+  Extension(player): Extension<CurrentPlayer>,
 ) -> Response {
-  let player = current_player.0;
   app
-    .world_mut(|world| world.cheat_set_max_food(player))
+    .world_mut(|world| world.cheat_set_max_food(player.0))
     .map_ok(|()| res!(OK))
     .unwrap_or_else(from_core_err)
     .await
@@ -50,11 +47,10 @@ pub async fn set_max_food(
 
 pub async fn set_max_iron(
   State(app): State<App>,
-  Extension(current_player): Extension<CurrentPlayer>,
+  Extension(player): Extension<CurrentPlayer>,
 ) -> Response {
-  let player = current_player.0;
   app
-    .world_mut(|world| world.cheat_set_max_iron(player))
+    .world_mut(|world| world.cheat_set_max_iron(player.0))
     .map_ok(|()| res!(OK))
     .unwrap_or_else(from_core_err)
     .await
@@ -62,11 +58,10 @@ pub async fn set_max_iron(
 
 pub async fn set_max_resources(
   State(app): State<App>,
-  Extension(current_player): Extension<CurrentPlayer>,
+  Extension(player): Extension<CurrentPlayer>,
 ) -> Response {
-  let player = current_player.0;
   app
-    .world_mut(|world| world.cheat_set_max_resources(player))
+    .world_mut(|world| world.cheat_set_max_resources(player.0))
     .map_ok(|()| res!(OK))
     .unwrap_or_else(from_core_err)
     .await
@@ -74,11 +69,10 @@ pub async fn set_max_resources(
 
 pub async fn set_max_silo_resources(
   State(app): State<App>,
-  Extension(current_player): Extension<CurrentPlayer>,
+  Extension(player): Extension<CurrentPlayer>,
 ) -> Response {
-  let player = current_player.0;
   app
-    .world_mut(|world| world.cheat_set_max_silo_resources(player))
+    .world_mut(|world| world.cheat_set_max_silo_resources(player.0))
     .map_ok(|()| res!(OK))
     .unwrap_or_else(from_core_err)
     .await
@@ -86,11 +80,10 @@ pub async fn set_max_silo_resources(
 
 pub async fn set_max_stone(
   State(app): State<App>,
-  Extension(current_player): Extension<CurrentPlayer>,
+  Extension(player): Extension<CurrentPlayer>,
 ) -> Response {
-  let player = current_player.0;
   app
-    .world_mut(|world| world.cheat_set_max_stone(player))
+    .world_mut(|world| world.cheat_set_max_stone(player.0))
     .map_ok(|()| res!(OK))
     .unwrap_or_else(from_core_err)
     .await
@@ -98,11 +91,10 @@ pub async fn set_max_stone(
 
 pub async fn set_max_warehouse_resources(
   State(app): State<App>,
-  Extension(current_player): Extension<CurrentPlayer>,
+  Extension(player): Extension<CurrentPlayer>,
 ) -> Response {
-  let player = current_player.0;
   app
-    .world_mut(|world| world.cheat_set_max_warehouse_resources(player))
+    .world_mut(|world| world.cheat_set_max_warehouse_resources(player.0))
     .map_ok(|()| res!(OK))
     .unwrap_or_else(from_core_err)
     .await
@@ -110,11 +102,10 @@ pub async fn set_max_warehouse_resources(
 
 pub async fn set_max_wood(
   State(app): State<App>,
-  Extension(current_player): Extension<CurrentPlayer>,
+  Extension(player): Extension<CurrentPlayer>,
 ) -> Response {
-  let player = current_player.0;
   app
-    .world_mut(|world| world.cheat_set_max_wood(player))
+    .world_mut(|world| world.cheat_set_max_wood(player.0))
     .map_ok(|()| res!(OK))
     .unwrap_or_else(from_core_err)
     .await
@@ -122,12 +113,11 @@ pub async fn set_max_wood(
 
 pub async fn set_resources(
   State(app): State<App>,
-  Extension(current_player): Extension<CurrentPlayer>,
+  Extension(player): Extension<CurrentPlayer>,
   Json(resources): Json<Resources>,
 ) -> Response {
-  let player = current_player.0;
   app
-    .world_mut(|world| world.cheat_set_resources(player, resources))
+    .world_mut(|world| world.cheat_set_resources(player.0, resources))
     .map_ok(|()| res!(OK))
     .unwrap_or_else(from_core_err)
     .await
@@ -135,12 +125,11 @@ pub async fn set_resources(
 
 pub async fn set_stone(
   State(app): State<App>,
-  Extension(current_player): Extension<CurrentPlayer>,
+  Extension(player): Extension<CurrentPlayer>,
   Json(stone): Json<Stone>,
 ) -> Response {
-  let player = current_player.0;
   app
-    .world_mut(|world| world.cheat_set_stone(player, stone))
+    .world_mut(|world| world.cheat_set_stone(player.0, stone))
     .map_ok(|()| res!(OK))
     .unwrap_or_else(from_core_err)
     .await
@@ -148,12 +137,11 @@ pub async fn set_stone(
 
 pub async fn set_wood(
   State(app): State<App>,
-  Extension(current_player): Extension<CurrentPlayer>,
+  Extension(player): Extension<CurrentPlayer>,
   Json(wood): Json<Wood>,
 ) -> Response {
-  let player = current_player.0;
   app
-    .world_mut(|world| world.cheat_set_wood(player, wood))
+    .world_mut(|world| world.cheat_set_wood(player.0, wood))
     .map_ok(|()| res!(OK))
     .unwrap_or_else(from_core_err)
     .await

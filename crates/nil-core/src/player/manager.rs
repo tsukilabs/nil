@@ -3,11 +3,11 @@
 
 use super::{Player, PlayerId};
 use crate::error::{Error, Result};
-use indexmap::IndexMap;
 use serde::{Deserialize, Serialize};
+use std::collections::HashMap;
 
 #[derive(Clone, Debug, Default, Deserialize, Serialize)]
-pub struct PlayerManager(IndexMap<PlayerId, Player>);
+pub struct PlayerManager(HashMap<PlayerId, Player>);
 
 impl PlayerManager {
   pub fn player(&self, id: &PlayerId) -> Result<&Player> {
@@ -17,7 +17,7 @@ impl PlayerManager {
       .ok_or_else(|| Error::PlayerNotFound(id.clone()))
   }
 
-  pub fn player_mut(&mut self, id: &PlayerId) -> Result<&mut Player> {
+  pub(crate) fn player_mut(&mut self, id: &PlayerId) -> Result<&mut Player> {
     self
       .0
       .get_mut(id)
@@ -28,7 +28,7 @@ impl PlayerManager {
     self.0.values()
   }
 
-  pub fn players_mut(&mut self) -> impl Iterator<Item = &mut Player> {
+  pub(crate) fn players_mut(&mut self) -> impl Iterator<Item = &mut Player> {
     self.0.values_mut()
   }
 
@@ -37,7 +37,8 @@ impl PlayerManager {
     self.0.contains_key(id)
   }
 
-  pub(crate) fn insert(&mut self, player: Player) {
+  pub(crate) fn spawn(&mut self, player: Player) {
+    debug_assert!(!self.0.contains_key(&player.id));
     self.0.insert(player.id(), player);
   }
 }

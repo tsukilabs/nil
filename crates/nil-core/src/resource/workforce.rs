@@ -3,19 +3,22 @@
 
 use crate::infrastructure::building::BuildingLevel;
 use crate::village::Stability;
-use derive_more::Deref;
+use derive_more::{Deref, Into};
 use nil_num::impl_mul_ceil;
 use nil_num::ops::MulCeil;
 use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
 use std::ops::{Add, AddAssign, Mul, MulAssign, Sub, SubAssign};
 
-/// Força de trabalho é um recurso especial usado para construir edifícios e recrutar tropas.
-/// A quantidade gerada por turno será sempre igual ao nível do edifício relevante (ex.: prefeitura).
+/// Workforce is a special resource used to construct buildings and recruit troops.
+/// The amount generated per turn will always be equal to the level of the relevant building.
 ///
-/// Ao contrário dos outros recursos, a força de trabalho jamais deve acumular para o próximo turno.
-/// Tudo o que não for usado deve ser descartado.
-#[derive(Clone, Copy, Debug, Deref, PartialEq, Eq, PartialOrd, Ord, Deserialize, Serialize)]
+/// Unlike other resources, the workforce should never accumulate for the next round.
+/// Anything that is not used should be discarded.
+#[derive(
+  Clone, Copy, Debug, Deref, Into, PartialEq, Eq, PartialOrd, Ord, Deserialize, Serialize,
+)]
+#[into(u32, f64)]
 pub struct Workforce(u32);
 
 impl Workforce {
@@ -27,13 +30,7 @@ impl Workforce {
 
 impl From<BuildingLevel> for Workforce {
   fn from(value: BuildingLevel) -> Self {
-    Workforce(u32::from(*value))
-  }
-}
-
-impl From<Workforce> for f64 {
-  fn from(value: Workforce) -> Self {
-    f64::from(value.0)
+    Workforce(u32::from(value))
   }
 }
 

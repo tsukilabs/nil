@@ -6,11 +6,11 @@ import Field from './Field.vue';
 import { useRoute } from 'vue-router';
 import type { Option } from '@tb-dev/utils';
 import { useElementSize } from '@tb-dev/vue';
-import { Card } from '@tb-dev/vue-components';
 import { getContinentSize } from '@/commands';
-import { CoordImpl } from '@/core/model/coord';
 import { onKeyDown, until } from '@vueuse/core';
 import { ListenerSet } from '@/lib/listener-set';
+import { CoordImpl } from '@/core/model/continent/coord';
+import { Card, CardContent } from '@tb-dev/vue-components';
 import { memory } from 'nil-continent/nil_continent_bg.wasm';
 import { Continent, Coord as WasmCoord } from 'nil-continent';
 import { PublicFieldImpl } from '@/core/model/continent/public-field';
@@ -76,13 +76,12 @@ const listener = new ListenerSet();
 listener.event.onPublicVillageUpdated(async ({ coord }) => {
   const field = fields.value.find((it) => it.coord.is(coord));
   if (field && !field.isLoading()) {
-    // Quando começa a carregar, a classe modifica suas flags de modo a registrar
-    // que uma atualização está ocorrendo. Tendo em vista que o Vue depende delas
-    // para saber que estão havendo mudanças (devido ao uso de `key` no loop do grid),
-    // é preciso acionar a reatividade de `fields` tanto antes quanto depois da atualização terminar.
+    // When loading begins, `PublicFieldImpl` modifies its flags to indicate that an update is taking place.
+    // Since Vue relies on these flags to detect changes (due to the use of `key` in the grid loop),
+    // we need to trigger the `fields` ref both before and after the update is completed.
     //
-    // Se a reatividade fosse acionada apenas ao término, o Vue não atualizaria a interface,
-    // já que nesse ponto o valor da flag muito provavelmente já teria voltado ao seu valor inicial.
+    // If the ref were only triggered at the end, Vue would not update the grid because the value
+    // of the flag would most likely have already reverted to its initial state by that time.
     await field.load({
       onBeforeLoad: triggerFields,
       onLoad: triggerFields,
@@ -191,37 +190,36 @@ function move(dir: 'up' | 'down' | 'left' | 'right') {
 
 <template>
   <div class="game-layout">
-    <Card
-      class="size-full overflow-hidden p-0"
-      content-class="relative size-full overflow-hidden p-0 select-none"
-    >
-      <div
-        ref="container"
-        class="bg-card absolute inset-0 bottom-[50px] left-[50px] z-10 overflow-hidden"
-      >
-        <div id="continent-grid">
-          <Field
-            v-for="field of fields"
-            :key="`${field.id}-${field.flags}`"
-            :field
-            :continent-size="size"
-          />
+    <Card class="size-full overflow-hidden p-0">
+      <CardContent class="relative size-full overflow-hidden p-0 select-none">
+        <div
+          ref="container"
+          class="bg-card absolute inset-0 bottom-[50px] left-[50px] z-10 overflow-hidden"
+        >
+          <div id="continent-grid">
+            <Field
+              v-for="field of fields"
+              :key="`${field.id}-${field.flags}`"
+              :field
+              :continent-size="size"
+            />
+          </div>
         </div>
-      </div>
 
-      <div id="rule-horizontal" class="rule bg-accent font-nil text-lg">
-        <div v-for="[idx, col] of cols" :key="idx">
-          <span v-if="typeof col === 'number'">{{ col }}</span>
+        <div id="rule-horizontal" class="rule bg-accent font-nil text-lg">
+          <div v-for="[idx, col] of cols" :key="idx">
+            <span v-if="typeof col === 'number'">{{ col }}</span>
+          </div>
         </div>
-      </div>
 
-      <div id="rule-vertical" class="rule bg-accent font-nil text-lg">
-        <div v-for="[idx, row] of rows" :key="idx">
-          <span v-if="typeof row === 'number'">{{ row }}</span>
+        <div id="rule-vertical" class="rule bg-accent font-nil text-lg">
+          <div v-for="[idx, row] of rows" :key="idx">
+            <span v-if="typeof row === 'number'">{{ row }}</span>
+          </div>
         </div>
-      </div>
 
-      <div id="container-fill" class="bg-accent"></div>
+        <div id="container-fill" class="bg-accent"></div>
+      </CardContent>
     </Card>
   </div>
 </template>
