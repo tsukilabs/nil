@@ -67,7 +67,7 @@ impl World {
     if self.has_player(&id) {
       Err(Error::PlayerAlreadySpawned(id))
     } else {
-      let (coord, field) = self.continent.find_spawn_point()?;
+      let (coord, field) = self.find_spawn_point()?;
       *field = Village::builder(coord)
         .name(&*id)
         .owner(&id)
@@ -75,7 +75,7 @@ impl World {
         .into();
 
       *player.status_mut() = PlayerStatus::Active;
-      self.player_manager.insert(player);
+      self.player_manager.spawn(player);
 
       self.emit_public_village_updated(coord);
 

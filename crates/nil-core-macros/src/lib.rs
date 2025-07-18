@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 mod infrastructure;
+mod npc;
 mod unit;
 
 use proc_macro::TokenStream;
@@ -14,6 +15,11 @@ pub fn derive_building(input: TokenStream) -> TokenStream {
 #[proc_macro_derive(Mine)]
 pub fn derive_mine(input: TokenStream) -> TokenStream {
   infrastructure::impl_mine(&syn::parse(input).unwrap())
+}
+
+#[proc_macro_derive(Precursor)]
+pub fn derive_precursor(input: TokenStream) -> TokenStream {
+  npc::impl_precursor(&syn::parse(input).unwrap())
 }
 
 #[proc_macro_derive(Storage)]

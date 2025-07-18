@@ -2,5 +2,4 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 pub mod bot;
-pub mod hollow;
 pub mod precursor;

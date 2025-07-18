@@ -3,7 +3,7 @@
 
 use super::building::{Building, BuildingLevel, StorageId};
 use crate::error::{Error, Result};
-use derive_more::Deref;
+use derive_more::{Deref, Into};
 use nil_num::growth::growth;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
@@ -81,7 +81,8 @@ impl StorageStatsTable {
 }
 
 /// Storage capacity of a building.
-#[derive(Clone, Copy, Debug, Deref, Default, Deserialize, Serialize)]
+#[derive(Clone, Copy, Debug, Deref, Default, Into, Deserialize, Serialize)]
+#[into(u32, f64)]
 pub struct StorageCapacity(u32);
 
 impl StorageCapacity {
@@ -144,12 +145,6 @@ impl SubAssign for StorageCapacity {
 impl SubAssign<u32> for StorageCapacity {
   fn sub_assign(&mut self, rhs: u32) {
     *self = *self - rhs;
-  }
-}
-
-impl From<StorageCapacity> for f64 {
-  fn from(value: StorageCapacity) -> Self {
-    f64::from(value.0)
   }
 }
 

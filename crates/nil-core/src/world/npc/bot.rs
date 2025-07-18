@@ -8,9 +8,9 @@ use crate::with_random_level;
 use crate::world::World;
 
 impl World {
-  pub fn spawn_bot(&mut self) -> Result<()> {
-    let (coord, field) = self.continent.find_spawn_point()?;
-    let id = self.bot_manager.spawn();
+  pub(crate) fn spawn_bot(&mut self) -> Result<()> {
+    let (id, name) = self.bot_manager.spawn();
+    let (coord, field) = self.find_spawn_point()?;
 
     let infrastructure = Infrastructure::builder()
       .farm(with_random_level!(Farm, 5, 10))
@@ -22,9 +22,8 @@ impl World {
       .warehouse(with_random_level!(Warehouse, 1, 10))
       .build();
 
-    // TODO: Give proper names to the bot villages.
     *field = Village::builder(coord)
-      .name(format!("Bot {id}"))
+      .name(name)
       .owner(id)
       .infrastructure(infrastructure)
       .build()

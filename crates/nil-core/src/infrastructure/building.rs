@@ -15,7 +15,7 @@ pub mod warehouse;
 use crate::error::{Error, Result};
 use crate::infrastructure::requirements::InfrastructureRequirements;
 use crate::resource::prelude::*;
-use derive_more::Deref;
+use derive_more::{Deref, Into};
 use nil_num::growth::growth;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
@@ -211,8 +211,21 @@ impl BuildingStatsTable {
 }
 
 #[derive(
-  Clone, Copy, Debug, Default, Deref, PartialEq, Eq, PartialOrd, Ord, Hash, Deserialize, Serialize,
+  Clone,
+  Copy,
+  Debug,
+  Default,
+  Deref,
+  Into,
+  PartialEq,
+  Eq,
+  PartialOrd,
+  Ord,
+  Hash,
+  Deserialize,
+  Serialize,
 )]
+#[into(u8, u16, u32, u64, usize, f64)]
 pub struct BuildingLevel(u8);
 
 impl BuildingLevel {
@@ -317,18 +330,6 @@ impl SubAssign<u8> for BuildingLevel {
 impl SubAssign<i8> for BuildingLevel {
   fn sub_assign(&mut self, rhs: i8) {
     *self = *self - rhs;
-  }
-}
-
-impl From<BuildingLevel> for u8 {
-  fn from(level: BuildingLevel) -> Self {
-    level.0
-  }
-}
-
-impl From<BuildingLevel> for f64 {
-  fn from(level: BuildingLevel) -> Self {
-    f64::from(level.0)
   }
 }
 

@@ -37,7 +37,8 @@ impl PlayerManager {
     self.0.contains_key(id)
   }
 
-  pub(crate) fn insert(&mut self, player: Player) {
+  pub(crate) fn spawn(&mut self, player: Player) {
+    debug_assert!(!self.0.contains_key(&player.id));
     self.0.insert(player.id(), player);
   }
 }

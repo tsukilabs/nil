@@ -7,6 +7,7 @@ use crate::ethic::Ethics;
 use crate::resource::Resources;
 use derive_more::Display;
 use serde::{Deserialize, Serialize};
+use std::ops::Deref;
 use std::sync::Arc;
 
 pub use manager::BotManager;
@@ -15,7 +16,7 @@ pub use manager::BotManager;
 #[serde(rename_all = "camelCase")]
 pub struct Bot {
   id: BotId,
-  name: Arc<str>,
+  name: BotName,
   ethics: Ethics,
   resources: Resources,
 }
@@ -26,7 +27,7 @@ impl Bot {
     let name = format!("Bot {id}");
     Self {
       id,
-      name: Arc::from(name),
+      name: BotName(Arc::from(name)),
       ethics: Ethics::random(),
       resources: Resources::BOT.clone(),
     }
@@ -51,5 +52,34 @@ impl BotId {
   #[must_use]
   const fn next(self) -> Self {
     Self(self.0.saturating_add(1))
+  }
+}
+
+#[derive(Debug, Display, PartialEq, Eq, Deserialize, Serialize)]
+pub struct BotName(Arc<str>);
+
+impl Clone for BotName {
+  fn clone(&self) -> Self {
+    Self(Arc::clone(&self.0))
+  }
+}
+
+impl AsRef<str> for BotName {
+  fn as_ref(&self) -> &str {
+    &self.0
+  }
+}
+
+impl Deref for BotName {
+  type Target = str;
+
+  fn deref(&self) -> &Self::Target {
+    &self.0
+  }
+}
+
+impl From<BotName> for String {
+  fn from(value: BotName) -> Self {
+    String::from(value.0.as_ref())
   }
 }

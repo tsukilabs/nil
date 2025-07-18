@@ -1,13 +1,16 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+use crate::continent::ContinentSize;
 use crate::error::Result;
 use glam::u8::U8Vec2;
+use itertools::Itertools;
 use serde::de::{self, Error as _, MapAccess, SeqAccess, Visitor};
 use serde::ser::SerializeStruct;
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
 use std::borrow::Cow;
 use std::fmt;
+use std::ops::{Add, Sub};
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub struct Coord(U8Vec2);
@@ -38,6 +41,72 @@ impl Coord {
   #[inline]
   pub fn distance(&self, rhs: Coord) -> u8 {
     self.0.chebyshev_distance(rhs.0)
+  }
+
+  #[inline]
+  pub fn is_within_continent(&self, size: ContinentSize) -> bool {
+    size > self.x() && size > self.y()
+  }
+
+  pub fn is_within_distance(&self, other: Coord, distance: u8) -> bool {
+    let x0 = i16::from(self.x());
+    let y0 = i16::from(self.y());
+    let distance = i16::from(distance);
+
+    let absx = (i16::from(other.x()) - x0).abs();
+    let absy = (i16::from(other.y()) - y0).abs();
+    absx.max(absy) <= distance
+  }
+
+  #[inline]
+  #[must_use]
+  pub fn within_distance(self, distance: u8) -> Vec<Self> {
+    within_distance(self, distance, false)
+  }
+
+  #[inline]
+  #[must_use]
+  pub fn within_distance_inclusive(self, distance: u8) -> Vec<Self> {
+    within_distance(self, distance, true)
+  }
+}
+
+fn within_distance(origin: Coord, distance: u8, inclusive: bool) -> Vec<Coord> {
+  let mut coords = Vec::new();
+  let x0 = i16::from(origin.x());
+  let y0 = i16::from(origin.y());
+  let distance = i16::from(distance);
+
+  for x in (x0 - distance)..=(x0 + distance) {
+    for y in (y0 - distance)..=(y0 + distance) {
+      let absx = (x - x0).abs();
+      let absy = (y - y0).abs();
+      if absx.max(absy) <= distance
+        && (inclusive || x != x0 || y != y0)
+        && let Ok(x) = u8::try_from(x)
+        && let Ok(y) = u8::try_from(y)
+      {
+        coords.push(Coord::new(x, y));
+      }
+    }
+  }
+
+  coords.into_iter().unique().collect()
+}
+
+impl Add for Coord {
+  type Output = Coord;
+
+  fn add(self, rhs: Self) -> Self::Output {
+    Self(self.0.saturating_add(rhs.0))
+  }
+}
+
+impl Sub for Coord {
+  type Output = Coord;
+
+  fn sub(self, rhs: Self) -> Self::Output {
+    Self(self.0.saturating_sub(rhs.0))
   }
 }
 

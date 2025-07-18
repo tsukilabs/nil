@@ -1,6 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+mod coord;
 mod field;
 
 #[cfg(test)]
@@ -8,47 +9,43 @@ mod tests;
 
 use crate::error::{Error, Result};
 use crate::player::PlayerId;
-use crate::village::{Coord, Village};
-use rand::seq::IteratorRandom;
+use crate::village::Village;
+use derive_more::Deref;
 use serde::{Deserialize, Serialize};
+use std::cmp::Ordering;
 use std::num::NonZeroU8;
 
+pub use coord::Coord;
 pub use field::{Field, PublicField};
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Continent {
   fields: Box<[Field]>,
-  size: NonZeroU8,
+  size: ContinentSize,
 }
 
 impl Continent {
-  pub const MIN_SIZE: NonZeroU8 = NonZeroU8::new(100).unwrap();
-  pub const MAX_SIZE: NonZeroU8 = NonZeroU8::new(200).unwrap();
-
   pub(crate) fn new(size: u8) -> Self {
-    let size = size
-      .clamp(Self::MIN_SIZE.get(), Self::MAX_SIZE.get())
-      .next_multiple_of(10);
-
-    let capacity = usize::from(size).pow(2);
+    let size = ContinentSize::new(size);
+    let capacity = usize::from(size.get()).pow(2);
     let mut fields = Vec::with_capacity(capacity);
     fields.resize_with(capacity, Field::default);
 
     Self {
       fields: fields.into_boxed_slice(),
-      size: unsafe { NonZeroU8::new_unchecked(size) },
+      size,
     }
   }
 
   #[inline]
-  pub fn size(&self) -> u8 {
-    self.size.get()
+  pub fn size(&self) -> ContinentSize {
+    self.size
   }
 
   #[inline]
   pub fn radius(&self) -> u8 {
-    self.size().div_ceil(2)
+    self.size.get().div_ceil(2)
   }
 
   #[inline]
@@ -74,14 +71,12 @@ impl Continent {
       .ok_or(Error::CoordOutOfBounds(coord))
   }
 
-  pub fn fields<C>(&self, coords: C) -> Result<Vec<(Coord, &Field)>>
-  where
-    C: IntoIterator<Item = Coord>,
-  {
-    coords
-      .into_iter()
-      .map(|coord| Ok((coord, self.field(coord)?)))
-      .try_collect()
+  pub fn fields(&self) -> impl Iterator<Item = &Field> {
+    self.fields.iter()
+  }
+
+  pub fn enumerate_fields(&self) -> impl Iterator<Item = (usize, &Field)> {
+    self.fields.iter().enumerate()
   }
 
   #[inline]
@@ -111,15 +106,6 @@ impl Continent {
       .filter_map(Field::village_mut)
   }
 
-  pub fn player_coords_by<F>(&self, f: F) -> impl Iterator<Item = Coord>
-  where
-    F: Fn(&PlayerId) -> bool,
-  {
-    self
-      .player_villages_by(f)
-      .map(Village::coord)
-  }
-
   pub fn player_villages_by<F>(&self, f: F) -> impl Iterator<Item = &Village>
   where
     F: Fn(&PlayerId) -> bool,
@@ -129,9 +115,18 @@ impl Continent {
       .filter(move |village| village.is_owned_by_player_and(|id| f(id)))
   }
 
+  pub fn player_coords_by<F>(&self, f: F) -> impl Iterator<Item = Coord>
+  where
+    F: Fn(&PlayerId) -> bool,
+  {
+    self
+      .player_villages_by(f)
+      .map(Village::coord)
+  }
+
   /// Searches for a coordinate in the slice, returning its index.
   fn index(&self, coord: Coord) -> usize {
-    let size = usize::from(self.size());
+    let size = usize::from(self.size);
     let x = usize::from(coord.x());
     let y = usize::from(coord.y());
     let index = (y * size) + x;
@@ -143,8 +138,8 @@ impl Continent {
     index
   }
 
-  fn coord(&self, index: usize) -> Result<Coord> {
-    let size = usize::from(self.size());
+  pub(crate) fn coord(&self, index: usize) -> Result<Coord> {
+    let size = usize::from(self.size);
     let x = index % size;
     let y = index / size;
 
@@ -156,23 +151,79 @@ impl Continent {
       u8::try_from(y).map_err(|_| Error::IndexOutOfBounds(index))?,
     ))
   }
-
-  pub(crate) fn find_spawn_point(&mut self) -> Result<(Coord, &mut Field)> {
-    let coord = self
-      .fields
-      .iter()
-      .enumerate()
-      .filter(|(_, field)| field.is_empty())
-      .choose_stable(&mut rand::rng())
-      .map(|(idx, _)| self.coord(idx))
-      .ok_or(Error::WorldIsFull)??;
-
-    Ok((coord, self.field_mut(coord)?))
-  }
 }
 
 impl Default for Continent {
   fn default() -> Self {
-    Self::new(Self::MIN_SIZE.get())
+    Self::new(ContinentSize::default().get())
+  }
+}
+
+#[derive(Clone, Copy, Debug, Deref, PartialEq, Eq, PartialOrd, Ord, Deserialize, Serialize)]
+pub struct ContinentSize(NonZeroU8);
+
+impl ContinentSize {
+  pub const MIN: ContinentSize = unsafe { Self::new_unchecked(100) };
+  pub const MAX: ContinentSize = unsafe { Self::new_unchecked(200) };
+
+  pub fn new(size: u8) -> Self {
+    let size = size
+      .clamp(Self::MIN.0.get(), Self::MAX.0.get())
+      .next_multiple_of(10);
+
+    unsafe { Self::new_unchecked(size) }
+  }
+
+  /// # Safety
+  ///
+  /// The size must be between [`ContinentSize::MIN`] and [`ContinentSize::MAX`].
+  ///
+  /// This actually will only result in undefined behavior if the size is zero,
+  /// however, this fact should never be relied upon.
+  #[inline]
+  pub const unsafe fn new_unchecked(size: u8) -> Self {
+    Self(unsafe { NonZeroU8::new_unchecked(size) })
+  }
+}
+
+impl Default for ContinentSize {
+  fn default() -> Self {
+    Self::MIN
+  }
+}
+
+impl From<ContinentSize> for u8 {
+  fn from(size: ContinentSize) -> Self {
+    size.0.get()
+  }
+}
+
+impl From<ContinentSize> for u16 {
+  fn from(size: ContinentSize) -> Self {
+    u16::from(size.0.get())
+  }
+}
+
+impl From<ContinentSize> for usize {
+  fn from(size: ContinentSize) -> Self {
+    usize::from(size.0.get())
+  }
+}
+
+impl From<ContinentSize> for i16 {
+  fn from(size: ContinentSize) -> Self {
+    i16::from(size.0.get())
+  }
+}
+
+impl PartialEq<u8> for ContinentSize {
+  fn eq(&self, other: &u8) -> bool {
+    self.0.get().eq(other)
+  }
+}
+
+impl PartialOrd<u8> for ContinentSize {
+  fn partial_cmp(&self, other: &u8) -> Option<Ordering> {
+    self.0.get().partial_cmp(other)
   }
 }

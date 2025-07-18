@@ -1,8 +1,8 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use super::{Bot, BotId};
 use crate::error::{Error, Result};
+use crate::npc::bot::{Bot, BotId, BotName};
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
@@ -24,10 +24,15 @@ impl BotManager {
     self.map.values()
   }
 
-  pub(crate) fn spawn(&mut self) -> BotId {
-    let id = self.current_id.next();
-    self.map.insert(id, Bot::new(id));
-    self.current_id = id;
-    self.current_id
+  pub(crate) fn spawn(&mut self) -> (BotId, BotName) {
+    self.current_id = self.current_id.next();
+    let entry = self
+      .map
+      .entry(self.current_id)
+      .insert_entry(Bot::new(self.current_id));
+
+    let bot = entry.get();
+
+    (bot.id, bot.name.clone())
   }
 }

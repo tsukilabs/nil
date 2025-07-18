@@ -5,6 +5,7 @@ use crate::chat::Chat;
 use crate::continent::Continent;
 use crate::error::{Error, Result};
 use crate::npc::bot::BotManager;
+use crate::npc::precursor::PrecursorManager;
 use crate::player::{PlayerManager, PlayerStatus};
 use crate::round::{Phase, Round};
 use crate::script::Scripting;
@@ -32,6 +33,7 @@ pub struct Savedata {
   pub(super) continent: Continent,
   pub(super) player_manager: PlayerManager,
   pub(super) bot_manager: BotManager,
+  pub(super) precursor_manager: PrecursorManager,
   pub(super) config: WorldConfig,
   pub(super) stats: WorldStats,
   pub(super) chat: Chat,
@@ -51,6 +53,7 @@ fn save(world: &World, path: &Path) -> Result<()> {
     continent: world.continent.clone(),
     player_manager: world.player_manager.clone(),
     bot_manager: world.bot_manager.clone(),
+    precursor_manager: world.precursor_manager.clone(),
     config: world.config.clone(),
     stats: world.stats.clone(),
     chat: world.chat.clone(),

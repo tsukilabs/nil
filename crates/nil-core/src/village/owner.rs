@@ -2,14 +2,17 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::npc::bot::BotId;
+use crate::npc::precursor::PrecursorId;
 use crate::player::PlayerId;
 use serde::{Deserialize, Serialize};
 
+#[expect(variant_size_differences)]
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(tag = "kind", rename_all = "kebab-case")]
 pub enum VillageOwner {
   Bot { id: BotId },
   Player { id: PlayerId },
+  Precursor { id: PrecursorId },
 }
 
 impl VillageOwner {
@@ -49,5 +52,11 @@ impl From<PlayerId> for VillageOwner {
 impl From<&PlayerId> for VillageOwner {
   fn from(id: &PlayerId) -> Self {
     Self::Player { id: id.clone() }
+  }
+}
+
+impl From<PrecursorId> for VillageOwner {
+  fn from(id: PrecursorId) -> Self {
+    Self::Precursor { id }
   }
 }

@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::chat::ChatMessage;
+use crate::continent::Coord;
 use crate::player::PlayerId;
 use crate::round::Round;
-use crate::village::Coord;
 use bytes::Bytes;
 use nil_util::serde::{from_slice, to_bytes};
 use serde::{Deserialize, Serialize};

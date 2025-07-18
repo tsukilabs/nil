@@ -1,19 +1,18 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-mod coord;
 mod owner;
 
+use crate::continent::Coord;
 use crate::error::Result;
 use crate::infrastructure::{Infrastructure, InfrastructureStats};
 use crate::player::PlayerId;
 use crate::resource::{Maintenance, Resources};
 use bon::Builder;
-use derive_more::Deref;
+use derive_more::{Deref, Into};
 use serde::{Deserialize, Serialize};
 use std::sync::Arc;
 
-pub use coord::Coord;
 pub use owner::VillageOwner;
 
 #[derive(Builder, Clone, Debug, Deserialize, Serialize)]
@@ -114,7 +113,7 @@ impl Village {
 }
 
 /// Political stability of the village.
-#[derive(Clone, Copy, Debug, Deref, Deserialize, Serialize)]
+#[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize)]
 pub struct Stability(f64);
 
 impl Stability {

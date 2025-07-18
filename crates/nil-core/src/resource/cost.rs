@@ -1,23 +1,18 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use derive_more::Deref;
+use derive_more::{Deref, Into};
 use serde::{Deserialize, Serialize};
 
 /// Base cost of an entity, such as buildings or units.
-#[derive(Clone, Copy, Debug, Deref, Deserialize, Serialize)]
+#[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize)]
+#[into(u32, f64)]
 pub struct Cost(u32);
 
 impl Cost {
   #[inline]
   pub const fn new(value: u32) -> Self {
     Self(value)
-  }
-}
-
-impl From<Cost> for f64 {
-  fn from(value: Cost) -> Self {
-    f64::from(value.0)
   }
 }
 
@@ -28,7 +23,7 @@ impl From<f64> for Cost {
 }
 
 /// Proportion between the total cost and a given resource.
-#[derive(Clone, Copy, Debug, Deref, Deserialize, Serialize)]
+#[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize)]
 pub struct ResourceRatio(f64);
 
 impl ResourceRatio {

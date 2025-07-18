@@ -1,11 +1,12 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+use crate::continent::Coord;
 use crate::infrastructure::building::{BuildingId, BuildingLevel, MineId, StorageId};
 use crate::npc::bot::BotId;
+use crate::npc::precursor::PrecursorId;
 use crate::player::PlayerId;
 use crate::script::ScriptId;
-use crate::village::Coord;
 use mlua::ExternalError as _;
 use serde::Serialize;
 use serde::ser::Serializer;
@@ -72,6 +73,9 @@ pub enum Error {
 
   #[error("Player not found: {0}")]
   PlayerNotFound(PlayerId),
+
+  #[error("Precursor not found: {0}")]
+  PrecursorNotFound(PrecursorId),
 
   #[error("Round already started")]
   RoundAlreadyStarted,

@@ -3,6 +3,7 @@
 
 mod chat;
 mod cheat;
+mod continent;
 mod event;
 mod infrastructure;
 mod npc;
@@ -13,15 +14,16 @@ mod script;
 mod village;
 
 use crate::chat::Chat;
-use crate::continent::Continent;
+use crate::continent::{Continent, Coord};
 use crate::error::{Error, Result};
 use crate::event::Emitter;
 use crate::infrastructure::{Infrastructure, InfrastructureStats};
 use crate::npc::bot::BotManager;
+use crate::npc::precursor::PrecursorManager;
 use crate::player::{Player, PlayerId, PlayerManager};
 use crate::round::Round;
 use crate::script::Scripting;
-use crate::village::{Coord, Village};
+use crate::village::Village;
 use savedata::Savedata;
 use serde::{Deserialize, Serialize};
 use std::num::NonZeroU8;
@@ -34,6 +36,7 @@ pub struct World {
   continent: Continent,
   player_manager: PlayerManager,
   bot_manager: BotManager,
+  precursor_manager: PrecursorManager,
   config: WorldConfig,
   stats: WorldStats,
   chat: Chat,
@@ -47,11 +50,15 @@ pub struct World {
 impl World {
   pub fn new(options: &WorldOptions) -> Result<Self> {
     let config = WorldConfig::from(options);
+    let continent = Continent::new(options.size.get());
+    let precursor_manager = PrecursorManager::new(continent.size());
+
     let mut world = Self {
       round: Round::default(),
-      continent: Continent::new(options.size.get()),
+      continent,
       player_manager: PlayerManager::default(),
       bot_manager: BotManager::default(),
+      precursor_manager,
       config,
       stats: WorldStats::new(),
       chat: Chat::default(),
@@ -60,6 +67,8 @@ impl World {
       emitter: Emitter::default(),
       pending_save: None,
     };
+
+    world.spawn_precursors()?;
 
     let size = u16::from(world.continent.size());
     for _ in 0..(size.saturating_mul(2)) {
@@ -75,6 +84,7 @@ impl World {
       continent: savedata.continent,
       player_manager: savedata.player_manager,
       bot_manager: savedata.bot_manager,
+      precursor_manager: savedata.precursor_manager,
       config: savedata.config,
       stats: savedata.stats,
       chat: savedata.chat,
