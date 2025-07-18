@@ -5,7 +5,6 @@ pub mod academy;
 pub mod farm;
 pub mod iron_mine;
 pub mod prefecture;
-pub mod prelude;
 pub mod quarry;
 pub mod sawmill;
 pub mod silo;
@@ -15,25 +14,15 @@ pub mod warehouse;
 
 use crate::error::{Error, Result};
 use crate::infrastructure::requirements::InfrastructureRequirements;
-use crate::resource::{
-  Cost,
-  Food,
-  Iron,
-  Maintenance,
-  MaintenanceRatio,
-  ResourceRatio,
-  Resources,
-  Stone,
-  Wood,
-  Workforce,
-};
-use derive_more::Deref;
+use crate::resource::prelude::*;
+use derive_more::{Deref, Into};
 use nil_num::growth::growth;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::ops::{Add, AddAssign, Sub, SubAssign};
 use std::{cmp, fmt};
 use strum::{Display, EnumIter};
+use subenum::subenum;
 
 pub trait Building {
   fn id(&self) -> BuildingId;
@@ -85,20 +74,26 @@ pub trait Building {
   fn infrastructure_requirements(&self) -> &InfrastructureRequirements;
 }
 
+#[subenum(MineId, StorageId)]
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, Deserialize, Serialize, Display, EnumIter)]
 #[serde(rename_all = "kebab-case")]
 #[strum(serialize_all = "kebab-case")]
-#[remain::sorted]
 pub enum BuildingId {
   Academy,
+  #[subenum(MineId)]
   Farm,
+  #[subenum(MineId)]
   IronMine,
   Prefecture,
+  #[subenum(MineId)]
   Quarry,
+  #[subenum(MineId)]
   Sawmill,
+  #[subenum(StorageId)]
   Silo,
   Stable,
   Wall,
+  #[subenum(StorageId)]
   Warehouse,
 }
 
@@ -216,8 +211,21 @@ impl BuildingStatsTable {
 }
 
 #[derive(
-  Clone, Copy, Debug, Default, Deref, PartialEq, Eq, PartialOrd, Ord, Hash, Deserialize, Serialize,
+  Clone,
+  Copy,
+  Debug,
+  Default,
+  Deref,
+  Into,
+  PartialEq,
+  Eq,
+  PartialOrd,
+  Ord,
+  Hash,
+  Deserialize,
+  Serialize,
 )]
+#[into(u8, u16, u32, u64, usize, f64)]
 pub struct BuildingLevel(u8);
 
 impl BuildingLevel {
@@ -325,14 +333,33 @@ impl SubAssign<i8> for BuildingLevel {
   }
 }
 
-impl From<BuildingLevel> for f64 {
-  fn from(level: BuildingLevel) -> Self {
-    f64::from(level.0)
-  }
-}
-
 impl fmt::Display for BuildingLevel {
   fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
     write!(f, "{}", self.0)
   }
+}
+
+/// Shorthand for [`BuildingLevel::new`].
+#[macro_export]
+macro_rules! lv {
+  ($level:expr) => {
+    const { $crate::infrastructure::building::BuildingLevel::new($level) }
+  };
+}
+
+/// Creates a building with a random level.
+#[macro_export]
+macro_rules! with_random_level {
+  ($building:ident) => {{ $crate::infrastructure::prelude::$building::with_random_level() }};
+  ($building:ident, $max:expr) => {{
+    $crate::infrastructure::prelude::$building::with_random_level_in()
+      .max($crate::lv!($max))
+      .call()
+  }};
+  ($building:ident, $min:expr, $max:expr) => {{
+    $crate::infrastructure::prelude::$building::with_random_level_in()
+      .min($crate::lv!($min))
+      .max($crate::lv!($max))
+      .call()
+  }};
 }

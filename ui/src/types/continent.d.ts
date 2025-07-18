@@ -13,3 +13,8 @@ interface PublicFieldVillage {
   readonly kind: 'village';
   readonly village: Village;
 }
+
+interface Coord {
+  readonly x: number;
+  readonly y: number;
+}

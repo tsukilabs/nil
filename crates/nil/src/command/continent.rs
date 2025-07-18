@@ -3,8 +3,7 @@
 
 use crate::error::Result;
 use crate::manager::ManagerExt;
-use nil_core::continent::PublicField;
-use nil_core::village::Coord;
+use nil_core::continent::{Coord, PublicField};
 use tauri::AppHandle;
 
 #[tauri::command]

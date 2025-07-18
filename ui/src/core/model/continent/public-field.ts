@@ -3,8 +3,8 @@
 
 import { getField, getFields } from '@/commands';
 import { tryOnScopeDispose } from '@vueuse/core';
-import type { CoordImpl } from '@/core/model/coord';
 import type { MaybePromise, Option } from '@tb-dev/utils';
+import type { CoordImpl } from '@/core/model/continent/coord';
 import { PublicVillageImpl } from '@/core/model/village/public';
 
 enum Flags {

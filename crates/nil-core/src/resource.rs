@@ -11,7 +11,7 @@ use crate::infrastructure::mine::MineProduction;
 use crate::infrastructure::storage::StorageCapacity;
 use crate::player::PlayerStorageCapacity;
 use crate::village::Stability;
-use derive_more::{Deref, Display};
+use derive_more::{Deref, Display, Into};
 use nil_num::impl_mul_ceil;
 use nil_num::ops::MulCeil;
 use serde::{Deserialize, Serialize};
@@ -33,12 +33,28 @@ pub struct Resources {
 }
 
 impl Resources {
-  /// Default amount of resources for a new player.
+  /// Default amount of resources for a player.
   pub const PLAYER: Self = Self {
     food: Food::new(800),
     iron: Iron::new(800),
     stone: Stone::new(800),
     wood: Wood::new(800),
+  };
+
+  /// Default amount of resources for a bot.
+  pub const BOT: Self = Self {
+    food: Food::new(2500),
+    iron: Iron::new(2500),
+    stone: Stone::new(2500),
+    wood: Wood::new(2500),
+  };
+
+  /// Default amount of resources for a precursor.
+  pub const PRECURSOR: Self = Self {
+    food: Food::new(5_000_000),
+    iron: Iron::new(5_000_000),
+    stone: Stone::new(5_000_000),
+    wood: Wood::new(5_000_000),
   };
 
   /// Maximum possible amount of resources.
@@ -211,6 +227,7 @@ macro_rules! decl_resource {
         Default,
         Deref,
         Display,
+        Into,
         PartialEq,
         Eq,
         PartialOrd,
@@ -218,6 +235,7 @@ macro_rules! decl_resource {
         Deserialize,
         Serialize,
       )]
+      #[into(u32, f64)]
       pub struct $name(u32);
 
       impl $name {
@@ -299,12 +317,6 @@ macro_rules! decl_resource {
       impl From<f64> for $name {
         fn from(value: f64) -> Self {
           Self::new(value as u32)
-        }
-      }
-
-      impl From<$name> for f64 {
-        fn from(value: $name) -> f64 {
-          f64::from(value.0)
         }
       }
 

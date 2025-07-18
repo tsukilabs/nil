@@ -3,7 +3,8 @@
 
 use super::Client;
 use crate::error::Result;
-use nil_core::village::{Coord, Village};
+use nil_core::continent::Coord;
+use nil_core::village::Village;
 
 impl Client {
   /// POST `/village`

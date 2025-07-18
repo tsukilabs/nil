@@ -3,9 +3,9 @@
 
 use super::Client;
 use crate::error::Result;
+use nil_core::continent::Coord;
 use nil_core::player::{Player, PlayerId, PlayerOptions, PlayerStatus, PlayerStorageCapacity};
 use nil_core::resource::Maintenance;
-use nil_core::village::Coord;
 
 impl Client {
   /// GET `/player`

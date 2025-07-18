@@ -20,8 +20,9 @@ const classList = computed(() => {
   if (isOutside.value) {
     cl += ' border-0';
   } else {
-    cl += props.field.x === props.continentSize - 1 ? ' border-r' : ' border-r-0';
-    cl += props.field.y === props.continentSize - 1 ? ' border-t' : ' border-t-0';
+    const size = props.continentSize;
+    cl += props.field.x === size - 1 ? ' border-r' : ' border-r-0';
+    cl += props.field.y === size - 1 ? ' border-t' : ' border-t-0';
   }
 
   return cl;

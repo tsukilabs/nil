@@ -11,12 +11,8 @@ pub fn impl_mine(ast: &DeriveInput) -> TokenStream {
     mod __impl_mine {
       use super::#name;
       use crate::error::Result;
-      use crate::infrastructure::mine::{
-        Mine,
-        MineId,
-        MineProduction,
-        MineStatsTable
-      };
+      use crate::infrastructure::building::MineId;
+      use crate::infrastructure::mine::{Mine, MineProduction, MineStatsTable};
 
       impl Mine for #name {
         fn mine_id(&self) -> MineId {

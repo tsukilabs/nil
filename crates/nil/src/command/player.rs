@@ -3,9 +3,9 @@
 
 use crate::error::Result;
 use crate::manager::ManagerExt;
+use nil_core::continent::Coord;
 use nil_core::player::{Player, PlayerId, PlayerOptions, PlayerStatus, PlayerStorageCapacity};
 use nil_core::resource::Maintenance;
-use nil_core::village::Coord;
 use tauri::AppHandle;
 
 #[tauri::command]

@@ -3,11 +3,11 @@
 
 use crate::client::Client;
 use crate::error::Result;
+use nil_core::continent::Coord;
 use nil_core::infrastructure::building::prefecture::{
   PrefectureBuildCatalog,
   PrefectureBuildOrderRequest,
 };
-use nil_core::village::Coord;
 
 impl Client {
   /// POST `/infrastructure/prefecture/build`

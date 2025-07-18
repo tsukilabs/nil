@@ -1,12 +1,12 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use crate::infrastructure::building::{BuildingId, BuildingLevel};
-use crate::infrastructure::mine::MineId;
-use crate::infrastructure::storage::StorageId;
+use crate::continent::Coord;
+use crate::infrastructure::building::{BuildingId, BuildingLevel, MineId, StorageId};
+use crate::npc::bot::BotId;
+use crate::npc::precursor::PrecursorId;
 use crate::player::PlayerId;
 use crate::script::ScriptId;
-use crate::village::Coord;
 use mlua::ExternalError as _;
 use serde::Serialize;
 use serde::ser::Serializer;
@@ -17,6 +17,9 @@ pub type Result<T, E = Error> = StdResult<T, E>;
 #[derive(Clone, Debug, thiserror::Error)]
 #[remain::sorted]
 pub enum Error {
+  #[error("Bot not found: {0}")]
+  BotNotFound(BotId),
+
   #[error("No stats found for building \"{0}\"")]
   BuildingStatsNotFound(BuildingId),
 
@@ -71,6 +74,9 @@ pub enum Error {
   #[error("Player not found: {0}")]
   PlayerNotFound(PlayerId),
 
+  #[error("Precursor not found: {0}")]
+  PrecursorNotFound(PrecursorId),
+
   #[error("Round already started")]
   RoundAlreadyStarted,
 
@@ -97,7 +103,7 @@ pub enum Error {
 }
 
 impl Serialize for Error {
-  fn serialize<S>(&self, serializer: S) -> StdResult<S::Ok, S::Error>
+  fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
   where
     S: Serializer,
   {

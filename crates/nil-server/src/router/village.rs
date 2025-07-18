@@ -8,7 +8,8 @@ use crate::state::App;
 use crate::{bail_not_owned_by, res};
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
-use nil_core::village::{Coord, Village};
+use nil_core::continent::Coord;
+use nil_core::village::Village;
 
 pub async fn get(
   State(app): State<App>,

@@ -5,7 +5,7 @@ import { handleError } from '@/lib/error';
 import type { Option } from '@tb-dev/utils';
 import type { MaybeNilRef } from '@tb-dev/vue';
 import { readonly, ref, shallowRef } from 'vue';
-import type { CoordImpl } from '@/core/model/coord';
+import type { CoordImpl } from '@/core/model/continent/coord';
 import { toCoordRef } from '@/composables/util/toRef';
 import {
   addPrefectureBuildOrder,

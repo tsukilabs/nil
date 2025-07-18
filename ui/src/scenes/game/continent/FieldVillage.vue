@@ -2,21 +2,49 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
+import { computed } from 'vue';
 import type { PublicVillageImpl } from '@/core/model/village/public';
 import type { PublicFieldImpl } from '@/core/model/continent/public-field';
 import { Badge, HoverCard, HoverCardContent, HoverCardTrigger } from '@tb-dev/vue-components';
 
-defineProps<{
+const props = defineProps<{
   field: PublicFieldImpl;
   village: PublicVillageImpl;
 }>();
+
+const color = computed(() => {
+  switch (props.village.owner.kind) {
+    case 'bot': {
+      return 'bg-amber-950';
+    }
+    case 'player': {
+      return 'bg-primary';
+    }
+    case 'precursor': {
+      return getPrecursorColor(props.village.owner.id);
+    }
+    default:
+      return 'bg-transparent';
+  }
+});
+
+function getPrecursorColor(id: PrecursorId) {
+  switch (id) {
+    case 'a': {
+      return 'bg-green-900';
+    }
+    case 'b': {
+      return 'bg-purple-900';
+    }
+  }
+}
 </script>
 
 <template>
   <HoverCard :open-delay="200" :close-delay="100">
     <HoverCardTrigger as-child>
       <div class="absolute inset-0 flex items-center justify-center overflow-hidden select-none">
-        <div class="bg-primary size-[75%] rounded-full"></div>
+        <div :class="color" class="size-[75%] cursor-pointer rounded-full"></div>
       </div>
     </HoverCardTrigger>
 
@@ -27,8 +55,16 @@ defineProps<{
             <h1 class="text-lg">{{ village.name }}</h1>
             <Badge variant="outline" size="sm">{{ field.id }}</Badge>
           </div>
-          <h2 v-if="village.owner.kind === 'player'" class="text-muted-foreground text-sm">
-            {{ village.owner.id }}
+          <h2 class="text-muted-foreground text-sm">
+            <span v-if="village.owner.kind === 'player'">
+              {{ village.owner.id }}
+            </span>
+            <span v-else-if="village.owner.kind === 'bot'">
+              {{ `Bot ${village.owner.id}` }}
+            </span>
+            <span v-else-if="village.owner.kind === 'precursor'">
+              {{ `Precursor ${village.owner.id}` }}
+            </span>
           </h2>
         </div>
       </div>

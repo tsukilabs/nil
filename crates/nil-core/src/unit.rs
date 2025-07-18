@@ -9,7 +9,7 @@ pub mod pikeman;
 pub mod prelude;
 pub mod swordsman;
 
-use derive_more::Deref;
+use derive_more::{Deref, Into};
 use serde::{Deserialize, Serialize};
 use std::ops::{Div, Mul, MulAssign};
 use strum::EnumIter;
@@ -51,19 +51,14 @@ pub struct UnitStats {
   pub haul: Haul,
 }
 
-#[derive(Clone, Copy, Debug, Deref, PartialEq, Eq, Deserialize, Serialize)]
+#[derive(Clone, Copy, Debug, Deref, Into, PartialEq, Eq, Deserialize, Serialize)]
+#[into(u32, f64)]
 pub struct Power(u32);
 
 impl Power {
   #[inline]
   pub const fn new(value: u32) -> Self {
     Self(value)
-  }
-}
-
-impl From<Power> for f64 {
-  fn from(power: Power) -> Self {
-    f64::from(power.0)
   }
 }
 
@@ -115,7 +110,7 @@ impl Div<Power> for u32 {
   }
 }
 
-#[derive(Clone, Copy, Debug, Deref, Deserialize, Serialize)]
+#[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize)]
 pub struct RangedDebuff(f64);
 
 impl RangedDebuff {
@@ -147,7 +142,7 @@ impl Mul<f64> for RangedDebuff {
   }
 }
 
-#[derive(Clone, Copy, Debug, Deref, Deserialize, Serialize)]
+#[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize)]
 pub struct Speed(f64);
 
 impl Speed {
@@ -157,19 +152,14 @@ impl Speed {
   }
 }
 
-#[derive(Clone, Copy, Debug, Deref, Deserialize, Serialize)]
+#[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize)]
+#[into(u16, u32, f64)]
 pub struct Haul(u16);
 
 impl Haul {
   #[inline]
   pub const fn new(value: u16) -> Self {
     Self(value)
-  }
-}
-
-impl From<Haul> for f64 {
-  fn from(haul: Haul) -> Self {
-    f64::from(haul.0)
   }
 }
 
@@ -232,7 +222,7 @@ impl Squad {
   }
 }
 
-#[derive(Clone, Copy, Debug, Deref)]
+#[derive(Clone, Copy, Debug, Deref, Into)]
 pub struct SquadAttack(f64);
 
 impl SquadAttack {
@@ -245,12 +235,6 @@ impl SquadAttack {
 impl From<f64> for SquadAttack {
   fn from(value: f64) -> Self {
     Self::new(value)
-  }
-}
-
-impl From<SquadAttack> for f64 {
-  fn from(value: SquadAttack) -> Self {
-    value.0
   }
 }
 

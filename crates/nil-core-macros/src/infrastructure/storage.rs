@@ -11,12 +11,8 @@ pub fn impl_storage(ast: &DeriveInput) -> TokenStream {
     mod __impl_storage {
       use super::#name;
       use crate::error::Result;
-      use crate::infrastructure::storage::{
-        Storage,
-        StorageCapacity,
-        StorageId,
-        StorageStatsTable
-      };
+      use crate::infrastructure::building::StorageId;
+      use crate::infrastructure::storage::{Storage, StorageCapacity, StorageStatsTable};
 
       impl Storage for #name {
         fn storage_id(&self) -> StorageId {

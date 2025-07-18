@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as commands from '@/commands';
-import { ResourcesImpl } from '../resource';
-import { CoordImpl } from '@/core/model/coord';
 import type { PartialNullish } from '@tb-dev/utils';
+import { ResourcesImpl } from '@/core/model/resource';
+import { CoordImpl } from '@/core/model/continent/coord';
 import { PlayerStorageCapacityImpl } from './storage-capacity';
 
 export class PlayerImpl implements Player {

@@ -3,8 +3,8 @@
 
 use crate::client::Client;
 use crate::error::Result;
+use nil_core::continent::Coord;
 use nil_core::infrastructure::building::{BuildingId, BuildingLevel};
-use nil_core::village::Coord;
 
 impl Client {
   /// POST `/cheat/infrastructure`

@@ -4,8 +4,8 @@
 import { Entity } from './abstract';
 import type { Option } from '@tb-dev/utils';
 import { asyncRef, maybe } from '@tb-dev/vue';
-import { CoordImpl } from '@/core/model/coord';
 import { VillageImpl } from '@/core/model/village';
+import { CoordImpl } from '@/core/model/continent/coord';
 import { computed, nextTick, type Ref, shallowRef } from 'vue';
 
 export class CurrentVillageEntity extends Entity {
