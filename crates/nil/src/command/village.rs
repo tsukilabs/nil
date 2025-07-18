@@ -3,7 +3,8 @@
 
 use crate::error::Result;
 use crate::manager::ManagerExt;
-use nil_core::village::{Coord, Village};
+use nil_core::continent::Coord;
+use nil_core::village::Village;
 use tauri::AppHandle;
 
 #[tauri::command]

@@ -20,10 +20,24 @@ const color = computed(() => {
     case 'player': {
       return 'bg-primary';
     }
+    case 'precursor': {
+      return getPrecursorColor(props.village.owner.id);
+    }
     default:
       return 'bg-transparent';
   }
 });
+
+function getPrecursorColor(id: PrecursorId) {
+  switch (id) {
+    case 'a': {
+      return 'bg-green-900';
+    }
+    case 'b': {
+      return 'bg-purple-900';
+    }
+  }
+}
 </script>
 
 <template>
@@ -47,6 +61,9 @@ const color = computed(() => {
             </span>
             <span v-else-if="village.owner.kind === 'bot'">
               {{ `Bot ${village.owner.id}` }}
+            </span>
+            <span v-else-if="village.owner.kind === 'precursor'">
+              {{ `Precursor ${village.owner.id}` }}
             </span>
           </h2>
         </div>

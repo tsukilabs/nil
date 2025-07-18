@@ -3,7 +3,7 @@
 
 use super::Food;
 use super::diff::FoodDiff;
-use derive_more::{Deref, Display};
+use derive_more::{Deref, Display, Into};
 use serde::{Deserialize, Serialize};
 use std::ops::{Add, AddAssign, Sub, SubAssign};
 
@@ -12,7 +12,8 @@ use std::ops::{Add, AddAssign, Sub, SubAssign};
 /// Its value is equivalent to a percentage of the [base cost].
 ///
 /// [base cost]: crate::resource::cost::Cost
-#[derive(Clone, Copy, Debug, Default, Deref, Display, Deserialize, Serialize)]
+#[derive(Clone, Copy, Debug, Default, Deref, Display, Into, Deserialize, Serialize)]
+#[into(u32, f64, Food)]
 pub struct Maintenance(Food);
 
 impl Maintenance {
@@ -22,21 +23,9 @@ impl Maintenance {
   }
 }
 
-impl From<Maintenance> for u32 {
-  fn from(value: Maintenance) -> Self {
-    value.0.0
-  }
-}
-
 impl From<u32> for Maintenance {
   fn from(value: u32) -> Self {
     Self::new(value)
-  }
-}
-
-impl From<Maintenance> for f64 {
-  fn from(value: Maintenance) -> Self {
-    f64::from(value.0.0)
   }
 }
 
@@ -131,7 +120,7 @@ impl SubAssign<Maintenance> for FoodDiff {
 }
 
 /// Proportion of the base cost that should be used as a maintenance tax.
-#[derive(Clone, Copy, Debug, Deref, Deserialize, Serialize)]
+#[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize)]
 pub struct MaintenanceRatio(f64);
 
 impl MaintenanceRatio {

@@ -7,7 +7,8 @@ use crate::state::App;
 use axum::extract::{Json, State};
 use axum::response::Response;
 use futures::TryFutureExt;
-use nil_core::village::{Coord, Stability};
+use nil_core::continent::Coord;
+use nil_core::village::Stability;
 
 pub async fn set_stability(
   State(app): State<App>,

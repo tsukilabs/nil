@@ -1,10 +1,10 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+use crate::continent::Coord;
 use crate::error::{Error, Result};
 use crate::infrastructure::building::{BuildingId, BuildingLevel, BuildingStatsTable};
 use crate::resource::{Resources, Workforce};
-use crate::village::Coord;
 use derive_more::Deref;
 use nil_num::BigIntU64;
 use nil_num::ops::MulCeil;

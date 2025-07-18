@@ -3,9 +3,9 @@
 
 use super::World;
 use crate::chat::ChatMessage;
+use crate::continent::Coord;
 use crate::event::{Event, Listener};
 use crate::player::PlayerId;
-use crate::village::Coord;
 
 impl World {
   #[inline]

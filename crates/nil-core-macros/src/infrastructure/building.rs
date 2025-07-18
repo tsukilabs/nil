@@ -5,6 +5,7 @@ use proc_macro::TokenStream;
 use quote::quote;
 use syn::DeriveInput;
 
+#[expect(clippy::too_many_lines)]
 pub fn impl_building(ast: &DeriveInput) -> TokenStream {
   let name = &ast.ident;
   let stream = quote! {

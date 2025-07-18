@@ -62,6 +62,7 @@ pub(crate) fn from_core_err(err: CoreError) -> Response {
     PlayerAlreadySpawned(_) => res!(CONFLICT, text),
     PlayerIsNotPending(_) => res!(BAD_REQUEST, text),
     PlayerNotFound(_) => res!(NOT_FOUND, text),
+    PrecursorNotFound(_) => res!(NOT_FOUND, text),
     RoundAlreadyStarted => res!(CONFLICT, text),
     RoundHasPendingPlayers => res!(BAD_REQUEST, text),
     RoundNotStarted => res!(BAD_REQUEST, text),

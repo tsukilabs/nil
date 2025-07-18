@@ -8,11 +8,11 @@ use crate::state::App;
 use crate::{bail_not_owned_by, bail_not_pending, res};
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
+use nil_core::continent::Coord;
 use nil_core::infrastructure::building::prefecture::{
   PrefectureBuildCatalog,
   PrefectureBuildOrderRequest,
 };
-use nil_core::village::Coord;
 
 pub async fn add_build_order(
   State(app): State<App>,

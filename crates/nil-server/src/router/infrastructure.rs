@@ -11,8 +11,8 @@ use crate::state::App;
 use crate::{bail_not_owned_by, bail_not_pending, res};
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
+use nil_core::continent::Coord;
 use nil_core::infrastructure::building::BuildingId;
-use nil_core::village::Coord;
 
 pub async fn toggle(
   State(app): State<App>,

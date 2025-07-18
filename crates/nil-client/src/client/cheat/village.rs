@@ -3,7 +3,8 @@
 
 use crate::client::Client;
 use crate::error::Result;
-use nil_core::village::{Coord, Stability};
+use nil_core::continent::Coord;
+use nil_core::village::Stability;
 
 impl Client {
   /// POST `/cheat/village/stability`

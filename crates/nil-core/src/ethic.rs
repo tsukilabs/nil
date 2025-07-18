@@ -1,13 +1,15 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+use bon::Builder;
 use rand::seq::IndexedRandom;
 use serde::{Deserialize, Serialize};
 use std::fmt::Debug;
 use strum::VariantArray;
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Builder, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+#[builder(const)]
 pub struct Ethics {
   power: EthicPowerAxis,
   truth: EthicTruthAxis,
