@@ -43,6 +43,7 @@ pub(crate) fn from_core_err(err: CoreError) -> Response {
 
   let text = err.to_string();
   match err {
+    BotNotFound(_) => res!(NOT_FOUND, text),
     BuildingStatsNotFound(_) => res!(NOT_FOUND, text),
     BuildingStatsNotFoundForLevel(_, _) => res!(NOT_FOUND, text),
     CannotDecreaseBuildingLevel(_) => res!(BAD_REQUEST, text),

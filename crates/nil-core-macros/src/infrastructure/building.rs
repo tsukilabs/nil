@@ -1,15 +1,9 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-mod mine;
-mod storage;
-
 use proc_macro::TokenStream;
 use quote::quote;
 use syn::DeriveInput;
-
-pub use mine::impl_mine;
-pub use storage::impl_storage;
 
 pub fn impl_building(ast: &DeriveInput) -> TokenStream {
   let name = &ast.ident;
@@ -31,6 +25,44 @@ pub fn impl_building(ast: &DeriveInput) -> TokenStream {
         ResourceRatio,
         Workforce,
       };
+
+      #[bon::bon]
+      impl #name {
+        pub fn with_level(level: BuildingLevel) -> Self {
+          let mut building = Self::default();
+          building.set_level(level);
+          building
+        }
+
+        #[inline]
+        pub fn with_min_level() -> Self {
+          Self::with_level(Self::MIN_LEVEL)
+        }
+
+        #[inline]
+        pub fn with_max_level() -> Self {
+          Self::with_level(Self::MAX_LEVEL)
+        }
+
+        #[inline]
+        pub fn with_random_level() -> Self {
+          Self::with_random_level_in()
+            .min(Self::MIN_LEVEL)
+            .max(Self::MAX_LEVEL)
+            .call()
+        }
+
+        #[builder]
+        pub fn with_random_level_in(
+          #[builder(default = #name::MIN_LEVEL)] min: BuildingLevel,
+          #[builder(default = #name::MAX_LEVEL)] max: BuildingLevel,
+        ) -> #name {
+          let min = u8::from(min.max(#name::MIN_LEVEL));
+          let max = u8::from(max.min(#name::MAX_LEVEL));
+          let level = rand::random_range(min..=max);
+          #name::with_level(BuildingLevel::new(level))
+        }
+      }
 
       impl Building for #name {
         fn id(&self) -> BuildingId {

@@ -17,10 +17,11 @@ interface Coord {
   readonly y: number;
 }
 
-type VillageOwner = VillageOwnerNone | VillageOwnerPlayer;
+type VillageOwner = VillageOwnerBot | VillageOwnerPlayer;
 
-interface VillageOwnerNone {
-  readonly kind: 'none';
+interface VillageOwnerBot {
+  readonly kind: 'bot';
+  readonly id: BotId;
 }
 
 interface VillageOwnerPlayer {

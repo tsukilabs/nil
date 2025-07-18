@@ -5,6 +5,7 @@ mod chat;
 mod cheat;
 mod event;
 mod infrastructure;
+mod npc;
 mod player;
 mod round;
 mod savedata;
@@ -13,9 +14,10 @@ mod village;
 
 use crate::chat::Chat;
 use crate::continent::Continent;
-use crate::error::Result;
+use crate::error::{Error, Result};
 use crate::event::Emitter;
 use crate::infrastructure::{Infrastructure, InfrastructureStats};
+use crate::npc::bot::BotManager;
 use crate::player::{Player, PlayerId, PlayerManager};
 use crate::round::Round;
 use crate::script::Scripting;
@@ -28,25 +30,28 @@ use std::sync::Arc;
 
 #[derive(Debug)]
 pub struct World {
+  round: Round,
   continent: Continent,
   player_manager: PlayerManager,
-  round: Round,
+  bot_manager: BotManager,
   config: WorldConfig,
   stats: WorldStats,
   chat: Chat,
   scripting: Scripting,
 
+  // These are not included in the savedata.
   emitter: Emitter,
   pending_save: Option<PathBuf>,
 }
 
 impl World {
-  pub fn new(options: &WorldOptions) -> Self {
+  pub fn new(options: &WorldOptions) -> Result<Self> {
     let config = WorldConfig::from(options);
-    Self {
+    let mut world = Self {
+      round: Round::default(),
       continent: Continent::new(options.size.get()),
       player_manager: PlayerManager::default(),
-      round: Round::default(),
+      bot_manager: BotManager::default(),
       config,
       stats: WorldStats::new(),
       chat: Chat::default(),
@@ -54,14 +59,22 @@ impl World {
 
       emitter: Emitter::default(),
       pending_save: None,
+    };
+
+    let size = u16::from(world.continent.size());
+    for _ in 0..(size.saturating_mul(2)) {
+      world.spawn_bot()?;
     }
+
+    Ok(world)
   }
 
   pub fn with_savedata(savedata: Savedata) -> Self {
     Self {
+      round: savedata.round,
       continent: savedata.continent,
       player_manager: savedata.player_manager,
-      round: savedata.round,
+      bot_manager: savedata.bot_manager,
       config: savedata.config,
       stats: savedata.stats,
       chat: savedata.chat,
@@ -167,8 +180,10 @@ impl World {
   }
 }
 
-impl From<&WorldOptions> for World {
-  fn from(options: &WorldOptions) -> Self {
+impl TryFrom<&WorldOptions> for World {
+  type Error = Error;
+
+  fn try_from(options: &WorldOptions) -> Result<Self> {
     Self::new(options)
   }
 }

@@ -1,14 +1,13 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use super::building::{Building, BuildingId, BuildingLevel};
+use super::building::{Building, BuildingLevel, StorageId};
 use crate::error::{Error, Result};
 use derive_more::Deref;
 use nil_num::growth::growth;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::ops::{Add, AddAssign, Sub, SubAssign};
-use strum::{Display, EnumIter};
 
 /// A building that stores resources.
 pub trait Storage: Building {
@@ -19,24 +18,6 @@ pub trait Storage: Building {
   fn min_capacity(&self) -> StorageCapacity;
   /// Storage capacity at its **maximum** level.
   fn max_capacity(&self) -> StorageCapacity;
-}
-
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, Deserialize, Serialize, Display, EnumIter)]
-#[serde(rename_all = "kebab-case")]
-#[strum(serialize_all = "kebab-case")]
-#[remain::sorted]
-pub enum StorageId {
-  Silo,
-  Warehouse,
-}
-
-impl From<StorageId> for BuildingId {
-  fn from(value: StorageId) -> Self {
-    match value {
-      StorageId::Silo => BuildingId::Silo,
-      StorageId::Warehouse => BuildingId::Warehouse,
-    }
-  }
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]

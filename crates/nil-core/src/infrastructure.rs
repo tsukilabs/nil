@@ -3,41 +3,83 @@
 
 pub mod building;
 pub mod mine;
+pub mod prelude;
 pub mod requirements;
 pub mod storage;
 
 use crate::error::{Error, Result};
 use crate::resource::{Maintenance, Resources};
+use bon::Builder;
 use building::prefecture::{
   PrefectureBuildOrder,
   PrefectureBuildOrderKind,
   PrefectureBuildOrderRequest,
 };
-use building::prelude::*;
-use building::{Building, BuildingId, BuildingStatsTable};
-use mine::{Mine, MineId, MineStatsTable};
+use building::{Building, BuildingId, BuildingStatsTable, MineId, StorageId};
+use mine::{Mine, MineStatsTable};
+use prelude::*;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
-use storage::{Storage, StorageId, StorageStatsTable};
+use storage::{Storage, StorageStatsTable};
 use strum::IntoEnumIterator;
 
 /// Infraestrutura de uma aldeia.
-#[derive(Clone, Debug, Default, Deserialize, Serialize)]
+#[derive(Builder, Clone, Debug, Default, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Infrastructure {
+  #[builder(default)]
   academy: Academy,
+
+  #[builder(default)]
   farm: Farm,
+
+  #[builder(default)]
   iron_mine: IronMine,
+
+  #[builder(default)]
   prefecture: Prefecture,
+
+  #[builder(default)]
   quarry: Quarry,
+
+  #[builder(default)]
   sawmill: Sawmill,
+
+  #[builder(default)]
   silo: Silo,
+
+  #[builder(default)]
   stable: Stable,
+
+  #[builder(default)]
   wall: Wall,
+
+  #[builder(default)]
   warehouse: Warehouse,
 }
 
 impl Infrastructure {
+  #[inline]
+  pub fn new() -> Self {
+    Self::default()
+  }
+
+  /// Creates a new instance with all buildings set to their maximum level.
+  pub fn with_max_level() -> Self {
+    Self {
+      academy: Academy::with_max_level(),
+      farm: Farm::with_max_level(),
+      iron_mine: IronMine::with_max_level(),
+      prefecture: Prefecture::with_max_level(),
+      quarry: Quarry::with_max_level(),
+      sawmill: Sawmill::with_max_level(),
+      silo: Silo::with_max_level(),
+      stable: Stable::with_max_level(),
+      wall: Wall::with_max_level(),
+      warehouse: Warehouse::with_max_level(),
+    }
+  }
+
   pub const fn building(&self, id: BuildingId) -> &dyn Building {
     match id {
       BuildingId::Academy => &self.academy,

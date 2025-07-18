@@ -41,6 +41,14 @@ impl Resources {
     wood: Wood::new(800),
   };
 
+  /// Default amount of resources for a new bot.
+  pub const BOT: Self = Self {
+    food: Food::new(800),
+    iron: Iron::new(800),
+    stone: Stone::new(800),
+    wood: Wood::new(800),
+  };
+
   /// Maximum possible amount of resources.
   pub const MAX: Self = Self {
     food: Food::MAX,

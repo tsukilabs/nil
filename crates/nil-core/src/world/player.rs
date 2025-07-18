@@ -3,7 +3,7 @@
 
 use super::World;
 use crate::error::{Error, Result};
-use crate::infrastructure::storage::StorageId;
+use crate::infrastructure::building::StorageId;
 use crate::player::{Player, PlayerId, PlayerStatus, PlayerStorageCapacity};
 use crate::resource::Maintenance;
 use crate::village::Village;

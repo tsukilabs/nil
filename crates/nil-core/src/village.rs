@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 mod coord;
+mod owner;
 
 use crate::error::Result;
 use crate::infrastructure::{Infrastructure, InfrastructureStats};
@@ -13,18 +14,23 @@ use serde::{Deserialize, Serialize};
 use std::sync::Arc;
 
 pub use coord::Coord;
+pub use owner::VillageOwner;
 
 #[derive(Builder, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Village {
   #[builder(start_fn, into)]
   coord: Coord,
+
   #[builder(into)]
   name: String,
+
   #[builder(into)]
   owner: VillageOwner,
+
   #[builder(default)]
   infrastructure: Infrastructure,
+
   #[builder(default)]
   stability: Stability,
 }
@@ -124,40 +130,6 @@ impl Stability {
 impl Default for Stability {
   fn default() -> Self {
     Self::MAX
-  }
-}
-
-#[derive(Clone, Debug, Default, Deserialize, Serialize)]
-#[serde(tag = "kind", rename_all = "kebab-case")]
-pub enum VillageOwner {
-  #[default]
-  None,
-  Player {
-    id: PlayerId,
-  },
-}
-
-impl VillageOwner {
-  /// Returns the id of the player to whom the village belongs, if any.
-  #[inline]
-  pub fn player(&self) -> Option<&PlayerId> {
-    if let Self::Player { id } = self {
-      Some(id)
-    } else {
-      None
-    }
-  }
-}
-
-impl From<PlayerId> for VillageOwner {
-  fn from(id: PlayerId) -> Self {
-    Self::Player { id }
-  }
-}
-
-impl From<&PlayerId> for VillageOwner {
-  fn from(id: &PlayerId) -> Self {
-    Self::Player { id: id.clone() }
   }
 }
 

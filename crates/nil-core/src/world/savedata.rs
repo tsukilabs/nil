@@ -4,6 +4,7 @@
 use crate::chat::Chat;
 use crate::continent::Continent;
 use crate::error::{Error, Result};
+use crate::npc::bot::BotManager;
 use crate::player::{PlayerManager, PlayerStatus};
 use crate::round::{Phase, Round};
 use crate::script::Scripting;
@@ -27,14 +28,15 @@ impl World {
 #[derive(Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Savedata {
-  pub continent: Continent,
-  pub player_manager: PlayerManager,
-  pub round: Round,
-  pub config: WorldConfig,
-  pub stats: WorldStats,
-  pub chat: Chat,
-  pub scripting: Scripting,
-  pub time: Zoned,
+  pub(super) round: Round,
+  pub(super) continent: Continent,
+  pub(super) player_manager: PlayerManager,
+  pub(super) bot_manager: BotManager,
+  pub(super) config: WorldConfig,
+  pub(super) stats: WorldStats,
+  pub(super) chat: Chat,
+  pub(super) scripting: Scripting,
+  pub(super) time: Zoned,
 }
 
 impl Savedata {
@@ -45,9 +47,10 @@ impl Savedata {
 
 fn save(world: &World, path: &Path) -> Result<()> {
   let mut savedata = Savedata {
+    round: world.round.clone(),
     continent: world.continent.clone(),
     player_manager: world.player_manager.clone(),
-    round: world.round.clone(),
+    bot_manager: world.bot_manager.clone(),
     config: world.config.clone(),
     stats: world.stats.clone(),
     chat: world.chat.clone(),

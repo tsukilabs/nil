@@ -9,8 +9,7 @@ mod tests;
 use crate::error::{Error, Result};
 use crate::player::PlayerId;
 use crate::village::{Coord, Village};
-use num_traits::ToPrimitive;
-use rand::seq::IndexedRandom;
+use rand::seq::IteratorRandom;
 use serde::{Deserialize, Serialize};
 use std::num::NonZeroU8;
 
@@ -19,9 +18,8 @@ pub use field::{Field, PublicField};
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Continent {
+  fields: Box<[Field]>,
   size: NonZeroU8,
-  fields: Vec<Field>,
-  spawn_radius: NonZeroU8,
 }
 
 impl Continent {
@@ -36,12 +34,10 @@ impl Continent {
     let capacity = usize::from(size).pow(2);
     let mut fields = Vec::with_capacity(capacity);
     fields.resize_with(capacity, Field::default);
-    fields.shrink_to_fit();
 
     Self {
+      fields: fields.into_boxed_slice(),
       size: unsafe { NonZeroU8::new_unchecked(size) },
-      fields,
-      spawn_radius: unsafe { NonZeroU8::new_unchecked(10) },
     }
   }
 
@@ -133,7 +129,7 @@ impl Continent {
       .filter(move |village| village.is_owned_by_player_and(|id| f(id)))
   }
 
-  /// Determina a posição da coordenada no vetor.
+  /// Searches for a coordinate in the slice, returning its index.
   fn index(&self, coord: Coord) -> usize {
     let size = usize::from(self.size());
     let x = usize::from(coord.x());
@@ -147,67 +143,31 @@ impl Continent {
     index
   }
 
-  pub(crate) fn find_spawn_point(&mut self) -> Result<(Coord, &mut Field)> {
-    let mut coords = Vec::new();
-    let mut rng = rand::rng();
+  fn coord(&self, index: usize) -> Result<Coord> {
+    let size = usize::from(self.size());
+    let x = index % size;
+    let y = index / size;
 
-    let coord = loop {
-      if self.spawn_radius.get() > self.radius() {
-        return Err(Error::WorldIsFull);
-      }
+    debug_assert!(x < size);
+    debug_assert!(y < size);
 
-      let len = self.collect_within_spawn_radius(&mut coords);
-      coords.retain(|it| self.field(*it).is_ok_and(Field::is_empty));
-
-      if let Some(len) = len.to_f64()
-        && let Some(new_len) = coords.len().to_f64()
-        && len.is_normal()
-        && new_len.is_normal()
-        && (new_len / len) <= 0.2
-      {
-        self.spawn_radius = self.spawn_radius.saturating_add(1);
-      }
-
-      if let Some(coord) = coords.choose(&mut rng) {
-        break *coord;
-      }
-    };
-
-    Ok((coord, self.field_mut(coord)?))
+    Ok(Coord::new(
+      u8::try_from(x).map_err(|_| Error::IndexOutOfBounds(index))?,
+      u8::try_from(y).map_err(|_| Error::IndexOutOfBounds(index))?,
+    ))
   }
 
-  fn collect_within_spawn_radius(&self, buf: &mut Vec<Coord>) -> usize {
-    let size = i16::from(self.size());
-    let distance = i16::from(self.spawn_radius.get());
+  pub(crate) fn find_spawn_point(&mut self) -> Result<(Coord, &mut Field)> {
+    let coord = self
+      .fields
+      .iter()
+      .enumerate()
+      .filter(|(_, field)| field.is_empty())
+      .choose_stable(&mut rand::rng())
+      .map(|(idx, _)| self.coord(idx))
+      .ok_or(Error::WorldIsFull)??;
 
-    let center = self.center();
-    let x0 = i16::from(center.x());
-    let y0 = i16::from(center.y());
-
-    buf.clear();
-
-    for x in (x0 - distance)..=(x0 + distance) {
-      if x >= size || x < 0 {
-        continue;
-      }
-
-      for y in (y0 - distance)..=(y0 + distance) {
-        if y >= size || y < 0 {
-          continue;
-        }
-
-        let absx = (x - x0).abs();
-        let absy = (y - y0).abs();
-        if absx.max(absy) <= distance
-          && let Ok(x) = u8::try_from(x)
-          && let Ok(y) = u8::try_from(y)
-        {
-          buf.push(Coord::new(x, y));
-        }
-      }
-    }
-
-    buf.len()
+    Ok((coord, self.field_mut(coord)?))
   }
 }
 
