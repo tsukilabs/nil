@@ -7,6 +7,8 @@ pub mod requirements;
 pub mod storage;
 
 use crate::error::{Error, Result};
+use crate::infrastructure::building::BuildingLevel;
+use crate::infrastructure::building::wall::{WallStatsTable, WallStats};
 use crate::resource::{Maintenance, Resources};
 use building::prefecture::{
   PrefectureBuildOrder,
@@ -82,6 +84,10 @@ impl Infrastructure {
       MineId::Quarry => &self.quarry,
       MineId::Sawmill => &self.sawmill,
     }
+  }
+
+  pub const fn wall(&self) -> &Wall {
+    &self.wall
   }
 
   /// Determina a quantidade de recursos gerados pelas minas em seu nível atual,
@@ -172,6 +178,7 @@ pub struct InfrastructureStats {
   building: HashMap<BuildingId, BuildingStatsTable>,
   mine: HashMap<MineId, MineStatsTable>,
   storage: HashMap<StorageId, StorageStatsTable>,
+  wall: HashMap<BuildingLevel, WallStats>,
 }
 
 #[expect(clippy::new_without_default)]
@@ -190,7 +197,9 @@ impl InfrastructureStats {
       .map(|id| (id, StorageStatsTable::new(infrastructure.storage(id))))
       .collect();
 
-    Self { building, mine, storage }
+    let wall = WallStatsTable::new();
+
+    Self { building, mine, storage, wall }
   }
 
   #[inline]
