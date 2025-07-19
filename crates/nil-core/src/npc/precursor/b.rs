@@ -33,5 +33,5 @@ impl B {
 pub fn origin(size: ContinentSize) -> Coord {
   let size = u8::from(size);
   let radius = size.div_ceil(20).next_multiple_of(2);
-  Coord::splat(size - 1) + Coord::splat(radius)
+  Coord::splat(size - 1) - Coord::splat(radius)
 }

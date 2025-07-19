@@ -58,7 +58,6 @@ impl Default for Wall {
 
 check_total_resource_ratio!(Wall::WOOD_RATIO, Wall::STONE_RATIO, Wall::IRON_RATIO);
 
-/// Proporção entre o custo total e um dado recurso.
 #[derive(Clone, Copy, Debug, Deref, Deserialize, Serialize)]
 pub struct WallDefensePercent(f64);
 
@@ -81,7 +80,6 @@ impl From<f64> for WallDefensePercent {
   }
 }
 
-/// Custo base de uma entidade, como edifícios ou unidades.
 #[derive(Clone, Copy, Debug, Deref, Deserialize, Serialize)]
 pub struct WallDefenseValue(u32);
 
