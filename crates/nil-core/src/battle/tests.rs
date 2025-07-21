@@ -89,7 +89,7 @@ fn winner_losses_mixed() {
 }
 
 #[test]
-fn overall_test() {
+fn overall() {
   let battle = Battle::builder()
     .attacker([s(LightCavalry, 3000), s(Axeman, 6000)])
     .defender([s(Pikeman, 8000), s(Swordsman, 8000)])
@@ -123,7 +123,7 @@ fn overall_test() {
 }
 
 #[test]
-fn ranged_attack_debuff_test() {
+fn ranged_attack_debuff() {
   let battle = Battle::builder()
     .attacker([s(Archer, 3005), s(Axeman, 7000)])
     .defender([s(Pikeman, 8000), s(Swordsman, 8000)])
@@ -134,7 +134,7 @@ fn ranged_attack_debuff_test() {
 }
 
 #[test]
-fn ranged_attack_no_debuff_test() {
+fn ranged_attack_no_debuff() {
   let battle = Battle::builder()
     .attacker([s(Archer, 3000), s(Axeman, 7000)])
     .defender([s(Pikeman, 8000), s(Swordsman, 8000)])
