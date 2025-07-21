@@ -16,24 +16,22 @@ interface PrefectureBuildOrder {
   readonly level: BuildingLevel;
   readonly resources: Resources;
   readonly workforce: number;
-  readonly status: PrefectureBuildOrderStatus;
+  readonly state: PrefectureBuildOrderState;
 }
 
 type PrefectureBuildOrderId = string;
 
 type PrefectureBuildOrderKind = 'construction' | 'demolition';
 
-type PrefectureBuildOrderStatus =
-  | PrefectureBuildOrderStatusDone
-  | PrefectureBuildOrderStatusPending;
+type PrefectureBuildOrderState = PrefectureBuildOrderStatePending | PrefectureBuildOrderStateDone;
 
-interface PrefectureBuildOrderStatusDone {
-  readonly kind: 'done';
-}
-
-interface PrefectureBuildOrderStatusPending {
+interface PrefectureBuildOrderStatePending {
   readonly kind: 'pending';
   readonly workforce: number;
+}
+
+interface PrefectureBuildOrderStateDone {
+  readonly kind: 'done';
 }
 
 interface PrefectureBuildOrderRequest {

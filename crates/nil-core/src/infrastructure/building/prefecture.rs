@@ -1,6 +1,9 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+#[cfg(test)]
+mod tests;
+
 mod build_catalog;
 mod build_queue;
 
@@ -22,7 +25,7 @@ pub use build_queue::{
   PrefectureBuildOrderId,
   PrefectureBuildOrderKind,
   PrefectureBuildOrderRequest,
-  PrefectureBuildOrderStatus,
+  PrefectureBuildOrderState,
   PrefectureBuildQueue,
 };
 
@@ -54,11 +57,14 @@ impl Prefecture {
   pub const INFRASTRUCTURE_REQUIREMENTS: InfrastructureRequirements =
     InfrastructureRequirements::none();
 
+  pub fn build_queue(&self) -> &PrefectureBuildQueue {
+    &self.build_queue
+  }
+
   pub(crate) fn build_queue_mut(&mut self) -> &mut PrefectureBuildQueue {
     &mut self.build_queue
   }
 
-  /// Process the prefecture's build queue.
   #[must_use]
   pub(crate) fn process_queue(&mut self) -> Option<Vec<PrefectureBuildOrder>> {
     if self.enabled {

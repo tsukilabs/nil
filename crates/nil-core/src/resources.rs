@@ -22,7 +22,7 @@ pub use diff::{FoodDiff, IronDiff, ResourcesDiff, StoneDiff, WoodDiff};
 pub use maintenance::{Maintenance, MaintenanceRatio};
 pub use workforce::Workforce;
 
-#[derive(Clone, Debug, Default, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(default, rename_all = "camelCase")]
 pub struct Resources {
   pub food: Food,
@@ -32,6 +32,22 @@ pub struct Resources {
 }
 
 impl Resources {
+  /// Minimum possible amount of resources.
+  pub const MIN: Self = Self {
+    food: Food::MIN,
+    iron: Iron::MIN,
+    stone: Stone::MIN,
+    wood: Wood::MIN,
+  };
+
+  /// Maximum possible amount of resources.
+  pub const MAX: Self = Self {
+    food: Food::MAX,
+    iron: Iron::MAX,
+    stone: Stone::MAX,
+    wood: Wood::MAX,
+  };
+
   /// Default amount of resources for a player.
   pub const PLAYER: Self = Self {
     food: Food::new(800),
@@ -56,18 +72,10 @@ impl Resources {
     wood: Wood::new(5_000_000),
   };
 
-  /// Maximum possible amount of resources.
-  pub const MAX: Self = Self {
-    food: Food::MAX,
-    iron: Iron::MAX,
-    stone: Stone::MAX,
-    wood: Wood::MAX,
-  };
-
   #[inline]
   #[must_use]
   pub fn new() -> Self {
-    Self::default()
+    Self::MIN.clone()
   }
 
   #[inline]
@@ -121,6 +129,12 @@ impl Resources {
       stone: self.stone.checked_sub(rhs.stone)?,
       wood: self.wood.checked_sub(rhs.wood)?,
     })
+  }
+}
+
+impl Default for Resources {
+  fn default() -> Self {
+    Self::new()
   }
 }
 

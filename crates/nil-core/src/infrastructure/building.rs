@@ -40,6 +40,10 @@ pub trait Building {
   fn max_level(&self) -> BuildingLevel;
   /// Sets the building's level while ensuring it remains within the level limit.
   fn set_level(&mut self, level: BuildingLevel);
+  /// Sets the building to its **minimum** level.
+  fn set_min_level(&mut self);
+  /// Sets the building to its **maximum** level.
+  fn set_max_level(&mut self);
   /// Increases the building level by one, if possible.
   fn increase_level(&mut self);
   /// Increases the level of the building by a certain amount, if possible.

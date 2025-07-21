@@ -8,7 +8,7 @@ export class PrefectureBuildOrderImpl implements PrefectureBuildOrder {
   public readonly level: number;
   public readonly resources: Resources;
   public readonly workforce: number;
-  public readonly status: PrefectureBuildOrderStatus;
+  public readonly state: PrefectureBuildOrderState;
 
   private constructor(order: PrefectureBuildOrder) {
     this.id = order.id;
@@ -17,21 +17,21 @@ export class PrefectureBuildOrderImpl implements PrefectureBuildOrder {
     this.level = order.level;
     this.resources = order.resources;
     this.workforce = order.workforce;
-    this.status = order.status;
+    this.state = order.state;
   }
 
   public isDone() {
-    return this.status.kind === 'done';
+    return this.state.kind === 'done';
   }
 
   public isPending() {
-    return this.status.kind === 'pending';
+    return this.state.kind === 'pending';
   }
 
   public getPendingWorkforce() {
-    switch (this.status.kind) {
+    switch (this.state.kind) {
       case 'pending':
-        return this.status.workforce;
+        return this.state.workforce;
       default:
         return 0;
     }

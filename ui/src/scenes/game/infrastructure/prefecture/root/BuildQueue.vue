@@ -58,7 +58,7 @@ const tableClass = computed(() => {
 
     <TableBody>
       <template v-for="order of prefecture.buildQueue" :key="order.id">
-        <TableRow v-if="order.status.kind === 'pending'">
+        <TableRow v-if="order.state.kind === 'pending'">
           <TableCell>
             <div class="flex items-center justify-start gap-2">
               <ChevronUpIcon
@@ -78,7 +78,7 @@ const tableClass = computed(() => {
           </TableCell>
           <TableCell>
             <div class="flex items-center justify-start">
-              <Workforce :amount="order.status.workforce" />
+              <Workforce :amount="order.state.workforce" />
             </div>
           </TableCell>
           <TableCell>

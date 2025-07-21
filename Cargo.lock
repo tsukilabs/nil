@@ -2691,6 +2691,7 @@ dependencies = [
 name = "nil-core"
 version = "0.1.0"
 dependencies = [
+ "anyhow",
  "bon",
  "bytes",
  "derive_more 2.0.1",

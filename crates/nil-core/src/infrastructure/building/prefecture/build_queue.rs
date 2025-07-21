@@ -71,7 +71,7 @@ impl PrefectureBuildQueue {
       level: target_level,
       resources,
       workforce,
-      status: PrefectureBuildOrderStatus::new(workforce),
+      state: PrefectureBuildOrderState::new(workforce),
     });
 
     let len = self.orders.len();
@@ -83,13 +83,13 @@ impl PrefectureBuildQueue {
     })
   }
 
-  /// Cancela a última ordem de construção da fila.
+  /// Cancels the last build order in the queue.
   #[must_use]
   pub(crate) fn cancel(&mut self) -> Option<PrefectureBuildOrder> {
     self.orders.pop_back()
   }
 
-  /// Consome força de trabalho até que ela se esgote ou toda a fila de construção seja concluída.
+  /// Consumes the workforce until it runs out or the entire build queue is completed.
   #[must_use]
   pub(super) fn process(&mut self, mut workforce: Workforce) -> Vec<PrefectureBuildOrder> {
     let mut orders = Vec::new();
@@ -117,6 +117,16 @@ impl PrefectureBuildQueue {
   pub fn iter(&self) -> impl Iterator<Item = &PrefectureBuildOrder> {
     self.orders.iter()
   }
+
+  #[inline]
+  pub fn len(&self) -> usize {
+    self.orders.len()
+  }
+
+  #[inline]
+  pub fn is_empty(&self) -> bool {
+    self.orders.is_empty()
+  }
 }
 
 #[must_use]
@@ -129,7 +139,7 @@ pub struct PrefectureBuildOrder {
   level: BuildingLevel,
   resources: Resources,
   workforce: Workforce,
-  status: PrefectureBuildOrderStatus,
+  state: PrefectureBuildOrderState,
 }
 
 impl PrefectureBuildOrder {
@@ -153,26 +163,22 @@ impl PrefectureBuildOrder {
     &self.resources
   }
 
-  /// Consome força de trabalho para avançar o progresso da ordem de construção.
-  ///
-  /// Retorna um booleano indicando se a construção foi concluída.
   fn update(&mut self, workforce: &mut Workforce) -> bool {
-    if let Some(pending) = self.status.pending() {
+    if let Some(pending) = self.state.pending_workforce() {
       if *pending > 0 {
         let previous = *pending;
         *pending -= *workforce;
 
-        // Reduz a força de trabalho disponível com base na
-        // quantidade usada para essa ordem de construção.
+        // Decreases the available workforce based on the quantity consumed by this build order.
         *workforce -= previous - *pending;
       }
 
       if *pending == 0 {
-        self.status = PrefectureBuildOrderStatus::Done;
+        self.state = PrefectureBuildOrderState::Done;
       }
     }
 
-    self.status.is_done()
+    self.state.is_done()
   }
 }
 
@@ -187,7 +193,6 @@ impl PrefectureBuildOrderId {
   }
 }
 
-/// Tipo da ordem de construção.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Deserialize, Serialize, EnumIs)]
 #[serde(rename_all = "kebab-case")]
 pub enum PrefectureBuildOrderKind {
@@ -203,16 +208,15 @@ impl PrefectureBuildOrderKind {
   }
 }
 
-/// Indica o progresso da construção.
 #[derive(Clone, Debug, EnumIs, Deserialize, Serialize)]
 #[serde(tag = "kind", rename_all = "kebab-case")]
-pub enum PrefectureBuildOrderStatus {
-  Done,
+pub enum PrefectureBuildOrderState {
   Pending { workforce: Workforce },
+  Done,
 }
 
-impl PrefectureBuildOrderStatus {
-  fn pending(&mut self) -> Option<&mut Workforce> {
+impl PrefectureBuildOrderState {
+  fn pending_workforce(&mut self) -> Option<&mut Workforce> {
     if let Self::Pending { workforce } = self {
       Some(workforce)
     } else {
@@ -221,7 +225,7 @@ impl PrefectureBuildOrderStatus {
   }
 }
 
-impl PrefectureBuildOrderStatus {
+impl PrefectureBuildOrderState {
   fn new(workforce: Workforce) -> Self {
     Self::Pending { workforce }
   }

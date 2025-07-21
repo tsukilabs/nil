@@ -51,13 +51,13 @@ impl PrefectureBuildCatalog {
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(tag = "kind", rename_all = "kebab-case")]
 pub enum PrefectureBuildCatalogEntry {
-  /// O edifício pode ser construído.
+  /// Building is available to be built.
   Available {
     recipe: Box<PrefectureBuildCatalogRecipe>,
   },
-  /// Edifício já está no nível máximo.
+  /// Building is already at its maximum level.
   Maxed,
-  /// Aldeia não atende aos requerimentos para a construção.
+  /// Village does not meet the requirements for construction.
   Unmet {
     requirements: InfrastructureRequirements,
   },

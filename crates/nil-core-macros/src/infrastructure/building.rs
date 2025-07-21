@@ -94,6 +94,14 @@ pub fn impl_building(ast: &DeriveInput) -> TokenStream {
           self.level = level.clamp(Self::MIN_LEVEL, Self::MAX_LEVEL);
         }
 
+        fn set_min_level(&mut self) {
+          self.level = Self::MIN_LEVEL;
+        }
+
+        fn set_max_level(&mut self) {
+          self.level = Self::MAX_LEVEL;
+        }
+
         fn increase_level(&mut self) {
           self.increase_level_by(1u8)
         }
