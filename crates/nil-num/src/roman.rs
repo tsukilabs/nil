@@ -26,10 +26,11 @@ impl Default for Roman {
 
 impl fmt::Display for Roman {
   fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-    self
-      .0
-      .iter()
-      .try_for_each(|numeral| write!(f, "{numeral}"))
+    for numeral in &self.0 {
+      write!(f, "{numeral}")?;
+    }
+
+    Ok(())
   }
 }
 
@@ -124,8 +125,8 @@ impl ToRoman for usize {
   }
 }
 
-macro_rules! impl_unsigned_to_roman {
-  ($($num:ident),+ $(,)?) => {
+macro_rules! impl_to_roman {
+  (signed @ $($num:ident),+ $(,)?) => {
     $(
       impl ToRoman for $num {
         fn to_roman(self) -> Option<Roman> {
@@ -134,12 +135,7 @@ macro_rules! impl_unsigned_to_roman {
       }
     )+
   };
-}
-
-impl_unsigned_to_roman!(u8, u16, u32, u64, u128);
-
-macro_rules! impl_signed_to_roman {
-  ($($num:ident),+ $(,)?) => {
+  (unsigned @ $($num:ident),+ $(,)?) => {
     $(
       impl ToRoman for $num {
         fn to_roman(self) -> Option<Roman> {
@@ -150,4 +146,48 @@ macro_rules! impl_signed_to_roman {
   };
 }
 
-impl_signed_to_roman!(i8, i16, i32, i64, i128);
+impl_to_roman!(signed @ u8, u16, u32, u64, u128);
+impl_to_roman!(unsigned @ i8, i16, i32, i64, i128);
+
+#[cfg(test)]
+mod tests {
+  use super::{Roman, ToRoman};
+
+  macro_rules! to_str {
+    ($number:expr) => {
+      $number
+        .to_roman()
+        .unwrap()
+        .to_string()
+        .as_str()
+    };
+  }
+
+  #[test]
+  fn to_roman() {
+    assert_eq!(to_str!(1), "I");
+    assert_eq!(to_str!(4), "IV");
+    assert_eq!(to_str!(5), "V");
+    assert_eq!(to_str!(9), "IX");
+    assert_eq!(to_str!(10), "X");
+    assert_eq!(to_str!(30), "XXX");
+    assert_eq!(to_str!(40), "XL");
+    assert_eq!(to_str!(50), "L");
+    assert_eq!(to_str!(100), "C");
+    assert_eq!(to_str!(300), "CCC");
+    assert_eq!(to_str!(400), "CD");
+    assert_eq!(to_str!(500), "D");
+    assert_eq!(to_str!(900), "CM");
+    assert_eq!(to_str!(1000), "M");
+    assert_eq!(to_str!(2350), "MMCCCL");
+    assert_eq!(to_str!(3000), "MMM");
+    assert_eq!(to_str!(3999), "MMMCMXCIX");
+  }
+
+  #[test]
+  fn min_max() {
+    assert!(Roman::parse(0u16).is_none());
+    assert!(Roman::parse(2000u16).is_some());
+    assert!(Roman::parse(4000u16).is_none());
+  }
+}
