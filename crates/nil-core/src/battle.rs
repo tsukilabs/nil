@@ -4,6 +4,7 @@
 #[cfg(test)]
 mod tests;
 
+use crate::infrastructure::building::wall::WallStats;
 use crate::unit::{Squad, UnitKind};
 use bon::Builder;
 
@@ -13,6 +14,7 @@ pub struct Battle {
   attacker: Vec<Squad>,
   #[builder(default, into)]
   defender: Vec<Squad>,
+  wall: Option<WallStats>,
 }
 
 impl Battle {
@@ -21,7 +23,7 @@ impl Battle {
   }
 
   pub fn defensive_power(&self) -> DefensivePower {
-    DefensivePower::new(&self.defender, self.offensive_power())
+    DefensivePower::new(&self.defender, self.offensive_power(), &self.wall)
   }
 
   pub fn winner_losses(&self) -> WinnerLosses {
@@ -91,7 +93,11 @@ pub struct DefensivePower {
 }
 
 impl DefensivePower {
-  pub fn new(squads: &[Squad], offensive_power: OffensivePower) -> Self {
+  pub fn new(
+    squads: &[Squad],
+    offensive_power: OffensivePower,
+    defending_wall: &Option<WallStats>,
+  ) -> Self {
     let units_by_kind = UnitsByKind::new(squads);
     let mut infantry = 0.0;
     let mut cavalry = 0.0;
@@ -111,6 +117,10 @@ impl DefensivePower {
 
     if f64::from(units_by_kind.ranged) / f64::from(units_by_kind.units_amount) > 0.5 {
       total -= sum_ranged_debuff(squads);
+    }
+
+    if let Some(wall_power) = defending_wall {
+      total = add_wall_power(wall_power, total);
     }
 
     DefensivePower {
@@ -235,4 +245,10 @@ fn sum_ranged_debuff(squads: &[Squad]) -> f64 {
     }
   }
   ranged_debuff
+}
+
+fn add_wall_power(wall: &WallStats, current_power: f64) -> f64 {
+  current_power
+    + f64::from(wall.defense)
+    + ((f64::from(wall.defense_percent) / 100.0) * current_power)
 }
