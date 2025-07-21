@@ -51,7 +51,7 @@ tauri-plugin-fs = "2.4"
 tauri-plugin-persisted-scope = "2.3"
 tauri-plugin-process = "2.3"
 tauri-plugin-single-instance = "2.3"
-tauri-plugin-window-state = "2.3"
+tauri-plugin-window-state = "2.4"
 thiserror = "2.0"
 wasm-bindgen = "0.2"
 

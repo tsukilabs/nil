@@ -38,7 +38,7 @@ tracing.workspace = true
 tracing-subscriber.workspace = true
 
 [dependencies.tauri]
-version = "2.6"
+version = "2.7"
 features = ["protocol-asset", "rustls-tls"]
 
 [build-dependencies.tauri-build]

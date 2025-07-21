@@ -12,9 +12,9 @@
   },
   "devDependencies": {
     "@shikijs/monaco": "^3.8.1",
-    "@tauri-apps/api": "^2.6.0",
+    "@tauri-apps/api": "^2.7.0",
     "@tauri-apps/plugin-clipboard-manager": "^2.3.0",
-    "@tauri-apps/plugin-dialog": "^2.3.0",
+    "@tauri-apps/plugin-dialog": "^2.3.1",
     "@tauri-apps/plugin-process": "^2.3.0",
     "@tb-dev/prototype-dom": "^7.0.18",
     "@tb-dev/utils": "^7.0.7",
