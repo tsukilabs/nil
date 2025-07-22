@@ -3,6 +3,7 @@
 
 use crate::continent::ContinentSize;
 use crate::error::Result;
+use derive_more::{From, Into};
 use glam::u8::U8Vec2;
 use itertools::Itertools;
 use serde::de::{self, Error as _, MapAccess, SeqAccess, Visitor};
@@ -39,8 +40,8 @@ impl Coord {
   }
 
   #[inline]
-  pub fn distance(&self, rhs: Coord) -> u8 {
-    self.0.chebyshev_distance(rhs.0)
+  pub fn distance(&self, rhs: Coord) -> Distance {
+    Distance::new(self.0.chebyshev_distance(rhs.0))
   }
 
   #[inline]
@@ -48,7 +49,7 @@ impl Coord {
     size > self.x() && size > self.y()
   }
 
-  pub fn is_within_distance(&self, other: Coord, distance: u8) -> bool {
+  pub fn is_within_distance(&self, other: Coord, distance: Distance) -> bool {
     let x0 = i16::from(self.x());
     let y0 = i16::from(self.y());
     let distance = i16::from(distance);
@@ -60,18 +61,18 @@ impl Coord {
 
   #[inline]
   #[must_use]
-  pub fn within_distance(self, distance: u8) -> Vec<Self> {
+  pub fn within_distance(self, distance: Distance) -> Vec<Self> {
     within_distance(self, distance, false)
   }
 
   #[inline]
   #[must_use]
-  pub fn within_distance_inclusive(self, distance: u8) -> Vec<Self> {
+  pub fn within_distance_inclusive(self, distance: Distance) -> Vec<Self> {
     within_distance(self, distance, true)
   }
 }
 
-fn within_distance(origin: Coord, distance: u8, inclusive: bool) -> Vec<Coord> {
+fn within_distance(origin: Coord, distance: Distance, inclusive: bool) -> Vec<Coord> {
   let mut coords = Vec::new();
   let x0 = i16::from(origin.x());
   let y0 = i16::from(origin.y());
@@ -191,5 +192,18 @@ impl<'de> Visitor<'de> for CoordVisitor {
       x.ok_or_else(|| V::Error::missing_field("x"))?,
       y.ok_or_else(|| V::Error::missing_field("y"))?,
     ))
+  }
+}
+
+#[derive(
+  Clone, Copy, Debug, From, Into, PartialEq, Eq, PartialOrd, Ord, Deserialize, Serialize,
+)]
+#[into(i16, u8)]
+pub struct Distance(u8);
+
+impl Distance {
+  #[inline]
+  pub const fn new(distance: u8) -> Self {
+    Self(distance)
   }
 }

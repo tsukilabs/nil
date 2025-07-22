@@ -16,7 +16,7 @@ use crate::player::PlayerId;
 use crate::village::Village;
 use serde::{Deserialize, Serialize};
 
-pub use coord::Coord;
+pub use coord::{Coord, Distance};
 pub use field::{Field, PublicField};
 pub use index::{ContinentIndex, IntoContinentIndex};
 pub use size::ContinentSize;

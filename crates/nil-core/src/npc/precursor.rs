@@ -4,7 +4,7 @@
 mod a;
 mod b;
 
-use crate::continent::{ContinentSize, Coord};
+use crate::continent::{ContinentSize, Coord, Distance};
 use crate::ethic::Ethics;
 use crate::military::army::ArmyPersonnel;
 use crate::resources::Resources;
@@ -77,8 +77,8 @@ pub enum PrecursorId {
 }
 
 #[inline]
-pub fn initial_territory_radius(size: ContinentSize) -> u8 {
-  size.get().div_ceil(20).next_multiple_of(2)
+pub fn initial_territory_radius(size: ContinentSize) -> Distance {
+  Distance::new(size.get().div_ceil(20).next_multiple_of(2))
 }
 
 #[inline]
