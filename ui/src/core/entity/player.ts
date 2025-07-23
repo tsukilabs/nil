@@ -7,7 +7,7 @@ import { asyncRef } from '@tb-dev/vue';
 import type { Option } from '@tb-dev/utils';
 import { PlayerImpl } from '@/core/model/player';
 
-export class CurrentPlayerEntity extends Entity {
+export class PlayerEntity extends Entity {
   private readonly id = ref<Option<PlayerId>>();
   private readonly player: Ref<Option<PlayerImpl>>;
 
@@ -38,7 +38,7 @@ export class CurrentPlayerEntity extends Entity {
   }
 
   public static use() {
-    return super.get(CurrentPlayerEntity) as CurrentPlayerEntity;
+    return super.get(PlayerEntity) as PlayerEntity;
   }
 
   public static refs() {
@@ -62,10 +62,10 @@ export class CurrentPlayerEntity extends Entity {
   public static init() {
     if (!Object.hasOwn(window.NIL, 'player')) {
       const player: (typeof window.NIL)['player'] = {
-        refs: CurrentPlayerEntity.refs.bind(CurrentPlayerEntity),
-        setId: CurrentPlayerEntity.setId.bind(CurrentPlayerEntity),
-        update: CurrentPlayerEntity.update.bind(CurrentPlayerEntity),
-        use: CurrentPlayerEntity.use.bind(CurrentPlayerEntity),
+        refs: PlayerEntity.refs.bind(PlayerEntity),
+        setId: PlayerEntity.setId.bind(PlayerEntity),
+        update: PlayerEntity.update.bind(PlayerEntity),
+        use: PlayerEntity.use.bind(PlayerEntity),
       };
 
       Object.defineProperty(window.NIL, 'player', {

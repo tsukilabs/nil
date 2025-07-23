@@ -5,8 +5,9 @@ import { Entity } from './abstract';
 import { ChatEntity } from './chat';
 import { RoundEntity } from './round';
 import { WorldEntity } from './world';
-import { CurrentPlayerEntity } from './current-player';
-import { CurrentVillageEntity } from './current-village';
+import { PlayerEntity } from './player';
+import { VillageEntity } from './village';
+import { MilitaryEntity } from './military';
 
 export function initEntities() {
   if (!Object.hasOwn(window, 'NIL')) {
@@ -23,6 +24,7 @@ export function initEntities() {
   WorldEntity.init();
   ChatEntity.init();
   RoundEntity.init();
-  CurrentPlayerEntity.init();
-  CurrentVillageEntity.init();
+  PlayerEntity.init();
+  VillageEntity.init();
+  MilitaryEntity.init();
 }
