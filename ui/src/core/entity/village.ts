@@ -8,7 +8,7 @@ import { VillageImpl } from '@/core/model/village';
 import { CoordImpl } from '@/core/model/continent/coord';
 import { computed, nextTick, type Ref, shallowRef } from 'vue';
 
-export class CurrentVillageEntity extends Entity {
+export class VillageEntity extends Entity {
   private readonly coord = shallowRef<Option<CoordImpl>>();
   private readonly village: Ref<VillageImpl | null>;
   private readonly production: Ref<Option<Partial<Resources>>>;
@@ -91,7 +91,7 @@ export class CurrentVillageEntity extends Entity {
   }
 
   public static use() {
-    return super.get(CurrentVillageEntity) as CurrentVillageEntity;
+    return super.get(VillageEntity) as VillageEntity;
   }
 
   public static refs() {
@@ -119,9 +119,9 @@ export class CurrentVillageEntity extends Entity {
   public static init() {
     if (!Object.hasOwn(window.NIL, 'village')) {
       const village: (typeof window.NIL)['village'] = {
-        refs: CurrentVillageEntity.refs.bind(CurrentVillageEntity),
-        setCoord: CurrentVillageEntity.setCoord.bind(CurrentVillageEntity),
-        use: CurrentVillageEntity.use.bind(CurrentVillageEntity),
+        refs: VillageEntity.refs.bind(VillageEntity),
+        setCoord: VillageEntity.setCoord.bind(VillageEntity),
+        use: VillageEntity.use.bind(VillageEntity),
       };
 
       Object.defineProperty(window.NIL, 'village', {

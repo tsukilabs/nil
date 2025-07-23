@@ -2,15 +2,16 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable no-inner-declarations */
+
 import type { App } from 'vue';
 import type { go } from '@/router';
 import type { commands } from '@/lib/api';
 import type { ChatEntity } from '@/core/entity/chat';
 import type { RoundEntity } from '@/core/entity/round';
 import type { WorldEntity } from '@/core/entity/world';
+import type { PlayerEntity } from '@/core/entity/player';
 import type { MaybePromise, Option } from '@tb-dev/utils';
-import type { CurrentPlayerEntity } from '@/core/entity/current-player';
-import type { CurrentVillageEntity } from '@/core/entity/current-village';
+import type { VillageEntity } from '@/core/entity/village';
 
 declare global {
   var __APP__: App;
@@ -23,12 +24,14 @@ declare global {
       readonly use: (typeof ChatEntity)['use'];
     };
 
-    /** Jogador atual. */
+    readonly military: unknown;
+
+    /** Current player. */
     readonly player: {
-      readonly refs: (typeof CurrentPlayerEntity)['refs'];
-      readonly setId: (typeof CurrentPlayerEntity)['setId'];
-      readonly update: (typeof CurrentPlayerEntity)['update'];
-      readonly use: (typeof CurrentPlayerEntity)['use'];
+      readonly refs: (typeof PlayerEntity)['refs'];
+      readonly setId: (typeof PlayerEntity)['setId'];
+      readonly update: (typeof PlayerEntity)['update'];
+      readonly use: (typeof PlayerEntity)['use'];
     };
 
     readonly round: {
@@ -37,11 +40,11 @@ declare global {
       readonly use: (typeof RoundEntity)['use'];
     };
 
-    /** Aldeia atual. */
+    /** Current village. */
     readonly village: {
-      readonly refs: (typeof CurrentVillageEntity)['refs'];
-      readonly setCoord: (typeof CurrentVillageEntity)['setCoord'];
-      readonly use: (typeof CurrentVillageEntity)['use'];
+      readonly refs: (typeof VillageEntity)['refs'];
+      readonly setCoord: (typeof VillageEntity)['setCoord'];
+      readonly use: (typeof VillageEntity)['use'];
     };
 
     readonly world: {
@@ -49,7 +52,7 @@ declare global {
       readonly use: (typeof WorldEntity)['use'];
     };
 
-    /** Atualiza todas as entidades. */
+    /** Updates all entities. */
     readonly update: () => Promise<void>;
   };
 
