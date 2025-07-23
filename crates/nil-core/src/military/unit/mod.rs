@@ -104,15 +104,16 @@ pub enum UnitKind {
   Ranged,
 }
 
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Copy, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct UnitStats {
   pub(crate) attack: Power,
   pub(crate) infantry_defense: Power,
   pub(crate) cavalry_defense: Power,
   pub(crate) ranged_defense: Power,
   pub(crate) ranged_debuff: RangedDebuff,
-  pub speed: Speed,
-  pub haul: Haul,
+  speed: Speed,
+  haul: Haul,
 }
 
 #[derive(Clone, Copy, Debug, Deref, Into, PartialEq, Eq, Deserialize, Serialize)]
