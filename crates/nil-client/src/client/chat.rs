@@ -3,16 +3,16 @@
 
 use super::Client;
 use crate::error::Result;
-use nil_core::chat::{ChatMessage, ChatMessageId, ChatMessagePlayer};
+use nil_core::chat::{Chat, ChatMessageId};
 
 impl Client {
   /// GET `/chat`
-  pub async fn get_chat_messages(&self) -> Result<Vec<ChatMessage>> {
+  pub async fn get_chat(&self) -> Result<Chat> {
     self.http.get_json("chat").await
   }
 
   /// POST `/chat`
-  pub async fn push_chat_message(&self, message: ChatMessagePlayer) -> Result<ChatMessageId> {
+  pub async fn push_chat_message(&self, message: String) -> Result<ChatMessageId> {
     self.http.post_json("chat", message).await
   }
 }

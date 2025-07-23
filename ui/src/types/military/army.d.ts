@@ -2,9 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 interface Army {
+  readonly id: ArmyId;
   readonly personnel: ArmyPersonnel;
-  readonly state: ArmyState;
   readonly owner: ArmyOwner;
+  readonly state: ArmyState;
 }
 
 interface ArmyPersonnel {
@@ -15,6 +16,8 @@ interface ArmyPersonnel {
   readonly pikeman: Squad;
   readonly swordsman: Squad;
 }
+
+type ArmyId = string;
 
 type ArmyState = 'idle';
 

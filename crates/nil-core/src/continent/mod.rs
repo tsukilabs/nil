@@ -18,7 +18,7 @@ use serde::{Deserialize, Serialize};
 
 pub use coord::{Coord, Distance};
 pub use field::{Field, PublicField};
-pub use index::{ContinentIndex, IntoContinentIndex};
+pub use index::{ContinentIndex, ContinentKey};
 pub use size::ContinentSize;
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
@@ -56,16 +56,16 @@ impl Continent {
     Coord::splat(self.radius())
   }
 
-  pub fn field(&self, index: impl IntoContinentIndex) -> Result<&Field> {
-    let index = index.into_index(self.size);
+  pub fn field(&self, key: impl ContinentKey) -> Result<&Field> {
+    let index = key.into_index(self.size);
     self
       .fields
       .get(index.0)
       .ok_or(Error::IndexOutOfBounds(index))
   }
 
-  pub(crate) fn field_mut(&mut self, index: impl IntoContinentIndex) -> Result<&mut Field> {
-    let index = index.into_index(self.size);
+  pub(crate) fn field_mut(&mut self, key: impl ContinentKey) -> Result<&mut Field> {
+    let index = key.into_index(self.size);
     self
       .fields
       .get_mut(index.0)
@@ -87,8 +87,8 @@ impl Continent {
       .map(|(idx, field)| (ContinentIndex::new(idx), field))
   }
 
-  pub fn village(&self, index: impl IntoContinentIndex) -> Result<&Village> {
-    let index = index.into_index(self.size);
+  pub fn village(&self, key: impl ContinentKey) -> Result<&Village> {
+    let index = key.into_index(self.size);
     if let Some(village) = self.field(index)?.village() {
       Ok(village)
     } else {
@@ -97,9 +97,9 @@ impl Continent {
     }
   }
 
-  pub fn village_mut(&mut self, index: impl IntoContinentIndex) -> Result<&mut Village> {
+  pub fn village_mut(&mut self, key: impl ContinentKey) -> Result<&mut Village> {
     let size = self.size;
-    let index = index.into_index(size);
+    let index = key.into_index(size);
     if let Some(village) = self.field_mut(index)?.village_mut() {
       Ok(village)
     } else {

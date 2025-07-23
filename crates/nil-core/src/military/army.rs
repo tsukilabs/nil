@@ -10,17 +10,22 @@ use bon::Builder;
 use serde::{Deserialize, Serialize};
 use std::ops::{Add, AddAssign, Sub, SubAssign};
 use strum::EnumIs;
+use uuid::Uuid;
 
 #[derive(Builder, Clone, Debug, Deserialize, Serialize)]
+#[builder(builder_type(vis = "pub(in crate::military)"))]
 pub struct Army {
+  #[builder(skip)]
+  id: ArmyId,
+
   #[builder(default)]
   personnel: ArmyPersonnel,
 
-  #[builder(default)]
-  state: ArmyState,
-
   #[builder(into)]
   owner: ArmyOwner,
+
+  #[builder(skip = ArmyState::Idle)]
+  state: ArmyState,
 }
 
 impl Army {
@@ -30,18 +35,34 @@ impl Army {
   }
 
   #[inline]
-  pub fn state(&self) -> &ArmyState {
-    &self.state
-  }
-
-  #[inline]
   pub fn owner(&self) -> &ArmyOwner {
     &self.owner
   }
 
   #[inline]
+  pub fn state(&self) -> &ArmyState {
+    &self.state
+  }
+
+  #[inline]
   pub fn is_idle(&self) -> bool {
     self.state.is_idle()
+  }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Deserialize, Serialize)]
+pub struct ArmyId(Uuid);
+
+impl ArmyId {
+  #[must_use]
+  pub fn new() -> Self {
+    Self(Uuid::new_v4())
+  }
+}
+
+impl Default for ArmyId {
+  fn default() -> Self {
+    Self::new()
   }
 }
 

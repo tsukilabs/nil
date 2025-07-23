@@ -23,6 +23,7 @@ fn center() {
 fn coord_splat() {
   let coord = Coord::splat(100);
   assert_eq!(coord.x(), coord.y());
+  assert_eq!(coord, Coord::new(100, 100));
 }
 
 #[test]

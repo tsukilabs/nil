@@ -4,7 +4,6 @@
 use crate::error::Result;
 use crate::infrastructure::Infrastructure;
 use crate::infrastructure::storage::OverallStorageCapacity;
-use crate::military::army::Army;
 use crate::npc::precursor::{self, PrecursorId};
 use crate::village::Village;
 use crate::world::World;
@@ -67,12 +66,7 @@ impl World {
         precursor::initial_defensive_personnel()
       };
 
-      let army = Army::builder()
-        .personnel(personnel)
-        .owner(id)
-        .build();
-
-      self.military.insert(coord, army);
+      self.military.spawn(coord, id, personnel);
     }
 
     Ok(())

@@ -11,30 +11,16 @@ export class ArmyPersonnelImpl implements ArmyPersonnel {
   public readonly pikeman: SquadImpl;
   public readonly swordsman: SquadImpl;
 
-  private constructor(args: {
-    archer: SquadImpl;
-    axeman: SquadImpl;
-    heavyCavalry: SquadImpl;
-    lightCavalry: SquadImpl;
-    pikeman: SquadImpl;
-    swordsman: SquadImpl;
-  }) {
-    this.archer = args.archer;
-    this.axeman = args.axeman;
-    this.heavyCavalry = args.heavyCavalry;
-    this.lightCavalry = args.lightCavalry;
-    this.pikeman = args.pikeman;
-    this.swordsman = args.swordsman;
+  private constructor(personnel: ArmyPersonnel) {
+    this.archer = SquadImpl.create(personnel.archer);
+    this.axeman = SquadImpl.create(personnel.axeman);
+    this.heavyCavalry = SquadImpl.create(personnel.heavyCavalry);
+    this.lightCavalry = SquadImpl.create(personnel.lightCavalry);
+    this.pikeman = SquadImpl.create(personnel.pikeman);
+    this.swordsman = SquadImpl.create(personnel.swordsman);
   }
 
   public static create(personnel: ArmyPersonnel) {
-    return new ArmyPersonnelImpl({
-      archer: SquadImpl.create(personnel.archer),
-      axeman: SquadImpl.create(personnel.axeman),
-      heavyCavalry: SquadImpl.create(personnel.heavyCavalry),
-      lightCavalry: SquadImpl.create(personnel.lightCavalry),
-      pikeman: SquadImpl.create(personnel.pikeman),
-      swordsman: SquadImpl.create(personnel.swordsman),
-    });
+    return new ArmyPersonnelImpl(personnel);
   }
 }

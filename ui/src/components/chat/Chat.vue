@@ -55,10 +55,8 @@ function toElementId(id: ChatMessageId) {
 }
 
 onMounted(() => {
-  const last = chat.value.at(-1);
-  if (last) {
-    void scroll(last.message.id);
-  }
+  const last = chat.value?.history.last();
+  if (last) void scroll(last.id);
 });
 </script>
 
@@ -67,9 +65,9 @@ onMounted(() => {
     <div class="flex size-full flex-col gap-4">
       <div class="flex h-full flex-col gap-4 overflow-hidden">
         <ScrollArea class="h-[calc(100%-50px)]">
-          <div ref="contentEl" class="flex flex-col gap-3 pr-6 pl-4">
-            <div v-for="{ kind, message } of chat" :id="toElementId(message.id)" :key="message.id">
-              <MessagePlayer v-if="kind === 'player'" :message />
+          <div v-if="chat" ref="contentEl" class="flex flex-col gap-3 pr-6 pl-4">
+            <div v-for="message of chat" :id="toElementId(message.id)" :key="message.id">
+              <MessagePlayer v-if="message.author.kind === 'player'" :message />
             </div>
           </div>
         </ScrollArea>

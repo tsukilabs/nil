@@ -1,18 +1,27 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-type ChatMessage = ChatMessageChatMessagePlayer;
-
-interface ChatMessageChatMessagePlayer {
-  readonly kind: 'player';
-  readonly message: ChatMessagePlayer;
+interface Chat {
+  readonly history: ChatHistory;
 }
 
-interface ChatMessagePlayer {
+interface ChatHistory {
+  readonly queue: ChatMessage[];
+  readonly size: number;
+}
+
+interface ChatMessage {
   readonly id: ChatMessageId;
-  readonly author: PlayerId;
+  readonly author: ChatMessageAuthor;
   readonly content: ChatMessageContent;
-  readonly time: string;
+  readonly timestamp: string;
+}
+
+type ChatMessageAuthor = ChatMessageAuthorPlayer;
+
+interface ChatMessageAuthorPlayer {
+  readonly kind: 'player';
+  readonly id: PlayerId;
 }
 
 type ChatMessageId = string;

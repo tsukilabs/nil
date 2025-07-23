@@ -37,7 +37,7 @@ pub(crate) fn create() -> Router<App> {
   #[rustfmt::skip]
   let router = Router::new()
     .route("/", get(ok))
-    .route("/chat", get(chat::get_all))
+    .route("/chat", get(chat::get))
     .route("/chat", post(chat::push))
     .route("/cheat/bot/spawn", get(cheat::spawn_bot))
     .route("/cheat/bot/{id}/infrastructure/storage", get(cheat::get_bot_storage_capacity))

@@ -4,21 +4,19 @@
 import { ArmyPersonnelImpl } from './army-personnel';
 
 export class ArmyImpl implements Army {
+  public readonly id: ArmyId;
   public readonly personnel: ArmyPersonnelImpl;
   public readonly state: ArmyState;
   public readonly owner: ArmyOwner;
 
-  private constructor(args: { personnel: ArmyPersonnelImpl; state: ArmyState; owner: ArmyOwner }) {
-    this.personnel = args.personnel;
-    this.state = args.state;
-    this.owner = args.owner;
+  private constructor(army: Army) {
+    this.id = army.id;
+    this.personnel = ArmyPersonnelImpl.create(army.personnel);
+    this.state = army.state;
+    this.owner = army.owner;
   }
 
   public static create(army: Army) {
-    return new ArmyImpl({
-      personnel: ArmyPersonnelImpl.create(army.personnel),
-      state: army.state,
-      owner: army.owner,
-    });
+    return new ArmyImpl(army);
   }
 }

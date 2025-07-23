@@ -3,21 +3,19 @@
 
 use crate::error::Result;
 use crate::manager::ManagerExt;
-use nil_core::chat::{ChatMessage, ChatMessageId, ChatMessagePlayer};
+use nil_core::chat::{Chat, ChatMessageId};
 use tauri::AppHandle;
 
 #[tauri::command]
-pub async fn get_chat_messages(app: AppHandle) -> Result<Vec<ChatMessage>> {
+pub async fn get_chat(app: AppHandle) -> Result<Chat> {
   app
-    .client(async |cl| cl.get_chat_messages().await)
+    .client(async |cl| cl.get_chat().await)
     .await?
     .map_err(Into::into)
 }
 
 #[tauri::command]
-pub async fn push_chat_message(app: AppHandle, content: String) -> Result<ChatMessageId> {
-  let author = app.nil().player().await?;
-  let message = ChatMessagePlayer::new(author, &content);
+pub async fn push_chat_message(app: AppHandle, message: String) -> Result<ChatMessageId> {
   app
     .client(async |cl| cl.push_chat_message(message).await)
     .await?

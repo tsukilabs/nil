@@ -22,7 +22,7 @@ listener.event.onChatUpdated(onChatUpdated);
 whenever(isChatOpen, () => (hasUnread.value = false));
 
 function onChatUpdated({ message }: ChatUpdatedPayload) {
-  if (!isChatOpen.value && message.message.author !== player.value?.id) {
+  if (!isChatOpen.value && message.author.id !== player.value?.id) {
     hasUnread.value = true;
   }
 }

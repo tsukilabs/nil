@@ -1,66 +1,56 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use crate::error::Result;
 use crate::player::PlayerId;
-use derive_more::{Deref, DerefMut};
 use jiff::Zoned;
-use nil_num::BigIntU64;
 use serde::{Deserialize, Serialize};
 use std::collections::VecDeque;
 use std::num::NonZeroUsize;
 use std::sync::Arc;
+use uuid::Uuid;
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Default, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Chat {
-  current_id: ChatMessageId,
   history: ChatHistory,
-  size: NonZeroUsize,
 }
 
 impl Chat {
-  pub const MIN_SIZE: NonZeroUsize = NonZeroUsize::new(100).unwrap();
-
-  pub(crate) fn new(size: usize) -> Self {
-    let size = size.max(Self::MIN_SIZE.get());
-    let size = unsafe { NonZeroUsize::new_unchecked(size) };
-    Self {
-      current_id: ChatMessageId::default(),
-      history: ChatHistory::default(),
-      size,
-    }
-  }
-
   pub fn iter(&self) -> impl Iterator<Item = &ChatMessage> {
-    self.history.iter()
+    self.history.queue.iter()
   }
 
-  pub(crate) fn push(&mut self, message: &mut ChatMessage) -> ChatMessageId {
-    self.current_id = self.current_id.next();
-    *message.id_mut() = self.current_id;
-    self.history.trim(self.size);
-    self.history.push_back(message.clone());
-    self.current_id
-  }
-}
-
-impl Default for Chat {
-  fn default() -> Self {
-    Self::new(Self::MIN_SIZE.get())
+  pub(crate) fn push(&mut self, message: ChatMessage) -> ChatMessageId {
+    let id = message.id;
+    self.history.trim();
+    self.history.queue.push_back(message);
+    id
   }
 }
 
-#[derive(Clone, Debug, Default, Deref, DerefMut, Deserialize, Serialize)]
-pub struct ChatHistory(VecDeque<ChatMessage>);
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct ChatHistory {
+  queue: VecDeque<ChatMessage>,
+  size: NonZeroUsize,
+}
 
 impl ChatHistory {
-  fn trim(&mut self, max_size: NonZeroUsize) {
-    let max_size = max_size.get();
+  pub const MIN: NonZeroUsize = NonZeroUsize::new(100).unwrap();
+  pub const MAX: NonZeroUsize = NonZeroUsize::new(500).unwrap();
+
+  fn new(size: usize) -> Self {
+    let size = size.clamp(Self::MIN.get(), Self::MAX.get());
+    let size = unsafe { NonZeroUsize::new_unchecked(size) };
+    Self { queue: VecDeque::new(), size }
+  }
+
+  fn trim(&mut self) {
+    let size = self.size.get();
     loop {
-      let len = self.0.len();
-      if len.saturating_sub(1) >= max_size {
-        self.0.pop_front();
+      let len = self.queue.len();
+      if len.saturating_sub(1) >= size {
+        self.queue.pop_front();
       } else {
         break;
       }
@@ -68,54 +58,72 @@ impl ChatHistory {
   }
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
-#[serde(tag = "kind", rename_all = "kebab-case")]
-pub enum ChatMessage {
-  Player { message: ChatMessagePlayer },
-}
-
-impl ChatMessage {
-  fn id_mut(&mut self) -> &mut ChatMessageId {
-    match self {
-      ChatMessage::Player { message } => &mut message.id,
-    }
+impl Default for ChatHistory {
+  fn default() -> Self {
+    Self::new(Self::MIN.get())
   }
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-pub struct ChatMessagePlayer {
+pub struct ChatMessage {
   id: ChatMessageId,
-  author: PlayerId,
+  author: ChatMessageAuthor,
   content: ChatMessageContent,
-  time: Zoned,
+  timestamp: Zoned,
 }
 
-impl ChatMessagePlayer {
-  pub fn new(author: PlayerId, message: &str) -> Self {
+impl ChatMessage {
+  pub fn new<A>(author: A, message: &str) -> Self
+  where
+    A: Into<ChatMessageAuthor>,
+  {
     Self {
-      id: ChatMessageId::default(),
-      author,
+      id: ChatMessageId::new(),
+      author: author.into(),
       content: ChatMessageContent::new(message),
-      time: Zoned::now(),
+      timestamp: Zoned::now(),
     }
   }
 }
 
-impl From<ChatMessagePlayer> for ChatMessage {
-  fn from(message: ChatMessagePlayer) -> Self {
-    ChatMessage::Player { message }
+impl From<ChatMessage> for ChatMessageAuthor {
+  fn from(message: ChatMessage) -> Self {
+    message.author
   }
 }
 
-#[derive(Clone, Copy, Debug, Default, Deref, PartialEq, Eq, PartialOrd, Ord, Hash, BigIntU64)]
-pub struct ChatMessageId(u64);
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Deserialize, Serialize)]
+pub struct ChatMessageId(Uuid);
 
 impl ChatMessageId {
-  #[inline]
   #[must_use]
-  const fn next(self) -> Self {
-    Self(self.0.wrapping_add(1))
+  pub fn new() -> Self {
+    Self(Uuid::now_v7())
+  }
+}
+
+impl Default for ChatMessageId {
+  fn default() -> Self {
+    Self::new()
+  }
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(tag = "kind", rename_all = "kebab-case")]
+pub enum ChatMessageAuthor {
+  Player { id: PlayerId },
+}
+
+impl From<PlayerId> for ChatMessageAuthor {
+  fn from(id: PlayerId) -> Self {
+    Self::Player { id }
+  }
+}
+
+impl From<&PlayerId> for ChatMessageAuthor {
+  fn from(id: &PlayerId) -> Self {
+    Self::Player { id: id.clone() }
   }
 }
 

@@ -76,34 +76,38 @@ impl Rem<ContinentSize> for ContinentIndex {
   }
 }
 
-pub trait IntoContinentIndex: private::Sealed {
+pub trait ContinentKey {
   fn into_index(self, size: ContinentSize) -> ContinentIndex;
+
+  fn into_coord(self, size: ContinentSize) -> Result<Coord>
+  where
+    Self: Sized,
+  {
+    self.into_index(size).to_coord(size)
+  }
 }
 
-impl IntoContinentIndex for ContinentIndex {
+impl ContinentKey for ContinentIndex {
   fn into_index(self, _: ContinentSize) -> ContinentIndex {
     self
   }
 }
 
-impl IntoContinentIndex for Coord {
+impl ContinentKey for Coord {
   fn into_index(self, size: ContinentSize) -> ContinentIndex {
     ContinentIndex::from_coord(self, size)
   }
-}
 
-impl IntoContinentIndex for usize {
-  fn into_index(self, _: ContinentSize) -> ContinentIndex {
-    ContinentIndex::new(self)
+  fn into_coord(self, _: ContinentSize) -> Result<Coord>
+  where
+    Self: Sized,
+  {
+    Ok(self)
   }
 }
 
-mod private {
-  use crate::continent::{ContinentIndex, Coord};
-
-  pub trait Sealed {}
-
-  impl Sealed for ContinentIndex {}
-  impl Sealed for Coord {}
-  impl Sealed for usize {}
+impl ContinentKey for usize {
+  fn into_index(self, _: ContinentSize) -> ContinentIndex {
+    ContinentIndex::new(self)
+  }
 }

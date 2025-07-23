@@ -44,7 +44,7 @@ fn main() {
     .invoke_handler(tauri::generate_handler![
       command::is_host,
       command::show_window,
-      command::chat::get_chat_messages,
+      command::chat::get_chat,
       command::chat::push_chat_message,
       command::cheat::infrastructure::cheat_set_building_level,
       command::cheat::infrastructure::cheat_set_max_infrastructure,

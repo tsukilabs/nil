@@ -3,11 +3,12 @@
 
 use super::World;
 use crate::chat::{ChatMessage, ChatMessageId};
+use crate::player::PlayerId;
 
 impl World {
-  pub fn push_chat_message(&mut self, message: impl Into<ChatMessage>) -> ChatMessageId {
-    let mut message: ChatMessage = message.into();
-    let id = self.chat.push(&mut message);
+  pub fn push_chat_message(&mut self, author: PlayerId, message: &str) -> ChatMessageId {
+    let message = ChatMessage::new(author, message);
+    let id = self.chat.push(message.clone());
     self.emit_chat_updated(message);
     id
   }

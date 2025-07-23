@@ -2,20 +2,20 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { Entity } from './abstract';
-import { compare } from '@/lib/intl';
 import { asyncRef } from '@tb-dev/vue';
-import { getChatMessages } from '@/commands';
+import type { Option } from '@tb-dev/utils';
 import { type ShallowRef, triggerRef } from 'vue';
+import { ChatImpl } from '@/core/model/chat/chat';
 
 export class ChatEntity extends Entity {
-  private readonly chat: ShallowRef<ChatMessage[]>;
+  private readonly chat: ShallowRef<Option<ChatImpl>>;
 
   public readonly updateChat: () => Promise<void>;
 
   constructor() {
     super();
 
-    const chat = asyncRef([], getChatMessages);
+    const chat = asyncRef(null, ChatImpl.load.bind(ChatImpl));
     this.chat = chat.state;
     this.updateChat = chat.execute;
 
@@ -31,9 +31,10 @@ export class ChatEntity extends Entity {
   }
 
   private onChatUpdated({ message }: ChatUpdatedPayload) {
-    this.chat.value.push(message);
-    this.chat.value.sort((a, b) => compare(a.message.id, b.message.id));
-    triggerRef(this.chat);
+    if (this.chat.value) {
+      this.chat.value.history.push(message);
+      triggerRef(this.chat);
+    }
   }
 
   public static use() {
@@ -43,7 +44,7 @@ export class ChatEntity extends Entity {
   public static refs() {
     const instance = this.use();
     return {
-      chat: instance.chat as Readonly<ShallowRef<readonly ChatMessage[]>>,
+      chat: instance.chat as Readonly<typeof instance.chat>,
     } as const;
   }
 

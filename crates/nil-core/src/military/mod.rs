@@ -5,14 +5,15 @@ pub mod army;
 pub mod squad;
 pub mod unit;
 
-use crate::continent::{ContinentIndex, ContinentSize, IntoContinentIndex};
-use crate::military::army::Army;
+use crate::continent::{ContinentIndex, ContinentKey, ContinentSize};
+use crate::military::army::{Army, ArmyOwner, ArmyPersonnel};
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct Military {
-  grid: HashMap<ContinentIndex, Vec<Army>>,
+  continent: HashMap<ContinentIndex, Vec<Army>>,
   continent_size: ContinentSize,
 }
 
@@ -21,40 +22,63 @@ pub struct Military {
 impl Military {
   pub(crate) fn new(size: ContinentSize) -> Self {
     Self {
-      grid: HashMap::new(),
+      continent: HashMap::new(),
       continent_size: size,
     }
   }
 
-  pub fn armies_at<I>(&self, index: I) -> &[Army]
+  pub fn armies_at<K>(&self, key: K) -> &[Army]
   where
-    I: IntoContinentIndex,
+    K: ContinentKey,
   {
-    let index = index.into_index(self.continent_size);
+    let index = key.into_index(self.continent_size);
     self
-      .grid
+      .continent
       .get(&index)
       .map(Vec::as_slice)
       .unwrap_or_default()
   }
 
-  pub fn idle_armies_at<I>(&self, index: I) -> impl Iterator<Item = &Army>
+  pub fn idle_armies_at<K>(&self, key: K) -> impl Iterator<Item = &Army>
   where
-    I: IntoContinentIndex,
+    K: ContinentKey,
   {
     self
-      .armies_at(index)
+      .armies_at(key)
       .iter()
       .filter(|army| army.is_idle())
   }
 
-  pub(crate) fn insert<I>(&mut self, index: I, army: Army)
+  #[must_use]
+  pub fn intersection<K, I>(&self, keys: I) -> Self
   where
-    I: IntoContinentIndex,
+    K: ContinentKey,
+    I: IntoIterator<Item = K>,
   {
-    let index = index.into_index(self.continent_size);
+    let mut military = Self::new(self.continent_size);
+    for key in keys {
+      let index = key.into_index(self.continent_size);
+      if let Some(armies) = self.continent.get(&index).cloned() {
+        military.continent.insert(index, armies);
+      }
+    }
+
+    military
+  }
+
+  pub(crate) fn spawn<K, O>(&mut self, key: K, owner: O, personnel: ArmyPersonnel)
+  where
+    K: ContinentKey,
+    O: Into<ArmyOwner>,
+  {
+    let index = key.into_index(self.continent_size);
+    let army = Army::builder()
+      .owner(owner)
+      .personnel(personnel)
+      .build();
+
     self
-      .grid
+      .continent
       .entry(index)
       .or_default()
       .push(army);
