@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable @typescript-eslint/class-methods-use-this */
-import type { Option } from '@tb-dev/utils';
+
 import { asyncNoop, noop } from 'es-toolkit';
 import { ListenerSet } from '@/lib/listener-set';
 import { type EffectScope, effectScope } from 'vue';

@@ -3,7 +3,6 @@
 
 <script setup lang="ts">
 import Round from './Round.vue';
-import type { MaybePromise } from '@tb-dev/utils';
 import { Button, SidebarTrigger } from '@tb-dev/vue-components';
 
 defineProps<{

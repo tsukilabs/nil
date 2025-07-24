@@ -4,7 +4,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import type { MaybePromise } from '@tb-dev/utils';
 import { ChevronDownIcon, ChevronUpIcon } from 'lucide-vue-next';
 import enUS from '@/locale/en-US/scenes/game/infrastructure/prefecture.json';
 import ptBR from '@/locale/pt-BR/scenes/game/infrastructure/prefecture.json';

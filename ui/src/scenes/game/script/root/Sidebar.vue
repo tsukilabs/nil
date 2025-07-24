@@ -4,8 +4,8 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import { useHeight } from '@tb-dev/vue';
+import { toPixel } from '@tb-dev/utils';
 import { computed, useTemplateRef } from 'vue';
-import { type MaybePromise, toPixel } from '@tb-dev/utils';
 import { Button, ScrollArea } from '@tb-dev/vue-components';
 
 defineProps<{

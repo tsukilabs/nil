@@ -2,7 +2,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import type { Option } from '@tb-dev/utils';
 import { until, useElementBounding } from '@vueuse/core';
 import { onMounted, onUnmounted, useTemplateRef, watch } from 'vue';
 import { type CodeEditor, createEditor, disposeEditor } from '@/lib/editor';

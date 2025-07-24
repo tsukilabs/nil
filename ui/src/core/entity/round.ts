@@ -4,7 +4,6 @@
 import type { Ref } from 'vue';
 import { Entity } from './abstract';
 import { asyncRef } from '@tb-dev/vue';
-import type { Option } from '@tb-dev/utils';
 import { RoundImpl } from '@/core/model/round';
 
 export class RoundEntity extends Entity {

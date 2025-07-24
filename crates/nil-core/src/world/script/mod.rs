@@ -24,7 +24,7 @@ static LUA: LazyLock<Lua> = LazyLock::new(|| {
 impl World {
   pub fn execute_script(&mut self, id: ScriptId) -> Result<Stdio> {
     let script = self.scripting.get(id).cloned()?;
-    self.execute_script_chunk(script.owner, &script.code)
+    self.execute_script_chunk(script.owner(), script.code())
   }
 
   pub fn execute_script_chunk(&mut self, player: PlayerId, chunk: &str) -> Result<Stdio> {

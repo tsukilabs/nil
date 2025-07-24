@@ -2,8 +2,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import type { Option } from '@tb-dev/utils';
-
 const props = defineProps<{
   amount?: Option<number>;
   limit?: Option<number>;

@@ -4,7 +4,6 @@
 import { Entity } from './abstract';
 import type { ShallowRef } from 'vue';
 import { asyncRef } from '@tb-dev/vue';
-import type { Option } from '@tb-dev/utils';
 import { getWorldConfig, getWorldStats } from '@/commands';
 import type { WorldConfigImpl } from '@/core/model/world-config';
 import type { WorldStatsImpl } from '@/core/model/stats/world-stats';

@@ -5,7 +5,6 @@
 import Action from './Action.vue';
 import Editor from './Editor.vue';
 import Sidebar from './Sidebar.vue';
-import type { Option } from '@tb-dev/utils';
 import type { CodeEditor } from '@/lib/editor';
 import { onBeforeMount, shallowRef, watch } from 'vue';
 import { useScripts } from '@/composables/script/useScripts';

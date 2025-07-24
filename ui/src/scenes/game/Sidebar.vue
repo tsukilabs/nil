@@ -7,7 +7,6 @@ import { useTemplateRef } from 'vue';
 import { asyncRef } from '@tb-dev/vue';
 import * as commands from '@/commands';
 import { onBeforeRouteUpdate } from 'vue-router';
-import type { MaybePromise } from '@tb-dev/utils';
 import { writeText } from '@tauri-apps/plugin-clipboard-manager';
 import { type OnClickOutsideProps, vOnClickOutside } from '@vueuse/components';
 import {

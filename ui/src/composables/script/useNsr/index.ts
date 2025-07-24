@@ -4,7 +4,6 @@
 import * as commands from '@/commands';
 import * as dialog from '@/lib/dialog';
 import { handleError } from '@/lib/error';
-import type { Option } from '@tb-dev/utils';
 import { asyncComputed } from '@tb-dev/vue';
 import { nextTick, readonly, ref, shallowRef } from 'vue';
 
@@ -81,10 +80,9 @@ export function useNsr() {
       try {
         loading.value = true;
         await commands.addScript({
-          id: 0,
           name: current.value.frontmatter.name,
-          owner: player.value.id,
           code: contents.value.script,
+          owner: player.value.id,
         });
       } catch (err) {
         handleError(err);

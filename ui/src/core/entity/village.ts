@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { Entity } from './abstract';
-import type { Option } from '@tb-dev/utils';
 import { asyncRef, maybe } from '@tb-dev/vue';
 import { VillageImpl } from '@/core/model/village';
 import { CoordImpl } from '@/core/model/continent/coord';

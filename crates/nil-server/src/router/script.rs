@@ -9,12 +9,12 @@ use crate::{bail_not_player, res};
 use axum::extract::{Extension, Json, Path, State};
 use axum::response::Response;
 use futures::{FutureExt, TryFutureExt};
-use nil_core::script::{Script, ScriptId, Stdio};
+use nil_core::script::{AddScriptRequest, Script, ScriptId, Stdio};
 
 pub async fn add(
   State(app): State<App>,
   Extension(player): Extension<CurrentPlayer>,
-  Json(scripts): Json<Vec<Script>>,
+  Json(scripts): Json<Vec<AddScriptRequest>>,
 ) -> Response {
   if scripts.is_empty() {
     return res!(BAD_REQUEST);
@@ -41,7 +41,7 @@ pub async fn execute(
     let mut world = app.world.write().await;
     let scripting = world.scripting();
     let script = scripting.get(id)?;
-    bail_not_player!(player.0, script.owner);
+    bail_not_player!(player.0, script.owner());
     world.execute_script(id)?
   };
 
@@ -70,7 +70,7 @@ pub async fn get(
   let result: CoreResult<Script> = try {
     let world = app.world.read().await;
     let script = world.scripting().get(id)?;
-    bail_not_player!(player.0, script.owner);
+    bail_not_player!(player.0, script.owner());
     script.clone()
   };
 
@@ -98,7 +98,7 @@ pub async fn remove(
     let mut world = app.world.write().await;
     let scripting = world.scripting_mut();
     let script = scripting.get(id)?;
-    bail_not_player!(player.0, script.owner);
+    bail_not_player!(player.0, script.owner());
     scripting.remove(id);
   };
 
@@ -112,9 +112,7 @@ pub async fn update(
   Extension(player): Extension<CurrentPlayer>,
   Json(script): Json<Script>,
 ) -> Response {
-  if *script.id == 0 {
-    res!(BAD_REQUEST, "Missing script identifier")
-  } else if *player == script.owner {
+  if player.0 == script.owner() {
     app
       .scripting_mut(|s| s.update(script))
       .map_ok(|()| res!(OK))

@@ -3,7 +3,7 @@
 
 use super::Client;
 use crate::error::Result;
-use nil_core::script::{Script, ScriptId, Stdio};
+use nil_core::script::{AddScriptRequest, Script, ScriptId, Stdio};
 
 impl Client {
   /// GET `/script`
@@ -12,7 +12,7 @@ impl Client {
   }
 
   /// POST `/script`
-  pub async fn add_scripts(&self, scripts: Vec<Script>) -> Result<Vec<ScriptId>> {
+  pub async fn add_scripts(&self, scripts: Vec<AddScriptRequest>) -> Result<Vec<ScriptId>> {
     self.http.post_json("script", scripts).await
   }
 

@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { handleError } from '@/lib/error';
-import type { Option } from '@tb-dev/utils';
 import type { MaybeNilRef } from '@tb-dev/vue';
 import { readonly, ref, shallowRef } from 'vue';
 import { toCoordRef } from '@/composables/util/toRef';

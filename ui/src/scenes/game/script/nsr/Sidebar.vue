@@ -4,9 +4,9 @@
 <script setup lang="ts">
 import { useTemplateRef } from 'vue';
 import { useHeight } from '@tb-dev/vue';
+import { toPixel } from '@tb-dev/utils';
 import SidebarButton from './SidebarButton.vue';
 import { ScrollArea } from '@tb-dev/vue-components';
-import { type MaybePromise, toPixel } from '@tb-dev/utils';
 
 defineProps<{
   registry: readonly NsrScript[];
