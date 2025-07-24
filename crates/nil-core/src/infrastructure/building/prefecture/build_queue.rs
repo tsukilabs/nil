@@ -5,18 +5,16 @@ use crate::continent::Coord;
 use crate::error::{Error, Result};
 use crate::infrastructure::building::{BuildingId, BuildingLevel, BuildingStatsTable};
 use crate::resources::{Resources, Workforce};
-use derive_more::Deref;
-use nil_num::BigIntU64;
 use nil_num::ops::MulCeil;
 use serde::{Deserialize, Serialize};
 use std::collections::VecDeque;
 use strum::EnumIs;
+use uuid::Uuid;
 
 #[derive(Clone, Debug, Default, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct PrefectureBuildQueue {
   orders: VecDeque<PrefectureBuildOrder>,
-  current_id: PrefectureBuildOrderId,
 }
 
 impl PrefectureBuildQueue {
@@ -63,9 +61,8 @@ impl PrefectureBuildQueue {
     let mut workforce = table.get(target_level)?.workforce;
     kind.apply_modifier(&mut workforce);
 
-    self.current_id = self.current_id.next();
     self.orders.push_back(PrefectureBuildOrder {
-      id: self.current_id,
+      id: PrefectureBuildOrderId::new(),
       kind,
       building: id,
       level: target_level,
@@ -182,14 +179,19 @@ impl PrefectureBuildOrder {
   }
 }
 
-#[derive(Clone, Copy, Debug, Default, Deref, PartialEq, Eq, BigIntU64)]
-pub struct PrefectureBuildOrderId(u64);
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Deserialize, Serialize)]
+pub struct PrefectureBuildOrderId(Uuid);
 
 impl PrefectureBuildOrderId {
-  #[inline]
   #[must_use]
-  pub const fn next(self) -> Self {
-    Self(self.0.wrapping_add(1))
+  pub fn new() -> Self {
+    Self(Uuid::new_v4())
+  }
+}
+
+impl Default for PrefectureBuildOrderId {
+  fn default() -> Self {
+    Self::new()
   }
 }
 
