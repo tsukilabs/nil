@@ -77,8 +77,8 @@ importers:
         specifier: ^7.0.8
         version: 7.0.8
       '@tb-dev/vue':
-        specifier: ^2.0.14
-        version: 2.0.14(typescript@5.8.3)
+        specifier: ^2.2.1
+        version: 2.2.1(typescript@5.8.3)
       '@tb-dev/vue-components':
         specifier: ^5.0.2
         version: 5.0.2(typescript@5.8.3)
@@ -841,8 +841,8 @@ packages:
   '@tb-dev/vue-components@5.0.2':
     resolution: {integrity: sha512-HUf1E8OvsddTetDmJLWEKYDsxloC6otRQBWvC2mx7lOT6mcQELTCtilmukpPq+X1WvBzY4c5W3aJ+LqCcI6MWA==}
 
-  '@tb-dev/vue@2.0.14':
-    resolution: {integrity: sha512-03XNFd1//SWWTAUNf4e8xmuXvktz/YP7kfL8exT1tBCJo7pWQ3jaw33w9ptYd8WSypiz5Rp+jUXG9YTxE+M/bQ==}
+  '@tb-dev/vue@2.2.1':
+    resolution: {integrity: sha512-UtIWTAYCt7hmv/YS+jwTkkjFnT9x7ApsEC5um67oeVcxHEHvUjm4LCJxBuoVT70KK5v2lnulSQO+dQhZeYKI8Q==}
 
   '@types/estree@1.0.8':
     resolution: {integrity: sha512-dWHzHa2WqEXI/O1E9OjrocMTKJl2mSrEolh1Iomrv6U+JuNwaHXsXx9bLu5gG7BUWFIN0skIQJQ/L1rIex4X6w==}
@@ -2976,7 +2976,7 @@ snapshots:
     dependencies:
       '@tanstack/vue-table': 8.21.3(vue@3.5.18(typescript@5.8.3))
       '@tb-dev/utils': 7.0.8
-      '@tb-dev/vue': 2.0.14(typescript@5.8.3)
+      '@tb-dev/vue': 2.2.1(typescript@5.8.3)
       '@vueuse/core': 13.5.0(vue@3.5.18(typescript@5.8.3))
       class-variance-authority: 0.7.1
       clsx: 2.1.1
@@ -2992,10 +2992,11 @@ snapshots:
       - '@vue/composition-api'
       - typescript
 
-  '@tb-dev/vue@2.0.14(typescript@5.8.3)':
+  '@tb-dev/vue@2.2.1(typescript@5.8.3)':
     dependencies:
       '@tb-dev/utils': 7.0.8
       '@vueuse/core': 13.5.0(vue@3.5.18(typescript@5.8.3))
+      es-toolkit: 1.39.7
       vue: 3.5.18(typescript@5.8.3)
     transitivePeerDependencies:
       - typescript

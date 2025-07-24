@@ -3,10 +3,10 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import { onKeyDown } from '@tb-dev/vue';
 import { handleError } from '@/lib/error';
 import { pushChatMessage } from '@/commands';
 import MessagePlayer from './MessagePlayer.vue';
+import { onKeyDown, useMutex } from '@tb-dev/vue';
 import { Button, Input, ScrollArea } from '@tb-dev/vue-components';
 import { computed, nextTick, onMounted, ref, useTemplateRef } from 'vue';
 
@@ -19,21 +19,21 @@ const chatInput = useTemplateRef('chatInputEl');
 const chatInputInner = computed(() => chatInput.value?.$el);
 
 const draft = ref<Option<string>>();
-const loading = ref(false);
+const { locked, ...mutex } = useMutex();
 
 onKeyDown('Enter', send, { target: chatInputInner });
 
 async function send() {
-  if (draft.value && !loading.value) {
+  if (draft.value) {
     try {
-      loading.value = true;
+      await mutex.acquire();
       const id = await pushChatMessage(draft.value);
       draft.value = null;
       void scroll(id);
     } catch (err) {
       handleError(err);
     } finally {
-      loading.value = false;
+      mutex.release();
       await nextTick();
       chatInputInner.value?.focus();
     }
@@ -76,10 +76,10 @@ onMounted(() => {
             ref="chatInputEl"
             v-model.trim="draft"
             type="text"
-            :disabled="loading"
+            :disabled="locked"
             :maxlength="200"
           />
-          <Button :disabled="!draft || loading" @click="send">{{ t('send') }}</Button>
+          <Button :disabled="!draft || locked" @click="send">{{ t('send') }}</Button>
         </div>
       </div>
     </div>

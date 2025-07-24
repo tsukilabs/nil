@@ -1,11 +1,10 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { shallowRef } from 'vue';
 import * as commands from '@/commands';
 import * as dialog from '@/lib/dialog';
-import { handleError } from '@/lib/error';
-import { asyncComputed } from '@tb-dev/vue';
-import { nextTick, readonly, ref, shallowRef } from 'vue';
+import { asyncComputed, useMutex } from '@tb-dev/vue';
 
 export interface ScriptContents {
   readonly readme: string;
@@ -15,17 +14,16 @@ export interface ScriptContents {
 export function useNsr() {
   const registry = shallowRef<readonly NsrScript[]>([]);
   const current = shallowRef<Option<NsrScript>>();
-  const loading = ref(false);
+  const { locked, lock } = useMutex();
 
   const cache = new Map<string, ScriptContents>();
 
-  const contents = asyncComputed(null, async () => {
+  const contents = asyncComputed<Option<ScriptContents>>(null, async () => {
     const id = current.value?.id;
     if (id) {
       let cached = cache.get(id);
-      if (!cached && !loading.value) {
-        try {
-          loading.value = true;
+      if (!cached) {
+        await lock(async () => {
           const [readme, script] = await Promise.all([
             commands.fetchNsrReadme(id),
             commands.fetchNsrScript(id),
@@ -33,11 +31,7 @@ export function useNsr() {
 
           cached = { readme, script };
           cache.set(id, cached);
-        } catch (err) {
-          handleError(err);
-        } finally {
-          loading.value = false;
-        }
+        });
       }
 
       return cached;
@@ -47,55 +41,35 @@ export function useNsr() {
   });
 
   async function loadRegistry() {
-    if (!loading.value) {
-      try {
-        loading.value = true;
-        registry.value = await commands.fetchNsrRegistry();
-      } catch (err) {
-        handleError(err);
-      } finally {
-        loading.value = false;
-      }
-    }
+    await lock(async () => {
+      registry.value = await commands.fetchNsrRegistry();
+    });
   }
 
   async function execute() {
-    await nextTick();
-    if (contents.value && !loading.value) {
-      try {
-        loading.value = true;
+    await lock(async () => {
+      if (contents.value) {
         await commands.executeScriptChunk(contents.value.script);
-      } catch (err) {
-        handleError(err);
-      } finally {
-        loading.value = false;
       }
-    }
+    });
   }
 
   async function save() {
-    await nextTick();
-    const { player } = NIL.player.refs();
-    if (current.value && contents.value && player.value && !loading.value) {
-      try {
-        loading.value = true;
+    await lock(async () => {
+      const { player } = NIL.player.refs();
+      if (current.value && contents.value && player.value) {
         await commands.addScript({
           name: current.value.frontmatter.name,
           code: contents.value.script,
           owner: player.value.id,
         });
-      } catch (err) {
-        handleError(err);
-      } finally {
-        loading.value = false;
       }
-    }
+    });
   }
 
   async function download() {
-    if (current.value && contents.value && !loading.value) {
-      try {
-        loading.value = true;
+    await lock(async () => {
+      if (current.value && contents.value) {
         const name = current.value.frontmatter.name;
         const code = contents.value.script;
         const dir = await dialog.open({
@@ -106,17 +80,13 @@ export function useNsr() {
         if (dir) {
           await commands.exportScript(dir, name, code);
         }
-      } catch (err) {
-        handleError(err);
-      } finally {
-        loading.value = false;
       }
-    }
+    });
   }
 
   async function reload() {
     const id = current.value?.id;
-    if (id && !loading.value) {
+    if (id) {
       cache.clear();
       await loadRegistry();
       current.value = registry.value.find((it) => it.id === id);
@@ -131,7 +101,7 @@ export function useNsr() {
     registry: registry as Readonly<typeof registry>,
     current: current as Readonly<typeof current>,
     contents,
-    loading: readonly(loading),
+    loading: locked,
     loadRegistry,
     setCurrent,
     execute,

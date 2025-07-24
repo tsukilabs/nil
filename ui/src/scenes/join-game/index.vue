@@ -2,11 +2,11 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { computed, ref } from 'vue';
 import { joinGame } from '@/core/game';
-import { localRef } from '@tb-dev/vue';
 import { isPlayerOptions } from '@/lib/schema';
+import { localRef, useMutex } from '@tb-dev/vue';
 import { SocketAddrV4 } from '@/lib/net/addr-v4';
 import type { WritablePartial } from '@tb-dev/utils';
 import enUS from '@/locale/en-US/scenes/join-game.json';
@@ -36,23 +36,20 @@ const player = localRef<WritablePartial<PlayerOptions>>('join-game:player', {
 const server = localRef<Option<string>>('join-game:server', null);
 const serverAddr = computed(() => SocketAddrV4.tryParse(server.value));
 
-const loading = ref(false);
+const { locked, lock } = useMutex();
 const canJoin = computed(() => {
   return isPlayerOptions(player.value) && serverAddr.value;
 });
 
 async function join() {
-  if (canJoin.value && !loading.value) {
-    try {
-      loading.value = true;
+  await lock(async () => {
+    if (canJoin.value) {
       await joinGame({
         player: player.value as PlayerOptions,
         serverAddr: serverAddr.value!,
       });
-    } finally {
-      loading.value = false;
     }
-  }
+  });
 }
 </script>
 
@@ -71,7 +68,7 @@ async function join() {
           <Input
             v-model.trim="player.id"
             type="text"
-            :disabled="loading"
+            :disabled="locked"
             :minlength="1"
             :maxlength="20"
           />
@@ -81,7 +78,7 @@ async function join() {
           <Input
             v-model.trim="server"
             type="text"
-            :disabled="loading"
+            :disabled="locked"
             :minlength="1"
             :maxlength="50"
           />
@@ -89,7 +86,7 @@ async function join() {
       </CardContent>
 
       <CardFooter class="grid grid-cols-2 items-center justify-center gap-2 px-6 pb-6">
-        <Button :disabled="!canJoin || loading" @click="join">
+        <Button :disabled="!canJoin || locked" @click="join">
           {{ t('join') }}
         </Button>
         <Button variant="secondary">
