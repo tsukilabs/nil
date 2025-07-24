@@ -2,7 +2,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { ref } from 'vue';
 import Chat from '@/components/chat/Chat.vue';
 import { ListenerSet } from '@/lib/listener-set';
 import { useToggle, whenever } from '@vueuse/core';
@@ -14,12 +13,12 @@ const { player } = NIL.player.refs();
 const [isChatOpen, toggleChat] = useToggle(false);
 const closeChat = () => void toggleChat(false);
 
-const hasUnread = ref(false);
+const [hasUnread, toggleUnread] = useToggle(false);
 
 const listener = new ListenerSet();
 listener.event.onChatUpdated(onChatUpdated);
 
-whenever(isChatOpen, () => (hasUnread.value = false));
+whenever(isChatOpen, () => void toggleUnread(false));
 
 function onChatUpdated({ message }: ChatUpdatedPayload) {
   if (!isChatOpen.value && message.author.id !== player.value?.id) {
