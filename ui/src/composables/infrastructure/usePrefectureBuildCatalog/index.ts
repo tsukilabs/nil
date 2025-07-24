@@ -1,10 +1,9 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { handleError } from '@/lib/error';
-import type { MaybeNilRef } from '@tb-dev/vue';
-import { readonly, ref, shallowRef } from 'vue';
+import { shallowRef } from 'vue';
 import { toCoordRef } from '@/composables/util/toRef';
+import { type MaybeNilRef, useMutex } from '@tb-dev/vue';
 import type { CoordImpl } from '@/core/model/continent/coord';
 import {
   addPrefectureBuildOrder,
@@ -16,65 +15,47 @@ import {
 export function usePrefectureBuildCatalog(coord?: MaybeNilRef<CoordImpl>) {
   const coordRef = toCoordRef(coord);
   const catalog = shallowRef<Option<PrefectureBuildCatalog>>();
-  const loading = ref(false);
+  const { locked, lock } = useMutex();
 
   async function load() {
-    if (coordRef.value && !loading.value) {
-      try {
-        loading.value = true;
+    await lock(async () => {
+      if (coordRef.value) {
         catalog.value = await getPrefectureBuildCatalog(coordRef.value);
-      } catch (err) {
-        handleError(err);
-      } finally {
-        loading.value = false;
       }
-    }
+    });
   }
 
   async function add(building: BuildingId, kind: PrefectureBuildOrderKind) {
-    if (coordRef.value && !loading.value) {
-      try {
-        loading.value = true;
+    await lock(async () => {
+      if (coordRef.value) {
         await addPrefectureBuildOrder({ coord: coordRef.value, building, kind });
-        await load();
-      } catch (err) {
-        handleError(err);
-      } finally {
-        loading.value = false;
       }
-    }
+    });
+
+    await load();
   }
 
   async function cancel() {
-    if (coordRef.value && !loading.value) {
-      try {
-        loading.value = true;
+    await lock(async () => {
+      if (coordRef.value) {
         await cancelPrefectureBuildOrder(coordRef.value);
-        await load();
-      } catch (err) {
-        handleError(err);
-      } finally {
-        loading.value = false;
       }
-    }
+    });
+
+    await load();
   }
 
   async function toggle(id: BuildingId, enabled: boolean) {
-    if (coordRef.value && !loading.value) {
-      try {
-        loading.value = true;
+    await lock(async () => {
+      if (coordRef.value) {
         await toggleBuilding(coordRef.value, id, enabled);
-      } catch (err) {
-        handleError(err);
-      } finally {
-        loading.value = false;
       }
-    }
+    });
   }
 
   return {
     catalog: catalog as Readonly<typeof catalog>,
-    loading: readonly(loading),
+    loading: locked,
     load,
     add,
     cancel,

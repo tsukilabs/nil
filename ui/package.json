@@ -18,7 +18,7 @@
     "@tauri-apps/plugin-process": "^2.3.0",
     "@tb-dev/prototype-dom": "^7.0.19",
     "@tb-dev/utils": "^7.0.8",
-    "@tb-dev/vue": "^2.0.14",
+    "@tb-dev/vue": "^2.2.1",
     "@tb-dev/vue-components": "^5.0.2",
     "@vueuse/components": "^13.5.0",
     "@vueuse/core": "^13.5.0",

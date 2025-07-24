@@ -2,9 +2,9 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { computed, ref } from 'vue';
-import { localRef } from '@tb-dev/vue';
+import { localRef, useMutex } from '@tb-dev/vue';
 import type { WritablePartial } from '@tb-dev/utils';
 import { hostGame, hostSavedGame } from '@/core/game';
 import enUS from '@/locale/en-US/scenes/host-game.json';
@@ -45,45 +45,37 @@ const player = localRef<WritablePartial<PlayerOptions>>('host-game:player', {
   id: null,
 });
 
-const loading = ref(false);
+const { locked, lock } = useMutex();
 const isValidPlayer = computed(() => isPlayerOptions(player.value));
 const isValidWorld = computed(() => isWorldOptions(world.value));
 const canHost = computed(() => isValidPlayer.value && isValidWorld.value);
 
 async function host() {
-  if (isValidPlayer.value && isValidWorld.value && !loading.value) {
-    try {
-      loading.value = true;
+  await lock(async () => {
+    if (isValidPlayer.value && isValidWorld.value) {
       await hostGame({
         player: player.value as PlayerOptions,
         world: world.value as WorldOptions,
       });
-    } finally {
-      loading.value = false;
     }
-  }
+  });
 }
 
 async function hostSaved() {
-  if (isValidPlayer.value && !loading.value) {
-    try {
-      loading.value = true;
-      const path = await pickFile({
-        directory: false,
-        filters: [{ extensions: ['nil'], name: 'NIL' }],
-        multiple: false,
-      });
+  await lock(async () => {
+    const path = await pickFile({
+      directory: false,
+      filters: [{ extensions: ['nil'], name: 'NIL' }],
+      multiple: false,
+    });
 
-      if (path) {
-        await hostSavedGame({
-          path,
-          player: player.value as PlayerOptions,
-        });
-      }
-    } finally {
-      loading.value = false;
+    if (path && isValidPlayer.value) {
+      await hostSavedGame({
+        path,
+        player: player.value as PlayerOptions,
+      });
     }
-  }
+  });
 }
 </script>
 
@@ -102,7 +94,7 @@ async function hostSaved() {
           <Input
             v-model.trim="world.name"
             type="text"
-            :disabled="loading"
+            :disabled="locked"
             :minlength="1"
             :maxlength="30"
           />
@@ -112,7 +104,7 @@ async function hostSaved() {
           <span>{{ t('world-size') }}</span>
           <NumberField
             v-model="world.size"
-            :disabled="loading"
+            :disabled="locked"
             :min="100"
             :max="200"
             :step="10"
@@ -131,7 +123,7 @@ async function hostSaved() {
           <Input
             v-model.trim="player.id"
             type="text"
-            :disabled="loading"
+            :disabled="locked"
             :minlength="1"
             :maxlength="20"
           />
@@ -139,17 +131,17 @@ async function hostSaved() {
 
         <div class="flex items-center justify-center py-1">
           <Label>
-            <Checkbox v-model="world.allowCheats" :disabled="loading" />
+            <Checkbox v-model="world.allowCheats" :disabled="locked" />
             <span>{{ t('allow-cheats') }}</span>
           </Label>
         </div>
       </CardContent>
 
       <CardFooter class="grid grid-cols-3 items-center justify-center gap-2 px-6 pb-6">
-        <Button :disabled="loading || !canHost" @click="host">
+        <Button :disabled="locked || !canHost" @click="host">
           <span>{{ t('host') }}</span>
         </Button>
-        <Button variant="secondary" :disabled="loading || !isValidPlayer" @click="hostSaved">
+        <Button variant="secondary" :disabled="locked || !isValidPlayer" @click="hostSaved">
           <span>{{ t('load') }}</span>
         </Button>
         <Button to="home" variant="secondary">
