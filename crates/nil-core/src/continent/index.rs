@@ -10,12 +10,17 @@ use std::ops::{Div, Rem};
 #[derive(
   Clone, Copy, Debug, Deref, Display, From, Into, PartialEq, Eq, PartialOrd, Ord, Hash, BigIntUsize,
 )]
-pub struct ContinentIndex(pub(super) usize);
+pub struct ContinentIndex(usize);
 
 impl ContinentIndex {
   #[inline]
   pub const fn new(index: usize) -> Self {
     Self(index)
+  }
+
+  #[inline]
+  pub const fn as_usize(self) -> usize {
+    self.0
   }
 
   pub fn from_coord(coord: Coord, size: ContinentSize) -> Self {
