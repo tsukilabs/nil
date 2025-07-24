@@ -20,7 +20,7 @@ pub fn open(app: &AppHandle) -> Result<()> {
   WebviewWindowBuilder::new(app, "main", url)
     .title("Call of Nil")
     .initialization_script(script())
-    .inner_size(1024.0, 768.0)
+    .inner_size(1280.0, 768.0)
     .min_inner_size(800.0, 600.0)
     .resizable(true)
     .maximizable(true)

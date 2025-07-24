@@ -11,9 +11,9 @@ use std::cmp::Ordering;
 use std::ops::{Add, AddAssign, Mul, MulAssign, Sub, SubAssign};
 
 /// Workforce is a special resource used to construct buildings and recruit troops.
-/// The amount generated per turn will always be equal to the level of the relevant building.
+/// The amount generated per round will always be equal to the level of the relevant building.
 ///
-/// Unlike other resources, the workforce should never accumulate for the next round.
+/// Unlike other resources, workforce should never accumulate for the next round.
 /// Anything that is not used should be discarded.
 #[derive(
   Clone, Copy, Debug, Deref, Into, PartialEq, Eq, PartialOrd, Ord, Deserialize, Serialize,

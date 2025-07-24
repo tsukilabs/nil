@@ -10,7 +10,8 @@ pub fn impl_unit(ast: &DeriveInput) -> TokenStream {
   let stream = quote! {
     mod __impl_unit {
       use super::#name;
-      use crate::military::unit::{Unit, UnitBox, UnitId, UnitKind, UnitStats};
+      use crate::military::unit::{Unit, UnitBox, UnitId, UnitKind};
+      use crate::military::unit::stats::prelude::*;
 
       impl #name {
         pub fn new_boxed() -> UnitBox {
@@ -27,8 +28,36 @@ pub fn impl_unit(ast: &DeriveInput) -> TokenStream {
           Self::KIND
         }
 
-        fn stats(&self) -> UnitStats {
-          Self::STATS
+        fn stats(&self) -> &UnitStats {
+          &Self::STATS
+        }
+
+        fn attack(&self) -> Power {
+          Self::STATS.attack()
+        }
+
+        fn infantry_defense(&self) -> Power {
+          Self::STATS.infantry_defense()
+        }
+
+        fn cavalry_defense(&self) -> Power {
+          Self::STATS.cavalry_defense()
+        }
+
+        fn ranged_defense(&self) -> Power {
+          Self::STATS.ranged_defense()
+        }
+
+        fn ranged_debuff(&self) -> RangedDebuff {
+          Self::STATS.ranged_debuff()
+        }
+
+        fn speed(&self) -> Speed {
+          Self::STATS.speed()
+        }
+
+        fn haul(&self) -> Haul {
+          Self::STATS.haul()
         }
       }
 

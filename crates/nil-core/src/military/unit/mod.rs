@@ -7,19 +7,29 @@ pub mod heavy_cavalry;
 pub mod light_cavalry;
 pub mod pikeman;
 pub mod prelude;
+pub mod stats;
 pub mod swordsman;
 
 use crate::error::Result;
-use derive_more::{Deref, Into};
+use crate::resources::prelude::*;
+use derive_more::{Deref, From, Into};
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
+use stats::prelude::*;
 use std::fmt;
-use std::ops::{Div, Mul};
 use strum::EnumIter;
 
 pub trait Unit: Send + Sync {
   fn id(&self) -> UnitId;
   fn kind(&self) -> UnitKind;
-  fn stats(&self) -> UnitStats;
+
+  fn stats(&self) -> &UnitStats;
+  fn attack(&self) -> Power;
+  fn infantry_defense(&self) -> Power;
+  fn cavalry_defense(&self) -> Power;
+  fn ranged_defense(&self) -> Power;
+  fn ranged_debuff(&self) -> RangedDebuff;
+  fn speed(&self) -> Speed;
+  fn haul(&self) -> Haul;
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, Deserialize, Serialize, EnumIter)]
@@ -104,120 +114,24 @@ pub enum UnitKind {
   Ranged,
 }
 
-#[derive(Clone, Copy, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-pub struct UnitStats {
-  pub(crate) attack: Power,
-  pub(crate) infantry_defense: Power,
-  pub(crate) cavalry_defense: Power,
-  pub(crate) ranged_defense: Power,
-  pub(crate) ranged_debuff: RangedDebuff,
-  speed: Speed,
-  haul: Haul,
+pub struct UnitChunk {
+  size: UnitChunkSize,
+  cost: Cost,
+  wood_ratio: ResourceRatio,
+  stone_ratio: ResourceRatio,
+  iron_ratio: ResourceRatio,
+  maintenance_ratio: MaintenanceRatio,
+  workforce: Workforce,
 }
 
-#[derive(Clone, Copy, Debug, Deref, Into, PartialEq, Eq, Deserialize, Serialize)]
-#[into(u32, f64)]
-pub struct Power(u32);
+#[derive(Clone, Copy, Debug, Deref, From, Into, Deserialize, Serialize)]
+pub struct UnitChunkSize(u8);
 
-impl Power {
+impl UnitChunkSize {
   #[inline]
-  pub const fn new(value: u32) -> Self {
-    Self(value)
-  }
-}
-
-impl Mul for Power {
-  type Output = Power;
-
-  fn mul(self, rhs: Self) -> Self::Output {
-    Self(self.0.saturating_mul(rhs.0))
-  }
-}
-
-impl Mul<u32> for Power {
-  type Output = Power;
-
-  fn mul(self, rhs: u32) -> Self::Output {
-    Self(self.0.saturating_mul(rhs))
-  }
-}
-
-impl Mul<Power> for u32 {
-  type Output = u32;
-
-  fn mul(self, rhs: Power) -> Self::Output {
-    self.saturating_mul(rhs.0)
-  }
-}
-
-impl Div for Power {
-  type Output = Power;
-
-  fn div(self, rhs: Self) -> Self::Output {
-    Self(self.0.saturating_div(rhs.0))
-  }
-}
-
-impl Div<u32> for Power {
-  type Output = Power;
-
-  fn div(self, rhs: u32) -> Self::Output {
-    Self(self.0.saturating_div(rhs))
-  }
-}
-
-impl Div<Power> for u32 {
-  type Output = u32;
-
-  fn div(self, rhs: Power) -> Self::Output {
-    self.saturating_div(rhs.0)
-  }
-}
-
-#[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize)]
-pub struct RangedDebuff(f64);
-
-impl RangedDebuff {
-  #[inline]
-  pub const fn new(value: f64) -> Self {
-    Self(value.max(0.0))
-  }
-}
-
-impl Mul<f64> for RangedDebuff {
-  type Output = f64;
-
-  fn mul(self, rhs: f64) -> Self::Output {
-    self.0 * rhs
-  }
-}
-
-impl Mul<u32> for RangedDebuff {
-  type Output = f64;
-
-  fn mul(self, rhs: u32) -> Self::Output {
-    self.0 * f64::from(rhs)
-  }
-}
-
-#[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize)]
-pub struct Speed(f64);
-
-impl Speed {
-  #[inline]
-  pub const fn new(value: f64) -> Self {
-    Self(value.max(0.0))
-  }
-}
-
-#[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize)]
-#[into(u16, u32, f64)]
-pub struct Haul(u16);
-
-impl Haul {
-  #[inline]
-  pub const fn new(value: u16) -> Self {
-    Self(value)
+  pub const fn new(size: u8) -> UnitChunkSize {
+    UnitChunkSize(size)
   }
 }

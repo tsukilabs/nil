@@ -238,7 +238,7 @@ fn sum_ranged_debuff(squads: &[Squad]) -> f64 {
     if squad.kind() == UnitKind::Ranged {
       let size = *squad.size();
       let stats = squad.unit().stats();
-      ranged_debuff += stats.ranged_debuff * size;
+      ranged_debuff += stats.ranged_debuff() * size;
     }
   }
   ranged_debuff
