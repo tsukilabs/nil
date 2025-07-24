@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { type Ref, toRef } from 'vue';
-import type { Option } from '@tb-dev/utils';
 import type { MaybeNilRef } from '@tb-dev/vue';
 import type { PlayerImpl } from '@/core/model/player';
 import type { VillageImpl } from '@/core/model/village';

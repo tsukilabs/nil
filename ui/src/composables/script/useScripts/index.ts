@@ -5,7 +5,6 @@ import { compare } from '@/lib/intl';
 import * as commands from '@/commands';
 import * as dialog from '@/lib/dialog';
 import { handleError } from '@/lib/error';
-import type { Option } from '@tb-dev/utils';
 import type { CodeEditor } from '@/lib/editor';
 import { readonly, ref, type Ref, shallowRef } from 'vue';
 
@@ -44,22 +43,20 @@ export function useScripts(editor: Ref<Option<CodeEditor>>) {
           current.value.code = editor.value.getValue();
         }
 
-        if (current.value.id > 0) {
-          const id = current.value.id;
-          await commands.updateScript(current.value);
+        const id = current.value.id;
+        await commands.updateScript(current.value);
 
-          const script = await commands.getScript(id);
-          if (current.value.id === script.id) {
-            setCurrent(script);
-          }
+        const script = await commands.getScript(id);
+        if (current.value.id === script.id) {
+          setCurrent(script);
+        }
 
-          const index = scripts.value.findIndex((it) => {
-            return it.id === script.id;
-          });
+        const index = scripts.value.findIndex((it) => {
+          return it.id === script.id;
+        });
 
-          if (index !== -1) {
-            scripts.value = scripts.value.toSpliced(index, 1, script);
-          }
+        if (index !== -1) {
+          scripts.value = scripts.value.toSpliced(index, 1, script);
         }
       } catch (err) {
         handleError(err);
@@ -73,11 +70,13 @@ export function useScripts(editor: Ref<Option<CodeEditor>>) {
     if (player.value && !loading.value) {
       try {
         loading.value = true;
-        const empty = createEmptyScript(player.value.id);
-        const id = await commands.addScript(empty);
+        const id = await commands.addScript({
+          name: 'Script',
+          code: '\n',
+          owner: player.value.id,
+        });
 
         const script = await commands.getScript(id);
-        script.name += ` ${id}`;
         setCurrent(script);
         scripts.value.push(script);
         scripts.value = scripts.value.toSorted((a, b) => compare(a.name, b.name));
@@ -93,17 +92,15 @@ export function useScripts(editor: Ref<Option<CodeEditor>>) {
     if (current.value && !loading.value) {
       try {
         loading.value = true;
-        if (current.value.id > 0) {
-          const id = current.value.id;
-          await commands.removeScript(id);
-          if (current.value.id === id) {
-            current.value = null;
-          }
-
-          scripts.value = scripts.value.filter((script) => {
-            return script.id !== id;
-          });
+        const id = current.value.id;
+        await commands.removeScript(id);
+        if (current.value.id === id) {
+          current.value = null;
         }
+
+        scripts.value = scripts.value.filter((script) => {
+          return script.id !== id;
+        });
       } catch (err) {
         handleError(err);
       } finally {
@@ -175,14 +172,5 @@ export function useScripts(editor: Ref<Option<CodeEditor>>) {
     importScripts,
     exportScripts,
     setCurrent,
-  };
-}
-
-export function createEmptyScript(owner: PlayerId) {
-  return {
-    id: 0,
-    name: 'Script',
-    code: '\n\n',
-    owner,
   };
 }

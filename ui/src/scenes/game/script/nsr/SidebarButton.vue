@@ -2,8 +2,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import type { MaybePromise } from '@tb-dev/utils';
-
 defineProps<{
   entry: NsrScript;
   onEntryClick: (script: NsrScript) => MaybePromise<void>;

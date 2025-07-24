@@ -3,11 +3,11 @@
 
 import { invoke } from '@tauri-apps/api/core';
 
-export async function addScript(script: Script) {
+export async function addScript(script: AddScriptRequest) {
   return addScripts([script]).then(([id]) => id);
 }
 
-export function addScripts(scripts: Script[]) {
+export function addScripts(scripts: AddScriptRequest[]) {
   return invoke<readonly ScriptId[]>('add_scripts', { scripts });
 }
 

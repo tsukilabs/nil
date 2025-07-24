@@ -4,7 +4,6 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import { computed, nextTick } from 'vue';
-import type { Option } from '@tb-dev/utils';
 import type { ResourcesImpl } from '@/core/model/resources';
 import BuildCatalogBuilding from './BuildCatalogBuilding.vue';
 import { Button, TableCell, TableRow } from '@tb-dev/vue-components';

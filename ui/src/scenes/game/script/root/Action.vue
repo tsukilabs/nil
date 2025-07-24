@@ -5,7 +5,6 @@
 import { useI18n } from 'vue-i18n';
 import ActionTooltip from './ActionTooltip.vue';
 import { Button } from '@tb-dev/vue-components';
-import type { MaybePromise, Option } from '@tb-dev/utils';
 import {
   FileDownIcon,
   FileUpIcon,

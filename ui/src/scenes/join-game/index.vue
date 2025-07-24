@@ -8,9 +8,9 @@ import { joinGame } from '@/core/game';
 import { localRef } from '@tb-dev/vue';
 import { isPlayerOptions } from '@/lib/schema';
 import { SocketAddrV4 } from '@/lib/net/addr-v4';
+import type { WritablePartial } from '@tb-dev/utils';
 import enUS from '@/locale/en-US/scenes/join-game.json';
 import ptBR from '@/locale/pt-BR/scenes/join-game.json';
-import type { Option, WritablePartial } from '@tb-dev/utils';
 import {
   Button,
   Card,

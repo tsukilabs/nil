@@ -3,17 +3,18 @@
 
 use crate::error::{Error, Result};
 use crate::player::PlayerId;
-use derive_more::{Deref, Display};
+use bon::Builder;
+use derive_more::Display;
 use itertools::Itertools;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
+use uuid::Uuid;
 
 pub const EXTENSION: &str = "lua";
 
 #[derive(Clone, Debug, Default, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Scripting {
-  current_id: ScriptId,
   scripts: HashMap<ScriptId, Script>,
 }
 
@@ -49,11 +50,10 @@ impl Scripting {
   }
 
   /// Adds a new script.
-  pub fn add(&mut self, mut script: Script) -> ScriptId {
-    self.current_id = self.current_id.next();
-    script.id = self.current_id;
-    self.scripts.insert(self.current_id, script);
-    self.current_id
+  pub fn add(&mut self, request: AddScriptRequest) -> ScriptId {
+    let (id, script) = request.into_script();
+    self.scripts.insert(id, script);
+    id
   }
 
   /// Updates an existing script.
@@ -71,38 +71,57 @@ impl Scripting {
   }
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Builder, Clone, Debug, Deserialize, Serialize)]
+#[builder(builder_type(vis = ""))]
 #[serde(rename_all = "camelCase")]
 pub struct Script {
-  #[serde(default)]
-  pub id: ScriptId,
-  pub name: String,
-  pub code: String,
-  pub owner: PlayerId,
+  #[builder(start_fn)]
+  id: ScriptId,
+
+  #[builder(default = "Script", into)]
+  name: String,
+
+  #[builder(default, into)]
+  code: String,
+
+  owner: PlayerId,
 }
 
-#[derive(
-  Clone,
-  Copy,
-  Debug,
-  Default,
-  PartialEq,
-  Eq,
-  PartialOrd,
-  Ord,
-  Hash,
-  Deref,
-  Display,
-  Deserialize,
-  Serialize,
-)]
-pub struct ScriptId(u32);
+impl Script {
+  #[inline]
+  pub fn id(&self) -> ScriptId {
+    self.id
+  }
+
+  #[inline]
+  pub fn name(&self) -> &str {
+    &self.name
+  }
+
+  #[inline]
+  pub fn code(&self) -> &str {
+    &self.code
+  }
+
+  #[inline]
+  pub fn owner(&self) -> PlayerId {
+    self.owner.clone()
+  }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, Display, Deserialize, Serialize)]
+pub struct ScriptId(Uuid);
 
 impl ScriptId {
-  #[inline]
   #[must_use]
-  const fn next(self) -> Self {
-    Self(self.0.wrapping_add(1))
+  pub fn new() -> Self {
+    Self(Uuid::new_v4())
+  }
+}
+
+impl Default for ScriptId {
+  fn default() -> Self {
+    Self::new()
   }
 }
 
@@ -116,5 +135,26 @@ pub struct Stdio {
 impl Stdio {
   pub(crate) fn push_stdout(&mut self, value: &str) {
     self.stdout.push(Box::from(value));
+  }
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct AddScriptRequest {
+  pub name: Option<String>,
+  pub code: Option<String>,
+  pub owner: PlayerId,
+}
+
+impl AddScriptRequest {
+  fn into_script(self) -> (ScriptId, Script) {
+    let id = ScriptId::new();
+    let script = Script::builder(id)
+      .maybe_name(self.name)
+      .maybe_code(self.code)
+      .owner(self.owner)
+      .build();
+
+    (id, script)
   }
 }

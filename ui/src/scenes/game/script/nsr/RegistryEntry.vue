@@ -3,7 +3,6 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import type { Option } from '@tb-dev/utils';
 import type { HighlighterCore } from 'shiki/core';
 import type { ScriptContents } from '@/composables/script/useNsr';
 

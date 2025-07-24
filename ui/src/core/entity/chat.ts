@@ -3,7 +3,6 @@
 
 import { Entity } from './abstract';
 import { asyncRef } from '@tb-dev/vue';
-import type { Option } from '@tb-dev/utils';
 import { type ShallowRef, triggerRef } from 'vue';
 import { ChatImpl } from '@/core/model/chat/chat';
 

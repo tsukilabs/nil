@@ -3,7 +3,7 @@
 
 use crate::error::{Error, Result};
 use crate::manager::ManagerExt;
-use nil_core::script::{EXTENSION, Script, ScriptId, Stdio};
+use nil_core::script::{AddScriptRequest, EXTENSION, Script, ScriptId, Stdio};
 use std::ffi::OsStr;
 use std::io::ErrorKind::NotADirectory;
 use std::path::PathBuf;
@@ -12,7 +12,7 @@ use tokio::fs::{self, File};
 use tokio::io::{AsyncWriteExt, BufWriter};
 
 #[tauri::command]
-pub async fn add_scripts(app: AppHandle, scripts: Vec<Script>) -> Result<Vec<ScriptId>> {
+pub async fn add_scripts(app: AppHandle, scripts: Vec<AddScriptRequest>) -> Result<Vec<ScriptId>> {
   if scripts.is_empty() {
     Ok(Vec::new())
   } else {
@@ -74,7 +74,9 @@ pub async fn get_scripts(app: AppHandle) -> Result<Vec<Script>> {
 
 #[tauri::command]
 pub async fn import_scripts(app: AppHandle, paths: Vec<PathBuf>) -> Result<Vec<ScriptId>> {
-  if !paths.is_empty() {
+  if paths.is_empty() {
+    Ok(Vec::new())
+  } else {
     let owner = app.nil().player().await?;
     let mut scripts = Vec::with_capacity(paths.len());
 
@@ -87,21 +89,16 @@ pub async fn import_scripts(app: AppHandle, paths: Vec<PathBuf>) -> Result<Vec<S
           .map(ToOwned::to_owned)
           .unwrap_or_else(|| format!("Script {i}"));
 
-        scripts.push(Script {
-          id: ScriptId::default(),
-          name,
-          code,
+        scripts.push(AddScriptRequest {
+          name: Some(name),
+          code: Some(code),
           owner: owner.clone(),
         });
       }
     }
 
-    if !scripts.is_empty() {
-      return add_scripts(app, scripts).await;
-    }
+    add_scripts(app, scripts).await
   }
-
-  Ok(Vec::new())
 }
 
 #[tauri::command]

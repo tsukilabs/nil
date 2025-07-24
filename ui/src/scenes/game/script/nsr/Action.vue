@@ -6,7 +6,6 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { Button } from '@tb-dev/vue-components';
 import ActionTooltip from '../root/ActionTooltip.vue';
-import type { MaybePromise, Option } from '@tb-dev/utils';
 import { writeText } from '@tauri-apps/plugin-clipboard-manager';
 import type { ScriptContents } from '@/composables/script/useNsr';
 import { CopyIcon, DownloadIcon, PlayIcon, RefreshCwIcon, SaveIcon } from 'lucide-vue-next';

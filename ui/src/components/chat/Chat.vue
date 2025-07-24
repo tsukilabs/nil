@@ -5,7 +5,6 @@
 import { useI18n } from 'vue-i18n';
 import { onKeyDown } from '@tb-dev/vue';
 import { handleError } from '@/lib/error';
-import type { Option } from '@tb-dev/utils';
 import { pushChatMessage } from '@/commands';
 import MessagePlayer from './MessagePlayer.vue';
 import { Button, Input, ScrollArea } from '@tb-dev/vue-components';
