@@ -152,9 +152,9 @@ impl BuildingStatsTable {
       let level = BuildingLevel::new(level);
       let resources = Resources {
         food: Food::MIN,
-        iron: Iron::from((cost * wood_ratio).round()),
+        iron: Iron::from((cost * iron_ratio).round()),
         stone: Stone::from((cost * stone_ratio).round()),
-        wood: Wood::from((cost * iron_ratio).round()),
+        wood: Wood::from((cost * wood_ratio).round()),
       };
 
       table.insert(

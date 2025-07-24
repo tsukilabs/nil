@@ -23,7 +23,7 @@ impl Silo {
   pub const MIN_LEVEL: BuildingLevel = BuildingLevel::ZERO;
   pub const MAX_LEVEL: BuildingLevel = BuildingLevel::new(30);
 
-  pub const MIN_COST: Cost = Cost::new(1_000);
+  pub const MIN_COST: Cost = Cost::new(500);
   pub const MAX_COST: Cost = Cost::new(100_000);
 
   pub const MAINTENANCE_RATIO: MaintenanceRatio = MaintenanceRatio::new(0.0025);
