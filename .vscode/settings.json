@@ -29,6 +29,9 @@
   "[vue]": {
     "editor.defaultFormatter": "dprint.dprint"
   },
+  "[yaml]": {
+    "editor.defaultFormatter": "dprint.dprint"
+  },
   "conventionalCommits.promptScopes": false,
   "editor.codeActionsOnSave": {
     "source.fixAll": "explicit"
@@ -47,8 +50,5 @@
   },
   "files.eol": "\n",
   "githubPullRequests.defaultMergeMethod": "squash",
-  "rust-analyzer.cargo.targetDir": true,
-  "[yaml]": {
-    "editor.defaultFormatter": "dprint.dprint"
-  }
+  "rust-analyzer.cargo.targetDir": true
 }
