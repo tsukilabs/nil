@@ -11,6 +11,7 @@ pub mod stats;
 pub mod swordsman;
 
 use crate::error::Result;
+use crate::infrastructure::requirements::InfrastructureRequirements;
 use crate::resources::prelude::*;
 use derive_more::{Deref, From, Into};
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
@@ -30,6 +31,11 @@ pub trait Unit: Send + Sync {
   fn ranged_debuff(&self) -> RangedDebuff;
   fn speed(&self) -> Speed;
   fn haul(&self) -> Haul;
+
+  fn chunk(&self) -> &UnitChunk;
+
+  /// Building levels required to recruit the unit.
+  fn infrastructure_requirements(&self) -> &InfrastructureRequirements;
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, Deserialize, Serialize, EnumIter)]

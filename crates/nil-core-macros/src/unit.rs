@@ -10,7 +10,8 @@ pub fn impl_unit(ast: &DeriveInput) -> TokenStream {
   let stream = quote! {
     mod __impl_unit {
       use super::#name;
-      use crate::military::unit::{Unit, UnitBox, UnitId, UnitKind};
+      use crate::infrastructure::requirements::InfrastructureRequirements;
+      use crate::military::unit::{Unit, UnitBox, UnitChunk, UnitId, UnitKind};
       use crate::military::unit::stats::prelude::*;
 
       impl #name {
@@ -58,6 +59,14 @@ pub fn impl_unit(ast: &DeriveInput) -> TokenStream {
 
         fn haul(&self) -> Haul {
           Self::STATS.haul()
+        }
+
+        fn chunk(&self) -> &UnitChunk {
+          &Self::CHUNK
+        }
+
+        fn infrastructure_requirements(&self) -> &InfrastructureRequirements {
+          &Self::INFRASTRUCTURE_REQUIREMENTS
         }
       }
 
