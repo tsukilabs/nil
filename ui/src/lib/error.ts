@@ -8,16 +8,19 @@ export function handleError(err: unknown, message?: Option<string>) {
   if (__DEBUG_ASSERTIONS__) {
     if (err instanceof Error) {
       console.error(`${err.message}\n${err.stack}`);
-    } else {
+    }
+    else {
       console.error(err);
     }
   }
 
   if (message) {
     dialog.error(message);
-  } else if (err instanceof Error) {
+  }
+  else if (err instanceof Error) {
     dialog.error(err.message);
-  } else {
+  }
+  else {
     dialog.error(String(err));
   }
 }

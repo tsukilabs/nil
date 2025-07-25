@@ -8,7 +8,7 @@ interface Army {
   readonly state: ArmyState;
 }
 
-type ArmyPersonnel = ArmyAcademyPersonnel & ArmyStablePersonnel;
+interface ArmyPersonnel extends ArmyAcademyPersonnel, ArmyStablePersonnel {}
 
 interface ArmyAcademyPersonnel {
   readonly archer: Squad;

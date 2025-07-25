@@ -38,7 +38,8 @@ function onChatUpdated({ message }: ChatUpdatedPayload) {
         <div
           v-if="hasUnread"
           class="absolute top-[4px] right-[4px] size-[10px] min-h-[10px] min-w-[10px] overflow-hidden rounded-full bg-red-500"
-        ></div>
+        >
+        </div>
       </div>
     </PopoverTrigger>
 

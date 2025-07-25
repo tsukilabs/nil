@@ -16,7 +16,7 @@ import {
   TableRow,
 } from '@tb-dev/vue-components';
 
-const props = defineProps<{ personnel: ArmyPersonnelImpl }>();
+const props = defineProps<{ personnel: ArmyPersonnelImpl; }>();
 
 const { t } = useI18n();
 

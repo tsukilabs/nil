@@ -49,7 +49,8 @@ const cols = computed(() => {
     const field = fields.value.at(col);
     if (field && !field.isXOutside()) {
       values.push([col, field.x]);
-    } else {
+    }
+    else {
       values.push([col, null]);
     }
   }
@@ -63,7 +64,8 @@ const rows = computed(() => {
     const field = fields.value.at(row * gridCols.value);
     if (field && !field.isYOutside()) {
       values.push([row, field.y]);
-    } else {
+    }
+    else {
       values.push([row, null]);
     }
   }
@@ -160,7 +162,7 @@ function getCachedField(coord: CoordImpl) {
 }
 
 function move(dir: 'up' | 'down' | 'left' | 'right') {
-  return function (e: KeyboardEvent) {
+  return function(e: KeyboardEvent) {
     const center = continent.center();
     let x = center.x();
     let y = center.y();
@@ -172,11 +174,14 @@ function move(dir: 'up' | 'down' | 'left' | 'right') {
 
     if (dir === 'up' && y + delta <= continentSize.value) {
       y += delta;
-    } else if (dir === 'down' && y - delta >= 0) {
+    }
+    else if (dir === 'down' && y - delta >= 0) {
       y -= delta;
-    } else if (dir === 'left' && x - delta >= 0) {
+    }
+    else if (dir === 'left' && x - delta >= 0) {
       x -= delta;
-    } else if (dir === 'right' && x + delta <= continentSize.value) {
+    }
+    else if (dir === 'right' && x + delta <= continentSize.value) {
       x += delta;
     }
 
@@ -201,13 +206,13 @@ function move(dir: 'up' | 'down' | 'left' | 'right') {
         </div>
 
         <div id="rule-horizontal" class="rule bg-accent font-nil text-lg">
-          <div v-for="[idx, col] of cols" :key="idx">
+          <div v-for="([idx, col]) of cols" :key="idx">
             <span v-if="typeof col === 'number'">{{ col }}</span>
           </div>
         </div>
 
         <div id="rule-vertical" class="rule bg-accent font-nil text-lg">
-          <div v-for="[idx, row] of rows" :key="idx">
+          <div v-for="([idx, row]) of rows" :key="idx">
             <span v-if="typeof row === 'number'">{{ row }}</span>
           </div>
         </div>

@@ -9,7 +9,7 @@ import { Entity } from '@/core/entity/abstract';
 import { exit } from '@tauri-apps/plugin-process';
 import type { SocketAddrV4 } from '@/lib/net/addr-v4';
 
-export async function joinGame(options: { player: PlayerOptions; serverAddr: SocketAddrV4 }) {
+export async function joinGame(options: { player: PlayerOptions; serverAddr: SocketAddrV4; }) {
   const id = options.player.id;
   await commands.startClient(options.player.id, options.serverAddr);
 
@@ -19,7 +19,8 @@ export async function joinGame(options: { player: PlayerOptions; serverAddr: Soc
     if (status === 'inactive') {
       await commands.setPlayerStatus('active');
     }
-  } else {
+  }
+  else {
     await commands.spawnPlayer(options.player);
   }
 
@@ -30,12 +31,12 @@ export async function joinGame(options: { player: PlayerOptions; serverAddr: Soc
   await go('village');
 }
 
-export async function hostGame(options: { player: PlayerOptions; world: WorldOptions }) {
+export async function hostGame(options: { player: PlayerOptions; world: WorldOptions; }) {
   const addr = await commands.startServerWithOptions(options.world);
   await joinGame({ player: options.player, serverAddr: addr.asLocal() });
 }
 
-export async function hostSavedGame(options: { path: string; player: PlayerOptions }) {
+export async function hostSavedGame(options: { path: string; player: PlayerOptions; }) {
   const addr = await commands.startServerWithSavedata(options.path);
   await joinGame({ player: options.player, serverAddr: addr.asLocal() });
 }
@@ -45,9 +46,11 @@ export async function leaveGame() {
     Entity.dispose();
     await commands.stopClient();
     await commands.stopServer();
-  } catch (err) {
+  }
+  catch (err) {
     handleError(err);
-  } finally {
+  }
+  finally {
     await go('home');
   }
 }

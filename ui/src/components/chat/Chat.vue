@@ -30,9 +30,11 @@ async function send() {
       const id = await pushChatMessage(draft.value);
       draft.value = null;
       void scroll(id);
-    } catch (err) {
+    }
+    catch (err) {
       handleError(err);
-    } finally {
+    }
+    finally {
       mutex.release();
       await nextTick();
       chatInputInner.value?.focus();

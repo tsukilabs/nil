@@ -106,7 +106,8 @@ export class VillageEntity extends Entity {
     const village = this.use();
     if (coord) {
       village.coord.value = CoordImpl.create(coord);
-    } else {
+    }
+    else {
       await nextTick();
       const { player } = NIL.player.refs();
       village.coord.value = player.value?.coords.at(0);

@@ -30,7 +30,8 @@ export class ListenerSet {
     for (const unlisten of toArray(await listener)) {
       if (this.disposed) {
         unlisten();
-      } else {
+      }
+      else {
         this.set.add(unlisten);
       }
     }
@@ -49,7 +50,8 @@ export class ListenerSet {
   public dispose() {
     try {
       this.off();
-    } finally {
+    }
+    finally {
       this.disposed = true;
     }
   }
@@ -66,7 +68,7 @@ export class ListenerSet {
   public watch<T, Immediate extends Readonly<boolean> = false>(
     source: WatchSource<T>,
     cb: WatchCallback<T>,
-    options?: WatchOptions<Immediate>
+    options?: WatchOptions<Immediate>,
   ) {
     return this.on(watch(source, cb, options));
   }
