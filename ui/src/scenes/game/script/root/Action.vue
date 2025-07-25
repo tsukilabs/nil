@@ -5,14 +5,7 @@
 import { useI18n } from 'vue-i18n';
 import ActionTooltip from './ActionTooltip.vue';
 import { Button } from '@tb-dev/vue-components';
-import {
-  FileDownIcon,
-  FileUpIcon,
-  GlobeIcon,
-  PlayIcon,
-  SaveIcon,
-  Trash2Icon,
-} from 'lucide-vue-next';
+import { FileDownIcon, FileUpIcon, GlobeIcon, PlayIcon, SaveIcon, Trash2Icon } from 'lucide-vue-next';
 
 defineProps<{
   current: Option<Script>;

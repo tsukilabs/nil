@@ -6,14 +6,14 @@ import '@tb-dev/prototype-dom';
 import { handleError } from '@/lib/error';
 import type { Option } from '@tb-dev/utils';
 
-Error.throw = function (message: string): never {
+Error.throw = function(message: string): never {
   throw new this(message);
 };
 
-Error.todo = function (message?: Option<string>): never {
+Error.todo = function(message?: Option<string>): never {
   throw new this(`TODO: ${message ?? 'not yet implemented'}`);
 };
 
-Promise.prototype.err = function (message?: Option<string>) {
+Promise.prototype.err = function(message?: Option<string>) {
   this.catch((err: unknown) => handleError(err, message));
 };

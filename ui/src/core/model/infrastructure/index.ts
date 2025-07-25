@@ -24,42 +24,20 @@ export class InfrastructureImpl implements Infrastructure {
   public readonly wall: WallImpl;
   public readonly warehouse: WarehouseImpl;
 
-  private constructor(args: {
-    academy: AcademyImpl;
-    farm: FarmImpl;
-    ironMine: IronMineImpl;
-    prefecture: PrefectureImpl;
-    quarry: QuarryImpl;
-    sawmill: SawmillImpl;
-    silo: SiloImpl;
-    stable: StableImpl;
-    wall: WallImpl;
-    warehouse: WarehouseImpl;
-  }) {
-    this.academy = args.academy;
-    this.farm = args.farm;
-    this.ironMine = args.ironMine;
-    this.prefecture = args.prefecture;
-    this.quarry = args.quarry;
-    this.sawmill = args.sawmill;
-    this.silo = args.silo;
-    this.stable = args.stable;
-    this.wall = args.wall;
-    this.warehouse = args.warehouse;
+  private constructor(infrastructure: Infrastructure) {
+    this.academy = AcademyImpl.create(infrastructure.academy);
+    this.farm = FarmImpl.create(infrastructure.farm);
+    this.ironMine = IronMineImpl.create(infrastructure.ironMine);
+    this.prefecture = PrefectureImpl.create(infrastructure.prefecture);
+    this.quarry = QuarryImpl.create(infrastructure.quarry);
+    this.sawmill = SawmillImpl.create(infrastructure.sawmill);
+    this.silo = SiloImpl.create(infrastructure.silo);
+    this.stable = StableImpl.create(infrastructure.stable);
+    this.wall = WallImpl.create(infrastructure.wall);
+    this.warehouse = WarehouseImpl.create(infrastructure.warehouse);
   }
 
   public static create(infrastructure: Infrastructure) {
-    return new InfrastructureImpl({
-      academy: AcademyImpl.create(infrastructure.academy),
-      farm: FarmImpl.create(infrastructure.farm),
-      ironMine: IronMineImpl.create(infrastructure.ironMine),
-      prefecture: PrefectureImpl.create(infrastructure.prefecture),
-      quarry: QuarryImpl.create(infrastructure.quarry),
-      sawmill: SawmillImpl.create(infrastructure.sawmill),
-      silo: SiloImpl.create(infrastructure.silo),
-      stable: StableImpl.create(infrastructure.stable),
-      wall: WallImpl.create(infrastructure.wall),
-      warehouse: WarehouseImpl.create(infrastructure.warehouse),
-    });
+    return new InfrastructureImpl(infrastructure);
   }
 }

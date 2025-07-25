@@ -2,11 +2,11 @@
   "recommendations": [
     "vue.volar",
     "dbaeumer.vscode-eslint",
-    "esbenp.prettier-vscode",
     "rust-lang.rust-analyzer",
     "bradlc.vscode-tailwindcss",
     "tamasfe.even-better-toml",
     "vivaxy.vscode-conventional-commits",
-    "github.vscode-pull-request-github"
+    "github.vscode-pull-request-github",
+    "dprint.dprint"
   ]
 }

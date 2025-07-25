@@ -11,16 +11,7 @@ import { SocketAddrV4 } from '@/lib/net/addr-v4';
 import type { WritablePartial } from '@tb-dev/utils';
 import enUS from '@/locale/en-US/scenes/join-game.json';
 import ptBR from '@/locale/pt-BR/scenes/join-game.json';
-import {
-  Button,
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-  Input,
-  Label,
-} from '@tb-dev/vue-components';
+import { Button, Card, CardContent, CardFooter, CardHeader, CardTitle, Input, Label } from '@tb-dev/vue-components';
 
 const { t } = useI18n({
   messages: {

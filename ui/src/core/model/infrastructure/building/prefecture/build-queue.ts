@@ -6,7 +6,7 @@ import { PrefectureBuildOrderImpl } from './build-order';
 export class PrefectureBuildQueueImpl implements PrefectureBuildQueue {
   public readonly orders: readonly PrefectureBuildOrderImpl[];
 
-  private constructor(queue: { orders: PrefectureBuildOrderImpl[] }) {
+  private constructor(queue: { orders: PrefectureBuildOrderImpl[]; }) {
     this.orders = queue.orders;
   }
 

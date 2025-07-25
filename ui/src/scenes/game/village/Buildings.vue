@@ -15,7 +15,7 @@ import {
   TableRow,
 } from '@tb-dev/vue-components';
 
-defineProps<{ village: VillageImpl }>();
+defineProps<{ village: VillageImpl; }>();
 
 const { t } = useI18n();
 </script>

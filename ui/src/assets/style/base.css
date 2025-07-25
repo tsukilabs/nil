@@ -1,5 +1,5 @@
-@import 'tailwindcss';
-@import 'tw-animate-css';
+@import "tailwindcss";
+@import "tw-animate-css";
 
 @source "../../../node_modules/@tb-dev/vue-components";
 
@@ -40,7 +40,7 @@
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
 
-  --font-nil: 'Syne Mono';
+  --font-nil: "Syne Mono";
 }
 
 @layer base {

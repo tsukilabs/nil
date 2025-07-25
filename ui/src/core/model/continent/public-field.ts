@@ -30,7 +30,8 @@ export class PublicFieldImpl {
         await options?.onBeforeLoad?.();
         this.set(await getField(this.coord));
         await options?.onLoad?.();
-      } catch (err) {
+      }
+      catch (err) {
         this.#flags ^= Flags.Loading;
         throw err;
       }
@@ -117,7 +118,7 @@ export class PublicFieldImpl {
     const isInitializing = new Set<string>();
     tryOnScopeDispose(() => isInitializing.clear());
 
-    return async function (fields: readonly PublicFieldImpl[]) {
+    return async function(fields: readonly PublicFieldImpl[]) {
       const coords: Coord[] = [];
       for (const field of fields) {
         if (

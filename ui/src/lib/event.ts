@@ -22,7 +22,8 @@ class Listener<T extends EventPayload> {
 
           try {
             await fn(payload);
-          } catch (err) {
+          }
+          catch (err) {
             handleError(err);
           }
         })();
@@ -32,13 +33,12 @@ class Listener<T extends EventPayload> {
 
   private static webview: Option<WebviewWindow>;
 
-  // prettier-ignore
   public static readonly listeners = {
     onChatUpdated: new this<ChatUpdatedPayload>('chat-updated'),
     onPlayerUpdated: new this<PlayerUpdatedPayload>('player-updated'),
     onPublicVillageUpdated: new this<PublicVillageUpdatedPayload>('public-village-updated'),
     onRoundUpdated: new this<RoundUpdatedPayload>('round-updated'),
-    onVillageUpdated: new this<VillageUpdatedPayload>('village-updated')
+    onVillageUpdated: new this<VillageUpdatedPayload>('village-updated'),
   } as const;
 }
 

@@ -28,7 +28,8 @@ export class IpAddrV4 {
   public static tryParse(ip: string) {
     try {
       return IpAddrV4.parse(ip);
-    } catch {
+    }
+    catch {
       return null;
     }
   }
@@ -37,7 +38,7 @@ export class IpAddrV4 {
 export class SocketAddrV4 {
   private constructor(
     public readonly ip: IpAddrV4,
-    public readonly port: number
+    public readonly port: number,
   ) {}
 
   public format() {
@@ -59,7 +60,8 @@ export class SocketAddrV4 {
     if (!addr) return null;
     try {
       return SocketAddrV4.parse(addr);
-    } catch {
+    }
+    catch {
       return null;
     }
   }

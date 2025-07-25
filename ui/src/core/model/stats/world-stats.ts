@@ -6,7 +6,7 @@ import { InfrastructureStatsImpl, type RawInfrastructureStats } from './infrastr
 export class WorldStatsImpl implements WorldStats {
   public readonly infrastructure: InfrastructureStatsImpl;
 
-  private constructor(stats: { infrastructure: InfrastructureStatsImpl }) {
+  private constructor(stats: { infrastructure: InfrastructureStatsImpl; }) {
     this.infrastructure = stats.infrastructure;
   }
 

@@ -8,9 +8,10 @@ export class PrefectureImpl extends BuildingImpl implements Prefecture {
   public readonly id: BuildingId = 'prefecture';
   public readonly buildQueue: PrefectureBuildQueueImpl;
 
-  private constructor(prefecture: Building & { buildQueue: PrefectureBuildQueueImpl }) {
+  private constructor(prefecture: Prefecture) {
     super(prefecture);
-    this.buildQueue = prefecture.buildQueue;
+
+    this.buildQueue = PrefectureBuildQueueImpl.create(prefecture.buildQueue);
   }
 
   public hasBuildOrder(id: PrefectureBuildOrderId) {
@@ -41,11 +42,6 @@ export class PrefectureImpl extends BuildingImpl implements Prefecture {
   }
 
   public static create(prefecture: Prefecture) {
-    const buildQueue = PrefectureBuildQueueImpl.create(prefecture.buildQueue);
-    return new PrefectureImpl({
-      level: prefecture.level,
-      enabled: prefecture.enabled,
-      buildQueue,
-    });
+    return new PrefectureImpl(prefecture);
   }
 }

@@ -6,7 +6,7 @@ import { computed } from 'vue';
 import FieldVillage from './FieldVillage.vue';
 import type { PublicFieldImpl } from '@/core/model/continent/public-field';
 
-const props = defineProps<{ field: PublicFieldImpl }>();
+const props = defineProps<{ field: PublicFieldImpl; }>();
 
 const { continentSize } = NIL.world.refs();
 
@@ -18,7 +18,8 @@ const classList = computed(() => {
   let cl = isOutside.value ? 'field' : 'field inside';
   if (isOutside.value) {
     cl += ' border-0';
-  } else {
+  }
+  else {
     const size = continentSize.value;
     cl += props.field.x === size - 1 ? ' border-r' : ' border-r-0';
     cl += props.field.y === size - 1 ? ' border-t' : ' border-t-0';

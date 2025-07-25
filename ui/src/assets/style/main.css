@@ -2,14 +2,12 @@ button {
   cursor: pointer;
 }
 
-label:where(
-  :has(input[type='number']),
-  :has(input[type='text']),
-  :has(input[type='url']),
-  :has(select),
-  :has(textarea),
-  :has(button[role='combobox'])
-) {
+label:has(select),
+label:has(textarea),
+label:has(input[type="number"]),
+label:has(input[type="text"]),
+label:has(input[type="url"]),
+label:has(button[role="combobox"]) {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -23,7 +21,9 @@ label:where(
   }
 }
 
-label:where(:has(button[role='switch']), :has(input[type='checkbox']), :has(input[type='radio'])) {
+label:has(input[type="checkbox"]),
+label:has(input[type="radio"]),
+label:has(button[role="switch"]) {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;

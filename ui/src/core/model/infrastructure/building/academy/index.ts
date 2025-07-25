@@ -1,10 +1,11 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { BuildingImpl } from './abstract';
+import { BuildingImpl } from '../abstract';
 
 export class AcademyImpl extends BuildingImpl implements Academy {
   public readonly id: BuildingId = 'academy';
+  public readonly recruitQueue: AcademyRecruitQueue;
 
   private constructor(academy: Academy) {
     super(academy);

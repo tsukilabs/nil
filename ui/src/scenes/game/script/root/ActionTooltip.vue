@@ -5,9 +5,9 @@
 import type { VNode } from 'vue';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@tb-dev/vue-components';
 
-defineProps<{ label: string }>();
+defineProps<{ label: string; }>();
 
-defineSlots<{ default: () => VNode }>();
+defineSlots<{ default: () => VNode; }>();
 </script>
 
 <template>

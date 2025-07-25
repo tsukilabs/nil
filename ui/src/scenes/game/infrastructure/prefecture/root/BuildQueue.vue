@@ -8,16 +8,7 @@ import { ChevronDownIcon, ChevronUpIcon } from 'lucide-vue-next';
 import enUS from '@/locale/en-US/scenes/game/infrastructure/prefecture.json';
 import ptBR from '@/locale/pt-BR/scenes/game/infrastructure/prefecture.json';
 import type { PrefectureImpl } from '@/core/model/infrastructure/building/prefecture';
-import {
-  Button,
-  cn,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@tb-dev/vue-components';
+import { Button, cn, Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@tb-dev/vue-components';
 
 const props = defineProps<{
   prefecture: PrefectureImpl;
