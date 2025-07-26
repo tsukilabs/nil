@@ -6,7 +6,7 @@ import { computed } from 'vue';
 import { format as formatDate, isToday } from 'date-fns';
 import type { ChatMessageImpl } from '@/core/model/chat/chat-message';
 
-const props = defineProps<{ message: ChatMessageImpl }>();
+const props = defineProps<{ message: ChatMessageImpl; }>();
 
 const datetime = computed(() => {
   const date = props.message.date;

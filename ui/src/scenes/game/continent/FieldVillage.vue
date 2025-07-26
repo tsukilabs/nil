@@ -3,8 +3,8 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import type { PublicVillageImpl } from '@/core/model/village/public';
 import type { PublicFieldImpl } from '@/core/model/continent/public-field';
+import type { PublicVillageImpl } from '@/core/model/village/public-village';
 import { Badge, HoverCard, HoverCardContent, HoverCardTrigger } from '@tb-dev/vue-components';
 
 const props = defineProps<{

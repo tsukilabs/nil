@@ -28,7 +28,7 @@ impl HeavyCavalry {
 
   pub const CHUNK: UnitChunk = UnitChunk {
     size: UnitChunkSize::new(5),
-    cost: Cost::new(9500),
+    cost: Cost::new(4750),
     wood_ratio: ResourceRatio::new(0.2),
     stone_ratio: ResourceRatio::new(0.15),
     iron_ratio: ResourceRatio::new(0.65),

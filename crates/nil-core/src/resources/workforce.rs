@@ -8,6 +8,7 @@ use nil_num::impl_mul_ceil;
 use nil_num::ops::MulCeil;
 use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
+use std::num::NonZeroU32;
 use std::ops::{Add, AddAssign, Mul, MulAssign, Sub, SubAssign};
 
 /// Workforce is a special resource used to construct buildings and recruit troops.
@@ -88,9 +89,11 @@ impl Mul for Workforce {
   }
 }
 
-impl MulAssign for Workforce {
-  fn mul_assign(&mut self, rhs: Self) {
-    *self = *self * rhs;
+impl Mul<u32> for Workforce {
+  type Output = Workforce;
+
+  fn mul(self, rhs: u32) -> Self::Output {
+    Self(self.0.saturating_mul(rhs))
   }
 }
 
@@ -102,11 +105,11 @@ impl Mul<f64> for Workforce {
   }
 }
 
-impl Mul<Workforce> for f64 {
-  type Output = f64;
+impl Mul<NonZeroU32> for Workforce {
+  type Output = Workforce;
 
-  fn mul(self, rhs: Workforce) -> Self::Output {
-    self * f64::from(rhs.0)
+  fn mul(self, rhs: NonZeroU32) -> Self::Output {
+    self * rhs.get()
   }
 }
 
@@ -115,6 +118,12 @@ impl Mul<Stability> for Workforce {
 
   fn mul(self, rhs: Stability) -> Self::Output {
     Self::from(self.mul_ceil(*rhs))
+  }
+}
+
+impl MulAssign for Workforce {
+  fn mul_assign(&mut self, rhs: Self) {
+    *self = *self * rhs;
   }
 }
 

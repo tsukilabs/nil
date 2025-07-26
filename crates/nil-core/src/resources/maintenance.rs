@@ -5,7 +5,8 @@ use super::Food;
 use super::diff::FoodDiff;
 use derive_more::{Deref, Display, Into};
 use serde::{Deserialize, Serialize};
-use std::ops::{Add, AddAssign, Sub, SubAssign};
+use std::num::NonZeroU32;
+use std::ops::{Add, AddAssign, Mul, Sub, SubAssign};
 
 /// Maintenance tax of an entity.
 ///
@@ -116,6 +117,22 @@ impl SubAssign<Maintenance> for Food {
 impl SubAssign<Maintenance> for FoodDiff {
   fn sub_assign(&mut self, rhs: Maintenance) {
     *self = *self - rhs.0;
+  }
+}
+
+impl Mul<u32> for Maintenance {
+  type Output = Maintenance;
+
+  fn mul(self, rhs: u32) -> Self::Output {
+    Self(self.0 * rhs)
+  }
+}
+
+impl Mul<NonZeroU32> for Maintenance {
+  type Output = Maintenance;
+
+  fn mul(self, rhs: NonZeroU32) -> Self::Output {
+    Self(self.0 * rhs.get())
   }
 }
 

@@ -1,0 +1,49 @@
+// Copyright (C) Call of Nil contributors
+// SPDX-License-Identifier: AGPL-3.0-only
+
+use crate::error::Result;
+use crate::manager::ManagerExt;
+use nil_core::continent::Coord;
+use nil_core::infrastructure::building::academy::{
+  AcademyRecruitCatalog,
+  AcademyRecruitOrderId,
+  AcademyRecruitOrderRequest,
+};
+use tauri::AppHandle;
+
+#[tauri::command]
+pub async fn add_academy_recruit_order(
+  app: AppHandle,
+  request: AcademyRecruitOrderRequest,
+) -> Result<()> {
+  app
+    .client(async |cl| cl.add_academy_recruit_order(request).await)
+    .await?
+    .map_err(Into::into)
+}
+
+#[tauri::command]
+pub async fn cancel_academy_recruit_order(
+  app: AppHandle,
+  coord: Coord,
+  id: AcademyRecruitOrderId,
+) -> Result<()> {
+  app
+    .client(async |cl| {
+      cl.cancel_academy_recruit_order(coord, id)
+        .await
+    })
+    .await?
+    .map_err(Into::into)
+}
+
+#[tauri::command]
+pub async fn get_academy_recruit_catalog(
+  app: AppHandle,
+  coord: Coord,
+) -> Result<AcademyRecruitCatalog> {
+  app
+    .client(async |cl| cl.get_academy_recruit_catalog(coord).await)
+    .await?
+    .map_err(Into::into)
+}

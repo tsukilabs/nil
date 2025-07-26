@@ -21,7 +21,7 @@ fn cannot_decrease() {
 
   assert!(
     infrastructure
-      .add_prefecture_build_order(stats(), None, &req(Demolition))
+      .add_prefecture_build_order(&req(Demolition), stats(), None)
       .is_err_and(|err| matches!(err, Error::CannotDecreaseBuildingLevel(_)))
   );
 }
@@ -35,7 +35,7 @@ fn cannot_increase() {
 
   assert!(
     infrastructure
-      .add_prefecture_build_order(stats(), None, &req(Construction))
+      .add_prefecture_build_order(&req(Construction), stats(), None)
       .is_err_and(|err| matches!(err, Error::CannotIncreaseBuildingLevel(_)))
   );
 }
@@ -44,7 +44,7 @@ fn cannot_increase() {
 fn insufficient_resources() {
   assert!(
     Infrastructure::default()
-      .add_prefecture_build_order(stats(), Some(&Resources::MIN), &req(Construction))
+      .add_prefecture_build_order(&req(Construction), stats(), Some(&Resources::MIN))
       .is_err_and(|err| matches!(err, Error::InsufficientResources))
   );
 }
@@ -52,7 +52,7 @@ fn insufficient_resources() {
 #[test]
 fn has_resources() {
   Infrastructure::default()
-    .add_prefecture_build_order(stats(), Some(&Resources::MAX), &req(Construction))
+    .add_prefecture_build_order(&req(Construction), stats(), Some(&Resources::MAX))
     .expect("should have enough resources");
 }
 
@@ -60,7 +60,7 @@ fn has_resources() {
 fn cancel_build_order() {
   let mut infrastructure = Infrastructure::default();
   infrastructure
-    .add_prefecture_build_order(stats(), None, &req(Construction))
+    .add_prefecture_build_order(&req(Construction), stats(), None)
     .unwrap();
 
   let order = infrastructure

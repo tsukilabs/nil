@@ -5,9 +5,9 @@ import { getField, getFields } from '@/commands';
 import { tryOnScopeDispose } from '@vueuse/core';
 import type { MaybePromise, Option } from '@tb-dev/utils';
 import type { CoordImpl } from '@/core/model/continent/coord';
-import { PublicVillageImpl } from '@/core/model/village/public';
+import { PublicVillageImpl } from '@/core/model/village/public-village';
 
-enum Flags {
+const enum Flags {
   Uninit = 1 << 0,
   Loading = 1 << 1,
   Empty = 1 << 2,
@@ -30,7 +30,8 @@ export class PublicFieldImpl {
         await options?.onBeforeLoad?.();
         this.set(await getField(this.coord));
         await options?.onLoad?.();
-      } catch (err) {
+      }
+      catch (err) {
         this.#flags ^= Flags.Loading;
         throw err;
       }
@@ -117,7 +118,7 @@ export class PublicFieldImpl {
     const isInitializing = new Set<string>();
     tryOnScopeDispose(() => isInitializing.clear());
 
-    return async function (fields: readonly PublicFieldImpl[]) {
+    return async function(fields: readonly PublicFieldImpl[]) {
       const coords: Coord[] = [];
       for (const field of fields) {
         if (

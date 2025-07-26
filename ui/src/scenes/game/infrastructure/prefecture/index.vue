@@ -41,7 +41,7 @@ const prefecture = usePrefecture();
                   <NavigationMenuItem>
                     <NavigationMenuLink as-child>
                       <RouterLink :to="{ name: 'prefecture' satisfies PrefectureScene }">
-                        {{ t('building', 2) }}
+                        {{ t('construction') }}
                       </RouterLink>
                     </NavigationMenuLink>
                   </NavigationMenuItem>

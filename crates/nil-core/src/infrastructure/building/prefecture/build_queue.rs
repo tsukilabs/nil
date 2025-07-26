@@ -4,6 +4,7 @@
 use crate::continent::Coord;
 use crate::error::{Error, Result};
 use crate::infrastructure::building::{BuildingId, BuildingLevel, BuildingStatsTable};
+use crate::infrastructure::queue::{InfrastructureQueue, InfrastructureQueueOrder};
 use crate::resources::{Resources, Workforce};
 use nil_num::ops::MulCeil;
 use serde::{Deserialize, Serialize};
@@ -20,10 +21,10 @@ pub struct PrefectureBuildQueue {
 impl PrefectureBuildQueue {
   pub(crate) fn build(
     &mut self,
+    request: &PrefectureBuildOrderRequest,
     table: &BuildingStatsTable,
     current_level: BuildingLevel,
     current_resources: Option<&Resources>,
-    request: &PrefectureBuildOrderRequest,
   ) -> Result<&PrefectureBuildOrder> {
     let id = table.id();
     let mut target_level = self
@@ -86,31 +87,6 @@ impl PrefectureBuildQueue {
     self.orders.pop_back()
   }
 
-  /// Consumes the workforce until it runs out or the entire build queue is completed.
-  #[must_use]
-  pub(super) fn process(&mut self, mut workforce: Workforce) -> Vec<PrefectureBuildOrder> {
-    let mut orders = Vec::new();
-    loop {
-      if workforce == 0 {
-        break;
-      }
-
-      match self
-        .orders
-        .pop_front_if(|order| order.update(&mut workforce))
-      {
-        Some(order) => orders.push(order),
-        None => break,
-      }
-    }
-
-    if !orders.is_empty() {
-      self.orders.shrink_to_fit();
-    }
-
-    orders
-  }
-
   pub fn iter(&self) -> impl Iterator<Item = &PrefectureBuildOrder> {
     self.orders.iter()
   }
@@ -123,6 +99,12 @@ impl PrefectureBuildQueue {
   #[inline]
   pub fn is_empty(&self) -> bool {
     self.orders.is_empty()
+  }
+}
+
+impl InfrastructureQueue<PrefectureBuildOrder> for PrefectureBuildQueue {
+  fn queue_mut(&mut self) -> &mut VecDeque<PrefectureBuildOrder> {
+    &mut self.orders
   }
 }
 
@@ -159,23 +141,19 @@ impl PrefectureBuildOrder {
   pub fn resources(&self) -> &Resources {
     &self.resources
   }
+}
 
-  fn update(&mut self, workforce: &mut Workforce) -> bool {
-    if let Some(pending) = self.state.pending_workforce() {
-      if *pending > 0 {
-        let previous = *pending;
-        *pending -= *workforce;
-
-        // Decreases the available workforce based on the quantity consumed by this build order.
-        *workforce -= previous - *pending;
-      }
-
-      if *pending == 0 {
-        self.state = PrefectureBuildOrderState::Done;
-      }
-    }
-
+impl InfrastructureQueueOrder for PrefectureBuildOrder {
+  fn is_done(&self) -> bool {
     self.state.is_done()
+  }
+
+  fn set_done(&mut self) {
+    self.state = PrefectureBuildOrderState::Done;
+  }
+
+  fn pending_mut(&mut self) -> Option<&mut Workforce> {
+    self.state.workforce_mut()
   }
 }
 
@@ -218,7 +196,7 @@ pub enum PrefectureBuildOrderState {
 }
 
 impl PrefectureBuildOrderState {
-  fn pending_workforce(&mut self) -> Option<&mut Workforce> {
+  fn workforce_mut(&mut self) -> Option<&mut Workforce> {
     if let Self::Pending { workforce } = self { Some(workforce) } else { None }
   }
 }

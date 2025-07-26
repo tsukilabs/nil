@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as commands from '@/commands';
-import { PublicVillageImpl } from './public';
+import { PublicVillageImpl } from './public-village';
 import { InfrastructureImpl } from '@/core/model/infrastructure';
 
 export class VillageImpl extends PublicVillageImpl implements Village {

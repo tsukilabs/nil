@@ -33,7 +33,8 @@ export class RoundEntity extends Entity {
     // This typically indicates that the current round is complete, so we update all the entities.
     if (round.id !== this.id || round.state.kind !== this.state?.kind) {
       await NIL.update();
-    } else {
+    }
+    else {
       this.round.value = RoundImpl.create(round);
     }
   }

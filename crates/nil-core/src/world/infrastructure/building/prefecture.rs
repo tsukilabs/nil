@@ -22,7 +22,7 @@ impl World {
     let order = self
       .village_mut(req.coord)?
       .infrastructure_mut()
-      .add_prefecture_build_order(table, curr_res.as_ref(), req)?
+      .add_prefecture_build_order(req, table, curr_res.as_ref())?
       .clone();
 
     if let Some(id) = player_id {
@@ -43,7 +43,6 @@ impl World {
     Ok(())
   }
 
-  /// Cancels the most recent build order from the prefecture.
   pub fn cancel_prefecture_build_order(&mut self, coord: Coord) -> Result<()> {
     let village = self.village_mut(coord)?;
     if let Some(order) = village

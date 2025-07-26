@@ -1,14 +1,14 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/** Something may be an array. */
 type MaybeArray<T> = import('@tb-dev/utils').MaybeArray<T>;
 
-/** Something may be a promise. */
+type MaybeNilRef<T> = import('@tb-dev/vue').MaybeNilRef<T>;
+
 type MaybePromise<T> = import('@tb-dev/utils').MaybePromise<T>;
 
-/** Something may be nullish. */
+type PartialNullish<T> = import('@tb-dev/utils').PartialNullish<T>;
+
 type Option<T> = import('@tb-dev/utils').Option<T>;
 
-/** Constructs a type where all properties of `T` may be written. */
 type Writable<T> = import('@tb-dev/utils').Writable<T>;

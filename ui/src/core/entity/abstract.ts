@@ -7,7 +7,7 @@ import { asyncNoop, noop } from 'es-toolkit';
 import { ListenerSet } from '@/lib/listener-set';
 import { type EffectScope, effectScope } from 'vue';
 
-type Ctor = new () => Entity;
+type Ctor = new() => Entity;
 
 export abstract class Entity {
   private static readonly table = new Map<Ctor, Entity>();

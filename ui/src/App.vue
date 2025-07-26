@@ -29,7 +29,8 @@ onMounted(async () => {
   try {
     await showWindow();
     defineGlobalCommands();
-  } catch (err) {
+  }
+  catch (err) {
     handleError(err);
   }
 });

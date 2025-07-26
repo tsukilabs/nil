@@ -10,7 +10,7 @@ use nil_core::infrastructure::building::prefecture::{
 };
 
 impl Client {
-  /// POST `/infrastructure/prefecture/build`
+  /// POST `/infrastructure/prefecture/build/add`
   pub async fn add_prefecture_build_order(&self, req: PrefectureBuildOrderRequest) -> Result<()> {
     self
       .http
@@ -18,7 +18,7 @@ impl Client {
       .await
   }
 
-  /// POST `/infrastructure/prefecture/cancel-build`
+  /// POST `/infrastructure/prefecture/build/cancel`
   pub async fn cancel_prefecture_build_order(&self, coord: Coord) -> Result<()> {
     self
       .http
@@ -26,7 +26,7 @@ impl Client {
       .await
   }
 
-  /// POST `/infrastructure/prefecture/catalog`
+  /// POST `/infrastructure/prefecture/build/catalog`
   pub async fn get_prefecture_build_catalog(&self, coord: Coord) -> Result<PrefectureBuildCatalog> {
     self
       .http

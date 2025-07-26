@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { shallowRef } from 'vue';
+import { useMutex } from '@tb-dev/vue';
 import { toCoordRef } from '@/composables/util/toRef';
-import { type MaybeNilRef, useMutex } from '@tb-dev/vue';
 import type { CoordImpl } from '@/core/model/continent/coord';
 import {
   addPrefectureBuildOrder,

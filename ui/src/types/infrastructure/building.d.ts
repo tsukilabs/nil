@@ -20,8 +20,6 @@ interface Building {
   readonly level: BuildingLevel;
 }
 
-type Academy = Building;
-type Stable = Building;
 type Sawmill = Building;
 type Quarry = Building;
 type IronMine = Building;

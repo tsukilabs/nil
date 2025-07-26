@@ -2,32 +2,17 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { PrefectureBuildOrderImpl } from './build-order';
+import { InfrastructureQueueImpl } from '@/core/model/infrastructure/queue';
 
-export class PrefectureBuildQueueImpl implements PrefectureBuildQueue {
-  public readonly orders: readonly PrefectureBuildOrderImpl[];
-
-  private constructor(queue: { orders: PrefectureBuildOrderImpl[] }) {
-    this.orders = queue.orders;
-  }
-
-  public *[Symbol.iterator]() {
-    yield* this.orders;
-  }
-
-  public first() {
-    return this.orders.at(0);
-  }
-
-  public last() {
-    return this.orders.at(-1);
-  }
-
-  get size() {
-    return this.orders.length;
+export class PrefectureBuildQueueImpl extends InfrastructureQueueImpl<PrefectureBuildOrderImpl>
+  implements PrefectureBuildQueue
+{
+  private constructor(queue: PrefectureBuildQueue) {
+    const orders = queue.orders.map((it) => PrefectureBuildOrderImpl.create(it));
+    super({ orders });
   }
 
   public static create(queue: PrefectureBuildQueue) {
-    const orders = queue.orders.map((it) => PrefectureBuildOrderImpl.create(it));
-    return new PrefectureBuildQueueImpl({ orders });
+    return new PrefectureBuildQueueImpl(queue);
   }
 }

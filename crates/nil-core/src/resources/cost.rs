@@ -1,6 +1,9 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+use std::ops::Mul;
+
+use super::maintenance::MaintenanceRatio;
 use derive_more::{Deref, Into};
 use serde::{Deserialize, Serialize};
 
@@ -19,6 +22,30 @@ impl Cost {
 impl From<f64> for Cost {
   fn from(value: f64) -> Self {
     Self::new(value as u32)
+  }
+}
+
+impl Mul<f64> for Cost {
+  type Output = f64;
+
+  fn mul(self, rhs: f64) -> Self::Output {
+    f64::from(self) * rhs
+  }
+}
+
+impl Mul<ResourceRatio> for Cost {
+  type Output = f64;
+
+  fn mul(self, rhs: ResourceRatio) -> Self::Output {
+    self * rhs.0
+  }
+}
+
+impl Mul<MaintenanceRatio> for Cost {
+  type Output = f64;
+
+  fn mul(self, rhs: MaintenanceRatio) -> Self::Output {
+    self * f64::from(rhs)
   }
 }
 

@@ -9,30 +9,13 @@ interface PrefectureBuildQueue {
   readonly orders: readonly PrefectureBuildOrder[];
 }
 
-interface PrefectureBuildOrder {
-  readonly id: PrefectureBuildOrderId;
+interface PrefectureBuildOrder extends InfrastructureQueueOrder {
   readonly kind: PrefectureBuildOrderKind;
   readonly building: BuildingId;
   readonly level: BuildingLevel;
-  readonly resources: Resources;
-  readonly workforce: number;
-  readonly state: PrefectureBuildOrderState;
 }
-
-type PrefectureBuildOrderId = string;
 
 type PrefectureBuildOrderKind = 'construction' | 'demolition';
-
-type PrefectureBuildOrderState = PrefectureBuildOrderStatePending | PrefectureBuildOrderStateDone;
-
-interface PrefectureBuildOrderStatePending {
-  readonly kind: 'pending';
-  readonly workforce: number;
-}
-
-interface PrefectureBuildOrderStateDone {
-  readonly kind: 'done';
-}
 
 interface PrefectureBuildOrderRequest {
   readonly coord: Coord;

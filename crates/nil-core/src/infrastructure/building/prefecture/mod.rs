@@ -9,6 +9,7 @@ mod build_queue;
 
 use super::{BuildingId, BuildingLevel};
 use crate::check_total_resource_ratio;
+use crate::infrastructure::queue::InfrastructureQueue;
 use crate::infrastructure::requirements::InfrastructureRequirements;
 use crate::resources::{Cost, MaintenanceRatio, ResourceRatio, Workforce};
 use nil_core_macros::Building;

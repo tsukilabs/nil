@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 mod owner;
+mod stability;
 
 use crate::continent::Coord;
 use crate::error::Result;
@@ -11,11 +12,11 @@ use crate::npc::precursor::PrecursorId;
 use crate::player::PlayerId;
 use crate::resources::{Maintenance, Resources};
 use bon::Builder;
-use derive_more::{Deref, Into};
 use serde::{Deserialize, Serialize};
 use std::sync::Arc;
 
 pub use owner::VillageOwner;
+pub use stability::Stability;
 
 #[derive(Builder, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
@@ -137,26 +138,6 @@ impl Village {
   /// Determines the maintenance tax required for the village buildings.
   pub fn maintenance(&self, stats: &InfrastructureStats) -> Result<Maintenance> {
     self.infrastructure.base_maintenance(stats)
-  }
-}
-
-/// Political stability of the village.
-#[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize)]
-pub struct Stability(f64);
-
-impl Stability {
-  pub const MIN: Stability = Stability(0.0);
-  pub const MAX: Stability = Stability(1.0);
-
-  #[inline]
-  pub const fn new(value: f64) -> Self {
-    Self(value.clamp(Self::MIN.0, Self::MAX.0))
-  }
-}
-
-impl Default for Stability {
-  fn default() -> Self {
-    Self::MAX
   }
 }
 

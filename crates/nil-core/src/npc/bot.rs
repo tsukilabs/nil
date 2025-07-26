@@ -11,6 +11,7 @@ use std::ops::Deref;
 use std::sync::Arc;
 
 #[derive(Clone, Debug, Default, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct BotManager {
   current_id: BotId,
   map: HashMap<BotId, Bot>,

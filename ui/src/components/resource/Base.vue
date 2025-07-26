@@ -22,7 +22,9 @@ function isOverflowing() {
     <div
       class="size-3 min-h-3 min-w-3 overflow-hidden rounded-full"
       :style="{ backgroundColor: color }"
-    ></div>
+    >
+    </div>
+
     <div :class="isOverflowing() ? 'text-red-400' : null">
       {{ amount ?? 0 }}
     </div>
