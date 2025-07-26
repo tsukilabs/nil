@@ -1,6 +1,8 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { stableRoutes } from './stable';
+import { academyRoutes } from './academy';
 import { prefectureRoutes } from './prefecture';
 import type { RouteRecordRaw } from 'vue-router';
 
@@ -8,7 +10,7 @@ export const infrastructureRoutes: RouteRecordRaw[] = [
   {
     component: () => import('@/scenes/game/infrastructure/academy/index.vue'),
     path: 'academy',
-    name: 'academy' satisfies InfrastructureScene,
+    children: academyRoutes,
   },
   {
     component: () => import('@/scenes/game/infrastructure/farm/index.vue'),
@@ -43,7 +45,7 @@ export const infrastructureRoutes: RouteRecordRaw[] = [
   {
     component: () => import('@/scenes/game/infrastructure/stable/index.vue'),
     path: 'stable',
-    name: 'stable' satisfies InfrastructureScene,
+    children: stableRoutes,
   },
   {
     component: () => import('@/scenes/game/infrastructure/wall/index.vue'),

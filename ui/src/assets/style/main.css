@@ -1,57 +1,41 @@
+@reference "./base.css";
+
 button {
-  cursor: pointer;
+  @apply cursor-pointer;
 }
 
 label:has(select),
 label:has(textarea),
+label:has(button[role="combobox"]),
 label:has(input[type="number"]),
 label:has(input[type="text"]),
-label:has(input[type="url"]),
-label:has(button[role="combobox"]) {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 0.5rem;
-  width: 100%;
-  font-weight: 400;
+label:has(input[type="url"]) {
+  @apply flex w-full flex-col justify-center items-start gap-2 py-1 font-normal;
 
   & > span {
-    width: 100%;
+    @apply w-full;
   }
 }
 
+label:has(button[role="checkbox"]),
+label:has(button[role="switch"]),
 label:has(input[type="checkbox"]),
-label:has(input[type="radio"]),
-label:has(button[role="switch"]) {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 0.5rem;
-  font-weight: 400;
+label:has(input[type="radio"]) {
+  @apply flex flex-row justify-start items-center gap-2 py-1 font-normal;
 
   & > span {
-    width: 100%;
+    @apply w-full;
   }
 }
 
 [data-sonner-toast] [data-description] {
-  color: var(--foreground) !important;
+  @apply text-foreground!;
 }
 
 .ellipsis {
-  display: inline-block;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  @apply inline-block overflow-hidden text-ellipsis whitespace-nowrap;
 }
 
 .game-layout {
-  display: flex;
-  padding: 1rem;
-  width: 100%;
-  height: 100%;
-  overflow-x: hidden;
-  overflow-y: auto;
+  @apply flex size-full overflow-x-hidden overflow-y-auto p-4;
 }

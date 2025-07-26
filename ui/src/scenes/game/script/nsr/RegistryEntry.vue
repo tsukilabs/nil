@@ -26,7 +26,7 @@ function toHtml(raw: string) {
 
 <template>
   <div class="flex size-full flex-col gap-4 overflow-x-hidden overflow-y-auto p-4 select-text">
-    <div v-if="contents" class="nsr-markdown" v-html="contents.readme"></div>
-    <div v-if="code" class="nsr-markdown" v-html="code"></div>
+    <div v-if="contents" class="nil-markdown" v-html="contents.readme"></div>
+    <div v-if="code" class="nil-markdown" v-html="code"></div>
   </div>
 </template>

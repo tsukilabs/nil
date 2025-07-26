@@ -7,7 +7,7 @@ import '@/assets/style/vars.css';
 import '@/assets/style/themes.css';
 import '@/assets/style/fonts.css';
 import '@/assets/style/main.css';
-import '@/assets/style/nsr.css';
+import '@/assets/style/markdown.css';
 import '@/lib/prototype';
 import App from '@/App.vue';
 import { createApp } from 'vue';

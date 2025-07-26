@@ -6,17 +6,19 @@ type Scene = 'home' | 'host-game' | 'join-game' | 'settings' | GameScene;
 type GameScene = 'continent' | 'village' | InfrastructureScene | ScriptScene;
 
 type InfrastructureScene =
-  | 'academy'
+  | AcademyScene
+  | PrefectureScene
+  | StableScene
   | 'farm'
   | 'iron-mine'
   | 'quarry'
   | 'sawmill'
   | 'silo'
-  | 'stable'
   | 'wall'
-  | 'warehouse'
-  | PrefectureScene;
+  | 'warehouse';
 
-type PrefectureScene = 'prefecture' | 'village-management';
+type AcademyScene = 'academy' | 'academy-settings';
+type PrefectureScene = 'prefecture' | 'prefecture-settings';
+type StableScene = 'stable' | 'stable-settings';
 
 type ScriptScene = 'script' | 'nsr';

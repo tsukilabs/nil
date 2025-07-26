@@ -2,24 +2,23 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import RecruitQueue from './RecruitQueue.vue';
-import RecruitCatalog from './RecruitCatalog.vue';
 import { useAcademy } from '@/composables/infrastructure/useBuilding';
-import { Card, CardContent, CardHeader, CardTitle } from '@tb-dev/vue-components';
-import { useAcademyRecruitCatalog } from '@/composables/infrastructure/useAcademyRecruitCatalog';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  Loading,
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+} from '@tb-dev/vue-components';
 
 const { t } = useI18n();
 
-const { coord, village } = NIL.village.refs();
-
 const academy = useAcademy();
-const { catalog, loading, add, cancel, load } = useAcademyRecruitCatalog(coord);
-
-await load();
-
-watch(village, load);
 </script>
 
 <template>
@@ -29,21 +28,43 @@ watch(village, load);
         <CardTitle>
           <div class="flex items-center justify-between">
             <span>{{ `${t('academy')} (${t('level-x', [academy.level])})` }}</span>
+
+            <NavigationMenu>
+              <NavigationMenuList>
+                <NavigationMenuItem>
+                  <NavigationMenuLink as-child>
+                    <RouterLink :to="{ name: 'academy' satisfies AcademyScene }">
+                      {{ t('recruitment') }}
+                    </RouterLink>
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+
+                <NavigationMenuItem>
+                  <NavigationMenuLink as-child>
+                    <RouterLink :to="{ name: 'academy-settings' satisfies AcademyScene }">
+                      {{ t('settings') }}
+                    </RouterLink>
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+              </NavigationMenuList>
+            </NavigationMenu>
           </div>
         </CardTitle>
       </CardHeader>
 
       <CardContent class="overflow-x-hidden overflow-y-auto px-2 py-0">
-        <div class="flex w-full flex-col gap-4 xl:flex-row-reverse">
-          <RecruitQueue v-if="academy" :academy :loading @cancel="cancel" />
-          <RecruitCatalog
-            v-if="academy && catalog"
-            :academy
-            :catalog
-            :loading
-            @recruit-order="add"
-          />
-        </div>
+        <RouterView #default="{ Component }">
+          <template v-if="Component">
+            <KeepAlive>
+              <Suspense>
+                <component :is="Component" />
+                <template #fallback>
+                  <Loading class="absolute inset-0" />
+                </template>
+              </Suspense>
+            </KeepAlive>
+          </template>
+        </RouterView>
       </CardContent>
     </Card>
   </div>

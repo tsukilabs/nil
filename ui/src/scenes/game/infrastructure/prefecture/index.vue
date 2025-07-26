@@ -35,26 +35,24 @@ const prefecture = usePrefecture();
         <CardTitle>
           <div class="flex items-center justify-between">
             <span>{{ `${t('prefecture')} (${t('level-x', [prefecture.level])})` }}</span>
-            <div>
-              <NavigationMenu>
-                <NavigationMenuList>
-                  <NavigationMenuItem>
-                    <NavigationMenuLink as-child>
-                      <RouterLink :to="{ name: 'prefecture' satisfies PrefectureScene }">
-                        {{ t('construction') }}
-                      </RouterLink>
-                    </NavigationMenuLink>
-                  </NavigationMenuItem>
-                  <NavigationMenuItem>
-                    <NavigationMenuLink as-child>
-                      <RouterLink :to="{ name: 'village-management' satisfies PrefectureScene }">
-                        {{ t('management') }}
-                      </RouterLink>
-                    </NavigationMenuLink>
-                  </NavigationMenuItem>
-                </NavigationMenuList>
-              </NavigationMenu>
-            </div>
+            <NavigationMenu>
+              <NavigationMenuList>
+                <NavigationMenuItem>
+                  <NavigationMenuLink as-child>
+                    <RouterLink :to="{ name: 'prefecture' satisfies PrefectureScene }">
+                      {{ t('construction') }}
+                    </RouterLink>
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <NavigationMenuLink as-child>
+                    <RouterLink :to="{ name: 'prefecture-settings' satisfies PrefectureScene }">
+                      {{ t('settings') }}
+                    </RouterLink>
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+              </NavigationMenuList>
+            </NavigationMenu>
           </div>
         </CardTitle>
       </CardHeader>

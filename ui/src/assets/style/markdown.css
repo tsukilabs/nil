@@ -1,21 +1,21 @@
-.nsr-markdown :where(h1, h2, h3, h4, h5, h6, li, p) {
+.nil-markdown :where(h1, h2, h3, h4, h5, h6, li, p) {
   overflow-wrap: break-word;
 }
 
-.nsr-markdown :where(h1, h2, h3, h4, h5, h6) {
+.nil-markdown :where(h1, h2, h3, h4, h5, h6) {
   position: relative;
   outline: none;
   font-weight: 600;
   user-select: none;
 }
 
-.nsr-markdown h1 {
+.nil-markdown h1 {
   font-size: 28px;
   line-height: 40px;
   letter-spacing: -0.02em;
 }
 
-.nsr-markdown h2 {
+.nil-markdown h2 {
   margin: 48px 0 16px;
   padding-top: 24px;
   font-size: 24px;
@@ -23,14 +23,14 @@
   letter-spacing: -0.02em;
 }
 
-.nsr-markdown h3 {
+.nil-markdown h3 {
   margin: 32px 0 0;
   font-size: 20px;
   line-height: 28px;
   letter-spacing: -0.01em;
 }
 
-.nsr-markdown h4 {
+.nil-markdown h4 {
   margin: 24px 0 0;
   font-size: 18px;
   line-height: 24px;
@@ -38,44 +38,44 @@
 }
 
 @media (min-width: 768px) {
-  .nsr-markdown h1 {
+  .nil-markdown h1 {
     font-size: 32px;
     line-height: 40px;
     letter-spacing: -0.02em;
   }
 }
 
-.nsr-markdown p {
+.nil-markdown p {
   margin: 16px 0;
   line-height: 28px;
 }
 
-.nsr-markdown strong {
+.nil-markdown strong {
   font-weight: 600;
 }
 
-.nsr-markdown :where(ul, ol) {
+.nil-markdown :where(ul, ol) {
   margin: 16px 0;
   padding-left: 1.25rem;
 }
 
-.nsr-markdown ul {
+.nil-markdown ul {
   list-style: disc;
 }
 
-.nsr-markdown ol {
+.nil-markdown ol {
   list-style: decimal;
 }
 
-.nsr-markdown li + li {
+.nil-markdown li + li {
   margin-top: 8px;
 }
 
-.nsr-markdown :where(li > ol, li > ul) {
+.nil-markdown :where(li > ol, li > ul) {
   margin: 8px 0 0;
 }
 
-.nsr-markdown pre {
+.nil-markdown pre {
   border-radius: var(--radius);
   padding: 1rem;
 }

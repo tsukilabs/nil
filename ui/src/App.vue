@@ -13,11 +13,11 @@ import { handleError } from '@/lib/error';
 import { watchImmediate } from '@vueuse/core';
 import { Sonner } from '@tb-dev/vue-components';
 import { defineGlobalCommands } from '@/lib/global';
-import { setTheme, useSettingsStore } from '@/stores/settings';
+import { setTheme, useGlobalSettings } from '@/settings/global';
 
 const i18n = useI18n();
 
-const settings = useSettingsStore();
+const settings = useGlobalSettings();
 const { locale, theme } = storeToRefs(settings);
 
 watchImmediate(locale, setLocale);

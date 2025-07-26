@@ -7,9 +7,9 @@ import type { Locale } from '@/locale';
 import { handleError } from '@/lib/error';
 import { useColorMode } from '@vueuse/core';
 
-export const useSettingsStore = defineStore('settings', () => {
+export const useGlobalSettings = defineStore('global-settings', () => {
   const locale = localRef<Locale>('nil:locale', 'en-US');
-  const theme = localRef<Theme>('nil:theme', 'zinc');
+  const theme = localRef<Theme>('nil:theme', 'stone');
 
   const colorMode = useColorMode({
     storageKey: 'nil:color-mode',

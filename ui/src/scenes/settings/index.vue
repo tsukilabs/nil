@@ -4,7 +4,7 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
-import { useSettingsStore } from '@/stores/settings';
+import { useGlobalSettings } from '@/settings/global';
 import enUS from '@/locale/en-US/scenes/settings.json';
 import ptBR from '@/locale/pt-BR/scenes/settings.json';
 import {
@@ -30,7 +30,7 @@ const { t } = useI18n({
 });
 
 const router = useRouter();
-const settings = useSettingsStore();
+const settings = useGlobalSettings();
 </script>
 
 <template>

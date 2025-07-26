@@ -4,8 +4,10 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { storeToRefs } from 'pinia';
 import { ResourcesImpl } from '@/core/model/resources';
-import type { AcademyImpl } from '@/core/model/infrastructure/building/academy';
+import { useStableSettings } from '@/settings/infrastructure/stable';
+import type { StableImpl } from '@/core/model/infrastructure/building/stable';
 import { useRecruitCatalogEntry } from '@/composables/infrastructure/useRecruitCatalogEntry';
 import {
   Button,
@@ -19,9 +21,9 @@ import {
 } from '@tb-dev/vue-components';
 
 const props = defineProps<{
-  entry: AcademyRecruitCatalogEntry;
-  unit: AcademyUnitId;
-  academy: AcademyImpl;
+  entry: StableRecruitCatalogEntry;
+  unit: StableUnitId;
+  stable: StableImpl;
   loading: boolean;
   isPlayerTurn: boolean;
   playerResources: Option<ResourcesImpl>;
@@ -32,6 +34,9 @@ const { t } = useI18n();
 
 const { player } = NIL.player.refs();
 
+const settings = useStableSettings();
+const { hideUnmet } = storeToRefs(settings);
+
 const { chunks, resources, maintenance, workforce } = useRecruitCatalogEntry(() => props.entry);
 
 const canRecruit = computed(() => {
@@ -39,7 +44,7 @@ const canRecruit = computed(() => {
     !props.loading &&
     player.value &&
     props.isPlayerTurn &&
-    props.academy.enabled &&
+    props.stable.enabled &&
     props.entry.kind === 'available'
   ) {
     return player.value.hasResources(resources.value);
@@ -101,7 +106,7 @@ const canRecruit = computed(() => {
     </TableCell>
   </TableRow>
 
-  <TableRow v-else-if="entry.kind === 'unmet'">
+  <TableRow v-else-if="entry.kind === 'unmet' && !hideUnmet">
     <TableCell class="min-w-24">
       <span>{{ t(unit) }}</span>
     </TableCell>
@@ -111,4 +116,6 @@ const canRecruit = computed(() => {
       </div>
     </TableCell>
   </TableRow>
+
+  <TableRow v-else class="hidden" />
 </template>

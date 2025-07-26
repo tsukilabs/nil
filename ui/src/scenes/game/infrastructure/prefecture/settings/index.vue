@@ -4,8 +4,10 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { storeToRefs } from 'pinia';
 import { renameVillage } from '@/commands';
-import { Button, Input, Label } from '@tb-dev/vue-components';
+import { Button, Checkbox, Input, Label } from '@tb-dev/vue-components';
+import { usePrefectureSettings } from '@/settings/infrastructure/prefecture';
 import enUS from '@/locale/en-US/scenes/game/infrastructure/prefecture.json';
 import ptBR from '@/locale/pt-BR/scenes/game/infrastructure/prefecture.json';
 
@@ -18,6 +20,9 @@ const { t } = useI18n({
 
 const { coord, village } = NIL.village.refs();
 
+const settings = usePrefectureSettings();
+const { hideMaxed, hideUnmet } = storeToRefs(settings);
+
 const villageName = ref(village.value?.name);
 
 function rename() {
@@ -29,8 +34,20 @@ function rename() {
 
 <template>
   <div class="size-full px-4">
-    <div class="">
-      <Label class="max-w-80">
+    <div class="flex flex-col gap-4">
+      <div class="flex flex-col gap-2">
+        <Label>
+          <Checkbox v-model="hideMaxed" />
+          <span>maxed</span>
+        </Label>
+
+        <Label>
+          <Checkbox v-model="hideUnmet" />
+          <span>unmet</span>
+        </Label>
+      </div>
+
+      <Label class="max-w-96 py-1">
         <span class="text-muted-foreground">{{ t('rename-village') }}</span>
         <div class="flex items-center gap-2">
           <Input

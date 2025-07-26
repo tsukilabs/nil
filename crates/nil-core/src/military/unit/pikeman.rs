@@ -4,6 +4,7 @@
 use super::stats::prelude::*;
 use super::{UnitChunk, UnitChunkSize, UnitId, UnitKind};
 use crate::check_total_resource_ratio;
+use crate::infrastructure::building::BuildingLevel;
 use crate::infrastructure::requirements::InfrastructureRequirements;
 use crate::resources::prelude::*;
 use nil_core_macros::Unit;
@@ -36,7 +37,9 @@ impl Pikeman {
   };
 
   pub const INFRASTRUCTURE_REQUIREMENTS: InfrastructureRequirements =
-    InfrastructureRequirements::none();
+    InfrastructureRequirements::builder()
+      .academy(BuildingLevel::new(1))
+      .build();
 }
 
 check_total_resource_ratio!(

@@ -3,10 +3,12 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
+import { storeToRefs } from 'pinia';
 import { computed, nextTick } from 'vue';
 import type { ResourcesImpl } from '@/core/model/resources';
 import BuildCatalogBuilding from './BuildCatalogBuilding.vue';
 import { Button, TableCell, TableRow } from '@tb-dev/vue-components';
+import { usePrefectureSettings } from '@/settings/infrastructure/prefecture';
 import enUS from '@/locale/en-US/scenes/game/infrastructure/prefecture.json';
 import ptBR from '@/locale/pt-BR/scenes/game/infrastructure/prefecture.json';
 import type { BuildingImpl } from '@/core/model/infrastructure/building/abstract';
@@ -33,6 +35,9 @@ const { t } = useI18n({
 });
 
 const { player } = NIL.player.refs();
+
+const settings = usePrefectureSettings();
+const { hideMaxed, hideUnmet } = storeToRefs(settings);
 
 const level = useResolvedBuildingLevel(() => props.building);
 
@@ -124,7 +129,7 @@ async function makeOrder(kind: PrefectureBuildOrderKind) {
     </TableCell>
   </TableRow>
 
-  <TableRow v-else>
+  <TableRow v-else-if="(entry.kind === 'maxed' && !hideMaxed) || (entry.kind === 'unmet' && !hideUnmet)">
     <TableCell>
       <BuildCatalogBuilding :building :scene />
     </TableCell>
@@ -139,4 +144,6 @@ async function makeOrder(kind: PrefectureBuildOrderKind) {
       </div>
     </TableCell>
   </TableRow>
+
+  <TableRow v-else class="hidden" />
 </template>
