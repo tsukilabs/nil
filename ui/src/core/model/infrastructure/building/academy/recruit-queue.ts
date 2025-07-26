@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { AcademyRecruitOrderImpl } from './recruit-order';
-import { InfrastructureQueueImpl } from '@/core/model/infrastructure/queue';
+import { InfrastructureQueueImpl } from '@/core/model/infrastructure/queue/queue';
 
 export class AcademyRecruitQueueImpl extends InfrastructureQueueImpl<AcademyRecruitOrderImpl>
   implements AcademyRecruitQueue

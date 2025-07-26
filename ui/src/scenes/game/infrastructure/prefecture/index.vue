@@ -3,6 +3,7 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
+import Loading from '@/components/Loading.vue';
 import { usePrefecture } from '@/composables/infrastructure/useBuilding';
 import enUS from '@/locale/en-US/scenes/game/infrastructure/prefecture.json';
 import ptBR from '@/locale/pt-BR/scenes/game/infrastructure/prefecture.json';
@@ -11,7 +12,6 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-  Loading,
   NavigationMenu,
   NavigationMenuItem,
   NavigationMenuLink,

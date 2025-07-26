@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { scriptRoutes } from './script';
+import { profileRoutes } from './profile';
 import type { RouteRecordRaw } from 'vue-router';
 import { infrastructureRoutes } from './infrastructure';
 
@@ -15,6 +16,11 @@ export const gameRoutes: RouteRecordRaw[] = [
     component: () => import('@/scenes/game/infrastructure/index.vue'),
     path: 'infrastructure',
     children: infrastructureRoutes,
+  },
+  {
+    component: () => import('@/scenes/game/profile/index.vue'),
+    path: 'profile',
+    children: profileRoutes,
   },
   {
     component: () => import('@/scenes/game/script/index.vue'),

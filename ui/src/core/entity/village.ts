@@ -3,8 +3,8 @@
 
 import { Entity } from './abstract';
 import { asyncRef, maybe } from '@tb-dev/vue';
-import { VillageImpl } from '@/core/model/village';
 import { CoordImpl } from '@/core/model/continent/coord';
+import { VillageImpl } from '@/core/model/village/village';
 import { computed, nextTick, type Ref, shallowRef } from 'vue';
 
 export class VillageEntity extends Entity {
@@ -117,14 +117,14 @@ export class VillageEntity extends Entity {
   }
 
   public static init() {
-    if (!Object.hasOwn(window.NIL, 'village')) {
-      const village: (typeof window.NIL)['village'] = {
+    if (!Object.hasOwn(globalThis.NIL, 'village')) {
+      const village: (typeof globalThis.NIL)['village'] = {
         refs: VillageEntity.refs.bind(VillageEntity),
         setCoord: VillageEntity.setCoord.bind(VillageEntity),
         use: VillageEntity.use.bind(VillageEntity),
       };
 
-      Object.defineProperty(window.NIL, 'village', {
+      Object.defineProperty(globalThis.NIL, 'village', {
         configurable: false,
         enumerable: true,
         writable: false,

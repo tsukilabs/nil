@@ -133,7 +133,7 @@ version = "2.1"
 features = ["unstable-windows"]
 
 [workspace.dependencies.tokio]
-version = "1.46"
+version = "1.47"
 features = ["full"]
 
 [workspace.dependencies.tokio-tungstenite]

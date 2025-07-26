@@ -3,13 +3,13 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
+import Loading from '@/components/Loading.vue';
 import { useAcademy } from '@/composables/infrastructure/useBuilding';
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
-  Loading,
   NavigationMenu,
   NavigationMenuItem,
   NavigationMenuLink,

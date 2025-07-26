@@ -7,7 +7,7 @@ import { useI18n } from 'vue-i18n';
 import RecruitCatalogRow from './RecruitCatalogRow.vue';
 import { usePlayerTurn } from '@/composables/player/usePlayerTurn';
 import { usePlayerResources } from '@/composables/player/usePlayerResources';
-import type { AcademyImpl } from '@/core/model/infrastructure/building/academy';
+import type { AcademyImpl } from '@/core/model/infrastructure/building/academy/academy';
 import { Table, TableBody, TableHead, TableHeader, TableRow } from '@tb-dev/vue-components';
 
 const props = defineProps<{

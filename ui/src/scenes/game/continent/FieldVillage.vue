@@ -12,6 +12,11 @@ const props = defineProps<{
   village: PublicVillageImpl;
 }>();
 
+const to = computed(() => {
+  const ckey = props.village.coord.toIndexStr();
+  return { name: 'profile-village' satisfies ProfileScene, params: { ckey } };
+});
+
 const color = computed(() => {
   switch (props.village.owner.kind) {
     case 'bot': {
@@ -44,28 +49,33 @@ function getPrecursorColor(id: PrecursorId) {
   <HoverCard :open-delay="200" :close-delay="100">
     <HoverCardTrigger as-child>
       <div class="absolute inset-0 flex items-center justify-center overflow-hidden select-none">
-        <div :class="color" class="size-[75%] cursor-pointer rounded-full"></div>
+        <RouterLink :to :class="color" class="size-[75%] cursor-pointer rounded-full" />
       </div>
     </HoverCardTrigger>
 
     <HoverCardContent>
       <div class="flex flex-col select-none">
-        <div class="flex flex-col">
-          <div class="flex justify-between">
-            <h1 class="text-lg">{{ village.name }}</h1>
-            <Badge variant="outline" size="sm">{{ field.id }}</Badge>
+        <div class="flex justify-between">
+          <div class="flex flex-col overflow-hidden">
+            <h1 class="ellipsis text-lg">
+              <RouterLink :to>{{ village.name }}</RouterLink>
+            </h1>
+            <h2 class="text-muted-foreground text-sm">
+              <span v-if="village.owner.kind === 'player'">
+                {{ village.owner.id }}
+              </span>
+              <span v-else-if="village.owner.kind === 'bot'">
+                {{ `Bot ${village.owner.id}` }}
+              </span>
+              <span v-else-if="village.owner.kind === 'precursor'">
+                {{ `Precursor ${village.owner.id}` }}
+              </span>
+            </h2>
           </div>
-          <h2 class="text-muted-foreground text-sm">
-            <span v-if="village.owner.kind === 'player'">
-              {{ village.owner.id }}
-            </span>
-            <span v-else-if="village.owner.kind === 'bot'">
-              {{ `Bot ${village.owner.id}` }}
-            </span>
-            <span v-else-if="village.owner.kind === 'precursor'">
-              {{ `Precursor ${village.owner.id}` }}
-            </span>
-          </h2>
+
+          <Badge variant="outline" size="sm" class="max-h-fit py-1">
+            <RouterLink :to>{{ field.id }}</RouterLink>
+          </Badge>
         </div>
       </div>
     </HoverCardContent>

@@ -35,13 +35,13 @@ export class WorldEntity extends Entity {
   }
 
   public static init() {
-    if (!Object.hasOwn(window.NIL, 'world')) {
-      const world: (typeof window.NIL)['world'] = {
+    if (!Object.hasOwn(globalThis.NIL, 'world')) {
+      const world: (typeof globalThis.NIL)['world'] = {
         refs: WorldEntity.refs.bind(WorldEntity),
         use: WorldEntity.use.bind(WorldEntity),
       };
 
-      Object.defineProperty(window.NIL, 'world', {
+      Object.defineProperty(globalThis.NIL, 'world', {
         configurable: false,
         enumerable: true,
         writable: false,

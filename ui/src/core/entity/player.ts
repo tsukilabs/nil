@@ -5,7 +5,7 @@ import { Entity } from './abstract';
 import { ref, type Ref } from 'vue';
 import { asyncRef } from '@tb-dev/vue';
 import type { Option } from '@tb-dev/utils';
-import { PlayerImpl } from '@/core/model/player';
+import { PlayerImpl } from '@/core/model/player/player';
 
 export class PlayerEntity extends Entity {
   private readonly id = ref<Option<PlayerId>>();
@@ -60,15 +60,15 @@ export class PlayerEntity extends Entity {
   }
 
   public static init() {
-    if (!Object.hasOwn(window.NIL, 'player')) {
-      const player: (typeof window.NIL)['player'] = {
+    if (!Object.hasOwn(globalThis.NIL, 'player')) {
+      const player: (typeof globalThis.NIL)['player'] = {
         refs: PlayerEntity.refs.bind(PlayerEntity),
         setId: PlayerEntity.setId.bind(PlayerEntity),
         update: PlayerEntity.update.bind(PlayerEntity),
         use: PlayerEntity.use.bind(PlayerEntity),
       };
 
-      Object.defineProperty(window.NIL, 'player', {
+      Object.defineProperty(globalThis.NIL, 'player', {
         configurable: false,
         enumerable: true,
         writable: false,

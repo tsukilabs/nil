@@ -2,7 +2,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { Loading } from '@tb-dev/vue-components';
+import Loading from '@/components/Loading.vue';
 </script>
 
 <template>

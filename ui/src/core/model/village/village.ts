@@ -3,16 +3,17 @@
 
 import * as commands from '@/commands';
 import { PublicVillageImpl } from './public-village';
-import { InfrastructureImpl } from '@/core/model/infrastructure';
+import { CoordImpl } from '@/core/model/continent/coord';
+import { InfrastructureImpl } from '@/core/model/infrastructure/infrastructure';
 
 export class VillageImpl extends PublicVillageImpl implements Village {
   public readonly infrastructure: InfrastructureImpl;
   public readonly stability: number;
 
-  private constructor(village: Village, infrastructure: InfrastructureImpl) {
+  private constructor(village: Village) {
     super(village);
 
-    this.infrastructure = infrastructure;
+    this.infrastructure = InfrastructureImpl.create(village.infrastructure);
     this.stability = village.stability;
   }
 
@@ -65,9 +66,13 @@ export class VillageImpl extends PublicVillageImpl implements Village {
     return this.infrastructure.warehouse;
   }
 
-  public static async load(coord: Coord) {
+  public static override create(village: Village) {
+    return new VillageImpl(village);
+  }
+
+  public static override async load(key: ContinentKey) {
+    const coord = CoordImpl.fromKey(key);
     const village = await commands.getVillage(coord);
-    const infrastructure = InfrastructureImpl.create(village.infrastructure);
-    return new VillageImpl(village, infrastructure);
+    return VillageImpl.create(village);
   }
 }

@@ -2,25 +2,18 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as commands from '@/commands';
-import type { PartialNullish } from '@tb-dev/utils';
 import { ResourcesImpl } from '@/core/model/resources';
 import { CoordImpl } from '@/core/model/continent/coord';
 import { OverallStorageCapacityImpl } from '@/core/model/infrastructure/storage-capacity';
 
 export class PlayerImpl implements Player {
-  public readonly id: string;
+  public readonly id: PlayerId;
   public readonly status: PlayerStatus;
   public readonly coords: readonly CoordImpl[];
   public readonly resources: ResourcesImpl;
   public readonly capacity: OverallStorageCapacityImpl;
 
-  private constructor(args: {
-    id: string;
-    status: PlayerStatus;
-    coords: readonly CoordImpl[];
-    resources: ResourcesImpl;
-    capacity: OverallStorageCapacityImpl;
-  }) {
+  private constructor(args: Args) {
     this.id = args.id;
     this.status = args.status;
     this.coords = args.coords;
@@ -32,8 +25,12 @@ export class PlayerImpl implements Player {
     return this.resources.has(resources);
   }
 
-  public hasVillage(coord: Coord) {
-    return this.coords.some((it) => it.is(coord));
+  public hasVillage(key: ContinentKey) {
+    return this.coords.some((it) => it.is(key));
+  }
+
+  public getVillage(key: ContinentKey) {
+    return this.coords.find((it) => it.is(key));
   }
 
   public isActive() {
@@ -59,4 +56,12 @@ export class PlayerImpl implements Player {
       capacity: OverallStorageCapacityImpl.create(capacity),
     });
   }
+}
+
+interface Args {
+  id: PlayerId;
+  status: PlayerStatus;
+  coords: readonly CoordImpl[];
+  resources: ResourcesImpl;
+  capacity: OverallStorageCapacityImpl;
 }

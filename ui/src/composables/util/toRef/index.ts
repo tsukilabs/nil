@@ -2,10 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { type Ref, toRef } from 'vue';
-import type { MaybeNilRef } from '@tb-dev/vue';
-import type { PlayerImpl } from '@/core/model/player';
-import type { VillageImpl } from '@/core/model/village';
+import type { PlayerImpl } from '@/core/model/player/player';
 import type { CoordImpl } from '@/core/model/continent/coord';
+import type { VillageImpl } from '@/core/model/village/village';
 
 export function toCoordRef(coord?: MaybeNilRef<CoordImpl>) {
   return (coord ? toRef(coord) : NIL.village.refs().coord) as Ref<Option<CoordImpl>>;

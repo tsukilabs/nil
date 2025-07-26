@@ -7,7 +7,7 @@ import { useI18n } from 'vue-i18n';
 import { storeToRefs } from 'pinia';
 import { ResourcesImpl } from '@/core/model/resources';
 import { useAcademySettings } from '@/settings/infrastructure/academy';
-import type { AcademyImpl } from '@/core/model/infrastructure/building/academy';
+import type { AcademyImpl } from '@/core/model/infrastructure/building/academy/academy';
 import { useRecruitCatalogEntry } from '@/composables/infrastructure/useRecruitCatalogEntry';
 import {
   Button,

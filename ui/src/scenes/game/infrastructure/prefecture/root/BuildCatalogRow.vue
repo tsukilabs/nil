@@ -12,7 +12,7 @@ import { usePrefectureSettings } from '@/settings/infrastructure/prefecture';
 import enUS from '@/locale/en-US/scenes/game/infrastructure/prefecture.json';
 import ptBR from '@/locale/pt-BR/scenes/game/infrastructure/prefecture.json';
 import type { BuildingImpl } from '@/core/model/infrastructure/building/abstract';
-import type { PrefectureImpl } from '@/core/model/infrastructure/building/prefecture';
+import type { PrefectureImpl } from '@/core/model/infrastructure/building/prefecture/prefecture';
 import { useResolvedBuildingLevel } from '@/composables/infrastructure/useResolvedBuildingLevel';
 
 const props = defineProps<{

@@ -7,7 +7,7 @@ import { useI18n } from 'vue-i18n';
 import { storeToRefs } from 'pinia';
 import { ResourcesImpl } from '@/core/model/resources';
 import { useStableSettings } from '@/settings/infrastructure/stable';
-import type { StableImpl } from '@/core/model/infrastructure/building/stable';
+import type { StableImpl } from '@/core/model/infrastructure/building/stable/stable';
 import { useRecruitCatalogEntry } from '@/composables/infrastructure/useRecruitCatalogEntry';
 import {
   Button,

@@ -95,6 +95,7 @@ pub(crate) fn create() -> Router<App> {
     .route("/script/{id}/remove", get(script::remove))
     .route("/version", get(version))
     .route("/village", post(village::get))
+    .route("/village/public", post(village::get_public))
     .route("/village/rename", post(village::rename))
     .route("/world/config", get(world::get_config))
     .route("/world/save", post(world::save))
