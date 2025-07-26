@@ -38,12 +38,12 @@ function rename() {
       <div class="flex flex-col gap-2">
         <Label>
           <Checkbox v-model="hideMaxed" />
-          <span>maxed</span>
+          <span>{{ t('hide-fully-constructed') }}</span>
         </Label>
 
         <Label>
           <Checkbox v-model="hideUnmet" />
-          <span>unmet</span>
+          <span>{{ t('hide-unavailable-buildings') }}</span>
         </Label>
       </div>
 

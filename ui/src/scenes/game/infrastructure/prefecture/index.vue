@@ -16,6 +16,7 @@ import {
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
+  navigationMenuTriggerStyle,
 } from '@tb-dev/vue-components';
 
 const { t } = useI18n({
@@ -38,14 +39,15 @@ const prefecture = usePrefecture();
             <NavigationMenu>
               <NavigationMenuList>
                 <NavigationMenuItem>
-                  <NavigationMenuLink as-child>
+                  <NavigationMenuLink as-child :class="navigationMenuTriggerStyle()">
                     <RouterLink :to="{ name: 'prefecture' satisfies PrefectureScene }">
                       {{ t('construction') }}
                     </RouterLink>
                   </NavigationMenuLink>
                 </NavigationMenuItem>
+
                 <NavigationMenuItem>
-                  <NavigationMenuLink as-child>
+                  <NavigationMenuLink as-child :class="navigationMenuTriggerStyle()">
                     <RouterLink :to="{ name: 'prefecture-settings' satisfies PrefectureScene }">
                       {{ t('settings') }}
                     </RouterLink>

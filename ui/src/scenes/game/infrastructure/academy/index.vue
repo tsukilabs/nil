@@ -14,6 +14,7 @@ import {
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
+  navigationMenuTriggerStyle,
 } from '@tb-dev/vue-components';
 
 const { t } = useI18n();
@@ -32,7 +33,7 @@ const academy = useAcademy();
             <NavigationMenu>
               <NavigationMenuList>
                 <NavigationMenuItem>
-                  <NavigationMenuLink as-child>
+                  <NavigationMenuLink as-child :class="navigationMenuTriggerStyle()">
                     <RouterLink :to="{ name: 'academy' satisfies AcademyScene }">
                       {{ t('recruitment') }}
                     </RouterLink>
@@ -40,7 +41,7 @@ const academy = useAcademy();
                 </NavigationMenuItem>
 
                 <NavigationMenuItem>
-                  <NavigationMenuLink as-child>
+                  <NavigationMenuLink as-child :class="navigationMenuTriggerStyle()">
                     <RouterLink :to="{ name: 'academy-settings' satisfies AcademyScene }">
                       {{ t('settings') }}
                     </RouterLink>

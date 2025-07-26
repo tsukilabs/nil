@@ -56,7 +56,7 @@ impl Academy {
 
   pub const INFRASTRUCTURE_REQUIREMENTS: InfrastructureRequirements =
     InfrastructureRequirements::builder()
-      .prefecture(BuildingLevel::new(5))
+      .prefecture(BuildingLevel::new(3))
       .build();
 
   pub fn recruit_queue(&self) -> &AcademyRecruitQueue {

@@ -14,6 +14,7 @@ import {
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
+  navigationMenuTriggerStyle,
 } from '@tb-dev/vue-components';
 
 const { t } = useI18n();
@@ -32,7 +33,7 @@ const stable = useStable();
             <NavigationMenu>
               <NavigationMenuList>
                 <NavigationMenuItem>
-                  <NavigationMenuLink as-child>
+                  <NavigationMenuLink as-child :class="navigationMenuTriggerStyle()">
                     <RouterLink :to="{ name: 'stable' satisfies StableScene }">
                       {{ t('recruitment') }}
                     </RouterLink>
@@ -40,7 +41,7 @@ const stable = useStable();
                 </NavigationMenuItem>
 
                 <NavigationMenuItem>
-                  <NavigationMenuLink as-child>
+                  <NavigationMenuLink as-child :class="navigationMenuTriggerStyle()">
                     <RouterLink :to="{ name: 'stable-settings' satisfies StableScene }">
                       {{ t('settings') }}
                     </RouterLink>
