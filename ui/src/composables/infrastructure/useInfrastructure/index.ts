@@ -4,7 +4,7 @@
 import { computed } from 'vue';
 import type { MaybeNilRef } from '@tb-dev/vue';
 import { toVillageRef } from '@/composables/util/toRef';
-import type { VillageImpl } from '@/core/model/village';
+import type { VillageImpl } from '@/core/model/village/village';
 
 export function useInfrastructure(village?: MaybeNilRef<VillageImpl>) {
   const villageRef = toVillageRef(village);

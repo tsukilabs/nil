@@ -4,7 +4,7 @@
 import type { Ref } from 'vue';
 import { Entity } from './abstract';
 import { asyncRef } from '@tb-dev/vue';
-import { MilitaryImpl } from '@/core/model/military';
+import { MilitaryImpl } from '@/core/model/military/military';
 
 export class MilitaryEntity extends Entity {
   private readonly military: Ref<Option<MilitaryImpl>>;
@@ -41,14 +41,14 @@ export class MilitaryEntity extends Entity {
   }
 
   public static init() {
-    if (!Object.hasOwn(window.NIL, 'military')) {
-      const military: (typeof window.NIL)['military'] = {
+    if (!Object.hasOwn(globalThis.NIL, 'military')) {
+      const military: (typeof globalThis.NIL)['military'] = {
         refs: MilitaryEntity.refs.bind(MilitaryEntity),
         update: MilitaryEntity.update.bind(MilitaryEntity),
         use: MilitaryEntity.use.bind(MilitaryEntity),
       };
 
-      Object.defineProperty(window.NIL, 'military', {
+      Object.defineProperty(globalThis.NIL, 'military', {
         configurable: false,
         enumerable: true,
         writable: false,

@@ -12,8 +12,8 @@ import { onKeyDown } from '@tb-dev/vue';
 import { handleError } from '@/lib/error';
 import { watchImmediate } from '@vueuse/core';
 import { Sonner } from '@tb-dev/vue-components';
-import { defineGlobalCommands } from '@/lib/global';
 import { setTheme, useGlobalSettings } from '@/settings/global';
+import { defineGlobalCommands, defineReactiveConsole } from '@/lib/global';
 
 const i18n = useI18n();
 
@@ -29,6 +29,7 @@ onMounted(async () => {
   try {
     await showWindow();
     defineGlobalCommands();
+    defineReactiveConsole();
   }
   catch (err) {
     handleError(err);

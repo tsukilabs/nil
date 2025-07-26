@@ -63,14 +63,14 @@ export class RoundEntity extends Entity {
   }
 
   public static init() {
-    if (!Object.hasOwn(window.NIL, 'round')) {
-      const round: (typeof window.NIL)['round'] = {
+    if (!Object.hasOwn(globalThis.NIL, 'round')) {
+      const round: (typeof globalThis.NIL)['round'] = {
         refs: RoundEntity.refs.bind(RoundEntity),
         update: RoundEntity.update.bind(RoundEntity),
         use: RoundEntity.use.bind(RoundEntity),
       };
 
-      Object.defineProperty(window.NIL, 'round', {
+      Object.defineProperty(globalThis.NIL, 'round', {
         configurable: false,
         enumerable: true,
         writable: false,

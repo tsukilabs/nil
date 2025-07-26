@@ -16,11 +16,14 @@ const enum Flags {
 
 export class PublicFieldImpl {
   public readonly coord: CoordImpl;
+  public readonly index: ContinentIndex;
+
   #flags: Flags = Flags.Uninit;
   #village: Option<PublicVillageImpl>;
 
   private constructor(coord: CoordImpl) {
     this.coord = coord;
+    this.index = coord.toIndex();
   }
 
   public async load(options?: LoadOptions) {
@@ -115,7 +118,7 @@ export class PublicFieldImpl {
   }
 
   public static createBulkInitializer() {
-    const isInitializing = new Set<string>();
+    const isInitializing = new Set<ContinentIndex>();
     tryOnScopeDispose(() => isInitializing.clear());
 
     return async function(fields: readonly PublicFieldImpl[]) {
@@ -123,11 +126,11 @@ export class PublicFieldImpl {
       for (const field of fields) {
         if (
           field.flags === Flags.Uninit &&
-          !isInitializing.has(field.id) &&
+          !isInitializing.has(field.index) &&
           !field.coord.isOutside()
         ) {
           coords.push(field.coord);
-          isInitializing.add(field.id);
+          isInitializing.add(field.index);
         }
       }
 
@@ -137,7 +140,7 @@ export class PublicFieldImpl {
           const impl = fields.find((it) => it.coord.is(coord));
           if (impl) {
             impl.init(field);
-            isInitializing.delete(impl.id);
+            isInitializing.delete(impl.index);
             counter++;
           }
         }

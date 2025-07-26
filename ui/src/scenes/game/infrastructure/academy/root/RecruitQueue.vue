@@ -4,7 +4,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import type { AcademyImpl } from '@/core/model/infrastructure/building/academy';
+import type { AcademyImpl } from '@/core/model/infrastructure/building/academy/academy';
 import { Button, cn, Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@tb-dev/vue-components';
 
 const props = defineProps<{

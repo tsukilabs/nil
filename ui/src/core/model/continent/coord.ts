@@ -10,13 +10,15 @@ export class CoordImpl implements Coord {
   #id: Option<string>;
   #xOutside: Option<boolean>;
   #yOutside: Option<boolean>;
+  #index: Option<ContinentIndex>;
 
   private constructor(coord: Coord) {
     this.x = coord.x;
     this.y = coord.y;
   }
 
-  public is(other: Coord) {
+  public is(other: ContinentKey) {
+    other = CoordImpl.fromKey(other);
     return this.x === other.x && this.y === other.y;
   }
 
@@ -56,7 +58,12 @@ export class CoordImpl implements Coord {
   }
 
   public toIndex() {
-    return CoordImpl.toIndex(this);
+    this.#index ??= CoordImpl.toIndex(this);
+    return this.#index;
+  }
+
+  public toIndexStr() {
+    return this.toIndex().toString(10);
   }
 
   public toJSON() {
@@ -71,10 +78,21 @@ export class CoordImpl implements Coord {
     return new CoordImpl(coord);
   }
 
+  public static fromKey(key: ContinentKey) {
+    if (key instanceof CoordImpl) {
+      return key;
+    }
+    else if (typeof key === 'number') {
+      return CoordImpl.fromIndex(key);
+    }
+
+    return CoordImpl.create(key);
+  }
+
   public static fromIndex(index: ContinentIndex) {
     const size = NIL.world.refs().continentSize.value;
-    const x = index % size;
-    const y = index / size;
+    const x = Math.trunc(index % size);
+    const y = Math.trunc(index / size);
     return CoordImpl.create({ x, y });
   }
 

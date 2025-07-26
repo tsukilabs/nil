@@ -56,6 +56,8 @@ declare global {
       readonly use: (typeof WorldEntity)['use'];
     };
 
+    readonly console: typeof import('@tb-dev/vue').console;
+
     /** Updates all entities. */
     readonly update: () => Promise<void>;
   };

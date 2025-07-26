@@ -10,8 +10,8 @@ import { VillageEntity } from './village';
 import { MilitaryEntity } from './military';
 
 export function initEntities() {
-  if (!Object.hasOwn(window, 'NIL')) {
-    Object.defineProperty(window, 'NIL', {
+  if (!Object.hasOwn(globalThis, 'NIL')) {
+    Object.defineProperty(globalThis, 'NIL', {
       configurable: false,
       enumerable: true,
       writable: false,

@@ -9,11 +9,12 @@ import Footer from './Footer.vue';
 import Sidebar from './Sidebar.vue';
 import * as commands from '@/commands';
 import { useToggle } from '@vueuse/core';
+import Loading from '@/components/Loading.vue';
 import { leaveGame, saveGame } from '@/core/game';
 import { defineGlobalCheats } from '@/lib/global';
 import Finder from '@/components/finder/Finder.vue';
 import { asyncRef, onCtrlKeyDown } from '@tb-dev/vue';
-import { Loading, SidebarProvider } from '@tb-dev/vue-components';
+import { SidebarProvider } from '@tb-dev/vue-components';
 import { usePlayerTurn } from '@/composables/player/usePlayerTurn';
 
 const { round } = NIL.round.refs();

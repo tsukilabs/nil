@@ -68,43 +68,35 @@ impl fmt::Debug for Emitter {
 #[strum(serialize_all = "kebab-case")]
 #[remain::sorted]
 pub enum Event {
-  ChatUpdated {
-    message: ChatMessage,
-  },
+  /// A new message has been sent in the chat.
+  ChatUpdated { message: ChatMessage },
 
-  PlayerUpdated {
-    player: PlayerId,
-  },
+  /// Indicates that there has been a change in some of the player's data, be it public or not.
+  PlayerUpdated { player: PlayerId },
 
-  /// Indica que houve uma alteração em algum dado público da aldeia.
+  /// Indicates that there has been a change in public data for the village.
   ///
-  /// Via de regra, sempre que a situação exigir que esse evento seja emitido,
-  /// [`Event::VillageUpdated`] também deverá ser, mas a recíproca não é verdadeira!
+  /// As a rule, whenever the situation requires this event to be emitted,
+  /// `Event::VillageUpdated` should also be emitted, but the opposite is not true!
   ///
-  /// Ao contrário do evento [`Event::VillageUpdated`], que é emitido apenas para o
-  /// proprietário da aldeia, esse evento é emitido para todos os jogadores no mundo.
-  PublicVillageUpdated {
-    coord: Coord,
-  },
+  /// Unlike [`Event::VillageUpdated`], which is emitted only to the village owner,
+  /// this event is sent to all players in the world.
+  PublicVillageUpdated { coord: Coord },
 
-  /// Indica mudanças no round, como o término do turno de algum jogador
-  /// ou a passagem de um round para outro após todos os jogadores concluírem suas ações.
+  /// Indicates changes in the round, such as the end of a player's turn or
+  /// the transition from one round to another, after all players have completed their actions.
   ///
-  /// Quando emitido ao início ou fim de um round, [`Event::RoundUpdated`] geralmente torna
-  /// desnecessária a emissão de outros eventos, visto que essa situação já naturalmente exige que todas
-  /// as entidades gerenciadas pelo JavaScript solicitem dados novos.
-  RoundUpdated {
-    round: Round,
-  },
+  /// When emitted at the start of the game or at the end of a round,
+  /// [`Event::RoundUpdated`] typically makes it unnecessary to emit other events,
+  /// as this situation naturally prompts all entities managed by JavaScript to request new data.
+  RoundUpdated { round: Round },
 
-  /// Indica que houve uma alteração em algum dado da aldeia, seja ele público ou não.
+  /// Indicates that there has been a change in some of the village's data, be it public or not.
   ///
-  /// Esse evento é emitido apenas para o proprietário da aldeia. Sendo assim, se você
-  /// acredita que todos os jogadores deveriam ser notificados, provavelmente a situação
-  /// pede a emissão do evento [`Event::PublicVillageUpdated`].
-  VillageUpdated {
-    coord: Coord,
-  },
+  /// This event is only emitted to the village owner.
+  /// Therefore, if you believe that all players should be notified,
+  /// you should consider using [`Event::PublicVillageUpdated`] instead.
+  VillageUpdated { coord: Coord },
 }
 
 impl From<Event> for Bytes {

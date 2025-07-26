@@ -3,7 +3,7 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import type { VillageImpl } from '@/core/model/village';
+import type { VillageImpl } from '@/core/model/village/village';
 import {
   Card,
   CardContent,

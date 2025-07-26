@@ -114,6 +114,7 @@ fn main() {
       command::server::start_server_with_savedata,
       command::server::stop_server,
       command::village::get_village,
+      command::village::get_public_village,
       command::village::rename_village,
       command::world::get_world_config,
       command::world::get_world_stats,

@@ -32,6 +32,7 @@ impl From<Village> for Field {
   }
 }
 
+/// Public data about a field, to which any player can have access.
 #[derive(Clone, Debug, Default, Deserialize, Serialize, EnumIs)]
 #[serde(tag = "kind", rename_all = "kebab-case")]
 pub enum PublicField {

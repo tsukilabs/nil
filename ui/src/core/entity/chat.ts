@@ -52,14 +52,14 @@ export class ChatEntity extends Entity {
   }
 
   public static init() {
-    if (!Object.hasOwn(window.NIL, 'chat')) {
-      const chat: (typeof window.NIL)['chat'] = {
+    if (!Object.hasOwn(globalThis.NIL, 'chat')) {
+      const chat: (typeof globalThis.NIL)['chat'] = {
         refs: ChatEntity.refs.bind(ChatEntity),
         update: ChatEntity.update.bind(ChatEntity),
         use: ChatEntity.use.bind(ChatEntity),
       };
 
-      Object.defineProperty(window.NIL, 'chat', {
+      Object.defineProperty(globalThis.NIL, 'chat', {
         configurable: false,
         enumerable: true,
         writable: false,

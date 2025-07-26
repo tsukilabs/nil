@@ -68,8 +68,8 @@ importers:
         specifier: ^7.0.8
         version: 7.0.8
       '@tb-dev/vue':
-        specifier: ^2.2.1
-        version: 2.2.1(typescript@5.8.3)
+        specifier: ^3.0.0
+        version: 3.0.0(typescript@5.8.3)
       '@tb-dev/vue-components':
         specifier: ^5.0.2
         version: 5.0.2(typescript@5.8.3)
@@ -838,6 +838,9 @@ packages:
 
   '@tb-dev/vue@2.2.1':
     resolution: {integrity: sha512-UtIWTAYCt7hmv/YS+jwTkkjFnT9x7ApsEC5um67oeVcxHEHvUjm4LCJxBuoVT70KK5v2lnulSQO+dQhZeYKI8Q==}
+
+  '@tb-dev/vue@3.0.0':
+    resolution: {integrity: sha512-te8l0G/iyqU/zGPzBJN8P9uUZotCM4jIIp8rBuxsCwk/N9baF1B6yjP15lw96/XZqN6VSlMX46B5qYGahdcRVQ==}
 
   '@types/estree@1.0.8':
     resolution: {integrity: sha512-dWHzHa2WqEXI/O1E9OjrocMTKJl2mSrEolh1Iomrv6U+JuNwaHXsXx9bLu5gG7BUWFIN0skIQJQ/L1rIex4X6w==}
@@ -2903,6 +2906,15 @@ snapshots:
       - typescript
 
   '@tb-dev/vue@2.2.1(typescript@5.8.3)':
+    dependencies:
+      '@tb-dev/utils': 7.0.8
+      '@vueuse/core': 13.5.0(vue@3.5.18(typescript@5.8.3))
+      es-toolkit: 1.39.8
+      vue: 3.5.18(typescript@5.8.3)
+    transitivePeerDependencies:
+      - typescript
+
+  '@tb-dev/vue@3.0.0(typescript@5.8.3)':
     dependencies:
       '@tb-dev/utils': 7.0.8
       '@vueuse/core': 13.5.0(vue@3.5.18(typescript@5.8.3))

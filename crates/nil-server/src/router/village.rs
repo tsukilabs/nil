@@ -8,8 +8,9 @@ use crate::state::App;
 use crate::{bail_not_owned_by, res};
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
+use futures::TryFutureExt;
 use nil_core::continent::Coord;
-use nil_core::village::Village;
+use nil_core::village::{PublicVillage, Village};
 
 pub async fn get(
   State(app): State<App>,
@@ -25,6 +26,14 @@ pub async fn get(
   result
     .map(|village| res!(OK, Json(village)))
     .unwrap_or_else(from_core_err)
+}
+
+pub async fn get_public(State(app): State<App>, Json(coord): Json<Coord>) -> Response {
+  app
+    .continent(|k| k.village(coord).map(PublicVillage::from))
+    .map_ok(|village| res!(OK, Json(village)))
+    .unwrap_or_else(from_core_err)
+    .await
 }
 
 pub async fn rename(

@@ -4,12 +4,20 @@
 use super::Client;
 use crate::error::Result;
 use nil_core::continent::Coord;
-use nil_core::village::Village;
+use nil_core::village::{PublicVillage, Village};
 
 impl Client {
   /// POST `/village`
   pub async fn get_village(&self, coord: Coord) -> Result<Village> {
     self.http.post_json("village", coord).await
+  }
+
+  /// POST `/village/public`
+  pub async fn get_public_village(&self, coord: Coord) -> Result<PublicVillage> {
+    self
+      .http
+      .post_json("village/public", coord)
+      .await
   }
 
   /// POST `/village/rename`
