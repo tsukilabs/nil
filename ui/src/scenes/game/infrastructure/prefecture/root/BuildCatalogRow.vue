@@ -124,13 +124,18 @@ async function makeOrder(kind: PrefectureBuildOrderKind) {
     </TableCell>
   </TableRow>
 
-  <TableRow v-else-if="entry.kind === 'maxed'">
+  <TableRow v-else>
     <TableCell>
       <BuildCatalogBuilding :building :scene />
     </TableCell>
     <TableCell colspan="4" class="w-full">
       <div class="text-muted-foreground flex w-full items-center justify-center text-sm">
-        <span>{{ t('building-fully-constructed') }}</span>
+        <span v-if="entry.kind === 'maxed'">
+          {{ t('building-fully-constructed') }}
+        </span>
+        <span v-else-if="entry.kind === 'unmet'">
+          {{ t('not-yet-available') }}
+        </span>
       </div>
     </TableCell>
   </TableRow>

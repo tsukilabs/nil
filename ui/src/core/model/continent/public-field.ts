@@ -5,7 +5,7 @@ import { getField, getFields } from '@/commands';
 import { tryOnScopeDispose } from '@vueuse/core';
 import type { MaybePromise, Option } from '@tb-dev/utils';
 import type { CoordImpl } from '@/core/model/continent/coord';
-import { PublicVillageImpl } from '@/core/model/village/public';
+import { PublicVillageImpl } from '@/core/model/village/public-village';
 
 const enum Flags {
   Uninit = 1 << 0,

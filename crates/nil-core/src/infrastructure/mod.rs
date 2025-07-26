@@ -4,26 +4,32 @@
 pub mod building;
 pub mod mine;
 pub mod prelude;
+pub mod queue;
 pub mod requirements;
+pub mod stats;
 pub mod storage;
 
-use crate::error::{Error, Result};
-
-use crate::infrastructure::building::wall::WallStatsTable;
+use crate::error::Result;
+use crate::infrastructure::building::academy::AcademyRecruitOrderId;
+use crate::infrastructure::building::stable::StableRecruitOrderId;
+use crate::military::army::ArmyPersonnel;
+use crate::military::squad::Squad;
 use crate::resources::{Maintenance, Resources};
 use bon::Builder;
+use building::academy::{AcademyRecruitOrder, AcademyRecruitOrderRequest};
 use building::prefecture::{
   PrefectureBuildOrder,
   PrefectureBuildOrderKind,
   PrefectureBuildOrderRequest,
 };
+use building::stable::{StableRecruitOrder, StableRecruitOrderRequest};
 use building::{Building, BuildingId, BuildingStatsTable, MineId, StorageId};
-use mine::{Mine, MineStatsTable};
+use mine::Mine;
 use prelude::*;
 use serde::{Deserialize, Serialize};
-use std::collections::HashMap;
-use storage::{Storage, StorageStatsTable};
-use strum::IntoEnumIterator;
+use storage::Storage;
+
+pub use stats::InfrastructureStats;
 
 /// Infraestrutura de uma aldeia.
 #[derive(Builder, Clone, Debug, Default, Deserialize, Serialize)]
@@ -229,18 +235,6 @@ impl Infrastructure {
     Ok(maintenance)
   }
 
-  pub(crate) fn process_prefecture_build_queue(&mut self) {
-    if let Some(orders) = self.prefecture.process_queue() {
-      for order in orders {
-        let building = self.building_mut(order.building());
-        match order.kind() {
-          PrefectureBuildOrderKind::Construction => building.increase_level(),
-          PrefectureBuildOrderKind::Demolition => building.decrease_level(),
-        }
-      }
-    }
-  }
-
   pub(crate) fn add_prefecture_build_order(
     &mut self,
     request: &PrefectureBuildOrderRequest,
@@ -254,67 +248,82 @@ impl Infrastructure {
       .build(request, table, level, current_resources)
   }
 
+  #[must_use]
   pub(crate) fn cancel_prefecture_build_order(&mut self) -> Option<PrefectureBuildOrder> {
     self.prefecture.build_queue_mut().cancel()
   }
-}
 
-#[derive(Debug, Deserialize, Serialize)]
-#[serde(rename_all = "camelCase")]
-pub struct InfrastructureStats {
-  building: HashMap<BuildingId, BuildingStatsTable>,
-  mine: HashMap<MineId, MineStatsTable>,
-  storage: HashMap<StorageId, StorageStatsTable>,
-  wall: WallStatsTable,
-}
+  pub(crate) fn process_prefecture_build_queue(&mut self) {
+    if let Some(orders) = self.prefecture.process_queue() {
+      for order in orders {
+        let building = self.building_mut(order.building());
+        match order.kind() {
+          PrefectureBuildOrderKind::Construction => building.increase_level(),
+          PrefectureBuildOrderKind::Demolition => building.decrease_level(),
+        }
+      }
+    }
+  }
 
-impl InfrastructureStats {
-  pub fn new() -> Self {
-    let infrastructure = Infrastructure::default();
-    let building = BuildingId::iter()
-      .map(|id| (id, BuildingStatsTable::new(infrastructure.building(id))))
+  pub(crate) fn add_academy_recruit_order(
+    &mut self,
+    request: &AcademyRecruitOrderRequest,
+    current_resources: Option<&Resources>,
+  ) -> Result<&AcademyRecruitOrder> {
+    self
+      .academy
+      .recruit_queue_mut()
+      .recruit(request, current_resources)
+  }
+
+  #[must_use]
+  pub(crate) fn cancel_academy_recruit_order(
+    &mut self,
+    id: AcademyRecruitOrderId,
+  ) -> Option<AcademyRecruitOrder> {
+    self.academy.recruit_queue_mut().cancel(id)
+  }
+
+  #[must_use]
+  pub(crate) fn process_academy_recruit_queue(&mut self) -> Option<ArmyPersonnel> {
+    let personnel = self
+      .academy
+      .process_queue()?
+      .into_iter()
+      .map(Squad::from)
       .collect();
 
-    let mine = MineId::iter()
-      .map(|id| (id, MineStatsTable::new(infrastructure.mine(id))))
+    Some(personnel)
+  }
+
+  pub(crate) fn add_stable_recruit_order(
+    &mut self,
+    request: &StableRecruitOrderRequest,
+    current_resources: Option<&Resources>,
+  ) -> Result<&StableRecruitOrder> {
+    self
+      .stable
+      .recruit_queue_mut()
+      .recruit(request, current_resources)
+  }
+
+  #[must_use]
+  pub(crate) fn cancel_stable_recruit_order(
+    &mut self,
+    id: StableRecruitOrderId,
+  ) -> Option<StableRecruitOrder> {
+    self.stable.recruit_queue_mut().cancel(id)
+  }
+
+  #[must_use]
+  pub(crate) fn process_stable_recruit_queue(&mut self) -> Option<ArmyPersonnel> {
+    let personnel = self
+      .stable
+      .process_queue()?
+      .into_iter()
+      .map(Squad::from)
       .collect();
 
-    let storage = StorageId::iter()
-      .map(|id| (id, StorageStatsTable::new(infrastructure.storage(id))))
-      .collect();
-
-    let wall = WallStatsTable::new();
-
-    Self { building, mine, storage, wall }
-  }
-
-  #[inline]
-  pub fn building(&self, id: BuildingId) -> Result<&BuildingStatsTable> {
-    self
-      .building
-      .get(&id)
-      .ok_or(Error::BuildingStatsNotFound(id))
-  }
-
-  #[inline]
-  pub fn mine(&self, id: MineId) -> Result<&MineStatsTable> {
-    self
-      .mine
-      .get(&id)
-      .ok_or(Error::MineStatsNotFound(id))
-  }
-
-  #[inline]
-  pub fn storage(&self, id: StorageId) -> Result<&StorageStatsTable> {
-    self
-      .storage
-      .get(&id)
-      .ok_or(Error::StorageStatsNotFound(id))
-  }
-}
-
-impl Default for InfrastructureStats {
-  fn default() -> Self {
-    Self::new()
+    Some(personnel)
   }
 }

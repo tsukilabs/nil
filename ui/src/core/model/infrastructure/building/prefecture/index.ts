@@ -14,7 +14,7 @@ export class PrefectureImpl extends BuildingImpl implements Prefecture {
     this.buildQueue = PrefectureBuildQueueImpl.create(prefecture.buildQueue);
   }
 
-  public hasBuildOrder(id: PrefectureBuildOrderId) {
+  public hasBuildOrder(id: InfrastructureQueueOrderId) {
     return this.buildQueue.orders.some((order) => order.id === id);
   }
 

@@ -9,30 +9,13 @@ interface AcademyRecruitQueue {
   readonly orders: readonly AcademyRecruitOrder[];
 }
 
-interface AcademyRecruitOrder {
-  readonly id: AcademyRecruitOrderId;
-  readonly unit: UnitId;
-  readonly resources: Resources;
-  readonly workforce: number;
-  readonly state: AcademyRecruitOrderState;
-}
-
-type AcademyRecruitOrderId = string;
-
-type AcademyRecruitOrderState = AcademyRecruitOrderStatePending | AcademyRecruitOrderStateDone;
-
-interface AcademyRecruitOrderStatePending {
-  readonly kind: 'pending';
-  readonly workforce: number;
-}
-
-interface AcademyRecruitOrderStateDone {
-  readonly kind: 'done';
+interface AcademyRecruitOrder extends InfrastructureQueueOrder {
+  readonly squad: Squad;
 }
 
 interface AcademyRecruitOrderRequest {
   readonly coord: Coord;
-  readonly unit: UnitId;
+  readonly unit: AcademyUnitId;
   readonly chunks: number;
 }
 

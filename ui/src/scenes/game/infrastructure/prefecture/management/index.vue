@@ -34,7 +34,7 @@ function rename() {
         <span class="text-muted-foreground">{{ t('rename-village') }}</span>
         <div class="flex items-center gap-2">
           <Input
-            v-model="villageName"
+            v-model.trim="villageName"
             type="text"
             minlength="1"
             maxlength="50"

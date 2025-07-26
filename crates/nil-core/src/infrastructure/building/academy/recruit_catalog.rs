@@ -3,7 +3,7 @@
 
 use crate::infrastructure::Infrastructure;
 use crate::infrastructure::requirements::InfrastructureRequirements;
-use crate::military::unit::{Unit, UnitBox, UnitId};
+use crate::military::unit::{AcademyUnitId, Unit, UnitBox};
 use crate::resources::{Maintenance, Resources, Workforce};
 use serde::{Deserialize, Serialize};
 
@@ -20,7 +20,7 @@ impl AcademyRecruitCatalog {
   pub fn new(infra: &Infrastructure) -> Self {
     macro_rules! make_entry {
       ($id:ident) => {{
-        let unit = UnitBox::from(UnitId::$id);
+        let unit = UnitBox::from(AcademyUnitId::$id);
         AcademyRecruitCatalogEntry::new(unit.as_dyn(), infra)
       }};
     }

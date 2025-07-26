@@ -1,7 +1,6 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { MaybeNilRef } from '@tb-dev/vue';
 import { computed, type Ref, toRef } from 'vue';
 import type { StorageImpl } from '@/core/model/infrastructure/building/abstract';
 import { useBuildingLevel } from '@/composables/infrastructure/useBuildingLevel';

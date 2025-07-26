@@ -43,7 +43,6 @@ impl World {
     Ok(())
   }
 
-  /// Cancels the most recent build order from the prefecture.
   pub fn cancel_prefecture_build_order(&mut self, coord: Coord) -> Result<()> {
     let village = self.village_mut(coord)?;
     if let Some(order) = village

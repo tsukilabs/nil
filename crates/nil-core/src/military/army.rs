@@ -6,7 +6,9 @@ use crate::military::unit::UnitId;
 use crate::npc::bot::BotId;
 use crate::npc::precursor::PrecursorId;
 use crate::player::PlayerId;
+use crate::village::VillageOwner;
 use bon::Builder;
+use nil_core_macros::Owner;
 use serde::{Deserialize, Serialize};
 use std::ops::{Add, AddAssign, Sub, SubAssign};
 use strum::EnumIs;
@@ -24,7 +26,7 @@ pub struct Army {
   #[builder(into)]
   owner: ArmyOwner,
 
-  #[builder(skip = ArmyState::Idle)]
+  #[builder(skip)]
   state: ArmyState,
 }
 
@@ -103,6 +105,20 @@ impl ArmyPersonnel {
 impl Default for ArmyPersonnel {
   fn default() -> Self {
     Self::builder().build()
+  }
+}
+
+impl FromIterator<Squad> for ArmyPersonnel {
+  fn from_iter<T>(iter: T) -> Self
+  where
+    T: IntoIterator<Item = Squad>,
+  {
+    iter
+      .into_iter()
+      .fold(Self::default(), |mut personnel, squad| {
+        personnel += squad;
+        personnel
+      })
   }
 }
 
@@ -189,7 +205,7 @@ pub enum ArmyState {
 }
 
 #[expect(variant_size_differences)]
-#[derive(Clone, Debug, PartialEq, Eq, Deserialize, Serialize)]
+#[derive(Owner, Clone, Debug, PartialEq, Eq, Deserialize, Serialize)]
 #[serde(tag = "kind", rename_all = "kebab-case")]
 pub enum ArmyOwner {
   Bot { id: BotId },
@@ -197,26 +213,12 @@ pub enum ArmyOwner {
   Precursor { id: PrecursorId },
 }
 
-impl From<BotId> for ArmyOwner {
-  fn from(id: BotId) -> Self {
-    Self::Bot { id }
-  }
-}
-
-impl From<PlayerId> for ArmyOwner {
-  fn from(id: PlayerId) -> Self {
-    Self::Player { id }
-  }
-}
-
-impl From<&PlayerId> for ArmyOwner {
-  fn from(id: &PlayerId) -> Self {
-    Self::Player { id: id.clone() }
-  }
-}
-
-impl From<PrecursorId> for ArmyOwner {
-  fn from(id: PrecursorId) -> Self {
-    Self::Precursor { id }
+impl From<&VillageOwner> for ArmyOwner {
+  fn from(owner: &VillageOwner) -> Self {
+    match owner.clone() {
+      VillageOwner::Bot { id } => Self::Bot { id },
+      VillageOwner::Player { id } => Self::Player { id },
+      VillageOwner::Precursor { id } => Self::Precursor { id },
+    }
   }
 }

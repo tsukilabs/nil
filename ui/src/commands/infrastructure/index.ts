@@ -3,6 +3,8 @@
 
 import { invoke } from '@tauri-apps/api/core';
 
+export * from './stable';
+export * from './academy';
 export * from './prefecture';
 
 export function toggleBuilding(coord: Coord, id: BuildingId, enabled: boolean) {

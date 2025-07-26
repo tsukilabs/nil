@@ -3,7 +3,9 @@
 
 use crate::continent::Coord;
 use crate::error::{Error, Result};
-use crate::military::unit::{UnitBox, UnitId};
+use crate::infrastructure::queue::{InfrastructureQueue, InfrastructureQueueOrder};
+use crate::military::squad::{Squad, SquadSize};
+use crate::military::unit::{AcademyUnitId, UnitBox};
 use crate::resources::{Resources, Workforce};
 use serde::{Deserialize, Serialize};
 use std::collections::VecDeque;
@@ -25,6 +27,7 @@ impl AcademyRecruitQueue {
   ) -> Result<&AcademyRecruitOrder> {
     let unit = UnitBox::from(request.unit);
     let chunk = unit.as_dyn().chunk();
+    let size = SquadSize::new(chunk.size() * request.chunks);
     let resources = &chunk.resources() * request.chunks;
     let workforce = chunk.workforce() * request.chunks;
 
@@ -38,7 +41,7 @@ impl AcademyRecruitQueue {
 
     self.orders.push_back(AcademyRecruitOrder {
       id: AcademyRecruitOrderId::new(),
-      unit: unit.id(),
+      squad: Squad::new(unit.id(), size),
       resources,
       workforce,
       state: AcademyRecruitOrderState::new(workforce),
@@ -51,6 +54,17 @@ impl AcademyRecruitQueue {
         .get(len.unchecked_sub(1))
         .unwrap_unchecked()
     })
+  }
+
+  /// Cancels the last recruit order in the queue.
+  #[must_use]
+  pub(crate) fn cancel(&mut self, id: AcademyRecruitOrderId) -> Option<AcademyRecruitOrder> {
+    let position = self
+      .orders
+      .iter()
+      .position(|order| order.id == id)?;
+
+    self.orders.remove(position)
   }
 
   pub fn iter(&self) -> impl Iterator<Item = &AcademyRecruitOrder> {
@@ -68,12 +82,18 @@ impl AcademyRecruitQueue {
   }
 }
 
+impl InfrastructureQueue<AcademyRecruitOrder> for AcademyRecruitQueue {
+  fn queue_mut(&mut self) -> &mut VecDeque<AcademyRecruitOrder> {
+    &mut self.orders
+  }
+}
+
 #[must_use]
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct AcademyRecruitOrder {
   id: AcademyRecruitOrderId,
-  unit: UnitId,
+  squad: Squad,
   resources: Resources,
   workforce: Workforce,
   state: AcademyRecruitOrderState,
@@ -83,6 +103,36 @@ impl AcademyRecruitOrder {
   #[inline]
   pub fn id(&self) -> AcademyRecruitOrderId {
     self.id
+  }
+
+  #[inline]
+  pub fn squad(&self) -> &Squad {
+    &self.squad
+  }
+
+  #[inline]
+  pub fn resources(&self) -> &Resources {
+    &self.resources
+  }
+}
+
+impl From<AcademyRecruitOrder> for Squad {
+  fn from(order: AcademyRecruitOrder) -> Self {
+    order.squad
+  }
+}
+
+impl InfrastructureQueueOrder for AcademyRecruitOrder {
+  fn is_done(&self) -> bool {
+    self.state.is_done()
+  }
+
+  fn set_done(&mut self) {
+    self.state = AcademyRecruitOrderState::Done;
+  }
+
+  fn pending_mut(&mut self) -> Option<&mut Workforce> {
+    self.state.workforce_mut()
   }
 }
 
@@ -125,6 +175,6 @@ impl AcademyRecruitOrderState {
 #[serde(rename_all = "camelCase")]
 pub struct AcademyRecruitOrderRequest {
   pub coord: Coord,
-  pub unit: UnitId,
+  pub unit: AcademyUnitId,
   pub chunks: NonZeroU32,
 }

@@ -1,8 +1,10 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+pub mod academy;
 pub mod prefecture;
 pub mod prelude;
+pub mod stable;
 
 use crate::error::CoreResult;
 use crate::middleware::CurrentPlayer;

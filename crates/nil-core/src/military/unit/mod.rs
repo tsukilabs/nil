@@ -17,7 +17,10 @@ use derive_more::{Deref, From, Into};
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
 use stats::prelude::*;
 use std::fmt;
+use std::num::NonZeroU32;
+use std::ops::Mul;
 use strum::EnumIter;
+use subenum::subenum;
 
 pub trait Unit: Send + Sync {
   fn id(&self) -> UnitId;
@@ -38,16 +41,23 @@ pub trait Unit: Send + Sync {
   fn infrastructure_requirements(&self) -> &InfrastructureRequirements;
 }
 
+#[subenum(AcademyUnitId, StableUnitId)]
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, Deserialize, Serialize, EnumIter)]
 #[serde(rename_all = "kebab-case")]
 #[strum(serialize_all = "kebab-case")]
 #[remain::sorted]
 pub enum UnitId {
+  #[subenum(AcademyUnitId)]
   Archer,
+  #[subenum(AcademyUnitId)]
   Axeman,
+  #[subenum(StableUnitId)]
   HeavyCavalry,
+  #[subenum(StableUnitId)]
   LightCavalry,
+  #[subenum(AcademyUnitId)]
   Pikeman,
+  #[subenum(AcademyUnitId)]
   Swordsman,
 }
 
@@ -94,6 +104,18 @@ impl From<UnitId> for UnitBox {
   }
 }
 
+impl From<AcademyUnitId> for UnitBox {
+  fn from(id: AcademyUnitId) -> Self {
+    Self::from(UnitId::from(id))
+  }
+}
+
+impl From<StableUnitId> for UnitBox {
+  fn from(id: StableUnitId) -> Self {
+    Self::from(UnitId::from(id))
+  }
+}
+
 impl Serialize for UnitBox {
   fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
   where
@@ -133,6 +155,11 @@ pub struct UnitChunk {
 }
 
 impl UnitChunk {
+  #[inline]
+  pub fn size(&self) -> UnitChunkSize {
+    self.size
+  }
+
   pub fn resources(&self) -> Resources {
     Resources {
       food: Food::MIN,
@@ -160,5 +187,21 @@ impl UnitChunkSize {
   #[inline]
   pub const fn new(size: u8) -> UnitChunkSize {
     UnitChunkSize(size)
+  }
+}
+
+impl Mul<u32> for UnitChunkSize {
+  type Output = u32;
+
+  fn mul(self, rhs: u32) -> Self::Output {
+    u32::from(self.0).saturating_mul(rhs)
+  }
+}
+
+impl Mul<NonZeroU32> for UnitChunkSize {
+  type Output = u32;
+
+  fn mul(self, rhs: NonZeroU32) -> Self::Output {
+    self * rhs.get()
   }
 }

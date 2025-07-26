@@ -62,8 +62,18 @@ impl World {
   /// Processes the build and recruitment queues for all villages.
   fn process_village_queues(&mut self) {
     for village in self.continent.villages_mut() {
+      let coord = village.coord();
+      let owner = village.owner().clone();
       let infra = village.infrastructure_mut();
       infra.process_prefecture_build_queue();
+
+      if let Some(personnel) = infra.process_academy_recruit_queue() {
+        self.military.spawn(coord, &owner, personnel);
+      }
+
+      if let Some(personnel) = infra.process_stable_recruit_queue() {
+        self.military.spawn(coord, &owner, personnel);
+      }
     }
   }
 }

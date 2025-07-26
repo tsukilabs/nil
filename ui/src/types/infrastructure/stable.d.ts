@@ -9,30 +9,13 @@ interface StableRecruitQueue {
   readonly orders: readonly StableRecruitOrder[];
 }
 
-interface StableRecruitOrder {
-  readonly id: StableRecruitOrderId;
-  readonly unit: UnitId;
-  readonly resources: Resources;
-  readonly workforce: number;
-  readonly state: StableRecruitOrderState;
-}
-
-type StableRecruitOrderId = string;
-
-type StableRecruitOrderState = StableRecruitOrderStatePending | StableRecruitOrderStateDone;
-
-interface StableRecruitOrderStatePending {
-  readonly kind: 'pending';
-  readonly workforce: number;
-}
-
-interface StableRecruitOrderStateDone {
-  readonly kind: 'done';
+interface StableRecruitOrder extends InfrastructureQueueOrder {
+  readonly squad: Squad;
 }
 
 interface StableRecruitOrderRequest {
   readonly coord: Coord;
-  readonly unit: UnitId;
+  readonly unit: StableUnitId;
   readonly chunks: number;
 }
 
