@@ -29,6 +29,15 @@ debug = true
 debug-assertions = true
 
 [workspace.dependencies]
+nil-client.path = "./crates/nil-client"
+nil-core.path = "./crates/nil-core"
+nil-core-macros.path = "./crates/nil-core-macros"
+nil-namegen.path = "./crates/nil-namegen"
+nil-num.path = "./crates/nil-num"
+nil-num-macros.path = "./crates/nil-num-macros"
+nil-server.path = "./crates/nil-server"
+nil-util.path = "./crates/nil-util"
+
 anyhow = "1.0"
 bon = "3.6"
 bytes = "1.10"
@@ -74,34 +83,6 @@ features = ["serde"]
 [workspace.dependencies.mlua]
 version = "0.11"
 features = ["error-send", "lua54", "send", "serde", "vendored"]
-
-[workspace.dependencies.nil-client]
-version = "*"
-path = "./crates/nil-client"
-
-[workspace.dependencies.nil-core]
-version = "*"
-path = "./crates/nil-core"
-
-[workspace.dependencies.nil-core-macros]
-version = "*"
-path = "./crates/nil-core-macros"
-
-[workspace.dependencies.nil-num]
-version = "*"
-path = "./crates/nil-num"
-
-[workspace.dependencies.nil-num-macros]
-version = "*"
-path = "./crates/nil-num-macros"
-
-[workspace.dependencies.nil-server]
-version = "*"
-path = "./crates/nil-server"
-
-[workspace.dependencies.nil-util]
-version = "*"
-path = "./crates/nil-util"
 
 [workspace.dependencies.rand]
 version = "0.9"

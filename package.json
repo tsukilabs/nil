@@ -7,7 +7,7 @@
   "private": true,
   "scripts": {
     "build": "pwsh scripts/build-bin.ps1",
-    "clippy": "cargo clippy --workspace",
+    "clippy": "pwsh scripts/invoke-clippy.ps1",
     "dev": "pwsh scripts/start-dev.ps1",
     "docs": "cargo doc -p nil-* --open --no-deps --lib --all-features",
     "eslint": "eslint . --config eslint.config.js",
