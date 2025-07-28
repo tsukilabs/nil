@@ -8,6 +8,7 @@ use crate::adjective::Adjective;
 use crate::gender::Gender;
 use crate::name::Name;
 use rand::random_range;
+use rand::seq::IndexedRandom;
 
 pub(crate) struct Locale {
   language: Language,
@@ -20,9 +21,9 @@ macro_rules! collect {
   ($language:expr, $module:ident) => {{
     Locale {
       language: $language,
-      female: $module::FEMALE.iter().copied().collect(),
-      male: $module::MALE.iter().copied().collect(),
-      adjective: $module::ADJECTIVE.iter().copied().collect(),
+      female: $module::FEMALE.to_vec(),
+      male: $module::MALE.to_vec(),
+      adjective: $module::ADJECTIVE.to_vec(),
     }
   }};
 }
@@ -38,7 +39,7 @@ impl Locale {
   pub fn generate(&mut self, gender: Gender) -> Option<Name> {
     let name = Name::builder()
       .base(self.take_name(gender)?)
-      .adjective(take(&mut self.adjective)?)
+      .adjective(self.take_adjective()?)
       .gender(gender)
       .language(self.language)
       .build();
@@ -53,6 +54,23 @@ impl Locale {
     };
 
     take(pool)
+  }
+
+  fn take_adjective(&mut self) -> Option<Adjective> {
+    if self.adjective.is_empty() {
+      let adjective = match self.language {
+        Language::English => en_us::ADJECTIVE,
+        Language::Portuguese => pt_br::ADJECTIVE,
+      };
+
+      self.adjective = adjective.to_vec();
+      self
+        .adjective
+        .choose(&mut rand::rng())
+        .copied()
+    } else {
+      take(&mut self.adjective)
+    }
   }
 }
 
