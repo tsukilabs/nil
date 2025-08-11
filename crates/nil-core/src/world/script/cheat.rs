@@ -163,10 +163,11 @@ pub(super) fn add_methods<'a, M: UserDataMethods<WorldUserData<'a>>>(methods: &m
       .map_err(Into::into)
   });
 
-  methods.add_method_mut("cheat_spawn_bot", |lua, this, ()| {
+  methods.add_method_mut("cheat_spawn_bot", |lua, this, name: Option<String>| {
+    let name = name.as_deref().unwrap_or("Bot");
     this
       .world
-      .cheat_spawn_bot()
+      .cheat_spawn_bot(name)
       .map(|id| lua.to_value(&id))?
   });
 }

@@ -43,8 +43,8 @@ impl World {
     self.get_precursor_storage_capacity(id)
   }
 
-  pub fn cheat_spawn_bot(&mut self) -> Result<BotId> {
+  pub fn cheat_spawn_bot(&mut self, name: &str) -> Result<BotId> {
     bail_cheat_not_allowed!(self);
-    self.spawn_bot()
+    self.spawn_bot(name)
   }
 }

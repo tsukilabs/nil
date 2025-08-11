@@ -9,9 +9,12 @@ use nil_core::npc::precursor::PrecursorId;
 use nil_core::resources::Resources;
 
 impl Client {
-  /// GET `/cheat/bot/spawn`
-  pub async fn cheat_spawn_bot(&self) -> Result<BotId> {
-    self.http.get_json("cheat/bot/spawn").await
+  /// POST `/cheat/bot/spawn`
+  pub async fn cheat_spawn_bot(&self, name: String) -> Result<BotId> {
+    self
+      .http
+      .post_json("cheat/bot/spawn", name)
+      .await
   }
 
   /// GET `/cheat/bot/{id}/infrastructure/storage`

@@ -4,34 +4,70 @@
 #![cfg_attr(docsrs, feature(doc_auto_cfg))]
 #![doc(html_favicon_url = "https://nil.dev.br/favicon.png")]
 
-mod adjective;
-mod gender;
-mod locale;
-mod name;
-
-use crate::gender::Gender;
-use crate::locale::Locale;
+use itertools::Itertools;
+use rand::random_range;
+use rand::seq::IndexedRandom;
 use std::sync::Arc;
+use strum::VariantArray;
 
-pub use locale::Language;
-pub use name::Name;
+const FEMALE: &str = include_str!("../data/female.csv");
+const MALE: &str = include_str!("../data/male.csv");
+const SURNAME: &str = include_str!("../data/surname.csv");
 
-pub fn generate(language: Language, count: usize) -> Vec<Name> {
-  let mut locale = Locale::new(language);
+pub fn generate(count: usize) -> Vec<Arc<str>> {
   let mut names = Vec::with_capacity(count);
+  let mut female = lines(FEMALE);
+  let mut male = lines(MALE);
+  let mut surname = lines(SURNAME);
 
   for _ in 0..=count {
     let gender = Gender::random();
-    let Some(name) = locale.generate(gender) else { break };
-    names.push(name);
+    let Some(first) = (match gender {
+      Gender::Female => take(&mut female),
+      Gender::Male => take(&mut male),
+    }) else {
+      break;
+    };
+
+    let Some(last) = take(&mut surname) else { break };
+    if first != last {
+      names.push(Arc::from(format!("{first} {last}")));
+    }
   }
 
-  names
+  names.into_iter().unique().collect()
 }
 
-pub fn generate_arc(language: Language, count: usize) -> Vec<Arc<str>> {
-  generate(language, count)
-    .into_iter()
-    .map(Name::to_arc)
+fn lines(file: &'static str) -> Vec<&'static str> {
+  file
+    .trim()
+    .lines()
+    .map(str::trim)
+    .filter(|line| !line.is_empty())
+    .unique()
     .collect()
+}
+
+fn take(pool: &mut Vec<&'static str>) -> Option<&'static str> {
+  if pool.is_empty() {
+    None
+  } else {
+    let idx = random_range(0..pool.len());
+    Some(pool.swap_remove(idx))
+  }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq, VariantArray)]
+enum Gender {
+  Female,
+  Male,
+}
+
+impl Gender {
+  pub fn random() -> Self {
+    Self::VARIANTS
+      .choose(&mut rand::rng())
+      .copied()
+      .expect("Self::VARIANTS should never be empty")
+  }
 }

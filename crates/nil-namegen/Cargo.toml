@@ -14,8 +14,6 @@ authors.workspace = true
 workspace = true
 
 [dependencies]
-bon.workspace = true
-derive_more.workspace = true
+itertools.workspace = true
 rand.workspace = true
-serde.workspace = true
 strum.workspace = true

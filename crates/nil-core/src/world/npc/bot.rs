@@ -4,7 +4,7 @@
 use crate::error::Result;
 use crate::infrastructure::Infrastructure;
 use crate::infrastructure::storage::OverallStorageCapacity;
-use crate::npc::bot::BotId;
+use crate::npc::bot::{BotId, BotName};
 use crate::village::Village;
 use crate::with_random_level;
 use crate::world::World;
@@ -19,16 +19,18 @@ impl World {
   }
 
   pub(crate) fn spawn_bots(&mut self) -> Result<()> {
-    let size = u16::from(self.continent.size());
-    for _ in 0..(size.saturating_mul(2)) {
-      self.spawn_bot()?;
+    let size = usize::from(self.continent.size());
+    let count = size.saturating_mul(2);
+    for name in nil_namegen::generate(count) {
+      self.spawn_bot(name)?;
     }
 
     Ok(())
   }
 
-  pub(crate) fn spawn_bot(&mut self) -> Result<BotId> {
-    let (id, name) = self.bot_manager.spawn();
+  pub(crate) fn spawn_bot(&mut self, name: impl Into<BotName>) -> Result<BotId> {
+    let name: BotName = name.into();
+    let id = self.bot_manager.spawn(name.clone());
     let (coord, field) = self.find_spawn_point()?;
 
     let infrastructure = Infrastructure::builder()
