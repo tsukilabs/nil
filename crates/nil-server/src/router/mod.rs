@@ -39,7 +39,7 @@ pub(crate) fn create() -> Router<App> {
     .route("/", get(ok))
     .route("/chat", get(chat::get))
     .route("/chat", post(chat::push))
-    .route("/cheat/bot/spawn", get(cheat::spawn_bot))
+    .route("/cheat/bot/spawn", post(cheat::spawn_bot))
     .route("/cheat/bot/{id}/infrastructure/storage", get(cheat::get_bot_storage_capacity))
     .route("/cheat/bot/{id}/resources", get(cheat::get_bot_resources))
     .route("/cheat/infrastructure", post(cheat::set_max_infrastructure))

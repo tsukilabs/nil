@@ -4,8 +4,9 @@
 use crate::error::{Error, Result};
 use crate::ethic::Ethics;
 use crate::resources::Resources;
-use derive_more::Display;
+use derive_more::{Display, From};
 use serde::{Deserialize, Serialize};
+use std::borrow::Cow;
 use std::collections::HashMap;
 use std::ops::Deref;
 use std::sync::Arc;
@@ -32,16 +33,14 @@ impl BotManager {
       .ok_or(Error::BotNotFound(id))
   }
 
-  pub(crate) fn spawn(&mut self) -> (BotId, BotName) {
+  pub(crate) fn spawn(&mut self, name: BotName) -> BotId {
     self.current_id = self.current_id.next();
-    let entry = self
+    self
       .map
       .entry(self.current_id)
-      .insert_entry(Bot::new(self.current_id));
-
-    let bot = entry.get();
-
-    (bot.id, bot.name.clone())
+      .insert_entry(Bot::new(self.current_id, name))
+      .get()
+      .id
   }
 }
 
@@ -55,12 +54,10 @@ pub struct Bot {
 }
 
 impl Bot {
-  fn new(id: BotId) -> Self {
-    // TODO: These guys deserve better names.
-    let name = format!("Bot {id}");
+  fn new(id: BotId, name: BotName) -> Self {
     Self {
       id,
-      name: BotName(Arc::from(name)),
+      name,
       ethics: Ethics::random(),
       resources: Resources::BOT.clone(),
     }
@@ -92,7 +89,8 @@ impl BotId {
   }
 }
 
-#[derive(Debug, Display, PartialEq, Eq, Deserialize, Serialize)]
+#[derive(Debug, Display, PartialEq, Eq, From, Deserialize, Serialize)]
+#[from(String, &str, Arc<str>, Box<str>, Cow<'_, str>)]
 pub struct BotName(Arc<str>);
 
 impl Clone for BotName {

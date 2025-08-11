@@ -51,9 +51,9 @@ pub async fn cheat_get_precursor_storage_capacity(
 }
 
 #[tauri::command]
-pub async fn cheat_spawn_bot(app: AppHandle) -> Result<BotId> {
+pub async fn cheat_spawn_bot(app: AppHandle, name: String) -> Result<BotId> {
   app
-    .client(async |cl| cl.cheat_spawn_bot().await)
+    .client(async |cl| cl.cheat_spawn_bot(name).await)
     .await?
     .map_err(Into::into)
 }

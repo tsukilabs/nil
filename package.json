@@ -2,12 +2,12 @@
   "name": "nil",
   "version": "0.1.0",
   "type": "module",
-  "packageManager": "pnpm@10.13.1",
+  "packageManager": "pnpm@10.14.0",
   "license": "AGPL-3.0-only",
   "private": true,
   "scripts": {
     "build": "pwsh scripts/build-bin.ps1",
-    "clippy": "cargo clippy --workspace",
+    "clippy": "pwsh scripts/invoke-clippy.ps1",
     "dev": "pwsh scripts/start-dev.ps1",
     "docs": "cargo doc -p nil-* --open --no-deps --lib --all-features",
     "eslint": "eslint . --config eslint.config.js",
@@ -20,15 +20,15 @@
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.1.11",
-    "@tb-dev/eslint-config": "^8.0.3",
-    "@types/node": "^24.1.0",
-    "@vitejs/plugin-vue": "^6.0.0",
-    "eslint": "^9.32.0",
+    "@tb-dev/eslint-config": "^8.0.4",
+    "@types/node": "^24.2.1",
+    "@vitejs/plugin-vue": "^6.0.1",
+    "eslint": "^9.33.0",
     "tailwindcss": "^4.1.11",
     "tslib": "^2.8.1",
-    "typescript": "~5.8.3",
-    "vite": "^7.0.6",
+    "typescript": "~5.9.2",
+    "vite": "^7.1.1",
     "vite-plugin-wasm": "~3.5.0",
-    "vue-tsc": "~3.0.4"
+    "vue-tsc": "~3.0.5"
   }
 }
