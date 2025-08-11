@@ -7,7 +7,7 @@ import dev from 'vite-plugin-vue-devtools';
 import { fileURLToPath, URL } from 'node:url';
 
 export default defineConfig({
-  plugins: [wasm(), vue(), tailwind(), dev()],
+  plugins: [wasm(), vue(), tailwind()],
   clearScreen: false,
   resolve: {
     alias: {

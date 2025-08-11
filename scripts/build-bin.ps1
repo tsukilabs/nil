@@ -2,7 +2,9 @@
 # SPDX-License-Identifier: AGPL-3.0-only
 
 param(
+  [Alias('P')]
   [switch]$Preview,
+
   [switch]$SkipWasm
 )
 

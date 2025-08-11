@@ -2,6 +2,9 @@
 # SPDX-License-Identifier: AGPL-3.0-only
 
 param(
+  [Alias('A')]
+  [switch]$Android,
+
   [switch]$SkipWasm
 )
 
@@ -12,4 +15,9 @@ if (-not $SkipWasm) {
   pnpm run wasm
 }
 
-cargo tauri dev
+if ($Android) {
+  cargo tauri android dev
+}
+else {
+  cargo tauri dev
+}

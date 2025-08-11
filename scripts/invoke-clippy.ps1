@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: AGPL-3.0-only
 
 param(
+  [Alias('D')]
   [switch]$AllowDeadCode
 )
 

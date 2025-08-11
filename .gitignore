@@ -16,7 +16,7 @@ node_modules
 dist
 
 # Tauri
-gen
+**/gen/schemas
 
 # Others
 .temp

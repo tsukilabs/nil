@@ -16,13 +16,17 @@ pub mod world;
 
 use crate::error::Result;
 use crate::manager::ManagerExt;
-use tauri::{AppHandle, WebviewWindow};
+use tauri::AppHandle;
+
+#[cfg(desktop)]
+use tauri::WebviewWindow;
 
 #[tauri::command]
 pub async fn is_host(app: AppHandle) -> bool {
   app.nil().is_host().await
 }
 
+#[cfg(desktop)]
 #[tauri::command]
 pub async fn show_window(window: WebviewWindow) -> Result<()> {
   window
@@ -30,4 +34,10 @@ pub async fn show_window(window: WebviewWindow) -> Result<()> {
     .and_then(|()| window.unminimize())
     .and_then(|()| window.set_focus())
     .map_err(Into::into)
+}
+
+#[cfg(mobile)]
+#[tauri::command]
+pub async fn show_window() -> Result<()> {
+  Ok(())
 }

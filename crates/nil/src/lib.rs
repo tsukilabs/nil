@@ -17,6 +17,7 @@ use error::BoxResult;
 use state::Nil;
 use tauri::{AppHandle, Manager, Wry};
 
+#[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
   #[cfg(all(desktop, debug_assertions))]
   log::setup();
@@ -133,6 +134,9 @@ fn builder() -> tauri::Builder<Wry> {
 
 fn setup(app: &AppHandle) -> BoxResult<()> {
   app.manage(Nil::new(app));
-  window::open(app)?;
+  #[cfg(desktop)]
+  window::desktop::open(app)?;
+  #[cfg(mobile)]
+  window::mobile::open(app)?;
   Ok(())
 }
