@@ -2,6 +2,9 @@
 # SPDX-License-Identifier: AGPL-3.0-only
 
 param(
+  [Alias('A')]
+  [switch]$Android,
+  
   [Alias('P')]
   [switch]$Preview,
 
@@ -15,12 +18,18 @@ if (-not $SkipWasm) {
   pnpm run wasm -Release
 }
 
-$BuildCmd = 'cargo tauri build'
+$BuildCmd = if ($Android) {
+  'cargo tauri android build --apk'
+}
+else {
+  'cargo tauri build'
+}
 
 if ($Preview) {
   $BuildCmd += ' --no-bundle -- --profile preview'
 }
-else {
+elseif (-not $Android) {
+  # We should stop using the `release-bin` profile once `wasm-pack` is updated.
   $BuildCmd += ' -- --profile release-bin'
 }
 

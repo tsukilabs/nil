@@ -7,7 +7,7 @@ use crate::player::PlayerId;
 use nil_core_macros::Owner;
 use serde::{Deserialize, Serialize};
 
-#[expect(variant_size_differences)]
+#[allow(variant_size_differences)]
 #[derive(Owner, Clone, Debug, Deserialize, Serialize)]
 #[serde(tag = "kind", rename_all = "kebab-case")]
 pub enum VillageOwner {

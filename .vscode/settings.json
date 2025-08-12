@@ -1,4 +1,7 @@
 {
+  "[css]": {
+    "editor.defaultFormatter": "dprint.dprint"
+  },
   "[html]": {
     "editor.defaultFormatter": "dprint.dprint"
   },
@@ -49,13 +52,6 @@
     "*.css": "tailwindcss"
   },
   "files.eol": "\n",
-  "files.exclude": {
-    "**/.gradle": true,
-    "**/.idea": true,
-    "**/assets": true,
-    "**/gradle": true,
-    "**/jniLibs": true
-  },
   "githubPullRequests.defaultMergeMethod": "squash",
   "rust-analyzer.cargo.targetDir": true
 }
