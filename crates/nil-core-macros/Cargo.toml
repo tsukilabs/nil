@@ -3,23 +3,12 @@ name = "nil-core-macros"
 version = "0.1.1"
 publish = false
 
-[package.edition]
-workspace = true
-
-[package.rust-version]
-workspace = true
-
-[package.license-file]
-workspace = true
-
-[package.homepage]
-workspace = true
-
-[package.repository]
-workspace = true
-
-[package.authors]
-workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license-file.workspace = true
+homepage.workspace = true
+repository.workspace = true
+authors.workspace = true
 
 [lib]
 proc-macro = true
@@ -27,11 +16,7 @@ proc-macro = true
 [lints]
 workspace = true
 
-[dependencies.proc-macro2]
-workspace = true
-
-[dependencies.quote]
-workspace = true
-
-[dependencies.syn]
-workspace = true
+[dependencies]
+proc-macro2.workspace = true
+quote.workspace = true
+syn.workspace = true

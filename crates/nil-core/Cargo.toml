@@ -3,89 +3,38 @@ name = "nil-core"
 version = "0.1.1"
 publish = false
 
-[package.edition]
-workspace = true
-
-[package.rust-version]
-workspace = true
-
-[package.license-file]
-workspace = true
-
-[package.homepage]
-workspace = true
-
-[package.repository]
-workspace = true
-
-[package.authors]
-workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license-file.workspace = true
+homepage.workspace = true
+repository.workspace = true
+authors.workspace = true
 
 [lints]
 workspace = true
 
-[dependencies.bon]
-workspace = true
+[dependencies]
+bon.workspace = true
+bytes.workspace = true
+derive_more.workspace = true
+glam.workspace = true
+itertools.workspace = true
+jiff.workspace = true
+mlua.workspace = true
+nil-core-macros.workspace = true
+nil-namegen.workspace = true
+nil-num.workspace = true
+nil-util.workspace = true
+num-traits.workspace = true
+rand.workspace = true
+remain.workspace = true
+serde.workspace = true
+strum.workspace = true
+subenum.workspace = true
+thiserror.workspace = true
+tokio.workspace = true
+tracing.workspace = true
+uuid.workspace = true
 
-[dependencies.bytes]
-workspace = true
-
-[dependencies.derive_more]
-workspace = true
-
-[dependencies.glam]
-workspace = true
-
-[dependencies.itertools]
-workspace = true
-
-[dependencies.jiff]
-workspace = true
-
-[dependencies.mlua]
-workspace = true
-
-[dependencies.nil-core-macros]
-workspace = true
-
-[dependencies.nil-namegen]
-workspace = true
-
-[dependencies.nil-num]
-workspace = true
-
-[dependencies.nil-util]
-workspace = true
-
-[dependencies.num-traits]
-workspace = true
-
-[dependencies.rand]
-workspace = true
-
-[dependencies.remain]
-workspace = true
-
-[dependencies.serde]
-workspace = true
-
-[dependencies.strum]
-workspace = true
-
-[dependencies.subenum]
-workspace = true
-
-[dependencies.thiserror]
-workspace = true
-
-[dependencies.tokio]
-workspace = true
-
-[dependencies.tracing]
-workspace = true
-
-[dependencies.uuid]
-workspace = true
-
-[dev-dependencies.anyhow]
-workspace = true
+[dev-dependencies]
+anyhow.workspace = true

@@ -3,32 +3,17 @@ name = "nil-namegen"
 version = "0.1.1"
 publish = false
 
-[package.edition]
-workspace = true
-
-[package.rust-version]
-workspace = true
-
-[package.license-file]
-workspace = true
-
-[package.homepage]
-workspace = true
-
-[package.repository]
-workspace = true
-
-[package.authors]
-workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license-file.workspace = true
+homepage.workspace = true
+repository.workspace = true
+authors.workspace = true
 
 [lints]
 workspace = true
 
-[dependencies.itertools]
-workspace = true
-
-[dependencies.rand]
-workspace = true
-
-[dependencies.strum]
-workspace = true
+[dependencies]
+itertools.workspace = true
+rand.workspace = true
+strum.workspace = true
