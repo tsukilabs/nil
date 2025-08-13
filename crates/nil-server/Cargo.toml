@@ -1,29 +1,64 @@
 [package]
 name = "nil-server"
-version = "0.1.0"
+version = "0.1.1"
 publish = false
 
-edition.workspace = true
-rust-version.workspace = true
-license-file.workspace = true
-homepage.workspace = true
-repository.workspace = true
-authors.workspace = true
+[package.edition]
+workspace = true
+
+[package.rust-version]
+workspace = true
+
+[package.license-file]
+workspace = true
+
+[package.homepage]
+workspace = true
+
+[package.repository]
+workspace = true
+
+[package.authors]
+workspace = true
 
 [lints]
 workspace = true
 
-[dependencies]
-anyhow.workspace = true
-axum.workspace = true
-derive_more.workspace = true
-futures.workspace = true
-itertools.workspace = true
-nil-core.workspace = true
-nil-util.workspace = true
-percent-encoding.workspace = true
-serde.workspace = true
-thiserror.workspace = true
-tokio.workspace = true
-tower-http.workspace = true
-tracing.workspace = true
+[dependencies.anyhow]
+workspace = true
+
+[dependencies.axum]
+workspace = true
+
+[dependencies.derive_more]
+workspace = true
+
+[dependencies.futures]
+workspace = true
+
+[dependencies.itertools]
+workspace = true
+
+[dependencies.nil-core]
+workspace = true
+
+[dependencies.nil-util]
+workspace = true
+
+[dependencies.percent-encoding]
+workspace = true
+
+[dependencies.serde]
+workspace = true
+
+[dependencies.thiserror]
+workspace = true
+
+[dependencies.tokio]
+workspace = true
+
+[dependencies.tower-http]
+workspace = true
+
+[dependencies.tracing]
+workspace = true

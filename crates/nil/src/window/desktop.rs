@@ -19,7 +19,6 @@ pub fn open(app: &AppHandle) -> Result<()> {
     .title("Call of Nil")
     .initialization_script(super::script())
     .inner_size(1280.0, 768.0)
-    .min_inner_size(800.0, 600.0)
     .resizable(true)
     .maximizable(true)
     .minimizable(true)

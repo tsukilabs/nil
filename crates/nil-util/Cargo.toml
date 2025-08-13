@@ -1,20 +1,37 @@
 [package]
 name = "nil-util"
-version = "0.1.0"
+version = "0.1.1"
 publish = false
 
-edition.workspace = true
-rust-version.workspace = true
-license-file.workspace = true
-homepage.workspace = true
-repository.workspace = true
-authors.workspace = true
+[package.edition]
+workspace = true
+
+[package.rust-version]
+workspace = true
+
+[package.license-file]
+workspace = true
+
+[package.homepage]
+workspace = true
+
+[package.repository]
+workspace = true
+
+[package.authors]
+workspace = true
 
 [lints]
 workspace = true
 
-[dependencies]
-anyhow.workspace = true
-bytes.workspace = true
-serde.workspace = true
-serde_json.workspace = true
+[dependencies.anyhow]
+workspace = true
+
+[dependencies.bytes]
+workspace = true
+
+[dependencies.serde]
+workspace = true
+
+[dependencies.serde_json]
+workspace = true

@@ -16,7 +16,7 @@ const { village } = NIL.village.refs();
 
 <template>
   <header class="flex items-center justify-between">
-    <div class="flex items-center gap-2">
+    <div class="max-w-3/5 flex items-center gap-2">
       <SidebarTrigger />
       <Button v-if="village" variant="ghost" class="py-2 text-base lg:text-lg">
         <RouterLink :to="{ name: 'village' satisfies GameScene }" class="space-x-1">

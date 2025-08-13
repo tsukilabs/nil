@@ -1,34 +1,79 @@
 [package]
 name = "nil-client"
-version = "0.1.0"
+version = "0.1.1"
 publish = false
 
-edition.workspace = true
-rust-version.workspace = true
-license-file.workspace = true
-homepage.workspace = true
-repository.workspace = true
-authors.workspace = true
+[package.edition]
+workspace = true
+
+[package.rust-version]
+workspace = true
+
+[package.license-file]
+workspace = true
+
+[package.homepage]
+workspace = true
+
+[package.repository]
+workspace = true
+
+[package.authors]
+workspace = true
 
 [lints]
 workspace = true
 
-[dependencies]
-anyhow.workspace = true
-bon.workspace = true
-bytes.workspace = true
-derive_more.workspace = true
-futures.workspace = true
-http.workspace = true
-local-ip-address.workspace = true
-markdown.workspace = true
-nil-core.workspace = true
-percent-encoding.workspace = true
-reqwest.workspace = true
-semver.workspace = true
-serde.workspace = true
-thiserror.workspace = true
-tokio.workspace = true
-tracing.workspace = true
-tokio-tungstenite.workspace = true
-url.workspace = true
+[dependencies.anyhow]
+workspace = true
+
+[dependencies.bon]
+workspace = true
+
+[dependencies.bytes]
+workspace = true
+
+[dependencies.derive_more]
+workspace = true
+
+[dependencies.futures]
+workspace = true
+
+[dependencies.http]
+workspace = true
+
+[dependencies.local-ip-address]
+workspace = true
+
+[dependencies.markdown]
+workspace = true
+
+[dependencies.nil-core]
+workspace = true
+
+[dependencies.percent-encoding]
+workspace = true
+
+[dependencies.reqwest]
+workspace = true
+
+[dependencies.semver]
+workspace = true
+
+[dependencies.serde]
+workspace = true
+
+[dependencies.thiserror]
+workspace = true
+
+[dependencies.tokio]
+workspace = true
+
+[dependencies.tracing]
+workspace = true
+
+[dependencies.tokio-tungstenite]
+workspace = true
+
+[dependencies.url]
+workspace = true

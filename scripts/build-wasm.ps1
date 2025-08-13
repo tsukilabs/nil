@@ -16,14 +16,8 @@ function Build {
     Get-ChildItem "crates/$Crate/pkg" -Recurse | Remove-Item
   }
 
-  $BuildCmd = "wasm-pack build crates/$Crate --reference-types"
-
-  if ($Release) {
-    $BuildCmd += ' --release'
-  }
-  else {
-    $BuildCmd += ' --dev --no-opt'
-  }
+  $BuildCmd = "wasm-pack build crates/$Crate"
+  $BuildCmd += if ($Release) { ' --release' }  else { ' --dev --no-opt' }
 
   Invoke-Expression $BuildCmd
 }

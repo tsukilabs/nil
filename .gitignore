@@ -7,8 +7,8 @@
 !.vscode/tasks.json
 
 # Rust
-debug/
-target/
+debug
+target
 rustc-ice-*.txt
 
 # Node
@@ -19,5 +19,8 @@ dist
 **/gen/schemas
 
 # Others
-.temp
+.DS_Store
 .eslintcache
+.temp
+
+**/*.jks

@@ -204,7 +204,7 @@ pub enum ArmyState {
   Idle,
 }
 
-#[expect(variant_size_differences)]
+#[allow(variant_size_differences)]
 #[derive(Owner, Clone, Debug, PartialEq, Eq, Deserialize, Serialize)]
 #[serde(tag = "kind", rename_all = "kebab-case")]
 pub enum ArmyOwner {

@@ -16,6 +16,10 @@ export * from './village';
 export * from './continent';
 export * from './infrastructure';
 
+export function createTrayIcon() {
+  return invoke<null>('create_tray_icon');
+}
+
 export function isHost() {
   return invoke<boolean>('is_host');
 }

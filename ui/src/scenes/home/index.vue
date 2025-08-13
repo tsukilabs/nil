@@ -5,6 +5,9 @@
 import { useI18n } from 'vue-i18n';
 import { exitGame } from '@/core/game';
 import { Button } from '@tb-dev/vue-components';
+import { breakpointsTailwind, useBreakpoints } from '@vueuse/core';
+
+const { sm } = useBreakpoints(breakpointsTailwind);
 
 const { t } = useI18n();
 </script>
@@ -15,22 +18,22 @@ const { t } = useI18n();
       <span>Call of Nil</span>
     </h1>
     <div class="flex flex-col gap-2">
-      <Button variant="default">
+      <Button variant="default" :size="sm ? 'default' : 'lg'">
         <RouterLink :to="{ name: 'host-game' as Scene }">
           {{ t('host-game') }}
         </RouterLink>
       </Button>
-      <Button variant="secondary">
+      <Button variant="secondary" :size="sm ? 'default' : 'lg'">
         <RouterLink :to="{ name: 'join-game' as Scene }">
           {{ t('join-game') }}
         </RouterLink>
       </Button>
-      <Button variant="secondary">
+      <Button variant="secondary" :size="sm ? 'default' : 'lg'">
         <RouterLink :to="{ name: 'settings' as Scene }">
           {{ t('settings') }}
         </RouterLink>
       </Button>
-      <Button variant="secondary" @click="exitGame">
+      <Button variant="secondary" :size="sm ? 'default' : 'lg'" @click="exitGame">
         <span>{{ t('exit') }}</span>
       </Button>
     </div>

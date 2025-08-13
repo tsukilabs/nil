@@ -12,6 +12,8 @@ mod window;
 
 #[cfg(all(desktop, debug_assertions))]
 mod log;
+#[cfg(desktop)]
+mod tray;
 
 use error::BoxResult;
 use state::Nil;
@@ -31,6 +33,7 @@ pub fn run() {
     .plugin(tauri_plugin_process::init())
     .setup(|app| setup(app.app_handle()))
     .invoke_handler(tauri::generate_handler![
+      command::create_tray_icon,
       command::is_host,
       command::show_window,
       command::chat::get_chat,
