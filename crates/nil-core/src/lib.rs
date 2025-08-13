@@ -17,6 +17,7 @@ pub mod npc;
 pub mod player;
 pub mod resources;
 pub mod round;
+pub mod savedata;
 pub mod script;
 pub mod village;
 pub mod world;

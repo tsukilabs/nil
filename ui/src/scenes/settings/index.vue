@@ -34,15 +34,13 @@ const settings = useGlobalSettings();
 </script>
 
 <template>
-  <div class="flex size-full flex-col items-center justify-center max-sm:justify-start max-sm:pt-24 gap-2">
-    <Card :key="settings.locale" class="min-w-[calc(100%-50px)] sm:min-w-80 p-2">
-      <CardHeader class="pt-4">
-        <CardTitle>
-          <span class="text-xl">{{ t('settings') }}</span>
-        </CardTitle>
+  <div class="card-layout">
+    <Card :key="settings.locale">
+      <CardHeader>
+        <CardTitle>{{ t('settings') }}</CardTitle>
       </CardHeader>
 
-      <CardContent class="flex flex-col gap-4 px-4">
+      <CardContent>
         <Label>
           <span>{{ t('language') }}</span>
           <Select v-model="settings.locale">
@@ -93,8 +91,8 @@ const settings = useGlobalSettings();
         </Label>
       </CardContent>
 
-      <CardFooter class="flex items-center justify-center gap-2 px-12 pb-6">
-        <Button to="home" variant="default" class="px-8" @click="() => router.back()">
+      <CardFooter class="flex">
+        <Button variant="default" class="px-8" @click="() => router.back()">
           <span>OK</span>
         </Button>
       </CardFooter>

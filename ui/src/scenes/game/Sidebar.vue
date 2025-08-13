@@ -56,8 +56,10 @@ function copyServerAddr() {
 <template>
   <Sidebar class="z-[var(--game-sidebar-z-index)]">
     <SidebarHeader>
-      <div class="flex flex-col items-center">
-        <h1 v-if="config" class="font-nil text-lg">{{ config.name }}</h1>
+      <div class="flex flex-col items-center overflow-hidden">
+        <h1 v-if="config" class="font-nil text-lg break-all text-center">
+          {{ config.name }}
+        </h1>
         <h2
           v-if="serverAddr"
           class="text-muted-foreground cursor-pointer text-sm"

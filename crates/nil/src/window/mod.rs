@@ -14,13 +14,27 @@ fn url() -> WebviewUrl {
 }
 
 fn script() -> String {
-  let debug = json!(cfg!(debug_assertions));
-  format! {"
-    Object.defineProperty(window, '__DEBUG_ASSERTIONS__', {{
-      configurable: false,
-      enumerable: true,
-      writable: false,
-      value: {debug},
-    }});
-  "}
+  let mut script = String::new();
+  macro_rules! define {
+    ($name:literal, $value:expr) => {{
+      let name = $name;
+      let value = json!($value);
+      let snippet = format! {"
+        Object.defineProperty(window, '{name}', {{
+          configurable: false,
+          enumerable: true,
+          writable: false,
+          value: {value},
+        }});
+      "};
+
+      script.push_str(&snippet);
+    }};
+  }
+
+  define!("__DEBUG_ASSERTIONS__", cfg!(debug_assertions));
+  define!("__DESKTOP__", cfg!(desktop));
+  define!("__MOBILE__", cfg!(mobile));
+
+  script
 }

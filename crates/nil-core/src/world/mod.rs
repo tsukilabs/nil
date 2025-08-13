@@ -23,9 +23,9 @@ use crate::npc::bot::BotManager;
 use crate::npc::precursor::PrecursorManager;
 use crate::player::{Player, PlayerId, PlayerManager};
 use crate::round::Round;
+use crate::savedata::Savedata;
 use crate::script::Scripting;
 use crate::village::Village;
-use savedata::Savedata;
 use serde::{Deserialize, Serialize};
 use std::num::NonZeroU8;
 use std::path::{Path, PathBuf};
@@ -78,22 +78,9 @@ impl World {
     Ok(world)
   }
 
+  #[inline]
   pub fn with_savedata(savedata: Savedata) -> Self {
-    Self {
-      round: savedata.round,
-      continent: savedata.continent,
-      player_manager: savedata.player_manager,
-      bot_manager: savedata.bot_manager,
-      precursor_manager: savedata.precursor_manager,
-      military: savedata.military,
-      config: savedata.config,
-      stats: savedata.stats,
-      chat: savedata.chat,
-      scripting: savedata.scripting,
-
-      emitter: Emitter::default(),
-      pending_save: None,
-    }
+    Self::from(savedata)
   }
 
   pub fn load(path: impl AsRef<Path>) -> Result<Self> {

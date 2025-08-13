@@ -4,13 +4,13 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { hostGame } from '@/core/game';
 import { localRef, useMutex } from '@tb-dev/vue';
 import type { WritablePartial } from '@tb-dev/utils';
-import { hostGame, hostSavedGame } from '@/core/game';
 import enUS from '@/locale/en-US/scenes/host-game.json';
 import ptBR from '@/locale/pt-BR/scenes/host-game.json';
-import { open as pickFile } from '@tauri-apps/plugin-dialog';
 import { isPlayerOptions, isWorldOptions } from '@/lib/schema';
+import { type RouteLocationAsRelative, useRouter } from 'vue-router';
 import {
   Button,
   Card,
@@ -35,6 +35,8 @@ const { t } = useI18n({
   },
 });
 
+const router = useRouter();
+
 const world = localRef<WritablePartial<WorldOptions>>('host-game:world', {
   name: null,
   size: 100,
@@ -50,45 +52,30 @@ const isValidPlayer = computed(() => isPlayerOptions(player.value));
 const isValidWorld = computed(() => isWorldOptions(world.value));
 const canHost = computed(() => isValidPlayer.value && isValidWorld.value);
 
+const toLoadGameScene = computed<RouteLocationAsRelative>(() => {
+  return {
+    name: 'load-game' satisfies Scene,
+    query: { playerId: player.value.id },
+  };
+});
+
 async function host() {
   await lock(async () => {
-    if (isValidPlayer.value && isValidWorld.value) {
-      await hostGame({
-        player: player.value as PlayerOptions,
-        world: world.value as WorldOptions,
-      });
-    }
-  });
-}
-
-async function hostSaved() {
-  await lock(async () => {
-    const path = await pickFile({
-      directory: false,
-      filters: [{ extensions: ['nil'], name: 'NIL' }],
-      multiple: false,
-    });
-
-    if (path && isValidPlayer.value) {
-      await hostSavedGame({
-        path,
-        player: player.value as PlayerOptions,
-      });
+    if (isPlayerOptions(player.value) && isWorldOptions(world.value)) {
+      await hostGame(player.value, world.value);
     }
   });
 }
 </script>
 
 <template>
-  <div class="flex size-full flex-col items-center justify-center max-sm:justify-start max-sm:pt-24 gap-2">
-    <Card class="p-2 min-w-[calc(100%-50px)] sm:min-w-80">
-      <CardHeader class="pt-4">
-        <CardTitle>
-          <span class="text-xl">{{ t('host-game') }}</span>
-        </CardTitle>
+  <div class="card-layout">
+    <Card>
+      <CardHeader>
+        <CardTitle>{{ t('host-game') }}</CardTitle>
       </CardHeader>
 
-      <CardContent class="flex flex-col gap-4 px-4">
+      <CardContent>
         <Label>
           <span>{{ t('world-name') }}</span>
           <Input
@@ -137,17 +124,17 @@ async function hostSaved() {
         </div>
       </CardContent>
 
-      <CardFooter class="grid grid-cols-3 items-center justify-center gap-2 px-6 pb-6">
+      <CardFooter class="grid grid-cols-3">
         <Button :disabled="locked || !canHost" @click="host">
           <span>{{ t('host') }}</span>
         </Button>
-        <Button variant="secondary" :disabled="locked || !isValidPlayer" @click="hostSaved">
-          <span>{{ t('load') }}</span>
-        </Button>
-        <Button to="home" variant="secondary">
-          <RouterLink :to="{ name: 'home' as Scene }">
-            {{ t('cancel') }}
+        <Button variant="secondary" :disabled="locked || !isValidPlayer">
+          <RouterLink :to="toLoadGameScene">
+            {{ t('load') }}
           </RouterLink>
+        </Button>
+        <Button variant="secondary" @click="() => router.back()">
+          <span>{{ t('cancel') }}</span>
         </Button>
       </CardFooter>
     </Card>

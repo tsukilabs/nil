@@ -3,7 +3,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { format as formatDate, isToday } from 'date-fns';
+import { formatDate, isToday } from 'date-fns';
 import type { ChatMessageImpl } from '@/core/model/chat/chat-message';
 
 const props = defineProps<{ message: ChatMessageImpl; }>();

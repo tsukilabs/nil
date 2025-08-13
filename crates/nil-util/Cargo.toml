@@ -27,7 +27,13 @@ workspace = true
 [dependencies.anyhow]
 workspace = true
 
+[dependencies.bon]
+workspace = true
+
 [dependencies.bytes]
+workspace = true
+
+[dependencies.flate2]
 workspace = true
 
 [dependencies.serde]

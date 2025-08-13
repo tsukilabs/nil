@@ -1,11 +1,21 @@
-/*
+.gradle
+build
+buildSrc
+gradle
 
-!/app
-/app/*
+gradle.properties
+gradlew
+gradlew.bat
+keystore.properties
+local.properties
+settings.gradle
+tauri.settings.gradle
 
-!/app/src
-/app/src/main/assets
-/app/src/main/jniLibs
-/app/src/main/java/tsukilabs/nil/generated
+app/proguard-rules.pro
+app/proguard-tauri.pro
+app/tauri.build.gradle.kts
+app/tauri.properties
 
-!/app/build.gradle.kts
+app/src/main/assets
+app/src/main/jniLibs
+app/src/main/java/tsukilabs/nil/generated

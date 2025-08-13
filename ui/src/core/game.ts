@@ -3,15 +3,14 @@
 
 import { go } from '@/router';
 import * as commands from '@/commands';
-import * as dialog from '@/lib/dialog';
 import { handleError } from '@/lib/error';
 import { Entity } from '@/core/entity/abstract';
 import { exit } from '@tauri-apps/plugin-process';
 import type { SocketAddrV4 } from '@/lib/net/addr-v4';
 
-export async function joinGame(options: { player: PlayerOptions; serverAddr: SocketAddrV4; }) {
-  const id = options.player.id;
-  await commands.startClient(options.player.id, options.serverAddr);
+export async function joinGame(player: PlayerOptions, serverAddr: SocketAddrV4) {
+  const id = player.id;
+  await commands.startClient(player.id, serverAddr);
 
   if (await commands.playerExists(id)) {
     // TODO: what if the player is already active?
@@ -21,7 +20,7 @@ export async function joinGame(options: { player: PlayerOptions; serverAddr: Soc
     }
   }
   else {
-    await commands.spawnPlayer(options.player);
+    await commands.spawnPlayer(player);
   }
 
   await NIL.player.setId(id);
@@ -31,14 +30,14 @@ export async function joinGame(options: { player: PlayerOptions; serverAddr: Soc
   await go('village');
 }
 
-export async function hostGame(options: { player: PlayerOptions; world: WorldOptions; }) {
-  const addr = await commands.startServerWithOptions(options.world);
-  await joinGame({ player: options.player, serverAddr: addr.asLocal() });
+export async function hostGame(player: PlayerOptions, world: WorldOptions) {
+  const addr = await commands.startServerWithOptions(world);
+  await joinGame(player, addr.asLocal());
 }
 
-export async function hostSavedGame(options: { path: string; player: PlayerOptions; }) {
-  const addr = await commands.startServerWithSavedata(options.path);
-  await joinGame({ player: options.player, serverAddr: addr.asLocal() });
+export async function hostWithSavedata(path: string, player: PlayerOptions) {
+  const addr = await commands.startServerWithSavedata(path);
+  await joinGame(player, addr.asLocal());
 }
 
 export async function leaveGame() {
@@ -58,14 +57,4 @@ export async function leaveGame() {
 export async function exitGame() {
   await leaveGame();
   await exit(0);
-}
-
-export async function saveGame() {
-  const path = await dialog.save({
-    filters: [{ name: 'Nil', extensions: ['nil'] }],
-  });
-
-  if (path) {
-    await commands.saveWorld(path);
-  }
 }

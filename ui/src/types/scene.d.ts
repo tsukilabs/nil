@@ -1,7 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-type Scene = GameScene | 'home' | 'host-game' | 'join-game' | 'settings';
+type Scene = GameScene | 'home' | 'host-game' | 'join-game' | 'load-game' | 'settings';
 
 type GameScene = InfrastructureScene | ProfileScene | ScriptScene | 'continent' | 'village';
 

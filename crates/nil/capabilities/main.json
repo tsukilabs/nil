@@ -6,10 +6,17 @@
   "permissions": [
     "core:event:allow-listen",
     "core:event:allow-unlisten",
+    "core:path:allow-basename",
+    "core:path:allow-extname",
+    "core:path:allow-join",
+    "core:path:allow-resolve-directory",
     "clipboard-manager:allow-write-text",
     "dialog:allow-message",
-    "dialog:allow-open",
-    "dialog:allow-save",
-    "process:allow-exit"
+    "process:allow-exit",
+
+    {
+      "identifier": "fs:allow-read-dir",
+      "allow": [{ "path": "$APPDATA/*" }]
+    }
   ]
 }

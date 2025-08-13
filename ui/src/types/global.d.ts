@@ -16,6 +16,8 @@ import type { MilitaryEntity } from '@/core/entity/military';
 declare global {
   var __APP__: App;
   var __DEBUG_ASSERTIONS__: boolean;
+  var __DESKTOP__: boolean;
+  var __MOBILE__: boolean;
 
   var NIL: {
     readonly chat: {
@@ -58,7 +60,7 @@ declare global {
 
     readonly console: typeof import('@tb-dev/vue').console;
 
-    /** Updates all entities. */
+    /** Updates **all** entities. */
     readonly update: () => Promise<void>;
   };
 

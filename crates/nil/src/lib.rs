@@ -10,7 +10,7 @@ mod plugin;
 mod state;
 mod window;
 
-#[cfg(all(desktop, debug_assertions))]
+#[cfg(debug_assertions)]
 mod log;
 #[cfg(desktop)]
 mod tray;
@@ -21,7 +21,7 @@ use tauri::{AppHandle, Manager, Wry};
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
-  #[cfg(all(desktop, debug_assertions))]
+  #[cfg(debug_assertions)]
   log::setup();
 
   builder()
