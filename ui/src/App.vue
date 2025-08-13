@@ -7,11 +7,11 @@ import { useI18n } from 'vue-i18n';
 import { storeToRefs } from 'pinia';
 import { throttle } from 'es-toolkit';
 import type { Locale } from '@/locale';
-import { showWindow } from '@/commands';
 import { onKeyDown } from '@tb-dev/vue';
 import { handleError } from '@/lib/error';
 import { watchImmediate } from '@vueuse/core';
 import { Sonner } from '@tb-dev/vue-components';
+import { createTrayIcon, showWindow } from '@/commands';
 import { setTheme, useGlobalSettings } from '@/settings/global';
 import { defineGlobalCommands, defineReactiveConsole } from '@/lib/global';
 
@@ -27,6 +27,7 @@ onKeyDown('F5', throttle(NIL.update, 1000));
 
 onMounted(async () => {
   try {
+    await createTrayIcon();
     await showWindow();
     defineGlobalCommands();
     defineReactiveConsole();

@@ -1,21 +1,40 @@
 [package]
 name = "nil-num"
-version = "0.1.0"
+version = "0.1.1"
 publish = false
 
-edition.workspace = true
-rust-version.workspace = true
-license-file.workspace = true
-homepage.workspace = true
-repository.workspace = true
-authors.workspace = true
+[package.edition]
+workspace = true
+
+[package.rust-version]
+workspace = true
+
+[package.license-file]
+workspace = true
+
+[package.homepage]
+workspace = true
+
+[package.repository]
+workspace = true
+
+[package.authors]
+workspace = true
 
 [lints]
 workspace = true
 
-[dependencies]
-bon.workspace = true
-derive_more.workspace = true
-nil-num-macros.workspace = true
-serde.workspace = true
-strum.workspace = true
+[dependencies.bon]
+workspace = true
+
+[dependencies.derive_more]
+workspace = true
+
+[dependencies.nil-num-macros]
+workspace = true
+
+[dependencies.serde]
+workspace = true
+
+[dependencies.strum]
+workspace = true

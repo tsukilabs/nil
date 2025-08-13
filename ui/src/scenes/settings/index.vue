@@ -34,8 +34,8 @@ const settings = useGlobalSettings();
 </script>
 
 <template>
-  <div class="flex size-full flex-col items-center justify-center gap-2">
-    <Card :key="settings.locale" class="p-2 sm:min-w-80">
+  <div class="flex size-full flex-col items-center justify-center max-sm:justify-start max-sm:pt-24 gap-2">
+    <Card :key="settings.locale" class="min-w-[calc(100%-50px)] sm:min-w-80 p-2">
       <CardHeader class="pt-4">
         <CardTitle>
           <span class="text-xl">{{ t('settings') }}</span>

@@ -1,6 +1,6 @@
 {
   "productName": "Call of Nil",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "identifier": "tsukilabs.nil",
   "build": {
     "beforeDevCommand": "pnpm run -F ui dev",
@@ -14,7 +14,11 @@
     "security": {
       "assetProtocol": {
         "enable": true,
-        "scope": ["$APPCACHE/**", "$APPCONFIG/**", "$APPDATA/**"]
+        "scope": [
+          "$APPCACHE/**",
+          "$APPCONFIG/**",
+          "$APPDATA/**"
+        ]
       },
       "csp": {
         "default-src": "'self'",

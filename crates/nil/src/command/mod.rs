@@ -19,7 +19,18 @@ use crate::manager::ManagerExt;
 use tauri::AppHandle;
 
 #[cfg(desktop)]
-use tauri::WebviewWindow;
+use {crate::tray, tauri::WebviewWindow};
+
+#[cfg(desktop)]
+#[tauri::command]
+pub fn create_tray_icon(app: AppHandle) -> Result<()> {
+  tray::create(&app)?;
+  Ok(())
+}
+
+#[cfg(mobile)]
+#[tauri::command]
+pub fn create_tray_icon() {}
 
 #[tauri::command]
 pub async fn is_host(app: AppHandle) -> bool {
@@ -28,16 +39,13 @@ pub async fn is_host(app: AppHandle) -> bool {
 
 #[cfg(desktop)]
 #[tauri::command]
-pub async fn show_window(window: WebviewWindow) -> Result<()> {
-  window
-    .show()
-    .and_then(|()| window.unminimize())
-    .and_then(|()| window.set_focus())
-    .map_err(Into::into)
+pub fn show_window(window: WebviewWindow) -> Result<()> {
+  window.show()?;
+  window.unminimize()?;
+  window.set_focus()?;
+  Ok(())
 }
 
 #[cfg(mobile)]
 #[tauri::command]
-pub async fn show_window() -> Result<()> {
-  Ok(())
-}
+pub fn show_window() {}
