@@ -35,6 +35,10 @@
     "forceConsistentCasingInFileNames": true,
     "noEmitOnError": true,
 
-    "types": ["@tb-dev/prototype-dom", "vite/client"]
+    "types": [
+      "@tauri-store/pinia",
+      "@tb-dev/prototype-dom",
+      "vite/client"
+    ]
   }
 }

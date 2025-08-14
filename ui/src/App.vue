@@ -9,19 +9,21 @@ import { throttle } from 'es-toolkit';
 import type { Locale } from '@/locale';
 import { onKeyDown } from '@tb-dev/vue';
 import { handleError } from '@/lib/error';
-import { watchImmediate } from '@vueuse/core';
 import { Sonner } from '@tb-dev/vue-components';
+import { setTheme, useSettings } from '@/settings';
 import { createTrayIcon, showWindow } from '@/commands';
-import { setTheme, useGlobalSettings } from '@/settings/global';
+import { syncRef, useColorMode, watchImmediate } from '@vueuse/core';
 import { defineGlobalCommands, defineReactiveConsole } from '@/lib/global';
 
 const i18n = useI18n();
 
-const settings = useGlobalSettings();
-const { locale, theme } = storeToRefs(settings);
+const settings = useSettings();
+const { locale, theme, colorMode } = storeToRefs(settings);
 
 watchImmediate(locale, setLocale);
 watchImmediate(theme, setTheme);
+
+syncRef(useColorMode(), colorMode, { direction: 'rtl' });
 
 onKeyDown('F5', throttle(NIL.update, 1000));
 
