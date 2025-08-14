@@ -1,0 +1,29 @@
+@reference "./base.css";
+
+.card-layout {
+  @apply flex size-full flex-col items-center justify-center max-sm:justify-start max-sm:pt-8;
+}
+
+.card-layout [data-slot="card"] {
+  @apply min-w-[calc(100%-20px)] sm:min-w-80 p-2;
+}
+
+.card-layout [data-slot="card-header"] {
+  @apply pt-4;
+}
+
+.card-layout [data-slot="card-title"] {
+  @apply text-xl;
+}
+
+.card-layout [data-slot="card-content"] {
+  @apply flex flex-col gap-4 px-4;
+}
+
+.card-layout [data-slot="card-footer"] {
+  @apply items-center justify-center gap-2 px-6 pb-6;
+}
+
+.game-layout {
+  @apply flex size-full overflow-x-hidden overflow-y-auto p-4;
+}

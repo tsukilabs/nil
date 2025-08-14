@@ -4,6 +4,7 @@
 <script setup lang="ts">
 import Round from './Round.vue';
 import { Button, SidebarTrigger } from '@tb-dev/vue-components';
+import { useBreakpoints } from '@/composables/util/useBreakpoints';
 
 defineProps<{
   isHost: boolean;
@@ -12,6 +13,8 @@ defineProps<{
 }>();
 
 const { village } = NIL.village.refs();
+
+const { sm } = useBreakpoints();
 </script>
 
 <template>
@@ -20,8 +23,11 @@ const { village } = NIL.village.refs();
       <SidebarTrigger />
       <Button v-if="village" variant="ghost" class="py-2 text-base lg:text-lg">
         <RouterLink :to="{ name: 'village' satisfies GameScene }" class="space-x-1">
-          <span>{{ village.name }}</span>
-          <span>({{ village.coord.format() }})</span>
+          <template v-if="sm">
+            <span>{{ village.name }}</span>
+            <span>({{ village.coord.format() }})</span>
+          </template>
+          <span v-else>{{ village.coord.format() }}</span>
         </RouterLink>
       </Button>
     </div>

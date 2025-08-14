@@ -2,11 +2,26 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
 import Chat from '@/components/chat/Chat.vue';
+import { ListenerSet } from '@/lib/listener-set';
 import { useToggle, whenever } from '@vueuse/core';
 import ChatIcon from '@/components/chat/ChatIcon.vue';
 import { useBreakpoints } from '@/composables/util/useBreakpoints';
-import { Dialog, DialogContent, DialogTrigger, Popover, PopoverContent, PopoverTrigger } from '@tb-dev/vue-components';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+  VisuallyHidden,
+} from '@tb-dev/vue-components';
+
+const { t } = useI18n();
 
 const { player } = NIL.player.refs();
 
@@ -16,6 +31,9 @@ const closeChat = () => void toggleChat(false);
 const [hasUnread, toggleUnread] = useToggle(false);
 
 const { sm } = useBreakpoints();
+
+const listener = new ListenerSet();
+listener.event.onChatUpdated(onChatUpdated);
 
 whenever(isChatOpen, () => void toggleUnread(false));
 
@@ -41,10 +59,7 @@ function onChatUpdated({ message }: ChatUpdatedPayload) {
       class="w-96 max-w-[90vw] h-[500px] max-h-[75vh]"
       @pointer-down-outside="closeChat"
     >
-      <Chat
-        class="w-full h-[470px] max-h-[calc(75vh-30px)]"
-        @chat-updated="onChatUpdated"
-      />
+      <Chat class="w-full h-[470px] max-h-[calc(75vh-30px)]" />
     </PopoverContent>
   </Popover>
 
@@ -57,10 +72,16 @@ function onChatUpdated({ message }: ChatUpdatedPayload) {
       class="w-96 max-w-[90vw] h-[500px] max-h-[75vh] px-2"
       @pointer-down-outside="closeChat"
     >
-      <Chat
-        class="w-full h-[470px] max-h-[calc(75vh-30px)]"
-        @chat-updated="onChatUpdated"
-      />
+      <VisuallyHidden>
+        <DialogHeader>
+          <DialogTitle>{{ t('chat') }}</DialogTitle>
+          <DialogDescription>
+            {{ t('chat') }}
+          </DialogDescription>
+        </DialogHeader>
+      </VisuallyHidden>
+
+      <Chat class="w-full h-[470px] max-h-[calc(75vh-30px)]" />
     </DialogContent>
   </Dialog>
 </template>

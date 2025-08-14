@@ -22,7 +22,7 @@ watch(village, load);
 </script>
 
 <template>
-  <div class="flex w-full flex-col gap-4 xl:flex-row-reverse">
+  <div class="flex min-w-max w-full flex-col gap-4 xl:flex-row-reverse">
     <BuildQueue v-if="prefecture" :prefecture :loading @cancel="cancel" />
     <BuildCatalog
       v-if="infrastructure && catalog"

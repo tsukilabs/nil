@@ -11,10 +11,6 @@ import { onKeyDown, useMutex } from '@tb-dev/vue';
 import { Button, Input, ScrollArea } from '@tb-dev/vue-components';
 import { computed, nextTick, onMounted, ref, useTemplateRef } from 'vue';
 
-const props = defineProps<{
-  onChatUpdated: (payload: ChatUpdatedPayload) => MaybePromise<void>;
-}>();
-
 const { t } = useI18n();
 
 const { chat } = NIL.chat.refs();
@@ -27,10 +23,7 @@ const draft = ref<Option<string>>();
 const { locked, ...mutex } = useMutex();
 
 const listener = new ListenerSet();
-listener.event.onChatUpdated(async (payload) => {
-  await props.onChatUpdated(payload);
-  await scroll();
-});
+listener.event.onChatUpdated(scroll);
 
 onKeyDown('Enter', send, { target: chatInputInner });
 
@@ -55,13 +48,14 @@ async function send() {
 
 async function scroll() {
   await nextTick();
+  await content.value?.waitChild('.chat-message', 500);
   content.value?.parentElement?.parentElement?.scrollTo({
     top: Number.MAX_SAFE_INTEGER,
     behavior: 'auto',
   });
 }
 
-onMounted(() => scroll());
+onMounted(scroll);
 </script>
 
 <template>
@@ -70,13 +64,13 @@ onMounted(() => scroll());
       <div class="flex h-full flex-col justify-between gap-4 overflow-hidden">
         <ScrollArea class="h-[calc(100%-60px)]!">
           <div v-if="chat" ref="contentEl" class="flex flex-col gap-3 pr-6 pl-2 sm:pl-4">
-            <div v-for="message of chat" :key="message.id">
+            <div v-for="message of chat" :key="message.id" class="chat-message">
               <MessagePlayer v-if="message.author.kind === 'player'" :message />
             </div>
           </div>
         </ScrollArea>
 
-        <div class="flex h-[50px] max-w-full items-center justify-between gap-2 px-0 sm:px-2 pb-2">
+        <div class="flex h-[50px] max-w-full items-center justify-between gap-2 px-1 sm:px-2 pb-2">
           <Input
             ref="chatInputEl"
             v-model.trim="draft"

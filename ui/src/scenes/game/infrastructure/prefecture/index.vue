@@ -3,21 +3,12 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
+import HeaderMenu from './HeaderMenu.vue';
 import Loading from '@/components/Loading.vue';
 import { usePrefecture } from '@/composables/infrastructure/useBuilding';
 import enUS from '@/locale/en-US/scenes/game/infrastructure/prefecture.json';
 import ptBR from '@/locale/pt-BR/scenes/game/infrastructure/prefecture.json';
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  navigationMenuTriggerStyle,
-} from '@tb-dev/vue-components';
+import { Card, CardContent, CardHeader, CardTitle } from '@tb-dev/vue-components';
 
 const { t } = useI18n({
   messages: {
@@ -36,30 +27,12 @@ const prefecture = usePrefecture();
         <CardTitle>
           <div class="flex items-center justify-between">
             <span>{{ `${t('prefecture')} (${t('level-x', [prefecture.level])})` }}</span>
-            <NavigationMenu>
-              <NavigationMenuList>
-                <NavigationMenuItem>
-                  <NavigationMenuLink as-child :class="navigationMenuTriggerStyle()">
-                    <RouterLink :to="{ name: 'prefecture' satisfies PrefectureScene }">
-                      {{ t('construction') }}
-                    </RouterLink>
-                  </NavigationMenuLink>
-                </NavigationMenuItem>
-
-                <NavigationMenuItem>
-                  <NavigationMenuLink as-child :class="navigationMenuTriggerStyle()">
-                    <RouterLink :to="{ name: 'prefecture-settings' satisfies PrefectureScene }">
-                      {{ t('settings') }}
-                    </RouterLink>
-                  </NavigationMenuLink>
-                </NavigationMenuItem>
-              </NavigationMenuList>
-            </NavigationMenu>
+            <HeaderMenu />
           </div>
         </CardTitle>
       </CardHeader>
 
-      <CardContent class="overflow-x-hidden overflow-y-auto px-2 py-0">
+      <CardContent class="overflow-auto px-2 py-0">
         <RouterView #default="{ Component }">
           <template v-if="Component">
             <KeepAlive>
