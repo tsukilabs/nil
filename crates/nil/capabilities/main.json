@@ -12,6 +12,8 @@
     "core:path:allow-resolve-directory",
     "clipboard-manager:allow-write-text",
     "dialog:allow-message",
+    "dialog:allow-open",
+    "dialog:allow-save",
     "pinia:default",
     "process:allow-exit",
 
