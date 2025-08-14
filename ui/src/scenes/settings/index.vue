@@ -4,7 +4,7 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
-import { useGlobalSettings } from '@/settings/global';
+import { useSettings } from '@/settings';
 import enUS from '@/locale/en-US/scenes/settings.json';
 import ptBR from '@/locale/pt-BR/scenes/settings.json';
 import {
@@ -14,6 +14,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
+  Checkbox,
   Label,
   Select,
   SelectContent,
@@ -30,7 +31,9 @@ const { t } = useI18n({
 });
 
 const router = useRouter();
-const settings = useGlobalSettings();
+const settings = useSettings();
+
+const desktop = window.__DESKTOP__;
 </script>
 
 <template>
@@ -89,6 +92,13 @@ const settings = useGlobalSettings();
             </SelectContent>
           </Select>
         </Label>
+
+        <div v-if="desktop" class="flex items-center justify-center py-1">
+          <Label>
+            <Checkbox v-model="settings.hideOnClose" />
+            <span>{{ t('hide-on-close') }}</span>
+          </Label>
+        </div>
       </CardContent>
 
       <CardFooter class="flex">

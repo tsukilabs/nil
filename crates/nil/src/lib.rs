@@ -136,10 +136,18 @@ fn builder() -> tauri::Builder<Wry> {
 }
 
 fn setup(app: &AppHandle) -> BoxResult<()> {
+  let app_dir = app.path().app_data_dir()?;
+  let pinia = tauri_plugin_pinia::Builder::new()
+    .path(app_dir.join("settings"))
+    .build();
+
+  app.plugin(pinia)?;
   app.manage(Nil::new(app));
+
   #[cfg(desktop)]
   window::desktop::open(app)?;
   #[cfg(mobile)]
   window::mobile::open(app)?;
+
   Ok(())
 }

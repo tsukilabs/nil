@@ -6,6 +6,7 @@ import { useI18n } from 'vue-i18n';
 import { Button } from '@tb-dev/vue-components';
 import type { MaybePromise } from '@tb-dev/utils';
 import { usePlayerTurn } from '@/composables/player/usePlayerTurn';
+import { useBreakpoints } from '@/composables/util/useBreakpoints';
 
 defineProps<{
   isHost: boolean;
@@ -19,12 +20,14 @@ const { round } = NIL.round.refs();
 const { player } = NIL.player.refs();
 
 const isPlayerTurn = usePlayerTurn();
+
+const { sm } = useBreakpoints();
 </script>
 
 <template>
   <div class="flex items-center justify-center gap-4">
     <div
-      v-if="player && round?.state.kind === 'waiting'"
+      v-if="sm && player && round?.state.kind === 'waiting'"
       class="flex flex-col items-center justify-center"
     >
       <span class="text-sm font-semibold">
@@ -48,7 +51,7 @@ const isPlayerTurn = usePlayerTurn();
       :disabled="!isPlayerTurn"
       @click="onEndTurn"
     >
-      {{ t('end-turn') }}
+      {{ sm ? t('end-turn') : t('end-verb') }}
     </Button>
   </div>
 </template>
