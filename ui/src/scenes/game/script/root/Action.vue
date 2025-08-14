@@ -34,10 +34,12 @@ const { t } = useI18n();
 
 const { lg } = useBreakpoints();
 const [isScriptDialogOpen, toggleScriptDialog] = useToggle(false);
+
+const desktop = window.__DESKTOP__;
 </script>
 
 <template>
-  <div v-if="lg" class="grid grid-cols-6 gap-2">
+  <div v-if="lg" class="grid gap-2" :class="desktop ? 'grid-cols-6' : 'grid-cols-4'">
     <ActionTooltip :label="t('execute')">
       <Button variant="ghost" size="icon" :disabled="loading || !current?.id" @click="onExecute">
         <PlayIcon />
@@ -56,13 +58,13 @@ const [isScriptDialogOpen, toggleScriptDialog] = useToggle(false);
       </Button>
     </ActionTooltip>
 
-    <ActionTooltip :label="t('import')">
+    <ActionTooltip v-if="desktop" :label="t('import')">
       <Button variant="ghost" size="icon" :disabled="loading" @click="onImport">
         <FileDownIcon />
       </Button>
     </ActionTooltip>
 
-    <ActionTooltip :label="t('export')">
+    <ActionTooltip v-if="desktop" :label="t('export')">
       <Button variant="ghost" size="icon" :disabled="loading || !current" @click="onExport">
         <FileUpIcon />
       </Button>
@@ -120,11 +122,11 @@ const [isScriptDialogOpen, toggleScriptDialog] = useToggle(false);
             {{ t('remove') }}
           </DropdownMenuItem>
 
-          <DropdownMenuItem :disabled="loading" @click="onImport">
+          <DropdownMenuItem v-if="desktop" :disabled="loading" @click="onImport">
             {{ t('import') }}
           </DropdownMenuItem>
 
-          <DropdownMenuItem :disabled="loading || !current" @click="onExport">
+          <DropdownMenuItem v-if="desktop" :disabled="loading || !current" @click="onExport">
             {{ t('export') }}
           </DropdownMenuItem>
 
