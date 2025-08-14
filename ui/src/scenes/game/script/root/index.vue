@@ -8,6 +8,7 @@ import Sidebar from './Sidebar.vue';
 import type { CodeEditor } from '@/lib/editor';
 import { onBeforeMount, shallowRef, watch } from 'vue';
 import { useScripts } from '@/composables/script/useScripts';
+import { useBreakpoints } from '@/composables/util/useBreakpoints';
 import { Card, CardContent, Input, Separator } from '@tb-dev/vue-components';
 
 const editor = shallowRef<Option<CodeEditor>>();
@@ -25,6 +26,8 @@ const {
   exportScripts,
   setCurrent,
 } = useScripts(editor);
+
+const { lg } = useBreakpoints();
 
 watch(scripts, (it) => {
   if (!current.value && it.length > 0) {
@@ -51,24 +54,27 @@ function onScriptClick(script: Script) {
     <Card class="size-full p-0">
       <CardContent class="size-full p-0">
         <div class="flex size-full items-center justify-between">
-          <Sidebar :scripts :loading @create="createScript" @script-click="onScriptClick" />
-
-          <Separator orientation="vertical" />
+          <template v-if="lg">
+            <Sidebar :scripts :loading @create="createScript" @script-click="onScriptClick" />
+            <Separator orientation="vertical" />
+          </template>
 
           <div class="flex size-full flex-col pl-4">
-            <div class="flex items-center justify-between gap-12 py-4 pr-4">
+            <div class="flex items-center justify-between gap-4 lg:gap-12 py-4 pr-4">
               <div class="flex w-full items-center lg:max-w-96">
                 <Input v-if="current" v-model="current.name" type="text" />
               </div>
               <Action
+                :scripts
                 :current
                 :loading
-                class="hidden lg:grid"
+                @create="createScript"
                 @execute="executeScript"
                 @import="importScripts"
                 @export="exportScripts"
                 @remove="removeScript"
                 @save="saveScript"
+                @script-click="onScriptClick"
               />
             </div>
 
