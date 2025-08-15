@@ -20,7 +20,7 @@ if (-not $SkipWasm) {
 }
 
 if ($Android) {
-  Invoke-Expression "cargo tauri android dev `"$Device`""
+  Invoke-Expression "cargo tauri android dev `"$($Device.Trim())`"".Trim()
 }
 else {
   cargo tauri dev
