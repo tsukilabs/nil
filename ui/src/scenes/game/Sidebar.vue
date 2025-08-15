@@ -5,9 +5,11 @@
 import { useI18n } from 'vue-i18n';
 import { asyncRef } from '@tb-dev/vue';
 import * as commands from '@/commands';
+import RoundState from './RoundState.vue';
 import { nextTick, useTemplateRef } from 'vue';
 import { onBeforeRouteUpdate } from 'vue-router';
 import { writeText } from '@tauri-apps/plugin-clipboard-manager';
+import { useBreakpoints } from '@/composables/util/useBreakpoints';
 import { type OnClickOutsideProps, vOnClickOutside } from '@vueuse/components';
 import {
   Button,
@@ -35,6 +37,7 @@ const sidebar = useSidebar();
 
 const { config } = NIL.world.refs();
 const { round } = NIL.round.refs();
+const { player } = NIL.player.refs();
 
 const { state: serverAddr } = asyncRef(null, commands.getServerAddr);
 
@@ -43,6 +46,8 @@ const sidebarFooter = useTemplateRef('sidebarFooterEl');
 const onClickOutsideOptions: OnClickOutsideProps['options'] = {
   ignore: [sidebarHeader, sidebarFooter],
 };
+
+const { sm } = useBreakpoints();
 
 onBeforeRouteUpdate(closeSidebar);
 
@@ -65,9 +70,9 @@ function copyServerAddr() {
 </script>
 
 <template>
-  <Sidebar class="z-[var(--game-sidebar-z-index)]">
+  <Sidebar class="z-[var(--game-sidebar-z-index)] select-none">
     <SidebarHeader>
-      <div ref="sidebarHeaderEl" class="flex flex-col items-center overflow-hidden">
+      <div ref="sidebarHeaderEl" class="flex flex-col items-center overflow-hidden pt-4">
         <h1 v-if="config" class="font-nil text-lg break-all text-center">
           {{ config.name }}
         </h1>
@@ -78,6 +83,8 @@ function copyServerAddr() {
         >
           {{ serverAddr.format() }}
         </h2>
+
+        <RoundState v-if="!sm && player && round?.state.kind === 'waiting'" class="mt-4" />
       </div>
     </SidebarHeader>
 

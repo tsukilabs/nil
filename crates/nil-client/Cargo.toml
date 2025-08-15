@@ -20,7 +20,6 @@ bytes.workspace = true
 derive_more.workspace = true
 futures.workspace = true
 http.workspace = true
-local-ip-address.workspace = true
 markdown.workspace = true
 nil-core.workspace = true
 percent-encoding.workspace = true
@@ -32,3 +31,6 @@ tokio.workspace = true
 tracing.workspace = true
 tokio-tungstenite.workspace = true
 url.workspace = true
+
+[target.'cfg(not(target_os = "android"))'.dependencies]
+local-ip-address.workspace = true

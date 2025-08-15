@@ -30,7 +30,7 @@ onCtrlKeyDown(['b', 'B'], () => toggleSidebar());
 onCtrlKeyDown(['f', 'F'], () => toggleFinder());
 onCtrlKeyDown(['m', 'M'], () => go('continent'));
 onCtrlKeyDown(['s', 'S'], () => save());
-onCtrlKeyDown(' ', () => endTurn());
+onCtrlKeyDown(' ', () => finishTurn());
 
 onMounted(() => defineGlobalCheats());
 
@@ -40,7 +40,7 @@ function startRound() {
   }
 }
 
-function endTurn() {
+function finishTurn() {
   if (isPlayerTurn.value) {
     commands.endTurn().err();
   }
@@ -62,7 +62,7 @@ function save() {
         :is-host
         class="bg-background absolute inset-x-0 top-0 h-16 border-b px-4"
         @start-round="startRound"
-        @end-turn="endTurn"
+        @finish-turn="finishTurn"
       />
 
       <div class="absolute inset-x-0 top-16 bottom-10 overflow-hidden">
