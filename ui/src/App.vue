@@ -45,7 +45,7 @@ function setLocale(value: Locale) {
 </script>
 
 <template>
-  <main class="fixed inset-0 select-none">
+  <main class="fixed inset-0 select-none pb-safe">
     <Sonner />
     <div class="relative size-full overflow-hidden">
       <RouterView #default="{ Component }">
@@ -56,9 +56,3 @@ function setLocale(value: Locale) {
     </div>
   </main>
 </template>
-
-<style scoped>
-main {
-  padding-bottom: env(safe-area-inset-bottom, 0px);
-}
-</style>

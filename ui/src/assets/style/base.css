@@ -43,6 +43,22 @@
   --font-nil: "Syne Mono";
 }
 
+@utility pt-safe {
+  padding-top: var(--safe-top);
+}
+
+@utility pt-safe-* {
+  padding-top: calc(var(--safe-top) + calc(var(--spacing, 0.25rem) * --value(integer)));
+}
+
+@utility pb-safe {
+  padding-bottom: var(--safe-bottom);
+}
+
+@utility pb-safe-* {
+  padding-bottom: calc(var(--safe-bottom) + calc(var(--spacing, 0.25rem) * --value(integer)));
+}
+
 @utility ellipsis {
   display: inline-block;
   overflow: hidden;

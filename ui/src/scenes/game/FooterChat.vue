@@ -68,10 +68,7 @@ function onChatUpdated({ message }: ChatUpdatedPayload) {
       <ChatIcon :has-unread />
     </DialogTrigger>
 
-    <DialogContent
-      class="w-96 max-w-[90vw] h-[500px] max-h-[75vh] px-2"
-      @pointer-down-outside="closeChat"
-    >
+    <DialogContent @pointer-down-outside="closeChat">
       <VisuallyHidden>
         <DialogHeader>
           <DialogTitle>{{ t('chat') }}</DialogTitle>

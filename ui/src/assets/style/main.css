@@ -36,8 +36,17 @@ label:has(input[type="radio"]) {
   }
 }
 
+[data-slot="dialog-content"] {
+  @apply px-2;
+
+  width: 400px;
+  height: 500px;
+  max-width: 90svw;
+  max-height: calc(75svh - var(--safe-bottom));
+}
+
 [data-slot="sidebar-footer"] > div {
-  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 1rem);
+  @apply pb-safe-4;
 }
 
 [data-sonner-toast] [data-description] {

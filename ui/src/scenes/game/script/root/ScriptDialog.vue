@@ -40,7 +40,7 @@ async function onClick(script: Script) {
 <template>
   <Dialog v-model:open="open">
     <DialogTrigger class="hidden"></DialogTrigger>
-    <DialogContent class="w-96 max-w-[90vw] h-[500px] max-h-[75vh] px-2">
+    <DialogContent>
       <VisuallyHidden>
         <DialogHeader>
           <DialogTitle>{{ t('script', 2) }}</DialogTitle>

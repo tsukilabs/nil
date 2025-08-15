@@ -9,7 +9,7 @@ import { useBreakpoints } from '@/composables/util/useBreakpoints';
 defineProps<{
   isHost: boolean;
   onStartRound: () => MaybePromise<void>;
-  onEndTurn: () => MaybePromise<void>;
+  onFinishTurn: () => MaybePromise<void>;
 }>();
 
 const { village } = NIL.village.refs();
@@ -33,7 +33,11 @@ const { sm } = useBreakpoints();
     </div>
 
     <div class="flex items-center">
-      <Round :is-host @start-round="onStartRound" @end-turn="onEndTurn" />
+      <Round
+        :is-host
+        @start-round="onStartRound"
+        @finish-turn="onFinishTurn"
+      />
     </div>
   </header>
 </template>
