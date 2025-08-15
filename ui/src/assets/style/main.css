@@ -12,6 +12,10 @@ button {
   @apply cursor-pointer;
 }
 
+button[data-slot="tabs-trigger"] {
+  @apply border-0!;
+}
+
 label:has(select),
 label:has(textarea),
 label:has(button[role="combobox"]),
@@ -34,6 +38,10 @@ label:has(input[type="radio"]) {
   & > span {
     @apply w-full;
   }
+}
+
+[data-scrollbarimpl] {
+  @apply border-0!;
 }
 
 [data-slot="dialog-content"] {

@@ -3,7 +3,13 @@
 
 type Scene = GameScene | 'home' | 'host-game' | 'join-game' | 'load-game' | 'settings';
 
-type GameScene = InfrastructureScene | ProfileScene | ScriptScene | 'continent' | 'village';
+type GameScene =
+  | InfrastructureScene
+  | ProfileScene
+  | ScriptScene
+  | 'chat'
+  | 'continent'
+  | 'village';
 
 type InfrastructureScene =
   | AcademyScene

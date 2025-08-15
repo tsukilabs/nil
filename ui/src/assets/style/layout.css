@@ -5,7 +5,7 @@
 }
 
 .card-layout [data-slot="card"] {
-  @apply min-w-[calc(100%-20px)] sm:min-w-80 p-2;
+  @apply min-w-[calc(100%-20px)] sm:min-w-80 md:min-w-90 lg:min-w-100 p-2 overflow-hidden;
 }
 
 .card-layout [data-slot="card-header"] {

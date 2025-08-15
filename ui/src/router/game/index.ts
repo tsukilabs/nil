@@ -8,6 +8,11 @@ import { infrastructureRoutes } from './infrastructure';
 
 export const gameRoutes: RouteRecordRaw[] = [
   {
+    component: () => import('@/scenes/game/chat/index.vue'),
+    path: 'chat',
+    name: 'chat' satisfies GameScene,
+  },
+  {
     component: () => import('@/scenes/game/continent/index.vue'),
     path: 'continent',
     name: 'continent' satisfies GameScene,
