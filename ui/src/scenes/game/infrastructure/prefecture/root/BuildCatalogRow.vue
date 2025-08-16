@@ -5,15 +5,26 @@
 import { useI18n } from 'vue-i18n';
 import { storeToRefs } from 'pinia';
 import { computed, nextTick } from 'vue';
+import { MenuIcon } from 'lucide-vue-next';
 import type { ResourcesImpl } from '@/core/model/resources';
 import BuildCatalogBuilding from './BuildCatalogBuilding.vue';
-import { Button, TableCell, TableRow } from '@tb-dev/vue-components';
+import { useBreakpoints } from '@/composables/util/useBreakpoints';
 import { usePrefectureSettings } from '@/settings/infrastructure/prefecture';
 import enUS from '@/locale/en-US/scenes/game/infrastructure/prefecture.json';
 import ptBR from '@/locale/pt-BR/scenes/game/infrastructure/prefecture.json';
 import type { BuildingImpl } from '@/core/model/infrastructure/building/abstract';
 import type { PrefectureImpl } from '@/core/model/infrastructure/building/prefecture/prefecture';
 import { useResolvedBuildingLevel } from '@/composables/infrastructure/useResolvedBuildingLevel';
+import {
+  Button,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  TableCell,
+  TableRow,
+} from '@tb-dev/vue-components';
 
 const props = defineProps<{
   entry: PrefectureBuildCatalogEntry;
@@ -39,6 +50,7 @@ const { player } = NIL.player.refs();
 const settings = usePrefectureSettings();
 const { hideMaxed, hideUnmet } = storeToRefs(settings);
 
+const { md } = useBreakpoints();
 const level = useResolvedBuildingLevel(() => props.building);
 
 const canBuild = computed(() => {
@@ -76,28 +88,22 @@ async function makeOrder(kind: PrefectureBuildOrderKind) {
 
 <template>
   <TableRow v-if="entry.kind === 'available'">
-    <TableCell class="min-w-24">
+    <TableCell>
       <BuildCatalogBuilding :building :scene />
     </TableCell>
+
     <TableCell>
-      <div class="grid grid-cols-3 items-center justify-start gap-4">
+      <div class="grid grid-cols-5 items-center justify-start gap-4">
         <Wood :amount="entry.recipe.resources.wood" :limit="playerResources?.wood" />
         <Stone :amount="entry.recipe.resources.stone" :limit="playerResources?.stone" />
         <Iron :amount="entry.recipe.resources.iron" :limit="playerResources?.iron" />
-      </div>
-    </TableCell>
-    <TableCell>
-      <div class="flex items-center justify-start">
         <Food :amount="entry.recipe.maintenance" />
-      </div>
-    </TableCell>
-    <TableCell>
-      <div class="flex items-center justify-start">
         <Workforce :amount="entry.recipe.workforce" />
       </div>
     </TableCell>
-    <TableCell class="min-w-30">
-      <div class="grid max-w-fit grid-cols-3 items-center justify-start gap-4">
+
+    <TableCell>
+      <div v-if="md" class="grid max-w-fit grid-cols-3 items-center justify-start gap-4">
         <Button
           variant="default"
           size="sm"
@@ -126,6 +132,36 @@ async function makeOrder(kind: PrefectureBuildOrderKind) {
           <span>{{ t('demolish') }}</span>
         </Button>
       </div>
+
+      <DropdownMenu v-else>
+        <DropdownMenuTrigger as-child>
+          <Button variant="ghost" size="icon">
+            <MenuIcon stroke-width="1.5px" />
+          </Button>
+        </DropdownMenuTrigger>
+
+        <DropdownMenuContent
+          align="end"
+          :align-offset="-15"
+          side="bottom"
+          :side-offset="5"
+          class="w-56"
+        >
+          <DropdownMenuGroup>
+            <DropdownMenuItem :disabled="!canBuild" @click="() => makeOrder('construction')">
+              {{ t('build') }}
+            </DropdownMenuItem>
+
+            <DropdownMenuItem :disabled="loading || !isPlayerTurn" @click="() => onToggle()">
+              {{ building.enabled ? t('disable') : t('enable') }}
+            </DropdownMenuItem>
+
+            <DropdownMenuItem :disabled="!canDemolish" @click="() => makeOrder('demolition')">
+              {{ t('demolish') }}
+            </DropdownMenuItem>
+          </DropdownMenuGroup>
+        </DropdownMenuContent>
+      </DropdownMenu>
     </TableCell>
   </TableRow>
 
@@ -133,7 +169,8 @@ async function makeOrder(kind: PrefectureBuildOrderKind) {
     <TableCell>
       <BuildCatalogBuilding :building :scene />
     </TableCell>
-    <TableCell colspan="4" class="w-full">
+
+    <TableCell colspan="4">
       <div class="text-muted-foreground flex w-full items-center justify-center text-sm">
         <span v-if="entry.kind === 'maxed'">
           {{ t('building-fully-constructed') }}

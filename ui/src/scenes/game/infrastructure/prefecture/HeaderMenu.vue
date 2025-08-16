@@ -50,7 +50,7 @@ function getButtonVariant(scene: PrefectureScene): ButtonVariant {
   <DropdownMenu v-else>
     <DropdownMenuTrigger as-child>
       <Button variant="ghost" size="icon">
-        <MenuIcon />
+        <MenuIcon stroke-width="1.5px" />
       </Button>
     </DropdownMenuTrigger>
 

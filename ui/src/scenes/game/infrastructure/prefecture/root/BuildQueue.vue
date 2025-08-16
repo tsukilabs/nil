@@ -4,7 +4,8 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { ChevronDownIcon, ChevronUpIcon } from 'lucide-vue-next';
+import { useBreakpoints } from '@/composables/util/useBreakpoints';
+import { ChevronDownIcon, ChevronUpIcon, XIcon } from 'lucide-vue-next';
 import enUS from '@/locale/en-US/scenes/game/infrastructure/prefecture.json';
 import ptBR from '@/locale/pt-BR/scenes/game/infrastructure/prefecture.json';
 import type { PrefectureImpl } from '@/core/model/infrastructure/building/prefecture/prefecture';
@@ -24,6 +25,8 @@ const { t } = useI18n({
 });
 
 const last = computed(() => props.prefecture.buildQueue.last());
+
+const { md } = useBreakpoints();
 
 const tableClass = computed(() => {
   return props.prefecture.buildQueue.size === 0 ? 'hidden' : null;
@@ -63,18 +66,33 @@ const tableClass = computed(() => {
                 stroke-width="2px"
                 class="size-5"
               />
-              <span>{{ `${t(order.building)} (${t('level-x', [order.level])})` }}</span>
+              <div class="flex flex-col gap-1">
+                <span class="md:whitespace-nowrap">
+                  {{ t(order.building) }}
+                </span>
+                <span class="text-muted-foreground text-xs">
+                  {{ t('level-x', [order.level]) }}
+                </span>
+              </div>
             </div>
           </TableCell>
+
           <TableCell>
             <div class="flex items-center justify-start">
               <Workforce :amount="order.state.workforce" />
             </div>
           </TableCell>
+
           <TableCell>
-            <div v-if="order.id === last?.id" class="flex items-center justify-center">
-              <Button variant="destructive" size="sm" :disabled="loading" @click="onCancel">
-                <span>{{ t('cancel') }}</span>
+            <div v-if="order.id === last?.id" class="flex items-center justify-start md:justify-center">
+              <Button
+                :variant="md ? 'destructive' : 'ghost'"
+                :size="md ? 'sm' : 'icon'"
+                :disabled="loading"
+                @click="onCancel"
+              >
+                <span v-if="md">{{ t('cancel') }}</span>
+                <XIcon v-else stroke-width="1.5px" />
               </Button>
             </div>
           </TableCell>

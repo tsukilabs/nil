@@ -44,6 +44,7 @@ async function send() {
 
 <template>
   <div class="flex h-[50px] max-w-full items-center justify-between gap-2 px-1 sm:px-2 pb-2">
+    <!-- Do not add a trim modifier here. -->
     <Input
       ref="chatInputEl"
       v-model="draft.text"
