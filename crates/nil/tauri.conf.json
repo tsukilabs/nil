@@ -1,6 +1,6 @@
 {
   "productName": "Call of Nil",
-  "version": "0.1.15",
+  "version": "0.1.16",
   "identifier": "tsukilabs.nil",
   "build": {
     "beforeDevCommand": "pnpm run -F ui dev",

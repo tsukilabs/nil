@@ -46,13 +46,7 @@ const hasSomeAvailable = computed(() => {
         <TableHead v-if="hasSomeAvailable">
           <span>{{ t('cost') }}</span>
         </TableHead>
-        <TableHead v-if="hasSomeAvailable">
-          <span>{{ t('maintenance') }}</span>
-        </TableHead>
-        <TableHead v-if="hasSomeAvailable">
-          <span>{{ t('workforce') }}</span>
-        </TableHead>
-        <TableHead :colspan="hasSomeAvailable ? 1 : 4">
+        <TableHead :colspan="hasSomeAvailable ? 1 : 2">
           <span></span>
         </TableHead>
       </TableRow>

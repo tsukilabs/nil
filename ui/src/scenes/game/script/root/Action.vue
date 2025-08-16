@@ -63,44 +63,44 @@ async function share() {
   <div v-if="lg" class="grid gap-2" :class="desktop ? 'grid-cols-6' : 'grid-cols-5'">
     <ActionTooltip :label="t('execute')">
       <Button variant="ghost" size="icon" :disabled="loading || !current?.id" @click="onExecute">
-        <PlayIcon stroke-width="1.5" />
+        <PlayIcon stroke-width="1.5px" />
       </Button>
     </ActionTooltip>
 
     <ActionTooltip :label="t('save')">
       <Button variant="ghost" size="icon" :disabled="loading || !current" @click="onSave">
-        <SaveIcon stroke-width="1.5" />
+        <SaveIcon stroke-width="1.5px" />
       </Button>
     </ActionTooltip>
 
     <ActionTooltip :label="t('remove')">
       <Button variant="ghost" size="icon" :disabled="loading || !current" @click="onRemove">
-        <Trash2Icon stroke-width="1.5" />
+        <Trash2Icon stroke-width="1.5px" />
       </Button>
     </ActionTooltip>
 
     <ActionTooltip v-if="desktop" :label="t('import')">
       <Button variant="ghost" size="icon" :disabled="loading" @click="onImport">
-        <FileDownIcon stroke-width="1.5" />
+        <FileDownIcon stroke-width="1.5px" />
       </Button>
     </ActionTooltip>
 
     <ActionTooltip v-if="desktop" :label="t('export')">
       <Button variant="ghost" size="icon" :disabled="loading || !current" @click="onExport">
-        <FileUpIcon stroke-width="1.5" />
+        <FileUpIcon stroke-width="1.5px" />
       </Button>
     </ActionTooltip>
 
     <ActionTooltip v-if="mobile" :label="t('share')">
       <Button variant="ghost" size="icon" :disabled="loading || !current?.code" @click="share">
-        <Share2Icon stroke-width="1.5" />
+        <Share2Icon stroke-width="1.5px" />
       </Button>
     </ActionTooltip>
 
     <ActionTooltip :label="t('registry')">
       <Button variant="ghost" size="icon" :disabled="loading">
         <RouterLink :to="{ name: 'nsr' satisfies ScriptScene }">
-          <GlobeIcon stroke-width="1.5" />
+          <GlobeIcon stroke-width="1.5px" />
         </RouterLink>
       </Button>
     </ActionTooltip>
@@ -117,7 +117,7 @@ async function share() {
     <DropdownMenu>
       <DropdownMenuTrigger as-child>
         <Button variant="ghost" size="icon">
-          <MenuIcon />
+          <MenuIcon stroke-width="1.5px" />
         </Button>
       </DropdownMenuTrigger>
 

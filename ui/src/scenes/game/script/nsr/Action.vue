@@ -62,25 +62,25 @@ async function share() {
     <div class="grid max-w-fit grid-cols-5 gap-2">
       <ActionTooltip :label="t('execute')">
         <Button variant="ghost" size="icon" :disabled="isReadonly || loading" @click="onExecute">
-          <PlayIcon stroke-width="1.5" />
+          <PlayIcon stroke-width="1.5px" />
         </Button>
       </ActionTooltip>
 
       <ActionTooltip :label="t('save')">
         <Button variant="ghost" size="icon" :disabled="loading" @click="onSave">
-          <SaveIcon stroke-width="1.5" />
+          <SaveIcon stroke-width="1.5px" />
         </Button>
       </ActionTooltip>
 
       <ActionTooltip :label="t('copy')">
         <Button variant="ghost" size="icon" :disabled="!contents?.script" @click="onCopy">
-          <CopyIcon stroke-width="1.5" />
+          <CopyIcon stroke-width="1.5px" />
         </Button>
       </ActionTooltip>
 
       <ActionTooltip v-if="desktop" :label="t('download')">
         <Button variant="ghost" size="icon" :disabled="loading" @click="onDownload">
-          <DownloadIcon stroke-width="1.5" />
+          <DownloadIcon stroke-width="1.5px" />
         </Button>
       </ActionTooltip>
 
@@ -91,13 +91,13 @@ async function share() {
           :disabled="loading || !props.current || !props.contents?.script"
           @click="share"
         >
-          <Share2Icon stroke-width="1.5" />
+          <Share2Icon stroke-width="1.5px" />
         </Button>
       </ActionTooltip>
 
       <ActionTooltip :label="t('reload')">
         <Button variant="ghost" size="icon" :disabled="loading" @click="onReload">
-          <RefreshCwIcon stroke-width="1.5" />
+          <RefreshCwIcon stroke-width="1.5px" />
         </Button>
       </ActionTooltip>
     </div>
@@ -107,7 +107,7 @@ async function share() {
     <DropdownMenu>
       <DropdownMenuTrigger as-child>
         <Button variant="ghost" size="icon">
-          <MenuIcon />
+          <MenuIcon stroke-width="1.5px" />
         </Button>
       </DropdownMenuTrigger>
 
