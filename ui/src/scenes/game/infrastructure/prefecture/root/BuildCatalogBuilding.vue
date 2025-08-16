@@ -22,7 +22,7 @@ const { t } = useI18n({
 
 <template>
   <div class="flex flex-col gap-1">
-    <RouterLink :to="{ name: scene }" class="md:whitespace-nowrap">
+    <RouterLink :to="{ name: scene }" class="md:whitespace-nowrap" @click.stop>
       {{ t(building.id) }}
     </RouterLink>
     <span class="text-muted-foreground text-xs">

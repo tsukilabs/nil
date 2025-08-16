@@ -71,6 +71,7 @@ onBeforeMount(loadRegistry);
               @save="save"
               @download="download"
               @reload="reload"
+              @entry-click="setCurrent"
             />
 
             <RegistryEntry v-if="highlighter" :contents :highlighter />

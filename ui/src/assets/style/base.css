@@ -1,3 +1,6 @@
+/** Copyright (C) Call of Nil contributors */
+/** SPDX-License-Identifier: AGPL-3.0-only */
+
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -43,6 +46,20 @@
   --font-nil: "Syne Mono";
 }
 
+@utility p-safe {
+  padding-top: var(--safe-top);
+  padding-right: var(--safe-right);
+  padding-bottom: var(--safe-bottom);
+  padding-left: var(--safe-left);
+}
+
+@utility p-safe-* {
+  padding-top: calc(var(--safe-top) + calc(var(--spacing, 0.25rem) * --value(integer)));
+  padding-right: calc(var(--safe-right) + calc(var(--spacing, 0.25rem) * --value(integer)));
+  padding-bottom: calc(var(--safe-bottom) + calc(var(--spacing, 0.25rem) * --value(integer)));
+  padding-left: calc(var(--safe-left) + calc(var(--spacing, 0.25rem) * --value(integer)));
+}
+
 @utility pt-safe {
   padding-top: var(--safe-top);
 }
@@ -51,12 +68,28 @@
   padding-top: calc(var(--safe-top) + calc(var(--spacing, 0.25rem) * --value(integer)));
 }
 
+@utility pr-safe {
+  padding-right: var(--safe-right);
+}
+
+@utility pr-safe-* {
+  padding-right: calc(var(--safe-right) + calc(var(--spacing, 0.25rem) * --value(integer)));
+}
+
 @utility pb-safe {
   padding-bottom: var(--safe-bottom);
 }
 
 @utility pb-safe-* {
   padding-bottom: calc(var(--safe-bottom) + calc(var(--spacing, 0.25rem) * --value(integer)));
+}
+
+@utility pl-safe {
+  padding-left: var(--safe-left);
+}
+
+@utility pl-safe-* {
+  padding-left: calc(var(--safe-left) + calc(var(--spacing, 0.25rem) * --value(integer)));
 }
 
 @utility ellipsis {

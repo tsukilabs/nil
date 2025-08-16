@@ -1,3 +1,6 @@
+/** Copyright (C) Call of Nil contributors */
+/** SPDX-License-Identifier: AGPL-3.0-only */
+
 @reference "./base.css";
 
 * {
@@ -54,7 +57,7 @@ label:has(input[type="radio"]) {
 }
 
 [data-slot="sidebar-footer"] > div {
-  @apply pb-safe-4;
+  @apply pb-safe-4 px-6;
 }
 
 [data-sonner-toast] [data-description] {

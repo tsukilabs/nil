@@ -1,4 +1,8 @@
+/** Copyright (C) Call of Nil contributors */
+/** SPDX-License-Identifier: AGPL-3.0-only */
+
 :root {
+  /** https://developer.mozilla.org/en-US/docs/Web/CSS/env */
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-right: env(safe-area-inset-right, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);

@@ -87,7 +87,10 @@ async function makeOrder(kind: PrefectureBuildOrderKind) {
 </script>
 
 <template>
-  <TableRow v-if="entry.kind === 'available'">
+  <TableRow
+    v-if="entry.kind === 'available'"
+    @dblclick="() => makeOrder('construction')"
+  >
     <TableCell>
       <BuildCatalogBuilding :building :scene />
     </TableCell>

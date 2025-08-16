@@ -4,8 +4,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useBreakpoints } from '@/composables/util/useBreakpoints';
-import { ChevronDownIcon, ChevronUpIcon, XIcon } from 'lucide-vue-next';
+import { ChevronDownIcon, ChevronUpIcon } from 'lucide-vue-next';
 import enUS from '@/locale/en-US/scenes/game/infrastructure/prefecture.json';
 import ptBR from '@/locale/pt-BR/scenes/game/infrastructure/prefecture.json';
 import type { PrefectureImpl } from '@/core/model/infrastructure/building/prefecture/prefecture';
@@ -25,8 +24,6 @@ const { t } = useI18n({
 });
 
 const last = computed(() => props.prefecture.buildQueue.last());
-
-const { md } = useBreakpoints();
 
 const tableClass = computed(() => {
   return props.prefecture.buildQueue.size === 0 ? 'hidden' : null;
@@ -51,7 +48,10 @@ const tableClass = computed(() => {
 
     <TableBody>
       <template v-for="order of prefecture.buildQueue" :key="order.id">
-        <TableRow v-if="order.state.kind === 'pending'">
+        <TableRow
+          v-if="order.state.kind === 'pending' && order.state.workforce > 0"
+          @dblclick="onCancel"
+        >
           <TableCell>
             <div class="flex items-center justify-start gap-2">
               <ChevronUpIcon
@@ -86,13 +86,12 @@ const tableClass = computed(() => {
           <TableCell>
             <div v-if="order.id === last?.id" class="flex items-center justify-start md:justify-center">
               <Button
-                :variant="md ? 'destructive' : 'ghost'"
-                :size="md ? 'sm' : 'icon'"
+                variant="destructive"
+                size="sm"
                 :disabled="loading"
                 @click="onCancel"
               >
-                <span v-if="md">{{ t('cancel') }}</span>
-                <XIcon v-else stroke-width="1.5px" />
+                <span>{{ t('cancel') }}</span>
               </Button>
             </div>
           </TableCell>
