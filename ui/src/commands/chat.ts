@@ -7,6 +7,8 @@ export function getChatHistory() {
   return invoke<[ChatHistory, ChatHistory]>('get_chat_history');
 }
 
-export function pushChatMessage(message: string) {
-  return invoke<null>('push_chat_message', { message });
+export async function pushChatMessage(message: string) {
+  if (message.trim().length > 0) {
+    await invoke<null>('push_chat_message', { message });
+  }
 }

@@ -18,9 +18,13 @@ export async function executeScript(id: ScriptId) {
 }
 
 export async function executeScriptChunk(chunk: string) {
-  const stdout = await invoke<Stdout>('execute_script_chunk', { chunk });
-  if (__DEBUG_ASSERTIONS__) console.log(stdout.join('\n'));
-  return stdout;
+  if (chunk.trim().length > 0) {
+    const stdout = await invoke<Stdout>('execute_script_chunk', { chunk });
+    if (__DEBUG_ASSERTIONS__) console.log(stdout.join('\n'));
+    return stdout;
+  }
+
+  return null;
 }
 
 export function exportScript(dir: string, name: string, code: string) {
