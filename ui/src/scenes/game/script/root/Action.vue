@@ -97,7 +97,7 @@ async function share() {
       </Button>
     </ActionTooltip>
 
-    <ActionTooltip :label="t('nsr')">
+    <ActionTooltip :label="t('registry')">
       <Button variant="ghost" size="icon" :disabled="loading">
         <RouterLink :to="{ name: 'nsr' satisfies ScriptScene }">
           <GlobeIcon stroke-width="1.5" />
@@ -166,7 +166,7 @@ async function share() {
 
           <DropdownMenuItem :disabled="loading">
             <RouterLink :to="{ name: 'nsr' satisfies ScriptScene }" class="w-full cursor-default">
-              <span>{{ t('nsr') }}</span>
+              <span>{{ t('registry') }}</span>
             </RouterLink>
           </DropdownMenuItem>
         </DropdownMenuGroup>
