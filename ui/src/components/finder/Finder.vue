@@ -43,7 +43,7 @@ const items = computed<FinderItem[]>(() => {
     },
     {
       value: 'nsr',
-      label: 'NSR',
+      label: t('registry'),
     },
     {
       value: 'prefecture',

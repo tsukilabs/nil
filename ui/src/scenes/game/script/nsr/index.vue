@@ -13,6 +13,7 @@ import { createHighlighter } from '@/lib/editor';
 import { useNsr } from '@/composables/script/useNsr';
 import enUS from '@/locale/en-US/scenes/game/script/nsr.json';
 import ptBR from '@/locale/pt-BR/scenes/game/script/nsr.json';
+import { useBreakpoints } from '@/composables/util/useBreakpoints';
 import { Card, CardContent, Separator } from '@tb-dev/vue-components';
 
 const { t } = useI18n({
@@ -38,6 +39,7 @@ const {
 const { state: highlighter } = asyncRef(null, createHighlighter);
 
 const isOnline = useOnline();
+const { lg } = useBreakpoints();
 
 watch(registry, () => {
   if (registry.value.length > 0 && !current.value) {
@@ -53,19 +55,21 @@ onBeforeMount(loadRegistry);
     <Card class="size-full p-0">
       <CardContent class="relative size-full overflow-hidden rounded-xl p-0">
         <div v-if="isOnline" class="flex size-full items-center justify-between">
-          <Sidebar :registry @entry-click="setCurrent" />
-
-          <Separator orientation="vertical" />
+          <template v-if="lg">
+            <Sidebar :registry @entry-click="setCurrent" />
+            <Separator orientation="vertical" />
+          </template>
 
           <div class="flex size-full flex-col pl-4">
             <Action
+              :registry
               :current
               :contents
               :loading
               class="py-4 pr-4"
               @execute="execute"
               @save="save"
-              @dowload="download"
+              @download="download"
               @reload="reload"
             />
 
