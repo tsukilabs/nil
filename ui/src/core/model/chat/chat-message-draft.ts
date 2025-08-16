@@ -9,7 +9,7 @@ const enum ChatMessageDraftKind {
 }
 
 const regex = {
-  lua: /^\\lua\s(.+)/,
+  lua: /^\$lua\s(.+)/,
 } as const;
 
 export class ChatMessageDraft {
