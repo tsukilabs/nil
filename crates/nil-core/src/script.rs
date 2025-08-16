@@ -4,7 +4,7 @@
 use crate::error::{Error, Result};
 use crate::player::PlayerId;
 use bon::Builder;
-use derive_more::Display;
+use derive_more::{Deref, Display};
 use itertools::Itertools;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
@@ -128,7 +128,7 @@ impl Default for ScriptId {
 }
 
 #[must_use]
-#[derive(Clone, Debug, Default, Deserialize, Serialize)]
+#[derive(Clone, Debug, Default, Deref, Deserialize, Serialize)]
 pub struct Stdout(Vec<Arc<str>>);
 
 impl Stdout {

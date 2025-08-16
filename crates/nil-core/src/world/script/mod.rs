@@ -30,7 +30,14 @@ impl World {
 
   pub fn execute_script_chunk(&mut self, player: PlayerId, chunk: &str) -> Result<Stdout> {
     let stdout = WorldUserData::new(self, player.clone()).execute(chunk)?;
-    self.push_stdout_message(player, stdout.clone());
+
+    if stdout
+      .iter()
+      .any(|line| !line.trim().is_empty())
+    {
+      self.push_stdout_message(player, stdout.clone());
+    }
+
     Ok(stdout)
   }
 }
