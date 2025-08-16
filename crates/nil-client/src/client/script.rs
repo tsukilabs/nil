@@ -3,7 +3,7 @@
 
 use super::Client;
 use crate::error::Result;
-use nil_core::script::{AddScriptRequest, Script, ScriptId, Stdio};
+use nil_core::script::{AddScriptRequest, Script, ScriptId, Stdout};
 
 impl Client {
   /// GET `/script`
@@ -17,7 +17,7 @@ impl Client {
   }
 
   /// POST `/script/chunk`
-  pub async fn execute_script_chunk(&self, chunk: &str) -> Result<Stdio> {
+  pub async fn execute_script_chunk(&self, chunk: &str) -> Result<Stdout> {
     self
       .http
       .post_json("script/chunk", chunk)
@@ -38,7 +38,7 @@ impl Client {
   }
 
   /// GET `/script/{id}/execute`
-  pub async fn execute_script(&self, id: ScriptId) -> Result<Stdio> {
+  pub async fn execute_script(&self, id: ScriptId) -> Result<Stdout> {
     self
       .http
       .get_json(&format!("script/{id}/execute"))

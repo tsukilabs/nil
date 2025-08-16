@@ -9,7 +9,7 @@ use crate::{bail_not_player, res};
 use axum::extract::{Extension, Json, Path, State};
 use axum::response::Response;
 use futures::{FutureExt, TryFutureExt};
-use nil_core::script::{AddScriptRequest, Script, ScriptId, Stdio};
+use nil_core::script::{AddScriptRequest, Script, ScriptId, Stdout};
 
 pub async fn add(
   State(app): State<App>,
@@ -37,7 +37,7 @@ pub async fn execute(
   Extension(player): Extension<CurrentPlayer>,
   Path(id): Path<ScriptId>,
 ) -> Response {
-  let result: CoreResult<Stdio> = try {
+  let result: CoreResult<Stdout> = try {
     let mut world = app.world.write().await;
     let scripting = world.scripting();
     let script = scripting.get(id)?;
@@ -46,7 +46,7 @@ pub async fn execute(
   };
 
   result
-    .map(|stdio| res!(OK, Json(stdio)))
+    .map(|stdout| res!(OK, Json(stdout)))
     .unwrap_or_else(from_core_err)
 }
 
@@ -57,7 +57,7 @@ pub async fn execute_chunk(
 ) -> Response {
   app
     .world_mut(|world| world.execute_script_chunk(player.0, &chunk))
-    .map_ok(|stdio| res!(OK, Json(stdio)))
+    .map_ok(|stdout| res!(OK, Json(stdout)))
     .unwrap_or_else(from_core_err)
     .await
 }

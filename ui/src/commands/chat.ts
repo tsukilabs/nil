@@ -3,10 +3,10 @@
 
 import { invoke } from '@tauri-apps/api/core';
 
-export function getChat() {
-  return invoke<Chat>('get_chat');
+export function getChatHistory() {
+  return invoke<[ChatHistory, ChatHistory]>('get_chat_history');
 }
 
 export function pushChatMessage(message: string) {
-  return invoke<ChatMessageId>('push_chat_message', { message });
+  return invoke<null>('push_chat_message', { message });
 }

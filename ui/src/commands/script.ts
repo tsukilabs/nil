@@ -12,15 +12,15 @@ export function addScripts(scripts: AddScriptRequest[]) {
 }
 
 export async function executeScript(id: ScriptId) {
-  const stdio = await invoke<Stdio>('execute_script', { id });
-  if (__DEBUG_ASSERTIONS__) console.log(stdio.stdout.join('\n'));
-  return stdio;
+  const stdout = await invoke<Stdout>('execute_script', { id });
+  if (__DEBUG_ASSERTIONS__) console.log(stdout.join('\n'));
+  return stdout;
 }
 
 export async function executeScriptChunk(chunk: string) {
-  const stdio = await invoke<Stdio>('execute_script_chunk', { chunk });
-  if (__DEBUG_ASSERTIONS__) console.log(stdio.stdout.join('\n'));
-  return stdio;
+  const stdout = await invoke<Stdout>('execute_script_chunk', { chunk });
+  if (__DEBUG_ASSERTIONS__) console.log(stdout.join('\n'));
+  return stdout;
 }
 
 export function exportScript(dir: string, name: string, code: string) {

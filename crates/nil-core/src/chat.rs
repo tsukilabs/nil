@@ -2,29 +2,49 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::player::PlayerId;
+use bon::Builder;
+use derive_more::From;
 use jiff::Zoned;
 use serde::{Deserialize, Serialize};
-use std::collections::VecDeque;
+use std::borrow::Cow;
+use std::collections::{HashMap, VecDeque};
 use std::num::NonZeroUsize;
 use std::sync::Arc;
+use strum::EnumIs;
 use uuid::Uuid;
 
 #[derive(Clone, Debug, Default, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Chat {
-  history: ChatHistory,
+  public: ChatHistory,
+  private: HashMap<PlayerId, ChatHistory>,
 }
 
 impl Chat {
-  pub fn iter(&self) -> impl Iterator<Item = &ChatMessage> {
-    self.history.queue.iter()
+  #[inline]
+  pub fn public(&self) -> ChatHistory {
+    self.public.clone()
   }
 
-  pub(crate) fn push(&mut self, message: ChatMessage) -> ChatMessageId {
-    let id = message.id;
-    self.history.trim();
-    self.history.queue.push_back(message);
-    id
+  #[inline]
+  pub fn private(&self, player: &PlayerId) -> ChatHistory {
+    self
+      .private
+      .get(player)
+      .cloned()
+      .unwrap_or_default()
+  }
+
+  pub(crate) fn push(&mut self, message: ChatMessage) {
+    self.public.push(message);
+  }
+
+  pub(crate) fn push_to(&mut self, player: PlayerId, message: ChatMessage) {
+    self
+      .private
+      .entry(player)
+      .or_default()
+      .push(message);
   }
 }
 
@@ -43,6 +63,11 @@ impl ChatHistory {
     let size = size.clamp(Self::MIN.get(), Self::MAX.get());
     let size = unsafe { NonZeroUsize::new_unchecked(size) };
     Self { queue: VecDeque::new(), size }
+  }
+
+  fn push(&mut self, message: ChatMessage) {
+    self.trim();
+    self.queue.push_back(message);
   }
 
   fn trim(&mut self) {
@@ -64,26 +89,34 @@ impl Default for ChatHistory {
   }
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Builder, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct ChatMessage {
-  id: ChatMessageId,
-  author: ChatMessageAuthor,
+  #[builder(start_fn, into)]
   content: ChatMessageContent,
+
+  #[builder(skip)]
+  id: ChatMessageId,
+
+  #[builder(default)]
+  kind: ChatMessageKind,
+
+  #[builder(default, into)]
+  author: ChatMessageAuthor,
+
+  #[builder(skip = Zoned::now())]
   timestamp: Zoned,
 }
 
 impl ChatMessage {
-  pub fn new<A>(author: A, message: &str) -> Self
-  where
-    A: Into<ChatMessageAuthor>,
-  {
-    Self {
-      id: ChatMessageId::new(),
-      author: author.into(),
-      content: ChatMessageContent::new(message),
-      timestamp: Zoned::now(),
-    }
+  #[inline]
+  pub fn id(&self) -> ChatMessageId {
+    self.id
+  }
+
+  #[inline]
+  pub fn kind(&self) -> ChatMessageKind {
+    self.kind
   }
 }
 
@@ -109,10 +142,22 @@ impl Default for ChatMessageId {
   }
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Copy, Debug, Default, EnumIs, Deserialize, Serialize)]
+#[serde(rename_all = "kebab-case")]
+pub enum ChatMessageKind {
+  #[default]
+  Default,
+  Stdout,
+}
+
+#[derive(Clone, Debug, Default, Deserialize, Serialize)]
 #[serde(tag = "kind", rename_all = "kebab-case")]
 pub enum ChatMessageAuthor {
-  Player { id: PlayerId },
+  #[default]
+  System,
+  Player {
+    id: PlayerId,
+  },
 }
 
 impl From<PlayerId> for ChatMessageAuthor {
@@ -127,14 +172,9 @@ impl From<&PlayerId> for ChatMessageAuthor {
   }
 }
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, From, Deserialize, Serialize)]
+#[from(String, &str, Arc<str>, Box<str>, Cow<'_, str>)]
 pub struct ChatMessageContent(Arc<str>);
-
-impl ChatMessageContent {
-  pub fn new(content: &str) -> Self {
-    Self(Arc::from(content))
-  }
-}
 
 impl Clone for ChatMessageContent {
   fn clone(&self) -> Self {

@@ -35,7 +35,7 @@ function onChatUpdated({ message }: ChatUpdatedPayload) {
   if (
     !isChatOpen.value &&
     route.name !== ('chat' satisfies GameScene) &&
-    message.author.id !== player.value?.id
+    (message.author.kind !== 'player' || message.author.id !== player.value?.id)
   ) {
     hasUnread.value = true;
   }
@@ -54,7 +54,7 @@ function onChatUpdated({ message }: ChatUpdatedPayload) {
       side="top"
       :side-offset="10"
       disable-outside-pointer-events
-      class="w-96 2xl:w-120 max-w-[90vw] h-[500px] max-h-[75vh]"
+      class="w-96 2xl:w-120 max-w-[90vw] h-[500px] max-h-[75vh] px-0"
       @pointer-down-outside="() => void toggleChat(false)"
     >
       <Chat class="w-full h-[470px] max-h-[calc(75vh-30px)]">

@@ -3,6 +3,7 @@
 
 <script setup lang="ts">
 import MessagePlayer from './MessagePlayer.vue';
+import MessageStdout from './MessageStdout.vue';
 import { ListenerSet } from '@/lib/listener-set';
 import { ScrollArea } from '@tb-dev/vue-components';
 import { nextTick, onMounted, useTemplateRef, type VNode } from 'vue';
@@ -30,7 +31,7 @@ async function scroll() {
   await nextTick();
   content.value?.parentElement?.parentElement?.scrollTo({
     top: Number.MAX_SAFE_INTEGER,
-    behavior: 'auto',
+    behavior: 'instant',
   });
 }
 
@@ -45,8 +46,9 @@ defineExpose({ scroll });
       <div class="flex h-full flex-col justify-between gap-4 overflow-hidden">
         <ScrollArea :style="{ height: scrollHeight }">
           <div v-if="chat" ref="contentEl" class="flex flex-col gap-3 pr-6 pl-2 sm:pl-4">
-            <div v-for="message of chat" :key="message.id" class="chat-message">
+            <div v-for="message of chat" :key="message.id">
               <MessagePlayer v-if="message.author.kind === 'player'" :message />
+              <MessageStdout v-else-if="message.kind === 'stdout'" :message />
             </div>
           </div>
         </ScrollArea>

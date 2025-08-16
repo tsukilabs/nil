@@ -1,6 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+mod chat;
 mod cheat;
 mod infrastructure;
 mod player;
@@ -10,7 +11,7 @@ mod village;
 use super::World;
 use crate::error::{Error, Result};
 use crate::player::PlayerId;
-use crate::script::{ScriptId, Stdio};
+use crate::script::{ScriptId, Stdout};
 use mlua::{Lua, LuaOptions, StdLib, UserData, UserDataMethods, Value, Variadic};
 use std::cell::RefCell;
 use std::rc::Rc;
@@ -22,13 +23,15 @@ static LUA: LazyLock<Lua> = LazyLock::new(|| {
 });
 
 impl World {
-  pub fn execute_script(&mut self, id: ScriptId) -> Result<Stdio> {
+  pub fn execute_script(&mut self, id: ScriptId) -> Result<Stdout> {
     let script = self.scripting.get(id).cloned()?;
     self.execute_script_chunk(script.owner(), script.code())
   }
 
-  pub fn execute_script_chunk(&mut self, player: PlayerId, chunk: &str) -> Result<Stdio> {
-    WorldUserData::new(self, player).execute(chunk)
+  pub fn execute_script_chunk(&mut self, player: PlayerId, chunk: &str) -> Result<Stdout> {
+    let stdout = WorldUserData::new(self, player.clone()).execute(chunk)?;
+    self.push_stdout_message(player, stdout.clone());
+    Ok(stdout)
   }
 }
 
@@ -42,19 +45,19 @@ impl<'a> WorldUserData<'a> {
     Self { world, player }
   }
 
-  fn execute(self, chunk: &str) -> Result<Stdio> {
-    let stdio = Rc::new(RefCell::new(Stdio::default()));
+  fn execute(self, chunk: &str) -> Result<Stdout> {
+    let stdout = Rc::new(RefCell::new(Stdout::default()));
     let result = LUA.scope(|scope| {
       let globals = LUA.create_table()?;
       let world = scope.create_userdata(self)?;
       let print = scope.create_function_mut({
-        let stdio = Rc::downgrade(&stdio);
+        let stdout = Rc::downgrade(&stdout);
         move |_, values: Variadic<Value>| {
-          if let Some(stdio) = stdio.upgrade() {
+          if let Some(stdio) = stdout.upgrade() {
             for value in values {
               let value = value.to_string()?;
               if let Ok(mut stdio) = stdio.try_borrow_mut() {
-                stdio.push_stdout(&value);
+                stdio.push(&value);
               }
 
               #[cfg(debug_assertions)]
@@ -82,7 +85,7 @@ impl<'a> WorldUserData<'a> {
       Err(err.clone())
     } else {
       result?;
-      Ok(Rc::unwrap_or_clone(stdio).into_inner())
+      Ok(Rc::unwrap_or_clone(stdout).into_inner())
     }
   }
 }
@@ -104,6 +107,7 @@ macro_rules! bail_not_owned_by {
 
 impl UserData for WorldUserData<'_> {
   fn add_methods<M: UserDataMethods<Self>>(methods: &mut M) {
+    chat::add_methods(methods);
     cheat::add_methods(methods);
     infrastructure::add_methods(methods);
     player::add_methods(methods);

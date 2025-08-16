@@ -8,9 +8,9 @@ use axum::extract::{Extension, Json, State};
 use axum::response::Response;
 use futures::FutureExt;
 
-pub async fn get(State(app): State<App>) -> Response {
+pub async fn get(State(app): State<App>, Extension(player): Extension<CurrentPlayer>) -> Response {
   app
-    .chat(Clone::clone)
+    .chat(|chat| (chat.public(), chat.private(&player)))
     .map(|chat| res!(OK, Json(chat)))
     .await
 }
@@ -22,6 +22,6 @@ pub async fn push(
 ) -> Response {
   app
     .world_mut(|world| world.push_chat_message(player.0, &message))
-    .map(|id| res!(OK, Json(id)))
+    .map(|()| res!(OK))
     .await
 }

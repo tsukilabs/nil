@@ -8,6 +8,8 @@ use derive_more::Display;
 use itertools::Itertools;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
+use std::fmt;
+use std::sync::Arc;
 use uuid::Uuid;
 
 pub const EXTENSION: &str = "lua";
@@ -127,14 +129,17 @@ impl Default for ScriptId {
 
 #[must_use]
 #[derive(Clone, Debug, Default, Deserialize, Serialize)]
-#[serde(rename_all = "camelCase")]
-pub struct Stdio {
-  stdout: Vec<Box<str>>,
+pub struct Stdout(Vec<Arc<str>>);
+
+impl Stdout {
+  pub(crate) fn push(&mut self, value: &str) {
+    self.0.push(Arc::from(value));
+  }
 }
 
-impl Stdio {
-  pub(crate) fn push_stdout(&mut self, value: &str) {
-    self.stdout.push(Box::from(value));
+impl fmt::Display for Stdout {
+  fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+    write!(f, "{}", self.0.join("\n"))
   }
 }
 

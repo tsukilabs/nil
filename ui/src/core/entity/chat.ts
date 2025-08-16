@@ -31,7 +31,7 @@ export class ChatEntity extends Entity {
 
   private onChatUpdated({ message }: ChatUpdatedPayload) {
     if (this.chat.value) {
-      this.chat.value.history.push(message);
+      this.chat.value.push(message);
       triggerRef(this.chat);
     }
   }

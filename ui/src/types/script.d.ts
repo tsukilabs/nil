@@ -10,9 +10,7 @@ interface Script {
 
 type ScriptId = string;
 
-interface Stdio {
-  readonly stdout: readonly string[];
-}
+type Stdout = readonly string[];
 
 interface AddScriptRequest {
   name?: Option<string>;

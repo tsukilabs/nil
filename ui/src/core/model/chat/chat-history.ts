@@ -8,7 +8,10 @@ export class ChatHistoryImpl implements ChatHistory {
   public readonly size: number;
 
   private constructor(history: ChatHistory) {
-    this.queue = history.queue.map((it) => ChatMessageImpl.create(it));
+    this.queue = history.queue
+      .map((it) => ChatMessageImpl.create(it))
+      .filter((it) => !it.isEmpty());
+
     this.size = history.size;
 
     this.sort();
@@ -28,16 +31,34 @@ export class ChatHistoryImpl implements ChatHistory {
 
   public push(message: ChatMessage) {
     if (this.queue.every(({ id }) => id !== message.id)) {
-      this.queue.push(ChatMessageImpl.create(message));
-      this.sort();
+      const impl = ChatMessageImpl.create(message);
+      if (!impl.isEmpty()) {
+        this.queue.push(ChatMessageImpl.create(message));
+        this.sort();
+      }
     }
   }
 
   public sort() {
-    this.queue.sort((a, b) => a.date.getTime() - b.date.getTime());
+    sortQueue(this.queue);
+  }
+
+  public merge(...values: ChatHistoryImpl[]) {
+    const queue = [...this.queue];
+    for (const value of values) {
+      queue.push(...value.queue);
+    }
+
+    sortQueue(queue);
+
+    return queue;
   }
 
   public static create(history: ChatHistory) {
     return new ChatHistoryImpl(history);
   }
+}
+
+function sortQueue(queue: ChatMessageImpl[]) {
+  queue.sort((a, b) => a.date.getTime() - b.date.getTime());
 }
