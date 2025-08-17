@@ -3,13 +3,14 @@
 
 <script setup lang="ts">
 import { go } from '@/router';
-import { onMounted } from 'vue';
 import Header from './Header.vue';
 import Footer from './Footer.vue';
 import Sidebar from './Sidebar.vue';
+import { onMounted, ref } from 'vue';
 import * as commands from '@/commands';
 import { leaveGame } from '@/core/game';
 import { useToggle } from '@vueuse/core';
+import { handleError } from '@/lib/error';
 import { saveGame } from '@/core/savedata';
 import Loading from '@/components/Loading.vue';
 import { defineGlobalCheats } from '@/lib/global';
@@ -25,6 +26,8 @@ const { state: isHost } = asyncRef(false, commands.isHost);
 
 const [isSidebarOpen, toggleSidebar] = useToggle(false);
 const [isFinderOpen, toggleFinder] = useToggle(false);
+
+const lastSavedAt = ref<Option<RoundId>>();
 
 onCtrlKeyDown(['b', 'B'], () => toggleSidebar());
 onCtrlKeyDown(['f', 'F'], () => toggleFinder());
@@ -46,16 +49,26 @@ function finishTurn() {
   }
 }
 
-function save() {
-  if (isHost.value && round.value?.state.kind !== 'idle') {
-    saveGame().err();
+async function save() {
+  if (
+    isHost.value &&
+    round.value?.state.kind !== 'idle' &&
+    round.value?.id !== lastSavedAt.value
+  ) {
+    try {
+      await saveGame();
+      lastSavedAt.value = round.value?.id;
+    }
+    catch (err) {
+      handleError(err);
+    }
   }
 }
 </script>
 
 <template>
   <SidebarProvider v-model:open="isSidebarOpen">
-    <Sidebar :is-host @save="save" @leave="leaveGame" />
+    <Sidebar :is-host :last-saved-at @save="save" @leave="leaveGame" />
 
     <div class="bg-background/40 absolute inset-0 overflow-hidden">
       <Header

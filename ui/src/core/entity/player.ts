@@ -53,6 +53,10 @@ export class PlayerEntity extends Entity {
     return this.use().update();
   }
 
+  public static coords() {
+    return this.use().player.value?.coords ?? [];
+  }
+
   public static async setId(id?: Option<PlayerId>) {
     const player = this.use();
     player.id.value = id;
@@ -62,6 +66,7 @@ export class PlayerEntity extends Entity {
   public static init() {
     if (!Object.hasOwn(globalThis.NIL, 'player')) {
       const player: (typeof globalThis.NIL)['player'] = {
+        coords: PlayerEntity.coords.bind(PlayerEntity),
         refs: PlayerEntity.refs.bind(PlayerEntity),
         setId: PlayerEntity.setId.bind(PlayerEntity),
         update: PlayerEntity.update.bind(PlayerEntity),

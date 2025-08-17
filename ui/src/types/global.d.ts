@@ -34,6 +34,7 @@ declare global {
 
     /** Current player. */
     readonly player: {
+      readonly coords: (typeof PlayerEntity)['coords'];
       readonly refs: (typeof PlayerEntity)['refs'];
       readonly setId: (typeof PlayerEntity)['setId'];
       readonly update: (typeof PlayerEntity)['update'];

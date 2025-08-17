@@ -7,8 +7,8 @@ import { storeToRefs } from 'pinia';
 import { computed, nextTick } from 'vue';
 import { MenuIcon } from 'lucide-vue-next';
 import type { ResourcesImpl } from '@/core/model/resources';
-import BuildCatalogBuilding from './BuildCatalogBuilding.vue';
 import { useBreakpoints } from '@/composables/util/useBreakpoints';
+import BuildingTitle from '@/components/infrastructure/BuildingTitle.vue';
 import { usePrefectureSettings } from '@/settings/infrastructure/prefecture';
 import enUS from '@/locale/en-US/scenes/game/infrastructure/prefecture.json';
 import ptBR from '@/locale/pt-BR/scenes/game/infrastructure/prefecture.json';
@@ -30,7 +30,7 @@ const props = defineProps<{
   entry: PrefectureBuildCatalogEntry;
   building: BuildingImpl;
   prefecture: PrefectureImpl;
-  scene: GameScene;
+  scene: InfrastructureScene;
   loading: boolean;
   isPlayerTurn: boolean;
   playerResources: Option<ResourcesImpl>;
@@ -80,7 +80,10 @@ const canDemolish = computed(() => {
 
 async function makeOrder(kind: PrefectureBuildOrderKind) {
   await nextTick();
-  if ((kind === 'construction' && canBuild.value) || (kind === 'demolition' && canDemolish.value)) {
+  if (
+    (kind === 'construction' && canBuild.value) ||
+    (kind === 'demolition' && canDemolish.value)
+  ) {
     props.onBuildOrder(kind);
   }
 }
@@ -92,7 +95,7 @@ async function makeOrder(kind: PrefectureBuildOrderKind) {
     @dblclick="() => makeOrder('construction')"
   >
     <TableCell>
-      <BuildCatalogBuilding :building :scene />
+      <BuildingTitle :building="building.id" :level="building.level" :scene />
     </TableCell>
 
     <TableCell>

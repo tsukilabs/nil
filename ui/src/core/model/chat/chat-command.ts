@@ -158,6 +158,5 @@ export class ChatCommand {
 
 async function setKamiMode() {
   await commands.cheatSetMaxResources();
-  const coords = NIL.player.refs().player.value?.coords ?? [];
-  await Promise.all(coords.map(commands.cheatSetMaxInfrastructure));
+  await Promise.all(NIL.player.coords().map(commands.cheatSetMaxInfrastructure));
 }
