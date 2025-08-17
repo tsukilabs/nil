@@ -5,6 +5,7 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { ChevronDownIcon, ChevronUpIcon } from 'lucide-vue-next';
+import BuildingTitle from '@/components/infrastructure/BuildingTitle.vue';
 import enUS from '@/locale/en-US/scenes/game/infrastructure/prefecture.json';
 import ptBR from '@/locale/pt-BR/scenes/game/infrastructure/prefecture.json';
 import type { PrefectureImpl } from '@/core/model/infrastructure/building/prefecture/prefecture';
@@ -50,7 +51,7 @@ const tableClass = computed(() => {
       <template v-for="order of prefecture.buildQueue" :key="order.id">
         <TableRow
           v-if="order.state.kind === 'pending' && order.state.workforce > 0"
-          @dblclick="onCancel"
+          @dblclick="() => void (order.id === last?.id && onCancel())"
         >
           <TableCell>
             <div class="flex items-center justify-start gap-2">
@@ -66,14 +67,7 @@ const tableClass = computed(() => {
                 stroke-width="2px"
                 class="size-5"
               />
-              <div class="flex flex-col gap-1">
-                <span class="md:whitespace-nowrap">
-                  {{ t(order.building) }}
-                </span>
-                <span class="text-muted-foreground text-xs">
-                  {{ t('level-x', [order.level]) }}
-                </span>
-              </div>
+              <BuildingTitle :building="order.building" :level="order.level" />
             </div>
           </TableCell>
 

@@ -32,7 +32,7 @@ const prefecture = usePrefecture();
         </CardTitle>
       </CardHeader>
 
-      <CardContent class="overflow-auto px-2 py-0">
+      <CardContent class="size-full overflow-auto px-2 py-0">
         <RouterView #default="{ Component }">
           <template v-if="Component">
             <KeepAlive>

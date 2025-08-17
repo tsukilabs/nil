@@ -19,7 +19,7 @@ watch(village, load);
 </script>
 
 <template>
-  <div class="flex w-full flex-col gap-4 xl:flex-row-reverse">
+  <div class="flex w-full min-w-max flex-col gap-4 xl:flex-row-reverse">
     <RecruitQueue v-if="academy" :academy :loading @cancel="cancel" />
     <RecruitCatalog
       v-if="academy && catalog"

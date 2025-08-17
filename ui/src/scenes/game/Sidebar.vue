@@ -6,8 +6,8 @@ import { useI18n } from 'vue-i18n';
 import { asyncRef } from '@tb-dev/vue';
 import * as commands from '@/commands';
 import RoundState from './RoundState.vue';
-import { nextTick, useTemplateRef } from 'vue';
 import { onBeforeRouteUpdate } from 'vue-router';
+import { computed, nextTick, useTemplateRef } from 'vue';
 import { writeText } from '@tauri-apps/plugin-clipboard-manager';
 import { useBreakpoints } from '@/composables/util/useBreakpoints';
 import { type OnClickOutsideProps, vOnClickOutside } from '@vueuse/components';
@@ -25,8 +25,9 @@ import {
   useSidebar,
 } from '@tb-dev/vue-components';
 
-defineProps<{
+const props = defineProps<{
   isHost: boolean;
+  lastSavedAt: Option<RoundId>;
   onSave: () => MaybePromise<void>;
   onLeave: () => MaybePromise<void>;
 }>();
@@ -41,13 +42,19 @@ const { player } = NIL.player.refs();
 
 const { state: serverAddr } = asyncRef(null, commands.getServerAddr);
 
+const { sm } = useBreakpoints();
+
 const sidebarHeader = useTemplateRef('sidebarHeaderEl');
 const sidebarFooter = useTemplateRef('sidebarFooterEl');
 const onClickOutsideOptions: OnClickOutsideProps['options'] = {
   ignore: [sidebarHeader, sidebarFooter],
 };
 
-const { sm } = useBreakpoints();
+const canSave = computed(() => {
+  return (props.isHost &&
+    round.value?.state.kind !== 'idle' &&
+    round.value?.id !== props.lastSavedAt);
+});
 
 onBeforeRouteUpdate(closeSidebar);
 
@@ -127,7 +134,7 @@ function copyServerAddr() {
         ref="sidebarFooterEl"
         class="grid grid-cols-2 items-center justify-center gap-4"
       >
-        <Button size="sm" :disabled="!isHost || round?.state.kind === 'idle'" @click="onSave">
+        <Button size="sm" :disabled="!canSave" @click="onSave">
           <span>{{ t('save') }}</span>
         </Button>
         <Button variant="destructive" size="sm" @click="onLeave">

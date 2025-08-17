@@ -59,23 +59,17 @@ const canRecruit = computed(() => {
     <TableCell class="min-w-24">
       <span>{{ t(unit) }}</span>
     </TableCell>
+
     <TableCell>
-      <div class="grid grid-cols-3 items-center justify-start gap-4">
+      <div class="grid grid-cols-5 items-center justify-start gap-4">
         <Wood :amount="resources.wood" :limit="playerResources?.wood" />
         <Stone :amount="resources.stone" :limit="playerResources?.stone" />
         <Iron :amount="resources.iron" :limit="playerResources?.iron" />
-      </div>
-    </TableCell>
-    <TableCell>
-      <div class="flex items-center justify-start">
         <Food :amount="maintenance" />
-      </div>
-    </TableCell>
-    <TableCell>
-      <div class="flex items-center justify-start">
         <Workforce :amount="workforce" />
       </div>
     </TableCell>
+
     <TableCell class="min-w-30">
       <div class="grid max-w-fit grid-cols-2 items-center justify-start gap-4">
         <NumberField
