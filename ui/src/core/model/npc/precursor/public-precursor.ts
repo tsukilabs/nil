@@ -32,8 +32,12 @@ export class PublicPrecursorImpl implements PublicPrecursor {
   }
 
   public static async load(id: PrecursorId) {
-    const precursor = await commands.getPublicPrecursor(id);
-    return PublicPrecursorImpl.create({ precursor, coords: [] });
+    const [precursor, coords] = await Promise.all([
+      commands.getPublicPrecursor(id),
+      commands.getPrecursorCoords(id),
+    ]);
+
+    return PublicPrecursorImpl.create({ precursor, coords });
   }
 }
 

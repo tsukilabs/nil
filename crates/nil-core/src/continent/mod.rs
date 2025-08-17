@@ -145,6 +145,13 @@ impl Continent {
       .filter(move |village| village.is_owned_by_bot_and(&f))
   }
 
+  pub fn bot_coords_by<F>(&self, f: F) -> impl Iterator<Item = Coord>
+  where
+    F: Fn(BotId) -> bool,
+  {
+    self.bot_villages_by(f).map(Village::coord)
+  }
+
   pub fn precursor_villages_by<F>(&self, f: F) -> impl Iterator<Item = &Village>
   where
     F: Fn(PrecursorId) -> bool,
@@ -152,6 +159,15 @@ impl Continent {
     self
       .villages()
       .filter(move |village| village.is_owned_by_precursor_and(&f))
+  }
+
+  pub fn precursor_coords_by<F>(&self, f: F) -> impl Iterator<Item = Coord>
+  where
+    F: Fn(PrecursorId) -> bool,
+  {
+    self
+      .precursor_villages_by(f)
+      .map(Village::coord)
   }
 }
 

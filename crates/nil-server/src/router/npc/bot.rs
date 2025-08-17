@@ -6,8 +6,19 @@ use crate::response::from_core_err;
 use crate::state::App;
 use axum::extract::{Json, Path, State};
 use axum::response::Response;
-use futures::TryFutureExt;
+use futures::{FutureExt, TryFutureExt};
+use itertools::Itertools;
 use nil_core::npc::bot::{BotId, PublicBot};
+
+pub async fn get_coords(State(app): State<App>, Path(id): Path<BotId>) -> Response {
+  app
+    .continent(|k| {
+      k.bot_coords_by(|bot| bot == id)
+        .collect_vec()
+    })
+    .map(|coords| res!(OK, Json(coords)))
+    .await
+}
 
 pub async fn get_public(State(app): State<App>, Path(id): Path<BotId>) -> Response {
   app

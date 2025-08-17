@@ -32,8 +32,12 @@ export class PublicBotImpl implements PublicBot {
   }
 
   public static async load(id: BotId) {
-    const bot = await commands.getPublicBot(id);
-    return PublicBotImpl.create({ bot, coords: [] });
+    const [bot, coords] = await Promise.all([
+      commands.getPublicBot(id),
+      commands.getBotCoords(id),
+    ]);
+
+    return PublicBotImpl.create({ bot, coords });
   }
 }
 
