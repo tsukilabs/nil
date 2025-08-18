@@ -16,11 +16,11 @@ impl World {
     let stats = self.stats.infrastructure.as_ref();
     let mut diff: HashMap<PlayerId, ResourcesDiff> = HashMap::new();
 
-    for village in self.continent.villages() {
-      if let Some(id) = village.owner().player().cloned() {
+    for city in self.continent.cities() {
+      if let Some(id) = city.owner().player().cloned() {
         let resources = diff.entry(id).or_default();
-        *resources += village.round_production(stats)?;
-        resources.food -= village.maintenance(stats)?;
+        *resources += city.round_production(stats)?;
+        resources.food -= city.maintenance(stats)?;
       }
     }
 
@@ -39,11 +39,11 @@ impl World {
     let stats = self.stats.infrastructure.as_ref();
     let mut diff: HashMap<BotId, ResourcesDiff> = HashMap::new();
 
-    for village in self.continent.villages() {
-      if let Some(id) = village.owner().bot() {
+    for city in self.continent.cities() {
+      if let Some(id) = city.owner().bot() {
         let resources = diff.entry(id).or_default();
-        *resources += village.round_production(stats)?;
-        resources.food -= village.maintenance(stats)?;
+        *resources += city.round_production(stats)?;
+        resources.food -= city.maintenance(stats)?;
       }
     }
 
@@ -63,11 +63,11 @@ impl World {
     let stats = self.stats.infrastructure.as_ref();
     let mut diff: HashMap<PrecursorId, ResourcesDiff> = HashMap::new();
 
-    for village in self.continent.villages() {
-      if let Some(id) = village.owner().precursor() {
+    for city in self.continent.cities() {
+      if let Some(id) = city.owner().precursor() {
         let resources = diff.entry(id).or_default();
-        *resources += village.round_production(stats)?;
-        resources.food -= village.maintenance(stats)?;
+        *resources += city.round_production(stats)?;
+        resources.food -= city.maintenance(stats)?;
       }
     }
 

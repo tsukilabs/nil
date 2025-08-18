@@ -7,9 +7,9 @@ mod maintenance;
 pub mod prelude;
 mod workforce;
 
+use crate::city::Stability;
 use crate::infrastructure::mine::MineProduction;
 use crate::infrastructure::storage::{OverallStorageCapacity, StorageCapacity};
-use crate::village::Stability;
 use derive_more::{Deref, Display, Into};
 use nil_num::impl_mul_ceil;
 use nil_num::ops::MulCeil;

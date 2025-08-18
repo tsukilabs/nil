@@ -11,13 +11,13 @@ use strum::IntoEnumIterator;
 impl World {
   pub fn cheat_set_max_infrastructure(&mut self, coord: Coord) -> Result<()> {
     bail_cheat_not_allowed!(self);
-    let infra = self.village_mut(coord)?.infrastructure_mut();
+    let infra = self.city_mut(coord)?.infrastructure_mut();
     for id in BuildingId::iter() {
       let building = infra.building_mut(id);
       building.set_level(building.max_level());
     }
 
-    self.emit_village_updated(coord);
+    self.emit_city_updated(coord);
 
     Ok(())
   }
@@ -30,12 +30,12 @@ impl World {
   ) -> Result<()> {
     bail_cheat_not_allowed!(self);
     self
-      .village_mut(coord)?
+      .city_mut(coord)?
       .infrastructure_mut()
       .building_mut(id)
       .set_level(level);
 
-    self.emit_village_updated(coord);
+    self.emit_city_updated(coord);
 
     Ok(())
   }

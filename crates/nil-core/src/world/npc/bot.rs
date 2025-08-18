@@ -1,21 +1,18 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+use crate::city::City;
 use crate::error::Result;
 use crate::infrastructure::Infrastructure;
 use crate::infrastructure::storage::OverallStorageCapacity;
 use crate::npc::bot::{BotId, BotName};
-use crate::village::Village;
 use crate::with_random_level;
 use crate::world::World;
 
 impl World {
   pub(crate) fn get_bot_storage_capacity(&self, bot: BotId) -> Result<OverallStorageCapacity> {
-    let villages = self
-      .continent
-      .bot_villages_by(|id| id == bot);
-
-    self.get_storage_capacity(villages)
+    let cities = self.continent.bot_cities_by(|id| id == bot);
+    self.get_storage_capacity(cities)
   }
 
   pub(crate) fn spawn_bots(&mut self) -> Result<()> {
@@ -43,7 +40,7 @@ impl World {
       .warehouse(with_random_level!(Warehouse, 1, 10))
       .build();
 
-    *field = Village::builder(coord)
+    *field = City::builder(coord)
       .name(name)
       .owner(id)
       .infrastructure(infrastructure)

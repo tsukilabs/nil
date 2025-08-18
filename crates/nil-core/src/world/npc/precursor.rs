@@ -1,11 +1,11 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+use crate::city::City;
 use crate::error::Result;
 use crate::infrastructure::Infrastructure;
 use crate::infrastructure::storage::OverallStorageCapacity;
 use crate::npc::precursor::{self, PrecursorId};
-use crate::village::Village;
 use crate::world::World;
 use nil_num::roman::ToRoman;
 use rand::seq::IndexedRandom;
@@ -15,23 +15,23 @@ impl World {
     &self,
     precursor: PrecursorId,
   ) -> Result<OverallStorageCapacity> {
-    let villages = self
+    let cities = self
       .continent
-      .precursor_villages_by(|id| id == precursor);
+      .precursor_cities_by(|id| id == precursor);
 
-    self.get_storage_capacity(villages)
+    self.get_storage_capacity(cities)
   }
 
   pub(crate) fn spawn_precursors(&mut self) -> Result<()> {
-    self.spawn_precursor_villages(PrecursorId::A)?;
-    self.spawn_precursor_villages(PrecursorId::B)?;
+    self.spawn_precursor_cities(PrecursorId::A)?;
+    self.spawn_precursor_cities(PrecursorId::B)?;
     Ok(())
   }
 
-  fn spawn_precursor_villages(&mut self, id: PrecursorId) -> Result<()> {
+  fn spawn_precursor_cities(&mut self, id: PrecursorId) -> Result<()> {
     let size = self.continent.size();
     let radius = precursor::initial_territory_radius(size);
-    let amount = precursor::initial_village_amount(size);
+    let amount = precursor::initial_city_amount(size);
     let mut coords = self
       .precursor_manager
       .precursor(id)
@@ -53,7 +53,7 @@ impl World {
       // In that case, we should come up with a good way to handle it.
       let Some(ridx) = idx.saturating_add(1).to_roman() else { continue };
 
-      *field = Village::builder(coord)
+      *field = City::builder(coord)
         .name(format!("Precursor {id} {ridx}"))
         .owner(id)
         .infrastructure(Infrastructure::with_max_level())

@@ -3,13 +3,13 @@
 
 mod chat;
 mod cheat;
+mod city;
 mod continent;
 mod infrastructure;
 mod npc;
 mod player;
 mod round;
 mod script;
-mod village;
 mod world;
 
 use crate::error::Result;

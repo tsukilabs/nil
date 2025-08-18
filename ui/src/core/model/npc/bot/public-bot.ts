@@ -16,11 +16,11 @@ export class PublicBotImpl implements PublicBot {
     this.coords = args.coords.map((it) => CoordImpl.create(it));
   }
 
-  public hasVillage(key: ContinentKey) {
+  public hasCity(key: ContinentKey) {
     return this.coords.some((it) => it.is(key));
   }
 
-  public getVillage(key: ContinentKey) {
+  public getCity(key: ContinentKey) {
     return this.coords.find((it) => it.is(key));
   }
 

@@ -7,7 +7,7 @@ import type { MineImpl } from '@/core/model/infrastructure/building/abstract';
 import { useBuildingLevel } from '@/composables/infrastructure/useBuildingLevel';
 
 export function useMineProduction(mine: MaybeNilRef<MineImpl>) {
-  const { village } = NIL.village.refs();
+  const { city } = NIL.city.refs();
   const mineRef = toRef(mine) as Ref<Option<MineImpl>>;
   const level = useBuildingLevel(mineRef);
 
@@ -19,7 +19,7 @@ export function useMineProduction(mine: MaybeNilRef<MineImpl>) {
   });
 
   const stabilityLoss = computed(() => {
-    const stability = village.value?.stability ?? 1;
+    const stability = city.value?.stability ?? 1;
     return {
       current: base.value.current - base.value.current * stability,
       next: base.value.next - base.value.next * stability,

@@ -3,6 +3,7 @@
 
 mod chat;
 mod cheat;
+mod city;
 mod continent;
 mod event;
 mod infrastructure;
@@ -11,9 +12,9 @@ mod player;
 mod round;
 mod savedata;
 mod script;
-mod village;
 
 use crate::chat::Chat;
+use crate::city::City;
 use crate::continent::{Continent, Coord};
 use crate::error::{Error, Result};
 use crate::event::Emitter;
@@ -25,7 +26,6 @@ use crate::player::{Player, PlayerId, PlayerManager};
 use crate::round::Round;
 use crate::savedata::Savedata;
 use crate::script::Scripting;
-use crate::village::Village;
 use serde::{Deserialize, Serialize};
 use std::num::NonZeroU8;
 use std::path::{Path, PathBuf};
@@ -114,27 +114,25 @@ impl World {
   }
 
   #[inline]
-  pub fn village(&self, coord: Coord) -> Result<&Village> {
-    self.continent.village(coord)
+  pub fn city(&self, coord: Coord) -> Result<&City> {
+    self.continent.city(coord)
   }
 
   #[inline]
-  pub fn village_mut(&mut self, coord: Coord) -> Result<&mut Village> {
-    self.continent.village_mut(coord)
+  pub fn city_mut(&mut self, coord: Coord) -> Result<&mut City> {
+    self.continent.city_mut(coord)
   }
 
   #[inline]
   pub fn infrastructure(&self, coord: Coord) -> Result<&Infrastructure> {
-    self
-      .village(coord)
-      .map(Village::infrastructure)
+    self.city(coord).map(City::infrastructure)
   }
 
   #[inline]
   pub fn infrastructure_mut(&mut self, coord: Coord) -> Result<&mut Infrastructure> {
     self
-      .village_mut(coord)
-      .map(Village::infrastructure_mut)
+      .city_mut(coord)
+      .map(City::infrastructure_mut)
   }
 
   #[inline]

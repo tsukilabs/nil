@@ -56,7 +56,7 @@ pub async fn get_build_catalog(
   let result: CoreResult<PrefectureBuildCatalog> = try {
     let world = app.world.read().await;
     bail_not_owned_by!(world, &player.0, coord);
-    let infra = world.village(coord)?.infrastructure();
+    let infra = world.city(coord)?.infrastructure();
     let stats = world.stats().infrastructure();
     PrefectureBuildCatalog::new(infra, &stats)?
   };

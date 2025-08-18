@@ -1,11 +1,12 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+mod city;
 mod infrastructure;
 mod npc;
 mod resources;
-mod village;
 
+pub use city::set_stability;
 pub use infrastructure::{set_building_level, set_max_infrastructure};
 pub use npc::{
   get_bot_resources,
@@ -28,4 +29,3 @@ pub use resources::{
   set_stone,
   set_wood,
 };
-pub use village::set_stability;

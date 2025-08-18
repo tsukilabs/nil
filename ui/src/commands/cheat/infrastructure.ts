@@ -10,6 +10,6 @@ export function cheatSetBuildingLevel(coord: Coord, id: BuildingId, level: Build
 }
 
 export function cheatSetMaxInfrastructure(coord?: Option<Coord>) {
-  coord ??= NIL.village.refs().coord.value;
+  coord ??= NIL.city.refs().coord.value;
   return invoke<null>('cheat_set_max_infrastructure', { coord });
 }

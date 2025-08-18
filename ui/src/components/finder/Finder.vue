@@ -30,6 +30,10 @@ const items = computed<FinderItem[]>(() => {
       label: t('academy'),
     },
     {
+      value: 'city',
+      label: t('city'),
+    },
+    {
       value: 'continent',
       label: t('continent-map'),
     },
@@ -72,10 +76,6 @@ const items = computed<FinderItem[]>(() => {
     {
       value: 'script',
       label: t('script', 2),
-    },
-    {
-      value: 'village',
-      label: t('village'),
     },
     {
       value: 'wall',

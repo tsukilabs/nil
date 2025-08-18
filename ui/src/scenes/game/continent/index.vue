@@ -27,7 +27,7 @@ import {
 } from 'vue';
 
 const route = useRoute();
-const { coord: currentCoord } = NIL.village.refs();
+const { coord: currentCoord } = NIL.city.refs();
 
 const continent = new Continent();
 const { continentSize } = NIL.world.refs();
@@ -74,7 +74,7 @@ const rows = computed(() => {
 });
 
 const listener = new ListenerSet();
-listener.event.onPublicVillageUpdated(async ({ coord }) => {
+listener.event.onPublicCityUpdated(async ({ coord }) => {
   const field = fields.value.find((it) => it.coord.is(coord));
   if (field && !field.isLoading()) {
     // When loading begins, `PublicFieldImpl` modifies its flags to indicate that an update is taking place.

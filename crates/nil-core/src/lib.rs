@@ -7,6 +7,7 @@
 
 pub mod battle;
 pub mod chat;
+pub mod city;
 pub mod continent;
 pub mod error;
 pub mod ethic;
@@ -19,5 +20,4 @@ pub mod resources;
 pub mod round;
 pub mod savedata;
 pub mod script;
-pub mod village;
 pub mod world;

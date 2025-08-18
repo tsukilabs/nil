@@ -36,6 +36,9 @@ pub enum Error {
   #[error("Cheating is not allowed in this world")]
   CheatingNotAllowed,
 
+  #[error("City not found: {0}")]
+  CityNotFound(Coord),
+
   #[error("{}", display_lua_err(.0))]
   FailedToExecuteScript(#[from] mlua::Error),
 
@@ -92,9 +95,6 @@ pub enum Error {
 
   #[error("No stats found for storage \"{0}\" at level {1}")]
   StorageStatsNotFoundForLevel(StorageId, BuildingLevel),
-
-  #[error("Village not found: {0}")]
-  VillageNotFound(Coord),
 
   #[error("World is full")]
   WorldIsFull,

@@ -138,7 +138,7 @@ pub fn initial_territory_radius(size: ContinentSize) -> Distance {
 }
 
 #[inline]
-pub fn initial_village_amount(size: ContinentSize) -> u8 {
+pub fn initial_city_amount(size: ContinentSize) -> u8 {
   size.get().div_ceil(10).saturating_mul(2)
 }
 

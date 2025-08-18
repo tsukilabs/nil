@@ -37,7 +37,7 @@ pub enum StableRecruitCatalogEntry {
   Available {
     recipe: Box<StableRecruitCatalogRecipe>,
   },
-  /// Village does not meet the requirements for recruitment.
+  /// City does not meet the requirements for recruitment.
   Unmet {
     requirements: InfrastructureRequirements,
   },

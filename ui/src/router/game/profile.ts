@@ -10,6 +10,11 @@ export const profileRoutes: RouteRecordRaw[] = [
     name: 'profile-bot' satisfies ProfileScene,
   },
   {
+    component: () => import('@/scenes/game/profile/city/index.vue'),
+    path: 'profile/city/:ckey', // ContinentKey
+    name: 'profile-city' satisfies ProfileScene,
+  },
+  {
     component: () => import('@/scenes/game/profile/player/index.vue'),
     path: 'profile/player/:id',
     name: 'profile-player' satisfies ProfileScene,
@@ -18,10 +23,5 @@ export const profileRoutes: RouteRecordRaw[] = [
     component: () => import('@/scenes/game/profile/precursor/index.vue'),
     path: 'profile/precursor/:id',
     name: 'profile-precursor' satisfies ProfileScene,
-  },
-  {
-    component: () => import('@/scenes/game/profile/village/index.vue'),
-    path: 'profile/village/:ckey', // ContinentKey
-    name: 'profile-village' satisfies ProfileScene,
   },
 ];

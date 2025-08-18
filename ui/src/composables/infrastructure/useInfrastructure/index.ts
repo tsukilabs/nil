@@ -3,10 +3,10 @@
 
 import { computed } from 'vue';
 import type { MaybeNilRef } from '@tb-dev/vue';
-import { toVillageRef } from '@/composables/util/toRef';
-import type { VillageImpl } from '@/core/model/village/village';
+import { toCityRef } from '@/composables/util/toRef';
+import type { CityImpl } from '@/core/model/city/city';
 
-export function useInfrastructure(village?: MaybeNilRef<VillageImpl>) {
-  const villageRef = toVillageRef(village);
-  return computed(() => villageRef.value?.infrastructure);
+export function useInfrastructure(city?: MaybeNilRef<CityImpl>) {
+  const cityRef = toCityRef(city);
+  return computed(() => cityRef.value?.infrastructure);
 }

@@ -1,8 +1,8 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+use crate::city::Stability;
 use crate::infrastructure::building::BuildingLevel;
-use crate::village::Stability;
 use derive_more::{Deref, Into};
 use nil_num::impl_mul_ceil;
 use nil_num::ops::MulCeil;

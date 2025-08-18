@@ -59,13 +59,10 @@ macro_rules! impl_axis {
     $(
       impl $axis {
         pub fn random() -> Self {
-          // SAFETY: `Self::VARIANTS` will never be empty.
-          unsafe {
-            Self::VARIANTS
-              .choose(&mut rand::rng())
-              .copied()
-              .unwrap_unchecked()
-          }
+          Self::VARIANTS
+            .choose(&mut rand::rng())
+            .copied()
+            .expect("`Self::VARIANTS` should never be empty")
         }
       }
     )+

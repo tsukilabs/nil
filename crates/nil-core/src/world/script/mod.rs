@@ -3,10 +3,10 @@
 
 mod chat;
 mod cheat;
+mod city;
 mod infrastructure;
 mod player;
 mod round;
-mod village;
 
 use super::World;
 use crate::error::{Error, Result};
@@ -104,7 +104,7 @@ macro_rules! bail_not_owned_by {
     if !$this
       .world
       .continent
-      .village($coord)?
+      .city($coord)?
       .is_owned_by_player_and(|id| id == &$this.player)
     {
       return Err($crate::error::Error::Forbidden.into());
@@ -116,9 +116,9 @@ impl UserData for WorldUserData<'_> {
   fn add_methods<M: UserDataMethods<Self>>(methods: &mut M) {
     chat::add_methods(methods);
     cheat::add_methods(methods);
+    city::add_methods(methods);
     infrastructure::add_methods(methods);
     player::add_methods(methods);
     round::add_methods(methods);
-    village::add_methods(methods);
   }
 }

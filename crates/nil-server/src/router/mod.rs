@@ -3,13 +3,13 @@
 
 mod chat;
 mod cheat;
+mod city;
 mod continent;
 mod infrastructure;
 mod npc;
 mod player;
 mod round;
 mod script;
-mod village;
 mod world;
 
 use crate::middleware::{CurrentPlayer, authorization};
@@ -43,6 +43,7 @@ pub(crate) fn create() -> Router<App> {
     .route("/cheat/bot/spawn", post(cheat::spawn_bot))
     .route("/cheat/bot/{id}/infrastructure/storage", get(cheat::get_bot_storage_capacity))
     .route("/cheat/bot/{id}/resources", get(cheat::get_bot_resources))
+    .route("/cheat/city/stability", post(cheat::set_stability))
     .route("/cheat/infrastructure", post(cheat::set_max_infrastructure))
     .route("/cheat/infrastructure/building", post(cheat::set_building_level))
     .route("/cheat/precursor/{id}/infrastructure/storage", get(cheat::get_precursor_storage_capacity))
@@ -59,7 +60,11 @@ pub(crate) fn create() -> Router<App> {
     .route("/cheat/resources/warehouse", get(cheat::set_max_warehouse_resources))
     .route("/cheat/resources/wood", get(cheat::set_max_wood))
     .route("/cheat/resources/wood", post(cheat::set_wood))
-    .route("/cheat/village/stability", post(cheat::set_stability))
+    .route("/city", post(city::get))
+    .route("/city/public", get(city::get_all_public))
+    .route("/city/public", post(city::get_public))
+    .route("/city/public-by", post(city::get_public_by))
+    .route("/city/rename", post(city::rename))
     .route("/continent/field", post(continent::get_field))
     .route("/continent/fields", post(continent::get_fields))
     .route("/continent/size", get(continent::size))
@@ -101,11 +106,6 @@ pub(crate) fn create() -> Router<App> {
     .route("/script/{id}/execute", get(script::execute))
     .route("/script/{id}/remove", get(script::remove))
     .route("/version", get(version))
-    .route("/village", post(village::get))
-    .route("/village/public", get(village::get_all_public))
-    .route("/village/public", post(village::get_public))
-    .route("/village/public-by", post(village::get_public_by))
-    .route("/village/rename", post(village::rename))
     .route("/world/config", get(world::get_config))
     .route("/world/save", post(world::save))
     .route("/world/stats", get(world::get_stats))

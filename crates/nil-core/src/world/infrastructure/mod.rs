@@ -13,12 +13,12 @@ impl World {
   pub fn toggle_building(&mut self, coord: Coord, id: BuildingId, enabled: bool) -> Result<()> {
     self
       .continent
-      .village_mut(coord)?
+      .city_mut(coord)?
       .infrastructure_mut()
       .building_mut(id)
       .toggle(enabled);
 
-    self.emit_village_updated(coord);
+    self.emit_city_updated(coord);
 
     Ok(())
   }

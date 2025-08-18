@@ -57,7 +57,7 @@ pub async fn get_recruit_catalog(
   let result: CoreResult<StableRecruitCatalog> = try {
     let world = app.world.read().await;
     bail_not_owned_by!(world, &player.0, coord);
-    let infra = world.village(coord)?.infrastructure();
+    let infra = world.city(coord)?.infrastructure();
     StableRecruitCatalog::new(infra)
   };
 

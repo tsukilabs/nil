@@ -71,32 +71,32 @@ pub enum Event {
   /// A new message has been sent in the chat.
   ChatUpdated { message: ChatMessage },
 
+  /// Indicates that there has been a change in the city's data, be it public or not.
+  ///
+  /// This event is only emitted to the city owner.
+  /// Therefore, if you believe that all players should be notified,
+  /// consider using [`Event::PublicCityUpdated`] instead.
+  CityUpdated { coord: Coord },
+
   /// Indicates that there has been a change in some of the player's data, be it public or not.
   PlayerUpdated { player: PlayerId },
 
-  /// Indicates that there has been a change in public data for the village.
+  /// Indicates that there has been a change in public data for the city.
   ///
   /// As a rule, whenever the situation requires this event to be emitted,
-  /// `Event::VillageUpdated` should also be emitted, but the opposite is not true!
+  /// `Event::CityUpdated` should also be emitted, but the opposite is not true!
   ///
-  /// Unlike [`Event::VillageUpdated`], which is emitted only to the village owner,
+  /// Unlike [`Event::CityUpdated`], which is emitted only to the city owner,
   /// this event is sent to all players in the world.
-  PublicVillageUpdated { coord: Coord },
+  PublicCityUpdated { coord: Coord },
 
   /// Indicates changes in the round, such as the end of a player's turn or
   /// the transition from one round to another, after all players have completed their actions.
   ///
   /// When emitted at the start of the game or at the end of a round,
   /// [`Event::RoundUpdated`] typically makes it unnecessary to emit other events,
-  /// as this situation naturally prompts all entities managed by JavaScript to request new data.
+  /// as this situation naturally prompts all entities to request new data.
   RoundUpdated { round: Round },
-
-  /// Indicates that there has been a change in some of the village's data, be it public or not.
-  ///
-  /// This event is only emitted to the village owner.
-  /// Therefore, if you believe that all players should be notified,
-  /// you should consider using [`Event::PublicVillageUpdated`] instead.
-  VillageUpdated { coord: Coord },
 }
 
 impl From<Event> for Bytes {

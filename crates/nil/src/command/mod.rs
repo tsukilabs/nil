@@ -5,6 +5,7 @@
 
 pub mod chat;
 pub mod cheat;
+pub mod city;
 pub mod client;
 pub mod continent;
 pub mod infrastructure;
@@ -14,7 +15,6 @@ pub mod player;
 pub mod round;
 pub mod script;
 pub mod server;
-pub mod village;
 pub mod world;
 
 use crate::manager::ManagerExt;

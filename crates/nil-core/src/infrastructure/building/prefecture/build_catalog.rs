@@ -57,7 +57,7 @@ pub enum PrefectureBuildCatalogEntry {
   },
   /// Building is already at its maximum level.
   Maxed,
-  /// Village does not meet the requirements for construction.
+  /// City does not meet the requirements for construction.
   Unmet {
     requirements: InfrastructureRequirements,
   },

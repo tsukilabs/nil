@@ -7,10 +7,10 @@ import type { App } from 'vue';
 import type { go } from '@/router';
 import type { commands } from '@/lib/api';
 import type { ChatEntity } from '@/core/entity/chat';
+import type { CityEntity } from '@/core/entity/city';
 import type { RoundEntity } from '@/core/entity/round';
 import type { WorldEntity } from '@/core/entity/world';
 import type { PlayerEntity } from '@/core/entity/player';
-import type { VillageEntity } from '@/core/entity/village';
 import type { MilitaryEntity } from '@/core/entity/military';
 
 declare global {
@@ -24,6 +24,13 @@ declare global {
       readonly refs: (typeof ChatEntity)['refs'];
       readonly update: (typeof ChatEntity)['update'];
       readonly use: (typeof ChatEntity)['use'];
+    };
+
+    /** Current city. */
+    readonly city: {
+      readonly refs: (typeof CityEntity)['refs'];
+      readonly setCoord: (typeof CityEntity)['setCoord'];
+      readonly use: (typeof CityEntity)['use'];
     };
 
     readonly military: {
@@ -45,13 +52,6 @@ declare global {
       readonly refs: (typeof RoundEntity)['refs'];
       readonly update: (typeof RoundEntity)['update'];
       readonly use: (typeof RoundEntity)['use'];
-    };
-
-    /** Current village. */
-    readonly village: {
-      readonly refs: (typeof VillageEntity)['refs'];
-      readonly setCoord: (typeof VillageEntity)['setCoord'];
-      readonly use: (typeof VillageEntity)['use'];
     };
 
     readonly world: {

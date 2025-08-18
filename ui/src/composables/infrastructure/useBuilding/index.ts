@@ -3,55 +3,55 @@
 
 import { computed } from 'vue';
 import type { MaybeNilRef } from '@tb-dev/vue';
-import { toVillageRef } from '@/composables/util/toRef';
-import type { VillageImpl } from '@/core/model/village/village';
+import { toCityRef } from '@/composables/util/toRef';
+import type { CityImpl } from '@/core/model/city/city';
 
-export function useAcademy(village?: MaybeNilRef<VillageImpl>) {
-  const villageRef = toVillageRef(village);
-  return computed(() => villageRef.value?.infrastructure.academy);
+export function useAcademy(city?: MaybeNilRef<CityImpl>) {
+  const cityRef = toCityRef(city);
+  return computed(() => cityRef.value?.infrastructure.academy);
 }
 
-export function useFarm(village?: MaybeNilRef<VillageImpl>) {
-  const villageRef = toVillageRef(village);
-  return computed(() => villageRef.value?.infrastructure.farm);
+export function useFarm(city?: MaybeNilRef<CityImpl>) {
+  const cityRef = toCityRef(city);
+  return computed(() => cityRef.value?.infrastructure.farm);
 }
 
-export function useIronMine(village?: MaybeNilRef<VillageImpl>) {
-  const villageRef = toVillageRef(village);
-  return computed(() => villageRef.value?.infrastructure.ironMine);
+export function useIronMine(city?: MaybeNilRef<CityImpl>) {
+  const cityRef = toCityRef(city);
+  return computed(() => cityRef.value?.infrastructure.ironMine);
 }
 
-export function usePrefecture(village?: MaybeNilRef<VillageImpl>) {
-  const villageRef = toVillageRef(village);
-  return computed(() => villageRef.value?.infrastructure.prefecture);
+export function usePrefecture(city?: MaybeNilRef<CityImpl>) {
+  const cityRef = toCityRef(city);
+  return computed(() => cityRef.value?.infrastructure.prefecture);
 }
 
-export function useQuarry(village?: MaybeNilRef<VillageImpl>) {
-  const villageRef = toVillageRef(village);
-  return computed(() => villageRef.value?.infrastructure.quarry);
+export function useQuarry(city?: MaybeNilRef<CityImpl>) {
+  const cityRef = toCityRef(city);
+  return computed(() => cityRef.value?.infrastructure.quarry);
 }
 
-export function useSawmill(village?: MaybeNilRef<VillageImpl>) {
-  const villageRef = toVillageRef(village);
-  return computed(() => villageRef.value?.infrastructure.sawmill);
+export function useSawmill(city?: MaybeNilRef<CityImpl>) {
+  const cityRef = toCityRef(city);
+  return computed(() => cityRef.value?.infrastructure.sawmill);
 }
 
-export function useSilo(village?: MaybeNilRef<VillageImpl>) {
-  const villageRef = toVillageRef(village);
-  return computed(() => villageRef.value?.infrastructure.silo);
+export function useSilo(city?: MaybeNilRef<CityImpl>) {
+  const cityRef = toCityRef(city);
+  return computed(() => cityRef.value?.infrastructure.silo);
 }
 
-export function useStable(village?: MaybeNilRef<VillageImpl>) {
-  const villageRef = toVillageRef(village);
-  return computed(() => villageRef.value?.infrastructure.stable);
+export function useStable(city?: MaybeNilRef<CityImpl>) {
+  const cityRef = toCityRef(city);
+  return computed(() => cityRef.value?.infrastructure.stable);
 }
 
-export function useWall(village?: MaybeNilRef<VillageImpl>) {
-  const villageRef = toVillageRef(village);
-  return computed(() => villageRef.value?.infrastructure.wall);
+export function useWall(city?: MaybeNilRef<CityImpl>) {
+  const cityRef = toCityRef(city);
+  return computed(() => cityRef.value?.infrastructure.wall);
 }
 
-export function useWarehouse(village?: MaybeNilRef<VillageImpl>) {
-  const villageRef = toVillageRef(village);
-  return computed(() => villageRef.value?.infrastructure.warehouse);
+export function useWarehouse(city?: MaybeNilRef<CityImpl>) {
+  const cityRef = toCityRef(city);
+  return computed(() => cityRef.value?.infrastructure.warehouse);
 }

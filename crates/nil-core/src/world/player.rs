@@ -2,20 +2,20 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use super::World;
+use crate::city::City;
 use crate::error::{Error, Result};
 use crate::infrastructure::storage::OverallStorageCapacity;
 use crate::military::Military;
 use crate::player::{Player, PlayerId, PlayerStatus};
 use crate::resources::Maintenance;
-use crate::village::Village;
 
 impl World {
   pub fn get_player_maintenance(&self, player: &PlayerId) -> Result<Maintenance> {
     self
       .continent
-      .player_villages_by(|id| id == player)
-      .try_fold(Maintenance::default(), |acc, village| {
-        Ok(acc + village.maintenance(&self.stats.infrastructure)?)
+      .player_cities_by(|id| id == player)
+      .try_fold(Maintenance::default(), |acc, city| {
+        Ok(acc + city.maintenance(&self.stats.infrastructure)?)
       })
   }
 
@@ -28,11 +28,11 @@ impl World {
   }
 
   pub fn get_player_storage_capacity(&self, player: &PlayerId) -> Result<OverallStorageCapacity> {
-    let villages = self
+    let cities = self
       .continent
-      .player_villages_by(|id| id == player);
+      .player_cities_by(|id| id == player);
 
-    self.get_storage_capacity(villages)
+    self.get_storage_capacity(cities)
   }
 
   #[inline]
@@ -57,7 +57,7 @@ impl World {
       Err(Error::PlayerAlreadySpawned(id))
     } else {
       let (coord, field) = self.find_spawn_point()?;
-      *field = Village::builder(coord)
+      *field = City::builder(coord)
         .name(&*id)
         .owner(&id)
         .build()
@@ -66,7 +66,7 @@ impl World {
       *player.status_mut() = PlayerStatus::Active;
       self.player_manager.spawn(player);
 
-      self.emit_public_village_updated(coord);
+      self.emit_public_city_updated(coord);
 
       Ok(())
     }

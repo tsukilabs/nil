@@ -1,12 +1,12 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+use crate::city::CityOwner;
 use crate::military::squad::{Squad, SquadSize};
 use crate::military::unit::UnitId;
 use crate::npc::bot::BotId;
 use crate::npc::precursor::PrecursorId;
 use crate::player::PlayerId;
-use crate::village::VillageOwner;
 use bon::Builder;
 use nil_core_macros::Owner;
 use serde::{Deserialize, Serialize};
@@ -213,12 +213,12 @@ pub enum ArmyOwner {
   Precursor { id: PrecursorId },
 }
 
-impl From<&VillageOwner> for ArmyOwner {
-  fn from(owner: &VillageOwner) -> Self {
+impl From<&CityOwner> for ArmyOwner {
+  fn from(owner: &CityOwner) -> Self {
     match owner.clone() {
-      VillageOwner::Bot { id } => Self::Bot { id },
-      VillageOwner::Player { id } => Self::Player { id },
-      VillageOwner::Precursor { id } => Self::Precursor { id },
+      CityOwner::Bot { id } => Self::Bot { id },
+      CityOwner::Player { id } => Self::Player { id },
+      CityOwner::Precursor { id } => Self::Precursor { id },
     }
   }
 }

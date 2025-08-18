@@ -24,10 +24,10 @@ export async function joinGame(player: PlayerOptions, serverAddr: SocketAddrV4) 
   }
 
   await NIL.player.setId(id);
-  await NIL.village.setCoord();
+  await NIL.city.setCoord();
   await NIL.update();
 
-  await go('village');
+  await go('city');
 }
 
 export async function hostGame(player: PlayerOptions, world: WorldOptions) {

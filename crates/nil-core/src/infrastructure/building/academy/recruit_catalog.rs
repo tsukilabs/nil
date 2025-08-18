@@ -41,7 +41,7 @@ pub enum AcademyRecruitCatalogEntry {
   Available {
     recipe: Box<AcademyRecruitCatalogRecipe>,
   },
-  /// Village does not meet the requirements for recruitment.
+  /// City does not meet the requirements for recruitment.
   Unmet {
     requirements: InfrastructureRequirements,
   },

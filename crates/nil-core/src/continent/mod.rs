@@ -9,11 +9,11 @@ mod size;
 #[cfg(test)]
 mod tests;
 
+use crate::city::City;
 use crate::error::{Error, Result};
 use crate::npc::bot::BotId;
 use crate::npc::precursor::PrecursorId;
 use crate::player::PlayerId;
-use crate::village::Village;
 use serde::{Deserialize, Serialize};
 
 pub use coord::{Coord, Distance};
@@ -87,90 +87,82 @@ impl Continent {
       .map(|(idx, field)| (ContinentIndex::new(idx), field))
   }
 
-  pub fn village(&self, key: impl ContinentKey) -> Result<&Village> {
+  pub fn city(&self, key: impl ContinentKey) -> Result<&City> {
     let index = key.into_index(self.size);
-    if let Some(village) = self.field(index)?.village() {
-      Ok(village)
+    if let Some(city) = self.field(index)?.city() {
+      Ok(city)
     } else {
       let coord = index.to_coord(self.size)?;
-      Err(Error::VillageNotFound(coord))
+      Err(Error::CityNotFound(coord))
     }
   }
 
-  pub fn village_mut(&mut self, key: impl ContinentKey) -> Result<&mut Village> {
+  pub fn city_mut(&mut self, key: impl ContinentKey) -> Result<&mut City> {
     let size = self.size;
     let index = key.into_index(size);
-    if let Some(village) = self.field_mut(index)?.village_mut() {
-      Ok(village)
+    if let Some(city) = self.field_mut(index)?.city_mut() {
+      Ok(city)
     } else {
       let coord = index.to_coord(size)?;
-      Err(Error::VillageNotFound(coord))
+      Err(Error::CityNotFound(coord))
     }
   }
 
-  pub fn villages(&self) -> impl Iterator<Item = &Village> {
-    self.fields().filter_map(Field::village)
+  pub fn cities(&self) -> impl Iterator<Item = &City> {
+    self.fields().filter_map(Field::city)
   }
 
-  pub fn villages_mut(&mut self) -> impl Iterator<Item = &mut Village> {
-    self
-      .fields_mut()
-      .filter_map(Field::village_mut)
+  pub fn cities_mut(&mut self) -> impl Iterator<Item = &mut City> {
+    self.fields_mut().filter_map(Field::city_mut)
   }
 
-  pub fn villages_by<F>(&self, f: F) -> impl Iterator<Item = &Village>
+  pub fn cities_by<F>(&self, f: F) -> impl Iterator<Item = &City>
   where
-    F: Fn(&Village) -> bool,
+    F: Fn(&City) -> bool,
   {
-    self
-      .villages()
-      .filter(move |village| f(village))
+    self.cities().filter(move |city| f(city))
   }
 
-  pub fn player_villages_by<F>(&self, f: F) -> impl Iterator<Item = &Village>
+  pub fn player_cities_by<F>(&self, f: F) -> impl Iterator<Item = &City>
   where
     F: Fn(&PlayerId) -> bool,
   {
-    self.villages_by(move |village| village.is_owned_by_player_and(&f))
+    self.cities_by(move |city| city.is_owned_by_player_and(&f))
   }
 
   pub fn player_coords_by<F>(&self, f: F) -> impl Iterator<Item = Coord>
   where
     F: Fn(&PlayerId) -> bool,
   {
-    self
-      .player_villages_by(f)
-      .map(Village::coord)
+    self.player_cities_by(f).map(City::coord)
   }
 
-  pub fn bot_villages_by<F>(&self, f: F) -> impl Iterator<Item = &Village>
+  pub fn bot_cities_by<F>(&self, f: F) -> impl Iterator<Item = &City>
   where
     F: Fn(BotId) -> bool,
   {
-    self.villages_by(move |village| village.is_owned_by_bot_and(&f))
+    self.cities_by(move |city| city.is_owned_by_bot_and(&f))
   }
 
   pub fn bot_coords_by<F>(&self, f: F) -> impl Iterator<Item = Coord>
   where
     F: Fn(BotId) -> bool,
   {
-    self.bot_villages_by(f).map(Village::coord)
+    self.bot_cities_by(f).map(City::coord)
   }
 
-  pub fn precursor_villages_by<F>(&self, f: F) -> impl Iterator<Item = &Village>
+  pub fn precursor_cities_by<F>(&self, f: F) -> impl Iterator<Item = &City>
   where
     F: Fn(PrecursorId) -> bool,
   {
-    self.villages_by(move |village| village.is_owned_by_precursor_and(&f))
+    self.cities_by(move |city| city.is_owned_by_precursor_and(&f))
   }
 
   pub fn precursor_coords_by<F>(&self, f: F) -> impl Iterator<Item = Coord>
   where
     F: Fn(PrecursorId) -> bool,
   {
-    self
-      .precursor_villages_by(f)
-      .map(Village::coord)
+    self.precursor_cities_by(f).map(City::coord)
   }
 }
 

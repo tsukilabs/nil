@@ -49,6 +49,7 @@ pub(crate) fn from_core_err(err: CoreError) -> Response {
     CannotDecreaseBuildingLevel(..) => res!(BAD_REQUEST, text),
     CannotIncreaseBuildingLevel(..) => res!(BAD_REQUEST, text),
     CheatingNotAllowed => res!(BAD_REQUEST, text),
+    CityNotFound(..) => res!(NOT_FOUND, text),
     FailedToExecuteScript(..) => res!(INTERNAL_SERVER_ERROR, text),
     FailedToLoadWorld => res!(INTERNAL_SERVER_ERROR, text),
     FailedToSaveWorld => res!(INTERNAL_SERVER_ERROR, text),
@@ -68,7 +69,6 @@ pub(crate) fn from_core_err(err: CoreError) -> Response {
     ScriptNotFound(..) => res!(NOT_FOUND, text),
     StorageStatsNotFound(..) => res!(NOT_FOUND, text),
     StorageStatsNotFoundForLevel(..) => res!(NOT_FOUND, text),
-    VillageNotFound(..) => res!(NOT_FOUND, text),
     WorldIsFull => res!(INTERNAL_SERVER_ERROR, text),
   }
 }
@@ -100,7 +100,7 @@ macro_rules! bail_not_player {
 macro_rules! bail_not_owned_by {
   ($world:expr, $player:expr, $coord:expr) => {
     if !$world
-      .village($coord)?
+      .city($coord)?
       .is_owned_by_player_and(|id| $player == id)
     {
       return $crate::res!(FORBIDDEN);

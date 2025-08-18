@@ -55,16 +55,16 @@ impl World {
     self.update_player_resources()?;
     self.update_bot_resources()?;
     self.update_precursor_resources()?;
-    self.process_village_queues();
+    self.process_city_queues();
     Ok(())
   }
 
-  /// Processes the build and recruitment queues for all villages.
-  fn process_village_queues(&mut self) {
-    for village in self.continent.villages_mut() {
-      let coord = village.coord();
-      let owner = village.owner().clone();
-      let infra = village.infrastructure_mut();
+  /// Processes the build and recruitment queues for all cities.
+  fn process_city_queues(&mut self) {
+    for city in self.continent.cities_mut() {
+      let coord = city.coord();
+      let owner = city.owner().clone();
+      let infra = city.infrastructure_mut();
       infra.process_prefecture_build_queue();
 
       if let Some(personnel) = infra.process_academy_recruit_queue() {

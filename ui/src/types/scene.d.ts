@@ -8,8 +8,8 @@ type GameScene =
   | ProfileScene
   | ScriptScene
   | 'chat'
-  | 'continent'
-  | 'village';
+  | 'city'
+  | 'continent';
 
 type InfrastructureScene =
   | AcademyScene
@@ -27,6 +27,6 @@ type AcademyScene = 'academy' | 'academy-settings';
 type PrefectureScene = 'prefecture' | 'prefecture-settings';
 type StableScene = 'stable' | 'stable-settings';
 
-type ProfileScene = 'profile-bot' | 'profile-player' | 'profile-precursor' | 'profile-village';
+type ProfileScene = 'profile-bot' | 'profile-city' | 'profile-player' | 'profile-precursor';
 
 type ScriptScene = 'script' | 'nsr';
