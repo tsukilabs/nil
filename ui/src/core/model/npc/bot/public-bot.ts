@@ -25,7 +25,7 @@ export class PublicBotImpl implements PublicBot {
   }
 
   public async goToProfile() {
-    await go('profile-bot', { id: this.id.toString(10) });
+    await go('profile-bot', { params: { id: this.id.toString(10) } });
   }
 
   public static create(args: PublicBotImplConstructorArgs) {

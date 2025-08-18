@@ -25,7 +25,7 @@ export class PublicPrecursorImpl implements PublicPrecursor {
   }
 
   public async goToProfile() {
-    await go('profile-precursor', { id: this.id });
+    await go('profile-precursor', { params: { id: this.id } });
   }
 
   public static create(args: PublicPrecursorImplConstructorArgs) {

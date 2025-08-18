@@ -33,7 +33,7 @@ export class PublicPlayerImpl implements PublicPlayer {
   }
 
   public async goToProfile() {
-    await go('profile-player', { id: this.id });
+    await go('profile-player', { params: { id: this.id } });
   }
 
   public static create(args: PublicPlayerImplConstructorArgs) {

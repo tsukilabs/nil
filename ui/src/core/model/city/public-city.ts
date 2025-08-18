@@ -18,7 +18,11 @@ export class PublicCityImpl implements PublicCity {
 
   public async goToProfile() {
     const ckey = this.coord.toIndexString();
-    await go('profile-city', { ckey });
+    await go('profile-city', { params: { ckey } });
+  }
+
+  public async goToContinent() {
+    await this.coord.goToContinent();
   }
 
   get index() {

@@ -6,9 +6,12 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouteParams } from '@vueuse/router';
 import type { RouteLocationAsRelative } from 'vue-router';
+import enUS from '@/locale/en-US/scenes/game/profile/city.json';
+import ptBR from '@/locale/pt-BR/scenes/game/profile/city.json';
 import { usePublicCity } from '@/composables/city/usePublicCity';
 import { usePublicCityOwner } from '@/composables/city/usePublicCityOwner';
 import {
+  Button,
   Card,
   CardContent,
   CardHeader,
@@ -16,11 +19,17 @@ import {
   Table,
   TableBody,
   TableCell,
+  TableFooter,
   TableHead,
   TableRow,
 } from '@tb-dev/vue-components';
 
-const { t } = useI18n();
+const { t } = useI18n({
+  messages: {
+    'en-US': enUS,
+    'pt-BR': ptBR,
+  },
+});
 
 const continentKey = useRouteParams('ckey', null, { transform: Number.parseInt });
 const { city, loading } = usePublicCity(continentKey);
@@ -80,6 +89,16 @@ const toOwnerScene = computed<Option<RouteLocationAsRelative>>(() => {
                 <TableCell>{{ t(city.owner.kind) }}</TableCell>
               </TableRow>
             </TableBody>
+
+            <TableFooter v-if="city">
+              <TableRow class="bg-card hover:bg-card">
+                <TableCell colspan="2" class="text-center">
+                  <Button size="sm" :disabled="loading" @click="() => city?.goToContinent()">
+                    <span>{{ t('show-on-map') }}</span>
+                  </Button>
+                </TableCell>
+              </TableRow>
+            </TableFooter>
           </Table>
         </div>
       </CardContent>

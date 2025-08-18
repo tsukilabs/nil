@@ -1,6 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { go } from '@/router';
 import type { Option } from '@tb-dev/utils';
 
 export class CoordImpl implements Coord {
@@ -13,8 +14,8 @@ export class CoordImpl implements Coord {
   #index: Option<ContinentIndex>;
 
   private constructor(coord: Coord) {
-    this.x = coord.x;
-    this.y = coord.y;
+    this.x = Math.trunc(coord.x);
+    this.y = Math.trunc(coord.y);
   }
 
   public is(other: ContinentKey) {
@@ -28,8 +29,9 @@ export class CoordImpl implements Coord {
 
   public isXOutside() {
     if (typeof this.#xOutside !== 'boolean') {
+      const x = this.x;
       const size = NIL.world.refs().continentSize.value;
-      this.#xOutside = this.x < 0 || this.x >= size;
+      this.#xOutside = !Number.isInteger(x) || x < 0 || x >= size;
     }
 
     return this.#xOutside;
@@ -37,11 +39,18 @@ export class CoordImpl implements Coord {
 
   public isYOutside() {
     if (typeof this.#yOutside !== 'boolean') {
+      const y = this.y;
       const size = NIL.world.refs().continentSize.value;
-      this.#yOutside = this.y < 0 || this.y >= size;
+      this.#yOutside = !Number.isInteger(y) || y < 0 || y >= size;
     }
 
     return this.#yOutside;
+  }
+
+  public async goToContinent() {
+    const x = this.x.toString(10);
+    const y = this.y.toString(10);
+    await go('continent', { query: { x, y } });
   }
 
   public format() {
@@ -92,8 +101,8 @@ export class CoordImpl implements Coord {
 
   public static fromIndex(index: ContinentIndex) {
     const size = NIL.world.refs().continentSize.value;
-    const x = Math.trunc(index % size);
-    const y = Math.trunc(index / size);
+    const x = index % size;
+    const y = index / size;
     return CoordImpl.create({ x, y });
   }
 

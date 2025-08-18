@@ -2,7 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { gameRoutes } from './game';
-import { createRouter, createWebHistory, type RouteParams } from 'vue-router';
+import {
+  createRouter,
+  createWebHistory,
+  type LocationQueryRaw,
+  type RouteParams,
+} from 'vue-router';
 
 export const router = createRouter({
   history: createWebHistory(),
@@ -40,6 +45,15 @@ export const router = createRouter({
   ],
 });
 
-export function go(to: Scene, params?: RouteParams) {
-  return router.push({ name: to, params });
+export interface RouteOptions {
+  params?: Option<RouteParams>;
+  query?: Option<LocationQueryRaw>;
+}
+
+export function go(scene: Scene, options?: RouteOptions) {
+  return router.push({
+    name: scene,
+    params: options?.params ?? undefined,
+    query: options?.query ?? undefined,
+  });
 }

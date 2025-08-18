@@ -6,6 +6,7 @@ import Field from './Field.vue';
 import { useRoute } from 'vue-router';
 import type { Option } from '@tb-dev/utils';
 import { useElementSize } from '@tb-dev/vue';
+import { useRouteQuery } from '@vueuse/router';
 import { onKeyDown, until } from '@vueuse/core';
 import { ListenerSet } from '@/lib/listener-set';
 import { CoordImpl } from '@/core/model/continent/coord';
@@ -36,6 +37,9 @@ const fields = shallowRef<PublicFieldImpl[]>([]);
 const cache = new Map<string, PublicFieldImpl>();
 const bulkInit = PublicFieldImpl.createBulkInitializer();
 const triggerFields = () => triggerRef(fields);
+
+const queryX = useRouteQuery('x', null, { transform: transformQuery });
+const queryY = useRouteQuery('y', null, { transform: transformQuery });
 
 const containerEl = useTemplateRef('container');
 const containerSize = useElementSize(containerEl);
@@ -103,9 +107,18 @@ watchEffect(() => {
 });
 
 onBeforeMount(() => {
-  if (currentCoord.value) {
-    const x = currentCoord.value.x;
-    const y = currentCoord.value.y;
+  const size = continentSize.value;
+  const isValid = (coord: Option<number>): coord is number => {
+    return typeof coord === 'number' &&
+      Number.isInteger(coord) &&
+      coord >= 0 &&
+      coord < size;
+  };
+
+  const x = isValid(queryX.value) ? queryX.value : currentCoord.value?.x;
+  const y = isValid(queryY.value) ? queryY.value : currentCoord.value?.y;
+
+  if (typeof x === 'number' && typeof y === 'number') {
     continent.set_center(new WasmCoord(x, y));
   }
 });
@@ -189,6 +202,11 @@ function move(dir: 'up' | 'down' | 'left' | 'right') {
 
     render();
   };
+}
+
+function transformQuery(value: string) {
+  const coord = Math.trunc(Number.parseInt(value));
+  return Number.isFinite(coord) ? coord : null;
 }
 </script>
 
