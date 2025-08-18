@@ -4,7 +4,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import Loading from '@/components/Loading.vue';
 import { useRouteParams } from '@vueuse/router';
 import type { RouteLocationAsRelative } from 'vue-router';
 import { usePublicVillage } from '@/composables/village/usePublicVillage';
@@ -52,8 +51,7 @@ const toOwnerScene = computed<Option<RouteLocationAsRelative>>(() => {
       </CardHeader>
 
       <CardContent class="px-2 py-0 relative size-full">
-        <Loading v-if="!village || loading" class="absolute inset-0" />
-        <div v-else>
+        <div v-if="village">
           <Table class="sm:max-w-max">
             <TableBody>
               <TableRow>

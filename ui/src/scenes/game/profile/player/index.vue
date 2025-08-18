@@ -3,7 +3,6 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import Loading from '@/components/Loading.vue';
 import { useRouteParams } from '@vueuse/router';
 import VillageTable from '@/components/profile/VillageTable.vue';
 import { usePublicPlayer } from '@/composables/player/usePublicPlayer';
@@ -37,8 +36,7 @@ const { villages } = usePublicVillages(coords);
       </CardHeader>
 
       <CardContent class="px-2 py-0 relative size-full">
-        <Loading v-if="!player || loading" class="absolute inset-0" />
-        <div v-else class="flex w-full min-w-max flex-col gap-4">
+        <div class="flex w-full min-w-max flex-col gap-4">
           <Table class="sm:max-w-max md:min-w-50">
             <TableBody>
               <TableRow>
