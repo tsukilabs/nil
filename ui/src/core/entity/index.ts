@@ -6,7 +6,7 @@ import { ChatEntity } from './chat';
 import { RoundEntity } from './round';
 import { WorldEntity } from './world';
 import { PlayerEntity } from './player';
-import { VillageEntity } from './village';
+import { CityEntity } from './city';
 import { MilitaryEntity } from './military';
 
 export function initEntities() {
@@ -27,6 +27,6 @@ export function initEntities() {
   ChatEntity.init();
   RoundEntity.init();
   PlayerEntity.init();
-  VillageEntity.init();
+  CityEntity.init();
   MilitaryEntity.init();
 }

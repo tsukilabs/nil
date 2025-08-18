@@ -16,7 +16,7 @@ import {
 
 const { t } = useI18n();
 
-const { production } = NIL.village.refs();
+const { production } = NIL.city.refs();
 </script>
 
 <template>

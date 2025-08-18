@@ -4,22 +4,22 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import type { RouteLocationAsRelative } from 'vue-router';
+import type { PublicCityImpl } from '@/core/model/city/public-city';
 import type { PublicFieldImpl } from '@/core/model/continent/public-field';
-import type { PublicVillageImpl } from '@/core/model/village/public-village';
 import { Badge, HoverCard, HoverCardContent, HoverCardTrigger } from '@tb-dev/vue-components';
 
 const props = defineProps<{
   field: PublicFieldImpl;
-  village: PublicVillageImpl;
+  city: PublicCityImpl;
 }>();
 
 const to = computed<RouteLocationAsRelative>(() => {
-  const ckey = props.village.coord.toIndexString();
-  return { name: 'profile-village' satisfies ProfileScene, params: { ckey } };
+  const ckey = props.city.coord.toIndexString();
+  return { name: 'profile-city' satisfies ProfileScene, params: { ckey } };
 });
 
 const color = computed(() => {
-  switch (props.village.owner.kind) {
+  switch (props.city.owner.kind) {
     case 'bot': {
       return 'bg-amber-950';
     }
@@ -27,7 +27,7 @@ const color = computed(() => {
       return 'bg-primary';
     }
     case 'precursor': {
-      return getPrecursorColor(props.village.owner.id);
+      return getPrecursorColor(props.city.owner.id);
     }
     default:
       return 'bg-transparent';
@@ -59,17 +59,17 @@ function getPrecursorColor(id: PrecursorId) {
         <div class="flex justify-between">
           <div class="flex flex-col overflow-hidden">
             <h1 class="ellipsis text-lg">
-              <RouterLink :to>{{ village.name }}</RouterLink>
+              <RouterLink :to>{{ city.name }}</RouterLink>
             </h1>
             <h2 class="text-muted-foreground text-sm">
-              <span v-if="village.owner.kind === 'player'">
-                {{ village.owner.id }}
+              <span v-if="city.owner.kind === 'player'">
+                {{ city.owner.id }}
               </span>
-              <span v-else-if="village.owner.kind === 'bot'">
-                {{ `Bot ${village.owner.id}` }}
+              <span v-else-if="city.owner.kind === 'bot'">
+                {{ `Bot ${city.owner.id}` }}
               </span>
-              <span v-else-if="village.owner.kind === 'precursor'">
-                {{ `Precursor ${village.owner.id}` }}
+              <span v-else-if="city.owner.kind === 'precursor'">
+                {{ `Precursor ${city.owner.id}` }}
               </span>
             </h2>
           </div>

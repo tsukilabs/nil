@@ -33,8 +33,8 @@ export const gameRoutes: RouteRecordRaw[] = [
     children: scriptRoutes,
   },
   {
-    component: () => import('@/scenes/game/village/index.vue'),
-    path: 'village',
-    name: 'village' satisfies GameScene,
+    component: () => import('@/scenes/game/city/index.vue'),
+    path: 'city',
+    name: 'city' satisfies GameScene,
   },
 ];

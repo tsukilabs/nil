@@ -7,14 +7,14 @@ import { PublicBotImpl } from '@/core/model/npc/bot/public-bot';
 import { PublicPlayerImpl } from '@/core/model/player/public-player';
 import { PublicPrecursorImpl } from '@/core/model/npc/precursor/public-precursor';
 
-export function usePublicVillageOwner(owner: MaybeNilRef<VillageOwner>) {
+export function usePublicCityOwner(owner: MaybeNilRef<CityOwner>) {
   const bot = shallowRef<Option<PublicBotImpl>>();
   const player = shallowRef<Option<PublicPlayerImpl>>();
   const precursor = shallowRef<Option<PublicPrecursorImpl>>();
 
   watchImmediate(toRef(owner), load);
 
-  async function load(value?: Option<VillageOwner>) {
+  async function load(value?: Option<CityOwner>) {
     reset(value?.kind);
 
     if (value?.kind) {
@@ -35,7 +35,7 @@ export function usePublicVillageOwner(owner: MaybeNilRef<VillageOwner>) {
     }
   }
 
-  function reset(ignore?: Option<VillageOwnerKind>) {
+  function reset(ignore?: Option<CityOwnerKind>) {
     switch (ignore ?? null) {
       case 'bot': {
         player.value = null;

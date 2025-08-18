@@ -25,7 +25,7 @@ pub async fn get(
   };
 
   result
-    .map(|village| res!(OK, Json(village)))
+    .map(|city| res!(OK, Json(city)))
     .unwrap_or_else(from_core_err)
 }
 
@@ -36,14 +36,14 @@ pub async fn get_all_public(State(app): State<App>) -> Response {
         .map(PublicCity::from)
         .collect_vec()
     })
-    .map(|villages| res!(OK, Json(villages)))
+    .map(|cities| res!(OK, Json(cities)))
     .await
 }
 
 pub async fn get_public(State(app): State<App>, Json(coord): Json<Coord>) -> Response {
   app
     .continent(|k| k.city(coord).map(PublicCity::from))
-    .map_ok(|village| res!(OK, Json(village)))
+    .map_ok(|city| res!(OK, Json(city)))
     .unwrap_or_else(from_core_err)
     .await
 }
@@ -51,11 +51,11 @@ pub async fn get_public(State(app): State<App>, Json(coord): Json<Coord>) -> Res
 pub async fn get_public_by(State(app): State<App>, Json(coords): Json<Vec<Coord>>) -> Response {
   app
     .continent(|k| {
-      k.cities_by(|village| coords.contains(&village.coord()))
+      k.cities_by(|city| coords.contains(&city.coord()))
         .map(PublicCity::from)
         .collect_vec()
     })
-    .map(|villages| res!(OK, Json(villages)))
+    .map(|cities| res!(OK, Json(cities)))
     .await
 }
 
@@ -71,6 +71,6 @@ pub async fn rename(
   };
 
   result
-    .map(|village| res!(OK, Json(village)))
+    .map(|city| res!(OK, Json(city)))
     .unwrap_or_else(from_core_err)
 }

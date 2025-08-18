@@ -3,7 +3,7 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import type { VillageImpl } from '@/core/model/village/village';
+import type { CityImpl } from '@/core/model/city/city';
 import {
   Card,
   CardContent,
@@ -15,7 +15,7 @@ import {
   TableRow,
 } from '@tb-dev/vue-components';
 
-defineProps<{ village: VillageImpl; }>();
+defineProps<{ city: CityImpl; }>();
 
 const { t } = useI18n();
 </script>
@@ -39,13 +39,13 @@ const { t } = useI18n();
               >
                 <span>{{ t('prefecture') }}</span>
                 <span class="text-muted-foreground">
-                  {{ `(${t('level')} ${village.prefecture.level})` }}
+                  {{ `(${t('level')} ${city.prefecture.level})` }}
                 </span>
               </RouterLink>
             </TableCell>
           </TableRow>
 
-          <TableRow v-if="village.academy.level > 0">
+          <TableRow v-if="city.academy.level > 0">
             <TableCell>
               <RouterLink
                 :to="{ name: 'academy' satisfies InfrastructureScene }"
@@ -53,13 +53,13 @@ const { t } = useI18n();
               >
                 <span>{{ t('academy') }}</span>
                 <span class="text-muted-foreground">
-                  {{ `(${t('level')} ${village.academy.level})` }}
+                  {{ `(${t('level')} ${city.academy.level})` }}
                 </span>
               </RouterLink>
             </TableCell>
           </TableRow>
 
-          <TableRow v-if="village.stable.level > 0">
+          <TableRow v-if="city.stable.level > 0">
             <TableCell>
               <RouterLink
                 :to="{ name: 'stable' satisfies InfrastructureScene }"
@@ -67,13 +67,13 @@ const { t } = useI18n();
               >
                 <span>{{ t('stable') }}</span>
                 <span class="text-muted-foreground">
-                  {{ `(${t('level')} ${village.stable.level})` }}
+                  {{ `(${t('level')} ${city.stable.level})` }}
                 </span>
               </RouterLink>
             </TableCell>
           </TableRow>
 
-          <TableRow v-if="village.sawmill.level > 0">
+          <TableRow v-if="city.sawmill.level > 0">
             <TableCell>
               <RouterLink
                 :to="{ name: 'sawmill' satisfies InfrastructureScene }"
@@ -81,13 +81,13 @@ const { t } = useI18n();
               >
                 <span>{{ t('sawmill') }}</span>
                 <span class="text-muted-foreground">
-                  {{ `(${t('level')} ${village.sawmill.level})` }}
+                  {{ `(${t('level')} ${city.sawmill.level})` }}
                 </span>
               </RouterLink>
             </TableCell>
           </TableRow>
 
-          <TableRow v-if="village.quarry.level > 0">
+          <TableRow v-if="city.quarry.level > 0">
             <TableCell>
               <RouterLink
                 :to="{ name: 'quarry' satisfies InfrastructureScene }"
@@ -95,13 +95,13 @@ const { t } = useI18n();
               >
                 <span>{{ t('quarry') }}</span>
                 <span class="text-muted-foreground">
-                  {{ `(${t('level')} ${village.quarry.level})` }}
+                  {{ `(${t('level')} ${city.quarry.level})` }}
                 </span>
               </RouterLink>
             </TableCell>
           </TableRow>
 
-          <TableRow v-if="village.ironMine.level > 0">
+          <TableRow v-if="city.ironMine.level > 0">
             <TableCell>
               <RouterLink
                 :to="{ name: 'iron-mine' satisfies InfrastructureScene }"
@@ -109,13 +109,13 @@ const { t } = useI18n();
               >
                 <span>{{ t('iron-mine') }}</span>
                 <span class="text-muted-foreground">
-                  {{ `(${t('level')} ${village.ironMine.level})` }}
+                  {{ `(${t('level')} ${city.ironMine.level})` }}
                 </span>
               </RouterLink>
             </TableCell>
           </TableRow>
 
-          <TableRow v-if="village.farm.level > 0">
+          <TableRow v-if="city.farm.level > 0">
             <TableCell>
               <RouterLink
                 :to="{ name: 'farm' satisfies InfrastructureScene }"
@@ -123,13 +123,13 @@ const { t } = useI18n();
               >
                 <span>{{ t('farm') }}</span>
                 <span class="text-muted-foreground">
-                  {{ `(${t('level')} ${village.farm.level})` }}
+                  {{ `(${t('level')} ${city.farm.level})` }}
                 </span>
               </RouterLink>
             </TableCell>
           </TableRow>
 
-          <TableRow v-if="village.warehouse.level > 0">
+          <TableRow v-if="city.warehouse.level > 0">
             <TableCell>
               <RouterLink
                 :to="{ name: 'warehouse' satisfies InfrastructureScene }"
@@ -137,13 +137,13 @@ const { t } = useI18n();
               >
                 <span>{{ t('warehouse') }}</span>
                 <span class="text-muted-foreground">
-                  {{ `(${t('level')} ${village.warehouse.level})` }}
+                  {{ `(${t('level')} ${city.warehouse.level})` }}
                 </span>
               </RouterLink>
             </TableCell>
           </TableRow>
 
-          <TableRow v-if="village.silo.level > 0">
+          <TableRow v-if="city.silo.level > 0">
             <TableCell>
               <RouterLink
                 :to="{ name: 'silo' satisfies InfrastructureScene }"
@@ -151,13 +151,13 @@ const { t } = useI18n();
               >
                 <span>{{ t('silo') }}</span>
                 <span class="text-muted-foreground">
-                  {{ `(${t('level')} ${village.silo.level})` }}
+                  {{ `(${t('level')} ${city.silo.level})` }}
                 </span>
               </RouterLink>
             </TableCell>
           </TableRow>
 
-          <TableRow v-if="village.wall.level > 0">
+          <TableRow v-if="city.wall.level > 0">
             <TableCell>
               <RouterLink
                 :to="{ name: 'wall' satisfies InfrastructureScene }"
@@ -165,7 +165,7 @@ const { t } = useI18n();
               >
                 <span>{{ t('wall') }}</span>
                 <span class="text-muted-foreground">
-                  {{ `(${t('level')} ${village.wall.level})` }}
+                  {{ `(${t('level')} ${city.wall.level})` }}
                 </span>
               </RouterLink>
             </TableCell>

@@ -3,7 +3,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import FieldVillage from './FieldVillage.vue';
+import FieldCity from './FieldCity.vue';
 import type { PublicFieldImpl } from '@/core/model/continent/public-field';
 
 const props = defineProps<{ field: PublicFieldImpl; }>();
@@ -32,7 +32,7 @@ const classList = computed(() => {
 <template>
   <div :data-x="field.x" :data-y="field.y" :class="classList">
     <div class="relative flex size-full flex-col">
-      <FieldVillage v-if="field.isVillage() && field.village" :field :village="field.village" />
+      <FieldCity v-if="field.isCity() && field.city" :field :city="field.city" />
     </div>
   </div>
 </template>

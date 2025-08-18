@@ -2,19 +2,19 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as commands from '@/commands';
-import { PublicVillageImpl } from './public-village';
+import { PublicCityImpl } from './public-city';
 import { CoordImpl } from '@/core/model/continent/coord';
 import { InfrastructureImpl } from '@/core/model/infrastructure/infrastructure';
 
-export class VillageImpl extends PublicVillageImpl implements Village {
+export class CityImpl extends PublicCityImpl implements City {
   public readonly infrastructure: InfrastructureImpl;
   public readonly stability: number;
 
-  private constructor(village: Village) {
-    super(village);
+  private constructor(city: City) {
+    super(city);
 
-    this.infrastructure = InfrastructureImpl.create(village.infrastructure);
-    this.stability = village.stability;
+    this.infrastructure = InfrastructureImpl.create(city.infrastructure);
+    this.stability = city.stability;
   }
 
   public getProduction() {
@@ -66,17 +66,17 @@ export class VillageImpl extends PublicVillageImpl implements Village {
     return this.infrastructure.warehouse;
   }
 
-  public static override create(village: Village) {
-    if (village instanceof VillageImpl) {
-      return village;
+  public static override create(city: City) {
+    if (city instanceof CityImpl) {
+      return city;
     }
 
-    return new VillageImpl(village);
+    return new CityImpl(city);
   }
 
   public static override async load(key: ContinentKey) {
     const coord = CoordImpl.fromKey(key);
-    const village = await commands.getVillage(coord);
-    return VillageImpl.create(village);
+    const city = await commands.getCity(coord);
+    return CityImpl.create(city);
   }
 }

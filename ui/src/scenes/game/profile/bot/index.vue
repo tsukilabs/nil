@@ -4,9 +4,9 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import { useRouteParams } from '@vueuse/router';
-import VillageTable from '@/components/profile/VillageTable.vue';
+import CityTable from '@/components/profile/CityTable.vue';
 import { usePublicBot } from '@/composables/npc/bot/usePublicBot';
-import { usePublicVillages } from '@/composables/village/usePublicVillages';
+import { usePublicCities } from '@/composables/city/usePublicCities';
 import {
   Card,
   CardContent,
@@ -23,7 +23,7 @@ const { t } = useI18n();
 
 const id = useRouteParams('id', null, { transform: Number.parseInt });
 const { bot, coords, loading } = usePublicBot(id);
-const { villages } = usePublicVillages(coords);
+const { cities } = usePublicCities(coords);
 </script>
 
 <template>
@@ -56,7 +56,7 @@ const { villages } = usePublicVillages(coords);
             </TableBody>
           </Table>
 
-          <VillageTable :villages class="sm:max-w-max md:min-w-50" />
+          <CityTable :cities class="sm:max-w-max md:min-w-50" />
         </div>
       </CardContent>
     </Card>

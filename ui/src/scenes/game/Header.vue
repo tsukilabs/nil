@@ -12,7 +12,7 @@ defineProps<{
   onFinishTurn: () => MaybePromise<void>;
 }>();
 
-const { village } = NIL.village.refs();
+const { city } = NIL.city.refs();
 
 const { sm } = useBreakpoints();
 </script>
@@ -21,13 +21,13 @@ const { sm } = useBreakpoints();
   <header class="flex items-center justify-between overflow-hidden">
     <div class="max-w-3/5 flex items-center gap-2">
       <SidebarTrigger />
-      <Button v-if="village" variant="ghost" class="py-2 text-base lg:text-lg">
-        <RouterLink :to="{ name: 'village' satisfies GameScene }" class="space-x-1">
+      <Button v-if="city" variant="ghost" class="py-2 text-base lg:text-lg">
+        <RouterLink :to="{ name: 'city' satisfies GameScene }" class="space-x-1">
           <template v-if="sm">
-            <span>{{ village.name }}</span>
-            <span>({{ village.coord.format() }})</span>
+            <span>{{ city.name }}</span>
+            <span>({{ city.coord.format() }})</span>
           </template>
-          <span v-else>{{ village.coord.format() }}</span>
+          <span v-else>{{ city.coord.format() }}</span>
         </RouterLink>
       </Button>
     </div>

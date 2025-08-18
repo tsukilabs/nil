@@ -5,10 +5,10 @@ import { compare } from '@/lib/intl';
 import { asyncRef } from '@tb-dev/vue';
 import { computed, toRef, watch } from 'vue';
 import { CoordImpl } from '@/core/model/continent/coord';
-import { getPublicVillage, getPublicVillagesBy } from '@/commands';
-import { PublicVillageImpl } from '@/core/model/village/public-village';
+import { getPublicCitiesBy, getPublicCity } from '@/commands';
+import { PublicCityImpl } from '@/core/model/city/public-city';
 
-export function usePublicVillages(keys: MaybeNilRef<readonly ContinentKey[]>) {
+export function usePublicCities(keys: MaybeNilRef<readonly ContinentKey[]>) {
   const keysRef = toRef(keys);
   const coords = computed(() => {
     if (keysRef.value && keysRef.value.length > 0) {
@@ -19,28 +19,28 @@ export function usePublicVillages(keys: MaybeNilRef<readonly ContinentKey[]>) {
   });
 
   const { state, isLoading, execute } = asyncRef([], async () => {
-    const villages: PublicVillageImpl[] = [];
+    const cities: PublicCityImpl[] = [];
     if (coords.value) {
       if (coords.value.length === 1) {
-        const village = await getPublicVillage(coords.value[0]);
-        villages.push(PublicVillageImpl.create(village));
+        const city = await getPublicCity(coords.value[0]);
+        cities.push(PublicCityImpl.create(city));
       }
       else {
-        for (const village of await getPublicVillagesBy(coords.value)) {
-          villages.push(PublicVillageImpl.create(village));
+        for (const city of await getPublicCitiesBy(coords.value)) {
+          cities.push(PublicCityImpl.create(city));
         }
       }
     }
 
-    villages.sort((a, b) => compare(a.name, b.name));
+    cities.sort((a, b) => compare(a.name, b.name));
 
-    return villages as readonly PublicVillageImpl[];
+    return cities as readonly PublicCityImpl[];
   });
 
   watch(coords, execute);
 
   return {
-    villages: state,
+    cities: state,
     loading: isLoading,
     load: execute,
   };

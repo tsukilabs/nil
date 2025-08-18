@@ -3,10 +3,10 @@
 
 type EventPayload =
   | ChatUpdatedPayload
+  | CityUpdatedPayload
   | PlayerUpdatedPayload
-  | PublicVillageUpdatedPayload
-  | RoundUpdatedPayload
-  | VillageUpdatedPayload;
+  | PublicCityUpdatedPayload
+  | RoundUpdatedPayload;
 
 type EventPayloadKind = EventPayload['kind'];
 
@@ -15,22 +15,22 @@ interface ChatUpdatedPayload {
   readonly message: ChatMessage;
 }
 
+interface CityUpdatedPayload {
+  readonly kind: 'city-updated';
+  readonly coord: Coord;
+}
+
 interface PlayerUpdatedPayload {
   readonly kind: 'player-updated';
   readonly player: PlayerId;
 }
 
-interface PublicVillageUpdatedPayload {
-  readonly kind: 'public-village-updated';
+interface PublicCityUpdatedPayload {
+  readonly kind: 'public-city-updated';
   readonly coord: Coord;
 }
 
 interface RoundUpdatedPayload {
   readonly kind: 'round-updated';
   readonly round: Round;
-}
-
-interface VillageUpdatedPayload {
-  readonly kind: 'village-updated';
-  readonly coord: Coord;
 }

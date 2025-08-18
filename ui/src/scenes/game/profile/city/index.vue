@@ -6,8 +6,8 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouteParams } from '@vueuse/router';
 import type { RouteLocationAsRelative } from 'vue-router';
-import { usePublicVillage } from '@/composables/village/usePublicVillage';
-import { usePublicVillageOwner } from '@/composables/village/usePublicVillageOwner';
+import { usePublicCity } from '@/composables/city/usePublicCity';
+import { usePublicCityOwner } from '@/composables/city/usePublicCityOwner';
 import {
   Card,
   CardContent,
@@ -23,10 +23,10 @@ import {
 const { t } = useI18n();
 
 const continentKey = useRouteParams('ckey', null, { transform: Number.parseInt });
-const { village, loading } = usePublicVillage(continentKey);
+const { city, loading } = usePublicCity(continentKey);
 
-const owner = computed(() => village.value?.owner);
-const { bot, player, precursor } = usePublicVillageOwner(owner);
+const owner = computed(() => city.value?.owner);
+const { bot, player, precursor } = usePublicCityOwner(owner);
 
 const toOwnerScene = computed<Option<RouteLocationAsRelative>>(() => {
   if (owner.value) {
@@ -44,19 +44,19 @@ const toOwnerScene = computed<Option<RouteLocationAsRelative>>(() => {
 <template>
   <div class="game-layout">
     <Card class="size-full overflow-x-hidden overflow-y-auto">
-      <CardHeader v-if="village && !loading">
+      <CardHeader v-if="city && !loading">
         <CardTitle>
-          <span>{{ village.name }}</span>
+          <span>{{ city.name }}</span>
         </CardTitle>
       </CardHeader>
 
       <CardContent class="px-2 py-0 relative size-full">
-        <div v-if="village">
+        <div v-if="city">
           <Table class="sm:max-w-max">
             <TableBody>
               <TableRow>
                 <TableHead>{{ t('coordinate', 2) }}</TableHead>
-                <TableCell>{{ village.coord.format() }}</TableCell>
+                <TableCell>{{ city.coord.format() }}</TableCell>
               </TableRow>
 
               <TableRow>
@@ -77,7 +77,7 @@ const toOwnerScene = computed<Option<RouteLocationAsRelative>>(() => {
 
               <TableRow>
                 <TableHead>{{ t('type') }}</TableHead>
-                <TableCell>{{ t(village.owner.kind) }}</TableCell>
+                <TableCell>{{ t(city.owner.kind) }}</TableCell>
               </TableRow>
             </TableBody>
           </Table>

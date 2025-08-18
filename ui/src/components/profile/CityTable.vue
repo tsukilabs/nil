@@ -3,11 +3,11 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import type { PublicVillageImpl } from '@/core/model/village/public-village';
+import type { PublicCityImpl } from '@/core/model/city/public-city';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@tb-dev/vue-components';
 
 defineProps<{
-  villages: readonly PublicVillageImpl[];
+  cities: readonly PublicCityImpl[];
 }>();
 
 const { t } = useI18n();
@@ -17,7 +17,7 @@ const { t } = useI18n();
   <Table>
     <TableHeader>
       <TableRow class="hover:bg-card">
-        <TableHead>{{ t('village', 2) }}</TableHead>
+        <TableHead>{{ t('city', 2) }}</TableHead>
         <TableHead>{{ t('coordinate', 2) }}</TableHead>
         <TableHead>{{ t('point', 2) }}</TableHead>
       </TableRow>
@@ -25,16 +25,16 @@ const { t } = useI18n();
 
     <TableBody>
       <TableRow
-        v-for="village of villages"
-        :key="village.index"
+        v-for="city of cities"
+        :key="city.index"
         role="link"
         tabindex="0"
         class="cursor-pointer"
-        @click="() => village.goToProfile()"
-        @keydown.enter="() => village.goToProfile()"
+        @click="() => city.goToProfile()"
+        @keydown.enter="() => city.goToProfile()"
       >
-        <TableCell>{{ village.name }}</TableCell>
-        <TableCell>{{ village.coord.format() }}</TableCell>
+        <TableCell>{{ city.name }}</TableCell>
+        <TableCell>{{ city.coord.format() }}</TableCell>
         <TableCell>???</TableCell>
       </TableRow>
     </TableBody>

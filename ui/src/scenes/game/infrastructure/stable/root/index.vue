@@ -8,14 +8,14 @@ import RecruitCatalog from './RecruitCatalog.vue';
 import { useStable } from '@/composables/infrastructure/useBuilding';
 import { useStableRecruitCatalog } from '@/composables/infrastructure/useStableRecruitCatalog';
 
-const { coord, village } = NIL.village.refs();
+const { coord, city } = NIL.city.refs();
 
 const stable = useStable();
 const { catalog, loading, add, cancel, load } = useStableRecruitCatalog(coord);
 
 await load();
 
-watch(village, load);
+watch(city, load);
 </script>
 
 <template>

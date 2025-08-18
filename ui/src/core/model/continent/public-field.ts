@@ -5,13 +5,13 @@ import { getField, getFields } from '@/commands';
 import { tryOnScopeDispose } from '@vueuse/core';
 import type { MaybePromise, Option } from '@tb-dev/utils';
 import type { CoordImpl } from '@/core/model/continent/coord';
-import { PublicVillageImpl } from '@/core/model/village/public-village';
+import { PublicCityImpl } from '@/core/model/city/public-city';
 
 const enum Flags {
   Uninit = 1 << 0,
   Loading = 1 << 1,
   Empty = 1 << 2,
-  Village = 1 << 3,
+  City = 1 << 3,
 }
 
 export class PublicFieldImpl {
@@ -19,7 +19,7 @@ export class PublicFieldImpl {
   public readonly index: ContinentIndex;
 
   #flags: Flags = Flags.Uninit;
-  #village: Option<PublicVillageImpl>;
+  #city: Option<PublicCityImpl>;
 
   private constructor(coord: CoordImpl) {
     this.coord = coord;
@@ -54,12 +54,12 @@ export class PublicFieldImpl {
     switch (field.kind) {
       case 'empty': {
         this.#flags = Flags.Empty;
-        this.#village = null;
+        this.#city = null;
         break;
       }
-      case 'village': {
-        this.#flags = Flags.Village;
-        this.#village = PublicVillageImpl.create(field.village);
+      case 'city': {
+        this.#flags = Flags.City;
+        this.#city = PublicCityImpl.create(field.city);
         break;
       }
     }
@@ -77,8 +77,8 @@ export class PublicFieldImpl {
     return this.#flags & Flags.Empty;
   }
 
-  public isVillage() {
-    return this.#flags & Flags.Village;
+  public isCity() {
+    return this.#flags & Flags.City;
   }
 
   public isOutside() {
@@ -101,8 +101,8 @@ export class PublicFieldImpl {
     return this.#flags;
   }
 
-  get village() {
-    return this.#village;
+  get city() {
+    return this.#city;
   }
 
   get x() {
