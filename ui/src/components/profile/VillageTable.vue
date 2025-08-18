@@ -17,8 +17,9 @@ const { t } = useI18n();
   <Table>
     <TableHeader>
       <TableRow class="hover:bg-card">
-        <TableHead>{{ t('name') }}</TableHead>
+        <TableHead>{{ t('village', 2) }}</TableHead>
         <TableHead>{{ t('coordinate', 2) }}</TableHead>
+        <TableHead>{{ t('point', 2) }}</TableHead>
       </TableRow>
     </TableHeader>
 
@@ -34,6 +35,7 @@ const { t } = useI18n();
       >
         <TableCell>{{ village.name }}</TableCell>
         <TableCell>{{ village.coord.format() }}</TableCell>
+        <TableCell>???</TableCell>
       </TableRow>
     </TableBody>
   </Table>
