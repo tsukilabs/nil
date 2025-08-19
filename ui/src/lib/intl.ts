@@ -1,7 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-export const defaultIntl = new Intl.NumberFormat(undefined, {
+export const integerIntl = new Intl.NumberFormat(undefined, {
   style: 'decimal',
   maximumFractionDigits: 0,
   roundingMode: 'trunc',
@@ -11,7 +11,7 @@ export const defaultIntl = new Intl.NumberFormat(undefined, {
 });
 
 export function formatInt(value: number) {
-  return defaultIntl.format(value);
+  return integerIntl.format(value);
 }
 
 export const sortCollator = new Intl.Collator(undefined, {
