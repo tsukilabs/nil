@@ -11,6 +11,7 @@ use super::{BuildingId, BuildingLevel};
 use crate::check_total_resource_ratio;
 use crate::infrastructure::queue::InfrastructureQueue;
 use crate::infrastructure::requirements::InfrastructureRequirements;
+use crate::ranking::Score;
 use crate::resources::{Cost, MaintenanceRatio, ResourceRatio, Workforce};
 use nil_core_macros::Building;
 use serde::{Deserialize, Serialize};
@@ -54,6 +55,9 @@ impl Prefecture {
 
   pub const MIN_WORKFORCE: Workforce = Workforce::new(1);
   pub const MAX_WORKFORCE: Workforce = Workforce::new(50);
+
+  pub const MIN_SCORE: Score = Score::new(10);
+  pub const MAX_SCORE: Score = Score::new(1978);
 
   pub const INFRASTRUCTURE_REQUIREMENTS: InfrastructureRequirements =
     InfrastructureRequirements::none();

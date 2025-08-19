@@ -6,19 +6,13 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { storeToRefs } from 'pinia';
 import { ResourcesImpl } from '@/core/model/resources';
+import CostGrid from '@/components/resources/CostGrid.vue';
+import { TableCell, TableRow } from '@tb-dev/vue-components';
+import { useBreakpoints } from '@/composables/util/useBreakpoints';
 import { useAcademySettings } from '@/settings/infrastructure/academy';
 import type { AcademyImpl } from '@/core/model/infrastructure/building/academy/academy';
 import { useRecruitCatalogEntry } from '@/composables/infrastructure/useRecruitCatalogEntry';
-import {
-  Button,
-  NumberField,
-  NumberFieldContent,
-  NumberFieldDecrement,
-  NumberFieldIncrement,
-  NumberFieldInput,
-  TableCell,
-  TableRow,
-} from '@tb-dev/vue-components';
+import RecruitCatalogRowAction from '@/components/infrastructure/RecruitCatalogRowAction.vue';
 
 const props = defineProps<{
   entry: AcademyRecruitCatalogEntry;
@@ -37,7 +31,12 @@ const { player } = NIL.player.refs();
 const settings = useAcademySettings();
 const { hideUnmet } = storeToRefs(settings);
 
-const { chunks, resources, maintenance, workforce } = useRecruitCatalogEntry(() => props.entry);
+const {
+  chunks,
+  resources,
+  maintenance,
+  workforce,
+} = useRecruitCatalogEntry(() => props.entry);
 
 const canRecruit = computed(() => {
   if (
@@ -52,6 +51,8 @@ const canRecruit = computed(() => {
 
   return false;
 });
+
+const { sm } = useBreakpoints();
 </script>
 
 <template>
@@ -61,42 +62,38 @@ const canRecruit = computed(() => {
     </TableCell>
 
     <TableCell>
-      <div class="grid grid-cols-5 items-center justify-start gap-4">
-        <Wood :amount="resources.wood" :limit="playerResources?.wood" />
-        <Stone :amount="resources.stone" :limit="playerResources?.stone" />
-        <Iron :amount="resources.iron" :limit="playerResources?.iron" />
-        <Food :amount="maintenance" />
-        <Workforce :amount="workforce" />
-      </div>
+      <CostGrid
+        v-if="sm"
+        :resources
+        :maintenance
+        :workforce
+        :limit="playerResources"
+      />
+      <template v-else>
+        <div class="flex flex-col gap-2 py-2">
+          <CostGrid
+            :resources="entry.recipe.resources"
+            :maintenance="entry.recipe.maintenance"
+            :workforce="entry.recipe.workforce"
+            :limit="playerResources"
+          />
+          <RecruitCatalogRowAction
+            v-model="chunks"
+            :can-recruit
+            :loading
+            @recruit-order="onRecruitOrder"
+          />
+        </div>
+      </template>
     </TableCell>
 
-    <TableCell class="min-w-30">
-      <div class="grid max-w-fit grid-cols-2 items-center justify-start gap-4">
-        <NumberField
-          v-model="chunks"
-          :disabled="loading"
-          :min="0"
-          :max="9999"
-          :step="1"
-          class="w-full"
-        >
-          <NumberFieldContent>
-            <NumberFieldDecrement />
-            <NumberFieldInput class="dark:bg-input/40" />
-            <NumberFieldIncrement />
-          </NumberFieldContent>
-        </NumberField>
-
-        <Button
-          variant="default"
-          size="sm"
-          :disabled="!canRecruit || chunks < 1"
-          class="max-w-24"
-          @click="() => onRecruitOrder(Math.trunc(chunks))"
-        >
-          <span>{{ t('recruit') }}</span>
-        </Button>
-      </div>
+    <TableCell v-if="sm" class="min-w-30">
+      <RecruitCatalogRowAction
+        v-model="chunks"
+        :can-recruit
+        :loading
+        @recruit-order="onRecruitOrder"
+      />
     </TableCell>
   </TableRow>
 
@@ -104,7 +101,7 @@ const canRecruit = computed(() => {
     <TableCell class="min-w-24">
       <span>{{ t(unit) }}</span>
     </TableCell>
-    <TableCell colspan="4" class="w-full">
+    <TableCell :colspan="sm ? 2 : 1" class="w-full">
       <div class="text-muted-foreground flex w-full items-center justify-center text-sm">
         <span>{{ t('not-yet-available') }}</span>
       </div>

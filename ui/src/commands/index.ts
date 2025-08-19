@@ -14,6 +14,7 @@ export * from './script';
 export * from './client';
 export * from './server';
 export * from './player';
+export * from './ranking';
 export * from './continent';
 export * from './infrastructure';
 

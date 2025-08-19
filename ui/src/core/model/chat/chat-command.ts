@@ -12,20 +12,25 @@ const enum ChatCommandKind {
   Academy = 'academy',
   EndTurn = 'end-turn',
   Farm = 'farm',
+  Food = 'food',
+  Iron = 'iron',
   IronMine = 'iron-mine',
-  Kami = 'kami',
   LeaveGame = 'leave-game',
   Lua = 'lua',
   Map = 'map',
+  Max = 'max',
   Nsr = 'nsr',
   Prefecture = 'prefecture',
   Quarry = 'quarry',
   SaveGame = 'save-game',
   Sawmill = 'sawmill',
   Silo = 'silo',
+  SpawnBot = 'spawn-bot',
   Stable = 'stable',
+  Stone = 'stone',
   Wall = 'wall',
   Warehouse = 'warehouse',
+  Wood = 'wood',
 }
 
 type RegexMap = Readonly<Omit<Record<ChatCommandKind, RegExp>, 'default'>>;
@@ -34,20 +39,25 @@ const regex: RegexMap = {
   [ChatCommandKind.Academy]: /^\$academy$/i,
   [ChatCommandKind.EndTurn]: /^\$end$/i,
   [ChatCommandKind.Farm]: /^\$farm$/i,
+  [ChatCommandKind.Food]: /^\$food(?:\s(\d+))?/i,
+  [ChatCommandKind.Iron]: /^\$iron(?:\s(\d+))?/i,
   [ChatCommandKind.IronMine]: /^\$iron-mine$/i,
-  [ChatCommandKind.Kami]: /^\$kami$/i,
   [ChatCommandKind.LeaveGame]: /^\$leave$/i,
   [ChatCommandKind.Lua]: /^\$lua\s(.+)/i,
   [ChatCommandKind.Map]: /^\$map$/i,
+  [ChatCommandKind.Max]: /^\$max$/i,
   [ChatCommandKind.Nsr]: /^\$nsr$/i,
   [ChatCommandKind.Prefecture]: /^\$prefecture$/i,
   [ChatCommandKind.Quarry]: /^\$quarry$/i,
   [ChatCommandKind.SaveGame]: /^\$save$/i,
   [ChatCommandKind.Sawmill]: /^\$sawmill$/i,
   [ChatCommandKind.Silo]: /^\$silo$/i,
+  [ChatCommandKind.SpawnBot]: /^\$spawn(?:\s(.+))?/i,
   [ChatCommandKind.Stable]: /^\$stable$/i,
+  [ChatCommandKind.Stone]: /^\$stone(?:\s(\d+))?/i,
   [ChatCommandKind.Wall]: /^\$wall$/i,
   [ChatCommandKind.Warehouse]: /^\$warehouse$/i,
+  [ChatCommandKind.Wood]: /^\$wood(?:\s(\d+))?/i,
 };
 
 export class ChatCommand {
@@ -94,12 +104,16 @@ export class ChatCommand {
         await go('farm');
         break;
       }
-      case ChatCommandKind.IronMine: {
-        await go('iron-mine');
+      case ChatCommandKind.Food: {
+        await commands.cheatSetFood(Number.parseInt(this.text));
         break;
       }
-      case ChatCommandKind.Kami: {
-        await setKamiMode();
+      case ChatCommandKind.Iron: {
+        await commands.cheatSetIron(Number.parseInt(this.text));
+        break;
+      }
+      case ChatCommandKind.IronMine: {
+        await go('iron-mine');
         break;
       }
       case ChatCommandKind.LeaveGame: {
@@ -112,6 +126,11 @@ export class ChatCommand {
       }
       case ChatCommandKind.Map: {
         await go('continent');
+        break;
+      }
+      case ChatCommandKind.Max: {
+        await commands.cheatSetMaxResources();
+        await Promise.all(NIL.player.coords().map(commands.cheatSetMaxInfrastructure));
         break;
       }
       case ChatCommandKind.Nsr: {
@@ -140,8 +159,16 @@ export class ChatCommand {
         await go('silo');
         break;
       }
+      case ChatCommandKind.SpawnBot: {
+        await commands.cheatSpawnBot(this.text);
+        break;
+      }
       case ChatCommandKind.Stable: {
         await go('stable');
+        break;
+      }
+      case ChatCommandKind.Stone: {
+        await commands.cheatSetStone(Number.parseInt(this.text));
         break;
       }
       case ChatCommandKind.Wall: {
@@ -152,11 +179,10 @@ export class ChatCommand {
         await go('warehouse');
         break;
       }
+      case ChatCommandKind.Wood: {
+        await commands.cheatSetWood(Number.parseInt(this.text));
+        break;
+      }
     }
   }
-}
-
-async function setKamiMode() {
-  await commands.cheatSetMaxResources();
-  await Promise.all(NIL.player.coords().map(commands.cheatSetMaxInfrastructure));
 }

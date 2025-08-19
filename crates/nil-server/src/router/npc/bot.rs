@@ -13,7 +13,7 @@ use nil_core::npc::bot::{BotId, PublicBot};
 pub async fn get_coords(State(app): State<App>, Path(id): Path<BotId>) -> Response {
   app
     .continent(|k| {
-      k.bot_coords_by(|bot| bot == id)
+      k.bot_coords_by(|bot| bot == &id)
         .collect_vec()
     })
     .map(|coords| res!(OK, Json(coords)))
@@ -22,7 +22,7 @@ pub async fn get_coords(State(app): State<App>, Path(id): Path<BotId>) -> Respon
 
 pub async fn get_public(State(app): State<App>, Path(id): Path<BotId>) -> Response {
   app
-    .bot_manager(|bm| bm.bot(id).map(PublicBot::from))
+    .bot_manager(|bm| bm.bot(&id).map(PublicBot::from))
     .map_ok(|bot| res!(OK, Json(bot)))
     .unwrap_or_else(from_core_err)
     .await

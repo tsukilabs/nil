@@ -8,6 +8,7 @@ mod continent;
 mod infrastructure;
 mod npc;
 mod player;
+mod ranking;
 mod round;
 mod script;
 mod world;

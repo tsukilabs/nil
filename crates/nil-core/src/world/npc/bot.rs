@@ -5,12 +5,12 @@ use crate::city::City;
 use crate::error::Result;
 use crate::infrastructure::Infrastructure;
 use crate::infrastructure::storage::OverallStorageCapacity;
-use crate::npc::bot::{BotId, BotName};
+use crate::npc::bot::BotId;
 use crate::with_random_level;
 use crate::world::World;
 
 impl World {
-  pub(crate) fn get_bot_storage_capacity(&self, bot: BotId) -> Result<OverallStorageCapacity> {
+  pub(crate) fn get_bot_storage_capacity(&self, bot: &BotId) -> Result<OverallStorageCapacity> {
     let cities = self.continent.bot_cities_by(|id| id == bot);
     self.get_storage_capacity(cities)
   }
@@ -25,9 +25,9 @@ impl World {
     Ok(())
   }
 
-  pub(crate) fn spawn_bot(&mut self, name: impl Into<BotName>) -> Result<BotId> {
-    let name: BotName = name.into();
-    let id = self.bot_manager.spawn(name.clone());
+  pub(crate) fn spawn_bot(&mut self, id: impl Into<BotId>) -> Result<BotId> {
+    let id: BotId = id.into();
+    self.bot_manager.spawn(id.clone())?;
     let (coord, field) = self.find_spawn_point()?;
 
     let infrastructure = Infrastructure::builder()
@@ -41,8 +41,8 @@ impl World {
       .build();
 
     *field = City::builder(coord)
-      .name(name)
-      .owner(id)
+      .name(id.as_ref())
+      .owner(id.clone())
       .infrastructure(infrastructure)
       .build()
       .into();

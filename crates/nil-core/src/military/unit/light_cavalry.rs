@@ -6,6 +6,7 @@ use super::{UnitChunk, UnitChunkSize, UnitId, UnitKind};
 use crate::check_total_resource_ratio;
 use crate::infrastructure::building::BuildingLevel;
 use crate::infrastructure::requirements::InfrastructureRequirements;
+use crate::ranking::Score;
 use crate::resources::prelude::*;
 use nil_core_macros::Unit;
 
@@ -15,6 +16,8 @@ pub struct LightCavalry;
 impl LightCavalry {
   pub const ID: UnitId = UnitId::LightCavalry;
   pub const KIND: UnitKind = UnitKind::Cavalry;
+
+  pub const SCORE: Score = Score::new(4);
 
   pub const STATS: UnitStats = UnitStats::builder()
     .attack(Power::new(130))

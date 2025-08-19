@@ -1,6 +1,5 @@
-import { open, writeFile } from 'node:fs/promises';
-import { readdir, stat } from 'node:fs/promises';
-import { resolve, join, extname } from 'node:path';
+import { extname, join, resolve } from 'node:path';
+import { open, readdir, stat, writeFile } from 'node:fs/promises';
 
 const collator = new Intl.Collator('en-US', {
   numeric: true,
@@ -34,7 +33,7 @@ async function sort(file: string) {
 
   try {
     const stream = handle.readLines({ encoding: 'utf8' });
-    for await (let line of stream) {
+    for await (const line of stream) {
       set.add(line.trim());
     }
   }

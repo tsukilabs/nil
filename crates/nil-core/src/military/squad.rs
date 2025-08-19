@@ -3,6 +3,7 @@
 
 use crate::military::unit::stats::power::Power;
 use crate::military::unit::{Unit, UnitBox, UnitId, UnitKind};
+use crate::ranking::Score;
 use derive_more::{Deref, From, Into};
 use serde::{Deserialize, Serialize};
 use std::ops::{Add, AddAssign, Mul, Sub, SubAssign};
@@ -38,6 +39,11 @@ impl Squad {
   #[inline]
   pub fn size(&self) -> SquadSize {
     self.size
+  }
+
+  #[inline]
+  pub fn score(&self) -> Score {
+    self.size * self.unit.score()
   }
 
   pub fn attack(&self) -> SquadAttack {
@@ -197,5 +203,14 @@ impl Mul<SquadSize> for Power {
 
   fn mul(self, rhs: SquadSize) -> Self::Output {
     self * rhs.0
+  }
+}
+
+impl Mul<Score> for SquadSize {
+  type Output = Score;
+
+  fn mul(self, rhs: Score) -> Self::Output {
+    let rhs = u32::from(rhs);
+    Score::new(self.0.saturating_mul(rhs))
   }
 }

@@ -14,6 +14,7 @@ pub mod warehouse;
 
 use crate::error::{Error, Result};
 use crate::infrastructure::requirements::InfrastructureRequirements;
+use crate::ranking::Score;
 use crate::resources::prelude::*;
 use derive_more::{Deref, Into};
 use nil_num::growth::growth;
@@ -74,6 +75,13 @@ pub trait Building: Send + Sync {
   /// Workforce required for the **maximum** level of the building.
   fn max_workforce(&self) -> Workforce;
 
+  // Current score.
+  fn score(&self, stats: &BuildingStatsTable) -> Result<Score>;
+  // Building score at its **minimum** level.
+  fn min_score(&self) -> Score;
+  // Building score at its **maximum** level.
+  fn max_score(&self) -> Score;
+
   /// Levels required to construct the building.
   fn infrastructure_requirements(&self) -> &InfrastructureRequirements;
 }
@@ -110,6 +118,7 @@ pub struct BuildingStats {
   pub resources: Resources,
   pub maintenance: Maintenance,
   pub workforce: Workforce,
+  pub score: Score,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
@@ -141,6 +150,13 @@ impl BuildingStatsTable {
       .max_level(max_level)
       .call();
 
+    let mut score = f64::from(building.min_score());
+    let score_growth = growth()
+      .floor(score)
+      .ceil(building.max_score())
+      .max_level(max_level)
+      .call();
+
     let wood_ratio = *building.wood_ratio();
     let stone_ratio = *building.stone_ratio();
     let iron_ratio = *building.iron_ratio();
@@ -165,6 +181,7 @@ impl BuildingStatsTable {
           resources,
           maintenance: Maintenance::from(maintenance.round()),
           workforce: Workforce::from(workforce.round()),
+          score: Score::from(score.round()),
         },
       );
 
@@ -174,8 +191,12 @@ impl BuildingStatsTable {
       debug_assert!(maintenance.is_finite());
       debug_assert!(maintenance >= 0.0);
 
+      debug_assert!(score.is_finite());
+      debug_assert!(score >= 0.0);
+
       cost += cost * cost_growth;
       workforce += workforce * workforce_growth;
+      score += score * score_growth;
 
       maintenance = cost * maintenance_ratio;
     }

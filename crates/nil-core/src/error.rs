@@ -18,6 +18,9 @@ pub type Result<T, E = Error> = StdResult<T, E>;
 #[derive(Clone, Debug, thiserror::Error)]
 #[remain::sorted]
 pub enum Error {
+  #[error("Bot already spawned: {0}")]
+  BotAlreadySpawned(BotId),
+
   #[error("Bot not found: {0}")]
   BotNotFound(BotId),
 

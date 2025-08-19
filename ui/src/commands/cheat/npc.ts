@@ -20,6 +20,9 @@ export function cheatGetPrecursorStorageCapacity(id: PrecursorId) {
 }
 
 export function cheatSpawnBot(name?: Option<string>) {
-  name ??= 'Bot';
+  if (typeof name !== 'string' || name.length === 0) {
+    name = `Bot ${globalThis.crypto.randomUUID()}`;
+  }
+
   return invoke<BotId>('cheat_spawn_bot', { name });
 }

@@ -2,13 +2,15 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::city::CityOwner;
+use crate::impl_from_ruler;
 use crate::military::squad::{Squad, SquadSize};
 use crate::military::unit::UnitId;
 use crate::npc::bot::BotId;
 use crate::npc::precursor::PrecursorId;
 use crate::player::PlayerId;
+use crate::ranking::Score;
 use bon::Builder;
-use nil_core_macros::Owner;
+use nil_core_macros::Ruler;
 use serde::{Deserialize, Serialize};
 use std::ops::{Add, AddAssign, Sub, SubAssign};
 use strum::EnumIs;
@@ -49,6 +51,11 @@ impl Army {
   #[inline]
   pub fn is_idle(&self) -> bool {
     self.state.is_idle()
+  }
+
+  #[inline]
+  pub fn score(&self) -> Score {
+    self.personnel.score()
   }
 }
 
@@ -99,6 +106,17 @@ impl ArmyPersonnel {
       pikeman: Squad::new(Pikeman, pikeman),
       swordsman: Squad::new(Swordsman, swordsman),
     }
+  }
+
+  pub fn score(&self) -> Score {
+    let mut score = Score::default();
+    score += self.archer.score();
+    score += self.axeman.score();
+    score += self.heavy_cavalry.score();
+    score += self.light_cavalry.score();
+    score += self.pikeman.score();
+    score += self.swordsman.score();
+    score
   }
 }
 
@@ -205,7 +223,7 @@ pub enum ArmyState {
 }
 
 #[allow(variant_size_differences)]
-#[derive(Owner, Clone, Debug, PartialEq, Eq, Deserialize, Serialize)]
+#[derive(Ruler, Clone, Debug, Deserialize, Serialize)]
 #[serde(tag = "kind", rename_all = "kebab-case")]
 pub enum ArmyOwner {
   Bot { id: BotId },
@@ -213,12 +231,6 @@ pub enum ArmyOwner {
   Precursor { id: PrecursorId },
 }
 
-impl From<&CityOwner> for ArmyOwner {
-  fn from(owner: &CityOwner) -> Self {
-    match owner.clone() {
-      CityOwner::Bot { id } => Self::Bot { id },
-      CityOwner::Player { id } => Self::Player { id },
-      CityOwner::Precursor { id } => Self::Precursor { id },
-    }
-  }
-}
+impl_from_ruler!(CityOwner => ArmyOwner);
+
+impl_from_ruler!(ArmyOwner => CityOwner);

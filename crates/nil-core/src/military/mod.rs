@@ -7,6 +7,7 @@ pub mod unit;
 
 use crate::continent::{ContinentIndex, ContinentKey, ContinentSize};
 use crate::military::army::{Army, ArmyOwner, ArmyPersonnel};
+use crate::ranking::Score;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
@@ -25,6 +26,24 @@ impl Military {
       continent: HashMap::new(),
       continent_size: size,
     }
+  }
+
+  pub(crate) fn spawn<K, O>(&mut self, key: K, owner: O, personnel: ArmyPersonnel)
+  where
+    K: ContinentKey,
+    O: Into<ArmyOwner>,
+  {
+    let index = key.into_index(self.continent_size);
+    let army = Army::builder()
+      .owner(owner)
+      .personnel(personnel)
+      .build();
+
+    self
+      .continent
+      .entry(index)
+      .or_default()
+      .push(army);
   }
 
   pub fn armies_at<K>(&self, key: K) -> &[Army]
@@ -66,21 +85,27 @@ impl Military {
     military
   }
 
-  pub(crate) fn spawn<K, O>(&mut self, key: K, owner: O, personnel: ArmyPersonnel)
+  pub fn armies_of<O>(&self, owner: O) -> impl Iterator<Item = &Army>
   where
-    K: ContinentKey,
     O: Into<ArmyOwner>,
   {
-    let index = key.into_index(self.continent_size);
-    let army = Army::builder()
-      .owner(owner)
-      .personnel(personnel)
-      .build();
-
+    let owner: ArmyOwner = owner.into();
     self
       .continent
-      .entry(index)
-      .or_default()
-      .push(army);
+      .values()
+      .flatten()
+      .filter(move |army| army.owner() == &owner)
+  }
+
+  pub fn score_of<O>(&self, owner: O) -> Score
+  where
+    O: Into<ArmyOwner>,
+  {
+    self
+      .armies_of(owner)
+      .fold(Score::default(), |mut score, army| {
+        score += army.score();
+        score
+      })
   }
 }

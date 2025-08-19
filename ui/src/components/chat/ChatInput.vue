@@ -3,8 +3,8 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
+import { useMutex } from '@tb-dev/vue';
 import { handleError } from '@/lib/error';
-import { onKeyDown, useMutex } from '@tb-dev/vue';
 import { Button, Input } from '@tb-dev/vue-components';
 import { ChatCommand } from '@/core/model/chat/chat-command';
 import { computed, nextTick, ref, useTemplateRef } from 'vue';
@@ -20,8 +20,6 @@ const chatInputInner = computed(() => chatInput.value?.$el);
 
 const draft = ref<Option<string>>();
 const { locked, ...mutex } = useMutex();
-
-onKeyDown('Enter', send, { target: chatInputInner });
 
 async function send() {
   if (draft.value) {
@@ -54,6 +52,7 @@ async function send() {
       :disabled="locked"
       :maxlength="5000"
       spellcheck="false"
+      @keydown.enter="send"
     />
     <Button :disabled="!draft || locked" @click="send">
       {{ t('send') }}

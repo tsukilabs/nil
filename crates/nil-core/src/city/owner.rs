@@ -4,11 +4,11 @@
 use crate::npc::bot::BotId;
 use crate::npc::precursor::PrecursorId;
 use crate::player::PlayerId;
-use nil_core_macros::Owner;
+use nil_core_macros::Ruler;
 use serde::{Deserialize, Serialize};
 
 #[allow(variant_size_differences)]
-#[derive(Owner, Clone, Debug, Deserialize, Serialize)]
+#[derive(Ruler, Clone, Debug, Deserialize, Serialize)]
 #[serde(tag = "kind", rename_all = "kebab-case")]
 pub enum CityOwner {
   Bot { id: BotId },

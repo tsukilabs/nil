@@ -139,14 +139,14 @@ impl Continent {
 
   pub fn bot_cities_by<F>(&self, f: F) -> impl Iterator<Item = &City>
   where
-    F: Fn(BotId) -> bool,
+    F: Fn(&BotId) -> bool,
   {
     self.cities_by(move |city| city.is_owned_by_bot_and(&f))
   }
 
   pub fn bot_coords_by<F>(&self, f: F) -> impl Iterator<Item = Coord>
   where
-    F: Fn(BotId) -> bool,
+    F: Fn(&BotId) -> bool,
   {
     self.bot_cities_by(f).map(City::coord)
   }

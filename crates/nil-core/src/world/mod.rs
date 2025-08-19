@@ -9,6 +9,7 @@ mod event;
 mod infrastructure;
 mod npc;
 mod player;
+mod ranking;
 mod round;
 mod savedata;
 mod script;
@@ -23,6 +24,7 @@ use crate::military::Military;
 use crate::npc::bot::BotManager;
 use crate::npc::precursor::PrecursorManager;
 use crate::player::{Player, PlayerId, PlayerManager};
+use crate::ranking::Ranking;
 use crate::round::Round;
 use crate::savedata::Savedata;
 use crate::script::Scripting;
@@ -39,6 +41,7 @@ pub struct World {
   bot_manager: BotManager,
   precursor_manager: PrecursorManager,
   military: Military,
+  ranking: Ranking,
   config: WorldConfig,
   stats: WorldStats,
   chat: Chat,
@@ -63,6 +66,7 @@ impl World {
       bot_manager: BotManager::default(),
       precursor_manager,
       military,
+      ranking: Ranking::default(),
       config,
       stats: WorldStats::new(),
       chat: Chat::default(),
@@ -74,6 +78,7 @@ impl World {
 
     world.spawn_precursors()?;
     world.spawn_bots()?;
+    world.update_ranking()?;
 
     Ok(world)
   }
@@ -183,6 +188,11 @@ impl World {
   #[inline]
   pub fn precursor_manager(&self) -> &PrecursorManager {
     &self.precursor_manager
+  }
+
+  #[inline]
+  pub fn ranking(&self) -> &Ranking {
+    &self.ranking
   }
 }
 

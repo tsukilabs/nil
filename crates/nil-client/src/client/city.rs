@@ -5,16 +5,12 @@ use super::Client;
 use crate::error::Result;
 use nil_core::city::{City, PublicCity};
 use nil_core::continent::Coord;
+use nil_core::ranking::Score;
 
 impl Client {
   /// POST `/city`
   pub async fn get_city(&self, coord: Coord) -> Result<City> {
     self.http.post_json("city", coord).await
-  }
-
-  /// GET `/city/public`
-  pub async fn get_public_cities(&self) -> Result<Vec<PublicCity>> {
-    self.http.get_json("city/public").await
   }
 
   /// POST `/city/public`
@@ -25,19 +21,19 @@ impl Client {
       .await
   }
 
-  /// POST `/city/public-by`
-  pub async fn get_public_cities_by(&self, coords: Vec<Coord>) -> Result<Vec<PublicCity>> {
-    self
-      .http
-      .post_json("city/public-by", coords)
-      .await
-  }
-
   /// POST `/city/rename`
   pub async fn rename_city(&self, coord: Coord, name: &str) -> Result<()> {
     self
       .http
       .post("city/rename", (coord, name))
+      .await
+  }
+
+  /// POST `/city/score`
+  pub async fn get_city_score(&self, coord: Coord) -> Result<Score> {
+    self
+      .http
+      .post_json("city/score", coord)
       .await
   }
 }

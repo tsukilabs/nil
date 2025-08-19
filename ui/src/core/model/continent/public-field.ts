@@ -3,9 +3,8 @@
 
 import { getField, getFields } from '@/commands';
 import { tryOnScopeDispose } from '@vueuse/core';
-import type { MaybePromise, Option } from '@tb-dev/utils';
+import type { MaybePromise } from '@tb-dev/utils';
 import type { CoordImpl } from '@/core/model/continent/coord';
-import { PublicCityImpl } from '@/core/model/city/public-city';
 
 const enum Flags {
   Uninit = 1 << 0,
@@ -19,7 +18,6 @@ export class PublicFieldImpl {
   public readonly index: ContinentIndex;
 
   #flags: Flags = Flags.Uninit;
-  #city: Option<PublicCityImpl>;
 
   private constructor(coord: CoordImpl) {
     this.coord = coord;
@@ -31,7 +29,8 @@ export class PublicFieldImpl {
       this.#flags |= Flags.Loading;
       try {
         await options?.onBeforeLoad?.();
-        this.set(await getField(this.coord));
+        const field = await getField(this.coord);
+        this.setKind(field.kind);
         await options?.onLoad?.();
       }
       catch (err) {
@@ -41,25 +40,23 @@ export class PublicFieldImpl {
     }
   }
 
-  private init(field: PublicField) {
+  private init(kind: PublicFieldKind) {
     if (this.#flags & Flags.Uninit) {
-      this.set(field);
+      this.setKind(kind);
       return true;
     }
 
     return false;
   }
 
-  private set(field: PublicField) {
-    switch (field.kind) {
+  private setKind(kind: PublicFieldKind) {
+    switch (kind) {
       case 'empty': {
         this.#flags = Flags.Empty;
-        this.#city = null;
         break;
       }
       case 'city': {
         this.#flags = Flags.City;
-        this.#city = PublicCityImpl.create(field.city);
         break;
       }
     }
@@ -101,10 +98,6 @@ export class PublicFieldImpl {
     return this.#flags;
   }
 
-  get city() {
-    return this.#city;
-  }
-
   get x() {
     return this.coord.x;
   }
@@ -139,7 +132,7 @@ export class PublicFieldImpl {
         for (const [coord, field] of await getFields(coords)) {
           const impl = fields.find((it) => it.coord.is(coord));
           if (impl) {
-            impl.init(field);
+            impl.init(field.kind);
             isInitializing.delete(impl.index);
             counter++;
           }

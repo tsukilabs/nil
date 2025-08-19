@@ -1,7 +1,7 @@
 {
   "name": "ui",
   "type": "module",
-  "packageManager": "pnpm@10.14.0",
+  "packageManager": "pnpm@10.15.0",
   "license": "AGPL-3.0-only",
   "private": true,
   "scripts": {
@@ -10,8 +10,8 @@
     "type-check": "vue-tsc --noEmit"
   },
   "devDependencies": {
-    "@shikijs/monaco": "^3.9.2",
-    "@tauri-apps/api": "^2.7.0",
+    "@shikijs/monaco": "^3.10.0",
+    "@tauri-apps/api": "^2.8.0",
     "@tauri-apps/plugin-clipboard-manager": "^2.3.0",
     "@tauri-apps/plugin-dialog": "^2.3.2",
     "@tauri-apps/plugin-fs": "^2.4.1",
@@ -20,7 +20,7 @@
     "@tb-dev/prototype-dom": "^7.0.22",
     "@tb-dev/utils": "^7.0.12",
     "@tb-dev/vue": "^3.2.1",
-    "@tb-dev/vue-components": "^5.3.0",
+    "@tb-dev/vue-components": "^5.4.1",
     "@vueuse/components": "^13.7.0",
     "@vueuse/core": "^13.7.0",
     "@vueuse/math": "^13.7.0",
@@ -31,7 +31,7 @@
     "monaco-editor-core": "^0.52.2",
     "nil-continent": "workspace:*",
     "pinia": "^3.0.3",
-    "shiki": "^3.9.2",
+    "shiki": "^3.10.0",
     "tauri-plugin-mobile": "workspace:*",
     "tw-animate-css": "^1.3.7",
     "vue": "^3.5.18",

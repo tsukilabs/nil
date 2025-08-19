@@ -8,8 +8,7 @@ use crate::state::App;
 use crate::{bail_not_owned_by, res};
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
-use futures::{FutureExt, TryFutureExt};
-use itertools::Itertools;
+use futures::TryFutureExt;
 use nil_core::city::{City, PublicCity};
 use nil_core::continent::Coord;
 
@@ -29,17 +28,6 @@ pub async fn get(
     .unwrap_or_else(from_core_err)
 }
 
-pub async fn get_all_public(State(app): State<App>) -> Response {
-  app
-    .continent(|k| {
-      k.cities()
-        .map(PublicCity::from)
-        .collect_vec()
-    })
-    .map(|cities| res!(OK, Json(cities)))
-    .await
-}
-
 pub async fn get_public(State(app): State<App>, Json(coord): Json<Coord>) -> Response {
   app
     .continent(|k| k.city(coord).map(PublicCity::from))
@@ -48,14 +36,11 @@ pub async fn get_public(State(app): State<App>, Json(coord): Json<Coord>) -> Res
     .await
 }
 
-pub async fn get_public_by(State(app): State<App>, Json(coords): Json<Vec<Coord>>) -> Response {
+pub async fn get_score(State(app): State<App>, Json(coord): Json<Coord>) -> Response {
   app
-    .continent(|k| {
-      k.cities_by(|city| coords.contains(&city.coord()))
-        .map(PublicCity::from)
-        .collect_vec()
-    })
-    .map(|cities| res!(OK, Json(cities)))
+    .world(|world| world.get_city_score(coord))
+    .map_ok(|score| res!(OK, Json(score)))
+    .unwrap_or_else(from_core_err)
     .await
 }
 

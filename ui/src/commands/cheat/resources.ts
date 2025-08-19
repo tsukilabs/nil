@@ -1,15 +1,17 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { toU32 } from '@/lib/number';
 import { invoke } from '@tauri-apps/api/core';
+import { ResourcesImpl } from '@/core/model/resources';
 
 export function cheatSetFood(food: number) {
-  food = Math.trunc(Math.max(0, food));
+  food = toU32(food);
   return invoke<null>('cheat_set_food', { food });
 }
 
 export function cheatSetIron(iron: number) {
-  iron = Math.trunc(Math.max(0, iron));
+  iron = toU32(iron);
   return invoke<null>('cheat_set_iron', { iron });
 }
 
@@ -42,15 +44,16 @@ export function cheatSetMaxWood() {
 }
 
 export function cheatSetResources(resources: Resources) {
-  return invoke<null>('cheat_set_resources', { resources });
+  const impl = ResourcesImpl.create(resources);
+  return invoke<null>('cheat_set_resources', { resources: impl });
 }
 
 export function cheatSetStone(stone: number) {
-  stone = Math.trunc(Math.max(0, stone));
+  stone = toU32(stone);
   return invoke<null>('cheat_set_stone', { stone });
 }
 
 export function cheatSetWood(wood: number) {
-  wood = Math.trunc(Math.max(0, wood));
+  wood = toU32(wood);
   return invoke<null>('cheat_set_wood', { wood });
 }

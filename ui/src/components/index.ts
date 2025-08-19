@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { App } from 'vue';
-import Food from './resource/Food.vue';
-import Iron from './resource/Iron.vue';
-import Wood from './resource/Wood.vue';
-import Stone from './resource/Stone.vue';
-import Workforce from './resource/Workforce.vue';
+import Food from './resources/Food.vue';
+import Iron from './resources/Iron.vue';
+import Wood from './resources/Wood.vue';
+import Stone from './resources/Stone.vue';
+import Workforce from './resources/Workforce.vue';
 
 export function registerGlobalComponents(app: App) {
   app

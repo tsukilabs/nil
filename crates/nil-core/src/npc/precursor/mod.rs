@@ -10,7 +10,7 @@ use crate::military::army::ArmyPersonnel;
 use crate::resources::Resources;
 use derive_more::Deref;
 use serde::{Deserialize, Serialize};
-use strum::Display;
+use strum::{Display, EnumIter, IntoEnumIterator};
 
 pub use crate::npc::precursor::a::A;
 pub use crate::npc::precursor::b::B;
@@ -47,6 +47,10 @@ impl PrecursorManager {
       PrecursorId::A => &mut self.a,
       PrecursorId::B => &mut self.b,
     }
+  }
+
+  pub fn precursors(&self) -> impl Iterator<Item = &dyn Precursor> {
+    PrecursorId::iter().map(|id| self.precursor(id))
   }
 
   pub fn is_within_territory(&self, coord: Coord, size: ContinentSize) -> bool {
@@ -91,7 +95,7 @@ where
   }
 }
 
-#[derive(Clone, Copy, Debug, Display, PartialEq, Eq, Hash, Deserialize, Serialize)]
+#[derive(Clone, Copy, Debug, Display, PartialEq, Eq, Hash, EnumIter, Deserialize, Serialize)]
 pub enum PrecursorId {
   #[serde(rename = "A")]
   #[strum(serialize = "A")]

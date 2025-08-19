@@ -3,7 +3,7 @@
 
 use crate::error::{Error, Result};
 use crate::resources::Resources;
-use derive_more::{Display, From};
+use derive_more::{Display, From, Into};
 use serde::{Deserialize, Serialize};
 use std::borrow::Cow;
 use std::collections::HashMap;
@@ -98,7 +98,7 @@ impl Player {
   }
 }
 
-#[derive(Debug, Display, From, PartialEq, Eq, Hash, Deserialize, Serialize)]
+#[derive(Debug, Display, From, Into, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[from(String, &str, Arc<str>, Box<str>, Cow<'_, str>)]
 pub struct PlayerId(Arc<str>);
 

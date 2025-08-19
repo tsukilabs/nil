@@ -6,7 +6,11 @@ import tailwind from '@tailwindcss/vite';
 import { fileURLToPath, URL } from 'node:url';
 
 export default defineConfig({
-  plugins: [wasm(), vue(), tailwind()],
+  plugins: [
+    wasm(),
+    tailwind(),
+    vue({ features: { optionsAPI: false } }),
+  ],
   clearScreen: false,
   resolve: {
     alias: {

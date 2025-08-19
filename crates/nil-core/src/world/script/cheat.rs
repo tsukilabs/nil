@@ -1,24 +1,25 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+use crate::npc::bot::BotId;
 use crate::world::script::WorldUserData;
 use mlua::{LuaSerdeExt, UserDataMethods, Value};
 
 #[expect(clippy::too_many_lines)]
 pub(super) fn add_methods<'a, M: UserDataMethods<WorldUserData<'a>>>(methods: &mut M) {
   methods.add_method("cheat_get_bot_resources", |lua, this, id: Value| {
-    let id = lua.from_value(id)?;
+    let id: BotId = lua.from_value(id)?;
     this
       .world
-      .cheat_get_bot_resources(id)
+      .cheat_get_bot_resources(&id)
       .map(|id| lua.to_value(&id))?
   });
 
   methods.add_method("cheat_get_bot_storage_capacity", |lua, this, id: Value| {
-    let id = lua.from_value(id)?;
+    let id: BotId = lua.from_value(id)?;
     this
       .world
-      .cheat_get_bot_storage_capacity(id)
+      .cheat_get_bot_storage_capacity(&id)
       .map(|id| lua.to_value(&id))?
   });
 

@@ -14,15 +14,8 @@ interface City extends PublicCity {
 
 type CityOwner = CityOwnerBot | CityOwnerPlayer | CityOwnerPrecursor;
 
-type CityOwnerId =
-  | CityOwnerBot['id']
-  | CityOwnerPlayer['id']
-  | CityOwnerPrecursor['id'];
-
-type CityOwnerKind =
-  | CityOwnerBot['kind']
-  | CityOwnerPlayer['kind']
-  | CityOwnerPrecursor['kind'];
+type CityOwnerId = CityOwner['id'];
+type CityOwnerKind = CityOwner['kind'];
 
 interface CityOwnerBot {
   readonly kind: 'bot';

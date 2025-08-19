@@ -7,9 +7,10 @@ import Base from './Base.vue';
 defineProps<{
   amount?: Option<number>;
   limit?: Option<number>;
+  alwaysLiteral?: boolean;
 }>();
 </script>
 
 <template>
-  <Base :amount :limit color="oklch(0.77 0.1332 78.35)" />
+  <Base :amount :limit color="oklch(0.77 0.1332 78.35)" :always-literal />
 </template>

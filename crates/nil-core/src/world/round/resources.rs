@@ -6,6 +6,7 @@ use crate::npc::bot::BotId;
 use crate::npc::precursor::PrecursorId;
 use crate::player::PlayerId;
 use crate::resources::prelude::*;
+use crate::ruler::Ruler;
 use crate::world::World;
 use std::collections::HashMap;
 
@@ -40,7 +41,7 @@ impl World {
     let mut diff: HashMap<BotId, ResourcesDiff> = HashMap::new();
 
     for city in self.continent.cities() {
-      if let Some(id) = city.owner().bot() {
+      if let Some(id) = city.owner().bot().cloned() {
         let resources = diff.entry(id).or_default();
         *resources += city.round_production(stats)?;
         resources.food -= city.maintenance(stats)?;
@@ -48,10 +49,10 @@ impl World {
     }
 
     for (id, resources) in diff {
-      let capacity = self.get_bot_storage_capacity(id)?;
+      let capacity = self.get_bot_storage_capacity(&id)?;
       self
         .bot_manager
-        .bot_mut(id)?
+        .bot_mut(&id)?
         .resources_mut()
         .add_within_capacity(&resources, &capacity);
     }

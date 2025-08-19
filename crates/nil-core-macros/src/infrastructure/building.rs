@@ -12,20 +12,9 @@ pub fn impl_building(ast: &DeriveInput) -> TokenStream {
     mod __impl_building {
       use super::#name;
       use crate::error::Result;
-      use crate::infrastructure::requirements::InfrastructureRequirements;
-      use crate::infrastructure::building::{
-        Building,
-        BuildingId,
-        BuildingLevel,
-        BuildingStatsTable,
-      };
-      use crate::resources::{
-        Cost,
-        Maintenance,
-        MaintenanceRatio,
-        ResourceRatio,
-        Workforce,
-      };
+      use crate::infrastructure::prelude::*;
+      use crate::ranking::Score;
+      use crate::resources::prelude::*;
 
       #[bon::bon]
       impl #name {
@@ -152,6 +141,22 @@ pub fn impl_building(ast: &DeriveInput) -> TokenStream {
 
         fn max_workforce(&self) -> Workforce {
           Self::MAX_WORKFORCE
+        }
+
+        fn score(&self, stats: &BuildingStatsTable) -> Result<Score> {
+          if self.level == BuildingLevel::ZERO {
+            Ok(Score::ZERO)
+          } else {
+            Ok(stats.get(self.level)?.score)
+          }
+        }
+
+        fn min_score(&self) -> Score {
+          Self::MIN_SCORE
+        }
+
+        fn max_score(&self) -> Score {
+          Self::MAX_SCORE
         }
 
         fn infrastructure_requirements(&self) -> &InfrastructureRequirements {

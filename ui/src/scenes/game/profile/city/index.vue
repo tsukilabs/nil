@@ -5,11 +5,10 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouteParams } from '@vueuse/router';
-import type { RouteLocationAsRelative } from 'vue-router';
 import enUS from '@/locale/en-US/scenes/game/profile/city.json';
 import ptBR from '@/locale/pt-BR/scenes/game/profile/city.json';
 import { usePublicCity } from '@/composables/city/usePublicCity';
-import { usePublicCityOwner } from '@/composables/city/usePublicCityOwner';
+import { useCityOwnerSceneLink } from '@/composables/city/useCityOwnerSceneLink';
 import {
   Button,
   Card,
@@ -35,32 +34,20 @@ const continentKey = useRouteParams('ckey', null, { transform: Number.parseInt }
 const { city, loading } = usePublicCity(continentKey);
 
 const owner = computed(() => city.value?.owner);
-const { bot, player, precursor } = usePublicCityOwner(owner);
-
-const toOwnerScene = computed<Option<RouteLocationAsRelative>>(() => {
-  if (owner.value) {
-    const kind = owner.value.kind;
-    return {
-      name: `profile-${kind}` satisfies ProfileScene,
-      params: { id: String(owner.value.id) },
-    };
-  }
-
-  return null;
-});
+const toOwnerScene = useCityOwnerSceneLink(owner);
 </script>
 
 <template>
   <div class="game-layout">
-    <Card class="size-full overflow-x-hidden overflow-y-auto">
-      <CardHeader v-if="city && !loading">
+    <Card v-if="city && owner" class="size-full overflow-x-hidden overflow-y-auto">
+      <CardHeader>
         <CardTitle>
           <span>{{ city.name }}</span>
         </CardTitle>
       </CardHeader>
 
       <CardContent class="px-2 py-0 relative size-full">
-        <div v-if="city">
+        <div>
           <Table class="sm:max-w-max">
             <TableBody>
               <TableRow>
@@ -70,16 +57,14 @@ const toOwnerScene = computed<Option<RouteLocationAsRelative>>(() => {
 
               <TableRow>
                 <TableHead>{{ t('point', 2) }}</TableHead>
-                <TableCell>???</TableCell>
+                <TableCell>{{ city.formatScore() }}</TableCell>
               </TableRow>
 
               <TableRow>
                 <TableHead>{{ t('owner') }}</TableHead>
                 <TableCell>
                   <RouterLink v-if="toOwnerScene" :to="toOwnerScene">
-                    <span v-if="bot">{{ bot.name }}</span>
-                    <span v-else-if="player">{{ player.id }}</span>
-                    <span v-else-if="precursor">{{ precursor.id }}</span>
+                    <span>{{ owner.id }}</span>
                   </RouterLink>
                 </TableCell>
               </TableRow>
@@ -90,7 +75,7 @@ const toOwnerScene = computed<Option<RouteLocationAsRelative>>(() => {
               </TableRow>
             </TableBody>
 
-            <TableFooter v-if="city">
+            <TableFooter>
               <TableRow class="bg-card hover:bg-card">
                 <TableCell colspan="2" class="text-center">
                   <Button size="sm" :disabled="loading" @click="() => city?.goToContinent()">

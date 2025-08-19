@@ -12,6 +12,7 @@ pub mod swordsman;
 
 use crate::error::Result;
 use crate::infrastructure::requirements::InfrastructureRequirements;
+use crate::ranking::Score;
 use crate::resources::prelude::*;
 use derive_more::{Deref, From, Into};
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
@@ -25,6 +26,8 @@ use subenum::subenum;
 pub trait Unit: Send + Sync {
   fn id(&self) -> UnitId;
   fn kind(&self) -> UnitKind;
+
+  fn score(&self) -> Score;
 
   fn stats(&self) -> &UnitStats;
   fn attack(&self) -> Power;

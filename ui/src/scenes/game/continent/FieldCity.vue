@@ -3,23 +3,37 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import type { RouteLocationAsRelative } from 'vue-router';
-import type { PublicCityImpl } from '@/core/model/city/public-city';
+import { useI18n } from 'vue-i18n';
+import { formatInt } from '@/lib/intl';
+import { usePublicCity } from '@/composables/city/usePublicCity';
 import type { PublicFieldImpl } from '@/core/model/continent/public-field';
-import { Badge, HoverCard, HoverCardContent, HoverCardTrigger } from '@tb-dev/vue-components';
+import { useCityOwnerSceneLink } from '@/composables/city/useCityOwnerSceneLink';
+import { useCityProfileSceneLink } from '@/composables/city/useCityProfileSceneLink';
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+} from '@tb-dev/vue-components';
 
 const props = defineProps<{
   field: PublicFieldImpl;
-  city: PublicCityImpl;
 }>();
 
-const to = computed<RouteLocationAsRelative>(() => {
-  const ckey = props.city.coord.toIndexString();
-  return { name: 'profile-city' satisfies ProfileScene, params: { ckey } };
-});
+const { t } = useI18n();
+
+const { city } = usePublicCity(() => props.field.coord);
+const owner = computed(() => city.value?.owner);
+
+const toOwnerScene = useCityOwnerSceneLink(owner);
+const toCityProfile = useCityProfileSceneLink(city);
 
 const color = computed(() => {
-  switch (props.city.owner.kind) {
+  switch (city.value?.owner.kind) {
     case 'bot': {
       return 'bg-amber-950';
     }
@@ -27,7 +41,7 @@ const color = computed(() => {
       return 'bg-primary';
     }
     case 'precursor': {
-      return getPrecursorColor(props.city.owner.id);
+      return getPrecursorColor(city.value.owner.id);
     }
     default:
       return 'bg-transparent';
@@ -50,33 +64,48 @@ function getPrecursorColor(id: PrecursorId) {
   <HoverCard :open-delay="200" :close-delay="100">
     <HoverCardTrigger as-child>
       <div class="absolute inset-0 flex items-center justify-center overflow-hidden select-none">
-        <RouterLink :to :class="color" class="size-[75%] cursor-pointer rounded-full" />
+        <RouterLink
+          v-if="toCityProfile"
+          :to="toCityProfile"
+          :class="color"
+          class="size-[75%] cursor-pointer rounded-full"
+        />
       </div>
     </HoverCardTrigger>
 
     <HoverCardContent>
       <div class="flex flex-col select-none">
-        <div class="flex justify-between">
-          <div class="flex flex-col overflow-hidden">
-            <h1 class="ellipsis text-lg">
-              <RouterLink :to>{{ city.name }}</RouterLink>
-            </h1>
-            <h2 class="text-muted-foreground text-sm">
-              <span v-if="city.owner.kind === 'player'">
-                {{ city.owner.id }}
-              </span>
-              <span v-else-if="city.owner.kind === 'bot'">
-                {{ `Bot ${city.owner.id}` }}
-              </span>
-              <span v-else-if="city.owner.kind === 'precursor'">
-                {{ `Precursor ${city.owner.id}` }}
-              </span>
-            </h2>
-          </div>
+        <div v-if="city && owner" class="flex flex-col gap-2 md:gap-4 overflow-hidden">
+          <h1 class="ellipsis text-lg text-center">
+            <RouterLink v-if="toCityProfile" :to="toCityProfile">{{ city.name }}</RouterLink>
+          </h1>
+          <Table class="w-full">
+            <TableBody>
+              <TableRow>
+                <TableHead>{{ t('coordinate', 2) }}</TableHead>
+                <TableCell>{{ city.coord.format() }}</TableCell>
+              </TableRow>
 
-          <Badge variant="outline" size="sm" class="max-h-fit py-1">
-            <RouterLink :to>{{ field.id }}</RouterLink>
-          </Badge>
+              <TableRow>
+                <TableHead>{{ t('point', 2) }}</TableHead>
+                <TableCell>{{ formatInt(city.score) }}</TableCell>
+              </TableRow>
+
+              <TableRow>
+                <TableHead>{{ t('owner') }}</TableHead>
+                <TableCell>
+                  <RouterLink v-if="toOwnerScene" :to="toOwnerScene">
+                    <span class="whitespace-pre-wrap wrap-anywhere">{{ owner.id }}</span>
+                  </RouterLink>
+                </TableCell>
+              </TableRow>
+
+              <TableRow>
+                <TableHead>{{ t('type') }}</TableHead>
+                <TableCell>{{ t(city.owner.kind) }}</TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
         </div>
       </div>
     </HoverCardContent>

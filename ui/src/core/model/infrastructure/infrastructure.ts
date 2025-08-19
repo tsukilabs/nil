@@ -5,11 +5,11 @@ import { FarmImpl } from './building/farm';
 import { SiloImpl } from './building/silo';
 import { WallImpl } from './building/wall';
 import { QuarryImpl } from './building/quarry';
-import { StableImpl } from './building/stable/stable';
-import { AcademyImpl } from './building/academy/academy';
 import { SawmillImpl } from './building/sawmill';
 import { IronMineImpl } from './building/iron-mine';
 import { WarehouseImpl } from './building/warehouse';
+import { StableImpl } from './building/stable/stable';
+import { AcademyImpl } from './building/academy/academy';
 import { PrefectureImpl } from './building/prefecture/prefecture';
 
 export class InfrastructureImpl implements Infrastructure {

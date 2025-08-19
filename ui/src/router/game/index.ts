@@ -28,6 +28,11 @@ export const gameRoutes: RouteRecordRaw[] = [
     children: profileRoutes,
   },
   {
+    component: () => import('@/scenes/game/ranking/index.vue'),
+    path: 'ranking',
+    name: 'ranking' satisfies GameScene,
+  },
+  {
     component: () => import('@/scenes/game/script/index.vue'),
     path: 'script',
     children: scriptRoutes,

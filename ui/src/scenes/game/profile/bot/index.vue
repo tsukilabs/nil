@@ -21,17 +21,17 @@ import {
 
 const { t } = useI18n();
 
-const id = useRouteParams('id', null, { transform: Number.parseInt });
-const { bot, coords, loading } = usePublicBot(id);
+const id = useRouteParams<Option<BotId>>('id', null);
+const { bot, coords } = usePublicBot(id);
 const { cities } = usePublicCities(coords);
 </script>
 
 <template>
   <div class="game-layout">
-    <Card class="size-full overflow-x-hidden overflow-y-auto">
-      <CardHeader v-if="bot && !loading">
+    <Card v-if="bot" class="size-full overflow-x-hidden overflow-y-auto">
+      <CardHeader>
         <CardTitle>
-          <span>{{ bot.name }}</span>
+          <span>{{ bot.id }}</span>
         </CardTitle>
       </CardHeader>
 
@@ -41,12 +41,12 @@ const { cities } = usePublicCities(coords);
             <TableBody>
               <TableRow>
                 <TableHead>{{ t('point', 2) }}</TableHead>
-                <TableCell>???</TableCell>
+                <TableCell>{{ bot.formatScore() }}</TableCell>
               </TableRow>
 
               <TableRow>
                 <TableHead>{{ t('rank') }}</TableHead>
-                <TableCell>???</TableCell>
+                <TableCell>{{ bot.formatRank() }}</TableCell>
               </TableRow>
 
               <TableRow>

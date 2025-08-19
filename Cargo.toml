@@ -3,7 +3,7 @@ resolver = "3"
 members = ["crates/*"]
 
 [workspace.package]
-version = "0.1.26"
+version = "0.1.34"
 edition = "2024"
 rust-version = "1.91"
 license-file = "./LICENSE"
@@ -119,11 +119,11 @@ version = "2.0"
 features = ["derive"]
 
 [workspace.dependencies.tauri]
-version = "2.7"
+version = "2.8"
 features = ["rustls-tls"]
 
 [workspace.dependencies.tauri-plugin]
-version = "2.3"
+version = "2.4"
 features = ["build"]
 
 [workspace.dependencies.tauri-plugin-prevent-default]

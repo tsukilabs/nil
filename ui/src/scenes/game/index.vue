@@ -29,11 +29,13 @@ const [isFinderOpen, toggleFinder] = useToggle(false);
 
 const lastSavedAt = ref<Option<RoundId>>();
 
-onCtrlKeyDown(['b', 'B'], () => toggleSidebar());
-onCtrlKeyDown(['f', 'F'], () => toggleFinder());
-onCtrlKeyDown(['m', 'M'], () => go('continent'));
-onCtrlKeyDown(['s', 'S'], () => save());
-onCtrlKeyDown(' ', () => finishTurn());
+const desktop = globalThis.__DESKTOP__;
+
+onCtrlKeyDown(['b', 'B'], () => toggleSidebar(), { enabled: desktop });
+onCtrlKeyDown(['f', 'F'], () => toggleFinder(), { enabled: desktop });
+onCtrlKeyDown(['m', 'M'], () => go('continent'), { enabled: desktop });
+onCtrlKeyDown(['s', 'S'], () => save(), { enabled: desktop });
+onCtrlKeyDown(' ', () => finishTurn(), { enabled: desktop });
 
 onMounted(() => defineGlobalCheats());
 
@@ -93,7 +95,7 @@ async function save() {
 
       <Footer class="bg-background absolute inset-x-0 bottom-0 h-10 border-t px-6" />
 
-      <Finder v-model:open="isFinderOpen" />
+      <Finder v-if="desktop" v-model:open="isFinderOpen" />
     </div>
   </SidebarProvider>
 </template>

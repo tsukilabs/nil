@@ -8,6 +8,7 @@ use super::{BuildingId, BuildingLevel};
 use crate::check_total_resource_ratio;
 use crate::infrastructure::queue::InfrastructureQueue;
 use crate::infrastructure::requirements::InfrastructureRequirements;
+use crate::ranking::Score;
 use crate::resources::{Cost, MaintenanceRatio, ResourceRatio, Workforce};
 use nil_core_macros::Building;
 use serde::{Deserialize, Serialize};
@@ -50,6 +51,9 @@ impl Stable {
 
   pub const MIN_WORKFORCE: Workforce = Workforce::new(1);
   pub const MAX_WORKFORCE: Workforce = Workforce::new(150);
+
+  pub const MIN_SCORE: Score = Score::new(20);
+  pub const MAX_SCORE: Score = Score::new(639);
 
   pub const INFRASTRUCTURE_REQUIREMENTS: InfrastructureRequirements =
     InfrastructureRequirements::builder()

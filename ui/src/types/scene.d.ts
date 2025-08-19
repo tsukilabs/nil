@@ -9,7 +9,8 @@ type GameScene =
   | ScriptScene
   | 'chat'
   | 'city'
-  | 'continent';
+  | 'continent'
+  | 'ranking';
 
 type InfrastructureScene =
   | AcademyScene

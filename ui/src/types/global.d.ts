@@ -11,6 +11,7 @@ import type { CityEntity } from '@/core/entity/city';
 import type { RoundEntity } from '@/core/entity/round';
 import type { WorldEntity } from '@/core/entity/world';
 import type { PlayerEntity } from '@/core/entity/player';
+import type { RankingEntity } from '@/core/entity/ranking';
 import type { MilitaryEntity } from '@/core/entity/military';
 
 declare global {
@@ -18,6 +19,12 @@ declare global {
   var __DEBUG_ASSERTIONS__: boolean;
   var __DESKTOP__: boolean;
   var __MOBILE__: boolean;
+
+  var __CONSTS__: {
+    readonly u8Max: number;
+    readonly u16Max: number;
+    readonly u32Max: number;
+  };
 
   var NIL: {
     readonly chat: {
@@ -46,6 +53,12 @@ declare global {
       readonly setId: (typeof PlayerEntity)['setId'];
       readonly update: (typeof PlayerEntity)['update'];
       readonly use: (typeof PlayerEntity)['use'];
+    };
+
+    readonly ranking: {
+      readonly refs: (typeof RankingEntity)['refs'];
+      readonly update: (typeof RankingEntity)['update'];
+      readonly use: (typeof RankingEntity)['use'];
     };
 
     readonly round: {

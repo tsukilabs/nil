@@ -5,6 +5,7 @@ use crate::error::Result;
 use crate::manager::ManagerExt;
 use nil_core::city::{City, PublicCity};
 use nil_core::continent::Coord;
+use nil_core::ranking::Score;
 use tauri::AppHandle;
 
 #[tauri::command]
@@ -16,21 +17,9 @@ pub async fn get_city(app: AppHandle, coord: Coord) -> Result<City> {
 }
 
 #[tauri::command]
-pub async fn get_public_cities(app: AppHandle) -> Result<Vec<PublicCity>> {
+pub async fn get_city_score(app: AppHandle, coord: Coord) -> Result<Score> {
   app
-    .client(async |cl| cl.get_public_cities().await)
-    .await?
-    .map_err(Into::into)
-}
-
-#[tauri::command]
-pub async fn get_public_cities_by(app: AppHandle, coords: Vec<Coord>) -> Result<Vec<PublicCity>> {
-  if coords.is_empty() {
-    return Ok(Vec::new());
-  }
-
-  app
-    .client(async |cl| cl.get_public_cities_by(coords).await)
+    .client(async |cl| cl.get_city_score(coord).await)
     .await?
     .map_err(Into::into)
 }

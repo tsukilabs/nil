@@ -8,6 +8,7 @@ mod continent;
 mod infrastructure;
 mod npc;
 mod player;
+mod ranking;
 mod round;
 mod script;
 mod world;
@@ -61,10 +62,9 @@ pub(crate) fn create() -> Router<App> {
     .route("/cheat/resources/wood", get(cheat::set_max_wood))
     .route("/cheat/resources/wood", post(cheat::set_wood))
     .route("/city", post(city::get))
-    .route("/city/public", get(city::get_all_public))
     .route("/city/public", post(city::get_public))
-    .route("/city/public-by", post(city::get_public_by))
     .route("/city/rename", post(city::rename))
+    .route("/city/score", post(city::get_score))
     .route("/continent/field", post(continent::get_field))
     .route("/continent/fields", post(continent::get_fields))
     .route("/continent/size", get(continent::size))
@@ -95,6 +95,8 @@ pub(crate) fn create() -> Router<App> {
     .route("/player/{id}/exists", get(player::exists))
     .route("/player/{id}/public", get(player::get_public))
     .route("/player/{id}/status", get(player::get_status))
+    .route("/ranking", get(ranking::get))
+    .route("/ranking", post(ranking::get_rank))
     .route("/round", get(round::get))
     .route("/round/start", get(round::start))
     .route("/round/turn/end", get(round::end_turn))

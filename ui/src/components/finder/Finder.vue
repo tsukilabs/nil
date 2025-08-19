@@ -58,6 +58,10 @@ const items = computed<FinderItem[]>(() => {
       label: t('quarry'),
     },
     {
+      value: 'ranking',
+      label: t('ranking'),
+    },
+    {
       value: 'sawmill',
       label: t('sawmill'),
     },

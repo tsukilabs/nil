@@ -3,7 +3,6 @@
 
 interface PublicBot {
   readonly id: BotId;
-  readonly name: string;
 }
 
 interface Bot extends PublicBot {
@@ -11,4 +10,4 @@ interface Bot extends PublicBot {
   readonly resources: Resources;
 }
 
-type BotId = number;
+type BotId = string;

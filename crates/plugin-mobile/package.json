@@ -1,7 +1,7 @@
 {
   "name": "tauri-plugin-mobile",
   "type": "module",
-  "packageManager": "pnpm@10.14.0",
+  "packageManager": "pnpm@10.15.0",
   "license": "AGPL-3.0-only",
   "private": true,
   "files": [
@@ -20,7 +20,7 @@
     "type-check": "tsc --noEmit"
   },
   "devDependencies": {
-    "@tauri-apps/api": "^2.7.0",
+    "@tauri-apps/api": "^2.8.0",
     "@tb-dev/utils": "^7.0.12"
   }
 }

@@ -11,7 +11,7 @@ interface PublicFieldEmpty {
 
 interface PublicFieldCity {
   readonly kind: 'city';
-  readonly city: City;
+  readonly city: PublicCity;
 }
 
 interface Coord {

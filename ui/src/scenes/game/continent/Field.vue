@@ -32,7 +32,7 @@ const classList = computed(() => {
 <template>
   <div :data-x="field.x" :data-y="field.y" :class="classList">
     <div class="relative flex size-full flex-col">
-      <FieldCity v-if="field.isCity() && field.city" :field :city="field.city" />
+      <FieldCity v-if="field.isCity()" :field />
     </div>
   </div>
 </template>

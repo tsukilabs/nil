@@ -5,6 +5,7 @@ use super::{BuildingId, BuildingLevel, MineId};
 use crate::check_total_resource_ratio;
 use crate::infrastructure::mine::MineProduction;
 use crate::infrastructure::requirements::InfrastructureRequirements;
+use crate::ranking::Score;
 use crate::resources::{Cost, MaintenanceRatio, ResourceRatio, Workforce};
 use nil_core_macros::{Building, Mine};
 use serde::{Deserialize, Serialize};
@@ -36,6 +37,9 @@ impl Quarry {
 
   pub const MIN_PRODUCTION: MineProduction = MineProduction::new(30);
   pub const MAX_PRODUCTION: MineProduction = MineProduction::new(2400);
+
+  pub const MIN_SCORE: Score = Score::new(6);
+  pub const MAX_SCORE: Score = Score::new(1187);
 
   pub const INFRASTRUCTURE_REQUIREMENTS: InfrastructureRequirements =
     InfrastructureRequirements::none();

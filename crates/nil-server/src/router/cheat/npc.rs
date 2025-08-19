@@ -12,7 +12,7 @@ use nil_core::npc::precursor::PrecursorId;
 
 pub async fn get_bot_resources(State(app): State<App>, Path(id): Path<BotId>) -> Response {
   app
-    .world(|world| world.cheat_get_bot_resources(id))
+    .world(|world| world.cheat_get_bot_resources(&id))
     .map_ok(|resources| res!(OK, Json(resources)))
     .unwrap_or_else(from_core_err)
     .await
@@ -20,7 +20,7 @@ pub async fn get_bot_resources(State(app): State<App>, Path(id): Path<BotId>) ->
 
 pub async fn get_bot_storage_capacity(State(app): State<App>, Path(id): Path<BotId>) -> Response {
   app
-    .world(|world| world.cheat_get_bot_storage_capacity(id))
+    .world(|world| world.cheat_get_bot_storage_capacity(&id))
     .map_ok(|capacity| res!(OK, Json(capacity)))
     .unwrap_or_else(from_core_err)
     .await

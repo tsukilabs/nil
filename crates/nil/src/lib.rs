@@ -19,6 +19,7 @@ use error::BoxResult;
 use state::Nil;
 use tauri::{AppHandle, Manager, Wry};
 
+#[expect(clippy::too_many_lines)]
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
   #[cfg(debug_assertions)]
@@ -60,8 +61,7 @@ pub fn run() {
       command::cheat::resources::cheat_set_stone,
       command::cheat::resources::cheat_set_wood,
       command::city::get_city,
-      command::city::get_public_cities,
-      command::city::get_public_cities_by,
+      command::city::get_city_score,
       command::city::get_public_city,
       command::city::rename_city,
       command::client::start_client,
@@ -98,6 +98,8 @@ pub fn run() {
       command::player::player_exists,
       command::player::set_player_status,
       command::player::spawn_player,
+      command::ranking::get_rank,
+      command::ranking::get_ranking,
       command::round::end_turn,
       command::round::get_round,
       command::round::is_round_idle,

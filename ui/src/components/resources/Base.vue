@@ -2,24 +2,17 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
+import { formatInt } from '@/lib/intl';
 import { useBreakpoints } from '@/composables/util/useBreakpoints';
 
 const props = defineProps<{
   amount?: Option<number>;
   limit?: Option<number>;
   color: string;
+  alwaysLiteral?: boolean;
 }>();
 
 const { md } = useBreakpoints();
-
-const defaultIntl = new Intl.NumberFormat(undefined, {
-  style: 'decimal',
-  maximumFractionDigits: 0,
-  roundingMode: 'trunc',
-  notation: 'standard',
-  useGrouping: 'auto',
-  localeMatcher: 'best fit',
-});
 
 const fractionIntl = new Intl.NumberFormat(undefined, {
   style: 'decimal',
@@ -34,25 +27,25 @@ const fractionIntl = new Intl.NumberFormat(undefined, {
 
 function format() {
   const value = props.amount ?? 0;
-  if (!md.value) {
-    if (value >= 10_000 && value <= 99_999) {
+  if (!props.alwaysLiteral && !md.value) {
+    if (value >= 1_000 && value <= 99_999) {
       return `${fractionIntl.format(value / 1_000)}k`;
     }
     else if (value >= 100_000 && value <= 999_999) {
-      return `${defaultIntl.format(value / 1_000)}k`;
+      return `${formatInt(value / 1_000)}k`;
     }
     else if (value >= 1_000_000 && value <= 9_999_999) {
       return `${fractionIntl.format(value / 1_000_000)}M`;
     }
     else if (value >= 10_000_000 && value <= 999_999_999) {
-      return `${defaultIntl.format(value / 1_000_000)}M`;
+      return `${formatInt(value / 1_000_000)}M`;
     }
     else if (value >= 1_000_000_000) {
       return `${fractionIntl.format(value / 1_000_000_000)}B`;
     }
   }
 
-  return defaultIntl.format(value);
+  return formatInt(value);
 }
 
 function isOverflowing() {

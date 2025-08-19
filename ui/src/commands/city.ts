@@ -7,12 +7,8 @@ export async function getCity(coord: Coord) {
   return invoke<City>('get_city', { coord });
 }
 
-export async function getPublicCities() {
-  return invoke<readonly PublicCity[]>('get_public_cities');
-}
-
-export async function getPublicCitiesBy(coords: Coord[]) {
-  return invoke<readonly PublicCity[]>('get_public_cities_by', { coords });
+export async function getCityScore(coord: Coord) {
+  return invoke<number>('get_city_score', { coord });
 }
 
 export async function getPublicCity(coord: Coord) {
