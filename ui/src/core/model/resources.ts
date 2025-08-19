@@ -1,6 +1,8 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { toU32 } from '@/lib/number';
+
 export class ResourcesImpl implements Resources {
   public readonly food: number;
   public readonly iron: number;
@@ -8,10 +10,10 @@ export class ResourcesImpl implements Resources {
   public readonly wood: number;
 
   private constructor(resources: Resources) {
-    this.food = resources.food;
-    this.iron = resources.iron;
-    this.stone = resources.stone;
-    this.wood = resources.wood;
+    this.food = toU32(resources.food);
+    this.iron = toU32(resources.iron);
+    this.stone = toU32(resources.stone);
+    this.wood = toU32(resources.wood);
   }
 
   public add(value: number | PartialNullish<Resources>) {
@@ -79,10 +81,10 @@ export class ResourcesImpl implements Resources {
     }
 
     return ResourcesImpl.create({
-      food: this.food / (value.food ?? 0),
-      iron: this.iron / (value.iron ?? 0),
-      stone: this.stone / (value.stone ?? 0),
-      wood: this.wood / (value.wood ?? 0),
+      food: this.food / (value.food ?? 1),
+      iron: this.iron / (value.iron ?? 1),
+      stone: this.stone / (value.stone ?? 1),
+      wood: this.wood / (value.wood ?? 1),
     });
   }
 

@@ -432,9 +432,9 @@ dependencies = [
 
 [[package]]
 name = "bon"
-version = "3.7.0"
+version = "3.7.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "67a0c21249ad725ebcadcb1b1885f8e3d56e8e6b8924f560268aab000982d637"
+checksum = "537c317ddf588aab15c695bf92cf55dec159b93221c074180ca3e0e5a94da415"
 dependencies = [
  "bon-macros",
  "rustversion",
@@ -442,9 +442,9 @@ dependencies = [
 
 [[package]]
 name = "bon-macros"
-version = "3.7.0"
+version = "3.7.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a660ebdea4d4d3ec7788cfc9c035b66efb66028b9b97bf6cde7023ccc8e77e28"
+checksum = "ca5abbf2d4a4c6896197c9de13d6d7cb7eff438c63dacde1dde980569cb00248"
 dependencies = [
  "darling 0.21.2",
  "ident_case",
@@ -624,9 +624,9 @@ dependencies = [
 
 [[package]]
 name = "cfg-if"
-version = "1.0.1"
+version = "1.0.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9555578bc9e57714c812a1f84e4fc5b4d21fcb063490c624de019f7464c91268"
+checksum = "2fd1289c04a9ea8cb22300a459a72a385d7c73d3259e2ed7dcb2af674838cfa9"
 
 [[package]]
 name = "cfg_aliases"
@@ -2641,7 +2641,7 @@ checksum = "650eef8c711430f1a879fdd01d4745a7deea475becfb90269c06775983bbf086"
 
 [[package]]
 name = "nil"
-version = "0.1.31"
+version = "0.1.33"
 dependencies = [
  "anyhow",
  "futures",
@@ -2673,7 +2673,7 @@ dependencies = [
 
 [[package]]
 name = "nil-client"
-version = "0.1.31"
+version = "0.1.33"
 dependencies = [
  "anyhow",
  "bon",
@@ -2697,7 +2697,7 @@ dependencies = [
 
 [[package]]
 name = "nil-continent"
-version = "0.1.31"
+version = "0.1.33"
 dependencies = [
  "js-sys",
  "wasm-bindgen",
@@ -2706,7 +2706,7 @@ dependencies = [
 
 [[package]]
 name = "nil-core"
-version = "0.1.31"
+version = "0.1.33"
 dependencies = [
  "anyhow",
  "bon",
@@ -2735,7 +2735,7 @@ dependencies = [
 
 [[package]]
 name = "nil-core-macros"
-version = "0.1.31"
+version = "0.1.33"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -2744,7 +2744,7 @@ dependencies = [
 
 [[package]]
 name = "nil-namegen"
-version = "0.1.31"
+version = "0.1.33"
 dependencies = [
  "itertools",
  "rand 0.9.2",
@@ -2753,7 +2753,7 @@ dependencies = [
 
 [[package]]
 name = "nil-num"
-version = "0.1.31"
+version = "0.1.33"
 dependencies = [
  "bon",
  "derive_more 2.0.1",
@@ -2764,7 +2764,7 @@ dependencies = [
 
 [[package]]
 name = "nil-num-macros"
-version = "0.1.31"
+version = "0.1.33"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -2773,7 +2773,7 @@ dependencies = [
 
 [[package]]
 name = "nil-server"
-version = "0.1.31"
+version = "0.1.33"
 dependencies = [
  "anyhow",
  "axum",
@@ -2792,7 +2792,7 @@ dependencies = [
 
 [[package]]
 name = "nil-util"
-version = "0.1.31"
+version = "0.1.33"
 dependencies = [
  "anyhow",
  "bon",
@@ -3412,7 +3412,7 @@ checksum = "3af6b589e163c5a788fab00ce0c0366f6efbb9959c2f9874b224936af7fce7e1"
 dependencies = [
  "base64 0.22.1",
  "indexmap 2.10.0",
- "quick-xml 0.38.1",
+ "quick-xml 0.38.2",
  "serde",
  "time",
 ]
@@ -3577,9 +3577,9 @@ dependencies = [
 
 [[package]]
 name = "quick-xml"
-version = "0.38.1"
+version = "0.38.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9845d9dccf565065824e69f9f235fafba1587031eda353c1f1561cd6a6be78f4"
+checksum = "d200a41a7797e6461bd04e4e95c3347053a731c32c87f066f2f0dda22dbdbba8"
 dependencies = [
  "memchr",
 ]
@@ -4859,7 +4859,7 @@ dependencies = [
 
 [[package]]
 name = "tauri-plugin-mobile"
-version = "0.1.31"
+version = "0.1.33"
 dependencies = [
  "serde",
  "tauri",
@@ -6104,11 +6104,11 @@ checksum = "ac3b87c63620426dd9b991e5ce0329eff545bccbbb34f3be09ff6fb6ab51b7b6"
 
 [[package]]
 name = "winapi-util"
-version = "0.1.9"
+version = "0.1.10"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "cf221c93e13a30d793f7645a0e7762c55d169dbb0a49671918a2319d289b10bb"
+checksum = "0978bf7171b3d90bac376700cb56d606feb40f251a475a5d6634613564460b22"
 dependencies = [
- "windows-sys 0.59.0",
+ "windows-sys 0.60.2",
 ]
 
 [[package]]

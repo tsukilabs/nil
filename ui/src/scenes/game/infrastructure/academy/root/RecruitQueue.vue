@@ -4,8 +4,10 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { formatInt } from '@/lib/intl';
+import { useBreakpoints } from '@/composables/util/useBreakpoints';
 import type { AcademyImpl } from '@/core/model/infrastructure/building/academy/academy';
-import { Button, cn, Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@tb-dev/vue-components';
+import { Button, cn, Table, TableBody, TableCell, TableRow } from '@tb-dev/vue-components';
 
 const props = defineProps<{
   academy: AcademyImpl;
@@ -19,48 +21,35 @@ const tableClass = computed(() => {
   return props.academy.recruitQueue.size === 0 ? 'hidden' : null;
 });
 
-function format(squad: Squad) {
-  return `${squad.size} ${t(squad.unit, squad.size)}`;
+const { sm } = useBreakpoints();
+
+function formatSquad(squad: Squad) {
+  return `${formatInt(squad.size)} ${t(squad.unit, squad.size)}`;
 }
 </script>
 
 <template>
   <Table :class="cn(tableClass, 'xl:table xl:w-2/5 xl:max-w-[500px] xl:min-w-[250px]')">
-    <TableHeader>
-      <TableRow class="bg-card">
-        <TableHead>
-          <span>{{ t('order') }}</span>
-        </TableHead>
-        <TableHead>
-          <span>{{ t('workforce') }}</span>
-        </TableHead>
-        <TableHead>
-          <span></span>
-        </TableHead>
-      </TableRow>
-    </TableHeader>
-
     <TableBody>
       <template v-for="order of academy.recruitQueue" :key="order.id">
-        <TableRow
-          v-if="order.state.kind === 'pending'"
-          @dblclick="() => onCancel(order.id)"
-        >
+        <TableRow v-if="order.state.kind === 'pending'" class="hover:bg-card">
           <TableCell>
             <div class="flex items-center justify-start gap-2">
-              <span>{{ format(order.squad) }}</span>
+              <span>{{ formatSquad(order.squad) }}</span>
             </div>
           </TableCell>
+
           <TableCell>
             <div class="flex items-center justify-start">
               <Workforce :amount="order.state.workforce" />
             </div>
           </TableCell>
+
           <TableCell>
-            <div class="flex items-center justify-center">
+            <div class="flex items-center justify-start md:justify-center">
               <Button
                 variant="destructive"
-                size="sm"
+                :size="sm ? 'sm' : 'xs'"
                 :disabled="loading"
                 @click="() => onCancel(order.id)"
               >

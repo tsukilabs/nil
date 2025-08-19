@@ -20,6 +20,12 @@ declare global {
   var __DESKTOP__: boolean;
   var __MOBILE__: boolean;
 
+  var __CONSTS__: {
+    readonly u8Max: number;
+    readonly u16Max: number;
+    readonly u32Max: number;
+  };
+
   var NIL: {
     readonly chat: {
       readonly refs: (typeof ChatEntity)['refs'];

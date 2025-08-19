@@ -5,8 +5,8 @@
 import { useI18n } from 'vue-i18n';
 import { storeToRefs } from 'pinia';
 import { computed, nextTick } from 'vue';
+import CostGrid from '@/components/resources/CostGrid.vue';
 import type { ResourcesImpl } from '@/core/model/resources';
-import BuildCatalogRowCost from './BuildCatalogRowCost.vue';
 import { TableCell, TableRow } from '@tb-dev/vue-components';
 import BuildCatalogRowAction from './BuildCatalogRowAction.vue';
 import { useBreakpoints } from '@/composables/util/useBreakpoints';
@@ -89,10 +89,21 @@ async function makeOrder(kind: PrefectureBuildOrderKind) {
     </TableCell>
 
     <TableCell>
-      <BuildCatalogRowCost v-if="sm" :entry :player-resources />
+      <CostGrid
+        v-if="sm"
+        :resources="entry.recipe.resources"
+        :maintenance="entry.recipe.maintenance"
+        :workforce="entry.recipe.workforce"
+        :limit="playerResources"
+      />
       <template v-else>
         <div class="flex flex-col gap-2 py-2">
-          <BuildCatalogRowCost :entry :player-resources />
+          <CostGrid
+            :resources="entry.recipe.resources"
+            :maintenance="entry.recipe.maintenance"
+            :workforce="entry.recipe.workforce"
+            :limit="playerResources"
+          />
           <BuildCatalogRowAction
             :building
             :can-build

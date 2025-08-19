@@ -9,6 +9,7 @@ const props = defineProps<{
   amount?: Option<number>;
   limit?: Option<number>;
   color: string;
+  alwaysLiteral?: boolean;
 }>();
 
 const { md } = useBreakpoints();
@@ -26,7 +27,7 @@ const fractionIntl = new Intl.NumberFormat(undefined, {
 
 function format() {
   const value = props.amount ?? 0;
-  if (!md.value) {
+  if (!props.alwaysLiteral && !md.value) {
     if (value >= 1_000 && value <= 99_999) {
       return `${fractionIntl.format(value / 1_000)}k`;
     }

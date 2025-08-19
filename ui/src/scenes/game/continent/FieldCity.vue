@@ -95,7 +95,7 @@ function getPrecursorColor(id: PrecursorId) {
                 <TableHead>{{ t('owner') }}</TableHead>
                 <TableCell>
                   <RouterLink v-if="toOwnerScene" :to="toOwnerScene">
-                    <span>{{ owner.id }}</span>
+                    <span class="whitespace-pre-wrap wrap-anywhere">{{ owner.id }}</span>
                   </RouterLink>
                 </TableCell>
               </TableRow>

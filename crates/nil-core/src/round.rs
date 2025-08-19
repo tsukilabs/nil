@@ -54,17 +54,13 @@ impl Round {
     }
   }
 
-  pub(crate) fn end_turn(&mut self, player: &PlayerId) -> bool {
-    let RoundState::Waiting { players } = &mut self.state else {
-      return false;
-    };
-
-    let removed = players.remove(player);
-    if players.is_empty() {
-      self.state = RoundState::Done;
+  pub(crate) fn end_turn(&mut self, player: &PlayerId) {
+    if let RoundState::Waiting { players } = &mut self.state {
+      players.remove(player);
+      if players.is_empty() {
+        self.state = RoundState::Done;
+      }
     }
-
-    removed
   }
 
   #[inline]

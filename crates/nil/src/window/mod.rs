@@ -6,6 +6,7 @@ pub mod desktop;
 #[cfg(mobile)]
 pub mod mobile;
 
+use serde::Serialize;
 use serde_json::json;
 use tauri::WebviewUrl;
 
@@ -36,5 +37,25 @@ fn script() -> String {
   define!("__DESKTOP__", cfg!(desktop));
   define!("__MOBILE__", cfg!(mobile));
 
+  define!("__CONSTS__", Constants::default());
+
   script
+}
+
+#[derive(Serialize)]
+#[serde(rename_all = "camelCase")]
+struct Constants {
+  u8_max: u8,
+  u16_max: u16,
+  u32_max: u32,
+}
+
+impl Default for Constants {
+  fn default() -> Self {
+    Self {
+      u8_max: u8::MAX,
+      u16_max: u16::MAX,
+      u32_max: u32::MAX,
+    }
+  }
 }
