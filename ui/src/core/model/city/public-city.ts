@@ -3,6 +3,7 @@
 
 import { go } from '@/router';
 import * as commands from '@/commands';
+import { formatInt } from '@/lib/intl';
 import { CoordImpl } from '@/core/model/continent/coord';
 
 export class PublicCityImpl implements PublicCity {
@@ -25,6 +26,10 @@ export class PublicCityImpl implements PublicCity {
 
   public async goToContinent() {
     await this.coord.goToContinent();
+  }
+
+  public formatScore() {
+    return formatInt(this.score);
   }
 
   get index() {

@@ -3,6 +3,8 @@
 
 import { go } from '@/router';
 import * as commands from '@/commands';
+import { formatInt } from '@/lib/intl';
+import { PLACEHOLDER } from '@/lib/string';
 import { CoordImpl } from '@/core/model/continent/coord';
 import { RankingEntryImpl } from '@/core/model/ranking/ranking-entry';
 
@@ -30,6 +32,14 @@ export class PublicBotImpl implements PublicBot {
 
   public async goToProfile() {
     await go('profile-bot', { params: { id: this.id } });
+  }
+
+  public formatRank() {
+    return this.ranking?.rank ? formatInt(this.ranking.rank) : PLACEHOLDER;
+  }
+
+  public formatScore() {
+    return this.ranking?.score ? formatInt(this.ranking.score) : PLACEHOLDER;
   }
 
   public static create(args: PublicBotImplConstructorArgs) {

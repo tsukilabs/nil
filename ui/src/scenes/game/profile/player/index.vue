@@ -22,14 +22,14 @@ import {
 const { t } = useI18n();
 
 const id = useRouteParams<Option<PlayerId>>('id', null);
-const { player, coords, loading } = usePublicPlayer(id);
+const { player, coords } = usePublicPlayer(id);
 const { cities } = usePublicCities(coords);
 </script>
 
 <template>
   <div class="game-layout">
-    <Card class="size-full overflow-x-hidden overflow-y-auto">
-      <CardHeader v-if="player && !loading">
+    <Card v-if="player" class="size-full overflow-x-hidden overflow-y-auto">
+      <CardHeader>
         <CardTitle>
           <span>{{ player.id }}</span>
         </CardTitle>
@@ -38,19 +38,15 @@ const { cities } = usePublicCities(coords);
       <CardContent class="px-2 py-0 relative size-full">
         <div class="flex w-full min-w-max flex-col gap-4">
           <Table class="sm:max-w-max md:min-w-50">
-            <TableBody v-if="player">
+            <TableBody>
               <TableRow>
                 <TableHead>{{ t('point', 2) }}</TableHead>
-                <TableCell>
-                  {{ player.ranking?.score.toLocaleString() ?? '???' }}
-                </TableCell>
+                <TableCell>{{ player.formatScore() }}</TableCell>
               </TableRow>
 
               <TableRow>
                 <TableHead>{{ t('rank') }}</TableHead>
-                <TableCell>
-                  {{ player.ranking?.rank.toLocaleString() ?? '???' }}
-                </TableCell>
+                <TableCell>{{ player.formatRank() }}</TableCell>
               </TableRow>
 
               <TableRow>

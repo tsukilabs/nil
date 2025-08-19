@@ -4,6 +4,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { formatInt } from '@/lib/intl';
 import { usePublicCity } from '@/composables/city/usePublicCity';
 import type { PublicFieldImpl } from '@/core/model/continent/public-field';
 import { useCityOwnerSceneLink } from '@/composables/city/useCityOwnerSceneLink';
@@ -74,7 +75,7 @@ function getPrecursorColor(id: PrecursorId) {
 
     <HoverCardContent>
       <div class="flex flex-col select-none">
-        <div v-if="city" class="flex flex-col gap-2 md:gap-4 overflow-hidden">
+        <div v-if="city && owner" class="flex flex-col gap-2 md:gap-4 overflow-hidden">
           <h1 class="ellipsis text-lg text-center">
             <RouterLink v-if="toCityProfile" :to="toCityProfile">{{ city.name }}</RouterLink>
           </h1>
@@ -87,10 +88,10 @@ function getPrecursorColor(id: PrecursorId) {
 
               <TableRow>
                 <TableHead>{{ t('point', 2) }}</TableHead>
-                <TableCell>{{ city.score.toLocaleString() }}</TableCell>
+                <TableCell>{{ formatInt(city.score) }}</TableCell>
               </TableRow>
 
-              <TableRow v-if="owner">
+              <TableRow>
                 <TableHead>{{ t('owner') }}</TableHead>
                 <TableCell>
                   <RouterLink v-if="toOwnerScene" :to="toOwnerScene">

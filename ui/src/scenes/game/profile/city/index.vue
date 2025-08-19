@@ -39,15 +39,15 @@ const toOwnerScene = useCityOwnerSceneLink(owner);
 
 <template>
   <div class="game-layout">
-    <Card class="size-full overflow-x-hidden overflow-y-auto">
-      <CardHeader v-if="city && !loading">
+    <Card v-if="city && owner" class="size-full overflow-x-hidden overflow-y-auto">
+      <CardHeader>
         <CardTitle>
           <span>{{ city.name }}</span>
         </CardTitle>
       </CardHeader>
 
       <CardContent class="px-2 py-0 relative size-full">
-        <div v-if="city">
+        <div>
           <Table class="sm:max-w-max">
             <TableBody>
               <TableRow>
@@ -57,10 +57,10 @@ const toOwnerScene = useCityOwnerSceneLink(owner);
 
               <TableRow>
                 <TableHead>{{ t('point', 2) }}</TableHead>
-                <TableCell>{{ city.score.toLocaleString() }}</TableCell>
+                <TableCell>{{ city.formatScore() }}</TableCell>
               </TableRow>
 
-              <TableRow v-if="owner">
+              <TableRow>
                 <TableHead>{{ t('owner') }}</TableHead>
                 <TableCell>
                   <RouterLink v-if="toOwnerScene" :to="toOwnerScene">
@@ -75,7 +75,7 @@ const toOwnerScene = useCityOwnerSceneLink(owner);
               </TableRow>
             </TableBody>
 
-            <TableFooter v-if="city">
+            <TableFooter>
               <TableRow class="bg-card hover:bg-card">
                 <TableCell colspan="2" class="text-center">
                   <Button size="sm" :disabled="loading" @click="() => city?.goToContinent()">

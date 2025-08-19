@@ -51,10 +51,10 @@ const { ranking } = NIL.ranking.refs();
               @click="() => entry.goToProfile()"
               @keydown.enter="() => entry.goToProfile()"
             >
-              <TableCell>{{ entry.rank.toLocaleString() }}</TableCell>
+              <TableCell>{{ entry.formatRank() }}</TableCell>
               <TableCell>{{ entry.ruler.id }}</TableCell>
-              <TableCell>{{ entry.score }}</TableCell>
-              <TableCell>{{ entry.cities }}</TableCell>
+              <TableCell>{{ entry.formatScore() }}</TableCell>
+              <TableCell>{{ entry.formatCities() }}</TableCell>
             </TableRow>
           </TableBody>
         </Table>

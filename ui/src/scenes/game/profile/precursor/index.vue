@@ -22,14 +22,14 @@ import {
 const { t } = useI18n();
 
 const id = useRouteParams<Option<PrecursorId>>('id', null);
-const { precursor, coords, loading } = usePublicPrecursor(id);
+const { precursor, coords } = usePublicPrecursor(id);
 const { cities } = usePublicCities(coords);
 </script>
 
 <template>
   <div class="game-layout">
-    <Card class="size-full overflow-x-hidden overflow-y-auto">
-      <CardHeader v-if="precursor && !loading">
+    <Card v-if="precursor" class="size-full overflow-x-hidden overflow-y-auto">
+      <CardHeader>
         <CardTitle>
           <span>{{ precursor.id }}</span>
         </CardTitle>
@@ -38,19 +38,15 @@ const { cities } = usePublicCities(coords);
       <CardContent class="px-2 py-0 relative size-full">
         <div class="flex w-full min-w-max flex-col gap-4">
           <Table class="sm:max-w-max md:min-w-50">
-            <TableBody v-if="precursor">
+            <TableBody>
               <TableRow>
                 <TableHead>{{ t('point', 2) }}</TableHead>
-                <TableCell>
-                  {{ precursor.ranking?.score.toLocaleString() ?? '???' }}
-                </TableCell>
+                <TableCell>{{ precursor.formatScore() }}</TableCell>
               </TableRow>
 
               <TableRow>
                 <TableHead>{{ t('rank') }}</TableHead>
-                <TableCell>
-                  {{ precursor.ranking?.rank.toLocaleString() ?? '???' }}
-                </TableCell>
+                <TableCell>{{ precursor.formatRank() }}</TableCell>
               </TableRow>
 
               <TableRow>

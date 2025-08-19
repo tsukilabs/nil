@@ -3,6 +3,7 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
+import { formatInt } from '@/lib/intl';
 import type { PublicCityImpl } from '@/core/model/city/public-city';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@tb-dev/vue-components';
 
@@ -35,7 +36,7 @@ const { t } = useI18n();
       >
         <TableCell>{{ city.name }}</TableCell>
         <TableCell>{{ city.coord.format() }}</TableCell>
-        <TableCell>{{ city.score.toLocaleString() }}</TableCell>
+        <TableCell>{{ formatInt(city.score) }}</TableCell>
       </TableRow>
     </TableBody>
   </Table>
