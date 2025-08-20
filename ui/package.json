@@ -10,11 +10,11 @@
     "type-check": "vue-tsc --noEmit"
   },
   "devDependencies": {
-    "@shikijs/monaco": "^3.10.0",
+    "@shikijs/monaco": "^3.11.0",
     "@tauri-apps/api": "^2.8.0",
     "@tauri-apps/plugin-clipboard-manager": "^2.3.0",
-    "@tauri-apps/plugin-dialog": "^2.3.2",
-    "@tauri-apps/plugin-fs": "^2.4.1",
+    "@tauri-apps/plugin-dialog": "^2.3.3",
+    "@tauri-apps/plugin-fs": "^2.4.2",
     "@tauri-apps/plugin-process": "^2.3.0",
     "@tauri-store/pinia": "^3.7.1",
     "@tb-dev/prototype-dom": "^7.0.22",
@@ -31,7 +31,7 @@
     "monaco-editor-core": "^0.52.2",
     "nil-continent": "workspace:*",
     "pinia": "^3.0.3",
-    "shiki": "^3.10.0",
+    "shiki": "^3.11.0",
     "tauri-plugin-mobile": "workspace:*",
     "tw-animate-css": "^1.3.7",
     "vue": "^3.5.18",

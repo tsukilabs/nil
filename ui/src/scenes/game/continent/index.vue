@@ -11,12 +11,12 @@ import { CoordImpl } from '@/core/model/continent/coord';
 import { Card, CardContent } from '@tb-dev/vue-components';
 import { memory } from 'nil-continent/nil_continent_bg.wasm';
 import { Continent, Coord as WasmCoord } from 'nil-continent';
+import { useBreakpoints } from '@/composables/util/useBreakpoints';
 import { usePublicFields } from '@/composables/continent/usePublicFields';
+import { onMouseMovement } from '@/composables/continent/onMouseMovement';
 import { useDefaultCoords } from '@/composables/continent/useDefaultCoords';
-import { useContinentGrid } from '@/composables/continent/useContinentGrid';
-import { useMouseMovement } from '@/composables/continent/useMouseMovement';
-import { useKeyboardMovement } from '@/composables/continent/useKeyboardMovement';
-import { nextTick, onBeforeMount, onMounted, onUnmounted, useTemplateRef, watchEffect } from 'vue';
+import { onKeyboardMovement } from '@/composables/continent/onKeyboardMovement';
+import { computed, nextTick, onBeforeMount, onMounted, onUnmounted, ref, useTemplateRef, watchEffect } from 'vue';
 
 const continent = new Continent();
 
@@ -28,7 +28,41 @@ const defaultCoords = useDefaultCoords();
 const containerEl = useTemplateRef('container');
 const containerSize = useElementSize(containerEl);
 
-const { gridCols, gridRows, cols, rows } = useContinentGrid(fields);
+const maxCols = ref(0);
+const maxRows = ref(0);
+
+const { sm } = useBreakpoints();
+const cellSize = computed(() => sm.value ? 50 : 25);
+
+const cols = computed(() => {
+  const values: [number, Option<number>][] = [];
+  for (let col = 0; col < maxCols.value; col++) {
+    const field = fields.value.at(col);
+    if (field && !field.isXOutside()) {
+      values.push([col, field.x]);
+    }
+    else {
+      values.push([col, null]);
+    }
+  }
+
+  return values;
+});
+
+const rows = computed(() => {
+  const values: [number, Option<number>][] = [];
+  for (let row = 0; row < maxRows.value; row++) {
+    const field = fields.value.at(row * maxCols.value);
+    if (field && !field.isYOutside()) {
+      values.push([row, field.y]);
+    }
+    else {
+      values.push([row, null]);
+    }
+  }
+
+  return values;
+});
 
 const listener = new ListenerSet();
 listener.event.onPublicCityUpdated(({ coord }) => loadCoord(coord));
@@ -37,10 +71,11 @@ watchEffect(() => {
   const width = containerSize.width.value;
   const height = containerSize.height.value;
   continent.set_container_size(width, height);
+  continent.set_cell_size(cellSize.value);
 
   void nextTick(() => {
-    gridCols.value = continent.grid_cols();
-    gridRows.value = continent.grid_rows();
+    maxCols.value = continent.max_cols();
+    maxRows.value = continent.max_rows();
     render();
   });
 });
@@ -55,19 +90,29 @@ onBeforeMount(() => {
 
 onMounted(async () => {
   await until(containerEl).toBeTruthy();
-  requestIdleCallback(updateCoordsWithin);
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(updateCoordsWithin);
+  }
+  else {
+    updateCoordsWithin();
+  }
 });
 
 onUnmounted(() => {
   continent.free();
 });
 
-useKeyboardMovement(continent, render);
-useMouseMovement(continent, render);
+onKeyboardMovement(continent, render);
+onMouseMovement(containerEl, continent, render);
 
 function render() {
   if (route.name === ('continent' satisfies GameScene)) {
-    requestAnimationFrame(updateCoordsWithin);
+    if ('requestAnimationFrame' in window) {
+      requestAnimationFrame(updateCoordsWithin);
+    }
+    else {
+      updateCoordsWithin();
+    }
   }
 }
 
@@ -91,10 +136,7 @@ function updateCoordsWithin() {
   <div class="game-layout">
     <Card class="size-full overflow-hidden p-0">
       <CardContent class="relative size-full overflow-hidden p-0 select-none">
-        <div
-          ref="container"
-          class="bg-card absolute inset-0 bottom-[50px] left-[50px] z-10 overflow-hidden"
-        >
+        <div id="continent-container" ref="container" class="bg-card">
           <div id="continent-grid">
             <Field v-for="field of fields" :key="`${field.id}-${field.flags}`" :field />
           </div>
@@ -112,20 +154,29 @@ function updateCoordsWithin() {
           </div>
         </div>
 
-        <div id="container-fill" class="bg-accent"></div>
+        <div id="continent-background" class="bg-accent"></div>
       </CardContent>
     </Card>
   </div>
 </template>
 
 <style scoped>
-#continent-grid {
-  display: grid;
-  grid-template-rows: v-bind("`repeat(${gridRows}, 50px)`");
-  grid-template-columns: v-bind("`repeat(${gridCols}, 50px)`");
+#continent-container {
+  position: absolute;
+  inset: 0;
+  bottom: v-bind("`${cellSize}px`");
+  left: v-bind("`${cellSize}px`");
+  z-index: 10;
+  overflow: hidden;
 }
 
-#container-fill {
+#continent-grid {
+  display: grid;
+  grid-template-rows: v-bind("`repeat(${maxRows}, ${cellSize}px)`");
+  grid-template-columns: v-bind("`repeat(${maxCols}, ${cellSize}px)`");
+}
+
+#continent-background {
   position: absolute;
   z-index: 0;
   inset: 0;
@@ -146,15 +197,15 @@ function updateCoordsWithin() {
 
 #rule-horizontal {
   bottom: 0;
-  left: 50px;
-  grid-template-columns: v-bind("`repeat(${gridCols}, 50px)`");
-  height: 50px;
+  left: v-bind("`${cellSize}px`");
+  grid-template-columns: v-bind("`repeat(${maxCols}, ${cellSize}px)`");
+  height: v-bind("`${cellSize}px`");
 }
 
 #rule-vertical {
   top: 0;
-  bottom: 50px;
-  grid-template-rows: v-bind("`repeat(${gridRows}, 50px)`");
-  width: 50px;
+  bottom: v-bind("`${cellSize}px`");
+  grid-template-rows: v-bind("`repeat(${maxRows}, ${cellSize}px)`");
+  width: v-bind("`${cellSize}px`");
 }
 </style>

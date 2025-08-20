@@ -16,6 +16,4 @@ crate-type = ["cdylib", "rlib"]
 workspace = true
 
 [dependencies]
-js-sys.workspace = true
 wasm-bindgen.workspace = true
-web-sys.workspace = true

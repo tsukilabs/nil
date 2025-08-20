@@ -5,7 +5,7 @@ import type { Fn } from '@tb-dev/utils';
 import { onKeyDown } from '@vueuse/core';
 import { type Continent, Coord as WasmCoord } from 'nil-continent';
 
-export function useKeyboardMovement(continent: Continent, render: Fn) {
+export function onKeyboardMovement(continent: Continent, render: Fn) {
   const { continentSize } = NIL.world.refs();
 
   onKeyDown('ArrowUp', move('up'), { dedupe: false });
@@ -16,30 +16,40 @@ export function useKeyboardMovement(continent: Continent, render: Fn) {
   function move(dir: 'up' | 'down' | 'left' | 'right') {
     return function(e: KeyboardEvent) {
       const center = continent.center();
-      let x = center.x();
-      let y = center.y();
+      const initialX = center.x();
+      const initialY = center.y();
+
+      let x = initialX;
+      let y = initialY;
 
       let delta = 1;
       if (e.ctrlKey) delta = 5;
       if (e.shiftKey) delta = 10;
       if (e.ctrlKey && e.shiftKey) delta = 25;
 
-      if (dir === 'up' && y + delta <= continentSize.value) {
-        y += delta;
-      }
-      else if (dir === 'down' && y - delta >= 0) {
-        y -= delta;
-      }
-      else if (dir === 'left' && x - delta >= 0) {
-        x -= delta;
-      }
-      else if (dir === 'right' && x + delta <= continentSize.value) {
-        x += delta;
+      switch (dir) {
+        case 'up': {
+          y = Math.min(y + delta, continentSize.value - 1);
+          break;
+        }
+        case 'down': {
+          y = Math.max(y - delta, 0);
+          break;
+        }
+        case 'left': {
+          x = Math.max(x - delta, 0);
+          break;
+        }
+        case 'right': {
+          x = Math.min(x + delta, continentSize.value - 1);
+          break;
+        }
       }
 
-      continent.set_center(new WasmCoord(x, y));
-
-      render();
+      if (x !== initialX || y !== initialY) {
+        continent.set_center(new WasmCoord(x, y));
+        render();
+      }
     };
   }
 }

@@ -115,7 +115,7 @@ export class CoordImpl implements Coord {
   });
 }
 
-export function isOutside(value: number) {
-  const size = NIL.world.refs().continentSize.value;
+export function isOutside(value: number, continentSize?: number) {
+  const size = continentSize ?? NIL.world.refs().continentSize.value;
   return !Number.isInteger(value) || value < 0 || value >= size;
 }
