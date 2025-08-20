@@ -29,9 +29,7 @@ export class CoordImpl implements Coord {
 
   public isXOutside() {
     if (typeof this.#xOutside !== 'boolean') {
-      const x = this.x;
-      const size = NIL.world.refs().continentSize.value;
-      this.#xOutside = !Number.isInteger(x) || x < 0 || x >= size;
+      this.#xOutside = isOutside(this.x);
     }
 
     return this.#xOutside;
@@ -39,9 +37,7 @@ export class CoordImpl implements Coord {
 
   public isYOutside() {
     if (typeof this.#yOutside !== 'boolean') {
-      const y = this.y;
-      const size = NIL.world.refs().continentSize.value;
-      this.#yOutside = !Number.isInteger(y) || y < 0 || y >= size;
+      this.#yOutside = isOutside(this.y);
     }
 
     return this.#yOutside;
@@ -117,4 +113,9 @@ export class CoordImpl implements Coord {
     style: 'decimal',
     useGrouping: false,
   });
+}
+
+export function isOutside(value: number) {
+  const size = NIL.world.refs().continentSize.value;
+  return !Number.isInteger(value) || value < 0 || value >= size;
 }

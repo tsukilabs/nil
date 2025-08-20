@@ -3,96 +3,35 @@
 
 <script setup lang="ts">
 import Field from './Field.vue';
+import { until } from '@vueuse/core';
 import { useRoute } from 'vue-router';
-import type { Option } from '@tb-dev/utils';
 import { useElementSize } from '@tb-dev/vue';
-import { useRouteQuery } from '@vueuse/router';
-import { onKeyDown, until } from '@vueuse/core';
 import { ListenerSet } from '@/lib/listener-set';
 import { CoordImpl } from '@/core/model/continent/coord';
 import { Card, CardContent } from '@tb-dev/vue-components';
 import { memory } from 'nil-continent/nil_continent_bg.wasm';
 import { Continent, Coord as WasmCoord } from 'nil-continent';
-import { PublicFieldImpl } from '@/core/model/continent/public-field';
-import {
-  computed,
-  nextTick,
-  onBeforeMount,
-  onMounted,
-  onUnmounted,
-  ref,
-  shallowRef,
-  triggerRef,
-  useTemplateRef,
-  watchEffect,
-} from 'vue';
-
-const route = useRoute();
-const { coord: currentCoord } = NIL.city.refs();
+import { usePublicFields } from '@/composables/continent/usePublicFields';
+import { useDefaultCoords } from '@/composables/continent/useDefaultCoords';
+import { useContinentGrid } from '@/composables/continent/useContinentGrid';
+import { useMouseMovement } from '@/composables/continent/useMouseMovement';
+import { useKeyboardMovement } from '@/composables/continent/useKeyboardMovement';
+import { nextTick, onBeforeMount, onMounted, onUnmounted, useTemplateRef, watchEffect } from 'vue';
 
 const continent = new Continent();
-const { continentSize } = NIL.world.refs();
 
-const fields = shallowRef<PublicFieldImpl[]>([]);
-const cache = new Map<string, PublicFieldImpl>();
-const bulkInit = PublicFieldImpl.createBulkInitializer();
-const triggerFields = () => triggerRef(fields);
+const { fields, setCoords, loadCoord } = usePublicFields();
 
-const queryX = useRouteQuery('x', null, { transform: transformQuery });
-const queryY = useRouteQuery('y', null, { transform: transformQuery });
+const route = useRoute();
+const defaultCoords = useDefaultCoords();
 
 const containerEl = useTemplateRef('container');
 const containerSize = useElementSize(containerEl);
 
-const gridCols = ref(0);
-const gridRows = ref(0);
-
-const cols = computed(() => {
-  const values: [number, Option<number>][] = [];
-  for (let col = 0; col < gridCols.value; col++) {
-    const field = fields.value.at(col);
-    if (field && !field.isXOutside()) {
-      values.push([col, field.x]);
-    }
-    else {
-      values.push([col, null]);
-    }
-  }
-
-  return values;
-});
-
-const rows = computed(() => {
-  const values: [number, Option<number>][] = [];
-  for (let row = 0; row < gridRows.value; row++) {
-    const field = fields.value.at(row * gridCols.value);
-    if (field && !field.isYOutside()) {
-      values.push([row, field.y]);
-    }
-    else {
-      values.push([row, null]);
-    }
-  }
-
-  return values;
-});
+const { gridCols, gridRows, cols, rows } = useContinentGrid(fields);
 
 const listener = new ListenerSet();
-listener.event.onPublicCityUpdated(async ({ coord }) => {
-  const field = fields.value.find((it) => it.coord.is(coord));
-  if (field && !field.isLoading()) {
-    // When loading begins, `PublicFieldImpl` modifies its flags to indicate that an update is taking place.
-    // Since Vue relies on these flags to detect changes (due to the use of `key` in the grid loop),
-    // we need to trigger the `fields` ref both before and after the update is completed.
-    //
-    // If the ref were only triggered at the end, Vue would not update the grid because the value
-    // of the flag would most likely have already reverted to its initial state by that time.
-    await field.load({
-      onBeforeLoad: triggerFields,
-      onLoad: triggerFields,
-    });
-  }
-});
+listener.event.onPublicCityUpdated(({ coord }) => loadCoord(coord));
 
 watchEffect(() => {
   const width = containerSize.width.value;
@@ -107,17 +46,8 @@ watchEffect(() => {
 });
 
 onBeforeMount(() => {
-  const size = continentSize.value;
-  const isValid = (coord: Option<number>): coord is number => {
-    return typeof coord === 'number' &&
-      Number.isInteger(coord) &&
-      coord >= 0 &&
-      coord < size;
-  };
-
-  const x = isValid(queryX.value) ? queryX.value : currentCoord.value?.x;
-  const y = isValid(queryY.value) ? queryY.value : currentCoord.value?.y;
-
+  const x = defaultCoords.value?.x;
+  const y = defaultCoords.value?.y;
   if (typeof x === 'number' && typeof y === 'number') {
     continent.set_center(new WasmCoord(x, y));
   }
@@ -129,14 +59,11 @@ onMounted(async () => {
 });
 
 onUnmounted(() => {
-  cache.clear();
   continent.free();
 });
 
-onKeyDown('ArrowUp', move('up'), { dedupe: false });
-onKeyDown('ArrowDown', move('down'), { dedupe: false });
-onKeyDown('ArrowLeft', move('left'), { dedupe: false });
-onKeyDown('ArrowRight', move('right'), { dedupe: false });
+useKeyboardMovement(continent, render);
+useMouseMovement(continent, render);
 
 function render() {
   if (route.name === ('continent' satisfies GameScene)) {
@@ -149,64 +76,14 @@ function updateCoordsWithin() {
   const len = continent.coords_byte_length();
   const view = new DataView(memory.buffer, ptr, len);
 
-  const result: PublicFieldImpl[] = [];
+  const coords: CoordImpl[] = [];
   for (let i = 0; i < len; i += 4) {
     const x = view.getInt16(i, true);
     const y = view.getInt16(i + 2, true);
-    const coord = CoordImpl.create({ x, y });
-    result.push(getCachedField(coord));
+    coords.push(CoordImpl.create({ x, y }));
   }
 
-  bulkInit(result)
-    .then((counter) => counter && triggerFields())
-    .err();
-
-  fields.value = result;
-}
-
-function getCachedField(coord: CoordImpl) {
-  let field = cache.get(coord.id);
-  if (!field) {
-    field = PublicFieldImpl.create(coord);
-    cache.set(coord.id, field);
-  }
-
-  return field;
-}
-
-function move(dir: 'up' | 'down' | 'left' | 'right') {
-  return function(e: KeyboardEvent) {
-    const center = continent.center();
-    let x = center.x();
-    let y = center.y();
-
-    let delta = 1;
-    if (e.ctrlKey) delta = 5;
-    if (e.shiftKey) delta = 10;
-    if (e.ctrlKey && e.shiftKey) delta = 25;
-
-    if (dir === 'up' && y + delta <= continentSize.value) {
-      y += delta;
-    }
-    else if (dir === 'down' && y - delta >= 0) {
-      y -= delta;
-    }
-    else if (dir === 'left' && x - delta >= 0) {
-      x -= delta;
-    }
-    else if (dir === 'right' && x + delta <= continentSize.value) {
-      x += delta;
-    }
-
-    continent.set_center(new WasmCoord(x, y));
-
-    render();
-  };
-}
-
-function transformQuery(value: string) {
-  const coord = Math.trunc(Number.parseInt(value));
-  return Number.isFinite(coord) ? coord : null;
+  setCoords(coords);
 }
 </script>
 
