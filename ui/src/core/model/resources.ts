@@ -111,6 +111,15 @@ export class ResourcesImpl implements Resources {
   }
 
   public static zero() {
-    return ResourcesImpl.create();
+    return ResourcesImpl.splat(0);
+  }
+
+  public static splat(value: number) {
+    return ResourcesImpl.create({
+      food: value,
+      iron: value,
+      stone: value,
+      wood: value,
+    });
   }
 }

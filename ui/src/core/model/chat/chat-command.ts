@@ -5,6 +5,7 @@ import { go } from '@/router';
 import * as commands from '@/commands';
 import { leaveGame } from '@/core/game';
 import { saveGame } from '@/core/savedata';
+import { ResourcesImpl } from '../resources';
 import { isPlayerTurn } from '@/composables/player/usePlayerTurn';
 
 const enum ChatCommandKind {
@@ -22,6 +23,7 @@ const enum ChatCommandKind {
   Nsr = 'nsr',
   Prefecture = 'prefecture',
   Quarry = 'quarry',
+  Resources = 'resources',
   SaveGame = 'save-game',
   Sawmill = 'sawmill',
   Silo = 'silo',
@@ -49,6 +51,7 @@ const regex: RegexMap = {
   [ChatCommandKind.Nsr]: /^\$nsr$/i,
   [ChatCommandKind.Prefecture]: /^\$prefecture$/i,
   [ChatCommandKind.Quarry]: /^\$quarry$/i,
+  [ChatCommandKind.Resources]: /^\$res(?:\s(\d+))?/i,
   [ChatCommandKind.SaveGame]: /^\$save$/i,
   [ChatCommandKind.Sawmill]: /^\$sawmill$/i,
   [ChatCommandKind.Silo]: /^\$silo$/i,
@@ -143,6 +146,11 @@ export class ChatCommand {
       }
       case ChatCommandKind.Quarry: {
         await go('quarry');
+        break;
+      }
+      case ChatCommandKind.Resources: {
+        const amount = Number.parseInt(this.text);
+        await commands.cheatSetResources(ResourcesImpl.splat(amount));
         break;
       }
       case ChatCommandKind.SaveGame: {
