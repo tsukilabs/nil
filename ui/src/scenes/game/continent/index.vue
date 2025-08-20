@@ -12,18 +12,32 @@ import { Card, CardContent } from '@tb-dev/vue-components';
 import { memory } from 'nil-continent/nil_continent_bg.wasm';
 import { Continent, Coord as WasmCoord } from 'nil-continent';
 import { useBreakpoints } from '@/composables/util/useBreakpoints';
-import { usePublicFields } from '@/composables/continent/usePublicFields';
+import { PublicFieldImpl } from '@/core/model/continent/public-field';
 import { onMouseMovement } from '@/composables/continent/onMouseMovement';
 import { useDefaultCoords } from '@/composables/continent/useDefaultCoords';
 import { onKeyboardMovement } from '@/composables/continent/onKeyboardMovement';
-import { computed, nextTick, onBeforeMount, onMounted, onUnmounted, ref, useTemplateRef, watchEffect } from 'vue';
+import {
+  computed,
+  nextTick,
+  onBeforeMount,
+  onMounted,
+  onUnmounted,
+  ref,
+  shallowRef,
+  triggerRef,
+  useTemplateRef,
+  watchEffect,
+} from 'vue';
 
 const continent = new Continent();
 
-const { fields, setCoords, loadCoord } = usePublicFields();
-
 const route = useRoute();
 const defaultCoords = useDefaultCoords();
+
+const fields = shallowRef<PublicFieldImpl[]>([]);
+const cache = new Map<string, PublicFieldImpl>();
+const bulkInit = PublicFieldImpl.createBulkInitializer();
+const triggerFields = () => triggerRef(fields);
 
 const containerEl = useTemplateRef('container');
 const containerSize = useElementSize(containerEl);
@@ -32,7 +46,7 @@ const maxCols = ref(0);
 const maxRows = ref(0);
 
 const { sm } = useBreakpoints();
-const cellSize = computed(() => sm.value ? 50 : 25);
+const cellSize = computed(() => sm.value ? 50 : 30);
 
 const cols = computed(() => {
   const values: [number, Option<number>][] = [];
@@ -99,6 +113,8 @@ onMounted(async () => {
 });
 
 onUnmounted(() => {
+  fields.value = [];
+  cache.clear();
   continent.free();
 });
 
@@ -130,6 +146,44 @@ function updateCoordsWithin() {
 
   setCoords(coords);
 }
+
+function setCoords(coords: CoordImpl[]) {
+  const values: PublicFieldImpl[] = [];
+  for (const coord of coords) {
+    let field = cache.get(coord.id);
+    if (!field) {
+      field = PublicFieldImpl.create(coord);
+      cache.set(coord.id, field);
+    }
+
+    values.push(field);
+  }
+
+  initFields(values).err();
+  fields.value = values;
+}
+
+async function initFields(values: PublicFieldImpl[]) {
+  if (await bulkInit(values) > 0) {
+    triggerFields();
+  }
+}
+
+async function loadCoord(coord: Coord) {
+  const field = fields.value.find((it) => it.coord.is(coord));
+  if (field && !field.isLoading()) {
+    // When loading begins, `PublicFieldImpl` modifies its flags to indicate that an update is taking place.
+    // Since Vue relies on these flags to detect changes (due to the use of `key` in the grid loop),
+    // we need to trigger the `fields` ref both before and after the update is completed.
+    //
+    // If the ref were only triggered at the end, Vue would not update the grid because the value
+    // of the flag would most likely have already reverted to its initial state by that time.
+    await field.load({
+      onBeforeLoad: triggerFields,
+      onLoad: triggerFields,
+    });
+  }
+}
 </script>
 
 <template>
@@ -138,17 +192,21 @@ function updateCoordsWithin() {
       <CardContent class="relative size-full overflow-hidden p-0 select-none">
         <div id="continent-container" ref="container" class="bg-card">
           <div id="continent-grid">
-            <Field v-for="field of fields" :key="`${field.id}-${field.flags}`" :field />
+            <Field
+              v-for="field of fields"
+              :key="`${field.id}-${field.flags}`"
+              :field
+            />
           </div>
         </div>
 
-        <div id="rule-horizontal" class="rule bg-accent font-nil text-lg">
+        <div id="rule-horizontal" class="rule bg-accent font-nil text-xs sm:text-lg">
           <div v-for="([idx, col]) of cols" :key="idx">
             <span v-if="typeof col === 'number'">{{ col }}</span>
           </div>
         </div>
 
-        <div id="rule-vertical" class="rule bg-accent font-nil text-lg">
+        <div id="rule-vertical" class="rule bg-accent font-nil text-xs sm:text-lg">
           <div v-for="([idx, row]) of rows" :key="idx">
             <span v-if="typeof row === 'number'">{{ row }}</span>
           </div>
