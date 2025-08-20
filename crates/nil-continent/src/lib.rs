@@ -26,8 +26,8 @@ impl Continent {
   }
 
   #[wasm_bindgen]
-  pub fn set_center(&mut self, coord: Coord) {
-    self.center = coord;
+  pub fn set_center(&mut self, x: i16, y: i16) {
+    self.center = Coord(x, y);
   }
 
   #[wasm_bindgen]

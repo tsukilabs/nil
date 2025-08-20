@@ -3,7 +3,7 @@
 
 import type { Fn } from '@tb-dev/utils';
 import { onKeyDown } from '@vueuse/core';
-import { type Continent, Coord as WasmCoord } from 'nil-continent';
+import type { Continent } from 'nil-continent';
 
 export function onKeyboardMovement(continent: Continent, render: Fn) {
   const { continentSize } = NIL.world.refs();
@@ -47,7 +47,7 @@ export function onKeyboardMovement(continent: Continent, render: Fn) {
       }
 
       if (x !== initialX || y !== initialY) {
-        continent.set_center(new WasmCoord(x, y));
+        continent.set_center(x, y);
         render();
       }
     };

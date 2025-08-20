@@ -4,8 +4,8 @@
 import { toRef } from 'vue';
 import { clamp } from 'es-toolkit';
 import type { Fn } from '@tb-dev/utils';
+import type { Continent } from 'nil-continent';
 import { tryOnScopeDispose, useEventListener } from '@vueuse/core';
-import { type Continent, Coord as WasmCoord } from 'nil-continent';
 
 export function onMouseMovement(
   container: MaybeNilRef<HTMLElement>,
@@ -68,7 +68,7 @@ export function onMouseMovement(
       const y = clamp(centerY + deltaY, 0, max);
 
       if (x !== centerX || y !== centerY) {
-        continent.set_center(new WasmCoord(x, y));
+        continent.set_center(x, y);
         render();
       }
     }

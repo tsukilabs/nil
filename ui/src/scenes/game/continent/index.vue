@@ -5,12 +5,12 @@
 import Field from './Field.vue';
 import { until } from '@vueuse/core';
 import { useRoute } from 'vue-router';
+import { Continent } from 'nil-continent';
 import { useElementSize } from '@tb-dev/vue';
 import { ListenerSet } from '@/lib/listener-set';
 import { CoordImpl } from '@/core/model/continent/coord';
 import { Card, CardContent } from '@tb-dev/vue-components';
 import { memory } from 'nil-continent/nil_continent_bg.wasm';
-import { Continent, Coord as WasmCoord } from 'nil-continent';
 import { useBreakpoints } from '@/composables/util/useBreakpoints';
 import { PublicFieldImpl } from '@/core/model/continent/public-field';
 import { onMouseMovement } from '@/composables/continent/onMouseMovement';
@@ -98,7 +98,7 @@ onBeforeMount(() => {
   const x = defaultCoords.value?.x;
   const y = defaultCoords.value?.y;
   if (typeof x === 'number' && typeof y === 'number') {
-    continent.set_center(new WasmCoord(x, y));
+    continent.set_center(x, y);
   }
 });
 
