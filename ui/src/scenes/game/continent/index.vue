@@ -13,7 +13,6 @@ import { Card, CardContent } from '@tb-dev/vue-components';
 import { memory } from 'nil-continent/nil_continent_bg.wasm';
 import { useBreakpoints } from '@/composables/util/useBreakpoints';
 import { PublicFieldImpl } from '@/core/model/continent/public-field';
-import { onMouseMovement } from '@/composables/continent/onMouseMovement';
 import { useDefaultCoords } from '@/composables/continent/useDefaultCoords';
 import { onKeyboardMovement } from '@/composables/continent/onKeyboardMovement';
 import {
@@ -119,7 +118,6 @@ onUnmounted(() => {
 });
 
 onKeyboardMovement(continent, render);
-onMouseMovement(containerEl, continent, render);
 
 function render() {
   if (route.name === ('continent' satisfies GameScene)) {
@@ -226,12 +224,15 @@ async function loadCoord(coord: Coord) {
   left: v-bind("`${cellSize}px`");
   z-index: 10;
   overflow: hidden;
+  user-select: none;
+  touch-action: none;
 }
 
 #continent-grid {
   display: grid;
   grid-template-rows: v-bind("`repeat(${maxRows}, ${cellSize}px)`");
   grid-template-columns: v-bind("`repeat(${maxCols}, ${cellSize}px)`");
+  user-select: none;
 }
 
 #continent-background {
@@ -247,6 +248,7 @@ async function loadCoord(coord: Coord) {
   align-items: center;
   z-index: 5;
   overflow: hidden;
+  user-select: none;
 }
 
 .rule > div {
