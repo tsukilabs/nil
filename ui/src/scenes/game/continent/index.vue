@@ -3,17 +3,19 @@
 
 <script setup lang="ts">
 import Field from './Field.vue';
+import { until } from '@vueuse/core';
 import { useRoute } from 'vue-router';
-import type { Option } from '@tb-dev/utils';
+import { Continent } from 'nil-continent';
+import Navigation from './Navigation.vue';
 import { useElementSize } from '@tb-dev/vue';
-import { useRouteQuery } from '@vueuse/router';
-import { onKeyDown, until } from '@vueuse/core';
 import { ListenerSet } from '@/lib/listener-set';
 import { CoordImpl } from '@/core/model/continent/coord';
 import { Card, CardContent } from '@tb-dev/vue-components';
 import { memory } from 'nil-continent/nil_continent_bg.wasm';
-import { Continent, Coord as WasmCoord } from 'nil-continent';
+import { useBreakpoints } from '@/composables/util/useBreakpoints';
 import { PublicFieldImpl } from '@/core/model/continent/public-field';
+import { useDefaultCoords } from '@/composables/continent/useDefaultCoords';
+import { type Direction, onKeyboardMovement } from '@/composables/continent/onKeyboardMovement';
 import {
   computed,
   nextTick,
@@ -27,10 +29,10 @@ import {
   watchEffect,
 } from 'vue';
 
-const route = useRoute();
-const { coord: currentCoord } = NIL.city.refs();
-
 const continent = new Continent();
+
+const route = useRoute();
+const defaultCoords = useDefaultCoords();
 const { continentSize } = NIL.world.refs();
 
 const fields = shallowRef<PublicFieldImpl[]>([]);
@@ -38,18 +40,18 @@ const cache = new Map<string, PublicFieldImpl>();
 const bulkInit = PublicFieldImpl.createBulkInitializer();
 const triggerFields = () => triggerRef(fields);
 
-const queryX = useRouteQuery('x', null, { transform: transformQuery });
-const queryY = useRouteQuery('y', null, { transform: transformQuery });
-
 const containerEl = useTemplateRef('container');
 const containerSize = useElementSize(containerEl);
 
-const gridCols = ref(0);
-const gridRows = ref(0);
+const maxCols = ref(0);
+const maxRows = ref(0);
+
+const { sm } = useBreakpoints();
+const cellSize = computed(() => sm.value ? 50 : 30);
 
 const cols = computed(() => {
   const values: [number, Option<number>][] = [];
-  for (let col = 0; col < gridCols.value; col++) {
+  for (let col = 0; col < maxCols.value; col++) {
     const field = fields.value.at(col);
     if (field && !field.isXOutside()) {
       values.push([col, field.x]);
@@ -64,8 +66,8 @@ const cols = computed(() => {
 
 const rows = computed(() => {
   const values: [number, Option<number>][] = [];
-  for (let row = 0; row < gridRows.value; row++) {
-    const field = fields.value.at(row * gridCols.value);
+  for (let row = 0; row < maxRows.value; row++) {
+    const field = fields.value.at(row * maxCols.value);
     if (field && !field.isYOutside()) {
       values.push([row, field.y]);
     }
@@ -78,7 +80,96 @@ const rows = computed(() => {
 });
 
 const listener = new ListenerSet();
-listener.event.onPublicCityUpdated(async ({ coord }) => {
+listener.event.onPublicCityUpdated(({ coord }) => loadCoord(coord));
+
+watchEffect(() => {
+  const width = containerSize.width.value;
+  const height = containerSize.height.value;
+  continent.set_container_size(width, height);
+  continent.set_cell_size(cellSize.value);
+
+  void nextTick(() => {
+    maxCols.value = continent.max_cols();
+    maxRows.value = continent.max_rows();
+    render();
+  });
+});
+
+onBeforeMount(() => {
+  const x = defaultCoords.value?.x;
+  const y = defaultCoords.value?.y;
+  if (typeof x === 'number' && typeof y === 'number') {
+    continent.set_center(x, y);
+  }
+});
+
+onMounted(async () => {
+  await until(containerEl).toBeTruthy();
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(updateCoordsWithin);
+  }
+  else {
+    updateCoordsWithin();
+  }
+});
+
+onUnmounted(() => {
+  fields.value = [];
+  cache.clear();
+  continent.free();
+});
+
+onKeyboardMovement(move);
+
+function render() {
+  if (route.name === ('continent' satisfies GameScene)) {
+    if ('requestAnimationFrame' in window) {
+      requestAnimationFrame(updateCoordsWithin);
+    }
+    else {
+      updateCoordsWithin();
+    }
+  }
+}
+
+function updateCoordsWithin() {
+  const ptr = continent.update_coords_within();
+  const len = continent.coords_byte_length();
+  const view = new DataView(memory.buffer, ptr, len);
+
+  const coords: CoordImpl[] = [];
+  for (let i = 0; i < len; i += 4) {
+    const x = view.getInt16(i, true);
+    const y = view.getInt16(i + 2, true);
+    coords.push(CoordImpl.create({ x, y }));
+  }
+
+  setCoords(coords);
+}
+
+function setCoords(coords: CoordImpl[]) {
+  const values: PublicFieldImpl[] = [];
+  for (const coord of coords) {
+    let field = cache.get(coord.id);
+    if (!field) {
+      field = PublicFieldImpl.create(coord);
+      cache.set(coord.id, field);
+    }
+
+    values.push(field);
+  }
+
+  initFields(values).err();
+  fields.value = values;
+}
+
+async function initFields(values: PublicFieldImpl[]) {
+  if (await bulkInit(values) > 0) {
+    triggerFields();
+  }
+}
+
+async function loadCoord(coord: Coord) {
   const field = fields.value.find((it) => it.coord.is(coord));
   if (field && !field.isLoading()) {
     // When loading begins, `PublicFieldImpl` modifies its flags to indicate that an update is taking place.
@@ -92,121 +183,39 @@ listener.event.onPublicCityUpdated(async ({ coord }) => {
       onLoad: triggerFields,
     });
   }
-});
+}
 
-watchEffect(() => {
-  const width = containerSize.width.value;
-  const height = containerSize.height.value;
-  continent.set_container_size(width, height);
+function move(direction: Direction, delta: number) {
+  const center = continent.center();
+  const initialX = center.x();
+  const initialY = center.y();
 
-  void nextTick(() => {
-    gridCols.value = continent.grid_cols();
-    gridRows.value = continent.grid_rows();
+  let x = initialX;
+  let y = initialY;
+
+  switch (direction) {
+    case 'up': {
+      y = Math.min(y + delta, continentSize.value - 1);
+      break;
+    }
+    case 'down': {
+      y = Math.max(y - delta, 0);
+      break;
+    }
+    case 'left': {
+      x = Math.max(x - delta, 0);
+      break;
+    }
+    case 'right': {
+      x = Math.min(x + delta, continentSize.value - 1);
+      break;
+    }
+  }
+
+  if (x !== initialX || y !== initialY) {
+    continent.set_center(x, y);
     render();
-  });
-});
-
-onBeforeMount(() => {
-  const size = continentSize.value;
-  const isValid = (coord: Option<number>): coord is number => {
-    return typeof coord === 'number' &&
-      Number.isInteger(coord) &&
-      coord >= 0 &&
-      coord < size;
-  };
-
-  const x = isValid(queryX.value) ? queryX.value : currentCoord.value?.x;
-  const y = isValid(queryY.value) ? queryY.value : currentCoord.value?.y;
-
-  if (typeof x === 'number' && typeof y === 'number') {
-    continent.set_center(new WasmCoord(x, y));
   }
-});
-
-onMounted(async () => {
-  await until(containerEl).toBeTruthy();
-  requestIdleCallback(updateCoordsWithin);
-});
-
-onUnmounted(() => {
-  cache.clear();
-  continent.free();
-});
-
-onKeyDown('ArrowUp', move('up'), { dedupe: false });
-onKeyDown('ArrowDown', move('down'), { dedupe: false });
-onKeyDown('ArrowLeft', move('left'), { dedupe: false });
-onKeyDown('ArrowRight', move('right'), { dedupe: false });
-
-function render() {
-  if (route.name === ('continent' satisfies GameScene)) {
-    requestAnimationFrame(updateCoordsWithin);
-  }
-}
-
-function updateCoordsWithin() {
-  const ptr = continent.update_coords_within();
-  const len = continent.coords_byte_length();
-  const view = new DataView(memory.buffer, ptr, len);
-
-  const result: PublicFieldImpl[] = [];
-  for (let i = 0; i < len; i += 4) {
-    const x = view.getInt16(i, true);
-    const y = view.getInt16(i + 2, true);
-    const coord = CoordImpl.create({ x, y });
-    result.push(getCachedField(coord));
-  }
-
-  bulkInit(result)
-    .then((counter) => counter && triggerFields())
-    .err();
-
-  fields.value = result;
-}
-
-function getCachedField(coord: CoordImpl) {
-  let field = cache.get(coord.id);
-  if (!field) {
-    field = PublicFieldImpl.create(coord);
-    cache.set(coord.id, field);
-  }
-
-  return field;
-}
-
-function move(dir: 'up' | 'down' | 'left' | 'right') {
-  return function(e: KeyboardEvent) {
-    const center = continent.center();
-    let x = center.x();
-    let y = center.y();
-
-    let delta = 1;
-    if (e.ctrlKey) delta = 5;
-    if (e.shiftKey) delta = 10;
-    if (e.ctrlKey && e.shiftKey) delta = 25;
-
-    if (dir === 'up' && y + delta <= continentSize.value) {
-      y += delta;
-    }
-    else if (dir === 'down' && y - delta >= 0) {
-      y -= delta;
-    }
-    else if (dir === 'left' && x - delta >= 0) {
-      x -= delta;
-    }
-    else if (dir === 'right' && x + delta <= continentSize.value) {
-      x += delta;
-    }
-
-    continent.set_center(new WasmCoord(x, y));
-
-    render();
-  };
-}
-
-function transformQuery(value: string) {
-  const coord = Math.trunc(Number.parseInt(value));
-  return Number.isFinite(coord) ? coord : null;
 }
 </script>
 
@@ -214,41 +223,63 @@ function transformQuery(value: string) {
   <div class="game-layout">
     <Card class="size-full overflow-hidden p-0">
       <CardContent class="relative size-full overflow-hidden p-0 select-none">
-        <div
-          ref="container"
-          class="bg-card absolute inset-0 bottom-[50px] left-[50px] z-10 overflow-hidden"
-        >
+        <div id="continent-container" ref="container" class="bg-card">
+          <Navigation
+            :cell-size
+            :interval="50"
+            @up="() => move('up', 1)"
+            @right="() => move('right', 1)"
+            @down="() => move('down', 1)"
+            @left="() => move('left', 1)"
+          />
+
           <div id="continent-grid">
-            <Field v-for="field of fields" :key="`${field.id}-${field.flags}`" :field />
+            <Field
+              v-for="field of fields"
+              :key="`${field.id}-${field.flags}`"
+              :field
+            />
           </div>
         </div>
 
-        <div id="rule-horizontal" class="rule bg-accent font-nil text-lg">
+        <div id="rule-horizontal" class="rule bg-accent font-nil text-xs sm:text-lg">
           <div v-for="([idx, col]) of cols" :key="idx">
             <span v-if="typeof col === 'number'">{{ col }}</span>
           </div>
         </div>
 
-        <div id="rule-vertical" class="rule bg-accent font-nil text-lg">
+        <div id="rule-vertical" class="rule bg-accent font-nil text-xs sm:text-lg">
           <div v-for="([idx, row]) of rows" :key="idx">
             <span v-if="typeof row === 'number'">{{ row }}</span>
           </div>
         </div>
 
-        <div id="container-fill" class="bg-accent"></div>
+        <div id="continent-background" class="bg-accent"></div>
       </CardContent>
     </Card>
   </div>
 </template>
 
 <style scoped>
-#continent-grid {
-  display: grid;
-  grid-template-rows: v-bind("`repeat(${gridRows}, 50px)`");
-  grid-template-columns: v-bind("`repeat(${gridCols}, 50px)`");
+#continent-container {
+  position: absolute;
+  inset: 0;
+  bottom: v-bind("`${cellSize}px`");
+  left: v-bind("`${cellSize}px`");
+  z-index: 10;
+  overflow: hidden;
+  user-select: none;
+  touch-action: none;
 }
 
-#container-fill {
+#continent-grid {
+  display: grid;
+  grid-template-rows: v-bind("`repeat(${maxRows}, ${cellSize}px)`");
+  grid-template-columns: v-bind("`repeat(${maxCols}, ${cellSize}px)`");
+  user-select: none;
+}
+
+#continent-background {
   position: absolute;
   z-index: 0;
   inset: 0;
@@ -261,6 +292,7 @@ function transformQuery(value: string) {
   align-items: center;
   z-index: 5;
   overflow: hidden;
+  user-select: none;
 }
 
 .rule > div {
@@ -269,15 +301,15 @@ function transformQuery(value: string) {
 
 #rule-horizontal {
   bottom: 0;
-  left: 50px;
-  grid-template-columns: v-bind("`repeat(${gridCols}, 50px)`");
-  height: 50px;
+  left: v-bind("`${cellSize}px`");
+  grid-template-columns: v-bind("`repeat(${maxCols}, ${cellSize}px)`");
+  height: v-bind("`${cellSize}px`");
 }
 
 #rule-vertical {
   top: 0;
-  bottom: 50px;
-  grid-template-rows: v-bind("`repeat(${gridRows}, 50px)`");
-  width: 50px;
+  bottom: v-bind("`${cellSize}px`");
+  grid-template-rows: v-bind("`repeat(${maxRows}, ${cellSize}px)`");
+  width: v-bind("`${cellSize}px`");
 }
 </style>

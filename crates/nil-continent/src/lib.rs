@@ -26,17 +26,17 @@ impl Continent {
   }
 
   #[wasm_bindgen]
-  pub fn set_center(&mut self, coord: Coord) {
-    self.center = coord;
+  pub fn set_center(&mut self, x: i16, y: i16) {
+    self.center = Coord(x, y);
   }
 
   #[wasm_bindgen]
-  pub fn grid_cols(&self) -> u32 {
+  pub fn max_cols(&self) -> u32 {
     self.container.cols()
   }
 
   #[wasm_bindgen]
-  pub fn grid_rows(&self) -> u32 {
+  pub fn max_rows(&self) -> u32 {
     self.container.rows()
   }
 
@@ -44,6 +44,11 @@ impl Continent {
   pub fn set_container_size(&mut self, width: u32, height: u32) {
     self.container.width = width;
     self.container.height = height;
+  }
+
+  #[wasm_bindgen]
+  pub fn set_cell_size(&mut self, size: u32) {
+    self.container.cell_size = size;
   }
 
   #[wasm_bindgen]
@@ -75,19 +80,17 @@ impl Continent {
   }
 }
 
-#[derive(Default)]
 pub struct Container {
   width: u32,
   height: u32,
+  cell_size: u32,
 }
 
 impl Container {
-  const CELL_SIZE: u32 = 50;
-
   fn cols(&self) -> u32 {
     self
       .width
-      .div_ceil(Self::CELL_SIZE)
+      .div_ceil(self.cell_size)
       .next_multiple_of(2)
       .saturating_add(1)
   }
@@ -95,9 +98,15 @@ impl Container {
   fn rows(&self) -> u32 {
     self
       .height
-      .div_ceil(Self::CELL_SIZE)
+      .div_ceil(self.cell_size)
       .next_multiple_of(2)
       .saturating_add(1)
+  }
+}
+
+impl Default for Container {
+  fn default() -> Self {
+    Self { width: 0, height: 0, cell_size: 50 }
   }
 }
 
