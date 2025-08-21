@@ -7,7 +7,6 @@ import { CityEntity } from './city';
 import { RoundEntity } from './round';
 import { WorldEntity } from './world';
 import { PlayerEntity } from './player';
-import { RankingEntity } from './ranking';
 import { MilitaryEntity } from './military';
 
 export function initEntities() {
@@ -30,5 +29,4 @@ export function initEntities() {
   PlayerEntity.init();
   CityEntity.init();
   MilitaryEntity.init();
-  RankingEntity.init();
 }

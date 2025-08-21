@@ -3,6 +3,9 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
+import { asyncRef } from '@tb-dev/vue';
+import Loading from '@/components/Loading.vue';
+import { RankingImpl } from '@/core/model/ranking/ranking';
 import {
   Card,
   CardContent,
@@ -18,7 +21,7 @@ import {
 
 const { t } = useI18n();
 
-const { ranking } = NIL.ranking.refs();
+const { state: ranking, isLoading } = asyncRef(null, () => RankingImpl.load());
 </script>
 
 <template>
@@ -31,7 +34,8 @@ const { ranking } = NIL.ranking.refs();
       </CardHeader>
 
       <CardContent class="relative size-full overflow-auto px-2 py-0">
-        <Table>
+        <Loading v-if="isLoading" />
+        <Table v-else-if="ranking">
           <TableHeader>
             <TableRow class="hover:bg-card">
               <TableHead>{{ t('rank') }}</TableHead>
