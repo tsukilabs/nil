@@ -5,7 +5,7 @@ import { computed } from 'vue';
 import { useRouteQuery } from '@vueuse/router';
 import { CoordImpl, isOutside } from '@/core/model/continent/coord';
 
-export function useDefaultCoords() {
+export function useQueryCoords() {
   const { coord: currentCoord } = NIL.city.refs();
   const qX = useRouteQuery('x', null, { transform });
   const qY = useRouteQuery('y', null, { transform });

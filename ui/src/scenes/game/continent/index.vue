@@ -14,7 +14,7 @@ import { Card, CardContent } from '@tb-dev/vue-components';
 import { memory } from 'nil-continent/nil_continent_bg.wasm';
 import { useBreakpoints } from '@/composables/util/useBreakpoints';
 import { PublicFieldImpl } from '@/core/model/continent/public-field';
-import { useDefaultCoords } from '@/composables/continent/useDefaultCoords';
+import { useQueryCoords } from '@/composables/continent/useDefaultCoords';
 import { type Direction, onKeyboardMovement } from '@/composables/continent/onKeyboardMovement';
 import {
   computed,
@@ -32,7 +32,7 @@ import {
 const continent = new Continent();
 
 const route = useRoute();
-const defaultCoords = useDefaultCoords();
+const queryCoords = useQueryCoords();
 const { continentSize } = NIL.world.refs();
 
 const fields = shallowRef<PublicFieldImpl[]>([]);
@@ -96,8 +96,8 @@ watchEffect(() => {
 });
 
 onBeforeMount(() => {
-  const x = defaultCoords.value?.x;
-  const y = defaultCoords.value?.y;
+  const x = queryCoords.value?.x;
+  const y = queryCoords.value?.y;
   if (typeof x === 'number' && typeof y === 'number') {
     continent.set_center(x, y);
   }
