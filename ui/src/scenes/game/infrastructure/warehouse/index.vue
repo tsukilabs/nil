@@ -7,7 +7,7 @@ import { formatInt } from '@/lib/intl';
 import { useWarehouse } from '@/composables/infrastructure/useBuilding';
 import enUS from '@/locale/en-US/scenes/game/infrastructure/storage.json';
 import ptBR from '@/locale/pt-BR/scenes/game/infrastructure/storage.json';
-import { useStorageCapacity } from '@/composables/infrastructure/useStorageCapacity';
+import { useStorageStats } from '@/composables/infrastructure/useStorageStats';
 import {
   Card,
   CardContent,
@@ -30,7 +30,7 @@ const { t } = useI18n({
 });
 
 const warehouse = useWarehouse();
-const { level, capacity } = useStorageCapacity(warehouse);
+const { level, stats } = useStorageStats(warehouse);
 </script>
 
 <template>
@@ -43,7 +43,7 @@ const { level, capacity } = useStorageCapacity(warehouse);
       </CardHeader>
 
       <CardContent class="px-2 py-0">
-        <Table>
+        <Table v-if="stats.current">
           <TableHeader>
             <TableRow class="bg-card hover:bg-card">
               <TableHead></TableHead>
@@ -57,16 +57,16 @@ const { level, capacity } = useStorageCapacity(warehouse);
                 <span>{{ t('current-capacity') }}</span>
               </TableCell>
               <TableCell>
-                <span>{{ formatInt(capacity.current) }}</span>
+                <span>{{ formatInt(stats.current.capacity) }}</span>
               </TableCell>
             </TableRow>
 
-            <TableRow v-if="!level.isMax">
+            <TableRow v-if="stats.next && !level.isMax">
               <TableCell class="w-72">
                 <span>{{ t('capacity-on-level-x', [level.next]) }}</span>
               </TableCell>
               <TableCell>
-                <span>{{ formatInt(capacity.next) }}</span>
+                <span>{{ formatInt(stats.next.capacity) }}</span>
               </TableCell>
             </TableRow>
           </TableBody>
