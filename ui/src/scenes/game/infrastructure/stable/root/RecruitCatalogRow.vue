@@ -72,9 +72,9 @@ const { sm } = useBreakpoints();
       <template v-else>
         <div class="flex flex-col gap-2 py-2">
           <CostGrid
-            :resources="entry.recipe.resources"
-            :maintenance="entry.recipe.maintenance"
-            :workforce="entry.recipe.workforce"
+            :resources
+            :maintenance
+            :workforce
             :limit="playerResources"
           />
           <RecruitCatalogRowAction

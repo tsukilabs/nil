@@ -2,6 +2,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
+import { go } from '@/router';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import { MenuIcon } from 'lucide-vue-next';
@@ -35,15 +36,24 @@ function getButtonVariant(scene: PrefectureScene): ButtonVariant {
 
 <template>
   <div v-if="md" class="grid grid-cols-2 gap-2">
-    <Button size="sm" :variant="getButtonVariant('prefecture')">
-      <RouterLink :to="{ name: 'prefecture' satisfies PrefectureScene }">
-        {{ t('construction') }}
-      </RouterLink>
+    <Button
+      size="sm"
+      :variant="getButtonVariant('prefecture')"
+      role="link"
+      tabindex="0"
+      @click="() => go('prefecture')"
+    >
+      <span>{{ t('construction') }}</span>
     </Button>
-    <Button size="sm" :variant="getButtonVariant('prefecture-settings')">
-      <RouterLink :to="{ name: 'prefecture-settings' satisfies PrefectureScene }">
-        {{ t('settings') }}
-      </RouterLink>
+
+    <Button
+      size="sm"
+      :variant="getButtonVariant('prefecture-settings')"
+      role="link"
+      tabindex="0"
+      @click="() => go('prefecture-settings')"
+    >
+      <span>{{ t('settings') }}</span>
     </Button>
   </div>
 

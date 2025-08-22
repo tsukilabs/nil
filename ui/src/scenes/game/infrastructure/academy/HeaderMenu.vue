@@ -2,6 +2,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
+import { go } from '@/router';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import { MenuIcon } from 'lucide-vue-next';
@@ -28,15 +29,24 @@ function getButtonVariant(scene: AcademyScene): ButtonVariant {
 
 <template>
   <div v-if="md" class="grid grid-cols-2 gap-2">
-    <Button size="sm" :variant="getButtonVariant('academy')">
-      <RouterLink :to="{ name: 'academy' satisfies AcademyScene }">
-        {{ t('construction') }}
-      </RouterLink>
+    <Button
+      size="sm"
+      :variant="getButtonVariant('academy')"
+      role="link"
+      tabindex="0"
+      @click="() => go('academy')"
+    >
+      <span>{{ t('construction') }}</span>
     </Button>
-    <Button size="sm" :variant="getButtonVariant('academy-settings')">
-      <RouterLink :to="{ name: 'academy-settings' satisfies AcademyScene }">
-        {{ t('settings') }}
-      </RouterLink>
+
+    <Button
+      size="sm"
+      :variant="getButtonVariant('academy-settings')"
+      role="link"
+      tabindex="0"
+      @click="() => go('academy-settings')"
+    >
+      <span>{{ t('settings') }}</span>
     </Button>
   </div>
 

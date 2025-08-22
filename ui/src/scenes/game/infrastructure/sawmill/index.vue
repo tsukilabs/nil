@@ -6,7 +6,7 @@ import { useI18n } from 'vue-i18n';
 import { useSawmill } from '@/composables/infrastructure/useBuilding';
 import enUS from '@/locale/en-US/scenes/game/infrastructure/mine.json';
 import ptBR from '@/locale/pt-BR/scenes/game/infrastructure/mine.json';
-import { useMineProduction } from '@/composables/infrastructure/useMineProduction';
+import { useMineStats } from '@/composables/infrastructure/useMineStats';
 import {
   Card,
   CardContent,
@@ -29,11 +29,11 @@ const { t } = useI18n({
 });
 
 const sawmill = useSawmill();
-const { level, actual, base, stabilityLoss } = useMineProduction(sawmill);
+const { level, stats, actual, base, stabilityLoss } = useMineStats(sawmill);
 </script>
 
 <template>
-  <div class="game-layout flex-col">
+  <div class="game-layout">
     <Card v-if="sawmill" class="w-full">
       <CardHeader>
         <CardTitle>
@@ -47,7 +47,9 @@ const { level, actual, base, stabilityLoss } = useMineProduction(sawmill);
             <TableRow class="bg-card hover:bg-card">
               <TableHead />
               <TableHead>{{ t('current-level') }}</TableHead>
-              <TableHead v-if="!level.isMax">{{ t('next-level') }}</TableHead>
+              <TableHead v-if="stats.next && !level.isMax">
+                {{ t('next-level') }}
+              </TableHead>
             </TableRow>
           </TableHeader>
 
@@ -57,7 +59,7 @@ const { level, actual, base, stabilityLoss } = useMineProduction(sawmill);
               <TableCell>
                 <Wood :amount="base.current" />
               </TableCell>
-              <TableCell v-if="!level.isMax">
+              <TableCell v-if="stats.next && !level.isMax">
                 <Wood :amount="base.next" />
               </TableCell>
             </TableRow>
@@ -67,7 +69,7 @@ const { level, actual, base, stabilityLoss } = useMineProduction(sawmill);
               <TableCell>
                 <Wood :amount="stabilityLoss.current" />
               </TableCell>
-              <TableCell v-if="!level.isMax">
+              <TableCell v-if="stats.next && !level.isMax">
                 <Wood :amount="stabilityLoss.next" />
               </TableCell>
             </TableRow>
@@ -77,7 +79,7 @@ const { level, actual, base, stabilityLoss } = useMineProduction(sawmill);
               <TableCell>
                 <Wood :amount="actual.current" />
               </TableCell>
-              <TableCell v-if="!level.isMax">
+              <TableCell v-if="stats.next && !level.isMax">
                 <Wood :amount="actual.next" />
               </TableCell>
             </TableRow>
@@ -85,7 +87,7 @@ const { level, actual, base, stabilityLoss } = useMineProduction(sawmill);
 
           <TableFooter>
             <TableRow class="bg-card hover:bg-card">
-              <TableCell :colspan="level.isMax ? 2 : 3">
+              <TableCell :colspan="!stats.next || level.isMax ? 2 : 3">
                 <div class="flex w-full items-center justify-end gap-2 px-2 pt-4">
                   <div>{{ `${t('maintenance')}:` }}</div>
                   <Food :amount="sawmill.getMaintenance()" />

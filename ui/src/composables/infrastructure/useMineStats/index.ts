@@ -6,15 +6,22 @@ import { computed, type Ref, toRef } from 'vue';
 import type { MineImpl } from '@/core/model/infrastructure/building/abstract';
 import { useBuildingLevel } from '@/composables/infrastructure/useBuildingLevel';
 
-export function useMineProduction(mine: MaybeNilRef<MineImpl>) {
+export function useMineStats(mine: MaybeNilRef<MineImpl>) {
   const { city } = NIL.city.refs();
   const mineRef = toRef(mine) as Ref<Option<MineImpl>>;
   const level = useBuildingLevel(mineRef);
 
+  const stats = computed(() => {
+    return {
+      current: mineRef.value?.getMineStats(),
+      next: mineRef.value?.getMineStatsBy(level.value.next),
+    };
+  });
+
   const base = computed(() => {
     return {
-      current: mineRef.value?.getProduction() ?? 0,
-      next: mineRef.value?.getProductionBy(level.value.next) ?? 0,
+      current: stats.value.current?.production ?? 0,
+      next: stats.value.next?.production ?? 0,
     };
   });
 
@@ -29,8 +36,11 @@ export function useMineProduction(mine: MaybeNilRef<MineImpl>) {
   const actual = computed(() => {
     const current = Math.ceil(base.value.current - stabilityLoss.value.current);
     const next = Math.ceil(base.value.next - stabilityLoss.value.next);
-    return { current: Math.max(current, 0), next: Math.max(next, 0) };
+    return {
+      current: Math.max(current, 0),
+      next: Math.max(next, 0),
+    };
   });
 
-  return { level, base, stabilityLoss, actual };
+  return { level, stats, base, stabilityLoss, actual };
 }

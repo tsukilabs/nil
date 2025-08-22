@@ -5,16 +5,16 @@ import { computed, type Ref, toRef } from 'vue';
 import type { StorageImpl } from '@/core/model/infrastructure/building/abstract';
 import { useBuildingLevel } from '@/composables/infrastructure/useBuildingLevel';
 
-export function useStorageCapacity(storage: MaybeNilRef<StorageImpl>) {
+export function useStorageStats(storage: MaybeNilRef<StorageImpl>) {
   const storageRef = toRef(storage) as Ref<Option<StorageImpl>>;
   const level = useBuildingLevel(storageRef);
 
-  const capacity = computed(() => {
+  const stats = computed(() => {
     return {
-      current: storageRef.value?.getCapacity() ?? 0,
-      next: storageRef.value?.getCapacityBy(level.value.next) ?? 0,
+      current: storageRef.value?.getStorageStats(),
+      next: storageRef.value?.getStorageStatsBy(level.value.next),
     };
   });
 
-  return { level, capacity };
+  return { level, stats };
 }

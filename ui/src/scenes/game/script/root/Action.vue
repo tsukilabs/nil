@@ -2,6 +2,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
+import { go } from '@/router';
 import { useI18n } from 'vue-i18n';
 import { useToggle } from '@vueuse/core';
 import ScriptDialog from './ScriptDialog.vue';
@@ -62,46 +63,81 @@ async function share() {
 <template>
   <div v-if="lg" class="grid gap-2" :class="desktop ? 'grid-cols-6' : 'grid-cols-5'">
     <ActionTooltip :label="t('execute')">
-      <Button variant="ghost" size="icon" :disabled="loading || !current?.id" @click="onExecute">
+      <Button
+        variant="ghost"
+        size="icon"
+        :disabled="loading || !current?.id"
+        @click="onExecute"
+      >
         <PlayIcon stroke-width="1.5px" />
       </Button>
     </ActionTooltip>
 
     <ActionTooltip :label="t('save')">
-      <Button variant="ghost" size="icon" :disabled="loading || !current" @click="onSave">
+      <Button
+        variant="ghost"
+        size="icon"
+        :disabled="loading || !current"
+        @click="onSave"
+      >
         <SaveIcon stroke-width="1.5px" />
       </Button>
     </ActionTooltip>
 
     <ActionTooltip :label="t('remove')">
-      <Button variant="ghost" size="icon" :disabled="loading || !current" @click="onRemove">
+      <Button
+        variant="ghost"
+        size="icon"
+        :disabled="loading || !current"
+        @click="onRemove"
+      >
         <Trash2Icon stroke-width="1.5px" />
       </Button>
     </ActionTooltip>
 
     <ActionTooltip v-if="desktop" :label="t('import')">
-      <Button variant="ghost" size="icon" :disabled="loading" @click="onImport">
+      <Button
+        variant="ghost"
+        size="icon"
+        :disabled="loading"
+        @click="onImport"
+      >
         <FileDownIcon stroke-width="1.5px" />
       </Button>
     </ActionTooltip>
 
     <ActionTooltip v-if="desktop" :label="t('export')">
-      <Button variant="ghost" size="icon" :disabled="loading || !current" @click="onExport">
+      <Button
+        variant="ghost"
+        size="icon"
+        :disabled="loading || !current"
+        @click="onExport"
+      >
         <FileUpIcon stroke-width="1.5px" />
       </Button>
     </ActionTooltip>
 
     <ActionTooltip v-if="mobile" :label="t('share')">
-      <Button variant="ghost" size="icon" :disabled="loading || !current?.code" @click="share">
+      <Button
+        variant="ghost"
+        size="icon"
+        :disabled="loading || !current?.code"
+        @click="share"
+      >
         <Share2Icon stroke-width="1.5px" />
       </Button>
     </ActionTooltip>
 
     <ActionTooltip :label="t('registry')">
-      <Button variant="ghost" size="icon" :disabled="loading">
-        <RouterLink :to="{ name: 'nsr' satisfies ScriptScene }">
-          <GlobeIcon stroke-width="1.5px" />
-        </RouterLink>
+      <Button
+        variant="ghost"
+        size="icon"
+        :disabled="loading"
+        role="link"
+        tabindex="0"
+        @click="() => go('nsr')"
+      >
+        <GlobeIcon stroke-width="1.5px" />
       </Button>
     </ActionTooltip>
   </div>

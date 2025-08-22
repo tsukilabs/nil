@@ -6,6 +6,7 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import RecruitCatalogRow from './RecruitCatalogRow.vue';
 import { usePlayerTurn } from '@/composables/player/usePlayerTurn';
+import { useBreakpoints } from '@/composables/util/useBreakpoints';
 import { usePlayerResources } from '@/composables/player/usePlayerResources';
 import type { StableImpl } from '@/core/model/infrastructure/building/stable/stable';
 import { Table, TableBody, TableHead, TableHeader, TableRow } from '@tb-dev/vue-components';
@@ -25,6 +26,8 @@ const playerResources = usePlayerResources();
 const hasSomeAvailable = computed(() => {
   return Object.values(props.catalog).some((it) => it.kind === 'available');
 });
+
+const { sm } = useBreakpoints();
 </script>
 
 <template>
@@ -37,13 +40,7 @@ const hasSomeAvailable = computed(() => {
         <TableHead v-if="hasSomeAvailable">
           <span>{{ t('cost') }}</span>
         </TableHead>
-        <TableHead v-if="hasSomeAvailable">
-          <span>{{ t('maintenance') }}</span>
-        </TableHead>
-        <TableHead v-if="hasSomeAvailable">
-          <span>{{ t('workforce') }}</span>
-        </TableHead>
-        <TableHead :colspan="hasSomeAvailable ? 1 : 4">
+        <TableHead v-if="sm" :colspan="hasSomeAvailable ? 1 : 2">
           <span></span>
         </TableHead>
       </TableRow>

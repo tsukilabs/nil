@@ -8,7 +8,7 @@ interface MineStats {
   readonly production: number;
 }
 
-type MineStatsTable = {
+interface MineStatsTable {
   readonly id: MineId;
   readonly table: ReadonlyMap<BuildingLevel, MineStats>;
-};
+}
