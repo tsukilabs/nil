@@ -18,6 +18,7 @@ interface InfrastructureStats {
   readonly building: ReadonlyMap<BuildingId, BuildingStatsTable>;
   readonly mine: ReadonlyMap<MineId, MineStatsTable>;
   readonly storage: ReadonlyMap<StorageId, StorageStatsTable>;
+  readonly wall: WallStatsTable;
 }
 
 type InfrastructureRequirements = {

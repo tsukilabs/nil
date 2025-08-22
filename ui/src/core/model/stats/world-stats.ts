@@ -24,6 +24,6 @@ export class WorldStatsImpl implements WorldStats {
   }
 }
 
-export interface RawWorldStats extends Omit<WorldStats, 'infrastructure'> {
-  infrastructure: RawInfrastructureStats;
+export interface RawWorldStats {
+  readonly infrastructure: RawInfrastructureStats;
 }

@@ -33,7 +33,7 @@ const { level, actual, base, stabilityLoss } = useMineProduction(ironMine);
 </script>
 
 <template>
-  <div class="game-layout flex-col">
+  <div class="game-layout">
     <Card v-if="ironMine" class="w-full">
       <CardHeader>
         <CardTitle>

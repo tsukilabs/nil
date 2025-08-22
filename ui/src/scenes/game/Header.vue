@@ -2,6 +2,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
+import { go } from '@/router';
 import Round from './Round.vue';
 import { Button, SidebarTrigger } from '@tb-dev/vue-components';
 import { useBreakpoints } from '@/composables/util/useBreakpoints';
@@ -21,14 +22,21 @@ const { sm } = useBreakpoints();
   <header class="flex items-center justify-between overflow-hidden">
     <div class="max-w-3/5 flex items-center gap-2">
       <SidebarTrigger />
-      <Button v-if="city" variant="ghost" class="py-2 text-base lg:text-lg">
-        <RouterLink :to="{ name: 'city' satisfies GameScene }" class="space-x-1">
+      <Button
+        v-if="city"
+        variant="ghost"
+        role="link"
+        tabindex="0"
+        class="py-2 text-base lg:text-lg"
+        @click="() => go('city')"
+      >
+        <div class="space-x-1">
           <template v-if="sm">
             <span>{{ city.name }}</span>
             <span>({{ city.coord.format() }})</span>
           </template>
           <span v-else>{{ city.coord.format() }}</span>
-        </RouterLink>
+        </div>
       </Button>
     </div>
 

@@ -110,8 +110,8 @@ importers:
         specifier: ^1.39.10
         version: 1.39.10
       lucide-vue-next:
-        specifier: ^0.540.0
-        version: 0.540.0(vue@3.5.19(typescript@5.9.2))
+        specifier: ^0.541.0
+        version: 0.541.0(vue@3.5.19(typescript@5.9.2))
       monaco-editor-core:
         specifier: ^0.52.2
         version: 0.52.2
@@ -3392,6 +3392,11 @@ packages:
 
   lucide-vue-next@0.540.0:
     resolution: {integrity: sha512-H7qhKVNKLyoFMo05pWcGSWBiLPiI3zJmWV65SuXWHlrIGIcvDer10xAyWcRJ0KLzIH5k5+yi7AGw/Xi1VF8Pbw==}
+    peerDependencies:
+      vue: '>=3.0.1'
+
+  lucide-vue-next@0.541.0:
+    resolution: {integrity: sha512-BXY//i7H0ojCDRmux7WzhTl2FiKVmE42fyaLuQOKBGaeBRLEGkkSgYMBxIk9ZjAKa+JELRmFVV1xAFUumB89QA==}
     peerDependencies:
       vue: '>=3.0.1'
 
@@ -8571,6 +8576,10 @@ snapshots:
       yallist: 4.0.0
 
   lucide-vue-next@0.540.0(vue@3.5.19(typescript@5.9.2)):
+    dependencies:
+      vue: 3.5.19(typescript@5.9.2)
+
+  lucide-vue-next@0.541.0(vue@3.5.19(typescript@5.9.2)):
     dependencies:
       vue: 3.5.19(typescript@5.9.2)
 

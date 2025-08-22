@@ -2,15 +2,16 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
+import { go } from '@/router';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { hostGame } from '@/core/game';
+import { useRouter } from 'vue-router';
 import { localRef, useMutex } from '@tb-dev/vue';
 import type { WritablePartial } from '@tb-dev/utils';
 import enUS from '@/locale/en-US/scenes/host-game.json';
 import ptBR from '@/locale/pt-BR/scenes/host-game.json';
 import { isPlayerOptions, isWorldOptions } from '@/lib/schema';
-import { type RouteLocationAsRelative, useRouter } from 'vue-router';
 import {
   Button,
   Card,
@@ -52,18 +53,17 @@ const isValidPlayer = computed(() => isPlayerOptions(player.value));
 const isValidWorld = computed(() => isWorldOptions(world.value));
 const canHost = computed(() => isValidPlayer.value && isValidWorld.value);
 
-const toLoadGameScene = computed<RouteLocationAsRelative>(() => {
-  return {
-    name: 'load-game' satisfies Scene,
-    query: { playerId: player.value.id },
-  };
-});
-
 async function host() {
   await lock(async () => {
     if (isPlayerOptions(player.value) && isWorldOptions(world.value)) {
       await hostGame(player.value, world.value);
     }
+  });
+}
+
+async function goToLoadGameScene() {
+  await go('load-game', {
+    query: { playerId: player.value.id },
   });
 }
 </script>
@@ -128,11 +128,17 @@ async function host() {
         <Button :disabled="locked || !canHost" @click="host">
           <span>{{ t('host') }}</span>
         </Button>
-        <Button variant="secondary" :disabled="locked || !isValidPlayer">
-          <RouterLink :to="toLoadGameScene">
-            {{ t('load') }}
-          </RouterLink>
+
+        <Button
+          variant="secondary"
+          :disabled="locked || !isValidPlayer"
+          role="link"
+          tabindex="0"
+          @click="goToLoadGameScene"
+        >
+          <span>{{ t('load') }}</span>
         </Button>
+
         <Button variant="secondary" @click="() => router.back()">
           <span>{{ t('cancel') }}</span>
         </Button>

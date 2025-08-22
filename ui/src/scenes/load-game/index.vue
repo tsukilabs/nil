@@ -8,19 +8,12 @@ import { isPlayerOptions } from '@/lib/schema';
 import { hostWithSavedata } from '@/core/game';
 import { useRoute, useRouter } from 'vue-router';
 import type { WritablePartial } from '@tb-dev/utils';
-import enUS from '@/locale/en-US/scenes/load-game.json';
-import ptBR from '@/locale/pt-BR/scenes/load-game.json';
 import { asyncRef, localRef, useMutex } from '@tb-dev/vue';
 import { compareDesc as compareDateDesc, formatDate } from 'date-fns';
 import { getSavedataFiles, type SavedataFile } from '@/core/savedata';
 import { Button, Card, CardContent, CardFooter, CardHeader, CardTitle } from '@tb-dev/vue-components';
 
-const { t } = useI18n({
-  messages: {
-    'en-US': enUS,
-    'pt-BR': ptBR,
-  },
-});
+const { t } = useI18n();
 
 const router = useRouter();
 const route = useRoute();

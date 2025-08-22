@@ -2,6 +2,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
+import { go } from '@/router';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import { MenuIcon } from 'lucide-vue-next';
@@ -28,15 +29,24 @@ function getButtonVariant(scene: StableScene): ButtonVariant {
 
 <template>
   <div v-if="md" class="grid grid-cols-2 gap-2">
-    <Button size="sm" :variant="getButtonVariant('stable')">
-      <RouterLink :to="{ name: 'stable' satisfies StableScene }">
-        {{ t('construction') }}
-      </RouterLink>
+    <Button
+      size="sm"
+      :variant="getButtonVariant('stable')"
+      role="link"
+      tabindex="0"
+      @click="() => go('stable')"
+    >
+      <span>{{ t('construction') }}</span>
     </Button>
-    <Button size="sm" :variant="getButtonVariant('stable-settings')">
-      <RouterLink :to="{ name: 'stable-settings' satisfies StableScene }">
-        {{ t('settings') }}
-      </RouterLink>
+
+    <Button
+      size="sm"
+      :variant="getButtonVariant('stable-settings')"
+      role="link"
+      tabindex="0"
+      @click="() => go('stable-settings')"
+    >
+      <span>{{ t('settings') }}</span>
     </Button>
   </div>
 

@@ -33,7 +33,7 @@ const { level, actual, base, stabilityLoss } = useMineProduction(quarry);
 </script>
 
 <template>
-  <div class="game-layout flex-col">
+  <div class="game-layout">
     <Card v-if="quarry" class="w-full">
       <CardHeader>
         <CardTitle>

@@ -33,7 +33,7 @@ const { level, actual, base, stabilityLoss } = useMineProduction(farm);
 </script>
 
 <template>
-  <div class="game-layout flex-col">
+  <div class="game-layout">
     <Card v-if="farm" class="w-full">
       <CardHeader>
         <CardTitle>

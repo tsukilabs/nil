@@ -8,10 +8,10 @@ interface StorageStats {
   readonly level: BuildingLevel;
 }
 
-type StorageStatsTable = {
+interface StorageStatsTable {
   readonly id: StorageId;
   readonly table: ReadonlyMap<BuildingLevel, StorageStats>;
-};
+}
 
 interface OverallStorageCapacity {
   readonly silo: number;

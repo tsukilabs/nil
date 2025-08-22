@@ -63,28 +63,6 @@ impl Default for Wall {
 check_total_resource_ratio!(Wall::WOOD_RATIO, Wall::STONE_RATIO, Wall::IRON_RATIO);
 
 #[derive(Clone, Copy, Debug, Deref, Deserialize, Serialize)]
-pub struct WallDefensePercent(f64);
-
-impl WallDefensePercent {
-  #[inline]
-  pub const fn new(value: f64) -> Self {
-    Self(value.clamp(0.0, 100.0))
-  }
-}
-
-impl From<WallDefensePercent> for f64 {
-  fn from(value: WallDefensePercent) -> Self {
-    value.0
-  }
-}
-
-impl From<f64> for WallDefensePercent {
-  fn from(value: f64) -> Self {
-    Self::new(value)
-  }
-}
-
-#[derive(Clone, Copy, Debug, Deref, Deserialize, Serialize)]
 pub struct WallDefenseValue(u32);
 
 impl WallDefenseValue {
@@ -103,6 +81,28 @@ impl From<WallDefenseValue> for f64 {
 impl From<f64> for WallDefenseValue {
   fn from(value: f64) -> Self {
     Self::new(value as u32)
+  }
+}
+
+#[derive(Clone, Copy, Debug, Deref, Deserialize, Serialize)]
+pub struct WallDefensePercent(f64);
+
+impl WallDefensePercent {
+  #[inline]
+  pub const fn new(value: f64) -> Self {
+    Self(value.clamp(0.0, 100.0))
+  }
+}
+
+impl From<WallDefensePercent> for f64 {
+  fn from(value: WallDefensePercent) -> Self {
+    value.0
+  }
+}
+
+impl From<f64> for WallDefensePercent {
+  fn from(value: f64) -> Self {
+    Self::new(value)
   }
 }
 

@@ -33,7 +33,7 @@ const { level, actual, base, stabilityLoss } = useMineProduction(sawmill);
 </script>
 
 <template>
-  <div class="game-layout flex-col">
+  <div class="game-layout">
     <Card v-if="sawmill" class="w-full">
       <CardHeader>
         <CardTitle>

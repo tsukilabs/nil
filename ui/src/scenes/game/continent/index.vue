@@ -14,7 +14,7 @@ import { Card, CardContent } from '@tb-dev/vue-components';
 import { memory } from 'nil-continent/nil_continent_bg.wasm';
 import { useBreakpoints } from '@/composables/util/useBreakpoints';
 import { PublicFieldImpl } from '@/core/model/continent/public-field';
-import { useQueryCoords } from '@/composables/continent/useDefaultCoords';
+import { useQueryCoords } from '@/composables/continent/useQueryCoords';
 import { type Direction, onKeyboardMovement } from '@/composables/continent/onKeyboardMovement';
 import {
   computed,
