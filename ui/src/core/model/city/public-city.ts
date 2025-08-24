@@ -9,7 +9,7 @@ import { CoordImpl } from '@/core/model/continent/coord';
 export class PublicCityImpl implements PublicCity {
   public readonly coord: CoordImpl;
   public readonly name: string;
-  public readonly owner: CityOwner;
+  public readonly owner: Ruler;
   public readonly score: number;
 
   protected constructor(args: PublicCityImplConstructorArgs) {

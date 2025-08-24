@@ -4,16 +4,10 @@
 pub mod prelude;
 mod score;
 
-use crate::city::CityOwner;
-use crate::impl_from_ruler;
-use crate::military::army::ArmyOwner;
-use crate::npc::bot::BotId;
-use crate::npc::precursor::PrecursorId;
-use crate::player::PlayerId;
+use crate::ruler::Ruler;
 use bon::Builder;
 use derive_more::Deref;
 use itertools::Itertools;
-use nil_core_macros::Ruler;
 use serde::{Deserialize, Serialize};
 
 pub use score::Score;
@@ -23,7 +17,7 @@ pub struct Ranking(Vec<RankingEntry>);
 
 impl Ranking {
   #[inline]
-  pub fn get(&self, ruler: &RankingEntryRuler) -> Option<&RankingEntry> {
+  pub fn get(&self, ruler: &Ruler) -> Option<&RankingEntry> {
     self
       .0
       .iter()
@@ -56,7 +50,7 @@ pub struct RankingEntry {
   rank: Rank,
 
   #[builder(into)]
-  ruler: RankingEntryRuler,
+  ruler: Ruler,
 
   #[builder(into)]
   score: Score,
@@ -64,21 +58,6 @@ pub struct RankingEntry {
   #[builder(into)]
   cities: u32,
 }
-
-#[allow(variant_size_differences)]
-#[derive(Ruler, Clone, Debug, Deserialize, Serialize)]
-#[serde(tag = "kind", rename_all = "kebab-case")]
-pub enum RankingEntryRuler {
-  Bot { id: BotId },
-  Player { id: PlayerId },
-  Precursor { id: PrecursorId },
-}
-
-impl_from_ruler!(ArmyOwner => RankingEntryRuler);
-impl_from_ruler!(CityOwner => RankingEntryRuler);
-
-impl_from_ruler!(RankingEntryRuler => ArmyOwner);
-impl_from_ruler!(RankingEntryRuler => CityOwner);
 
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq, PartialOrd, Ord, Deserialize, Serialize)]
 pub struct Rank(u32);

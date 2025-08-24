@@ -6,7 +6,7 @@ use crate::state::App;
 use axum::extract::{Json, State};
 use axum::response::Response;
 use futures::FutureExt;
-use nil_core::ranking::RankingEntryRuler;
+use nil_core::ruler::Ruler;
 
 pub async fn get(State(app): State<App>) -> Response {
   app
@@ -15,7 +15,7 @@ pub async fn get(State(app): State<App>) -> Response {
     .await
 }
 
-pub async fn get_rank(State(app): State<App>, Json(id): Json<RankingEntryRuler>) -> Response {
+pub async fn get_rank(State(app): State<App>, Json(id): Json<Ruler>) -> Response {
   app
     .ranking(|ranking| ranking.get(&id).cloned())
     .map(|rank| res!(OK, Json(rank)))

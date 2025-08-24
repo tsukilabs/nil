@@ -18,9 +18,9 @@
     "@tauri-apps/plugin-process": "^2.3.0",
     "@tauri-store/pinia": "^3.7.1",
     "@tb-dev/prototype-dom": "^7.0.22",
-    "@tb-dev/utils": "^7.0.12",
-    "@tb-dev/vue": "^3.2.1",
-    "@tb-dev/vue-components": "^5.4.1",
+    "@tb-dev/utils": "^7.0.13",
+    "@tb-dev/vue": "^3.2.2",
+    "@tb-dev/vue-components": "^5.4.2",
     "@vueuse/components": "^13.7.0",
     "@vueuse/core": "^13.7.0",
     "@vueuse/math": "^13.7.0",
@@ -38,6 +38,6 @@
     "vue-i18n": "^11.1.11",
     "vue-router": "^4.5.1",
     "vue-sonner": "^2.0.8",
-    "zod": "^4.0.17"
+    "zod": "^4.1.1"
   }
 }

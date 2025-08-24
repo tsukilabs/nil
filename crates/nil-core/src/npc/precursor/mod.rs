@@ -113,16 +113,10 @@ pub struct PublicPrecursor {
 }
 
 impl PublicPrecursor {
-  pub fn new(precursor: &dyn Precursor) -> Self {
-    Self {
-      id: precursor.id(),
-      origin: precursor.origin(),
-    }
-  }
-}
-
-impl<T: Precursor> From<&T> for PublicPrecursor {
-  fn from(precursor: &T) -> Self {
+  pub fn new<T>(precursor: &T) -> Self
+  where
+    T: Precursor + ?Sized,
+  {
     Self {
       id: precursor.id(),
       origin: precursor.origin(),
@@ -132,6 +126,12 @@ impl<T: Precursor> From<&T> for PublicPrecursor {
 
 impl From<&dyn Precursor> for PublicPrecursor {
   fn from(precursor: &dyn Precursor) -> Self {
+    Self::new(precursor)
+  }
+}
+
+impl<T: Precursor> From<&T> for PublicPrecursor {
+  fn from(precursor: &T) -> Self {
     Self::new(precursor)
   }
 }

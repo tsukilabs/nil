@@ -3,7 +3,8 @@
 
 use super::Client;
 use crate::error::Result;
-use nil_core::ranking::{Ranking, RankingEntry, RankingEntryRuler};
+use nil_core::ranking::{Ranking, RankingEntry};
+use nil_core::ruler::Ruler;
 
 impl Client {
   /// GET `/ranking`
@@ -12,7 +13,7 @@ impl Client {
   }
 
   /// POST `/ranking`
-  pub async fn get_rank(&self, id: RankingEntryRuler) -> Result<Option<RankingEntry>> {
-    self.http.post_json("ranking", id).await
+  pub async fn get_rank(&self, ruler: Ruler) -> Result<Option<RankingEntry>> {
+    self.http.post_json("ranking", ruler).await
   }
 }

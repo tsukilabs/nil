@@ -5,26 +5,7 @@ type Ranking = readonly RankingEntry[];
 
 interface RankingEntry {
   readonly rank: number;
-  readonly ruler: RankingEntryRuler;
+  readonly ruler: Ruler;
   readonly score: number;
   readonly cities: number;
-}
-
-type RankingEntryRuler = RankingEntryIdBot | RankingEntryIdPlayer | RankingEntryIdPrecursor;
-
-type RankingEntryRulerKind = RankingEntryRuler['kind'];
-
-interface RankingEntryIdBot {
-  readonly kind: 'bot';
-  readonly id: BotId;
-}
-
-interface RankingEntryIdPlayer {
-  readonly kind: 'player';
-  readonly id: PlayerId;
-}
-
-interface RankingEntryIdPrecursor {
-  readonly kind: 'precursor';
-  readonly id: PrecursorId;
 }

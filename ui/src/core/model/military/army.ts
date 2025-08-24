@@ -7,7 +7,7 @@ export class ArmyImpl implements Army {
   public readonly id: ArmyId;
   public readonly personnel: ArmyPersonnelImpl;
   public readonly state: ArmyState;
-  public readonly owner: ArmyOwner;
+  public readonly owner: Ruler;
 
   private constructor(army: Army) {
     this.id = army.id;

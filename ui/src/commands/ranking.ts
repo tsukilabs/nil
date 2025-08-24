@@ -15,8 +15,8 @@ export function getPrecursorRank(id: PrecursorId) {
   return getRank({ kind: 'precursor', id });
 }
 
-export function getRank(id: RankingEntryRuler) {
-  return invoke<Option<RankingEntry>>('get_rank', { id });
+export function getRank(ruler: Ruler) {
+  return invoke<Option<RankingEntry>>('get_rank', { ruler });
 }
 
 export function getRanking() {

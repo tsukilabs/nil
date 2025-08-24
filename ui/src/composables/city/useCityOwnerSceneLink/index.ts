@@ -4,7 +4,7 @@
 import { computed, toRef } from 'vue';
 import type { RouteLocationAsRelative } from 'vue-router';
 
-export function useCityOwnerSceneLink(owner: MaybeNilRef<CityOwner>) {
+export function useCityOwnerSceneLink(owner: MaybeNilRef<Ruler>) {
   const ownerRef = toRef(owner);
   return computed<Option<RouteLocationAsRelative>>(() => {
     if (ownerRef.value) {

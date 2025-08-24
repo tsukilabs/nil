@@ -4,24 +4,12 @@
 use crate::city::City;
 use crate::error::Result;
 use crate::infrastructure::Infrastructure;
-use crate::infrastructure::storage::OverallStorageCapacity;
 use crate::npc::precursor::{self, PrecursorId};
 use crate::world::World;
 use nil_num::roman::ToRoman;
 use rand::seq::IndexedRandom;
 
 impl World {
-  pub(crate) fn get_precursor_storage_capacity(
-    &self,
-    precursor: PrecursorId,
-  ) -> Result<OverallStorageCapacity> {
-    let cities = self
-      .continent
-      .precursor_cities_by(|id| id == precursor);
-
-    self.get_storage_capacity(cities)
-  }
-
   pub(crate) fn spawn_precursors(&mut self) -> Result<()> {
     self.spawn_precursor_cities(PrecursorId::A)?;
     self.spawn_precursor_cities(PrecursorId::B)?;

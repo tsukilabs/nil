@@ -4,6 +4,7 @@
 use derive_more::{Deref, Into};
 use serde::{Deserialize, Serialize};
 
+/// Represents how many fields a unit can travel in one round.
 #[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize)]
 pub struct Speed(f64);
 

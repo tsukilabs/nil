@@ -21,6 +21,6 @@
   },
   "devDependencies": {
     "@tauri-apps/api": "^2.8.0",
-    "@tb-dev/utils": "^7.0.12"
+    "@tb-dev/utils": "^7.0.13"
   }
 }

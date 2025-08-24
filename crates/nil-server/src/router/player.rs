@@ -46,10 +46,7 @@ pub async fn get_all_public(State(app): State<App>) -> Response {
 
 pub async fn get_coords(State(app): State<App>, Path(id): Path<PlayerId>) -> Response {
   app
-    .continent(|k| {
-      k.player_coords_by(|player| player == &id)
-        .collect_vec()
-    })
+    .continent(|k| k.coords_of(id).collect_vec())
     .map(|coords| res!(OK, Json(coords)))
     .await
 }
@@ -96,7 +93,7 @@ pub async fn get_storage_capacity(
   Extension(player): Extension<CurrentPlayer>,
 ) -> Response {
   app
-    .world(|world| world.get_player_storage_capacity(&player))
+    .world(|world| world.get_storage_capacity(player.0))
     .map_ok(|capacity| res!(OK, Json(capacity)))
     .unwrap_or_else(from_core_err)
     .await

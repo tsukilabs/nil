@@ -21,7 +21,7 @@ impl World {
 
   pub fn cheat_get_bot_storage_capacity(&self, id: &BotId) -> Result<OverallStorageCapacity> {
     bail_cheat_not_allowed!(self);
-    self.get_bot_storage_capacity(id)
+    self.get_storage_capacity(id)
   }
 
   pub fn cheat_get_precursor_resources(&self, id: PrecursorId) -> Result<Resources> {
@@ -40,7 +40,7 @@ impl World {
     id: PrecursorId,
   ) -> Result<OverallStorageCapacity> {
     bail_cheat_not_allowed!(self);
-    self.get_precursor_storage_capacity(id)
+    self.get_storage_capacity(id)
   }
 
   pub fn cheat_spawn_bot(&mut self, name: &str) -> Result<BotId> {

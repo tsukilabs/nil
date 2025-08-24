@@ -4,17 +4,11 @@
 use crate::city::City;
 use crate::error::Result;
 use crate::infrastructure::Infrastructure;
-use crate::infrastructure::storage::OverallStorageCapacity;
 use crate::npc::bot::BotId;
 use crate::with_random_level;
 use crate::world::World;
 
 impl World {
-  pub(crate) fn get_bot_storage_capacity(&self, bot: &BotId) -> Result<OverallStorageCapacity> {
-    let cities = self.continent.bot_cities_by(|id| id == bot);
-    self.get_storage_capacity(cities)
-  }
-
   pub(crate) fn spawn_bots(&mut self) -> Result<()> {
     let size = usize::from(self.continent.size());
     let count = size.saturating_mul(2);

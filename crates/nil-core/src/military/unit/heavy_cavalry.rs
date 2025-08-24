@@ -25,7 +25,7 @@ impl HeavyCavalry {
     .cavalry_defense(Power::new(80))
     .ranged_defense(Power::new(180))
     .ranged_debuff(RangedDebuff::MIN)
-    .speed(Speed::new(11.0))
+    .speed(Speed::new(3.5))
     .haul(Haul::new(50))
     .build();
 

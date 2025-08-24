@@ -12,10 +12,7 @@ use nil_core::npc::bot::{BotId, PublicBot};
 
 pub async fn get_coords(State(app): State<App>, Path(id): Path<BotId>) -> Response {
   app
-    .continent(|k| {
-      k.bot_coords_by(|bot| bot == &id)
-        .collect_vec()
-    })
+    .continent(|k| k.coords_of(id).collect_vec())
     .map(|coords| res!(OK, Json(coords)))
     .await
 }

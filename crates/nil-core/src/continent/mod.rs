@@ -11,9 +11,7 @@ mod tests;
 
 use crate::city::City;
 use crate::error::{Error, Result};
-use crate::npc::bot::BotId;
-use crate::npc::precursor::PrecursorId;
-use crate::player::PlayerId;
+use crate::ruler::Ruler;
 use serde::{Deserialize, Serialize};
 
 pub use coord::{Coord, Distance};
@@ -123,46 +121,27 @@ impl Continent {
     self.cities().filter(move |city| f(city))
   }
 
-  pub fn player_cities_by<F>(&self, f: F) -> impl Iterator<Item = &City>
+  pub fn cities_of<R>(&self, owner: R) -> impl Iterator<Item = &City>
   where
-    F: Fn(&PlayerId) -> bool,
+    R: Into<Ruler>,
   {
-    self.cities_by(move |city| city.is_owned_by_player_and(&f))
+    let owner: Ruler = owner.into();
+    self.cities_by(move |city| city.owner() == &owner)
   }
 
-  pub fn player_coords_by<F>(&self, f: F) -> impl Iterator<Item = Coord>
+  pub fn coords_by<F>(&self, f: F) -> impl Iterator<Item = Coord>
   where
-    F: Fn(&PlayerId) -> bool,
+    F: Fn(&City) -> bool,
   {
-    self.player_cities_by(f).map(City::coord)
+    self.cities_by(f).map(City::coord)
   }
 
-  pub fn bot_cities_by<F>(&self, f: F) -> impl Iterator<Item = &City>
+  pub fn coords_of<R>(&self, owner: R) -> impl Iterator<Item = Coord>
   where
-    F: Fn(&BotId) -> bool,
+    R: Into<Ruler>,
   {
-    self.cities_by(move |city| city.is_owned_by_bot_and(&f))
-  }
-
-  pub fn bot_coords_by<F>(&self, f: F) -> impl Iterator<Item = Coord>
-  where
-    F: Fn(&BotId) -> bool,
-  {
-    self.bot_cities_by(f).map(City::coord)
-  }
-
-  pub fn precursor_cities_by<F>(&self, f: F) -> impl Iterator<Item = &City>
-  where
-    F: Fn(PrecursorId) -> bool,
-  {
-    self.cities_by(move |city| city.is_owned_by_precursor_and(&f))
-  }
-
-  pub fn precursor_coords_by<F>(&self, f: F) -> impl Iterator<Item = Coord>
-  where
-    F: Fn(PrecursorId) -> bool,
-  {
-    self.precursor_cities_by(f).map(City::coord)
+    let owner: Ruler = owner.into();
+    self.coords_by(move |city| city.owner() == &owner)
   }
 }
 

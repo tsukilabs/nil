@@ -21,11 +21,12 @@ use crate::error::{Error, Result};
 use crate::event::Emitter;
 use crate::infrastructure::{Infrastructure, InfrastructureStats};
 use crate::military::Military;
-use crate::npc::bot::BotManager;
-use crate::npc::precursor::PrecursorManager;
+use crate::npc::bot::{Bot, BotId, BotManager};
+use crate::npc::precursor::{Precursor, PrecursorId, PrecursorManager};
 use crate::player::{Player, PlayerId, PlayerManager};
 use crate::ranking::Ranking;
 use crate::round::Round;
+use crate::ruler::{Ruler, RulerRef, RulerRefMut};
 use crate::savedata::Savedata;
 use crate::script::Scripting;
 use serde::{Deserialize, Serialize};
@@ -141,26 +142,6 @@ impl World {
   }
 
   #[inline]
-  pub fn player_manager(&self) -> &PlayerManager {
-    &self.player_manager
-  }
-
-  #[inline]
-  pub fn player_manager_mut(&mut self) -> &mut PlayerManager {
-    &mut self.player_manager
-  }
-
-  #[inline]
-  pub fn player(&self, id: &PlayerId) -> Result<&Player> {
-    self.player_manager.player(id)
-  }
-
-  #[inline]
-  pub fn player_mut(&mut self, id: &PlayerId) -> Result<&mut Player> {
-    self.player_manager.player_mut(id)
-  }
-
-  #[inline]
   pub fn round(&self) -> &Round {
     &self.round
   }
@@ -181,8 +162,46 @@ impl World {
   }
 
   #[inline]
+  pub fn ranking(&self) -> &Ranking {
+    &self.ranking
+  }
+
+  #[inline]
+  pub fn player_manager(&self) -> &PlayerManager {
+    &self.player_manager
+  }
+
+  #[inline]
+  pub fn player(&self, id: &PlayerId) -> Result<&Player> {
+    self.player_manager.player(id)
+  }
+
+  #[inline]
+  fn player_mut(&mut self, id: &PlayerId) -> Result<&mut Player> {
+    self.player_manager.player_mut(id)
+  }
+
+  pub fn players(&self) -> impl Iterator<Item = &Player> {
+    self.player_manager.players()
+  }
+
+  #[inline]
   pub fn bot_manager(&self) -> &BotManager {
     &self.bot_manager
+  }
+
+  #[inline]
+  pub fn bot(&self, id: &BotId) -> Result<&Bot> {
+    self.bot_manager.bot(id)
+  }
+
+  #[inline]
+  fn bot_mut(&mut self, id: &BotId) -> Result<&mut Bot> {
+    self.bot_manager.bot_mut(id)
+  }
+
+  pub fn bots(&self) -> impl Iterator<Item = &Bot> {
+    self.bot_manager.bots()
   }
 
   #[inline]
@@ -191,8 +210,45 @@ impl World {
   }
 
   #[inline]
-  pub fn ranking(&self) -> &Ranking {
-    &self.ranking
+  pub fn precursor(&self, id: PrecursorId) -> &dyn Precursor {
+    self.precursor_manager.precursor(id)
+  }
+
+  #[inline]
+  fn precursor_mut(&mut self, id: PrecursorId) -> &mut dyn Precursor {
+    self.precursor_manager.precursor_mut(id)
+  }
+
+  pub fn precursors(&self) -> impl Iterator<Item = &dyn Precursor> {
+    self.precursor_manager.precursors()
+  }
+
+  pub fn ruler(&self, ruler: Ruler) -> Result<RulerRef<'_>> {
+    let ruler = match ruler {
+      Ruler::Bot { id } => RulerRef::Bot(self.bot(&id)?),
+      Ruler::Player { id } => RulerRef::Player(self.player(&id)?),
+      Ruler::Precursor { id } => RulerRef::Precursor(self.precursor(id)),
+    };
+
+    Ok(ruler)
+  }
+
+  fn ruler_mut(&mut self, ruler: Ruler) -> Result<RulerRefMut<'_>> {
+    let ruler = match ruler {
+      Ruler::Bot { id } => RulerRefMut::Bot(self.bot_mut(&id)?),
+      Ruler::Player { id } => RulerRefMut::Player(self.player_mut(&id)?),
+      Ruler::Precursor { id } => RulerRefMut::Precursor(self.precursor_mut(id)),
+    };
+
+    Ok(ruler)
+  }
+
+  pub fn rulers(&self) -> impl Iterator<Item = RulerRef<'_>> {
+    self
+      .players()
+      .map(RulerRef::from)
+      .chain(self.bots().map(RulerRef::from))
+      .chain(self.precursors().map(RulerRef::from))
   }
 }
 

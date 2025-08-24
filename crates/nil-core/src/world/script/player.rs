@@ -15,7 +15,7 @@ pub(super) fn add_methods<'a, M: UserDataMethods<WorldUserData<'a>>>(methods: &m
   methods.add_method("get_player_storage_capacity", |lua, this, ()| {
     this
       .world
-      .get_player_storage_capacity(&this.player)
+      .get_storage_capacity(&this.player)
       .map(|capacity| lua.to_value(&capacity))?
   });
 

@@ -25,7 +25,7 @@ impl Pikeman {
     .cavalry_defense(Power::new(45))
     .ranged_defense(Power::new(20))
     .ranged_debuff(RangedDebuff::MIN)
-    .speed(Speed::new(18.0))
+    .speed(Speed::new(2.0))
     .haul(Haul::new(25))
     .build();
 

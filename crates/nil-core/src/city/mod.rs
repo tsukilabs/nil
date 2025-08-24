@@ -1,7 +1,6 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-mod owner;
 mod stability;
 
 use crate::continent::Coord;
@@ -17,7 +16,6 @@ use bon::Builder;
 use serde::{Deserialize, Serialize};
 use std::sync::Arc;
 
-pub use owner::CityOwner;
 pub use stability::Stability;
 
 #[derive(Builder, Clone, Debug, Deserialize, Serialize)]
@@ -30,7 +28,7 @@ pub struct City {
   name: String,
 
   #[builder(into)]
-  owner: CityOwner,
+  owner: Ruler,
 
   #[builder(default)]
   infrastructure: Infrastructure,
@@ -55,7 +53,7 @@ impl City {
   }
 
   #[inline]
-  pub fn owner(&self) -> &CityOwner {
+  pub fn owner(&self) -> &Ruler {
     &self.owner
   }
 
@@ -154,7 +152,7 @@ impl City {
 pub struct PublicCity {
   coord: Coord,
   name: Arc<str>,
-  owner: CityOwner,
+  owner: Ruler,
 }
 
 impl From<&City> for PublicCity {

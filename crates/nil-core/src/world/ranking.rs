@@ -4,18 +4,19 @@
 use super::World;
 use crate::error::{Error, Result};
 use crate::ranking::prelude::*;
+use crate::ruler::Ruler;
 
 impl World {
   pub fn get_score<R>(&self, ruler: R) -> Result<Score>
   where
-    R: Into<RankingEntryRuler>,
+    R: Into<Ruler>,
   {
-    let ruler: RankingEntryRuler = ruler.into();
+    let ruler: Ruler = ruler.into();
     let stats = self.stats.infrastructure.as_ref();
     let mut score = self.military.score_of(ruler.clone());
     score += self
       .continent
-      .cities_by(|city| &ruler == city.owner())
+      .cities_of(ruler)
       .try_fold(Score::default(), |mut score, city| {
         score += city.score(stats)?;
         Ok::<_, Error>(score)
@@ -28,37 +29,18 @@ impl World {
     let len = self.ranking.len();
     let mut entries = Vec::with_capacity(len);
 
-    macro_rules! push {
-      ($ruler:expr) => {{
-        let ruler = RankingEntryRuler::from($ruler.id());
-        let score = self.get_score(ruler.clone())?;
-        let cities = self.count_cities(ruler.clone());
-        let entry = RankingEntry::builder()
-          .ruler(ruler)
-          .score(score)
-          .cities(cities)
-          .build();
+    for ruler in self.rulers() {
+      let ruler = Ruler::from(ruler);
+      let score = self.get_score(ruler.clone())?;
+      let cities = self.count_cities(ruler.clone());
+      let entry = RankingEntry::builder()
+        .ruler(ruler)
+        .score(score)
+        .cities(cities)
+        .build();
 
-        entries.push(entry);
-
-        Ok::<_, Error>(())
-      }};
+      entries.push(entry);
     }
-
-    self
-      .player_manager
-      .players()
-      .try_for_each(|player| push!(player))?;
-
-    self
-      .bot_manager
-      .bots()
-      .try_for_each(|bot| push!(bot))?;
-
-    self
-      .precursor_manager
-      .precursors()
-      .try_for_each(|precursor| push!(precursor))?;
 
     self.ranking.update(entries);
 

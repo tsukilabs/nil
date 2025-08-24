@@ -184,6 +184,7 @@ impl UnitChunk {
 }
 
 #[derive(Clone, Copy, Debug, Deref, From, Into, Deserialize, Serialize)]
+#[into(u8, u32, f64)]
 pub struct UnitChunkSize(u8);
 
 impl UnitChunkSize {

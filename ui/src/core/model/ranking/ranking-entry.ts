@@ -7,7 +7,7 @@ import { formatInt } from '@/lib/intl';
 
 export class RankingEntryImpl implements RankingEntry {
   public readonly rank: number;
-  public readonly ruler: RankingEntryRuler;
+  public readonly ruler: Ruler;
   public readonly score: number;
   public readonly cities: number;
 
@@ -48,7 +48,7 @@ export class RankingEntryImpl implements RankingEntry {
     return new RankingEntryImpl(entry);
   }
 
-  public static async load(id: RankingEntryRuler) {
+  public static async load(id: Ruler) {
     const entry = await getRank(id);
     return entry ? RankingEntryImpl.create(entry) : null;
   }

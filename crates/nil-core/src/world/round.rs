@@ -1,11 +1,12 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-mod resources;
-
 use super::World;
 use crate::error::Result;
 use crate::player::{Player, PlayerId};
+use crate::resources::prelude::*;
+use crate::ruler::Ruler;
+use std::collections::HashMap;
 
 impl World {
   pub fn start_round(&mut self) -> Result<()> {
@@ -52,11 +53,34 @@ impl World {
   }
 
   fn prepare_next_round(&mut self) -> Result<()> {
-    self.update_player_resources()?;
-    self.update_bot_resources()?;
-    self.update_precursor_resources()?;
+    self.update_resources()?;
     self.process_city_queues();
     self.update_ranking()?;
+    Ok(())
+  }
+
+  /// Updates all rulers' resources by increasing them with the amount generated
+  /// in the current round and then deducting all maintenance-related costs.
+  fn update_resources(&mut self) -> Result<()> {
+    let stats = self.stats.infrastructure.as_ref();
+    let mut diff: HashMap<Ruler, ResourcesDiff> = HashMap::new();
+
+    for city in self.continent.cities() {
+      let owner = city.owner().clone();
+      let resources = diff.entry(owner).or_default();
+      *resources += city.round_production(stats)?;
+      resources.food -= city.maintenance(stats)?;
+    }
+
+    for (ruler, mut resources) in diff {
+      resources.food -= self.military.maintenance_of(ruler.clone());
+      let capacity = self.get_storage_capacity(ruler.clone())?;
+      self
+        .ruler_mut(ruler)?
+        .resources_mut()
+        .add_within_capacity(&resources, &capacity);
+    }
+
     Ok(())
   }
 

@@ -1,79 +1,12 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use crate::city::CityOwner;
-use crate::impl_from_ruler;
 use crate::military::squad::{Squad, SquadSize};
 use crate::military::unit::UnitId;
-use crate::npc::bot::BotId;
-use crate::npc::precursor::PrecursorId;
-use crate::player::PlayerId;
 use crate::ranking::Score;
-use bon::Builder;
-use nil_core_macros::Ruler;
+use crate::resources::Maintenance;
 use serde::{Deserialize, Serialize};
 use std::ops::{Add, AddAssign, Sub, SubAssign};
-use strum::EnumIs;
-use uuid::Uuid;
-
-#[derive(Builder, Clone, Debug, Deserialize, Serialize)]
-#[builder(builder_type(vis = "pub(in crate::military)"))]
-pub struct Army {
-  #[builder(skip)]
-  id: ArmyId,
-
-  #[builder(default)]
-  personnel: ArmyPersonnel,
-
-  #[builder(into)]
-  owner: ArmyOwner,
-
-  #[builder(skip)]
-  state: ArmyState,
-}
-
-impl Army {
-  #[inline]
-  pub fn personnel(&self) -> &ArmyPersonnel {
-    &self.personnel
-  }
-
-  #[inline]
-  pub fn owner(&self) -> &ArmyOwner {
-    &self.owner
-  }
-
-  #[inline]
-  pub fn state(&self) -> &ArmyState {
-    &self.state
-  }
-
-  #[inline]
-  pub fn is_idle(&self) -> bool {
-    self.state.is_idle()
-  }
-
-  #[inline]
-  pub fn score(&self) -> Score {
-    self.personnel.score()
-  }
-}
-
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Deserialize, Serialize)]
-pub struct ArmyId(Uuid);
-
-impl ArmyId {
-  #[must_use]
-  pub fn new() -> Self {
-    Self(Uuid::new_v4())
-  }
-}
-
-impl Default for ArmyId {
-  fn default() -> Self {
-    Self::new()
-  }
-}
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
@@ -117,6 +50,17 @@ impl ArmyPersonnel {
     score += self.pikeman.score();
     score += self.swordsman.score();
     score
+  }
+
+  pub fn maintenance(&self) -> Maintenance {
+    let mut maintenance = Maintenance::default();
+    maintenance += self.archer.maintenance();
+    maintenance += self.axeman.maintenance();
+    maintenance += self.heavy_cavalry.maintenance();
+    maintenance += self.light_cavalry.maintenance();
+    maintenance += self.pikeman.maintenance();
+    maintenance += self.swordsman.maintenance();
+    maintenance
   }
 }
 
@@ -214,23 +158,3 @@ impl SubAssign<Squad> for ArmyPersonnel {
     }
   }
 }
-
-#[derive(Clone, Debug, Default, Deserialize, Serialize, EnumIs)]
-#[serde(tag = "kind", rename_all = "kebab-case")]
-pub enum ArmyState {
-  #[default]
-  Idle,
-}
-
-#[allow(variant_size_differences)]
-#[derive(Ruler, Clone, Debug, Deserialize, Serialize)]
-#[serde(tag = "kind", rename_all = "kebab-case")]
-pub enum ArmyOwner {
-  Bot { id: BotId },
-  Player { id: PlayerId },
-  Precursor { id: PrecursorId },
-}
-
-impl_from_ruler!(CityOwner => ArmyOwner);
-
-impl_from_ruler!(ArmyOwner => CityOwner);

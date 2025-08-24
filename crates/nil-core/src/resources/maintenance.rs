@@ -3,16 +3,17 @@
 
 use super::Food;
 use super::diff::FoodDiff;
+use crate::military::unit::UnitChunkSize;
 use derive_more::{Deref, Display, Into};
 use serde::{Deserialize, Serialize};
 use std::num::NonZeroU32;
-use std::ops::{Add, AddAssign, Mul, Sub, SubAssign};
+use std::ops::{Add, AddAssign, Div, Mul, Sub, SubAssign};
 
 /// Maintenance tax of an entity.
 ///
 /// Its value is equivalent to a percentage of the [base cost].
 ///
-/// [base cost]: crate::resource::cost::Cost
+/// [base cost]: crate::resources::cost::Cost
 #[derive(Clone, Copy, Debug, Default, Deref, Display, Into, Deserialize, Serialize)]
 #[into(u32, f64, Food)]
 pub struct Maintenance(Food);
@@ -133,6 +134,16 @@ impl Mul<NonZeroU32> for Maintenance {
 
   fn mul(self, rhs: NonZeroU32) -> Self::Output {
     Self(self.0 * rhs.get())
+  }
+}
+
+impl Div<UnitChunkSize> for Maintenance {
+  type Output = Maintenance;
+
+  fn div(self, rhs: UnitChunkSize) -> Self::Output {
+    let maintenance = f64::from(self);
+    let chunk_size = f64::from(rhs);
+    Self::from(maintenance / chunk_size)
   }
 }
 

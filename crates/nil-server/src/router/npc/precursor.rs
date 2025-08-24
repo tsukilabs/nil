@@ -11,10 +11,7 @@ use nil_core::npc::precursor::{PrecursorId, PublicPrecursor};
 
 pub async fn get_coords(State(app): State<App>, Path(id): Path<PrecursorId>) -> Response {
   app
-    .continent(|k| {
-      k.precursor_coords_by(|precursor| precursor == id)
-        .collect_vec()
-    })
+    .continent(|k| k.coords_of(id).collect_vec())
     .map(|coords| res!(OK, Json(coords)))
     .await
 }

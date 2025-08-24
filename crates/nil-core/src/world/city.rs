@@ -2,20 +2,19 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use super::World;
-use crate::city::CityOwner;
 use crate::continent::ContinentKey;
 use crate::error::Result;
 use crate::ranking::Score;
+use crate::ruler::Ruler;
 
 impl World {
-  pub fn count_cities<O>(&self, owner: O) -> u32
+  pub fn count_cities<R>(&self, owner: R) -> u32
   where
-    O: Into<CityOwner>,
+    R: Into<Ruler>,
   {
-    let owner: CityOwner = owner.into();
     self
       .continent
-      .cities_by(|city| city.owner() == &owner)
+      .cities_of(owner)
       .count()
       .try_into()
       .unwrap_or(u32::MAX)

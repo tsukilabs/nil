@@ -6,8 +6,10 @@ pub mod squad;
 pub mod unit;
 
 use crate::continent::{ContinentIndex, ContinentKey, ContinentSize};
-use crate::military::army::{Army, ArmyOwner, ArmyPersonnel};
+use crate::military::army::{Army, ArmyPersonnel};
 use crate::ranking::Score;
+use crate::resources::Maintenance;
+use crate::ruler::Ruler;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
@@ -28,10 +30,10 @@ impl Military {
     }
   }
 
-  pub(crate) fn spawn<K, O>(&mut self, key: K, owner: O, personnel: ArmyPersonnel)
+  pub(crate) fn spawn<K, R>(&mut self, key: K, owner: R, personnel: ArmyPersonnel)
   where
     K: ContinentKey,
-    O: Into<ArmyOwner>,
+    R: Into<Ruler>,
   {
     let index = key.into_index(self.continent_size);
     let army = Army::builder()
@@ -85,11 +87,11 @@ impl Military {
     military
   }
 
-  pub fn armies_of<O>(&self, owner: O) -> impl Iterator<Item = &Army>
+  pub fn armies_of<R>(&self, owner: R) -> impl Iterator<Item = &Army>
   where
-    O: Into<ArmyOwner>,
+    R: Into<Ruler>,
   {
-    let owner: ArmyOwner = owner.into();
+    let owner: Ruler = owner.into();
     self
       .continent
       .values()
@@ -97,15 +99,27 @@ impl Military {
       .filter(move |army| army.owner() == &owner)
   }
 
-  pub fn score_of<O>(&self, owner: O) -> Score
+  pub fn score_of<R>(&self, owner: R) -> Score
   where
-    O: Into<ArmyOwner>,
+    R: Into<Ruler>,
   {
     self
       .armies_of(owner)
       .fold(Score::default(), |mut score, army| {
         score += army.score();
         score
+      })
+  }
+
+  pub fn maintenance_of<R>(&self, owner: R) -> Maintenance
+  where
+    R: Into<Ruler>,
+  {
+    self
+      .armies_of(owner)
+      .fold(Maintenance::default(), |mut maintenance, army| {
+        maintenance += army.maintenance();
+        maintenance
       })
   }
 }
