@@ -1,0 +1,16 @@
+{
+  "name": "docs",
+  "type": "module",
+  "packageManager": "pnpm@10.15.0",
+  "license": "AGPL-3.0-only",
+  "private": true,
+  "scripts": {
+    "build": "vitepress build",
+    "dev": "vitepress dev"
+  },
+  "devDependencies": {
+    "@tb-dev/utils": "^7.0.13",
+    "@vueuse/core": "^13.7.0",
+    "vitepress": "^2.0.0-alpha.12"
+  }
+}
