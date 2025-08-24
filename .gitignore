@@ -18,6 +18,13 @@ rustc-ice-*.txt
 # Tauri
 **/gen/schemas
 
+# Vite
+**/*vite*timestamp*
+
+# Vitepress
+**/.vitepress/cache
+**/.vitepress/dist
+
 # Others
 **/.DS_Store
 **/.Thumbs.db
