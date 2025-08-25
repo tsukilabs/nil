@@ -48,6 +48,8 @@ Abre o registro de scripts (NSR).
 
 ### `$quarry`
 
+### `$res` <Badge type="tip" text="cheat" />
+
 ### `$save` <Badge type="tip" text="host" />
 
 Salva a partida atual.

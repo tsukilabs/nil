@@ -1,5 +1,5 @@
 {
-  "name": "ui",
+  "name": "nsr",
   "type": "module",
   "packageManager": "pnpm@10.15.0",
   "license": "AGPL-3.0-only",
@@ -7,10 +7,7 @@
   "scripts": {
     "build": "vite build",
     "dev": "vite",
-    "type-check": "vue-tsc --noEmit"
-  },
-  "devDependencies": {
-    "nil-continent": "workspace:*",
-    "tauri-plugin-mobile": "workspace:*"
+    "type-check": "vue-tsc --noEmit",
+    "update": "node scripts/update.mts"
   }
 }

@@ -28,6 +28,8 @@
 
 ### `$quarry`
 
+### `$res` <Badge type="tip" text="cheat" />
+
 ### `$save` <Badge type="tip" text="host" />
 
 ### `$sawmill`
