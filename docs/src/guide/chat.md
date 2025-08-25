@@ -2,6 +2,8 @@
 
 ## Comandos
 
+### `$about`
+
 ### `$academy`
 
 ### `$end`

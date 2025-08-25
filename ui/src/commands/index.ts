@@ -29,3 +29,7 @@ export function isHost() {
 export function showWindow() {
   return invoke<null>('show_window');
 }
+
+export function version() {
+  return invoke<string>('version');
+}

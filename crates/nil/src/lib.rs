@@ -38,6 +38,7 @@ pub fn run() {
       command::create_tray_icon,
       command::is_host,
       command::show_window,
+      command::version,
       command::chat::get_chat_history,
       command::chat::push_chat_message,
       command::cheat::city::cheat_set_stability,

@@ -10,6 +10,7 @@ import { isPlayerTurn } from '@/composables/player/usePlayerTurn';
 
 const enum ChatCommandKind {
   Default = 'default',
+  About = 'about',
   Academy = 'academy',
   EndTurn = 'end-turn',
   Farm = 'farm',
@@ -38,6 +39,7 @@ const enum ChatCommandKind {
 type RegexMap = Readonly<Omit<Record<ChatCommandKind, RegExp>, 'default'>>;
 
 const regex: RegexMap = {
+  [ChatCommandKind.About]: /^\$about$/i,
   [ChatCommandKind.Academy]: /^\$academy$/i,
   [ChatCommandKind.EndTurn]: /^\$end$/i,
   [ChatCommandKind.Farm]: /^\$farm$/i,
@@ -91,6 +93,10 @@ export class ChatCommand {
     switch (this.kind) {
       case ChatCommandKind.Default: {
         await commands.pushChatMessage(this.text);
+        break;
+      }
+      case ChatCommandKind.About: {
+        await go('about');
         break;
       }
       case ChatCommandKind.Academy: {

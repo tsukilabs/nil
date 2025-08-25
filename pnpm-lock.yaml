@@ -135,14 +135,7 @@ importers:
 
   crates/nil-continent/pkg: {}
 
-  crates/plugin-mobile:
-    devDependencies:
-      '@tauri-apps/api':
-        specifier: ^2.8.0
-        version: 2.8.0
-      '@tb-dev/utils':
-        specifier: ^7.0.13
-        version: 7.0.13
+  crates/plugin-mobile: {}
 
   docs: {}
 

@@ -18,6 +18,11 @@ export const router = createRouter({
       path: '/',
     },
     {
+      component: () => import('@/scenes/about/index.vue'),
+      path: '/about',
+      name: 'about' satisfies Scene,
+    },
+    {
       component: () => import('@/scenes/game/index.vue'),
       path: '/game',
       children: gameRoutes,
