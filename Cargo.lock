@@ -2641,7 +2641,7 @@ checksum = "650eef8c711430f1a879fdd01d4745a7deea475becfb90269c06775983bbf086"
 
 [[package]]
 name = "nil"
-version = "0.1.38"
+version = "0.1.40"
 dependencies = [
  "anyhow",
  "futures",
@@ -2673,7 +2673,7 @@ dependencies = [
 
 [[package]]
 name = "nil-client"
-version = "0.1.38"
+version = "0.1.40"
 dependencies = [
  "anyhow",
  "bon",
@@ -2697,14 +2697,14 @@ dependencies = [
 
 [[package]]
 name = "nil-continent"
-version = "0.1.38"
+version = "0.1.40"
 dependencies = [
  "wasm-bindgen",
 ]
 
 [[package]]
 name = "nil-core"
-version = "0.1.38"
+version = "0.1.40"
 dependencies = [
  "anyhow",
  "bon",
@@ -2733,7 +2733,7 @@ dependencies = [
 
 [[package]]
 name = "nil-core-macros"
-version = "0.1.38"
+version = "0.1.40"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -2742,7 +2742,7 @@ dependencies = [
 
 [[package]]
 name = "nil-namegen"
-version = "0.1.38"
+version = "0.1.40"
 dependencies = [
  "itertools",
  "rand 0.9.2",
@@ -2751,7 +2751,7 @@ dependencies = [
 
 [[package]]
 name = "nil-num"
-version = "0.1.38"
+version = "0.1.40"
 dependencies = [
  "bon",
  "nil-num-macros",
@@ -2761,7 +2761,7 @@ dependencies = [
 
 [[package]]
 name = "nil-num-macros"
-version = "0.1.38"
+version = "0.1.40"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -2770,7 +2770,7 @@ dependencies = [
 
 [[package]]
 name = "nil-server"
-version = "0.1.38"
+version = "0.1.40"
 dependencies = [
  "anyhow",
  "axum",
@@ -2789,7 +2789,7 @@ dependencies = [
 
 [[package]]
 name = "nil-util"
-version = "0.1.38"
+version = "0.1.40"
 dependencies = [
  "anyhow",
  "bon",
@@ -4856,7 +4856,7 @@ dependencies = [
 
 [[package]]
 name = "tauri-plugin-mobile"
-version = "0.1.38"
+version = "0.1.40"
 dependencies = [
  "serde",
  "tauri",

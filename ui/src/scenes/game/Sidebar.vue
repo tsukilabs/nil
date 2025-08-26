@@ -28,8 +28,8 @@ import {
 const props = defineProps<{
   isHost: boolean;
   lastSavedAt: Option<RoundId>;
-  onSave: () => MaybePromise<void>;
-  onLeave: () => MaybePromise<void>;
+  onSave: () => Promise<void>;
+  onLeave: () => Promise<void>;
 }>();
 
 const { t } = useI18n();

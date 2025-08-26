@@ -44,6 +44,7 @@
     "**/pkg",
     "**/schemas",
     "**/LICENSE",
+    "**/registry.json",
     "**/*-lock.yaml",
     "**/*.xml"
   ],

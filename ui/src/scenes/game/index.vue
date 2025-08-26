@@ -39,15 +39,15 @@ onCtrlKeyDown(' ', () => finishTurn(), { enabled: desktop });
 
 onMounted(() => defineGlobalCheats());
 
-function startRound() {
+async function startRound() {
   if (isHost.value && round.value?.state.kind === 'idle') {
-    commands.startRound().err();
+    await commands.startRound();
   }
 }
 
-function finishTurn() {
+async function finishTurn() {
   if (isPlayerTurn.value) {
-    commands.endTurn().err();
+    await commands.endTurn();
   }
 }
 

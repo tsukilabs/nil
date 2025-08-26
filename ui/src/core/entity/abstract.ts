@@ -3,13 +3,31 @@
 
 /* eslint-disable @typescript-eslint/class-methods-use-this */
 
+import { handleError } from '@/lib/error';
 import { ListenerSet } from '@/lib/listener-set';
 import { type EffectScope, effectScope } from 'vue';
-import { asyncNoop, debounce, noop } from 'es-toolkit';
+import { asyncNoop, Mutex, noop } from 'es-toolkit';
 
 type Ctor = new() => Entity;
 
 export abstract class Entity {
+  private readonly listeners = new ListenerSet();
+  private readonly dispose = this.listeners.dispose.bind(this.listeners);
+  protected readonly watch = this.listeners.watch.bind(this.listeners);
+  protected readonly watchEffect = this.listeners.watchEffect.bind(this.listeners);
+
+  protected initListeners() {
+    noop();
+  }
+
+  public update() {
+    return asyncNoop();
+  }
+
+  protected get event() {
+    return this.listeners.event;
+  }
+
   private static readonly table = new Map<Ctor, Entity>();
   protected static readonly withScope = createScope();
 
@@ -31,24 +49,7 @@ export abstract class Entity {
     this.table.clear();
   }
 
-  public static updateAll = createUpdater(this.table);
-
-  private readonly listeners = new ListenerSet();
-  private readonly dispose = this.listeners.dispose.bind(this.listeners);
-  protected readonly watch = this.listeners.watch.bind(this.listeners);
-  protected readonly watchEffect = this.listeners.watchEffect.bind(this.listeners);
-
-  protected initListeners() {
-    noop();
-  }
-
-  public update() {
-    return asyncNoop();
-  }
-
-  protected get event() {
-    return this.listeners.event;
-  }
+  public static readonly updateAll = createUpdater(this.table);
 }
 
 function createScope() {
@@ -60,10 +61,17 @@ function createScope() {
 }
 
 function createUpdater(table: Map<Ctor, Entity>) {
-  const fn = async () => {
-    await Promise.all(table.values().map((it) => it.update()));
+  const mutex = new Mutex();
+  return async function() {
+    await mutex.acquire();
+    try {
+      await Promise.all(table.values().map((it) => it.update()));
+    }
+    catch (err) {
+      handleError(err);
+    }
+    finally {
+      mutex.release();
+    }
   };
-
-  const ms = globalThis.__DESKTOP__ ? 250 : 1000;
-  return debounce(fn, ms, { edges: ['leading', 'trailing'] });
 }

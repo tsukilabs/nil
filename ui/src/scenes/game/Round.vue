@@ -3,16 +3,16 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
+import { useMutex } from '@tb-dev/vue';
 import RoundState from './RoundState.vue';
 import { Button } from '@tb-dev/vue-components';
-import type { MaybePromise } from '@tb-dev/utils';
 import { usePlayerTurn } from '@/composables/player/usePlayerTurn';
 import { useBreakpoints } from '@/composables/util/useBreakpoints';
 
-defineProps<{
+const props = defineProps<{
   isHost: boolean;
-  onStartRound: () => MaybePromise<void>;
-  onFinishTurn: () => MaybePromise<void>;
+  onStartRound: () => Promise<void>;
+  onFinishTurn: () => Promise<void>;
 }>();
 
 const { t } = useI18n();
@@ -21,8 +21,12 @@ const { round } = NIL.round.refs();
 const { player } = NIL.player.refs();
 
 const isPlayerTurn = usePlayerTurn();
+const { locked, lock } = useMutex();
 
 const { sm } = useBreakpoints();
+
+const start = () => lock(() => props.onStartRound());
+const finish = () => lock(() => props.onFinishTurn());
 </script>
 
 <template>
@@ -31,15 +35,16 @@ const { sm } = useBreakpoints();
     <Button
       v-if="isHost && round?.state.kind === 'idle'"
       size="sm"
-      @click="onStartRound"
+      :disabled="locked"
+      @click="start"
     >
       {{ t('start') }}
     </Button>
     <Button
       v-else-if="round?.state.kind === 'waiting'"
       size="sm"
-      :disabled="!isPlayerTurn"
-      @click="onFinishTurn"
+      :disabled="locked || !isPlayerTurn"
+      @click="finish"
     >
       {{ sm ? t('finish-turn') : t('finish') }}
     </Button>
