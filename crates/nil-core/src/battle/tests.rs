@@ -17,7 +17,7 @@ fn offensive_power() {
   let battle = Battle::builder().attacker(&attacker).build();
 
   let power = battle.offensive_power();
-  assert_eq!(power.total, 2250.0);
+  assert_eq!(power.total, 5250.0);
   assert_eq!(power.infantry_ratio, 1.0);
 }
 
@@ -75,7 +75,7 @@ fn defensive_power_with_wall() {
   let defender = [s(Pikeman, 100), s(Swordsman, 50)];
   let wall = STATS
     .wall()
-    .get(BuildingLevel::new(2))
+    .get(BuildingLevel::new(20))
     .unwrap();
   let battle = Battle::builder()
     .attacker(&attacker)
@@ -84,7 +84,7 @@ fn defensive_power_with_wall() {
     .build();
 
   let power = battle.defensive_power();
-  assert_eq!(power.total, 4000.0);
+  assert_eq!(power.total, 18280.0);
 }
 
 #[test]
