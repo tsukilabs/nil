@@ -37,11 +37,11 @@ impl Wall {
   pub const MIN_WORKFORCE: Workforce = Workforce::new(2);
   pub const MAX_WORKFORCE: Workforce = Workforce::new(200);
 
-  pub const MIN_DEFENSE_BOOST_PERCENT: WallDefensePercent = WallDefensePercent::new(5.0);
-  pub const MAX_DEFENSE_BOOST_PERCENT: WallDefensePercent = WallDefensePercent::new(107.0);
+  pub const MIN_DEFENSE_BOOST_PERCENT: WallDefenseBonus = WallDefenseBonus::new(5.0);
+  pub const MAX_DEFENSE_BOOST_PERCENT: WallDefenseBonus = WallDefenseBonus::new(107.0);
 
-  pub const MIN_DEFENSE: WallDefenseValue = WallDefenseValue::new(500);
-  pub const MAX_DEFENSE: WallDefenseValue = WallDefenseValue::new(10000);
+  pub const MIN_DEFENSE: WallDefense = WallDefense::new(500);
+  pub const MAX_DEFENSE: WallDefense = WallDefense::new(10000);
 
   pub const MIN_SCORE: Score = Score::new(8);
   pub const MAX_SCORE: Score = Score::new(256);
@@ -64,45 +64,45 @@ impl Default for Wall {
 check_total_resource_ratio!(Wall::WOOD_RATIO, Wall::STONE_RATIO, Wall::IRON_RATIO);
 
 #[derive(Clone, Copy, Debug, Deref, Deserialize, Serialize)]
-pub struct WallDefenseValue(u32);
+pub struct WallDefense(u32);
 
-impl WallDefenseValue {
+impl WallDefense {
   #[inline]
   pub const fn new(value: u32) -> Self {
     Self(value)
   }
 }
 
-impl From<WallDefenseValue> for f64 {
-  fn from(value: WallDefenseValue) -> Self {
+impl From<WallDefense> for f64 {
+  fn from(value: WallDefense) -> Self {
     f64::from(value.0)
   }
 }
 
-impl From<f64> for WallDefenseValue {
+impl From<f64> for WallDefense {
   fn from(value: f64) -> Self {
     Self::new(value as u32)
   }
 }
 
 #[derive(Clone, Copy, Debug, Deref, Deserialize, Serialize)]
-pub struct WallDefensePercent(f64);
+pub struct WallDefenseBonus(f64);
 
-impl WallDefensePercent {
-  pub const MIN: WallDefensePercent = WallDefensePercent(0.0);
+impl WallDefenseBonus {
+  pub const MIN: WallDefenseBonus = WallDefenseBonus(0.0);
   #[inline]
   pub const fn new(value: f64) -> Self {
     Self(value.max(Self::MIN.0))
   }
 }
 
-impl From<WallDefensePercent> for f64 {
-  fn from(value: WallDefensePercent) -> Self {
+impl From<WallDefenseBonus> for f64 {
+  fn from(value: WallDefenseBonus) -> Self {
     value.0
   }
 }
 
-impl From<f64> for WallDefensePercent {
+impl From<f64> for WallDefenseBonus {
   fn from(value: f64) -> Self {
     Self::new(value)
   }
@@ -112,8 +112,8 @@ impl From<f64> for WallDefensePercent {
 #[serde(rename_all = "camelCase")]
 pub struct WallStats {
   pub level: BuildingLevel,
-  pub defense: WallDefenseValue,
-  pub defense_percent: WallDefensePercent,
+  pub defense: WallDefense,
+  pub defense_percent: WallDefenseBonus,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
@@ -145,8 +145,8 @@ impl WallStatsTable {
         level,
         WallStats {
           level,
-          defense: WallDefenseValue::from(defense.round()),
-          defense_percent: WallDefensePercent::from(defense_percent.round()),
+          defense: WallDefense::from(defense.round()),
+          defense_percent: WallDefenseBonus::from(defense_percent.round()),
         },
       );
 
