@@ -81,11 +81,26 @@ impl Add for Squad {
   }
 }
 
+impl Add<SquadSize> for Squad {
+  type Output = Squad;
+
+  fn add(mut self, rhs: SquadSize) -> Self::Output {
+    self += rhs;
+    self
+  }
+}
+
 impl AddAssign for Squad {
   fn add_assign(&mut self, rhs: Self) {
     if self.id() == rhs.id() {
       self.size += rhs.size;
     }
+  }
+}
+
+impl AddAssign<SquadSize> for Squad {
+  fn add_assign(&mut self, rhs: SquadSize) {
+    self.size += rhs;
   }
 }
 
@@ -98,11 +113,26 @@ impl Sub for Squad {
   }
 }
 
+impl Sub<SquadSize> for Squad {
+  type Output = Squad;
+
+  fn sub(mut self, rhs: SquadSize) -> Self::Output {
+    self -= rhs;
+    self
+  }
+}
+
 impl SubAssign for Squad {
   fn sub_assign(&mut self, rhs: Self) {
     if self.id() == rhs.id() {
       self.size -= rhs.size;
     }
+  }
+}
+
+impl SubAssign<SquadSize> for Squad {
+  fn sub_assign(&mut self, rhs: SquadSize) {
+    self.size -= rhs;
   }
 }
 
