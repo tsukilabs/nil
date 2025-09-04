@@ -33,7 +33,7 @@
     "publisher": "Tsukilabs",
     "shortDescription": "Call of Nil",
     "license": "AGPL-3.0-only",
-    "licenseFile": "../../LICENSE",
+    "licenseFile": "./LICENSE",
     "homepage": "https://nil.dev.br/",
     "active": true,
     "targets": "all",

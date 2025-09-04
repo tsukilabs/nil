@@ -16,7 +16,7 @@ function Build {
     Get-ChildItem "crates/$Crate/pkg" -Recurse | Remove-Item
   }
 
-  $BuildCmd = "wasm-pack build crates/$Crate"
+  $BuildCmd = "wasm-pack build crates/$Crate --scope tsukilabs"
   $BuildCmd += if ($Release) { ' --release' }  else { ' --dev --no-opt' }
 
   Invoke-Expression $BuildCmd

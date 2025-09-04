@@ -1,5 +1,6 @@
 [package]
 name = "nil-continent"
+license = "AGPL-3.0-only"
 publish = false
 
 version.workspace = true

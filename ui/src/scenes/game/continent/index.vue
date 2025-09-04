@@ -5,15 +5,15 @@
 import Field from './Field.vue';
 import { until } from '@vueuse/core';
 import { useRoute } from 'vue-router';
-import { Continent } from 'nil-continent';
 import Navigation from './Navigation.vue';
 import { useElementSize } from '@tb-dev/vue';
 import { ListenerSet } from '@/lib/listener-set';
+import { Continent } from '@tsukilabs/nil-continent';
 import { CoordImpl } from '@/core/model/continent/coord';
 import { Card, CardContent } from '@tb-dev/vue-components';
-import { memory } from 'nil-continent/nil_continent_bg.wasm';
 import { useBreakpoints } from '@/composables/util/useBreakpoints';
 import { PublicFieldImpl } from '@/core/model/continent/public-field';
+import { memory } from '@tsukilabs/nil-continent/nil_continent_bg.wasm';
 import { useQueryCoords } from '@/composables/continent/useQueryCoords';
 import { type Direction, onKeyboardMovement } from '@/composables/continent/onKeyboardMovement';
 import {

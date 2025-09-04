@@ -9,8 +9,8 @@
     "dev": "vite",
     "type-check": "vue-tsc --noEmit"
   },
-  "devDependencies": {
-    "nil-continent": "workspace:*",
+  "dependencies": {
+    "@tsukilabs/nil-continent": "workspace:*",
     "tauri-plugin-mobile": "workspace:*"
   }
 }

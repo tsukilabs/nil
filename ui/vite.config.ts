@@ -28,6 +28,6 @@ export default defineConfig({
   server: {
     port: 1420,
     strictPort: true,
-    host: env.TAURI_DEV_HOST || false,
+    host: env.TAURI_DEV_HOST ?? false,
   },
 });
