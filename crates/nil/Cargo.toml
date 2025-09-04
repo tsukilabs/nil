@@ -47,6 +47,7 @@ features = ["image-png", "protocol-asset", "rustls-tls", "tray-icon"]
 [target.'cfg(not(target_os = "android"))'.dependencies]
 tauri-plugin-prevent-default.workspace = true
 tauri-plugin-single-instance.workspace = true
+tauri-plugin-updater.workspace = true
 tauri-plugin-window-state.workspace = true
 
 [build-dependencies.tauri-build]
