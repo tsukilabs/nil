@@ -5,7 +5,9 @@
 mod tests;
 
 use crate::infrastructure::building::wall::WallStats;
-use crate::military::squad::Squad;
+use crate::infrastructure::prelude::BuildingLevel;
+use crate::military::army::ArmyPersonnel;
+use crate::military::squad::{Squad, SquadSize};
 use crate::military::unit::UnitKind;
 use bon::Builder;
 
@@ -24,26 +26,26 @@ impl Battle<'_> {
   }
 
   pub fn defensive_power(&self) -> DefensivePower {
-    DefensivePower::new(self.defender, self.offensive_power(), self.wall)
+    DefensivePower::new(self.defender, &self.offensive_power(), self.wall)
   }
 
-  pub fn winner_losses(&self) -> WinnerLosses {
-    WinnerLosses::new(self.offensive_power(), self.defensive_power())
+  pub fn battle_result(&self) -> BattleResult {
+    BattleResult::new(self.attacker, self.defender, self.wall)
   }
 }
 
+#[derive(Clone, Debug)]
 enum BattleWinner {
   Attacker,
   Defender,
 }
 
-#[derive(Copy, Clone, Debug)]
+#[derive(Clone, Debug)]
 pub struct OffensivePower {
   total: f64,
   infantry_ratio: f64,
   cavalry_ratio: f64,
   ranged_ratio: f64,
-  units_by_kind: UnitsByKind,
 }
 
 impl OffensivePower {
@@ -78,25 +80,24 @@ impl OffensivePower {
       infantry_ratio: infantry / total,
       cavalry_ratio: cavalry / total,
       ranged_ratio: ranged / total,
-      units_by_kind,
     }
   }
 }
 
 #[expect(dead_code)]
-#[derive(Copy, Clone, Debug)]
+#[derive(Clone, Debug)]
 pub struct DefensivePower {
   total: f64,
   infantry_ratio: f64,
   cavalry_ratio: f64,
   ranged_ratio: f64,
-  units_by_kind: UnitsByKind,
+  ranged_is_debuffed: bool,
 }
 
 impl DefensivePower {
   pub fn new(
     squads: &[Squad],
-    offensive_power: OffensivePower,
+    offensive_power: &OffensivePower,
     defending_wall: Option<&WallStats>,
   ) -> Self {
     let units_by_kind = UnitsByKind::new(squads);
@@ -115,9 +116,11 @@ impl DefensivePower {
     ranged *= offensive_power.ranged_ratio;
 
     let mut total = infantry + cavalry + ranged;
+    let mut ranged_is_debuffed = false;
 
     if f64::from(units_by_kind.ranged) / f64::from(units_by_kind.units_amount) > 0.5 {
       total -= sum_ranged_debuff(squads);
+      ranged_is_debuffed = true;
     }
 
     if let Some(wall_power) = defending_wall {
@@ -129,65 +132,73 @@ impl DefensivePower {
       infantry_ratio: infantry / total,
       cavalry_ratio: cavalry / total,
       ranged_ratio: ranged / total,
-      units_by_kind,
+      ranged_is_debuffed,
     }
   }
 }
 
 #[expect(dead_code)]
-#[derive(Copy, Clone, Debug)]
-pub struct WinnerLosses {
-  total_loss: f64,
-  infantry: f64,
-  cavalry_losses: f64,
-  ranged_losses: f64,
+#[derive(Clone, Debug)]
+pub struct BattleResult {
+  attacker_personnel: ArmyPersonnel,
+  attacker_surviving_personnel: ArmyPersonnel,
+  defender_personnel: ArmyPersonnel,
+  defender_surviving_personnel: ArmyPersonnel,
+  wall_level: BuildingLevel,
 }
 
-impl WinnerLosses {
-  fn new(offensive_power: OffensivePower, defesive_power: DefensivePower) -> Self {
-    let winner = determine_winner(offensive_power, defesive_power);
-    let winner_power = match winner {
-      BattleWinner::Attacker => offensive_power.total,
-      BattleWinner::Defender => defesive_power.total,
+impl BattleResult {
+  fn new(defending_squads: &[Squad], attacking_squads: &[Squad], wall: Option<&WallStats>) -> Self {
+    let attacker_power = OffensivePower::new(attacking_squads);
+    let defender_power = DefensivePower::new(defending_squads, &attacker_power, wall);
+
+    let winner = determine_winner(&attacker_power, &defender_power);
+
+    let attacker_personnel: ArmyPersonnel = attacking_squads.iter().cloned().collect();
+    let defender_personnel: ArmyPersonnel = defending_squads.iter().cloned().collect();
+
+    let mut attacker_surviving_personnel = ArmyPersonnel::default();
+    let mut defender_surviving_personnel = ArmyPersonnel::default();
+
+    let losses_ratio = match winner {
+      BattleWinner::Attacker => (defender_power.total / attacker_power.total).powf(1.5),
+      BattleWinner::Defender => (attacker_power.total / defender_power.total).powf(1.5),
     };
 
-    let loser_power = match winner {
-      BattleWinner::Attacker => defesive_power.total,
-      BattleWinner::Defender => offensive_power.total,
-    };
+    let mut squad_survivors: f64;
 
-    let winner_units = match winner {
-      BattleWinner::Attacker => offensive_power.units_by_kind.units_amount,
-      BattleWinner::Defender => defesive_power.units_by_kind.units_amount,
-    };
+    match winner {
+      BattleWinner::Attacker => {
+        for squad in attacking_squads {
+          let squad_size = f64::from(squad.size());
+          squad_survivors = squad_size - (squad_size * losses_ratio);
+          attacker_surviving_personnel += Squad::new(squad.id(), SquadSize::from(squad_survivors));
+        }
+      }
+      BattleWinner::Defender => {
+        for squad in defending_squads {
+          let squad_size = f64::from(squad.size());
+          squad_survivors = squad_size - (squad_size * losses_ratio);
+          defender_surviving_personnel += Squad::new(squad.id(), SquadSize::from(squad_survivors));
+        }
+      }
+    }
 
-    let winner_infantry = match winner {
-      BattleWinner::Attacker => offensive_power.units_by_kind.infantry,
-      BattleWinner::Defender => defesive_power.units_by_kind.infantry,
-    };
+    let wall_level = wall
+      .map(|stats| stats.level)
+      .unwrap_or_default();
 
-    let winner_cavalry = match winner {
-      BattleWinner::Attacker => offensive_power.units_by_kind.cavalry,
-      BattleWinner::Defender => defesive_power.units_by_kind.cavalry,
-    };
-
-    let winner_ranged = match winner {
-      BattleWinner::Attacker => offensive_power.units_by_kind.ranged,
-      BattleWinner::Defender => defesive_power.units_by_kind.ranged,
-    };
-
-    let losses_percent = 100.0 * (loser_power / winner_power).powf(1.5);
-
-    WinnerLosses {
-      total_loss: (f64::from(winner_units) / 100.0) * losses_percent,
-      infantry: (f64::from(winner_infantry) / 100.0) * losses_percent,
-      cavalry_losses: (f64::from(winner_cavalry) / 100.0) * losses_percent,
-      ranged_losses: (f64::from(winner_ranged) / 100.0) * losses_percent,
+    BattleResult {
+      attacker_personnel,
+      attacker_surviving_personnel,
+      defender_personnel,
+      defender_surviving_personnel,
+      wall_level,
     }
   }
 }
 
-fn determine_winner(attacker: OffensivePower, defender: DefensivePower) -> BattleWinner {
+fn determine_winner(attacker: &OffensivePower, defender: &DefensivePower) -> BattleWinner {
   let attacker_power = attacker.total;
   let defender_power = defender.total;
   if attacker_power > defender_power {
@@ -198,6 +209,7 @@ fn determine_winner(attacker: OffensivePower, defender: DefensivePower) -> Battl
 }
 
 #[derive(Copy, Clone, Debug)]
+#[expect(dead_code)]
 pub struct UnitsByKind {
   infantry: u32,
   cavalry: u32,

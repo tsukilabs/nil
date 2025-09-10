@@ -23,3 +23,4 @@ pub mod ruler;
 pub mod savedata;
 pub mod script;
 pub mod world;
+pub mod report;

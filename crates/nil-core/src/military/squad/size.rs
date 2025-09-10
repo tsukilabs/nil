@@ -9,6 +9,7 @@ use serde::{Deserialize, Serialize};
 use std::ops::{Add, AddAssign, Mul, Sub, SubAssign};
 
 #[derive(Clone, Copy, Debug, Default, Deref, From, Into, PartialEq, Eq, Deserialize, Serialize)]
+#[into(u32, f64)]
 pub struct SquadSize(u32);
 
 impl SquadSize {
@@ -43,6 +44,12 @@ impl AddAssign for SquadSize {
 impl AddAssign<u32> for SquadSize {
   fn add_assign(&mut self, rhs: u32) {
     *self = *self + rhs;
+  }
+}
+
+impl From<f64> for SquadSize {
+  fn from(value: f64) -> Self {
+    Self::new(value as u32)
   }
 }
 
