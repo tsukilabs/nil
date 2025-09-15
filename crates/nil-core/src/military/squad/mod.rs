@@ -13,7 +13,7 @@ use std::ops::{Add, AddAssign, Sub, SubAssign};
 pub use size::SquadSize;
 
 /// A group of units of the same type.
-#[derive(Clone, Debug, Deserialize, Serialize, PartialEq)]
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
 pub struct Squad {
   unit: UnitBox,
