@@ -6,7 +6,7 @@ import { shikiToMonaco } from '@shikijs/monaco';
 import { createOnigurumaEngine } from 'shiki/engine/oniguruma';
 import type { editor as MonacoEditor } from 'monaco-editor-core';
 import { createHighlighterCore, type HighlighterCore } from 'shiki/core';
-import EditorWorker from 'monaco-editor-core/esm/vs/editor/editor.worker?worker';
+import EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker';
 
 export type CodeEditor = MonacoEditor.IStandaloneCodeEditor;
 
@@ -35,9 +35,7 @@ export async function createHighlighter() {
 }
 
 export async function createEditor(element: HTMLElement) {
-  // Ensure highlighter is created.
   const highlighter = await createHighlighter();
-
   if (!cache.editor) {
     const languages = monaco.languages.getLanguages();
     if (languages.every((it) => it.id !== 'lua')) {

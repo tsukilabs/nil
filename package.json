@@ -43,6 +43,7 @@
     "es-toolkit": "^1.39.10",
     "gray-matter": "^4.0.3",
     "lucide-vue-next": "^0.544.0",
+    "monaco-editor": "^0.53.0",
     "monaco-editor-core": "^0.53.0",
     "pinia": "^3.0.3",
     "shiki": "^3.12.2",
