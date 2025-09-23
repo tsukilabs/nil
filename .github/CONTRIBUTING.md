@@ -2,7 +2,7 @@
 
 ## Requirements
 
-- [Rust 1.91 (nightly)](https://www.rust-lang.org/tools/install)
+- [Rust 1.92 (nightly)](https://www.rust-lang.org/tools/install)
 - [Node 24](https://nodejs.org/en/download/current)
 - [PowerShell 7](https://github.com/PowerShell/PowerShell/releases/latest)
 - [pnpm](https://pnpm.io/installation)

@@ -17,7 +17,7 @@ function Build {
   
   $Path = "crates/$Crate/pkg"
 
-  if (Test-Path -Path $Path ) {
+  if (Test-Path -Path $Path) {
     Get-ChildItem -Path $Path -Recurse | Remove-Item -Recurse
   }
 
