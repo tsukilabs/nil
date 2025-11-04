@@ -6,9 +6,6 @@ use crate::infrastructure::building::{BuildingId, BuildingLevel, MineId, Storage
 use crate::npc::bot::BotId;
 use crate::npc::precursor::PrecursorId;
 use crate::player::PlayerId;
-use crate::script::ScriptId;
-use mlua::ExternalError as _;
-use regex::Regex;
 use serde::Serialize;
 use serde::ser::Serializer;
 use std::result::Result as StdResult;
@@ -41,9 +38,6 @@ pub enum Error {
 
   #[error("City not found: {0}")]
   CityNotFound(Coord),
-
-  #[error("{}", display_lua_err(.0))]
-  FailedToExecuteScript(#[from] mlua::Error),
 
   #[error("Failed to load world")]
   FailedToLoadWorld,
@@ -90,9 +84,6 @@ pub enum Error {
   #[error("Round has not started yet")]
   RoundNotStarted,
 
-  #[error("Script not found: {0}")]
-  ScriptNotFound(ScriptId),
-
   #[error("No stats found for storage \"{0}\"")]
   StorageStatsNotFound(StorageId),
 
@@ -113,24 +104,6 @@ impl Serialize for Error {
   {
     serializer.serialize_str(self.to_string().as_str())
   }
-}
-
-impl From<Error> for mlua::Error {
-  fn from(err: Error) -> Self {
-    err.into_lua_err()
-  }
-}
-
-fn display_lua_err(err: &mlua::Error) -> String {
-  let err = err.to_string();
-  Regex::new(r"crates.+?\.rs:\d+?:\d+?:")
-    .expect("regex should be valid")
-    .replace_all(&err, "")
-    .split("stack traceback")
-    .next()
-    .unwrap_or_default()
-    .trim()
-    .to_owned()
 }
 
 pub trait WrapOk<T> {

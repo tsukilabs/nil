@@ -1,7 +1,6 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { scriptRoutes } from './script';
 import { profileRoutes } from './profile';
 import type { RouteRecordRaw } from 'vue-router';
 import { infrastructureRoutes } from './infrastructure';
@@ -31,11 +30,6 @@ export const gameRoutes: RouteRecordRaw[] = [
     component: () => import('@/scenes/game/ranking/index.vue'),
     path: 'ranking',
     name: 'ranking' satisfies GameScene,
-  },
-  {
-    component: () => import('@/scenes/game/script/index.vue'),
-    path: 'script',
-    children: scriptRoutes,
   },
   {
     component: () => import('@/scenes/game/city/index.vue'),

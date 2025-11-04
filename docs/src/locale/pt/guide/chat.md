@@ -26,14 +26,6 @@ Define a quantidade de ferro que você possui.
 
 Abandona a partida atual.
 
-### `$lua`
-
-Executa código em Lua.
-
-```lua
-$lua world:rename_village({ x = 42, y 42 }, "Minha Aldeia")
-```
-
 ### `$map`
 
 Abre o mapa do continente.

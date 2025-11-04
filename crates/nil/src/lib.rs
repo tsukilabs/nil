@@ -20,7 +20,7 @@ use state::Nil;
 use tauri::{AppHandle, Manager, Wry};
 use tauri_plugin_pinia::CborMarshaler;
 
-#[expect(clippy::too_many_lines)]
+#[allow(clippy::too_many_lines)]
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
   #[cfg(debug_assertions)]
@@ -85,9 +85,6 @@ pub fn run() {
       command::npc::bot::get_public_bot,
       command::npc::precursor::get_precursor_coords,
       command::npc::precursor::get_public_precursor,
-      command::nsr::fetch_nsr_readme,
-      command::nsr::fetch_nsr_registry,
-      command::nsr::fetch_nsr_script,
       command::player::get_player,
       command::player::get_player_coords,
       command::player::get_player_maintenance,
@@ -106,15 +103,6 @@ pub fn run() {
       command::round::get_round,
       command::round::is_round_idle,
       command::round::start_round,
-      command::script::add_scripts,
-      command::script::execute_script,
-      command::script::execute_script_chunk,
-      command::script::export_script,
-      command::script::get_script,
-      command::script::get_scripts,
-      command::script::import_scripts,
-      command::script::remove_script,
-      command::script::update_script,
       command::server::get_server_addr,
       command::server::get_server_version,
       command::server::is_server_ready,

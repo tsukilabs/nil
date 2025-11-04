@@ -37,11 +37,6 @@ impl World {
     self.broadcast(Event::ChatUpdated { message });
   }
 
-  /// Emits [`Event::ChatUpdated`] to a specific player.
-  pub(super) fn emit_chat_updated_to(&self, player: PlayerId, message: ChatMessage) {
-    self.emit_to(player, Event::ChatUpdated { message });
-  }
-
   /// Emits [`Event::PlayerUpdated`].
   pub(super) fn emit_player_updated(&self, player: PlayerId) {
     self.emit_to(player.clone(), Event::PlayerUpdated { player });

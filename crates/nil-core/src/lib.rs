@@ -21,5 +21,4 @@ pub mod resources;
 pub mod round;
 pub mod ruler;
 pub mod savedata;
-pub mod script;
 pub mod world;

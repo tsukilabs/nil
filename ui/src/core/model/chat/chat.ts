@@ -18,16 +18,7 @@ export class ChatImpl {
   }
 
   public push(message: ChatMessage) {
-    switch (message.kind) {
-      case 'default': {
-        this.public.push(message);
-        break;
-      }
-      case 'stdout': {
-        this.private.push(message);
-        break;
-      }
-    }
+    this.public.push(message);
   }
 
   public static create(history: [ChatHistory, ChatHistory]) {

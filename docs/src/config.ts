@@ -19,7 +19,6 @@ export default defineAdditionalConfig({
           text: 'Guide',
           items: [
             { text: 'Chat', link: 'chat' },
-            { text: 'Scripts', link: 'scripts' },
           ],
         }],
       },

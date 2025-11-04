@@ -8,7 +8,6 @@
 mod client;
 mod error;
 mod http;
-pub mod nsr;
 mod websocket;
 
 pub use client::Client;

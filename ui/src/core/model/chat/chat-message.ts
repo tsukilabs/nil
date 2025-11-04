@@ -21,14 +21,6 @@ export class ChatMessageImpl implements ChatMessage {
     this.date = fromZoned(message.timestamp);
   }
 
-  public isDefault() {
-    return this.kind === 'default';
-  }
-
-  public isStdout() {
-    return this.kind === 'stdout';
-  }
-
   public isEmpty() {
     return this.content.trim().length === 0;
   }

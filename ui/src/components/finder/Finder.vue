@@ -46,10 +46,6 @@ const items = computed<FinderItem[]>(() => {
       label: t('iron-mine'),
     },
     {
-      value: 'nsr',
-      label: t('registry'),
-    },
-    {
       value: 'prefecture',
       label: t('prefecture'),
     },
@@ -76,10 +72,6 @@ const items = computed<FinderItem[]>(() => {
     {
       value: 'stable',
       label: t('stable'),
-    },
-    {
-      value: 'script',
-      label: t('script', 2),
     },
     {
       value: 'wall',

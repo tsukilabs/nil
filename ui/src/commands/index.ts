@@ -4,13 +4,11 @@
 import { invoke } from '@tauri-apps/api/core';
 
 export * from './npc';
-export * from './nsr';
 export * from './chat';
 export * from './city';
 export * from './cheat';
 export * from './round';
 export * from './world';
-export * from './script';
 export * from './client';
 export * from './server';
 export * from './player';

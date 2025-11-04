@@ -18,8 +18,6 @@
 
 ### `$leave`
 
-### `$lua`
-
 ### `$map`
 
 ### `$max` <Badge type="tip" text="cheat" />

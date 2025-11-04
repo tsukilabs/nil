@@ -77,7 +77,7 @@ function copyServerAddr() {
 </script>
 
 <template>
-  <Sidebar class="z-[var(--game-sidebar-z-index)] select-none">
+  <Sidebar class="z-(--game-sidebar-z-index) select-none">
     <SidebarHeader>
       <div ref="sidebarHeaderEl" class="flex flex-col items-center overflow-hidden pt-4">
         <h1 v-if="config" class="font-nil text-lg break-all text-center">
@@ -112,14 +112,6 @@ function copyServerAddr() {
                 <SidebarMenuButton as-child>
                   <RouterLink :to="{ name: 'ranking' satisfies GameScene }">
                     {{ t('ranking') }}
-                  </RouterLink>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-
-              <SidebarMenuItem>
-                <SidebarMenuButton as-child>
-                  <RouterLink :to="{ name: 'script' satisfies GameScene }">
-                    {{ t('script', 2) }}
                   </RouterLink>
                 </SidebarMenuButton>
               </SidebarMenuItem>
