@@ -7,7 +7,7 @@ on:
       - release
 
 env:
-  GITHUB_CI: "true"
+  MAP_WORKSPACE_DEPS: "true"
 
 jobs:
   release-desktop:
