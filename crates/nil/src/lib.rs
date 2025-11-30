@@ -118,13 +118,12 @@ pub fn run() {
 
 #[cfg(desktop)]
 fn builder() -> tauri::Builder<Wry> {
-  use plugin::desktop;
   let mut builder = tauri::Builder::default()
-    .plugin(desktop::prevent_default())
+    .plugin(plugin::prevent_default())
     .plugin(tauri_plugin_updater::Builder::new().build());
 
   if !cfg!(debug_assertions) {
-    builder = builder.plugin(desktop::single_instance());
+    builder = builder.plugin(plugin::single_instance());
   }
 
   builder
