@@ -2,7 +2,7 @@
   "$schema": "../gen/schemas/desktop-schema.json",
   "identifier": "main",
   "description": "Capability for the main window",
-  "windows": ["main"],
+  "windows": ["*"],
   "permissions": [
     "core:event:allow-listen",
     "core:event:allow-unlisten",
@@ -16,6 +16,7 @@
     "dialog:allow-save",
     "pinia:default",
     "process:allow-exit",
+    "process:allow-restart",
 
     {
       "identifier": "fs:allow-read-dir",

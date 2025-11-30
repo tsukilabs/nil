@@ -2,12 +2,15 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 #[cfg(desktop)]
-pub mod desktop;
+mod desktop;
 
 use crate::manager::ManagerExt;
 use tauri::async_runtime::block_on;
 use tauri::plugin::{Builder, TauriPlugin};
 use tauri::{AppHandle, RunEvent, Wry};
+
+#[cfg(desktop)]
+pub use desktop::{prevent_default, single_instance};
 
 pub fn on_exit() -> TauriPlugin<Wry> {
   let task = async |app: &AppHandle| {
