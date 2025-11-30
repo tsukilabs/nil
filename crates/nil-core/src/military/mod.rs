@@ -76,14 +76,14 @@ impl Military {
     self
       .armies()
       .find(|army| army.id() == id)
-      .ok_or_else(|| Error::ArmyNotFound(id))
+      .ok_or(Error::ArmyNotFound(id))
   }
 
   pub(crate) fn army_mut(&mut self, id: ArmyId) -> Result<&mut Army> {
     self
       .armies_mut()
       .find(|army| army.id() == id)
-      .ok_or_else(|| Error::ArmyNotFound(id))
+      .ok_or(Error::ArmyNotFound(id))
   }
 
   pub fn armies(&self) -> impl Iterator<Item = &Army> {
@@ -157,7 +157,7 @@ impl Military {
     self
       .maneuvers
       .get(&id)
-      .ok_or_else(|| Error::ManeuverNotFound(id))
+      .ok_or(Error::ManeuverNotFound(id))
   }
 
   // TODO: Should a player be allowed to attack themselves?

@@ -3,10 +3,10 @@
   "version": "0.1.1",
   "identifier": "tsukilabs.nil",
   "build": {
-    "beforeDevCommand": "pnpm run -F ui dev",
-    "beforeBuildCommand": "pnpm run -F ui build",
+    "beforeDevCommand": "pnpm run -F nil dev",
+    "beforeBuildCommand": "pnpm run -F nil build",
     "devUrl": "http://localhost:1420",
-    "frontendDist": "../../ui/dist",
+    "frontendDist": "../dist",
     "removeUnusedCommands": true
   },
   "app": {
