@@ -11,12 +11,13 @@ export default defineConfig({
     tailwind(),
     vue({ features: { optionsAPI: false } }),
   ],
-  clearScreen: false,
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('src', import.meta.url)),
     },
   },
+  clearScreen: false,
+  publicDir: 'src/public',
   build: {
     chunkSizeWarningLimit: 5000,
     copyPublicDir: true,

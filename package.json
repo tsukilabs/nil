@@ -9,7 +9,7 @@
     "build": "pwsh scripts/build-bin.ps1",
     "clippy": "pwsh scripts/invoke-clippy.ps1",
     "dev": "pwsh scripts/start-dev.ps1",
-    "eslint": "eslint . --config eslint.config.js",
+    "eslint": "eslint . --config eslint.config.ts",
     "format": "dprint fmt && cargo fmt --all",
     "miri": "pwsh scripts/test.ps1 -Miri",
     "plugin": "pnpm run -F tauri-plugin-* build",

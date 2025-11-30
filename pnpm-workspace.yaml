@@ -1,6 +1,6 @@
 packages:
+  - "app"
   - "crates/nil-continent/pkg"
-  - "ui"
 
 ignoreWorkspaceRootCheck: true
 minimumReleaseAge: 4320
