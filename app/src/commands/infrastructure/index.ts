@@ -7,6 +7,6 @@ export * from './stable';
 export * from './academy';
 export * from './prefecture';
 
-export function toggleBuilding(coord: Coord, id: BuildingId, enabled: boolean) {
-  return invoke<null>('toggle_building', { coord, id, enabled });
+export async function toggleBuilding(coord: Coord, id: BuildingId, enabled: boolean) {
+  await invoke('toggle_building', { req: { coord, id, enabled } });
 }

@@ -129,7 +129,7 @@ pub enum PlayerStatus {
   Inactive,
 }
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct PlayerOptions {
   pub id: PlayerId,

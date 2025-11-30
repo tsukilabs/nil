@@ -9,7 +9,8 @@ use axum::extract::{Extension, Json, Path, State};
 use axum::response::Response;
 use futures::{FutureExt, TryFutureExt};
 use itertools::Itertools;
-use nil_core::player::{Player, PlayerId, PlayerOptions, PlayerStatus, PublicPlayer};
+use nil_core::player::{Player, PlayerId, PublicPlayer};
+use nil_payload::player::{GetPlayerRequest, SetPlayerStatusRequest, SpawnPlayerRequest};
 
 pub async fn exists(State(app): State<App>, Path(id): Path<PlayerId>) -> Response {
   app
@@ -18,9 +19,9 @@ pub async fn exists(State(app): State<App>, Path(id): Path<PlayerId>) -> Respons
     .await
 }
 
-pub async fn get(State(app): State<App>, Json(id): Json<PlayerId>) -> Response {
+pub async fn get(State(app): State<App>, Json(req): Json<GetPlayerRequest>) -> Response {
   app
-    .player_manager(|pm| pm.player(&id).cloned())
+    .player_manager(|pm| pm.player(&req.id).cloned())
     .map_ok(|player| res!(OK, Json(player)))
     .unwrap_or_else(from_core_err)
     .await
@@ -102,18 +103,18 @@ pub async fn get_storage_capacity(
 pub async fn set_status(
   State(app): State<App>,
   Extension(player): Extension<CurrentPlayer>,
-  Json(status): Json<PlayerStatus>,
+  Json(req): Json<SetPlayerStatusRequest>,
 ) -> Response {
   app
-    .world_mut(|world| world.set_player_status(&player, status))
+    .world_mut(|world| world.set_player_status(&player, req.status))
     .map_ok(|()| res!(OK))
     .unwrap_or_else(from_core_err)
     .await
 }
 
-pub async fn spawn(State(app): State<App>, Json(options): Json<PlayerOptions>) -> Response {
+pub async fn spawn(State(app): State<App>, Json(req): Json<SpawnPlayerRequest>) -> Response {
   app
-    .world_mut(|world| world.spawn_player(Player::new(options)))
+    .world_mut(|world| world.spawn_player(Player::new(req.options)))
     .map_ok(|()| res!(CREATED))
     .unwrap_or_else(from_core_err)
     .await

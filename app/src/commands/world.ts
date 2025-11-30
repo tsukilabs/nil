@@ -15,6 +15,6 @@ export async function getWorldStats(): Promise<WorldStatsImpl> {
   return WorldStatsImpl.fromRaw(stats);
 }
 
-export function saveWorld(path: string) {
-  return invoke<null>('save_world', { path });
+export async function saveWorld(path: string) {
+  await invoke('save_world', { req: { path } });
 }

@@ -6,14 +6,15 @@ use crate::manager::ManagerExt;
 use nil_core::continent::Coord;
 use nil_core::infrastructure::storage::OverallStorageCapacity;
 use nil_core::military::Military;
-use nil_core::player::{Player, PlayerId, PlayerOptions, PlayerStatus, PublicPlayer};
+use nil_core::player::{Player, PlayerId, PlayerStatus, PublicPlayer};
 use nil_core::resources::Maintenance;
+use nil_payload::player::{GetPlayerRequest, SetPlayerStatusRequest, SpawnPlayerRequest};
 use tauri::AppHandle;
 
 #[tauri::command]
-pub async fn get_player(app: AppHandle, id: PlayerId) -> Result<Player> {
+pub async fn get_player(app: AppHandle, req: GetPlayerRequest) -> Result<Player> {
   app
-    .client(async |cl| cl.get_player(id).await)
+    .client(async |cl| cl.get_player(req).await)
     .await?
     .map_err(Into::into)
 }
@@ -91,17 +92,17 @@ pub async fn player_exists(app: AppHandle, id: PlayerId) -> Result<bool> {
 }
 
 #[tauri::command]
-pub async fn set_player_status(app: AppHandle, status: PlayerStatus) -> Result<()> {
+pub async fn set_player_status(app: AppHandle, req: SetPlayerStatusRequest) -> Result<()> {
   app
-    .client(async |cl| cl.set_player_status(status).await)
+    .client(async |cl| cl.set_player_status(req).await)
     .await?
     .map_err(Into::into)
 }
 
 #[tauri::command]
-pub async fn spawn_player(app: AppHandle, options: PlayerOptions) -> Result<()> {
+pub async fn spawn_player(app: AppHandle, req: SpawnPlayerRequest) -> Result<()> {
   app
-    .client(async |cl| cl.spawn_player(options).await)
+    .client(async |cl| cl.spawn_player(req).await)
     .await?
     .map_err(Into::into)
 }

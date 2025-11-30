@@ -13,19 +13,18 @@ use crate::state::App;
 use crate::{bail_not_owned_by, bail_not_pending, res};
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
-use nil_core::continent::Coord;
-use nil_core::infrastructure::building::BuildingId;
+use nil_payload::infrastructure::ToggleBuildingRequest;
 
 pub async fn toggle(
   State(app): State<App>,
   Extension(player): Extension<CurrentPlayer>,
-  Json((coord, id, enabled)): Json<(Coord, BuildingId, bool)>,
+  Json(req): Json<ToggleBuildingRequest>,
 ) -> Response {
   let result: CoreResult<()> = try {
     let mut world = app.world.write().await;
     bail_not_pending!(world, &player.0);
-    bail_not_owned_by!(world, &player.0, coord);
-    world.toggle_building(coord, id, enabled)?;
+    bail_not_owned_by!(world, &player.0, req.coord);
+    world.toggle_building(req.coord, req.id, req.enabled)?;
   };
 
   result

@@ -3,21 +3,21 @@
 
 use crate::error::Result;
 use crate::manager::ManagerExt;
-use nil_core::continent::Coord;
-use nil_core::infrastructure::building::academy::{
-  AcademyRecruitCatalog,
-  AcademyRecruitOrderId,
-  AcademyRecruitOrderRequest,
+use nil_core::infrastructure::building::academy::AcademyRecruitCatalog;
+use nil_payload::infrastructure::academy::{
+  AddAcademyRecruitOrderRequest,
+  CancelAcademyRecruitOrderRequest,
+  GetAcademyRecruitCatalogRequest,
 };
 use tauri::AppHandle;
 
 #[tauri::command]
 pub async fn add_academy_recruit_order(
   app: AppHandle,
-  request: AcademyRecruitOrderRequest,
+  req: AddAcademyRecruitOrderRequest,
 ) -> Result<()> {
   app
-    .client(async |cl| cl.add_academy_recruit_order(request).await)
+    .client(async |cl| cl.add_academy_recruit_order(req).await)
     .await?
     .map_err(Into::into)
 }
@@ -25,14 +25,10 @@ pub async fn add_academy_recruit_order(
 #[tauri::command]
 pub async fn cancel_academy_recruit_order(
   app: AppHandle,
-  coord: Coord,
-  id: AcademyRecruitOrderId,
+  req: CancelAcademyRecruitOrderRequest,
 ) -> Result<()> {
   app
-    .client(async |cl| {
-      cl.cancel_academy_recruit_order(coord, id)
-        .await
-    })
+    .client(async |cl| cl.cancel_academy_recruit_order(req).await)
     .await?
     .map_err(Into::into)
 }
@@ -40,10 +36,10 @@ pub async fn cancel_academy_recruit_order(
 #[tauri::command]
 pub async fn get_academy_recruit_catalog(
   app: AppHandle,
-  coord: Coord,
+  req: GetAcademyRecruitCatalogRequest,
 ) -> Result<AcademyRecruitCatalog> {
   app
-    .client(async |cl| cl.get_academy_recruit_catalog(coord).await)
+    .client(async |cl| cl.get_academy_recruit_catalog(req).await)
     .await?
     .map_err(Into::into)
 }

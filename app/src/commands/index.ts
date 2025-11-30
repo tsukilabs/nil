@@ -16,18 +16,18 @@ export * from './ranking';
 export * from './continent';
 export * from './infrastructure';
 
-export function createTrayIcon() {
-  return invoke<null>('create_tray_icon');
+export async function createTrayIcon() {
+  await invoke('create_tray_icon');
 }
 
-export function isHost() {
+export async function isHost() {
   return invoke<boolean>('is_host');
 }
 
-export function showWindow() {
-  return invoke<null>('show_window');
+export async function showWindow() {
+  await invoke('show_window');
 }
 
-export function version() {
+export async function version() {
   return invoke<string>('version');
 }

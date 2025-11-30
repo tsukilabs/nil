@@ -3,18 +3,18 @@
 
 import { invoke } from '@tauri-apps/api/core';
 
-export function endTurn() {
-  return invoke<null>('end_turn');
+export async function endTurn() {
+  await invoke('end_turn');
 }
 
-export function getRound() {
+export async function getRound() {
   return invoke<Round>('get_round');
 }
 
-export function isRoundIdle() {
+export async function isRoundIdle() {
   return invoke<boolean>('is_round_idle');
 }
 
-export function startRound() {
-  return invoke<null>('start_round');
+export async function startRound() {
+  await invoke('start_round');
 }

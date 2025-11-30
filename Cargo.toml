@@ -37,6 +37,7 @@ nil-namegen.path = "./crates/nil-namegen"
 nil-num.path = "./crates/nil-num"
 nil-num-macros.path = "./crates/nil-num-macros"
 nil-server.path = "./crates/nil-server"
+nil-payload.path = "./crates/nil-payload"
 nil-util.path = "./crates/nil-util"
 
 anyhow = "1.0"

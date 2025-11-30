@@ -4,7 +4,7 @@
 import { clamp } from 'es-toolkit';
 import { invoke } from '@tauri-apps/api/core';
 
-export function cheatSetStability(coord: Coord, stability: number) {
+export async function cheatSetStability(coord: Coord, stability: number) {
   stability = clamp(stability, 0.0, 1.0);
-  return invoke<null>('cheat_set_stability', { coord, stability });
+  await invoke('cheat_set_stability', { req: { coord, stability } });
 }

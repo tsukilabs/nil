@@ -4,17 +4,17 @@
 import { invoke } from '@tauri-apps/api/core';
 
 export async function getCity(coord: Coord) {
-  return invoke<City>('get_city', { coord });
+  return invoke<City>('get_city', { req: { coord } });
 }
 
 export async function getCityScore(coord: Coord) {
-  return invoke<number>('get_city_score', { coord });
+  return invoke<number>('get_city_score', { req: { coord } });
 }
 
 export async function getPublicCity(coord: Coord) {
-  return invoke<PublicCity>('get_public_city', { coord });
+  return invoke<PublicCity>('get_public_city', { req: { coord } });
 }
 
 export async function renameCity(coord: Coord, name: string) {
-  return invoke<null>('rename_city', { coord, name });
+  await invoke('rename_city', { req: { coord, name } });
 }

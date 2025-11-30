@@ -8,15 +8,21 @@ use crate::state::App;
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
 use futures::TryFutureExt;
-use nil_core::resources::prelude::*;
+use nil_payload::cheat::resources::{
+  CheatSetFoodRequest,
+  CheatSetIronRequest,
+  CheatSetResourcesRequest,
+  CheatSetStoneRequest,
+  CheatSetWoodRequest,
+};
 
 pub async fn set_food(
   State(app): State<App>,
   Extension(player): Extension<CurrentPlayer>,
-  Json(food): Json<Food>,
+  Json(req): Json<CheatSetFoodRequest>,
 ) -> Response {
   app
-    .world_mut(|world| world.cheat_set_food(player.0, food))
+    .world_mut(|world| world.cheat_set_food(player.0, req.food))
     .map_ok(|()| res!(OK))
     .unwrap_or_else(from_core_err)
     .await
@@ -25,10 +31,10 @@ pub async fn set_food(
 pub async fn set_iron(
   State(app): State<App>,
   Extension(player): Extension<CurrentPlayer>,
-  Json(iron): Json<Iron>,
+  Json(req): Json<CheatSetIronRequest>,
 ) -> Response {
   app
-    .world_mut(|world| world.cheat_set_iron(player.0, iron))
+    .world_mut(|world| world.cheat_set_iron(player.0, req.iron))
     .map_ok(|()| res!(OK))
     .unwrap_or_else(from_core_err)
     .await
@@ -114,10 +120,10 @@ pub async fn set_max_wood(
 pub async fn set_resources(
   State(app): State<App>,
   Extension(player): Extension<CurrentPlayer>,
-  Json(resources): Json<Resources>,
+  Json(req): Json<CheatSetResourcesRequest>,
 ) -> Response {
   app
-    .world_mut(|world| world.cheat_set_resources(player.0, resources))
+    .world_mut(|world| world.cheat_set_resources(player.0, req.resources))
     .map_ok(|()| res!(OK))
     .unwrap_or_else(from_core_err)
     .await
@@ -126,10 +132,10 @@ pub async fn set_resources(
 pub async fn set_stone(
   State(app): State<App>,
   Extension(player): Extension<CurrentPlayer>,
-  Json(stone): Json<Stone>,
+  Json(req): Json<CheatSetStoneRequest>,
 ) -> Response {
   app
-    .world_mut(|world| world.cheat_set_stone(player.0, stone))
+    .world_mut(|world| world.cheat_set_stone(player.0, req.stone))
     .map_ok(|()| res!(OK))
     .unwrap_or_else(from_core_err)
     .await
@@ -138,10 +144,10 @@ pub async fn set_stone(
 pub async fn set_wood(
   State(app): State<App>,
   Extension(player): Extension<CurrentPlayer>,
-  Json(wood): Json<Wood>,
+  Json(req): Json<CheatSetWoodRequest>,
 ) -> Response {
   app
-    .world_mut(|world| world.cheat_set_wood(player.0, wood))
+    .world_mut(|world| world.cheat_set_wood(player.0, req.wood))
     .map_ok(|()| res!(OK))
     .unwrap_or_else(from_core_err)
     .await

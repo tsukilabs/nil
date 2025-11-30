@@ -4,6 +4,7 @@
 use crate::error::Result;
 use crate::manager::ManagerExt;
 use nil_core::chat::ChatHistory;
+use nil_payload::chat::PushChatMessageRequest;
 use tauri::AppHandle;
 
 #[tauri::command]
@@ -15,9 +16,9 @@ pub async fn get_chat_history(app: AppHandle) -> Result<(ChatHistory, ChatHistor
 }
 
 #[tauri::command]
-pub async fn push_chat_message(app: AppHandle, message: String) -> Result<()> {
+pub async fn push_chat_message(app: AppHandle, req: PushChatMessageRequest) -> Result<()> {
   app
-    .client(async |cl| cl.push_chat_message(message).await)
+    .client(async |cl| cl.push_chat_message(req).await)
     .await?
     .map_err(Into::into)
 }

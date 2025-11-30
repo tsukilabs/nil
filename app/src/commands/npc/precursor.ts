@@ -7,6 +7,6 @@ export async function getPrecursorCoords(id: PrecursorId) {
   return invoke<readonly Coord[]>('get_precursor_coords', { id });
 }
 
-export function getPublicPrecursor(id: PrecursorId) {
+export async function getPublicPrecursor(id: PrecursorId) {
   return invoke<PublicPrecursor>('get_public_precursor', { id });
 }

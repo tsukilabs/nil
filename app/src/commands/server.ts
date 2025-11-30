@@ -9,11 +9,11 @@ export async function getServerAddr() {
   return SocketAddrV4.parse(addr);
 }
 
-export function getServerVersion() {
+export async function getServerVersion() {
   return invoke<string>('get_server_version');
 }
 
-export function isServerReady() {
+export async function isServerReady() {
   return invoke<boolean>('is_server_ready');
 }
 
@@ -27,6 +27,6 @@ export async function startServerWithSavedata(savedata: string) {
   return SocketAddrV4.parse(addr);
 }
 
-export function stopServer() {
-  return invoke<null>('stop_server');
+export async function stopServer() {
+  await invoke('stop_server');
 }

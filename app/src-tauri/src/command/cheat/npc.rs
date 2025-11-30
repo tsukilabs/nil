@@ -7,6 +7,7 @@ use nil_core::infrastructure::storage::OverallStorageCapacity;
 use nil_core::npc::bot::BotId;
 use nil_core::npc::precursor::PrecursorId;
 use nil_core::resources::Resources;
+use nil_payload::cheat::npc::CheatSpawnBotRequest;
 use tauri::AppHandle;
 
 #[tauri::command]
@@ -51,9 +52,9 @@ pub async fn cheat_get_precursor_storage_capacity(
 }
 
 #[tauri::command]
-pub async fn cheat_spawn_bot(app: AppHandle, name: String) -> Result<BotId> {
+pub async fn cheat_spawn_bot(app: AppHandle, req: CheatSpawnBotRequest) -> Result<BotId> {
   app
-    .client(async |cl| cl.cheat_spawn_bot(name).await)
+    .client(async |cl| cl.cheat_spawn_bot(req).await)
     .await?
     .map_err(Into::into)
 }

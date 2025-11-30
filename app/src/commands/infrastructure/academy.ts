@@ -3,14 +3,14 @@
 
 import { invoke } from '@tauri-apps/api/core';
 
-export function addAcademyRecruitOrder(request: AcademyRecruitOrderRequest) {
-  return invoke<null>('add_academy_recruit_order', { request });
+export async function addAcademyRecruitOrder(request: AcademyRecruitOrderRequest) {
+  await invoke('add_academy_recruit_order', { req: { request } });
 }
 
-export function cancelAcademyRecruitOrder(coord: Coord, id: InfrastructureQueueOrderId) {
-  return invoke<null>('cancel_academy_recruit_order', { coord, id });
+export async function cancelAcademyRecruitOrder(coord: Coord, id: InfrastructureQueueOrderId) {
+  await invoke('cancel_academy_recruit_order', { req: { coord, id } });
 }
 
-export function getAcademyRecruitCatalog(coord: Coord) {
-  return invoke<AcademyRecruitCatalog>('get_academy_recruit_catalog', { coord });
+export async function getAcademyRecruitCatalog(coord: Coord) {
+  return invoke<AcademyRecruitCatalog>('get_academy_recruit_catalog', { req: { coord } });
 }

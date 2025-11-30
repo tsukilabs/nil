@@ -4,6 +4,7 @@
 use super::Client;
 use crate::error::Result;
 use nil_core::chat::ChatHistory;
+use nil_payload::chat::PushChatMessageRequest;
 
 impl Client {
   /// GET `/chat`
@@ -12,7 +13,7 @@ impl Client {
   }
 
   /// POST `/chat`
-  pub async fn push_chat_message(&self, message: String) -> Result<()> {
-    self.http.post("chat", message).await
+  pub async fn push_chat_message(&self, req: PushChatMessageRequest) -> Result<()> {
+    self.http.post("chat", req).await
   }
 }

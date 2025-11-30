@@ -3,28 +3,28 @@
 
 use crate::client::Client;
 use crate::error::Result;
-use nil_core::continent::Coord;
-use nil_core::infrastructure::building::{BuildingId, BuildingLevel};
+use nil_payload::cheat::infrastructure::{
+  CheatSetBuildingLevelRequest,
+  CheatSetMaxInfrastructureRequest,
+};
 
 impl Client {
   /// POST `/cheat/infrastructure`
-  pub async fn cheat_set_max_infrastructure(&self, coord: Coord) -> Result<()> {
+  pub async fn cheat_set_max_infrastructure(
+    &self,
+    req: CheatSetMaxInfrastructureRequest,
+  ) -> Result<()> {
     self
       .http
-      .post("cheat/infrastructure", coord)
+      .post("cheat/infrastructure", req)
       .await
   }
 
   /// POST `/cheat/infrastructure/building`
-  pub async fn cheat_set_building_level(
-    &self,
-    coord: Coord,
-    id: BuildingId,
-    level: BuildingLevel,
-  ) -> Result<()> {
+  pub async fn cheat_set_building_level(&self, req: CheatSetBuildingLevelRequest) -> Result<()> {
     self
       .http
-      .post("cheat/infrastructure/building", (coord, id, level))
+      .post("cheat/infrastructure/building", req)
       .await
   }
 }

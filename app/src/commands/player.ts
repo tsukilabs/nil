@@ -4,8 +4,8 @@
 import { invoke } from '@tauri-apps/api/core';
 import type { RawMilitary } from '@/core/model/military/military';
 
-export function getPlayer(id: PlayerId) {
-  return invoke<Player>('get_player', { id });
+export async function getPlayer(id: PlayerId) {
+  return invoke<Player>('get_player', { req: { id } });
 }
 
 export async function getPlayerCoords(id: PlayerId) {
@@ -28,26 +28,26 @@ export async function getPlayerStorageCapacity() {
   return invoke<OverallStorageCapacity>('get_player_storage_capacity');
 }
 
-export function getPlayers() {
+export async function getPlayers() {
   return invoke<readonly Player[]>('get_players');
 }
 
-export function getPublicPlayer(id: PlayerId) {
+export async function getPublicPlayer(id: PlayerId) {
   return invoke<PublicPlayer>('get_public_player', { id });
 }
 
-export function getPublicPlayers() {
+export async function getPublicPlayers() {
   return invoke<readonly PublicPlayer[]>('get_public_players');
 }
 
-export function playerExists(id: PlayerId) {
+export async function playerExists(id: PlayerId) {
   return invoke<boolean>('player_exists', { id });
 }
 
-export function setPlayerStatus(status: PlayerStatus) {
-  return invoke<null>('set_player_status', { status });
+export async function setPlayerStatus(status: PlayerStatus) {
+  await invoke('set_player_status', { req: { status } });
 }
 
-export function spawnPlayer(options: PlayerOptions) {
-  return invoke<null>('spawn_player', { options });
+export async function spawnPlayer(options: PlayerOptions) {
+  await invoke('spawn_player', { req: { options } });
 }

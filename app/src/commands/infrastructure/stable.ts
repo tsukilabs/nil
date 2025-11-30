@@ -3,14 +3,14 @@
 
 import { invoke } from '@tauri-apps/api/core';
 
-export function addStableRecruitOrder(request: StableRecruitOrderRequest) {
-  return invoke<null>('add_stable_recruit_order', { request });
+export async function addStableRecruitOrder(request: StableRecruitOrderRequest) {
+  await invoke('add_stable_recruit_order', { req: { request } });
 }
 
-export function cancelStableRecruitOrder(coord: Coord, id: InfrastructureQueueOrderId) {
-  return invoke<null>('cancel_stable_recruit_order', { coord, id });
+export async function cancelStableRecruitOrder(coord: Coord, id: InfrastructureQueueOrderId) {
+  await invoke('cancel_stable_recruit_order', { req: { coord, id } });
 }
 
-export function getStableRecruitCatalog(coord: Coord) {
-  return invoke<StableRecruitCatalog>('get_stable_recruit_catalog', { coord });
+export async function getStableRecruitCatalog(coord: Coord) {
+  return invoke<StableRecruitCatalog>('get_stable_recruit_catalog', { req: { coord } });
 }

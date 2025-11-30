@@ -3,22 +3,22 @@
 
 import { invoke } from '@tauri-apps/api/core';
 
-export function getBotRank(id: BotId) {
+export async function getBotRank(id: BotId) {
   return getRank({ kind: 'bot', id });
 }
 
-export function getPlayerRank(id: PlayerId) {
+export async function getPlayerRank(id: PlayerId) {
   return getRank({ kind: 'player', id });
 }
 
-export function getPrecursorRank(id: PrecursorId) {
+export async function getPrecursorRank(id: PrecursorId) {
   return getRank({ kind: 'precursor', id });
 }
 
-export function getRank(ruler: Ruler) {
-  return invoke<Option<RankingEntry>>('get_rank', { ruler });
+export async function getRank(ruler: Ruler) {
+  return invoke<Option<RankingEntry>>('get_rank', { req: { ruler } });
 }
 
-export function getRanking() {
+export async function getRanking() {
   return invoke<Ranking>('get_ranking');
 }

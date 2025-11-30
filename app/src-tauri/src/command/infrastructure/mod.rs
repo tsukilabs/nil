@@ -7,19 +7,13 @@ pub mod stable;
 
 use crate::error::Result;
 use crate::manager::ManagerExt;
-use nil_core::continent::Coord;
-use nil_core::infrastructure::building::BuildingId;
+use nil_payload::infrastructure::ToggleBuildingRequest;
 use tauri::AppHandle;
 
 #[tauri::command]
-pub async fn toggle_building(
-  app: AppHandle,
-  coord: Coord,
-  id: BuildingId,
-  enabled: bool,
-) -> Result<()> {
+pub async fn toggle_building(app: AppHandle, req: ToggleBuildingRequest) -> Result<()> {
   app
-    .client(async |cl| cl.toggle_building(coord, id, enabled).await)
+    .client(async |cl| cl.toggle_building(req).await)
     .await?
     .map_err(Into::into)
 }

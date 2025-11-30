@@ -3,12 +3,12 @@
 
 import { invoke } from '@tauri-apps/api/core';
 
-export function getChatHistory() {
+export async function getChatHistory() {
   return invoke<[ChatHistory, ChatHistory]>('get_chat_history');
 }
 
 export async function pushChatMessage(message: string) {
   if (message.trim().length > 0) {
-    await invoke<null>('push_chat_message', { message });
+    await invoke<null>('push_chat_message', { req: { message } });
   }
 }

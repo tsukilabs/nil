@@ -5,55 +5,55 @@ import { toU32 } from '@/lib/number';
 import { invoke } from '@tauri-apps/api/core';
 import { ResourcesImpl } from '@/core/model/resources';
 
-export function cheatSetFood(food: number) {
+export async function cheatSetFood(food: number) {
   food = toU32(food);
-  return invoke<null>('cheat_set_food', { food });
+  await invoke('cheat_set_food', { req: { food } });
 }
 
-export function cheatSetIron(iron: number) {
+export async function cheatSetIron(iron: number) {
   iron = toU32(iron);
-  return invoke<null>('cheat_set_iron', { iron });
+  await invoke('cheat_set_iron', { req: { iron } });
 }
 
-export function cheatSetMaxFood() {
-  return invoke<null>('cheat_set_max_food');
+export async function cheatSetMaxFood() {
+  await invoke('cheat_set_max_food');
 }
 
-export function cheatSetMaxIron() {
-  return invoke<null>('cheat_set_max_iron');
+export async function cheatSetMaxIron() {
+  await invoke('cheat_set_max_iron');
 }
 
-export function cheatSetMaxResources() {
-  return invoke<null>('cheat_set_max_resources');
+export async function cheatSetMaxResources() {
+  await invoke('cheat_set_max_resources');
 }
 
-export function cheatSetMaxSiloResources() {
-  return invoke<null>('cheat_set_max_silo_resources');
+export async function cheatSetMaxSiloResources() {
+  await invoke('cheat_set_max_silo_resources');
 }
 
-export function cheatSetMaxStone() {
-  return invoke<null>('cheat_set_max_stone');
+export async function cheatSetMaxStone() {
+  await invoke('cheat_set_max_stone');
 }
 
-export function cheatSetMaxWarehouseResources() {
-  return invoke<null>('cheat_set_max_warehouse_resources');
+export async function cheatSetMaxWarehouseResources() {
+  await invoke('cheat_set_max_warehouse_resources');
 }
 
-export function cheatSetMaxWood() {
-  return invoke<null>('cheat_set_max_wood');
+export async function cheatSetMaxWood() {
+  await invoke('cheat_set_max_wood');
 }
 
-export function cheatSetResources(resources: Resources) {
+export async function cheatSetResources(resources: Resources) {
   const impl = ResourcesImpl.create(resources);
-  return invoke<null>('cheat_set_resources', { resources: impl });
+  await invoke('cheat_set_resources', { req: { resources: impl } });
 }
 
-export function cheatSetStone(stone: number) {
+export async function cheatSetStone(stone: number) {
   stone = toU32(stone);
-  return invoke<null>('cheat_set_stone', { stone });
+  await invoke('cheat_set_stone', { req: { stone } });
 }
 
-export function cheatSetWood(wood: number) {
+export async function cheatSetWood(wood: number) {
   wood = toU32(wood);
-  return invoke<null>('cheat_set_wood', { wood });
+  await invoke('cheat_set_wood', { req: { wood } });
 }

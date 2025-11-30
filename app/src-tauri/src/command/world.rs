@@ -4,7 +4,7 @@
 use crate::error::{Error, Result};
 use crate::manager::ManagerExt;
 use nil_core::world::{WorldConfig, WorldStats};
-use std::path::PathBuf;
+use nil_payload::world::SaveWorldRequest;
 use tauri::AppHandle;
 
 #[tauri::command]
@@ -24,10 +24,10 @@ pub async fn get_world_stats(app: AppHandle) -> Result<WorldStats> {
 }
 
 #[tauri::command]
-pub async fn save_world(app: AppHandle, path: PathBuf) -> Result<()> {
+pub async fn save_world(app: AppHandle, req: SaveWorldRequest) -> Result<()> {
   if app.nil().is_host().await {
     app
-      .client(async |cl| cl.save_world(path).await)
+      .client(async |cl| cl.save_world(req).await)
       .await?
       .map_err(Into::into)
   } else {

@@ -7,7 +7,7 @@ use axum::extract::{Json, State};
 use axum::response::Response;
 use futures::FutureExt;
 use nil_core::world::World;
-use std::path::PathBuf;
+use nil_payload::world::SaveWorldRequest;
 
 pub async fn get_config(State(app): State<App>) -> Response {
   app
@@ -23,9 +23,9 @@ pub async fn get_stats(State(app): State<App>) -> Response {
     .await
 }
 
-pub async fn save(State(app): State<App>, Json(path): Json<PathBuf>) -> Response {
+pub async fn save(State(app): State<App>, Json(req): Json<SaveWorldRequest>) -> Response {
   app
-    .world_mut(|world| world.save(path))
+    .world_mut(|world| world.save(req.path))
     .map(|()| res!(OK))
     .await
 }

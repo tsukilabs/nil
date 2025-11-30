@@ -8,23 +8,23 @@ use crate::state::App;
 use crate::{bail_not_owned_by, bail_not_pending, res};
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
-use nil_core::continent::Coord;
-use nil_core::infrastructure::building::academy::{
-  AcademyRecruitCatalog,
-  AcademyRecruitOrderId,
-  AcademyRecruitOrderRequest,
+use nil_core::infrastructure::building::academy::AcademyRecruitCatalog;
+use nil_payload::infrastructure::academy::{
+  AddAcademyRecruitOrderRequest,
+  CancelAcademyRecruitOrderRequest,
+  GetAcademyRecruitCatalogRequest,
 };
 
 pub async fn add_recruit_order(
   State(app): State<App>,
   Extension(player): Extension<CurrentPlayer>,
-  Json(request): Json<AcademyRecruitOrderRequest>,
+  Json(req): Json<AddAcademyRecruitOrderRequest>,
 ) -> Response {
   let result: CoreResult<()> = try {
     let mut world = app.world.write().await;
     bail_not_pending!(world, &player.0);
-    bail_not_owned_by!(world, &player.0, request.coord);
-    world.add_academy_recruit_order(&request)?;
+    bail_not_owned_by!(world, &player.0, req.request.coord);
+    world.add_academy_recruit_order(&req.request)?;
   };
 
   result
@@ -35,13 +35,13 @@ pub async fn add_recruit_order(
 pub async fn cancel_recruit_order(
   State(app): State<App>,
   Extension(player): Extension<CurrentPlayer>,
-  Json((coord, id)): Json<(Coord, AcademyRecruitOrderId)>,
+  Json(req): Json<CancelAcademyRecruitOrderRequest>,
 ) -> Response {
   let result: CoreResult<()> = try {
     let mut world = app.world.write().await;
     bail_not_pending!(world, &player.0);
-    bail_not_owned_by!(world, &player.0, coord);
-    world.cancel_academy_recruit_order(coord, id)?;
+    bail_not_owned_by!(world, &player.0, req.coord);
+    world.cancel_academy_recruit_order(req.coord, req.id)?;
   };
 
   result
@@ -52,12 +52,12 @@ pub async fn cancel_recruit_order(
 pub async fn get_recruit_catalog(
   State(app): State<App>,
   Extension(player): Extension<CurrentPlayer>,
-  Json(coord): Json<Coord>,
+  Json(req): Json<GetAcademyRecruitCatalogRequest>,
 ) -> Response {
   let result: CoreResult<AcademyRecruitCatalog> = try {
     let world = app.world.read().await;
-    bail_not_owned_by!(world, &player.0, coord);
-    let infra = world.city(coord)?.infrastructure();
+    bail_not_owned_by!(world, &player.0, req.coord);
+    let infra = world.city(req.coord)?.infrastructure();
     AcademyRecruitCatalog::new(infra)
   };
 

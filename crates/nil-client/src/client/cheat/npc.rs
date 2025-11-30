@@ -7,13 +7,14 @@ use nil_core::infrastructure::storage::OverallStorageCapacity;
 use nil_core::npc::bot::BotId;
 use nil_core::npc::precursor::PrecursorId;
 use nil_core::resources::Resources;
+use nil_payload::cheat::npc::CheatSpawnBotRequest;
 
 impl Client {
   /// POST `/cheat/bot/spawn`
-  pub async fn cheat_spawn_bot(&self, name: String) -> Result<BotId> {
+  pub async fn cheat_spawn_bot(&self, req: CheatSpawnBotRequest) -> Result<BotId> {
     self
       .http
-      .post_json("cheat/bot/spawn", name)
+      .post_json("cheat/bot/spawn", req)
       .await
   }
 

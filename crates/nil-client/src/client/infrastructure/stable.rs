@@ -3,16 +3,16 @@
 
 use crate::client::Client;
 use crate::error::Result;
-use nil_core::continent::Coord;
-use nil_core::infrastructure::building::stable::{
-  StableRecruitCatalog,
-  StableRecruitOrderId,
-  StableRecruitOrderRequest,
+use nil_core::infrastructure::building::stable::StableRecruitCatalog;
+use nil_payload::infrastructure::stable::{
+  AddStableRecruitOrderRequest,
+  CancelStableRecruitOrderRequest,
+  GetStableRecruitCatalogRequest,
 };
 
 impl Client {
   /// POST `/infrastructure/stable/recruit/add`
-  pub async fn add_stable_recruit_order(&self, req: StableRecruitOrderRequest) -> Result<()> {
+  pub async fn add_stable_recruit_order(&self, req: AddStableRecruitOrderRequest) -> Result<()> {
     self
       .http
       .post("infrastructure/stable/recruit/add", req)
@@ -22,20 +22,22 @@ impl Client {
   /// POST `/infrastructure/stable/recruit/cancel`
   pub async fn cancel_stable_recruit_order(
     &self,
-    coord: Coord,
-    id: StableRecruitOrderId,
+    req: CancelStableRecruitOrderRequest,
   ) -> Result<()> {
     self
       .http
-      .post("infrastructure/stable/recruit/cancel", (coord, id))
+      .post("infrastructure/stable/recruit/cancel", req)
       .await
   }
 
   /// POST `/infrastructure/stable/recruit/catalog`
-  pub async fn get_stable_recruit_catalog(&self, coord: Coord) -> Result<StableRecruitCatalog> {
+  pub async fn get_stable_recruit_catalog(
+    &self,
+    req: GetStableRecruitCatalogRequest,
+  ) -> Result<StableRecruitCatalog> {
     self
       .http
-      .post_json("infrastructure/stable/recruit/catalog", coord)
+      .post_json("infrastructure/stable/recruit/catalog", req)
       .await
   }
 }

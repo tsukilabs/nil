@@ -4,7 +4,7 @@
 use super::Client;
 use crate::error::Result;
 use nil_core::world::{WorldConfig, WorldStats};
-use std::path::PathBuf;
+use nil_payload::world::SaveWorldRequest;
 
 impl Client {
   /// GET `/world/config`
@@ -18,7 +18,7 @@ impl Client {
   }
 
   /// POST `/world/save`
-  pub async fn save_world(&self, path: PathBuf) -> Result<()> {
-    self.http.post("world/save", path).await
+  pub async fn save_world(&self, req: SaveWorldRequest) -> Result<()> {
+    self.http.post("world/save", req).await
   }
 }

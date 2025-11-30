@@ -3,8 +3,13 @@
 
 use crate::client::Client;
 use crate::error::Result;
-
-use nil_core::resources::prelude::*;
+use nil_payload::cheat::resources::{
+  CheatSetFoodRequest,
+  CheatSetIronRequest,
+  CheatSetResourcesRequest,
+  CheatSetStoneRequest,
+  CheatSetWoodRequest,
+};
 
 impl Client {
   /// GET `/cheat/resources`
@@ -13,11 +18,8 @@ impl Client {
   }
 
   /// POST `/cheat/resources`
-  pub async fn cheat_set_resources(&self, resources: Resources) -> Result<()> {
-    self
-      .http
-      .post("cheat/resources", resources)
-      .await
+  pub async fn cheat_set_resources(&self, req: CheatSetResourcesRequest) -> Result<()> {
+    self.http.post("cheat/resources", req).await
   }
 
   /// GET `/cheat/resources/food`
@@ -26,10 +28,10 @@ impl Client {
   }
 
   /// POST `/cheat/resources/food`
-  pub async fn cheat_set_food(&self, food: Food) -> Result<()> {
+  pub async fn cheat_set_food(&self, req: CheatSetFoodRequest) -> Result<()> {
     self
       .http
-      .post("cheat/resources/food", food)
+      .post("cheat/resources/food", req)
       .await
   }
 
@@ -39,10 +41,10 @@ impl Client {
   }
 
   /// POST `/cheat/resources/iron`
-  pub async fn cheat_set_iron(&self, iron: Iron) -> Result<()> {
+  pub async fn cheat_set_iron(&self, req: CheatSetIronRequest) -> Result<()> {
     self
       .http
-      .post("cheat/resources/iron", iron)
+      .post("cheat/resources/iron", req)
       .await
   }
 
@@ -57,10 +59,10 @@ impl Client {
   }
 
   /// POST `/cheat/resources/stone`
-  pub async fn cheat_set_stone(&self, stone: Stone) -> Result<()> {
+  pub async fn cheat_set_stone(&self, req: CheatSetStoneRequest) -> Result<()> {
     self
       .http
-      .post("cheat/resources/stone", stone)
+      .post("cheat/resources/stone", req)
       .await
   }
 
@@ -78,10 +80,10 @@ impl Client {
   }
 
   /// POST `/cheat/resources/wood`
-  pub async fn cheat_set_wood(&self, wood: Wood) -> Result<()> {
+  pub async fn cheat_set_wood(&self, req: CheatSetWoodRequest) -> Result<()> {
     self
       .http
-      .post("cheat/resources/wood", wood)
+      .post("cheat/resources/wood", req)
       .await
   }
 }

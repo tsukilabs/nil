@@ -4,12 +4,12 @@
 import { toU8 } from '@/lib/number';
 import { invoke } from '@tauri-apps/api/core';
 
-export function cheatSetBuildingLevel(coord: Coord, id: BuildingId, level: BuildingLevel) {
+export async function cheatSetBuildingLevel(coord: Coord, id: BuildingId, level: BuildingLevel) {
   level = toU8(level);
-  return invoke<null>('cheat_set_building_level', { coord, id, level });
+  await invoke('cheat_set_building_level', { req: { coord, id, level } });
 }
 
-export function cheatSetMaxInfrastructure(coord?: Option<Coord>) {
+export async function cheatSetMaxInfrastructure(coord?: Option<Coord>) {
   coord ??= NIL.city.refs().coord.value;
-  return invoke<null>('cheat_set_max_infrastructure', { coord });
+  await invoke('cheat_set_max_infrastructure', { req: { coord } });
 }

@@ -21,6 +21,7 @@ derive_more.workspace = true
 futures.workspace = true
 http.workspace = true
 nil-core.workspace = true
+nil-payload.workspace = true
 percent-encoding.workspace = true
 reqwest.workspace = true
 serde.workspace = true

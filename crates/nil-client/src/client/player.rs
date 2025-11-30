@@ -6,8 +6,9 @@ use crate::error::Result;
 use nil_core::continent::Coord;
 use nil_core::infrastructure::storage::OverallStorageCapacity;
 use nil_core::military::Military;
-use nil_core::player::{Player, PlayerId, PlayerOptions, PlayerStatus, PublicPlayer};
+use nil_core::player::{Player, PlayerId, PlayerStatus, PublicPlayer};
 use nil_core::resources::Maintenance;
+use nil_payload::player::{GetPlayerRequest, SetPlayerStatusRequest, SpawnPlayerRequest};
 
 impl Client {
   /// GET `/player`
@@ -16,8 +17,8 @@ impl Client {
   }
 
   /// POST `/player`
-  pub async fn get_player(&self, id: PlayerId) -> Result<Player> {
-    self.http.post_json("player", id).await
+  pub async fn get_player(&self, req: GetPlayerRequest) -> Result<Player> {
+    self.http.post_json("player", req).await
   }
 
   /// GET `/player/capacity`
@@ -44,13 +45,13 @@ impl Client {
   }
 
   /// POST `/player/spawn`
-  pub async fn spawn_player(&self, options: PlayerOptions) -> Result<()> {
-    self.http.post("player/spawn", options).await
+  pub async fn spawn_player(&self, req: SpawnPlayerRequest) -> Result<()> {
+    self.http.post("player/spawn", req).await
   }
 
   /// POST `/player/status`
-  pub async fn set_player_status(&self, status: PlayerStatus) -> Result<()> {
-    self.http.post("player/status", status).await
+  pub async fn set_player_status(&self, req: SetPlayerStatusRequest) -> Result<()> {
+    self.http.post("player/status", req).await
   }
 
   /// GET `/player/{id}/coord`

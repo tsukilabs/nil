@@ -7,6 +7,7 @@ use crate::state::App;
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
 use futures::FutureExt;
+use nil_payload::chat::PushChatMessageRequest;
 
 pub async fn get(State(app): State<App>, Extension(player): Extension<CurrentPlayer>) -> Response {
   app
@@ -18,10 +19,10 @@ pub async fn get(State(app): State<App>, Extension(player): Extension<CurrentPla
 pub async fn push(
   State(app): State<App>,
   Extension(player): Extension<CurrentPlayer>,
-  Json(message): Json<String>,
+  Json(req): Json<PushChatMessageRequest>,
 ) -> Response {
   app
-    .world_mut(|world| world.push_chat_message(player.0, &message))
+    .world_mut(|world| world.push_chat_message(player.0, &req.message))
     .map(|()| res!(OK))
     .await
 }

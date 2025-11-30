@@ -4,24 +4,28 @@
 use crate::error::Result;
 use crate::manager::ManagerExt;
 use nil_core::continent::{Coord, PublicField};
+use nil_payload::continent::{GetPublicFieldRequest, GetPublicFieldsRequest};
 use tauri::AppHandle;
 
 #[tauri::command]
-pub async fn get_field(app: AppHandle, coord: Coord) -> Result<PublicField> {
+pub async fn get_field(app: AppHandle, req: GetPublicFieldRequest) -> Result<PublicField> {
   app
-    .client(async |cl| cl.get_field(coord).await)
+    .client(async |cl| cl.get_field(req).await)
     .await?
     .map_err(Into::into)
 }
 
 #[tauri::command]
-pub async fn get_fields(app: AppHandle, coords: Vec<Coord>) -> Result<Vec<(Coord, PublicField)>> {
-  if coords.is_empty() {
+pub async fn get_fields(
+  app: AppHandle,
+  req: GetPublicFieldsRequest,
+) -> Result<Vec<(Coord, PublicField)>> {
+  if req.coords.is_empty() {
     return Ok(Vec::new());
   }
 
   app
-    .client(async |cl| cl.get_fields(coords).await)
+    .client(async |cl| cl.get_fields(req).await)
     .await?
     .map_err(Into::into)
 }

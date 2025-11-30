@@ -24,6 +24,7 @@ itertools.workspace = true
 nil-client.workspace = true
 nil-core.workspace = true
 nil-server.workspace = true
+nil-payload.workspace = true
 nil-util.workspace = true
 remain.workspace = true
 serde.workspace = true

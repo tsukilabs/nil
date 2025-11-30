@@ -3,14 +3,14 @@
 
 import { invoke } from '@tauri-apps/api/core';
 
-export function addPrefectureBuildOrder(request: PrefectureBuildOrderRequest) {
-  return invoke<null>('add_prefecture_build_order', { request });
+export async function addPrefectureBuildOrder(request: PrefectureBuildOrderRequest) {
+  await invoke('add_prefecture_build_order', { req: { request } });
 }
 
-export function cancelPrefectureBuildOrder(coord: Coord) {
-  return invoke<null>('cancel_prefecture_build_order', { coord });
+export async function cancelPrefectureBuildOrder(coord: Coord) {
+  await invoke('cancel_prefecture_build_order', { req: { coord } });
 }
 
-export function getPrefectureBuildCatalog(coord: Coord) {
-  return invoke<PrefectureBuildCatalog>('get_prefecture_build_catalog', { coord });
+export async function getPrefectureBuildCatalog(coord: Coord) {
+  return invoke<PrefectureBuildCatalog>('get_prefecture_build_catalog', { req: { coord } });
 }

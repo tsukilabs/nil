@@ -8,6 +8,7 @@ mod resources;
 
 pub use city::set_stability;
 pub use infrastructure::{set_building_level, set_max_infrastructure};
+
 pub use npc::{
   get_bot_resources,
   get_bot_storage_capacity,
@@ -15,6 +16,7 @@ pub use npc::{
   get_precursor_storage_capacity,
   spawn_bot,
 };
+
 pub use resources::{
   set_food,
   set_iron,

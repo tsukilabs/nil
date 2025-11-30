@@ -4,21 +4,22 @@
 use super::Client;
 use crate::error::Result;
 use nil_core::continent::{Coord, PublicField};
+use nil_payload::continent::{GetPublicFieldRequest, GetPublicFieldsRequest};
 
 impl Client {
   /// POST `/continent/field`
-  pub async fn get_field(&self, coord: Coord) -> Result<PublicField> {
+  pub async fn get_field(&self, req: GetPublicFieldRequest) -> Result<PublicField> {
     self
       .http
-      .post_json("continent/field", coord)
+      .post_json("continent/field", req)
       .await
   }
 
   /// POST `/continent/fields`
-  pub async fn get_fields(&self, coords: Vec<Coord>) -> Result<Vec<(Coord, PublicField)>> {
+  pub async fn get_fields(&self, req: GetPublicFieldsRequest) -> Result<Vec<(Coord, PublicField)>> {
     self
       .http
-      .post_json("continent/fields", coords)
+      .post_json("continent/fields", req)
       .await
   }
 

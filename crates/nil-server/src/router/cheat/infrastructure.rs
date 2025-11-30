@@ -7,23 +7,28 @@ use crate::state::App;
 use axum::extract::{Json, State};
 use axum::response::Response;
 use futures::TryFutureExt;
-use nil_core::continent::Coord;
-use nil_core::infrastructure::building::{BuildingId, BuildingLevel};
+use nil_payload::cheat::infrastructure::{
+  CheatSetBuildingLevelRequest,
+  CheatSetMaxInfrastructureRequest,
+};
 
 pub async fn set_building_level(
   State(app): State<App>,
-  Json((coord, id, level)): Json<(Coord, BuildingId, BuildingLevel)>,
+  Json(req): Json<CheatSetBuildingLevelRequest>,
 ) -> Response {
   app
-    .world_mut(|world| world.cheat_set_building_level(coord, id, level))
+    .world_mut(|world| world.cheat_set_building_level(req.coord, req.id, req.level))
     .map_ok(|()| res!(OK))
     .unwrap_or_else(from_core_err)
     .await
 }
 
-pub async fn set_max_infrastructure(State(app): State<App>, Json(coord): Json<Coord>) -> Response {
+pub async fn set_max_infrastructure(
+  State(app): State<App>,
+  Json(req): Json<CheatSetMaxInfrastructureRequest>,
+) -> Response {
   app
-    .world_mut(|world| world.cheat_set_max_infrastructure(coord))
+    .world_mut(|world| world.cheat_set_max_infrastructure(req.coord))
     .map_ok(|()| res!(OK))
     .unwrap_or_else(from_core_err)
     .await

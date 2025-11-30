@@ -9,6 +9,7 @@ use axum::response::Response;
 use futures::TryFutureExt;
 use nil_core::npc::bot::BotId;
 use nil_core::npc::precursor::PrecursorId;
+use nil_payload::cheat::npc::CheatSpawnBotRequest;
 
 pub async fn get_bot_resources(State(app): State<App>, Path(id): Path<BotId>) -> Response {
   app
@@ -48,9 +49,9 @@ pub async fn get_precursor_storage_capacity(
     .await
 }
 
-pub async fn spawn_bot(State(app): State<App>, Json(name): Json<String>) -> Response {
+pub async fn spawn_bot(State(app): State<App>, Json(req): Json<CheatSpawnBotRequest>) -> Response {
   app
-    .world_mut(|world| world.cheat_spawn_bot(&name))
+    .world_mut(|world| world.cheat_spawn_bot(&req.name))
     .map_ok(|id| res!(OK, Json(id)))
     .unwrap_or_else(from_core_err)
     .await

@@ -3,21 +3,21 @@
 
 use crate::error::Result;
 use crate::manager::ManagerExt;
-use nil_core::continent::Coord;
-use nil_core::infrastructure::building::stable::{
-  StableRecruitCatalog,
-  StableRecruitOrderId,
-  StableRecruitOrderRequest,
+use nil_core::infrastructure::building::stable::StableRecruitCatalog;
+use nil_payload::infrastructure::stable::{
+  AddStableRecruitOrderRequest,
+  CancelStableRecruitOrderRequest,
+  GetStableRecruitCatalogRequest,
 };
 use tauri::AppHandle;
 
 #[tauri::command]
 pub async fn add_stable_recruit_order(
   app: AppHandle,
-  request: StableRecruitOrderRequest,
+  req: AddStableRecruitOrderRequest,
 ) -> Result<()> {
   app
-    .client(async |cl| cl.add_stable_recruit_order(request).await)
+    .client(async |cl| cl.add_stable_recruit_order(req).await)
     .await?
     .map_err(Into::into)
 }
@@ -25,14 +25,10 @@ pub async fn add_stable_recruit_order(
 #[tauri::command]
 pub async fn cancel_stable_recruit_order(
   app: AppHandle,
-  coord: Coord,
-  id: StableRecruitOrderId,
+  req: CancelStableRecruitOrderRequest,
 ) -> Result<()> {
   app
-    .client(async |cl| {
-      cl.cancel_stable_recruit_order(coord, id)
-        .await
-    })
+    .client(async |cl| cl.cancel_stable_recruit_order(req).await)
     .await?
     .map_err(Into::into)
 }
@@ -40,10 +36,10 @@ pub async fn cancel_stable_recruit_order(
 #[tauri::command]
 pub async fn get_stable_recruit_catalog(
   app: AppHandle,
-  coord: Coord,
+  req: GetStableRecruitCatalogRequest,
 ) -> Result<StableRecruitCatalog> {
   app
-    .client(async |cl| cl.get_stable_recruit_catalog(coord).await)
+    .client(async |cl| cl.get_stable_recruit_catalog(req).await)
     .await?
     .map_err(Into::into)
 }

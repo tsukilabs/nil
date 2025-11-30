@@ -3,21 +3,27 @@
 
 use crate::error::Result;
 use crate::manager::ManagerExt;
-use nil_core::resources::prelude::*;
+use nil_payload::cheat::resources::{
+  CheatSetFoodRequest,
+  CheatSetIronRequest,
+  CheatSetResourcesRequest,
+  CheatSetStoneRequest,
+  CheatSetWoodRequest,
+};
 use tauri::AppHandle;
 
 #[tauri::command]
-pub async fn cheat_set_food(app: AppHandle, food: Food) -> Result<()> {
+pub async fn cheat_set_food(app: AppHandle, req: CheatSetFoodRequest) -> Result<()> {
   app
-    .client(async |cl| cl.cheat_set_food(food).await)
+    .client(async |cl| cl.cheat_set_food(req).await)
     .await?
     .map_err(Into::into)
 }
 
 #[tauri::command]
-pub async fn cheat_set_iron(app: AppHandle, iron: Iron) -> Result<()> {
+pub async fn cheat_set_iron(app: AppHandle, req: CheatSetIronRequest) -> Result<()> {
   app
-    .client(async |cl| cl.cheat_set_iron(iron).await)
+    .client(async |cl| cl.cheat_set_iron(req).await)
     .await?
     .map_err(Into::into)
 }
@@ -79,25 +85,25 @@ pub async fn cheat_set_max_wood(app: AppHandle) -> Result<()> {
 }
 
 #[tauri::command]
-pub async fn cheat_set_resources(app: AppHandle, resources: Resources) -> Result<()> {
+pub async fn cheat_set_resources(app: AppHandle, req: CheatSetResourcesRequest) -> Result<()> {
   app
-    .client(async |cl| cl.cheat_set_resources(resources).await)
+    .client(async |cl| cl.cheat_set_resources(req).await)
     .await?
     .map_err(Into::into)
 }
 
 #[tauri::command]
-pub async fn cheat_set_stone(app: AppHandle, stone: Stone) -> Result<()> {
+pub async fn cheat_set_stone(app: AppHandle, req: CheatSetStoneRequest) -> Result<()> {
   app
-    .client(async |cl| cl.cheat_set_stone(stone).await)
+    .client(async |cl| cl.cheat_set_stone(req).await)
     .await?
     .map_err(Into::into)
 }
 
 #[tauri::command]
-pub async fn cheat_set_wood(app: AppHandle, wood: Wood) -> Result<()> {
+pub async fn cheat_set_wood(app: AppHandle, req: CheatSetWoodRequest) -> Result<()> {
   app
-    .client(async |cl| cl.cheat_set_wood(wood).await)
+    .client(async |cl| cl.cheat_set_wood(req).await)
     .await?
     .map_err(Into::into)
 }
