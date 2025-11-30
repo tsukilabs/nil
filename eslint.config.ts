@@ -1,10 +1,7 @@
 import { defineConfig } from '@tb-dev/eslint-config';
 
 export default defineConfig({
-  project: [
-    'crates/nil-namegen/scripts/tsconfig.json',
-    'ui/tsconfig.json',
-  ],
+  project: ['tsconfig.json', 'ui/tsconfig.json'],
   ignores: ['crates/nil-continent/**'],
   features: {
     perfectionist: true,

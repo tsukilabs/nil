@@ -9,6 +9,7 @@ use crate::ranking::Score;
 use crate::resources::Maintenance;
 use crate::ruler::Ruler;
 use bon::Builder;
+use derive_more::Display;
 use serde::{Deserialize, Serialize};
 use strum::EnumIs;
 use uuid::Uuid;
@@ -34,6 +35,11 @@ pub struct Army {
 
 impl Army {
   #[inline]
+  pub fn id(&self) -> ArmyId {
+    self.id
+  }
+
+  #[inline]
   pub fn personnel(&self) -> &ArmyPersonnel {
     &self.personnel
   }
@@ -58,6 +64,10 @@ impl Army {
     self.state.is_maneuvering()
   }
 
+  pub(super) fn set_maneuver(&mut self, id: ManeuverId) {
+    self.state = ArmyState::Maneuvering { maneuver: id };
+  }
+
   #[inline]
   pub fn speed(&self) -> Option<Speed> {
     self.personnel.speed()
@@ -75,7 +85,7 @@ impl Army {
 }
 
 #[must_use]
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Deserialize, Serialize)]
+#[derive(Clone, Copy, Debug, Display, PartialEq, Eq, Deserialize, Serialize)]
 pub struct ArmyId(Uuid);
 
 impl ArmyId {

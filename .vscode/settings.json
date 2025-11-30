@@ -28,11 +28,14 @@
   "githubPullRequests.defaultMergeMethod": "squash",
   "rust-analyzer.cargo.targetDir": true,
   "workbench.editor.customLabels.patterns": {
-    "**/index.ts": "${dirname}/index.ts",
-    "**/mod.rs": "${dirname}/mod.rs",
-    "*/Cargo.toml": "<workspace>/Cargo.toml",
+    "**/App.vue": "${dirname}/App.vue",
+    "**/build.rs": "${dirname}/build.rs",
     "**/Cargo.toml": "${dirname}/Cargo.toml",
+    "**/index.ts": "${dirname}/index.ts",
+    "**/index.vue": "${dirname}/index.vue",
+    "**/mod.rs": "${dirname}/mod.rs",
+    "*/*/**/lib.rs": "${dirname(1)}/lib.rs",
     "*/*/**/main.rs": "${dirname(1)}/main.rs",
-    "*/*/**/lib.rs": "${dirname(1)}/lib.rs"
+    "*/Cargo.toml": "<workspace>/Cargo.toml"
   }
 }

@@ -7,6 +7,7 @@ mod city;
 mod continent;
 mod event;
 mod infrastructure;
+mod military;
 mod npc;
 mod player;
 mod ranking;

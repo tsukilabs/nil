@@ -49,7 +49,7 @@ jobs:
           TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
         with:
           tagName: v__VERSION__
-          releaseName: "Nil v__VERSION__"
+          releaseName: "Call of Nil v__VERSION__"
           releaseDraft: false
           prerelease: false
           includeUpdaterJson: true

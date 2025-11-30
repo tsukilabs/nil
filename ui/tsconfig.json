@@ -1,5 +1,5 @@
 {
-  "include": ["src/**/*", "src/**/*.vue", "*.config.ts"],
+  "include": ["src/**/*.ts", "src/**/*.vue"],
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
@@ -38,8 +38,7 @@
 
     "types": [
       "@tauri-store/pinia",
-      "@tb-dev/prototype-dom",
-      "vite/client"
+      "@tb-dev/prototype-dom"
     ]
   },
 

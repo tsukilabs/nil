@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::continent::{Coord, Distance};
+use crate::error::{Error, Result};
 use crate::military::army::ArmyId;
 use crate::military::unit::stats::speed::Speed;
 use serde::{Deserialize, Serialize};
@@ -14,25 +15,31 @@ pub struct Maneuver {
   id: ManeuverId,
   army: ArmyId,
   kind: ManeuverKind,
+  direction: ManeuverDirection,
   origin: Coord,
   destination: Coord,
   state: ManeuverState,
 }
 
 impl Maneuver {
-  pub(super) fn new(request: &ManeuverRequest) -> (ManeuverId, Self) {
-    let id = ManeuverId::new();
+  pub(super) fn new(request: &ManeuverRequest) -> Result<(ManeuverId, Self)> {
     let distance = request.origin.distance(request.destination);
+    if request.origin == request.destination || distance == 0u8 {
+      return Err(Error::OriginIsDestination(request.origin));
+    }
+
+    let id = ManeuverId::new();
     let maneuver = Self {
       id,
-      kind: request.kind,
       army: request.army,
+      kind: request.kind,
+      direction: ManeuverDirection::Going,
       origin: request.origin,
       destination: request.destination,
       state: ManeuverState::new(distance.into()),
     };
 
-    (id, maneuver)
+    Ok((id, maneuver))
   }
 
   #[inline]
@@ -41,8 +48,18 @@ impl Maneuver {
   }
 
   #[inline]
+  pub fn army(&self) -> ArmyId {
+    self.army
+  }
+
+  #[inline]
   pub fn kind(&self) -> ManeuverKind {
     self.kind
+  }
+
+  #[inline]
+  pub fn direction(&self) -> ManeuverDirection {
+    self.direction
   }
 
   #[inline]
@@ -77,6 +94,13 @@ impl Default for ManeuverId {
 pub enum ManeuverKind {
   Attack,
   Support,
+}
+
+#[derive(Clone, Copy, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "kebab-case")]
+pub enum ManeuverDirection {
+  Going,
+  Returning,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
@@ -134,8 +158,8 @@ impl From<Distance> for ManeuverDistance {
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct ManeuverRequest {
-  army: ArmyId,
-  kind: ManeuverKind,
-  origin: Coord,
-  destination: Coord,
+  pub(super) army: ArmyId,
+  pub(super) kind: ManeuverKind,
+  pub(super) origin: Coord,
+  pub(super) destination: Coord,
 }

@@ -3,6 +3,8 @@
 
 use crate::continent::{ContinentIndex, Coord};
 use crate::infrastructure::building::{BuildingId, BuildingLevel, MineId, StorageId};
+use crate::military::army::ArmyId;
+use crate::military::maneuver::ManeuverId;
 use crate::npc::bot::BotId;
 use crate::npc::precursor::PrecursorId;
 use crate::player::PlayerId;
@@ -15,6 +17,12 @@ pub type Result<T, E = Error> = StdResult<T, E>;
 #[derive(Clone, Debug, thiserror::Error)]
 #[remain::sorted]
 pub enum Error {
+  #[error("Army not found")]
+  ArmyNotFound(ArmyId),
+
+  #[error("Army is not idle")]
+  ArmyNotIdle(ArmyId),
+
   #[error("Bot already spawned: {0}")]
   BotAlreadySpawned(BotId),
 
@@ -54,6 +62,9 @@ pub enum Error {
   #[error("Insufficient resources")]
   InsufficientResources,
 
+  #[error("Maneuver not found")]
+  ManeuverNotFound(ManeuverId),
+
   #[error("No stats found for mine \"{0}\"")]
   MineStatsNotFound(MineId),
 
@@ -62,6 +73,9 @@ pub enum Error {
 
   #[error("No players in the world")]
   NoPlayer,
+
+  #[error("Origin and destination have the same coords")]
+  OriginIsDestination(Coord),
 
   #[error("Player already spawned: {0}")]
   PlayerAlreadySpawned(PlayerId),

@@ -1,6 +1,7 @@
 [package]
 name = "nil-continent"
 license = "AGPL-3.0-only"
+readme = "./README.md"
 publish = false
 
 version.workspace = true
