@@ -179,7 +179,6 @@ impl<'de> Visitor<'de> for CoordVisitor {
     let mut x = None;
     let mut y = None;
 
-    // Lua wouldn't be able to deserialize it if we used a plain `&str` here.
     while let Some(key) = map.next_key::<Cow<'static, str>>()? {
       match key.as_ref() {
         "x" => x = Some(map.next_value()?),

@@ -1,11 +1,11 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use super::World;
 use crate::continent::ContinentKey;
 use crate::error::Result;
 use crate::ranking::Score;
 use crate::ruler::Ruler;
+use crate::world::World;
 
 impl World {
   pub fn count_cities<R>(&self, owner: R) -> u32

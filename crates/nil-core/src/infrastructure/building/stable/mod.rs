@@ -4,8 +4,8 @@
 mod recruit_catalog;
 mod recruit_queue;
 
-use super::{BuildingId, BuildingLevel};
 use crate::check_total_resource_ratio;
+use crate::infrastructure::building::{BuildingId, BuildingLevel};
 use crate::infrastructure::queue::InfrastructureQueue;
 use crate::infrastructure::requirements::InfrastructureRequirements;
 use crate::ranking::Score;

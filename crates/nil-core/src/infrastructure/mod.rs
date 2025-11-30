@@ -29,9 +29,9 @@ use mine::Mine;
 use prelude::*;
 use serde::{Deserialize, Serialize};
 use storage::Storage;
+use strum::IntoEnumIterator;
 
 pub use stats::InfrastructureStats;
-use strum::IntoEnumIterator;
 
 #[derive(Builder, Clone, Debug, Default, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]

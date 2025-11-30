@@ -1,9 +1,9 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use super::{BuildingId, BuildingLevel};
 use crate::check_total_resource_ratio;
 use crate::error::{Error, Result};
+use crate::infrastructure::building::{BuildingId, BuildingLevel};
 use crate::infrastructure::requirements::InfrastructureRequirements;
 use crate::ranking::Score;
 use crate::resources::{Cost, MaintenanceRatio, ResourceRatio, Workforce};

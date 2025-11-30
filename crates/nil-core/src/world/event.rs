@@ -1,11 +1,11 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use super::World;
 use crate::chat::ChatMessage;
 use crate::continent::Coord;
 use crate::event::{Event, Listener};
 use crate::player::PlayerId;
+use crate::world::World;
 
 impl World {
   #[inline]

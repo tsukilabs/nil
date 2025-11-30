@@ -127,7 +127,7 @@ branch = "main"
 features = ["platform-windows"]
 
 [workspace.dependencies.tokio]
-version = "1.47"
+version = "1.48"
 features = ["full"]
 
 [workspace.dependencies.tokio-tungstenite]

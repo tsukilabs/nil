@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::continent::{Coord, Distance};
-use crate::military::army::{Army, ArmyPersonnel};
+use crate::military::army::ArmyId;
 use crate::military::unit::stats::speed::Speed;
 use serde::{Deserialize, Serialize};
 use std::ops::{Sub, SubAssign};
@@ -12,27 +12,28 @@ use uuid::Uuid;
 #[serde(rename_all = "camelCase")]
 pub struct Maneuver {
   id: ManeuverId,
+  army: ArmyId,
   kind: ManeuverKind,
-  army: Army,
   origin: Coord,
   destination: Coord,
   state: ManeuverState,
 }
 
-#[bon::bon]
 impl Maneuver {
-  #[builder]
-  pub(super) fn new(kind: ManeuverKind, army: Army, origin: Coord, destination: Coord) -> Self {
+  pub(super) fn new(request: ManeuverRequest) -> (ManeuverId, Self) {
     let id = ManeuverId::new();
-    let distance = origin.distance(destination);
-    Self {
+    let distance = request.origin.distance(request.destination);
+
+    let maneuver = Self {
       id,
-      kind,
-      army,
-      origin,
-      destination,
+      kind: request.kind,
+      army: request.army,
+      origin: request.origin,
+      destination: request.destination,
       state: ManeuverState::new(distance.into()),
-    }
+    };
+
+    (id, maneuver)
   }
 
   #[inline]
@@ -57,7 +58,7 @@ impl Maneuver {
 }
 
 #[must_use]
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Deserialize, Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, Deserialize, Serialize)]
 pub struct ManeuverId(Uuid);
 
 impl ManeuverId {
@@ -134,8 +135,8 @@ impl From<Distance> for ManeuverDistance {
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct ManeuverRequest {
+  army: ArmyId,
   kind: ManeuverKind,
-  personnel: ArmyPersonnel,
   origin: Coord,
   destination: Coord,
 }

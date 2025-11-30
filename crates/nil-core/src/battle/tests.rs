@@ -1,8 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use super::Battle;
-use crate::battle::BattleWinner;
+use crate::battle::{Battle, BattleWinner};
 use crate::infrastructure::InfrastructureStats;
 use crate::infrastructure::building::BuildingLevel;
 use crate::military::army::ArmyPersonnel;

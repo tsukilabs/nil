@@ -3,6 +3,7 @@
 
 mod personnel;
 
+use crate::military::maneuver::ManeuverId;
 use crate::military::unit::stats::speed::Speed;
 use crate::ranking::Score;
 use crate::resources::Maintenance;
@@ -94,5 +95,7 @@ impl Default for ArmyId {
 pub enum ArmyState {
   #[default]
   Idle,
-  Maneuvering,
+  Maneuvering {
+    maneuver: ManeuverId,
+  },
 }
