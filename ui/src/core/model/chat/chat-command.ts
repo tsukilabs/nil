@@ -18,10 +18,8 @@ const enum ChatCommandKind {
   Iron = 'iron',
   IronMine = 'iron-mine',
   LeaveGame = 'leave-game',
-  Lua = 'lua',
   Map = 'map',
   Max = 'max',
-  Nsr = 'nsr',
   Prefecture = 'prefecture',
   Quarry = 'quarry',
   Resources = 'resources',
@@ -47,10 +45,8 @@ const regex: RegexMap = {
   [ChatCommandKind.Iron]: /^\$iron(?:\s(\d+))?/i,
   [ChatCommandKind.IronMine]: /^\$iron-mine$/i,
   [ChatCommandKind.LeaveGame]: /^\$leave$/i,
-  [ChatCommandKind.Lua]: /^\$lua\s(.+)/i,
   [ChatCommandKind.Map]: /^\$map$/i,
   [ChatCommandKind.Max]: /^\$max$/i,
-  [ChatCommandKind.Nsr]: /^\$nsr$/i,
   [ChatCommandKind.Prefecture]: /^\$prefecture$/i,
   [ChatCommandKind.Quarry]: /^\$quarry$/i,
   [ChatCommandKind.Resources]: /^\$res(?:\s(\d+))?/i,
@@ -129,10 +125,6 @@ export class ChatCommand {
         await leaveGame();
         break;
       }
-      case ChatCommandKind.Lua: {
-        await commands.executeScriptChunk(this.text);
-        break;
-      }
       case ChatCommandKind.Map: {
         await go('continent');
         break;
@@ -140,10 +132,6 @@ export class ChatCommand {
       case ChatCommandKind.Max: {
         await commands.cheatSetMaxResources();
         await Promise.all(NIL.player.coords().map(commands.cheatSetMaxInfrastructure));
-        break;
-      }
-      case ChatCommandKind.Nsr: {
-        await go('nsr');
         break;
       }
       case ChatCommandKind.Prefecture: {

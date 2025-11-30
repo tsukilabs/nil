@@ -9,7 +9,7 @@ param(
 $ErrorActionPreference = 'Stop'
 $PSNativeCommandUseErrorActionPreference = $true
 
-$ClippyCmd = 'cargo +nightly clippy --workspace --'
+$ClippyCmd = 'cargo clippy --workspace --'
 
 if ($AllowDeadCode) {
   $Lints = @('dead_code', 'unused_imports', 'unused_variables')

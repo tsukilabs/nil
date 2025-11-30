@@ -12,7 +12,6 @@ mod player;
 mod ranking;
 mod round;
 mod savedata;
-mod script;
 
 use crate::chat::Chat;
 use crate::city::City;
@@ -28,7 +27,6 @@ use crate::ranking::Ranking;
 use crate::round::Round;
 use crate::ruler::{Ruler, RulerRef, RulerRefMut};
 use crate::savedata::Savedata;
-use crate::script::Scripting;
 use serde::{Deserialize, Serialize};
 use std::num::NonZeroU8;
 use std::path::{Path, PathBuf};
@@ -46,7 +44,6 @@ pub struct World {
   config: WorldConfig,
   stats: WorldStats,
   chat: Chat,
-  scripting: Scripting,
 
   // These are not included in the savedata.
   emitter: Emitter,
@@ -71,7 +68,6 @@ impl World {
       config,
       stats: WorldStats::new(),
       chat: Chat::default(),
-      scripting: Scripting::new(),
 
       emitter: Emitter::default(),
       pending_save: None,
@@ -149,16 +145,6 @@ impl World {
   #[inline]
   pub fn chat(&self) -> &Chat {
     &self.chat
-  }
-
-  #[inline]
-  pub fn scripting(&self) -> &Scripting {
-    &self.scripting
-  }
-
-  #[inline]
-  pub fn scripting_mut(&mut self) -> &mut Scripting {
-    &mut self.scripting
   }
 
   #[inline]

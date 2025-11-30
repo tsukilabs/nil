@@ -2,14 +2,18 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 pub mod army;
+pub mod maneuver;
 pub mod squad;
 pub mod unit;
 
 use crate::continent::{ContinentIndex, ContinentKey, ContinentSize};
-use crate::military::army::{Army, ArmyPersonnel};
+use crate::error::Result;
+use crate::military::maneuver::{ManeuverId, ManeuverRequest};
 use crate::ranking::Score;
 use crate::resources::Maintenance;
 use crate::ruler::Ruler;
+use army::{Army, ArmyPersonnel};
+use maneuver::Maneuver;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
@@ -18,15 +22,17 @@ use std::collections::HashMap;
 pub struct Military {
   continent: HashMap<ContinentIndex, Vec<Army>>,
   continent_size: ContinentSize,
+  maneuvers: HashMap<ManeuverId, Maneuver>,
 }
 
 // TODO: All armies should be reconciled when the round ends to avoid having
-// multiple copies of idle armies owned by the same entity in the same location.
+// multiple copies of idle armies owned by the same ruler in the same location.
 impl Military {
   pub(crate) fn new(size: ContinentSize) -> Self {
     Self {
       continent: HashMap::new(),
       continent_size: size,
+      maneuvers: HashMap::new(),
     }
   }
 
@@ -46,6 +52,23 @@ impl Military {
       .entry(index)
       .or_default()
       .push(army);
+  }
+
+  #[must_use]
+  pub fn military_at<K, I>(&self, keys: I) -> Self
+  where
+    K: ContinentKey,
+    I: IntoIterator<Item = K>,
+  {
+    let mut military = Self::new(self.continent_size);
+    for key in keys {
+      let index = key.into_index(self.continent_size);
+      if let Some(armies) = self.continent.get(&index).cloned() {
+        military.continent.insert(index, armies);
+      }
+    }
+
+    military
   }
 
   pub fn armies_at<K>(&self, key: K) -> &[Army]
@@ -68,23 +91,6 @@ impl Military {
       .armies_at(key)
       .iter()
       .filter(|army| army.is_idle())
-  }
-
-  #[must_use]
-  pub fn intersection<K, I>(&self, keys: I) -> Self
-  where
-    K: ContinentKey,
-    I: IntoIterator<Item = K>,
-  {
-    let mut military = Self::new(self.continent_size);
-    for key in keys {
-      let index = key.into_index(self.continent_size);
-      if let Some(armies) = self.continent.get(&index).cloned() {
-        military.continent.insert(index, armies);
-      }
-    }
-
-    military
   }
 
   pub fn armies_of<R>(&self, owner: R) -> impl Iterator<Item = &Army>
@@ -121,5 +127,13 @@ impl Military {
         maintenance += army.maintenance();
         maintenance
       })
+  }
+
+  pub fn request_maneuver(&mut self, request: ManeuverRequest) -> Result<()> {
+    self
+      .maneuvers
+      .extend(Some(Maneuver::new(request)));
+
+    Ok(())
   }
 }

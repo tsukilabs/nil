@@ -1,14 +1,26 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use derive_more::{Deref, Into};
+use derive_more::{Deref, From, Into};
 use nil_num::impl_mul_ceil;
 use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
 use std::ops::{Add, AddAssign, Mul, MulAssign, Sub, SubAssign};
 
 #[derive(
-  Clone, Copy, Debug, Default, Deref, Into, PartialEq, Eq, PartialOrd, Ord, Deserialize, Serialize,
+  Clone,
+  Copy,
+  Debug,
+  Default,
+  Deref,
+  From,
+  Into,
+  PartialEq,
+  Eq,
+  PartialOrd,
+  Ord,
+  Deserialize,
+  Serialize,
 )]
 #[into(u32, f64)]
 pub struct Score(u32);

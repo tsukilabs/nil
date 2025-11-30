@@ -38,7 +38,7 @@ fn on_window_event(app: &AppHandle) -> impl Fn(&WindowEvent) + use<> {
     if let WindowEvent::CloseRequested { api, .. } = event
       && app
         .pinia()
-        .try_get_or_default("settings", "hideOnClose")
+        .get_or_default("settings", "hideOnClose")
     {
       api.prevent_close();
       let _ = app.main_window().hide();

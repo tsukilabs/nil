@@ -305,6 +305,7 @@ macro_rules! decl_resource {
 
       impl From<f64> for $name {
         fn from(value: f64) -> Self {
+          debug_assert!(value.is_finite());
           Self(value as u32)
         }
       }

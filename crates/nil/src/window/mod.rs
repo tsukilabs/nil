@@ -33,11 +33,10 @@ fn script() -> String {
     }};
   }
 
+  define!("__CONSTS__", Constants::default());
   define!("__DEBUG_ASSERTIONS__", cfg!(debug_assertions));
   define!("__DESKTOP__", cfg!(desktop));
   define!("__MOBILE__", cfg!(mobile));
-
-  define!("__CONSTS__", Constants::default());
 
   script
 }

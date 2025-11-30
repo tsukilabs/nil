@@ -2,11 +2,13 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::military::squad::{Squad, SquadSize};
-use crate::military::unit::UnitId;
+use crate::military::unit::stats::speed::Speed;
+use crate::military::unit::{UnitId, UnitIdIter};
 use crate::ranking::Score;
 use crate::resources::Maintenance;
 use serde::{Deserialize, Serialize};
 use std::ops::{Add, AddAssign, Sub, SubAssign};
+use strum::IntoEnumIterator;
 
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
@@ -41,26 +43,57 @@ impl ArmyPersonnel {
     }
   }
 
+  pub fn squad(&self, id: UnitId) -> &Squad {
+    match id {
+      UnitId::Archer => &self.archer,
+      UnitId::Axeman => &self.axeman,
+      UnitId::HeavyCavalry => &self.heavy_cavalry,
+      UnitId::LightCavalry => &self.light_cavalry,
+      UnitId::Pikeman => &self.pikeman,
+      UnitId::Swordsman => &self.swordsman,
+    }
+  }
+
+  fn squad_mut(&mut self, id: UnitId) -> &mut Squad {
+    match id {
+      UnitId::Archer => &mut self.archer,
+      UnitId::Axeman => &mut self.axeman,
+      UnitId::HeavyCavalry => &mut self.heavy_cavalry,
+      UnitId::LightCavalry => &mut self.light_cavalry,
+      UnitId::Pikeman => &mut self.pikeman,
+      UnitId::Swordsman => &mut self.swordsman,
+    }
+  }
+
+  #[inline]
+  pub fn iter(&self) -> ArmyPersonnelIter<'_> {
+    ArmyPersonnelIter::new(self)
+  }
+
+  pub fn speed(&self) -> Option<Speed> {
+    self
+      .iter()
+      .filter(|squad| squad.size() > 0u32)
+      .map(|squad| squad.unit().speed())
+      .min_by(|a, b| a.total_cmp(b))
+  }
+
   pub fn score(&self) -> Score {
-    let mut score = Score::default();
-    score += self.archer.score();
-    score += self.axeman.score();
-    score += self.heavy_cavalry.score();
-    score += self.light_cavalry.score();
-    score += self.pikeman.score();
-    score += self.swordsman.score();
-    score
+    self
+      .iter()
+      .fold(Score::default(), |mut score, squad| {
+        score += squad.score();
+        score
+      })
   }
 
   pub fn maintenance(&self) -> Maintenance {
-    let mut maintenance = Maintenance::default();
-    maintenance += self.archer.maintenance();
-    maintenance += self.axeman.maintenance();
-    maintenance += self.heavy_cavalry.maintenance();
-    maintenance += self.light_cavalry.maintenance();
-    maintenance += self.pikeman.maintenance();
-    maintenance += self.swordsman.maintenance();
-    maintenance
+    self
+      .iter()
+      .fold(Maintenance::default(), |mut maintenance, squad| {
+        maintenance += squad.maintenance();
+        maintenance
+      })
   }
 }
 
@@ -84,6 +117,15 @@ impl FromIterator<Squad> for ArmyPersonnel {
   }
 }
 
+impl<'a> IntoIterator for &'a ArmyPersonnel {
+  type Item = &'a Squad;
+  type IntoIter = ArmyPersonnelIter<'a>;
+
+  fn into_iter(self) -> Self::IntoIter {
+    self.iter()
+  }
+}
+
 impl Add for ArmyPersonnel {
   type Output = ArmyPersonnel;
 
@@ -104,25 +146,15 @@ impl Add<Squad> for ArmyPersonnel {
 
 impl AddAssign for ArmyPersonnel {
   fn add_assign(&mut self, rhs: Self) {
-    self.archer += rhs.archer;
-    self.axeman += rhs.axeman;
-    self.heavy_cavalry += rhs.heavy_cavalry;
-    self.light_cavalry += rhs.light_cavalry;
-    self.pikeman += rhs.pikeman;
-    self.swordsman += rhs.swordsman;
+    for squad in &rhs {
+      *self.squad_mut(squad.id()) += squad.size();
+    }
   }
 }
 
 impl AddAssign<Squad> for ArmyPersonnel {
   fn add_assign(&mut self, rhs: Squad) {
-    match rhs.id() {
-      UnitId::Archer => self.archer += rhs,
-      UnitId::Axeman => self.axeman += rhs,
-      UnitId::HeavyCavalry => self.heavy_cavalry += rhs,
-      UnitId::LightCavalry => self.light_cavalry += rhs,
-      UnitId::Pikeman => self.pikeman += rhs,
-      UnitId::Swordsman => self.swordsman += rhs,
-    }
+    *self.squad_mut(rhs.id()) += rhs;
   }
 }
 
@@ -137,24 +169,33 @@ impl Sub for ArmyPersonnel {
 
 impl SubAssign for ArmyPersonnel {
   fn sub_assign(&mut self, rhs: Self) {
-    self.archer -= rhs.archer;
-    self.axeman -= rhs.axeman;
-    self.heavy_cavalry -= rhs.heavy_cavalry;
-    self.light_cavalry -= rhs.light_cavalry;
-    self.pikeman -= rhs.pikeman;
-    self.swordsman -= rhs.swordsman;
+    for squad in &rhs {
+      *self.squad_mut(squad.id()) -= squad.size();
+    }
   }
 }
 
 impl SubAssign<Squad> for ArmyPersonnel {
   fn sub_assign(&mut self, rhs: Squad) {
-    match rhs.id() {
-      UnitId::Archer => self.archer -= rhs,
-      UnitId::Axeman => self.axeman -= rhs,
-      UnitId::HeavyCavalry => self.heavy_cavalry -= rhs,
-      UnitId::LightCavalry => self.light_cavalry -= rhs,
-      UnitId::Pikeman => self.pikeman -= rhs,
-      UnitId::Swordsman => self.swordsman -= rhs,
-    }
+    *self.squad_mut(rhs.id()) -= rhs;
+  }
+}
+
+pub struct ArmyPersonnelIter<'a> {
+  personnel: &'a ArmyPersonnel,
+  iter: UnitIdIter,
+}
+
+impl<'a> ArmyPersonnelIter<'a> {
+  pub fn new(personnel: &'a ArmyPersonnel) -> Self {
+    Self { personnel, iter: UnitId::iter() }
+  }
+}
+
+impl<'a> Iterator for ArmyPersonnelIter<'a> {
+  type Item = &'a Squad;
+
+  fn next(&mut self) -> Option<Self::Item> {
+    Some(self.personnel.squad(self.iter.next()?))
   }
 }

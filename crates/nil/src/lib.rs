@@ -18,8 +18,9 @@ mod tray;
 use error::BoxResult;
 use state::Nil;
 use tauri::{AppHandle, Manager, Wry};
+use tauri_plugin_pinia::CborMarshaler;
 
-#[expect(clippy::too_many_lines)]
+#[allow(clippy::too_many_lines)]
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
   #[cfg(debug_assertions)]
@@ -32,7 +33,6 @@ pub fn run() {
     .plugin(tauri_plugin_dialog::init())
     .plugin(tauri_plugin_persisted_scope::init())
     .plugin(tauri_plugin_process::init())
-    .plugin(tauri_plugin_mobile::init())
     .setup(|app| setup(app.app_handle()))
     .invoke_handler(tauri::generate_handler![
       command::create_tray_icon,
@@ -84,9 +84,6 @@ pub fn run() {
       command::npc::bot::get_public_bot,
       command::npc::precursor::get_precursor_coords,
       command::npc::precursor::get_public_precursor,
-      command::nsr::fetch_nsr_readme,
-      command::nsr::fetch_nsr_registry,
-      command::nsr::fetch_nsr_script,
       command::player::get_player,
       command::player::get_player_coords,
       command::player::get_player_maintenance,
@@ -105,15 +102,6 @@ pub fn run() {
       command::round::get_round,
       command::round::is_round_idle,
       command::round::start_round,
-      command::script::add_scripts,
-      command::script::execute_script,
-      command::script::execute_script_chunk,
-      command::script::export_script,
-      command::script::get_script,
-      command::script::get_scripts,
-      command::script::import_scripts,
-      command::script::remove_script,
-      command::script::update_script,
       command::server::get_server_addr,
       command::server::get_server_version,
       command::server::is_server_ready,
@@ -125,7 +113,7 @@ pub fn run() {
       command::world::save_world,
     ])
     .run(tauri::generate_context!())
-    .expect("failed to start nil");
+    .expect("Failed to start nil");
 }
 
 #[cfg(desktop)]
@@ -133,7 +121,6 @@ fn builder() -> tauri::Builder<Wry> {
   use plugin::desktop;
   let mut builder = tauri::Builder::default()
     .plugin(desktop::prevent_default())
-    .plugin(desktop::window_state())
     .plugin(tauri_plugin_updater::Builder::new().build());
 
   if !cfg!(debug_assertions) {
@@ -152,6 +139,7 @@ fn setup(app: &AppHandle) -> BoxResult<()> {
   let app_dir = app.path().app_data_dir()?;
   let pinia = tauri_plugin_pinia::Builder::new()
     .path(app_dir.join("settings"))
+    .marshaler(Box::new(CborMarshaler))
     .build();
 
   app.plugin(pinia)?;

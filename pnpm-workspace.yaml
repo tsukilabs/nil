@@ -1,8 +1,14 @@
 ignoreWorkspaceRootCheck: true
 
+minimumReleaseAge: 4320
+minimumReleaseAgeExclude:
+  - "@tauri-apps/*"
+  - "@tauri-store/*"
+  - "@tb-dev/*"
+  - "@tsukilabs/*"
+  - "typescript"
+  - "vue"
+
 packages:
   - "crates/nil-continent/pkg"
-  - "crates/plugin-mobile"
-  - "docs"
-  - "registry"
   - "ui"

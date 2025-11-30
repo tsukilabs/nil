@@ -14,13 +14,8 @@
     "dialog:allow-message",
     "dialog:allow-open",
     "dialog:allow-save",
-    "mobile:default",
     "pinia:default",
     "process:allow-exit",
-    "updater:allow-check",
-    "updater:allow-download",
-    "updater:allow-download-and-install",
-    "updater:allow-install",
 
     {
       "identifier": "fs:allow-read-dir",

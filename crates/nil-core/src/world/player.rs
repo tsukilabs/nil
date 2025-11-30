@@ -1,12 +1,12 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use super::World;
 use crate::city::City;
 use crate::error::{Error, Result};
 use crate::military::Military;
 use crate::player::{Player, PlayerId, PlayerStatus};
 use crate::resources::Maintenance;
+use crate::world::World;
 
 impl World {
   pub fn get_player_maintenance(&self, player: &PlayerId) -> Result<Maintenance> {
@@ -20,7 +20,7 @@ impl World {
 
   pub fn get_player_military(&self, player: &PlayerId) -> Military {
     let coords = self.continent.coords_of(player);
-    self.military.intersection(coords)
+    self.military.military_at(coords)
   }
 
   #[inline]

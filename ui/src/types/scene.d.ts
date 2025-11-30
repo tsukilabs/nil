@@ -6,7 +6,6 @@ type Scene = GameScene | 'about' | 'home' | 'host-game' | 'join-game' | 'load-ga
 type GameScene =
   | InfrastructureScene
   | ProfileScene
-  | ScriptScene
   | 'chat'
   | 'city'
   | 'continent'
@@ -29,5 +28,3 @@ type PrefectureScene = 'prefecture' | 'prefecture-settings';
 type StableScene = 'stable' | 'stable-settings';
 
 type ProfileScene = 'profile-bot' | 'profile-city' | 'profile-player' | 'profile-precursor';
-
-type ScriptScene = 'script' | 'nsr';

@@ -1,11 +1,11 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use super::World;
 use crate::chat::ChatMessage;
 use crate::continent::Coord;
 use crate::event::{Event, Listener};
 use crate::player::PlayerId;
+use crate::world::World;
 
 impl World {
   #[inline]
@@ -35,11 +35,6 @@ impl World {
   /// Emits [`Event::ChatUpdated`].
   pub(super) fn emit_chat_updated(&self, message: ChatMessage) {
     self.broadcast(Event::ChatUpdated { message });
-  }
-
-  /// Emits [`Event::ChatUpdated`] to a specific player.
-  pub(super) fn emit_chat_updated_to(&self, player: PlayerId, message: ChatMessage) {
-    self.emit_to(player, Event::ChatUpdated { message });
   }
 
   /// Emits [`Event::PlayerUpdated`].

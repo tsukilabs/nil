@@ -1,11 +1,10 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use std::ops::Mul;
-
 use super::maintenance::MaintenanceRatio;
 use derive_more::{Deref, Into};
 use serde::{Deserialize, Serialize};
+use std::ops::Mul;
 
 /// Base cost of an entity, such as buildings or units.
 #[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize)]
@@ -21,6 +20,7 @@ impl Cost {
 
 impl From<f64> for Cost {
   fn from(value: f64) -> Self {
+    debug_assert!(value.is_finite());
     Self::new(value as u32)
   }
 }
@@ -56,6 +56,7 @@ pub struct ResourceRatio(f64);
 impl ResourceRatio {
   #[inline]
   pub const fn new(value: f64) -> Self {
+    debug_assert!(value.is_finite());
     Self(value.clamp(0.0, 1.0))
   }
 

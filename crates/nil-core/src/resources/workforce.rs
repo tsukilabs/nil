@@ -37,6 +37,7 @@ impl From<BuildingLevel> for Workforce {
 
 impl From<f64> for Workforce {
   fn from(value: f64) -> Self {
+    debug_assert!(value.is_finite());
     Self::new(value as u32)
   }
 }

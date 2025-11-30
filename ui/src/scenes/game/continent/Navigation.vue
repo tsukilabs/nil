@@ -11,18 +11,19 @@ import { ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon, ChevronUpIcon } fro
 const props = defineProps<{
   cellSize: number;
   interval: number;
-  onUp: () => MaybePromise<void>;
-  onRight: () => MaybePromise<void>;
-  onDown: () => MaybePromise<void>;
-  onLeft: () => MaybePromise<void>;
+  onUp: () => void;
+  onRight: () => void;
+  onDown: () => void;
+  onLeft: () => void;
 }>();
 
 const offset = computed(() => toPixel(Math.round(props.cellSize / 2)));
 
-let upInterval: Option<number> = null;
-let rightInterval: Option<number> = null;
-let downInterval: Option<number> = null;
-let leftInterval: Option<number> = null;
+type Timeout = ReturnType<typeof setInterval>;
+let upInterval: Option<Timeout> = null;
+let rightInterval: Option<Timeout> = null;
+let downInterval: Option<Timeout> = null;
+let leftInterval: Option<Timeout> = null;
 
 const onUpStart = onStart('up');
 const onRightStart = onStart('right');
@@ -71,7 +72,7 @@ function onEnd(direction: Direction) {
   };
 }
 
-function start(fn: () => MaybePromise<void>) {
+function start(fn: () => void) {
   return setInterval(fn, props.interval);
 }
 

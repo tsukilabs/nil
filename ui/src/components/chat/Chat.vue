@@ -3,7 +3,6 @@
 
 <script setup lang="ts">
 import MessagePlayer from './MessagePlayer.vue';
-import MessageStdout from './MessageStdout.vue';
 import { ListenerSet } from '@/lib/listener-set';
 import { ScrollArea } from '@tb-dev/vue-components';
 import { nextTick, onMounted, useTemplateRef, type VNode } from 'vue';
@@ -48,7 +47,6 @@ defineExpose({ scroll });
           <div v-if="chat" ref="contentEl" class="flex flex-col gap-3 pr-6 pl-2 sm:pl-4">
             <div v-for="message of chat" :key="message.id">
               <MessagePlayer v-if="message.author.kind === 'player'" :message />
-              <MessageStdout v-else-if="message.kind === 'stdout'" :message />
             </div>
           </div>
         </ScrollArea>

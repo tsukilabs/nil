@@ -119,7 +119,9 @@ onUnmounted(() => {
   continent.free();
 });
 
-onKeyboardMovement(move);
+if (__DESKTOP__) {
+  onKeyboardMovement(move);
+}
 
 function render() {
   if (route.name === ('continent' satisfies GameScene)) {
@@ -243,14 +245,14 @@ function move(direction: Direction, delta: number) {
         </div>
 
         <div id="rule-horizontal" class="rule bg-accent font-nil text-xs sm:text-lg">
-          <div v-for="([idx, col]) of cols" :key="idx">
-            <span v-if="typeof col === 'number'">{{ col }}</span>
+          <div v-for="col of cols" :key="col[0]">
+            <span v-if="typeof col[1] === 'number'">{{ col[1] }}</span>
           </div>
         </div>
 
         <div id="rule-vertical" class="rule bg-accent font-nil text-xs sm:text-lg">
-          <div v-for="([idx, row]) of rows" :key="idx">
-            <span v-if="typeof row === 'number'">{{ row }}</span>
+          <div v-for="row of rows" :key="row[0]">
+            <span v-if="typeof row[1] === 'number'">{{ row[1] }}</span>
           </div>
         </div>
 

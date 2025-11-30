@@ -10,7 +10,6 @@ mod npc;
 mod player;
 mod ranking;
 mod round;
-mod script;
 mod world;
 
 use crate::error::Result;

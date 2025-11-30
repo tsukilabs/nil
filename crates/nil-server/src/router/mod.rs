@@ -10,7 +10,6 @@ mod npc;
 mod player;
 mod ranking;
 mod round;
-mod script;
 mod world;
 
 use crate::middleware::{CurrentPlayer, authorization};
@@ -100,13 +99,6 @@ pub(crate) fn create() -> Router<App> {
     .route("/round", get(round::get))
     .route("/round/start", get(round::start))
     .route("/round/turn/end", get(round::end_turn))
-    .route("/script", get(script::get_all))
-    .route("/script", post(script::add))
-    .route("/script/chunk", post(script::execute_chunk))
-    .route("/script/update", post(script::update))
-    .route("/script/{id}", get(script::get))
-    .route("/script/{id}/execute", get(script::execute))
-    .route("/script/{id}/remove", get(script::remove))
     .route("/version", get(version))
     .route("/world/config", get(world::get_config))
     .route("/world/save", post(world::save))

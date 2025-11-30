@@ -3,6 +3,8 @@
 
 mod personnel;
 
+use crate::military::maneuver::ManeuverId;
+use crate::military::unit::stats::speed::Speed;
 use crate::ranking::Score;
 use crate::resources::Maintenance;
 use crate::ruler::Ruler;
@@ -15,6 +17,7 @@ pub use personnel::ArmyPersonnel;
 
 #[derive(Builder, Clone, Debug, Deserialize, Serialize)]
 #[builder(builder_type(vis = "pub(in crate::military)"))]
+#[serde(rename_all = "camelCase")]
 pub struct Army {
   #[builder(skip)]
   id: ArmyId,
@@ -51,6 +54,16 @@ impl Army {
   }
 
   #[inline]
+  pub fn is_maneuvering(&self) -> bool {
+    self.state.is_maneuvering()
+  }
+
+  #[inline]
+  pub fn speed(&self) -> Option<Speed> {
+    self.personnel.speed()
+  }
+
+  #[inline]
   pub fn score(&self) -> Score {
     self.personnel.score()
   }
@@ -61,11 +74,11 @@ impl Army {
   }
 }
 
+#[must_use]
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Deserialize, Serialize)]
 pub struct ArmyId(Uuid);
 
 impl ArmyId {
-  #[must_use]
   pub fn new() -> Self {
     Self(Uuid::new_v4())
   }
@@ -82,4 +95,7 @@ impl Default for ArmyId {
 pub enum ArmyState {
   #[default]
   Idle,
+  Maneuvering {
+    maneuver: ManeuverId,
+  },
 }

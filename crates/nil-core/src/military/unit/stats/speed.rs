@@ -5,12 +5,13 @@ use derive_more::{Deref, Into};
 use serde::{Deserialize, Serialize};
 
 /// Represents how many fields a unit can travel in one round.
-#[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize)]
+#[derive(Clone, Copy, Debug, Deref, Into, PartialEq, PartialOrd, Deserialize, Serialize)]
 pub struct Speed(f64);
 
 impl Speed {
   #[inline]
   pub const fn new(value: f64) -> Self {
+    debug_assert!(value.is_finite());
     Self(value.max(0.0))
   }
 }

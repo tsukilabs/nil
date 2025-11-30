@@ -43,10 +43,6 @@ impl Nil {
     }
   }
 
-  pub async fn player(&self) -> Result<PlayerId> {
-    self.client(async |cl| cl.player()).await
-  }
-
   pub async fn is_host(&self) -> bool {
     self.server.read().await.is_some()
   }

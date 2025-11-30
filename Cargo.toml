@@ -3,12 +3,12 @@ resolver = "3"
 members = ["crates/*"]
 
 [workspace.package]
-version = "0.1.41"
+version = "0.1.0"
 edition = "2024"
-rust-version = "1.91"
+rust-version = "1.93"
 license-file = "./LICENSE"
-homepage = "https://nil.dev.br"
-repository = "https://github.com/tsukilabs/nil"
+homepage = "https://github.com/ferreira-tb/nil"
+repository = "https://github.com/ferreira-tb/nil"
 authors = ["Andrew Ferreira <andrew.shien2@gmail.com>", "Danilo Soares <danilofs18@gmail.com>"]
 
 [profile.release]
@@ -38,22 +38,21 @@ nil-num.path = "./crates/nil-num"
 nil-num-macros.path = "./crates/nil-num-macros"
 nil-server.path = "./crates/nil-server"
 nil-util.path = "./crates/nil-util"
-tauri-plugin-mobile.path = "./crates/plugin-mobile"
 
 anyhow = "1.0"
-bon = "3.7"
-bytes = "1.10"
+bon = "3.8"
+bytes = "1.11"
+ciborium = "0.2"
 futures = "0.3"
 http = "1.3"
 itertools = "0.14"
 js-sys = "0.3"
 local-ip-address = "=0.6.5"
-markdown = "1.0"
 num-traits = "0.2"
 percent-encoding = "2.3"
 proc-macro2 = "1.0"
 quote = "1.0"
-regex = "1.11"
+regex = "1.12"
 remain = "0.2"
 serde_json = "1.0"
 subenum = "1.1"
@@ -61,11 +60,9 @@ tauri-plugin-clipboard-manager = "2.3"
 tauri-plugin-dialog = "2.4"
 tauri-plugin-fs = "2.4"
 tauri-plugin-persisted-scope = "2.3"
-tauri-plugin-pinia = "3"
 tauri-plugin-process = "2.3"
 tauri-plugin-single-instance = "2.3"
 tauri-plugin-updater = "2.9"
-tauri-plugin-window-state = "2.4"
 thiserror = "2.0"
 wasm-bindgen = "0.2"
 
@@ -89,10 +86,6 @@ features = ["fast-math"]
 [workspace.dependencies.jiff]
 version = "0.2"
 features = ["serde"]
-
-[workspace.dependencies.mlua]
-version = "0.11"
-features = ["error-send", "lua54", "send", "serde", "vendored"]
 
 [workspace.dependencies.rand]
 version = "0.9"
@@ -120,19 +113,21 @@ version = "2.0"
 features = ["derive"]
 
 [workspace.dependencies.tauri]
-version = "2.8"
+version = "2.9"
 features = ["rustls-tls"]
 
-[workspace.dependencies.tauri-plugin]
-version = "2.4"
-features = ["build"]
+[workspace.dependencies.tauri-plugin-pinia]
+git = "https://github.com/ferreira-tb/tauri-store"
+branch = "main"
+features = ["marshaler-cbor"]
 
 [workspace.dependencies.tauri-plugin-prevent-default]
-version = "3"
+git = "https://github.com/ferreira-tb/tauri-plugin-prevent-default"
+branch = "main"
 features = ["platform-windows"]
 
 [workspace.dependencies.tokio]
-version = "1.47"
+version = "1.48"
 features = ["full"]
 
 [workspace.dependencies.tokio-tungstenite]

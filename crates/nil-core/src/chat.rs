@@ -38,14 +38,6 @@ impl Chat {
   pub(crate) fn push(&mut self, message: ChatMessage) {
     self.public.push(message);
   }
-
-  pub(crate) fn push_to(&mut self, player: PlayerId, message: ChatMessage) {
-    self
-      .private
-      .entry(player)
-      .or_default()
-      .push(message);
-  }
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
@@ -147,7 +139,6 @@ impl Default for ChatMessageId {
 pub enum ChatMessageKind {
   #[default]
   Default,
-  Stdout,
 }
 
 #[derive(Clone, Debug, Default, Deserialize, Serialize)]

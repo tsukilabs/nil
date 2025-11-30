@@ -8,7 +8,6 @@ import '@/assets/style/themes.css';
 import '@/assets/style/fonts.css';
 import '@/assets/style/main.css';
 import '@/assets/style/layout.css';
-import '@/assets/style/markdown.css';
 import '@/lib/prototype';
 import App from '@/App.vue';
 import { createApp } from 'vue';
@@ -40,8 +39,6 @@ app.use(i18n());
 app.use(router);
 app.use(pinia);
 
-router
-  .push({ name: 'home' })
-  .then(() => initEntities())
-  .then(() => app.mount('#app'))
-  .err();
+initEntities();
+
+app.mount('#app');

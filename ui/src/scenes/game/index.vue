@@ -31,11 +31,13 @@ const lastSavedAt = ref<Option<RoundId>>();
 
 const desktop = globalThis.__DESKTOP__;
 
-onCtrlKeyDown(['b', 'B'], () => toggleSidebar(), { enabled: desktop });
-onCtrlKeyDown(['f', 'F'], () => toggleFinder(), { enabled: desktop });
-onCtrlKeyDown(['m', 'M'], () => go('continent'), { enabled: desktop });
-onCtrlKeyDown(['s', 'S'], () => save(), { enabled: desktop });
-onCtrlKeyDown(' ', () => finishTurn(), { enabled: desktop });
+if (__DESKTOP__) {
+  onCtrlKeyDown(['b', 'B'], () => toggleSidebar());
+  onCtrlKeyDown(['f', 'F'], () => toggleFinder());
+  onCtrlKeyDown(['m', 'M'], () => go('continent'));
+  onCtrlKeyDown(['s', 'S'], () => save());
+  onCtrlKeyDown(' ', () => finishTurn());
+}
 
 onMounted(() => defineGlobalCheats());
 

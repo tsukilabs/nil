@@ -1,8 +1,8 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use super::{BuildingId, BuildingLevel, MineId};
 use crate::check_total_resource_ratio;
+use crate::infrastructure::building::{BuildingId, BuildingLevel, MineId};
 use crate::infrastructure::mine::MineProduction;
 use crate::infrastructure::requirements::InfrastructureRequirements;
 use crate::ranking::Score;

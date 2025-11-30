@@ -20,14 +20,14 @@ const i18n = useI18n();
 const settings = useSettings();
 const { locale, theme, colorMode } = storeToRefs(settings);
 
-const desktop = globalThis.__DESKTOP__;
-
 watchImmediate(locale, setLocale);
 watchImmediate(theme, setTheme);
 
 syncRef(useColorMode(), colorMode, { direction: 'rtl' });
 
-onKeyDown('F5', throttle(NIL.update, 1000), { enabled: desktop });
+if (__DESKTOP__) {
+  onKeyDown('F5', throttle(NIL.update, 1000));
+}
 
 onMounted(async () => {
   try {

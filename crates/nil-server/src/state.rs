@@ -8,7 +8,6 @@ use nil_core::npc::precursor::PrecursorManager;
 use nil_core::player::PlayerManager;
 use nil_core::ranking::Ranking;
 use nil_core::round::Round;
-use nil_core::script::Scripting;
 use nil_core::world::World;
 use std::sync::Arc;
 use tokio::sync::RwLock;
@@ -91,24 +90,6 @@ impl App {
     F: FnOnce(&Round) -> T,
   {
     self.world(|world| f(world.round())).await
-  }
-
-  pub async fn scripting<F, T>(&self, f: F) -> T
-  where
-    F: FnOnce(&Scripting) -> T,
-  {
-    self
-      .world(|world| f(world.scripting()))
-      .await
-  }
-
-  pub async fn scripting_mut<F, T>(&self, f: F) -> T
-  where
-    F: FnOnce(&mut Scripting) -> T,
-  {
-    self
-      .world_mut(|world| f(world.scripting_mut()))
-      .await
   }
 }
 

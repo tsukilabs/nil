@@ -33,6 +33,7 @@ impl From<u32> for Maintenance {
 
 impl From<f64> for Maintenance {
   fn from(value: f64) -> Self {
+    debug_assert!(value.is_finite());
     Self::new(value as u32)
   }
 }

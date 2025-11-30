@@ -1,7 +1,0 @@
-.gradle
-.tauri
-build
-buildSrc
-
-local.properties
-proguard-rules.pro

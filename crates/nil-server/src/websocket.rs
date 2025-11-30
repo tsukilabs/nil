@@ -6,8 +6,8 @@ use futures::sink::SinkExt;
 use futures::stream::{SplitSink, SplitStream, StreamExt};
 use nil_core::event::{EventTarget, Listener};
 use nil_core::player::PlayerId;
+use tokio::select;
 use tokio::task::JoinHandle;
-use tokio::{select, spawn};
 
 type Sender = SplitSink<WebSocket, Message>;
 type Receiver = SplitStream<WebSocket>;
@@ -24,7 +24,7 @@ pub(crate) async fn handle_socket(socket: WebSocket, listener: Listener, player:
 }
 
 fn spawn_tx(mut tx: Sender, mut listener: Listener, player: PlayerId) -> JoinHandle<()> {
-  spawn(async move {
+  tokio::spawn(async move {
     loop {
       if let Ok((bytes, target)) = listener.recv().await {
         match target {
@@ -42,7 +42,7 @@ fn spawn_tx(mut tx: Sender, mut listener: Listener, player: PlayerId) -> JoinHan
 }
 
 fn spawn_rx(mut rx: Receiver) -> JoinHandle<()> {
-  spawn(async move {
+  tokio::spawn(async move {
     while let Some(Ok(message)) = rx.next().await {
       if let Message::Close(_) = message {
         break;

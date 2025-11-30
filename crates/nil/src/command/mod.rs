@@ -10,11 +10,9 @@ pub mod client;
 pub mod continent;
 pub mod infrastructure;
 pub mod npc;
-pub mod nsr;
 pub mod player;
 pub mod ranking;
 pub mod round;
-pub mod script;
 pub mod server;
 pub mod world;
 

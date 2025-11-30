@@ -179,7 +179,6 @@ impl<'de> Visitor<'de> for CoordVisitor {
     let mut x = None;
     let mut y = None;
 
-    // Lua wouldn't be able to deserialize it if we used a plain `&str` here.
     while let Some(key) = map.next_key::<Cow<'static, str>>()? {
       match key.as_ref() {
         "x" => x = Some(map.next_value()?),
@@ -196,9 +195,9 @@ impl<'de> Visitor<'de> for CoordVisitor {
 }
 
 #[derive(
-  Clone, Copy, Debug, From, Into, PartialEq, Eq, PartialOrd, Ord, Deserialize, Serialize,
+  Clone, Copy, Debug, Default, From, Into, PartialEq, Eq, PartialOrd, Ord, Deserialize, Serialize,
 )]
-#[into(i16, u8)]
+#[into(i16, u8, f64)]
 pub struct Distance(u8);
 
 impl Distance {

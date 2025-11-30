@@ -10,7 +10,6 @@ use crate::npc::precursor::PrecursorManager;
 use crate::player::{PlayerManager, PlayerStatus};
 use crate::ranking::Ranking;
 use crate::round::Round;
-use crate::script::Scripting;
 use crate::world::{WorldConfig, WorldStats};
 use jiff::Zoned;
 use nil_util::serde::{read_file, write_file};
@@ -36,7 +35,6 @@ pub struct Savedata {
   pub(crate) config: WorldConfig,
   pub(crate) stats: WorldStats,
   pub(crate) chat: Chat,
-  pub(crate) scripting: Scripting,
 
   pub(crate) saved_at: Zoned,
 }

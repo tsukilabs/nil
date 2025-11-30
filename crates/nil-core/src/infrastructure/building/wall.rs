@@ -1,9 +1,9 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use super::{BuildingId, BuildingLevel};
 use crate::check_total_resource_ratio;
 use crate::error::{Error, Result};
+use crate::infrastructure::building::{BuildingId, BuildingLevel};
 use crate::infrastructure::requirements::InfrastructureRequirements;
 use crate::ranking::Score;
 use crate::resources::{Cost, MaintenanceRatio, ResourceRatio, Workforce};
@@ -37,11 +37,11 @@ impl Wall {
   pub const MIN_WORKFORCE: Workforce = Workforce::new(2);
   pub const MAX_WORKFORCE: Workforce = Workforce::new(200);
 
-  pub const MIN_DEFENSE_BOOST_PERCENT: WallDefenseBonus = WallDefenseBonus::new(5.0);
-  pub const MAX_DEFENSE_BOOST_PERCENT: WallDefenseBonus = WallDefenseBonus::new(107.0);
-
   pub const MIN_DEFENSE: WallDefense = WallDefense::new(500);
   pub const MAX_DEFENSE: WallDefense = WallDefense::new(10000);
+
+  pub const MIN_DEFENSE_BONUS: WallDefenseBonus = WallDefenseBonus::new(5.0);
+  pub const MAX_DEFENSE_BONUS: WallDefenseBonus = WallDefenseBonus::new(107.0);
 
   pub const MIN_SCORE: Score = Score::new(8);
   pub const MAX_SCORE: Score = Score::new(256);
@@ -131,10 +131,10 @@ impl WallStatsTable {
       .max_level(max_level)
       .call();
 
-    let mut defense_percent = f64::from(Wall::MIN_DEFENSE_BOOST_PERCENT);
+    let mut defense_percent = f64::from(Wall::MIN_DEFENSE_BONUS);
     let defense_percent_growth = growth()
       .floor(defense_percent)
-      .ceil(f64::from(Wall::MAX_DEFENSE_BOOST_PERCENT))
+      .ceil(f64::from(Wall::MAX_DEFENSE_BONUS))
       .max_level(max_level)
       .call();
 

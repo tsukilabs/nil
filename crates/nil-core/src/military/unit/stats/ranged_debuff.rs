@@ -13,6 +13,7 @@ impl RangedDebuff {
 
   #[inline]
   pub const fn new(value: f64) -> Self {
+    debug_assert!(value.is_finite());
     Self(value.max(Self::MIN.0))
   }
 }

@@ -32,7 +32,6 @@ impl From<&World> for Savedata {
       config: world.config.clone(),
       stats: world.stats.clone(),
       chat: world.chat.clone(),
-      scripting: world.scripting.clone(),
 
       saved_at: Zoned::now(),
     }
@@ -52,7 +51,6 @@ impl From<Savedata> for World {
       config: savedata.config,
       stats: savedata.stats,
       chat: savedata.chat,
-      scripting: savedata.scripting,
 
       emitter: Emitter::default(),
       pending_save: None,

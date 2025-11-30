@@ -9,8 +9,8 @@ import { useBreakpoints } from '@/composables/util/useBreakpoints';
 
 defineProps<{
   isHost: boolean;
-  onStartRound: () => MaybePromise<void>;
-  onFinishTurn: () => MaybePromise<void>;
+  onStartRound: () => Promise<void>;
+  onFinishTurn: () => Promise<void>;
 }>();
 
 const { city } = NIL.city.refs();

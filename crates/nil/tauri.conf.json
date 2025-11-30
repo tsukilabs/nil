@@ -1,6 +1,6 @@
 {
   "productName": "Call of Nil",
-  "version": "0.1.41",
+  "version": "0.1.0",
   "identifier": "tsukilabs.nil",
   "build": {
     "beforeDevCommand": "pnpm run -F ui dev",
@@ -14,7 +14,11 @@
     "security": {
       "assetProtocol": {
         "enable": true,
-        "scope": ["$APPCACHE/**", "$APPCONFIG/**", "$APPDATA/**"]
+        "scope": [
+          "$APPCACHE/**",
+          "$APPCONFIG/**",
+          "$APPDATA/**"
+        ]
       },
       "csp": {
         "default-src": "'self'",
@@ -30,7 +34,7 @@
     "shortDescription": "Call of Nil",
     "license": "AGPL-3.0-only",
     "licenseFile": "./LICENSE",
-    "homepage": "https://nil.dev.br/",
+    "homepage": "https://github.com/ferreira-tb/nil",
     "targets": "all",
     "active": true,
     "createUpdaterArtifacts": true,
@@ -47,7 +51,9 @@
   "plugins": {
     "updater": {
       "pubkey": "",
-      "endpoints": ["https://github.com/tsukilabs/nil/releases/latest/download/latest.json"],
+      "endpoints": [
+        "https://github.com/ferreira-tb/nil/releases/latest/download/latest.json"
+      ],
       "windows": {
         "installMode": "passive"
       }

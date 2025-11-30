@@ -1,11 +1,11 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use super::World;
 use crate::error::Result;
 use crate::player::{Player, PlayerId};
 use crate::resources::prelude::*;
 use crate::ruler::Ruler;
+use crate::world::World;
 use std::collections::HashMap;
 
 impl World {

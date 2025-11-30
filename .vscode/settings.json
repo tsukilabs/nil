@@ -1,22 +1,4 @@
 {
-  "[css]": {
-    "editor.defaultFormatter": "dprint.dprint"
-  },
-  "[html]": {
-    "editor.defaultFormatter": "dprint.dprint"
-  },
-  "[javascript]": {
-    "editor.defaultFormatter": "dprint.dprint"
-  },
-  "[json]": {
-    "editor.defaultFormatter": "dprint.dprint"
-  },
-  "[jsonc]": {
-    "editor.defaultFormatter": "dprint.dprint"
-  },
-  "[markdown]": {
-    "editor.defaultFormatter": "dprint.dprint"
-  },
   "[powershell]": {
     "editor.defaultFormatter": "ms-vscode.powershell"
   },
@@ -25,15 +7,6 @@
   },
   "[toml]": {
     "editor.defaultFormatter": "tamasfe.even-better-toml"
-  },
-  "[typescript]": {
-    "editor.defaultFormatter": "dprint.dprint"
-  },
-  "[vue]": {
-    "editor.defaultFormatter": "dprint.dprint"
-  },
-  "[yaml]": {
-    "editor.defaultFormatter": "dprint.dprint"
   },
   "conventionalCommits.promptScopes": false,
   "editor.codeActionsOnSave": {
@@ -53,5 +26,13 @@
   },
   "files.eol": "\n",
   "githubPullRequests.defaultMergeMethod": "squash",
-  "rust-analyzer.cargo.targetDir": true
+  "rust-analyzer.cargo.targetDir": true,
+  "workbench.editor.customLabels.patterns": {
+    "**/index.ts": "${dirname}/index.ts",
+    "**/mod.rs": "${dirname}/mod.rs",
+    "*/Cargo.toml": "<workspace>/Cargo.toml",
+    "**/Cargo.toml": "${dirname}/Cargo.toml",
+    "*/*/**/main.rs": "${dirname(1)}/main.rs",
+    "*/*/**/lib.rs": "${dirname(1)}/lib.rs"
+  }
 }
