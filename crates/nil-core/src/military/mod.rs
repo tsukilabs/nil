@@ -7,7 +7,8 @@ pub mod squad;
 pub mod unit;
 
 use crate::continent::{ContinentIndex, ContinentKey, ContinentSize};
-use crate::error::Result;
+use crate::error::{Error, Result};
+use crate::military::army::ArmyId;
 use crate::military::maneuver::{ManeuverId, ManeuverRequest};
 use crate::ranking::Score;
 use crate::resources::Maintenance;
@@ -71,6 +72,28 @@ impl Military {
     military
   }
 
+  pub fn army(&self, id: ArmyId) -> Result<&Army> {
+    self
+      .armies()
+      .find(|army| army.id() == id)
+      .ok_or_else(|| Error::ArmyNotFound(id))
+  }
+
+  pub(crate) fn army_mut(&mut self, id: ArmyId) -> Result<&mut Army> {
+    self
+      .armies_mut()
+      .find(|army| army.id() == id)
+      .ok_or_else(|| Error::ArmyNotFound(id))
+  }
+
+  pub fn armies(&self) -> impl Iterator<Item = &Army> {
+    self.continent.values().flatten()
+  }
+
+  pub(crate) fn armies_mut(&mut self) -> impl Iterator<Item = &mut Army> {
+    self.continent.values_mut().flatten()
+  }
+
   pub fn armies_at<K>(&self, key: K) -> &[Army]
   where
     K: ContinentKey,
@@ -129,11 +152,24 @@ impl Military {
       })
   }
 
-  pub fn request_maneuver(&mut self, request: &ManeuverRequest) -> Result<()> {
+  #[inline]
+  pub fn maneuver(&self, id: ManeuverId) -> Result<&Maneuver> {
     self
       .maneuvers
-      .extend(Some(Maneuver::new(request)));
+      .get(&id)
+      .ok_or_else(|| Error::ManeuverNotFound(id))
+  }
 
-    Ok(())
+  // TODO: Should a player be allowed to attack themselves?
+  pub(crate) fn request_maneuver(&mut self, request: &ManeuverRequest) -> Result<()> {
+    let army = self.army_mut(request.army)?;
+    if army.is_idle() {
+      let (id, maneuver) = Maneuver::new(request)?;
+      army.set_maneuver(id);
+      self.maneuvers.insert(id, maneuver);
+      Ok(())
+    } else {
+      Err(Error::ArmyNotIdle(request.army))
+    }
   }
 }

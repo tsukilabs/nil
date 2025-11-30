@@ -1,20 +1,17 @@
 {
-  "include": ["./**/*"],
+  "include": ["**/*.config.ts", "**/*.mts"],
   "compilerOptions": {
     "baseUrl": ".",
     "target": "esnext",
     "lib": ["esnext"],
-    "module": "nodenext",
+    "module": "esnext",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "esModuleInterop": true,
+    "removeComments": false,
+    "verbatimModuleSyntax": true,
     "skipLibCheck": true,
     "declaration": false,
-    "noEmit": true,
-    "allowImportingTsExtensions": true,
-    "erasableSyntaxOnly": true,
-    "verbatimModuleSyntax": true,
-    "rewriteRelativeImportExtensions": true,
-
     "alwaysStrict": true,
     "noImplicitAny": true,
     "noImplicitThis": true,
@@ -32,7 +29,6 @@
     "noFallthroughCasesInSwitch": true,
     "forceConsistentCasingInFileNames": true,
     "noEmitOnError": true,
-
-    "types": ["@types/node"]
+    "types": ["node", "vite/client"]
   }
 }

@@ -1,5 +1,8 @@
-ignoreWorkspaceRootCheck: true
+packages:
+  - "crates/nil-continent/pkg"
+  - "ui"
 
+ignoreWorkspaceRootCheck: true
 minimumReleaseAge: 4320
 minimumReleaseAgeExclude:
   - "@tauri-apps/*"
@@ -8,7 +11,3 @@ minimumReleaseAgeExclude:
   - "@tsukilabs/*"
   - "typescript"
   - "vue"
-
-packages:
-  - "crates/nil-continent/pkg"
-  - "ui"

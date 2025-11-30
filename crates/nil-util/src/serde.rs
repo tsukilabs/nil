@@ -22,11 +22,7 @@ where
   Ok(to_vec(value).map(Bytes::from)?)
 }
 
-#[bon::builder]
-pub fn read_file<T>(
-  #[builder(start_fn)] path: impl AsRef<Path>,
-  #[builder(default)] decode: bool,
-) -> Result<T>
+pub fn read_file<T>(path: impl AsRef<Path>, decode: bool) -> Result<T>
 where
   T: DeserializeOwned,
 {
@@ -43,12 +39,7 @@ where
   Ok(from_slice(&buf)?)
 }
 
-#[bon::builder]
-pub fn write_file<T>(
-  #[builder(start_fn)] path: impl AsRef<Path>,
-  #[builder(start_fn)] value: &T,
-  #[builder(default)] encode: bool,
-) -> Result<()>
+pub fn write_file<T>(path: impl AsRef<Path>, value: &T, encode: bool) -> Result<()>
 where
   T: ?Sized + Serialize,
 {

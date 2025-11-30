@@ -41,10 +41,7 @@ pub struct Savedata {
 
 impl Savedata {
   pub fn load(path: &Path) -> Result<Self> {
-    read_file(path)
-      .decode(COMPRESS)
-      .call()
-      .map_err(|_| Error::FailedToLoadWorld)
+    read_file(path, COMPRESS).map_err(|_| Error::FailedToLoadWorld)
   }
 
   pub(crate) fn save(&mut self, path: &Path) -> Result<()> {
@@ -52,9 +49,6 @@ impl Savedata {
       *player.status_mut() = PlayerStatus::Inactive;
     }
 
-    write_file(path, self)
-      .encode(COMPRESS)
-      .call()
-      .map_err(|_| Error::FailedToSaveWorld)
+    write_file(path, self, COMPRESS).map_err(|_| Error::FailedToSaveWorld)
   }
 }

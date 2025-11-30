@@ -43,6 +43,8 @@ pub(crate) fn from_core_err(err: CoreError) -> Response {
 
   let text = err.to_string();
   match err {
+    ArmyNotFound(..) => res!(NOT_FOUND, text),
+    ArmyNotIdle(..) => res!(BAD_REQUEST, text),
     BotAlreadySpawned(..) => res!(CONFLICT, text),
     BotNotFound(..) => res!(NOT_FOUND, text),
     BuildingStatsNotFound(..) => res!(NOT_FOUND, text),
@@ -56,9 +58,11 @@ pub(crate) fn from_core_err(err: CoreError) -> Response {
     Forbidden => res!(FORBIDDEN, text),
     IndexOutOfBounds(..) => res!(BAD_REQUEST, text),
     InsufficientResources => res!(BAD_REQUEST, text),
+    ManeuverNotFound(..) => res!(NOT_FOUND, text),
     MineStatsNotFound(..) => res!(NOT_FOUND, text),
     MineStatsNotFoundForLevel(..) => res!(NOT_FOUND, text),
     NoPlayer => res!(BAD_REQUEST, text),
+    OriginIsDestination(..) => res!(BAD_REQUEST, text),
     PlayerAlreadySpawned(..) => res!(CONFLICT, text),
     PlayerIsNotPending(..) => res!(BAD_REQUEST, text),
     PlayerNotFound(..) => res!(NOT_FOUND, text),

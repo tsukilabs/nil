@@ -206,3 +206,9 @@ impl Distance {
     Self(distance)
   }
 }
+
+impl PartialEq<u8> for Distance {
+  fn eq(&self, other: &u8) -> bool {
+    self.0.eq(other)
+  }
+}
