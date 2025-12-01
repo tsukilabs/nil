@@ -60,7 +60,7 @@ impl Military {
         if army.is_idle()
           && let Some(previous) = armies
             .iter_mut()
-            .find(|it| it.is_idle_and_owned_by(&army.owner()))
+            .find(|it| it.is_idle_and_owned_by(army.owner()))
         {
           *previous.personnel_mut() += ArmyPersonnel::from(army);
         } else {
