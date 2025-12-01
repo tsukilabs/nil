@@ -74,9 +74,14 @@ pub enum Event {
   /// Indicates that there has been a change in the city's data, be it public or not.
   ///
   /// This event is only emitted to the city owner.
-  /// Therefore, if you believe that all players should be notified,
+  /// If you believe that all players should be notified,
   /// consider using [`Event::PublicCityUpdated`] instead.
   CityUpdated { coord: Coord },
+
+  /// Indicates that the player's military has changed.
+  /// It usually means new maneuvers have been initiated,
+  /// since the armies themselves are processed at the end of the round.
+  MilitaryUpdated { player: PlayerId },
 
   /// Indicates that there has been a change in some of the player's data, be it public or not.
   PlayerUpdated { player: PlayerId },
@@ -95,7 +100,7 @@ pub enum Event {
   ///
   /// When emitted at the start of the game or at the end of a round,
   /// [`Event::RoundUpdated`] typically makes it unnecessary to emit other events,
-  /// as this situation naturally prompts all entities to request new data.
+  /// as this situation naturally prompts all entities to update themselves.
   RoundUpdated { round: Round },
 }
 

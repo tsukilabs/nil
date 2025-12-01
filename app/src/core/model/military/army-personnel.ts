@@ -36,6 +36,10 @@ export class ArmyPersonnelImpl implements ArmyPersonnel {
   }
 
   public static create(personnel: ArmyPersonnel) {
+    if (personnel instanceof ArmyPersonnelImpl) {
+      return personnel;
+    }
+
     return new ArmyPersonnelImpl(personnel);
   }
 

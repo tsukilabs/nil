@@ -95,6 +95,11 @@ impl ArmyPersonnel {
         maintenance
       })
   }
+
+  #[inline]
+  pub fn is_empty(&self) -> bool {
+    self.iter().all(Squad::is_empty)
+  }
 }
 
 impl Default for ArmyPersonnel {

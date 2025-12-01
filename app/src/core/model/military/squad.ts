@@ -15,6 +15,10 @@ export class SquadImpl implements Squad {
   }
 
   public static create(squad: Squad) {
+    if (squad instanceof SquadImpl) {
+      return squad;
+    }
+
     return new SquadImpl(squad);
   }
 }

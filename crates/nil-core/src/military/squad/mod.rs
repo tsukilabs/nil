@@ -50,6 +50,11 @@ impl Squad {
     self.size * self.unit.score()
   }
 
+  #[inline]
+  pub fn is_empty(&self) -> bool {
+    self.size == 0u32
+  }
+
   pub fn maintenance(&self) -> Maintenance {
     let chunk = self.unit.chunk();
     let c_size = chunk.size();

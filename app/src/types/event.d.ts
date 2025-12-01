@@ -4,6 +4,7 @@
 type EventPayload =
   | ChatUpdatedPayload
   | CityUpdatedPayload
+  | MilitaryUpdatedPayload
   | PlayerUpdatedPayload
   | PublicCityUpdatedPayload
   | RoundUpdatedPayload;
@@ -18,6 +19,11 @@ interface ChatUpdatedPayload {
 interface CityUpdatedPayload {
   readonly kind: 'city-updated';
   readonly coord: Coord;
+}
+
+interface MilitaryUpdatedPayload {
+  readonly kind: 'military-updated';
+  readonly player: PlayerId;
 }
 
 interface PlayerUpdatedPayload {

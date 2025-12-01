@@ -37,6 +37,11 @@ impl World {
     self.broadcast(Event::ChatUpdated { message });
   }
 
+  /// Emits [`Event::MilitaryUpdated`].
+  pub(super) fn emit_military_updated(&self, player: PlayerId) {
+    self.emit_to(player.clone(), Event::MilitaryUpdated { player });
+  }
+
   /// Emits [`Event::PlayerUpdated`].
   pub(super) fn emit_player_updated(&self, player: PlayerId) {
     self.emit_to(player.clone(), Event::PlayerUpdated { player });

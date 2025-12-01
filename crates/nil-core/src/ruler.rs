@@ -6,9 +6,10 @@ use crate::npc::precursor::{Precursor, PrecursorId};
 use crate::player::{Player, PlayerId};
 use crate::resources::Resources;
 use serde::{Deserialize, Serialize};
+use strum::EnumIs;
 
 #[allow(variant_size_differences)]
-#[derive(Clone, Debug, PartialEq, Eq, Hash, Deserialize, Serialize)]
+#[derive(Clone, Debug, PartialEq, Eq, Hash, Deserialize, Serialize, EnumIs)]
 #[serde(tag = "kind", rename_all = "kebab-case")]
 pub enum Ruler {
   Bot { id: BotId },
@@ -30,21 +31,6 @@ impl Ruler {
   #[inline]
   pub fn precursor(&self) -> Option<PrecursorId> {
     if let Self::Precursor { id } = self { Some(*id) } else { None }
-  }
-
-  #[inline]
-  pub fn is_bot(&self) -> bool {
-    self.bot().is_some()
-  }
-
-  #[inline]
-  pub fn is_player(&self) -> bool {
-    self.player().is_some()
-  }
-
-  #[inline]
-  pub fn is_precursor(&self) -> bool {
-    self.precursor().is_some()
   }
 
   pub fn is_bot_and<F>(&self, f: F) -> bool

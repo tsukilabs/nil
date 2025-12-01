@@ -96,14 +96,14 @@ export class CoordImpl implements Coord {
   }
 
   public static fromIndex(index: ContinentIndex) {
-    const size = NIL.world.refs().continentSize.value;
+    const size = NIL.world.getContinentSize();
     const x = index % size;
     const y = index / size;
     return CoordImpl.create({ x, y });
   }
 
   public static toIndex(coord: Coord) {
-    const size = NIL.world.refs().continentSize.value;
+    const size = NIL.world.getContinentSize();
     return coord.y * size + coord.x;
   }
 
@@ -116,6 +116,6 @@ export class CoordImpl implements Coord {
 }
 
 export function isOutside(value: number, continentSize?: number) {
-  const size = continentSize ?? NIL.world.refs().continentSize.value;
+  const size = continentSize ?? NIL.world.getContinentSize();
   return !Number.isInteger(value) || value < 0 || value >= size;
 }

@@ -6,7 +6,7 @@ pub mod maneuver;
 pub mod squad;
 pub mod unit;
 
-use crate::continent::{ContinentIndex, ContinentKey, ContinentSize};
+use crate::continent::{ContinentIndex, ContinentKey, ContinentSize, Coord};
 use crate::error::{Error, Result};
 use crate::military::army::ArmyId;
 use crate::military::maneuver::{ManeuverId, ManeuverRequest};
@@ -55,21 +55,29 @@ impl Military {
       .push(army);
   }
 
+  /// Creates a new instance containing only entries related to a given set of coords.
   #[must_use]
-  pub fn military_at<K, I>(&self, keys: I) -> Self
+  pub fn intersection<K, I>(&self, keys: I) -> Result<Self>
   where
     K: ContinentKey,
     I: IntoIterator<Item = K>,
   {
     let mut military = Self::new(self.continent_size);
     for key in keys {
-      let index = key.into_index(self.continent_size);
+      let coord = key.into_coord(self.continent_size)?;
+      let index = coord.into_index(self.continent_size);
       if let Some(armies) = self.continent.get(&index).cloned() {
         military.continent.insert(index, armies);
       }
+
+      let maneuvers = self
+        .maneuvers_at(coord)
+        .map(|maneuver| (maneuver.id(), maneuver.clone()));
+
+      military.maneuvers.extend(maneuvers);
     }
 
-    military
+    Ok(military)
   }
 
   pub fn army(&self, id: ArmyId) -> Result<&Army> {
@@ -160,7 +168,17 @@ impl Military {
       .ok_or(Error::ManeuverNotFound(id))
   }
 
-  // TODO: Should a player be allowed to attack themselves?
+  pub fn maneuvers(&self) -> impl Iterator<Item = &Maneuver> {
+    self.maneuvers.values()
+  }
+
+  /// Find all maneuvers whose origin or destination matches the specified coord.
+  pub fn maneuvers_at(&self, coord: Coord) -> impl Iterator<Item = &Maneuver> {
+    self
+      .maneuvers()
+      .filter(move |maneuver| maneuver.matches_coord(coord))
+  }
+
   pub(crate) fn request_maneuver(&mut self, request: &ManeuverRequest) -> Result<()> {
     let army = self.army_mut(request.army)?;
     if army.is_idle() {

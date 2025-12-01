@@ -24,7 +24,16 @@ interface ArmyStablePersonnel {
 
 type ArmyId = string;
 
-type ArmyState = 'idle';
+type ArmyState = ArmyStateIdle | ArmyStateManeuvering;
+
+interface ArmyStateIdle {
+  readonly kind: 'idle';
+}
+
+interface ArmyStateManeuvering {
+  readonly kind: 'maneuvering';
+  readonly maneuver: ManeuverId;
+}
 
 type WritableArmyPersonnel = {
   [unit in keyof Writable<ArmyPersonnel>]: Writable<Squad>;

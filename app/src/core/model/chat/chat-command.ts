@@ -131,7 +131,7 @@ export class ChatCommand {
       }
       case ChatCommandKind.Max: {
         await commands.cheatSetMaxResources();
-        await Promise.all(NIL.player.coords().map(commands.cheatSetMaxInfrastructure));
+        await Promise.all(NIL.player.getCoords().map(commands.cheatSetMaxInfrastructure));
         break;
       }
       case ChatCommandKind.Prefecture: {

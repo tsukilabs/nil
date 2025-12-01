@@ -82,6 +82,11 @@ impl Army {
   pub fn maintenance(&self) -> Maintenance {
     self.personnel.maintenance()
   }
+
+  #[inline]
+  pub fn is_empty(&self) -> bool {
+    self.personnel.is_empty()
+  }
 }
 
 #[must_use]

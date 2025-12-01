@@ -21,8 +21,18 @@ export class MilitaryEntity extends Entity {
     this.initListeners();
   }
 
+  protected override initListeners() {
+    this.event.onMilitaryUpdated(this.onMilitaryUpdated.bind(this));
+  }
+
   public override async update() {
     await this.updateMilitary();
+  }
+
+  private async onMilitaryUpdated({ player }: MilitaryUpdatedPayload) {
+    if (player === NIL.player.getId()) {
+      await this.update();
+    }
   }
 
   public static use() {

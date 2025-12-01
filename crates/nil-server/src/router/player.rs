@@ -69,7 +69,8 @@ pub async fn get_military(
 ) -> Response {
   app
     .world(|world| world.get_player_military(&player))
-    .map(|military| res!(OK, Json(military)))
+    .map_ok(|military| res!(OK, Json(military)))
+    .unwrap_or_else(from_core_err)
     .await
 }
 

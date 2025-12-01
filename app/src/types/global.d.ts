@@ -47,7 +47,8 @@ declare global {
 
     /** Current player. */
     readonly player: {
-      readonly coords: (typeof PlayerEntity)['coords'];
+      readonly getCoords: (typeof PlayerEntity)['getCoords'];
+      readonly getId: (typeof PlayerEntity)['getId'];
       readonly refs: (typeof PlayerEntity)['refs'];
       readonly setId: (typeof PlayerEntity)['setId'];
       readonly update: (typeof PlayerEntity)['update'];
@@ -61,6 +62,9 @@ declare global {
     };
 
     readonly world: {
+      readonly getConfig: (typeof WorldEntity)['getConfig'];
+      readonly getContinentSize: (typeof WorldEntity)['getContinentSize'];
+      readonly getStats: (typeof WorldEntity)['getStats'];
       readonly refs: (typeof WorldEntity)['refs'];
       readonly use: (typeof WorldEntity)['use'];
     };

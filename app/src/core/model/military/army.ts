@@ -17,11 +17,18 @@ export class ArmyImpl implements Army {
   }
 
   public isIdle() {
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-    return this.state === 'idle';
+    return this.state.kind === 'idle';
+  }
+
+  public isManeuvering() {
+    return this.state.kind === 'maneuvering';
   }
 
   public static create(army: Army) {
+    if (army instanceof ArmyImpl) {
+      return army;
+    }
+
     return new ArmyImpl(army);
   }
 }

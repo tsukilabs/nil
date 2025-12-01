@@ -17,8 +17,7 @@ export abstract class BuildingImpl implements Building {
   }
 
   public getStatsTable() {
-    const { stats } = NIL.world.refs();
-    return stats.value?.infrastructure.getBuilding(this.id);
+    return NIL.world.getStats()?.infrastructure.getBuilding(this.id);
   }
 
   public getStats() {
@@ -86,8 +85,7 @@ export abstract class MineImpl extends BuildingImpl {
   public abstract override readonly id: MineId;
 
   public getMineStatsTable() {
-    const { stats } = NIL.world.refs();
-    return stats.value?.infrastructure.getMine(this.id);
+    return NIL.world.getStats()?.infrastructure.getMine(this.id);
   }
 
   public getMineStats() {
@@ -111,8 +109,7 @@ export abstract class StorageImpl extends BuildingImpl {
   public abstract override readonly id: StorageId;
 
   public getStorageStatsTable() {
-    const { stats } = NIL.world.refs();
-    return stats.value?.infrastructure.getStorage(this.id);
+    return NIL.world.getStats()?.infrastructure.getStorage(this.id);
   }
 
   public getStorageStats() {

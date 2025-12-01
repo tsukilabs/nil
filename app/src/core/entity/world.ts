@@ -34,9 +34,24 @@ export class WorldEntity extends Entity {
     } as const;
   }
 
+  public static getConfig() {
+    return this.use().config.value;
+  }
+
+  public static getContinentSize() {
+    return this.use().continentSize.value;
+  }
+
+  public static getStats() {
+    return this.use().stats.value;
+  }
+
   public static init() {
     if (!Object.hasOwn(globalThis.NIL, 'world')) {
       const world: (typeof globalThis.NIL)['world'] = {
+        getConfig: WorldEntity.getConfig.bind(WorldEntity),
+        getContinentSize: WorldEntity.getContinentSize.bind(WorldEntity),
+        getStats: WorldEntity.getStats.bind(WorldEntity),
         refs: WorldEntity.refs.bind(WorldEntity),
         use: WorldEntity.use.bind(WorldEntity),
       };

@@ -71,6 +71,12 @@ impl Maneuver {
   pub fn destination(&self) -> Coord {
     self.destination
   }
+
+  /// Checks whether the maneuver's origin or destination matches the coord.
+  #[inline]
+  pub fn matches_coord(&self, coord: Coord) -> bool {
+    coord == self.origin || coord == self.destination
+  }
 }
 
 #[must_use]
@@ -158,8 +164,8 @@ impl From<Distance> for ManeuverDistance {
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct ManeuverRequest {
-  pub(super) army: ArmyId,
-  pub(super) kind: ManeuverKind,
-  pub(super) origin: Coord,
-  pub(super) destination: Coord,
+  pub army: ArmyId,
+  pub kind: ManeuverKind,
+  pub origin: Coord,
+  pub destination: Coord,
 }

@@ -18,9 +18,9 @@ impl World {
       })
   }
 
-  pub fn get_player_military(&self, player: &PlayerId) -> Military {
+  pub fn get_player_military(&self, player: &PlayerId) -> Result<Military> {
     let coords = self.continent.coords_of(player);
-    self.military.military_at(coords)
+    self.military.intersection(coords)
   }
 
   #[inline]
