@@ -17,6 +17,7 @@ use army::{Army, ArmyPersonnel};
 use maneuver::Maneuver;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
+use std::mem;
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
@@ -26,8 +27,6 @@ pub struct Military {
   maneuvers: HashMap<ManeuverId, Maneuver>,
 }
 
-// TODO: All armies should be reconciled when the round ends to avoid having
-// multiple copies of idle armies owned by the same ruler in the same location.
 impl Military {
   pub(crate) fn new(size: ContinentSize) -> Self {
     Self {
@@ -55,8 +54,27 @@ impl Military {
       .push(army);
   }
 
+  pub fn collapse_armies(&mut self) {
+    for armies in self.continent.values_mut() {
+      for army in mem::take(armies) {
+        if army.is_idle()
+          && let Some(previous) = armies
+            .iter_mut()
+            .find(|it| it.is_idle_and_owned_by(&army.owner()))
+        {
+          *previous.personnel_mut() += ArmyPersonnel::from(army);
+        } else {
+          armies.push(army);
+        }
+      }
+    }
+
+    self
+      .continent
+      .retain(|_, armies| !armies.is_empty());
+  }
+
   /// Creates a new instance containing only entries related to a given set of coords.
-  #[must_use]
   pub fn intersection<K, I>(&self, keys: I) -> Result<Self>
   where
     K: ContinentKey,
@@ -133,7 +151,7 @@ impl Military {
       .continent
       .values()
       .flatten()
-      .filter(move |army| army.owner() == &owner)
+      .filter(move |army| army.is_owned_by(&owner))
   }
 
   pub fn score_of<R>(&self, owner: R) -> Score

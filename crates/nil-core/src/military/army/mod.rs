@@ -44,6 +44,10 @@ impl Army {
     &self.personnel
   }
 
+  pub(crate) fn personnel_mut(&mut self) -> &mut ArmyPersonnel {
+    &mut self.personnel
+  }
+
   #[inline]
   pub fn owner(&self) -> &Ruler {
     &self.owner
@@ -52,20 +56,6 @@ impl Army {
   #[inline]
   pub fn state(&self) -> &ArmyState {
     &self.state
-  }
-
-  #[inline]
-  pub fn is_idle(&self) -> bool {
-    self.state.is_idle()
-  }
-
-  #[inline]
-  pub fn is_maneuvering(&self) -> bool {
-    self.state.is_maneuvering()
-  }
-
-  pub(super) fn set_maneuver(&mut self, id: ManeuverId) {
-    self.state = ArmyState::Maneuvering { maneuver: id };
   }
 
   #[inline]
@@ -84,8 +74,38 @@ impl Army {
   }
 
   #[inline]
+  pub fn is_owned_by(&self, ruler: &Ruler) -> bool {
+    self.owner.eq(ruler)
+  }
+
+  #[inline]
+  pub fn is_idle_and_owned_by(&self, ruler: &Ruler) -> bool {
+    self.is_idle() && self.is_owned_by(ruler)
+  }
+
+  #[inline]
   pub fn is_empty(&self) -> bool {
     self.personnel.is_empty()
+  }
+
+  #[inline]
+  pub fn is_idle(&self) -> bool {
+    self.state.is_idle()
+  }
+
+  #[inline]
+  pub fn is_maneuvering(&self) -> bool {
+    self.state.is_maneuvering()
+  }
+
+  pub(super) fn set_maneuver(&mut self, id: ManeuverId) {
+    self.state = ArmyState::Maneuvering { maneuver: id };
+  }
+}
+
+impl From<Army> for ArmyPersonnel {
+  fn from(army: Army) -> Self {
+    army.personnel
   }
 }
 

@@ -56,6 +56,7 @@ impl World {
     self.update_resources()?;
     self.process_city_queues();
     self.update_ranking()?;
+    self.military.collapse_armies();
     Ok(())
   }
 
