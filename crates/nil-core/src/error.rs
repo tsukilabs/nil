@@ -47,11 +47,11 @@ pub enum Error {
   #[error("City not found: {0}")]
   CityNotFound(Coord),
 
-  #[error("Failed to load world")]
-  FailedToLoadWorld,
+  #[error("Failed to read savedata file")]
+  FailedToReadSavedata,
 
-  #[error("Failed to save world")]
-  FailedToSaveWorld,
+  #[error("Failed to write savedata file")]
+  FailedToWriteSavedata,
 
   #[error("Not authorized to execute this action")]
   Forbidden,

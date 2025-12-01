@@ -10,7 +10,7 @@ mod resources;
 #[macro_export]
 macro_rules! bail_cheat_not_allowed {
   ($world:expr) => {
-    if !$world.config.allow_cheats {
+    if !$world.config.are_cheats_allowed() {
       use $crate::error::Error;
       return Err(Error::CheatingNotAllowed);
     }

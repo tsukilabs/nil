@@ -10,7 +10,7 @@ mod router;
 mod state;
 mod websocket;
 
-use error::{AnyResult, Result};
+use error::{AnyResult, CoreError, Result};
 use nil_core::world::{World, WorldOptions};
 use state::App;
 use std::net::{SocketAddr, SocketAddrV4};
@@ -18,7 +18,7 @@ use std::path::Path;
 use tokio::net::TcpListener;
 use tokio::spawn;
 use tokio::sync::oneshot;
-use tokio::task::AbortHandle;
+use tokio::task::{AbortHandle, spawn_blocking};
 
 pub use error::Error;
 
@@ -36,7 +36,7 @@ impl Server {
         let _ = tx.send(Ok(addr));
         axum::serve(listener, router)
           .await
-          .expect("failed to start nil server");
+          .expect("Failed to start nil server");
       } else {
         let _ = tx.send(Err(Error::FailedToStart));
       }
@@ -56,9 +56,14 @@ pub async fn new_game(options: &WorldOptions) -> Result<(Server, SocketAddrV4)> 
   Server::serve(options.try_into()?).await
 }
 
-/// Inicia a partir de um jogo previamente salvo.
+/// Load a previously saved game.
 pub async fn load_game(path: impl AsRef<Path>) -> Result<(Server, SocketAddrV4)> {
-  Server::serve(World::load(path)?).await
+  let path = path.as_ref().to_path_buf();
+  let world = spawn_blocking(|| World::load(path))
+    .await
+    .map_err(|_| CoreError::FailedToReadSavedata);
+
+  Server::serve(world??).await
 }
 
 async fn bind() -> Option<(TcpListener, SocketAddrV4)> {

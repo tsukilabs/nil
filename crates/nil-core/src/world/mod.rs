@@ -28,6 +28,7 @@ use crate::ranking::Ranking;
 use crate::round::Round;
 use crate::ruler::{Ruler, RulerRef, RulerRefMut};
 use crate::savedata::Savedata;
+use derive_more::From;
 use serde::{Deserialize, Serialize};
 use std::num::NonZeroU8;
 use std::path::{Path, PathBuf};
@@ -87,7 +88,7 @@ impl World {
   }
 
   pub fn load(path: impl AsRef<Path>) -> Result<Self> {
-    let savedata = Savedata::load(path.as_ref())?;
+    let savedata = Savedata::read(path.as_ref())?;
     Ok(Self::with_savedata(savedata))
   }
 
@@ -239,6 +240,14 @@ impl World {
   }
 }
 
+#[derive(Clone, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct WorldOptions {
+  pub name: WorldName,
+  pub size: NonZeroU8,
+  pub allow_cheats: bool,
+}
+
 impl TryFrom<&WorldOptions> for World {
   type Error = Error;
 
@@ -247,29 +256,37 @@ impl TryFrom<&WorldOptions> for World {
   }
 }
 
-#[derive(Clone, Deserialize, Serialize)]
-#[serde(rename_all = "camelCase")]
-pub struct WorldOptions {
-  pub name: String,
-  pub size: NonZeroU8,
-  pub allow_cheats: bool,
-}
-
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct WorldConfig {
-  name: Arc<str>,
+  name: WorldName,
   allow_cheats: bool,
+}
+
+impl WorldConfig {
+  #[inline]
+  pub fn name(&self) -> WorldName {
+    self.name.clone()
+  }
+
+  #[inline]
+  pub fn are_cheats_allowed(&self) -> bool {
+    self.allow_cheats
+  }
 }
 
 impl From<&WorldOptions> for WorldConfig {
   fn from(options: &WorldOptions) -> Self {
     Self {
-      name: Arc::from(options.name.as_str()),
+      name: options.name.clone(),
       allow_cheats: options.allow_cheats,
     }
   }
 }
+
+#[derive(Clone, Debug, From, Deserialize, Serialize)]
+#[from(String, &str, Arc<str>)]
+pub struct WorldName(Arc<str>);
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]

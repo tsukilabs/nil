@@ -3,13 +3,13 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
+import { formatDate } from 'date-fns';
 import { computed, onMounted, ref } from 'vue';
 import { isPlayerOptions } from '@/lib/schema';
 import { hostWithSavedata } from '@/core/game';
 import { useRoute, useRouter } from 'vue-router';
 import type { WritablePartial } from '@tb-dev/utils';
 import { asyncRef, localRef, useMutex } from '@tb-dev/vue';
-import { compareDesc as compareDateDesc, formatDate } from 'date-fns';
 import { getSavedataFiles, type SavedataFile } from '@/core/savedata';
 import { Button, Card, CardContent, CardFooter, CardHeader, CardTitle } from '@tb-dev/vue-components';
 
@@ -23,10 +23,7 @@ const player = localRef<WritablePartial<PlayerOptions>>('load-game:player', {
 });
 
 const savedata = ref<Option<SavedataFile>>();
-const { state: files } = asyncRef([], async () => {
-  const sfiles = await getSavedataFiles();
-  return sfiles.toSorted((a, b) => compareDateDesc(a.date, b.date));
-});
+const { state: files } = asyncRef([], getSavedataFiles);
 
 const { locked, lock } = useMutex();
 const isValidPlayer = computed(() => isPlayerOptions(player.value));
@@ -49,12 +46,12 @@ async function load() {
 
 <template>
   <div class="card-layout">
-    <Card class="sm:max-w-4/5 max-h-3/5">
+    <Card class="sm:max-w-4/5 h-full max-h-[95%] sm:max-h-3/5">
       <CardHeader>
         <CardTitle>{{ t('load-game') }}</CardTitle>
       </CardHeader>
 
-      <CardContent class="overflow-x-hidden overflow-y-auto">
+      <CardContent class="h-full overflow-x-hidden overflow-y-auto">
         <div class="flex flex-col items-start gap-1 p-0">
           <Button
             v-for="file of files"

@@ -40,15 +40,15 @@ pub struct Savedata {
 }
 
 impl Savedata {
-  pub fn load(path: &Path) -> Result<Self> {
-    read_file(path, COMPRESS).map_err(|_| Error::FailedToLoadWorld)
+  pub fn read(path: &Path) -> Result<Self> {
+    read_file(path, COMPRESS).map_err(|_| Error::FailedToReadSavedata)
   }
 
-  pub(crate) fn save(&mut self, path: &Path) -> Result<()> {
+  pub(crate) fn write(&mut self, path: &Path) -> Result<()> {
     for player in self.player_manager.players_mut() {
       *player.status_mut() = PlayerStatus::Inactive;
     }
 
-    write_file(path, self, COMPRESS).map_err(|_| Error::FailedToSaveWorld)
+    write_file(path, self, COMPRESS).map_err(|_| Error::FailedToWriteSavedata)
   }
 }

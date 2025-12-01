@@ -12,7 +12,7 @@ impl World {
     if let Some(mut path) = self.pending_save.take() {
       let mut data = Savedata::from(&*self);
       path.set_extension("nil");
-      data.save(&path)?;
+      data.write(&path)?;
     }
 
     Ok(())

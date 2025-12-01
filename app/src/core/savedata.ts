@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as commands from '@/commands';
-import { formatDate, parse } from 'date-fns';
-import { readDir } from '@tauri-apps/plugin-fs';
+import { exists, mkdir, readDir } from '@tauri-apps/plugin-fs';
 import { appDataDir, extname, join } from '@tauri-apps/api/path';
+import { compareDesc as compareDateDesc, formatDate, parse } from 'date-fns';
 
 export interface SavedataFile {
   readonly name: string;
@@ -23,9 +23,14 @@ export async function savedataDir() {
 export async function getSavedataFiles() {
   const files: SavedataFile[] = [];
   const dir = await savedataDir();
-  const entries = await readDir(dir);
 
+  if (!(await exists(dir))) {
+    await mkdir(dir, { recursive: true });
+  }
+
+  const entries = await readDir(dir);
   const referenceDate = new Date();
+
   await Promise.all(entries.map(async (entry) => {
     if (entry.isFile && await extname(entry.name) === 'nil') {
       const matches = REGEX.exec(entry.name);
@@ -38,11 +43,13 @@ export async function getSavedataFiles() {
     }
   }));
 
+  files.sort((a, b) => compareDateDesc(a.date, b.date));
+
   return files;
 }
 
 export async function saveGame() {
-  const world = NIL.world.refs().config.value?.name;
+  const world = NIL.world.getConfig()?.name;
   if (world) {
     const dir = await savedataDir();
     const date = formatDate(Date.now(), DATE_FORMAT);

@@ -7,7 +7,6 @@ use flate2::bufread::GzDecoder;
 use flate2::write::GzEncoder;
 use serde::Serialize;
 use serde::de::DeserializeOwned;
-use serde_json::to_vec;
 use std::fs::{self, File};
 use std::io::{Read, Write};
 use std::path::Path;
@@ -19,7 +18,7 @@ pub fn to_bytes<T>(value: &T) -> Result<Bytes>
 where
   T: ?Sized + Serialize,
 {
-  Ok(to_vec(value).map(Bytes::from)?)
+  Ok(serde_json::to_vec(value).map(Bytes::from)?)
 }
 
 pub fn read_file<T>(path: impl AsRef<Path>, decode: bool) -> Result<T>
@@ -49,7 +48,11 @@ where
   }
 
   let mut file = File::create(path)?;
-  let bytes = to_vec(value)?;
+  let bytes = if cfg!(debug_assertions) && !encode {
+    serde_json::to_vec_pretty(value)?
+  } else {
+    serde_json::to_vec(value)?
+  };
 
   if encode {
     let mut e = GzEncoder::new(file, Compression::best());
