@@ -13,10 +13,10 @@ import { useToggle } from '@vueuse/core';
 import { handleError } from '@/lib/error';
 import { saveGame } from '@/core/savedata';
 import Loading from '@/components/Loading.vue';
-import { defineGlobalCheats } from '@/lib/global';
 import Finder from '@/components/finder/Finder.vue';
 import { asyncRef, onCtrlKeyDown } from '@tb-dev/vue';
 import { SidebarProvider } from '@tb-dev/vue-components';
+import { defineGlobalCheats, DESKTOP } from '@/lib/global';
 import { usePlayerTurn } from '@/composables/player/usePlayerTurn';
 
 const { round } = NIL.round.refs();
@@ -28,8 +28,6 @@ const [isSidebarOpen, toggleSidebar] = useToggle(false);
 const [isFinderOpen, toggleFinder] = useToggle(false);
 
 const lastSavedAt = ref<Option<RoundId>>();
-
-const desktop = globalThis.__DESKTOP__;
 
 if (__DESKTOP__) {
   onCtrlKeyDown(['b', 'B'], () => toggleSidebar());
@@ -77,12 +75,12 @@ async function save() {
     <div class="bg-background/40 absolute inset-0 overflow-hidden">
       <Header
         :is-host
-        class="bg-background absolute inset-x-0 top-0 h-16 border-b px-4"
+        class="bg-background absolute inset-x-0 top-0 h-20 sm:h-16 border-b px-4"
         @start-round="startRound"
         @finish-turn="finishTurn"
       />
 
-      <div class="absolute inset-x-0 top-16 bottom-10 overflow-hidden">
+      <div class="absolute inset-x-0 top-20 sm:top-16 bottom-10 overflow-hidden">
         <RouterView #default="{ Component }">
           <template v-if="Component">
             <Suspense>
@@ -97,7 +95,7 @@ async function save() {
 
       <Footer class="bg-background absolute inset-x-0 bottom-0 h-10 border-t px-6" />
 
-      <Finder v-if="desktop" v-model:open="isFinderOpen" />
+      <Finder v-if="DESKTOP" v-model:open="isFinderOpen" />
     </div>
   </SidebarProvider>
 </template>

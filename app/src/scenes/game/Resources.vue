@@ -2,18 +2,25 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
+import { computed } from 'vue';
+import { useBreakpoints } from '@/composables/util/useBreakpoints';
 import { usePlayerResources } from '@/composables/player/usePlayerResources';
 import { usePlayerStorageCapacity } from '@/composables/player/usePlayerStorageCapacity';
 
 const resources = usePlayerResources();
 const capacity = usePlayerStorageCapacity();
+
+const { sm } = useBreakpoints();
+
+const iconClass = computed(() => !sm.value ? 'size-2 min-h-2 min-w-2' : null);
+const textClass = computed(() => !sm.value ? 'text-sm' : null);
 </script>
 
 <template>
   <div class="w-max max-w-max grid grid-cols-4 items-center gap-2 md:gap-4 xl:gap-8 pr-4">
-    <Wood :amount="resources?.wood" :limit="capacity?.warehouse" />
-    <Stone :amount="resources?.stone" :limit="capacity?.warehouse" />
-    <Iron :amount="resources?.iron" :limit="capacity?.warehouse" />
-    <Food :amount="resources?.food" :limit="capacity?.silo" />
+    <Wood :amount="resources?.wood" :limit="capacity?.warehouse" :icon-class :text-class />
+    <Stone :amount="resources?.stone" :limit="capacity?.warehouse" :icon-class :text-class />
+    <Iron :amount="resources?.iron" :limit="capacity?.warehouse" :icon-class :text-class />
+    <Food :amount="resources?.food" :limit="capacity?.silo" :icon-class :text-class />
   </div>
 </template>

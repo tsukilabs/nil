@@ -3,6 +3,7 @@
 
 <script setup lang="ts">
 import { formatInt } from '@/lib/intl';
+import { type ClassValue, cn } from '@tb-dev/vue-components';
 import { useBreakpoints } from '@/composables/util/useBreakpoints';
 
 const props = defineProps<{
@@ -10,6 +11,8 @@ const props = defineProps<{
   limit?: Option<number>;
   color: string;
   alwaysLiteral?: boolean;
+  iconClass?: ClassValue;
+  textClass?: ClassValue;
 }>();
 
 const { md } = useBreakpoints();
@@ -60,12 +63,12 @@ function isOverflowing() {
 <template>
   <div class="flex min-w-max items-center justify-start gap-1">
     <div
-      class="size-3 min-h-3 min-w-3 overflow-hidden rounded-full"
+      :class="cn('size-3 min-h-3 min-w-3 overflow-hidden rounded-full', iconClass)"
       :style="{ backgroundColor: color }"
     >
     </div>
 
-    <div :class="isOverflowing() ? 'text-red-400' : null">
+    <div :class="cn(isOverflowing() ? 'text-red-400' : null, textClass)">
       {{ format() }}
     </div>
   </div>

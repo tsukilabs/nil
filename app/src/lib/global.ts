@@ -1,10 +1,12 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { console } from '@tb-dev/vue';
 import { camelCase } from 'es-toolkit';
 import * as commands from '@/commands';
 import * as cheats from '@/commands/cheat';
+
+export const DESKTOP = globalThis.__DESKTOP__;
+export const MOBILE = globalThis.__MOBILE__;
 
 export function defineGlobalCommands() {
   if (__DEBUG_ASSERTIONS__ && !Object.hasOwn(globalThis.NIL, 'cmd')) {
@@ -33,17 +35,6 @@ export function defineGlobalCheats() {
       enumerable: true,
       writable: false,
       value: Object.fromEntries(value),
-    });
-  }
-}
-
-export function defineReactiveConsole() {
-  if (__DEBUG_ASSERTIONS__ && !Object.hasOwn(globalThis.NIL, 'console')) {
-    Object.defineProperty(globalThis.NIL, 'console', {
-      configurable: false,
-      enumerable: true,
-      writable: false,
-      value: console,
     });
   }
 }

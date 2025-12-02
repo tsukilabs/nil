@@ -4,12 +4,15 @@
 <script setup lang="ts">
 import Resources from './Resources.vue';
 import FooterChat from './FooterChat.vue';
+import { useBreakpoints } from '@/composables/util/useBreakpoints';
+
+const { sm } = useBreakpoints();
 </script>
 
 <template>
   <footer class="flex items-center justify-between gap-4 overflow-hidden">
-    <Resources />
-    <div class="flex h-full min-w-max items-center justify-end">
+    <Resources v-if="sm" />
+    <div class="flex size-full min-w-max items-center justify-end">
       <FooterChat />
     </div>
   </footer>

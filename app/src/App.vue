@@ -11,9 +11,9 @@ import { onKeyDown } from '@tb-dev/vue';
 import { handleError } from '@/lib/error';
 import { Sonner } from '@tb-dev/vue-components';
 import { setTheme, useSettings } from '@/settings';
+import { defineGlobalCommands } from '@/lib/global';
 import { createTrayIcon, showWindow } from '@/commands';
 import { syncRef, useColorMode, watchImmediate } from '@vueuse/core';
-import { defineGlobalCommands, defineReactiveConsole } from '@/lib/global';
 
 const i18n = useI18n();
 
@@ -34,7 +34,6 @@ onMounted(async () => {
     await createTrayIcon();
     await showWindow();
     defineGlobalCommands();
-    defineReactiveConsole();
   }
   catch (err) {
     handleError(err);

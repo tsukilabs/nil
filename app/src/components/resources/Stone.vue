@@ -3,14 +3,24 @@
 
 <script setup lang="ts">
 import Base from './Base.vue';
+import type { ClassValue } from '@tb-dev/vue-components';
 
 defineProps<{
   amount?: Option<number>;
   limit?: Option<number>;
   alwaysLiteral?: boolean;
+  iconClass?: ClassValue;
+  textClass?: ClassValue;
 }>();
 </script>
 
 <template>
-  <Base :amount :limit color="oklch(0.88 0.0296 75.18)" :always-literal />
+  <Base
+    color="oklch(0.88 0.0296 75.18)"
+    :amount
+    :limit
+    :always-literal
+    :icon-class
+    :text-class
+  />
 </template>

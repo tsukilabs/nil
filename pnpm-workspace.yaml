@@ -10,4 +10,5 @@ minimumReleaseAgeExclude:
   - "@tb-dev/*"
   - "@tsukilabs/*"
   - "typescript"
+  - "vite"
   - "vue"

@@ -3,6 +3,7 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
+import { DESKTOP } from '@/lib/global';
 import { useRouter } from 'vue-router';
 import { useSettings } from '@/settings';
 import enUS from '@/locale/en-US/scenes/settings.json';
@@ -32,8 +33,6 @@ const { t } = useI18n({
 
 const router = useRouter();
 const settings = useSettings();
-
-const desktop = window.__DESKTOP__;
 </script>
 
 <template>
@@ -93,7 +92,7 @@ const desktop = window.__DESKTOP__;
           </Select>
         </Label>
 
-        <div v-if="desktop" class="flex flex-col items-start justify-center gap-1 py-1">
+        <div v-if="DESKTOP" class="flex flex-col items-start justify-center gap-1 py-1">
           <Label>
             <Checkbox v-model="settings.hideOnClose" />
             <span>{{ t('hide-on-close') }}</span>
