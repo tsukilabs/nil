@@ -81,6 +81,7 @@ pub fn run() {
       command::infrastructure::stable::add_stable_recruit_order,
       command::infrastructure::stable::cancel_stable_recruit_order,
       command::infrastructure::stable::get_stable_recruit_catalog,
+      command::military::request_maneuver,
       command::npc::bot::get_bot_coords,
       command::npc::bot::get_public_bot,
       command::npc::precursor::get_precursor_coords,

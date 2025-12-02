@@ -8,7 +8,7 @@ pub mod unit;
 
 use crate::continent::{ContinentIndex, ContinentKey, ContinentSize, Coord};
 use crate::error::{Error, Result};
-use crate::military::army::ArmyId;
+use crate::military::army::{ArmyId, ArmyState};
 use crate::military::maneuver::{ManeuverId, ManeuverRequest};
 use crate::ranking::Score;
 use crate::resources::Maintenance;
@@ -197,15 +197,16 @@ impl Military {
       .filter(move |maneuver| maneuver.matches_coord(coord))
   }
 
-  pub(crate) fn request_maneuver(&mut self, request: &ManeuverRequest) -> Result<()> {
+  pub(crate) fn request_maneuver(&mut self, request: &ManeuverRequest) -> Result<ManeuverId> {
     let army = self.army_mut(request.army)?;
-    if army.is_idle() {
-      let (id, maneuver) = Maneuver::new(request)?;
-      army.set_maneuver(id);
-      self.maneuvers.insert(id, maneuver);
-      Ok(())
-    } else {
-      Err(Error::ArmyNotIdle(request.army))
+    if !army.is_idle() {
+      return Err(Error::ArmyNotIdle(request.army));
     }
+
+    let (id, maneuver) = Maneuver::new(request)?;
+    *army.state_mut() = ArmyState::from(id);
+    self.maneuvers.insert(id, maneuver);
+
+    Ok(id)
   }
 }
