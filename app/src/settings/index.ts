@@ -12,12 +12,14 @@ export const useSettings = defineStore('settings', () => {
   const colorMode = ref<BasicColorSchema>('dark');
 
   const hideOnClose = ref(false);
+  const autoUpdate = ref(true);
 
   return {
     locale,
     theme,
     colorMode,
     hideOnClose,
+    autoUpdate,
   };
 });
 

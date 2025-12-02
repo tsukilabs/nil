@@ -5,12 +5,21 @@
 import { go } from '@/router';
 import { useI18n } from 'vue-i18n';
 import { exitGame } from '@/core/game';
-import { Button } from '@tb-dev/vue-components';
+import enUS from '@/locale/en-US/scenes/home.json';
+import ptBR from '@/locale/pt-BR/scenes/home.json';
+import { useUpdate } from '@/composables/util/useUpdate';
 import { useBreakpoints } from '@/composables/util/useBreakpoints';
+import { Alert, AlertDescription, AlertTitle, Button } from '@tb-dev/vue-components';
 
-const { sm } = useBreakpoints();
+const { t } = useI18n({
+  messages: {
+    'en-US': enUS,
+    'pt-BR': ptBR,
+  },
+});
 
-const { t } = useI18n();
+const update = useUpdate();
+const { sm, md } = useBreakpoints();
 </script>
 
 <template>
@@ -18,6 +27,7 @@ const { t } = useI18n();
     <h1 class="font-nil -mt-16 mb-8 text-5xl font-extrabold sm:text-6xl md:text-7xl">
       <span>Call of Nil</span>
     </h1>
+
     <div class="flex flex-col gap-2">
       <Button
         variant="default"
@@ -53,5 +63,21 @@ const { t } = useI18n();
         <span>{{ t('exit') }}</span>
       </Button>
     </div>
+
+    <Alert v-if="update && md" class="w-max fixed bottom-safe-4 right-safe-4 py-4">
+      <AlertTitle>{{ t('update-available') }}</AlertTitle>
+      <AlertDescription class="gap-2">
+        <span>{{ t('version-ready', [update.version]) }}</span>
+        <div class="grid grid-cols-2 items-center gap-2 justify-self-end">
+          <Button variant="default" size="sm" @click="() => update?.install()">
+            <span>{{ t('update') }}</span>
+          </Button>
+
+          <Button variant="secondary" size="sm" @click="() => update?.openChangelog()">
+            <span>{{ t('whats-new') }}</span>
+          </Button>
+        </div>
+      </AlertDescription>
+    </Alert>
   </div>
 </template>
