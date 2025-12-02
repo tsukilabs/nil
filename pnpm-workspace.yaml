@@ -1,5 +1,6 @@
 packages:
   - "app"
+  - "docs"
   - "crates/nil-continent/pkg"
 
 ignoreWorkspaceRootCheck: true
