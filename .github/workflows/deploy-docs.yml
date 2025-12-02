@@ -14,6 +14,9 @@ concurrency:
   group: pages
   cancel-in-progress: true
 
+env:
+  MAP_WORKSPACE_DEPS: "true"
+
 jobs:
   build:
     runs-on: ubuntu-latest
