@@ -23,7 +23,7 @@ use tauri::{AppHandle, Manager, Wry};
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
   #[cfg(debug_assertions)]
-  log::setup();
+  log::setup().unwrap();
 
   builder()
     .plugin(plugin::on_exit())

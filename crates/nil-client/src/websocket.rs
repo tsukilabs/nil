@@ -23,7 +23,7 @@ use tokio_tungstenite::tungstenite::protocol::Message;
 use tokio_tungstenite::{MaybeTlsStream, WebSocketStream, connect_async};
 use url::Url;
 
-type ReceiverStream = SplitStream<WebSocketStream<MaybeTlsStream<TcpStream>>>;
+type Stream = WebSocketStream<MaybeTlsStream<TcpStream>>;
 
 pub(super) struct WebSocketClient {
   sender: Sender,
@@ -36,20 +36,7 @@ impl WebSocketClient {
     F: Fn(Event) -> BoxFuture<'static, ()> + Send + Sync + 'static,
   {
     let authorization = Authorization::try_from(player)?;
-    let ws_stream: AnyResult<WebSocketStream<_>> = try {
-      let url = Url::parse(&format!("ws://{addr}/ws"))?;
-      let mut request = url.into_client_request()?;
-
-      let headers = request.headers_mut();
-      headers.insert(header::AUTHORIZATION, authorization.into_inner());
-      headers.insert(header::USER_AGENT, USER_AGENT.parse()?);
-
-      connect_async(request)
-        .await
-        .map(|(ws_stream, _)| ws_stream)?
-    };
-
-    let Ok(ws_stream) = ws_stream else {
+    let Ok(ws_stream) = make_stream(addr, authorization).await else {
       return Err(Error::FailedToConnectWebsocket);
     };
 
@@ -65,6 +52,20 @@ impl WebSocketClient {
     self.sender.stop();
     self.receiver.stop();
   }
+}
+
+async fn make_stream(addr: &SocketAddrV4, authorization: Authorization) -> AnyResult<Stream> {
+  let url = Url::parse(&format!("ws://{addr}/ws"))?;
+  let mut request = url.into_client_request()?;
+
+  let headers = request.headers_mut();
+  headers.insert(header::AUTHORIZATION, authorization.into_inner());
+  headers.insert(header::USER_AGENT, USER_AGENT.parse()?);
+
+  connect_async(request)
+    .await
+    .map(|(ws_stream, _)| ws_stream)
+    .map_err(Into::into)
 }
 
 struct Sender {
@@ -130,7 +131,7 @@ struct Receiver {
 }
 
 impl Receiver {
-  fn new<F>(mut ws_receiver: ReceiverStream, on_event: F) -> Self
+  fn new<F>(mut ws_receiver: SplitStream<Stream>, on_event: F) -> Self
   where
     F: Fn(Event) -> BoxFuture<'static, ()> + Send + Sync + 'static,
   {

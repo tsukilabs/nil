@@ -10,7 +10,7 @@ mod router;
 mod state;
 mod websocket;
 
-use error::{AnyResult, CoreError, Result};
+use error::{CoreError, Result};
 use nil_core::world::{World, WorldOptions};
 use state::App;
 use std::net::{SocketAddr, SocketAddrV4};
@@ -67,10 +67,10 @@ pub async fn load_game(path: impl AsRef<Path>) -> Result<(Server, SocketAddrV4)>
 }
 
 async fn bind() -> Option<(TcpListener, SocketAddrV4)> {
-  let result: AnyResult<(TcpListener, SocketAddrV4)> = try {
+  let result = try {
     let listener = TcpListener::bind("0.0.0.0:0").await?;
     let SocketAddr::V4(addr) = listener.local_addr()? else {
-      unreachable!();
+      unreachable!("Address should never be IPv6");
     };
 
     (listener, addr)

@@ -9,7 +9,6 @@ pub use nil_core::error::Error as CoreError;
 
 pub type Result<T, E = Error> = StdResult<T, E>;
 pub type AnyResult<T> = anyhow::Result<T>;
-pub type CoreResult<T> = Result<T, CoreError>;
 
 #[derive(Debug, thiserror::Error)]
 pub enum Error {

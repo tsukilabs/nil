@@ -56,7 +56,7 @@ fn on_tray_event() -> impl Fn(&TrayIcon, TrayIconEvent) {
 }
 
 fn on_left_click(app: &AppHandle) {
-  let _: Result<()> = try {
+  let _ = try {
     let window = app.main_window();
     window.show()?;
     window.unminimize()?;
@@ -70,7 +70,7 @@ fn on_right_click(_: &AppHandle) {}
 #[cfg(not(target_os = "linux"))]
 fn on_right_click(app: &AppHandle) {
   let window = app.main_window();
-  let _: Result<()> = try {
+  let _ = try {
     if let Some(menu) = app.try_state::<TrayMenu>() {
       window.popup_menu(&menu.0)?;
     } else if let Ok(menu) = TrayMenu::new(app) {

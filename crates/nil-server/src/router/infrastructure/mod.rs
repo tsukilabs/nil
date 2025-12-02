@@ -6,7 +6,6 @@ pub mod prefecture;
 pub mod prelude;
 pub mod stable;
 
-use crate::error::CoreResult;
 use crate::middleware::CurrentPlayer;
 use crate::response::from_core_err;
 use crate::state::App;
@@ -20,7 +19,7 @@ pub async fn toggle(
   Extension(player): Extension<CurrentPlayer>,
   Json(req): Json<ToggleBuildingRequest>,
 ) -> Response {
-  let result: CoreResult<()> = try {
+  let result = try {
     let mut world = app.world.write().await;
     bail_not_pending!(world, &player.0);
     bail_not_owned_by!(world, &player.0, req.coord);
