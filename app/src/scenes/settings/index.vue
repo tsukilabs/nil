@@ -93,10 +93,14 @@ const desktop = window.__DESKTOP__;
           </Select>
         </Label>
 
-        <div v-if="desktop" class="flex items-center justify-center py-1">
+        <div v-if="desktop" class="flex flex-col items-start justify-center gap-1 py-1">
           <Label>
             <Checkbox v-model="settings.hideOnClose" />
             <span>{{ t('hide-on-close') }}</span>
+          </Label>
+          <Label>
+            <Checkbox v-model="settings.autoUpdate" />
+            <span>{{ t('auto-update') }}</span>
           </Label>
         </div>
       </CardContent>
