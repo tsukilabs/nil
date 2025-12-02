@@ -14,16 +14,9 @@ impl World {
     defender: &[Squad],
     wall: BuildingLevel,
   ) -> Result<BattleResult> {
-    let wall_stats = if wall > BuildingLevel::ZERO {
-      self
-        .stats
-        .infrastructure
-        .wall()
-        .get(wall)
-        .map(Some)?
-    } else {
-      None
-    };
+    let wall_stats = (wall > BuildingLevel::ZERO)
+      .then(|| self.stats.infrastructure.wall().get(wall))
+      .transpose()?;
 
     let result = Battle::builder()
       .attacker(attacker)

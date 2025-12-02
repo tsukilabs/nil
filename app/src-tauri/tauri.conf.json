@@ -34,7 +34,7 @@
     "shortDescription": "Call of Nil",
     "license": "AGPL-3.0-only",
     "licenseFile": "./LICENSE",
-    "homepage": "https://github.com/ferreira-tb/nil",
+    "homepage": "https://nil.dev.br",
     "targets": "all",
     "active": true,
     "createUpdaterArtifacts": true,
@@ -52,7 +52,7 @@
     "updater": {
       "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEY2QUIzRENBNkVBMjM0QjYKUldTMk5LSnV5ajJyOXRiczNoVkJrYkxIUEtFT2x3R21xaGtaY09XT1crRG90NS9lbG5saUhhZVcK",
       "endpoints": [
-        "https://github.com/ferreira-tb/nil/releases/latest/download/latest.json"
+        "https://github.com/tsukilabs/nil/releases/latest/download/latest.json"
       ],
       "windows": {
         "installMode": "passive"

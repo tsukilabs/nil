@@ -1,7 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-#![feature(iterator_try_collect, try_blocks)]
+#![feature(bool_to_result, iterator_try_collect, try_blocks)]
 
 pub mod battle;
 pub mod chat;

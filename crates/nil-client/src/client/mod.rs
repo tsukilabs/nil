@@ -7,6 +7,7 @@ mod cheat;
 mod city;
 mod continent;
 mod infrastructure;
+mod military;
 mod npc;
 mod player;
 mod ranking;

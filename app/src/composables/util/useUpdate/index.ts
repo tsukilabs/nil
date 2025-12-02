@@ -27,12 +27,14 @@ async function checkForUpdates(updateRef: ShallowRef<Option<Update>>) {
   if (update) {
     const install = async () => {
       updateRef.value = null;
-      try {
-        await update.downloadAndInstall();
-        await relaunch();
-      }
-      catch (err) {
-        handleError(err);
+      if (!__DEBUG_ASSERTIONS__) {
+        try {
+          await update.downloadAndInstall();
+          await relaunch();
+        }
+        catch (err) {
+          handleError(err);
+        }
       }
     };
 
@@ -54,7 +56,7 @@ async function checkForUpdates(updateRef: ShallowRef<Option<Update>>) {
 
 async function openChangelog() {
   try {
-    await openUrl('https://github.com/ferreira-tb/nil/releases/latest');
+    await openUrl('https://github.com/tsukilabs/nil/releases/latest');
   }
   catch (err) {
     handleError(err);

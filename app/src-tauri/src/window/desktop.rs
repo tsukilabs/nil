@@ -24,6 +24,7 @@ pub fn open(app: &AppHandle) -> Result<()> {
     .maximizable(true)
     .minimizable(true)
     .visible(false)
+    .center()
     .prevent_overflow()
     .build()?;
 

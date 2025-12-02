@@ -7,6 +7,7 @@ mod cheat;
 mod city;
 mod continent;
 mod infrastructure;
+mod military;
 mod npc;
 mod player;
 mod ranking;
@@ -80,6 +81,7 @@ pub(crate) fn create() -> Router<App> {
     .route("/infrastructure/stable/recruit/catalog", post(stable::get_recruit_catalog))
     .route("/infrastructure/toggle", post(infrastructure::toggle))
     .route("/leave", get(leave))
+    .route("/military/maneuver/request", post(military::request_maneuver))
     .route("/npc/bot/{id}/coord", get(npc::bot::get_coords))
     .route("/npc/bot/{id}/public", get(npc::bot::get_public))
     .route("/npc/precursor/{id}/coord", get(npc::precursor::get_coords))

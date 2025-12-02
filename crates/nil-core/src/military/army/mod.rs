@@ -58,6 +58,10 @@ impl Army {
     &self.state
   }
 
+  pub(crate) fn state_mut(&mut self) -> &mut ArmyState {
+    &mut self.state
+  }
+
   #[inline]
   pub fn speed(&self) -> Option<Speed> {
     self.personnel.speed()
@@ -97,10 +101,6 @@ impl Army {
   pub fn is_maneuvering(&self) -> bool {
     self.state.is_maneuvering()
   }
-
-  pub(super) fn set_maneuver(&mut self, id: ManeuverId) {
-    self.state = ArmyState::Maneuvering { maneuver: id };
-  }
 }
 
 impl From<Army> for ArmyPersonnel {
@@ -133,4 +133,10 @@ pub enum ArmyState {
   Maneuvering {
     maneuver: ManeuverId,
   },
+}
+
+impl From<ManeuverId> for ArmyState {
+  fn from(maneuver: ManeuverId) -> Self {
+    Self::Maneuvering { maneuver }
+  }
 }
