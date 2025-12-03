@@ -8,14 +8,14 @@ param(
   [Alias('P')]
   [switch]$Preview,
 
-  [Alias('S')]
-  [switch]$SkipWasm
+  [Alias('W')]
+  [switch]$Wasm
 )
 
 $ErrorActionPreference = 'Stop'
 $PSNativeCommandUseErrorActionPreference = $true
 
-if (-not $SkipWasm) {
+if ($Wasm) {
   pnpm run wasm -Release
 }
 
