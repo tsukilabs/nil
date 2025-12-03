@@ -166,6 +166,7 @@ fn ranged_attack_debuff() {
   assert_eq!(attack_power.total, 355125.0);
 }
 
+
 #[test]
 fn ranged_attack_no_debuff() {
   let attacker = [s(Archer, 3000), s(Axeman, 7000)];
