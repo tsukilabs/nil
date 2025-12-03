@@ -6,9 +6,34 @@ on:
     branches: [release]
 
 env:
-  MAP_WORKSPACE_DEPS: "true"
+  NIL_MAP_WORKSPACE_DEPS: "true"
 
 jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          registry-url: "https://registry.npmjs.org"
+          cache: pnpm
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@nightly
+        with:
+          targets: wasm32-unknown-unknown
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile false
+
+      - name: Publish WASM packages
+        shell: pwsh
+        run: pnpm run wasm -Publish -Install
+
   release:
     permissions:
       contents: write
@@ -28,10 +53,7 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version: 24
-          registry-url: "https://registry.npmjs.org"
           cache: pnpm
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Install Rust
         uses: dtolnay/rust-toolchain@nightly
@@ -44,10 +66,6 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile false
-
-      - name: Publish WASM packages
-        shell: pwsh
-        run: pnpm run wasm -Publish -Install
 
       - uses: tauri-apps/tauri-action@v0.6
         env:
