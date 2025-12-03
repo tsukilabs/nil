@@ -73,7 +73,7 @@ if ($Publish) {
         Set-Content -Path $File -Value $Contents
       }
 
-      Invoke-Expression "npm publish `"$Path`" --access=public --provenance"
+      Invoke-Expression "npm publish `"$Path`" --access=public --tag=latest --provenance"
     }
   }
 }

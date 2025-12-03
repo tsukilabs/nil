@@ -28,7 +28,7 @@ jobs:
 
       - name: Publish WASM packages
         shell: pwsh
-        run: pnpm run wasm -Publish -Install
+        run: scripts/build-wasm.ps1 -Publish -Install
 
   release:
     needs: publish
