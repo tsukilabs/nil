@@ -14,6 +14,8 @@
     "dialog:allow-message",
     "dialog:allow-open",
     "dialog:allow-save",
+    "os:allow-os-type",
+    "os:allow-platform",
     "pinia:default",
     "process:allow-exit",
     "process:allow-restart",

@@ -1,6 +1,6 @@
 {
   "name": "nil",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "type": "module",
   "packageManager": "pnpm@10.24.0",
   "license": "AGPL-3.0-only",
@@ -25,6 +25,7 @@
     "@tauri-apps/plugin-dialog": "~2.4.2",
     "@tauri-apps/plugin-fs": "~2.4.4",
     "@tauri-apps/plugin-opener": "~2.5.2",
+    "@tauri-apps/plugin-os": "~2.3.2",
     "@tauri-apps/plugin-process": "~2.3.1",
     "@tauri-apps/plugin-updater": "~2.9.0",
     "@tauri-store/pinia": "~4.1.0",

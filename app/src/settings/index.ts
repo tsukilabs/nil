@@ -5,14 +5,15 @@ import { ref } from 'vue';
 import { defineStore } from 'pinia';
 import type { Locale } from '@/locale';
 import type { BasicColorSchema } from '@vueuse/core';
+import { type as osType } from '@tauri-apps/plugin-os';
 
 export const useSettings = defineStore('settings', () => {
-  const locale = ref<Locale>('en-US');
+  const locale = ref<Locale>(getDefaultLocale());
   const theme = ref<Theme>('stone');
   const colorMode = ref<BasicColorSchema>('dark');
 
   const hideOnClose = ref(false);
-  const autoUpdate = ref(true);
+  const autoUpdate = ref(osType() === 'windows');
 
   return {
     locale,
@@ -34,5 +35,14 @@ export function setTheme(theme: Theme) {
         html.classList.remove(cl);
       }
     }
+  }
+}
+
+function getDefaultLocale(): Locale {
+  if (window.navigator.language.startsWith('pt')) {
+    return 'pt-BR';
+  }
+  else {
+    return 'en-US';
   }
 }

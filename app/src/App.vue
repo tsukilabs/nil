@@ -2,12 +2,12 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { storeToRefs } from 'pinia';
 import { throttle } from 'es-toolkit';
 import type { Locale } from '@/locale';
 import { onKeyDown } from '@tb-dev/vue';
+import { nextTick, onMounted } from 'vue';
 import { handleError } from '@/lib/error';
 import { Sonner } from '@tb-dev/vue-components';
 import { setTheme, useSettings } from '@/settings';
@@ -31,6 +31,7 @@ if (__DESKTOP__) {
 
 onMounted(async () => {
   try {
+    await nextTick();
     await createTrayIcon();
     await showWindow();
     defineGlobalCommands();
