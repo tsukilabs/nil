@@ -15,7 +15,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  MAP_WORKSPACE_DEPS: "true"
+  NIL_MAP_WORKSPACE_DEPS: "true"
 
 jobs:
   build:

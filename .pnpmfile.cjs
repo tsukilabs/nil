@@ -1,7 +1,7 @@
 const { env } = require('node:process');
 
 function readPackage(pkg) {
-  if (env.MAP_WORKSPACE_DEPS === 'true' && pkg.dependencies) {
+  if (env.NIL_MAP_WORKSPACE_DEPS === 'true' && pkg.dependencies) {
     const dependencies = {};
     const version = `^${require('./package.json').version}`;
     for (const [key, value] of Object.entries(pkg.dependencies)) {
