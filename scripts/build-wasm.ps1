@@ -71,7 +71,8 @@ if ($Publish) {
         Set-Content -Path $File -Value $Contents
       }
 
-      Invoke-Expression "pnpm -F @tsukilabs/$Crate publish --access public --no-git-checks"
+      $Path = "./crates/$Crate/pkg"
+      Invoke-Expression "npm publish `"$Path`" --access=public --provenance"
     }
   }
 }

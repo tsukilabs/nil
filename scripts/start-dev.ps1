@@ -8,14 +8,14 @@ param(
   [Alias('D')]
   [string]$Device,
 
-  [Alias('S')]
-  [switch]$SkipWasm
+  [Alias('W')]
+  [switch]$Wasm
 )
 
 $ErrorActionPreference = 'Stop'
 $PSNativeCommandUseErrorActionPreference = $true
 
-if (-not $SkipWasm) {
+if ($Wasm) {
   pnpm run wasm
 }
 

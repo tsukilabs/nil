@@ -18,7 +18,8 @@ jobs:
         with:
           node-version: 24
           registry-url: "https://registry.npmjs.org"
-          cache: pnpm
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Install Rust
         uses: dtolnay/rust-toolchain@nightly
@@ -27,11 +28,7 @@ jobs:
 
       - name: Publish WASM packages
         shell: pwsh
-        run: |
-          pnpm config set '//registry.npmjs.org/:_authToken' "${NODE_AUTH_TOKEN}"
-          pnpm run wasm -Publish -Install
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: pnpm run wasm -Publish -Install
 
   release:
     needs: publish
