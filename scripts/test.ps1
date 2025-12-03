@@ -11,11 +11,10 @@ $PSNativeCommandUseErrorActionPreference = $true
 
 $TestCmd = if ($Miri) { 'cargo miri test' } else { 'cargo test' }
 
-if ($Miri) {
-  $Exclude = @('nil', 'nil-continent')
-  foreach ($Crate in $Exclude) {
-    $TestCmd += " --exclude $Crate"
-  }
+$Exclude = @('nil', 'nil-continent')
+
+foreach ($Crate in $Exclude) {
+  $TestCmd += " --exclude $Crate"
 }
 
 $TestCmd += ' --workspace --tests'
