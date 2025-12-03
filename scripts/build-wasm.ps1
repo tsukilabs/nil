@@ -67,7 +67,7 @@ function Build {
         Set-Content -Path $File -Value $Contents
       }
 
-      Invoke-Expression "pnpm -F @tsukilabs/$Crate publish --access public"
+      Invoke-Expression "pnpm -F @tsukilabs/$Crate publish --access public --no-git-checks"
     }
   }
 }
