@@ -6,11 +6,12 @@ use crate::error::Result;
 use nil_core::city::{City, PublicCity};
 use nil_core::ranking::Score;
 use nil_payload::city::{
-  FindPublicCityRequest,
   GetCityRequest,
   GetCityScoreRequest,
   GetPublicCityRequest,
   RenameCityRequest,
+  SearchCityRequest,
+  SearchPublicCityRequest,
 };
 
 impl Client {
@@ -24,11 +25,11 @@ impl Client {
     self.http.post_json("city/public", req).await
   }
 
-  /// POST `/city/public/find`
-  pub async fn find_public_city(&self, req: FindPublicCityRequest) -> Result<Option<PublicCity>> {
+  /// POST `/city/public/search`
+  pub async fn search_public_city(&self, req: SearchPublicCityRequest) -> Result<Vec<PublicCity>> {
     self
       .http
-      .post_json("city/public/find", req)
+      .post_json("city/public/search", req)
       .await
   }
 
@@ -40,5 +41,10 @@ impl Client {
   /// POST `/city/score`
   pub async fn get_city_score(&self, req: GetCityScoreRequest) -> Result<Score> {
     self.http.post_json("city/score", req).await
+  }
+
+  /// POST `/city/search`
+  pub async fn search_city(&self, req: SearchCityRequest) -> Result<Vec<City>> {
+    self.http.post_json("city/search", req).await
   }
 }

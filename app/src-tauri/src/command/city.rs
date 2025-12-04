@@ -6,24 +6,14 @@ use crate::manager::ManagerExt;
 use nil_core::city::{City, PublicCity};
 use nil_core::ranking::Score;
 use nil_payload::city::{
-  FindPublicCityRequest,
   GetCityRequest,
   GetCityScoreRequest,
   GetPublicCityRequest,
   RenameCityRequest,
+  SearchCityRequest,
+  SearchPublicCityRequest,
 };
 use tauri::AppHandle;
-
-#[tauri::command]
-pub async fn find_public_city(
-  app: AppHandle,
-  req: FindPublicCityRequest,
-) -> Result<Option<PublicCity>> {
-  app
-    .client(async |cl| cl.find_public_city(req).await)
-    .await?
-    .map_err(Into::into)
-}
 
 #[tauri::command]
 pub async fn get_city(app: AppHandle, req: GetCityRequest) -> Result<City> {
@@ -53,6 +43,25 @@ pub async fn get_public_city(app: AppHandle, req: GetPublicCityRequest) -> Resul
 pub async fn rename_city(app: AppHandle, req: RenameCityRequest) -> Result<()> {
   app
     .client(async |cl| cl.rename_city(req).await)
+    .await?
+    .map_err(Into::into)
+}
+
+#[tauri::command]
+pub async fn search_city(app: AppHandle, req: SearchCityRequest) -> Result<Vec<City>> {
+  app
+    .client(async |cl| cl.search_city(req).await)
+    .await?
+    .map_err(Into::into)
+}
+
+#[tauri::command]
+pub async fn search_public_city(
+  app: AppHandle,
+  req: SearchPublicCityRequest,
+) -> Result<Vec<PublicCity>> {
+  app
+    .client(async |cl| cl.search_public_city(req).await)
     .await?
     .map_err(Into::into)
 }

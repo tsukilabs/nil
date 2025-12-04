@@ -13,6 +13,7 @@ use crate::ranking::Score;
 use crate::resources::{Maintenance, Resources};
 use crate::ruler::Ruler;
 use bon::Builder;
+use derive_more::{Deref, DerefMut, From};
 use serde::{Deserialize, Serialize};
 use std::sync::Arc;
 
@@ -25,7 +26,7 @@ pub struct City {
   coord: Coord,
 
   #[builder(into)]
-  name: String,
+  name: CityName,
 
   #[builder(into)]
   owner: Ruler,
@@ -44,11 +45,11 @@ impl City {
   }
 
   #[inline]
-  pub fn name(&self) -> &str {
+  pub fn name(&self) -> &CityName {
     &self.name
   }
 
-  pub(crate) fn name_mut(&mut self) -> &mut String {
+  pub(crate) fn name_mut(&mut self) -> &mut CityName {
     &mut self.name
   }
 
@@ -152,6 +153,16 @@ impl From<&City> for Ruler {
   }
 }
 
+#[derive(Clone, Debug, Deref, DerefMut, From, Deserialize, Serialize)]
+#[from(String, &str)]
+pub struct CityName(String);
+
+impl CityName {
+  pub fn new(name: impl AsRef<str>) -> Self {
+    Self(name.as_ref().to_owned())
+  }
+}
+
 /// Public data about a city, to which any player can have access.
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
@@ -168,5 +179,44 @@ impl From<&City> for PublicCity {
       name: Arc::from(city.name.as_str()),
       owner: city.owner.clone(),
     }
+  }
+}
+
+#[derive(Builder, Clone, Debug, Default, Deserialize, Serialize)]
+#[serde(default, rename_all = "camelCase")]
+pub struct CitySearch {
+  #[builder(default, with = FromIterator::from_iter)]
+  pub coord: Vec<Coord>,
+  #[builder(default, with = FromIterator::from_iter)]
+  pub name: Vec<CityName>,
+}
+
+impl From<Coord> for CitySearch {
+  fn from(coord: Coord) -> Self {
+    Self::from_iter([coord])
+  }
+}
+
+impl From<CityName> for CitySearch {
+  fn from(name: CityName) -> Self {
+    Self::from_iter([name])
+  }
+}
+
+impl FromIterator<Coord> for CitySearch {
+  fn from_iter<T>(iter: T) -> Self
+  where
+    T: IntoIterator<Item = Coord>,
+  {
+    Self::builder().coord(iter).build()
+  }
+}
+
+impl FromIterator<CityName> for CitySearch {
+  fn from_iter<T>(iter: T) -> Self
+  where
+    T: IntoIterator<Item = CityName>,
+  {
+    Self::builder().name(iter).build()
   }
 }

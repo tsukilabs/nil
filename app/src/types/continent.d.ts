@@ -22,3 +22,8 @@ interface Coord {
 type ContinentKey = Coord | ContinentIndex;
 type ContinentIndex = number;
 type ContinentSize = number;
+
+interface CitySearch {
+  coord?: Coord[];
+  name?: string[];
+}

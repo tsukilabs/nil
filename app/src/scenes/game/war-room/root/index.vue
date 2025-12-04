@@ -20,8 +20,10 @@ import { useOwnIdleArmiesAt } from '@/composables/military/useOwnIdleArmiesAt';
 const { t } = useI18n();
 
 const { origin, destination } = useWarRoomCoords();
-const destinationCity = asyncComputed(null, () => {
-  return commands.findPublicCity(destination.value);
+const destinationCity = asyncComputed(null, async () => {
+  const search = { coord: [destination.value] };
+  const city = await commands.searchPublicCity(search);
+  return city.at(0) ?? null;
 });
 
 const armies = useOwnIdleArmiesAt(origin);

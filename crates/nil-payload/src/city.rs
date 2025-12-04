@@ -1,14 +1,9 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+use nil_core::city::CitySearch;
 use nil_core::continent::Coord;
 use serde::{Deserialize, Serialize};
-
-#[derive(Clone, Debug, Deserialize, Serialize)]
-#[serde(rename_all = "camelCase")]
-pub struct FindPublicCityRequest {
-  pub coord: Coord,
-}
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
@@ -33,4 +28,16 @@ pub struct GetPublicCityRequest {
 pub struct RenameCityRequest {
   pub coord: Coord,
   pub name: String,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct SearchCityRequest {
+  pub search: CitySearch,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct SearchPublicCityRequest {
+  pub search: CitySearch,
 }

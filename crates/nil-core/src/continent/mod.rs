@@ -9,7 +9,7 @@ mod size;
 #[cfg(test)]
 mod tests;
 
-use crate::city::City;
+use crate::city::{City, CitySearch};
 use crate::error::{Error, Result};
 use crate::ruler::Ruler;
 use serde::{Deserialize, Serialize};
@@ -142,6 +142,38 @@ impl Continent {
   {
     let owner: Ruler = owner.into();
     self.coords_by(move |city| city.owner() == &owner)
+  }
+
+  pub fn search<S>(&self, search: S) -> Result<Vec<&City>>
+  where
+    S: Into<CitySearch>,
+  {
+    let mut found = Vec::new();
+    let mut search: CitySearch = search.into();
+    search.name = search
+      .name
+      .into_iter()
+      .map(|name| name.trim().to_lowercase().into())
+      .collect();
+
+    'outer: for city in self.cities() {
+      if search.coord.contains(&city.coord()) {
+        found.push(city);
+        continue;
+      }
+
+      if !search.name.is_empty() {
+        let city_name = city.name().to_lowercase();
+        for name in &search.name {
+          if city_name.contains(name.as_str()) {
+            found.push(city);
+            continue 'outer;
+          }
+        }
+      }
+    }
+
+    Ok(found)
   }
 }
 

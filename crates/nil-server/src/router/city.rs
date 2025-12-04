@@ -8,32 +8,16 @@ use crate::{bail_not_owned_by, res};
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
 use futures::TryFutureExt;
+use itertools::Itertools;
 use nil_core::city::PublicCity;
 use nil_payload::city::{
-  FindPublicCityRequest,
   GetCityRequest,
   GetCityScoreRequest,
   GetPublicCityRequest,
   RenameCityRequest,
+  SearchCityRequest,
+  SearchPublicCityRequest,
 };
-
-pub async fn find_public(
-  State(app): State<App>,
-  Json(req): Json<FindPublicCityRequest>,
-) -> Response {
-  let result = try {
-    app
-      .world
-      .read()
-      .await
-      .find_city(req.coord)?
-      .map(PublicCity::from)
-  };
-
-  result
-    .map(|city| res!(OK, Json(city)))
-    .unwrap_or_else(from_core_err)
-}
 
 pub async fn get(
   State(app): State<App>,
@@ -76,6 +60,45 @@ pub async fn rename(
     let mut world = app.world.write().await;
     bail_not_owned_by!(world, &player.0, req.coord);
     world.rename_city(req.coord, &req.name)?;
+  };
+
+  result
+    .map(|city| res!(OK, Json(city)))
+    .unwrap_or_else(from_core_err)
+}
+
+pub async fn search(State(app): State<App>, Json(req): Json<SearchCityRequest>) -> Response {
+  let result = try {
+    app
+      .world
+      .read()
+      .await
+      .continent()
+      .search(req.search)?
+      .into_iter()
+      .cloned()
+      .collect_vec()
+  };
+
+  result
+    .map(|city| res!(OK, Json(city)))
+    .unwrap_or_else(from_core_err)
+}
+
+pub async fn search_public(
+  State(app): State<App>,
+  Json(req): Json<SearchPublicCityRequest>,
+) -> Response {
+  let result = try {
+    app
+      .world
+      .read()
+      .await
+      .continent()
+      .search(req.search)?
+      .into_iter()
+      .map_into::<PublicCity>()
+      .collect_vec()
   };
 
   result

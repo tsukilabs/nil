@@ -4,8 +4,8 @@
 use serde::Serialize;
 use serde::ser::Serializer;
 use std::error::Error as StdError;
-
 use std::io;
+
 pub use std::result::Result as StdResult;
 
 pub type Result<T, E = Error> = StdResult<T, E>;
@@ -26,7 +26,7 @@ pub enum Error {
   Server(#[from] nil_server::Error),
 
   #[error(transparent)]
-  Io(#[from] std::io::Error),
+  Io(#[from] io::Error),
   #[error(transparent)]
   Tauri(#[from] tauri::Error),
   #[error(transparent)]

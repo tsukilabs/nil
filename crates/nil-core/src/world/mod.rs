@@ -118,14 +118,6 @@ impl World {
     self.continent.city(coord)
   }
 
-  pub fn find_city(&self, coord: Coord) -> Result<Option<&City>> {
-    match self.city(coord) {
-      Ok(city) => Ok(Some(city)),
-      Err(err) if err.is_city_not_found() => Ok(None),
-      Err(err) => Err(err),
-    }
-  }
-
   #[inline]
   pub(crate) fn city_mut(&mut self, coord: Coord) -> Result<&mut City> {
     self.continent.city_mut(coord)
