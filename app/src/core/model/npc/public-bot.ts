@@ -10,6 +10,10 @@ import { RulerImpl } from '@/core/model/ruler';
 export class PublicBotImpl extends RulerImpl implements PublicBot {
   public readonly id: BotId;
 
+  public readonly toRuler = (): Ruler => {
+    return { kind: 'bot', id: this.id };
+  };
+
   protected constructor(args: PublicBotImplConstructorArgs) {
     super({ coords: args.coords, ranking: args.ranking });
     this.id = args.bot.id;

@@ -7,16 +7,8 @@ export async function cheatGetBotResources(id: BotId) {
   return invoke<Resources>('cheat_get_bot_resources', { id });
 }
 
-export async function cheatGetBotStorageCapacity(id: BotId) {
-  return invoke<OverallStorageCapacity>('cheat_get_bot_storage_capacity', { id });
-}
-
 export async function cheatGetPrecursorResources(id: PrecursorId) {
   return invoke<Resources>('cheat_get_precursor_resources', { id });
-}
-
-export async function cheatGetPrecursorStorageCapacity(id: PrecursorId) {
-  return invoke<OverallStorageCapacity>('cheat_get_precursor_storage_capacity', { id });
 }
 
 export async function cheatSpawnBot(name?: Option<string>) {

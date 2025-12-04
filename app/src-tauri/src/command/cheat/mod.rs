@@ -3,5 +3,6 @@
 
 pub mod city;
 pub mod infrastructure;
+pub mod military;
 pub mod npc;
 pub mod resources;

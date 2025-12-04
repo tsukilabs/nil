@@ -1,7 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use std::collections::{HashMap, HashSet};
+use std::collections::{HashMap, HashSet, VecDeque};
 use std::hash::Hash;
 
 pub trait IterExt: Iterator {
@@ -9,6 +9,13 @@ pub trait IterExt: Iterator {
   where
     Self: Sized + Iterator<Item = (K, V)>,
     K: Hash + Eq,
+  {
+    self.collect()
+  }
+
+  fn collect_deque(self) -> VecDeque<Self::Item>
+  where
+    Self: Sized,
   {
     self.collect()
   }

@@ -127,13 +127,3 @@ impl Serialize for Error {
     serializer.serialize_str(self.to_string().as_str())
   }
 }
-
-pub trait WrapOk<T> {
-  fn wrap_ok(self) -> Result<T>;
-}
-
-impl<T> WrapOk<T> for T {
-  fn wrap_ok(self) -> Result<T> {
-    Ok(self)
-  }
-}

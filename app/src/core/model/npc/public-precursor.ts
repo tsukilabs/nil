@@ -11,6 +11,10 @@ export class PublicPrecursorImpl extends RulerImpl implements PublicPrecursor {
   public readonly id: PrecursorId;
   public readonly origin: Coord;
 
+  public readonly toRuler = (): Ruler => {
+    return { kind: 'precursor', id: this.id };
+  };
+
   protected constructor(args: PublicPrecursorImplConstructorArgs) {
     super({ coords: args.coords, ranking: args.ranking });
     this.id = args.precursor.id;

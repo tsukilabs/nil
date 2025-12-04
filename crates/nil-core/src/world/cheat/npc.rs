@@ -3,11 +3,11 @@
 
 use crate::bail_cheat_not_allowed;
 use crate::error::Result;
-use crate::infrastructure::storage::OverallStorageCapacity;
 use crate::npc::bot::{Bot, BotId};
 use crate::npc::precursor::PrecursorId;
 use crate::resources::Resources;
 use crate::world::World;
+use nil_util::result::WrapOk;
 
 impl World {
   pub fn cheat_get_bot_resources(&self, id: &BotId) -> Result<Resources> {
@@ -19,28 +19,14 @@ impl World {
       .cloned()
   }
 
-  pub fn cheat_get_bot_storage_capacity(&self, id: &BotId) -> Result<OverallStorageCapacity> {
-    bail_cheat_not_allowed!(self);
-    self.get_storage_capacity(id)
-  }
-
   pub fn cheat_get_precursor_resources(&self, id: PrecursorId) -> Result<Resources> {
     bail_cheat_not_allowed!(self);
-    let resources = self
+    self
       .precursor_manager
       .precursor(id)
       .resources()
-      .clone();
-
-    Ok(resources)
-  }
-
-  pub fn cheat_get_precursor_storage_capacity(
-    &self,
-    id: PrecursorId,
-  ) -> Result<OverallStorageCapacity> {
-    bail_cheat_not_allowed!(self);
-    self.get_storage_capacity(id)
+      .clone()
+      .wrap_ok()
   }
 
   pub fn cheat_spawn_bot(&mut self, name: &str) -> Result<BotId> {

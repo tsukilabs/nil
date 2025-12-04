@@ -3,11 +3,24 @@
 
 use crate::error::Result;
 use crate::manager::ManagerExt;
+use nil_core::infrastructure::storage::OverallStorageCapacity;
 use nil_payload::cheat::infrastructure::{
+  CheatGetStorageCapacityRequest,
   CheatSetBuildingLevelRequest,
   CheatSetMaxInfrastructureRequest,
 };
 use tauri::AppHandle;
+
+#[tauri::command]
+pub async fn cheat_get_storage_capacity(
+  app: AppHandle,
+  req: CheatGetStorageCapacityRequest,
+) -> Result<OverallStorageCapacity> {
+  app
+    .client(async |cl| cl.cheat_get_storage_capacity(req).await)
+    .await?
+    .map_err(Into::into)
+}
 
 #[tauri::command]
 pub async fn cheat_set_building_level(

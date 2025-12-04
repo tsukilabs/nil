@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { SquadImpl } from './squad';
+import { toU32 } from '@/lib/number';
 
 export class ArmyPersonnelImpl implements ArmyPersonnel {
   public readonly archer: SquadImpl;
@@ -35,8 +36,8 @@ export class ArmyPersonnelImpl implements ArmyPersonnel {
     ];
   }
 
-  public size() {
-    return ArmyPersonnelImpl.size(this);
+  public getSize() {
+    return ArmyPersonnelImpl.getSize(this);
   }
 
   public isEmpty() {
@@ -71,14 +72,26 @@ export class ArmyPersonnelImpl implements ArmyPersonnel {
     return {
       archer: SquadImpl.createEmptyRaw('archer'),
       axeman: SquadImpl.createEmptyRaw('axeman'),
-      pikeman: SquadImpl.createEmptyRaw('pikeman'),
-      swordsman: SquadImpl.createEmptyRaw('swordsman'),
       heavyCavalry: SquadImpl.createEmptyRaw('heavy-cavalry'),
       lightCavalry: SquadImpl.createEmptyRaw('light-cavalry'),
+      pikeman: SquadImpl.createEmptyRaw('pikeman'),
+      swordsman: SquadImpl.createEmptyRaw('swordsman'),
     };
   }
 
-  public static size(personnel: ArmyPersonnel): ArmyPersonnelSize {
+  public static splat(size: number) {
+    size = toU32(size);
+    return {
+      archer: SquadImpl.create({ unit: 'archer', size }),
+      axeman: SquadImpl.create({ unit: 'axeman', size }),
+      heavyCavalry: SquadImpl.create({ unit: 'heavy-cavalry', size }),
+      lightCavalry: SquadImpl.create({ unit: 'light-cavalry', size }),
+      pikeman: SquadImpl.create({ unit: 'pikeman', size }),
+      swordsman: SquadImpl.create({ unit: 'swordsman', size }),
+    };
+  }
+
+  public static getSize(personnel: ArmyPersonnel): ArmyPersonnelSize {
     return {
       archer: personnel.archer.size,
       axeman: personnel.axeman.size,

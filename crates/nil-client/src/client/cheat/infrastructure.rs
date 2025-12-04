@@ -3,7 +3,9 @@
 
 use crate::client::Client;
 use crate::error::Result;
+use nil_core::infrastructure::storage::OverallStorageCapacity;
 use nil_payload::cheat::infrastructure::{
+  CheatGetStorageCapacityRequest,
   CheatSetBuildingLevelRequest,
   CheatSetMaxInfrastructureRequest,
 };
@@ -25,6 +27,17 @@ impl Client {
     self
       .http
       .post("cheat/infrastructure/building", req)
+      .await
+  }
+
+  /// POST `/cheat/infrastructure/storage`
+  pub async fn cheat_get_storage_capacity(
+    &self,
+    req: CheatGetStorageCapacityRequest,
+  ) -> Result<OverallStorageCapacity> {
+    self
+      .http
+      .post_json("cheat/infrastructure/storage", req)
       .await
   }
 }

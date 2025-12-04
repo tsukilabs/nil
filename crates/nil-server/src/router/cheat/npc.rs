@@ -19,14 +19,6 @@ pub async fn get_bot_resources(State(app): State<App>, Path(id): Path<BotId>) ->
     .await
 }
 
-pub async fn get_bot_storage_capacity(State(app): State<App>, Path(id): Path<BotId>) -> Response {
-  app
-    .world(|world| world.cheat_get_bot_storage_capacity(&id))
-    .map_ok(|capacity| res!(OK, Json(capacity)))
-    .unwrap_or_else(from_core_err)
-    .await
-}
-
 pub async fn get_precursor_resources(
   State(app): State<App>,
   Path(id): Path<PrecursorId>,
@@ -34,17 +26,6 @@ pub async fn get_precursor_resources(
   app
     .world(|world| world.cheat_get_precursor_resources(id))
     .map_ok(|resources| res!(OK, Json(resources)))
-    .unwrap_or_else(from_core_err)
-    .await
-}
-
-pub async fn get_precursor_storage_capacity(
-  State(app): State<App>,
-  Path(id): Path<PrecursorId>,
-) -> Response {
-  app
-    .world(|world| world.cheat_get_precursor_storage_capacity(id))
-    .map_ok(|capacity| res!(OK, Json(capacity)))
     .unwrap_or_else(from_core_err)
     .await
 }

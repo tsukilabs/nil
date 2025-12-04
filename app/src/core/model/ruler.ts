@@ -8,6 +8,8 @@ export abstract class RulerImpl {
   public readonly coords: readonly CoordImpl[];
   public readonly ranking: Option<RankingEntryImpl>;
 
+  public abstract readonly toRuler: () => Ruler;
+
   protected constructor(args: RulerImplConstructorArgs) {
     this.coords = args.coords.map((it) => CoordImpl.create(it));
 

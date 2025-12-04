@@ -5,10 +5,17 @@ use crate::bail_cheat_not_allowed;
 use crate::continent::Coord;
 use crate::error::Result;
 use crate::infrastructure::building::{BuildingId, BuildingLevel};
+use crate::infrastructure::storage::OverallStorageCapacity;
+use crate::ruler::Ruler;
 use crate::world::World;
 use strum::IntoEnumIterator;
 
 impl World {
+  pub fn cheat_get_storage_capacity(&self, ruler: Ruler) -> Result<OverallStorageCapacity> {
+    bail_cheat_not_allowed!(self);
+    self.get_storage_capacity(ruler)
+  }
+
   pub fn cheat_set_max_infrastructure(&mut self, coord: Coord) -> Result<()> {
     bail_cheat_not_allowed!(self);
     let infra = self.city_mut(coord)?.infrastructure_mut();

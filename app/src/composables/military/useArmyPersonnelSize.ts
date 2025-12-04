@@ -6,5 +6,5 @@ import { ArmyPersonnelImpl } from '@/core/model/military/army-personnel';
 
 export function useArmyPersonnelSize(personnel: MaybeRefOrGetter<ArmyPersonnel>) {
   const personnelRef = toRef(personnel);
-  return computed(() => ArmyPersonnelImpl.size(personnelRef.value));
+  return computed(() => ArmyPersonnelImpl.getSize(personnelRef.value));
 }

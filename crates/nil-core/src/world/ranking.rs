@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::error::{Error, Result};
-use crate::ranking::prelude::*;
+use crate::ranking::{RankingEntry, Score};
 use crate::ruler::Ruler;
 use crate::world::World;
 

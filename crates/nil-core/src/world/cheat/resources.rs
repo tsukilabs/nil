@@ -22,21 +22,16 @@ impl World {
   }
 
   pub fn cheat_set_max_silo_resources(&mut self, player_id: PlayerId) -> Result<()> {
-    let resources = Resources {
-      food: Food::MAX,
-      ..Default::default()
-    };
-
+    let resources = Resources::builder().food(Food::MAX).build();
     self.cheat_set_resources(player_id, resources)
   }
 
   pub fn cheat_set_max_warehouse_resources(&mut self, player_id: PlayerId) -> Result<()> {
-    let resources = Resources {
-      iron: Iron::MAX,
-      stone: Stone::MAX,
-      wood: Wood::MAX,
-      ..Default::default()
-    };
+    let resources = Resources::builder()
+      .iron(Iron::MAX)
+      .stone(Stone::MAX)
+      .wood(Wood::MAX)
+      .build();
 
     self.cheat_set_resources(player_id, resources)
   }

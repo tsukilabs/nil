@@ -240,6 +240,12 @@ impl SubAssign<Squad> for ArmyPersonnel {
   }
 }
 
+impl From<SquadSize> for ArmyPersonnel {
+  fn from(size: SquadSize) -> Self {
+    ArmyPersonnel::splat(size)
+  }
+}
+
 pub struct ArmyPersonnelIter<'a> {
   personnel: &'a ArmyPersonnel,
   iter: UnitIdIter,

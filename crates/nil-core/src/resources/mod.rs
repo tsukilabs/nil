@@ -10,6 +10,7 @@ mod workforce;
 use crate::city::Stability;
 use crate::infrastructure::mine::MineProduction;
 use crate::infrastructure::storage::{OverallStorageCapacity, StorageCapacity};
+use bon::Builder;
 use derive_more::{Deref, Display, Into};
 use nil_num::impl_mul_ceil;
 use nil_num::ops::MulCeil;
@@ -23,12 +24,19 @@ pub use diff::{FoodDiff, IronDiff, ResourcesDiff, StoneDiff, WoodDiff};
 pub use maintenance::{Maintenance, MaintenanceRatio};
 pub use workforce::Workforce;
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Builder, Clone, Debug, Deserialize, Serialize)]
 #[serde(default, rename_all = "camelCase")]
 pub struct Resources {
+  #[builder(default)]
   pub food: Food,
+
+  #[builder(default)]
   pub iron: Iron,
+
+  #[builder(default)]
   pub stone: Stone,
+
+  #[builder(default)]
   pub wood: Wood,
 }
 

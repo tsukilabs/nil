@@ -11,6 +11,10 @@ export class PublicPlayerImpl extends RulerImpl implements PublicPlayer {
   public readonly id: PlayerId;
   public readonly status: PlayerStatus;
 
+  public readonly toRuler = (): Ruler => {
+    return { kind: 'player', id: this.id };
+  };
+
   protected constructor(args: PublicPlayerImplConstructorArgs) {
     super({ coords: args.coords, ranking: args.ranking });
     this.id = args.player.id;

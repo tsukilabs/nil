@@ -3,5 +3,6 @@
 
 export * from './npc';
 export * from './city';
+export * from './military';
 export * from './resources';
 export * from './infrastructure';

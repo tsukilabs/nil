@@ -130,8 +130,7 @@ export class ChatCommand {
         break;
       }
       case ChatCommandKind.Max: {
-        await commands.cheatSetMaxResources();
-        await Promise.all(NIL.player.getCoords().map(commands.cheatSetMaxInfrastructure));
+        await setMax();
         break;
       }
       case ChatCommandKind.Prefecture: {
@@ -187,4 +186,17 @@ export class ChatCommand {
       }
     }
   }
+}
+
+async function setMax() {
+  const player = NIL.player.getPlayer()?.toRuler();
+  const promises = [commands.cheatSetMaxResources()];
+  for (const coord of NIL.player.getCoords()) {
+    promises.push(
+      commands.cheatSetMaxInfrastructure(coord),
+      commands.cheatSpawnPersonnel(coord, player, 10_000),
+    );
+  }
+
+  await Promise.all(promises);
 }

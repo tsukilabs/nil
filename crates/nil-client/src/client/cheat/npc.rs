@@ -3,7 +3,6 @@
 
 use crate::client::Client;
 use crate::error::Result;
-use nil_core::infrastructure::storage::OverallStorageCapacity;
 use nil_core::npc::bot::BotId;
 use nil_core::npc::precursor::PrecursorId;
 use nil_core::resources::Resources;
@@ -18,24 +17,9 @@ impl Client {
       .await
   }
 
-  /// GET `/cheat/bot/{id}/infrastructure/storage`
-  pub async fn cheat_get_bot_storage_capacity(&self, id: BotId) -> Result<OverallStorageCapacity> {
-    let route = format!("cheat/bot/{id}/infrastructure/storage");
-    self.http.get_json(&route).await
-  }
-
   /// GET `/cheat/bot/{id}/resources`
   pub async fn cheat_get_bot_resources(&self, id: BotId) -> Result<Resources> {
     let route = format!("cheat/bot/{id}/resources");
-    self.http.get_json(&route).await
-  }
-
-  /// GET `/cheat/precursor/{id}/infrastructure/storage`
-  pub async fn cheat_get_precursor_storage_capacity(
-    &self,
-    id: PrecursorId,
-  ) -> Result<OverallStorageCapacity> {
-    let route = format!("cheat/precursor/{id}/infrastructure/storage");
     self.http.get_json(&route).await
   }
 

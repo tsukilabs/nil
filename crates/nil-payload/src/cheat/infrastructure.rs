@@ -3,7 +3,14 @@
 
 use nil_core::continent::Coord;
 use nil_core::infrastructure::prelude::{BuildingId, BuildingLevel};
+use nil_core::ruler::Ruler;
 use serde::{Deserialize, Serialize};
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct CheatGetStorageCapacityRequest {
+  pub ruler: Ruler,
+}
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
