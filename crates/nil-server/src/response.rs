@@ -73,6 +73,7 @@ pub(crate) fn from_core_err(err: CoreError) -> Response {
     RoundNotStarted => res!(BAD_REQUEST, text),
     StorageStatsNotFound(..) => res!(NOT_FOUND, text),
     StorageStatsNotFoundForLevel(..) => res!(NOT_FOUND, text),
+    UnexpectedUnit(..) => res!(INTERNAL_SERVER_ERROR, text),
     WallStatsNotFoundForLevel(..) => res!(NOT_FOUND, text),
     WorldIsFull => res!(INTERNAL_SERVER_ERROR, text),
   }

@@ -14,7 +14,7 @@ use crate::error::Result;
 use crate::infrastructure::requirements::InfrastructureRequirements;
 use crate::ranking::Score;
 use crate::resources::prelude::*;
-use derive_more::{Deref, From, Into};
+use derive_more::{Deref, Display, From, Into};
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
 use stats::prelude::*;
 use std::fmt;
@@ -45,7 +45,7 @@ pub trait Unit: Send + Sync {
 }
 
 #[subenum(AcademyUnitId, StableUnitId)]
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, Deserialize, Serialize, EnumIter)]
+#[derive(Clone, Copy, Debug, Display, PartialEq, Eq, Hash, Deserialize, Serialize, EnumIter)]
 #[serde(rename_all = "kebab-case")]
 #[strum(serialize_all = "kebab-case")]
 #[remain::sorted]

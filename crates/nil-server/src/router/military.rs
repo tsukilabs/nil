@@ -14,7 +14,7 @@ pub async fn request_maneuver(
   Json(req): Json<RequestManeuverRequest>,
 ) -> Response {
   app
-    .world_mut(|world| world.request_maneuver(&req.request))
+    .world_mut(|world| world.request_maneuver(req.request))
     .map_ok(|id| res!(OK, Json(id)))
     .unwrap_or_else(from_core_err)
     .await
