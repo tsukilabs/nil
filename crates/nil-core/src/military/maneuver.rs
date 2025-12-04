@@ -3,7 +3,7 @@
 
 use crate::continent::{Coord, Distance};
 use crate::error::{Error, Result};
-use crate::military::army::ArmyId;
+use crate::military::army::{ArmyId, ArmyPersonnel};
 use crate::military::unit::stats::speed::Speed;
 use serde::{Deserialize, Serialize};
 use std::ops::{Sub, SubAssign};
@@ -21,21 +21,28 @@ pub struct Maneuver {
   state: ManeuverState,
 }
 
+#[bon::bon]
 impl Maneuver {
-  pub(super) fn new(request: &ManeuverRequest) -> Result<(ManeuverId, Self)> {
-    let distance = request.origin.distance(request.destination);
-    if request.origin == request.destination || distance == 0u8 {
-      return Err(Error::OriginIsDestination(request.origin));
+  #[builder]
+  pub(crate) fn new(
+    army: ArmyId,
+    kind: ManeuverKind,
+    origin: Coord,
+    destination: Coord,
+  ) -> Result<(ManeuverId, Self)> {
+    let distance = origin.distance(destination);
+    if origin == destination || distance == 0u8 {
+      return Err(Error::OriginIsDestination(origin));
     }
 
     let id = ManeuverId::new();
     let maneuver = Self {
       id,
-      army: request.army,
-      kind: request.kind,
+      army,
+      kind,
       direction: ManeuverDirection::Going,
-      origin: request.origin,
-      destination: request.destination,
+      origin,
+      destination,
       state: ManeuverState::new(distance.into()),
     };
 
@@ -164,8 +171,8 @@ impl From<Distance> for ManeuverDistance {
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct ManeuverRequest {
-  pub army: ArmyId,
   pub kind: ManeuverKind,
   pub origin: Coord,
   pub destination: Coord,
+  pub personnel: ArmyPersonnel,
 }

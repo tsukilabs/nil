@@ -43,26 +43,16 @@ export class ArmyPersonnelImpl implements ArmyPersonnel {
     return ArmyPersonnelImpl.isEmpty(this);
   }
 
-  public add(personnel: ArmyPersonnel) {
-    return ArmyPersonnelImpl.create({
-      archer: this.archer.add(personnel.archer),
-      axeman: this.axeman.add(personnel.axeman),
-      pikeman: this.pikeman.add(personnel.pikeman),
-      swordsman: this.swordsman.add(personnel.swordsman),
-      heavyCavalry: this.heavyCavalry.add(personnel.heavyCavalry),
-      lightCavalry: this.lightCavalry.add(personnel.lightCavalry),
-    });
+  public normalize() {
+    return ArmyPersonnelImpl.normalize(this);
   }
 
-  public sub(personnel: ArmyPersonnel) {
-    return ArmyPersonnelImpl.create({
-      archer: this.archer.sub(personnel.archer),
-      axeman: this.axeman.sub(personnel.axeman),
-      pikeman: this.pikeman.sub(personnel.pikeman),
-      swordsman: this.swordsman.sub(personnel.swordsman),
-      heavyCavalry: this.heavyCavalry.sub(personnel.heavyCavalry),
-      lightCavalry: this.lightCavalry.sub(personnel.lightCavalry),
-    });
+  public add(rhs: ArmyPersonnel) {
+    return ArmyPersonnelImpl.add(this, rhs);
+  }
+
+  public sub(rhs: ArmyPersonnel) {
+    return ArmyPersonnelImpl.sub(this, rhs);
   }
 
   public static create(personnel: ArmyPersonnel) {
@@ -108,5 +98,38 @@ export class ArmyPersonnelImpl implements ArmyPersonnel {
       SquadImpl.isEmpty(personnel.pikeman) &&
       SquadImpl.isEmpty(personnel.swordsman)
     );
+  }
+
+  public static normalize(personnel: ArmyPersonnel) {
+    return ArmyPersonnelImpl.create({
+      archer: SquadImpl.normalize(personnel.archer),
+      axeman: SquadImpl.normalize(personnel.axeman),
+      heavyCavalry: SquadImpl.normalize(personnel.heavyCavalry),
+      lightCavalry: SquadImpl.normalize(personnel.lightCavalry),
+      pikeman: SquadImpl.normalize(personnel.pikeman),
+      swordsman: SquadImpl.normalize(personnel.swordsman),
+    });
+  }
+
+  public static add(lhs: ArmyPersonnel, rhs: ArmyPersonnel) {
+    return ArmyPersonnelImpl.create({
+      archer: SquadImpl.add(lhs.archer, rhs.archer),
+      axeman: SquadImpl.add(lhs.axeman, rhs.axeman),
+      heavyCavalry: SquadImpl.add(lhs.heavyCavalry, rhs.heavyCavalry),
+      lightCavalry: SquadImpl.add(lhs.lightCavalry, rhs.lightCavalry),
+      pikeman: SquadImpl.add(lhs.pikeman, rhs.pikeman),
+      swordsman: SquadImpl.add(lhs.swordsman, rhs.swordsman),
+    });
+  }
+
+  public static sub(lhs: ArmyPersonnel, rhs: ArmyPersonnel) {
+    return ArmyPersonnelImpl.create({
+      archer: SquadImpl.sub(lhs.archer, rhs.archer),
+      axeman: SquadImpl.sub(lhs.axeman, rhs.axeman),
+      heavyCavalry: SquadImpl.sub(lhs.heavyCavalry, rhs.heavyCavalry),
+      lightCavalry: SquadImpl.sub(lhs.lightCavalry, rhs.lightCavalry),
+      pikeman: SquadImpl.sub(lhs.pikeman, rhs.pikeman),
+      swordsman: SquadImpl.sub(lhs.swordsman, rhs.swordsman),
+    });
   }
 }

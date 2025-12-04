@@ -17,10 +17,10 @@ const textClass = computed(() => !sm.value ? 'text-sm' : null);
 </script>
 
 <template>
-  <div class="w-max max-w-max grid grid-cols-4 items-center gap-2 md:gap-4 xl:gap-8 pr-4">
-    <Wood :amount="resources?.wood" :limit="capacity?.warehouse" :icon-class :text-class />
-    <Stone :amount="resources?.stone" :limit="capacity?.warehouse" :icon-class :text-class />
-    <Iron :amount="resources?.iron" :limit="capacity?.warehouse" :icon-class :text-class />
-    <Food :amount="resources?.food" :limit="capacity?.silo" :icon-class :text-class />
+  <div class="w-max max-w-max grid grid-cols-4 items-center gap-2 md:gap-4 xl:gap-8 2xl:gap-12 pr-4">
+    <Wood :amount="resources?.wood" :limit="capacity?.warehouse" :icon-class :text-class class="md:pr-8" />
+    <Stone :amount="resources?.stone" :limit="capacity?.warehouse" :icon-class :text-class class="md:pr-8" />
+    <Iron :amount="resources?.iron" :limit="capacity?.warehouse" :icon-class :text-class class="md:pr-8" />
+    <Food :amount="resources?.food" :limit="capacity?.silo" :icon-class :text-class class="md:pr-8" />
   </div>
 </template>

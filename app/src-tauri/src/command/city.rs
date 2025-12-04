@@ -6,12 +6,24 @@ use crate::manager::ManagerExt;
 use nil_core::city::{City, PublicCity};
 use nil_core::ranking::Score;
 use nil_payload::city::{
+  FindPublicCityRequest,
   GetCityRequest,
   GetCityScoreRequest,
   GetPublicCityRequest,
   RenameCityRequest,
 };
 use tauri::AppHandle;
+
+#[tauri::command]
+pub async fn find_public_city(
+  app: AppHandle,
+  req: FindPublicCityRequest,
+) -> Result<Option<PublicCity>> {
+  app
+    .client(async |cl| cl.find_public_city(req).await)
+    .await?
+    .map_err(Into::into)
+}
 
 #[tauri::command]
 pub async fn get_city(app: AppHandle, req: GetCityRequest) -> Result<City> {

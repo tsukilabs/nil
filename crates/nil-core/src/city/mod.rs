@@ -146,6 +146,12 @@ impl City {
   }
 }
 
+impl From<&City> for Ruler {
+  fn from(city: &City) -> Self {
+    city.owner.clone()
+  }
+}
+
 /// Public data about a city, to which any player can have access.
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]

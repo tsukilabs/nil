@@ -65,6 +65,7 @@ pub(crate) fn create() -> Router<App> {
     .route("/cheat/resources/wood", post(cheat::set_wood))
     .route("/city", post(city::get))
     .route("/city/public", post(city::get_public))
+    .route("/city/public/find", post(city::find_public))
     .route("/city/rename", post(city::rename))
     .route("/city/score", post(city::get_score))
     .route("/continent/field", post(continent::get_field))

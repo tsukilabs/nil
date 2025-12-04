@@ -11,10 +11,11 @@ use crate::player::PlayerId;
 use serde::Serialize;
 use serde::ser::Serializer;
 use std::result::Result as StdResult;
+use strum::EnumIs;
 
 pub type Result<T, E = Error> = StdResult<T, E>;
 
-#[derive(Clone, Debug, thiserror::Error)]
+#[derive(Clone, Debug, EnumIs, thiserror::Error)]
 #[remain::sorted]
 pub enum Error {
   #[error("Army not found")]
@@ -61,6 +62,9 @@ pub enum Error {
 
   #[error("Insufficient resources")]
   InsufficientResources,
+
+  #[error("Insufficient units")]
+  InsufficientUnits,
 
   #[error("Maneuver not found")]
   ManeuverNotFound(ManeuverId),

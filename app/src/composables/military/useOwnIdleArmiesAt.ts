@@ -6,12 +6,12 @@ import type { MaybeNilRef } from '@tb-dev/vue';
 import type { ArmyImpl } from '@/core/model/military/army';
 import { toContinentKeyRef } from '@/composables/util/toRef';
 
-export function useIdleArmiesAt(key?: MaybeNilRef<ContinentKey>) {
+export function useOwnIdleArmiesAt(key?: MaybeNilRef<ContinentKey>) {
   const keyRef = toContinentKeyRef(key);
   const { military } = NIL.military.refs();
   return computed<readonly ArmyImpl[]>(() => {
     if (keyRef.value && military.value) {
-      return military.value.getIdleArmiesAt(keyRef.value);
+      return military.value.getOwnIdleArmiesAt(keyRef.value);
     }
 
     return [];

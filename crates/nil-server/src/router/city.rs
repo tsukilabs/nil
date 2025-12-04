@@ -10,11 +10,30 @@ use axum::response::Response;
 use futures::TryFutureExt;
 use nil_core::city::PublicCity;
 use nil_payload::city::{
+  FindPublicCityRequest,
   GetCityRequest,
   GetCityScoreRequest,
   GetPublicCityRequest,
   RenameCityRequest,
 };
+
+pub async fn find_public(
+  State(app): State<App>,
+  Json(req): Json<FindPublicCityRequest>,
+) -> Response {
+  let result = try {
+    app
+      .world
+      .read()
+      .await
+      .find_city(req.coord)?
+      .map(PublicCity::from)
+  };
+
+  result
+    .map(|city| res!(OK, Json(city)))
+    .unwrap_or_else(from_core_err)
+}
 
 pub async fn get(
   State(app): State<App>,

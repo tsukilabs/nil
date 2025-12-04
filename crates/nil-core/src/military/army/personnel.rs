@@ -123,6 +123,15 @@ impl ArmyPersonnel {
   pub fn is_empty(&self) -> bool {
     self.iter().all(Squad::is_empty)
   }
+
+  pub fn has_enough_personnel(&self, required: &ArmyPersonnel) -> bool {
+    self.archer.size() >= required.archer.size()
+      && self.axeman.size() >= required.axeman.size()
+      && self.heavy_cavalry.size() >= required.heavy_cavalry.size()
+      && self.light_cavalry.size() >= required.light_cavalry.size()
+      && self.pikeman.size() >= required.pikeman.size()
+      && self.swordsman.size() >= required.swordsman.size()
+  }
 }
 
 impl Default for ArmyPersonnel {

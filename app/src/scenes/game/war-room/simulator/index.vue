@@ -28,11 +28,7 @@ const attacker = ref(ArmyPersonnelImpl.createEmpty());
 const defender = ref(ArmyPersonnelImpl.createEmpty());
 const wallLevel = ref(stats.value?.getBuildingMinLevel('wall'));
 
-const canSimulate = computed(() => {
-  return attacker.value.getSquads().some((squad) => {
-    return Number.isFinite(squad.size) && squad.size > 0;
-  });
-});
+const canSimulate = computed(() => !attacker.value.isEmpty());
 
 async function simulate() {
   try {

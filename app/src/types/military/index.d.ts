@@ -4,5 +4,5 @@
 interface Military {
   readonly continent: ReadonlyMap<number, readonly Army[]>;
   readonly continentSize: number;
-  readonly maneuvers: ReadonlyMap<ManeuverId, readonly Maneuver[]>;
+  readonly maneuvers: ReadonlyMap<ManeuverId, Maneuver>;
 }

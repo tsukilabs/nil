@@ -6,6 +6,7 @@ use crate::error::Result;
 use nil_core::city::{City, PublicCity};
 use nil_core::ranking::Score;
 use nil_payload::city::{
+  FindPublicCityRequest,
   GetCityRequest,
   GetCityScoreRequest,
   GetPublicCityRequest,
@@ -21,6 +22,14 @@ impl Client {
   /// POST `/city/public`
   pub async fn get_public_city(&self, req: GetPublicCityRequest) -> Result<PublicCity> {
     self.http.post_json("city/public", req).await
+  }
+
+  /// POST `/city/public/find`
+  pub async fn find_public_city(&self, req: FindPublicCityRequest) -> Result<Option<PublicCity>> {
+    self
+      .http
+      .post_json("city/public/find", req)
+      .await
   }
 
   /// POST `/city/rename`

@@ -102,6 +102,10 @@ export class CityEntity extends Entity {
     } as const;
   }
 
+  public static getCoord() {
+    return this.use().coord.value;
+  }
+
   public static async setCoord(coord?: Option<Coord>) {
     const city = this.use();
     if (coord) {
@@ -116,9 +120,20 @@ export class CityEntity extends Entity {
     await city.update();
   }
 
+  public static getCity() {
+    return this.use().city.value;
+  }
+
+  public static getProduction() {
+    return this.use().production.value;
+  }
+
   public static init() {
     if (!Object.hasOwn(globalThis.NIL, 'city')) {
       const city: (typeof globalThis.NIL)['city'] = {
+        getCity: CityEntity.getCity.bind(CityEntity),
+        getCoord: CityEntity.getCoord.bind(CityEntity),
+        getProduction: CityEntity.getProduction.bind(CityEntity),
         refs: CityEntity.refs.bind(CityEntity),
         setCoord: CityEntity.setCoord.bind(CityEntity),
         use: CityEntity.use.bind(CityEntity),

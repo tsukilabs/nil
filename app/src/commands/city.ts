@@ -3,6 +3,10 @@
 
 import { invoke } from '@tauri-apps/api/core';
 
+export async function findPublicCity(coord: Coord) {
+  return invoke<Option<PublicCity>>('find_public_city', { req: { coord } });
+}
+
 export async function getCity(coord: Coord) {
   return invoke<City>('get_city', { req: { coord } });
 }

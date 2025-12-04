@@ -34,6 +34,9 @@ declare global {
 
     /** Current city. */
     readonly city: {
+      readonly getCity: (typeof CityEntity)['getCity'];
+      readonly getCoord: (typeof CityEntity)['getCoord'];
+      readonly getProduction: (typeof CityEntity)['getProduction'];
       readonly refs: (typeof CityEntity)['refs'];
       readonly setCoord: (typeof CityEntity)['setCoord'];
       readonly use: (typeof CityEntity)['use'];
@@ -49,6 +52,7 @@ declare global {
     readonly player: {
       readonly getCoords: (typeof PlayerEntity)['getCoords'];
       readonly getId: (typeof PlayerEntity)['getId'];
+      readonly getPlayer: (typeof PlayerEntity)['getPlayer'];
       readonly refs: (typeof PlayerEntity)['refs'];
       readonly setId: (typeof PlayerEntity)['setId'];
       readonly update: (typeof PlayerEntity)['update'];

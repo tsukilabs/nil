@@ -58,6 +58,7 @@ pub(crate) fn from_core_err(err: CoreError) -> Response {
     Forbidden => res!(FORBIDDEN, text),
     IndexOutOfBounds(..) => res!(BAD_REQUEST, text),
     InsufficientResources => res!(BAD_REQUEST, text),
+    InsufficientUnits => res!(BAD_REQUEST, text),
     ManeuverNotFound(..) => res!(NOT_FOUND, text),
     MineStatsNotFound(..) => res!(NOT_FOUND, text),
     MineStatsNotFoundForLevel(..) => res!(NOT_FOUND, text),

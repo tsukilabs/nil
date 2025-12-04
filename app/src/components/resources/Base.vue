@@ -15,7 +15,7 @@ const props = defineProps<{
   textClass?: ClassValue;
 }>();
 
-const { md } = useBreakpoints();
+const { xl } = useBreakpoints();
 
 const fractionIntl = new Intl.NumberFormat(undefined, {
   style: 'decimal',
@@ -30,7 +30,7 @@ const fractionIntl = new Intl.NumberFormat(undefined, {
 
 function format() {
   const value = props.amount ?? 0;
-  if (!props.alwaysLiteral && !md.value) {
+  if (!props.alwaysLiteral && !xl.value) {
     if (value >= 1_000 && value <= 99_999) {
       return `${fractionIntl.format(value / 1_000)}k`;
     }

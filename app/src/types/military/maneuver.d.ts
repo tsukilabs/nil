@@ -31,8 +31,8 @@ interface ManeuverStatePending {
 }
 
 interface ManeuverRequest {
-  readonly army: ArmyId;
   readonly kind: ManeuverKind;
   readonly origin: Coord;
   readonly destination: Coord;
+  readonly personnel: ArmyPersonnel;
 }

@@ -6,6 +6,12 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+pub struct FindPublicCityRequest {
+  pub coord: Coord,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct GetCityRequest {
   pub coord: Coord,
 }

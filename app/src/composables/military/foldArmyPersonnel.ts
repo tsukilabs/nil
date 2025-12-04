@@ -7,15 +7,7 @@ import { ArmyPersonnelImpl } from '@/core/model/military/army-personnel';
 export function foldArmyPersonnel(armies: MaybeRefOrGetter<readonly Army[]>) {
   const armiesRef = toRef(armies);
   return computed(() => {
-    const initial: WritableArmyPersonnel = {
-      archer: { unit: 'archer', size: 0 },
-      axeman: { unit: 'axeman', size: 0 },
-      heavyCavalry: { unit: 'heavy-cavalry', size: 0 },
-      lightCavalry: { unit: 'light-cavalry', size: 0 },
-      pikeman: { unit: 'pikeman', size: 0 },
-      swordsman: { unit: 'swordsman', size: 0 },
-    };
-
+    const initial = ArmyPersonnelImpl.createEmptyRaw() as WritableArmyPersonnel;
     const personnel = armiesRef.value.reduce((acc, curr) => {
       acc.archer.size += curr.personnel.archer.size;
       acc.axeman.size += curr.personnel.axeman.size;

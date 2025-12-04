@@ -9,7 +9,7 @@ import { ManeuverImpl } from '@/core/model/military/maneuver';
 export class MilitaryImpl implements Military {
   public readonly continent: ReadonlyMap<ContinentIndex, readonly ArmyImpl[]>;
   public readonly continentSize: ContinentSize;
-  public readonly maneuvers: ReadonlyMap<ManeuverId, readonly ManeuverImpl[]>;
+  public readonly maneuvers: ReadonlyMap<ManeuverId, ManeuverImpl>;
 
   private constructor(args: Args) {
     this.continent = args.continent;
@@ -26,7 +26,38 @@ export class MilitaryImpl implements Military {
   }
 
   public getIdleArmiesAt(key: ContinentKey): readonly ArmyImpl[] {
-    return this.getArmiesAt(key).filter((army) => !army.isIdle());
+    return this.getArmiesAt(key).filter((army) => army.isIdle());
+  }
+
+  public getOwnIdleArmiesAt(key: ContinentKey): readonly ArmyImpl[] {
+    const player = NIL.player.getId();
+    return this.getIdleArmiesAt(key).filter(({ owner }) => {
+      return owner.kind === 'player' && owner.id === player;
+    });
+  }
+
+  public getManeuversBy(f: (maneuver: ManeuverImpl) => boolean) {
+    return this.maneuvers.values()
+      .filter((maneuver) => maneuver.isPending() && f(maneuver))
+      .toArray();
+  }
+
+  public getGoingManeuversBy(f: (maneuver: ManeuverImpl) => boolean) {
+    return this.getManeuversBy((maneuver) => {
+      return maneuver.direction === 'going' && f(maneuver);
+    });
+  }
+
+  public getReturningManeuversBy(f: (maneuver: ManeuverImpl) => boolean) {
+    return this.getManeuversBy((maneuver) => {
+      return maneuver.direction === 'returning' && f(maneuver);
+    });
+  }
+
+  public getManeuversAt(key: ContinentKey) {
+    return this.getManeuversBy((maneuver) => {
+      return maneuver.origin.is(key) || maneuver.destination.is(key);
+    });
   }
 
   public static fromRaw(raw: RawMilitary) {
@@ -36,10 +67,9 @@ export class MilitaryImpl implements Military {
       continent.set(Number.parseInt(index), impl);
     }
 
-    const maneuvers = new Map<ManeuverId, readonly ManeuverImpl[]>();
-    for (const [id, rawManeuvers] of Object.entries(raw.maneuvers)) {
-      const impl = rawManeuvers.map((maneuver) => ManeuverImpl.create(maneuver));
-      maneuvers.set(id, impl);
+    const maneuvers = new Map<ManeuverId, ManeuverImpl>();
+    for (const [id, maneuver] of Object.entries(raw.maneuvers)) {
+      maneuvers.set(id, ManeuverImpl.create(maneuver));
     }
 
     return new MilitaryImpl({
@@ -58,11 +88,11 @@ export class MilitaryImpl implements Military {
 interface Args {
   continent: ReadonlyMap<number, readonly ArmyImpl[]>;
   continentSize: ContinentSize;
-  maneuvers: ReadonlyMap<ManeuverId, readonly ManeuverImpl[]>;
+  maneuvers: ReadonlyMap<ManeuverId, ManeuverImpl>;
 }
 
 export interface RawMilitary {
   readonly continent: Readonly<Record<string, readonly Army[]>>;
   readonly continentSize: ContinentSize;
-  readonly maneuvers: Readonly<Record<ManeuverId, readonly Maneuver[]>>;
+  readonly maneuvers: Readonly<Record<ManeuverId, Maneuver>>;
 }

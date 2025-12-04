@@ -53,10 +53,6 @@ export class PlayerEntity extends Entity {
     return this.use().update();
   }
 
-  public static getCoords() {
-    return this.use().player.value?.coords ?? [];
-  }
-
   public static getId() {
     return this.use().id.value;
   }
@@ -67,11 +63,20 @@ export class PlayerEntity extends Entity {
     await player.update();
   }
 
+  public static getPlayer() {
+    return this.use().player.value;
+  }
+
+  public static getCoords() {
+    return this.getPlayer()?.coords ?? [];
+  }
+
   public static init() {
     if (!Object.hasOwn(globalThis.NIL, 'player')) {
       const player: (typeof globalThis.NIL)['player'] = {
         getCoords: PlayerEntity.getCoords.bind(PlayerEntity),
         getId: PlayerEntity.getId.bind(PlayerEntity),
+        getPlayer: PlayerEntity.getPlayer.bind(PlayerEntity),
         refs: PlayerEntity.refs.bind(PlayerEntity),
         setId: PlayerEntity.setId.bind(PlayerEntity),
         update: PlayerEntity.update.bind(PlayerEntity),

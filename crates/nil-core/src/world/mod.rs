@@ -114,30 +114,26 @@ impl World {
   }
 
   #[inline]
-  pub fn continent_mut(&mut self) -> &mut Continent {
-    &mut self.continent
-  }
-
-  #[inline]
   pub fn city(&self, coord: Coord) -> Result<&City> {
     self.continent.city(coord)
   }
 
+  pub fn find_city(&self, coord: Coord) -> Result<Option<&City>> {
+    match self.city(coord) {
+      Ok(city) => Ok(Some(city)),
+      Err(err) if err.is_city_not_found() => Ok(None),
+      Err(err) => Err(err),
+    }
+  }
+
   #[inline]
-  pub fn city_mut(&mut self, coord: Coord) -> Result<&mut City> {
+  pub(crate) fn city_mut(&mut self, coord: Coord) -> Result<&mut City> {
     self.continent.city_mut(coord)
   }
 
   #[inline]
   pub fn infrastructure(&self, coord: Coord) -> Result<&Infrastructure> {
     self.city(coord).map(City::infrastructure)
-  }
-
-  #[inline]
-  pub fn infrastructure_mut(&mut self, coord: Coord) -> Result<&mut Infrastructure> {
-    self
-      .city_mut(coord)
-      .map(City::infrastructure_mut)
   }
 
   #[inline]

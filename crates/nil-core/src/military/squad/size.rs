@@ -37,6 +37,11 @@ impl SquadSize {
   pub fn random() -> Self {
     Self::new(rand::random())
   }
+
+  #[inline]
+  pub fn checked_sub(self, rhs: Self) -> Option<Self> {
+    self.0.checked_sub(rhs.0).map(Self::new)
+  }
 }
 
 impl PartialEq<u32> for SquadSize {

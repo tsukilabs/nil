@@ -5,21 +5,14 @@ import { go } from '@/router';
 import * as commands from '@/commands';
 import { formatInt } from '@/lib/intl';
 import { PLACEHOLDER } from '@/lib/string';
-import { CoordImpl } from '@/core/model/continent/coord';
-import { RankingEntryImpl } from '@/core/model/ranking/ranking-entry';
+import { RulerImpl } from '@/core/model/ruler';
 
-export class PublicBotImpl implements PublicBot {
+export class PublicBotImpl extends RulerImpl implements PublicBot {
   public readonly id: BotId;
-  public readonly coords: readonly CoordImpl[];
-  public readonly ranking: Option<RankingEntryImpl>;
 
   protected constructor(args: PublicBotImplConstructorArgs) {
+    super({ coords: args.coords, ranking: args.ranking });
     this.id = args.bot.id;
-    this.coords = args.coords.map((it) => CoordImpl.create(it));
-
-    if (args.ranking) {
-      this.ranking = RankingEntryImpl.create(args.ranking);
-    }
   }
 
   public hasCity(key: ContinentKey) {

@@ -3,6 +3,8 @@
 
 mod personnel;
 
+use std::mem;
+
 use crate::military::maneuver::ManeuverId;
 use crate::military::unit::stats::speed::Speed;
 use crate::ranking::Score;
@@ -29,7 +31,7 @@ pub struct Army {
   #[builder(into)]
   owner: Ruler,
 
-  #[builder(skip)]
+  #[builder(default, into)]
   state: ArmyState,
 }
 
@@ -101,6 +103,11 @@ impl Army {
   pub fn is_maneuvering(&self) -> bool {
     self.state.is_maneuvering()
   }
+
+  #[inline]
+  pub fn has_enough_personnel(&self, required: &ArmyPersonnel) -> bool {
+    self.personnel.has_enough_personnel(required)
+  }
 }
 
 impl From<Army> for ArmyPersonnel {
@@ -139,5 +146,23 @@ pub enum ArmyState {
 impl From<ManeuverId> for ArmyState {
   fn from(maneuver: ManeuverId) -> Self {
     Self::Maneuvering { maneuver }
+  }
+}
+
+pub fn find_idle_owned_by<'a>(armies: &'a mut [Army], ruler: &Ruler) -> Option<&'a mut Army> {
+  armies
+    .iter_mut()
+    .find(|army| army.is_idle_and_owned_by(ruler))
+}
+
+pub fn collapse_armies(armies: &mut Vec<Army>) {
+  for army in mem::take(armies) {
+    if army.is_idle()
+      && let Some(previous) = find_idle_owned_by(armies, army.owner())
+    {
+      *previous.personnel_mut() += ArmyPersonnel::from(army);
+    } else {
+      armies.push(army);
+    }
   }
 }

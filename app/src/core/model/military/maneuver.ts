@@ -46,6 +46,15 @@ export class ManeuverImpl implements Maneuver {
     return this.state.kind === 'pending';
   }
 
+  public getPendingDistance() {
+    if (this.state.kind === 'pending') {
+      return this.state.distance;
+    }
+    else {
+      return 0;
+    }
+  }
+
   public static create(maneuver: Maneuver) {
     if (maneuver instanceof ManeuverImpl) {
       return maneuver;

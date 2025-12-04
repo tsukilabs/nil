@@ -3,7 +3,7 @@
 
 import { asyncRef } from '@tb-dev/vue';
 import { computed, toRef, watch } from 'vue';
-import { PublicBotImpl } from '@/core/model/npc/bot/public-bot';
+import { PublicBotImpl } from '@/core/model/npc/public-bot';
 
 export function usePublicBot(id: MaybeNilRef<BotId>) {
   const idRef = toRef(id);

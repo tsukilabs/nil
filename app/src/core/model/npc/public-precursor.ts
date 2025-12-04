@@ -5,23 +5,16 @@ import { go } from '@/router';
 import * as commands from '@/commands';
 import { formatInt } from '@/lib/intl';
 import { PLACEHOLDER } from '@/lib/string';
-import { CoordImpl } from '@/core/model/continent/coord';
-import { RankingEntryImpl } from '@/core/model/ranking/ranking-entry';
+import { RulerImpl } from '@/core/model/ruler';
 
-export class PublicPrecursorImpl implements PublicPrecursor {
+export class PublicPrecursorImpl extends RulerImpl implements PublicPrecursor {
   public readonly id: PrecursorId;
   public readonly origin: Coord;
-  public readonly coords: readonly CoordImpl[];
-  public readonly ranking: Option<RankingEntryImpl>;
 
   protected constructor(args: PublicPrecursorImplConstructorArgs) {
+    super({ coords: args.coords, ranking: args.ranking });
     this.id = args.precursor.id;
     this.origin = args.precursor.origin;
-    this.coords = args.coords.map((it) => CoordImpl.create(it));
-
-    if (args.ranking) {
-      this.ranking = RankingEntryImpl.create(args.ranking);
-    }
   }
 
   public hasCity(key: ContinentKey) {

@@ -3,9 +3,9 @@
 
 import { shallowRef, toRef } from 'vue';
 import { watchImmediate } from '@vueuse/core';
-import { PublicBotImpl } from '@/core/model/npc/bot/public-bot';
+import { PublicBotImpl } from '@/core/model/npc/public-bot';
 import { PublicPlayerImpl } from '@/core/model/player/public-player';
-import { PublicPrecursorImpl } from '@/core/model/npc/precursor/public-precursor';
+import { PublicPrecursorImpl } from '@/core/model/npc/public-precursor';
 
 export function usePublicCityOwner(owner: MaybeNilRef<Ruler>) {
   const bot = shallowRef<Option<PublicBotImpl>>();

@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { go } from '@/router';
+import { toU8 } from '@/lib/number';
 import type { Option } from '@tb-dev/utils';
 
 export class CoordImpl implements Coord {
@@ -14,8 +15,8 @@ export class CoordImpl implements Coord {
   #index: Option<ContinentIndex>;
 
   private constructor(coord: Coord) {
-    this.x = Math.trunc(coord.x);
-    this.y = Math.trunc(coord.y);
+    this.x = toU8(coord.x);
+    this.y = toU8(coord.y);
   }
 
   public is(other: ContinentKey) {
@@ -105,6 +106,10 @@ export class CoordImpl implements Coord {
   public static toIndex(coord: Coord) {
     const size = NIL.world.getContinentSize();
     return coord.y * size + coord.x;
+  }
+
+  public static splat(value: number) {
+    return CoordImpl.create({ x: value, y: value });
   }
 
   private static readonly intl = new Intl.NumberFormat('default', {

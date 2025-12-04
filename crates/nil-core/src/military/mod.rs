@@ -11,8 +11,8 @@ pub mod unit;
 
 use crate::continent::{ContinentIndex, ContinentKey, ContinentSize, Coord};
 use crate::error::{Error, Result};
-use crate::military::army::{ArmyId, ArmyState};
-use crate::military::maneuver::{ManeuverId, ManeuverRequest};
+use crate::military::army::{ArmyId, collapse_armies, find_idle_owned_by};
+use crate::military::maneuver::ManeuverId;
 use crate::ranking::Score;
 use crate::resources::Maintenance;
 use crate::ruler::Ruler;
@@ -20,7 +20,6 @@ use army::{Army, ArmyPersonnel};
 use maneuver::Maneuver;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
-use std::mem;
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
@@ -44,37 +43,41 @@ impl Military {
     K: ContinentKey,
     R: Into<Ruler>,
   {
+    let ruler: Ruler = owner.into();
     let index = key.into_index(self.continent_size);
-    let army = Army::builder()
-      .owner(owner)
-      .personnel(personnel)
-      .build();
+    let armies = self.continent.entry(index).or_default();
 
-    self
-      .continent
-      .entry(index)
-      .or_default()
-      .push(army);
+    if let Some(army) = find_idle_owned_by(armies, &ruler) {
+      *army.personnel_mut() += personnel;
+    } else {
+      let army = Army::builder()
+        .owner(ruler)
+        .personnel(personnel)
+        .build();
+
+      armies.push(army);
+    }
   }
 
   pub fn collapse_armies(&mut self) {
-    for armies in self.continent.values_mut() {
-      for army in mem::take(armies) {
-        if army.is_idle()
-          && let Some(previous) = armies
-            .iter_mut()
-            .find(|it| it.is_idle_and_owned_by(army.owner()))
-        {
-          *previous.personnel_mut() += ArmyPersonnel::from(army);
-        } else {
-          armies.push(army);
-        }
-      }
-    }
+    self
+      .continent
+      .values_mut()
+      .for_each(collapse_armies);
 
     self
       .continent
       .retain(|_, armies| !armies.is_empty());
+  }
+
+  pub fn collapse_armies_in<K>(&mut self, key: K)
+  where
+    K: ContinentKey,
+  {
+    let index = key.into_index(self.continent_size);
+    if let Some(armies) = self.continent.get_mut(&index) {
+      collapse_armies(armies);
+    }
   }
 
   /// Creates a new instance containing only entries related to a given set of coords.
@@ -108,19 +111,8 @@ impl Military {
       .ok_or(Error::ArmyNotFound(id))
   }
 
-  pub(crate) fn army_mut(&mut self, id: ArmyId) -> Result<&mut Army> {
-    self
-      .armies_mut()
-      .find(|army| army.id() == id)
-      .ok_or(Error::ArmyNotFound(id))
-  }
-
   pub fn armies(&self) -> impl Iterator<Item = &Army> {
     self.continent.values().flatten()
-  }
-
-  pub(crate) fn armies_mut(&mut self) -> impl Iterator<Item = &mut Army> {
-    self.continent.values_mut().flatten()
   }
 
   #[inline]
@@ -137,6 +129,18 @@ impl Military {
       .continent
       .get(&index)
       .map(Vec::as_slice)
+      .unwrap_or_default()
+  }
+
+  pub(crate) fn armies_mut_at<K>(&mut self, key: K) -> &mut [Army]
+  where
+    K: ContinentKey,
+  {
+    let index = key.into_index(self.continent_size);
+    self
+      .continent
+      .get_mut(&index)
+      .map(Vec::as_mut_slice)
       .unwrap_or_default()
   }
 
@@ -212,16 +216,9 @@ impl Military {
       .filter(move |maneuver| maneuver.matches_coord(coord))
   }
 
-  pub(crate) fn request_maneuver(&mut self, request: &ManeuverRequest) -> Result<ManeuverId> {
-    let army = self.army_mut(request.army)?;
-    if !army.is_idle() {
-      return Err(Error::ArmyNotIdle(request.army));
-    }
-
-    let (id, maneuver) = Maneuver::new(request)?;
-    *army.state_mut() = ArmyState::from(id);
-    self.maneuvers.insert(id, maneuver);
-
-    Ok(id)
+  pub(crate) fn insert_maneuver(&mut self, maneuver: Maneuver) {
+    self
+      .maneuvers
+      .insert(maneuver.id(), maneuver);
   }
 }

@@ -16,24 +16,16 @@ export class SquadImpl implements Squad {
     return SquadImpl.isEmpty(this);
   }
 
-  public add(squad: Squad) {
-    if (this.unit === squad.unit) {
-      const size = this.size + squad.size;
-      return SquadImpl.create({ unit: this.unit, size });
-    }
-    else {
-      return this;
-    }
+  public normalize() {
+    return SquadImpl.normalize(this);
   }
 
-  public sub(squad: Squad) {
-    if (this.unit === squad.unit) {
-      const size = this.size - squad.size;
-      return SquadImpl.create({ unit: this.unit, size });
-    }
-    else {
-      return this;
-    }
+  public add(rhs: Squad) {
+    return SquadImpl.add(this, rhs);
+  }
+
+  public sub(rhs: Squad) {
+    return SquadImpl.sub(this, rhs);
   }
 
   public static create(squad: Squad) {
@@ -52,14 +44,34 @@ export class SquadImpl implements Squad {
     return { unit, size: 0 };
   }
 
-  public static withValidSize(squad: Squad) {
+  public static isEmpty(squad: Squad) {
+    return !Number.isFinite(squad.size) || squad.size <= 0;
+  }
+
+  public static normalize(squad: Squad) {
     return SquadImpl.create({
       unit: squad.unit,
       size: toU32(squad.size),
     });
   }
 
-  public static isEmpty(squad: Squad) {
-    return squad.size === 0;
+  public static add(lhs: Squad, rhs: Squad) {
+    if (lhs.unit === rhs.unit) {
+      const size = lhs.size + rhs.size;
+      return SquadImpl.create({ unit: lhs.unit, size });
+    }
+    else {
+      return lhs;
+    }
+  }
+
+  public static sub(lhs: Squad, rhs: Squad) {
+    if (lhs.unit === rhs.unit) {
+      const size = lhs.size - rhs.size;
+      return SquadImpl.create({ unit: lhs.unit, size });
+    }
+    else {
+      return lhs;
+    }
   }
 }

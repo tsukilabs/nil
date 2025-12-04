@@ -12,9 +12,6 @@ use std::fmt;
 use strum::Display;
 use tokio::sync::broadcast::{Receiver, Sender, channel};
 
-#[cfg(debug_assertions)]
-use tracing::info;
-
 pub type Listener = Receiver<(Bytes, EventTarget)>;
 
 #[derive(Clone)]
@@ -30,7 +27,7 @@ impl Emitter {
 
   pub(crate) fn emit(&self, event: Event, target: EventTarget) {
     #[cfg(debug_assertions)]
-    info!(?target, ?event);
+    tracing::info!(?target, ?event);
 
     let bytes = Bytes::from(event);
     let _ = self.sender.send((bytes, target));

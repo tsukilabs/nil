@@ -16,11 +16,11 @@ export async function simulateBattle(args: {
   args.wall ??= 0;
 
   if (args.attacker.length > 0) {
-    args.attacker = args.attacker.map(SquadImpl.withValidSize.bind(SquadImpl));
+    args.attacker = args.attacker.map(SquadImpl.normalize.bind(SquadImpl));
   }
 
   if (args.defender.length > 0) {
-    args.defender = args.defender.map(SquadImpl.withValidSize.bind(SquadImpl));
+    args.defender = args.defender.map(SquadImpl.normalize.bind(SquadImpl));
   }
 
   const stats = NIL.world.getStats();
