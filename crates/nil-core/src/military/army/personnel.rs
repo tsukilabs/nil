@@ -132,6 +132,28 @@ impl ArmyPersonnel {
       && self.pikeman.size() >= required.pikeman.size()
       && self.swordsman.size() >= required.swordsman.size()
   }
+
+  pub fn checked_sub(&self, rhs: &Self) -> Option<Self> {
+    macro_rules! sub {
+      ($unit:ident) => {{
+        self
+          .$unit
+          .size()
+          .checked_sub(rhs.$unit.size())
+      }};
+    }
+
+    Some(
+      Self::builder()
+        .archer(sub!(archer)?)
+        .axeman(sub!(axeman)?)
+        .heavy_cavalry(sub!(heavy_cavalry)?)
+        .light_cavalry(sub!(light_cavalry)?)
+        .pikeman(sub!(pikeman)?)
+        .swordsman(sub!(swordsman)?)
+        .build(),
+    )
+  }
 }
 
 impl Default for ArmyPersonnel {

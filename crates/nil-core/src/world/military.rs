@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::error::{Error, Result};
-use crate::military::army::ArmyState;
+use crate::military::army::{Army, ArmyState};
 use crate::military::maneuver::{Maneuver, ManeuverId, ManeuverRequest};
 use crate::world::World;
 
 impl World {
-  pub fn request_maneuver(&mut self, request: &ManeuverRequest) -> Result<ManeuverId> {
+  pub fn request_maneuver(&mut self, request: ManeuverRequest) -> Result<ManeuverId> {
     self
       .military
       .collapse_armies_in(request.origin);
@@ -23,15 +23,38 @@ impl World {
       return Err(Error::InsufficientUnits);
     };
 
+    let Some(remaining) = army
+      .personnel()
+      .checked_sub(&request.personnel)
+    else {
+      return Err(Error::InsufficientUnits);
+    };
+
+    let army_id = army.id();
+    let army_owner = army.owner().clone();
+    *army.personnel_mut() = request.personnel;
+
     let (id, maneuver) = Maneuver::builder()
-      .army(army.id())
+      .army(army_id)
       .kind(request.kind)
       .origin(request.origin)
       .destination(request.destination)
       .build()?;
 
-    *army.state_mut() = ArmyState::from(id);
     self.military.insert_maneuver(maneuver);
+    self
+      .military
+      .set_army_state(army_id, ArmyState::from(id))?;
+
+    // The remaining personnel should only be spawned after updating the state of the original army.
+    // Otherwise, both would be collapsed into a single army again in the `spawn` call.
+    if !remaining.is_empty() {
+      Army::builder()
+        .owner(army_owner)
+        .personnel(remaining)
+        .build()
+        .spawn(&mut self.military, request.origin);
+    }
 
     let sender_player = ruler_origin.player();
     let target_player = self.city(request.destination)?.player();

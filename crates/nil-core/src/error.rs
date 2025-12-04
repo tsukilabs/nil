@@ -5,6 +5,7 @@ use crate::continent::{ContinentIndex, Coord};
 use crate::infrastructure::building::{BuildingId, BuildingLevel, MineId, StorageId};
 use crate::military::army::ArmyId;
 use crate::military::maneuver::ManeuverId;
+use crate::military::unit::UnitId;
 use crate::npc::bot::BotId;
 use crate::npc::precursor::PrecursorId;
 use crate::player::PlayerId;
@@ -107,6 +108,9 @@ pub enum Error {
 
   #[error("No stats found for storage \"{0}\" at level {1}")]
   StorageStatsNotFoundForLevel(StorageId, BuildingLevel),
+
+  #[error("Expected \"{0}\", got \"{1}\"")]
+  UnexpectedUnit(UnitId, UnitId),
 
   #[error("No stats found for wall at level {0}")]
   WallStatsNotFoundForLevel(BuildingLevel),

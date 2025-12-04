@@ -5,10 +5,13 @@ import { computed } from 'vue';
 import { useRouteQuery } from '@vueuse/router';
 import { CoordImpl, isOutside } from '@/core/model/continent/coord';
 
-export function useQueryCoords() {
+export function useQueryCoords(options: UseQueryCoordsOptions = {}) {
+  options.x ??= 'x';
+  options.y ??= 'y';
+
   const { coord: currentCoord } = NIL.city.refs();
-  const qX = useRouteQuery('x', null, { transform });
-  const qY = useRouteQuery('y', null, { transform });
+  const qX = useRouteQuery(options.x, null, { transform });
+  const qY = useRouteQuery(options.y, null, { transform });
 
   return computed(() => {
     const currX = currentCoord.value?.x;
@@ -32,4 +35,9 @@ function transform(value: string) {
 
 function isValid(coord: Option<number>): coord is number {
   return typeof coord === 'number' && !isOutside(coord);
+}
+
+export interface UseQueryCoordsOptions {
+  x?: Option<string>;
+  y?: Option<string>;
 }

@@ -11,7 +11,7 @@ pub mod unit;
 
 use crate::continent::{ContinentIndex, ContinentKey, ContinentSize, Coord};
 use crate::error::{Error, Result};
-use crate::military::army::{ArmyId, collapse_armies, find_idle_owned_by};
+use crate::military::army::{ArmyId, ArmyState, collapse_armies, find_idle_owned_by};
 use crate::military::maneuver::ManeuverId;
 use crate::ranking::Score;
 use crate::resources::Maintenance;
@@ -111,8 +111,19 @@ impl Military {
       .ok_or(Error::ArmyNotFound(id))
   }
 
+  pub(crate) fn army_mut(&mut self, id: ArmyId) -> Result<&mut Army> {
+    self
+      .armies_mut()
+      .find(|army| army.id() == id)
+      .ok_or(Error::ArmyNotFound(id))
+  }
+
   pub fn armies(&self) -> impl Iterator<Item = &Army> {
     self.continent.values().flatten()
+  }
+
+  pub(crate) fn armies_mut(&mut self) -> impl Iterator<Item = &mut Army> {
+    self.continent.values_mut().flatten()
   }
 
   #[inline]
@@ -171,6 +182,11 @@ impl Military {
       .values()
       .flatten()
       .filter(move |army| army.is_owned_by(&owner))
+  }
+
+  pub(crate) fn set_army_state(&mut self, id: ArmyId, state: ArmyState) -> Result<()> {
+    *self.army_mut(id)?.state_mut() = state;
+    Ok(())
   }
 
   pub fn score_of<R>(&self, owner: R) -> Score

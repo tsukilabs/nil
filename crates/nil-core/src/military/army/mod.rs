@@ -3,8 +3,8 @@
 
 mod personnel;
 
-use std::mem;
-
+use crate::continent::ContinentKey;
+use crate::military::Military;
 use crate::military::maneuver::ManeuverId;
 use crate::military::unit::stats::speed::Speed;
 use crate::ranking::Score;
@@ -13,13 +13,14 @@ use crate::ruler::Ruler;
 use bon::Builder;
 use derive_more::Display;
 use serde::{Deserialize, Serialize};
+use std::mem;
 use strum::EnumIs;
 use uuid::Uuid;
 
 pub use personnel::ArmyPersonnel;
 
 #[derive(Builder, Clone, Debug, Deserialize, Serialize)]
-#[builder(builder_type(vis = "pub(in crate::military)"))]
+#[builder(builder_type(vis = "pub(crate)"))]
 #[serde(rename_all = "camelCase")]
 pub struct Army {
   #[builder(skip)]
@@ -107,6 +108,13 @@ impl Army {
   #[inline]
   pub fn has_enough_personnel(&self, required: &ArmyPersonnel) -> bool {
     self.personnel.has_enough_personnel(required)
+  }
+
+  pub(crate) fn spawn<K>(self, military: &mut Military, key: K)
+  where
+    K: ContinentKey,
+  {
+    military.spawn(key, self.owner, self.personnel);
   }
 }
 

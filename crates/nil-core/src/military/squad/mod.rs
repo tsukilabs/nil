@@ -3,6 +3,7 @@
 
 mod size;
 
+use crate::error::{Error, Result};
 use crate::military::unit::{Unit, UnitBox, UnitId, UnitKind};
 use crate::ranking::Score;
 use crate::resources::Maintenance;
@@ -74,6 +75,14 @@ impl Squad {
     let cavalry = f64::from(stats.cavalry_defense() * self.size);
     let ranged = f64::from(stats.ranged_defense() * self.size);
     SquadDefense { infantry, cavalry, ranged }
+  }
+
+  pub fn checked_sub(&self, rhs: &Self) -> Result<Option<Self>> {
+    if self.unit == rhs.unit {
+      Ok(try { Self::new(self.id(), self.size.checked_sub(rhs.size)?) })
+    } else {
+      Err(Error::UnexpectedUnit(self.id(), rhs.id()))
+    }
   }
 }
 
