@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { go } from '@/router';
-import { toU8 } from '@/lib/number';
 import type { Option } from '@tb-dev/utils';
 import {
   QUERY_WAR_ROOM_DEST_X,
@@ -21,8 +20,11 @@ export class CoordImpl implements Coord {
   #index: Option<ContinentIndex>;
 
   private constructor(coord: Coord) {
-    this.x = toU8(coord.x);
-    this.y = toU8(coord.y);
+    // We should not use `toU8` or anything similar here,
+    // because the `nil-continent` wasm code works with coordinates in the `i16` range.
+    // Clamping the values to `u8` will break it.
+    this.x = Math.trunc(coord.x);
+    this.y = Math.trunc(coord.y);
   }
 
   public is(other: ContinentKey) {
