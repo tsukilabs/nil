@@ -19,12 +19,12 @@ export default defineConfig({
   clearScreen: false,
   publicDir: 'src/public',
   build: {
+    target: 'baseline-widely-available',
     chunkSizeWarningLimit: 5000,
     copyPublicDir: true,
     emptyOutDir: true,
-    minify: env.NIL_MINIFY_ASSETS !== 'false',
-    target: 'baseline-widely-available',
-    sourcemap: Boolean(env.TAURI_ENV_DEBUG),
+    minify: env.NIL_MINIFY !== 'false',
+    sourcemap: env.NIL_SOURCEMAP === 'true',
   },
   server: {
     port: 1420,

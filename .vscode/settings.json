@@ -26,6 +26,11 @@
   },
   "files.eol": "\n",
   "githubPullRequests.defaultMergeMethod": "squash",
+  "powershell.codeFormatting.autoCorrectAliases": true,
+  "powershell.codeFormatting.avoidSemicolonsAsLineTerminators": true,
+  "powershell.codeFormatting.useConstantStrings": true,
+  "powershell.codeFormatting.useCorrectCasing": true,
+  "powershell.codeFormatting.whitespaceBetweenParameters": true,
   "rust-analyzer.cargo.targetDir": true,
   "workbench.editor.customLabels.patterns": {
     "**/App.vue": "${dirname}/App.vue",

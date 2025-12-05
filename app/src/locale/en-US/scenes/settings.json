@@ -1,8 +1,9 @@
 {
   "appearance": "Appearance",
-  "auto-update": "Update automatically",
+  "auto-update": "Enable auto update",
   "blue": "Blue",
   "dark": "Dark",
+  "general": "General",
   "gray": "Gray",
   "green": "Green",
   "hide-on-close": "Hide on close",

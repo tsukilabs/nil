@@ -23,6 +23,7 @@ strip = "symbols"
 
 [profile.preview]
 inherits = "release"
+incremental = true
 codegen-units = 16
 lto = "off"
 opt-level = 0

@@ -8,6 +8,9 @@ param(
   [Alias('P')]
   [switch]$Preview,
 
+  [Alias('O')]
+  [switch]$Open,
+
   [Alias('W')]
   [switch]$Wasm
 )
@@ -28,6 +31,9 @@ else {
 
 if (-not $Android) {
   if ($Preview) {
+    $Env:NIL_MINIFY = 'false'
+    $Env:NIL_SOURCEMAP = 'true'
+
     $BuildCmd += ' --no-bundle -- --profile preview'
   }
   else {
@@ -38,3 +44,7 @@ if (-not $Android) {
 
 
 Invoke-Expression $BuildCmd
+
+if ($Open -and $Preview) {
+  Invoke-Item './target/preview/nil.exe'
+}
