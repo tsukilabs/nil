@@ -105,6 +105,7 @@ impl Sender {
   }
 }
 
+#[derive(Clone, Copy, Debug)]
 enum SenderMessage {
   KeepAlive,
 }

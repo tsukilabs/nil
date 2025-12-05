@@ -20,6 +20,8 @@ declare global {
   var __MOBILE__: boolean;
 
   var __CONSTS__: {
+    readonly i16Min: number;
+    readonly i16Max: number;
     readonly u8Max: number;
     readonly u16Max: number;
     readonly u32Max: number;
@@ -73,8 +75,6 @@ declare global {
       readonly refs: (typeof WorldEntity)['refs'];
       readonly use: (typeof WorldEntity)['use'];
     };
-
-    readonly console: typeof import('@tb-dev/vue').console;
 
     /** Updates **all** entities. */
     readonly update: () => Promise<void>;

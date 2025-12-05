@@ -61,7 +61,7 @@ enum Gender {
 }
 
 impl Gender {
-  pub fn random() -> Self {
+  fn random() -> Self {
     Self::VARIANTS
       .choose(&mut rand::rng())
       .copied()

@@ -69,7 +69,7 @@ function clear() {
 </script>
 
 <template>
-  <div class="size-full flex flex-col gap-8 px-4">
+  <div class="w-full flex flex-col gap-8 px-4">
     <SquadGrid v-model="personnel" :available />
 
     <Destination v-model="destination" :destination-city />

@@ -3,7 +3,7 @@ resolver = "3"
 members = ["app/src-tauri", "crates/*"]
 
 [workspace.package]
-version = "0.1.8"
+version = "0.1.9"
 edition = "2024"
 rust-version = "1.93"
 license-file = "./LICENSE"
@@ -77,7 +77,7 @@ version = "2.1"
 features = ["deref", "deref_mut", "display", "from", "into"]
 
 [workspace.dependencies.flate2]
-version = "=1.1.5"
+version = "1.1"
 default-features = false
 features = ["zlib-rs"]
 

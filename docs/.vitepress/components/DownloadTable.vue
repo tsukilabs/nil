@@ -36,12 +36,6 @@ function url(platform: keyof typeof props.latest.platforms) {
           <a :href="url('linux-x86_64-rpm')">Download</a>
         </td>
       </tr>
-      <tr>
-        <td>Linux (AppImage)</td>
-        <td>
-          <a :href="url('linux-x86_64-appimage')">Download</a>
-        </td>
-      </tr>
     </tbody>
   </table>
 </template>
