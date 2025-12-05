@@ -5,11 +5,14 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { formatInt } from '@/lib/intl';
+import enUS from '@/locale/en-US/scenes/game/continent.json';
+import ptBR from '@/locale/pt-BR/scenes/game/continent.json';
 import { usePublicCity } from '@/composables/city/usePublicCity';
 import type { PublicFieldImpl } from '@/core/model/continent/public-field';
 import { useCityOwnerSceneLink } from '@/composables/city/useCityOwnerSceneLink';
 import { useCityProfileSceneLink } from '@/composables/city/useCityProfileSceneLink';
 import {
+  Button,
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
@@ -24,7 +27,14 @@ const props = defineProps<{
   field: PublicFieldImpl;
 }>();
 
-const { t } = useI18n();
+const { t } = useI18n({
+  messages: {
+    'en-US': enUS,
+    'pt-BR': ptBR,
+  },
+});
+
+const { coord: currentCoord } = NIL.city.refs();
 
 const { city } = usePublicCity(() => props.field.coord);
 const owner = computed(() => city.value?.owner);
@@ -79,6 +89,7 @@ function getPrecursorColor(id: PrecursorId) {
           <h1 class="ellipsis text-lg text-center">
             <RouterLink v-if="toCityProfile" :to="toCityProfile">{{ city.name }}</RouterLink>
           </h1>
+
           <Table class="w-full">
             <TableBody>
               <TableRow>
@@ -106,6 +117,15 @@ function getPrecursorColor(id: PrecursorId) {
               </TableRow>
             </TableBody>
           </Table>
+
+          <div
+            v-if="city && (!currentCoord || !city.coord.is(currentCoord))"
+            class="flex items-center justify-center"
+          >
+            <Button size="sm" @click="() => city?.goToWarRoom('destination')">
+              <span>{{ t('send-troops') }}</span>
+            </Button>
+          </div>
         </div>
       </div>
     </HoverCardContent>

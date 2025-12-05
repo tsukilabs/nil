@@ -9,9 +9,9 @@ import { Button } from '@tb-dev/vue-components';
 import PersonnelTable from './PersonnelTable.vue';
 import { BattleResultImpl } from '@/core/model/battle';
 import BattleResultTable from './BattleResultTable.vue';
+import enUS from '@/locale/en-US/scenes/game/war-room.json';
+import ptBR from '@/locale/pt-BR/scenes/game/war-room.json';
 import { ArmyPersonnelImpl } from '@/core/model/military/army-personnel';
-import enUS from '@/locale/en-US/scenes/game/war-room/battle-simulator.json';
-import ptBR from '@/locale/pt-BR/scenes/game/war-room/battle-simulator.json';
 
 const { t } = useI18n({
   messages: {

@@ -17,7 +17,7 @@ import { createPinia } from 'pinia';
 import { handleError } from '@/lib/error';
 import { initEntities } from '@/core/entity';
 import { TauriPluginPinia } from '@tauri-store/pinia';
-import { registerGlobalComponents } from '@/components';
+import { registerGlobalComponents } from '@/lib/global';
 import { setCurrentApp, setErrorHandler } from '@tb-dev/vue';
 
 const app = createApp(App);
