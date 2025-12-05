@@ -5,8 +5,8 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouteParams } from '@vueuse/router';
-import enUS from '@/locale/en-US/scenes/game/profile/city.json';
-import ptBR from '@/locale/pt-BR/scenes/game/profile/city.json';
+import enUS from '@/locale/en-US/scenes/game/profile.json';
+import ptBR from '@/locale/pt-BR/scenes/game/profile.json';
 import { usePublicCity } from '@/composables/city/usePublicCity';
 import { useCityOwnerSceneLink } from '@/composables/city/useCityOwnerSceneLink';
 import {
