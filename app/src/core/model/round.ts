@@ -16,19 +16,31 @@ export class RoundImpl implements Round {
     return this.state.kind === 'idle';
   }
 
+  public isDone() {
+    return this.state.kind === 'done';
+  }
+
   public isWaiting() {
     return this.state.kind === 'waiting';
   }
 
   public isWaitingPlayer(id: PlayerId) {
-    return this.state.kind === 'waiting' && this.state.players.includes(id);
+    return this.isPlayerPending(id) || this.isPlayerReady(id);
   }
 
-  public isDone() {
-    return this.state.kind === 'done';
+  public isPlayerPending(id: PlayerId) {
+    return this.state.kind === 'waiting' && this.state.pending.includes(id);
+  }
+
+  public isPlayerReady(id: PlayerId) {
+    return this.state.kind === 'waiting' && this.state.ready.includes(id);
   }
 
   public static create(round: Round) {
+    if (round instanceof RoundImpl) {
+      return round;
+    }
+
     return new RoundImpl(round);
   }
 

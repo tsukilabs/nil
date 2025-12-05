@@ -10,4 +10,5 @@ pub mod infrastructure;
 pub mod military;
 pub mod player;
 pub mod ranking;
+pub mod round;
 pub mod world;

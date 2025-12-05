@@ -24,8 +24,8 @@ impl World {
     Ok(())
   }
 
-  pub fn end_turn(&mut self, player: &PlayerId) -> Result<()> {
-    self.round.end_turn(player);
+  pub fn set_player_ready(&mut self, player: &PlayerId, is_ready: bool) -> Result<()> {
+    self.round.set_ready(player, is_ready);
 
     if self.round.is_done() {
       self.next_round()?;

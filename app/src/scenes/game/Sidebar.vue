@@ -27,6 +27,7 @@ import {
 
 const props = defineProps<{
   isHost: boolean;
+  isPlayerReady: boolean;
   lastSavedAt: Option<RoundId>;
   onSave: () => Promise<void>;
   onLeave: () => Promise<void>;
@@ -91,7 +92,11 @@ function copyServerAddr() {
           {{ serverAddr.format() }}
         </h2>
 
-        <RoundState v-if="!sm && player && round?.state.kind === 'waiting'" class="mt-4" />
+        <RoundState
+          v-if="!sm && player && round?.state.kind === 'waiting'"
+          :is-player-ready
+          class="mt-4"
+        />
       </div>
     </SidebarHeader>
 

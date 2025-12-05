@@ -3,16 +3,20 @@
 
 import { invoke } from '@tauri-apps/api/core';
 
-export async function endTurn() {
-  await invoke('end_turn');
-}
-
 export async function getRound() {
   return invoke<Round>('get_round');
 }
 
 export async function isRoundIdle() {
   return invoke<boolean>('is_round_idle');
+}
+
+export async function isRoundWaiting() {
+  return invoke<boolean>('is_round_waiting');
+}
+
+export async function setPlayerReady(isReady: boolean) {
+  await invoke('set_player_ready', { req: { isReady } });
 }
 
 export async function startRound() {

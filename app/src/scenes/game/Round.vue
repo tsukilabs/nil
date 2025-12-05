@@ -6,13 +6,14 @@ import { useI18n } from 'vue-i18n';
 import { useMutex } from '@tb-dev/vue';
 import RoundState from './RoundState.vue';
 import { Button } from '@tb-dev/vue-components';
-import { usePlayerTurn } from '@/composables/player/usePlayerTurn';
 import { useBreakpoints } from '@/composables/util/useBreakpoints';
 
 const props = defineProps<{
   isHost: boolean;
+  isPlayerTurn: boolean;
+  isPlayerReady: boolean;
   onStartRound: () => Promise<void>;
-  onFinishTurn: () => Promise<void>;
+  onTogglePlayerReady: () => Promise<void>;
 }>();
 
 const { t } = useI18n();
@@ -20,33 +21,34 @@ const { t } = useI18n();
 const { round } = NIL.round.refs();
 const { player } = NIL.player.refs();
 
-const isPlayerTurn = usePlayerTurn();
+const { sm } = useBreakpoints();
 const { locked, lock } = useMutex();
 
-const { sm } = useBreakpoints();
-
 const start = () => lock(() => props.onStartRound());
-const finish = () => lock(() => props.onFinishTurn());
+const toggleReady = () => lock(() => props.onTogglePlayerReady());
 </script>
 
 <template>
   <div class="flex items-center justify-center gap-4">
-    <RoundState v-if="sm && player && round?.state.kind === 'waiting'" />
+    <RoundState v-if="sm && player && round?.state.kind === 'waiting'" :is-player-ready />
+
     <Button
       v-if="isHost && round?.state.kind === 'idle'"
       size="sm"
       :disabled="locked"
       @click="start"
     >
-      {{ t('start') }}
+      <span>{{ t('start') }}</span>
     </Button>
+
     <Button
       v-else-if="round?.state.kind === 'waiting'"
       size="sm"
       :disabled="locked || !isPlayerTurn"
-      @click="finish"
+      @click="toggleReady"
     >
-      {{ sm ? t('finish-turn') : t('finish') }}
+      <span v-if="isPlayerReady">{{ t('ready') }}</span>
+      <span v-else>{{ sm ? t('finish-turn') : t('finish') }}</span>
     </Button>
   </div>
 </template>

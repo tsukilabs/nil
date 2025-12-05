@@ -63,9 +63,9 @@ pub(crate) fn from_core_err(err: CoreError) -> Response {
     MineStatsNotFound(..) => res!(NOT_FOUND, text),
     MineStatsNotFoundForLevel(..) => res!(NOT_FOUND, text),
     NoPlayer => res!(BAD_REQUEST, text),
+    NotWaitingPlayer(..) => res!(BAD_REQUEST, text),
     OriginIsDestination(..) => res!(BAD_REQUEST, text),
     PlayerAlreadySpawned(..) => res!(CONFLICT, text),
-    PlayerIsNotPending(..) => res!(BAD_REQUEST, text),
     PlayerNotFound(..) => res!(NOT_FOUND, text),
     PrecursorNotFound(..) => res!(NOT_FOUND, text),
     RoundAlreadyStarted => res!(CONFLICT, text),
@@ -85,7 +85,7 @@ macro_rules! bail_not_pending {
   ($world:expr, $player:expr) => {
     if !$world.round().is_waiting_player($player) {
       use nil_core::error::Error;
-      let err = Error::PlayerIsNotPending($player.clone());
+      let err = Error::NotWaitingPlayer($player.clone());
       return $crate::response::from_core_err(err);
     }
   };

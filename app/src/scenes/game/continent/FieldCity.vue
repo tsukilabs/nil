@@ -25,6 +25,7 @@ import {
 
 const props = defineProps<{
   field: PublicFieldImpl;
+  currentCoord: Option<Coord>;
 }>();
 
 const { t } = useI18n({
@@ -33,8 +34,6 @@ const { t } = useI18n({
     'pt-BR': ptBR,
   },
 });
-
-const { coord: currentCoord } = NIL.city.refs();
 
 const { city } = usePublicCity(() => props.field.coord);
 const owner = computed(() => city.value?.owner);

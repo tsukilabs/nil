@@ -9,22 +9,24 @@ use axum::extract::{Extension, Json, State};
 use axum::response::Response;
 use futures::{FutureExt, TryFutureExt};
 use nil_core::world::World;
-
-pub async fn end_turn(
-  State(app): State<App>,
-  Extension(player): Extension<CurrentPlayer>,
-) -> Response {
-  app
-    .world_mut(|world| world.end_turn(&player))
-    .map_ok(|()| res!(OK))
-    .unwrap_or_else(from_core_err)
-    .await
-}
+use nil_payload::round::SetPlayerReadyRequest;
 
 pub async fn get(State(app): State<App>) -> Response {
   app
     .round(Clone::clone)
     .map(|round| res!(OK, Json(round)))
+    .await
+}
+
+pub async fn set_ready(
+  State(app): State<App>,
+  Extension(player): Extension<CurrentPlayer>,
+  Json(req): Json<SetPlayerReadyRequest>,
+) -> Response {
+  app
+    .world_mut(|world| world.set_player_ready(&player, req.is_ready))
+    .map_ok(|()| res!(OK))
+    .unwrap_or_else(from_core_err)
     .await
 }
 

@@ -9,6 +9,7 @@ import type { PlayerImpl } from '@/core/model/player/player';
 export function usePlayerTurn(player?: MaybeNilRef<PlayerImpl>) {
   const { round } = NIL.round.refs();
   const playerRef = toPlayerRef(player);
+
   return computed(() => {
     if (round.value && playerRef.value) {
       return isPlayerTurn(round.value, playerRef.value);
@@ -22,7 +23,10 @@ export function isPlayerTurn(round?: Option<RoundImpl>, player?: Option<Player>)
   round ??= NIL.round.getRound();
   player ??= NIL.player.getPlayer();
 
-  const id = player?.id;
-  const isWaiting = id ? round?.isWaitingPlayer(id) : null;
-  return isWaiting ?? false;
+  if (round && player?.id) {
+    return round.isWaitingPlayer(player.id);
+  }
+  else {
+    return false;
+  }
 }

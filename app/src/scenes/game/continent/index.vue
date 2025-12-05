@@ -33,7 +33,9 @@ const continent = new Continent();
 
 const route = useRoute();
 const queryCoords = useQueryCoords();
+
 const { continentSize } = NIL.world.refs();
+const { coord: currentCoord } = NIL.city.refs();
 
 const fields = shallowRef<PublicFieldImpl[]>([]);
 const cache = new Map<string, PublicFieldImpl>();
@@ -240,6 +242,7 @@ function move(direction: Direction, delta: number) {
               v-for="field of fields"
               :key="`${field.id}-${field.flags}`"
               :field
+              :current-coord
             />
           </div>
         </div>

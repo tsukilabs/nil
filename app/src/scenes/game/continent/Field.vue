@@ -6,7 +6,10 @@ import { computed } from 'vue';
 import FieldCity from './FieldCity.vue';
 import type { PublicFieldImpl } from '@/core/model/continent/public-field';
 
-const props = defineProps<{ field: PublicFieldImpl; }>();
+const props = defineProps<{
+  field: PublicFieldImpl;
+  currentCoord: Option<Coord>;
+}>();
 
 const { continentSize } = NIL.world.refs();
 
@@ -32,7 +35,7 @@ const classList = computed(() => {
 <template>
   <div :data-x="field.x" :data-y="field.y" :class="classList">
     <div class="relative flex size-full flex-col">
-      <FieldCity v-if="field.isCity()" :field />
+      <FieldCity v-if="field.isCity()" :field :current-coord />
     </div>
   </div>
 </template>

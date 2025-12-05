@@ -101,7 +101,7 @@ export class ChatCommand {
       }
       case ChatCommandKind.EndTurn: {
         if (isPlayerTurn()) {
-          await commands.endTurn();
+          await commands.setPlayerReady(true);
         }
         break;
       }

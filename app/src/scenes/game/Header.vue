@@ -10,8 +10,10 @@ import { useBreakpoints } from '@/composables/util/useBreakpoints';
 
 defineProps<{
   isHost: boolean;
+  isPlayerReady: boolean;
+  isPlayerTurn: boolean;
   onStartRound: () => Promise<void>;
-  onFinishTurn: () => Promise<void>;
+  onTogglePlayerReady: () => Promise<void>;
 }>();
 
 const { city } = NIL.city.refs();
@@ -43,7 +45,13 @@ const { sm } = useBreakpoints();
       </div>
 
       <div class="flex items-center">
-        <Round :is-host @start-round="onStartRound" @finish-turn="onFinishTurn" />
+        <Round
+          :is-host
+          :is-player-ready
+          :is-player-turn
+          @start-round="onStartRound"
+          @toggle-player-ready="onTogglePlayerReady"
+        />
       </div>
     </div>
 

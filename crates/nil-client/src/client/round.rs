@@ -4,6 +4,7 @@
 use super::Client;
 use crate::error::Result;
 use nil_core::round::Round;
+use nil_payload::round::SetPlayerReadyRequest;
 
 impl Client {
   /// GET `/round`
@@ -11,13 +12,13 @@ impl Client {
     self.http.get_json("round").await
   }
 
+  /// POST `/round/ready`
+  pub async fn set_player_ready(&self, req: SetPlayerReadyRequest) -> Result<()> {
+    self.http.post("round/ready", req).await
+  }
+
   /// GET `/round/start`
   pub async fn start_round(&self) -> Result<()> {
     self.http.get("round/start").await
-  }
-
-  /// GET `/round/turn/end`
-  pub async fn end_turn(&self) -> Result<()> {
-    self.http.get("round/turn/end").await
   }
 }

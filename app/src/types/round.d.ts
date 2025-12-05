@@ -16,7 +16,8 @@ interface RoundStateIdle {
 
 interface RoundStateWaiting {
   readonly kind: 'waiting';
-  readonly players: readonly PlayerId[];
+  readonly pending: readonly PlayerId[];
+  readonly ready: readonly PlayerId[];
 }
 
 interface RoundStateDone {

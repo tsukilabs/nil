@@ -30,14 +30,17 @@ impl Round {
     }
   }
 
+  /// Tries to advance to the next round.
   pub(crate) fn next<I>(&mut self, players: I) -> Result<()>
   where
     I: IntoIterator<Item = PlayerId>,
   {
     match &self.state {
       RoundState::Idle => Err(Error::RoundNotStarted),
-      RoundState::Waiting { .. } => Err(Error::RoundHasPendingPlayers),
-      RoundState::Done => {
+      RoundState::Waiting { pending, .. } if !pending.is_empty() => {
+        Err(Error::RoundHasPendingPlayers)
+      }
+      RoundState::Waiting { .. } | RoundState::Done => {
         self.id = self.id.next();
         self.wait(players);
         Ok(())
@@ -45,47 +48,76 @@ impl Round {
     }
   }
 
+  /// Sets the round state to [`RoundState::Waiting`],
+  /// where players are expected to take their turns.
+  ///
+  /// If `players` is empty, the round will be set to [`RoundState::Done`] instead.
   fn wait(&mut self, players: impl IntoIterator<Item = PlayerId>) {
-    let players = players.into_iter().collect_set();
-    if players.is_empty() {
+    let pending = players.into_iter().collect_set();
+    if pending.is_empty() {
       self.state = RoundState::Done;
     } else {
-      self.state = RoundState::Waiting { players };
+      let ready = HashSet::with_capacity(pending.len());
+      self.state = RoundState::Waiting { pending, ready };
     }
   }
 
-  pub(crate) fn end_turn(&mut self, player: &PlayerId) {
-    if let RoundState::Waiting { players } = &mut self.state {
-      players.remove(player);
-      if players.is_empty() {
+  pub(crate) fn set_ready(&mut self, player: &PlayerId, is_ready: bool) {
+    if let RoundState::Waiting { pending, ready } = &mut self.state {
+      if is_ready {
+        pending.remove(player);
+        ready.insert(player.clone());
+      } else {
+        ready.remove(player);
+        pending.insert(player.clone());
+      }
+
+      if pending.is_empty() {
         self.state = RoundState::Done;
       }
     }
   }
 
   #[inline]
-  pub const fn is_idle(&self) -> bool {
+  pub fn is_idle(&self) -> bool {
     self.state.is_idle()
   }
 
   #[inline]
-  pub const fn is_waiting(&self) -> bool {
+  pub fn is_done(&self) -> bool {
+    self.state.is_done()
+  }
+
+  #[inline]
+  pub fn is_waiting(&self) -> bool {
     self.state.is_waiting()
   }
 
-  /// Determines if the round is waiting for a player to complete their turn.
   #[inline]
   pub fn is_waiting_player(&self, player: &PlayerId) -> bool {
-    if let RoundState::Waiting { players } = &self.state {
-      players.contains(player)
+    if let RoundState::Waiting { pending, ready } = &self.state {
+      pending.contains(player) || ready.contains(player)
     } else {
       false
     }
   }
 
   #[inline]
-  pub const fn is_done(&self) -> bool {
-    self.state.is_done()
+  pub fn is_player_pending(&self, player: &PlayerId) -> bool {
+    if let RoundState::Waiting { pending, .. } = &self.state {
+      pending.contains(player)
+    } else {
+      false
+    }
+  }
+
+  #[inline]
+  pub fn is_player_ready(&self, player: &PlayerId) -> bool {
+    if let RoundState::Waiting { ready, .. } = &self.state {
+      ready.contains(player)
+    } else {
+      false
+    }
   }
 
   /// Clones the round, setting its state to idle. This is useful for saving the game.
@@ -121,7 +153,10 @@ enum RoundState {
   Idle,
 
   /// There are players who haven't finished their turn yet.
-  Waiting { players: HashSet<PlayerId> },
+  Waiting {
+    pending: HashSet<PlayerId>,
+    ready: HashSet<PlayerId>,
+  },
 
   /// The round is finished.
   Done,

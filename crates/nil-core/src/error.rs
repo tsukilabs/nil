@@ -79,14 +79,14 @@ pub enum Error {
   #[error("No players in the world")]
   NoPlayer,
 
+  #[error("Player \"{0}\" has already taken their turn")]
+  NotWaitingPlayer(PlayerId),
+
   #[error("Origin and destination have the same coords")]
   OriginIsDestination(Coord),
 
   #[error("Player already spawned: {0}")]
   PlayerAlreadySpawned(PlayerId),
-
-  #[error("Player \"{0}\" has already taken their turn")]
-  PlayerIsNotPending(PlayerId),
 
   #[error("Player not found: {0}")]
   PlayerNotFound(PlayerId),

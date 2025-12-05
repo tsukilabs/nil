@@ -17,11 +17,11 @@ import Loading from '@/components/Loading.vue';
 import { asyncRef, onCtrlKeyDown } from '@tb-dev/vue';
 import { SidebarProvider } from '@tb-dev/vue-components';
 import { defineGlobalCheats, DESKTOP } from '@/lib/global';
-import { usePlayerTurn } from '@/composables/player/usePlayerTurn';
+import { usePlayerReady } from '@/composables/player/usePlayerReady';
 
 const { round } = NIL.round.refs();
+const { isPlayerTurn, isPlayerReady, togglePlayerReady } = usePlayerReady();
 
-const isPlayerTurn = usePlayerTurn();
 const { state: isHost } = asyncRef(false, commands.isHost);
 
 const [isSidebarOpen, toggleSidebar] = useToggle(false);
@@ -34,7 +34,7 @@ if (__DESKTOP__) {
   onCtrlKeyDown(['f', 'F'], () => toggleFinder());
   onCtrlKeyDown(['m', 'M'], () => go('continent'));
   onCtrlKeyDown(['s', 'S'], () => save());
-  onCtrlKeyDown(' ', () => finishTurn());
+  onCtrlKeyDown(' ', () => togglePlayerReady());
 }
 
 onMounted(() => defineGlobalCheats());
@@ -42,12 +42,6 @@ onMounted(() => defineGlobalCheats());
 async function startRound() {
   if (isHost.value && round.value?.state.kind === 'idle') {
     await commands.startRound();
-  }
-}
-
-async function finishTurn() {
-  if (isPlayerTurn.value) {
-    await commands.endTurn();
   }
 }
 
@@ -70,14 +64,16 @@ async function save() {
 
 <template>
   <SidebarProvider v-model:open="isSidebarOpen">
-    <Sidebar :is-host :last-saved-at @save="save" @leave="leaveGame" />
+    <Sidebar :is-host :is-player-ready :last-saved-at @save="save" @leave="leaveGame" />
 
     <div class="bg-background/40 absolute inset-0 overflow-hidden">
       <Header
         :is-host
+        :is-player-turn
+        :is-player-ready
         class="bg-background absolute inset-x-0 top-0 h-20 sm:h-16 border-b px-4"
         @start-round="startRound"
-        @finish-turn="finishTurn"
+        @toggle-player-ready="togglePlayerReady"
       />
 
       <div class="absolute inset-x-0 top-20 sm:top-16 bottom-10 overflow-hidden">
