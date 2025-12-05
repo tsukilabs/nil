@@ -30,7 +30,7 @@ const { t } = useI18n();
         class="w-full"
       >
         <NumberFieldContent>
-          <NumberFieldInput class="dark:bg-input/40 max-sm:h-6 max-sm:max-w-28 max-sm:text-xs" />
+          <NumberFieldInput class="dark:bg-input/40 max-sm:h-6 max-sm:text-xs" />
         </NumberFieldContent>
       </NumberField>
     </Label>

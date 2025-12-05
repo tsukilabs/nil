@@ -12,7 +12,7 @@ const personnel = defineModel<ArmyPersonnel>({ required: true });
 </script>
 
 <template>
-  <div class="max-w-max grid grid-cols-2 md:grid-cols-4 gap-2">
+  <div class="w-full md:max-w-max grid grid-cols-2 md:grid-cols-4 gap-2">
     <SquadGridItem v-model="personnel.pikeman" :available="available.pikeman.size" />
     <SquadGridItem v-model="personnel.swordsman" :available="available.swordsman.size" />
     <SquadGridItem v-model="personnel.axeman" :available="available.axeman.size" />
