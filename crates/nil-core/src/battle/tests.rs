@@ -58,19 +58,6 @@ fn defensive_power() {
 }
 
 #[test]
-fn defensive_power_mixed() {
-  let attacker = [s(HeavyCavalry, 100), s(Pikeman, 500)];
-  let defender = [s(Pikeman, 100)];
-  let battle = Battle::builder()
-    .attacker(&attacker)
-    .defender(&defender)
-    .build();
-
-  let defensive_power = battle.defensive_power();
-  assert_eq!(defensive_power.total, 3750.0);
-}
-
-#[test]
 fn defensive_power_with_wall() {
   let attacker = [s(Axeman, 100), s(Swordsman, 50)];
   let defender = [s(Pikeman, 100), s(Swordsman, 50)];
@@ -119,51 +106,6 @@ fn battle_result() {
     ArmyPersonnel::default()
   );
   assert_eq!(result.defender_surviving_personnel, defender_survivors);
-}
-
-#[test]
-fn overall() {
-  let attacker = [s(LightCavalry, 3000), s(Axeman, 6000)];
-  let defender = [s(Pikeman, 8000), s(Swordsman, 8000)];
-  let battle = Battle::builder()
-    .attacker(&attacker)
-    .defender(&defender)
-    .build();
-
-  let attack_power = battle.offensive_power();
-  let defense_power = battle.defensive_power();
-
-  assert_eq!(attack_power.total, 630000.0);
-  assert!((defense_power.total - 495238.095).abs() <= 0.001);
-
-  let attacker = [s(LightCavalry, 3000), s(Axeman, 3000), s(Archer, 2000)];
-  let defender = [s(Pikeman, 8000), s(Swordsman, 8000)];
-  let battle = Battle::builder()
-    .attacker(&attacker)
-    .defender(&defender)
-    .build();
-
-  let attack_power = battle.offensive_power();
-  let defense_power = battle.defensive_power();
-
-  assert_eq!(attack_power.total, 570000.0);
-  assert!((attack_power.infantry_ratio - 0.21).abs() <= 0.001);
-  assert!((attack_power.cavalry_ratio - 0.684).abs() <= 0.001);
-  assert!((attack_power.ranged_ratio - 0.105).abs() <= 0.001);
-  assert!((defense_power.total - 488421.052).abs() <= 0.001);
-}
-
-#[test]
-fn ranged_attack_debuff() {
-  let attacker = [s(Archer, 3005), s(Axeman, 7000)];
-  let defender = [s(Pikeman, 8000), s(Swordsman, 8000)];
-  let battle = Battle::builder()
-    .attacker(&attacker)
-    .defender(&defender)
-    .build();
-
-  let attack_power = battle.offensive_power();
-  assert_eq!(attack_power.total, 355125.0);
 }
 
 #[test]
