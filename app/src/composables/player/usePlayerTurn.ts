@@ -19,8 +19,8 @@ export function usePlayerTurn(player?: MaybeNilRef<PlayerImpl>) {
 }
 
 export function isPlayerTurn(round?: Option<RoundImpl>, player?: Option<Player>) {
-  round ??= NIL.round.refs().round.value;
-  player ??= NIL.player.refs().player.value;
+  round ??= NIL.round.getRound();
+  player ??= NIL.player.getPlayer();
 
   const id = player?.id;
   const isWaiting = id ? round?.isWaitingPlayer(id) : null;

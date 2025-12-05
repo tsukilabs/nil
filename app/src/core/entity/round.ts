@@ -62,9 +62,14 @@ export class RoundEntity extends Entity {
     return this.use().update();
   }
 
+  public static getRound() {
+    return this.use().round.value;
+  }
+
   public static init() {
     if (!Object.hasOwn(globalThis.NIL, 'round')) {
       const round: (typeof globalThis.NIL)['round'] = {
+        getRound: RoundEntity.getRound.bind(RoundEntity),
         refs: RoundEntity.refs.bind(RoundEntity),
         update: RoundEntity.update.bind(RoundEntity),
         use: RoundEntity.use.bind(RoundEntity),

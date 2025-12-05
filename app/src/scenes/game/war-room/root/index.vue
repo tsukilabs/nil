@@ -12,12 +12,15 @@ import Destination from './Destination.vue';
 import { computed, nextTick, ref } from 'vue';
 import { Button } from '@tb-dev/vue-components';
 import { useManeuvers } from '@/composables/military/useManeuvers';
+import { usePlayerTurn } from '@/composables/player/usePlayerTurn';
 import { ArmyPersonnelImpl } from '@/core/model/military/army-personnel';
 import { useWarRoomCoords } from '@/composables/military/useWarRoomCoords';
 import { foldArmyPersonnel } from '@/composables/military/foldArmyPersonnel';
 import { useOwnIdleArmiesAt } from '@/composables/military/useOwnIdleArmiesAt';
 
 const { t } = useI18n();
+
+const isPlayerTurn = usePlayerTurn();
 
 const { origin, destination } = useWarRoomCoords();
 const destinationCity = asyncComputed(null, async () => {
@@ -34,6 +37,7 @@ const maneuvers = useManeuvers(origin);
 
 const canSend = computed(() => {
   return (
+    isPlayerTurn.value &&
     !personnel.value.isEmpty() &&
     !origin.value.is(destination.value) &&
     Boolean(destinationCity.value)

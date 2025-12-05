@@ -60,6 +60,7 @@ declare global {
     };
 
     readonly round: {
+      readonly getRound: (typeof RoundEntity)['getRound'];
       readonly refs: (typeof RoundEntity)['refs'];
       readonly update: (typeof RoundEntity)['update'];
       readonly use: (typeof RoundEntity)['use'];
