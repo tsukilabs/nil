@@ -47,7 +47,6 @@ pub struct BattleResult {
   defender_surviving_personnel: ArmyPersonnel,
   wall_level: BuildingLevel,
   winner: BattleWinner,
-  losses_ratio: f64,
 }
 
 impl BattleResult {
@@ -98,7 +97,6 @@ impl BattleResult {
       defender_surviving_personnel,
       wall_level,
       winner,
-      losses_ratio,
     }
   }
 }
@@ -110,6 +108,9 @@ pub struct OffensivePower {
   infantry_ratio: f64,
   cavalry_ratio: f64,
   ranged_ratio: f64,
+  infantry: f64,
+  cavalry: f64,
+  ranged: f64,
 }
 
 impl OffensivePower {
@@ -134,7 +135,7 @@ impl OffensivePower {
     }
 
     if f64::from(units_by_kind.ranged) / f64::from(units_by_kind.total) > 0.3 {
-      ranged -= sum_ranged_debuff(squads);
+      ranged *= sum_ranged_debuff(squads);
     }
 
     let total = infantry + cavalry + ranged;
@@ -144,6 +145,9 @@ impl OffensivePower {
       infantry_ratio: infantry / total,
       cavalry_ratio: cavalry / total,
       ranged_ratio: ranged / total,
+      infantry,
+      cavalry,
+      ranged,
     }
   }
 }
@@ -152,10 +156,9 @@ impl OffensivePower {
 #[serde(rename_all = "camelCase")]
 pub struct DefensivePower {
   total: f64,
-  infantry_ratio: f64,
-  cavalry_ratio: f64,
-  ranged_ratio: f64,
-  ranged_is_debuffed: bool,
+  infantry: f64,
+  cavalry: f64,
+  ranged: f64,
 }
 
 impl DefensivePower {
@@ -165,27 +168,51 @@ impl DefensivePower {
     defending_wall: Option<&WallStats>,
   ) -> Self {
     let units_by_kind = UnitsByKind::new(squads);
-    let mut infantry = 0.0;
-    let mut cavalry = 0.0;
-    let mut ranged = 0.0;
+    let mut infantry_power = 0.0;
+    let mut cavalry_power = 0.0;
+    let mut ranged_power = 0.0;
+
+    let mut squad_size = 0.0;
 
     for squad in squads {
-      infantry += squad.defense().infantry;
-      cavalry += squad.defense().cavalry;
-      ranged += squad.defense().ranged;
+      squad_size += f64::from(squad.size());
+      if squad.kind() == UnitKind::Ranged
+        && f64::from(units_by_kind.ranged) / f64::from(units_by_kind.total) > 0.5
+      {
+        infantry_power += squad.defense().infantry * sum_ranged_debuff(squads);
+        cavalry_power += squad.defense().cavalry * sum_ranged_debuff(squads);
+        ranged_power += squad.defense().ranged * sum_ranged_debuff(squads);
+      } else {
+        infantry_power += squad.defense().infantry;
+        cavalry_power += squad.defense().cavalry;
+        ranged_power += squad.defense().ranged;
+      }
     }
 
-    infantry *= offensive_power.infantry_ratio;
-    cavalry *= offensive_power.cavalry_ratio;
-    ranged *= offensive_power.ranged_ratio;
+    let infantry_power_per_unit = infantry_power / squad_size;
+    let cavalry_power_per_unit = cavalry_power / squad_size;
+    let ranged_power_per_unit = ranged_power / squad_size;
 
-    let mut total = infantry + cavalry + ranged;
-    let mut ranged_is_debuffed = false;
+    let mut infantry_necessary_units = offensive_power.infantry / infantry_power_per_unit;
+    let mut cavalry_necessary_units = offensive_power.cavalry / cavalry_power_per_unit;
+    let mut ranged_necessary_units = offensive_power.ranged / ranged_power_per_unit;
 
-    if f64::from(units_by_kind.ranged) / f64::from(units_by_kind.total) > 0.5 {
-      total -= sum_ranged_debuff(squads);
-      ranged_is_debuffed = true;
-    }
+    let necessary_units =
+      infantry_necessary_units + cavalry_necessary_units + ranged_necessary_units;
+
+    infantry_necessary_units /= necessary_units;
+    cavalry_necessary_units /= necessary_units;
+    ranged_necessary_units /= necessary_units;
+
+    infantry_power = infantry_necessary_units * squad_size * infantry_power_per_unit;
+    cavalry_power = cavalry_necessary_units * squad_size * cavalry_power_per_unit;
+    ranged_power = ranged_necessary_units * squad_size * ranged_power_per_unit;
+
+    let mut total = infantry_power + cavalry_power + ranged_power;
+
+    let infantry_ratio = infantry_power / total;
+    let cavalry_ratio = cavalry_power / total;
+    let ranged_ratio = ranged_power / total;
 
     if let Some(wall_power) = defending_wall {
       total = add_wall_power(wall_power, total);
@@ -193,10 +220,9 @@ impl DefensivePower {
 
     DefensivePower {
       total,
-      infantry_ratio: infantry / total,
-      cavalry_ratio: cavalry / total,
-      ranged_ratio: ranged / total,
-      ranged_is_debuffed,
+      infantry: infantry_ratio * total,
+      cavalry: cavalry_ratio * total,
+      ranged: ranged_ratio * total,
     }
   }
 }
@@ -247,14 +273,16 @@ impl UnitsByKind {
 
 fn sum_ranged_debuff(squads: &[Squad]) -> f64 {
   let mut ranged_debuff = 0.0;
+  let mut ranged_amount = 0;
   for squad in squads {
     if squad.kind() == UnitKind::Ranged {
       let size = *squad.size();
       let stats = squad.unit().stats();
       ranged_debuff += stats.ranged_debuff() * size;
+      ranged_amount += size;
     }
   }
-  ranged_debuff
+  ranged_debuff / f64::from(ranged_amount)
 }
 
 fn add_wall_power(wall: &WallStats, current_power: f64) -> f64 {

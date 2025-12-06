@@ -21,10 +21,10 @@ impl Archer {
 
   pub const STATS: UnitStats = UnitStats::builder()
     .attack(Power::new(30))
-    .infantry_defense(Power::new(50))
-    .cavalry_defense(Power::new(40))
+    .infantry_defense(Power::new(40))
+    .cavalry_defense(Power::new(35))
     .ranged_defense(Power::new(5))
-    .ranged_debuff(RangedDebuff::new(5.0))
+    .ranged_debuff(RangedDebuff::new(0.5))
     .speed(Speed::new(2.0))
     .haul(Haul::new(10))
     .build();
