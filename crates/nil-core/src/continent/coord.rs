@@ -11,7 +11,7 @@ use serde::ser::SerializeStruct;
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
 use std::borrow::Cow;
 use std::fmt;
-use std::ops::{Add, Sub};
+use std::ops::{Add, AddAssign, Sub, SubAssign};
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub struct Coord(U8Vec2);
@@ -210,5 +210,61 @@ impl Distance {
 impl PartialEq<u8> for Distance {
   fn eq(&self, other: &u8) -> bool {
     self.0.eq(other)
+  }
+}
+
+impl Add for Distance {
+  type Output = Distance;
+
+  fn add(self, rhs: Self) -> Self::Output {
+    Self(self.0.saturating_add(rhs.0))
+  }
+}
+
+impl AddAssign for Distance {
+  fn add_assign(&mut self, rhs: Self) {
+    *self = *self + rhs;
+  }
+}
+
+impl Sub for Distance {
+  type Output = Distance;
+
+  fn sub(self, rhs: Self) -> Self::Output {
+    Self(self.0.saturating_sub(rhs.0))
+  }
+}
+
+impl SubAssign for Distance {
+  fn sub_assign(&mut self, rhs: Self) {
+    *self = *self - rhs;
+  }
+}
+
+impl Add<u8> for Distance {
+  type Output = Distance;
+
+  fn add(self, rhs: u8) -> Self::Output {
+    Self(self.0.saturating_add(rhs))
+  }
+}
+
+impl AddAssign<u8> for Distance {
+  fn add_assign(&mut self, rhs: u8) {
+    *self = *self + rhs;
+  }
+}
+
+impl Sub<u8> for Distance {
+  type Output = Distance;
+
+  fn sub(self, rhs: u8) -> Self::Output {
+    Self(self.0.saturating_sub(rhs))
+  }
+}
+
+impl SubAssign<u8> for Distance {
+  fn sub_assign(&mut self, rhs: u8) {
+    *self = *self - rhs;
   }
 }

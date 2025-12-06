@@ -1,7 +1,11 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+use crate::battle::Battle;
 use crate::error::Result;
+use crate::infrastructure::building::{Building, BuildingLevel};
+use crate::military::army::ArmyState;
+use crate::military::maneuver::{Maneuver, ManeuverDirection, ManeuverKind};
 use crate::player::{Player, PlayerId};
 use crate::resources::prelude::*;
 use crate::ruler::Ruler;
@@ -55,8 +59,9 @@ impl World {
   fn prepare_next_round(&mut self) -> Result<()> {
     self.update_resources()?;
     self.process_city_queues();
+    self.collapse_armies();
+    self.process_maneuvers()?;
     self.update_ranking()?;
-    self.military.collapse_armies();
     Ok(())
   }
 
@@ -105,5 +110,70 @@ impl World {
           .spawn(coord, owner.clone(), personnel);
       }
     }
+  }
+
+  fn process_maneuvers(&mut self) -> Result<()> {
+    for maneuver in self.military.advance_maneuvers()? {
+      debug_assert!(maneuver.is_done());
+      match maneuver.direction() {
+        ManeuverDirection::Going => self.process_going_maneuver(maneuver)?,
+        ManeuverDirection::Returning => self.process_returning_maneuver(&maneuver)?,
+      }
+    }
+
+    Ok(())
+  }
+
+  fn process_going_maneuver(&mut self, mut maneuver: Maneuver) -> Result<()> {
+    match maneuver.kind() {
+      ManeuverKind::Attack => {
+        let attacker = self.military.squads(maneuver.army())?;
+        let defender = self
+          .military
+          .idle_squads_at(maneuver.destination());
+
+        let wall = self
+          .infrastructure(maneuver.destination())?
+          .wall()
+          .level();
+
+        let wall_stats = (wall > BuildingLevel::ZERO)
+          .then(|| self.stats.infrastructure.wall().get(wall))
+          .transpose()?;
+
+        // TODO: Emit battle report and apply defender losses.
+        let battle_result = Battle::builder()
+          .attacker(&attacker)
+          .defender(&defender)
+          .maybe_wall(wall_stats)
+          .build()
+          .result();
+
+        let attacker_surviving_personnel = battle_result.attacker_surviving_personnel();
+
+        if attacker_surviving_personnel.is_empty() {
+          self.military.remove_army(maneuver.army())?;
+        } else {
+          let army = self.military.army_mut(maneuver.army())?;
+          *army.personnel_mut() = attacker_surviving_personnel.clone();
+
+          maneuver.reverse()?;
+          self.military.insert_maneuver(maneuver);
+        }
+      }
+      ManeuverKind::Support => {
+        self
+          .military
+          .relocate_army(maneuver.army(), maneuver.destination())?;
+      }
+    }
+
+    Ok(())
+  }
+
+  fn process_returning_maneuver(&mut self, maneuver: &Maneuver) -> Result<()> {
+    let army = self.military.army_mut(maneuver.army())?;
+    *army.state_mut() = ArmyState::Idle;
+    Ok(())
   }
 }

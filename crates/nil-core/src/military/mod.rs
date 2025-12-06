@@ -11,13 +11,16 @@ pub mod unit;
 
 use crate::continent::{ContinentIndex, ContinentKey, ContinentSize, Coord};
 use crate::error::{Error, Result};
-use crate::military::army::{ArmyId, ArmyState, collapse_armies, find_idle_owned_by};
+use crate::military::army::{ArmyId, collapse_armies};
 use crate::military::maneuver::ManeuverId;
+use crate::military::squad::Squad;
 use crate::ranking::Score;
 use crate::resources::Maintenance;
 use crate::ruler::Ruler;
 use army::{Army, ArmyPersonnel};
+use itertools::Itertools;
 use maneuver::Maneuver;
+use nil_util::result::WrapOk;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
@@ -44,19 +47,19 @@ impl Military {
     R: Into<Ruler>,
   {
     let ruler: Ruler = owner.into();
+    let army = Army::builder()
+      .owner(ruler)
+      .personnel(personnel)
+      .build();
+
     let index = key.into_index(self.continent_size);
-    let armies = self.continent.entry(index).or_default();
+    self
+      .continent
+      .entry(index)
+      .or_default()
+      .push(army);
 
-    if let Some(army) = find_idle_owned_by(armies, &ruler) {
-      *army.personnel_mut() += personnel;
-    } else {
-      let army = Army::builder()
-        .owner(ruler)
-        .personnel(personnel)
-        .build();
-
-      armies.push(army);
-    }
+    self.collapse_armies_in(index);
   }
 
   pub fn collapse_armies(&mut self) {
@@ -102,6 +105,38 @@ impl Military {
     }
 
     Ok(military)
+  }
+
+  pub(crate) fn remove_army(&mut self, id: ArmyId) -> Result<Army> {
+    let (curr_vec, pos) = self
+      .continent
+      .values_mut()
+      .find_map(|armies| {
+        armies
+          .iter()
+          .position(|army| army.id() == id)
+          .map(|pos| (armies, pos))
+      })
+      .ok_or(Error::ArmyNotFound(id))?;
+
+    Ok(curr_vec.swap_remove(pos))
+  }
+
+  pub(crate) fn relocate_army<K>(&mut self, id: ArmyId, new_key: K) -> Result<()>
+  where
+    K: ContinentKey,
+  {
+    let army = self.remove_army(id)?;
+    let index = new_key.into_index(self.continent_size);
+    self
+      .continent
+      .entry(index)
+      .or_default()
+      .push(army);
+
+    self.collapse_armies_in(index);
+
+    Ok(())
   }
 
   pub fn army(&self, id: ArmyId) -> Result<&Army> {
@@ -184,9 +219,37 @@ impl Military {
       .filter(move |army| army.is_owned_by(&owner))
   }
 
-  pub(crate) fn set_army_state(&mut self, id: ArmyId, state: ArmyState) -> Result<()> {
-    *self.army_mut(id)?.state_mut() = state;
-    Ok(())
+  #[inline]
+  pub fn personnel(&self, id: ArmyId) -> Result<&ArmyPersonnel> {
+    self.army(id).map(Army::personnel)
+  }
+
+  #[inline]
+  pub fn squads(&self, id: ArmyId) -> Result<Vec<Squad>> {
+    self
+      .personnel(id)
+      .cloned()
+      .map(ArmyPersonnel::to_vec)
+  }
+
+  pub fn fold_idle_personnel_at<K>(&self, key: K) -> ArmyPersonnel
+  where
+    K: ContinentKey,
+  {
+    self
+      .idle_armies_at(key)
+      .map(Army::personnel)
+      .fold(ArmyPersonnel::default(), |mut acc, personnel| {
+        acc += personnel;
+        acc
+      })
+  }
+
+  pub fn idle_squads_at<K>(&self, key: K) -> Vec<Squad>
+  where
+    K: ContinentKey,
+  {
+    self.fold_idle_personnel_at(key).to_vec()
   }
 
   pub fn score_of<R>(&self, owner: R) -> Score
@@ -236,5 +299,21 @@ impl Military {
     self
       .maneuvers
       .insert(maneuver.id(), maneuver);
+  }
+
+  pub(crate) fn advance_maneuvers(&mut self) -> Result<Vec<Maneuver>> {
+    let mut done = Vec::new();
+    for (id, maneuver) in &mut self.maneuvers {
+      maneuver.advance()?;
+      if maneuver.is_done() {
+        done.push(*id);
+      }
+    }
+
+    done
+      .into_iter()
+      .filter_map(|id| self.maneuvers.remove(&id))
+      .collect_vec()
+      .wrap_ok()
   }
 }

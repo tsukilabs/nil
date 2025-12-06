@@ -67,6 +67,15 @@ pub enum Error {
   #[error("Insufficient units")]
   InsufficientUnits,
 
+  #[error("Expected maneuver to be pending, but it is done")]
+  ManeuverIsDone(ManeuverId),
+
+  #[error("Expected maneuver to be done, but it is pending")]
+  ManeuverIsPending(ManeuverId),
+
+  #[error("Maneuver is already returning")]
+  ManeuverIsReturning(ManeuverId),
+
   #[error("Maneuver not found")]
   ManeuverNotFound(ManeuverId),
 

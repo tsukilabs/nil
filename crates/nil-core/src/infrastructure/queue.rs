@@ -20,7 +20,7 @@ where
 
       match self
         .queue_mut()
-        .pop_front_if(|order| order.update(&mut workforce))
+        .pop_front_if(|order| order.consume(&mut workforce))
       {
         Some(order) => orders.push(order),
         None => break,
@@ -40,7 +40,7 @@ pub trait InfrastructureQueueOrder {
   fn set_done(&mut self);
   fn pending_mut(&mut self) -> Option<&mut Workforce>;
 
-  fn update(&mut self, workforce: &mut Workforce) -> bool {
+  fn consume(&mut self, workforce: &mut Workforce) -> bool {
     if let Some(pending) = self.pending_mut() {
       if *pending > 0 {
         let previous = *pending;

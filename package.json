@@ -9,7 +9,7 @@
     "build": "pwsh scripts/build-bin.ps1",
     "clippy": "pwsh scripts/invoke-clippy.ps1",
     "dev": "pwsh scripts/start-dev.ps1",
-    "docs": "cargo +nightly doc -p nil-* --open --no-deps --lib",
+    "docs": "cargo +nightly doc -p nil-* --open --no-deps --lib --document-private-items",
     "eslint": "eslint . --config eslint.config.ts",
     "format": "dprint fmt && cargo fmt --all",
     "miri": "pwsh scripts/test.ps1 -Miri",

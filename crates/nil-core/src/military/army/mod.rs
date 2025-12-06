@@ -66,7 +66,7 @@ impl Army {
   }
 
   #[inline]
-  pub fn speed(&self) -> Option<Speed> {
+  pub fn speed(&self) -> Speed {
     self.personnel.speed()
   }
 
@@ -151,20 +151,18 @@ pub enum ArmyState {
   },
 }
 
-impl From<ManeuverId> for ArmyState {
-  fn from(maneuver: ManeuverId) -> Self {
+impl ArmyState {
+  #[inline]
+  pub fn with_maneuver(maneuver: ManeuverId) -> Self {
     Self::Maneuvering { maneuver }
   }
 }
 
-pub fn find_idle_owned_by<'a>(armies: &'a mut [Army], ruler: &Ruler) -> Option<&'a mut Army> {
-  armies
-    .iter_mut()
-    .find(|army| army.is_idle_and_owned_by(ruler))
-}
-
 pub fn collapse_armies(armies: &mut Vec<Army>) {
-  for army in mem::take(armies) {
+  for army in mem::take(armies)
+    .into_iter()
+    .filter(|army| !army.is_empty())
+  {
     if army.is_idle()
       && let Some(previous) = find_idle_owned_by(armies, army.owner())
     {
@@ -173,4 +171,10 @@ pub fn collapse_armies(armies: &mut Vec<Army>) {
       armies.push(army);
     }
   }
+}
+
+fn find_idle_owned_by<'a>(armies: &'a mut [Army], ruler: &Ruler) -> Option<&'a mut Army> {
+  armies
+    .iter_mut()
+    .find(|army| army.is_idle_and_owned_by(ruler))
 }

@@ -8,6 +8,14 @@ use nil_payload::continent::{GetPublicFieldRequest, GetPublicFieldsRequest};
 use tauri::AppHandle;
 
 #[tauri::command]
+pub async fn get_continent_size(app: AppHandle) -> Result<usize> {
+  app
+    .client(async |cl| cl.get_continent_size().await)
+    .await?
+    .map_err(Into::into)
+}
+
+#[tauri::command]
 pub async fn get_field(app: AppHandle, req: GetPublicFieldRequest) -> Result<PublicField> {
   app
     .client(async |cl| cl.get_field(req).await)
@@ -26,14 +34,6 @@ pub async fn get_fields(
 
   app
     .client(async |cl| cl.get_fields(req).await)
-    .await?
-    .map_err(Into::into)
-}
-
-#[tauri::command]
-pub async fn get_continent_size(app: AppHandle) -> Result<usize> {
-  app
-    .client(async |cl| cl.get_continent_size().await)
     .await?
     .map_err(Into::into)
 }

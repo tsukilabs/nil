@@ -4,6 +4,7 @@
 mod size;
 
 use crate::error::{Error, Result};
+use crate::military::unit::stats::speed::Speed;
 use crate::military::unit::{Unit, UnitBox, UnitId, UnitKind};
 use crate::ranking::Score;
 use crate::resources::Maintenance;
@@ -75,6 +76,11 @@ impl Squad {
     let cavalry = f64::from(stats.cavalry_defense() * self.size);
     let ranged = f64::from(stats.ranged_defense() * self.size);
     SquadDefense { infantry, cavalry, ranged }
+  }
+
+  #[inline]
+  pub fn speed(&self) -> Speed {
+    self.unit.speed()
   }
 
   pub fn checked_sub(&self, rhs: &Self) -> Result<Option<Self>> {

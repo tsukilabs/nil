@@ -25,16 +25,8 @@ pub struct Battle<'a> {
 
 impl Battle<'_> {
   #[inline]
-  pub fn battle_result(self) -> BattleResult {
+  pub fn result(self) -> BattleResult {
     BattleResult::new(self.attacker, self.defender, self.wall)
-  }
-
-  pub fn offensive_power(&self) -> OffensivePower {
-    OffensivePower::new(self.attacker)
-  }
-
-  pub fn defensive_power(&self) -> DefensivePower {
-    DefensivePower::new(self.defender, &self.offensive_power(), self.wall)
   }
 }
 
@@ -99,11 +91,42 @@ impl BattleResult {
       winner,
     }
   }
+
+  #[inline]
+  pub fn attacker_personnel(&self) -> &ArmyPersonnel {
+    &self.attacker_personnel
+  }
+
+  #[inline]
+  pub fn attacker_surviving_personnel(&self) -> &ArmyPersonnel {
+    &self.attacker_surviving_personnel
+  }
+
+  #[inline]
+  pub fn defender_personnel(&self) -> &ArmyPersonnel {
+    &self.defender_personnel
+  }
+
+  #[inline]
+  pub fn defender_surviving_personnel(&self) -> &ArmyPersonnel {
+    &self.defender_surviving_personnel
+  }
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
-#[serde(rename_all = "camelCase")]
-pub struct OffensivePower {
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Deserialize, Serialize)]
+#[serde(rename_all = "kebab-case")]
+pub enum BattleWinner {
+  Attacker,
+  Defender,
+}
+
+impl BattleWinner {
+  fn determine(attacker: &OffensivePower, defender: &DefensivePower) -> Self {
+    if attacker.total > defender.total { Self::Attacker } else { Self::Defender }
+  }
+}
+
+struct OffensivePower {
   total: f64,
   infantry_ratio: f64,
   cavalry_ratio: f64,
@@ -114,7 +137,7 @@ pub struct OffensivePower {
 }
 
 impl OffensivePower {
-  pub fn new(squads: &[Squad]) -> Self {
+  fn new(squads: &[Squad]) -> Self {
     let units_by_kind = UnitsByKind::new(squads);
     let mut infantry = 0.0;
     let mut cavalry = 0.0;
@@ -152,9 +175,7 @@ impl OffensivePower {
   }
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
-#[serde(rename_all = "camelCase")]
-pub struct DefensivePower {
+struct DefensivePower {
   total: f64,
   infantry: f64,
   cavalry: f64,
@@ -162,7 +183,7 @@ pub struct DefensivePower {
 }
 
 impl DefensivePower {
-  pub fn new(
+  fn new(
     squads: &[Squad],
     offensive_power: &OffensivePower,
     defending_wall: Option<&WallStats>,
@@ -227,22 +248,7 @@ impl DefensivePower {
   }
 }
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Deserialize, Serialize)]
-#[serde(rename_all = "kebab-case")]
-pub enum BattleWinner {
-  Attacker,
-  Defender,
-}
-
-impl BattleWinner {
-  pub fn determine(attacker: &OffensivePower, defender: &DefensivePower) -> Self {
-    if attacker.total > defender.total { Self::Attacker } else { Self::Defender }
-  }
-}
-
-#[derive(Clone, Debug, Deserialize, Serialize)]
-#[serde(rename_all = "camelCase")]
-pub struct UnitsByKind {
+struct UnitsByKind {
   total: u32,
   infantry: u32,
   cavalry: u32,
@@ -250,7 +256,7 @@ pub struct UnitsByKind {
 }
 
 impl UnitsByKind {
-  pub fn new(squads: &[Squad]) -> Self {
+  fn new(squads: &[Squad]) -> Self {
     let mut total = 0;
     let mut infantry = 0;
     let mut cavalry = 0;

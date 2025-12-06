@@ -12,12 +12,12 @@ impl World {
       .military
       .collapse_armies_in(request.origin);
 
-    let ruler_origin = self.city(request.origin)?.owner().clone();
+    let origin_ruler = self.city(request.origin)?.owner().clone();
     let Some(army) = self
       .military
       .armies_mut_at(request.origin)
       .iter_mut()
-      .find(|army| army.is_idle_and_owned_by(&ruler_origin))
+      .find(|army| army.is_idle_and_owned_by(&origin_ruler))
       .filter(|army| army.has_enough_personnel(&request.personnel))
     else {
       return Err(Error::InsufficientUnits);
@@ -31,6 +31,7 @@ impl World {
     };
 
     let army_id = army.id();
+    let army_speed = army.speed();
     let army_owner = army.owner().clone();
     *army.personnel_mut() = request.personnel;
 
@@ -39,12 +40,13 @@ impl World {
       .kind(request.kind)
       .origin(request.origin)
       .destination(request.destination)
+      .speed(army_speed)
       .build()?;
 
     self.military.insert_maneuver(maneuver);
-    self
-      .military
-      .set_army_state(army_id, ArmyState::from(id))?;
+
+    let army = self.military.army_mut(army_id)?;
+    *army.state_mut() = ArmyState::with_maneuver(id);
 
     // The remaining personnel should only be spawned after updating the state of the original army.
     // Otherwise, both would be collapsed into a single army again in the `spawn` call.
@@ -56,7 +58,7 @@ impl World {
         .spawn(&mut self.military, request.origin);
     }
 
-    let sender_player = ruler_origin.player();
+    let sender_player = origin_ruler.player();
     let target_player = self.city(request.destination)?.player();
 
     if let Some(sender_player) = sender_player {
@@ -70,5 +72,10 @@ impl World {
     }
 
     Ok(id)
+  }
+
+  #[inline]
+  pub fn collapse_armies(&mut self) {
+    self.military.collapse_armies();
   }
 }

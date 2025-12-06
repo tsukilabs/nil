@@ -1,7 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use crate::battle::{Battle, BattleWinner};
+use crate::battle::{Battle, BattleWinner, DefensivePower, OffensivePower};
 use crate::infrastructure::InfrastructureStats;
 use crate::infrastructure::building::BuildingLevel;
 use crate::military::army::ArmyPersonnel;
@@ -17,7 +17,7 @@ fn offensive_power() {
   let attacker = [s(Axeman, 100), s(Swordsman, 50)];
   let battle = Battle::builder().attacker(&attacker).build();
 
-  let power = battle.offensive_power();
+  let power = offensive(&battle);
   assert_eq!(power.total, 5250.0);
   assert_eq!(power.infantry_ratio, 1.0);
 }
@@ -27,7 +27,7 @@ fn offensive_power_cavalry() {
   let attacker = [s(HeavyCavalry, 100)];
   let battle = Battle::builder().attacker(&attacker).build();
 
-  let power = battle.offensive_power();
+  let power = offensive(&battle);
   assert_eq!(power.total, 15000.0);
   assert_eq!(power.cavalry_ratio, 1.0);
 }
@@ -37,7 +37,7 @@ fn offensive_power_mixed() {
   let attacker = [s(HeavyCavalry, 100), s(Pikeman, 500)];
   let battle = Battle::builder().attacker(&attacker).build();
 
-  let power = battle.offensive_power();
+  let power = offensive(&battle);
   assert_eq!(power.total, 20000.0);
   assert_eq!(power.cavalry_ratio, 0.75);
   assert_eq!(power.infantry_ratio, 0.25);
@@ -53,7 +53,7 @@ fn defensive_power() {
     .defender(&defender)
     .build();
 
-  let power = battle.defensive_power();
+  let power = defensive(&battle);
   assert_eq!(power.total, 4000.0);
 }
 
@@ -72,8 +72,8 @@ fn defensive_power_with_wall() {
     .wall(wall)
     .build();
 
-  let power = battle.defensive_power();
-  let attacking_power = battle.offensive_power();
+  let power = defensive(&battle);
+  let attacking_power = offensive(&battle);
   assert_eq!(power.total, 18280.0);
   assert_eq!(attacking_power.total, 5250.0);
 }
@@ -98,7 +98,7 @@ fn battle_result() {
     .into_iter()
     .collect();
 
-  let result = battle.battle_result();
+  let result = battle.result();
   assert_eq!(result.winner, BattleWinner::Defender);
   assert_eq!(result.attacker_personnel, attacker);
   assert_eq!(
@@ -117,10 +117,18 @@ fn ranged_attack_no_debuff() {
     .defender(&defender)
     .build();
 
-  let attack_power = battle.offensive_power();
+  let attack_power = offensive(&battle);
   assert_eq!(attack_power.total, 370000.0);
 }
 
 fn s(id: UnitId, amount: u32) -> Squad {
   Squad::new(id, SquadSize::new(amount))
+}
+
+fn offensive(battle: &Battle<'_>) -> OffensivePower {
+  OffensivePower::new(battle.attacker)
+}
+
+fn defensive(battle: &Battle<'_>) -> DefensivePower {
+  DefensivePower::new(battle.defender, &offensive(battle), battle.wall)
 }

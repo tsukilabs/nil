@@ -120,7 +120,8 @@ impl Round {
     }
   }
 
-  /// Clones the round, setting its state to idle. This is useful for saving the game.
+  /// Clones the round, setting its state to [`RoundState::Idle`].
+  /// This is useful for saving the game.
   pub(crate) fn to_idle(&self) -> Self {
     let mut round = self.clone();
     round.state = RoundState::Idle;
@@ -132,7 +133,6 @@ impl Round {
 pub struct RoundId(NonZeroU32);
 
 impl RoundId {
-  #[inline]
   #[must_use]
   const fn next(self) -> RoundId {
     Self(self.0.saturating_add(1))

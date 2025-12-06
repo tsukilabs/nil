@@ -23,7 +23,7 @@ impl World {
       .defender(defender)
       .maybe_wall(wall_stats)
       .build()
-      .battle_result();
+      .result();
 
     Ok(result)
   }

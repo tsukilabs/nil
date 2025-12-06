@@ -88,17 +88,22 @@ impl ArmyPersonnel {
     }
   }
 
+  pub fn to_vec(self) -> Vec<Squad> {
+    Vec::<Squad>::from(self)
+  }
+
   #[inline]
   pub fn iter(&self) -> ArmyPersonnelIter<'_> {
     ArmyPersonnelIter::new(self)
   }
 
-  pub fn speed(&self) -> Option<Speed> {
+  pub fn speed(&self) -> Speed {
     self
       .iter()
       .filter(|squad| squad.size() > 0u32)
-      .map(|squad| squad.unit().speed())
+      .map(Squad::speed)
       .min_by(|a, b| a.total_cmp(b))
+      .unwrap_or_default()
   }
 
   pub fn score(&self) -> Score {
@@ -162,6 +167,25 @@ impl Default for ArmyPersonnel {
   }
 }
 
+impl From<SquadSize> for ArmyPersonnel {
+  fn from(size: SquadSize) -> Self {
+    ArmyPersonnel::splat(size)
+  }
+}
+
+impl From<ArmyPersonnel> for Vec<Squad> {
+  fn from(personnel: ArmyPersonnel) -> Self {
+    vec![
+      personnel.archer,
+      personnel.axeman,
+      personnel.heavy_cavalry,
+      personnel.light_cavalry,
+      personnel.pikeman,
+      personnel.swordsman,
+    ]
+  }
+}
+
 impl FromIterator<Squad> for ArmyPersonnel {
   fn from_iter<T>(iter: T) -> Self
   where
@@ -189,7 +213,7 @@ impl Add for ArmyPersonnel {
   type Output = ArmyPersonnel;
 
   fn add(mut self, rhs: Self) -> Self::Output {
-    self += rhs;
+    self += &rhs;
     self
   }
 }
@@ -205,7 +229,13 @@ impl Add<Squad> for ArmyPersonnel {
 
 impl AddAssign for ArmyPersonnel {
   fn add_assign(&mut self, rhs: Self) {
-    for squad in &rhs {
+    *self += &rhs;
+  }
+}
+
+impl AddAssign<&ArmyPersonnel> for ArmyPersonnel {
+  fn add_assign(&mut self, rhs: &ArmyPersonnel) {
+    for squad in rhs {
       *self.squad_mut(squad.id()) += squad.size();
     }
   }
@@ -237,12 +267,6 @@ impl SubAssign for ArmyPersonnel {
 impl SubAssign<Squad> for ArmyPersonnel {
   fn sub_assign(&mut self, rhs: Squad) {
     *self.squad_mut(rhs.id()) -= rhs;
-  }
-}
-
-impl From<SquadSize> for ArmyPersonnel {
-  fn from(size: SquadSize) -> Self {
-    ArmyPersonnel::splat(size)
   }
 }
 
