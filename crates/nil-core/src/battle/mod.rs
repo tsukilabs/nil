@@ -74,7 +74,9 @@ impl BattleResult {
         for squad in attacking_squads {
           let squad_size = f64::from(squad.size());
           match squad.kind() {
-            UnitKind::Infantry => squad_survivors = squad_size - (squad_size * infantry_losses_ratio),
+            UnitKind::Infantry => {
+              squad_survivors = squad_size - (squad_size * infantry_losses_ratio)
+            }
             UnitKind::Cavalry => squad_survivors = squad_size - (squad_size * cavalry_losses_ratio),
             UnitKind::Ranged => squad_survivors = squad_size - (squad_size * ranged_losses_ratio),
           }
@@ -85,7 +87,9 @@ impl BattleResult {
         for squad in defending_squads {
           let squad_size = f64::from(squad.size());
           match squad.kind() {
-            UnitKind::Infantry => squad_survivors = squad_size - (squad_size * infantry_losses_ratio),
+            UnitKind::Infantry => {
+              squad_survivors = squad_size - (squad_size * infantry_losses_ratio)
+            }
             UnitKind::Cavalry => squad_survivors = squad_size - (squad_size * cavalry_losses_ratio),
             UnitKind::Ranged => squad_survivors = squad_size - (squad_size * ranged_losses_ratio),
           }
@@ -151,12 +155,15 @@ struct OffensivePower {
 
 impl OffensivePower {
   fn new(squads: &[Squad]) -> Self {
-    let units_by_kind = UnitsByKind::new(squads);
     let mut infantry = 0.0;
     let mut cavalry = 0.0;
     let mut ranged = 0.0;
 
+    let mut army_size = 0.0;
+    let mut ranged_size = 0.0;
+
     for squad in squads {
+      army_size += f64::from(squad.size());
       match squad.kind() {
         UnitKind::Infantry => {
           infantry += *squad.attack();
@@ -166,11 +173,12 @@ impl OffensivePower {
         }
         UnitKind::Ranged => {
           ranged += *squad.attack();
+          ranged_size += f64::from(squad.size());
         }
       }
     }
 
-    if f64::from(units_by_kind.ranged) / f64::from(units_by_kind.total) > 0.3 {
+    if ranged_size / army_size > 0.3 {
       ranged *= sum_ranged_debuff(squads);
     }
 
@@ -193,18 +201,22 @@ impl DefensivePower {
     offensive_power: &OffensivePower,
     defending_wall: Option<&WallStats>,
   ) -> Self {
-    let units_by_kind = UnitsByKind::new(squads);
     let mut infantry_power = 0.0;
     let mut cavalry_power = 0.0;
     let mut ranged_power = 0.0;
 
     let mut army_size = 0.0;
+    let mut ranged_size = 0.0;
 
     for squad in squads {
+      if squad.kind() == UnitKind::Ranged {
+        ranged_size += f64::from(squad.size());
+      }
       army_size += f64::from(squad.size());
-      if squad.kind() == UnitKind::Ranged
-        && f64::from(units_by_kind.ranged) / f64::from(units_by_kind.total) > 0.5
-      {
+    }
+
+    for squad in squads {
+      if squad.kind() == UnitKind::Ranged && ranged_size / army_size > 0.5 {
         infantry_power += squad.defense().infantry * sum_ranged_debuff(squads);
         cavalry_power += squad.defense().cavalry * sum_ranged_debuff(squads);
         ranged_power += squad.defense().ranged * sum_ranged_debuff(squads);
@@ -252,35 +264,6 @@ impl DefensivePower {
       cavalry: cavalry_ratio * total,
       ranged: ranged_ratio * total,
     }
-  }
-}
-
-struct UnitsByKind {
-  total: u32,
-  infantry: u32,
-  cavalry: u32,
-  ranged: u32,
-}
-
-impl UnitsByKind {
-  fn new(squads: &[Squad]) -> Self {
-    let mut total = 0;
-    let mut infantry = 0;
-    let mut cavalry = 0;
-    let mut ranged = 0;
-
-    for squad in squads {
-      let amount = *squad.size();
-      match squad.kind() {
-        UnitKind::Infantry => infantry += amount,
-        UnitKind::Cavalry => cavalry += amount,
-        UnitKind::Ranged => ranged += amount,
-      }
-
-      total += amount;
-    }
-
-    Self { total, infantry, cavalry, ranged }
   }
 }
 
