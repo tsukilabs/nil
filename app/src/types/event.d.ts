@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 type EventPayload =
+  | BattleReportPayload
   | ChatUpdatedPayload
   | CityUpdatedPayload
   | MilitaryUpdatedPayload
@@ -10,6 +11,11 @@ type EventPayload =
   | RoundUpdatedPayload;
 
 type EventPayloadKind = EventPayload['kind'];
+
+interface BattleReportPayload {
+  readonly kind: 'battle-report';
+  readonly report: BattleReport;
+}
 
 interface ChatUpdatedPayload {
   readonly kind: 'chat-updated';

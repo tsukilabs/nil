@@ -2762,6 +2762,7 @@ dependencies = [
  "nil-namegen",
  "nil-num",
  "nil-util",
+ "num-traits",
  "rand 0.9.2",
  "remain",
  "serde",

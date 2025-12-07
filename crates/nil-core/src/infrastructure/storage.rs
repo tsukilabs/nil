@@ -1,9 +1,10 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+use crate::continent::Coord;
 use crate::error::{Error, Result};
 use crate::infrastructure::building::{Building, BuildingLevel, StorageId};
-use derive_more::{Deref, Into};
+use derive_more::{Deref, From, Into};
 use nil_num::growth::growth;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
@@ -81,7 +82,21 @@ impl StorageStatsTable {
 }
 
 /// Storage capacity of a building.
-#[derive(Clone, Copy, Debug, Deref, Default, Into, Deserialize, Serialize)]
+#[derive(
+  Clone,
+  Copy,
+  Debug,
+  Deref,
+  Default,
+  From,
+  Into,
+  PartialEq,
+  Eq,
+  PartialOrd,
+  Ord,
+  Deserialize,
+  Serialize,
+)]
 #[into(u32, f64)]
 pub struct StorageCapacity(u32);
 
@@ -89,6 +104,12 @@ impl StorageCapacity {
   #[inline]
   pub const fn new(value: u32) -> Self {
     Self(value)
+  }
+}
+
+impl PartialEq<u32> for StorageCapacity {
+  fn eq(&self, other: &u32) -> bool {
+    self.0.eq(other)
   }
 }
 
@@ -159,4 +180,40 @@ impl From<f64> for StorageCapacity {
 pub struct OverallStorageCapacity {
   pub silo: StorageCapacity,
   pub warehouse: StorageCapacity,
+}
+
+impl Add for OverallStorageCapacity {
+  type Output = OverallStorageCapacity;
+
+  fn add(mut self, rhs: Self) -> Self::Output {
+    self += rhs;
+    self
+  }
+}
+
+impl AddAssign for OverallStorageCapacity {
+  fn add_assign(&mut self, rhs: Self) {
+    self.silo += rhs.silo;
+    self.warehouse += rhs.warehouse;
+  }
+}
+
+#[derive(Clone, Copy, Debug, Default, Deref, From, Into)]
+pub struct StorageCapacityWeight(f64);
+
+#[derive(Clone, Debug)]
+pub struct OverallStorageCapacityWeight {
+  pub coord: Coord,
+  pub silo: StorageCapacityWeight,
+  pub warehouse: StorageCapacityWeight,
+}
+
+impl OverallStorageCapacityWeight {
+  pub fn new(coord: Coord) -> Self {
+    Self {
+      coord,
+      silo: StorageCapacityWeight::default(),
+      warehouse: StorageCapacityWeight::default(),
+    }
+  }
 }

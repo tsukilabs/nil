@@ -2,16 +2,19 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::battle::{Battle, BattleResult};
+use crate::continent::Coord;
 use crate::error::Result;
 use crate::infrastructure::building::{Building, BuildingLevel};
 use crate::military::army::{Army, ArmyState};
 use crate::military::maneuver::{Maneuver, ManeuverDirection, ManeuverKind};
+use crate::military::unit::stats::haul::Haul;
 use crate::report::battle::BattleReport;
 use crate::resources::Resources;
 use crate::ruler::Ruler;
 use crate::world::World;
 use itertools::Itertools;
 use nil_util::result::WrapOk;
+use num_traits::ToPrimitive;
 
 impl World {
   pub(super) fn process_maneuvers(&mut self) -> Result<()> {
@@ -29,22 +32,42 @@ impl World {
   fn process_going_maneuver(&mut self, mut maneuver: Maneuver) -> Result<()> {
     let army_id = maneuver.army();
     let destination = maneuver.destination();
-    let rulers = ManeuverRulers::resolve(self, &maneuver)?;
+    let rulers = ManeuverRulers::new(self, &maneuver)?;
 
     match maneuver.kind() {
+      // TODO: Calculate defender losses.
       ManeuverKind::Attack => {
-        // TODO: Emit battle report and apply defender losses.
         let battle_result = perform_battle(self, &maneuver)?;
         let attacker_surviving_personnel = battle_result.attacker_surviving_personnel();
 
         if attacker_surviving_personnel.is_empty() {
           self.military.remove_army(army_id)?;
         } else {
+          maneuver.reverse()?;
+          self.military.insert_maneuver(maneuver);
+
           let army = self.military.army_mut(army_id)?;
           *army.personnel_mut() = attacker_surviving_personnel.clone();
 
-          maneuver.reverse()?;
-          self.military.insert_maneuver(maneuver);
+          let haul = army.haul();
+          let hauled_resources = calculate_hauled_resources(self, destination, haul)?;
+
+          if !hauled_resources.is_empty() {
+            self.transpose_resources(
+              rulers.destination_ruler,
+              rulers.sender.clone(),
+              hauled_resources.clone(),
+            )?;
+          }
+
+          let report = BattleReport::builder()
+            .attacker(rulers.sender)
+            .defenders(rulers.destination_army_owners)
+            .hauled_resources(hauled_resources)
+            .result(battle_result)
+            .build();
+
+          emit_battle_report(self, &report);
         }
       }
       ManeuverKind::Support => {
@@ -66,52 +89,42 @@ impl World {
 
 struct ManeuverRulers {
   sender: Ruler,
-  targets: Vec<Ruler>,
+  destination_ruler: Ruler,
+  destination_army_owners: Box<[Ruler]>,
 }
 
 impl ManeuverRulers {
-  fn resolve(world: &World, maneuver: &Maneuver) -> Result<Self> {
+  fn new(world: &World, maneuver: &Maneuver) -> Result<Self> {
     let sender = world
       .military
       .army(maneuver.army())?
       .owner()
       .clone();
 
-    let mut targets = match maneuver.kind() {
-      ManeuverKind::Attack => {
-        world
-          .military
-          .idle_armies_at(maneuver.destination())
-          .map(Army::owner)
-          .unique()
-          .cloned()
-          .collect_vec()
-      }
-      ManeuverKind::Support => {
-        let owner = world.city(maneuver.destination())?.owner();
-        owner
-          .is_player()
-          .then(|| vec![owner.clone()])
-          .unwrap_or_default()
-      }
-    };
+    let destination_ruler = world
+      .city(maneuver.destination())?
+      .owner()
+      .clone();
 
-    targets.retain(|target| target != &sender);
+    let mut destination_army_owners = Vec::new();
+    if let ManeuverKind::Attack = maneuver.kind() {
+      let owners = world
+        .military
+        .idle_armies_at(maneuver.destination())
+        .map(Army::owner)
+        .unique()
+        .cloned();
 
-    Ok(Self { sender, targets })
-  }
-
-  fn emit_battle_report(self, world: &World, report: &BattleReport) {
-    if let Some(player) = self.sender.player().cloned() {
-      world.emit_battle_report(player, report.clone());
+      destination_army_owners.extend(owners);
     }
 
-    for target in self.targets {
-      debug_assert_ne!(self.sender, target);
-      if let Some(player) = target.player().cloned() {
-        world.emit_battle_report(player, report.clone());
-      }
-    }
+    destination_army_owners.retain(|target| target != &sender);
+
+    Ok(Self {
+      sender,
+      destination_ruler,
+      destination_army_owners: destination_army_owners.into_boxed_slice(),
+    })
   }
 }
 
@@ -139,20 +152,55 @@ fn perform_battle(world: &World, maneuver: &Maneuver) -> Result<BattleResult> {
     .wrap_ok()
 }
 
-/// The amount of resources hauled should be the smallest of the following:
-/// - hauling capacity of the attacking army;
-/// - target ruler's current resources;
-/// - storage capacity of the target city;
-/// - proportion of the target city's storage capacity to the attacked ruler's total storage capacity.
-fn calculate_hauled_resources(
-  world: &World,
-  maneuver: &Maneuver,
-  attacker: &Army,
-) -> Result<Resources> {
-  let mut haul = attacker.haul();
+fn calculate_hauled_resources(world: &World, target: Coord, base: Haul) -> Result<Resources> {
+  let resources = world.get_weighted_resources(target)?;
+  let silo_resources = resources.sum_silo();
+  let warehouse_resources = resources.sum_warehouse();
 
-  let target = world.city(maneuver.destination())?.owner();
-  // let target_resources = world.g
+  let mut hauled = Resources::new();
+  let mut silo_haul = base * Haul::SILO_RATIO;
+  let mut warehouse_haul = base * Haul::WAREHOUSE_RATIO;
 
-  Ok(Resources::new())
+  if silo_haul > silo_resources {
+    silo_haul = Haul::new(silo_resources);
+  }
+
+  if warehouse_haul > warehouse_resources {
+    warehouse_haul = Haul::new(warehouse_resources);
+  }
+
+  macro_rules! set {
+    ($total:expr, $res:ident, $haul:expr) => {
+      let total = f64::from($total);
+      if total.is_normal() {
+        let ratio = f64::from(resources.$res) / total;
+        let resource = (f64::from($haul) * ratio)
+          .round()
+          .to_u32()
+          .unwrap_or_default();
+
+        hauled.$res = resource.min(*resources.$res).into();
+      }
+    };
+  }
+
+  set!(silo_resources, food, silo_haul);
+  set!(warehouse_resources, iron, warehouse_haul);
+  set!(warehouse_resources, stone, warehouse_haul);
+  set!(warehouse_resources, wood, warehouse_haul);
+
+  Ok(hauled)
+}
+
+fn emit_battle_report(world: &World, report: &BattleReport) {
+  if let Some(player) = report.attacker().player().cloned() {
+    world.emit_battle_report(player, report.clone());
+  }
+
+  for target in report.defenders() {
+    debug_assert_ne!(report.attacker(), target);
+    if let Some(player) = target.player().cloned() {
+      world.emit_battle_report(player, report.clone());
+    }
+  }
 }

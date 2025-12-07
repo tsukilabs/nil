@@ -34,6 +34,7 @@ class Listener<T extends EventPayload> {
   private static webview: Option<WebviewWindow>;
 
   public static readonly listeners = {
+    onBattleReport: new this<BattleReportPayload>('battle-report'),
     onChatUpdated: new this<ChatUpdatedPayload>('chat-updated'),
     onCityUpdated: new this<CityUpdatedPayload>('city-updated'),
     onMilitaryUpdated: new this<MilitaryUpdatedPayload>('military-updated'),

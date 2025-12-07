@@ -12,12 +12,13 @@ mod military;
 mod npc;
 mod player;
 mod ranking;
+mod resources;
 mod round;
 mod savedata;
 
 use crate::chat::Chat;
 use crate::city::City;
-use crate::continent::{Continent, Coord};
+use crate::continent::{Continent, ContinentSize, Coord};
 use crate::error::{Error, Result};
 use crate::event::Emitter;
 use crate::infrastructure::{Infrastructure, InfrastructureStats};
@@ -29,9 +30,8 @@ use crate::ranking::Ranking;
 use crate::round::Round;
 use crate::ruler::{Ruler, RulerRef, RulerRefMut};
 use crate::savedata::Savedata;
-use derive_more::From;
+use bon::Builder;
 use serde::{Deserialize, Serialize};
-use std::num::NonZeroU8;
 use std::path::{Path, PathBuf};
 use std::sync::Arc;
 
@@ -229,12 +229,23 @@ impl World {
   }
 }
 
-#[derive(Clone, Deserialize, Serialize)]
+#[derive(Builder, Clone, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct WorldOptions {
+  #[builder(start_fn, into)]
   pub name: WorldName,
-  pub size: NonZeroU8,
+
+  #[builder(default)]
+  pub size: ContinentSize,
+
+  #[builder(default)]
   pub allow_cheats: bool,
+}
+
+impl WorldOptions {
+  pub fn to_world(&self) -> Result<World> {
+    World::try_from(self)
+  }
 }
 
 impl TryFrom<&WorldOptions> for World {
@@ -273,9 +284,14 @@ impl From<&WorldOptions> for WorldConfig {
   }
 }
 
-#[derive(Clone, Debug, From, Deserialize, Serialize)]
-#[from(String, &str, Arc<str>)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct WorldName(Arc<str>);
+
+impl<T: AsRef<str>> From<T> for WorldName {
+  fn from(value: T) -> Self {
+    Self(Arc::from(value.as_ref()))
+  }
+}
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]

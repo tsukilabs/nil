@@ -38,7 +38,6 @@ impl World {
 
       // TODO: Our roman numerals implementation only supports numbers between 1 and 3999.
       // Currently, this is not a problem, but it could become one in the future.
-      // In that case, we should come up with a good way to handle it.
       let Some(ridx) = idx.saturating_add(1).to_roman() else { continue };
 
       *field = City::builder(coord)

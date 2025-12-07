@@ -52,7 +52,7 @@ impl World {
         .into();
 
       *player.status_mut() = PlayerStatus::Active;
-      self.player_manager.spawn(player);
+      self.player_manager.insert(player);
 
       self.emit_public_city_updated(coord);
 
