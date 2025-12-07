@@ -54,9 +54,17 @@ impl BattleResult {
     let mut attacker_surviving_personnel = ArmyPersonnel::default();
     let mut defender_surviving_personnel = ArmyPersonnel::default();
 
-    let losses_ratio = match winner {
-      BattleWinner::Attacker => defender_power.total / attacker_power.total,
-      BattleWinner::Defender => attacker_power.total / defender_power.total,
+    let infantry_losses_ratio = match winner {
+      BattleWinner::Attacker => defender_power.infantry / attacker_power.infantry,
+      BattleWinner::Defender => attacker_power.infantry / defender_power.infantry,
+    };
+    let cavalry_losses_ratio = match winner {
+      BattleWinner::Attacker => defender_power.cavalry / attacker_power.cavalry,
+      BattleWinner::Defender => attacker_power.cavalry / defender_power.cavalry,
+    };
+    let ranged_losses_ratio = match winner {
+      BattleWinner::Attacker => defender_power.ranged / attacker_power.ranged,
+      BattleWinner::Defender => attacker_power.ranged / defender_power.ranged,
     };
 
     let mut squad_survivors: f64;
@@ -65,14 +73,22 @@ impl BattleResult {
       BattleWinner::Attacker => {
         for squad in attacking_squads {
           let squad_size = f64::from(squad.size());
-          squad_survivors = squad_size - (squad_size * losses_ratio);
+          match squad.kind() {
+            UnitKind::Infantry => squad_survivors = squad_size - (squad_size * infantry_losses_ratio),
+            UnitKind::Cavalry => squad_survivors = squad_size - (squad_size * cavalry_losses_ratio),
+            UnitKind::Ranged => squad_survivors = squad_size - (squad_size * ranged_losses_ratio),
+          }
           attacker_surviving_personnel += Squad::new(squad.id(), SquadSize::from(squad_survivors));
         }
       }
       BattleWinner::Defender => {
         for squad in defending_squads {
           let squad_size = f64::from(squad.size());
-          squad_survivors = squad_size - (squad_size * losses_ratio);
+          match squad.kind() {
+            UnitKind::Infantry => squad_survivors = squad_size - (squad_size * infantry_losses_ratio),
+            UnitKind::Cavalry => squad_survivors = squad_size - (squad_size * cavalry_losses_ratio),
+            UnitKind::Ranged => squad_survivors = squad_size - (squad_size * ranged_losses_ratio),
+          }
           defender_surviving_personnel += Squad::new(squad.id(), SquadSize::from(squad_survivors));
         }
       }
@@ -128,9 +144,6 @@ impl BattleWinner {
 
 struct OffensivePower {
   total: f64,
-  infantry_ratio: f64,
-  cavalry_ratio: f64,
-  ranged_ratio: f64,
   infantry: f64,
   cavalry: f64,
   ranged: f64,
@@ -163,15 +176,7 @@ impl OffensivePower {
 
     let total = infantry + cavalry + ranged;
 
-    OffensivePower {
-      total,
-      infantry_ratio: infantry / total,
-      cavalry_ratio: cavalry / total,
-      ranged_ratio: ranged / total,
-      infantry,
-      cavalry,
-      ranged,
-    }
+    OffensivePower { total, infantry, cavalry, ranged }
   }
 }
 
@@ -193,10 +198,10 @@ impl DefensivePower {
     let mut cavalry_power = 0.0;
     let mut ranged_power = 0.0;
 
-    let mut squad_size = 0.0;
+    let mut army_size = 0.0;
 
     for squad in squads {
-      squad_size += f64::from(squad.size());
+      army_size += f64::from(squad.size());
       if squad.kind() == UnitKind::Ranged
         && f64::from(units_by_kind.ranged) / f64::from(units_by_kind.total) > 0.5
       {
@@ -210,24 +215,26 @@ impl DefensivePower {
       }
     }
 
-    let infantry_power_per_unit = infantry_power / squad_size;
-    let cavalry_power_per_unit = cavalry_power / squad_size;
-    let ranged_power_per_unit = ranged_power / squad_size;
+    if army_size > 0.0 {
+      let infantry_power_per_unit = infantry_power / army_size;
+      let cavalry_power_per_unit = cavalry_power / army_size;
+      let ranged_power_per_unit = ranged_power / army_size;
 
-    let mut infantry_necessary_units = offensive_power.infantry / infantry_power_per_unit;
-    let mut cavalry_necessary_units = offensive_power.cavalry / cavalry_power_per_unit;
-    let mut ranged_necessary_units = offensive_power.ranged / ranged_power_per_unit;
+      let mut infantry_necessary_units = offensive_power.infantry / infantry_power_per_unit;
+      let mut cavalry_necessary_units = offensive_power.cavalry / cavalry_power_per_unit;
+      let mut ranged_necessary_units = offensive_power.ranged / ranged_power_per_unit;
 
-    let necessary_units =
-      infantry_necessary_units + cavalry_necessary_units + ranged_necessary_units;
+      let necessary_units =
+        infantry_necessary_units + cavalry_necessary_units + ranged_necessary_units;
 
-    infantry_necessary_units /= necessary_units;
-    cavalry_necessary_units /= necessary_units;
-    ranged_necessary_units /= necessary_units;
+      infantry_necessary_units /= necessary_units;
+      cavalry_necessary_units /= necessary_units;
+      ranged_necessary_units /= necessary_units;
 
-    infantry_power = infantry_necessary_units * squad_size * infantry_power_per_unit;
-    cavalry_power = cavalry_necessary_units * squad_size * cavalry_power_per_unit;
-    ranged_power = ranged_necessary_units * squad_size * ranged_power_per_unit;
+      infantry_power = infantry_necessary_units * army_size * infantry_power_per_unit;
+      cavalry_power = cavalry_necessary_units * army_size * cavalry_power_per_unit;
+      ranged_power = ranged_necessary_units * army_size * ranged_power_per_unit;
+    }
 
     let mut total = infantry_power + cavalry_power + ranged_power;
 
