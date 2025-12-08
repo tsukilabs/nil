@@ -9,12 +9,24 @@ use axum::extract::{Extension, Json, State};
 use axum::response::Response;
 use futures::TryFutureExt;
 use nil_payload::cheat::resources::{
+  CheatGetResourcesRequest,
   CheatSetFoodRequest,
   CheatSetIronRequest,
   CheatSetResourcesRequest,
   CheatSetStoneRequest,
   CheatSetWoodRequest,
 };
+
+pub async fn get_resources(
+  State(app): State<App>,
+  Json(req): Json<CheatGetResourcesRequest>,
+) -> Response {
+  app
+    .world(|world| world.cheat_get_resources(req.ruler))
+    .map_ok(|resources| res!(OK, Json(resources)))
+    .unwrap_or_else(from_core_err)
+    .await
+}
 
 pub async fn set_food(
   State(app): State<App>,

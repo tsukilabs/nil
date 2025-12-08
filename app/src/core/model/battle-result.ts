@@ -11,7 +11,6 @@ export class BattleResultImpl implements BattleResult {
   public readonly defenderPersonnel: ArmyPersonnelImpl;
   public readonly defenderSurvivingPersonnel: ArmyPersonnelImpl;
   public readonly wallLevel: BuildingLevel;
-  public readonly lossesRatio: number;
 
   private constructor(result: BattleResult) {
     this.winner = result.winner;
@@ -20,7 +19,6 @@ export class BattleResultImpl implements BattleResult {
     this.defenderPersonnel = ArmyPersonnelImpl.create(result.defenderPersonnel);
     this.defenderSurvivingPersonnel = ArmyPersonnelImpl.create(result.defenderSurvivingPersonnel);
     this.wallLevel = result.wallLevel;
-    this.lossesRatio = result.lossesRatio;
   }
 
   public getAttackerLosses() {

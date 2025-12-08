@@ -12,6 +12,30 @@ pub struct GetPlayerRequest {
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+pub struct GetPlayerCoordsRequest {
+  pub id: PlayerId,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct GetPlayerStatusRequest {
+  pub id: PlayerId,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct GetPublicPlayerRequest {
+  pub id: PlayerId,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct PlayerExistsRequest {
+  pub id: PlayerId,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct SetPlayerStatusRequest {
   pub status: PlayerStatus,
 }

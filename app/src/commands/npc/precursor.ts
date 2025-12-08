@@ -4,9 +4,9 @@
 import { invoke } from '@tauri-apps/api/core';
 
 export async function getPrecursorCoords(id: PrecursorId) {
-  return invoke<readonly Coord[]>('get_precursor_coords', { id });
+  return invoke<readonly Coord[]>('get_precursor_coords', { req: { id } });
 }
 
 export async function getPublicPrecursor(id: PrecursorId) {
-  return invoke<PublicPrecursor>('get_public_precursor', { id });
+  return invoke<PublicPrecursor>('get_public_precursor', { req: { id } });
 }

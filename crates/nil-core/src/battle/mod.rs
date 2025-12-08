@@ -1,6 +1,8 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+mod luck;
+
 #[cfg(test)]
 mod tests;
 
@@ -42,6 +44,7 @@ pub struct BattleResult {
 }
 
 impl BattleResult {
+  #[rustfmt::skip]
   fn new(attacking_squads: &[Squad], defending_squads: &[Squad], wall: Option<&WallStats>) -> Self {
     let attacker_power = OffensivePower::new(attacking_squads);
     let defender_power = DefensivePower::new(defending_squads, &attacker_power, wall);
@@ -74,9 +77,7 @@ impl BattleResult {
         for squad in attacking_squads {
           let squad_size = f64::from(squad.size());
           match squad.kind() {
-            UnitKind::Infantry => {
-              squad_survivors = squad_size - (squad_size * infantry_losses_ratio)
-            }
+            UnitKind::Infantry => squad_survivors = squad_size - (squad_size * infantry_losses_ratio),
             UnitKind::Cavalry => squad_survivors = squad_size - (squad_size * cavalry_losses_ratio),
             UnitKind::Ranged => squad_survivors = squad_size - (squad_size * ranged_losses_ratio),
           }
@@ -87,9 +88,7 @@ impl BattleResult {
         for squad in defending_squads {
           let squad_size = f64::from(squad.size());
           match squad.kind() {
-            UnitKind::Infantry => {
-              squad_survivors = squad_size - (squad_size * infantry_losses_ratio)
-            }
+            UnitKind::Infantry => squad_survivors = squad_size - (squad_size * infantry_losses_ratio),
             UnitKind::Cavalry => squad_survivors = squad_size - (squad_size * cavalry_losses_ratio),
             UnitKind::Ranged => squad_survivors = squad_size - (squad_size * ranged_losses_ratio),
           }

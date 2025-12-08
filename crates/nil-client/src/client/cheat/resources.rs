@@ -3,7 +3,9 @@
 
 use crate::client::Client;
 use crate::error::Result;
+use nil_core::resources::Resources;
 use nil_payload::cheat::resources::{
+  CheatGetResourcesRequest,
   CheatSetFoodRequest,
   CheatSetIronRequest,
   CheatSetResourcesRequest,
@@ -12,78 +14,70 @@ use nil_payload::cheat::resources::{
 };
 
 impl Client {
-  /// GET `/cheat/resources`
-  pub async fn cheat_set_max_resources(&self) -> Result<()> {
-    self.http.get("cheat/resources").await
+  pub async fn cheat_get_resources(&self, req: CheatGetResourcesRequest) -> Result<Resources> {
+    self
+      .http
+      .json_post("cheat-get-resources", req)
+      .await
   }
 
-  /// POST `/cheat/resources`
-  pub async fn cheat_set_resources(&self, req: CheatSetResourcesRequest) -> Result<()> {
-    self.http.post("cheat/resources", req).await
-  }
-
-  /// GET `/cheat/resources/food`
-  pub async fn cheat_set_max_food(&self) -> Result<()> {
-    self.http.get("cheat/resources/food").await
-  }
-
-  /// POST `/cheat/resources/food`
   pub async fn cheat_set_food(&self, req: CheatSetFoodRequest) -> Result<()> {
-    self
-      .http
-      .post("cheat/resources/food", req)
-      .await
+    self.http.post("cheat-set-food", req).await
   }
 
-  /// GET `/cheat/resources/iron`
-  pub async fn cheat_set_max_iron(&self) -> Result<()> {
-    self.http.get("cheat/resources/iron").await
-  }
-
-  /// POST `/cheat/resources/iron`
   pub async fn cheat_set_iron(&self, req: CheatSetIronRequest) -> Result<()> {
+    self.http.post("cheat-set-iron", req).await
+  }
+
+  pub async fn cheat_set_max_food(&self) -> Result<()> {
+    self.http.get("cheat-set-max-food").await
+  }
+
+  pub async fn cheat_set_max_iron(&self) -> Result<()> {
+    self.http.get("cheat-set-max-iron").await
+  }
+
+  pub async fn cheat_set_max_resources(&self) -> Result<()> {
     self
       .http
-      .post("cheat/resources/iron", req)
+      .get("cheat-set-max-resources")
       .await
   }
 
-  /// GET `/cheat/resources/silo`
   pub async fn cheat_set_max_silo_resources(&self) -> Result<()> {
-    self.http.get("cheat/resources/silo").await
-  }
-
-  /// GET `/cheat/resources/stone`
-  pub async fn cheat_set_max_stone(&self) -> Result<()> {
-    self.http.get("cheat/resources/stone").await
-  }
-
-  /// POST `/cheat/resources/stone`
-  pub async fn cheat_set_stone(&self, req: CheatSetStoneRequest) -> Result<()> {
     self
       .http
-      .post("cheat/resources/stone", req)
+      .get("cheat-set-max-silo-resources")
       .await
   }
 
-  /// GET `/cheat/resources/warehouse`
+  pub async fn cheat_set_max_stone(&self) -> Result<()> {
+    self.http.get("cheat-set-max-stone").await
+  }
+
   pub async fn cheat_set_max_warehouse_resources(&self) -> Result<()> {
     self
       .http
-      .get("cheat/resources/warehouse")
+      .get("cheat-set-max-warehouse-resources")
       .await
   }
 
-  /// GET `/cheat/resources/wood`
   pub async fn cheat_set_max_wood(&self) -> Result<()> {
-    self.http.get("cheat/resources/wood").await
+    self.http.get("cheat-set-max-wood").await
   }
 
-  /// POST `/cheat/resources/wood`
-  pub async fn cheat_set_wood(&self, req: CheatSetWoodRequest) -> Result<()> {
+  pub async fn cheat_set_resources(&self, req: CheatSetResourcesRequest) -> Result<()> {
     self
       .http
-      .post("cheat/resources/wood", req)
+      .post("cheat-set-resources", req)
       .await
+  }
+
+  pub async fn cheat_set_stone(&self, req: CheatSetStoneRequest) -> Result<()> {
+    self.http.post("cheat-set-stone", req).await
+  }
+
+  pub async fn cheat_set_wood(&self, req: CheatSetWoodRequest) -> Result<()> {
+    self.http.post("cheat-set-wood", req).await
   }
 }

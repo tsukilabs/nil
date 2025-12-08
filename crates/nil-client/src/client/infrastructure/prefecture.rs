@@ -11,36 +11,33 @@ use nil_payload::infrastructure::prefecture::{
 };
 
 impl Client {
-  /// POST `/infrastructure/prefecture/build/add`
   pub async fn add_prefecture_build_order(
     &self,
     req: AddPrefectureBuildOrderRequest,
   ) -> Result<()> {
     self
       .http
-      .post("infrastructure/prefecture/build/add", req)
+      .post("add-prefecture-build-order", req)
       .await
   }
 
-  /// POST `/infrastructure/prefecture/build/cancel`
   pub async fn cancel_prefecture_build_order(
     &self,
     req: CancelPrefectureBuildOrderRequest,
   ) -> Result<()> {
     self
       .http
-      .post("infrastructure/prefecture/build/cancel", req)
+      .post("cancel-prefecture-build-order", req)
       .await
   }
 
-  /// POST `/infrastructure/prefecture/build/catalog`
   pub async fn get_prefecture_build_catalog(
     &self,
     req: GetPrefectureBuildCatalogRequest,
   ) -> Result<PrefectureBuildCatalog> {
     self
       .http
-      .post_json("infrastructure/prefecture/build/catalog", req)
+      .json_post("get-prefecture-build-catalog", req)
       .await
   }
 }

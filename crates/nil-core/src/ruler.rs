@@ -6,6 +6,7 @@ use crate::npc::precursor::{Precursor, PrecursorId};
 use crate::player::{Player, PlayerId};
 use crate::resources::Resources;
 use serde::{Deserialize, Serialize};
+use std::mem;
 use strum::EnumIs;
 
 #[allow(variant_size_differences)]
@@ -175,6 +176,14 @@ impl<'a> RulerRefMut<'a> {
       Self::Bot(bot) => bot.resources_mut(),
       Self::Player(player) => player.resources_mut(),
       Self::Precursor(precursor) => precursor.resources_mut(),
+    }
+  }
+
+  pub fn take_resources(&mut self) -> Resources {
+    match self {
+      Self::Bot(bot) => mem::take(bot.resources_mut()),
+      Self::Player(player) => mem::take(player.resources_mut()),
+      Self::Precursor(precursor) => mem::take(precursor.resources_mut()),
     }
   }
 }

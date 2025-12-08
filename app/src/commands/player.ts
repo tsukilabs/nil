@@ -9,7 +9,7 @@ export async function getPlayer(id: PlayerId) {
 }
 
 export async function getPlayerCoords(id: PlayerId) {
-  return invoke<readonly Coord[]>('get_player_coords', { id });
+  return invoke<readonly Coord[]>('get_player_coords', { req: { id } });
 }
 
 export async function getPlayerMaintenance() {
@@ -20,8 +20,12 @@ export async function getPlayerMilitary() {
   return invoke<RawMilitary>('get_player_military');
 }
 
+export async function getPlayerReports() {
+  return invoke<ReportId[]>('get_player_reports');
+}
+
 export async function getPlayerStatus(id: PlayerId) {
-  return invoke<PlayerStatus>('get_player_status', { id });
+  return invoke<PlayerStatus>('get_player_status', { req: { id } });
 }
 
 export async function getPlayerStorageCapacity() {
@@ -33,7 +37,7 @@ export async function getPlayers() {
 }
 
 export async function getPublicPlayer(id: PlayerId) {
-  return invoke<PublicPlayer>('get_public_player', { id });
+  return invoke<PublicPlayer>('get_public_player', { req: { id } });
 }
 
 export async function getPublicPlayers() {
@@ -41,7 +45,7 @@ export async function getPublicPlayers() {
 }
 
 export async function playerExists(id: PlayerId) {
-  return invoke<boolean>('player_exists', { id });
+  return invoke<boolean>('player_exists', { req: { id } });
 }
 
 export async function setPlayerStatus(status: PlayerStatus) {

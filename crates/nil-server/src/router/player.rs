@@ -5,16 +5,24 @@ use crate::middleware::CurrentPlayer;
 use crate::res;
 use crate::response::from_core_err;
 use crate::state::App;
-use axum::extract::{Extension, Json, Path, State};
+use axum::extract::{Extension, Json, State};
 use axum::response::Response;
 use futures::{FutureExt, TryFutureExt};
 use itertools::Itertools;
-use nil_core::player::{Player, PlayerId, PublicPlayer};
-use nil_payload::player::{GetPlayerRequest, SetPlayerStatusRequest, SpawnPlayerRequest};
+use nil_core::player::{Player, PublicPlayer};
+use nil_payload::player::{
+  GetPlayerCoordsRequest,
+  GetPlayerRequest,
+  GetPlayerStatusRequest,
+  GetPublicPlayerRequest,
+  PlayerExistsRequest,
+  SetPlayerStatusRequest,
+  SpawnPlayerRequest,
+};
 
-pub async fn exists(State(app): State<App>, Path(id): Path<PlayerId>) -> Response {
+pub async fn exists(State(app): State<App>, Json(req): Json<PlayerExistsRequest>) -> Response {
   app
-    .world(|world| world.has_player(&id))
+    .world(|world| world.has_player(&req.id))
     .map(|yes| res!(OK, Json(yes)))
     .await
 }
@@ -45,9 +53,12 @@ pub async fn get_all_public(State(app): State<App>) -> Response {
     .await
 }
 
-pub async fn get_coords(State(app): State<App>, Path(id): Path<PlayerId>) -> Response {
+pub async fn get_coords(
+  State(app): State<App>,
+  Json(req): Json<GetPlayerCoordsRequest>,
+) -> Response {
   app
-    .continent(|k| k.coords_of(id).collect_vec())
+    .continent(|k| k.coords_of(req.id).collect_vec())
     .map(|coords| res!(OK, Json(coords)))
     .await
 }
@@ -74,17 +85,33 @@ pub async fn get_military(
     .await
 }
 
-pub async fn get_public(State(app): State<App>, Path(id): Path<PlayerId>) -> Response {
+pub async fn get_public(
+  State(app): State<App>,
+  Json(req): Json<GetPublicPlayerRequest>,
+) -> Response {
   app
-    .player_manager(|pm| pm.player(&id).map(PublicPlayer::from))
+    .player_manager(|pm| pm.player(&req.id).map(PublicPlayer::from))
     .map_ok(|player| res!(OK, Json(player)))
     .unwrap_or_else(from_core_err)
     .await
 }
 
-pub async fn get_status(State(app): State<App>, Path(id): Path<PlayerId>) -> Response {
+pub async fn get_reports(
+  State(app): State<App>,
+  Extension(player): Extension<CurrentPlayer>,
+) -> Response {
   app
-    .player_manager(|pm| pm.player(&id).map(Player::status))
+    .world(|world| world.get_player_reports(&player))
+    .map(|reports| res!(OK, Json(reports)))
+    .await
+}
+
+pub async fn get_status(
+  State(app): State<App>,
+  Json(req): Json<GetPlayerStatusRequest>,
+) -> Response {
+  app
+    .player_manager(|pm| pm.player(&req.id).map(Player::status))
     .map_ok(|status| res!(OK, Json(status)))
     .unwrap_or_else(from_core_err)
     .await

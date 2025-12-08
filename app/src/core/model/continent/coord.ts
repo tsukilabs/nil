@@ -3,6 +3,7 @@
 
 import { go } from '@/router';
 import type { Option } from '@tb-dev/utils';
+import type { Coord as WasmCoord } from '@tsukilabs/nil-continent';
 import {
   QUERY_WAR_ROOM_DEST_X,
   QUERY_WAR_ROOM_DEST_Y,
@@ -113,6 +114,10 @@ export class CoordImpl implements Coord {
     return new CoordImpl(coord);
   }
 
+  public static splat(value: number) {
+    return CoordImpl.create({ x: value, y: value });
+  }
+
   public static fromKey(key: ContinentKey) {
     if (typeof key === 'number') {
       return CoordImpl.fromIndex(key);
@@ -133,8 +138,8 @@ export class CoordImpl implements Coord {
     return coord.y * size + coord.x;
   }
 
-  public static splat(value: number) {
-    return CoordImpl.create({ x: value, y: value });
+  public static fromWasm(coord: WasmCoord) {
+    return CoordImpl.create({ x: coord.x(), y: coord.y() });
   }
 
   private static readonly intl = new Intl.NumberFormat('default', {

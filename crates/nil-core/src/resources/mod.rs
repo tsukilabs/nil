@@ -24,7 +24,7 @@ pub use diff::{FoodDiff, IronDiff, ResourcesDiff, StoneDiff, WoodDiff};
 pub use maintenance::{Maintenance, MaintenanceRatio};
 pub use workforce::Workforce;
 
-#[derive(Builder, Clone, Debug, Deserialize, Serialize)]
+#[derive(Builder, Clone, Debug, PartialEq, Eq, Deserialize, Serialize)]
 #[serde(default, rename_all = "camelCase")]
 pub struct Resources {
   #[builder(default)]
@@ -58,33 +58,28 @@ impl Resources {
   };
 
   /// Default amount of resources for a player.
-  pub const PLAYER: Self = Self {
-    food: Food::new(800),
-    iron: Iron::new(800),
-    stone: Stone::new(800),
-    wood: Wood::new(800),
-  };
+  pub const PLAYER: Self = Self::splat(800);
 
   /// Default amount of resources for a bot.
-  pub const BOT: Self = Self {
-    food: Food::new(2500),
-    iron: Iron::new(2500),
-    stone: Stone::new(2500),
-    wood: Wood::new(2500),
-  };
+  pub const BOT: Self = Self::splat(2500);
 
   /// Default amount of resources for a precursor.
-  pub const PRECURSOR: Self = Self {
-    food: Food::new(5_000_000),
-    iron: Iron::new(5_000_000),
-    stone: Stone::new(5_000_000),
-    wood: Wood::new(5_000_000),
-  };
+  pub const PRECURSOR: Self = Self::splat(5_000_000);
 
   #[inline]
   #[must_use]
   pub fn new() -> Self {
     Self::MIN.clone()
+  }
+
+  #[must_use]
+  pub const fn splat(value: u32) -> Self {
+    Self {
+      food: Food::new(value),
+      iron: Iron::new(value),
+      stone: Stone::new(value),
+      wood: Wood::new(value),
+    }
   }
 
   #[inline]
@@ -111,6 +106,26 @@ impl Resources {
     Self { wood, ..self.clone() }
   }
 
+  #[must_use]
+  pub fn silo(&self) -> Self {
+    Self {
+      food: self.food,
+      iron: Iron::MIN,
+      stone: Stone::MIN,
+      wood: Wood::MIN,
+    }
+  }
+
+  #[must_use]
+  pub fn warehouse(&self) -> Self {
+    Self {
+      food: Food::MIN,
+      iron: self.iron,
+      stone: self.stone,
+      wood: self.wood,
+    }
+  }
+
   pub fn add_within_capacity(&mut self, diff: &ResourcesDiff, capacity: &OverallStorageCapacity) {
     macro_rules! add {
       ($($resource:ident => $storage:ident),+ $(,)?) => {
@@ -134,6 +149,29 @@ impl Resources {
       stone: self.stone.checked_sub(rhs.stone)?,
       wood: self.wood.checked_sub(rhs.wood)?,
     })
+  }
+
+  pub fn sum(&self) -> u32 {
+    0u32
+      .saturating_add(self.food.0)
+      .saturating_add(self.iron.0)
+      .saturating_add(self.stone.0)
+      .saturating_add(self.wood.0)
+  }
+
+  #[inline]
+  pub fn sum_silo(&self) -> u32 {
+    self.silo().sum()
+  }
+
+  #[inline]
+  pub fn sum_warehouse(&self) -> u32 {
+    self.warehouse().sum()
+  }
+
+  #[inline]
+  pub fn is_empty(&self) -> bool {
+    self.sum() == 0
   }
 }
 

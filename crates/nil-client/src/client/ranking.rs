@@ -7,13 +7,11 @@ use nil_core::ranking::{Ranking, RankingEntry};
 use nil_payload::ranking::GetRankRequest;
 
 impl Client {
-  /// GET `/ranking`
-  pub async fn get_ranking(&self) -> Result<Ranking> {
-    self.http.get_json("ranking").await
+  pub async fn get_rank(&self, req: GetRankRequest) -> Result<Option<RankingEntry>> {
+    self.http.json_post("get-rank", req).await
   }
 
-  /// POST `/ranking`
-  pub async fn get_rank(&self, req: GetRankRequest) -> Result<Option<RankingEntry>> {
-    self.http.post_json("ranking", req).await
+  pub async fn get_ranking(&self) -> Result<Ranking> {
+    self.http.json_get("get-ranking").await
   }
 }

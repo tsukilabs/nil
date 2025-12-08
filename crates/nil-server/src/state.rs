@@ -7,6 +7,7 @@ use nil_core::npc::bot::BotManager;
 use nil_core::npc::precursor::PrecursorManager;
 use nil_core::player::PlayerManager;
 use nil_core::ranking::Ranking;
+use nil_core::report::ReportManager;
 use nil_core::round::Round;
 use nil_core::world::World;
 use std::sync::Arc;
@@ -83,6 +84,13 @@ impl App {
     F: FnOnce(&Ranking) -> T,
   {
     self.world(|world| f(world.ranking())).await
+  }
+
+  pub async fn report_manager<F, T>(&self, f: F) -> T
+  where
+    F: FnOnce(&ReportManager) -> T,
+  {
+    self.world(|world| f(world.report())).await
   }
 
   pub async fn round<F, T>(&self, f: F) -> T

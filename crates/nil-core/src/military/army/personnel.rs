@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::military::squad::{Squad, SquadSize};
+use crate::military::unit::stats::haul::Haul;
 use crate::military::unit::stats::speed::Speed;
 use crate::military::unit::{UnitId, UnitIdIter};
 use crate::ranking::Score;
@@ -104,6 +105,15 @@ impl ArmyPersonnel {
       .map(Squad::speed)
       .min_by(|a, b| a.total_cmp(b))
       .unwrap_or_default()
+  }
+
+  pub fn haul(&self) -> Haul {
+    self
+      .iter()
+      .fold(Haul::default(), |mut haul, squad| {
+        haul += squad.haul();
+        haul
+      })
   }
 
   pub fn score(&self) -> Score {

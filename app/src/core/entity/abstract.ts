@@ -16,6 +16,13 @@ export abstract class Entity {
   protected readonly watch = this.listeners.watch.bind(this.listeners);
   protected readonly watchEffect = this.listeners.watchEffect.bind(this.listeners);
 
+  /**
+   * Whether the entity must be updated manually.
+   *
+   * If true, it won't be updated when calling the global {@link NIL.update} method.
+   */
+  public readonly requireManualUpdates: boolean = false;
+
   protected initListeners() {
     noop();
   }
@@ -65,7 +72,11 @@ function createUpdater(table: Map<Ctor, Entity>) {
   return async function() {
     await mutex.acquire();
     try {
-      await Promise.all(table.values().map((it) => it.update()));
+      const promises = table.values()
+        .filter((it) => !it.requireManualUpdates)
+        .map((it) => it.update());
+
+      await Promise.all(promises);
     }
     catch (err) {
       handleError(err);

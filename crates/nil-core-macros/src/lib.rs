@@ -1,8 +1,11 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+#![feature(trim_prefix_suffix)]
+
 mod infrastructure;
 mod npc;
+mod report;
 mod unit;
 
 use proc_macro::TokenStream;
@@ -20,6 +23,11 @@ pub fn derive_mine(input: TokenStream) -> TokenStream {
 #[proc_macro_derive(Precursor)]
 pub fn derive_precursor(input: TokenStream) -> TokenStream {
   npc::impl_precursor(&syn::parse(input).unwrap())
+}
+
+#[proc_macro_derive(Report)]
+pub fn derive_report(input: TokenStream) -> TokenStream {
+  report::impl_report(&syn::parse(input).unwrap())
 }
 
 #[proc_macro_derive(Storage)]

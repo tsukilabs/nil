@@ -4,6 +4,7 @@
 mod size;
 
 use crate::error::{Error, Result};
+use crate::military::unit::stats::haul::Haul;
 use crate::military::unit::stats::speed::Speed;
 use crate::military::unit::{Unit, UnitBox, UnitId, UnitKind};
 use crate::ranking::Score;
@@ -81,6 +82,11 @@ impl Squad {
   #[inline]
   pub fn speed(&self) -> Speed {
     self.unit.speed()
+  }
+
+  #[inline]
+  pub fn haul(&self) -> Haul {
+    self.unit.haul() * self.size
   }
 
   pub fn checked_sub(&self, rhs: &Self) -> Result<Option<Self>> {

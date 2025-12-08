@@ -5,6 +5,7 @@ use crate::city::City;
 use crate::error::{Error, Result};
 use crate::military::Military;
 use crate::player::{Player, PlayerId, PlayerStatus};
+use crate::report::ReportId;
 use crate::resources::Maintenance;
 use crate::world::World;
 
@@ -21,6 +22,10 @@ impl World {
   pub fn get_player_military(&self, player: &PlayerId) -> Result<Military> {
     let coords = self.continent.coords_of(player);
     self.military.intersection(coords)
+  }
+
+  pub fn get_player_reports(&self, player: &PlayerId) -> Vec<ReportId> {
+    self.report.reports_of(player).collect()
   }
 
   #[inline]
@@ -52,7 +57,7 @@ impl World {
         .into();
 
       *player.status_mut() = PlayerStatus::Active;
-      self.player_manager.spawn(player);
+      self.player_manager.manage(player);
 
       self.emit_public_city_updated(coord);
 

@@ -10,6 +10,7 @@ import type { ChatEntity } from '@/core/entity/chat';
 import type { CityEntity } from '@/core/entity/city';
 import type { RoundEntity } from '@/core/entity/round';
 import type { WorldEntity } from '@/core/entity/world';
+import type { ReportEntity } from '@/core/entity/report';
 import type { PlayerEntity } from '@/core/entity/player';
 import type { MilitaryEntity } from '@/core/entity/military';
 
@@ -28,6 +29,9 @@ declare global {
   };
 
   var NIL: {
+    /** Updates **all** entities. */
+    readonly update: () => Promise<void>;
+
     readonly chat: {
       readonly refs: (typeof ChatEntity)['refs'];
       readonly update: (typeof ChatEntity)['update'];
@@ -61,6 +65,15 @@ declare global {
       readonly use: (typeof PlayerEntity)['use'];
     };
 
+    readonly report: {
+      readonly getReports: (typeof ReportEntity)['getReports'];
+      readonly getUnread: (typeof ReportEntity)['getUnread'];
+      readonly isUnread: (typeof ReportEntity)['isUnread'];
+      readonly refs: (typeof ReportEntity)['refs'];
+      readonly update: (typeof ReportEntity)['update'];
+      readonly use: (typeof ReportEntity)['use'];
+    };
+
     readonly round: {
       readonly getRound: (typeof RoundEntity)['getRound'];
       readonly refs: (typeof RoundEntity)['refs'];
@@ -75,9 +88,6 @@ declare global {
       readonly refs: (typeof WorldEntity)['refs'];
       readonly use: (typeof WorldEntity)['use'];
     };
-
-    /** Updates **all** entities. */
-    readonly update: () => Promise<void>;
   };
 
   interface ErrorConstructor {

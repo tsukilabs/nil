@@ -22,8 +22,8 @@ pub const USER_AGENT: &str = concat!("nil/", env!("CARGO_PKG_VERSION"));
 
 static HTTP: LazyLock<HttpClient> = LazyLock::new(|| {
   HttpClient::builder()
-    .use_rustls_tls()
     .user_agent(USER_AGENT)
+    .use_rustls_tls()
     .timeout(Duration::from_mins(1))
     .build()
     .expect("Failed to create HTTP client")
@@ -60,7 +60,7 @@ impl Http {
       .map_err(Into::into)
   }
 
-  pub(crate) async fn get_json<R>(&self, route: &str) -> Result<R>
+  pub(crate) async fn json_get<R>(&self, route: &str) -> Result<R>
   where
     R: DeserializeOwned,
   {
@@ -81,7 +81,7 @@ impl Http {
       .map(drop)
   }
 
-  pub(crate) async fn post_json<R>(&self, route: &str, body: impl Serialize) -> Result<R>
+  pub(crate) async fn json_post<R>(&self, route: &str, body: impl Serialize) -> Result<R>
   where
     R: DeserializeOwned,
   {
@@ -101,7 +101,7 @@ impl Http {
 }
 
 #[bon::builder]
-pub(crate) async fn request(
+async fn request(
   #[builder(start_fn)] method: Method,
   #[builder(start_fn)] url: &str,
   authorization: Option<&HeaderValue>,
@@ -122,7 +122,7 @@ pub(crate) async fn request(
 }
 
 #[bon::builder]
-pub(crate) async fn request_with_body<T>(
+async fn request_with_body<T>(
   #[builder(start_fn)] method: Method,
   #[builder(start_fn)] url: &str,
   #[builder(start_fn)] body: T,
@@ -146,7 +146,7 @@ where
   }
 }
 
-pub(crate) async fn json<R>(response: Response) -> Result<R>
+async fn json<R>(response: Response) -> Result<R>
 where
   R: DeserializeOwned,
 {

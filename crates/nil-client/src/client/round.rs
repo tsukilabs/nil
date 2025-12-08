@@ -7,18 +7,15 @@ use nil_core::round::Round;
 use nil_payload::round::SetPlayerReadyRequest;
 
 impl Client {
-  /// GET `/round`
   pub async fn get_round(&self) -> Result<Round> {
-    self.http.get_json("round").await
+    self.http.json_get("get-round").await
   }
 
-  /// POST `/round/ready`
   pub async fn set_player_ready(&self, req: SetPlayerReadyRequest) -> Result<()> {
-    self.http.post("round/ready", req).await
+    self.http.post("set-player-ready", req).await
   }
 
-  /// GET `/round/start`
   pub async fn start_round(&self) -> Result<()> {
-    self.http.get("round/start").await
+    self.http.get("start-round").await
   }
 }

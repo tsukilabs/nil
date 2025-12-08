@@ -4,7 +4,7 @@
 use crate::military::unit::stats::power::Power;
 use crate::ranking::Score;
 use crate::resources::Maintenance;
-use derive_more::{Deref, From, Into};
+use derive_more::{Deref, Display, From, Into};
 use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
 use std::ops::{Add, AddAssign, Mul, Sub, SubAssign};
@@ -15,6 +15,7 @@ use std::ops::{Add, AddAssign, Mul, Sub, SubAssign};
   Debug,
   Default,
   Deref,
+  Display,
   From,
   Into,
   PartialEq,

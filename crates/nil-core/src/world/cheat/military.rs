@@ -17,7 +17,7 @@ impl World {
     ruler: Option<Ruler>,
   ) -> Result<()> {
     bail_cheat_not_allowed!(self);
-    let ruler = ruler.try_else(|| {
+    let ruler = ruler.unwrap_or_try_else(|| {
       let city = self.city(coord)?;
       Ok(city.owner().clone())
     })?;

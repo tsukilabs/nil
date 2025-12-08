@@ -7,6 +7,7 @@ type EventPayload =
   | MilitaryUpdatedPayload
   | PlayerUpdatedPayload
   | PublicCityUpdatedPayload
+  | ReportPayload
   | RoundUpdatedPayload;
 
 type EventPayloadKind = EventPayload['kind'];
@@ -34,6 +35,11 @@ interface PlayerUpdatedPayload {
 interface PublicCityUpdatedPayload {
   readonly kind: 'public-city-updated';
   readonly coord: Coord;
+}
+
+interface ReportPayload {
+  readonly kind: 'report';
+  readonly report: ReportId;
 }
 
 interface RoundUpdatedPayload {

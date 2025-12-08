@@ -5,6 +5,8 @@ mod stability;
 
 use crate::continent::Coord;
 use crate::error::Result;
+use crate::infrastructure::building::StorageId;
+use crate::infrastructure::storage::OverallStorageCapacity;
 use crate::infrastructure::{Infrastructure, InfrastructureStats};
 use crate::npc::bot::BotId;
 use crate::npc::precursor::PrecursorId;
@@ -144,6 +146,22 @@ impl City {
   /// Determines the maintenance tax required for the city buildings.
   pub fn maintenance(&self, stats: &InfrastructureStats) -> Result<Maintenance> {
     self.infrastructure.base_maintenance(stats)
+  }
+
+  pub fn storage_capacity(&self, stats: &InfrastructureStats) -> Result<OverallStorageCapacity> {
+    let silo_stats = stats.storage(StorageId::Silo)?;
+    let warehouse_stats = stats.storage(StorageId::Warehouse)?;
+
+    Ok(OverallStorageCapacity {
+      silo: self
+        .infrastructure
+        .storage(StorageId::Silo)
+        .capacity(silo_stats)?,
+      warehouse: self
+        .infrastructure
+        .storage(StorageId::Warehouse)
+        .capacity(warehouse_stats)?,
+    })
   }
 }
 

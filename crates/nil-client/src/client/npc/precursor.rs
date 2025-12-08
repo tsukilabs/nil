@@ -4,22 +4,24 @@
 use crate::client::Client;
 use crate::error::Result;
 use nil_core::continent::Coord;
-use nil_core::npc::precursor::{PrecursorId, PublicPrecursor};
+use nil_core::npc::precursor::PublicPrecursor;
+use nil_payload::npc::precursor::{GetPrecursorCoordsRequest, GetPublicPrecursorRequest};
 
 impl Client {
-  /// GET `/npc/precursor/{id}/coord`
-  pub async fn get_precursor_coords(&self, id: PrecursorId) -> Result<Vec<Coord>> {
+  pub async fn get_precursor_coords(&self, req: GetPrecursorCoordsRequest) -> Result<Vec<Coord>> {
     self
       .http
-      .get_json(&format!("npc/precursor/{id}/coord"))
+      .json_post("get-precursor-coords", req)
       .await
   }
 
-  /// GET `/npc/precursor/{id}/public`
-  pub async fn get_public_precursor(&self, id: PrecursorId) -> Result<PublicPrecursor> {
+  pub async fn get_public_precursor(
+    &self,
+    req: GetPublicPrecursorRequest,
+  ) -> Result<PublicPrecursor> {
     self
       .http
-      .get_json(&format!("npc/precursor/{id}/public"))
+      .json_post("get-public-precursor", req)
       .await
   }
 }

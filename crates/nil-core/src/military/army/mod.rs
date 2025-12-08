@@ -6,6 +6,7 @@ mod personnel;
 use crate::continent::ContinentKey;
 use crate::military::Military;
 use crate::military::maneuver::ManeuverId;
+use crate::military::unit::stats::haul::Haul;
 use crate::military::unit::stats::speed::Speed;
 use crate::ranking::Score;
 use crate::resources::Maintenance;
@@ -68,6 +69,11 @@ impl Army {
   #[inline]
   pub fn speed(&self) -> Speed {
     self.personnel.speed()
+  }
+
+  #[inline]
+  pub fn haul(&self) -> Haul {
+    self.personnel.haul()
   }
 
   #[inline]

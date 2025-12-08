@@ -7,13 +7,14 @@ use nil_core::chat::ChatHistory;
 use nil_payload::chat::PushChatMessageRequest;
 
 impl Client {
-  /// GET `/chat`
   pub async fn get_chat_history(&self) -> Result<(ChatHistory, ChatHistory)> {
-    self.http.get_json("chat").await
+    self.http.json_get("get-chat-history").await
   }
 
-  /// POST `/chat`
   pub async fn push_chat_message(&self, req: PushChatMessageRequest) -> Result<()> {
-    self.http.post("chat", req).await
+    self
+      .http
+      .post("push-chat-message", req)
+      .await
   }
 }

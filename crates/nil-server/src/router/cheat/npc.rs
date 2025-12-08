@@ -4,31 +4,10 @@
 use crate::res;
 use crate::response::from_core_err;
 use crate::state::App;
-use axum::extract::{Json, Path, State};
+use axum::extract::{Json, State};
 use axum::response::Response;
 use futures::TryFutureExt;
-use nil_core::npc::bot::BotId;
-use nil_core::npc::precursor::PrecursorId;
 use nil_payload::cheat::npc::CheatSpawnBotRequest;
-
-pub async fn get_bot_resources(State(app): State<App>, Path(id): Path<BotId>) -> Response {
-  app
-    .world(|world| world.cheat_get_bot_resources(&id))
-    .map_ok(|resources| res!(OK, Json(resources)))
-    .unwrap_or_else(from_core_err)
-    .await
-}
-
-pub async fn get_precursor_resources(
-  State(app): State<App>,
-  Path(id): Path<PrecursorId>,
-) -> Response {
-  app
-    .world(|world| world.cheat_get_precursor_resources(id))
-    .map_ok(|resources| res!(OK, Json(resources)))
-    .unwrap_or_else(from_core_err)
-    .await
-}
 
 pub async fn spawn_bot(State(app): State<App>, Json(req): Json<CheatSpawnBotRequest>) -> Response {
   app

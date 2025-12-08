@@ -11,33 +11,30 @@ use nil_payload::infrastructure::stable::{
 };
 
 impl Client {
-  /// POST `/infrastructure/stable/recruit/add`
   pub async fn add_stable_recruit_order(&self, req: AddStableRecruitOrderRequest) -> Result<()> {
     self
       .http
-      .post("infrastructure/stable/recruit/add", req)
+      .post("add-stable-recruit-order", req)
       .await
   }
 
-  /// POST `/infrastructure/stable/recruit/cancel`
   pub async fn cancel_stable_recruit_order(
     &self,
     req: CancelStableRecruitOrderRequest,
   ) -> Result<()> {
     self
       .http
-      .post("infrastructure/stable/recruit/cancel", req)
+      .post("cancel-stable-recruit-order", req)
       .await
   }
 
-  /// POST `/infrastructure/stable/recruit/catalog`
   pub async fn get_stable_recruit_catalog(
     &self,
     req: GetStableRecruitCatalogRequest,
   ) -> Result<StableRecruitCatalog> {
     self
       .http
-      .post_json("infrastructure/stable/recruit/catalog", req)
+      .json_post("get-stable-recruit-catalog", req)
       .await
   }
 }

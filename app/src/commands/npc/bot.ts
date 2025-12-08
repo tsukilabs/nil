@@ -4,9 +4,9 @@
 import { invoke } from '@tauri-apps/api/core';
 
 export async function getBotCoords(id: BotId) {
-  return invoke<readonly Coord[]>('get_bot_coords', { id });
+  return invoke<readonly Coord[]>('get_bot_coords', { req: { id } });
 }
 
 export async function getPublicBot(id: BotId) {
-  return invoke<PublicBot>('get_public_bot', { id });
+  return invoke<PublicBot>('get_public_bot', { req: { id } });
 }

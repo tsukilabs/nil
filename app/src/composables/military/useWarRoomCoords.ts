@@ -3,7 +3,7 @@
 
 import { ref } from 'vue';
 import { CoordImpl } from '@/core/model/continent/coord';
-import { isValid, transform } from '@/composables/continent/useQueryCoords';
+import { isValid, transform } from '@/composables/continent/useQueryCoord';
 import {
   QUERY_WAR_ROOM_DEST_X,
   QUERY_WAR_ROOM_DEST_Y,

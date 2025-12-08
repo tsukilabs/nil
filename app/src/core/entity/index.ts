@@ -8,6 +8,7 @@ import { RoundEntity } from './round';
 import { WorldEntity } from './world';
 import { PlayerEntity } from './player';
 import { MilitaryEntity } from './military';
+import { ReportEntity } from '@/core/entity/report';
 
 export function initEntities() {
   if (!Object.hasOwn(globalThis, 'NIL')) {
@@ -29,4 +30,5 @@ export function initEntities() {
   PlayerEntity.init();
   CityEntity.init();
   MilitaryEntity.init();
+  ReportEntity.init();
 }

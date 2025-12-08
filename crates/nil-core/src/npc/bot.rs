@@ -16,6 +16,15 @@ use std::sync::Arc;
 pub struct BotManager(HashMap<BotId, Bot>);
 
 impl BotManager {
+  pub(crate) fn manage(&mut self, id: BotId) -> Result<()> {
+    if self.0.contains_key(&id) {
+      return Err(Error::BotAlreadySpawned(id));
+    }
+
+    self.0.insert(id.clone(), Bot::new(id));
+    Ok(())
+  }
+
   pub fn bot(&self, id: &BotId) -> Result<&Bot> {
     self
       .0
@@ -32,15 +41,6 @@ impl BotManager {
 
   pub fn bots(&self) -> impl Iterator<Item = &Bot> {
     self.0.values()
-  }
-
-  pub(crate) fn spawn(&mut self, id: BotId) -> Result<()> {
-    if self.0.contains_key(&id) {
-      return Err(Error::BotAlreadySpawned(id));
-    }
-
-    self.0.insert(id.clone(), Bot::new(id));
-    Ok(())
   }
 }
 

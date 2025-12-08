@@ -8,6 +8,7 @@ use crate::military::army::ArmyPersonnel;
 use crate::military::squad::{Squad, SquadSize};
 use crate::military::unit::UnitId;
 use crate::military::unit::UnitId::*;
+use std::assert_matches::assert_matches;
 use std::sync::LazyLock;
 
 static STATS: LazyLock<InfrastructureStats> = LazyLock::new(InfrastructureStats::default);
@@ -114,6 +115,22 @@ fn ranged_attack_no_debuff() {
 
   let attack_power = offensive(&battle);
   assert_eq!(attack_power.total, 370000.0);
+}
+
+#[test]
+fn no_defenders() {
+  let attacker = [s(Axeman, 8000), s(LightCavalry, 5000)];
+  let result = Battle::builder()
+    .attacker(&attacker)
+    .build()
+    .result();
+
+  assert_matches!(result.winner, BattleWinner::Attacker);
+  assert!(
+    !result
+      .attacker_surviving_personnel
+      .is_empty()
+  )
 }
 
 fn s(id: UnitId, amount: u32) -> Squad {

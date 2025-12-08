@@ -3,12 +3,23 @@
 
 use crate::error::Result;
 use crate::manager::ManagerExt;
+use itertools::Itertools;
 use nil_core::continent::Coord;
 use nil_core::infrastructure::storage::OverallStorageCapacity;
 use nil_core::military::Military;
-use nil_core::player::{Player, PlayerId, PlayerStatus, PublicPlayer};
+use nil_core::player::{Player, PlayerStatus, PublicPlayer};
+use nil_core::report::ReportId;
 use nil_core::resources::Maintenance;
-use nil_payload::player::{GetPlayerRequest, SetPlayerStatusRequest, SpawnPlayerRequest};
+use nil_payload::player::{
+  GetPlayerCoordsRequest,
+  GetPlayerRequest,
+  GetPlayerStatusRequest,
+  GetPublicPlayerRequest,
+  PlayerExistsRequest,
+  SetPlayerStatusRequest,
+  SpawnPlayerRequest,
+};
+use nil_util::result::WrapOk;
 use tauri::AppHandle;
 
 #[tauri::command]
@@ -20,9 +31,9 @@ pub async fn get_player(app: AppHandle, req: GetPlayerRequest) -> Result<Player>
 }
 
 #[tauri::command]
-pub async fn get_player_coords(app: AppHandle, id: PlayerId) -> Result<Vec<Coord>> {
+pub async fn get_player_coords(app: AppHandle, req: GetPlayerCoordsRequest) -> Result<Vec<Coord>> {
   app
-    .client(async |cl| cl.get_player_coords(id).await)
+    .client(async |cl| cl.get_player_coords(req).await)
     .await?
     .map_err(Into::into)
 }
@@ -44,9 +55,24 @@ pub async fn get_player_military(app: AppHandle) -> Result<Military> {
 }
 
 #[tauri::command]
-pub async fn get_player_status(app: AppHandle, id: PlayerId) -> Result<PlayerStatus> {
+pub async fn get_player_reports(app: AppHandle) -> Result<Vec<ReportId>> {
   app
-    .client(async |cl| cl.get_player_status(id).await)
+    .client(async |cl| cl.get_player_reports().await)
+    .await??
+    .into_iter()
+    .unique()
+    .sorted_unstable()
+    .collect_vec()
+    .wrap_ok()
+}
+
+#[tauri::command]
+pub async fn get_player_status(
+  app: AppHandle,
+  req: GetPlayerStatusRequest,
+) -> Result<PlayerStatus> {
+  app
+    .client(async |cl| cl.get_player_status(req).await)
     .await?
     .map_err(Into::into)
 }
@@ -68,9 +94,12 @@ pub async fn get_players(app: AppHandle) -> Result<Vec<Player>> {
 }
 
 #[tauri::command]
-pub async fn get_public_player(app: AppHandle, id: PlayerId) -> Result<PublicPlayer> {
+pub async fn get_public_player(
+  app: AppHandle,
+  req: GetPublicPlayerRequest,
+) -> Result<PublicPlayer> {
   app
-    .client(async |cl| cl.get_public_player(id).await)
+    .client(async |cl| cl.get_public_player(req).await)
     .await?
     .map_err(Into::into)
 }
@@ -84,9 +113,9 @@ pub async fn get_public_players(app: AppHandle) -> Result<Vec<PublicPlayer>> {
 }
 
 #[tauri::command]
-pub async fn player_exists(app: AppHandle, id: PlayerId) -> Result<bool> {
+pub async fn player_exists(app: AppHandle, req: PlayerExistsRequest) -> Result<bool> {
   app
-    .client(async |cl| cl.player_exists(id).await)
+    .client(async |cl| cl.player_exists(req).await)
     .await?
     .map_err(Into::into)
 }

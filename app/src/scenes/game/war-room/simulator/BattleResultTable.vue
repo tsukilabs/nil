@@ -3,10 +3,10 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import type { BattleResultImpl } from '@/core/model/battle';
 import enUS from '@/locale/en-US/scenes/game/war-room.json';
 import ptBR from '@/locale/pt-BR/scenes/game/war-room.json';
 import BattleResultTableRow from './BattleResultTableRow.vue';
+import type { BattleResultImpl } from '@/core/model/battle-result';
 import { Table, TableBody, TableHead, TableHeader, TableRow } from '@tb-dev/vue-components';
 
 defineProps<{ result: BattleResultImpl; }>();

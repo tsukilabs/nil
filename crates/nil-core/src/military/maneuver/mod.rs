@@ -159,12 +159,12 @@ impl Maneuver {
 }
 
 #[must_use]
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, Deserialize, Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Hash, Deserialize, Serialize)]
 pub struct ManeuverId(Uuid);
 
 impl ManeuverId {
   pub fn new() -> Self {
-    Self(Uuid::new_v4())
+    Self(Uuid::now_v7())
   }
 }
 

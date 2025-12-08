@@ -9,6 +9,7 @@ use crate::military::unit::UnitId;
 use crate::npc::bot::BotId;
 use crate::npc::precursor::PrecursorId;
 use crate::player::PlayerId;
+use crate::report::ReportId;
 use serde::Serialize;
 use serde::ser::Serializer;
 use std::result::Result as StdResult;
@@ -102,6 +103,9 @@ pub enum Error {
 
   #[error("Precursor not found: {0}")]
   PrecursorNotFound(PrecursorId),
+
+  #[error("Report not found")]
+  ReportNotFound(ReportId),
 
   #[error("Round already started")]
   RoundAlreadyStarted,

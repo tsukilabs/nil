@@ -6,11 +6,10 @@ use crate::error::Result;
 use nil_payload::cheat::military::CheatSpawnPersonnelRequest;
 
 impl Client {
-  /// POST `/cheat/military/spawn`
   pub async fn cheat_spawn_personnel(&self, req: CheatSpawnPersonnelRequest) -> Result<()> {
     self
       .http
-      .post("cheat/military/spawn", req)
+      .post("cheat-spawn-personnel", req)
       .await
   }
 }

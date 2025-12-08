@@ -39,6 +39,7 @@ class Listener<T extends EventPayload> {
     onMilitaryUpdated: new this<MilitaryUpdatedPayload>('military-updated'),
     onPlayerUpdated: new this<PlayerUpdatedPayload>('player-updated'),
     onPublicCityUpdated: new this<PublicCityUpdatedPayload>('public-city-updated'),
+    onReport: new this<ReportPayload>('report'),
     onRoundUpdated: new this<RoundUpdatedPayload>('round-updated'),
   } as const;
 }

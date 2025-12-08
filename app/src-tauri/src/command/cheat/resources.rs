@@ -3,7 +3,9 @@
 
 use crate::error::Result;
 use crate::manager::ManagerExt;
+use nil_core::resources::Resources;
 use nil_payload::cheat::resources::{
+  CheatGetResourcesRequest,
   CheatSetFoodRequest,
   CheatSetIronRequest,
   CheatSetResourcesRequest,
@@ -11,6 +13,17 @@ use nil_payload::cheat::resources::{
   CheatSetWoodRequest,
 };
 use tauri::AppHandle;
+
+#[tauri::command]
+pub async fn cheat_get_resources(
+  app: AppHandle,
+  req: CheatGetResourcesRequest,
+) -> Result<Resources> {
+  app
+    .client(async |cl| cl.cheat_get_resources(req).await)
+    .await?
+    .map_err(Into::into)
+}
 
 #[tauri::command]
 pub async fn cheat_set_food(app: AppHandle, req: CheatSetFoodRequest) -> Result<()> {

@@ -9,6 +9,7 @@ use crate::npc::bot::BotManager;
 use crate::npc::precursor::PrecursorManager;
 use crate::player::{PlayerManager, PlayerStatus};
 use crate::ranking::Ranking;
+use crate::report::ReportManager;
 use crate::round::Round;
 use crate::world::{WorldConfig, WorldStats};
 use jiff::Zoned;
@@ -32,6 +33,7 @@ pub struct Savedata {
   pub(crate) precursor_manager: PrecursorManager,
   pub(crate) military: Military,
   pub(crate) ranking: Ranking,
+  pub(crate) report: ReportManager,
   pub(crate) config: WorldConfig,
   pub(crate) stats: WorldStats,
   pub(crate) chat: Chat,

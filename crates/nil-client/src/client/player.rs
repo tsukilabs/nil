@@ -6,83 +6,99 @@ use crate::error::Result;
 use nil_core::continent::Coord;
 use nil_core::infrastructure::storage::OverallStorageCapacity;
 use nil_core::military::Military;
-use nil_core::player::{Player, PlayerId, PlayerStatus, PublicPlayer};
+use nil_core::player::{Player, PlayerStatus, PublicPlayer};
+use nil_core::report::ReportId;
 use nil_core::resources::Maintenance;
-use nil_payload::player::{GetPlayerRequest, SetPlayerStatusRequest, SpawnPlayerRequest};
+use nil_payload::player::{
+  GetPlayerCoordsRequest,
+  GetPlayerRequest,
+  GetPlayerStatusRequest,
+  GetPublicPlayerRequest,
+  PlayerExistsRequest,
+  SetPlayerStatusRequest,
+  SpawnPlayerRequest,
+};
 
 impl Client {
-  /// GET `/player`
-  pub async fn get_players(&self) -> Result<Vec<Player>> {
-    self.http.get_json("player").await
-  }
-
-  /// POST `/player`
   pub async fn get_player(&self, req: GetPlayerRequest) -> Result<Player> {
-    self.http.post_json("player", req).await
+    self.http.json_post("get-player", req).await
   }
 
-  /// GET `/player/capacity`
-  pub async fn get_player_storage_capacity(&self) -> Result<OverallStorageCapacity> {
-    self.http.get_json("player/capacity").await
+  pub async fn get_player_coords(&self, req: GetPlayerCoordsRequest) -> Result<Vec<Coord>> {
+    self
+      .http
+      .json_post("get-player-coords", req)
+      .await
   }
 
-  /// GET `/player/maintenance`
   pub async fn get_player_maintenance(&self) -> Result<Maintenance> {
     self
       .http
-      .get_json("player/maintenance")
+      .json_get("get-player-maintenance")
       .await
   }
 
-  /// GET `/player/military`
   pub async fn get_player_military(&self) -> Result<Military> {
-    self.http.get_json("player/military").await
+    self
+      .http
+      .json_get("get-player-military")
+      .await
   }
 
-  /// GET `/player/public`
+  pub async fn get_player_reports(&self) -> Result<Vec<ReportId>> {
+    self
+      .http
+      .json_get("get-player-reports")
+      .await
+  }
+
+  pub async fn get_player_status(&self, req: GetPlayerStatusRequest) -> Result<PlayerStatus> {
+    self
+      .http
+      .json_post("get-player-status", req)
+      .await
+  }
+
+  pub async fn get_players(&self) -> Result<Vec<Player>> {
+    self.http.json_get("get-players").await
+  }
+
+  pub async fn get_player_storage_capacity(&self) -> Result<OverallStorageCapacity> {
+    self
+      .http
+      .json_get("get-player-storage-capacity")
+      .await
+  }
+
+  pub async fn get_public_player(&self, req: GetPublicPlayerRequest) -> Result<PublicPlayer> {
+    self
+      .http
+      .json_post("get-public-player", req)
+      .await
+  }
+
   pub async fn get_public_players(&self) -> Result<Vec<PublicPlayer>> {
-    self.http.get_json("player/public").await
+    self
+      .http
+      .json_get("get-public-players")
+      .await
   }
 
-  /// POST `/player/spawn`
-  pub async fn spawn_player(&self, req: SpawnPlayerRequest) -> Result<()> {
-    self.http.post("player/spawn", req).await
-  }
-
-  /// POST `/player/status`
   pub async fn set_player_status(&self, req: SetPlayerStatusRequest) -> Result<()> {
-    self.http.post("player/status", req).await
-  }
-
-  /// GET `/player/{id}/coord`
-  pub async fn get_player_coords(&self, id: PlayerId) -> Result<Vec<Coord>> {
     self
       .http
-      .get_json(&format!("player/{id}/coord"))
+      .post("set-player-status", req)
       .await
   }
 
-  /// GET `/player/{id}/exists`
-  pub async fn player_exists(&self, id: PlayerId) -> Result<bool> {
-    self
-      .http
-      .get_json(&format!("player/{id}/exists"))
-      .await
+  pub async fn spawn_player(&self, req: SpawnPlayerRequest) -> Result<()> {
+    self.http.post("spawn-player", req).await
   }
 
-  /// GET `/player/{id}/public`
-  pub async fn get_public_player(&self, id: PlayerId) -> Result<PublicPlayer> {
+  pub async fn player_exists(&self, req: PlayerExistsRequest) -> Result<bool> {
     self
       .http
-      .get_json(&format!("player/{id}/public"))
-      .await
-  }
-
-  /// GET `/player/{id}/status`
-  pub async fn get_player_status(&self, id: PlayerId) -> Result<PlayerStatus> {
-    self
-      .http
-      .get_json(&format!("player/{id}/status"))
+      .json_post("player-exists", req)
       .await
   }
 }

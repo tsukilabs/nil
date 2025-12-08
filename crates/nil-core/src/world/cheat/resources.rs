@@ -5,9 +5,17 @@ use crate::bail_cheat_not_allowed;
 use crate::error::Result;
 use crate::player::PlayerId;
 use crate::resources::prelude::*;
+use crate::ruler::Ruler;
 use crate::world::World;
 
 impl World {
+  pub fn cheat_get_resources(&self, ruler: Ruler) -> Result<Resources> {
+    bail_cheat_not_allowed!(self);
+    self
+      .ruler(ruler)
+      .map(|ruler| ruler.resources().clone())
+  }
+
   pub fn cheat_set_resources(&mut self, player_id: PlayerId, resources: Resources) -> Result<()> {
     bail_cheat_not_allowed!(self);
     let player = self.player_mut(&player_id)?;

@@ -13,7 +13,7 @@ import { CoordImpl } from '@/core/model/continent/coord';
 import { Card, CardContent } from '@tb-dev/vue-components';
 import { useBreakpoints } from '@/composables/util/useBreakpoints';
 import { PublicFieldImpl } from '@/core/model/continent/public-field';
-import { useQueryCoords } from '@/composables/continent/useQueryCoords';
+import { useQueryCoord } from '@/composables/continent/useQueryCoord';
 import { memory } from '@tsukilabs/nil-continent/nil_continent_bg.wasm';
 import { type Direction, onKeyboardMovement } from '@/composables/continent/onKeyboardMovement';
 import {
@@ -32,7 +32,7 @@ import {
 const continent = new Continent();
 
 const route = useRoute();
-const queryCoords = useQueryCoords();
+const { initialCoord, queryX, queryY } = useQueryCoord();
 
 const { continentSize } = NIL.world.refs();
 const { coord: currentCoord } = NIL.city.refs();
@@ -98,8 +98,8 @@ watchEffect(() => {
 });
 
 onBeforeMount(() => {
-  const x = queryCoords.value?.x;
-  const y = queryCoords.value?.y;
+  const x = initialCoord.value?.x;
+  const y = initialCoord.value?.y;
   if (typeof x === 'number' && typeof y === 'number') {
     continent.set_center(x, y);
   }
@@ -218,6 +218,8 @@ function move(direction: Direction, delta: number) {
 
   if (x !== initialX || y !== initialY) {
     continent.set_center(x, y);
+    queryX.value = x;
+    queryY.value = y;
     render();
   }
 }

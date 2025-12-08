@@ -3,6 +3,8 @@
 
 use crate::error::{Error, Result};
 use crate::resources::Resources;
+use crate::world::World;
+use bon::Builder;
 use derive_more::{Display, From, Into};
 use serde::{Deserialize, Serialize};
 use std::borrow::Cow;
@@ -14,6 +16,11 @@ use std::sync::Arc;
 pub struct PlayerManager(HashMap<PlayerId, Player>);
 
 impl PlayerManager {
+  pub(crate) fn manage(&mut self, player: Player) {
+    debug_assert!(!self.0.contains_key(&player.id));
+    self.0.insert(player.id(), player);
+  }
+
   pub fn player(&self, id: &PlayerId) -> Result<&Player> {
     self
       .0
@@ -40,11 +47,6 @@ impl PlayerManager {
   pub fn has(&self, id: &PlayerId) -> bool {
     self.0.contains_key(id)
   }
-
-  pub(crate) fn spawn(&mut self, player: Player) {
-    debug_assert!(!self.0.contains_key(&player.id));
-    self.0.insert(player.id(), player);
-  }
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
@@ -62,6 +64,10 @@ impl Player {
       status: PlayerStatus::Active,
       resources: Resources::PLAYER.clone(),
     }
+  }
+
+  pub fn spawn(self, world: &mut World) -> Result<()> {
+    world.spawn_player(self)
   }
 
   #[inline]
@@ -129,10 +135,18 @@ pub enum PlayerStatus {
   Inactive,
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Builder, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct PlayerOptions {
+  #[builder(start_fn, into)]
   pub id: PlayerId,
+}
+
+impl PlayerOptions {
+  #[inline]
+  pub fn into_player(self) -> Player {
+    Player::new(self)
+  }
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]

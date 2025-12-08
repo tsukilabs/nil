@@ -21,7 +21,7 @@ impl World {
 
   pub(crate) fn spawn_bot(&mut self, id: impl Into<BotId>) -> Result<BotId> {
     let id: BotId = id.into();
-    self.bot_manager.spawn(id.clone())?;
+    self.bot_manager.manage(id.clone())?;
     let (coord, field) = self.find_spawn_point()?;
 
     let infrastructure = Infrastructure::builder()

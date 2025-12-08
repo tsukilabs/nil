@@ -305,6 +305,7 @@ impl Military {
     let mut done = Vec::new();
     for (id, maneuver) in &mut self.maneuvers {
       maneuver.advance()?;
+
       if maneuver.is_done() {
         done.push(*id);
       }

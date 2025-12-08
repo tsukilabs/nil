@@ -7,11 +7,10 @@ use nil_core::battle::BattleResult;
 use nil_payload::battle::SimulateBattleRequest;
 
 impl Client {
-  /// POST `/battle/simulate`
   pub async fn simulate_battle(&self, req: SimulateBattleRequest) -> Result<BattleResult> {
     self
       .http
-      .post_json("battle/simulate", req)
+      .json_post("simulate-battle", req)
       .await
   }
 }
