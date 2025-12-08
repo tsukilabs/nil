@@ -9,7 +9,12 @@ param(
   [string]$Device,
 
   [Alias('W')]
-  [switch]$Wasm
+  [switch]$Wasm,
+
+  [Alias('V')]
+  [switch]$Verbose,
+
+  [switch]$LogTowerHttp
 )
 
 $ErrorActionPreference = 'Stop'
@@ -17,6 +22,10 @@ $PSNativeCommandUseErrorActionPreference = $true
 
 if ($Wasm) {
   pnpm run wasm
+}
+
+if ($LogTowerHttp -or $Verbose) {
+  $Env:NIL_LOG_TOWER_HTTP = 'true'
 }
 
 if ($Android) {

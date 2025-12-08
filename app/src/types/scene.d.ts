@@ -6,6 +6,7 @@ type Scene = GameScene | 'about' | 'home' | 'host-game' | 'join-game' | 'load-ga
 type GameScene =
   | InfrastructureScene
   | ProfileScene
+  | ReportScene
   | WarRoomScene
   | 'chat'
   | 'city'
@@ -31,5 +32,7 @@ type PrefectureScene = 'prefecture' | 'prefecture-settings';
 type StableScene = 'stable' | 'stable-settings';
 
 type ProfileScene = 'profile-bot' | 'profile-city' | 'profile-player' | 'profile-precursor';
+
+type ReportScene = 'report' | 'report-view';
 
 type WarRoomScene = 'war-room' | 'war-room-simulator';

@@ -7,8 +7,8 @@ import { CityEntity } from './city';
 import { RoundEntity } from './round';
 import { WorldEntity } from './world';
 import { PlayerEntity } from './player';
+import { ReportEntity } from './report';
 import { MilitaryEntity } from './military';
-import { ReportEntity } from '@/core/entity/report';
 
 export function initEntities() {
   if (!Object.hasOwn(globalThis, 'NIL')) {

@@ -3,12 +3,14 @@
 
 <script setup lang="ts">
 import { watchEffect } from 'vue';
+import Unread from '@/components/Unread.vue';
 import Chat from '@/components/chat/Chat.vue';
 import { useRoute, useRouter } from 'vue-router';
 import { ListenerSet } from '@/lib/listener-set';
 import { useToggle, whenever } from '@vueuse/core';
 import ChatIcon from '@/components/chat/ChatIcon.vue';
 import ChatInput from '@/components/chat/ChatInput.vue';
+import { MessageSquareTextIcon } from 'lucide-vue-next';
 import { useBreakpoints } from '@/composables/util/useBreakpoints';
 import { Button, Popover, PopoverContent, PopoverTrigger } from '@tb-dev/vue-components';
 
@@ -73,10 +75,14 @@ function onChatUpdated({ message }: ChatUpdatedPayload) {
     size="icon"
     @click="() => router.back()"
   >
-    <ChatIcon :has-unread />
+    <Unread :has-unread>
+      <MessageSquareTextIcon />
+    </Unread>
   </Button>
 
   <RouterLink v-else :to="{ name: 'chat' satisfies GameScene }">
-    <ChatIcon :has-unread />
+    <ChatIcon :has-unread>
+      <MessageSquareTextIcon />
+    </ChatIcon>
   </RouterLink>
 </template>

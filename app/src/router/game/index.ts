@@ -1,9 +1,10 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { reportRoutes } from './report';
 import { profileRoutes } from './profile';
+import { warRoomRoutes } from './war-room';
 import type { RouteRecordRaw } from 'vue-router';
-import { warRoomRoutes } from '@/router/game/war-room';
 import { infrastructureRoutes } from './infrastructure';
 
 export const gameRoutes: RouteRecordRaw[] = [
@@ -36,6 +37,11 @@ export const gameRoutes: RouteRecordRaw[] = [
     component: () => import('@/scenes/game/ranking/index.vue'),
     path: 'ranking',
     name: 'ranking' satisfies GameScene,
+  },
+  {
+    component: () => import('@/scenes/game/report/index.vue'),
+    path: 'report',
+    children: reportRoutes,
   },
   {
     component: () => import('@/scenes/game/war-room/index.vue'),

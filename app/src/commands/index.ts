@@ -13,6 +13,7 @@ export * from './battle';
 export * from './client';
 export * from './server';
 export * from './player';
+export * from './report';
 export * from './ranking';
 export * from './military';
 export * from './continent';
