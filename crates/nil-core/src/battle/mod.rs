@@ -57,21 +57,12 @@ impl BattleResult {
     let mut attacker_surviving_personnel = ArmyPersonnel::default();
     let mut defender_surviving_personnel = ArmyPersonnel::default();
 
-    let infantry_losses_ratio = match winner {
-      BattleWinner::Attacker => defender_power.infantry / attacker_power.infantry,
-      BattleWinner::Defender => attacker_power.infantry / defender_power.infantry,
-    };
-    let cavalry_losses_ratio = match winner {
-      BattleWinner::Attacker => defender_power.cavalry / attacker_power.cavalry,
-      BattleWinner::Defender => attacker_power.cavalry / defender_power.cavalry,
-    };
-    let ranged_losses_ratio = match winner {
-      BattleWinner::Attacker => defender_power.ranged / attacker_power.ranged,
-      BattleWinner::Defender => attacker_power.ranged / defender_power.ranged,
+    let losses_ratio = match winner {
+      BattleWinner::Attacker => defender_power.total / attacker_power.total,
+      BattleWinner::Defender => attacker_power.total / defender_power.total,
     };
 
     let mut squad_survivors: f64;
-
     match winner {
       BattleWinner::Attacker => {
         for squad in attacking_squads {
@@ -205,17 +196,17 @@ impl DefensivePower {
     let mut ranged_power = 0.0;
 
     let mut army_size = 0.0;
-    let mut ranged_size = 0.0;
+    let mut ranged_squad_size = 0.0;
 
     for squad in squads {
       if squad.kind() == UnitKind::Ranged {
-        ranged_size += f64::from(squad.size());
+        ranged_squad_size += f64::from(squad.size());
       }
       army_size += f64::from(squad.size());
     }
 
     for squad in squads {
-      if squad.kind() == UnitKind::Ranged && ranged_size / army_size > 0.5 {
+      if squad.kind() == UnitKind::Ranged && ranged_squad_size / army_size > 0.5 {
         infantry_power += squad.defense().infantry * sum_ranged_debuff(squads);
         cavalry_power += squad.defense().cavalry * sum_ranged_debuff(squads);
         ranged_power += squad.defense().ranged * sum_ranged_debuff(squads);
@@ -225,6 +216,12 @@ impl DefensivePower {
         ranged_power += squad.defense().ranged;
       }
     }
+
+    let mut total = 0.0;
+
+    let mut infantry_ratio = 0.0;
+    let mut cavalry_ratio = 0.0;
+    let mut ranged_ratio = 0.0;
 
     if army_size > 0.0 {
       let infantry_power_per_unit = infantry_power / army_size;
@@ -245,13 +242,13 @@ impl DefensivePower {
       infantry_power = infantry_necessary_units * army_size * infantry_power_per_unit;
       cavalry_power = cavalry_necessary_units * army_size * cavalry_power_per_unit;
       ranged_power = ranged_necessary_units * army_size * ranged_power_per_unit;
+
+      total = infantry_power + cavalry_power + ranged_power;
+
+      infantry_ratio = infantry_power / total;
+      cavalry_ratio = cavalry_power / total;
+      ranged_ratio = ranged_power / total;
     }
-
-    let mut total = infantry_power + cavalry_power + ranged_power;
-
-    let infantry_ratio = infantry_power / total;
-    let cavalry_ratio = cavalry_power / total;
-    let ranged_ratio = ranged_power / total;
 
     if let Some(wall_power) = defending_wall {
       total = add_wall_power(wall_power, total);
