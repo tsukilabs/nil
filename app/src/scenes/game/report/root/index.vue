@@ -61,9 +61,15 @@ const { md } = useBreakpoints();
               class="cursor-pointer"
               @click="() => report.goToView()"
             >
-              <TableCell>{{ report.getTitle() }}</TableCell>
-              <TableCell>{{ report.round }}</TableCell>
-              <TableCell v-if="md">{{ report.formatDate() }}</TableCell>
+              <TableCell :class="report.isUnread() ? 'font-semibold' : 'font-normal'">
+                <span>{{ report.getTitle(t) }}</span>
+              </TableCell>
+              <TableCell>
+                <span>{{ report.round }}</span>
+              </TableCell>
+              <TableCell v-if="md">
+                <span>{{ report.formatDate() }}</span>
+              </TableCell>
             </TableRow>
           </TableBody>
         </Table>

@@ -3,12 +3,13 @@
 
 interface Maneuver {
   readonly id: ManeuverId;
-  readonly direction: ManeuverDirection;
   readonly origin: Coord;
+  readonly destination: Coord;
   readonly army: ArmyId;
   readonly kind: ManeuverKind;
-  readonly destination: Coord;
+  readonly direction: ManeuverDirection;
   readonly state: ManeuverState;
+  readonly speed: number;
   readonly hauledResources: Option<ManeuverHaul>;
 }
 

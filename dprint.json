@@ -4,19 +4,22 @@
   "newLineKind": "lf",
   "useTabs": false,
   "typescript": {
+    "arrowFunction.useParentheses": "force",
+    "commentLine.forceSpaceAfterSlashes": true,
+    "exportDeclaration.sortNamedExports": "maintain",
+    "exportDeclaration.sortTypeOnlyExports": "none",
+    "importDeclaration.sortNamedImports": "maintain",
+    "importDeclaration.sortTypeOnlyImports": "none",
+    "module.sortExportDeclarations": "maintain",
+    "module.sortImportDeclarations": "maintain",
     "nextControlFlowPosition": "nextLine",
     "operatorPosition": "sameLine",
     "quoteProps": "asNeeded",
     "quoteStyle": "alwaysSingle",
     "semiColons": "always",
-    "trailingCommas": "onlyMultiLine",
-
-    "module.sortExportDeclarations": "maintain",
-    "module.sortImportDeclarations": "maintain",
-    "exportDeclaration.sortNamedExports": "maintain",
-    "exportDeclaration.sortTypeOnlyExports": "none",
-    "importDeclaration.sortNamedImports": "maintain",
-    "importDeclaration.sortTypeOnlyImports": "none"
+    "spaceAround": false,
+    "spaceSurroundingProperties": true,
+    "trailingCommas": "onlyMultiLine"
   },
   "markup": {
     "printWidth": 120,

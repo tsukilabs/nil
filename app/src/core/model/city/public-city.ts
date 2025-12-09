@@ -35,7 +35,7 @@ export class PublicCityImpl implements PublicCity {
   }
 
   get index() {
-    return this.coord.toIndex();
+    return this.coord.toContinentIndex();
   }
 
   public static create(args: PublicCityImplConstructorArgs) {
@@ -47,7 +47,7 @@ export class PublicCityImpl implements PublicCity {
   }
 
   public static async load(key: ContinentKey) {
-    const coord = CoordImpl.fromKey(key);
+    const coord = CoordImpl.fromContinentKey(key);
     const [city, score] = await Promise.all([
       commands.getPublicCity(coord),
       commands.getCityScore(coord),

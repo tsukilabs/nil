@@ -1,15 +1,10 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable @typescript-eslint/class-methods-use-this */
-
 import { go } from '@/router';
-import { formatDate } from 'date-fns';
-import { fromZoned } from '@/lib/date';
-import { runWithContext } from '@tb-dev/vue';
+import { formatToday, fromZoned } from '@/lib/date';
+import type { ComposerTranslation } from 'vue-i18n';
 import enUS from '@/locale/en-US/scenes/game/report.json';
-import ptBR from '@/locale/pt-BR/scenes/game/report.json';
-import { type ComposerTranslation, useI18n } from 'vue-i18n';
 
 export abstract class ReportImpl implements Report_ {
   public readonly id: ReportId;
@@ -24,26 +19,21 @@ export abstract class ReportImpl implements Report_ {
     this.date = fromZoned(report.timestamp);
   }
 
-  public abstract getTitle(): string;
+  public abstract getTitle(t: ComposerTranslation<typeof enUS>): string;
+
+  public isUnread() {
+    return NIL.report.isUnread(this.id);
+  }
+
+  public markRead() {
+    NIL.report.markRead(this.id);
+  }
 
   public formatDate() {
-    return formatDate(this.date, 'dd/MM HH:mm');
+    return formatToday(this.date);
   }
 
   public async goToView() {
     await go('report-view', { params: { id: this.id } });
-  }
-
-  protected i18n(f: (t: ComposerTranslation<typeof enUS>) => string) {
-    return runWithContext(() => {
-      const { t } = useI18n({
-        messages: {
-          'en-US': enUS,
-          'pt-BR': ptBR,
-        },
-      });
-
-      return f(t);
-    });
   }
 }

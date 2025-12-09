@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::battle::BattleResult;
-use crate::city::PublicCity;
+use crate::continent::Coord;
 use crate::report::ReportId;
 use crate::resources::Resources;
 use crate::round::RoundId;
@@ -17,8 +17,9 @@ pub struct BattleReport {
   id: ReportId,
   attacker: Ruler,
   defender: Ruler,
+  origin: Coord,
+  destination: Coord,
   result: BattleResult,
-  city: PublicCity,
   hauled_resources: Resources,
   round: RoundId,
   timestamp: Zoned,
@@ -30,8 +31,9 @@ impl BattleReport {
   pub fn new(
     attacker: Ruler,
     defender: Ruler,
+    origin: Coord,
+    destination: Coord,
     result: BattleResult,
-    city: PublicCity,
     hauled_resources: Resources,
     round: RoundId,
   ) -> Self {
@@ -39,8 +41,9 @@ impl BattleReport {
       id: ReportId::new(),
       attacker,
       defender,
+      origin,
+      destination,
       result,
-      city,
       hauled_resources,
       round,
       timestamp: Zoned::now(),
@@ -63,8 +66,13 @@ impl BattleReport {
   }
 
   #[inline]
-  pub fn city(&self) -> &PublicCity {
-    &self.city
+  pub fn origin(&self) -> Coord {
+    self.origin
+  }
+
+  #[inline]
+  pub fn destination(&self) -> Coord {
+    self.destination
   }
 
   #[inline]

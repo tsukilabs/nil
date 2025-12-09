@@ -10,7 +10,7 @@ export async function cheatSpawnPersonnel(
   personnel?: Option<ArmyPersonnel | number>,
   ruler?: Option<Ruler>,
 ) {
-  coord = CoordImpl.fromKey(coord);
+  coord = CoordImpl.fromContinentKey(coord);
   personnel ??= 1_000;
   ruler ??= null;
 

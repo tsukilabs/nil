@@ -19,7 +19,7 @@ export class MilitaryImpl implements Military {
 
   public getArmiesAt(key: ContinentKey): readonly ArmyImpl[] {
     if (typeof key !== 'number') {
-      key = CoordImpl.toIndex(key);
+      key = CoordImpl.toContinentIndex(key);
     }
 
     return this.continent.get(key) ?? [];

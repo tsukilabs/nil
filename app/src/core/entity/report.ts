@@ -32,6 +32,17 @@ export class ReportEntity extends Entity {
     await this.updateReports();
   }
 
+  public isUnread(id: ReportId) {
+    return this.unread.value.has(id);
+  }
+
+  public markRead(id: ReportId) {
+    if (this.isUnread(id)) {
+      this.unread.value.delete(id);
+      triggerRef(this.unread);
+    }
+  }
+
   private onReport({ report }: ReportPayload) {
     if (!this.reports.value.includes(report)) {
       this.reports.value.push(report);
@@ -67,7 +78,11 @@ export class ReportEntity extends Entity {
   }
 
   public static isUnread(id: ReportId) {
-    return this.getUnread().has(id);
+    return this.use().isUnread(id);
+  }
+
+  public static markRead(id: ReportId) {
+    this.use().markRead(id);
   }
 
   public static init() {
@@ -76,6 +91,7 @@ export class ReportEntity extends Entity {
         getReports: ReportEntity.getReports.bind(ReportEntity),
         getUnread: ReportEntity.getUnread.bind(ReportEntity),
         isUnread: ReportEntity.isUnread.bind(ReportEntity),
+        markRead: ReportEntity.markRead.bind(ReportEntity),
         refs: ReportEntity.refs.bind(ReportEntity),
         update: ReportEntity.update.bind(ReportEntity),
         use: ReportEntity.use.bind(ReportEntity),

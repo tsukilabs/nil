@@ -1,8 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { fromZoned } from '@/lib/date';
-import { formatDate, isToday } from 'date-fns';
+import { formatToday, fromZoned } from '@/lib/date';
 
 export class ChatMessageImpl implements ChatMessage {
   public readonly id: ChatMessageId;
@@ -26,8 +25,7 @@ export class ChatMessageImpl implements ChatMessage {
   }
 
   public formatDate() {
-    const format = isToday(this.date) ? 'HH:mm' : 'dd/MM HH:mm';
-    return formatDate(this.date, format);
+    return formatToday(this.date);
   }
 
   public static create(message: ChatMessage) {

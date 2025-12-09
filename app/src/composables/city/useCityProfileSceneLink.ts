@@ -8,7 +8,7 @@ import type { PublicCityImpl } from '@/core/model/city/public-city';
 export function useCityProfileSceneLink(city: MaybeNilRef<PublicCityImpl>) {
   const cityRef = toRef(city);
   return computed<Option<RouteLocationAsRelative>>(() => {
-    const ckey = cityRef.value?.coord.toIndexString();
+    const ckey = cityRef.value?.coord.toContinentIndexString();
     if (ckey) {
       return {
         name: 'profile-city' satisfies ProfileScene,

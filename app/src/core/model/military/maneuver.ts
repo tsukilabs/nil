@@ -12,6 +12,7 @@ export class ManeuverImpl implements Maneuver {
   public readonly kind: ManeuverKind;
   public readonly direction: ManeuverDirection;
   public readonly state: ManeuverState;
+  public readonly speed: number;
   public readonly hauledResources: Option<ManeuverHaulImpl>;
 
   private constructor(maneuver: Maneuver) {
@@ -22,6 +23,7 @@ export class ManeuverImpl implements Maneuver {
     this.kind = maneuver.kind;
     this.direction = maneuver.direction;
     this.state = maneuver.state;
+    this.speed = maneuver.speed;
 
     this.hauledResources = maneuver.hauledResources ?
       ManeuverHaulImpl.create(maneuver.hauledResources) :
