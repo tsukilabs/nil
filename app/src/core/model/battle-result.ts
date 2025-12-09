@@ -22,11 +22,17 @@ export class BattleResultImpl implements BattleResult {
   }
 
   public getAttackerLosses() {
-    return this.attackerPersonnel.sub(this.attackerSurvivingPersonnel);
+    return BattleResultImpl.getLosses(
+      this.attackerPersonnel,
+      this.attackerSurvivingPersonnel,
+    );
   }
 
   public getDefenderLosses() {
-    return this.defenderPersonnel.sub(this.defenderSurvivingPersonnel);
+    return BattleResultImpl.getLosses(
+      this.defenderPersonnel,
+      this.defenderSurvivingPersonnel,
+    );
   }
 
   public static create(result: BattleResult) {
@@ -39,5 +45,9 @@ export class BattleResultImpl implements BattleResult {
 
   public static async simulate(args: Parameters<typeof simulateBattle>[0]) {
     return new BattleResultImpl(await simulateBattle(args));
+  }
+
+  public static getLosses(personnel: ArmyPersonnel, surviving: ArmyPersonnel) {
+    return ArmyPersonnelImpl.sub(personnel, surviving);
   }
 }

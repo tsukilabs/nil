@@ -24,6 +24,8 @@ pub async fn get_by(State(app): State<App>, Json(req): Json<GetReportsRequest>) 
     .report()
     .reports_by(|(id, _)| req.ids.contains(&id))
     .take(req.limit.unwrap_or(1_000))
+    .sorted_unstable_by_key(|report| report.as_dyn().id())
+    .rev()
     .cloned()
     .collect_vec();
 

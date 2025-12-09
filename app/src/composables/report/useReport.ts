@@ -1,28 +1,32 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as commands from '@/commands';
+import { toRef, watch } from 'vue';
 import { asyncRef } from '@tb-dev/vue';
+import { getReport } from '@/commands/report';
 import type { ReportImpl } from '@/core/model/report/abstract';
 import { BattleReportImpl } from '@/core/model/report/battle-report';
 
-export function useReport(id: Option<ReportId>) {
-  const { state, isLoading, execute } = asyncRef(null, async () => {
-    return id ? toReportImpl(await commands.getReport(id)) : null;
+export function useReport(id: MaybeNilRef<ReportId>) {
+  const idRef = toRef(id);
+  const { state, isLoading, execute } = asyncRef<Option<ReportImpl>>(null, async () => {
+    return idRef.value ? getReport(idRef.value).then(toReportImpl) : null;
   });
 
+  watch(idRef, execute);
+
   return {
-    reports: state,
+    report: state,
     loading: isLoading,
     load: execute,
   };
 }
 
-export function toReportImpl({ kind, report }: ReportKind): ReportImpl {
+async function toReportImpl({ kind, report }: ReportKind) {
   switch (kind) {
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     case 'battle': {
-      return BattleReportImpl.create(report);
+      return BattleReportImpl.load(report);
     }
   }
 }

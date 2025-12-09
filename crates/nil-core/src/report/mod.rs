@@ -9,7 +9,7 @@ use crate::round::RoundId;
 use itertools::Itertools;
 use jiff::Zoned;
 use serde::{Deserialize, Serialize};
-use std::collections::{BTreeMap, HashMap};
+use std::collections::HashMap;
 use std::sync::Arc;
 use uuid::Uuid;
 
@@ -23,7 +23,7 @@ pub trait Report {
 
 #[derive(Clone, Debug, Default, Deserialize, Serialize)]
 pub struct ReportManager {
-  reports: BTreeMap<ReportId, ReportKind>,
+  reports: HashMap<ReportId, ReportKind>,
   players: HashMap<PlayerId, Vec<ReportId>>,
 }
 

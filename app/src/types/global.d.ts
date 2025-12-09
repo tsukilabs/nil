@@ -68,6 +68,7 @@ declare global {
       readonly getReports: (typeof ReportEntity)['getReports'];
       readonly getUnread: (typeof ReportEntity)['getUnread'];
       readonly isUnread: (typeof ReportEntity)['isUnread'];
+      readonly markRead: (typeof ReportEntity)['markRead'];
       readonly refs: (typeof ReportEntity)['refs'];
       readonly update: (typeof ReportEntity)['update'];
       readonly use: (typeof ReportEntity)['use'];

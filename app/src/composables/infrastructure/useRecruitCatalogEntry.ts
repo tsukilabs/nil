@@ -20,7 +20,7 @@ export function useRecruitCatalogEntry(entry: MaybeRefOrGetter<RecruitCatalogEnt
       return impl.mul(minChunk.value);
     }
 
-    return ResourcesImpl.zero();
+    return ResourcesImpl.splat(0);
   });
 
   const maintenance = computed(() => {

@@ -13,6 +13,8 @@ export class WorldEntity extends Entity {
   private readonly stats: ShallowRef<Option<WorldStatsImpl>>;
   private readonly continentSize: Ref<number>;
 
+  public override readonly requireManualUpdates = true;
+
   constructor() {
     super();
 

@@ -29,7 +29,7 @@ export class CoordImpl implements Coord {
   }
 
   public is(other: ContinentKey) {
-    other = CoordImpl.fromKey(other);
+    other = CoordImpl.fromContinentKey(other);
     return this.x === other.x && this.y === other.y;
   }
 
@@ -66,7 +66,7 @@ export class CoordImpl implements Coord {
   }
 
   public async goToProfile() {
-    const ckey = this.toIndexString();
+    const ckey = this.toContinentIndexString();
     await go('profile-city', { params: { ckey } });
   }
 
@@ -89,13 +89,13 @@ export class CoordImpl implements Coord {
     return CoordImpl.formatY(this);
   }
 
-  public toIndex() {
-    this.#index ??= CoordImpl.toIndex(this);
+  public toContinentIndex() {
+    this.#index ??= CoordImpl.toContinentIndex(this);
     return this.#index;
   }
 
-  public toIndexString() {
-    return this.toIndex().toString(10);
+  public toContinentIndexString() {
+    return CoordImpl.toContinentIndexString(this);
   }
 
   public toJSON() {
@@ -118,40 +118,44 @@ export class CoordImpl implements Coord {
     return CoordImpl.create({ x: value, y: value });
   }
 
-  public static fromKey(key: ContinentKey) {
+  public static fromContinentKey(key: ContinentKey) {
     if (typeof key === 'number') {
-      return CoordImpl.fromIndex(key);
+      return CoordImpl.fromContinentIndex(key);
     }
 
     return CoordImpl.create(key);
   }
 
-  public static fromIndex(index: ContinentIndex) {
+  public static fromContinentIndex(index: ContinentIndex) {
     const size = NIL.world.getContinentSize();
     const x = index % size;
     const y = index / size;
     return CoordImpl.create({ x, y });
   }
 
-  public static toIndex(coord: Coord) {
+  public static toContinentIndex(coord: Coord) {
     const size = NIL.world.getContinentSize();
     return coord.y * size + coord.x;
   }
 
-  public static fromWasm(coord: WasmCoord) {
-    return CoordImpl.create({ x: coord.x(), y: coord.y() });
+  public static toContinentIndexString(coord: Coord) {
+    return this.toContinentIndex(coord).toString(10);
+  }
+
+  public static fromWasmCoord(coord: WasmCoord) {
+    return this.create({ x: coord.x(), y: coord.y() });
   }
 
   public static format(coord: Coord) {
-    return `${CoordImpl.formatX(coord)}|${CoordImpl.formatY(coord)}`;
+    return `${this.formatX(coord)}|${this.formatY(coord)}`;
   }
 
   public static formatX(coord: Coord) {
-    return CoordImpl.intl.format(coord.x);
+    return this.intl.format(coord.x);
   }
 
   public static formatY(coord: Coord) {
-    return CoordImpl.intl.format(coord.y);
+    return this.intl.format(coord.y);
   }
 
   private static readonly intl = new Intl.NumberFormat('default', {

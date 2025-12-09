@@ -75,7 +75,7 @@ export class CityImpl extends PublicCityImpl implements City {
   }
 
   public static override async load(key: ContinentKey) {
-    const coord = CoordImpl.fromKey(key);
+    const coord = CoordImpl.fromContinentKey(key);
     const [city, score] = await Promise.all([
       commands.getCity(coord),
       commands.getCityScore(coord),

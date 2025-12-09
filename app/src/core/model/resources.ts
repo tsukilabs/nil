@@ -97,6 +97,10 @@ export class ResourcesImpl implements Resources {
     );
   }
 
+  public isEmpty() {
+    return ResourcesImpl.isEmpty(this);
+  }
+
   public static create(resources?: PartialNullish<Resources>) {
     if (resources instanceof ResourcesImpl) {
       return resources;
@@ -110,10 +114,6 @@ export class ResourcesImpl implements Resources {
     });
   }
 
-  public static zero() {
-    return ResourcesImpl.splat(0);
-  }
-
   public static splat(value: number) {
     return ResourcesImpl.create({
       food: value,
@@ -121,5 +121,14 @@ export class ResourcesImpl implements Resources {
       stone: value,
       wood: value,
     });
+  }
+
+  public static isEmpty(resources: PartialNullish<Resources>) {
+    return (
+      (resources.food ?? 0) <= 0 &&
+      (resources.iron ?? 0) <= 0 &&
+      (resources.stone ?? 0) <= 0 &&
+      (resources.wood ?? 0) <= 0
+    );
   }
 }

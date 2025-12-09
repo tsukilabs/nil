@@ -19,7 +19,7 @@ export abstract class RulerImpl {
   }
 
   public owns(key: ContinentKey) {
-    const coord = CoordImpl.fromKey(key);
+    const coord = CoordImpl.fromContinentKey(key);
     return this.coords.some((it) => it.is(coord));
   }
 }

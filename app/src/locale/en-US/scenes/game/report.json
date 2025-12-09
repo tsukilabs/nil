@@ -1,3 +1,6 @@
 {
-  "battle-report-title": "{attacker} attacks {targetCityName} ({targetCoord})"
+  "attacker-luck": "Attacker's luck",
+  "battle-report-title": "{attacker} attacks {destinationName} ({destination})",
+  "losses": "Losses",
+  "x-has-won": "{ruler} has won"
 }

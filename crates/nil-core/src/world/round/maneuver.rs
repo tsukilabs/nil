@@ -34,6 +34,7 @@ impl World {
 
   fn process_going_maneuver(&mut self, mut maneuver: Maneuver) -> Result<()> {
     let army_id = maneuver.army();
+    let origin = maneuver.origin();
     let destination = maneuver.destination();
     let rulers = ManeuverRulers::new(self, &maneuver)?;
 
@@ -69,8 +70,9 @@ impl World {
         let report = BattleReport::builder()
           .attacker(rulers.sender)
           .defender(rulers.destination_ruler)
+          .origin(origin)
+          .destination(destination)
           .result(battle_result)
-          .city(self.city(destination)?.into())
           .hauled_resources(hauled_resources)
           .round(self.round.id())
           .build();

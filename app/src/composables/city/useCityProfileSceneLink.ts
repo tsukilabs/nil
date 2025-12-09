@@ -2,13 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { computed, toRef } from 'vue';
+import { CoordImpl } from '@/core/model/continent/coord';
 import type { RouteLocationAsRelative } from 'vue-router';
-import type { PublicCityImpl } from '@/core/model/city/public-city';
 
-export function useCityProfileSceneLink(city: MaybeNilRef<PublicCityImpl>) {
+export function useCityProfileSceneLink(city: MaybeNilRef<PublicCity>) {
   const cityRef = toRef(city);
   return computed<Option<RouteLocationAsRelative>>(() => {
-    const ckey = cityRef.value?.coord.toIndexString();
+    const coord = cityRef.value?.coord;
+    const ckey = coord ? CoordImpl.toContinentIndexString(coord) : null;
     if (ckey) {
       return {
         name: 'profile-city' satisfies ProfileScene,

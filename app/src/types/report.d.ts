@@ -17,8 +17,9 @@ interface ReportKindBattle {
 interface BattleReport extends Report_ {
   readonly attacker: Ruler;
   readonly defender: Ruler;
+  readonly origin: Coord;
+  readonly destination: Coord;
   readonly result: BattleResult;
-  readonly city: PublicCity;
   readonly hauledResources: Resources;
 }
 

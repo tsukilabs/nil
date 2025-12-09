@@ -21,7 +21,7 @@ export class PublicFieldImpl {
 
   private constructor(coord: CoordImpl) {
     this.coord = coord;
-    this.index = coord.toIndex();
+    this.index = coord.toContinentIndex();
   }
 
   public async load(options?: LoadOptions) {

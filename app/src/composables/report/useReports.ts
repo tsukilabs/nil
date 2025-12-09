@@ -4,12 +4,23 @@
 import type { Ref } from 'vue';
 import * as commands from '@/commands';
 import { asyncRef } from '@tb-dev/vue';
-import { toReportImpl } from '@/composables/report/useReport';
+import { CoordImpl } from '@/core/model/continent/coord';
+import type { ReportImpl } from '@/core/model/report/abstract';
+import { BattleReportImpl } from '@/core/model/report/battle-report';
+
+type CityCache = Map<ContinentIndex, MaybePromise<PublicCity>>;
 
 export function useReports(ids: Ref<readonly ReportId[]>) {
-  const { state, isLoading, execute } = asyncRef([], async () => {
-    const reports = await commands.getReports(ids.value);
-    return reports.map(toReportImpl);
+  const { state, isLoading, execute } = asyncRef<ReportImpl[]>([], async () => {
+    if (ids.value.length > 0) {
+      const reports = await commands.getReports(ids.value);
+      const cityCache: CityCache = new Map();
+      return Promise.all(reports.map((report) => {
+        return toReportImpl(report, cityCache);
+      }));
+    }
+
+    return [];
   });
 
   return {
@@ -17,4 +28,28 @@ export function useReports(ids: Ref<readonly ReportId[]>) {
     loading: isLoading,
     load: execute,
   };
+}
+
+async function toReportImpl({ kind, report }: ReportKind, cityCache: CityCache) {
+  switch (kind) {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    case 'battle': {
+      return BattleReportImpl.create({
+        report,
+        originCity: await getCity(cityCache, report.origin),
+        destinationCity: await getCity(cityCache, report.destination),
+      });
+    }
+  }
+}
+
+async function getCity(cache: CityCache, coord: Coord) {
+  const index = CoordImpl.toContinentIndex(coord);
+  let city = cache.get(index);
+  if (!city) {
+    city = commands.getPublicCity(coord);
+    cache.set(index, city);
+  }
+
+  return city;
 }
