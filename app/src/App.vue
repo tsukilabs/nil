@@ -5,7 +5,6 @@
 import { useI18n } from 'vue-i18n';
 import { storeToRefs } from 'pinia';
 import { throttle } from 'es-toolkit';
-import type { Locale } from '@/locale';
 import { onKeyDown } from '@tb-dev/vue';
 import { nextTick, onMounted } from 'vue';
 import { handleError } from '@/lib/error';

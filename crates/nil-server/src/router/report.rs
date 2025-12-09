@@ -19,13 +19,11 @@ pub async fn get(State(app): State<App>, Json(req): Json<GetReportRequest>) -> R
 }
 
 pub async fn get_by(State(app): State<App>, Json(req): Json<GetReportsRequest>) -> Response {
-  let reports = app
-    .world
-    .read()
-    .await
+  let world = app.world.read().await;
+  let reports = world
     .report()
     .reports_by(|(id, _)| req.ids.contains(&id))
-    .take(req.limit.unwrap_or(usize::MAX))
+    .take(req.limit.unwrap_or(1_000))
     .cloned()
     .collect_vec();
 

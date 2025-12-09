@@ -41,25 +41,17 @@ impl World {
     Ok(resources)
   }
 
-  pub(crate) fn transpose_resources<A, B>(
-    &mut self,
-    from: A,
-    to: B,
-    mut resources: Resources,
-  ) -> Result<()>
+  pub(crate) fn take_resources_of<R>(&mut self, ruler: R, resources: &mut Resources) -> Result<()>
   where
-    A: Into<Ruler>,
-    B: Into<Ruler>,
+    R: Into<Ruler>,
   {
-    let mut from = self.ruler_mut(from.into())?;
-    let current_resources = from.take_resources();
-    if let Some(res) = current_resources.checked_sub(&resources) {
-      *from.resources_mut() = res;
+    let mut ruler = self.ruler_mut(ruler.into())?;
+    let current_resources = ruler.take_resources();
+    if let Some(res) = current_resources.checked_sub(resources) {
+      *ruler.resources_mut() = res;
     } else {
-      resources = current_resources;
+      *resources = current_resources;
     }
-
-    *self.ruler_mut(to.into())?.resources_mut() += resources;
 
     Ok(())
   }

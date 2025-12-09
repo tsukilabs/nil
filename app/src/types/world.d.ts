@@ -4,13 +4,17 @@
 interface WorldOptions {
   readonly name: string;
   readonly size: number;
+  readonly locale: Locale;
   readonly allowCheats: bool;
 }
 
 interface WorldConfig {
   readonly name: string;
+  readonly locale: Locale;
   readonly allowCheats: bool;
 }
+
+type Locale = 'en-US' | 'pt-BR';
 
 interface WorldStats {
   readonly infrastructure: InfrastructureStats;

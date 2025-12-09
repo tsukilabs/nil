@@ -5,6 +5,7 @@ mod battle;
 mod chat;
 mod cheat;
 mod city;
+mod config;
 mod continent;
 mod event;
 mod infrastructure;
@@ -15,13 +16,14 @@ mod ranking;
 mod resources;
 mod round;
 mod savedata;
+mod stats;
 
 use crate::chat::Chat;
 use crate::city::City;
 use crate::continent::{Continent, ContinentSize, Coord};
 use crate::error::{Error, Result};
 use crate::event::Emitter;
-use crate::infrastructure::{Infrastructure, InfrastructureStats};
+use crate::infrastructure::Infrastructure;
 use crate::military::Military;
 use crate::npc::bot::{Bot, BotId, BotManager};
 use crate::npc::precursor::{Precursor, PrecursorId, PrecursorManager};
@@ -34,7 +36,9 @@ use crate::savedata::Savedata;
 use bon::Builder;
 use serde::{Deserialize, Serialize};
 use std::path::{Path, PathBuf};
-use std::sync::Arc;
+
+pub use config::{Locale, WorldConfig, WorldName};
+pub use stats::WorldStats;
 
 #[derive(Debug)]
 pub struct World {
@@ -247,6 +251,9 @@ pub struct WorldOptions {
   pub size: ContinentSize,
 
   #[builder(default)]
+  pub locale: Locale,
+
+  #[builder(default)]
   pub allow_cheats: bool,
 }
 
@@ -261,62 +268,5 @@ impl TryFrom<&WorldOptions> for World {
 
   fn try_from(options: &WorldOptions) -> Result<Self> {
     Self::new(options)
-  }
-}
-
-#[derive(Clone, Debug, Deserialize, Serialize)]
-#[serde(rename_all = "camelCase")]
-pub struct WorldConfig {
-  name: WorldName,
-  allow_cheats: bool,
-}
-
-impl WorldConfig {
-  #[inline]
-  pub fn name(&self) -> WorldName {
-    self.name.clone()
-  }
-
-  #[inline]
-  pub fn are_cheats_allowed(&self) -> bool {
-    self.allow_cheats
-  }
-}
-
-impl From<&WorldOptions> for WorldConfig {
-  fn from(options: &WorldOptions) -> Self {
-    Self {
-      name: options.name.clone(),
-      allow_cheats: options.allow_cheats,
-    }
-  }
-}
-
-#[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct WorldName(Arc<str>);
-
-impl<T: AsRef<str>> From<T> for WorldName {
-  fn from(value: T) -> Self {
-    Self(Arc::from(value.as_ref()))
-  }
-}
-
-#[derive(Clone, Debug, Deserialize, Serialize)]
-#[serde(rename_all = "camelCase")]
-pub struct WorldStats {
-  infrastructure: Arc<InfrastructureStats>,
-}
-
-#[expect(clippy::new_without_default)]
-impl WorldStats {
-  pub fn new() -> Self {
-    Self {
-      infrastructure: Arc::new(InfrastructureStats::new()),
-    }
-  }
-
-  #[inline]
-  pub fn infrastructure(&self) -> Arc<InfrastructureStats> {
-    Arc::clone(&self.infrastructure)
   }
 }

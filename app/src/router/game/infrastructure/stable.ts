@@ -11,7 +11,7 @@ export const stableRoutes: RouteRecordRaw[] = [
   },
   {
     component: () => import('@/scenes/game/infrastructure/stable/settings/index.vue'),
-    path: 'stable-settings',
+    path: 'settings',
     name: 'stable-settings' satisfies StableScene,
   },
 ];

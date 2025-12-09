@@ -3,7 +3,6 @@
 
 import { ref } from 'vue';
 import { defineStore } from 'pinia';
-import type { Locale } from '@/locale';
 import type { BasicColorSchema } from '@vueuse/core';
 import { type as osType } from '@tauri-apps/plugin-os';
 

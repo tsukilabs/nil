@@ -3,6 +3,8 @@
 
 type MaybeArray<T> = import('@tb-dev/utils').MaybeArray<T>;
 
+type MaybeReadonlyArray<T> = import('@tb-dev/utils').MaybeReadonlyArray<T>;
+
 type MaybeNilRef<T> = import('@tb-dev/vue').MaybeNilRef<T>;
 
 type MaybePromise<T> = import('@tb-dev/utils').MaybePromise<T>;

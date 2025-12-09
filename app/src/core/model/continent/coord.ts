@@ -77,16 +77,16 @@ export class CoordImpl implements Coord {
   }
 
   public format() {
-    this.#id ??= `${this.formatX()}|${this.formatY()}`;
+    this.#id ??= CoordImpl.format(this);
     return this.#id;
   }
 
   public formatX() {
-    return CoordImpl.intl.format(this.x);
+    return CoordImpl.formatX(this);
   }
 
   public formatY() {
-    return CoordImpl.intl.format(this.y);
+    return CoordImpl.formatY(this);
   }
 
   public toIndex() {
@@ -140,6 +140,18 @@ export class CoordImpl implements Coord {
 
   public static fromWasm(coord: WasmCoord) {
     return CoordImpl.create({ x: coord.x(), y: coord.y() });
+  }
+
+  public static format(coord: Coord) {
+    return `${CoordImpl.formatX(coord)}|${CoordImpl.formatY(coord)}`;
+  }
+
+  public static formatX(coord: Coord) {
+    return CoordImpl.intl.format(coord.x);
+  }
+
+  public static formatY(coord: Coord) {
+    return CoordImpl.intl.format(coord.y);
   }
 
   private static readonly intl = new Intl.NumberFormat('default', {

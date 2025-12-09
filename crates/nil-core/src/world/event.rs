@@ -5,7 +5,7 @@ use crate::chat::ChatMessage;
 use crate::continent::Coord;
 use crate::event::{Event, Listener};
 use crate::player::PlayerId;
-use crate::report::ReportId;
+use crate::report::{BattleReport, Report, ReportId};
 use crate::world::World;
 
 impl World {
@@ -30,6 +30,17 @@ impl World {
       && let Some(player) = city.player()
     {
       self.emitter.emit_to(player, event);
+    }
+  }
+
+  pub(super) fn emit_battle_report(&self, report: &BattleReport) {
+    if let Some(attacker) = report.attacker().player().cloned() {
+      self.emit_report(attacker, report.id());
+    }
+
+    if let Some(defender) = report.defender().player().cloned() {
+      debug_assert_ne!(report.attacker().player(), Some(&defender));
+      self.emit_report(defender, report.id());
     }
   }
 

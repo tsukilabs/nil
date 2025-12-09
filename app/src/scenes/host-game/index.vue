@@ -7,6 +7,7 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { hostGame } from '@/core/game';
 import { useRouter } from 'vue-router';
+import { useSettings } from '@/settings';
 import { localRef, useMutex } from '@tb-dev/vue';
 import type { WritablePartial } from '@tb-dev/utils';
 import enUS from '@/locale/en-US/scenes/host-game.json';
@@ -37,10 +38,12 @@ const { t } = useI18n({
 });
 
 const router = useRouter();
+const settings = useSettings();
 
 const world = localRef<WritablePartial<WorldOptions>>('host-game:world', {
   name: null,
   size: 100,
+  locale: settings.locale,
   allowCheats: false,
 });
 
@@ -54,6 +57,7 @@ const isValidWorld = computed(() => isWorldOptions(world.value));
 const canHost = computed(() => isValidPlayer.value && isValidWorld.value);
 
 async function host() {
+  world.value.locale ??= settings.locale;
   await lock(async () => {
     if (isPlayerOptions(player.value) && isWorldOptions(world.value)) {
       await hostGame(player.value, world.value);

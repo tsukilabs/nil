@@ -8,8 +8,8 @@ export async function getReport(id: ReportId) {
   return invoke<ReportKind>('get_report', { req: { id } });
 }
 
-export async function getReports(ids: MaybeArray<ReportId>, limit?: Option<number>) {
-  ids = toArray(ids);
+export async function getReports(ids: MaybeReadonlyArray<ReportId>, limit?: Option<number>) {
+  ids = toArray(ids as ReportId[]);
   limit ??= null;
   return invoke<readonly ReportKind[]>('get_reports', { req: { ids, limit } });
 }

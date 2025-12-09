@@ -235,9 +235,7 @@ impl DefensivePower {
       total = add_wall_power(wall_power, total);
     }
 
-    DefensivePower {
-      total,
-    }
+    DefensivePower { total }
   }
 }
 

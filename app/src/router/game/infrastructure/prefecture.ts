@@ -11,7 +11,7 @@ export const prefectureRoutes: RouteRecordRaw[] = [
   },
   {
     component: () => import('@/scenes/game/infrastructure/prefecture/settings/index.vue'),
-    path: 'prefecture-settings',
+    path: 'settings',
     name: 'prefecture-settings' satisfies PrefectureScene,
   },
 ];

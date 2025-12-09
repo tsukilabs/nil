@@ -7,29 +7,25 @@ use crate::resources::Resources;
 use crate::world::{World, WorldOptions};
 
 #[test]
-fn transpose_resources() -> Result<()> {
+fn take_resources_of() -> Result<()> {
   let mut world = WorldOptions::builder("World")
     .build()
     .to_world()?;
 
-  let player_a = PlayerId::from("Player A");
-  let player_b = PlayerId::from("Player B");
+  let player = PlayerId::from("Player A");
+  spawn(&mut world, &player)?;
 
-  spawn(&mut world, &player_a)?;
-  spawn(&mut world, &player_b)?;
+  *world.player_mut(&player)?.resources_mut() = res(10_000);
 
-  *world.player_mut(&player_a)?.resources_mut() = res(10_000);
-  *world.player_mut(&player_b)?.resources_mut() = res(5_000);
+  let mut buf = res(8000);
 
-  world.transpose_resources(&player_a, &player_b, res(8_000))?;
+  world.take_resources_of(&player, &mut buf)?;
+  assert_eq!(world.player(&player)?.resources(), &res(2_000));
+  assert_eq!(buf, res(8000));
 
-  assert_eq!(world.player(&player_a)?.resources(), &res(2_000));
-  assert_eq!(world.player(&player_b)?.resources(), &res(13_000));
-
-  world.transpose_resources(&player_a, &player_b, res(8_000))?;
-
-  assert_eq!(world.player(&player_a)?.resources(), &res(0));
-  assert_eq!(world.player(&player_b)?.resources(), &res(15_000));
+  world.take_resources_of(&player, &mut buf)?;
+  assert_eq!(world.player(&player)?.resources(), &res(0));
+  assert_eq!(buf, res(2_000));
 
   Ok(())
 }

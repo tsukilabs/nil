@@ -6,25 +6,26 @@ use crate::continent::Coord;
 use crate::error::Result;
 use crate::infrastructure::building::{Building, BuildingLevel};
 use crate::military::army::{Army, ArmyState};
-use crate::military::maneuver::{Maneuver, ManeuverDirection, ManeuverKind};
+use crate::military::maneuver::{Maneuver, ManeuverDirection, ManeuverHaul, ManeuverKind};
 use crate::military::unit::stats::haul::Haul;
 use crate::player::PlayerId;
-use crate::report::{BattleReport, Report};
+use crate::report::BattleReport;
 use crate::resources::Resources;
 use crate::ruler::Ruler;
 use crate::world::World;
 use itertools::Itertools;
+use nil_util::option::WrapSome;
 use nil_util::result::WrapOk;
 use nil_util::vec::VecExt;
 use num_traits::ToPrimitive;
 
 impl World {
   pub(super) fn process_maneuvers(&mut self) -> Result<()> {
-    for maneuver in self.military.advance_maneuvers()? {
+    for mut maneuver in self.military.advance_maneuvers()? {
       debug_assert!(maneuver.is_done());
       match maneuver.direction() {
         ManeuverDirection::Going => self.process_going_maneuver(maneuver)?,
-        ManeuverDirection::Returning => self.process_returning_maneuver(&maneuver)?,
+        ManeuverDirection::Returning => self.process_returning_maneuver(&mut maneuver)?,
       }
     }
 
@@ -40,39 +41,41 @@ impl World {
       // TODO: Calculate defender losses.
       ManeuverKind::Attack => {
         let battle_result = perform_battle(self, &maneuver)?;
-        let attacker_surviving_personnel = battle_result.attacker_surviving_personnel();
+        *self
+          .military
+          .army_mut(army_id)?
+          .personnel_mut() = battle_result
+          .attacker_surviving_personnel()
+          .clone();
 
-        if attacker_surviving_personnel.is_empty() {
+        let haul = self.military.army(army_id)?.haul();
+        let mut hauled_resources = calculate_hauled_resources(self, destination, haul)?;
+        self.take_resources_of(rulers.destination_ruler.clone(), &mut hauled_resources)?;
+
+        if self.military.army(army_id)?.is_empty() {
           self.military.remove_army(army_id)?;
         } else {
           maneuver.reverse()?;
+          *maneuver.hauled_resources_mut() = ManeuverHaul::builder()
+            .ruler(rulers.destination_ruler.clone())
+            .resources(hauled_resources.clone())
+            .build()
+            .wrap_some();
+
           self.military.insert_maneuver(maneuver);
-
-          let army = self.military.army_mut(army_id)?;
-          *army.personnel_mut() = attacker_surviving_personnel.clone();
-
-          let haul = army.haul();
-          let hauled_resources = calculate_hauled_resources(self, destination, haul)?;
-
-          if !hauled_resources.is_empty() {
-            self.transpose_resources(
-              rulers.destination_ruler.clone(),
-              rulers.sender.clone(),
-              hauled_resources.clone(),
-            )?;
-          }
-
-          let players = rulers.players();
-          let report = BattleReport::builder()
-            .attacker(rulers.sender)
-            .defender(rulers.destination_ruler)
-            .hauled_resources(hauled_resources)
-            .result(battle_result)
-            .build();
-
-          emit_battle_report(self, &report);
-          self.report.manage(report.into(), players);
         }
+
+        let players = rulers.players();
+        let report = BattleReport::builder()
+          .attacker(rulers.sender)
+          .defender(rulers.destination_ruler)
+          .result(battle_result)
+          .city(self.city(destination)?.into())
+          .hauled_resources(hauled_resources)
+          .build();
+
+        self.emit_battle_report(&report);
+        self.report.manage(report.into(), players);
       }
       ManeuverKind::Support => {
         self
@@ -84,9 +87,19 @@ impl World {
     Ok(())
   }
 
-  fn process_returning_maneuver(&mut self, maneuver: &Maneuver) -> Result<()> {
-    let army = self.military.army_mut(maneuver.army())?;
+  fn process_returning_maneuver(&mut self, maneuver: &mut Maneuver) -> Result<()> {
+    let army_id = maneuver.army();
+    if let ManeuverKind::Attack = maneuver.kind()
+      && let Some(hauled) = maneuver.hauled_resources_mut().take()
+      && !hauled.resources().is_empty()
+    {
+      let ruler = self.military.army(army_id)?.owner().clone();
+      *self.ruler_mut(ruler)?.resources_mut() += Resources::from(hauled);
+    }
+
+    let army = self.military.army_mut(army_id)?;
     *army.state_mut() = ArmyState::Idle;
+
     Ok(())
   }
 }
@@ -164,6 +177,10 @@ fn perform_battle(world: &World, maneuver: &Maneuver) -> Result<BattleResult> {
 }
 
 fn calculate_hauled_resources(world: &World, target: Coord, base: Haul) -> Result<Resources> {
+  if base == 0u32 {
+    return Ok(Resources::splat(0));
+  }
+
   let resources = world.get_weighted_resources(target)?;
   let silo_resources = resources.sum_silo();
   let warehouse_resources = resources.sum_warehouse();
@@ -201,15 +218,4 @@ fn calculate_hauled_resources(world: &World, target: Coord, base: Haul) -> Resul
   set!(warehouse_resources, wood, warehouse_haul);
 
   Ok(hauled)
-}
-
-fn emit_battle_report(world: &World, report: &BattleReport) {
-  if let Some(attacker) = report.attacker().player().cloned() {
-    world.emit_report(attacker, report.id());
-  }
-
-  if let Some(defender) = report.defender().player().cloned() {
-    debug_assert_ne!(report.attacker().player(), Some(&defender));
-    world.emit_report(defender, report.id());
-  }
 }

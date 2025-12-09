@@ -15,7 +15,6 @@ import type { PlayerEntity } from '@/core/entity/player';
 import type { MilitaryEntity } from '@/core/entity/military';
 
 declare global {
-  var __APP__: App;
   var __DEBUG_ASSERTIONS__: boolean;
   var __DESKTOP__: boolean;
   var __MOBILE__: boolean;

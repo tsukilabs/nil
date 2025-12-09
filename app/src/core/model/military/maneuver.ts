@@ -2,24 +2,30 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { CoordImpl } from '@/core/model/continent/coord';
+import { ManeuverHaulImpl } from '@/core/model/military/maneuver-haul';
 
 export class ManeuverImpl implements Maneuver {
   public readonly id: ManeuverId;
+  public readonly origin: CoordImpl;
+  public readonly destination: CoordImpl;
   public readonly army: ArmyId;
   public readonly kind: ManeuverKind;
   public readonly direction: ManeuverDirection;
-  public readonly origin: CoordImpl;
-  public readonly destination: CoordImpl;
   public readonly state: ManeuverState;
+  public readonly hauledResources: Option<ManeuverHaulImpl>;
 
   private constructor(maneuver: Maneuver) {
     this.id = maneuver.id;
+    this.origin = CoordImpl.create(maneuver.origin);
+    this.destination = CoordImpl.create(maneuver.destination);
     this.army = maneuver.army;
     this.kind = maneuver.kind;
     this.direction = maneuver.direction;
-    this.origin = CoordImpl.create(maneuver.origin);
-    this.destination = CoordImpl.create(maneuver.destination);
     this.state = maneuver.state;
+
+    this.hauledResources = maneuver.hauledResources ?
+      ManeuverHaulImpl.create(maneuver.hauledResources) :
+      null;
   }
 
   public isAttack() {

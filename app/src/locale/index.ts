@@ -5,8 +5,6 @@ import { createI18n } from 'vue-i18n';
 import enUS from './en-US/global.json';
 import ptBR from './pt-BR/global.json';
 
-export type Locale = 'en-US' | 'pt-BR';
-
 export function i18n() {
   return createI18n<[typeof enUS], Locale>({
     fallbackLocale: ['en-US', 'pt-BR'],

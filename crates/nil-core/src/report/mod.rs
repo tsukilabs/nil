@@ -14,6 +14,11 @@ use uuid::Uuid;
 
 pub use battle::BattleReport;
 
+pub trait Report {
+  fn id(&self) -> ReportId;
+  fn timestamp(&self) -> &Zoned;
+}
+
 #[derive(Clone, Debug, Default, Deserialize, Serialize)]
 pub struct ReportManager {
   reports: BTreeMap<ReportId, ReportKind>,
@@ -25,7 +30,7 @@ impl ReportManager {
   where
     I: IntoIterator<Item = PlayerId>,
   {
-    let id = report.id();
+    let id = report.as_dyn().id();
     let players = players.into_iter().unique().collect_vec();
 
     if !players.is_empty() {
@@ -71,11 +76,6 @@ impl ReportManager {
   }
 }
 
-pub trait Report {
-  fn id(&self) -> ReportId;
-  fn timestamp(&self) -> &Zoned;
-}
-
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(tag = "kind", rename_all = "kebab-case")]
 #[remain::sorted]
@@ -84,9 +84,9 @@ pub enum ReportKind {
 }
 
 impl ReportKind {
-  pub fn id(&self) -> ReportId {
+  pub fn as_dyn(&self) -> &dyn Report {
     match self {
-      Self::Battle { report } => report.id(),
+      Self::Battle { report } => report.as_ref(),
     }
   }
 }

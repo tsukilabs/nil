@@ -11,7 +11,7 @@ export const academyRoutes: RouteRecordRaw[] = [
   },
   {
     component: () => import('@/scenes/game/infrastructure/academy/settings/index.vue'),
-    path: 'academy-settings',
+    path: 'settings',
     name: 'academy-settings' satisfies AcademyScene,
   },
 ];

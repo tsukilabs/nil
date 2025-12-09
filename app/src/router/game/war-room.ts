@@ -16,7 +16,7 @@ export const warRoomRoutes: RouteRecordRaw[] = [
   },
   {
     component: () => import('@/scenes/game/war-room/simulator/index.vue'),
-    path: 'war-room-simulator',
+    path: 'simulator',
     name: 'war-room-simulator' satisfies WarRoomScene,
   },
 ];

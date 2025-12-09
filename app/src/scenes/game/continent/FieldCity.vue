@@ -121,7 +121,12 @@ function getPrecursorColor(id: PrecursorId) {
             v-if="city && (!currentCoord || !city.coord.is(currentCoord))"
             class="flex items-center justify-center"
           >
-            <Button size="sm" @click="() => city?.goToWarRoom('destination')">
+            <Button
+              size="sm"
+              role="link"
+              tabindex="0"
+              @click="() => city?.goToWarRoom('destination')"
+            >
               <span>{{ t('send-troops') }}</span>
             </Button>
           </div>

@@ -3,14 +3,15 @@
 
 <script setup lang="ts">
 import { watchEffect } from 'vue';
+import Unread from '@/components/Unread.vue';
 import Chat from '@/components/chat/Chat.vue';
 import { useRoute, useRouter } from 'vue-router';
 import { ListenerSet } from '@/lib/listener-set';
 import { useToggle, whenever } from '@vueuse/core';
-import ChatIcon from '@/components/chat/ChatIcon.vue';
+import { MessageSquareIcon } from 'lucide-vue-next';
 import ChatInput from '@/components/chat/ChatInput.vue';
 import { useBreakpoints } from '@/composables/util/useBreakpoints';
-import { Button, Popover, PopoverContent, PopoverTrigger } from '@tb-dev/vue-components';
+import { Popover, PopoverContent, PopoverTrigger } from '@tb-dev/vue-components';
 
 const { player } = NIL.player.refs();
 
@@ -47,7 +48,7 @@ function onChatUpdated({ message }: ChatUpdatedPayload) {
 <template>
   <Popover v-if="sm" v-model:open="isChatOpen">
     <PopoverTrigger as-child>
-      <ChatIcon :has-unread />
+      <Unread :icon="MessageSquareIcon" :has-unread />
     </PopoverTrigger>
 
     <PopoverContent
@@ -67,16 +68,14 @@ function onChatUpdated({ message }: ChatUpdatedPayload) {
     </PopoverContent>
   </Popover>
 
-  <Button
+  <Unread
     v-else-if="route.name === ('chat' satisfies GameScene)"
-    variant="ghost"
-    size="icon"
+    :icon="MessageSquareIcon"
+    :has-unread
     @click="() => router.back()"
-  >
-    <ChatIcon :has-unread />
-  </Button>
+  />
 
   <RouterLink v-else :to="{ name: 'chat' satisfies GameScene }">
-    <ChatIcon :has-unread />
+    <Unread :icon="MessageSquareIcon" :has-unread />
   </RouterLink>
 </template>

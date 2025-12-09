@@ -3,14 +3,20 @@
 
 export class WorldConfigImpl implements WorldConfig {
   public readonly name: string;
+  public readonly locale: Locale;
   public readonly allowCheats: boolean;
 
-  private constructor(args: WorldConfig) {
-    this.name = args.name;
-    this.allowCheats = args.allowCheats;
+  private constructor(config: WorldConfig) {
+    this.name = config.name;
+    this.locale = config.locale;
+    this.allowCheats = config.allowCheats;
   }
 
   public static create(config: WorldConfig) {
+    if (config instanceof WorldConfigImpl) {
+      return config;
+    }
+
     return new WorldConfigImpl(config);
   }
 }

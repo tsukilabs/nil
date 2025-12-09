@@ -7,6 +7,9 @@ use crate::continent::Coord;
 use crate::error::{Error, Result};
 use crate::military::army::{ArmyId, ArmyPersonnel};
 use crate::military::unit::stats::speed::Speed;
+use crate::resources::Resources;
+use crate::ruler::Ruler;
+use bon::Builder;
 use serde::{Deserialize, Serialize};
 use strum::EnumIs;
 use uuid::Uuid;
@@ -18,13 +21,14 @@ pub use distance::ManeuverDistance;
 #[serde(rename_all = "camelCase")]
 pub struct Maneuver {
   id: ManeuverId,
+  origin: Coord,
+  destination: Coord,
   army: ArmyId,
   kind: ManeuverKind,
   direction: ManeuverDirection,
-  origin: Coord,
-  destination: Coord,
   state: ManeuverState,
   speed: Speed,
+  hauled_resources: Option<ManeuverHaul>,
 }
 
 #[bon::bon]
@@ -46,13 +50,14 @@ impl Maneuver {
     let state = ManeuverState::with_distance(distance.into());
     let maneuver = Self {
       id,
+      origin,
+      destination,
       army,
       kind,
       direction: ManeuverDirection::Going,
-      origin,
-      destination,
       state,
       speed,
+      hauled_resources: None,
     };
 
     Ok((id, maneuver))
@@ -97,6 +102,16 @@ impl Maneuver {
   }
 
   #[inline]
+  pub fn origin(&self) -> Coord {
+    self.origin
+  }
+
+  #[inline]
+  pub fn destination(&self) -> Coord {
+    self.destination
+  }
+
+  #[inline]
   pub fn army(&self) -> ArmyId {
     self.army
   }
@@ -112,16 +127,6 @@ impl Maneuver {
   }
 
   #[inline]
-  pub fn origin(&self) -> Coord {
-    self.origin
-  }
-
-  #[inline]
-  pub fn destination(&self) -> Coord {
-    self.destination
-  }
-
-  #[inline]
   pub fn state(&self) -> &ManeuverState {
     &self.state
   }
@@ -129,6 +134,16 @@ impl Maneuver {
   #[inline]
   pub fn speed(&self) -> Speed {
     self.speed
+  }
+
+  #[inline]
+  pub fn hauled_resources(&self) -> Option<&ManeuverHaul> {
+    self.hauled_resources.as_ref()
+  }
+
+  #[inline]
+  pub(crate) fn hauled_resources_mut(&mut self) -> &mut Option<ManeuverHaul> {
+    &mut self.hauled_resources
   }
 
   #[inline]
@@ -198,6 +213,31 @@ pub enum ManeuverState {
 impl ManeuverState {
   fn with_distance(distance: ManeuverDistance) -> Self {
     Self::Pending { distance }
+  }
+}
+
+#[derive(Builder, Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct ManeuverHaul {
+  ruler: Ruler,
+  resources: Resources,
+}
+
+impl ManeuverHaul {
+  #[inline]
+  pub fn ruler(&self) -> &Ruler {
+    &self.ruler
+  }
+
+  #[inline]
+  pub fn resources(&self) -> &Resources {
+    &self.resources
+  }
+}
+
+impl From<ManeuverHaul> for Resources {
+  fn from(haul: ManeuverHaul) -> Self {
+    haul.resources
   }
 }
 

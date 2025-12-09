@@ -3,12 +3,13 @@
 
 interface Maneuver {
   readonly id: ManeuverId;
-  readonly army: ArmyId;
-  readonly kind: ManeuverKind;
   readonly direction: ManeuverDirection;
   readonly origin: Coord;
+  readonly army: ArmyId;
+  readonly kind: ManeuverKind;
   readonly destination: Coord;
   readonly state: ManeuverState;
+  readonly hauledResources: Option<ManeuverHaul>;
 }
 
 type ManeuverId = string;
@@ -28,6 +29,11 @@ interface ManeuverStateDone {
 interface ManeuverStatePending {
   readonly kind: 'pending';
   readonly distance: ManeuverDistance;
+}
+
+interface ManeuverHaul {
+  readonly ruler: Ruler;
+  readonly resources: Resources;
 }
 
 interface ManeuverRequest {
