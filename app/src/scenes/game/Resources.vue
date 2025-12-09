@@ -17,7 +17,7 @@ const textClass = computed(() => !sm.value ? 'text-sm' : null);
 </script>
 
 <template>
-  <div class="w-max max-w-max flex items-center gap-2 md:gap-4 xl:gap-8 2xl:gap-12 pr-4">
+  <div class="w-max max-w-max flex items-center gap-2 pr-4">
     <Wood :amount="resources?.wood" :limit="capacity?.warehouse" :icon-class :text-class class="md:pr-8" />
     <Stone :amount="resources?.stone" :limit="capacity?.warehouse" :icon-class :text-class class="md:pr-8" />
     <Iron :amount="resources?.iron" :limit="capacity?.warehouse" :icon-class :text-class class="md:pr-8" />
