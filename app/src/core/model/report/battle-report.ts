@@ -36,8 +36,8 @@ export class BattleReportImpl extends ReportImpl implements BattleReport {
   public override getTitle(t: ComposerTranslation<typeof enUS>) {
     return t('battle-report-title', {
       attacker: this.attacker.id,
-      targetCityName: this.destinationCity.name,
-      targetCoord: this.destination.format(),
+      destination: this.destination.format(),
+      destinationName: this.destinationCity.name,
     });
   }
 

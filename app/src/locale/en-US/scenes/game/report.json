@@ -1,3 +1,3 @@
 {
-  "battle-report-title": "{attacker} attacks {targetCityName} ({targetCoord})"
+  "battle-report-title": "{attacker} attacks {destinationName} ({destination})"
 }
