@@ -34,7 +34,7 @@ whenever(report, ({ id }) => NIL.report.markRead(id));
         </CardTitle>
       </CardHeader>
 
-      <CardContent class="relative size-full overflow-auto px-2 py-0">
+      <CardContent class="size-full overflow-auto px-2 py-0">
         <BattleReport v-if="report && (report instanceof BattleReportImpl)" :report />
       </CardContent>
     </Card>
