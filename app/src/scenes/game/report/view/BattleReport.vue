@@ -25,7 +25,7 @@ const losses = useBattleLosses(() => props.report.result);
 </script>
 
 <template>
-  <div class="flex flex-col gap-4">
+  <div class="w-full min-w-max flex flex-col gap-4">
     <BattleReportTable
       kind="attacker"
       :winner="report.result.winner"
