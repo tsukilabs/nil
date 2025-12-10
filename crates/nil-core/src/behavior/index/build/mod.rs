@@ -15,11 +15,15 @@ pub struct BuildBehavior {
   coord: Coord,
 }
 
+impl BuildBehavior {
+  const MAX_IN_QUEUE: f64 = 3.0;
+}
+
 impl Behavior for BuildBehavior {
   fn score(&self, world: &World) -> Result<BehaviorScore> {
     let infrastructure = world.infrastructure(self.coord)?;
     let in_queue = infrastructure.prefecture().turns_in_queue();
-    let score = BehaviorScore::new(1.0 - (in_queue / 3.0));
+    let score = BehaviorScore::new(1.0 - (in_queue / Self::MAX_IN_QUEUE));
 
     Ok(score)
   }
