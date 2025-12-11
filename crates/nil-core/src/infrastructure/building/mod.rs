@@ -22,7 +22,7 @@ use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::ops::{Add, AddAssign, Sub, SubAssign};
 use std::{cmp, fmt};
-use strum::{Display, EnumIter};
+use strum::{Display, EnumIs, EnumIter};
 use subenum::subenum;
 
 pub trait Building: Send + Sync {
@@ -41,16 +41,30 @@ pub trait Building: Send + Sync {
   fn max_level(&self) -> BuildingLevel;
   /// Sets the building's level while ensuring it remains within the level limit.
   fn set_level(&mut self, level: BuildingLevel);
+
   /// Sets the building to its **minimum** level.
-  fn set_min_level(&mut self);
+  fn set_min_level(&mut self) {
+    self.set_level(self.min_level());
+  }
+
   /// Sets the building to its **maximum** level.
-  fn set_max_level(&mut self);
+  fn set_max_level(&mut self) {
+    self.set_level(self.max_level());
+  }
+
   /// Increases the building level by one, if possible.
-  fn increase_level(&mut self);
+  fn increase_level(&mut self) {
+    self.increase_level_by(1);
+  }
+
   /// Increases the level of the building by a certain amount, if possible.
   fn increase_level_by(&mut self, amount: u8);
+
   /// Decreases the building level by one, if possible.
-  fn decrease_level(&mut self);
+  fn decrease_level(&mut self) {
+    self.decrease_level_by(1);
+  }
+
   /// Decreases the level of the building by a certain amount, if possible.
   fn decrease_level_by(&mut self, amount: u8);
 
@@ -94,29 +108,81 @@ pub trait Building: Send + Sync {
 
   /// Levels required to construct the building.
   fn infrastructure_requirements(&self) -> &InfrastructureRequirements;
+
+  fn is_civil(&self) -> bool {
+    self.id().is_civil()
+  }
+
+  fn is_military(&self) -> bool {
+    self.id().is_military()
+  }
+
+  fn is_mine(&self) -> bool {
+    self.id().is_mine()
+  }
+
+  fn is_storage(&self) -> bool {
+    self.id().is_storage()
+  }
 }
 
-#[subenum(MineId, StorageId)]
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, Deserialize, Serialize, Display, EnumIter)]
+#[subenum(CivilBuildingId, MilitaryBuildingId, MineId, StorageId)]
+#[derive(
+  Clone, Copy, Debug, Display, EnumIs, EnumIter, PartialEq, Eq, Hash, Deserialize, Serialize,
+)]
 #[serde(rename_all = "kebab-case")]
 #[strum(serialize_all = "kebab-case")]
 pub enum BuildingId {
+  #[subenum(MilitaryBuildingId)]
   Academy,
-  #[subenum(MineId)]
+
+  #[subenum(CivilBuildingId, MineId)]
   Farm,
-  #[subenum(MineId)]
+
+  #[subenum(CivilBuildingId, MineId)]
   IronMine,
+
+  #[subenum(CivilBuildingId)]
   Prefecture,
-  #[subenum(MineId)]
+
+  #[subenum(CivilBuildingId, MineId)]
   Quarry,
-  #[subenum(MineId)]
+
+  #[subenum(CivilBuildingId, MineId)]
   Sawmill,
-  #[subenum(StorageId)]
+
+  #[subenum(CivilBuildingId, StorageId)]
   Silo,
+
+  #[subenum(MilitaryBuildingId)]
   Stable,
+
   Wall,
-  #[subenum(StorageId)]
+
+  #[subenum(CivilBuildingId, StorageId)]
   Warehouse,
+}
+
+impl BuildingId {
+  #[inline]
+  pub fn is_civil(self) -> bool {
+    CivilBuildingId::try_from(self).is_ok()
+  }
+
+  #[inline]
+  pub fn is_military(self) -> bool {
+    MilitaryBuildingId::try_from(self).is_ok()
+  }
+
+  #[inline]
+  pub fn is_mine(self) -> bool {
+    MineId::try_from(self).is_ok()
+  }
+
+  #[inline]
+  pub fn is_storage(self) -> bool {
+    StorageId::try_from(self).is_ok()
+  }
 }
 
 /// Information about a building at a given level.

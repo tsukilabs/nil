@@ -6,5 +6,10 @@ interface Ethics {
   readonly truth: EthicTruthAxis;
 }
 
-type EthicPowerAxis = 'militarist' | 'pacifist';
-type EthicTruthAxis = 'materialist' | 'spiritualist';
+type EthicPowerAxis = 'militarist' | 'fanatic-militarist' | 'pacifist' | 'fanatic-pacifist';
+
+type EthicTruthAxis =
+  | 'materialist'
+  | 'fanatic-materialist'
+  | 'spiritualist'
+  | 'fanatic-spiritualist';

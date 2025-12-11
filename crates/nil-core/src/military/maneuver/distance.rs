@@ -3,23 +3,43 @@
 
 use crate::continent::Distance;
 use crate::military::unit::stats::speed::Speed;
-use derive_more::Deref;
+use derive_more::{Deref, Into};
 use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
 use std::ops::{Sub, SubAssign};
 
-#[derive(Clone, Copy, Debug, Deref, PartialEq, PartialOrd, Deserialize, Serialize)]
+#[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize)]
 pub struct ManeuverDistance(f64);
+
+impl PartialEq for ManeuverDistance {
+  fn eq(&self, other: &Self) -> bool {
+    matches!(self.0.total_cmp(&other.0), Ordering::Equal)
+  }
+}
+
+impl Eq for ManeuverDistance {}
+
+impl PartialOrd for ManeuverDistance {
+  fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
+    Some(self.cmp(other))
+  }
+}
+
+impl Ord for ManeuverDistance {
+  fn cmp(&self, other: &Self) -> Ordering {
+    self.0.total_cmp(&other.0)
+  }
+}
 
 impl PartialEq<f64> for ManeuverDistance {
   fn eq(&self, other: &f64) -> bool {
-    self.0.eq(other)
+    matches!(self.0.total_cmp(other), Ordering::Equal)
   }
 }
 
 impl PartialOrd<f64> for ManeuverDistance {
   fn partial_cmp(&self, other: &f64) -> Option<Ordering> {
-    self.0.partial_cmp(other)
+    Some(self.0.total_cmp(other))
   }
 }
 

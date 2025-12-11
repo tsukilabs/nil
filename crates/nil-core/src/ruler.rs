@@ -1,6 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+use crate::ethic::Ethics;
 use crate::npc::bot::{Bot, BotId};
 use crate::npc::precursor::{Precursor, PrecursorId};
 use crate::player::{Player, PlayerId};
@@ -151,6 +152,14 @@ impl<'a> RulerRef<'a> {
       .resources()
       .checked_sub(resources)
       .is_some()
+  }
+
+  pub fn ethics(&self) -> Option<&'a Ethics> {
+    match self {
+      Self::Bot(bot) => Some(bot.ethics()),
+      Self::Player(..) => None,
+      Self::Precursor(precursor) => Some(precursor.ethics()),
+    }
   }
 }
 

@@ -5,7 +5,7 @@ use bon::Builder;
 use rand::seq::IndexedRandom;
 use serde::{Deserialize, Serialize};
 use std::fmt::Debug;
-use strum::VariantArray;
+use strum::{EnumIs, VariantArray};
 
 #[derive(Builder, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
@@ -24,13 +24,53 @@ impl Ethics {
   }
 
   #[inline]
-  pub fn power(&self) -> EthicPowerAxis {
+  pub const fn power(&self) -> EthicPowerAxis {
     self.power
   }
 
   #[inline]
-  pub fn truth(&self) -> EthicTruthAxis {
+  pub const fn truth(&self) -> EthicTruthAxis {
     self.truth
+  }
+
+  #[inline]
+  pub const fn is_militarist(&self) -> bool {
+    self.power.is_militarist()
+  }
+
+  #[inline]
+  pub const fn is_fanatic_militarist(&self) -> bool {
+    self.power.is_fanatic_militarist()
+  }
+
+  #[inline]
+  pub const fn is_pacifist(&self) -> bool {
+    self.power.is_pacifist()
+  }
+
+  #[inline]
+  pub const fn is_fanatic_pacifist(&self) -> bool {
+    self.power.is_fanatic_pacifist()
+  }
+
+  #[inline]
+  pub const fn is_materialist(&self) -> bool {
+    self.truth.is_materialist()
+  }
+
+  #[inline]
+  pub const fn is_fanatic_materialist(&self) -> bool {
+    self.truth.is_fanatic_materialist()
+  }
+
+  #[inline]
+  pub const fn is_spiritualist(&self) -> bool {
+    self.truth.is_spiritualist()
+  }
+
+  #[inline]
+  pub const fn is_fanatic_spiritualist(&self) -> bool {
+    self.truth.is_fanatic_spiritualist()
   }
 }
 
@@ -40,33 +80,48 @@ impl Default for Ethics {
   }
 }
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Deserialize, Serialize, VariantArray)]
+#[derive(Clone, Copy, Debug, EnumIs, PartialEq, Eq, Deserialize, Serialize, VariantArray)]
 #[serde(rename_all = "kebab-case")]
 pub enum EthicPowerAxis {
   Militarist,
+  FanaticMilitarist,
   Pacifist,
+  FanaticPacifist,
 }
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Deserialize, Serialize, VariantArray)]
+impl EthicPowerAxis {
+  pub fn random() -> Self {
+    Self::VARIANTS
+      .choose_weighted(&mut rand::rng(), |ethic| {
+        match ethic {
+          Self::Militarist | Self::Pacifist => 4u8,
+          Self::FanaticMilitarist | Self::FanaticPacifist => 1u8,
+        }
+      })
+      .copied()
+      .expect("`Self::VARIANTS` should never be empty")
+  }
+}
+
+#[derive(Clone, Copy, Debug, EnumIs, PartialEq, Eq, Deserialize, Serialize, VariantArray)]
 #[serde(rename_all = "kebab-case")]
 pub enum EthicTruthAxis {
   Materialist,
+  FanaticMaterialist,
   Spiritualist,
+  FanaticSpiritualist,
 }
 
-macro_rules! impl_axis {
-  ($($axis:ident),+ $(,)?) => {
-    $(
-      impl $axis {
-        pub fn random() -> Self {
-          Self::VARIANTS
-            .choose(&mut rand::rng())
-            .copied()
-            .expect("`Self::VARIANTS` should never be empty")
+impl EthicTruthAxis {
+  pub fn random() -> Self {
+    Self::VARIANTS
+      .choose_weighted(&mut rand::rng(), |ethic| {
+        match ethic {
+          Self::Materialist | Self::Spiritualist => 4u8,
+          Self::FanaticMaterialist | Self::FanaticSpiritualist => 1u8,
         }
-      }
-    )+
-  };
+      })
+      .copied()
+      .expect("`Self::VARIANTS` should never be empty")
+  }
 }
-
-impl_axis!(EthicPowerAxis, EthicTruthAxis);
