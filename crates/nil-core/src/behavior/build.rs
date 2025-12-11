@@ -5,11 +5,13 @@ use crate::behavior::idle::IdleBehavior;
 use crate::behavior::{Behavior, BehaviorProcessor, BehaviorScore};
 use crate::continent::Coord;
 use crate::error::Result;
+use crate::ethic::EthicPowerAxis;
 use crate::infrastructure::building::prefecture::{
   PrefectureBuildOrderKind,
   PrefectureBuildOrderRequest,
 };
 use crate::infrastructure::prelude::*;
+use crate::military::maneuver::Maneuver;
 use crate::world::World;
 use bon::Builder;
 use nil_util::iter::IterExt;
@@ -124,16 +126,56 @@ where
       return Ok(BehaviorScore::ZERO);
     }
 
-    if TEMPLATE
+    if let BuildingId::Wall = self.building
+      && let Some(distance) = world
+        .military()
+        .maneuvers()
+        .filter(|maneuver| maneuver.destination() == self.coord)
+        .filter(|maneuver| maneuver.is_attack() && maneuver.is_going())
+        .filter_map(Maneuver::pending_distance)
+        .min()
+    {
+      let workforce = stats
+        .building(self.building)?
+        .get(level + 1u8)
+        .map(|it| f64::from(it.workforce))?;
+
+      if workforce <= f64::from(distance) {
+        return Ok(BehaviorScore::new(1.0));
+      }
+    }
+
+    let mut score = if TEMPLATE
       .iter()
-      .filter(|step| !step.satisfies(infrastructure))
+      .filter(|step| !step.is_done(infrastructure))
       .take(3)
       .any(|step| step.id == self.building)
     {
-      Ok(BehaviorScore::new(random_range(0.8..=1.0)))
+      BehaviorScore::new(random_range(0.8..=1.0))
     } else {
-      Ok(BehaviorScore::ZERO)
+      BehaviorScore::ZERO
+    };
+
+    let ruler_ref = world.ruler(owner)?;
+    if let Some(ethics) = ruler_ref.ethics() {
+      if self.building.is_civil() {
+        score *= match ethics.power() {
+          EthicPowerAxis::Militarist => 0.9,
+          EthicPowerAxis::FanaticMilitarist => 0.75,
+          EthicPowerAxis::Pacifist => 1.1,
+          EthicPowerAxis::FanaticPacifist => 1.25,
+        }
+      } else {
+        score *= match ethics.power() {
+          EthicPowerAxis::Militarist => 1.1,
+          EthicPowerAxis::FanaticMilitarist => 1.25,
+          EthicPowerAxis::Pacifist => 0.9,
+          EthicPowerAxis::FanaticPacifist => 0.75,
+        }
+      }
     }
+
+    Ok(score)
   }
 
   fn behave(&self, world: &mut World) -> Result<ControlFlow<()>> {
@@ -160,7 +202,7 @@ impl BuildStep {
     Self { id, level }
   }
 
-  fn satisfies(&self, infrastructure: &Infrastructure) -> bool {
+  fn is_done(&self, infrastructure: &Infrastructure) -> bool {
     self.level <= infrastructure.building(self.id).level()
   }
 }

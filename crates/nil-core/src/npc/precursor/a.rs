@@ -19,7 +19,7 @@ impl A {
   pub const ID: PrecursorId = PrecursorId::A;
   pub const ETHICS: Ethics = Ethics::builder()
     .power(EthicPowerAxis::Militarist)
-    .truth(EthicTruthAxis::Materialist)
+    .truth(EthicTruthAxis::FanaticMaterialist)
     .build();
 
   pub fn new(size: ContinentSize) -> Self {

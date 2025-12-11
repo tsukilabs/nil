@@ -147,6 +147,16 @@ impl Maneuver {
   }
 
   #[inline]
+  pub fn is_attack(&self) -> bool {
+    self.kind.is_attack()
+  }
+
+  #[inline]
+  pub fn is_support(&self) -> bool {
+    self.kind.is_support()
+  }
+
+  #[inline]
   pub fn is_done(&self) -> bool {
     self.state.is_done()
   }
@@ -170,6 +180,14 @@ impl Maneuver {
   #[inline]
   pub fn matches_coord(&self, coord: Coord) -> bool {
     coord == self.origin || coord == self.destination
+  }
+
+  pub fn pending_distance(&self) -> Option<ManeuverDistance> {
+    if let ManeuverState::Pending { distance } = self.state {
+      Some(distance)
+    } else {
+      None
+    }
   }
 }
 

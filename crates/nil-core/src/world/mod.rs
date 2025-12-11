@@ -239,6 +239,11 @@ impl World {
       .chain(self.bots().map(RulerRef::from))
       .chain(self.precursors().map(RulerRef::from))
   }
+
+  #[inline]
+  pub fn military(&self) -> &Military {
+    &self.military
+  }
 }
 
 #[derive(Builder, Clone, Deserialize, Serialize)]

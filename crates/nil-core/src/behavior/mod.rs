@@ -14,7 +14,7 @@ use std::any::Any;
 use std::cmp::Ordering;
 use std::collections::HashSet;
 use std::fmt::Debug;
-use std::ops::ControlFlow;
+use std::ops::{Add, AddAssign, ControlFlow, Div, DivAssign, Mul, MulAssign, Sub, SubAssign};
 
 pub trait Behavior: Any + Debug {
   fn score(&self, world: &World) -> Result<BehaviorScore>;
@@ -168,5 +168,61 @@ impl PartialEq<f64> for BehaviorScore {
 impl PartialOrd<f64> for BehaviorScore {
   fn partial_cmp(&self, other: &f64) -> Option<Ordering> {
     self.0.partial_cmp(other)
+  }
+}
+
+impl Add<f64> for BehaviorScore {
+  type Output = BehaviorScore;
+
+  fn add(self, rhs: f64) -> Self::Output {
+    BehaviorScore::new(self.0 + rhs)
+  }
+}
+
+impl AddAssign<f64> for BehaviorScore {
+  fn add_assign(&mut self, rhs: f64) {
+    *self = *self + rhs;
+  }
+}
+
+impl Sub<f64> for BehaviorScore {
+  type Output = BehaviorScore;
+
+  fn sub(self, rhs: f64) -> Self::Output {
+    BehaviorScore::new(self.0 - rhs)
+  }
+}
+
+impl SubAssign<f64> for BehaviorScore {
+  fn sub_assign(&mut self, rhs: f64) {
+    *self = *self - rhs;
+  }
+}
+
+impl Mul<f64> for BehaviorScore {
+  type Output = BehaviorScore;
+
+  fn mul(self, rhs: f64) -> Self::Output {
+    BehaviorScore::new(self.0 * rhs)
+  }
+}
+
+impl MulAssign<f64> for BehaviorScore {
+  fn mul_assign(&mut self, rhs: f64) {
+    *self = *self * rhs;
+  }
+}
+
+impl Div<f64> for BehaviorScore {
+  type Output = BehaviorScore;
+
+  fn div(self, rhs: f64) -> Self::Output {
+    BehaviorScore::new(self.0 / rhs)
+  }
+}
+
+impl DivAssign<f64> for BehaviorScore {
+  fn div_assign(&mut self, rhs: f64) {
+    *self = *self / rhs;
   }
 }
