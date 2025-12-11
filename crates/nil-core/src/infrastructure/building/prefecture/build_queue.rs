@@ -105,10 +105,11 @@ impl PrefectureBuildQueue {
       })
   }
 
-  pub fn sum_workforce(&self) -> Workforce {
+  pub fn sum_pending_workforce(&self) -> Workforce {
     self
       .iter()
-      .map(|order| u32::from(order.workforce))
+      .filter_map(|order| order.state.pending_workforce())
+      .map(u32::from)
       .sum::<u32>()
       .into()
   }
@@ -164,8 +165,8 @@ impl InfrastructureQueueOrder for PrefectureBuildOrder {
     self.state = PrefectureBuildOrderState::Done;
   }
 
-  fn pending_mut(&mut self) -> Option<&mut Workforce> {
-    self.state.workforce_mut()
+  fn pending_workforce_mut(&mut self) -> Option<&mut Workforce> {
+    self.state.pending_workforce_mut()
   }
 }
 
@@ -208,7 +209,11 @@ pub enum PrefectureBuildOrderState {
 }
 
 impl PrefectureBuildOrderState {
-  fn workforce_mut(&mut self) -> Option<&mut Workforce> {
+  fn pending_workforce(&self) -> Option<Workforce> {
+    if let Self::Pending { workforce } = self { Some(*workforce) } else { None }
+  }
+
+  fn pending_workforce_mut(&mut self) -> Option<&mut Workforce> {
     if let Self::Pending { workforce } = self { Some(workforce) } else { None }
   }
 }

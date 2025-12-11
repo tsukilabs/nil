@@ -131,8 +131,8 @@ impl InfrastructureQueueOrder for StableRecruitOrder {
     self.state = StableRecruitOrderState::Done;
   }
 
-  fn pending_mut(&mut self) -> Option<&mut Workforce> {
-    self.state.workforce_mut()
+  fn pending_workforce_mut(&mut self) -> Option<&mut Workforce> {
+    self.state.pending_workforce_mut()
   }
 }
 
@@ -160,7 +160,7 @@ pub enum StableRecruitOrderState {
 }
 
 impl StableRecruitOrderState {
-  fn workforce_mut(&mut self) -> Option<&mut Workforce> {
+  fn pending_workforce_mut(&mut self) -> Option<&mut Workforce> {
     if let Self::Pending { workforce } = self { Some(workforce) } else { None }
   }
 }

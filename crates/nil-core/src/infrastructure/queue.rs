@@ -38,10 +38,10 @@ where
 pub trait InfrastructureQueueOrder {
   fn is_done(&self) -> bool;
   fn set_done(&mut self);
-  fn pending_mut(&mut self) -> Option<&mut Workforce>;
+  fn pending_workforce_mut(&mut self) -> Option<&mut Workforce>;
 
   fn consume(&mut self, workforce: &mut Workforce) -> bool {
-    if let Some(pending) = self.pending_mut() {
+    if let Some(pending) = self.pending_workforce_mut() {
       if *pending > 0 {
         let previous = *pending;
         *pending -= *workforce;

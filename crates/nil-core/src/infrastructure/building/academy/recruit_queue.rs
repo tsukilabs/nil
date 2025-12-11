@@ -131,8 +131,8 @@ impl InfrastructureQueueOrder for AcademyRecruitOrder {
     self.state = AcademyRecruitOrderState::Done;
   }
 
-  fn pending_mut(&mut self) -> Option<&mut Workforce> {
-    self.state.workforce_mut()
+  fn pending_workforce_mut(&mut self) -> Option<&mut Workforce> {
+    self.state.pending_workforce_mut()
   }
 }
 
@@ -160,7 +160,7 @@ pub enum AcademyRecruitOrderState {
 }
 
 impl AcademyRecruitOrderState {
-  fn workforce_mut(&mut self) -> Option<&mut Workforce> {
+  fn pending_workforce_mut(&mut self) -> Option<&mut Workforce> {
     if let Self::Pending { workforce } = self { Some(workforce) } else { None }
   }
 }

@@ -93,8 +93,8 @@ impl Prefecture {
 
   pub fn turns_in_queue(&self) -> f64 {
     let turn = self.workforce();
-    let queue = self.build_queue.sum_workforce();
-    if queue > 0 { f64::from(turn) / f64::from(queue) } else { 0.0 }
+    let queue = self.build_queue.sum_pending_workforce();
+    f64::from(queue) / f64::from(turn)
   }
 }
 
