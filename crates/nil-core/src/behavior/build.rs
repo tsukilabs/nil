@@ -13,10 +13,14 @@ use crate::infrastructure::prelude::*;
 use crate::world::World;
 use bon::Builder;
 use nil_util::iter::IterExt;
+use rand::random_range;
 use std::fmt::Debug;
 use std::marker::PhantomData;
 use std::ops::ControlFlow;
+use std::sync::LazyLock;
 use strum::IntoEnumIterator;
+
+static TEMPLATE: LazyLock<Vec<BuildStep>> = LazyLock::new(generate_template);
 
 #[derive(Builder, Debug)]
 pub struct BuildBehavior {
@@ -120,7 +124,16 @@ where
       return Ok(BehaviorScore::ZERO);
     }
 
-    Ok(BehaviorScore::new(0.5))
+    if TEMPLATE
+      .iter()
+      .filter(|step| !step.satisfies(infrastructure))
+      .take(3)
+      .any(|step| step.id == self.building)
+    {
+      Ok(BehaviorScore::new(random_range(0.8..=1.0)))
+    } else {
+      Ok(BehaviorScore::ZERO)
+    }
   }
 
   fn behave(&self, world: &mut World) -> Result<ControlFlow<()>> {
@@ -134,4 +147,28 @@ where
 
     Ok(ControlFlow::Continue(()))
   }
+}
+
+#[derive(Debug)]
+struct BuildStep {
+  id: BuildingId,
+  level: BuildingLevel,
+}
+
+impl BuildStep {
+  fn new(id: BuildingId, level: BuildingLevel) -> Self {
+    Self { id, level }
+  }
+
+  fn satisfies(&self, infrastructure: &Infrastructure) -> bool {
+    self.level <= infrastructure.building(self.id).level()
+  }
+}
+
+macro_rules! step {
+  ($id:ident, $level: expr) => {{ BuildStep::new(BuildingId::$id, BuildingLevel::new($level)) }};
+}
+
+fn generate_template() -> Vec<BuildStep> {
+  vec![step!(Sawmill, 3), step!(Quarry, 3), step!(IronMine, 3)]
 }
