@@ -45,6 +45,7 @@ pub fn run() {
       command::chat::push_chat_message,
       command::cheat::city::cheat_set_stability,
       command::cheat::infrastructure::cheat_get_academy_recruit_queue,
+      command::cheat::infrastructure::cheat_get_infrastructure,
       command::cheat::infrastructure::cheat_get_prefecture_build_queue,
       command::cheat::infrastructure::cheat_get_stable_recruit_queue,
       command::cheat::infrastructure::cheat_get_storage_capacity,

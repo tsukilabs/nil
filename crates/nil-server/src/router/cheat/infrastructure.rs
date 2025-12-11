@@ -11,6 +11,7 @@ use futures::TryFutureExt;
 use nil_core::ruler::Ruler;
 use nil_payload::cheat::infrastructure::{
   CheatGetAcademyRecruitQueueRequest,
+  CheatGetInfrastructureRequest,
   CheatGetPrefectureBuildQueueRequest,
   CheatGetStableRecruitQueueRequest,
   CheatGetStorageCapacityRequest,
@@ -25,6 +26,17 @@ pub async fn get_academy_recruit_queue(
   app
     .world(|world| world.cheat_get_academy_recruit_queue(req.coord))
     .map_ok(|queue| res!(OK, Json(queue)))
+    .unwrap_or_else(from_core_err)
+    .await
+}
+
+pub async fn get_infrastructure(
+  State(app): State<App>,
+  Json(req): Json<CheatGetInfrastructureRequest>,
+) -> Response {
+  app
+    .world(|world| world.cheat_get_infrastructure(req.coord))
+    .map_ok(|infrastructure| res!(OK, Json(infrastructure)))
     .unwrap_or_else(from_core_err)
     .await
 }

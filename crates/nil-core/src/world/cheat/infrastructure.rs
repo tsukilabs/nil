@@ -4,6 +4,7 @@
 use crate::bail_cheat_not_allowed;
 use crate::continent::Coord;
 use crate::error::Result;
+use crate::infrastructure::Infrastructure;
 use crate::infrastructure::building::academy::AcademyRecruitQueue;
 use crate::infrastructure::building::prefecture::PrefectureBuildQueue;
 use crate::infrastructure::building::stable::StableRecruitQueue;
@@ -22,6 +23,15 @@ impl World {
       .infrastructure()
       .academy()
       .recruit_queue()
+      .clone()
+      .wrap_ok()
+  }
+
+  pub fn cheat_get_infrastructure(&self, coord: Coord) -> Result<Infrastructure> {
+    bail_cheat_not_allowed!(self);
+    self
+      .city(coord)?
+      .infrastructure()
       .clone()
       .wrap_ok()
   }

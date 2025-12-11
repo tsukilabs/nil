@@ -3,12 +3,14 @@
 
 use crate::client::Client;
 use crate::error::Result;
+use nil_core::infrastructure::Infrastructure;
 use nil_core::infrastructure::building::academy::AcademyRecruitQueue;
 use nil_core::infrastructure::building::prefecture::PrefectureBuildQueue;
 use nil_core::infrastructure::building::stable::StableRecruitQueue;
 use nil_core::infrastructure::storage::OverallStorageCapacity;
 use nil_payload::cheat::infrastructure::{
   CheatGetAcademyRecruitQueueRequest,
+  CheatGetInfrastructureRequest,
   CheatGetPrefectureBuildQueueRequest,
   CheatGetStableRecruitQueueRequest,
   CheatGetStorageCapacityRequest,
@@ -24,6 +26,16 @@ impl Client {
     self
       .http
       .json_post("cheat-get-academy-recruit-queue", req)
+      .await
+  }
+
+  pub async fn cheat_get_infrastructure(
+    &self,
+    req: CheatGetInfrastructureRequest,
+  ) -> Result<Infrastructure> {
+    self
+      .http
+      .json_post("cheat-get-infrastructure", req)
       .await
   }
 

@@ -3,12 +3,14 @@
 
 use crate::error::Result;
 use crate::manager::ManagerExt;
+use nil_core::infrastructure::Infrastructure;
 use nil_core::infrastructure::building::academy::AcademyRecruitQueue;
 use nil_core::infrastructure::building::prefecture::PrefectureBuildQueue;
 use nil_core::infrastructure::building::stable::StableRecruitQueue;
 use nil_core::infrastructure::storage::OverallStorageCapacity;
 use nil_payload::cheat::infrastructure::{
   CheatGetAcademyRecruitQueueRequest,
+  CheatGetInfrastructureRequest,
   CheatGetPrefectureBuildQueueRequest,
   CheatGetStableRecruitQueueRequest,
   CheatGetStorageCapacityRequest,
@@ -24,6 +26,17 @@ pub async fn cheat_get_academy_recruit_queue(
 ) -> Result<AcademyRecruitQueue> {
   app
     .client(async |cl| cl.cheat_get_academy_recruit_queue(req).await)
+    .await?
+    .map_err(Into::into)
+}
+
+#[tauri::command]
+pub async fn cheat_get_infrastructure(
+  app: AppHandle,
+  req: CheatGetInfrastructureRequest,
+) -> Result<Infrastructure> {
+  app
+    .client(async |cl| cl.cheat_get_infrastructure(req).await)
     .await?
     .map_err(Into::into)
 }

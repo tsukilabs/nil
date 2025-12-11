@@ -14,6 +14,12 @@ pub struct CheatGetAcademyRecruitQueueRequest {
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+pub struct CheatGetInfrastructureRequest {
+  pub coord: Coord,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct CheatGetPrefectureBuildQueueRequest {
   pub coord: Coord,
 }

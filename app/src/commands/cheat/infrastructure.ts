@@ -10,6 +10,11 @@ export async function cheatGetAcademyRecruitQueue(coord?: Option<ContinentKey>) 
   return invoke('cheat_get_academy_recruit_queue', { req: { coord } });
 }
 
+export async function cheatGetInfrastructure(coord?: Option<ContinentKey>) {
+  coord = CoordImpl.fromContinentKeyOrCurrent(coord);
+  return invoke('cheat_get_infrastructure', { req: { coord } });
+}
+
 export async function cheatGetPrefectureBuildQueue(coord?: Option<ContinentKey>) {
   coord = CoordImpl.fromContinentKeyOrCurrent(coord);
   return invoke('cheat_get_prefecture_build_queue', { req: { coord } });
