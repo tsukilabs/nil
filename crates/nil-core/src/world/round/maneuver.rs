@@ -107,6 +107,7 @@ impl World {
   }
 }
 
+#[expect(dead_code)]
 struct ManeuverRulers {
   sender: Ruler,
   destination_ruler: Ruler,

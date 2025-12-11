@@ -23,8 +23,8 @@ export default defineConfig({
     chunkSizeWarningLimit: 5000,
     copyPublicDir: true,
     emptyOutDir: true,
+    sourcemap: false,
     minify: env.NIL_MINIFY !== 'false',
-    sourcemap: env.NIL_SOURCEMAP === 'true',
   },
   server: {
     port: 1420,

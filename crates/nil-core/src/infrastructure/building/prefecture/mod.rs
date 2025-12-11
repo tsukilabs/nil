@@ -73,11 +73,28 @@ impl Prefecture {
   #[must_use]
   pub(crate) fn process_queue(&mut self) -> Option<Vec<PrefectureBuildOrder>> {
     if self.enabled {
-      let orders = self.build_queue.process(self.level.into());
+      let orders = self.build_queue.process(self.workforce());
       orders.is_empty().not().then_some(orders)
     } else {
       None
     }
+  }
+
+  #[inline]
+  pub fn workforce(&self) -> Workforce {
+    self.level.into()
+  }
+
+  pub fn resolve_level(&self, building: BuildingId, current_level: BuildingLevel) -> BuildingLevel {
+    self
+      .build_queue
+      .resolve_level(building, current_level)
+  }
+
+  pub fn turns_in_queue(&self) -> f64 {
+    let turn = self.workforce();
+    let queue = self.build_queue.sum_workforce();
+    if queue > 0 { f64::from(turn) / f64::from(queue) } else { 0.0 }
   }
 }
 

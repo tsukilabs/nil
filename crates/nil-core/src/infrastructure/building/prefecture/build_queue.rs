@@ -27,15 +27,7 @@ impl PrefectureBuildQueue {
     current_resources: Option<&Resources>,
   ) -> Result<&PrefectureBuildOrder> {
     let id = table.id();
-    let mut target_level = self
-      .iter()
-      .filter(|order| order.building() == id)
-      .fold(current_level, |acc, order| {
-        match order.kind() {
-          PrefectureBuildOrderKind::Construction => acc + 1u8,
-          PrefectureBuildOrderKind::Demolition => acc - 1u8,
-        }
-      });
+    let mut target_level = self.resolve_level(id, current_level);
 
     let kind = request.kind;
     if kind.is_demolition() && target_level <= table.min_level() {
@@ -99,6 +91,26 @@ impl PrefectureBuildQueue {
   #[inline]
   pub fn is_empty(&self) -> bool {
     self.orders.is_empty()
+  }
+
+  pub fn resolve_level(&self, building: BuildingId, current_level: BuildingLevel) -> BuildingLevel {
+    self
+      .iter()
+      .filter(|order| order.building() == building)
+      .fold(current_level, |acc, order| {
+        match order.kind() {
+          PrefectureBuildOrderKind::Construction => acc + 1u8,
+          PrefectureBuildOrderKind::Demolition => acc - 1u8,
+        }
+      })
+  }
+
+  pub fn sum_workforce(&self) -> Workforce {
+    self
+      .iter()
+      .map(|order| u32::from(order.workforce))
+      .sum::<u32>()
+      .into()
   }
 }
 

@@ -144,6 +144,10 @@ impl Continent {
     self.coords_by(move |city| city.owner() == &owner)
   }
 
+  pub fn owner_of(&self, key: impl ContinentKey) -> Result<&Ruler> {
+    self.city(key).map(City::owner)
+  }
+
   pub fn search<S>(&self, search: S) -> Result<Vec<&City>>
   where
     S: Into<CitySearch>,

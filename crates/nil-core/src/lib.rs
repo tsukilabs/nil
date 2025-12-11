@@ -1,9 +1,16 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-#![feature(assert_matches, file_buffered, iterator_try_collect, try_blocks)]
+#![feature(
+  assert_matches,
+  file_buffered,
+  iter_collect_into,
+  iterator_try_collect,
+  try_blocks
+)]
 
 pub mod battle;
+pub mod behavior;
 pub mod chat;
 pub mod city;
 pub mod continent;

@@ -3,7 +3,7 @@
 
 use crate::city::Stability;
 use crate::infrastructure::building::BuildingLevel;
-use derive_more::{Deref, Into};
+use derive_more::{Deref, From, Into};
 use nil_num::impl_mul_ceil;
 use nil_num::ops::MulCeil;
 use serde::{Deserialize, Serialize};
@@ -17,7 +17,7 @@ use std::ops::{Add, AddAssign, Mul, MulAssign, Sub, SubAssign};
 /// Unlike other resources, workforce should never accumulate for the next round.
 /// Anything that is not used should be discarded.
 #[derive(
-  Clone, Copy, Debug, Deref, Into, PartialEq, Eq, PartialOrd, Ord, Deserialize, Serialize,
+  Clone, Copy, Debug, Deref, From, Into, PartialEq, Eq, PartialOrd, Ord, Deserialize, Serialize,
 )]
 #[into(u32, f64)]
 pub struct Workforce(u32);

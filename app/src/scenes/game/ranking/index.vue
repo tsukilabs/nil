@@ -3,9 +3,10 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import { asyncRef } from '@tb-dev/vue';
+import { throttle } from 'es-toolkit';
+import { onKeyDown } from '@vueuse/core';
 import Loading from '@/components/Loading.vue';
-import { RankingImpl } from '@/core/model/ranking/ranking';
+import { useRanking } from '@/composables/ranking/useRanking';
 import {
   Card,
   CardContent,
@@ -21,7 +22,11 @@ import {
 
 const { t } = useI18n();
 
-const { state: ranking, isLoading } = asyncRef(null, () => RankingImpl.load());
+const { ranking, loading, load } = useRanking();
+
+if (__DESKTOP__) {
+  onKeyDown('F5', throttle(load, 1000));
+}
 </script>
 
 <template>
@@ -34,7 +39,7 @@ const { state: ranking, isLoading } = asyncRef(null, () => RankingImpl.load());
       </CardHeader>
 
       <CardContent class="relative size-full overflow-auto px-2 py-0">
-        <Loading v-if="isLoading" />
+        <Loading v-if="loading" />
         <Table v-else-if="ranking">
           <TableHeader>
             <TableRow class="hover:bg-card">

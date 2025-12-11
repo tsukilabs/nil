@@ -144,6 +144,14 @@ impl<'a> RulerRef<'a> {
       Self::Precursor(precursor) => precursor.resources(),
     }
   }
+
+  #[inline]
+  pub fn has_resources(&self, resources: &Resources) -> bool {
+    self
+      .resources()
+      .checked_sub(resources)
+      .is_some()
+  }
 }
 
 impl<'a> From<&'a Bot> for RulerRef<'a> {

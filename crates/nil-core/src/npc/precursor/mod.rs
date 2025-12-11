@@ -100,6 +100,7 @@ pub enum PrecursorId {
   #[serde(rename = "A")]
   #[strum(serialize = "A")]
   A,
+
   #[serde(rename = "B")]
   #[strum(serialize = "B")]
   B,

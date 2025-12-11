@@ -1,6 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+mod behavior;
 mod maneuver;
 
 use crate::error::Result;
@@ -30,6 +31,8 @@ impl World {
     self.round.set_ready(player, is_ready);
 
     if self.round.is_done() {
+      self.process_bot_behavior()?;
+      self.process_precursor_behavior()?;
       self.next_round()?;
     } else {
       self.emit_round_updated();
