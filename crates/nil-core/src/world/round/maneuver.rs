@@ -97,7 +97,7 @@ impl World {
       && !hauled.resources().is_empty()
     {
       let ruler = self.military.army(army_id)?.owner().clone();
-      *self.ruler_mut(ruler)?.resources_mut() += Resources::from(hauled);
+      *self.ruler_mut(&ruler)?.resources_mut() += Resources::from(hauled);
     }
 
     let army = self.military.army_mut(army_id)?;

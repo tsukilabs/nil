@@ -5,7 +5,7 @@ import { toU32 } from '@/lib/number';
 import { invoke } from '@tauri-apps/api/core';
 import { ResourcesImpl } from '@/core/model/resources';
 
-export async function cheatGetResources(ruler: Ruler) {
+export async function cheatGetResources(ruler?: Option<Ruler>) {
   return invoke<Resources>('cheat_get_resources', { req: { ruler } });
 }
 
@@ -21,55 +21,55 @@ export async function cheatGetPrecursorResources(precursor: PrecursorId) {
   return cheatGetResources({ kind: 'precursor', id: precursor });
 }
 
-export async function cheatSetFood(food: number) {
+export async function cheatSetFood(food: number, ruler?: Option<Ruler>) {
   food = toU32(food);
-  await invoke('cheat_set_food', { req: { food } });
+  await invoke('cheat_set_food', { req: { food, ruler } });
 }
 
-export async function cheatSetIron(iron: number) {
+export async function cheatSetIron(iron: number, ruler?: Option<Ruler>) {
   iron = toU32(iron);
-  await invoke('cheat_set_iron', { req: { iron } });
+  await invoke('cheat_set_iron', { req: { iron, ruler } });
 }
 
-export async function cheatSetMaxFood() {
-  await invoke('cheat_set_max_food');
+export async function cheatSetMaxFood(ruler?: Option<Ruler>) {
+  await invoke('cheat_set_max_food', { req: { ruler } });
 }
 
-export async function cheatSetMaxIron() {
-  await invoke('cheat_set_max_iron');
+export async function cheatSetMaxIron(ruler?: Option<Ruler>) {
+  await invoke('cheat_set_max_iron', { req: { ruler } });
 }
 
-export async function cheatSetMaxResources() {
-  await invoke('cheat_set_max_resources');
+export async function cheatSetMaxResources(ruler?: Option<Ruler>) {
+  await invoke('cheat_set_max_resources', { req: { ruler } });
 }
 
-export async function cheatSetMaxSiloResources() {
-  await invoke('cheat_set_max_silo_resources');
+export async function cheatSetMaxSiloResources(ruler?: Option<Ruler>) {
+  await invoke('cheat_set_max_silo_resources', { req: { ruler } });
 }
 
-export async function cheatSetMaxStone() {
-  await invoke('cheat_set_max_stone');
+export async function cheatSetMaxStone(ruler?: Option<Ruler>) {
+  await invoke('cheat_set_max_stone', { req: { ruler } });
 }
 
-export async function cheatSetMaxWarehouseResources() {
-  await invoke('cheat_set_max_warehouse_resources');
+export async function cheatSetMaxWarehouseResources(ruler?: Option<Ruler>) {
+  await invoke('cheat_set_max_warehouse_resources', { req: { ruler } });
 }
 
-export async function cheatSetMaxWood() {
-  await invoke('cheat_set_max_wood');
+export async function cheatSetMaxWood(ruler?: Option<Ruler>) {
+  await invoke('cheat_set_max_wood', { req: { ruler } });
 }
 
-export async function cheatSetResources(resources: Resources) {
-  const impl = ResourcesImpl.create(resources);
-  await invoke('cheat_set_resources', { req: { resources: impl } });
+export async function cheatSetResources(resources: Resources, ruler?: Option<Ruler>) {
+  resources = ResourcesImpl.create(resources);
+  await invoke('cheat_set_resources', { req: { resources, ruler } });
 }
 
-export async function cheatSetStone(stone: number) {
+export async function cheatSetStone(stone: number, ruler?: Option<Ruler>) {
   stone = toU32(stone);
-  await invoke('cheat_set_stone', { req: { stone } });
+  await invoke('cheat_set_stone', { req: { stone, ruler } });
 }
 
-export async function cheatSetWood(wood: number) {
+export async function cheatSetWood(wood: number, ruler?: Option<Ruler>) {
   wood = toU32(wood);
-  await invoke('cheat_set_wood', { req: { wood } });
+  await invoke('cheat_set_wood', { req: { wood, ruler } });
 }

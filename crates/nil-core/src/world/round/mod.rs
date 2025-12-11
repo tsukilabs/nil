@@ -83,7 +83,7 @@ impl World {
       resources.food -= self.military.maintenance_of(ruler.clone());
       let capacity = self.get_storage_capacity(ruler.clone())?;
       self
-        .ruler_mut(ruler)?
+        .ruler_mut(&ruler)?
         .resources_mut()
         .add_within_capacity(&resources, &capacity);
     }

@@ -60,6 +60,7 @@ declare global {
       readonly getCoords: (typeof PlayerEntity)['getCoords'];
       readonly getId: (typeof PlayerEntity)['getId'];
       readonly getPlayer: (typeof PlayerEntity)['getPlayer'];
+      readonly getRuler: (typeof PlayerEntity)['getRuler'];
       readonly refs: (typeof PlayerEntity)['refs'];
       readonly setId: (typeof PlayerEntity)['setId'];
       readonly update: (typeof PlayerEntity)['update'];

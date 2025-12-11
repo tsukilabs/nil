@@ -8,6 +8,13 @@ use nil_payload::cheat::resources::{
   CheatGetResourcesRequest,
   CheatSetFoodRequest,
   CheatSetIronRequest,
+  CheatSetMaxFoodRequest,
+  CheatSetMaxIronRequest,
+  CheatSetMaxResourcesRequest,
+  CheatSetMaxSiloResourcesRequest,
+  CheatSetMaxStoneRequest,
+  CheatSetMaxWarehouseResourcesRequest,
+  CheatSetMaxWoodRequest,
   CheatSetResourcesRequest,
   CheatSetStoneRequest,
   CheatSetWoodRequest,
@@ -42,57 +49,69 @@ pub async fn cheat_set_iron(app: AppHandle, req: CheatSetIronRequest) -> Result<
 }
 
 #[tauri::command]
-pub async fn cheat_set_max_food(app: AppHandle) -> Result<()> {
+pub async fn cheat_set_max_food(app: AppHandle, req: CheatSetMaxFoodRequest) -> Result<()> {
   app
-    .client(async |cl| cl.cheat_set_max_food().await)
+    .client(async |cl| cl.cheat_set_max_food(req).await)
     .await?
     .map_err(Into::into)
 }
 
 #[tauri::command]
-pub async fn cheat_set_max_iron(app: AppHandle) -> Result<()> {
+pub async fn cheat_set_max_iron(app: AppHandle, req: CheatSetMaxIronRequest) -> Result<()> {
   app
-    .client(async |cl| cl.cheat_set_max_iron().await)
+    .client(async |cl| cl.cheat_set_max_iron(req).await)
     .await?
     .map_err(Into::into)
 }
 
 #[tauri::command]
-pub async fn cheat_set_max_resources(app: AppHandle) -> Result<()> {
+pub async fn cheat_set_max_resources(
+  app: AppHandle,
+  req: CheatSetMaxResourcesRequest,
+) -> Result<()> {
   app
-    .client(async |cl| cl.cheat_set_max_resources().await)
+    .client(async |cl| cl.cheat_set_max_resources(req).await)
     .await?
     .map_err(Into::into)
 }
 
 #[tauri::command]
-pub async fn cheat_set_max_silo_resources(app: AppHandle) -> Result<()> {
+pub async fn cheat_set_max_silo_resources(
+  app: AppHandle,
+  req: CheatSetMaxSiloResourcesRequest,
+) -> Result<()> {
   app
-    .client(async |cl| cl.cheat_set_max_silo_resources().await)
+    .client(async |cl| cl.cheat_set_max_silo_resources(req).await)
     .await?
     .map_err(Into::into)
 }
 
 #[tauri::command]
-pub async fn cheat_set_max_stone(app: AppHandle) -> Result<()> {
+pub async fn cheat_set_max_stone(app: AppHandle, req: CheatSetMaxStoneRequest) -> Result<()> {
   app
-    .client(async |cl| cl.cheat_set_max_stone().await)
+    .client(async |cl| cl.cheat_set_max_stone(req).await)
     .await?
     .map_err(Into::into)
 }
 
 #[tauri::command]
-pub async fn cheat_set_max_warehouse_resources(app: AppHandle) -> Result<()> {
+pub async fn cheat_set_max_warehouse_resources(
+  app: AppHandle,
+  req: CheatSetMaxWarehouseResourcesRequest,
+) -> Result<()> {
   app
-    .client(async |cl| cl.cheat_set_max_warehouse_resources().await)
+    .client(async |cl| {
+      cl.cheat_set_max_warehouse_resources(req)
+        .await
+    })
     .await?
     .map_err(Into::into)
 }
 
 #[tauri::command]
-pub async fn cheat_set_max_wood(app: AppHandle) -> Result<()> {
+pub async fn cheat_set_max_wood(app: AppHandle, req: CheatSetMaxWoodRequest) -> Result<()> {
   app
-    .client(async |cl| cl.cheat_set_max_wood().await)
+    .client(async |cl| cl.cheat_set_max_wood(req).await)
     .await?
     .map_err(Into::into)
 }

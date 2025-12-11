@@ -3,13 +3,55 @@
 
 use crate::error::Result;
 use crate::manager::ManagerExt;
+use nil_core::infrastructure::building::academy::AcademyRecruitQueue;
+use nil_core::infrastructure::building::prefecture::PrefectureBuildQueue;
+use nil_core::infrastructure::building::stable::StableRecruitQueue;
 use nil_core::infrastructure::storage::OverallStorageCapacity;
 use nil_payload::cheat::infrastructure::{
+  CheatGetAcademyRecruitQueueRequest,
+  CheatGetPrefectureBuildQueueRequest,
+  CheatGetStableRecruitQueueRequest,
   CheatGetStorageCapacityRequest,
   CheatSetBuildingLevelRequest,
   CheatSetMaxInfrastructureRequest,
 };
 use tauri::AppHandle;
+
+#[tauri::command]
+pub async fn cheat_get_academy_recruit_queue(
+  app: AppHandle,
+  req: CheatGetAcademyRecruitQueueRequest,
+) -> Result<AcademyRecruitQueue> {
+  app
+    .client(async |cl| cl.cheat_get_academy_recruit_queue(req).await)
+    .await?
+    .map_err(Into::into)
+}
+
+#[tauri::command]
+pub async fn cheat_get_prefecture_build_queue(
+  app: AppHandle,
+  req: CheatGetPrefectureBuildQueueRequest,
+) -> Result<PrefectureBuildQueue> {
+  app
+    .client(async |cl| {
+      cl.cheat_get_prefecture_build_queue(req)
+        .await
+    })
+    .await?
+    .map_err(Into::into)
+}
+
+#[tauri::command]
+pub async fn cheat_get_stable_recruit_queue(
+  app: AppHandle,
+  req: CheatGetStableRecruitQueueRequest,
+) -> Result<StableRecruitQueue> {
+  app
+    .client(async |cl| cl.cheat_get_stable_recruit_queue(req).await)
+    .await?
+    .map_err(Into::into)
+}
 
 #[tauri::command]
 pub async fn cheat_get_storage_capacity(

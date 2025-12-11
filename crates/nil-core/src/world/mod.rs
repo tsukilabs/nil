@@ -212,21 +212,21 @@ impl World {
     self.precursor_manager.precursors()
   }
 
-  pub fn ruler(&self, ruler: Ruler) -> Result<RulerRef<'_>> {
+  pub fn ruler(&self, ruler: &Ruler) -> Result<RulerRef<'_>> {
     let ruler = match ruler {
-      Ruler::Bot { id } => RulerRef::Bot(self.bot(&id)?),
-      Ruler::Player { id } => RulerRef::Player(self.player(&id)?),
-      Ruler::Precursor { id } => RulerRef::Precursor(self.precursor(id)),
+      Ruler::Bot { id } => RulerRef::Bot(self.bot(id)?),
+      Ruler::Player { id } => RulerRef::Player(self.player(id)?),
+      Ruler::Precursor { id } => RulerRef::Precursor(self.precursor(*id)),
     };
 
     Ok(ruler)
   }
 
-  fn ruler_mut(&mut self, ruler: Ruler) -> Result<RulerRefMut<'_>> {
+  fn ruler_mut(&mut self, ruler: &Ruler) -> Result<RulerRefMut<'_>> {
     let ruler = match ruler {
-      Ruler::Bot { id } => RulerRefMut::Bot(self.bot_mut(&id)?),
-      Ruler::Player { id } => RulerRefMut::Player(self.player_mut(&id)?),
-      Ruler::Precursor { id } => RulerRefMut::Precursor(self.precursor_mut(id)),
+      Ruler::Bot { id } => RulerRefMut::Bot(self.bot_mut(id)?),
+      Ruler::Player { id } => RulerRefMut::Player(self.player_mut(id)?),
+      Ruler::Precursor { id } => RulerRefMut::Precursor(self.precursor_mut(*id)),
     };
 
     Ok(ruler)

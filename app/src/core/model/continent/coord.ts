@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { go } from '@/router';
-import type { Option } from '@tb-dev/utils';
+import { isNil, type Option } from '@tb-dev/utils';
 import type { Coord as WasmCoord } from '@tsukilabs/nil-continent';
 import {
   QUERY_WAR_ROOM_DEST_X,
@@ -118,12 +118,26 @@ export class CoordImpl implements Coord {
     return CoordImpl.create({ x: value, y: value });
   }
 
+  public static fromTuple(tuple: CoordTuple) {
+    return CoordImpl.create({ x: tuple[0], y: tuple[1] });
+  }
+
   public static fromContinentKey(key: ContinentKey) {
     if (typeof key === 'number') {
       return CoordImpl.fromContinentIndex(key);
     }
+    else {
+      return CoordImpl.create(toCoordObject(key));
+    }
+  }
 
-    return CoordImpl.create(key);
+  public static fromContinentKeyOrCurrent(key?: Option<ContinentKey>) {
+    if (isNil(key) || !Number.isFinite(key)) {
+      return NIL.city.getCoord();
+    }
+    else {
+      return CoordImpl.fromContinentKey(key);
+    }
   }
 
   public static fromContinentIndex(index: ContinentIndex) {
@@ -133,7 +147,8 @@ export class CoordImpl implements Coord {
     return CoordImpl.create({ x, y });
   }
 
-  public static toContinentIndex(coord: Coord) {
+  public static toContinentIndex(coord: Coord | CoordTuple) {
+    coord = toCoordObject(coord);
     const size = NIL.world.getContinentSize();
     return coord.y * size + coord.x;
   }
@@ -169,4 +184,13 @@ export class CoordImpl implements Coord {
 export function isOutside(value: number, continentSize?: number) {
   const size = continentSize ?? NIL.world.getContinentSize();
   return !Number.isInteger(value) || value < 0 || value >= size;
+}
+
+function toCoordObject(coord: Coord | CoordTuple): Coord {
+  if (Array.isArray(coord)) {
+    return { x: coord[0], y: coord[1] };
+  }
+  else {
+    return coord;
+  }
 }

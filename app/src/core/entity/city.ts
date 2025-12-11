@@ -103,7 +103,7 @@ export class CityEntity extends Entity {
   }
 
   public static getCoord() {
-    return this.use().coord.value;
+    return this.use().coord.value ?? null;
   }
 
   public static async setCoord(coord?: Option<Coord>) {
@@ -125,7 +125,7 @@ export class CityEntity extends Entity {
   }
 
   public static getProduction() {
-    return this.use().production.value;
+    return this.use().production.value ?? null;
   }
 
   public static init() {
