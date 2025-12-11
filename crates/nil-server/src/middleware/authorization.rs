@@ -10,6 +10,7 @@ use axum::middleware::Next;
 use axum::response::Response;
 use derive_more::{Deref, From, Into};
 use nil_core::player::PlayerId;
+use nil_core::ruler::Ruler;
 use percent_encoding::percent_decode;
 
 pub async fn authorization(mut request: Request, next: Next) -> Response {
@@ -38,6 +39,12 @@ impl TryFrom<&HeaderValue> for CurrentPlayer {
       .map(PlayerId::from)?;
 
     Ok(Self(id))
+  }
+}
+
+impl From<CurrentPlayer> for Ruler {
+  fn from(player: CurrentPlayer) -> Self {
+    Ruler::Player { id: player.0 }
   }
 }
 

@@ -63,7 +63,7 @@ export class RoundEntity extends Entity {
   }
 
   public static getRound() {
-    return this.use().round.value;
+    return this.use().round.value ?? null;
   }
 
   public static init() {

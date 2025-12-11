@@ -114,7 +114,7 @@ where
       .resources;
 
     if !world
-      .ruler(owner.clone())?
+      .ruler(owner)?
       .has_resources(required_resources)
     {
       return Ok(BehaviorScore::ZERO);

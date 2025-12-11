@@ -64,7 +64,11 @@ export class PlayerEntity extends Entity {
   }
 
   public static getPlayer() {
-    return this.use().player.value;
+    return this.use().player.value ?? null;
+  }
+
+  public static getRuler() {
+    return this.getPlayer()?.toRuler() ?? null;
   }
 
   public static getCoords() {
@@ -77,6 +81,7 @@ export class PlayerEntity extends Entity {
         getCoords: PlayerEntity.getCoords.bind(PlayerEntity),
         getId: PlayerEntity.getId.bind(PlayerEntity),
         getPlayer: PlayerEntity.getPlayer.bind(PlayerEntity),
+        getRuler: PlayerEntity.getRuler.bind(PlayerEntity),
         refs: PlayerEntity.refs.bind(PlayerEntity),
         setId: PlayerEntity.setId.bind(PlayerEntity),
         update: PlayerEntity.update.bind(PlayerEntity),

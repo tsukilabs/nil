@@ -14,7 +14,7 @@ use std::any::Any;
 use std::cmp::Ordering;
 use std::collections::HashSet;
 use std::fmt::Debug;
-use std::ops::{Add, ControlFlow, Div, Mul, Sub};
+use std::ops::ControlFlow;
 
 pub trait Behavior: Any + Debug {
   fn score(&self, world: &World) -> Result<BehaviorScore>;
@@ -168,37 +168,5 @@ impl PartialEq<f64> for BehaviorScore {
 impl PartialOrd<f64> for BehaviorScore {
   fn partial_cmp(&self, other: &f64) -> Option<Ordering> {
     self.0.partial_cmp(other)
-  }
-}
-
-impl Add<f64> for BehaviorScore {
-  type Output = f64;
-
-  fn add(self, rhs: f64) -> Self::Output {
-    self.0 + rhs
-  }
-}
-
-impl Sub<f64> for BehaviorScore {
-  type Output = f64;
-
-  fn sub(self, rhs: f64) -> Self::Output {
-    self.0 - rhs
-  }
-}
-
-impl Mul<f64> for BehaviorScore {
-  type Output = f64;
-
-  fn mul(self, rhs: f64) -> Self::Output {
-    self.0 * rhs
-  }
-}
-
-impl Div<f64> for BehaviorScore {
-  type Output = f64;
-
-  fn div(self, rhs: f64) -> Self::Output {
-    self.0 / rhs
   }
 }

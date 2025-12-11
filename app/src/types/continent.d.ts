@@ -19,7 +19,9 @@ interface Coord {
   readonly y: number;
 }
 
-type ContinentKey = Coord | ContinentIndex;
+type CoordTuple = [Coord['x'], Coord['y']];
+
+type ContinentKey = Coord | CoordTuple | ContinentIndex;
 type ContinentIndex = number;
 type ContinentSize = number;
 

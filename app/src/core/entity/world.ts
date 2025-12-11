@@ -37,7 +37,7 @@ export class WorldEntity extends Entity {
   }
 
   public static getConfig() {
-    return this.use().config.value;
+    return this.use().config.value ?? null;
   }
 
   public static getContinentSize() {
@@ -45,7 +45,7 @@ export class WorldEntity extends Entity {
   }
 
   public static getStats() {
-    return this.use().stats.value;
+    return this.use().stats.value ?? null;
   }
 
   public static init() {

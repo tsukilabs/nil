@@ -8,6 +8,13 @@ use nil_payload::cheat::resources::{
   CheatGetResourcesRequest,
   CheatSetFoodRequest,
   CheatSetIronRequest,
+  CheatSetMaxFoodRequest,
+  CheatSetMaxIronRequest,
+  CheatSetMaxResourcesRequest,
+  CheatSetMaxSiloResourcesRequest,
+  CheatSetMaxStoneRequest,
+  CheatSetMaxWarehouseResourcesRequest,
+  CheatSetMaxWoodRequest,
   CheatSetResourcesRequest,
   CheatSetStoneRequest,
   CheatSetWoodRequest,
@@ -29,41 +36,59 @@ impl Client {
     self.http.post("cheat-set-iron", req).await
   }
 
-  pub async fn cheat_set_max_food(&self) -> Result<()> {
-    self.http.get("cheat-set-max-food").await
-  }
-
-  pub async fn cheat_set_max_iron(&self) -> Result<()> {
-    self.http.get("cheat-set-max-iron").await
-  }
-
-  pub async fn cheat_set_max_resources(&self) -> Result<()> {
+  pub async fn cheat_set_max_food(&self, req: CheatSetMaxFoodRequest) -> Result<()> {
     self
       .http
-      .get("cheat-set-max-resources")
+      .post("cheat-set-max-food", req)
       .await
   }
 
-  pub async fn cheat_set_max_silo_resources(&self) -> Result<()> {
+  pub async fn cheat_set_max_iron(&self, req: CheatSetMaxIronRequest) -> Result<()> {
     self
       .http
-      .get("cheat-set-max-silo-resources")
+      .post("cheat-set-max-iron", req)
       .await
   }
 
-  pub async fn cheat_set_max_stone(&self) -> Result<()> {
-    self.http.get("cheat-set-max-stone").await
-  }
-
-  pub async fn cheat_set_max_warehouse_resources(&self) -> Result<()> {
+  pub async fn cheat_set_max_resources(&self, req: CheatSetMaxResourcesRequest) -> Result<()> {
     self
       .http
-      .get("cheat-set-max-warehouse-resources")
+      .post("cheat-set-max-resources", req)
       .await
   }
 
-  pub async fn cheat_set_max_wood(&self) -> Result<()> {
-    self.http.get("cheat-set-max-wood").await
+  pub async fn cheat_set_max_silo_resources(
+    &self,
+    req: CheatSetMaxSiloResourcesRequest,
+  ) -> Result<()> {
+    self
+      .http
+      .post("cheat-set-max-silo-resources", req)
+      .await
+  }
+
+  pub async fn cheat_set_max_stone(&self, req: CheatSetMaxStoneRequest) -> Result<()> {
+    self
+      .http
+      .post("cheat-set-max-stone", req)
+      .await
+  }
+
+  pub async fn cheat_set_max_warehouse_resources(
+    &self,
+    req: CheatSetMaxWarehouseResourcesRequest,
+  ) -> Result<()> {
+    self
+      .http
+      .post("cheat-set-max-warehouse-resources", req)
+      .await
+  }
+
+  pub async fn cheat_set_max_wood(&self, req: CheatSetMaxWoodRequest) -> Result<()> {
+    self
+      .http
+      .post("cheat-set-max-wood", req)
+      .await
   }
 
   pub async fn cheat_set_resources(&self, req: CheatSetResourcesRequest) -> Result<()> {

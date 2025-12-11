@@ -8,8 +8,26 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+pub struct CheatGetAcademyRecruitQueueRequest {
+  pub coord: Coord,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct CheatGetPrefectureBuildQueueRequest {
+  pub coord: Coord,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct CheatGetStableRecruitQueueRequest {
+  pub coord: Coord,
+}
+
+#[derive(Clone, Debug, Default, Deserialize, Serialize)]
+#[serde(default, rename_all = "camelCase")]
 pub struct CheatGetStorageCapacityRequest {
-  pub ruler: Ruler,
+  pub ruler: Option<Ruler>,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
