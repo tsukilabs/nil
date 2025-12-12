@@ -6,15 +6,13 @@ use crate::error::Result;
 use crate::player::Player;
 use crate::world::World;
 use itertools::Itertools;
+use std::num::NonZeroU8;
 
 impl World {
-  pub fn cheat_skip_round(&mut self, amount: u32) -> Result<()> {
+  pub fn cheat_skip_round(&mut self, amount: NonZeroU8) -> Result<()> {
     bail_cheat_not_allowed!(self);
 
-    if amount == 0 {
-      return Ok(());
-    }
-
+    let amount = amount.get();
     let players = self
       .player_manager
       .players()

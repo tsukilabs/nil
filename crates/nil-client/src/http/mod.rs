@@ -24,7 +24,7 @@ static HTTP: LazyLock<HttpClient> = LazyLock::new(|| {
   HttpClient::builder()
     .user_agent(USER_AGENT)
     .use_rustls_tls()
-    .timeout(Duration::from_mins(3))
+    .timeout(Duration::from_mins(1))
     .build()
     .expect("Failed to create HTTP client")
 });

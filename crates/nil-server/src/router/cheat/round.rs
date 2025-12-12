@@ -11,7 +11,7 @@ use nil_payload::cheat::round::CheatSkipRoundRequest;
 
 pub async fn skip(State(app): State<App>, Json(req): Json<CheatSkipRoundRequest>) -> Response {
   app
-    .world_mut(|world| world.cheat_skip_round(req.amount.get()))
+    .world_mut(|world| world.cheat_skip_round(req.amount))
     .map_ok(|()| res!(OK))
     .unwrap_or_else(from_core_err)
     .await
