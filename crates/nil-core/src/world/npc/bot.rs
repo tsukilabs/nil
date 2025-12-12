@@ -25,13 +25,13 @@ impl World {
     let (coord, field) = self.find_spawn_point()?;
 
     let infrastructure = Infrastructure::builder()
-      .farm(with_random_level!(Farm, 5, 10))
+      .farm(with_random_level!(Farm, 1, 10))
       .iron_mine(with_random_level!(IronMine, 1, 10))
       .prefecture(with_random_level!(Prefecture, 1, 5))
       .quarry(with_random_level!(Quarry, 1, 10))
       .sawmill(with_random_level!(Sawmill, 1, 10))
-      .silo(with_random_level!(Silo, 5, 10))
-      .warehouse(with_random_level!(Warehouse, 1, 10))
+      .silo(with_random_level!(Silo, 10, 15))
+      .warehouse(with_random_level!(Warehouse, 10, 15))
       .build();
 
     *field = City::builder(coord)
