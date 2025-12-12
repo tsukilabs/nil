@@ -32,6 +32,8 @@
 
 ### `$sawmill`
 
+### `$skip` <Badge type="tip" text="cheat" />
+
 ### `$silo`
 
 ### `$spawn` <Badge type="tip" text="cheat" />

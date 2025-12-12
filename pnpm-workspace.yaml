@@ -4,15 +4,3 @@ packages:
   - "crates/nil-continent/pkg"
 
 ignoreWorkspaceRootCheck: true
-minimumReleaseAge: 4320
-minimumReleaseAgeExclude:
-  - "@tauri-apps/*"
-  - "@tauri-store/*"
-  - "@tb-dev/*"
-  - "@tsukilabs/*"
-  - "@vue/*"
-  - "reka-ui"
-  - "typescript"
-  - "vite"
-  - "vue"
-  - "vue-tsc"

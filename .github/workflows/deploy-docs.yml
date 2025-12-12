@@ -4,6 +4,8 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
+  release:
+    types: [released]
 
 permissions:
   contents: read
