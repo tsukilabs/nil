@@ -15,8 +15,7 @@ impl World {
     let amount = amount.get();
     let players = self
       .player_manager
-      .players()
-      .filter(|player| player.is_active())
+      .active_players()
       .map(Player::id)
       .collect_vec();
 

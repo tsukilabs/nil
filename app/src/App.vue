@@ -10,9 +10,9 @@ import { nextTick, onMounted } from 'vue';
 import { handleError } from '@/lib/error';
 import { Sonner } from '@tb-dev/vue-components';
 import { setTheme, useSettings } from '@/settings';
-import { defineGlobalCommands } from '@/lib/global';
 import { createTrayIcon, showWindow } from '@/commands';
 import { syncRef, useColorMode, watchImmediate } from '@vueuse/core';
+import { defineGlobalCheats, defineGlobalCommands } from '@/lib/global';
 
 const i18n = useI18n();
 
@@ -30,10 +30,12 @@ if (__DESKTOP__) {
 
 onMounted(async () => {
   try {
+    defineGlobalCommands();
+    defineGlobalCheats();
+
     await nextTick();
     await createTrayIcon();
     await showWindow();
-    defineGlobalCommands();
   }
   catch (err) {
     handleError(err);

@@ -44,6 +44,10 @@ export class SquadImpl implements Squad {
     return { unit, size: 0 };
   }
 
+  public static fromTuple(tuple: SquadTuple) {
+    return this.create({ unit: tuple[0], size: tuple[1] });
+  }
+
   public static isEmpty(squad: Squad) {
     return !Number.isFinite(squad.size) || squad.size <= 0;
   }

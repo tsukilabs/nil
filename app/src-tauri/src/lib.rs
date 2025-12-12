@@ -19,7 +19,7 @@ use error::BoxResult;
 use state::Nil;
 use tauri::{AppHandle, Manager, Wry};
 
-#[allow(clippy::too_many_lines)]
+#[expect(clippy::too_many_lines)]
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
   #[cfg(debug_assertions)]
@@ -54,6 +54,7 @@ pub fn run() {
       command::cheat::infrastructure::cheat_set_max_infrastructure,
       command::cheat::military::cheat_spawn_personnel,
       command::cheat::npc::cheat_get_ethics,
+      command::cheat::npc::cheat_set_bot_ethics,
       command::cheat::npc::cheat_spawn_bot,
       command::cheat::resources::cheat_get_resources,
       command::cheat::resources::cheat_set_food,

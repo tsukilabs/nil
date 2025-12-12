@@ -5,3 +5,5 @@ interface Squad {
   readonly unit: UnitId;
   readonly size: number;
 }
+
+type SquadTuple = [Squad['unit'], Squad['size']];

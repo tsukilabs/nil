@@ -72,6 +72,11 @@ impl Bot {
   }
 
   #[inline]
+  pub(crate) fn ethics_mut(&mut self) -> &mut Ethics {
+    &mut self.ethics
+  }
+
+  #[inline]
   pub fn resources(&self) -> &Resources {
     &self.resources
   }

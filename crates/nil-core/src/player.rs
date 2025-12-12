@@ -43,6 +43,12 @@ impl PlayerManager {
     self.0.values_mut()
   }
 
+  pub fn active_players(&self) -> impl Iterator<Item = &Player> {
+    self
+      .players()
+      .filter(|player| player.is_active())
+  }
+
   #[inline]
   pub fn has(&self, id: &PlayerId) -> bool {
     self.0.contains_key(id)

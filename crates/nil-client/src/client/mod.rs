@@ -19,12 +19,10 @@ use crate::error::Result;
 use crate::http::Http;
 use crate::websocket::WebSocketClient;
 use futures::future::BoxFuture;
+use local_ip_address::local_ip;
 use nil_core::event::Event;
 use nil_core::player::PlayerId;
-use std::net::SocketAddrV4;
-
-#[cfg(not(target_os = "android"))]
-use {local_ip_address::local_ip, std::net::IpAddr};
+use std::net::{IpAddr, SocketAddrV4};
 
 pub struct Client {
   player: PlayerId,
@@ -52,12 +50,6 @@ impl Client {
     self.player.clone()
   }
 
-  #[cfg(target_os = "android")]
-  pub fn server_addr(&self) -> SocketAddrV4 {
-    self.server
-  }
-
-  #[cfg(not(target_os = "android"))]
   pub fn server_addr(&self) -> SocketAddrV4 {
     let mut addr = self.server;
     if addr.ip().is_loopback()

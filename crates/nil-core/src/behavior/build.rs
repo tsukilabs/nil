@@ -6,6 +6,7 @@ use crate::behavior::{Behavior, BehaviorProcessor, BehaviorScore};
 use crate::continent::Coord;
 use crate::error::Result;
 use crate::ethic::EthicPowerAxis;
+use crate::infrastructure::building::StorageId;
 use crate::infrastructure::building::prefecture::{
   PrefectureBuildOrderKind,
   PrefectureBuildOrderRequest,
@@ -23,7 +24,7 @@ use std::ops::ControlFlow;
 use std::sync::LazyLock;
 use strum::IntoEnumIterator;
 
-pub(crate) static TEMPLATE: LazyLock<Vec<BuildStep>> = LazyLock::new(generate_template);
+pub(crate) static BUILD_TEMPLATE: LazyLock<Vec<BuildStep>> = LazyLock::new(generate_template);
 
 #[derive(Builder, Debug)]
 pub struct BuildBehavior {
@@ -90,6 +91,13 @@ where
   marker: PhantomData<T>,
 }
 
+impl<T> BuildBuildingBehavior<T>
+where
+  T: Building + Debug,
+{
+  const STORAGE_CAPACITY_THRESHOLD: f64 = 0.8;
+}
+
 impl<T> Behavior for BuildBuildingBehavior<T>
 where
   T: Building + Debug + 'static,
@@ -129,6 +137,9 @@ where
       return Ok(BehaviorScore::MIN);
     }
 
+    // Prioritize the wall if there are incoming attacks.
+    // It will also check whether the build order can be
+    // completed before the nearest one arrives.
     if let BuildingId::Wall = self.building
       && let Some(distance) = world
         .military()
@@ -148,22 +159,22 @@ where
       }
     }
 
-    if building.is_storage() {
+    // Prioritize storage when its capacity is almost full.
+    if let Ok(id) = StorageId::try_from(self.building) {
       let resources = ruler_ref.resources();
       let capacity = world.get_storage_capacity(owner.clone())?;
 
-      let ratio = if let BuildingId::Silo = self.building {
-        Some(f64::from(resources.food) / f64::from(capacity.silo))
-      } else if let BuildingId::Warehouse = self.building {
-        let iron_ratio = f64::from(resources.iron) / f64::from(capacity.warehouse);
-        let stone_ratio = f64::from(resources.stone) / f64::from(capacity.warehouse);
-        let wood_ratio = f64::from(resources.wood) / f64::from(capacity.warehouse);
-        Some(iron_ratio.max(stone_ratio).max(wood_ratio))
-      } else {
-        None
+      let ratio = match id {
+        StorageId::Silo => f64::from(resources.food) / f64::from(capacity.silo),
+        StorageId::Warehouse => {
+          let iron_ratio = f64::from(resources.iron) / f64::from(capacity.warehouse);
+          let stone_ratio = f64::from(resources.stone) / f64::from(capacity.warehouse);
+          let wood_ratio = f64::from(resources.wood) / f64::from(capacity.warehouse);
+          iron_ratio.max(stone_ratio).max(wood_ratio)
+        }
       };
 
-      if ratio.is_some_and(|it| it >= 0.8)
+      if ratio >= Self::STORAGE_CAPACITY_THRESHOLD
         && infrastructure
           .prefecture()
           .build_queue()
@@ -175,7 +186,7 @@ where
       }
     }
 
-    let mut score = if TEMPLATE
+    let mut score = if BUILD_TEMPLATE
       .iter()
       .filter(|step| !step.is_done(infrastructure))
       .take(3)

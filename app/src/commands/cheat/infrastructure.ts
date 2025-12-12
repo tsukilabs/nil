@@ -3,7 +3,7 @@
 
 import { toU8 } from '@/lib/number';
 import { invoke } from '@tauri-apps/api/core';
-import { getPublicCity } from '@/commands/city';
+import { getCityOwner } from '@/commands/city';
 import { CoordImpl } from '@/core/model/continent/coord';
 
 export async function cheatGetAcademyRecruitQueue(coord?: Option<ContinentKey>) {
@@ -31,9 +31,7 @@ export async function cheatGetStorageCapacity(ruler?: Option<Ruler>) {
 }
 
 export async function cheatGetOwnerStorageCapacity(coord: ContinentKey) {
-  coord = CoordImpl.fromContinentKey(coord);
-  const city = await getPublicCity(coord);
-  return cheatGetStorageCapacity(city.owner);
+  return cheatGetStorageCapacity(await getCityOwner(coord));
 }
 
 export async function cheatSetBuildingLevel(

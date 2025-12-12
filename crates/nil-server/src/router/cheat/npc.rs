@@ -7,7 +7,11 @@ use crate::state::App;
 use axum::extract::{Json, State};
 use axum::response::Response;
 use futures::TryFutureExt;
-use nil_payload::cheat::npc::{CheatGetEthicsRequest, CheatSpawnBotRequest};
+use nil_payload::cheat::npc::{
+  CheatGetEthicsRequest,
+  CheatSetBotEthicsRequest,
+  CheatSpawnBotRequest,
+};
 
 pub async fn get_ethics(
   State(app): State<App>,
@@ -16,6 +20,17 @@ pub async fn get_ethics(
   app
     .world_mut(|world| world.cheat_get_ethics(&req.ruler))
     .map_ok(|ethics| res!(OK, Json(ethics)))
+    .unwrap_or_else(from_core_err)
+    .await
+}
+
+pub async fn set_bot_ethics(
+  State(app): State<App>,
+  Json(req): Json<CheatSetBotEthicsRequest>,
+) -> Response {
+  app
+    .world_mut(|world| world.cheat_set_bot_ethics(&req.id, req.ethics))
+    .map_ok(|()| res!(OK))
     .unwrap_or_else(from_core_err)
     .await
 }

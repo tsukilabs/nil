@@ -19,6 +19,12 @@ impl World {
       .wrap_ok()
   }
 
+  pub fn cheat_set_bot_ethics(&mut self, id: &BotId, ethics: Ethics) -> Result<()> {
+    bail_cheat_not_allowed!(self);
+    *self.bot_mut(id)?.ethics_mut() = ethics;
+    Ok(())
+  }
+
   pub fn cheat_spawn_bot(&mut self, name: &str) -> Result<BotId> {
     bail_cheat_not_allowed!(self);
     self.spawn_bot(name)

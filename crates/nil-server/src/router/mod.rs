@@ -56,6 +56,7 @@ pub(crate) fn create() -> Router<App> {
     .route("/cheat-skip-round", post(cheat::round::skip))
     .route("/cheat-get-stable-recruit-queue", post(cheat::infrastructure::get_stable_recruit_queue))
     .route("/cheat-get-storage-capacity", post(cheat::infrastructure::get_storage_capacity))
+    .route("/cheat-set-bot-ethics", post(cheat::npc::set_bot_ethics))
     .route("/cheat-set-building-level", post(cheat::infrastructure::set_building_level))
     .route("/cheat-set-food", post(cheat::resources::set_food))
     .route("/cheat-set-iron", post(cheat::resources::set_iron))

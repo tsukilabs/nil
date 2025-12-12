@@ -2,12 +2,13 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
+import { ref } from 'vue';
 import { go } from '@/router';
 import Header from './Header.vue';
 import Footer from './Footer.vue';
 import Sidebar from './Sidebar.vue';
-import { onMounted, ref } from 'vue';
 import * as commands from '@/commands';
+import { DESKTOP } from '@/lib/global';
 import { leaveGame } from '@/core/game';
 import { useToggle } from '@vueuse/core';
 import { handleError } from '@/lib/error';
@@ -16,7 +17,6 @@ import Finder from '@/components/Finder.vue';
 import Loading from '@/components/Loading.vue';
 import { asyncRef, onCtrlKeyDown } from '@tb-dev/vue';
 import { SidebarProvider } from '@tb-dev/vue-components';
-import { defineGlobalCheats, DESKTOP } from '@/lib/global';
 import { usePlayerReady } from '@/composables/player/usePlayerReady';
 
 const { round } = NIL.round.refs();
@@ -36,8 +36,6 @@ if (__DESKTOP__) {
   onCtrlKeyDown(['s', 'S'], () => save());
   onCtrlKeyDown(' ', () => togglePlayerReady());
 }
-
-onMounted(() => defineGlobalCheats());
 
 async function startRound() {
   if (isHost.value && round.value?.state.kind === 'idle') {

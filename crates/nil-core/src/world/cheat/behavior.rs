@@ -1,7 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use crate::behavior::build::{BuildStep, TEMPLATE as BUILD_TEMPLATE};
+use crate::behavior::build::{BUILD_TEMPLATE, BuildStep};
 use crate::continent::Coord;
 use crate::error::Result;
 use crate::world::World;

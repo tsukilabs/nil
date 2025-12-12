@@ -16,8 +16,7 @@ impl World {
     if self.round.is_idle() {
       let ids = self
         .player_manager
-        .players()
-        .filter(|player| !player.is_inactive())
+        .active_players()
         .map(Player::id);
 
       self.round.start(ids)?;
@@ -42,8 +41,7 @@ impl World {
   pub(super) fn next_round(&mut self, emit: bool) -> Result<()> {
     let ids = self
       .player_manager
-      .players()
-      .filter(|player| player.is_active())
+      .active_players()
       .map(Player::id);
 
     self.round.next(ids)?;

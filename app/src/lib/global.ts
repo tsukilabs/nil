@@ -45,9 +45,9 @@ export function defineGlobalCommands() {
 }
 
 export function defineGlobalCheats() {
-  if (!Object.hasOwn(globalThis.NIL, 'cheat')) {
+  if (__DEBUG_ASSERTIONS__ && !Object.hasOwn(globalThis.NIL, 'cheat')) {
     const regex = /^cheat/;
-    const value = Array.from(Object.entries(cheats))
+    const entries = Array.from(Object.entries(cheats))
       .filter(([key, _]) => key.startsWith('cheat'))
       .filter(([_, fn]) => typeof fn === 'function')
       .map(([key, fn]) => {
@@ -59,7 +59,7 @@ export function defineGlobalCheats() {
       configurable: false,
       enumerable: true,
       writable: false,
-      value: Object.fromEntries(value),
+      value: Object.fromEntries(entries),
     });
   }
 }

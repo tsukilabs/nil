@@ -107,6 +107,10 @@ export class ArmyPersonnelImpl implements ArmyPersonnel {
     return ArmyPersonnelImpl.create(personnel);
   }
 
+  public static fromSquadTuple(tuple: SquadTuple) {
+    return this.fromSquad({ unit: tuple[0], size: tuple[1] });
+  }
+
   public static getSize(personnel: ArmyPersonnel): ArmyPersonnelSize {
     return {
       archer: personnel.archer.size,
