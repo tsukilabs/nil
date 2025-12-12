@@ -3,7 +3,9 @@
 
 import { toU32 } from '@/lib/number';
 import { invoke } from '@tauri-apps/api/core';
+import { getPublicCity } from '@/commands/city';
 import { ResourcesImpl } from '@/core/model/resources';
+import { CoordImpl } from '@/core/model/continent/coord';
 
 export async function cheatGetResources(ruler?: Option<Ruler>) {
   return invoke<Resources>('cheat_get_resources', { req: { ruler } });
@@ -11,6 +13,12 @@ export async function cheatGetResources(ruler?: Option<Ruler>) {
 
 export async function cheatGetBotResources(bot: BotId) {
   return cheatGetResources({ kind: 'bot', id: bot });
+}
+
+export async function cheatGetOwnerResources(coord: ContinentKey) {
+  coord = CoordImpl.fromContinentKey(coord);
+  const city = await getPublicCity(coord);
+  return cheatGetResources(city.owner);
 }
 
 export async function cheatGetPlayerResources(player: PlayerId) {
