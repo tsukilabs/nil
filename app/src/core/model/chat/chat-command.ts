@@ -26,6 +26,7 @@ const enum ChatCommandKind {
   SaveGame = 'save-game',
   Sawmill = 'sawmill',
   Silo = 'silo',
+  SkipRound = 'skip',
   SpawnBot = 'spawn-bot',
   Stable = 'stable',
   Stone = 'stone',
@@ -53,6 +54,7 @@ const regex: RegexMap = {
   [ChatCommandKind.SaveGame]: /^\$save$/i,
   [ChatCommandKind.Sawmill]: /^\$sawmill$/i,
   [ChatCommandKind.Silo]: /^\$silo$/i,
+  [ChatCommandKind.SkipRound]: /^\$skip(?:\s(\d+))?/i,
   [ChatCommandKind.SpawnBot]: /^\$spawn(?:\s(.+))?/i,
   [ChatCommandKind.Stable]: /^\$stable$/i,
   [ChatCommandKind.Stone]: /^\$stone(?:\s(\d+))?/i,
@@ -158,6 +160,10 @@ export class ChatCommand {
       }
       case ChatCommandKind.Silo: {
         await go('silo');
+        break;
+      }
+      case ChatCommandKind.SkipRound: {
+        await commands.cheatSkipRound(Number.parseInt(this.text));
         break;
       }
       case ChatCommandKind.SpawnBot: {
