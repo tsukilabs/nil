@@ -103,7 +103,7 @@ async function remove() {
         <Button variant="destructive" :disabled="!canRemove" @click="remove">
           {{ t('delete') }}
         </Button>
-        <Button variant="secondary" @click="() => router.back()">
+        <Button variant="secondary" :disabled="locked" @click="() => router.back()">
           <span>{{ t('cancel') }}</span>
         </Button>
       </CardFooter>

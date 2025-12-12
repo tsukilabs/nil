@@ -31,7 +31,7 @@ impl World {
     self.round.set_ready(player, is_ready);
 
     if self.round.is_done() {
-      self.next_round()?;
+      self.next_round(true)?;
     } else {
       self.emit_round_updated();
     }
@@ -39,7 +39,7 @@ impl World {
     Ok(())
   }
 
-  fn next_round(&mut self) -> Result<()> {
+  pub(super) fn next_round(&mut self, emit: bool) -> Result<()> {
     let ids = self
       .player_manager
       .players()
@@ -48,9 +48,11 @@ impl World {
 
     self.round.next(ids)?;
     self.prepare_next_round()?;
-
-    self.emit_round_updated();
     self.consume_pending_save()?;
+
+    if emit {
+      self.emit_round_updated();
+    }
 
     Ok(())
   }

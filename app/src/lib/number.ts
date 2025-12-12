@@ -27,3 +27,7 @@ export function toU32(value: number) {
   if (!Number.isFinite(value)) return 0;
   return Math.trunc(clamp(value, 0, __CONSTS__.u32Max));
 }
+
+export function toNonZeroU32(value: number) {
+  return Math.max(1, toU32(value));
+}

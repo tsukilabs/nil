@@ -78,7 +78,7 @@ async function join() {
         <Button :disabled="!canJoin || locked" @click="join">
           {{ t('join') }}
         </Button>
-        <Button variant="secondary" @click="() => router.back()">
+        <Button variant="secondary" :disabled="locked" @click="() => router.back()">
           <span>{{ t('cancel') }}</span>
         </Button>
       </CardFooter>

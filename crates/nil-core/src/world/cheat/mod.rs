@@ -6,6 +6,7 @@ mod infrastructure;
 mod military;
 mod npc;
 mod resources;
+mod round;
 
 #[doc(hidden)]
 #[macro_export]
