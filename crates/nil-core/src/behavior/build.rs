@@ -113,8 +113,10 @@ where
       return Ok(BehaviorScore::ZERO);
     }
 
-    let owner = world.continent().owner_of(self.coord)?;
     let stats = world.stats().infrastructure();
+    let owner = world.continent().owner_of(self.coord)?;
+    let ruler_ref = world.ruler(owner)?;
+
     let required_resources = &stats
       .building(self.building)?
       .get(level + 1u8)?
@@ -146,6 +148,33 @@ where
       }
     }
 
+    if building.is_storage() {
+      let resources = ruler_ref.resources();
+      let capacity = world.get_storage_capacity(owner.clone())?;
+
+      let ratio = if let BuildingId::Silo = self.building {
+        Some(f64::from(resources.food) / f64::from(capacity.silo))
+      } else if let BuildingId::Warehouse = self.building {
+        let iron_ratio = f64::from(resources.iron) / f64::from(capacity.warehouse);
+        let stone_ratio = f64::from(resources.stone) / f64::from(capacity.warehouse);
+        let wood_ratio = f64::from(resources.wood) / f64::from(capacity.warehouse);
+        Some(iron_ratio.max(stone_ratio).max(wood_ratio))
+      } else {
+        None
+      };
+
+      if ratio.is_some_and(|it| it >= 0.8)
+        && infrastructure
+          .prefecture()
+          .build_queue()
+          .iter()
+          .filter(|order| order.kind().is_construction())
+          .all(|order| order.building() != self.building)
+      {
+        return Ok(BehaviorScore::new(1.0));
+      }
+    }
+
     let mut score = if TEMPLATE
       .iter()
       .filter(|step| !step.is_done(infrastructure))
@@ -157,7 +186,6 @@ where
       BehaviorScore::ZERO
     };
 
-    let ruler_ref = world.ruler(owner)?;
     if let Some(ethics) = ruler_ref.ethics() {
       if self.building.is_civil() {
         score *= match ethics.power() {
