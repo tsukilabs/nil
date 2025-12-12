@@ -102,7 +102,7 @@ where
       .infrastructure_requirements()
       .has_required_levels(infrastructure)
     {
-      return Ok(BehaviorScore::ZERO);
+      return Ok(BehaviorScore::MIN);
     }
 
     let level = infrastructure
@@ -110,7 +110,7 @@ where
       .resolve_level(self.building, building.level());
 
     if level >= building.max_level() {
-      return Ok(BehaviorScore::ZERO);
+      return Ok(BehaviorScore::MIN);
     }
 
     let stats = world.stats().infrastructure();
@@ -126,7 +126,7 @@ where
       .ruler(owner)?
       .has_resources(required_resources)
     {
-      return Ok(BehaviorScore::ZERO);
+      return Ok(BehaviorScore::MIN);
     }
 
     if let BuildingId::Wall = self.building
@@ -144,7 +144,7 @@ where
         .map(|it| f64::from(it.workforce))?;
 
       if workforce <= f64::from(distance) {
-        return Ok(BehaviorScore::new(1.0));
+        return Ok(BehaviorScore::MAX);
       }
     }
 
@@ -171,7 +171,7 @@ where
           .filter(|order| order.kind().is_construction())
           .all(|order| order.building() != self.building)
       {
-        return Ok(BehaviorScore::new(1.0));
+        return Ok(BehaviorScore::MAX);
       }
     }
 
@@ -183,7 +183,7 @@ where
     {
       BehaviorScore::new(random_range(0.8..=1.0))
     } else {
-      BehaviorScore::ZERO
+      BehaviorScore::MIN
     };
 
     if let Some(ethics) = ruler_ref.ethics() {

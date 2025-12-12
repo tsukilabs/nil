@@ -118,13 +118,14 @@ impl Iterator for BehaviorProcessor<'_> {
 pub struct BehaviorScore(f64);
 
 impl BehaviorScore {
-  pub const ZERO: Self = BehaviorScore::new(0.0);
+  pub const MIN: Self = BehaviorScore(0.0);
+  pub const MAX: Self = BehaviorScore(1.0);
 
   #[inline]
   pub const fn new(score: f64) -> Self {
     debug_assert!(score.is_finite());
     debug_assert!(!score.is_subnormal());
-    Self(score.clamp(0.0, 1.0))
+    Self(score.clamp(Self::MIN.0, Self::MAX.0))
   }
 
   #[inline]
