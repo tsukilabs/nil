@@ -56,29 +56,49 @@ export class WorldEntity extends Entity {
     return this.getInfrastructureStats()?.getBuilding(id) ?? null;
   }
 
+  public static getBuildingStatsWithLevel(id: BuildingId, level: BuildingLevel) {
+    return this.getInfrastructureStats()?.getBuilding(id)?.get(level) ?? null;
+  }
+
   public static getMineStats(id: MineId) {
     return this.getInfrastructureStats()?.getMine(id) ?? null;
+  }
+
+  public static getMineStatsWithLevel(id: MineId, level: BuildingLevel) {
+    return this.getInfrastructureStats()?.getMine(id)?.get(level) ?? null;
   }
 
   public static getStorageStats(id: StorageId) {
     return this.getInfrastructureStats()?.getStorage(id) ?? null;
   }
 
+  public static getStorageStatsWithLevel(id: StorageId, level: BuildingLevel) {
+    return this.getInfrastructureStats()?.getStorage(id)?.get(level) ?? null;
+  }
+
   public static getWallStats() {
     return this.getInfrastructureStats()?.wall ?? null;
+  }
+
+  public static getWallStatsWithLevel(level: BuildingLevel) {
+    return this.getInfrastructureStats()?.wall.get(level) ?? null;
   }
 
   public static init() {
     if (!Object.hasOwn(globalThis.NIL, 'world')) {
       const world: (typeof globalThis.NIL)['world'] = {
         getBuildingStats: WorldEntity.getBuildingStats.bind(WorldEntity),
+        getBuildingStatsWithLevel: WorldEntity.getBuildingStatsWithLevel.bind(WorldEntity),
         getConfig: WorldEntity.getConfig.bind(WorldEntity),
         getContinentSize: WorldEntity.getContinentSize.bind(WorldEntity),
         getInfrastructureStats: WorldEntity.getInfrastructureStats.bind(WorldEntity),
         getMineStats: WorldEntity.getMineStats.bind(WorldEntity),
+        getMineStatsWithLevel: WorldEntity.getMineStatsWithLevel.bind(WorldEntity),
         getStats: WorldEntity.getStats.bind(WorldEntity),
         getStorageStats: WorldEntity.getStorageStats.bind(WorldEntity),
+        getStorageStatsWithLevel: WorldEntity.getStorageStatsWithLevel.bind(WorldEntity),
         getWallStats: WorldEntity.getWallStats.bind(WorldEntity),
+        getWallStatsWithLevel: WorldEntity.getWallStatsWithLevel.bind(WorldEntity),
         refs: WorldEntity.refs.bind(WorldEntity),
         use: WorldEntity.use.bind(WorldEntity),
       };
