@@ -42,7 +42,7 @@ foreach ($Crate in $Crates) {
 }
 
 if ($Publish) {
-  pnpm install
+  pnpm install --no-frozen-lockfile
 
   $CurrentVersion = Get-Content -Path 'package.json' -Raw
   | ConvertFrom-Json
