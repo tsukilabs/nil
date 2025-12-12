@@ -48,12 +48,37 @@ export class WorldEntity extends Entity {
     return this.use().stats.value ?? null;
   }
 
+  public static getInfrastructureStats() {
+    return this.getStats()?.infrastructure ?? null;
+  }
+
+  public static getBuildingStats(id: BuildingId) {
+    return this.getInfrastructureStats()?.getBuilding(id) ?? null;
+  }
+
+  public static getMineStats(id: MineId) {
+    return this.getInfrastructureStats()?.getMine(id) ?? null;
+  }
+
+  public static getStorageStats(id: StorageId) {
+    return this.getInfrastructureStats()?.getStorage(id) ?? null;
+  }
+
+  public static getWallStats() {
+    return this.getInfrastructureStats()?.wall ?? null;
+  }
+
   public static init() {
     if (!Object.hasOwn(globalThis.NIL, 'world')) {
       const world: (typeof globalThis.NIL)['world'] = {
+        getBuildingStats: WorldEntity.getBuildingStats.bind(WorldEntity),
         getConfig: WorldEntity.getConfig.bind(WorldEntity),
         getContinentSize: WorldEntity.getContinentSize.bind(WorldEntity),
+        getInfrastructureStats: WorldEntity.getInfrastructureStats.bind(WorldEntity),
+        getMineStats: WorldEntity.getMineStats.bind(WorldEntity),
         getStats: WorldEntity.getStats.bind(WorldEntity),
+        getStorageStats: WorldEntity.getStorageStats.bind(WorldEntity),
+        getWallStats: WorldEntity.getWallStats.bind(WorldEntity),
         refs: WorldEntity.refs.bind(WorldEntity),
         use: WorldEntity.use.bind(WorldEntity),
       };

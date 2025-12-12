@@ -85,9 +85,14 @@ declare global {
     };
 
     readonly world: {
+      readonly getBuildingStats: (typeof WorldEntity)['getBuildingStats'];
       readonly getConfig: (typeof WorldEntity)['getConfig'];
       readonly getContinentSize: (typeof WorldEntity)['getContinentSize'];
+      readonly getInfrastructureStats: (typeof WorldEntity)['getInfrastructureStats'];
+      readonly getMineStats: (typeof WorldEntity)['getMineStats'];
       readonly getStats: (typeof WorldEntity)['getStats'];
+      readonly getStorageStats: (typeof WorldEntity)['getStorageStats'];
+      readonly getWallStats: (typeof WorldEntity)['getWallStats'];
       readonly refs: (typeof WorldEntity)['refs'];
       readonly use: (typeof WorldEntity)['use'];
     };
