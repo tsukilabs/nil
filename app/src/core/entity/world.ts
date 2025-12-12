@@ -57,7 +57,7 @@ export class WorldEntity extends Entity {
   }
 
   public static getBuildingStatsWithLevel(id: BuildingId, level: BuildingLevel) {
-    return this.getInfrastructureStats()?.getBuilding(id)?.get(level) ?? null;
+    return this.getBuildingStats(id)?.get(level) ?? null;
   }
 
   public static getMineStats(id: MineId) {
@@ -65,7 +65,7 @@ export class WorldEntity extends Entity {
   }
 
   public static getMineStatsWithLevel(id: MineId, level: BuildingLevel) {
-    return this.getInfrastructureStats()?.getMine(id)?.get(level) ?? null;
+    return this.getMineStats(id)?.get(level) ?? null;
   }
 
   public static getStorageStats(id: StorageId) {
@@ -73,7 +73,7 @@ export class WorldEntity extends Entity {
   }
 
   public static getStorageStatsWithLevel(id: StorageId, level: BuildingLevel) {
-    return this.getInfrastructureStats()?.getStorage(id)?.get(level) ?? null;
+    return this.getStorageStats(id)?.get(level) ?? null;
   }
 
   public static getWallStats() {
@@ -81,7 +81,7 @@ export class WorldEntity extends Entity {
   }
 
   public static getWallStatsWithLevel(level: BuildingLevel) {
-    return this.getInfrastructureStats()?.wall.get(level) ?? null;
+    return this.getWallStats()?.get(level) ?? null;
   }
 
   public static init() {
