@@ -7,6 +7,7 @@ use crate::military::unit::UnitChunkSize;
 use derive_more::{Deref, Display, Into};
 use serde::{Deserialize, Serialize};
 use std::num::NonZeroU32;
+use std::cmp::Ordering;
 use std::ops::{Add, AddAssign, Div, Mul, Sub, SubAssign};
 
 /// Maintenance tax of an entity.
@@ -14,7 +15,21 @@ use std::ops::{Add, AddAssign, Div, Mul, Sub, SubAssign};
 /// Its value is equivalent to a percentage of the [base cost].
 ///
 /// [base cost]: crate::resources::cost::Cost
-#[derive(Clone, Copy, Debug, Default, Deref, Display, Into, Deserialize, Serialize)]
+#[derive(
+  Clone,
+  Copy,
+  Debug,
+  Default,
+  Deref,
+  Display,
+  Into,
+  Deserialize,
+  Serialize,
+  PartialEq,
+  Eq,
+  PartialOrd,
+  Ord,
+)]
 #[into(u32, f64, Food)]
 pub struct Maintenance(Food);
 
@@ -145,6 +160,18 @@ impl Div<UnitChunkSize> for Maintenance {
     let maintenance = f64::from(self);
     let chunk_size = f64::from(rhs);
     Self::from(maintenance / chunk_size)
+  }
+}
+
+impl PartialEq<Food> for Maintenance {
+  fn eq(&self, other: &Food) -> bool {
+    self.0.eq(other)
+  }
+}
+
+impl PartialOrd<Food> for Maintenance {
+  fn partial_cmp(&self, other: &Food) -> Option<Ordering> {
+    self.0.partial_cmp(other)
   }
 }
 

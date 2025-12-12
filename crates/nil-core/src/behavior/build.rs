@@ -13,6 +13,7 @@ use crate::infrastructure::building::prefecture::{
 };
 use crate::infrastructure::prelude::*;
 use crate::military::maneuver::Maneuver;
+use crate::resources::{Food, Maintenance};
 use crate::world::World;
 use bon::Builder;
 use nil_util::iter::IterExt;
@@ -155,6 +156,22 @@ where
         .map(|it| f64::from(it.workforce))?;
 
       if workforce <= f64::from(distance) {
+        return Ok(BehaviorScore::MAX);
+      }
+    }
+
+    if let BuildingId::Farm = self.building {
+      let mut food_production = Food::new(0);
+      let mut maintenance = world
+        .military()
+        .maintenance_of(owner.clone());
+
+      for city in world.continent().cities_of(owner.clone()) {
+        maintenance += city.maintenance(&stats)?;
+        food_production += city.round_production(&stats)?.food;
+      }
+
+      if maintenance >= food_production {
         return Ok(BehaviorScore::MAX);
       }
     }
