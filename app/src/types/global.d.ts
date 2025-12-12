@@ -86,13 +86,17 @@ declare global {
 
     readonly world: {
       readonly getBuildingStats: (typeof WorldEntity)['getBuildingStats'];
+      readonly getBuildingStatsWithLevel: (typeof WorldEntity)['getBuildingStatsWithLevel'];
       readonly getConfig: (typeof WorldEntity)['getConfig'];
       readonly getContinentSize: (typeof WorldEntity)['getContinentSize'];
       readonly getInfrastructureStats: (typeof WorldEntity)['getInfrastructureStats'];
       readonly getMineStats: (typeof WorldEntity)['getMineStats'];
+      readonly getMineStatsWithLevel: (typeof WorldEntity)['getMineStatsWithLevel'];
       readonly getStats: (typeof WorldEntity)['getStats'];
       readonly getStorageStats: (typeof WorldEntity)['getStorageStats'];
+      readonly getStorageStatsWithLevel: (typeof WorldEntity)['getStorageStatsWithLevel'];
       readonly getWallStats: (typeof WorldEntity)['getWallStats'];
+      readonly getWallStatsWithLevel: (typeof WorldEntity)['getWallStatsWithLevel'];
       readonly refs: (typeof WorldEntity)['refs'];
       readonly use: (typeof WorldEntity)['use'];
     };
