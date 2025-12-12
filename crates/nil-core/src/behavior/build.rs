@@ -167,9 +167,10 @@ where
       let ratio = match id {
         StorageId::Silo => f64::from(resources.food) / f64::from(capacity.silo),
         StorageId::Warehouse => {
-          let iron_ratio = f64::from(resources.iron) / f64::from(capacity.warehouse);
-          let stone_ratio = f64::from(resources.stone) / f64::from(capacity.warehouse);
-          let wood_ratio = f64::from(resources.wood) / f64::from(capacity.warehouse);
+          let capacity = f64::from(capacity.warehouse);
+          let iron_ratio = f64::from(resources.iron) / capacity;
+          let stone_ratio = f64::from(resources.stone) / capacity;
+          let wood_ratio = f64::from(resources.wood) / capacity;
           iron_ratio.max(stone_ratio).max(wood_ratio)
         }
       };
