@@ -4,7 +4,7 @@
 use crate::error::Result;
 use crate::manager::ManagerExt;
 use nil_core::behavior::build::BuildStep;
-use nil_payload::cheat::behavior::CheatGetBuildStepsRequest;
+use nil_payload::cheat::behavior::*;
 use tauri::AppHandle;
 
 #[tauri::command]

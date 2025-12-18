@@ -7,11 +7,7 @@ use crate::state::App;
 use axum::extract::{Json, State};
 use axum::response::Response;
 use nil_core::continent::{Continent, PublicField};
-use nil_payload::continent::{
-  GetContinentSizeRequest,
-  GetPublicFieldRequest,
-  GetPublicFieldsRequest,
-};
+use nil_payload::continent::*;
 
 pub async fn get_field(State(app): State<App>, Json(req): Json<GetPublicFieldRequest>) -> Response {
   app

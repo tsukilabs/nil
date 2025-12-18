@@ -4,7 +4,7 @@
 use crate::error::Result;
 use crate::manager::ManagerExt;
 use nil_core::military::maneuver::ManeuverId;
-use nil_payload::military::RequestManeuverRequest;
+use nil_payload::military::*;
 use tauri::AppHandle;
 
 #[tauri::command]

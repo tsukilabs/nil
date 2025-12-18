@@ -4,14 +4,14 @@
 use super::Client;
 use crate::error::Result;
 use nil_core::ranking::{Ranking, RankingEntry};
-use nil_payload::ranking::GetRankRequest;
+use nil_payload::ranking::*;
 
 impl Client {
   pub async fn get_rank(&self, req: GetRankRequest) -> Result<Option<RankingEntry>> {
     self.http.json_post("get-rank", req).await
   }
 
-  pub async fn get_ranking(&self) -> Result<Ranking> {
-    self.http.json_get("get-ranking").await
+  pub async fn get_ranking(&self, req: GetRankingRequest) -> Result<Ranking> {
+    self.http.json_post("get-ranking", req).await
   }
 }

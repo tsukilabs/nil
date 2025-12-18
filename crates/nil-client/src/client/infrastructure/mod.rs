@@ -7,7 +7,7 @@ mod stable;
 
 use crate::client::Client;
 use crate::error::Result;
-use nil_payload::infrastructure::ToggleBuildingRequest;
+use nil_payload::infrastructure::*;
 
 impl Client {
   pub async fn toggle_building(&self, req: ToggleBuildingRequest) -> Result<()> {

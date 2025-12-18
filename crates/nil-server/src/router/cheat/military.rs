@@ -6,7 +6,7 @@ use crate::response::EitherExt;
 use crate::state::App;
 use axum::extract::{Json, State};
 use axum::response::Response;
-use nil_payload::cheat::military::CheatSpawnPersonnelRequest;
+use nil_payload::cheat::military::*;
 
 pub async fn spawn_personnel(
   State(app): State<App>,

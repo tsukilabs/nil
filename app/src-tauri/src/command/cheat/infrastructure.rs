@@ -8,15 +8,7 @@ use nil_core::infrastructure::building::academy::AcademyRecruitQueue;
 use nil_core::infrastructure::building::prefecture::PrefectureBuildQueue;
 use nil_core::infrastructure::building::stable::StableRecruitQueue;
 use nil_core::infrastructure::storage::OverallStorageCapacity;
-use nil_payload::cheat::infrastructure::{
-  CheatGetAcademyRecruitQueueRequest,
-  CheatGetInfrastructureRequest,
-  CheatGetPrefectureBuildQueueRequest,
-  CheatGetStableRecruitQueueRequest,
-  CheatGetStorageCapacityRequest,
-  CheatSetBuildingLevelRequest,
-  CheatSetMaxInfrastructureRequest,
-};
+use nil_payload::cheat::infrastructure::*;
 use tauri::AppHandle;
 
 #[tauri::command]

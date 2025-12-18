@@ -5,14 +5,7 @@ use super::Client;
 use crate::error::Result;
 use nil_core::city::{City, PublicCity};
 use nil_core::ranking::Score;
-use nil_payload::city::{
-  GetCityRequest,
-  GetCityScoreRequest,
-  GetPublicCityRequest,
-  RenameCityRequest,
-  SearchCityRequest,
-  SearchPublicCityRequest,
-};
+use nil_payload::city::*;
 
 impl Client {
   pub async fn get_city(&self, req: GetCityRequest) -> Result<City> {

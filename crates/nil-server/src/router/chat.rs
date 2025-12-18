@@ -6,7 +6,7 @@ use crate::res;
 use crate::state::App;
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
-use nil_payload::chat::{GetChatHistoryRequest, PushChatMessageRequest};
+use nil_payload::chat::*;
 
 pub async fn get(
   State(app): State<App>,

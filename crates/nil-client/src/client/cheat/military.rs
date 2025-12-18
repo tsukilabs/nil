@@ -3,7 +3,7 @@
 
 use crate::client::Client;
 use crate::error::Result;
-use nil_payload::cheat::military::CheatSpawnPersonnelRequest;
+use nil_payload::cheat::military::*;
 
 impl Client {
   pub async fn cheat_spawn_personnel(&self, req: CheatSpawnPersonnelRequest) -> Result<()> {

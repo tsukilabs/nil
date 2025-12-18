@@ -5,23 +5,23 @@ use crate::error::{Error, Result};
 use crate::manager::ManagerExt;
 use nil_core::savedata::SavedataInfo;
 use nil_core::world::{WorldConfig, WorldStats};
-use nil_payload::world::SaveWorldRequest;
+use nil_payload::world::*;
 use std::path::PathBuf;
 use tauri::AppHandle;
 use tauri::async_runtime::spawn_blocking;
 
 #[tauri::command]
-pub async fn get_world_config(app: AppHandle) -> Result<WorldConfig> {
+pub async fn get_world_config(app: AppHandle, req: GetWorldConfigRequest) -> Result<WorldConfig> {
   app
-    .client(async |cl| cl.get_world_config().await)
+    .client(async |cl| cl.get_world_config(req).await)
     .await?
     .map_err(Into::into)
 }
 
 #[tauri::command]
-pub async fn get_world_stats(app: AppHandle) -> Result<WorldStats> {
+pub async fn get_world_stats(app: AppHandle, req: GetWorldStatsRequest) -> Result<WorldStats> {
   app
-    .client(async |cl| cl.get_world_stats().await)
+    .client(async |cl| cl.get_world_stats(req).await)
     .await?
     .map_err(Into::into)
 }

@@ -4,7 +4,7 @@
 use super::Client;
 use crate::error::Result;
 use nil_core::chat::ChatHistory;
-use nil_payload::chat::{GetChatHistoryRequest, PushChatMessageRequest};
+use nil_payload::chat::*;
 
 impl Client {
   pub async fn get_chat_history(

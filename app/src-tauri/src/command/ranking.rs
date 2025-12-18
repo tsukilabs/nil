@@ -4,7 +4,7 @@
 use crate::error::Result;
 use crate::manager::ManagerExt;
 use nil_core::ranking::{Ranking, RankingEntry};
-use nil_payload::ranking::GetRankRequest;
+use nil_payload::ranking::*;
 use tauri::AppHandle;
 
 #[tauri::command]
@@ -16,9 +16,9 @@ pub async fn get_rank(app: AppHandle, req: GetRankRequest) -> Result<Option<Rank
 }
 
 #[tauri::command]
-pub async fn get_ranking(app: AppHandle) -> Result<Ranking> {
+pub async fn get_ranking(app: AppHandle, req: GetRankingRequest) -> Result<Ranking> {
   app
-    .client(async |cl| cl.get_ranking().await)
+    .client(async |cl| cl.get_ranking(req).await)
     .await?
     .map_err(Into::into)
 }

@@ -7,7 +7,7 @@ use crate::state::App;
 use crate::{bail_not_pending, res};
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
-use nil_payload::military::RequestManeuverRequest;
+use nil_payload::military::*;
 
 pub async fn request_maneuver(
   State(app): State<App>,

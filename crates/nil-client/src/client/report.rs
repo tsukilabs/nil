@@ -4,7 +4,7 @@
 use super::Client;
 use crate::error::Result;
 use nil_core::report::ReportKind;
-use nil_payload::report::{GetReportRequest, GetReportsRequest};
+use nil_payload::report::*;
 
 impl Client {
   pub async fn get_report(&self, req: GetReportRequest) -> Result<ReportKind> {

@@ -1,6 +1,8 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+#![expect(clippy::wildcard_imports)]
+
 mod battle;
 mod chat;
 mod cheat;
@@ -44,6 +46,11 @@ impl Client {
   pub async fn stop(self) {
     let _ = self.leave().await;
     self.websocket.stop();
+  }
+
+  #[inline]
+  pub fn http(&self) -> &Http {
+    &self.http
   }
 
   pub fn server_addr(&self) -> ServerAddr {

@@ -4,21 +4,7 @@
 use crate::client::Client;
 use crate::error::Result;
 use nil_core::resources::Resources;
-use nil_payload::cheat::resources::{
-  CheatGetResourcesRequest,
-  CheatSetFoodRequest,
-  CheatSetIronRequest,
-  CheatSetMaxFoodRequest,
-  CheatSetMaxIronRequest,
-  CheatSetMaxResourcesRequest,
-  CheatSetMaxSiloResourcesRequest,
-  CheatSetMaxStoneRequest,
-  CheatSetMaxWarehouseResourcesRequest,
-  CheatSetMaxWoodRequest,
-  CheatSetResourcesRequest,
-  CheatSetStoneRequest,
-  CheatSetWoodRequest,
-};
+use nil_payload::cheat::resources::*;
 
 impl Client {
   pub async fn cheat_get_resources(&self, req: CheatGetResourcesRequest) -> Result<Resources> {

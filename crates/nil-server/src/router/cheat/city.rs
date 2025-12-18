@@ -6,7 +6,7 @@ use crate::response::EitherExt;
 use crate::state::App;
 use axum::extract::{Json, State};
 use axum::response::Response;
-use nil_payload::cheat::city::CheatSetStabilityRequest;
+use nil_payload::cheat::city::*;
 
 pub async fn set_stability(
   State(app): State<App>,

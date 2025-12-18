@@ -4,7 +4,7 @@
 use crate::client::Client;
 use crate::error::Result;
 use nil_core::behavior::build::BuildStep;
-use nil_payload::cheat::behavior::CheatGetBuildStepsRequest;
+use nil_payload::cheat::behavior::*;
 
 impl Client {
   pub async fn cheat_get_build_steps(

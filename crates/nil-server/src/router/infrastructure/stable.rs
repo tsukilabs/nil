@@ -8,11 +8,7 @@ use crate::{bail_not_owned_by, bail_not_pending, res};
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
 use nil_core::infrastructure::building::stable::StableRecruitCatalog;
-use nil_payload::infrastructure::stable::{
-  AddStableRecruitOrderRequest,
-  CancelStableRecruitOrderRequest,
-  GetStableRecruitCatalogRequest,
-};
+use nil_payload::infrastructure::stable::*;
 
 pub async fn add_recruit_order(
   State(app): State<App>,

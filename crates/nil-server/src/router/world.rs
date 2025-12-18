@@ -6,7 +6,7 @@ use crate::state::App;
 use axum::extract::{Json, State};
 use axum::response::Response;
 use nil_core::world::World;
-use nil_payload::world::{GetWorldConfigRequest, GetWorldStatsRequest, SaveWorldRequest};
+use nil_payload::world::*;
 
 pub async fn get_config(
   State(app): State<App>,

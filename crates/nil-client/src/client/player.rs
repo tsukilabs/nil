@@ -9,15 +9,7 @@ use nil_core::military::Military;
 use nil_core::player::{Player, PlayerStatus, PublicPlayer};
 use nil_core::report::ReportId;
 use nil_core::resources::Maintenance;
-use nil_payload::player::{
-  GetPlayerCoordsRequest,
-  GetPlayerRequest,
-  GetPlayerStatusRequest,
-  GetPublicPlayerRequest,
-  PlayerExistsRequest,
-  SetPlayerStatusRequest,
-  SpawnPlayerRequest,
-};
+use nil_payload::player::*;
 
 impl Client {
   pub async fn get_player(&self, req: GetPlayerRequest) -> Result<Player> {
@@ -31,24 +23,27 @@ impl Client {
       .await
   }
 
-  pub async fn get_player_maintenance(&self) -> Result<Maintenance> {
+  pub async fn get_player_maintenance(
+    &self,
+    req: GetPlayerMaintenanceRequest,
+  ) -> Result<Maintenance> {
     self
       .http
-      .json_get("get-player-maintenance")
+      .json_post("get-player-maintenance", req)
       .await
   }
 
-  pub async fn get_player_military(&self) -> Result<Military> {
+  pub async fn get_player_military(&self, req: GetPlayerMilitaryRequest) -> Result<Military> {
     self
       .http
-      .json_get("get-player-military")
+      .json_post("get-player-military", req)
       .await
   }
 
-  pub async fn get_player_reports(&self) -> Result<Vec<ReportId>> {
+  pub async fn get_player_reports(&self, req: GetPlayerReportsRequest) -> Result<Vec<ReportId>> {
     self
       .http
-      .json_get("get-player-reports")
+      .json_post("get-player-reports", req)
       .await
   }
 
@@ -59,14 +54,17 @@ impl Client {
       .await
   }
 
-  pub async fn get_players(&self) -> Result<Vec<Player>> {
-    self.http.json_get("get-players").await
+  pub async fn get_players(&self, req: GetPlayersRequest) -> Result<Vec<Player>> {
+    self.http.json_post("get-players", req).await
   }
 
-  pub async fn get_player_storage_capacity(&self) -> Result<OverallStorageCapacity> {
+  pub async fn get_player_storage_capacity(
+    &self,
+    req: GetPlayerStorageCapacityRequest,
+  ) -> Result<OverallStorageCapacity> {
     self
       .http
-      .json_get("get-player-storage-capacity")
+      .json_post("get-player-storage-capacity", req)
       .await
   }
 
@@ -77,10 +75,13 @@ impl Client {
       .await
   }
 
-  pub async fn get_public_players(&self) -> Result<Vec<PublicPlayer>> {
+  pub async fn get_public_players(
+    &self,
+    req: GetPublicPlayersRequest,
+  ) -> Result<Vec<PublicPlayer>> {
     self
       .http
-      .json_get("get-public-players")
+      .json_post("get-public-players", req)
       .await
   }
 

@@ -7,7 +7,7 @@ use axum::extract::{Json, State};
 use axum::response::Response;
 use itertools::Itertools;
 use nil_core::npc::precursor::PublicPrecursor;
-use nil_payload::npc::precursor::{GetPrecursorCoordsRequest, GetPublicPrecursorRequest};
+use nil_payload::npc::precursor::*;
 
 pub async fn get_coords(
   State(app): State<App>,

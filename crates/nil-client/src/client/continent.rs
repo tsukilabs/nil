@@ -4,11 +4,7 @@
 use super::Client;
 use crate::error::Result;
 use nil_core::continent::{ContinentSize, Coord, PublicField};
-use nil_payload::continent::{
-  GetContinentSizeRequest,
-  GetPublicFieldRequest,
-  GetPublicFieldsRequest,
-};
+use nil_payload::continent::*;
 
 impl Client {
   pub async fn get_continent_size(&self, req: GetContinentSizeRequest) -> Result<ContinentSize> {

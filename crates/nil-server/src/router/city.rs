@@ -9,14 +9,7 @@ use axum::extract::{Extension, Json, State};
 use axum::response::Response;
 use itertools::Itertools;
 use nil_core::city::PublicCity;
-use nil_payload::city::{
-  GetCityRequest,
-  GetCityScoreRequest,
-  GetPublicCityRequest,
-  RenameCityRequest,
-  SearchCityRequest,
-  SearchPublicCityRequest,
-};
+use nil_payload::city::*;
 
 pub async fn get(
   State(app): State<App>,
@@ -39,10 +32,7 @@ pub async fn get(
   }
 }
 
-pub async fn get_public(
-  State(app): State<App>,
-  Json(req): Json<GetPublicCityRequest>,
-) -> Response {
+pub async fn get_public(State(app): State<App>, Json(req): Json<GetPublicCityRequest>) -> Response {
   app
     .continent(req.world, |k| k.city(req.coord).map(PublicCity::from))
     .await
@@ -50,10 +40,7 @@ pub async fn get_public(
     .into_inner()
 }
 
-pub async fn get_score(
-  State(app): State<App>,
-  Json(req): Json<GetCityScoreRequest>,
-) -> Response {
+pub async fn get_score(State(app): State<App>, Json(req): Json<GetCityScoreRequest>) -> Response {
   app
     .world(req.world, |world| world.get_city_score(req.coord))
     .await
@@ -82,10 +69,7 @@ pub async fn rename(
   }
 }
 
-pub async fn search(
-  State(app): State<App>,
-  Json(req): Json<SearchCityRequest>,
-) -> Response {
+pub async fn search(State(app): State<App>, Json(req): Json<SearchCityRequest>) -> Response {
   match app.get(req.world) {
     Ok(world) => {
       let result = try {

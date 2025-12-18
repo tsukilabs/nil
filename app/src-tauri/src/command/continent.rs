@@ -4,11 +4,7 @@
 use crate::error::Result;
 use crate::manager::ManagerExt;
 use nil_core::continent::{ContinentSize, Coord, PublicField};
-use nil_payload::continent::{
-  GetContinentSizeRequest,
-  GetPublicFieldRequest,
-  GetPublicFieldsRequest,
-};
+use nil_payload::continent::*;
 use tauri::AppHandle;
 
 #[tauri::command]

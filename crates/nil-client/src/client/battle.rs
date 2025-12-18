@@ -4,7 +4,7 @@
 use super::Client;
 use crate::error::Result;
 use nil_core::battle::BattleResult;
-use nil_payload::battle::SimulateBattleRequest;
+use nil_payload::battle::*;
 
 impl Client {
   pub async fn simulate_battle(&self, req: SimulateBattleRequest) -> Result<BattleResult> {

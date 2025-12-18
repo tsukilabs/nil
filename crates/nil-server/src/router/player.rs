@@ -9,21 +9,7 @@ use axum::extract::{Extension, Json, State};
 use axum::response::Response;
 use itertools::Itertools;
 use nil_core::player::{Player, PublicPlayer};
-use nil_payload::player::{
-  GetPlayerCoordsRequest,
-  GetPlayerMaintenanceRequest,
-  GetPlayerMilitaryRequest,
-  GetPlayerReportsRequest,
-  GetPlayerRequest,
-  GetPlayerStatusRequest,
-  GetPlayerStorageCapacityRequest,
-  GetPlayersRequest,
-  GetPublicPlayerRequest,
-  GetPublicPlayersRequest,
-  PlayerExistsRequest,
-  SetPlayerStatusRequest,
-  SpawnPlayerRequest,
-};
+use nil_payload::player::*;
 
 pub async fn exists(State(app): State<App>, Json(req): Json<PlayerExistsRequest>) -> Response {
   app

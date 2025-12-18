@@ -12,7 +12,7 @@ use crate::state::App;
 use crate::{bail_not_owned_by, bail_not_pending, res};
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
-use nil_payload::infrastructure::ToggleBuildingRequest;
+use nil_payload::infrastructure::*;
 
 pub async fn toggle(
   State(app): State<App>,

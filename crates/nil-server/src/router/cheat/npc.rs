@@ -6,11 +6,7 @@ use crate::response::EitherExt;
 use crate::state::App;
 use axum::extract::{Json, State};
 use axum::response::Response;
-use nil_payload::cheat::npc::{
-  CheatGetEthicsRequest,
-  CheatSetBotEthicsRequest,
-  CheatSpawnBotRequest,
-};
+use nil_payload::cheat::npc::*;
 
 pub async fn get_ethics(
   State(app): State<App>,

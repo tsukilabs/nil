@@ -4,7 +4,7 @@
 use crate::error::Result;
 use crate::manager::ManagerExt;
 use nil_core::report::ReportKind;
-use nil_payload::report::{GetReportRequest, GetReportsRequest};
+use nil_payload::report::*;
 use tauri::AppHandle;
 
 #[tauri::command]

@@ -4,11 +4,7 @@
 use crate::client::Client;
 use crate::error::Result;
 use nil_core::infrastructure::building::prefecture::PrefectureBuildCatalog;
-use nil_payload::infrastructure::prefecture::{
-  AddPrefectureBuildOrderRequest,
-  CancelPrefectureBuildOrderRequest,
-  GetPrefectureBuildCatalogRequest,
-};
+use nil_payload::infrastructure::prefecture::*;
 
 impl Client {
   pub async fn add_prefecture_build_order(

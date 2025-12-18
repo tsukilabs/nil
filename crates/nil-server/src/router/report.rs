@@ -7,7 +7,7 @@ use crate::state::App;
 use axum::extract::{Json, State};
 use axum::response::Response;
 use itertools::Itertools;
-use nil_payload::report::{GetReportRequest, GetReportsRequest};
+use nil_payload::report::*;
 
 pub async fn get(State(app): State<App>, Json(req): Json<GetReportRequest>) -> Response {
   app

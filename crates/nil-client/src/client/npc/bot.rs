@@ -5,7 +5,7 @@ use crate::client::Client;
 use crate::error::Result;
 use nil_core::continent::Coord;
 use nil_core::npc::bot::PublicBot;
-use nil_payload::npc::bot::{GetBotCoordsRequest, GetPublicBotRequest};
+use nil_payload::npc::bot::*;
 
 impl Client {
   pub async fn get_bot_coords(&self, req: GetBotCoordsRequest) -> Result<Vec<Coord>> {

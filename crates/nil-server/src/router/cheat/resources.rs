@@ -8,21 +8,7 @@ use crate::state::App;
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
 use nil_core::ruler::Ruler;
-use nil_payload::cheat::resources::{
-  CheatGetResourcesRequest,
-  CheatSetFoodRequest,
-  CheatSetIronRequest,
-  CheatSetMaxFoodRequest,
-  CheatSetMaxIronRequest,
-  CheatSetMaxResourcesRequest,
-  CheatSetMaxSiloResourcesRequest,
-  CheatSetMaxStoneRequest,
-  CheatSetMaxWarehouseResourcesRequest,
-  CheatSetMaxWoodRequest,
-  CheatSetResourcesRequest,
-  CheatSetStoneRequest,
-  CheatSetWoodRequest,
-};
+use nil_payload::cheat::resources::*;
 
 pub async fn get_resources(
   State(app): State<App>,

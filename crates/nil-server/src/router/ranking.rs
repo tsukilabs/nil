@@ -5,7 +5,7 @@ use crate::res;
 use crate::state::App;
 use axum::extract::{Json, State};
 use axum::response::Response;
-use nil_payload::ranking::{GetRankRequest, GetRankingRequest};
+use nil_payload::ranking::*;
 
 pub async fn get(State(app): State<App>, Json(req): Json<GetRankingRequest>) -> Response {
   app
