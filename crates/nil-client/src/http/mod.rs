@@ -8,10 +8,12 @@ use crate::server::ServerAddr;
 use futures::TryFutureExt;
 use http::header::AUTHORIZATION;
 use http::{HeaderValue, Method};
+use local_ip_address::local_ip;
 use nil_core::player::PlayerId;
 use reqwest::{Client as HttpClient, Response};
 use serde::Serialize;
 use serde::de::DeserializeOwned;
+use std::net::IpAddr;
 use std::sync::LazyLock;
 use tokio::time::Duration;
 
@@ -90,6 +92,19 @@ impl Http {
       .call()
       .and_then(async |res| json::<R>(res).await)
       .await
+  }
+
+  pub fn server_addr(&self) -> ServerAddr {
+    let mut addr = self.server;
+    if let ServerAddr::Local { addr } = &mut addr
+      && addr.ip().is_loopback()
+      && let Ok(ip) = local_ip()
+      && let IpAddr::V4(ip) = ip
+    {
+      addr.set_ip(ip);
+    }
+
+    addr
   }
 }
 

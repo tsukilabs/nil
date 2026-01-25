@@ -14,7 +14,7 @@ async fn bind(port: u16) -> Option<(TcpListener, SocketAddrV4)> {
     let addr = SocketAddrV4::new(Ipv4Addr::UNSPECIFIED, port);
     let listener = TcpListener::bind(addr).await?;
     let SocketAddr::V4(addr) = listener.local_addr()? else {
-      unreachable!("Address should never be IPv6");
+      unreachable!("Address should never be Ipv6");
     };
 
     (listener, addr)

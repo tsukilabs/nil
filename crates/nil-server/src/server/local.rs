@@ -40,13 +40,11 @@ impl LocalServer {
       }
     });
 
-    let server = Self {
+    Ok(Self {
       world: world_id,
       addr: rx.await.unwrap()?,
       handle: task.abort_handle(),
-    };
-
-    Ok(server)
+    })
   }
 
   #[inline]

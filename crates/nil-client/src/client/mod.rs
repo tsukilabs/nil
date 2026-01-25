@@ -22,13 +22,10 @@ use crate::http::Http;
 use crate::server::ServerAddr;
 use crate::websocket::WebSocketClient;
 use futures::future::BoxFuture;
-use local_ip_address::local_ip;
 use nil_core::event::Event;
 use nil_core::player::PlayerId;
-use std::net::IpAddr;
 
 pub struct Client {
-  server: ServerAddr,
   http: Http,
   websocket: WebSocketClient,
 }
@@ -40,7 +37,7 @@ impl Client {
   {
     let http = Http::new(server, &player)?;
     let websocket = WebSocketClient::connect(server, &player, on_event).await?;
-    Ok(Client { server, http, websocket })
+    Ok(Client { http, websocket })
   }
 
   pub async fn stop(self) {
@@ -53,17 +50,9 @@ impl Client {
     &self.http
   }
 
+  #[inline]
   pub fn server_addr(&self) -> ServerAddr {
-    let mut addr = self.server;
-    if let ServerAddr::Local { addr } = &mut addr
-      && addr.ip().is_loopback()
-      && let Ok(ip) = local_ip()
-      && let IpAddr::V4(ip) = ip
-    {
-      addr.set_ip(ip);
-    }
-
-    addr
+    self.http.server_addr()
   }
 
   pub async fn is_ready(&self) -> bool {
