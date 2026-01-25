@@ -12,6 +12,7 @@ use std::fmt;
 pub(crate) struct Authorization(HeaderValue);
 
 impl Authorization {
+  #[inline]
   pub fn into_inner(self) -> HeaderValue {
     self.0
   }

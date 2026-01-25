@@ -1,7 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-mod auth;
+mod authorization;
 
 use crate::error::{Error, Result};
 use crate::server::ServerAddr;
@@ -17,7 +17,7 @@ use std::net::IpAddr;
 use std::sync::LazyLock;
 use tokio::time::Duration;
 
-pub(crate) use auth::Authorization;
+pub(crate) use authorization::Authorization;
 
 pub const USER_AGENT: &str = concat!("nil/", env!("CARGO_PKG_VERSION"));
 
