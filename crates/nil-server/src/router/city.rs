@@ -1,7 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use crate::middleware::CurrentPlayer;
+use crate::middleware::authorization::CurrentPlayer;
 use crate::response::{EitherExt, from_core_err};
 use crate::state::App;
 use crate::{bail_not_owned_by, res};

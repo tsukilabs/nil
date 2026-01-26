@@ -2,9 +2,9 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import Wood from './Wood.vue';
-import Iron from './Iron.vue';
 import Food from './Food.vue';
+import Iron from './Iron.vue';
+import Wood from './Wood.vue';
 import Stone from './Stone.vue';
 import Workforce from './Workforce.vue';
 import type { ClassValue } from '@tb-dev/vue-components';

@@ -19,15 +19,15 @@ pub async fn get_continent_size(
 }
 
 #[tauri::command]
-pub async fn get_field(app: AppHandle, req: GetPublicFieldRequest) -> Result<PublicField> {
+pub async fn get_public_field(app: AppHandle, req: GetPublicFieldRequest) -> Result<PublicField> {
   app
-    .client(async |cl| cl.get_field(req).await)
+    .client(async |cl| cl.get_public_field(req).await)
     .await?
     .map_err(Into::into)
 }
 
 #[tauri::command]
-pub async fn get_fields(
+pub async fn get_public_fields(
   app: AppHandle,
   req: GetPublicFieldsRequest,
 ) -> Result<Vec<(Coord, PublicField)>> {
@@ -36,7 +36,7 @@ pub async fn get_fields(
   }
 
   app
-    .client(async |cl| cl.get_fields(req).await)
+    .client(async |cl| cl.get_public_fields(req).await)
     .await?
     .map_err(Into::into)
 }

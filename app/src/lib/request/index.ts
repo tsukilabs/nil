@@ -18,7 +18,3 @@ export type * from './infrastructure';
 export interface LeaveRequest {
   readonly world: WorldId;
 }
-
-export interface WebsocketRequest {
-  readonly world: WorldId;
-}

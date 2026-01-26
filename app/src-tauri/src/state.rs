@@ -6,8 +6,9 @@ use futures::future::BoxFuture;
 use nil_client::{Client, ServerAddr};
 use nil_core::event::Event;
 use nil_core::player::PlayerId;
-use nil_core::world::WorldOptions;
+use nil_core::world::{WorldId, WorldOptions};
 use nil_server::{LocalServer, load_local, start_local};
+use nil_server_types::Password;
 use std::path::PathBuf;
 use std::sync::Arc;
 use tauri::{AppHandle, Emitter};
@@ -46,12 +47,25 @@ impl Nil {
     self.server.read().await.is_some()
   }
 
-  pub async fn start_client(&self, server_addr: ServerAddr, player_id: PlayerId) -> Result<()> {
+  pub async fn start_client(
+    &self,
+    server_addr: ServerAddr,
+    world_id: Option<WorldId>,
+    player_id: PlayerId,
+    password: Option<Password>,
+  ) -> Result<()> {
     let mut lock = self.client.write().await;
     *lock = None;
 
-    let on_event = on_event(self.app.clone());
-    let client = Client::start(server_addr, player_id, on_event).await?;
+    let client = Client::start()
+      .server(server_addr)
+      .maybe_world_id(world_id)
+      .player_id(player_id)
+      .maybe_password(password)
+      .on_event(on_event(self.app.clone()))
+      .call()
+      .await?;
+
     *lock = Some(client);
 
     Ok(())

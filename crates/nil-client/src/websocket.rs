@@ -2,7 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::error::{Error, Result};
-use crate::http::{Authorization, USER_AGENT};
+use crate::http::USER_AGENT;
+use crate::http::authorization::Authorization;
 use crate::server::ServerAddr;
 use anyhow::Result as AnyResult;
 use bytes::Bytes;
@@ -11,7 +12,7 @@ use futures::stream::{SplitSink, SplitStream};
 use futures::{Sink, SinkExt, StreamExt};
 use http::{Method, header};
 use nil_core::event::Event;
-use nil_core::player::PlayerId;
+use nil_core::world::WorldId;
 use std::ops::ControlFlow;
 use tokio::net::TcpStream;
 use tokio::spawn;
@@ -30,12 +31,16 @@ pub(super) struct WebSocketClient {
 }
 
 impl WebSocketClient {
-  pub async fn connect<F>(server: ServerAddr, player: &PlayerId, on_event: F) -> Result<Self>
+  pub async fn connect<OnEvent>(
+    server: ServerAddr,
+    world_id: WorldId,
+    authorization: Authorization,
+    on_event: OnEvent,
+  ) -> Result<Self>
   where
-    F: Fn(Event) -> BoxFuture<'static, ()> + Send + Sync + 'static,
+    OnEvent: Fn(Event) -> BoxFuture<'static, ()> + Send + Sync + 'static,
   {
-    let authorization = Authorization::try_from(player)?;
-    let Ok(ws_stream) = make_stream(server, authorization).await else {
+    let Ok(ws_stream) = make_stream(server, world_id, authorization).await else {
       return Err(Error::FailedToConnectWebsocket);
     };
 
@@ -53,10 +58,18 @@ impl WebSocketClient {
   }
 }
 
-async fn make_stream(server: ServerAddr, authorization: Authorization) -> AnyResult<Stream> {
-  let url = server.url_with_scheme("ws", "websocket")?;
+async fn make_stream(
+  server: ServerAddr,
+  world_id: WorldId,
+  authorization: Authorization,
+) -> AnyResult<Stream> {
+  let mut url = server.url_with_scheme("ws", "websocket")?;
+  url
+    .query_pairs_mut()
+    .append_pair("world", &world_id.to_string());
+
   let mut request = url.into_client_request()?;
-  *request.method_mut() = Method::POST;
+  *request.method_mut() = Method::GET;
 
   let headers = request.headers_mut();
   headers.insert(header::AUTHORIZATION, authorization.into_inner());

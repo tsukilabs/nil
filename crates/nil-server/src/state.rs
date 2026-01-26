@@ -14,26 +14,36 @@ use nil_core::ranking::Ranking;
 use nil_core::report::ReportManager;
 use nil_core::round::Round;
 use nil_core::world::{World, WorldId};
+use nil_server_types::ServerKind;
 use std::sync::Arc;
 use tokio::sync::RwLock;
 
 pub(crate) struct App {
+  server_kind: ServerKind,
   worlds: Arc<DashMap<WorldId, Arc<RwLock<World>>>>,
 }
 
 impl App {
-  pub fn new() -> Self {
-    Self { worlds: Arc::new(DashMap::new()) }
+  pub fn new(server_kind: ServerKind) -> Self {
+    Self {
+      server_kind,
+      worlds: Arc::new(DashMap::new()),
+    }
   }
 
   pub fn with_world(world: World) -> Self {
-    let app = Self::new();
     let id = world.config().id();
+    let app = Self::new(ServerKind::Local { id });
     app
       .worlds
       .insert(id, Arc::new(RwLock::new(world)));
 
     app
+  }
+
+  #[inline]
+  pub fn server_kind(&self) -> ServerKind {
+    self.server_kind
   }
 
   pub(crate) fn get(&self, id: WorldId) -> Result<Arc<RwLock<World>>> {
@@ -137,12 +147,9 @@ impl App {
 
 impl Clone for App {
   fn clone(&self) -> Self {
-    Self { worlds: Arc::clone(&self.worlds) }
-  }
-}
-
-impl Default for App {
-  fn default() -> Self {
-    Self::new()
+    Self {
+      worlds: Arc::clone(&self.worlds),
+      server_kind: self.server_kind,
+    }
   }
 }

@@ -7,9 +7,9 @@ import { useI18n } from 'vue-i18n';
 import { storeToRefs } from 'pinia';
 import { renameCity } from '@/commands';
 import { Button, Checkbox, Input, Label } from '@tb-dev/vue-components';
-import { usePrefectureSettings } from '@/settings/infrastructure/prefecture';
 import enUS from '@/locale/en-US/scenes/game/infrastructure/prefecture.json';
 import ptBR from '@/locale/pt-BR/scenes/game/infrastructure/prefecture.json';
+import { usePrefectureSettings } from '@/settings/infrastructure/prefecture';
 
 const { t } = useI18n({
   messages: {

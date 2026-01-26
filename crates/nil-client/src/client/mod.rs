@@ -17,26 +17,50 @@ mod report;
 mod round;
 mod world;
 
-use crate::error::Result;
+use crate::error::{Error, Result};
 use crate::http::Http;
 use crate::server::ServerAddr;
 use crate::websocket::WebSocketClient;
 use futures::future::BoxFuture;
 use nil_core::event::Event;
 use nil_core::player::PlayerId;
+use nil_core::world::WorldId;
+use nil_payload::AuthorizeRequest;
+use nil_server_types::{Password, ServerKind};
 
 pub struct Client {
   http: Http,
   websocket: WebSocketClient,
 }
 
+#[bon::bon]
 impl Client {
-  pub async fn start<F>(server: ServerAddr, player: PlayerId, on_event: F) -> Result<Self>
+  #[builder]
+  pub async fn start<OnEvent>(
+    server: ServerAddr,
+    mut world_id: Option<WorldId>,
+    player_id: PlayerId,
+    password: Option<Password>,
+    on_event: OnEvent,
+  ) -> Result<Self>
   where
-    F: Fn(Event) -> BoxFuture<'static, ()> + Send + Sync + 'static,
+    OnEvent: Fn(Event) -> BoxFuture<'static, ()> + Send + Sync + 'static,
   {
-    let http = Http::new(server, &player)?;
-    let websocket = WebSocketClient::connect(server, &player, on_event).await?;
+    let mut http = Http::new(server);
+    let authorization = http
+      .authorize(AuthorizeRequest { player: player_id, password })
+      .await?;
+
+    if world_id.is_none()
+      && server.is_local()
+      && let ServerKind::Local { id } = http.server_kind().await?
+    {
+      world_id = Some(id);
+    }
+
+    let world_id = world_id.ok_or(Error::MissingWorldId)?;
+    let websocket = WebSocketClient::connect(server, world_id, authorization, on_event).await?;
+
     Ok(Client { http, websocket })
   }
 
@@ -53,6 +77,10 @@ impl Client {
   #[inline]
   pub fn server_addr(&self) -> ServerAddr {
     self.http.server_addr()
+  }
+
+  pub async fn get_server_kind(&self) -> Result<ServerKind> {
+    self.http.server_kind().await
   }
 
   pub async fn is_ready(&self) -> bool {

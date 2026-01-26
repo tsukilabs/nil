@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { go } from '@/router';
-import { isNil, type Option } from '@tb-dev/utils';
+import { isNil, type Option, panic } from '@tb-dev/utils';
 import type { Coord as WasmCoord } from '@tsukilabs/nil-continent';
 import {
   QUERY_WAR_ROOM_DEST_X,
@@ -138,6 +138,10 @@ export class CoordImpl implements Coord {
     else {
       return CoordImpl.fromContinentKey(key);
     }
+  }
+
+  public static fromContinentKeyOrCurrentStrict(key?: Option<ContinentKey>) {
+    return this.fromContinentKeyOrCurrent(key) ?? panic('Missing continent key');
   }
 
   public static fromContinentIndex(index: ContinentIndex) {

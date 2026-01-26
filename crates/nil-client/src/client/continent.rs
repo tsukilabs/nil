@@ -14,11 +14,20 @@ impl Client {
       .await
   }
 
-  pub async fn get_field(&self, req: GetPublicFieldRequest) -> Result<PublicField> {
-    self.http.json_post("get-field", req).await
+  pub async fn get_public_field(&self, req: GetPublicFieldRequest) -> Result<PublicField> {
+    self
+      .http
+      .json_post("get-public-field", req)
+      .await
   }
 
-  pub async fn get_fields(&self, req: GetPublicFieldsRequest) -> Result<Vec<(Coord, PublicField)>> {
-    self.http.json_post("get-fields", req).await
+  pub async fn get_public_fields(
+    &self,
+    req: GetPublicFieldsRequest,
+  ) -> Result<Vec<(Coord, PublicField)>> {
+    self
+      .http
+      .json_post("get-public-fields", req)
+      .await
   }
 }

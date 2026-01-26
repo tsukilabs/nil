@@ -3,13 +3,12 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import { asyncRef } from '@tb-dev/vue';
-import * as commands from '@/commands';
 import RoundState from './RoundState.vue';
 import { onBeforeRouteUpdate } from 'vue-router';
 import { computed, nextTick, useTemplateRef } from 'vue';
 import { writeText } from '@tauri-apps/plugin-clipboard-manager';
 import { useBreakpoints } from '@/composables/util/useBreakpoints';
+import { useLocalServerAddr } from '@/composables/util/useLocalServerAddr';
 import { type OnClickOutsideProps, vOnClickOutside } from '@vueuse/components';
 import {
   Button,
@@ -41,7 +40,7 @@ const { config } = NIL.world.refs();
 const { round } = NIL.round.refs();
 const { player } = NIL.player.refs();
 
-const { state: serverAddr } = asyncRef(null, commands.getServerAddr);
+const { serverAddr } = useLocalServerAddr();
 
 const { sm } = useBreakpoints();
 

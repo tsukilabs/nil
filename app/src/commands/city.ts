@@ -3,10 +3,23 @@
 
 import { invoke } from '@tauri-apps/api/core';
 import { CoordImpl } from '@/core/model/continent/coord';
+import type {
+  GetCityRequest,
+  GetCityScoreRequest,
+  GetPublicCityRequest,
+  RenameCityRequest,
+  SearchCityRequest,
+  SearchPublicCityRequest,
+} from '@/lib/request';
 
 export async function getCity(coord: ContinentKey) {
   coord = CoordImpl.fromContinentKey(coord);
-  return invoke<City>('get_city', { req: { coord } });
+  const req: GetCityRequest = {
+    world: NIL.world.getIdStrict(),
+    coord,
+  };
+
+  return invoke<City>('get_city', { req });
 }
 
 export async function getCityOwner(coord: ContinentKey) {
@@ -15,23 +28,49 @@ export async function getCityOwner(coord: ContinentKey) {
 
 export async function getCityScore(coord: ContinentKey) {
   coord = CoordImpl.fromContinentKey(coord);
-  return invoke<number>('get_city_score', { req: { coord } });
+  const req: GetCityScoreRequest = {
+    world: NIL.world.getIdStrict(),
+    coord,
+  };
+
+  return invoke<number>('get_city_score', { req });
 }
 
 export async function getPublicCity(coord: ContinentKey) {
   coord = CoordImpl.fromContinentKey(coord);
-  return invoke<PublicCity>('get_public_city', { req: { coord } });
+  const req: GetPublicCityRequest = {
+    world: NIL.world.getIdStrict(),
+    coord,
+  };
+
+  return invoke<PublicCity>('get_public_city', { req });
 }
 
 export async function renameCity(coord: ContinentKey, name: string) {
   coord = CoordImpl.fromContinentKey(coord);
-  await invoke('rename_city', { req: { coord, name } });
+  const req: RenameCityRequest = {
+    world: NIL.world.getIdStrict(),
+    coord,
+    name,
+  };
+
+  await invoke('rename_city', { req });
 }
 
 export async function searchCity(search: CitySearch) {
-  return invoke<readonly City[]>('search_city', { req: { search } });
+  const req: SearchCityRequest = {
+    world: NIL.world.getIdStrict(),
+    search,
+  };
+
+  return invoke<readonly City[]>('search_city', { req });
 }
 
 export async function searchPublicCity(search: CitySearch) {
-  return invoke<readonly PublicCity[]>('search_public_city', { req: { search } });
+  const req: SearchPublicCityRequest = {
+    world: NIL.world.getIdStrict(),
+    search,
+  };
+
+  return invoke<readonly PublicCity[]>('search_public_city', { req });
 }

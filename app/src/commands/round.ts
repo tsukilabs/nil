@@ -2,23 +2,45 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { invoke } from '@tauri-apps/api/core';
+import type { GetRoundRequest, SetPlayerReadyRequest, StartRoundRequest } from '@/lib/request';
 
 export async function getRound() {
-  return invoke<Round>('get_round');
+  const req: GetRoundRequest = {
+    world: NIL.world.getIdStrict(),
+  };
+
+  return invoke<Round>('get_round', { req });
 }
 
 export async function isRoundIdle() {
-  return invoke<boolean>('is_round_idle');
+  const req: GetRoundRequest = {
+    world: NIL.world.getIdStrict(),
+  };
+
+  return invoke<boolean>('is_round_idle', { req });
 }
 
 export async function isRoundWaiting() {
-  return invoke<boolean>('is_round_waiting');
+  const req: GetRoundRequest = {
+    world: NIL.world.getIdStrict(),
+  };
+
+  return invoke<boolean>('is_round_waiting', { req });
 }
 
 export async function setPlayerReady(isReady: boolean) {
-  await invoke('set_player_ready', { req: { isReady } });
+  const req: SetPlayerReadyRequest = {
+    world: NIL.world.getIdStrict(),
+    isReady,
+  };
+
+  await invoke('set_player_ready', { req });
 }
 
 export async function startRound() {
-  await invoke('start_round');
+  const req: StartRoundRequest = {
+    world: NIL.world.getIdStrict(),
+  };
+
+  await invoke('start_round', { req });
 }

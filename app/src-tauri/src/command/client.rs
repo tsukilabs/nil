@@ -5,17 +5,21 @@ use crate::error::Result;
 use crate::manager::ManagerExt;
 use nil_client::ServerAddr;
 use nil_core::player::PlayerId;
+use nil_core::world::WorldId;
+use nil_server_types::Password;
 use tauri::AppHandle;
 
 #[tauri::command]
 pub async fn start_client(
   app: AppHandle,
   server_addr: ServerAddr,
+  world_id: Option<WorldId>,
   player_id: PlayerId,
+  password: Option<Password>,
 ) -> Result<()> {
   app
     .nil()
-    .start_client(server_addr, player_id)
+    .start_client(server_addr, world_id, player_id, password)
     .await
 }
 

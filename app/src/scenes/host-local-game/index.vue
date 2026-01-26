@@ -5,9 +5,9 @@
 import { go } from '@/router';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { hostGame } from '@/core/game';
 import { useRouter } from 'vue-router';
 import { useSettings } from '@/settings';
+import { hostLocalGame } from '@/core/game';
 import { localRef, useMutex } from '@tb-dev/vue';
 import type { WritablePartial } from '@tb-dev/utils';
 import enUS from '@/locale/en-US/scenes/host-game.json';
@@ -60,13 +60,13 @@ async function host() {
   world.value.locale ??= settings.locale;
   await lock(async () => {
     if (isPlayerOptions(player.value) && isWorldOptions(world.value)) {
-      await hostGame(player.value, world.value);
+      await hostLocalGame(player.value, world.value);
     }
   });
 }
 
 async function goToLoadGameScene() {
-  await go('load-game', {
+  await go('load-local-game', {
     query: { playerId: player.value.id },
   });
 }

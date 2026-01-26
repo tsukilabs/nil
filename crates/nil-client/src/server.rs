@@ -4,15 +4,16 @@
 use crate::error::Result;
 use serde::{Deserialize, Serialize};
 use std::net::SocketAddrV4;
+use strum::EnumIs;
 use url::Url;
 
 const REMOTE_SERVER_ADDR: &str = "tsukilabs.dev.br/nil";
 
-#[derive(Clone, Copy, Debug, Deserialize, Serialize)]
+#[derive(Clone, Copy, Debug, EnumIs, Deserialize, Serialize)]
 #[serde(tag = "kind", rename_all = "kebab-case")]
 pub enum ServerAddr {
-  Remote,
   Local { addr: SocketAddrV4 },
+  Remote,
 }
 
 impl ServerAddr {

@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { App } from 'vue';
-import { camelCase } from 'es-toolkit';
 import * as commands from '@/commands';
+import { camelCase } from 'es-toolkit';
 import * as cheats from '@/commands/cheat';
 import Food from '@/components/resources/Food.vue';
 import Iron from '@/components/resources/Iron.vue';

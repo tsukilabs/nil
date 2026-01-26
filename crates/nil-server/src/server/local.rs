@@ -6,7 +6,7 @@ use crate::router;
 use crate::state::App;
 use nil_core::world::{World, WorldId, WorldOptions};
 use serde::Serialize;
-use std::net::{SocketAddr, SocketAddrV4};
+use std::net::{Ipv4Addr, SocketAddr, SocketAddrV4};
 use std::path::Path;
 use tokio::sync::oneshot;
 use tokio::task::{AbortHandle, spawn, spawn_blocking};
@@ -30,7 +30,11 @@ impl LocalServer {
         .with_state(App::with_world(world))
         .into_make_service_with_connect_info::<SocketAddr>();
 
-      if let Some((listener, addr)) = super::bind(0).await {
+      if let Some((listener, mut addr)) = super::bind(0).await {
+        if addr.ip().is_unspecified() {
+          addr.set_ip(Ipv4Addr::LOCALHOST);
+        }
+
         let _ = tx.send(Ok(addr));
         axum::serve(listener, router)
           .await
@@ -71,7 +75,7 @@ pub async fn load_local(path: impl AsRef<Path>) -> Result<LocalServer> {
   let path = path.as_ref().to_path_buf();
   let world = spawn_blocking(|| World::load(path))
     .await
-    .map_err(|_| CoreError::FailedToReadSavedata);
+    .map_err(|_| CoreError::FailedToReadSavedata)??;
 
-  LocalServer::serve(world??).await
+  LocalServer::serve(world).await
 }

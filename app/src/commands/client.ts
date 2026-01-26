@@ -2,11 +2,18 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { invoke } from '@tauri-apps/api/core';
-import { SocketAddrV4 } from '@/lib/net/addr-v4';
 
-export async function startClient(id: PlayerId, addr: SocketAddrV4) {
-  const serverAddr = addr.format();
-  await invoke('start_client', { playerId: id, serverAddr });
+export async function startClient(
+  serverAddr: ServerAddr,
+  worldId: Option<WorldId>,
+  playerOptions: PlayerOptions,
+) {
+  await invoke('start_client', {
+    serverAddr,
+    worldId: worldId ?? null,
+    playerId: playerOptions.id,
+    password: playerOptions.password ?? null,
+  });
 }
 
 export async function stopClient() {

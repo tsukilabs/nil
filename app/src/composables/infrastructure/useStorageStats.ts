@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { computed, type Ref, toRef } from 'vue';
-import type { StorageImpl } from '@/core/model/infrastructure/building/abstract';
 import { useBuildingLevel } from '@/composables/infrastructure/useBuildingLevel';
+import type { StorageImpl } from '@/core/model/infrastructure/building/abstract';
 
 export function useStorageStats(storage: MaybeNilRef<StorageImpl>) {
   const storageRef = toRef(storage) as Ref<Option<StorageImpl>>;

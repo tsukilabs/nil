@@ -11,12 +11,12 @@ import { TableCell, TableRow } from '@tb-dev/vue-components';
 import BuildCatalogRowAction from './BuildCatalogRowAction.vue';
 import { useBreakpoints } from '@/composables/util/useBreakpoints';
 import BuildingTitle from '@/components/infrastructure/BuildingTitle.vue';
-import { usePrefectureSettings } from '@/settings/infrastructure/prefecture';
 import enUS from '@/locale/en-US/scenes/game/infrastructure/prefecture.json';
 import ptBR from '@/locale/pt-BR/scenes/game/infrastructure/prefecture.json';
+import { usePrefectureSettings } from '@/settings/infrastructure/prefecture';
 import type { BuildingImpl } from '@/core/model/infrastructure/building/abstract';
-import type { PrefectureImpl } from '@/core/model/infrastructure/building/prefecture/prefecture';
 import { useResolvedBuildingLevel } from '@/composables/infrastructure/useResolvedBuildingLevel';
+import type { PrefectureImpl } from '@/core/model/infrastructure/building/prefecture/prefecture';
 
 const props = defineProps<{
   entry: PrefectureBuildCatalogEntry;

@@ -16,3 +16,14 @@ interface ServerAddrLocal {
 interface ServerAddrRemote {
   readonly kind: 'remote';
 }
+
+type ServerKind = ServerKindLocal | ServerKindRemote;
+
+interface ServerKindLocal {
+  readonly kind: 'local';
+  readonly id: WorldId;
+}
+
+interface ServerKindRemote {
+  readonly kind: 'remote';
+}

@@ -6,12 +6,21 @@ use crate::manager::ManagerExt;
 use nil_client::ServerAddr;
 use nil_core::world::WorldOptions;
 use nil_server::LocalServer;
+use nil_server_types::ServerKind;
 use std::path::PathBuf;
 use tauri::AppHandle;
 
 #[tauri::command]
 pub async fn get_server_addr(app: AppHandle) -> Result<ServerAddr> {
   app.client(async |cl| cl.server_addr()).await
+}
+
+#[tauri::command]
+pub async fn get_server_kind(app: AppHandle) -> Result<ServerKind> {
+  app
+    .client(async |cl| cl.get_server_kind().await)
+    .await?
+    .map_err(Into::into)
 }
 
 #[tauri::command]

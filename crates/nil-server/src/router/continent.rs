@@ -9,7 +9,10 @@ use axum::response::Response;
 use nil_core::continent::{Continent, PublicField};
 use nil_payload::continent::*;
 
-pub async fn get_field(State(app): State<App>, Json(req): Json<GetPublicFieldRequest>) -> Response {
+pub async fn get_public_field(
+  State(app): State<App>,
+  Json(req): Json<GetPublicFieldRequest>,
+) -> Response {
   app
     .continent(req.world, |k| k.field(req.coord).map(PublicField::from))
     .await
@@ -17,7 +20,7 @@ pub async fn get_field(State(app): State<App>, Json(req): Json<GetPublicFieldReq
     .into_inner()
 }
 
-pub async fn get_fields(
+pub async fn get_public_fields(
   State(app): State<App>,
   Json(req): Json<GetPublicFieldsRequest>,
 ) -> Response {

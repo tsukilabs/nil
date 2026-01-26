@@ -4,11 +4,11 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import { formatDate } from 'date-fns';
-import { computed, onMounted, ref } from 'vue';
 import { isPlayerOptions } from '@/lib/schema';
-import { hostWithSavedata } from '@/core/game';
+import { computed, onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import type { WritablePartial } from '@tb-dev/utils';
+import { hostLocalGameWithSavedata } from '@/core/game';
 import { asyncRef, localRef, useMutex } from '@tb-dev/vue';
 import { getSavedataFiles, type SavedataFile } from '@/core/savedata';
 import { Button, Card, CardContent, CardFooter, CardHeader, CardTitle } from '@tb-dev/vue-components';
@@ -55,7 +55,7 @@ onMounted(() => {
 async function load() {
   await lock(async () => {
     if (savedata.value && isPlayerOptions(player.value)) {
-      await hostWithSavedata(savedata.value.path, player.value);
+      await hostLocalGameWithSavedata(savedata.value.path, player.value);
     }
   });
 }

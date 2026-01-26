@@ -2,9 +2,9 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { useRouter } from 'vue-router';
-import { asyncRef } from '@tb-dev/vue';
 import * as commands from '@/commands';
+import { asyncRef } from '@tb-dev/vue';
+import { useRouter } from 'vue-router';
 import { Button, Card, CardContent, CardFooter } from '@tb-dev/vue-components';
 
 const router = useRouter();

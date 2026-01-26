@@ -4,11 +4,11 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import * as commands from '@/commands';
-import SquadGrid from './SquadGrid.vue';
 import Maneuvers from './Maneuvers.vue';
+import SquadGrid from './SquadGrid.vue';
 import { handleError } from '@/lib/error';
-import { asyncComputed } from '@tb-dev/vue';
 import Destination from './Destination.vue';
+import { asyncComputed } from '@tb-dev/vue';
 import { computed, nextTick, ref } from 'vue';
 import { Button } from '@tb-dev/vue-components';
 import { useManeuvers } from '@/composables/military/useManeuvers';

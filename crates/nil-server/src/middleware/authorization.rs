@@ -4,43 +4,70 @@
 use crate::error::AnyResult;
 use crate::res;
 use axum::extract::Request;
-use axum::http::HeaderValue;
 use axum::http::header::AUTHORIZATION;
 use axum::middleware::Next;
 use axum::response::Response;
 use derive_more::{Deref, From, Into};
+use jiff::{SignedDuration, Zoned};
+use jsonwebtoken::{DecodingKey, EncodingKey, Header, TokenData, Validation, decode, encode};
 use nil_core::player::PlayerId;
 use nil_core::ruler::Ruler;
-use percent_encoding::percent_decode;
+use serde::{Deserialize, Serialize};
+
+const JWT_SECRET: &str = "nil-temp-secret";
 
 pub async fn authorization(mut request: Request, next: Next) -> Response {
-  if let Some(header) = request.headers().get(AUTHORIZATION) {
-    let Ok(player) = CurrentPlayer::try_from(header) else {
-      return res!(BAD_REQUEST, "Player name contains invalid characters");
-    };
+  if let Some(header) = request.headers().get(AUTHORIZATION)
+    && let Ok(token) = header.to_str()
+    && let Ok(data) = decode_jwt(token)
+  {
+    request
+      .extensions_mut()
+      .insert(CurrentPlayer(data.claims.sub));
 
-    request.extensions_mut().insert(player);
     next.run(request).await
   } else {
-    res!(UNAUTHORIZED, "Missing player name header")
+    res!(UNAUTHORIZED)
   }
+}
+
+#[derive(Serialize, Deserialize)]
+struct Claims {
+  pub sub: PlayerId,
+  pub exp: usize,
+  pub iat: usize,
+}
+
+pub(crate) fn encode_jwt(player: PlayerId) -> AnyResult<String> {
+  let now = Zoned::now();
+  let iat = now.timestamp().as_millisecond().try_into()?;
+  let exp = now
+    .saturating_add(SignedDuration::from_hours(300))
+    .timestamp()
+    .as_millisecond()
+    .try_into()?;
+
+  let jwt = encode(
+    &Header::default(),
+    &Claims { sub: player, iat, exp },
+    &EncodingKey::from_secret(JWT_SECRET.as_bytes()),
+  )?;
+
+  Ok(jwt)
+}
+
+fn decode_jwt(jwt: &str) -> AnyResult<TokenData<Claims>> {
+  let claims = decode(
+    jwt,
+    &DecodingKey::from_secret(JWT_SECRET.as_ref()),
+    &Validation::default(),
+  )?;
+
+  Ok(claims)
 }
 
 #[derive(Clone, Debug, Deref, From, Into, PartialEq, Eq)]
 pub struct CurrentPlayer(pub(crate) PlayerId);
-
-impl TryFrom<&HeaderValue> for CurrentPlayer {
-  type Error = anyhow::Error;
-
-  fn try_from(value: &HeaderValue) -> AnyResult<Self> {
-    let bytes = value.as_bytes();
-    let id = percent_decode(bytes)
-      .decode_utf8()
-      .map(PlayerId::from)?;
-
-    Ok(Self(id))
-  }
-}
 
 impl From<CurrentPlayer> for Ruler {
   fn from(player: CurrentPlayer) -> Self {

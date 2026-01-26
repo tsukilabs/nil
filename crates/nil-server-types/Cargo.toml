@@ -1,5 +1,5 @@
 [package]
-name = "nil-payload"
+name = "nil-server-types"
 publish = false
 
 version.workspace = true
@@ -14,6 +14,6 @@ authors.workspace = true
 workspace = true
 
 [dependencies]
+derive_more.workspace = true
 nil-core.workspace = true
-nil-server-types.workspace = true
 serde.workspace = true

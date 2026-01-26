@@ -1,23 +1,23 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-mod authorization;
+pub(crate) mod authorization;
 
 use crate::error::{Error, Result};
 use crate::server::ServerAddr;
+use authorization::Authorization;
 use futures::TryFutureExt;
 use http::header::AUTHORIZATION;
 use http::{HeaderValue, Method};
 use local_ip_address::local_ip;
-use nil_core::player::PlayerId;
+use nil_payload::AuthorizeRequest;
+use nil_server_types::ServerKind;
 use reqwest::{Client as HttpClient, Response};
 use serde::Serialize;
 use serde::de::DeserializeOwned;
 use std::net::IpAddr;
 use std::sync::LazyLock;
 use tokio::time::Duration;
-
-pub(crate) use authorization::Authorization;
 
 pub const USER_AGENT: &str = concat!("nil/", env!("CARGO_PKG_VERSION"));
 
@@ -32,19 +32,30 @@ static HTTP: LazyLock<HttpClient> = LazyLock::new(|| {
 
 pub struct Http {
   server: ServerAddr,
-  authorization: Authorization,
+  authorization: Option<Authorization>,
 }
 
 impl Http {
-  pub(crate) fn new(server: ServerAddr, player: &PlayerId) -> Result<Self> {
-    let authorization = player.try_into()?;
-    Ok(Self { server, authorization })
+  pub(crate) fn new(server: ServerAddr) -> Self {
+    Self { server, authorization: None }
+  }
+
+  pub(crate) async fn authorize(&mut self, req: AuthorizeRequest) -> Result<Authorization> {
+    let authorization = self
+      .json_post::<String>("authorize", req)
+      .await
+      .map(|token| Authorization::new(&token))?
+      .map_err(|_| Error::FailedToAuthenticate)?;
+
+    self.authorization = Some(authorization.clone());
+
+    Ok(authorization)
   }
 
   pub async fn get(&self, route: &str) -> Result<()> {
     let url = self.server.url(route)?;
     request(Method::GET, url.as_str())
-      .authorization(&self.authorization)
+      .maybe_authorization(self.authorization.as_deref())
       .call()
       .await
       .map(drop)
@@ -53,7 +64,7 @@ impl Http {
   pub async fn get_text(&self, route: &str) -> Result<String> {
     let url = self.server.url(route)?;
     request(Method::GET, url.as_str())
-      .authorization(&self.authorization)
+      .maybe_authorization(self.authorization.as_deref())
       .call()
       .await?
       .text()
@@ -67,7 +78,7 @@ impl Http {
   {
     let url = self.server.url(route)?;
     request(Method::GET, url.as_str())
-      .authorization(&self.authorization)
+      .maybe_authorization(self.authorization.as_deref())
       .call()
       .and_then(async |res| json::<R>(res).await)
       .await
@@ -76,7 +87,7 @@ impl Http {
   pub async fn post(&self, route: &str, body: impl Serialize) -> Result<()> {
     let url = self.server.url(route)?;
     request_with_body(Method::POST, url.as_str(), body)
-      .authorization(&self.authorization)
+      .maybe_authorization(self.authorization.as_deref())
       .call()
       .await
       .map(drop)
@@ -88,7 +99,7 @@ impl Http {
   {
     let url = self.server.url(route)?;
     request_with_body(Method::POST, url.as_str(), body)
-      .authorization(&self.authorization)
+      .maybe_authorization(self.authorization.as_deref())
       .call()
       .and_then(async |res| json::<R>(res).await)
       .await
@@ -105,6 +116,10 @@ impl Http {
     }
 
     addr
+  }
+
+  pub async fn server_kind(&self) -> Result<ServerKind> {
+    self.json_get("get-server-kind").await
   }
 }
 

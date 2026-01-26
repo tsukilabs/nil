@@ -4,14 +4,15 @@
 import { invoke } from '@tauri-apps/api/core';
 import { SquadImpl } from '@/core/model/military/squad';
 import { CoordImpl } from '@/core/model/continent/coord';
+import type { CheatSpawnPersonnelRequest } from '@/lib/request';
 import { ArmyPersonnelImpl } from '@/core/model/military/army-personnel';
 
 export async function cheatSpawnPersonnel(
-  coord: ContinentKey,
+  coord?: Option<ContinentKey>,
   personnel?: Option<ArmyPersonnel | number>,
   ruler?: Option<Ruler>,
 ) {
-  coord = CoordImpl.fromContinentKey(coord);
+  coord = CoordImpl.fromContinentKeyOrCurrentStrict(coord);
   personnel ??= 1_000;
   ruler ??= null;
 
@@ -19,7 +20,14 @@ export async function cheatSpawnPersonnel(
     personnel = ArmyPersonnelImpl.splat(personnel);
   }
 
-  await invoke('cheat_spawn_personnel', { req: { coord, ruler, personnel } });
+  const req: CheatSpawnPersonnelRequest = {
+    world: NIL.world.getIdStrict(),
+    coord,
+    personnel,
+    ruler,
+  };
+
+  await invoke('cheat_spawn_personnel', { req });
 }
 
 export async function cheatSpawnSquad(

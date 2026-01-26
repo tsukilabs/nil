@@ -2,11 +2,18 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { invoke } from '@tauri-apps/api/core';
-import { SocketAddrV4 } from '@/lib/net/addr-v4';
+
+export async function getLocalServerWorldId() {
+  const serverKind = await getServerKind();
+  return serverKind.kind === 'local' ? serverKind.id : null;
+}
 
 export async function getServerAddr() {
-  const addr = await invoke<string>('get_server_addr');
-  return SocketAddrV4.parse(addr);
+  return invoke<ServerAddr>('get_server_addr');
+}
+
+export async function getServerKind() {
+  return invoke<ServerKind>('get_server_kind');
 }
 
 export async function getServerVersion() {

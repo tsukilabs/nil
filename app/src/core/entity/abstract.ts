@@ -5,8 +5,8 @@
 
 import { handleError } from '@/lib/error';
 import { ListenerSet } from '@/lib/listener-set';
-import { type EffectScope, effectScope } from 'vue';
 import { asyncNoop, Mutex, noop } from 'es-toolkit';
+import { type EffectScope, effectScope } from 'vue';
 
 type Ctor = new() => Entity;
 

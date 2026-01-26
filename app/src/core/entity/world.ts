@@ -2,25 +2,51 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { Entity } from './abstract';
-import { asyncRef } from '@tb-dev/vue';
-import { readonly, type Ref, type ShallowRef } from 'vue';
+import { panic } from '@tb-dev/utils';
+import { asyncRef, maybe } from '@tb-dev/vue';
+import { readonly, ref, type Ref, type ShallowRef } from 'vue';
 import type { WorldConfigImpl } from '@/core/model/world-config';
 import type { WorldStatsImpl } from '@/core/model/stats/world-stats';
 import { getContinentSize, getWorldConfig, getWorldStats } from '@/commands';
 
 export class WorldEntity extends Entity {
+  private readonly id = ref<Option<WorldId>>();
   private readonly config: ShallowRef<Option<WorldConfigImpl>>;
   private readonly stats: ShallowRef<Option<WorldStatsImpl>>;
   private readonly continentSize: Ref<number>;
 
   public override readonly requireManualUpdates = true;
 
+  public readonly updateConfig: () => Promise<void>;
+  public readonly updateStats: () => Promise<void>;
+  public readonly updateContinentSize: () => Promise<void>;
+
   constructor() {
     super();
 
-    this.config = asyncRef(null, getWorldConfig).state;
-    this.stats = asyncRef(null, getWorldStats).state;
-    this.continentSize = asyncRef(0, getContinentSize).state;
+    const config = asyncRef(null, async () => {
+      return maybe(this.id, (id) => getWorldConfig(id));
+    });
+
+    const stats = asyncRef(null, async () => {
+      return maybe(this.id, (id) => getWorldStats(id));
+    });
+
+    const continentSize = asyncRef(0, async () => {
+      return maybe(this.id, () => getContinentSize()) ?? 0;
+    });
+
+    this.config = config.state;
+    this.updateConfig = config.execute;
+    this.stats = stats.state;
+    this.updateStats = stats.execute;
+    this.continentSize = continentSize.state;
+    this.updateContinentSize = continentSize.execute;
+  }
+
+  public override async update() {
+    await Promise.all([this.updateConfig(), this.updateStats()]);
+    await this.updateContinentSize();
   }
 
   public static use() {
@@ -36,12 +62,26 @@ export class WorldEntity extends Entity {
     } as const;
   }
 
+  public static update() {
+    return this.use().update();
+  }
+
   public static getConfig() {
     return this.use().config.value ?? null;
   }
 
   public static getId() {
-    return this.getConfig()?.id ?? null;
+    return this.use().id.value ?? null;
+  }
+
+  public static async setId(id?: Option<WorldId>) {
+    const world = this.use();
+    world.id.value = id;
+    await world.update();
+  }
+
+  public static getIdStrict() {
+    return this.getId() ?? panic('Missing world id');
   }
 
   public static getContinentSize() {
@@ -96,6 +136,7 @@ export class WorldEntity extends Entity {
         getConfig: WorldEntity.getConfig.bind(WorldEntity),
         getContinentSize: WorldEntity.getContinentSize.bind(WorldEntity),
         getId: WorldEntity.getId.bind(WorldEntity),
+        getIdStrict: WorldEntity.getIdStrict.bind(WorldEntity),
         getInfrastructureStats: WorldEntity.getInfrastructureStats.bind(WorldEntity),
         getMineStats: WorldEntity.getMineStats.bind(WorldEntity),
         getMineStatsWithLevel: WorldEntity.getMineStatsWithLevel.bind(WorldEntity),
@@ -105,6 +146,7 @@ export class WorldEntity extends Entity {
         getWallStats: WorldEntity.getWallStats.bind(WorldEntity),
         getWallStatsWithLevel: WorldEntity.getWallStatsWithLevel.bind(WorldEntity),
         refs: WorldEntity.refs.bind(WorldEntity),
+        setId: WorldEntity.setId.bind(WorldEntity),
         use: WorldEntity.use.bind(WorldEntity),
       };
 

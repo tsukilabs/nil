@@ -6,7 +6,7 @@ pub mod prefecture;
 pub mod prelude;
 pub mod stable;
 
-use crate::middleware::CurrentPlayer;
+use crate::middleware::authorization::CurrentPlayer;
 use crate::response::from_core_err;
 use crate::state::App;
 use crate::{bail_not_owned_by, bail_not_pending, res};

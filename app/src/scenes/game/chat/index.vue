@@ -2,8 +2,8 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { useHeight } from '@tb-dev/vue';
 import { toPixel } from '@tb-dev/utils';
+import { useHeight } from '@tb-dev/vue';
 import Chat from '@/components/chat/Chat.vue';
 import type { MaybeElement } from '@vueuse/core';
 import ChatInput from '@/components/chat/ChatInput.vue';

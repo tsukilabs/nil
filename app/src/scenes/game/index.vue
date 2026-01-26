@@ -4,8 +4,8 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { go } from '@/router';
-import Header from './Header.vue';
 import Footer from './Footer.vue';
+import Header from './Header.vue';
 import Sidebar from './Sidebar.vue';
 import * as commands from '@/commands';
 import { DESKTOP } from '@/lib/global';

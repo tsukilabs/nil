@@ -15,8 +15,18 @@ pub mod report;
 pub mod round;
 pub mod world;
 
+use nil_core::player::PlayerId;
 use nil_core::world::WorldId;
+use nil_server_types::Password;
 use serde::{Deserialize, Serialize};
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct AuthorizeRequest {
+  pub player: PlayerId,
+  #[serde(default)]
+  pub password: Option<Password>,
+}
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
@@ -24,8 +34,8 @@ pub struct LeaveRequest {
   pub world: WorldId,
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct WebsocketRequest {
+pub struct WebsocketQuery {
   pub world: WorldId,
 }
