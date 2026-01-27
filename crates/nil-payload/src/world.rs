@@ -19,7 +19,7 @@ pub struct GetWorldStatsRequest {
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-pub struct SaveWorldRequest {
+pub struct SaveLocalWorldRequest {
   pub world: WorldId,
   pub path: PathBuf,
 }

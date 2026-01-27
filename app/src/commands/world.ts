@@ -5,7 +5,11 @@ import { invoke } from '@tauri-apps/api/core';
 import type { SavedataInfo } from '@/core/savedata';
 import { WorldConfigImpl } from '@/core/model/world-config';
 import { type RawWorldStats, WorldStatsImpl } from '@/core/model/stats/world-stats';
-import type { GetWorldConfigRequest, GetWorldStatsRequest, SaveWorldRequest } from '@/lib/request';
+import type {
+  GetWorldConfigRequest,
+  GetWorldStatsRequest,
+  SaveWorldRequest as SaveLocalWorldRequest,
+} from '@/lib/request';
 
 export async function getWorldConfig(world?: Option<WorldId>): Promise<WorldConfigImpl> {
   const req: GetWorldConfigRequest = {
@@ -29,11 +33,11 @@ export async function readSavedataInfo(path: string) {
   return invoke<SavedataInfo>('read_savedata_info', { path });
 }
 
-export async function saveWorld(path: string) {
-  const req: SaveWorldRequest = {
+export async function saveLocalWorld(path: string) {
+  const req: SaveLocalWorldRequest = {
     world: NIL.world.getIdStrict(),
     path,
   };
 
-  await invoke('save_world', { req });
+  await invoke('save_local_world', { req });
 }

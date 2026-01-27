@@ -21,7 +21,7 @@ impl Client {
       .await
   }
 
-  pub async fn save_world(&self, req: SaveWorldRequest) -> Result<()> {
-    self.http.post("save-world", req).await
+  pub async fn save_local_world(&self, req: SaveLocalWorldRequest) -> Result<()> {
+    self.http.post("save-local-world", req).await
   }
 }

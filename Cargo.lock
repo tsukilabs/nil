@@ -3168,6 +3168,7 @@ dependencies = [
  "tokio",
  "tower-http",
  "tracing",
+ "uuid",
 ]
 
 [[package]]
@@ -3177,6 +3178,7 @@ dependencies = [
  "derive_more 2.1.1",
  "nil-core",
  "serde",
+ "strum",
 ]
 
 [[package]]

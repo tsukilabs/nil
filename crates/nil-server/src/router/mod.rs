@@ -95,7 +95,7 @@ pub(crate) fn create() -> Router<App> {
     .route("/push-chat-message", post(chat::push))
     .route("/rename-city", post(city::rename))
     .route("/request-maneuver", post(military::request_maneuver))
-    .route("/save-world", post(world::save))
+    .route("/save-local-world", post(world::save_local))
     .route("/search-city", post(city::search))
     .route("/set-player-ready", post(round::set_ready))
     .route("/set-player-status", post(player::set_status))

@@ -3,8 +3,9 @@ use nil_core::world::WorldId;
 use serde::{Deserialize, Serialize};
 use std::ops::Deref;
 use std::sync::Arc;
+use strum::EnumIs;
 
-#[derive(Clone, Copy, Debug, Deserialize, Serialize)]
+#[derive(Clone, Copy, Debug, EnumIs, Deserialize, Serialize)]
 #[serde(tag = "kind", rename_all = "kebab-case")]
 pub enum ServerKind {
   Local { id: WorldId },

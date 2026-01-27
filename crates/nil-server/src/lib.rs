@@ -1,7 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-#![feature(try_blocks, try_trait_v2)]
+#![feature(iterator_try_collect, try_blocks, try_trait_v2)]
 
 mod app;
 mod error;
@@ -12,4 +12,4 @@ mod server;
 mod websocket;
 
 pub use error::{Error, Result};
-pub use server::{LocalServer, load_local, start_local, start_remote};
+pub use server::{local, remote};

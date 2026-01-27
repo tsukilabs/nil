@@ -4,8 +4,8 @@
 import { go } from '@/router';
 import * as commands from '@/commands';
 import { leaveGame } from '@/core/game';
-import { saveGame } from '@/core/savedata';
 import { ResourcesImpl } from '../resources';
+import { saveLocalGame } from '@/core/savedata';
 import { isPlayerTurn } from '@/composables/player/usePlayerTurn';
 
 const enum ChatCommandKind {
@@ -150,7 +150,8 @@ export class ChatCommand {
       }
       case ChatCommandKind.SaveGame: {
         if (await commands.isHost()) {
-          await saveGame();
+          const { kind } = await commands.getServerKind();
+          if (kind === 'local') await saveLocalGame();
         }
         break;
       }

@@ -5,6 +5,7 @@ use nil_core::world::WorldId;
 use serde::Serialize;
 use serde::ser::Serializer;
 use std::convert::Infallible;
+use std::io;
 use std::result::Result as StdResult;
 
 pub use nil_core::error::Error as CoreError;
@@ -26,6 +27,8 @@ pub enum Error {
   #[error(transparent)]
   Database(#[from] DatabaseError),
   #[error(transparent)]
+  Io(#[from] io::Error),
+  #[error(transparent)]
   Unknown(#[from] anyhow::Error),
 }
 
@@ -44,5 +47,11 @@ where
 {
   fn from(value: Result<Infallible, E>) -> Self {
     value.unwrap_err().into()
+  }
+}
+
+impl From<io::ErrorKind> for Error {
+  fn from(value: io::ErrorKind) -> Self {
+    Self::Io(io::Error::from(value))
   }
 }

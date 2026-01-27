@@ -52,6 +52,10 @@ impl World {
       self.emit_round_updated();
     }
 
+    if let Some(on_next_round) = self.on_next_round.clone() {
+      on_next_round.call(self);
+    }
+
     Ok(())
   }
 

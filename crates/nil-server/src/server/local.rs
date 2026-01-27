@@ -10,6 +10,7 @@ use std::net::{Ipv4Addr, SocketAddr, SocketAddrV4};
 use std::path::Path;
 use tokio::sync::oneshot;
 use tokio::task::{AbortHandle, spawn, spawn_blocking};
+use uuid::Uuid;
 
 #[derive(Clone, Debug, Serialize)]
 #[serde(rename_all = "camelCase")]
@@ -72,10 +73,18 @@ pub async fn start_local(options: &WorldOptions) -> Result<LocalServer> {
 }
 
 pub async fn load_local(path: impl AsRef<Path>) -> Result<LocalServer> {
-  let path = path.as_ref().to_path_buf();
-  let world = spawn_blocking(|| World::load(path))
+  let bytes = tokio::fs::read(path).await?;
+  let world = spawn_blocking(move || World::load(&bytes))
     .await
     .map_err(|_| CoreError::FailedToReadSavedata)??;
 
   LocalServer::serve(world).await
+}
+
+pub(crate) fn save_local(path: impl AsRef<Path>, bytes: &[u8]) -> Result<()> {
+  let mut path = path.as_ref().to_path_buf();
+  std::fs::create_dir_all(&path)?;
+  path.push(format!("{}.nil", Uuid::now_v7()));
+  std::fs::write(&path, &bytes)?;
+  Ok(())
 }

@@ -10,10 +10,12 @@ mod schema;
 pub mod sql_types;
 
 use crate::model::user_data::{NewUserData, UserData};
+use crate::model::world_data::{NewWorldData, WorldData};
 use crate::sql_types::user::User;
 use diesel::Connection;
 use diesel::sqlite::SqliteConnection;
 use error::{AnyResult, Result};
+use nil_core::world::WorldId;
 use nil_server_types::Password;
 use std::sync::Arc;
 use std::sync::nonpoison::{Mutex, MutexGuard};
@@ -34,12 +36,27 @@ impl DatabaseHandle {
   }
 
   #[inline]
-  pub fn create_user(&self, user: User, password: &Password) -> Result<()> {
+  pub fn create_user(&self, user: User, password: &Password) -> Result<usize> {
     NewUserData::new(user, password)?.create(self)
+  }
+
+  #[inline]
+  pub fn create_world(&self, id: WorldId, data: Vec<u8>) -> Result<usize> {
+    NewWorldData::new(id, data).create(self)
   }
 
   #[inline]
   pub fn get_user(&self, user: &User) -> Result<UserData> {
     UserData::get(self, user)
+  }
+
+  #[inline]
+  pub fn get_world(&self, world: WorldId) -> Result<WorldData> {
+    WorldData::get(self, world)
+  }
+
+  #[inline]
+  pub fn get_worlds(&self) -> Result<Vec<WorldData>> {
+    WorldData::get_all(self)
   }
 }

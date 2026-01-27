@@ -86,7 +86,7 @@ pub(crate) fn from_core_err(err: CoreError) -> Response {
   use CoreError::*;
 
   #[cfg(debug_assertions)]
-  tracing::error!(message = %err, ?err);
+  tracing::error!(message = %err, error = ?err);
 
   let text = err.to_string();
   match err {
@@ -130,17 +130,19 @@ pub(crate) fn from_core_err(err: CoreError) -> Response {
   }
 }
 
-#[expect(clippy::needless_pass_by_value)]
+#[expect(clippy::match_same_arms)]
 pub(crate) fn from_database_err(err: DatabaseError) -> Response {
   use DatabaseError::*;
 
   #[cfg(debug_assertions)]
-  tracing::error!(message = %err, ?err);
+  tracing::error!(message = %err, error = ?err);
 
   let text = err.to_string();
   match err {
+    Core(err) => from_core_err(err),
     UserAlreadyExists(..) => res!(CONFLICT, text),
     UserNotFound(..) => res!(NOT_FOUND, text),
+    WorldNotFound(..) => res!(NOT_FOUND, text),
     _ => res!(INTERNAL_SERVER_ERROR, "Unknown database error"),
   }
 }

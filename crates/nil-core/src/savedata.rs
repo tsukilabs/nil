@@ -20,9 +20,8 @@ use jiff::Zoned;
 use semver::Version;
 use serde::de::DeserializeOwned;
 use serde::{Deserialize, Serialize};
-use std::fs::{self, File};
+use std::fmt;
 use std::io::{Read, Write};
-use std::path::Path;
 use tar::Archive;
 
 const MINIFY: bool = cfg!(any(
@@ -31,7 +30,7 @@ const MINIFY: bool = cfg!(any(
   target_os = "ios"
 ));
 
-type TarBuilder = tar::Builder<GzEncoder<File>>;
+type TarBuilder<'a> = tar::Builder<GzEncoder<&'a mut Vec<u8>>>;
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
@@ -50,16 +49,16 @@ pub struct Savedata {
 }
 
 impl Savedata {
-  pub fn read(path: &Path) -> Result<Self> {
-    read_tar(path, "world").map_err(|_| Error::FailedToReadSavedata)
+  pub fn read(bytes: &[u8]) -> Result<Self> {
+    read_tar(bytes, "world").map_err(|_| Error::FailedToReadSavedata)
   }
 
-  pub(crate) fn write(&mut self, path: &Path) -> Result<()> {
+  pub(crate) fn write(&mut self, buffer: &mut Vec<u8>) -> Result<()> {
     for player in self.player_manager.players_mut() {
       *player.status_mut() = PlayerStatus::Inactive;
     }
 
-    write_tar(path, self).map_err(|_| Error::FailedToWriteSavedata)
+    write_tar(buffer, self).map_err(|_| Error::FailedToWriteSavedata)
   }
 }
 
@@ -82,18 +81,17 @@ impl SavedataInfo {
     })
   }
 
-  pub fn read(path: &Path) -> Result<Self> {
-    read_tar(path, "info").map_err(|_| Error::FailedToReadSavedata)
+  pub fn read(bytes: &[u8]) -> Result<Self> {
+    read_tar(bytes, "info").map_err(|_| Error::FailedToReadSavedata)
   }
 }
 
-fn read_tar<T>(path: &Path, entry_name: &str) -> AnyResult<T>
+fn read_tar<T>(bytes: &[u8], entry_name: &str) -> AnyResult<T>
 where
   T: DeserializeOwned,
 {
-  let file = File::open_buffered(path)?;
-  let file = GzDecoder::new(file);
-  let mut archive = Archive::new(file);
+  let decoder = GzDecoder::new(bytes);
+  let mut archive = Archive::new(decoder);
 
   for entry in archive.entries()? {
     let mut entry = entry?;
@@ -111,14 +109,9 @@ where
   bail!("Entry not found: {entry_name}");
 }
 
-fn write_tar(path: &Path, data: &Savedata) -> AnyResult<()> {
-  if let Some(parent) = path.parent() {
-    fs::create_dir_all(parent)?;
-  }
-
-  let file = File::create(path)?;
-  let file = GzEncoder::new(file, Compression::best());
-  let mut tar_builder = TarBuilder::new(file);
+fn write_tar(buffer: &mut Vec<u8>, data: &Savedata) -> AnyResult<()> {
+  let encoder = GzEncoder::new(buffer, Compression::best());
+  let mut tar_builder = TarBuilder::new(encoder);
 
   let info = SavedataInfo::new(data)?;
   append(&mut tar_builder, &info, "info")?;
@@ -146,4 +139,27 @@ where
   builder.append_data(&mut header, path, bytes.as_slice())?;
 
   Ok(())
+}
+
+pub struct SaveHandle(Box<dyn FnOnce(Vec<u8>) + Send + Sync>);
+
+impl SaveHandle {
+  pub fn new<F>(f: F) -> Self
+  where
+    F: FnOnce(Vec<u8>) + Send + Sync + 'static,
+  {
+    Self(Box::new(f))
+  }
+
+  #[inline]
+  pub fn save(self, data: Vec<u8>) {
+    (self.0)(data);
+  }
+}
+
+impl fmt::Debug for SaveHandle {
+  fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+    f.debug_tuple("SaveHandle")
+      .finish_non_exhaustive()
+  }
 }

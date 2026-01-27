@@ -68,9 +68,9 @@ export async function getSavedataFiles() {
   return files;
 }
 
-export async function saveGame() {
+export async function saveLocalGame() {
   const path = await savedataDir();
-  await commands.saveWorld(path);
+  await commands.saveLocalWorld(path);
 }
 
 export async function savedataDir() {

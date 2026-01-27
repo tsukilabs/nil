@@ -5,14 +5,14 @@ use crate::error::Result;
 use crate::event::Emitter;
 use crate::savedata::Savedata;
 use crate::world::World;
-use uuid::Uuid;
 
 impl World {
   pub(super) fn consume_pending_save(&mut self) -> Result<()> {
-    if let Some(mut path) = self.pending_save.take() {
+    if let Some(handle) = self.pending_save.take() {
+      let mut buffer = Vec::new();
       let mut data = Savedata::from(&*self);
-      path.push(format!("{}.nil", Uuid::now_v7()));
-      data.write(&path)?;
+      data.write(&mut buffer)?;
+      handle.save(buffer);
     }
 
     Ok(())
@@ -54,6 +54,7 @@ impl From<Savedata> for World {
 
       emitter: Emitter::default(),
       pending_save: None,
+      on_next_round: None,
     }
   }
 }

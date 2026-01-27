@@ -3,6 +3,7 @@
 
 use crate::error::{Error, Result};
 use crate::response::{MaybeResponse, from_err};
+use crate::server::remote;
 use dashmap::DashMap;
 use either::Either;
 use nil_core::chat::Chat;
@@ -45,6 +46,16 @@ impl App {
   pub fn new_remote(database_url: &str) -> Result<Self> {
     let worlds = Arc::new(DashMap::new());
     let database = DatabaseHandle::new(database_url)?;
+
+    for data in database.get_worlds()? {
+      let mut world = data.into_world()?;
+      let world_id = world.config().id();
+
+      let database = database.clone();
+      world.on_next_round(remote::on_next_round(database));
+
+      worlds.insert(world_id, Arc::new(RwLock::new(world)));
+    }
 
     Ok(Self {
       server_kind: ServerKind::Remote,

@@ -1,6 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+use crate::error::AnyResult;
 use crate::world::WorldOptions;
 use derive_more::Deref;
 use serde::{Deserialize, Serialize};
@@ -62,6 +63,14 @@ impl WorldId {
 impl Default for WorldId {
   fn default() -> Self {
     Self::new()
+  }
+}
+
+impl TryFrom<&str> for WorldId {
+  type Error = anyhow::Error;
+
+  fn try_from(value: &str) -> AnyResult<Self> {
+    Ok(Self(Uuid::try_parse(value)?))
   }
 }
 

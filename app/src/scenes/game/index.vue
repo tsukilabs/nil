@@ -12,9 +12,9 @@ import { DESKTOP } from '@/lib/global';
 import { leaveGame } from '@/core/game';
 import { useToggle } from '@vueuse/core';
 import { handleError } from '@/lib/error';
-import { saveGame } from '@/core/savedata';
 import Finder from '@/components/Finder.vue';
 import Loading from '@/components/Loading.vue';
+import { saveLocalGame } from '@/core/savedata';
 import { asyncRef, onCtrlKeyDown } from '@tb-dev/vue';
 import { SidebarProvider } from '@tb-dev/vue-components';
 import { usePlayerReady } from '@/composables/player/usePlayerReady';
@@ -50,7 +50,7 @@ async function save() {
     round.value?.id !== lastSavedAt.value
   ) {
     try {
-      await saveGame();
+      await saveLocalGame();
       lastSavedAt.value = round.value?.id;
     }
     catch (err) {

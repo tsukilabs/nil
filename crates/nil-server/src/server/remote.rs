@@ -4,6 +4,8 @@
 use crate::app::App;
 use crate::error::Result;
 use crate::router;
+use nil_core::world::World;
+use nil_database::DatabaseHandle;
 use std::net::SocketAddr;
 
 pub async fn start_remote(database_url: &str) -> Result<()> {
@@ -17,4 +19,17 @@ pub async fn start_remote(database_url: &str) -> Result<()> {
     .expect("Failed to start Call of Nil server");
 
   Ok(())
+}
+
+pub(crate) fn on_next_round(database: DatabaseHandle) -> Box<dyn Fn(&mut World) + Send + Sync> {
+  Box::new(move |world: &mut World| {
+    let id = world.config().id();
+    let database = database.clone();
+    world.save(move |bytes| {
+      if let Err(_err) = database.create_world(id, bytes) {
+        #[cfg(debug_assertions)]
+        tracing::error!(message = %_err, error = ?_err);
+      }
+    });
+  })
 }

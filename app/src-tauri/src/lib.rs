@@ -128,7 +128,7 @@ pub fn run() {
       command::world::get_world_config,
       command::world::get_world_stats,
       command::world::read_savedata_info,
-      command::world::save_world,
+      command::world::save_local_world,
     ])
     .run(tauri::generate_context!())
     .expect("Failed to start Call of Nil app");
