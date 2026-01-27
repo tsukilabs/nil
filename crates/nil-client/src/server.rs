@@ -7,6 +7,9 @@ use std::net::SocketAddrV4;
 use strum::EnumIs;
 use url::Url;
 
+#[cfg(debug_assertions)]
+const REMOTE_SERVER_ADDR: &str = "127.0.0.0:3000";
+#[cfg(not(debug_assertions))]
 const REMOTE_SERVER_ADDR: &str = "tsukilabs.dev.br/nil";
 
 #[derive(Clone, Copy, Debug, EnumIs, Deserialize, Serialize)]
