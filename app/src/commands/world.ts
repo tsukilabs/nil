@@ -4,12 +4,26 @@
 import { invoke } from '@tauri-apps/api/core';
 import type { SavedataInfo } from '@/core/savedata';
 import { WorldConfigImpl } from '@/core/model/world-config';
+import type { GetRemoteWorldResponse } from '@/lib/response';
 import { type RawWorldStats, WorldStatsImpl } from '@/core/model/stats/world-stats';
 import type {
+  GetRemoteWorldRequest,
   GetWorldConfigRequest,
   GetWorldStatsRequest,
   SaveWorldRequest as SaveLocalWorldRequest,
 } from '@/lib/request';
+
+export async function getRemoteWorld(world?: Option<WorldId>) {
+  const req: GetRemoteWorldRequest = {
+    world: world ?? NIL.world.getIdStrict(),
+  };
+
+  return invoke<GetRemoteWorldResponse>('get_remote_world', { req });
+}
+
+export async function getRemoteWorlds() {
+  return invoke<readonly GetRemoteWorldResponse[]>('get_remote_worlds');
+}
 
 export async function getWorldConfig(world?: Option<WorldId>): Promise<WorldConfigImpl> {
   const req: GetWorldConfigRequest = {

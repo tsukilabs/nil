@@ -125,6 +125,8 @@ pub fn run() {
       command::server::start_server_with_options,
       command::server::start_server_with_savedata,
       command::server::stop_server,
+      command::world::get_remote_world,
+      command::world::get_remote_worlds,
       command::world::get_world_config,
       command::world::get_world_stats,
       command::world::read_savedata_info,

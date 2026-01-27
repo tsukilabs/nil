@@ -7,6 +7,20 @@ use nil_core::world::{WorldConfig, WorldStats};
 use nil_payload::world::*;
 
 impl Client {
+  pub async fn get_remote_world(
+    &self,
+    req: GetRemoteWorldRequest,
+  ) -> Result<GetRemoteWorldResponse> {
+    self
+      .http
+      .json_post("get-remote-world", req)
+      .await
+  }
+
+  pub async fn get_remote_worlds(&self) -> Result<Vec<GetRemoteWorldResponse>> {
+    self.http.json_get("get-remote-worlds").await
+  }
+
   pub async fn get_world_config(&self, req: GetWorldConfigRequest) -> Result<WorldConfig> {
     self
       .http

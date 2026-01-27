@@ -9,7 +9,25 @@ use nil_payload::world::*;
 use std::path::PathBuf;
 use tauri::AppHandle;
 use tauri::async_runtime::spawn_blocking;
-use tokio::fs;
+
+#[tauri::command]
+pub async fn get_remote_world(
+  app: AppHandle,
+  req: GetRemoteWorldRequest,
+) -> Result<GetRemoteWorldResponse> {
+  app
+    .client(async |cl| cl.get_remote_world(req).await)
+    .await?
+    .map_err(Into::into)
+}
+
+#[tauri::command]
+pub async fn get_remote_worlds(app: AppHandle) -> Result<Vec<GetRemoteWorldResponse>> {
+  app
+    .client(async |cl| cl.get_remote_worlds().await)
+    .await?
+    .map_err(Into::into)
+}
 
 #[tauri::command]
 pub async fn get_world_config(app: AppHandle, req: GetWorldConfigRequest) -> Result<WorldConfig> {
@@ -29,7 +47,7 @@ pub async fn get_world_stats(app: AppHandle, req: GetWorldStatsRequest) -> Resul
 
 #[tauri::command]
 pub async fn read_savedata_info(path: PathBuf) -> Result<SavedataInfo> {
-  let bytes = fs::read(path).await?;
+  let bytes = tokio::fs::read(path).await?;
   spawn_blocking(move || SavedataInfo::read(&bytes))
     .await?
     .map_err(Into::into)

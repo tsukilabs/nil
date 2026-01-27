@@ -123,6 +123,8 @@ pub(crate) fn create() -> Router<App> {
     .route("/get-public-precursor", post(npc::precursor::get_public))
     .route("/get-rank", post(ranking::get_rank))
     .route("/get-ranking", post(ranking::get))
+    .route("/get-remote-world", post(world::get_remote_world))
+    .route("/get-remote-worlds", get(world::get_remote_worlds))
     .route("/get-round", post(round::get))
     .route("/get-server-kind", get(server_kind))
     .route("/get-world-config", post(world::get_config))

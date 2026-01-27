@@ -85,6 +85,6 @@ pub(crate) fn save_local(path: impl AsRef<Path>, bytes: &[u8]) -> Result<()> {
   let mut path = path.as_ref().to_path_buf();
   std::fs::create_dir_all(&path)?;
   path.push(format!("{}.nil", Uuid::now_v7()));
-  std::fs::write(&path, &bytes)?;
+  std::fs::write(&path, bytes)?;
   Ok(())
 }
