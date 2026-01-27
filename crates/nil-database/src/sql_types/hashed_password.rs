@@ -16,7 +16,7 @@ use nil_server_types::Password;
 
 #[derive(FromSqlRow, AsExpression, Clone, Debug, From, Into, PartialEq, Eq, Hash)]
 #[diesel(sql_type = Text)]
-pub struct HashedPassword(String);
+pub struct HashedPassword(Box<str>);
 
 impl HashedPassword {
   pub fn new(password: &Password) -> Result<Self> {
@@ -26,7 +26,7 @@ impl HashedPassword {
       .map_err(|_| anyhow!("Failed to hash password"))?
       .to_string();
 
-    Ok(Self(hash))
+    Ok(Self(Box::from(hash)))
   }
 
   pub fn verify(&self, password: &Password) -> bool {
@@ -43,7 +43,7 @@ impl HashedPassword {
 impl FromSql<Text, Sqlite> for HashedPassword {
   fn from_sql(bytes: <Sqlite as Backend>::RawValue<'_>) -> de::Result<Self> {
     let value = <String as FromSql<Text, Sqlite>>::from_sql(bytes)?;
-    Ok(HashedPassword(value))
+    Ok(HashedPassword(Box::from(value)))
   }
 }
 
