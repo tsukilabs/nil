@@ -16,6 +16,7 @@ use nil_core::report::ReportManager;
 use nil_core::round::Round;
 use nil_core::world::{World, WorldId};
 use nil_database::DatabaseHandle;
+use nil_database::model::world_data::WorldData;
 use nil_server_types::ServerKind;
 use std::sync::Arc;
 use tokio::sync::RwLock;
@@ -47,7 +48,7 @@ impl App {
     let worlds = Arc::new(DashMap::new());
     let database = DatabaseHandle::new(database_url)?;
 
-    for data in database.get_worlds()? {
+    for data in WorldData::get_all(&database)? {
       let mut world = data.into_world()?;
       let world_id = world.config().id();
 

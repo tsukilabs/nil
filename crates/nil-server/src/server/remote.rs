@@ -6,6 +6,7 @@ use crate::error::Result;
 use crate::router;
 use nil_core::world::World;
 use nil_database::DatabaseHandle;
+use nil_database::model::world_data::WorldData;
 use std::net::SocketAddr;
 
 pub async fn start_remote(database_url: &str) -> Result<()> {
@@ -26,7 +27,7 @@ pub(crate) fn on_next_round(database: DatabaseHandle) -> Box<dyn Fn(&mut World) 
     let id = world.config().id();
     let database = database.clone();
     world.save(move |bytes| {
-      if let Err(_err) = database.create_world(id, bytes) {
+      if let Err(_err) = WorldData::update_data(&database, id, &bytes) {
         #[cfg(debug_assertions)]
         tracing::error!(message = %_err, error = ?_err);
       }

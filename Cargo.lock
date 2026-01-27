@@ -3098,6 +3098,7 @@ version = "0.2.0"
 dependencies = [
  "anyhow",
  "argon2",
+ "bon",
  "derive_more 2.1.1",
  "diesel",
  "diesel_migrations",

@@ -3,16 +3,19 @@
 
 use crate::DatabaseHandle;
 use crate::error::{Error, Result};
+use crate::sql_types::hashed_password::HashedPassword;
 use crate::sql_types::world_data_id::WorldDataId;
 use diesel::prelude::*;
 use diesel::result::Error as DieselError;
 use nil_core::world::{World, WorldId};
+use nil_server_types::Password;
 
 #[derive(Identifiable, Queryable, Selectable, Clone, Debug)]
 #[diesel(table_name = crate::schema::world_data)]
 #[diesel(check_for_backend(diesel::sqlite::Sqlite))]
 pub struct WorldData {
   pub id: WorldDataId,
+  pub password: Option<HashedPassword>,
   pub data: Vec<u8>,
 }
 
@@ -41,23 +44,54 @@ impl WorldData {
       .map_err(Into::into)
   }
 
+  pub fn update_data(handle: &DatabaseHandle, world: WorldId, data: &[u8]) -> Result<usize> {
+    use crate::schema::world_data;
+    let id = WorldDataId::from(world);
+    diesel::update(world_data::table.filter(world_data::id.eq(&id)))
+      .set(world_data::data.eq(data))
+      .execute(&mut *handle.conn())
+      .map_err(Into::into)
+  }
+
   #[inline]
   pub fn into_world(self) -> Result<World> {
     Ok(World::load(&self.data)?)
   }
+
+  #[inline]
+  pub fn verify_password(&self, password: &Password) -> bool {
+    self
+      .password
+      .as_ref()
+      .is_none_or(|it| it.verify(password))
+  }
 }
 
-#[derive(AsChangeset, Insertable, Clone, Debug)]
+#[derive(Insertable, Clone, Debug)]
 #[diesel(table_name = crate::schema::world_data)]
 pub struct NewWorldData {
   id: WorldDataId,
+  password: Option<HashedPassword>,
   data: Vec<u8>,
 }
 
+#[bon::bon]
 impl NewWorldData {
-  #[inline]
-  pub fn new(id: WorldId, data: Vec<u8>) -> Self {
-    Self { id: WorldDataId::from(id), data }
+  #[builder]
+  pub fn new(
+    #[builder(start_fn)] id: WorldId,
+    #[builder(start_fn)] data: Vec<u8>,
+    password: Option<&Password>,
+  ) -> Result<Self> {
+    let password = password
+      .map(HashedPassword::new)
+      .transpose()?;
+
+    Ok(Self {
+      id: WorldDataId::from(id),
+      password,
+      data,
+    })
   }
 
   pub fn create(self, handle: &DatabaseHandle) -> Result<usize> {
@@ -66,7 +100,7 @@ impl NewWorldData {
       .values(&self)
       .on_conflict(id)
       .do_update()
-      .set(&self)
+      .set(data.eq(&self.data))
       .execute(&mut *handle.conn())
       .map_err(Into::into)
   }
