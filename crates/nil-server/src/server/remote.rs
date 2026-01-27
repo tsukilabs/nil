@@ -14,7 +14,7 @@ pub async fn start_remote(database_url: &str) -> Result<()> {
     .with_state(App::new_remote(database_url)?)
     .into_make_service_with_connect_info::<SocketAddr>();
 
-  let (listener, _) = super::bind(63200).await.unwrap();
+  let (listener, _) = super::bind(3000).await.unwrap();
   axum::serve(listener, router)
     .await
     .expect("Failed to start Call of Nil server");

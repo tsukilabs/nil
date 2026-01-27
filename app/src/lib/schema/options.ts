@@ -12,4 +12,5 @@ export const world = z.object({
 
 export const player = z.object({
   id: z.string().trim().min(3).max(20).refine(isSafePathSegment),
+  password: z.string().nullish(),
 });
