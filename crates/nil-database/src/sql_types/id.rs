@@ -31,6 +31,9 @@ macro_rules! impl_u32 {
       pub struct $name(NonZeroU32);
 
       impl $name {
+        /// # Safety
+        ///
+        /// Value must not be zero.
         pub const unsafe fn new_unchecked(value: u32) -> Self {
           Self(unsafe { NonZeroU32::new_unchecked(value) })
         }

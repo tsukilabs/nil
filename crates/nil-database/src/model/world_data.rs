@@ -28,7 +28,7 @@ impl WorldData {
 
     let id = WorldDataId::from(id);
     let result = world_data::table
-      .filter(world_data::id.eq(&id))
+      .find(&id)
       .select(Self::as_select())
       .first(&mut *handle.conn());
 
@@ -67,6 +67,36 @@ impl WorldData {
       .password
       .as_ref()
       .is_none_or(|it| it.verify(password))
+  }
+}
+
+/// This can be used to avoid unnecessarily loading the binary data.
+/// We should come up with a better name for it.
+#[derive(Identifiable, Queryable, Selectable, Clone, Debug)]
+#[diesel(table_name = crate::schema::world_data)]
+#[diesel(check_for_backend(diesel::sqlite::Sqlite))]
+#[diesel(belongs_to(UserData, foreign_key = created_by))]
+pub struct WorldDataless {
+  pub id: WorldDataId,
+  pub password: Option<HashedPassword>,
+  pub created_by: UserDataId,
+}
+
+impl WorldDataless {
+  pub fn get(handle: &DatabaseHandle, id: WorldId) -> Result<Self> {
+    use crate::schema::world_data;
+
+    let id = WorldDataId::from(id);
+    let result = world_data::table
+      .find(&id)
+      .select(Self::as_select())
+      .first(&mut *handle.conn());
+
+    if let Err(DieselError::NotFound) = &result {
+      Err(Error::WorldNotFound(id.into()))
+    } else {
+      Ok(result?)
+    }
   }
 }
 

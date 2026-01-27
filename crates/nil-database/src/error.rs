@@ -1,6 +1,9 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+use crate::sql_types::id::UserDataId;
+use crate::sql_types::user::User;
+use either::Either;
 use nil_core::world::WorldId;
 use serde::Serialize;
 use serde::ser::Serializer;
@@ -8,8 +11,6 @@ use std::convert::Infallible;
 use std::result::Result as StdResult;
 
 pub use nil_core::error::Error as CoreError;
-
-use crate::sql_types::user::User;
 
 pub type Result<T, E = Error> = StdResult<T, E>;
 pub type AnyResult<T> = anyhow::Result<T>;
@@ -19,8 +20,8 @@ pub enum Error {
   #[error("User already exists: \"{0}\"")]
   UserAlreadyExists(User),
 
-  #[error("User not found: \"{0}\"")]
-  UserNotFound(User),
+  #[error("User not found")]
+  UserNotFound(Either<User, UserDataId>),
 
   #[error("World not found")]
   WorldNotFound(WorldId),

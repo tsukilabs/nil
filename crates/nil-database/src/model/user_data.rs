@@ -8,6 +8,7 @@ use crate::sql_types::id::UserDataId;
 use crate::sql_types::user::User;
 use diesel::prelude::*;
 use diesel::result::{DatabaseErrorKind, Error as DieselError};
+use either::Either;
 use nil_util::password::Password;
 
 #[derive(Identifiable, Queryable, Selectable, Clone, Debug)]
@@ -28,7 +29,21 @@ impl UserData {
       .first(&mut *handle.conn());
 
     if let Err(DieselError::NotFound) = &result {
-      Err(Error::UserNotFound(user.clone()))
+      Err(Error::UserNotFound(Either::Left(user.clone())))
+    } else {
+      Ok(result?)
+    }
+  }
+
+  pub fn get_by_id(handle: &DatabaseHandle, id: UserDataId) -> Result<Self> {
+    use crate::schema::user_data;
+    let result = user_data::table
+      .find(id)
+      .select(Self::as_select())
+      .first(&mut *handle.conn());
+
+    if let Err(DieselError::NotFound) = &result {
+      Err(Error::UserNotFound(Either::Right(id)))
     } else {
       Ok(result?)
     }

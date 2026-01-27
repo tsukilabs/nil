@@ -3102,6 +3102,7 @@ dependencies = [
  "derive_more 2.1.1",
  "diesel",
  "diesel_migrations",
+ "either",
  "libsqlite3-sys",
  "nil-core",
  "nil-util",

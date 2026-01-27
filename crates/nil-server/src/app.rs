@@ -80,6 +80,14 @@ impl App {
     }
   }
 
+  pub fn world_ids(&self) -> Vec<WorldId> {
+    self
+      .worlds
+      .iter()
+      .map(|entry| *entry.key())
+      .collect()
+  }
+
   pub(crate) fn get(&self, id: WorldId) -> Result<Arc<RwLock<World>>> {
     self
       .worlds
