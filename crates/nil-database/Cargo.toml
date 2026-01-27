@@ -15,13 +15,12 @@ workspace = true
 
 [dependencies]
 anyhow.workspace = true
-argon2.workspace = true
 bon.workspace = true
 derive_more.workspace = true
 diesel.workspace = true
 diesel_migrations.workspace = true
 libsqlite3-sys.workspace = true
 nil-core.workspace = true
-nil-server-types.workspace = true
+nil-util.workspace = true
 serde.workspace = true
 thiserror.workspace = true

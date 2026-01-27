@@ -6,7 +6,7 @@ use crate::manager::ManagerExt;
 use nil_client::ServerAddr;
 use nil_core::player::PlayerId;
 use nil_core::world::WorldId;
-use nil_server_types::Password;
+use nil_util::password::Password;
 use tauri::AppHandle;
 
 #[tauri::command]

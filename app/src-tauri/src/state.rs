@@ -8,7 +8,7 @@ use nil_core::event::Event;
 use nil_core::player::PlayerId;
 use nil_core::world::{WorldId, WorldOptions};
 use nil_server::local::{LocalServer, load_local, start_local};
-use nil_server_types::Password;
+use nil_util::password::Password;
 use std::path::PathBuf;
 use std::sync::Arc;
 use tauri::{AppHandle, Emitter};

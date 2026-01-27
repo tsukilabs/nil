@@ -6,5 +6,6 @@
 pub mod iter;
 pub mod ops;
 pub mod option;
+pub mod password;
 pub mod result;
 pub mod vec;

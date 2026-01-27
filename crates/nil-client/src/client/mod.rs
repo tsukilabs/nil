@@ -26,7 +26,8 @@ use nil_core::event::Event;
 use nil_core::player::PlayerId;
 use nil_core::world::WorldId;
 use nil_payload::AuthorizeRequest;
-use nil_server_types::{Password, ServerKind};
+use nil_server_types::ServerKind;
+use nil_util::password::Password;
 
 pub struct Client {
   http: Http,

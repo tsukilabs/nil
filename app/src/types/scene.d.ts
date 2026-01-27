@@ -8,6 +8,7 @@ type Scene =
   | 'host-local-game'
   | 'join-local-game'
   | 'load-local-game'
+  | 'online'
   | 'settings';
 
 type GameScene =

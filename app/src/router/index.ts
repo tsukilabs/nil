@@ -43,6 +43,11 @@ export const router = createRouter({
       name: 'load-local-game' satisfies Scene,
     },
     {
+      component: () => import('@/scenes/online/index.vue'),
+      path: '/online',
+      name: 'online' satisfies Scene,
+    },
+    {
       component: () => import('@/scenes/settings/index.vue'),
       path: '/settings',
       name: 'settings' satisfies Scene,

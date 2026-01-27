@@ -3035,6 +3035,7 @@ dependencies = [
  "nil-core",
  "nil-payload",
  "nil-server-types",
+ "nil-util",
  "reqwest",
  "serde",
  "strum",
@@ -3097,14 +3098,13 @@ name = "nil-database"
 version = "0.2.0"
 dependencies = [
  "anyhow",
- "argon2",
  "bon",
  "derive_more 2.1.1",
  "diesel",
  "diesel_migrations",
  "libsqlite3-sys",
  "nil-core",
- "nil-server-types",
+ "nil-util",
  "serde",
  "thiserror 2.0.18",
 ]
@@ -3142,7 +3142,7 @@ name = "nil-payload"
 version = "0.2.0"
 dependencies = [
  "nil-core",
- "nil-server-types",
+ "nil-util",
  "serde",
 ]
 
@@ -3176,7 +3176,6 @@ dependencies = [
 name = "nil-server-types"
 version = "0.2.0"
 dependencies = [
- "derive_more 2.1.1",
  "nil-core",
  "serde",
  "strum",
@@ -3185,6 +3184,12 @@ dependencies = [
 [[package]]
 name = "nil-util"
 version = "0.2.0"
+dependencies = [
+ "anyhow",
+ "argon2",
+ "derive_more 2.1.1",
+ "serde",
+]
 
 [[package]]
 name = "nix"

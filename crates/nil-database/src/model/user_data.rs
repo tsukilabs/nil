@@ -8,7 +8,7 @@ use crate::sql_types::id::UserDataId;
 use crate::sql_types::user::User;
 use diesel::prelude::*;
 use diesel::result::{DatabaseErrorKind, Error as DieselError};
-use nil_server_types::Password;
+use nil_util::password::Password;
 
 #[derive(Identifiable, Queryable, Selectable, Clone, Debug)]
 #[diesel(table_name = crate::schema::user_data)]
