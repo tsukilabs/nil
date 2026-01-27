@@ -4,6 +4,7 @@
 use crate::DatabaseHandle;
 use crate::error::{Error, Result};
 use crate::sql_types::hashed_password::HashedPassword;
+use crate::sql_types::id::UserDataId;
 use crate::sql_types::user::User;
 use diesel::prelude::*;
 use diesel::result::{DatabaseErrorKind, Error as DieselError};
@@ -13,7 +14,7 @@ use nil_server_types::Password;
 #[diesel(table_name = crate::schema::user_data)]
 #[diesel(check_for_backend(diesel::sqlite::Sqlite))]
 pub struct UserData {
-  pub id: i32,
+  pub id: UserDataId,
   pub user: User,
   pub password: HashedPassword,
 }
