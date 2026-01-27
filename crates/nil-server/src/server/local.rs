@@ -1,9 +1,9 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+use crate::app::App;
 use crate::error::{CoreError, Error, Result};
 use crate::router;
-use crate::state::App;
 use nil_core::world::{World, WorldId, WorldOptions};
 use serde::Serialize;
 use std::net::{Ipv4Addr, SocketAddr, SocketAddrV4};
@@ -27,7 +27,7 @@ impl LocalServer {
     let (tx, rx) = oneshot::channel();
     let task = spawn(async move {
       let router = router::create()
-        .with_state(App::with_world(world))
+        .with_state(App::new_local(world))
         .into_make_service_with_connect_info::<SocketAddr>();
 
       if let Some((listener, mut addr)) = super::bind(0).await {

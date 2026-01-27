@@ -11,8 +11,15 @@ pub enum ServerKind {
   Remote,
 }
 
-#[derive(Clone, Debug, Display, Into, PartialEq, Eq, Hash, Deserialize, Serialize)]
+#[derive(Clone, Debug, Default, Display, Into, PartialEq, Eq, Hash, Deserialize, Serialize)]
 pub struct Password(Arc<str>);
+
+impl Password {
+  #[inline]
+  pub fn new(password: &str) -> Self {
+    Self(Arc::from(password))
+  }
+}
 
 impl Deref for Password {
   type Target = str;

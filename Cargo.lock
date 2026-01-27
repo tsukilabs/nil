@@ -2604,9 +2604,9 @@ dependencies = [
 
 [[package]]
 name = "jsonwebtoken"
-version = "10.2.0"
+version = "10.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c76e1c7d7df3e34443b3621b459b066a7b79644f059fc8b2db7070c825fd417e"
+checksum = "0529410abe238729a60b108898784df8984c87f6054c9c4fcacc47e4803c1ce1"
 dependencies = [
  "base64 0.22.1",
  "ed25519-dalek",
@@ -3096,9 +3096,16 @@ dependencies = [
 name = "nil-database"
 version = "0.2.0"
 dependencies = [
+ "anyhow",
+ "argon2",
+ "derive_more 2.1.1",
  "diesel",
  "diesel_migrations",
  "libsqlite3-sys",
+ "nil-core",
+ "nil-server-types",
+ "serde",
+ "thiserror 2.0.18",
 ]
 
 [[package]]
@@ -3143,7 +3150,6 @@ name = "nil-server"
 version = "0.2.0"
 dependencies = [
  "anyhow",
- "argon2",
  "axum",
  "dashmap",
  "derive_more 2.1.1",
@@ -3153,6 +3159,7 @@ dependencies = [
  "jiff",
  "jsonwebtoken",
  "nil-core",
+ "nil-database",
  "nil-payload",
  "nil-server-types",
  "nil-util",
@@ -3885,7 +3892,7 @@ version = "0.11.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "67eabc2ef2a60eb7faa00097bd1ffdb5bd28e62bf39990626a582201b7a754e5"
 dependencies = [
- "siphasher 1.0.1",
+ "siphasher 1.0.2",
 ]
 
 [[package]]
@@ -5012,9 +5019,9 @@ checksum = "38b58827f4464d87d377d175e90bf58eb00fd8716ff0a62f80356b5e61555d0d"
 
 [[package]]
 name = "siphasher"
-version = "1.0.1"
+version = "1.0.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "56199f7ddabf13fe5074ce809e7d3f42b42ae711800501b5b16ea82ad029c39d"
+checksum = "b2aa850e253778c88a04c3d7323b043aeda9d3e30d5971937c1855769763678e"
 
 [[package]]
 name = "slab"

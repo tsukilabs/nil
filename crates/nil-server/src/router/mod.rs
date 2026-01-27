@@ -17,10 +17,10 @@ mod report;
 mod round;
 mod world;
 
+use crate::app::App;
 use crate::middleware::authorization::{CurrentPlayer, authorization, encode_jwt};
 use crate::res;
 use crate::response::EitherExt;
-use crate::state::App;
 use crate::websocket::handle_socket;
 use axum::extract::ws::WebSocketUpgrade;
 use axum::extract::{Extension, Json, Query, State};
@@ -29,8 +29,9 @@ use axum::response::Response;
 use axum::routing::{any, get, post};
 use axum::{Router, middleware};
 use infrastructure::prelude::*;
-use nil_core::player::PlayerStatus;
+use nil_core::player::{PlayerId, PlayerStatus};
 use nil_core::world::World;
+use nil_database::sql_types::user::User;
 use nil_payload::{AuthorizeRequest, LeaveRequest, WebsocketQuery};
 use nil_server_types::ServerKind;
 
@@ -148,7 +149,17 @@ async fn authorize(State(app): State<App>, Json(req): Json<AuthorizeRequest>) ->
   let result = try {
     match app.server_kind() {
       ServerKind::Local { .. } => encode_jwt(req.player)?,
-      ServerKind::Remote => unimplemented!(),
+      ServerKind::Remote => {
+        let user = User::from(req.player);
+        if let Some(password) = req.password
+          && let Ok(user_data) = app.database().get_user(&user)
+          && user_data.verify_password(&password)
+        {
+          encode_jwt(PlayerId::from(user))?
+        } else {
+          return res!(UNAUTHORIZED);
+        }
+      }
     }
   };
 
@@ -162,10 +173,9 @@ async fn leave(
   Extension(player): Extension<CurrentPlayer>,
   Json(req): Json<LeaveRequest>,
 ) -> Response {
-  let id = &player.0;
   app
     .world_mut(req.world, |world| {
-      world.set_player_status(id, PlayerStatus::Inactive)
+      world.set_player_status(&player.0, PlayerStatus::Inactive)
     })
     .await
     .try_map_left(|()| res!(OK))

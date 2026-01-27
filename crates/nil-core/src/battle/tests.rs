@@ -9,7 +9,7 @@ use crate::military::army::ArmyPersonnel;
 use crate::military::squad::{Squad, SquadSize};
 use crate::military::unit::UnitId;
 use crate::military::unit::UnitId::*;
-use std::assert_matches::assert_matches;
+use std::assert_matches;
 use std::sync::LazyLock;
 
 static STATS: LazyLock<InfrastructureStats> = LazyLock::new(InfrastructureStats::default);

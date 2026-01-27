@@ -1,0 +1,72 @@
+// Copyright (C) Call of Nil contributors
+// SPDX-License-Identifier: AGPL-3.0-only
+
+use crate::DatabaseHandle;
+use crate::error::{Error, Result};
+use crate::sql_types::password::HashedPassword;
+use crate::sql_types::user::User;
+use diesel::prelude::*;
+use diesel::result::{DatabaseErrorKind, Error as DieselError};
+use nil_server_types::Password;
+
+#[derive(Identifiable, Queryable, Selectable, Clone, Debug)]
+#[diesel(table_name = crate::schema::user_data)]
+#[diesel(check_for_backend(diesel::sqlite::Sqlite))]
+pub struct UserData {
+  pub id: i32,
+  pub user: User,
+  pub password: HashedPassword,
+}
+
+impl UserData {
+  pub fn get(handle: &DatabaseHandle, user: &User) -> Result<Self> {
+    use crate::schema::user_data;
+    let result = user_data::table
+      .filter(user_data::user.eq(user))
+      .select(Self::as_select())
+      .first(&mut *handle.conn());
+
+    if let Err(DieselError::NotFound) = &result {
+      Err(Error::UserNotFound(user.clone()))
+    } else {
+      Ok(result?)
+    }
+  }
+
+  #[inline]
+  pub fn verify_password(&self, password: &Password) -> bool {
+    self.password.verify(password)
+  }
+}
+
+#[derive(Insertable, Clone, Debug)]
+#[diesel(table_name = crate::schema::user_data)]
+pub struct NewUserData {
+  user: User,
+  password: HashedPassword,
+}
+
+impl NewUserData {
+  pub fn new(user: User, password: &Password) -> Result<Self> {
+    Ok(Self {
+      user,
+      password: HashedPassword::new(password)?,
+    })
+  }
+
+  pub fn create(self, handle: &DatabaseHandle) -> Result<()> {
+    use crate::schema::user_data::dsl::*;
+    let result = diesel::insert_into(user_data)
+      .values(&self)
+      .execute(&mut *handle.conn())
+      .map(drop);
+
+    if let Err(DieselError::DatabaseError(kind, _)) = &result
+      && let DatabaseErrorKind::UniqueViolation = kind
+    {
+      Err(Error::UserAlreadyExists(self.user))
+    } else {
+      Ok(result?)
+    }
+  }
+}

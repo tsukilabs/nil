@@ -51,7 +51,7 @@ pub struct Savedata {
 
 impl Savedata {
   pub fn read(path: &Path) -> Result<Self> {
-    read(path, "world").map_err(|_| Error::FailedToReadSavedata)
+    read_tar(path, "world").map_err(|_| Error::FailedToReadSavedata)
   }
 
   pub(crate) fn write(&mut self, path: &Path) -> Result<()> {
@@ -59,7 +59,7 @@ impl Savedata {
       *player.status_mut() = PlayerStatus::Inactive;
     }
 
-    write(path, self).map_err(|_| Error::FailedToWriteSavedata)
+    write_tar(path, self).map_err(|_| Error::FailedToWriteSavedata)
   }
 }
 
@@ -83,11 +83,11 @@ impl SavedataInfo {
   }
 
   pub fn read(path: &Path) -> Result<Self> {
-    read(path, "info").map_err(|_| Error::FailedToReadSavedata)
+    read_tar(path, "info").map_err(|_| Error::FailedToReadSavedata)
   }
 }
 
-fn read<T>(path: &Path, entry_name: &str) -> AnyResult<T>
+fn read_tar<T>(path: &Path, entry_name: &str) -> AnyResult<T>
 where
   T: DeserializeOwned,
 {
@@ -111,7 +111,7 @@ where
   bail!("Entry not found: {entry_name}");
 }
 
-fn write(path: &Path, data: &Savedata) -> AnyResult<()> {
+fn write_tar(path: &Path, data: &Savedata) -> AnyResult<()> {
   if let Some(parent) = path.parent() {
     fs::create_dir_all(parent)?;
   }

@@ -1,9 +1,9 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+use crate::app::App;
 use crate::res;
 use crate::response::{EitherExt, from_core_err};
-use crate::state::App;
 use axum::extract::{Json, State};
 use axum::response::Response;
 use nil_core::continent::{Continent, PublicField};

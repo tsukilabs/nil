@@ -6,9 +6,9 @@ pub mod prefecture;
 pub mod prelude;
 pub mod stable;
 
+use crate::app::App;
 use crate::middleware::authorization::CurrentPlayer;
 use crate::response::from_core_err;
-use crate::state::App;
 use crate::{bail_not_owned_by, bail_not_pending, res};
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;

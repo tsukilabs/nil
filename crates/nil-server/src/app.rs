@@ -14,26 +14,27 @@ use nil_core::ranking::Ranking;
 use nil_core::report::ReportManager;
 use nil_core::round::Round;
 use nil_core::world::{World, WorldId};
+use nil_database::DatabaseHandle;
 use nil_server_types::ServerKind;
 use std::sync::Arc;
 use tokio::sync::RwLock;
 
+#[derive(Clone)]
 pub(crate) struct App {
   server_kind: ServerKind,
   worlds: Arc<DashMap<WorldId, Arc<RwLock<World>>>>,
+  database: Option<DatabaseHandle>,
 }
 
 impl App {
-  pub fn new(server_kind: ServerKind) -> Self {
-    Self {
-      server_kind,
-      worlds: Arc::new(DashMap::new()),
-    }
-  }
-
-  pub fn with_world(world: World) -> Self {
+  pub fn new_local(world: World) -> Self {
     let id = world.config().id();
-    let app = Self::new(ServerKind::Local { id });
+    let app = Self {
+      server_kind: ServerKind::Local { id },
+      worlds: Arc::new(DashMap::new()),
+      database: None,
+    };
+
     app
       .worlds
       .insert(id, Arc::new(RwLock::new(world)));
@@ -41,9 +42,30 @@ impl App {
     app
   }
 
+  pub fn new_remote(database_url: &str) -> Result<Self> {
+    let worlds = Arc::new(DashMap::new());
+    let database = DatabaseHandle::new(database_url)?;
+
+    Ok(Self {
+      server_kind: ServerKind::Remote,
+      worlds,
+      database: Some(database),
+    })
+  }
+
   #[inline]
   pub fn server_kind(&self) -> ServerKind {
     self.server_kind
+  }
+
+  pub fn database(&self) -> DatabaseHandle {
+    if let ServerKind::Remote = self.server_kind
+      && let Some(database) = &self.database
+    {
+      database.clone()
+    } else {
+      panic!("Not a remote server")
+    }
   }
 
   pub(crate) fn get(&self, id: WorldId) -> Result<Arc<RwLock<World>>> {
@@ -142,14 +164,5 @@ impl App {
     self
       .world(id, |world| f(world.round()))
       .await
-  }
-}
-
-impl Clone for App {
-  fn clone(&self) -> Self {
-    Self {
-      worlds: Arc::clone(&self.worlds),
-      server_kind: self.server_kind,
-    }
   }
 }

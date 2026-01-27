@@ -13,8 +13,15 @@ use jsonwebtoken::{DecodingKey, EncodingKey, Header, TokenData, Validation, deco
 use nil_core::player::PlayerId;
 use nil_core::ruler::Ruler;
 use serde::{Deserialize, Serialize};
+use std::env;
+use std::sync::LazyLock;
 
-const JWT_SECRET: &str = "nil-temp-secret";
+// Using a known secret is not a problem for local servers.
+static JWT_SECRET: LazyLock<Box<str>> = LazyLock::new(|| {
+  env::var("NIL_JWT_SECRET")
+    .map(Box::from)
+    .unwrap_or_else(|_| Box::from("CALL-OF-NIL"))
+});
 
 pub async fn authorization(mut request: Request, next: Next) -> Response {
   if let Some(header) = request.headers().get(AUTHORIZATION)
@@ -59,7 +66,7 @@ pub(crate) fn encode_jwt(player: PlayerId) -> AnyResult<String> {
 fn decode_jwt(jwt: &str) -> AnyResult<TokenData<Claims>> {
   let claims = decode(
     jwt,
-    &DecodingKey::from_secret(JWT_SECRET.as_ref()),
+    &DecodingKey::from_secret(JWT_SECRET.as_bytes()),
     &Validation::default(),
   )?;
 

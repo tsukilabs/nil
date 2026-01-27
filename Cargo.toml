@@ -5,7 +5,7 @@ members = ["app/src-tauri", "crates/*"]
 [workspace.package]
 version = "0.2.0"
 edition = "2024"
-rust-version = "1.93"
+rust-version = "1.95"
 license-file = "./LICENSE"
 homepage = "https://nil.dev.br"
 repository = "https://github.com/tsukilabs/nil"
@@ -106,7 +106,7 @@ version = "0.2"
 features = ["serde"]
 
 [workspace.dependencies.jsonwebtoken]
-version = "=10.2.0"
+version = "10.3"
 features = ["rust_crypto"]
 
 [workspace.dependencies.libsqlite3-sys]

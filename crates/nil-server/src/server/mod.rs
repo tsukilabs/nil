@@ -5,6 +5,7 @@ mod local;
 mod remote;
 
 pub use local::{LocalServer, load_local, start_local};
+pub use remote::start_remote;
 
 use std::net::{Ipv4Addr, SocketAddr, SocketAddrV4};
 use tokio::net::TcpListener;

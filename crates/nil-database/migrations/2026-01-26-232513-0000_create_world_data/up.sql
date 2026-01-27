@@ -1,0 +1,4 @@
+CREATE TABLE world_data (
+  id TEXT NOT NULL PRIMARY KEY,
+  data BLOB NOT NULL
+)

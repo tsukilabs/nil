@@ -1,7 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use crate::error::{CoreError, Error};
+use crate::error::{CoreError, DatabaseError, Error};
 use axum::response::Response;
 use either::Either;
 use std::ops::{ControlFlow, Try};
@@ -69,10 +69,10 @@ macro_rules! res {
 
 impl From<Error> for Response {
   fn from(err: Error) -> Self {
-    if let Error::Core(core_err) = err {
-      from_core_err(core_err)
-    } else {
-      res!(INTERNAL_SERVER_ERROR, err.to_string())
+    match err {
+      Error::Core(err) => from_core_err(err),
+      Error::Database(err) => from_database_err(err),
+      _ => res!(INTERNAL_SERVER_ERROR, err.to_string()),
     }
   }
 }
@@ -81,7 +81,7 @@ pub(crate) fn from_err(err: impl Into<Error>) -> Response {
   Response::from(Into::<Error>::into(err))
 }
 
-#[expect(clippy::needless_pass_by_value)]
+#[expect(clippy::match_same_arms, clippy::needless_pass_by_value)]
 pub(crate) fn from_core_err(err: CoreError) -> Response {
   use CoreError::*;
 
@@ -127,6 +127,21 @@ pub(crate) fn from_core_err(err: CoreError) -> Response {
     UnexpectedUnit(..) => res!(INTERNAL_SERVER_ERROR, text),
     WallStatsNotFoundForLevel(..) => res!(NOT_FOUND, text),
     WorldIsFull => res!(INTERNAL_SERVER_ERROR, text),
+  }
+}
+
+#[expect(clippy::needless_pass_by_value)]
+pub(crate) fn from_database_err(err: DatabaseError) -> Response {
+  use DatabaseError::*;
+
+  #[cfg(debug_assertions)]
+  tracing::error!(message = %err, ?err);
+
+  let text = err.to_string();
+  match err {
+    UserAlreadyExists(..) => res!(CONFLICT, text),
+    UserNotFound(..) => res!(NOT_FOUND, text),
+    _ => res!(INTERNAL_SERVER_ERROR, "Unknown database error"),
   }
 }
 

@@ -9,7 +9,7 @@ use crate::military::maneuver::{Maneuver, ManeuverId, ManeuverKind};
 use crate::military::unit::stats::speed::Speed;
 use crate::npc::bot::{Bot, BotId};
 use crate::ruler::Ruler;
-use std::assert_matches::assert_matches;
+use std::assert_matches;
 
 #[test]
 fn spawn() {
