@@ -4,11 +4,7 @@
 use crate::client::Client;
 use crate::error::Result;
 use nil_core::infrastructure::building::stable::StableRecruitCatalog;
-use nil_payload::infrastructure::stable::{
-  AddStableRecruitOrderRequest,
-  CancelStableRecruitOrderRequest,
-  GetStableRecruitCatalogRequest,
-};
+use nil_payload::infrastructure::stable::*;
 
 impl Client {
   pub async fn add_stable_recruit_order(&self, req: AddStableRecruitOrderRequest) -> Result<()> {

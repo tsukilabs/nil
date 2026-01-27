@@ -3,19 +3,19 @@
 
 use crate::error::{Error, Result};
 use futures::future::BoxFuture;
-use nil_client::Client;
+use nil_client::{Client, ServerAddr};
 use nil_core::event::Event;
 use nil_core::player::PlayerId;
-use nil_core::world::WorldOptions;
-use nil_server::{Server, load_game, new_game};
-use std::net::SocketAddrV4;
+use nil_core::world::{WorldId, WorldOptions};
+use nil_server::{LocalServer, load_local, start_local};
+use nil_server_types::Password;
 use std::path::PathBuf;
 use std::sync::Arc;
 use tauri::{AppHandle, Emitter};
 use tokio::sync::RwLock;
 
 pub type NilClient = Arc<RwLock<Option<Client>>>;
-pub type NilServer = Arc<RwLock<Option<Server>>>;
+pub type NilServer = Arc<RwLock<Option<LocalServer>>>;
 
 pub struct Nil {
   app: AppHandle,
@@ -47,38 +47,51 @@ impl Nil {
     self.server.read().await.is_some()
   }
 
-  pub async fn start_client(&self, player_id: PlayerId, server_addr: SocketAddrV4) -> Result<()> {
+  pub async fn start_client(
+    &self,
+    server_addr: ServerAddr,
+    world_id: Option<WorldId>,
+    player_id: PlayerId,
+    password: Option<Password>,
+  ) -> Result<()> {
     let mut lock = self.client.write().await;
-    lock.take();
+    *lock = None;
 
-    let on_event = on_event(self.app.clone());
-    let client = Client::start(player_id, server_addr, on_event).await?;
+    let client = Client::start()
+      .server(server_addr)
+      .maybe_world_id(world_id)
+      .player_id(player_id)
+      .maybe_password(password)
+      .on_event(on_event(self.app.clone()))
+      .call()
+      .await?;
+
     *lock = Some(client);
 
     Ok(())
   }
 
-  async fn start_server<F>(&self, f: F) -> Result<SocketAddrV4>
+  async fn start_server<F>(&self, f: F) -> Result<LocalServer>
   where
-    F: AsyncFnOnce() -> Result<(Server, SocketAddrV4)>,
+    F: AsyncFnOnce() -> Result<LocalServer>,
   {
     let mut lock = self.server.write().await;
-    lock.take();
+    *lock = None;
 
-    let (server, addr) = f().await?;
-    *lock = Some(server);
-    Ok(addr)
+    let server = f().await?;
+    *lock = Some(server.clone());
+    Ok(server)
   }
 
-  pub async fn start_server_with_options(&self, options: WorldOptions) -> Result<SocketAddrV4> {
+  pub async fn start_server_with_options(&self, options: WorldOptions) -> Result<LocalServer> {
     self
-      .start_server(async move || Ok(new_game(&options).await?))
+      .start_server(async move || Ok(start_local(&options).await?))
       .await
   }
 
-  pub async fn start_server_with_savedata(&self, path: PathBuf) -> Result<SocketAddrV4> {
+  pub async fn start_server_with_savedata(&self, path: PathBuf) -> Result<LocalServer> {
     self
-      .start_server(async move || Ok(load_game(path).await?))
+      .start_server(async move || Ok(load_local(path).await?))
       .await
   }
 

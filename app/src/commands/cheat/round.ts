@@ -3,8 +3,14 @@
 
 import { toNonZeroU8 } from '@/lib/number';
 import { invoke } from '@tauri-apps/api/core';
+import type { CheatSkipRoundRequest } from '@/lib/request';
 
 export async function cheatSkipRound(amount?: Option<number>) {
   amount = toNonZeroU8(amount ?? 1);
-  await invoke('cheat_skip_round', { req: { amount } });
+  const req: CheatSkipRoundRequest = {
+    world: NIL.world.getIdStrict(),
+    amount,
+  };
+
+  await invoke('cheat_skip_round', { req });
 }

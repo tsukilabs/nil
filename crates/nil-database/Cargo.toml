@@ -1,0 +1,26 @@
+[package]
+name = "nil-database"
+publish = false
+
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license-file.workspace = true
+homepage.workspace = true
+repository.workspace = true
+authors.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+anyhow.workspace = true
+argon2.workspace = true
+derive_more.workspace = true
+diesel.workspace = true
+diesel_migrations.workspace = true
+libsqlite3-sys.workspace = true
+nil-core.workspace = true
+nil-server-types.workspace = true
+serde.workspace = true
+thiserror.workspace = true

@@ -16,4 +16,5 @@ type PlayerStatus = 'active' | 'inactive';
 
 interface PlayerOptions {
   readonly id: PlayerId;
+  readonly password?: Option<string>;
 }

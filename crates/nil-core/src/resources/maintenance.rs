@@ -6,8 +6,8 @@ use super::diff::FoodDiff;
 use crate::military::unit::UnitChunkSize;
 use derive_more::{Deref, Display, Into};
 use serde::{Deserialize, Serialize};
-use std::num::NonZeroU32;
 use std::cmp::Ordering;
+use std::num::NonZeroU32;
 use std::ops::{Add, AddAssign, Div, Mul, Sub, SubAssign};
 
 /// Maintenance tax of an entity.

@@ -9,10 +9,13 @@ interface WorldOptions {
 }
 
 interface WorldConfig {
+  readonly id: WorldId;
   readonly name: string;
   readonly locale: Locale;
   readonly allowCheats: bool;
 }
+
+type WorldId = string;
 
 type Locale = 'en-US' | 'pt-BR';
 

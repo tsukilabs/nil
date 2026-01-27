@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { invoke } from '@tauri-apps/api/core';
+import type { GetRankingRequest, GetRankRequest } from '@/lib/request';
 
 export async function getBotRank(id: BotId) {
   return getRank({ kind: 'bot', id });
@@ -16,9 +17,18 @@ export async function getPrecursorRank(id: PrecursorId) {
 }
 
 export async function getRank(ruler: Ruler) {
-  return invoke<Option<RankingEntry>>('get_rank', { req: { ruler } });
+  const req: GetRankRequest = {
+    world: NIL.world.getIdStrict(),
+    ruler,
+  };
+
+  return invoke<Option<RankingEntry>>('get_rank', { req });
 }
 
 export async function getRanking() {
-  return invoke<Ranking>('get_ranking');
+  const req: GetRankingRequest = {
+    world: NIL.world.getIdStrict(),
+  };
+
+  return invoke<Ranking>('get_ranking', { req });
 }

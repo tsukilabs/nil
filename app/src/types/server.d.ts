@@ -1,0 +1,29 @@
+// Copyright (C) Call of Nil contributors
+// SPDX-License-Identifier: AGPL-3.0-only
+
+interface LocalServer {
+  readonly worldId: WorldId;
+  readonly addr: string;
+}
+
+type ServerAddr = ServerAddrLocal | ServerAddrRemote;
+
+interface ServerAddrLocal {
+  readonly kind: 'local';
+  readonly addr: string;
+}
+
+interface ServerAddrRemote {
+  readonly kind: 'remote';
+}
+
+type ServerKind = ServerKindLocal | ServerKindRemote;
+
+interface ServerKindLocal {
+  readonly kind: 'local';
+  readonly id: WorldId;
+}
+
+interface ServerKindRemote {
+  readonly kind: 'remote';
+}

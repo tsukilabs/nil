@@ -3,9 +3,19 @@
 
 import { invoke } from '@tauri-apps/api/core';
 import { getCityOwner } from '@/commands/city';
+import type {
+  CheatGetEthicsRequest,
+  CheatSetBotEthicsRequest,
+  CheatSpawnBotRequest,
+} from '@/lib/request';
 
 export async function cheatGetEthics(ruler: Ruler) {
-  return invoke<Option<Ethics>>('cheat_get_ethics', { req: { ruler } });
+  const req: CheatGetEthicsRequest = {
+    world: NIL.world.getIdStrict(),
+    ruler,
+  };
+
+  return invoke<Option<Ethics>>('cheat_get_ethics', { req });
 }
 
 export async function cheatGetBotEthics(id: BotId) {
@@ -13,7 +23,8 @@ export async function cheatGetBotEthics(id: BotId) {
 }
 
 export async function cheatGetOwnerEthics(coord: ContinentKey) {
-  return cheatGetEthics(await getCityOwner(coord));
+  const ruler = await getCityOwner(coord);
+  return cheatGetEthics(ruler);
 }
 
 export async function cheatGetOwnerPowerEthic(coord: ContinentKey) {
@@ -41,7 +52,13 @@ export async function cheatGetTruthEthic(ruler: Ruler) {
 }
 
 export async function cheatSetBotEthics(id: BotId, ethics: Ethics) {
-  await invoke('cheat_set_bot_ethics', { req: { id, ethics } });
+  const req: CheatSetBotEthicsRequest = {
+    world: NIL.world.getIdStrict(),
+    id,
+    ethics,
+  };
+
+  await invoke('cheat_set_bot_ethics', { req });
 }
 
 export async function cheatSetBotPowerEthic(id: BotId, ethic: EthicPowerAxis) {
@@ -84,5 +101,10 @@ export async function cheatSpawnBot(name?: Option<string>) {
     name = `Bot ${globalThis.crypto.randomUUID()}`;
   }
 
-  return invoke<BotId>('cheat_spawn_bot', { req: { name } });
+  const req: CheatSpawnBotRequest = {
+    world: NIL.world.getIdStrict(),
+    name,
+  };
+
+  return invoke<BotId>('cheat_spawn_bot', { req });
 }

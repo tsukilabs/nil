@@ -1,6 +1,8 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+#![expect(clippy::wildcard_imports)]
+
 mod battle;
 mod chat;
 mod cheat;
@@ -15,21 +17,23 @@ mod report;
 mod round;
 mod world;
 
-use crate::middleware::{CurrentPlayer, authorization};
+use crate::app::App;
+use crate::middleware::authorization::{CurrentPlayer, authorization, encode_jwt};
 use crate::res;
-use crate::response::from_core_err;
-use crate::state::App;
+use crate::response::EitherExt;
 use crate::websocket::handle_socket;
-use axum::extract::State;
 use axum::extract::ws::WebSocketUpgrade;
+use axum::extract::{Extension, Json, Query, State};
 use axum::http::StatusCode;
 use axum::response::Response;
 use axum::routing::{any, get, post};
-use axum::{Extension, Router, middleware};
-use futures::TryFutureExt;
+use axum::{Router, middleware};
 use infrastructure::prelude::*;
-use nil_core::player::PlayerStatus;
+use nil_core::player::{PlayerId, PlayerStatus};
 use nil_core::world::World;
+use nil_database::sql_types::user::User;
+use nil_payload::{AuthorizeRequest, LeaveRequest, WebsocketQuery};
+use nil_server_types::ServerKind;
 
 #[cfg(debug_assertions)]
 use {
@@ -40,7 +44,6 @@ use {
 pub(crate) fn create() -> Router<App> {
   #[rustfmt::skip]
   let router = Router::new()
-    .route("/", get(ok))
     .route("/add-academy-recruit-order", post(academy::add_recruit_order))
     .route("/add-prefecture-build-order", post(prefecture::add_build_order))
     .route("/add-stable-recruit-order", post(stable::add_recruit_order))
@@ -75,53 +78,58 @@ pub(crate) fn create() -> Router<App> {
     .route("/cheat-spawn-bot", post(cheat::npc::spawn_bot))
     .route("/cheat-spawn-personnel", post(cheat::military::spawn_personnel))
     .route("/get-academy-recruit-catalog", post(academy::get_recruit_catalog))
-    .route("/get-bot-coords", post(npc::bot::get_coords))
-    .route("/get-chat-history", get(chat::get))
+    .route("/get-chat-history", post(chat::get))
     .route("/get-city", post(city::get))
-    .route("/get-city-score", post(city::get_score))
-    .route("/get-continent-size", get(continent::size))
-    .route("/get-field", post(continent::get_field))
-    .route("/get-fields", post(continent::get_fields))
     .route("/get-player", post(player::get))
     .route("/get-player-coords", post(player::get_coords))
-    .route("/get-player-maintenance", get(player::get_maintenance))
-    .route("/get-player-military", get(player::get_military))
-    .route("/get-player-reports", get(player::get_reports))
-    .route("/get-player-status", post(player::get_status))
-    .route("/get-player-storage-capacity", get(player::get_storage_capacity))
-    .route("/get-players", get(player::get_all))
-    .route("/get-precursor-coords", post(npc::precursor::get_coords))
+    .route("/get-player-maintenance", post(player::get_maintenance))
+    .route("/get-player-military", post(player::get_military))
+    .route("/get-player-reports", post(player::get_reports))
+    .route("/get-player-storage-capacity", post(player::get_storage_capacity))
+    .route("/get-players", post(player::get_all))
     .route("/get-prefecture-build-catalog", post(prefecture::get_build_catalog))
-    .route("/get-public-bot", post(npc::bot::get_public))
-    .route("/get-public-city", post(city::get_public))
-    .route("/get-public-player", post(player::get_public))
-    .route("/get-public-players", get(player::get_all_public))
-    .route("/get-public-precursor", post(npc::precursor::get_public))
-    .route("/get-rank", post(ranking::get_rank))
-    .route("/get-ranking", get(ranking::get))
     .route("/get-report", post(report::get))
     .route("/get-reports", post(report::get_by))
-    .route("/get-round", get(round::get))
     .route("/get-stable-recruit-catalog", post(stable::get_recruit_catalog))
-    .route("/get-world-config", get(world::get_config))
-    .route("/get-world-stats", get(world::get_stats))
-    .route("/leave", get(leave))
-    .route("/player-exists", post(player::exists))
+    .route("/leave", post(leave))
     .route("/push-chat-message", post(chat::push))
     .route("/rename-city", post(city::rename))
     .route("/request-maneuver", post(military::request_maneuver))
     .route("/save-world", post(world::save))
     .route("/search-city", post(city::search))
-    .route("/search-public-city", post(city::search_public))
     .route("/set-player-ready", post(round::set_ready))
     .route("/set-player-status", post(player::set_status))
-    .route("/simulate-battle", post(battle::simulate))
     .route("/spawn-player", post(player::spawn))
-    .route("/start-round", get(round::start))
+    .route("/start-round", post(round::start))
     .route("/toggle-building", post(infrastructure::toggle))
-    .route("/version", get(version))
-    .route("/ws", any(websocket))
-    .route_layer(middleware::from_fn(authorization));
+    .route("/websocket", any(websocket))
+    .route_layer(middleware::from_fn(authorization))
+
+    // These don't need authorization.
+    .route("/", get(ok))
+    .route("/authorize", post(authorize))
+    .route("/get-bot-coords", post(npc::bot::get_coords))
+    .route("/get-city-score", post(city::get_score))
+    .route("/get-continent-size", post(continent::size))
+    .route("/get-player-status", post(player::get_status))
+    .route("/get-precursor-coords", post(npc::precursor::get_coords))
+    .route("/get-public-bot", post(npc::bot::get_public))
+    .route("/get-public-city", post(city::get_public))
+    .route("/get-public-field", post(continent::get_public_field))
+    .route("/get-public-fields", post(continent::get_public_fields))
+    .route("/get-public-player", post(player::get_public))
+    .route("/get-public-players", post(player::get_all_public))
+    .route("/get-public-precursor", post(npc::precursor::get_public))
+    .route("/get-rank", post(ranking::get_rank))
+    .route("/get-ranking", post(ranking::get))
+    .route("/get-round", post(round::get))
+    .route("/get-server-kind", get(server_kind))
+    .route("/get-world-config", post(world::get_config))
+    .route("/get-world-stats", post(world::get_stats))
+    .route("/player-exists", post(player::exists))
+    .route("/search-public-city", post(city::search_public))
+    .route("/simulate-battle", post(battle::simulate))
+    .route("/version", get(version));
 
   #[cfg(debug_assertions)]
   let router = router.layer(
@@ -137,32 +145,65 @@ pub(crate) fn create() -> Router<App> {
   router
 }
 
-async fn websocket(
-  ws: WebSocketUpgrade,
+async fn authorize(State(app): State<App>, Json(req): Json<AuthorizeRequest>) -> Response {
+  let result = try {
+    match app.server_kind() {
+      ServerKind::Local { .. } => encode_jwt(req.player)?,
+      ServerKind::Remote => {
+        let user = User::from(req.player);
+        if let Some(password) = req.password
+          && let Ok(user_data) = app.database().get_user(&user)
+          && user_data.verify_password(&password)
+        {
+          encode_jwt(PlayerId::from(user))?
+        } else {
+          return res!(UNAUTHORIZED);
+        }
+      }
+    }
+  };
+
+  result
+    .map(|token| res!(OK, Json(token)))
+    .unwrap_or_else(|_| res!(UNAUTHORIZED))
+}
+
+async fn leave(
   State(app): State<App>,
-  Extension(current_player): Extension<CurrentPlayer>,
+  Extension(player): Extension<CurrentPlayer>,
+  Json(req): Json<LeaveRequest>,
 ) -> Response {
-  let player = current_player.0;
-  let listener = app.world(World::subscribe).await;
-  ws.on_upgrade(move |socket| handle_socket(socket, listener, player))
+  app
+    .world_mut(req.world, |world| {
+      world.set_player_status(&player.0, PlayerStatus::Inactive)
+    })
+    .await
+    .try_map_left(|()| res!(OK))
+    .into_inner()
 }
 
 async fn ok() -> StatusCode {
   StatusCode::OK
 }
 
+async fn server_kind(State(app): State<App>) -> Response {
+  res!(OK, Json(app.server_kind()))
+}
+
 async fn version() -> &'static str {
   env!("CARGO_PKG_VERSION")
 }
 
-async fn leave(
+async fn websocket(
+  ws: WebSocketUpgrade,
   State(app): State<App>,
-  Extension(current_player): Extension<CurrentPlayer>,
+  Extension(player): Extension<CurrentPlayer>,
+  Query(query): Query<WebsocketQuery>,
 ) -> Response {
-  let id = &current_player.0;
+  let id = player.0;
   app
-    .world_mut(|world| world.set_player_status(id, PlayerStatus::Inactive))
-    .map_ok(|()| res!(OK))
-    .unwrap_or_else(from_core_err)
+    .world(query.world, World::subscribe)
     .await
+    .map_left(|listener| ws.on_upgrade(move |socket| handle_socket(socket, listener, id)))
+    .into_inner()
 }

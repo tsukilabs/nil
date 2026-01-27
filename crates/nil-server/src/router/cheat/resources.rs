@@ -1,29 +1,14 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use crate::middleware::CurrentPlayer;
+use crate::app::App;
+use crate::middleware::authorization::CurrentPlayer;
 use crate::res;
-use crate::response::from_core_err;
-use crate::state::App;
+use crate::response::EitherExt;
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
-use futures::TryFutureExt;
 use nil_core::ruler::Ruler;
-use nil_payload::cheat::resources::{
-  CheatGetResourcesRequest,
-  CheatSetFoodRequest,
-  CheatSetIronRequest,
-  CheatSetMaxFoodRequest,
-  CheatSetMaxIronRequest,
-  CheatSetMaxResourcesRequest,
-  CheatSetMaxSiloResourcesRequest,
-  CheatSetMaxStoneRequest,
-  CheatSetMaxWarehouseResourcesRequest,
-  CheatSetMaxWoodRequest,
-  CheatSetResourcesRequest,
-  CheatSetStoneRequest,
-  CheatSetWoodRequest,
-};
+use nil_payload::cheat::resources::*;
 
 pub async fn get_resources(
   State(app): State<App>,
@@ -35,10 +20,10 @@ pub async fn get_resources(
     .unwrap_or_else(|| Ruler::from(player));
 
   app
-    .world(|world| world.cheat_get_resources(&ruler))
-    .map_ok(|resources| res!(OK, Json(resources)))
-    .unwrap_or_else(from_core_err)
+    .world(req.world, |world| world.cheat_get_resources(&ruler))
     .await
+    .try_map_left(|resources| res!(OK, Json(resources)))
+    .into_inner()
 }
 
 pub async fn set_food(
@@ -51,10 +36,10 @@ pub async fn set_food(
     .unwrap_or_else(|| Ruler::from(player));
 
   app
-    .world_mut(|world| world.cheat_set_food(&ruler, req.food))
-    .map_ok(|()| res!(OK))
-    .unwrap_or_else(from_core_err)
+    .world_mut(req.world, |world| world.cheat_set_food(&ruler, req.food))
     .await
+    .try_map_left(|()| res!(OK))
+    .into_inner()
 }
 
 pub async fn set_iron(
@@ -67,10 +52,10 @@ pub async fn set_iron(
     .unwrap_or_else(|| Ruler::from(player));
 
   app
-    .world_mut(|world| world.cheat_set_iron(&ruler, req.iron))
-    .map_ok(|()| res!(OK))
-    .unwrap_or_else(from_core_err)
+    .world_mut(req.world, |world| world.cheat_set_iron(&ruler, req.iron))
     .await
+    .try_map_left(|()| res!(OK))
+    .into_inner()
 }
 
 pub async fn set_max_food(
@@ -83,10 +68,10 @@ pub async fn set_max_food(
     .unwrap_or_else(|| Ruler::from(player));
 
   app
-    .world_mut(|world| world.cheat_set_max_food(&ruler))
-    .map_ok(|()| res!(OK))
-    .unwrap_or_else(from_core_err)
+    .world_mut(req.world, |world| world.cheat_set_max_food(&ruler))
     .await
+    .try_map_left(|()| res!(OK))
+    .into_inner()
 }
 
 pub async fn set_max_iron(
@@ -99,10 +84,10 @@ pub async fn set_max_iron(
     .unwrap_or_else(|| Ruler::from(player));
 
   app
-    .world_mut(|world| world.cheat_set_max_iron(&ruler))
-    .map_ok(|()| res!(OK))
-    .unwrap_or_else(from_core_err)
+    .world_mut(req.world, |world| world.cheat_set_max_iron(&ruler))
     .await
+    .try_map_left(|()| res!(OK))
+    .into_inner()
 }
 
 pub async fn set_max_resources(
@@ -115,10 +100,10 @@ pub async fn set_max_resources(
     .unwrap_or_else(|| Ruler::from(player));
 
   app
-    .world_mut(|world| world.cheat_set_max_resources(&ruler))
-    .map_ok(|()| res!(OK))
-    .unwrap_or_else(from_core_err)
+    .world_mut(req.world, |world| world.cheat_set_max_resources(&ruler))
     .await
+    .try_map_left(|()| res!(OK))
+    .into_inner()
 }
 
 pub async fn set_max_silo_resources(
@@ -131,10 +116,12 @@ pub async fn set_max_silo_resources(
     .unwrap_or_else(|| Ruler::from(player));
 
   app
-    .world_mut(|world| world.cheat_set_max_silo_resources(&ruler))
-    .map_ok(|()| res!(OK))
-    .unwrap_or_else(from_core_err)
+    .world_mut(req.world, |world| {
+      world.cheat_set_max_silo_resources(&ruler)
+    })
     .await
+    .try_map_left(|()| res!(OK))
+    .into_inner()
 }
 
 pub async fn set_max_stone(
@@ -147,10 +134,10 @@ pub async fn set_max_stone(
     .unwrap_or_else(|| Ruler::from(player));
 
   app
-    .world_mut(|world| world.cheat_set_max_stone(&ruler))
-    .map_ok(|()| res!(OK))
-    .unwrap_or_else(from_core_err)
+    .world_mut(req.world, |world| world.cheat_set_max_stone(&ruler))
     .await
+    .try_map_left(|()| res!(OK))
+    .into_inner()
 }
 
 pub async fn set_max_warehouse_resources(
@@ -163,10 +150,12 @@ pub async fn set_max_warehouse_resources(
     .unwrap_or_else(|| Ruler::from(player));
 
   app
-    .world_mut(|world| world.cheat_set_max_warehouse_resources(&ruler))
-    .map_ok(|()| res!(OK))
-    .unwrap_or_else(from_core_err)
+    .world_mut(req.world, |world| {
+      world.cheat_set_max_warehouse_resources(&ruler)
+    })
     .await
+    .try_map_left(|()| res!(OK))
+    .into_inner()
 }
 
 pub async fn set_max_wood(
@@ -179,10 +168,10 @@ pub async fn set_max_wood(
     .unwrap_or_else(|| Ruler::from(player));
 
   app
-    .world_mut(|world| world.cheat_set_max_wood(&ruler))
-    .map_ok(|()| res!(OK))
-    .unwrap_or_else(from_core_err)
+    .world_mut(req.world, |world| world.cheat_set_max_wood(&ruler))
     .await
+    .try_map_left(|()| res!(OK))
+    .into_inner()
 }
 
 pub async fn set_resources(
@@ -195,10 +184,12 @@ pub async fn set_resources(
     .unwrap_or_else(|| Ruler::from(player));
 
   app
-    .world_mut(|world| world.cheat_set_resources(&ruler, req.resources))
-    .map_ok(|()| res!(OK))
-    .unwrap_or_else(from_core_err)
+    .world_mut(req.world, |world| {
+      world.cheat_set_resources(&ruler, req.resources)
+    })
     .await
+    .try_map_left(|()| res!(OK))
+    .into_inner()
 }
 
 pub async fn set_stone(
@@ -211,10 +202,10 @@ pub async fn set_stone(
     .unwrap_or_else(|| Ruler::from(player));
 
   app
-    .world_mut(|world| world.cheat_set_stone(&ruler, req.stone))
-    .map_ok(|()| res!(OK))
-    .unwrap_or_else(from_core_err)
+    .world_mut(req.world, |world| world.cheat_set_stone(&ruler, req.stone))
     .await
+    .try_map_left(|()| res!(OK))
+    .into_inner()
 }
 
 pub async fn set_wood(
@@ -227,8 +218,8 @@ pub async fn set_wood(
     .unwrap_or_else(|| Ruler::from(player));
 
   app
-    .world_mut(|world| world.cheat_set_wood(&ruler, req.wood))
-    .map_ok(|()| res!(OK))
-    .unwrap_or_else(from_core_err)
+    .world_mut(req.world, |world| world.cheat_set_wood(&ruler, req.wood))
     .await
+    .try_map_left(|()| res!(OK))
+    .into_inner()
 }

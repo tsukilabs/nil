@@ -28,19 +28,19 @@ export const router = createRouter({
       children: gameRoutes,
     },
     {
-      component: () => import('@/scenes/host-game/index.vue'),
-      path: '/host-game',
-      name: 'host-game' satisfies Scene,
+      component: () => import('@/scenes/host-local-game/index.vue'),
+      path: '/host-local-game',
+      name: 'host-local-game' satisfies Scene,
     },
     {
-      component: () => import('@/scenes/join-game/index.vue'),
-      path: '/join-game',
-      name: 'join-game' satisfies Scene,
+      component: () => import('@/scenes/join-local-game/index.vue'),
+      path: '/join-local-game',
+      name: 'join-local-game' satisfies Scene,
     },
     {
-      component: () => import('@/scenes/load-game/index.vue'),
-      path: '/load-game',
-      name: 'load-game' satisfies Scene,
+      component: () => import('@/scenes/load-local-game/index.vue'),
+      path: '/load-local-game',
+      name: 'load-local-game' satisfies Scene,
     },
     {
       component: () => import('@/scenes/settings/index.vue'),

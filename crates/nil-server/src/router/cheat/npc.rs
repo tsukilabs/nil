@@ -1,27 +1,22 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+use crate::app::App;
 use crate::res;
-use crate::response::from_core_err;
-use crate::state::App;
+use crate::response::EitherExt;
 use axum::extract::{Json, State};
 use axum::response::Response;
-use futures::TryFutureExt;
-use nil_payload::cheat::npc::{
-  CheatGetEthicsRequest,
-  CheatSetBotEthicsRequest,
-  CheatSpawnBotRequest,
-};
+use nil_payload::cheat::npc::*;
 
 pub async fn get_ethics(
   State(app): State<App>,
   Json(req): Json<CheatGetEthicsRequest>,
 ) -> Response {
   app
-    .world_mut(|world| world.cheat_get_ethics(&req.ruler))
-    .map_ok(|ethics| res!(OK, Json(ethics)))
-    .unwrap_or_else(from_core_err)
+    .world_mut(req.world, |world| world.cheat_get_ethics(&req.ruler))
     .await
+    .try_map_left(|ethics| res!(OK, Json(ethics)))
+    .into_inner()
 }
 
 pub async fn set_bot_ethics(
@@ -29,16 +24,18 @@ pub async fn set_bot_ethics(
   Json(req): Json<CheatSetBotEthicsRequest>,
 ) -> Response {
   app
-    .world_mut(|world| world.cheat_set_bot_ethics(&req.id, req.ethics))
-    .map_ok(|()| res!(OK))
-    .unwrap_or_else(from_core_err)
+    .world_mut(req.world, |world| {
+      world.cheat_set_bot_ethics(&req.id, req.ethics)
+    })
     .await
+    .try_map_left(|()| res!(OK))
+    .into_inner()
 }
 
 pub async fn spawn_bot(State(app): State<App>, Json(req): Json<CheatSpawnBotRequest>) -> Response {
   app
-    .world_mut(|world| world.cheat_spawn_bot(&req.name))
-    .map_ok(|id| res!(OK, Json(id)))
-    .unwrap_or_else(from_core_err)
+    .world_mut(req.world, |world| world.cheat_spawn_bot(&req.name))
     .await
+    .try_map_left(|id| res!(OK, Json(id)))
+    .into_inner()
 }

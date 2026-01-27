@@ -5,11 +5,7 @@ use crate::client::Client;
 use crate::error::Result;
 use nil_core::ethic::Ethics;
 use nil_core::npc::bot::BotId;
-use nil_payload::cheat::npc::{
-  CheatGetEthicsRequest,
-  CheatSetBotEthicsRequest,
-  CheatSpawnBotRequest,
-};
+use nil_payload::cheat::npc::*;
 
 impl Client {
   pub async fn cheat_get_ethics(&self, req: CheatGetEthicsRequest) -> Result<Option<Ethics>> {

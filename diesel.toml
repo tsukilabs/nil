@@ -1,0 +1,6 @@
+[print_schema]
+file = "crates/nil-database/src/schema.rs"
+with_docs = true
+
+[migrations_directory]
+dir = "crates/nil-database/migrations"

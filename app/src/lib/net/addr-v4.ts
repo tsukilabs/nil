@@ -12,7 +12,7 @@ export class IpAddrV4 {
     return this.ip.join('.');
   }
 
-  public static local() {
+  public static loopback() {
     return new this([127, 0, 0, 1]);
   }
 
@@ -22,7 +22,7 @@ export class IpAddrV4 {
       return new this(value as [number, number, number, number]);
     }
 
-    throw new Error(`Invalid ipv4 address: ${ip}`);
+    throw new Error(`Invalid IPv4 address: ${ip}`);
   }
 
   public static tryParse(ip: string) {
@@ -45,8 +45,8 @@ export class SocketAddrV4 {
     return `${this.ip.format()}:${this.port}`;
   }
 
-  public asLocal() {
-    return new SocketAddrV4(IpAddrV4.local(), this.port);
+  public asLoopback() {
+    return new SocketAddrV4(IpAddrV4.loopback(), this.port);
   }
 
   public static parse(addr: string) {

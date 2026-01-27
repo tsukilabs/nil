@@ -1,56 +1,53 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use crate::middleware::CurrentPlayer;
+use crate::app::App;
+use crate::middleware::authorization::CurrentPlayer;
 use crate::res;
-use crate::response::from_core_err;
-use crate::state::App;
+use crate::response::EitherExt;
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
-use futures::{FutureExt, TryFutureExt};
 use itertools::Itertools;
 use nil_core::player::{Player, PublicPlayer};
-use nil_payload::player::{
-  GetPlayerCoordsRequest,
-  GetPlayerRequest,
-  GetPlayerStatusRequest,
-  GetPublicPlayerRequest,
-  PlayerExistsRequest,
-  SetPlayerStatusRequest,
-  SpawnPlayerRequest,
-};
+use nil_payload::player::*;
 
 pub async fn exists(State(app): State<App>, Json(req): Json<PlayerExistsRequest>) -> Response {
   app
-    .world(|world| world.has_player(&req.id))
-    .map(|yes| res!(OK, Json(yes)))
+    .world(req.world, |world| world.has_player(&req.id))
     .await
+    .map_left(|yes| res!(OK, Json(yes)))
+    .into_inner()
 }
 
 pub async fn get(State(app): State<App>, Json(req): Json<GetPlayerRequest>) -> Response {
   app
-    .player_manager(|pm| pm.player(&req.id).cloned())
-    .map_ok(|player| res!(OK, Json(player)))
-    .unwrap_or_else(from_core_err)
+    .player_manager(req.world, |pm| pm.player(&req.id).cloned())
     .await
+    .try_map_left(|player| res!(OK, Json(player)))
+    .into_inner()
 }
 
-pub async fn get_all(State(app): State<App>) -> Response {
+pub async fn get_all(State(app): State<App>, Json(req): Json<GetPlayersRequest>) -> Response {
   app
-    .player_manager(|pm| pm.players().cloned().collect_vec())
-    .map(|players| res!(OK, Json(players)))
+    .player_manager(req.world, |pm| pm.players().cloned().collect_vec())
     .await
+    .map_left(|players| res!(OK, Json(players)))
+    .into_inner()
 }
 
-pub async fn get_all_public(State(app): State<App>) -> Response {
+pub async fn get_all_public(
+  State(app): State<App>,
+  Json(req): Json<GetPublicPlayersRequest>,
+) -> Response {
   app
-    .player_manager(|pm| {
+    .player_manager(req.world, |pm| {
       pm.players()
         .map(PublicPlayer::from)
         .collect_vec()
     })
-    .map(|players| res!(OK, Json(players)))
     .await
+    .map_left(|players| res!(OK, Json(players)))
+    .into_inner()
 }
 
 pub async fn get_coords(
@@ -58,31 +55,34 @@ pub async fn get_coords(
   Json(req): Json<GetPlayerCoordsRequest>,
 ) -> Response {
   app
-    .continent(|k| k.coords_of(req.id).collect_vec())
-    .map(|coords| res!(OK, Json(coords)))
+    .continent(req.world, |k| k.coords_of(req.id).collect_vec())
     .await
+    .map_left(|coords| res!(OK, Json(coords)))
+    .into_inner()
 }
 
 pub async fn get_maintenance(
   State(app): State<App>,
   Extension(player): Extension<CurrentPlayer>,
+  Json(req): Json<GetPlayerMaintenanceRequest>,
 ) -> Response {
   app
-    .world(|world| world.get_player_maintenance(&player))
-    .map_ok(|maintenance| res!(OK, Json(maintenance)))
-    .unwrap_or_else(from_core_err)
+    .world(req.world, |world| world.get_player_maintenance(&player))
     .await
+    .try_map_left(|maintenance| res!(OK, Json(maintenance)))
+    .into_inner()
 }
 
 pub async fn get_military(
   State(app): State<App>,
   Extension(player): Extension<CurrentPlayer>,
+  Json(req): Json<GetPlayerMilitaryRequest>,
 ) -> Response {
   app
-    .world(|world| world.get_player_military(&player))
-    .map_ok(|military| res!(OK, Json(military)))
-    .unwrap_or_else(from_core_err)
+    .world(req.world, |world| world.get_player_military(&player))
     .await
+    .try_map_left(|military| res!(OK, Json(military)))
+    .into_inner()
 }
 
 pub async fn get_public(
@@ -90,20 +90,22 @@ pub async fn get_public(
   Json(req): Json<GetPublicPlayerRequest>,
 ) -> Response {
   app
-    .player_manager(|pm| pm.player(&req.id).map(PublicPlayer::from))
-    .map_ok(|player| res!(OK, Json(player)))
-    .unwrap_or_else(from_core_err)
+    .player_manager(req.world, |pm| pm.player(&req.id).map(PublicPlayer::from))
     .await
+    .try_map_left(|player| res!(OK, Json(player)))
+    .into_inner()
 }
 
 pub async fn get_reports(
   State(app): State<App>,
   Extension(player): Extension<CurrentPlayer>,
+  Json(req): Json<GetPlayerReportsRequest>,
 ) -> Response {
   app
-    .world(|world| world.get_player_reports(&player))
-    .map(|reports| res!(OK, Json(reports)))
+    .world(req.world, |world| world.get_player_reports(&player))
     .await
+    .map_left(|reports| res!(OK, Json(reports)))
+    .into_inner()
 }
 
 pub async fn get_status(
@@ -111,21 +113,22 @@ pub async fn get_status(
   Json(req): Json<GetPlayerStatusRequest>,
 ) -> Response {
   app
-    .player_manager(|pm| pm.player(&req.id).map(Player::status))
-    .map_ok(|status| res!(OK, Json(status)))
-    .unwrap_or_else(from_core_err)
+    .player_manager(req.world, |pm| pm.player(&req.id).map(Player::status))
     .await
+    .try_map_left(|status| res!(OK, Json(status)))
+    .into_inner()
 }
 
 pub async fn get_storage_capacity(
   State(app): State<App>,
   Extension(player): Extension<CurrentPlayer>,
+  Json(req): Json<GetPlayerStorageCapacityRequest>,
 ) -> Response {
   app
-    .world(|world| world.get_storage_capacity(player.0))
-    .map_ok(|capacity| res!(OK, Json(capacity)))
-    .unwrap_or_else(from_core_err)
+    .world(req.world, |world| world.get_storage_capacity(player.0))
     .await
+    .try_map_left(|capacity| res!(OK, Json(capacity)))
+    .into_inner()
 }
 
 pub async fn set_status(
@@ -134,16 +137,20 @@ pub async fn set_status(
   Json(req): Json<SetPlayerStatusRequest>,
 ) -> Response {
   app
-    .world_mut(|world| world.set_player_status(&player, req.status))
-    .map_ok(|()| res!(OK))
-    .unwrap_or_else(from_core_err)
+    .world_mut(req.world, |world| {
+      world.set_player_status(&player, req.status)
+    })
     .await
+    .try_map_left(|()| res!(OK))
+    .into_inner()
 }
 
 pub async fn spawn(State(app): State<App>, Json(req): Json<SpawnPlayerRequest>) -> Response {
   app
-    .world_mut(|world| world.spawn_player(Player::new(req.options)))
-    .map_ok(|()| res!(CREATED))
-    .unwrap_or_else(from_core_err)
+    .world_mut(req.world, |world| {
+      world.spawn_player(Player::new(req.options))
+    })
     .await
+    .try_map_left(|()| res!(CREATED))
+    .into_inner()
 }

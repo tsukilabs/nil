@@ -5,6 +5,7 @@ import { clamp } from 'es-toolkit';
 import { toU8 } from '@/lib/number';
 import { invoke } from '@tauri-apps/api/core';
 import { SquadImpl } from '@/core/model/military/squad';
+import type { SimulateBattleRequest } from '@/lib/request';
 
 export async function simulateBattle(args: {
   attacker?: Option<readonly Squad[]>;
@@ -34,5 +35,13 @@ export async function simulateBattle(args: {
     }
   }
 
-  return invoke<BattleResult>('simulate_battle', { req: args });
+  const req: SimulateBattleRequest = {
+    world: NIL.world.getIdStrict(),
+    attacker: args.attacker,
+    defender: args.defender,
+    luck: args.luck,
+    wall: args.wall,
+  };
+
+  return invoke<BattleResult>('simulate_battle', { req });
 }

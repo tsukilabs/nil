@@ -13,7 +13,7 @@ use crate::infrastructure::building::prefecture::{
 };
 use crate::infrastructure::prelude::*;
 use crate::military::maneuver::Maneuver;
-use crate::resources::{Food, Maintenance};
+use crate::resources::Food;
 use crate::world::World;
 use bon::Builder;
 use nil_util::iter::IterExt;
@@ -103,6 +103,7 @@ impl<T> Behavior for BuildBuildingBehavior<T>
 where
   T: Building + Debug + 'static,
 {
+  #[expect(clippy::too_many_lines)]
   fn score(&self, world: &World) -> Result<BehaviorScore> {
     let infrastructure = world.infrastructure(self.coord)?;
     let building = infrastructure.building(self.building);

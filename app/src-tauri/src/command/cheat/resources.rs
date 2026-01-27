@@ -4,21 +4,7 @@
 use crate::error::Result;
 use crate::manager::ManagerExt;
 use nil_core::resources::Resources;
-use nil_payload::cheat::resources::{
-  CheatGetResourcesRequest,
-  CheatSetFoodRequest,
-  CheatSetIronRequest,
-  CheatSetMaxFoodRequest,
-  CheatSetMaxIronRequest,
-  CheatSetMaxResourcesRequest,
-  CheatSetMaxSiloResourcesRequest,
-  CheatSetMaxStoneRequest,
-  CheatSetMaxWarehouseResourcesRequest,
-  CheatSetMaxWoodRequest,
-  CheatSetResourcesRequest,
-  CheatSetStoneRequest,
-  CheatSetWoodRequest,
-};
+use nil_payload::cheat::resources::*;
 use tauri::AppHandle;
 
 #[tauri::command]

@@ -1,6 +1,8 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+#![expect(clippy::wildcard_imports)]
+
 mod battle;
 mod chat;
 mod cheat;
@@ -15,30 +17,51 @@ mod report;
 mod round;
 mod world;
 
-use crate::error::Result;
+use crate::error::{Error, Result};
 use crate::http::Http;
+use crate::server::ServerAddr;
 use crate::websocket::WebSocketClient;
 use futures::future::BoxFuture;
-use local_ip_address::local_ip;
 use nil_core::event::Event;
 use nil_core::player::PlayerId;
-use std::net::{IpAddr, SocketAddrV4};
+use nil_core::world::WorldId;
+use nil_payload::AuthorizeRequest;
+use nil_server_types::{Password, ServerKind};
 
 pub struct Client {
-  player: PlayerId,
-  server: SocketAddrV4,
   http: Http,
   websocket: WebSocketClient,
 }
 
+#[bon::bon]
 impl Client {
-  pub async fn start<F>(player: PlayerId, server: SocketAddrV4, on_event: F) -> Result<Self>
+  #[builder]
+  pub async fn start<OnEvent>(
+    server: ServerAddr,
+    mut world_id: Option<WorldId>,
+    player_id: PlayerId,
+    password: Option<Password>,
+    on_event: OnEvent,
+  ) -> Result<Self>
   where
-    F: Fn(Event) -> BoxFuture<'static, ()> + Send + Sync + 'static,
+    OnEvent: Fn(Event) -> BoxFuture<'static, ()> + Send + Sync + 'static,
   {
-    let http = Http::new(server, &player)?;
-    let websocket = WebSocketClient::connect(&server, &player, on_event).await?;
-    Ok(Client { player, server, http, websocket })
+    let mut http = Http::new(server);
+    let authorization = http
+      .authorize(AuthorizeRequest { player: player_id, password })
+      .await?;
+
+    if world_id.is_none()
+      && server.is_local()
+      && let ServerKind::Local { id } = http.server_kind().await?
+    {
+      world_id = Some(id);
+    }
+
+    let world_id = world_id.ok_or(Error::MissingWorldId)?;
+    let websocket = WebSocketClient::connect(server, world_id, authorization, on_event).await?;
+
+    Ok(Client { http, websocket })
   }
 
   pub async fn stop(self) {
@@ -46,20 +69,18 @@ impl Client {
     self.websocket.stop();
   }
 
-  pub fn player(&self) -> PlayerId {
-    self.player.clone()
+  #[inline]
+  pub fn http(&self) -> &Http {
+    &self.http
   }
 
-  pub fn server_addr(&self) -> SocketAddrV4 {
-    let mut addr = self.server;
-    if addr.ip().is_loopback()
-      && let Ok(ip) = local_ip()
-      && let IpAddr::V4(ip) = ip
-    {
-      addr.set_ip(ip);
-    }
+  #[inline]
+  pub fn server_addr(&self) -> ServerAddr {
+    self.http.server_addr()
+  }
 
-    addr
+  pub async fn get_server_kind(&self) -> Result<ServerKind> {
+    self.http.server_kind().await
   }
 
   pub async fn is_ready(&self) -> bool {

@@ -5,14 +5,23 @@ import { invoke } from '@tauri-apps/api/core';
 import type { SavedataInfo } from '@/core/savedata';
 import { WorldConfigImpl } from '@/core/model/world-config';
 import { type RawWorldStats, WorldStatsImpl } from '@/core/model/stats/world-stats';
+import type { GetWorldConfigRequest, GetWorldStatsRequest, SaveWorldRequest } from '@/lib/request';
 
-export async function getWorldConfig(): Promise<WorldConfigImpl> {
-  const config = await invoke<WorldConfig>('get_world_config');
+export async function getWorldConfig(world?: Option<WorldId>): Promise<WorldConfigImpl> {
+  const req: GetWorldConfigRequest = {
+    world: world ?? NIL.world.getIdStrict(),
+  };
+
+  const config = await invoke<WorldConfig>('get_world_config', { req });
   return WorldConfigImpl.create(config);
 }
 
-export async function getWorldStats(): Promise<WorldStatsImpl> {
-  const stats = await invoke<RawWorldStats>('get_world_stats');
+export async function getWorldStats(world?: Option<WorldId>): Promise<WorldStatsImpl> {
+  const req: GetWorldStatsRequest = {
+    world: world ?? NIL.world.getIdStrict(),
+  };
+
+  const stats = await invoke<RawWorldStats>('get_world_stats', { req });
   return WorldStatsImpl.fromRaw(stats);
 }
 
@@ -21,5 +30,10 @@ export async function readSavedataInfo(path: string) {
 }
 
 export async function saveWorld(path: string) {
-  await invoke('save_world', { req: { path } });
+  const req: SaveWorldRequest = {
+    world: NIL.world.getIdStrict(),
+    path,
+  };
+
+  await invoke('save_world', { req });
 }

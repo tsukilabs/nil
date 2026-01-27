@@ -4,27 +4,30 @@
 use crate::error::Result;
 use crate::manager::ManagerExt;
 use nil_core::continent::{ContinentSize, Coord, PublicField};
-use nil_payload::continent::{GetPublicFieldRequest, GetPublicFieldsRequest};
+use nil_payload::continent::*;
 use tauri::AppHandle;
 
 #[tauri::command]
-pub async fn get_continent_size(app: AppHandle) -> Result<ContinentSize> {
+pub async fn get_continent_size(
+  app: AppHandle,
+  req: GetContinentSizeRequest,
+) -> Result<ContinentSize> {
   app
-    .client(async |cl| cl.get_continent_size().await)
+    .client(async |cl| cl.get_continent_size(req).await)
     .await?
     .map_err(Into::into)
 }
 
 #[tauri::command]
-pub async fn get_field(app: AppHandle, req: GetPublicFieldRequest) -> Result<PublicField> {
+pub async fn get_public_field(app: AppHandle, req: GetPublicFieldRequest) -> Result<PublicField> {
   app
-    .client(async |cl| cl.get_field(req).await)
+    .client(async |cl| cl.get_public_field(req).await)
     .await?
     .map_err(Into::into)
 }
 
 #[tauri::command]
-pub async fn get_fields(
+pub async fn get_public_fields(
   app: AppHandle,
   req: GetPublicFieldsRequest,
 ) -> Result<Vec<(Coord, PublicField)>> {
@@ -33,7 +36,7 @@ pub async fn get_fields(
   }
 
   app
-    .client(async |cl| cl.get_fields(req).await)
+    .client(async |cl| cl.get_public_fields(req).await)
     .await?
     .map_err(Into::into)
 }

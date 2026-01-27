@@ -3,7 +3,7 @@
 
 use crate::client::Client;
 use crate::error::Result;
-use nil_payload::cheat::city::CheatSetStabilityRequest;
+use nil_payload::cheat::city::*;
 
 impl Client {
   pub async fn cheat_set_stability(&self, req: CheatSetStabilityRequest) -> Result<()> {

@@ -32,7 +32,7 @@ foreach ($Crate in $Crates) {
 
   $BuildCmd = "wasm-pack build crates/$Crate --scope tsukilabs"
   $BuildCmd += if ($Release -or $Publish) {
-    ' --release'
+    ' --profile release-wasm'
   }
   else {
     ' --dev --no-opt' 

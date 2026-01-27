@@ -36,8 +36,7 @@ if (-not $Android) {
     $BuildCmd += ' --no-bundle -- --profile preview'
   }
   else {
-    # We should stop using the `release-bin` profile once `wasm-pack` is updated.
-    $BuildCmd += ' -- --profile release-bin'
+    $BuildCmd += ' -- --release'
   }
 }
 

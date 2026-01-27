@@ -5,11 +5,7 @@ use crate::error::Result;
 use crate::manager::ManagerExt;
 use nil_core::ethic::Ethics;
 use nil_core::npc::bot::BotId;
-use nil_payload::cheat::npc::{
-  CheatGetEthicsRequest,
-  CheatSetBotEthicsRequest,
-  CheatSpawnBotRequest,
-};
+use nil_payload::cheat::npc::*;
 use tauri::AppHandle;
 
 #[tauri::command]

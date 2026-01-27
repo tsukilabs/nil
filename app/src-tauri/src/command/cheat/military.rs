@@ -3,7 +3,7 @@
 
 use crate::error::Result;
 use crate::manager::ManagerExt;
-use nil_payload::cheat::military::CheatSpawnPersonnelRequest;
+use nil_payload::cheat::military::*;
 use tauri::AppHandle;
 
 #[tauri::command]

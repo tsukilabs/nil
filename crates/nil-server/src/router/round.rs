@@ -1,21 +1,21 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use crate::middleware::CurrentPlayer;
+use crate::app::App;
+use crate::middleware::authorization::CurrentPlayer;
 use crate::res;
-use crate::response::from_core_err;
-use crate::state::App;
+use crate::response::EitherExt;
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
-use futures::{FutureExt, TryFutureExt};
 use nil_core::world::World;
-use nil_payload::round::SetPlayerReadyRequest;
+use nil_payload::round::*;
 
-pub async fn get(State(app): State<App>) -> Response {
+pub async fn get(State(app): State<App>, Json(req): Json<GetRoundRequest>) -> Response {
   app
-    .round(Clone::clone)
-    .map(|round| res!(OK, Json(round)))
+    .round(req.world, Clone::clone)
     .await
+    .map_left(|round| res!(OK, Json(round)))
+    .into_inner()
 }
 
 pub async fn set_ready(
@@ -24,16 +24,18 @@ pub async fn set_ready(
   Json(req): Json<SetPlayerReadyRequest>,
 ) -> Response {
   app
-    .world_mut(|world| world.set_player_ready(&player, req.is_ready))
-    .map_ok(|()| res!(OK))
-    .unwrap_or_else(from_core_err)
+    .world_mut(req.world, |world| {
+      world.set_player_ready(&player, req.is_ready)
+    })
     .await
+    .try_map_left(|()| res!(OK))
+    .into_inner()
 }
 
-pub async fn start(State(app): State<App>) -> Response {
+pub async fn start(State(app): State<App>, Json(req): Json<StartRoundRequest>) -> Response {
   app
-    .world_mut(World::start_round)
-    .map_ok(|()| res!(OK))
-    .unwrap_or_else(from_core_err)
+    .world_mut(req.world, World::start_round)
     .await
+    .try_map_left(|()| res!(OK))
+    .into_inner()
 }

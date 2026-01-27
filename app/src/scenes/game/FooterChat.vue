@@ -5,8 +5,8 @@
 import { watchEffect } from 'vue';
 import Unread from '@/components/Unread.vue';
 import Chat from '@/components/chat/Chat.vue';
-import { useRoute, useRouter } from 'vue-router';
 import { ListenerSet } from '@/lib/listener-set';
+import { useRoute, useRouter } from 'vue-router';
 import { useToggle, whenever } from '@vueuse/core';
 import { MessagesSquareIcon } from 'lucide-vue-next';
 import ChatInput from '@/components/chat/ChatInput.vue';

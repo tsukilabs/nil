@@ -1,0 +1,5 @@
+CREATE TABLE user_data (
+  id INTEGER NOT NULL PRIMARY KEY,
+  user TEXT NOT NULL UNIQUE,
+  password TEXT NOT NULL
+)

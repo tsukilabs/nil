@@ -2,18 +2,35 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::world::WorldOptions;
+use derive_more::Deref;
 use serde::{Deserialize, Serialize};
 use std::sync::Arc;
+use uuid::Uuid;
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct WorldConfig {
+  id: WorldId,
   name: WorldName,
   locale: Locale,
   allow_cheats: bool,
 }
 
 impl WorldConfig {
+  pub fn new(options: &WorldOptions) -> Self {
+    Self {
+      id: WorldId::new(),
+      name: options.name.clone(),
+      locale: options.locale,
+      allow_cheats: options.allow_cheats,
+    }
+  }
+
+  #[inline]
+  pub fn id(&self) -> WorldId {
+    self.id
+  }
+
   #[inline]
   pub fn name(&self) -> WorldName {
     self.name.clone()
@@ -30,13 +47,21 @@ impl WorldConfig {
   }
 }
 
-impl From<&WorldOptions> for WorldConfig {
-  fn from(options: &WorldOptions) -> Self {
-    Self {
-      name: options.name.clone(),
-      locale: options.locale,
-      allow_cheats: options.allow_cheats,
-    }
+#[derive(
+  Clone, Copy, Debug, Deref, PartialEq, Eq, PartialOrd, Ord, Hash, Deserialize, Serialize,
+)]
+pub struct WorldId(Uuid);
+
+impl WorldId {
+  #[must_use]
+  pub fn new() -> Self {
+    Self(Uuid::now_v7())
+  }
+}
+
+impl Default for WorldId {
+  fn default() -> Self {
+    Self::new()
   }
 }
 

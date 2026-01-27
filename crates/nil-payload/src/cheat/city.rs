@@ -3,11 +3,13 @@
 
 use nil_core::city::Stability;
 use nil_core::continent::Coord;
+use nil_core::world::WorldId;
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct CheatSetStabilityRequest {
+  pub world: WorldId,
   pub coord: Coord,
   pub stability: Stability,
 }

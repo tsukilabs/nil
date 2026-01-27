@@ -1,8 +1,41 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use crate::error::CoreError;
+use crate::error::{CoreError, DatabaseError, Error};
 use axum::response::Response;
+use either::Either;
+use std::ops::{ControlFlow, Try};
+
+pub type MaybeResponse<L> = Either<L, Response>;
+
+pub trait EitherExt<L, R> {
+  fn try_map_left<T, E, F>(self, f: F) -> Either<Response, R>
+  where
+    Self: Sized,
+    L: Try<Output = T, Residual = E>,
+    E: Into<Error>,
+    F: FnOnce(T) -> Response;
+}
+
+impl<L, R> EitherExt<L, R> for Either<L, R> {
+  fn try_map_left<T, E, F>(self, f: F) -> Either<Response, R>
+  where
+    Self: Sized,
+    L: Try<Output = T, Residual = E>,
+    E: Into<Error>,
+    F: FnOnce(T) -> Response,
+  {
+    match self {
+      Self::Left(left) => {
+        match left.branch() {
+          ControlFlow::Continue(value) => Either::Left(f(value)),
+          ControlFlow::Break(err) => Either::Left(from_err(err)),
+        }
+      }
+      Self::Right(right) => Either::Right(right),
+    }
+  }
+}
 
 #[doc(hidden)]
 #[macro_export]
@@ -34,7 +67,21 @@ macro_rules! res {
   }};
 }
 
-#[expect(clippy::needless_pass_by_value)]
+impl From<Error> for Response {
+  fn from(err: Error) -> Self {
+    match err {
+      Error::Core(err) => from_core_err(err),
+      Error::Database(err) => from_database_err(err),
+      _ => res!(INTERNAL_SERVER_ERROR, err.to_string()),
+    }
+  }
+}
+
+pub(crate) fn from_err(err: impl Into<Error>) -> Response {
+  Response::from(Into::<Error>::into(err))
+}
+
+#[expect(clippy::match_same_arms, clippy::needless_pass_by_value)]
 pub(crate) fn from_core_err(err: CoreError) -> Response {
   use CoreError::*;
 
@@ -80,6 +127,21 @@ pub(crate) fn from_core_err(err: CoreError) -> Response {
     UnexpectedUnit(..) => res!(INTERNAL_SERVER_ERROR, text),
     WallStatsNotFoundForLevel(..) => res!(NOT_FOUND, text),
     WorldIsFull => res!(INTERNAL_SERVER_ERROR, text),
+  }
+}
+
+#[expect(clippy::needless_pass_by_value)]
+pub(crate) fn from_database_err(err: DatabaseError) -> Response {
+  use DatabaseError::*;
+
+  #[cfg(debug_assertions)]
+  tracing::error!(message = %err, ?err);
+
+  let text = err.to_string();
+  match err {
+    UserAlreadyExists(..) => res!(CONFLICT, text),
+    UserNotFound(..) => res!(NOT_FOUND, text),
+    _ => res!(INTERNAL_SERVER_ERROR, "Unknown database error"),
   }
 }
 

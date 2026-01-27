@@ -3,8 +3,8 @@
 
 import { Entity } from './abstract';
 import { asyncRef } from '@tb-dev/vue';
-import { type ShallowRef, triggerRef } from 'vue';
 import { ChatImpl } from '@/core/model/chat/chat';
+import { type ShallowRef, triggerRef } from 'vue';
 
 export class ChatEntity extends Entity {
   private readonly chat: ShallowRef<Option<ChatImpl>>;

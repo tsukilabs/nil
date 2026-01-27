@@ -37,7 +37,7 @@ use bon::Builder;
 use serde::{Deserialize, Serialize};
 use std::path::{Path, PathBuf};
 
-pub use config::{Locale, WorldConfig, WorldName};
+pub use config::{Locale, WorldConfig, WorldId, WorldName};
 pub use stats::WorldStats;
 
 #[derive(Debug)]
@@ -61,7 +61,7 @@ pub struct World {
 
 impl World {
   pub fn new(options: &WorldOptions) -> Result<Self> {
-    let config = WorldConfig::from(options);
+    let config = WorldConfig::new(options);
     let continent = Continent::new(options.size.get());
     let precursor_manager = PrecursorManager::new(continent.size());
     let military = Military::new(continent.size());
@@ -101,13 +101,8 @@ impl World {
   }
 
   #[inline]
-  pub fn save(&mut self, path: PathBuf) {
-    self.pending_save = Some(path);
-  }
-
-  #[inline]
-  pub fn config(&self) -> WorldConfig {
-    self.config.clone()
+  pub fn config(&self) -> &WorldConfig {
+    &self.config
   }
 
   #[inline]
@@ -243,6 +238,11 @@ impl World {
   #[inline]
   pub fn military(&self) -> &Military {
     &self.military
+  }
+
+  #[inline]
+  pub fn save(&mut self, path: PathBuf) {
+    self.pending_save = Some(path);
   }
 }
 

@@ -34,7 +34,7 @@ const { sm, md } = useBreakpoints();
         :size="sm ? 'default' : 'lg'"
         role="link"
         tabindex="0"
-        @click="() => go('host-game')"
+        @click="() => go('host-local-game')"
       >
         <span>{{ t('host-game') }}</span>
       </Button>
@@ -44,7 +44,7 @@ const { sm, md } = useBreakpoints();
         :size="sm ? 'default' : 'lg'"
         role="link"
         tabindex="0"
-        @click="() => go('join-game')"
+        @click="() => go('join-local-game')"
       >
         <span>{{ t('join-game') }}</span>
       </Button>

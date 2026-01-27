@@ -8,13 +8,22 @@ use serde::ser::Serializer;
 pub use std::result::Result as StdResult;
 
 pub type Result<T, E = Error> = StdResult<T, E>;
+pub type AnyResult<T> = anyhow::Result<T>;
 
 #[derive(Debug, thiserror::Error)]
 pub enum Error {
+  #[error("Failed to authenticate")]
+  FailedToAuthenticate,
+
   #[error("Failed to connect websocket")]
   FailedToConnectWebsocket,
+
   #[error("Player name contains invalid characters: {0}")]
   InvalidPlayerId(PlayerId),
+
+  #[error("Missing world id")]
+  MissingWorldId,
+
   #[error("{0}")]
   RequestFailed(String),
 

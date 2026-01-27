@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as commands from '@/commands';
-import { Semaphore } from 'es-toolkit';
 import { fromZoned } from '@/lib/date';
+import { Semaphore } from 'es-toolkit';
 import { compareDesc as compareDateDesc } from 'date-fns';
 import { appDataDir, basename, extname, join } from '@tauri-apps/api/path';
 import { exists, mkdir, readDir, remove as removeFile } from '@tauri-apps/plugin-fs';

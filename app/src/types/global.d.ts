@@ -10,8 +10,8 @@ import type { ChatEntity } from '@/core/entity/chat';
 import type { CityEntity } from '@/core/entity/city';
 import type { RoundEntity } from '@/core/entity/round';
 import type { WorldEntity } from '@/core/entity/world';
-import type { ReportEntity } from '@/core/entity/report';
 import type { PlayerEntity } from '@/core/entity/player';
+import type { ReportEntity } from '@/core/entity/report';
 import type { MilitaryEntity } from '@/core/entity/military';
 
 declare global {
@@ -89,6 +89,8 @@ declare global {
       readonly getBuildingStatsWithLevel: (typeof WorldEntity)['getBuildingStatsWithLevel'];
       readonly getConfig: (typeof WorldEntity)['getConfig'];
       readonly getContinentSize: (typeof WorldEntity)['getContinentSize'];
+      readonly getId: (typeof WorldEntity)['getId'];
+      readonly getIdStrict: (typeof WorldEntity)['getIdStrict'];
       readonly getInfrastructureStats: (typeof WorldEntity)['getInfrastructureStats'];
       readonly getMineStats: (typeof WorldEntity)['getMineStats'];
       readonly getMineStatsWithLevel: (typeof WorldEntity)['getMineStatsWithLevel'];
@@ -98,6 +100,7 @@ declare global {
       readonly getWallStats: (typeof WorldEntity)['getWallStats'];
       readonly getWallStatsWithLevel: (typeof WorldEntity)['getWallStatsWithLevel'];
       readonly refs: (typeof WorldEntity)['refs'];
+      readonly setId: (typeof WorldEntity)['setId'];
       readonly use: (typeof WorldEntity)['use'];
     };
   };

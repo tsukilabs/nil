@@ -6,7 +6,9 @@
 mod client;
 mod error;
 mod http;
+mod server;
 mod websocket;
 
 pub use client::Client;
 pub use error::{Error, Result};
+pub use server::ServerAddr;
