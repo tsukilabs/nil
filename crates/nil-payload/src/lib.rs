@@ -17,7 +17,7 @@ pub mod world;
 
 use nil_core::player::PlayerId;
 use nil_core::world::WorldId;
-use nil_server_types::Password;
+use nil_util::password::Password;
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, Deserialize, Serialize)]

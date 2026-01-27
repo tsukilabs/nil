@@ -54,6 +54,16 @@ const { sm, md } = useBreakpoints();
         :size="sm ? 'default' : 'lg'"
         role="link"
         tabindex="0"
+        @click="() => go('online')"
+      >
+        <span>{{ t('online') }}</span>
+      </Button>
+
+      <Button
+        variant="secondary"
+        :size="sm ? 'default' : 'lg'"
+        role="link"
+        tabindex="0"
         @click="() => go('settings')"
       >
         <span>{{ t('settings') }}</span>

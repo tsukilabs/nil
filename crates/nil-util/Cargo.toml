@@ -12,3 +12,9 @@ authors.workspace = true
 
 [lints]
 workspace = true
+
+[dependencies]
+anyhow.workspace = true
+argon2.workspace = true
+derive_more.workspace = true
+serde.workspace = true
