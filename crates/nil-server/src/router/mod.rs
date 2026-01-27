@@ -31,6 +31,7 @@ use axum::{Router, middleware};
 use infrastructure::prelude::*;
 use nil_core::player::{PlayerId, PlayerStatus};
 use nil_core::world::World;
+use nil_database::model::user_data::UserData;
 use nil_database::sql_types::user::User;
 use nil_payload::{AuthorizeRequest, LeaveRequest, WebsocketQuery};
 use nil_server_types::ServerKind;
@@ -150,9 +151,10 @@ async fn authorize(State(app): State<App>, Json(req): Json<AuthorizeRequest>) ->
     match app.server_kind() {
       ServerKind::Local { .. } => encode_jwt(req.player)?,
       ServerKind::Remote => {
+        let database = app.database();
         let user = User::from(req.player);
         if let Some(password) = req.password
-          && let Ok(user_data) = app.database().get_user(&user)
+          && let Ok(user_data) = UserData::get(&database, &user)
           && user_data.verify_password(&password)
         {
           encode_jwt(PlayerId::from(user))?
