@@ -17,3 +17,4 @@ workspace = true
 derive_more.workspace = true
 nil-core.workspace = true
 serde.workspace = true
+strum.workspace = true

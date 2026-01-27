@@ -8,6 +8,7 @@ mod city;
 mod config;
 mod continent;
 mod event;
+pub mod hooks;
 mod infrastructure;
 mod military;
 mod npc;
@@ -32,10 +33,10 @@ use crate::ranking::Ranking;
 use crate::report::ReportManager;
 use crate::round::Round;
 use crate::ruler::{Ruler, RulerRef, RulerRefMut};
-use crate::savedata::Savedata;
+use crate::savedata::{SaveHandle, Savedata};
 use bon::Builder;
+use hooks::OnNextRound;
 use serde::{Deserialize, Serialize};
-use std::path::{Path, PathBuf};
 
 pub use config::{Locale, WorldConfig, WorldId, WorldName};
 pub use stats::WorldStats;
@@ -56,7 +57,8 @@ pub struct World {
 
   // These are not included in the savedata.
   emitter: Emitter,
-  pending_save: Option<PathBuf>,
+  pending_save: Option<SaveHandle>,
+  on_next_round: Option<OnNextRound>,
 }
 
 impl World {
@@ -81,6 +83,7 @@ impl World {
 
       emitter: Emitter::default(),
       pending_save: None,
+      on_next_round: None,
     };
 
     world.spawn_precursors()?;
@@ -95,8 +98,8 @@ impl World {
     Self::from(savedata)
   }
 
-  pub fn load(path: impl AsRef<Path>) -> Result<Self> {
-    let savedata = Savedata::read(path.as_ref())?;
+  pub fn load(bytes: &[u8]) -> Result<Self> {
+    let savedata = Savedata::read(bytes)?;
     Ok(Self::with_savedata(savedata))
   }
 
@@ -240,9 +243,18 @@ impl World {
     &self.military
   }
 
-  #[inline]
-  pub fn save(&mut self, path: PathBuf) {
-    self.pending_save = Some(path);
+  pub fn save<F>(&mut self, f: F)
+  where
+    F: FnOnce(Vec<u8>) + Send + Sync + 'static,
+  {
+    self.pending_save = Some(SaveHandle::new(f));
+  }
+
+  pub fn on_next_round<F>(&mut self, f: F)
+  where
+    F: Fn(&mut World) + Send + Sync + 'static,
+  {
+    self.on_next_round = Some(OnNextRound::new(f));
   }
 }
 

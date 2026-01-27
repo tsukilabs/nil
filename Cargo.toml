@@ -217,6 +217,7 @@ similar_names = "allow"
 struct_field_names = "allow"
 unnecessary_safety_comment = "deny"
 unsafe_derive_deserialize = "allow"
+used_underscore_binding = "allow"
 useless_conversion = "deny"
 
 [workspace.lints.clippy.pedantic]

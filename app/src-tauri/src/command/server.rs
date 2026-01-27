@@ -5,7 +5,7 @@ use crate::error::Result;
 use crate::manager::ManagerExt;
 use nil_client::ServerAddr;
 use nil_core::world::WorldOptions;
-use nil_server::LocalServer;
+use nil_server::local::LocalServer;
 use nil_server_types::ServerKind;
 use std::path::PathBuf;
 use tauri::AppHandle;

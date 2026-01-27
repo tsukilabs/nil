@@ -3,7 +3,7 @@
 
 use crate::DatabaseHandle;
 use crate::error::{Error, Result};
-use crate::sql_types::password::HashedPassword;
+use crate::sql_types::hashed_password::HashedPassword;
 use crate::sql_types::user::User;
 use diesel::prelude::*;
 use diesel::result::{DatabaseErrorKind, Error as DieselError};
@@ -54,12 +54,11 @@ impl NewUserData {
     })
   }
 
-  pub fn create(self, handle: &DatabaseHandle) -> Result<()> {
+  pub fn create(self, handle: &DatabaseHandle) -> Result<usize> {
     use crate::schema::user_data::dsl::*;
     let result = diesel::insert_into(user_data)
       .values(&self)
-      .execute(&mut *handle.conn())
-      .map(drop);
+      .execute(&mut *handle.conn());
 
     if let Err(DieselError::DatabaseError(kind, _)) = &result
       && let DatabaseErrorKind::UniqueViolation = kind

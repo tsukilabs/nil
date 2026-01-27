@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use anyhow::Result;
-use nil_server::start_remote;
+use nil_server::remote::start_remote;
 use std::env;
 
 #[tokio::main]
