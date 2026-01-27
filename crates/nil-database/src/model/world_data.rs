@@ -4,6 +4,7 @@
 use crate::DatabaseHandle;
 use crate::error::{Error, Result};
 use crate::sql_types::hashed_password::HashedPassword;
+use crate::sql_types::id::UserDataId;
 use crate::sql_types::world_data_id::WorldDataId;
 use diesel::prelude::*;
 use diesel::result::Error as DieselError;
@@ -13,9 +14,11 @@ use nil_server_types::Password;
 #[derive(Identifiable, Queryable, Selectable, Clone, Debug)]
 #[diesel(table_name = crate::schema::world_data)]
 #[diesel(check_for_backend(diesel::sqlite::Sqlite))]
+#[diesel(belongs_to(UserData, foreign_key = created_by))]
 pub struct WorldData {
   pub id: WorldDataId,
   pub password: Option<HashedPassword>,
+  pub created_by: UserDataId,
   pub data: Vec<u8>,
 }
 
@@ -71,6 +74,7 @@ impl WorldData {
 #[diesel(table_name = crate::schema::world_data)]
 pub struct NewWorldData {
   id: WorldDataId,
+  created_by: UserDataId,
   password: Option<HashedPassword>,
   data: Vec<u8>,
 }
@@ -81,6 +85,7 @@ impl NewWorldData {
   pub fn new(
     #[builder(start_fn)] id: WorldId,
     #[builder(start_fn)] data: Vec<u8>,
+    created_by: UserDataId,
     password: Option<&Password>,
   ) -> Result<Self> {
     let password = password
@@ -89,6 +94,7 @@ impl NewWorldData {
 
     Ok(Self {
       id: WorldDataId::from(id),
+      created_by,
       password,
       data,
     })

@@ -1,5 +1,7 @@
 CREATE TABLE world_data (
   id TEXT NOT NULL PRIMARY KEY,
   password TEXT,
-  data BLOB NOT NULL
+  created_by INTEGER NOT NULL,
+  data BLOB NOT NULL,
+  FOREIGN KEY (created_by) REFERENCES user_data (id) ON DELETE CASCADE ON UPDATE CASCADE
 )
