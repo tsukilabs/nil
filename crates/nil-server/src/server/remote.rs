@@ -27,9 +27,8 @@ pub(crate) fn on_next_round(database: DatabaseHandle) -> Box<dyn Fn(&mut World) 
     let id = world.config().id();
     let database = database.clone();
     world.save(move |bytes| {
-      if let Err(_err) = WorldData::update_data(&database, id, &bytes) {
-        #[cfg(debug_assertions)]
-        tracing::error!(message = %_err, error = ?_err);
+      if let Err(err) = WorldData::update_data(&database, id, &bytes) {
+        tracing::error!(message = %err, error = ?err);
       }
     });
   })

@@ -10,8 +10,6 @@ mod plugin;
 mod state;
 mod window;
 
-#[cfg(debug_assertions)]
-mod log;
 #[cfg(desktop)]
 mod tray;
 
@@ -23,7 +21,7 @@ use tauri::{AppHandle, Manager, Wry};
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
   #[cfg(debug_assertions)]
-  log::setup().unwrap();
+  let _guard = nil_log::setup_default().unwrap();
 
   builder()
     .plugin(plugin::on_exit())
@@ -129,6 +127,7 @@ pub fn run() {
       command::server::start_server_with_options,
       command::server::start_server_with_savedata,
       command::server::stop_server,
+      command::user::create_user,
       command::world::get_remote_world,
       command::world::get_remote_worlds,
       command::world::get_world_config,

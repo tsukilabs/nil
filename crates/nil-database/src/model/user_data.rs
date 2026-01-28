@@ -64,6 +64,14 @@ pub struct NewUserData {
 
 impl NewUserData {
   pub fn new(user: User, password: &Password) -> Result<Self> {
+    let user_len = user.trim().chars().count();
+    let pass_len = password.trim().chars().count();
+    if !(1..=20).contains(&user_len) {
+      return Err(Error::InvalidUsername(user));
+    } else if !(3..=50).contains(&pass_len) {
+      return Err(Error::InvalidPassword);
+    }
+
     Ok(Self {
       user,
       password: HashedPassword::new(password)?,

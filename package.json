@@ -15,6 +15,7 @@
     "miri": "pwsh scripts/test.ps1 -Miri",
     "plugin": "pnpm run -F tauri-plugin-* build",
     "preview": "pwsh scripts/build-bin.ps1 -Preview",
+    "server": "pwsh scripts/start-server.ps1",
     "test": "pwsh scripts/test.ps1",
     "type-check": "pnpm run -r --bail type-check",
     "wasm": "pwsh scripts/build-wasm.ps1"

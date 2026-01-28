@@ -36,6 +36,7 @@ nil-client.path = "./crates/nil-client"
 nil-core.path = "./crates/nil-core"
 nil-core-macros.path = "./crates/nil-core-macros"
 nil-database.path = "./crates/nil-database"
+nil-log.path = "./crates/nil-log"
 nil-namegen.path = "./crates/nil-namegen"
 nil-num.path = "./crates/nil-num"
 nil-num-macros.path = "./crates/nil-num-macros"
@@ -46,6 +47,7 @@ nil-util.path = "./crates/nil-util"
 
 argon2 = "0.5"
 anyhow = "1.0"
+bitflags = "2.10"
 bon = "3.8"
 bytes = "1.11"
 dashmap = "6.1"
@@ -167,6 +169,10 @@ features = ["trace"]
 version = "0.1"
 features = ["release_max_level_off"]
 
+[workspace.dependencies.tracing-appender]
+version = "0.2"
+features = ["parking_lot"]
+
 [workspace.dependencies.tracing-subscriber]
 version = "0.3"
 default-features = false
@@ -217,7 +223,6 @@ similar_names = "allow"
 struct_field_names = "allow"
 unnecessary_safety_comment = "deny"
 unsafe_derive_deserialize = "allow"
-used_underscore_binding = "allow"
 useless_conversion = "deny"
 
 [workspace.lints.clippy.pedantic]

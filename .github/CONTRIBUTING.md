@@ -8,3 +8,13 @@
 - [pnpm](https://pnpm.io/installation)
 - [wasm-pack](https://github.com/drager/wasm-pack/releases)
 - [binaryen](https://github.com/WebAssembly/binaryen/releases/latest)
+
+## Environment variables
+
+- `NIL_DATABASE_URL`
+- `NIL_JWT_SECRET`
+- `NIL_LOG_DIR`
+- `NIL_LOG_TOWER_HTTP`
+- `NIL_MAP_WORKSPACE_DEPS`
+- `NIL_MINIFY_SOURCE`
+- `NIL_REMOTE_SERVER_ADDR`

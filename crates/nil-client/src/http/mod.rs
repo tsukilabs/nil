@@ -75,8 +75,8 @@ where
 #[bon::builder(finish_fn = send)]
 pub async fn post(
   #[builder(start_fn)] route: &str,
-  body: impl Serialize,
   #[builder(default)] server: ServerAddr,
+  body: impl Serialize,
   authorization: Option<&HeaderValue>,
 ) -> Result<()> {
   let url = server.url(route)?;
@@ -91,8 +91,8 @@ pub async fn post(
 #[bon::builder(finish_fn = send)]
 pub async fn json_post<R>(
   #[builder(start_fn)] route: &str,
-  body: impl Serialize,
   #[builder(default)] server: ServerAddr,
+  body: impl Serialize,
   authorization: Option<&HeaderValue>,
 ) -> Result<R>
 where
@@ -160,9 +160,7 @@ where
   match response.json::<R>().await {
     Ok(value) => Ok(value),
     Err(err) => {
-      #[cfg(debug_assertions)]
       tracing::error!(message = %err, error = ?err);
-
       Err(Error::Reqwest(err))
     }
   }

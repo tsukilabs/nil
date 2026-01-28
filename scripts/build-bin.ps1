@@ -31,7 +31,7 @@ else {
 
 if (-not $Android) {
   if ($Preview) {
-    $Env:NIL_MINIFY = 'false'
+    $Env:NIL_MINIFY_SOURCE = 'false'
 
     $BuildCmd += ' --no-bundle -- --profile preview'
   }

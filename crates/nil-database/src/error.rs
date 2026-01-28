@@ -17,6 +17,12 @@ pub type AnyResult<T> = anyhow::Result<T>;
 
 #[derive(Debug, thiserror::Error)]
 pub enum Error {
+  #[error("Invalid password")]
+  InvalidPassword,
+
+  #[error("Invalid username: \"{0}\"")]
+  InvalidUsername(User),
+
   #[error("User already exists: \"{0}\"")]
   UserAlreadyExists(User),
 

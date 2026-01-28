@@ -29,6 +29,7 @@ rustc-ice-*.txt
 **/.DS_Store
 **/.Thumbs.db
 **/.eslintcache
+**/.logs
 **/.temp
 **/*.db
 **/.env

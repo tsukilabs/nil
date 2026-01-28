@@ -1,5 +1,5 @@
 [package]
-name = "nil-database"
+name = "nil-log"
 publish = false
 
 version.workspace = true
@@ -15,14 +15,7 @@ workspace = true
 
 [dependencies]
 anyhow.workspace = true
-bon.workspace = true
-derive_more.workspace = true
-diesel.workspace = true
-diesel_migrations.workspace = true
-either.workspace = true
-libsqlite3-sys.workspace = true
-nil-core.workspace = true
-nil-util.workspace = true
-serde.workspace = true
-thiserror.workspace = true
+bitflags.workspace = true
 tracing.workspace = true
+tracing-appender.workspace = true
+tracing-subscriber.workspace = true

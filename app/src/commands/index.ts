@@ -6,6 +6,7 @@ import { invoke } from '@tauri-apps/api/core';
 export * from './npc';
 export * from './chat';
 export * from './city';
+export * from './user';
 export * from './cheat';
 export * from './round';
 export * from './world';

@@ -26,8 +26,8 @@ use tokio_tungstenite::{MaybeTlsStream, WebSocketStream, connect_async};
 type Stream = WebSocketStream<MaybeTlsStream<TcpStream>>;
 
 pub(super) struct WebSocketClient {
-  sender: Sender,
-  receiver: Receiver,
+  _sender: Sender,
+  _receiver: Receiver,
 }
 
 impl WebSocketClient {
@@ -47,14 +47,9 @@ impl WebSocketClient {
     let (tx, rx) = ws_stream.split();
 
     Ok(Self {
-      sender: Sender::new(tx),
-      receiver: Receiver::new(rx, on_event),
+      _sender: Sender::new(tx),
+      _receiver: Receiver::new(rx, on_event),
     })
-  }
-
-  pub(super) fn stop(self) {
-    self.sender.stop();
-    self.receiver.stop();
   }
 }
 
@@ -111,8 +106,10 @@ impl Sender {
       keep_alive_handle: keep_alive_task.abort_handle(),
     }
   }
+}
 
-  fn stop(self) {
+impl Drop for Sender {
+  fn drop(&mut self) {
     self.ws_sender_handle.abort();
     self.keep_alive_handle.abort();
   }
@@ -163,8 +160,10 @@ impl Receiver {
       ws_receiver_handle: ws_receiver_task.abort_handle(),
     }
   }
+}
 
-  fn stop(self) {
+impl Drop for Receiver {
+  fn drop(&mut self) {
     self.ws_receiver_handle.abort();
   }
 }

@@ -15,6 +15,7 @@ mod player;
 mod ranking;
 mod report;
 mod round;
+mod user;
 mod world;
 
 use crate::app::App;
@@ -35,12 +36,14 @@ use nil_database::model::user_data::UserData;
 use nil_database::sql_types::user::User;
 use nil_payload::{AuthorizeRequest, LeaveRequest, WebsocketQuery};
 use nil_server_types::ServerKind;
-
-#[cfg(debug_assertions)]
-use {
-  tower_http::trace::{DefaultMakeSpan, DefaultOnResponse, TraceLayer},
-  tracing::Level,
+use tower_http::trace::{
+  DefaultMakeSpan,
+  DefaultOnFailure,
+  DefaultOnRequest,
+  DefaultOnResponse,
+  TraceLayer,
 };
+use tracing::Level;
 
 pub(crate) fn create() -> Router<App> {
   #[rustfmt::skip]
@@ -109,6 +112,7 @@ pub(crate) fn create() -> Router<App> {
     // These don't need authorization.
     .route("/", get(ok))
     .route("/authorize", post(authorize))
+    .route("/create-user", post(user::create))
     .route("/get-bot-coords", post(npc::bot::get_coords))
     .route("/get-city-score", post(city::get_score))
     .route("/get-continent-size", post(continent::size))
@@ -134,18 +138,15 @@ pub(crate) fn create() -> Router<App> {
     .route("/simulate-battle", post(battle::simulate))
     .route("/version", get(version));
 
-  #[cfg(debug_assertions)]
-  let router = router.layer(
+  router.layer(
     TraceLayer::new_for_http()
       .make_span_with(DefaultMakeSpan::new().level(Level::DEBUG))
-      .on_request(())
+      .on_request(DefaultOnRequest::new().level(Level::TRACE))
       .on_response(DefaultOnResponse::new().level(Level::TRACE))
-      .on_failure(())
+      .on_failure(DefaultOnFailure::new().level(Level::TRACE))
       .on_body_chunk(())
       .on_eos(()),
-  );
-
-  router
+  )
 }
 
 async fn authorize(State(app): State<App>, Json(req): Json<AuthorizeRequest>) -> Response {
