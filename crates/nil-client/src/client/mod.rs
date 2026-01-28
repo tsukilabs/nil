@@ -15,6 +15,7 @@ mod player;
 mod ranking;
 mod report;
 mod round;
+mod user;
 mod world;
 
 use crate::error::{Error, Result};
@@ -27,7 +28,7 @@ use local_ip_address::local_ip;
 use nil_core::event::Event;
 use nil_core::player::PlayerId;
 use nil_core::world::WorldId;
-use nil_payload::AuthorizeRequest;
+use nil_payload::{AuthorizeRequest, LeaveRequest};
 use nil_server_types::ServerKind;
 use nil_util::password::Password;
 use std::net::IpAddr;
@@ -35,6 +36,7 @@ use std::net::IpAddr;
 #[derive(Default)]
 pub struct Client {
   server: ServerAddr,
+  world_id: Option<WorldId>,
   authorization: Option<Authorization>,
   websocket: Option<WebSocketClient>,
 }
@@ -50,7 +52,7 @@ impl Client {
   pub async fn update<OnEvent>(
     &mut self,
     #[builder(start_fn)] server: ServerAddr,
-    mut world_id: Option<WorldId>,
+    world_id: Option<WorldId>,
     player_id: Option<PlayerId>,
     player_password: Option<Password>,
     on_event: Option<OnEvent>,
@@ -60,20 +62,21 @@ impl Client {
   {
     self.stop().await;
     self.server = server;
+    self.world_id = world_id;
 
     if let Some(player) = player_id {
       self
         .authorize(AuthorizeRequest { player, password: player_password })
         .await?;
 
-      if world_id.is_none()
-        && server.is_local()
+      if self.world_id.is_none()
+        && self.server.is_local()
         && let ServerKind::Local { id } = self.get_server_kind().await?
       {
-        world_id = Some(id);
+        self.world_id = Some(id);
       }
 
-      if let Some(world_id) = world_id
+      if let Some(world_id) = self.world_id
         && let Some(on_event) = on_event
         && let Some(authorization) = self.authorization.clone()
       {
@@ -86,16 +89,19 @@ impl Client {
   }
 
   pub async fn stop(&mut self) {
-    if self.authorization.is_some() {
-      let _ = self.leave().await;
-      self.authorization = None;
-    }
-
-    if let Some(websocket) = self.websocket.take() {
-      websocket.stop();
+    if let Some(world) = self.world_id
+      && self.authorization.is_some()
+    {
+      let req = LeaveRequest { world };
+      if let Err(err) = self.leave(req).await {
+        tracing::error!(message = %err, error = ?err);
+      }
     }
 
     self.server = ServerAddr::Remote;
+    self.world_id = None;
+    self.authorization = None;
+    self.websocket = None;
   }
 
   pub fn server_addr(&self) -> ServerAddr {
@@ -150,8 +156,9 @@ impl Client {
       .unwrap_or(false)
   }
 
-  async fn leave(&self) -> Result<()> {
-    http::get("leave")
+  async fn leave(&self, req: LeaveRequest) -> Result<()> {
+    http::post("leave")
+      .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_deref())
       .send()

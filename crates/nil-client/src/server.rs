@@ -3,14 +3,21 @@
 
 use crate::error::Result;
 use serde::{Deserialize, Serialize};
+use std::env;
 use std::net::SocketAddrV4;
+use std::sync::LazyLock;
 use strum::EnumIs;
 use url::Url;
 
-#[cfg(debug_assertions)]
-const REMOTE_SERVER_ADDR: &str = "127.0.0.0:3000";
-#[cfg(not(debug_assertions))]
-const REMOTE_SERVER_ADDR: &str = "tsukilabs.dev.br/nil";
+static REMOTE_SERVER_ADDR: LazyLock<Box<str>> = LazyLock::new(|| {
+  if let Ok(addr) = env::var("NIL_REMOTE_SERVER_ADDR") {
+    Box::from(addr)
+  } else if cfg!(debug_assertions) {
+    Box::from("127.0.0.1:3000")
+  } else {
+    Box::from("tsukilabs.dev.br/nil")
+  }
+});
 
 #[derive(Clone, Copy, Debug, Default, EnumIs, Deserialize, Serialize)]
 #[serde(tag = "kind", rename_all = "kebab-case")]
@@ -30,7 +37,10 @@ impl ServerAddr {
 
   pub fn url_with_scheme(&self, scheme: &str, route: &str) -> Result<Url> {
     let url = match self {
-      Self::Remote => format!("{scheme}://{REMOTE_SERVER_ADDR}/{route}"),
+      Self::Remote => {
+        let addr = REMOTE_SERVER_ADDR.as_str();
+        format!("{scheme}://{addr}/{route}")
+      }
       Self::Local { addr } => {
         let ip = addr.ip();
         let port = addr.port();

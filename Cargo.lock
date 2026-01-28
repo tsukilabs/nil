@@ -2995,6 +2995,7 @@ dependencies = [
  "itertools",
  "nil-client",
  "nil-core",
+ "nil-log",
  "nil-payload",
  "nil-server",
  "nil-server-types",
@@ -3018,7 +3019,6 @@ dependencies = [
  "thiserror 2.0.18",
  "tokio",
  "tracing",
- "tracing-subscriber",
 ]
 
 [[package]]
@@ -3108,6 +3108,18 @@ dependencies = [
  "nil-util",
  "serde",
  "thiserror 2.0.18",
+ "tracing",
+]
+
+[[package]]
+name = "nil-log"
+version = "0.2.0"
+dependencies = [
+ "anyhow",
+ "bitflags 2.10.0",
+ "tracing",
+ "tracing-appender",
+ "tracing-subscriber",
 ]
 
 [[package]]
@@ -3162,6 +3174,7 @@ dependencies = [
  "jsonwebtoken",
  "nil-core",
  "nil-database",
+ "nil-log",
  "nil-payload",
  "nil-server-types",
  "nil-util",
@@ -6188,6 +6201,19 @@ dependencies = [
  "pin-project-lite",
  "tracing-attributes",
  "tracing-core",
+]
+
+[[package]]
+name = "tracing-appender"
+version = "0.2.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "786d480bce6247ab75f005b14ae1624ad978d3029d9113f0a22fa1ac773faeaf"
+dependencies = [
+ "crossbeam-channel",
+ "parking_lot",
+ "thiserror 2.0.18",
+ "time",
+ "tracing-subscriber",
 ]
 
 [[package]]

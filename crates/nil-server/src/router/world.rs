@@ -91,9 +91,8 @@ pub async fn save_local(
 ) -> Response {
   if app.server_kind().is_local() {
     let f = move |bytes: Vec<u8>| {
-      if let Err(_err) = local::save_local(req.path, &bytes) {
-        #[cfg(debug_assertions)]
-        tracing::error!(message = %_err, error = ?_err);
+      if let Err(err) = local::save_local(req.path, &bytes) {
+        tracing::error!(message = %err, error = ?err);
       }
     };
 

@@ -1,7 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-#![feature(try_blocks)]
+#![feature(str_as_str, try_blocks)]
 
 mod client;
 mod error;

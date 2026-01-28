@@ -24,7 +24,7 @@ export default defineConfig({
     copyPublicDir: true,
     emptyOutDir: true,
     sourcemap: false,
-    minify: env.NIL_MINIFY !== 'false',
+    minify: env.NIL_MINIFY_SOURCE !== 'false',
   },
   server: {
     port: 1420,

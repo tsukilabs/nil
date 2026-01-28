@@ -118,14 +118,19 @@ impl NewWorldData {
     created_by: UserDataId,
     password: Option<&Password>,
   ) -> Result<Self> {
-    let password = password
-      .map(HashedPassword::new)
-      .transpose()?;
+    if let Some(password) = password {
+      let pass_len = password.trim().chars().count();
+      if !(3..=50).contains(&pass_len) {
+        return Err(Error::InvalidPassword);
+      }
+    }
 
     Ok(Self {
       id: WorldDataId::from(id),
       created_by,
-      password,
+      password: password
+        .map(HashedPassword::new)
+        .transpose()?,
       data,
     })
   }

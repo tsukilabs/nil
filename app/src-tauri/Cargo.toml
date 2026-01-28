@@ -23,9 +23,10 @@ futures.workspace = true
 itertools.workspace = true
 nil-client.workspace = true
 nil-core.workspace = true
+nil-log.workspace = true
+nil-payload.workspace = true
 nil-server.workspace = true
 nil-server-types.workspace = true
-nil-payload.workspace = true
 nil-util.workspace = true
 remain.workspace = true
 serde.workspace = true
@@ -41,7 +42,6 @@ tauri-plugin-process.workspace = true
 thiserror.workspace = true
 tokio.workspace = true
 tracing.workspace = true
-tracing-subscriber.workspace = true
 
 [dependencies.tauri]
 version = "2.9"

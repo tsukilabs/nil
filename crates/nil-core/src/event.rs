@@ -26,9 +26,7 @@ impl Emitter {
   }
 
   pub(crate) fn emit(&self, event: Event, target: EventTarget) {
-    #[cfg(debug_assertions)]
     tracing::info!(?target, ?event);
-
     let bytes = Bytes::from(event);
     let _ = self.sender.send((bytes, target));
   }

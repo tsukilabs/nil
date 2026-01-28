@@ -85,10 +85,9 @@ pub(crate) fn from_err(err: impl Into<Error>) -> Response {
 pub(crate) fn from_core_err(err: CoreError) -> Response {
   use CoreError::*;
 
-  #[cfg(debug_assertions)]
+  let text = err.to_string();
   tracing::error!(message = %err, error = ?err);
 
-  let text = err.to_string();
   match err {
     ArmyNotFound(..) => res!(NOT_FOUND, text),
     ArmyNotIdle(..) => res!(BAD_REQUEST, text),
@@ -134,12 +133,13 @@ pub(crate) fn from_core_err(err: CoreError) -> Response {
 pub(crate) fn from_database_err(err: DatabaseError) -> Response {
   use DatabaseError::*;
 
-  #[cfg(debug_assertions)]
+  let text = err.to_string();
   tracing::error!(message = %err, error = ?err);
 
-  let text = err.to_string();
   match err {
     Core(err) => from_core_err(err),
+    InvalidPassword => res!(BAD_REQUEST, text),
+    InvalidUsername(..) => res!(BAD_REQUEST, text),
     UserAlreadyExists(..) => res!(CONFLICT, text),
     UserNotFound(..) => res!(NOT_FOUND, text),
     WorldNotFound(..) => res!(NOT_FOUND, text),

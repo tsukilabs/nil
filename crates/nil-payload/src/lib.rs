@@ -13,6 +13,7 @@ pub mod player;
 pub mod ranking;
 pub mod report;
 pub mod round;
+pub mod user;
 pub mod world;
 
 use nil_core::player::PlayerId;

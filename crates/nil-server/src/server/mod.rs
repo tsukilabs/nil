@@ -15,6 +15,8 @@ async fn bind(port: u16) -> Option<(TcpListener, SocketAddrV4)> {
       unreachable!("Address should never be Ipv6");
     };
 
+    tracing::info!("Listening on port {}", addr.port());
+
     (listener, addr)
   };
 
