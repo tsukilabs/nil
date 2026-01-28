@@ -27,6 +27,22 @@ export async function isHost() {
   return invoke<boolean>('is_host');
 }
 
+export async function isLocal() {
+  return invoke<boolean>('is_local');
+}
+
+export async function isLocalAndHost() {
+  return invoke<boolean>('is_local_and_host');
+}
+
+export async function isRemote() {
+  return invoke<boolean>('is_remote');
+}
+
+export async function isRemoteOrHost() {
+  return invoke<boolean>('is_remote_or_host');
+}
+
 export async function showWindow() {
   await invoke('show_window');
 }

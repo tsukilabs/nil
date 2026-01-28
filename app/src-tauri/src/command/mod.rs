@@ -41,6 +41,26 @@ pub async fn is_host(app: AppHandle) -> bool {
   app.nil().is_host().await
 }
 
+#[tauri::command]
+pub async fn is_local(app: AppHandle) -> bool {
+  app.nil().is_local().await
+}
+
+#[tauri::command]
+pub async fn is_local_and_host(app: AppHandle) -> bool {
+  app.nil().is_local_and_host().await
+}
+
+#[tauri::command]
+pub async fn is_remote(app: AppHandle) -> bool {
+  app.nil().is_remote().await
+}
+
+#[tauri::command]
+pub async fn is_remote_or_host(app: AppHandle) -> bool {
+  app.nil().is_remote_or_host().await
+}
+
 #[cfg(desktop)]
 #[tauri::command]
 pub fn show_window(window: WebviewWindow) -> Result<()> {
