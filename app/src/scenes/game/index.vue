@@ -23,6 +23,7 @@ const { round } = NIL.round.refs();
 const { isPlayerTurn, isPlayerReady, togglePlayerReady } = usePlayerReady();
 
 const { state: isHost } = asyncRef(false, commands.isHost);
+const { state: isLocal } = asyncRef(false, commands.isLocal);
 
 const [isSidebarOpen, toggleSidebar] = useToggle(false);
 const [isFinderOpen, toggleFinder] = useToggle(false);
@@ -62,7 +63,14 @@ async function save() {
 
 <template>
   <SidebarProvider v-model:open="isSidebarOpen">
-    <Sidebar :is-host :is-player-ready :last-saved-at @save="save" @leave="leaveGame" />
+    <Sidebar
+      :is-host
+      :is-local
+      :is-player-ready
+      :last-saved-at
+      @save="save"
+      @leave="leaveGame"
+    />
 
     <div class="bg-background/40 absolute inset-0 overflow-hidden">
       <Header

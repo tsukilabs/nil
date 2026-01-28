@@ -149,9 +149,8 @@ export class ChatCommand {
         break;
       }
       case ChatCommandKind.SaveGame: {
-        if (await commands.isHost()) {
-          const { kind } = await commands.getServerKind();
-          if (kind === 'local') await saveLocalGame();
+        if (await commands.isLocalAndHost()) {
+          await saveLocalGame();
         }
         break;
       }
