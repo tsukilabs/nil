@@ -18,7 +18,7 @@ pub async fn cheat_get_academy_recruit_queue(
 ) -> Result<AcademyRecruitQueue> {
   app
     .client(async |cl| cl.cheat_get_academy_recruit_queue(req).await)
-    .await?
+    .await
     .map_err(Into::into)
 }
 
@@ -29,7 +29,7 @@ pub async fn cheat_get_infrastructure(
 ) -> Result<Infrastructure> {
   app
     .client(async |cl| cl.cheat_get_infrastructure(req).await)
-    .await?
+    .await
     .map_err(Into::into)
 }
 
@@ -43,7 +43,7 @@ pub async fn cheat_get_prefecture_build_queue(
       cl.cheat_get_prefecture_build_queue(req)
         .await
     })
-    .await?
+    .await
     .map_err(Into::into)
 }
 
@@ -54,7 +54,7 @@ pub async fn cheat_get_stable_recruit_queue(
 ) -> Result<StableRecruitQueue> {
   app
     .client(async |cl| cl.cheat_get_stable_recruit_queue(req).await)
-    .await?
+    .await
     .map_err(Into::into)
 }
 
@@ -65,7 +65,7 @@ pub async fn cheat_get_storage_capacity(
 ) -> Result<OverallStorageCapacity> {
   app
     .client(async |cl| cl.cheat_get_storage_capacity(req).await)
-    .await?
+    .await
     .map_err(Into::into)
 }
 
@@ -76,7 +76,7 @@ pub async fn cheat_set_building_level(
 ) -> Result<()> {
   app
     .client(async |cl| cl.cheat_set_building_level(req).await)
-    .await?
+    .await
     .map_err(Into::into)
 }
 
@@ -87,6 +87,6 @@ pub async fn cheat_set_max_infrastructure(
 ) -> Result<()> {
   app
     .client(async |cl| cl.cheat_set_max_infrastructure(req).await)
-    .await?
+    .await
     .map_err(Into::into)
 }

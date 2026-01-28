@@ -1,7 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use crate::error::{Error, Result};
+use crate::error::Result;
 use futures::future::BoxFuture;
 use nil_client::{Client, ServerAddr};
 use nil_core::event::Event;
@@ -14,7 +14,7 @@ use std::sync::Arc;
 use tauri::{AppHandle, Emitter};
 use tokio::sync::RwLock;
 
-pub type NilClient = Arc<RwLock<Option<Client>>>;
+pub type NilClient = Arc<RwLock<Client>>;
 pub type NilServer = Arc<RwLock<Option<LocalServer>>>;
 
 pub struct Nil {
@@ -27,46 +27,54 @@ impl Nil {
   pub fn new(app: &AppHandle) -> Self {
     Self {
       app: app.clone(),
-      client: Arc::new(RwLock::new(None)),
-      server: Arc::new(RwLock::new(None)),
+      client: NilClient::default(),
+      server: NilServer::default(),
     }
   }
 
-  pub async fn client<F, T>(&self, f: F) -> Result<T>
+  pub async fn client<F, T>(&self, f: F) -> T
   where
     F: AsyncFnOnce(&Client) -> T,
   {
-    let client = &self.client;
-    match client.read().await.as_ref() {
-      Some(client) => Ok(f(client).await),
-      None => Err(Error::ClientNotConnected),
-    }
+    f(&*self.client.read().await).await
   }
 
   pub async fn is_host(&self) -> bool {
     self.server.read().await.is_some()
   }
 
-  pub async fn start_client(
+  pub async fn is_local(&self) -> bool {
+    self.client.read().await.is_local()
+  }
+
+  pub async fn is_remote(&self) -> bool {
+    self.client.read().await.is_remote()
+  }
+
+  pub async fn is_local_and_host(&self) -> bool {
+    self.is_local().await && self.is_host().await
+  }
+
+  pub async fn is_remote_or_host(&self) -> bool {
+    self.is_remote().await || self.is_host().await
+  }
+
+  pub async fn update_client(
     &self,
     server_addr: ServerAddr,
     world_id: Option<WorldId>,
-    player_id: PlayerId,
-    password: Option<Password>,
+    player_id: Option<PlayerId>,
+    player_password: Option<Password>,
   ) -> Result<()> {
-    let mut lock = self.client.write().await;
-    *lock = None;
-
-    let client = Client::start()
-      .server(server_addr)
+    let mut client = self.client.write().await;
+    client
+      .update(server_addr)
       .maybe_world_id(world_id)
-      .player_id(player_id)
-      .maybe_password(password)
+      .maybe_player_id(player_id)
+      .maybe_player_password(player_password)
       .on_event(on_event(self.app.clone()))
       .call()
       .await?;
-
-    *lock = Some(client);
 
     Ok(())
   }
@@ -96,10 +104,7 @@ impl Nil {
   }
 
   pub async fn stop_client(&self) {
-    let mut lock = self.client.write().await;
-    if let Some(client) = lock.take() {
-      client.stop().await;
-    }
+    self.client.write().await.stop().await;
   }
 
   pub async fn stop_server(&self) {

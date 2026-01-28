@@ -34,9 +34,14 @@ export async function joinLocalGame(
   worldId: Option<WorldId>,
   playerOptions: PlayerOptions,
 ) {
-  await commands.startClient(serverAddr, worldId, playerOptions);
-  worldId ??= await commands.getLocalServerWorldId();
+  await commands.updateClient({
+    serverAddr,
+    worldId,
+    playerId: playerOptions.id,
+    playerPassword: playerOptions.password,
+  });
 
+  worldId ??= await commands.getLocalServerWorldId();
   if (!worldId) {
     throw new Error('Missing world id');
   }
@@ -49,7 +54,13 @@ export async function joinRemoteGame(
   worldId: WorldId,
   playerOptions: PlayerOptions,
 ) {
-  await commands.startClient(serverAddr, worldId, playerOptions);
+  await commands.updateClient({
+    serverAddr,
+    worldId,
+    playerId: playerOptions.id,
+    playerPassword: playerOptions.password,
+  });
+
   return joinGame(worldId, playerOptions);
 }
 

@@ -18,86 +18,150 @@ mod round;
 mod world;
 
 use crate::error::{Error, Result};
-use crate::http::Http;
+use crate::http;
+use crate::http::authorization::Authorization;
 use crate::server::ServerAddr;
 use crate::websocket::WebSocketClient;
 use futures::future::BoxFuture;
+use local_ip_address::local_ip;
 use nil_core::event::Event;
 use nil_core::player::PlayerId;
 use nil_core::world::WorldId;
 use nil_payload::AuthorizeRequest;
 use nil_server_types::ServerKind;
 use nil_util::password::Password;
+use std::net::IpAddr;
 
+#[derive(Default)]
 pub struct Client {
-  http: Http,
-  websocket: WebSocketClient,
+  server: ServerAddr,
+  authorization: Option<Authorization>,
+  websocket: Option<WebSocketClient>,
 }
 
 #[bon::bon]
 impl Client {
+  #[inline]
+  pub fn new() -> Self {
+    Self::default()
+  }
+
   #[builder]
-  pub async fn start<OnEvent>(
-    server: ServerAddr,
+  pub async fn update<OnEvent>(
+    &mut self,
+    #[builder(start_fn)] server: ServerAddr,
     mut world_id: Option<WorldId>,
-    player_id: PlayerId,
-    password: Option<Password>,
-    on_event: OnEvent,
-  ) -> Result<Self>
+    player_id: Option<PlayerId>,
+    player_password: Option<Password>,
+    on_event: Option<OnEvent>,
+  ) -> Result<()>
   where
     OnEvent: Fn(Event) -> BoxFuture<'static, ()> + Send + Sync + 'static,
   {
-    let mut http = Http::new(server);
-    let authorization = http
-      .authorize(AuthorizeRequest { player: player_id, password })
-      .await?;
+    self.stop().await;
+    self.server = server;
 
-    if world_id.is_none()
-      && server.is_local()
-      && let ServerKind::Local { id } = http.server_kind().await?
-    {
-      world_id = Some(id);
+    if let Some(player) = player_id {
+      self
+        .authorize(AuthorizeRequest { player, password: player_password })
+        .await?;
+
+      if world_id.is_none()
+        && server.is_local()
+        && let ServerKind::Local { id } = self.get_server_kind().await?
+      {
+        world_id = Some(id);
+      }
+
+      if let Some(world_id) = world_id
+        && let Some(on_event) = on_event
+        && let Some(authorization) = self.authorization.clone()
+      {
+        let websocket = WebSocketClient::connect(server, world_id, authorization, on_event).await?;
+        self.websocket = Some(websocket);
+      }
     }
 
-    let world_id = world_id.ok_or(Error::MissingWorldId)?;
-    let websocket = WebSocketClient::connect(server, world_id, authorization, on_event).await?;
-
-    Ok(Client { http, websocket })
+    Ok(())
   }
 
-  pub async fn stop(self) {
-    let _ = self.leave().await;
-    self.websocket.stop();
+  pub async fn stop(&mut self) {
+    if self.authorization.is_some() {
+      let _ = self.leave().await;
+      self.authorization = None;
+    }
+
+    if let Some(websocket) = self.websocket.take() {
+      websocket.stop();
+    }
+
+    self.server = ServerAddr::Remote;
   }
 
-  #[inline]
-  pub fn http(&self) -> &Http {
-    &self.http
-  }
-
-  #[inline]
   pub fn server_addr(&self) -> ServerAddr {
-    self.http.server_addr()
+    let mut addr = self.server;
+    if let ServerAddr::Local { addr } = &mut addr
+      && addr.ip().is_loopback()
+      && let Ok(ip) = local_ip()
+      && let IpAddr::V4(ip) = ip
+    {
+      addr.set_ip(ip);
+    }
+
+    addr
+  }
+
+  #[inline]
+  pub fn is_local(&self) -> bool {
+    self.server.is_local()
+  }
+
+  #[inline]
+  pub fn is_remote(&self) -> bool {
+    self.server.is_remote()
+  }
+
+  pub async fn authorize(&mut self, req: AuthorizeRequest) -> Result<()> {
+    self.authorization = http::json_post("authorize")
+      .body(req)
+      .server(self.server)
+      .send()
+      .await
+      .map(|token: String| Some(Authorization::new(&token)))?
+      .transpose()
+      .map_err(|_| Error::FailedToAuthenticate)?;
+
+    Ok(())
   }
 
   pub async fn get_server_kind(&self) -> Result<ServerKind> {
-    self.http.server_kind().await
+    http::json_get("get-server-kind")
+      .server(self.server)
+      .send()
+      .await
   }
 
   pub async fn is_ready(&self) -> bool {
-    self
-      .http
-      .get("")
+    http::get("")
+      .server(self.server)
+      .send()
       .await
       .map(|()| true)
       .unwrap_or(false)
   }
 
   async fn leave(&self) -> Result<()> {
-    self.http.get("leave").await
+    http::get("leave")
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_deref())
+      .send()
+      .await
   }
 
   pub async fn version(&self) -> Result<String> {
-    self.http.get_text("version").await
+    http::get_text("version")
+      .server(self.server)
+      .send()
+      .await
   }
 }

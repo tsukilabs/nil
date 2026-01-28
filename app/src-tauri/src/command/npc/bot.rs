@@ -12,7 +12,7 @@ use tauri::AppHandle;
 pub async fn get_bot_coords(app: AppHandle, req: GetBotCoordsRequest) -> Result<Vec<Coord>> {
   app
     .client(async |cl| cl.get_bot_coords(req).await)
-    .await?
+    .await
     .map_err(Into::into)
 }
 
@@ -20,6 +20,6 @@ pub async fn get_bot_coords(app: AppHandle, req: GetBotCoordsRequest) -> Result<
 pub async fn get_public_bot(app: AppHandle, req: GetPublicBotRequest) -> Result<PublicBot> {
   app
     .client(async |cl| cl.get_public_bot(req).await)
-    .await?
+    .await
     .map_err(Into::into)
 }

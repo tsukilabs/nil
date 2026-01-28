@@ -3,6 +3,7 @@
 
 use super::Client;
 use crate::error::Result;
+use crate::http;
 use nil_core::chat::ChatHistory;
 use nil_payload::chat::*;
 
@@ -11,16 +12,20 @@ impl Client {
     &self,
     req: GetChatHistoryRequest,
   ) -> Result<(ChatHistory, ChatHistory)> {
-    self
-      .http
-      .json_post("get-chat-history", req)
+    http::json_post("get-chat-history")
+      .body(req)
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_deref())
+      .send()
       .await
   }
 
   pub async fn push_chat_message(&self, req: PushChatMessageRequest) -> Result<()> {
-    self
-      .http
-      .post("push-chat-message", req)
+    http::post("push-chat-message")
+      .body(req)
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_deref())
+      .send()
       .await
   }
 }

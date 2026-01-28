@@ -14,7 +14,7 @@ pub async fn cheat_get_resources(
 ) -> Result<Resources> {
   app
     .client(async |cl| cl.cheat_get_resources(req).await)
-    .await?
+    .await
     .map_err(Into::into)
 }
 
@@ -22,7 +22,7 @@ pub async fn cheat_get_resources(
 pub async fn cheat_set_food(app: AppHandle, req: CheatSetFoodRequest) -> Result<()> {
   app
     .client(async |cl| cl.cheat_set_food(req).await)
-    .await?
+    .await
     .map_err(Into::into)
 }
 
@@ -30,7 +30,7 @@ pub async fn cheat_set_food(app: AppHandle, req: CheatSetFoodRequest) -> Result<
 pub async fn cheat_set_iron(app: AppHandle, req: CheatSetIronRequest) -> Result<()> {
   app
     .client(async |cl| cl.cheat_set_iron(req).await)
-    .await?
+    .await
     .map_err(Into::into)
 }
 
@@ -38,7 +38,7 @@ pub async fn cheat_set_iron(app: AppHandle, req: CheatSetIronRequest) -> Result<
 pub async fn cheat_set_max_food(app: AppHandle, req: CheatSetMaxFoodRequest) -> Result<()> {
   app
     .client(async |cl| cl.cheat_set_max_food(req).await)
-    .await?
+    .await
     .map_err(Into::into)
 }
 
@@ -46,7 +46,7 @@ pub async fn cheat_set_max_food(app: AppHandle, req: CheatSetMaxFoodRequest) -> 
 pub async fn cheat_set_max_iron(app: AppHandle, req: CheatSetMaxIronRequest) -> Result<()> {
   app
     .client(async |cl| cl.cheat_set_max_iron(req).await)
-    .await?
+    .await
     .map_err(Into::into)
 }
 
@@ -57,7 +57,7 @@ pub async fn cheat_set_max_resources(
 ) -> Result<()> {
   app
     .client(async |cl| cl.cheat_set_max_resources(req).await)
-    .await?
+    .await
     .map_err(Into::into)
 }
 
@@ -68,7 +68,7 @@ pub async fn cheat_set_max_silo_resources(
 ) -> Result<()> {
   app
     .client(async |cl| cl.cheat_set_max_silo_resources(req).await)
-    .await?
+    .await
     .map_err(Into::into)
 }
 
@@ -76,7 +76,7 @@ pub async fn cheat_set_max_silo_resources(
 pub async fn cheat_set_max_stone(app: AppHandle, req: CheatSetMaxStoneRequest) -> Result<()> {
   app
     .client(async |cl| cl.cheat_set_max_stone(req).await)
-    .await?
+    .await
     .map_err(Into::into)
 }
 
@@ -90,7 +90,7 @@ pub async fn cheat_set_max_warehouse_resources(
       cl.cheat_set_max_warehouse_resources(req)
         .await
     })
-    .await?
+    .await
     .map_err(Into::into)
 }
 
@@ -98,7 +98,7 @@ pub async fn cheat_set_max_warehouse_resources(
 pub async fn cheat_set_max_wood(app: AppHandle, req: CheatSetMaxWoodRequest) -> Result<()> {
   app
     .client(async |cl| cl.cheat_set_max_wood(req).await)
-    .await?
+    .await
     .map_err(Into::into)
 }
 
@@ -106,7 +106,7 @@ pub async fn cheat_set_max_wood(app: AppHandle, req: CheatSetMaxWoodRequest) -> 
 pub async fn cheat_set_resources(app: AppHandle, req: CheatSetResourcesRequest) -> Result<()> {
   app
     .client(async |cl| cl.cheat_set_resources(req).await)
-    .await?
+    .await
     .map_err(Into::into)
 }
 
@@ -114,7 +114,7 @@ pub async fn cheat_set_resources(app: AppHandle, req: CheatSetResourcesRequest) 
 pub async fn cheat_set_stone(app: AppHandle, req: CheatSetStoneRequest) -> Result<()> {
   app
     .client(async |cl| cl.cheat_set_stone(req).await)
-    .await?
+    .await
     .map_err(Into::into)
 }
 
@@ -122,6 +122,6 @@ pub async fn cheat_set_stone(app: AppHandle, req: CheatSetStoneRequest) -> Resul
 pub async fn cheat_set_wood(app: AppHandle, req: CheatSetWoodRequest) -> Result<()> {
   app
     .client(async |cl| cl.cheat_set_wood(req).await)
-    .await?
+    .await
     .map_err(Into::into)
 }

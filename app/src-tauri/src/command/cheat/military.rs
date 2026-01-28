@@ -10,6 +10,6 @@ use tauri::AppHandle;
 pub async fn cheat_spawn_personnel(app: AppHandle, req: CheatSpawnPersonnelRequest) -> Result<()> {
   app
     .client(async |cl| cl.cheat_spawn_personnel(req).await)
-    .await?
+    .await
     .map_err(Into::into)
 }

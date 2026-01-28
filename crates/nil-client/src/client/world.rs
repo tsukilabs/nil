@@ -3,6 +3,7 @@
 
 use super::Client;
 use crate::error::Result;
+use crate::http;
 use nil_core::world::{WorldConfig, WorldStats};
 use nil_payload::world::*;
 
@@ -11,31 +12,42 @@ impl Client {
     &self,
     req: GetRemoteWorldRequest,
   ) -> Result<GetRemoteWorldResponse> {
-    self
-      .http
-      .json_post("get-remote-world", req)
+    http::json_post("get-remote-world")
+      .body(req)
+      .server(self.server)
+      .send()
       .await
   }
 
   pub async fn get_remote_worlds(&self) -> Result<Vec<GetRemoteWorldResponse>> {
-    self.http.json_get("get-remote-worlds").await
+    http::json_get("get-remote-worlds")
+      .server(self.server)
+      .send()
+      .await
   }
 
   pub async fn get_world_config(&self, req: GetWorldConfigRequest) -> Result<WorldConfig> {
-    self
-      .http
-      .json_post("get-world-config", req)
+    http::json_post("get-world-config")
+      .body(req)
+      .server(self.server)
+      .send()
       .await
   }
 
   pub async fn get_world_stats(&self, req: GetWorldStatsRequest) -> Result<WorldStats> {
-    self
-      .http
-      .json_post("get-world-stats", req)
+    http::json_post("get-world-stats")
+      .body(req)
+      .server(self.server)
+      .send()
       .await
   }
 
   pub async fn save_local_world(&self, req: SaveLocalWorldRequest) -> Result<()> {
-    self.http.post("save-local-world", req).await
+    http::post("save-local-world")
+      .body(req)
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_deref())
+      .send()
+      .await
   }
 }

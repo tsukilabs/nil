@@ -11,6 +11,6 @@ use tauri::AppHandle;
 pub async fn simulate_battle(app: AppHandle, req: SimulateBattleRequest) -> Result<BattleResult> {
   app
     .client(async |cl| cl.simulate_battle(req).await)
-    .await?
+    .await
     .map_err(Into::into)
 }

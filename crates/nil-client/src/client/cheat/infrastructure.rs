@@ -3,6 +3,7 @@
 
 use crate::client::Client;
 use crate::error::Result;
+use crate::http;
 use nil_core::infrastructure::Infrastructure;
 use nil_core::infrastructure::building::academy::AcademyRecruitQueue;
 use nil_core::infrastructure::building::prefecture::PrefectureBuildQueue;
@@ -15,9 +16,11 @@ impl Client {
     &self,
     req: CheatGetAcademyRecruitQueueRequest,
   ) -> Result<AcademyRecruitQueue> {
-    self
-      .http
-      .json_post("cheat-get-academy-recruit-queue", req)
+    http::json_post("cheat-get-academy-recruit-queue")
+      .body(req)
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_deref())
+      .send()
       .await
   }
 
@@ -25,9 +28,11 @@ impl Client {
     &self,
     req: CheatGetInfrastructureRequest,
   ) -> Result<Infrastructure> {
-    self
-      .http
-      .json_post("cheat-get-infrastructure", req)
+    http::json_post("cheat-get-infrastructure")
+      .body(req)
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_deref())
+      .send()
       .await
   }
 
@@ -35,9 +40,11 @@ impl Client {
     &self,
     req: CheatGetPrefectureBuildQueueRequest,
   ) -> Result<PrefectureBuildQueue> {
-    self
-      .http
-      .json_post("cheat-get-prefecture-build-queue", req)
+    http::json_post("cheat-get-prefecture-build-queue")
+      .body(req)
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_deref())
+      .send()
       .await
   }
 
@@ -45,9 +52,11 @@ impl Client {
     &self,
     req: CheatGetStableRecruitQueueRequest,
   ) -> Result<StableRecruitQueue> {
-    self
-      .http
-      .json_post("cheat-get-stable-recruit-queue", req)
+    http::json_post("cheat-get-stable-recruit-queue")
+      .body(req)
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_deref())
+      .send()
       .await
   }
 
@@ -55,16 +64,20 @@ impl Client {
     &self,
     req: CheatGetStorageCapacityRequest,
   ) -> Result<OverallStorageCapacity> {
-    self
-      .http
-      .json_post("cheat-get-storage-capacity", req)
+    http::json_post("cheat-get-storage-capacity")
+      .body(req)
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_deref())
+      .send()
       .await
   }
 
   pub async fn cheat_set_building_level(&self, req: CheatSetBuildingLevelRequest) -> Result<()> {
-    self
-      .http
-      .post("cheat-set-building-level", req)
+    http::post("cheat-set-building-level")
+      .body(req)
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_deref())
+      .send()
       .await
   }
 
@@ -72,9 +85,11 @@ impl Client {
     &self,
     req: CheatSetMaxInfrastructureRequest,
   ) -> Result<()> {
-    self
-      .http
-      .post("cheat-set-max-infrastructure", req)
+    http::post("cheat-set-max-infrastructure")
+      .body(req)
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_deref())
+      .send()
       .await
   }
 }

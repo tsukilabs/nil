@@ -10,20 +10,20 @@ use nil_util::password::Password;
 use tauri::AppHandle;
 
 #[tauri::command]
-pub async fn start_client(
-  app: AppHandle,
-  server_addr: ServerAddr,
-  world_id: Option<WorldId>,
-  player_id: PlayerId,
-  password: Option<Password>,
-) -> Result<()> {
-  app
-    .nil()
-    .start_client(server_addr, world_id, player_id, password)
-    .await
+pub async fn stop_client(app: AppHandle) {
+  app.nil().stop_client().await;
 }
 
 #[tauri::command]
-pub async fn stop_client(app: AppHandle) {
-  app.nil().stop_client().await;
+pub async fn update_client(
+  app: AppHandle,
+  server_addr: ServerAddr,
+  world_id: Option<WorldId>,
+  player_id: Option<PlayerId>,
+  player_password: Option<Password>,
+) -> Result<()> {
+  app
+    .nil()
+    .update_client(server_addr, world_id, player_id, player_password)
+    .await
 }

@@ -17,7 +17,7 @@ pub async fn get_remote_world(
 ) -> Result<GetRemoteWorldResponse> {
   app
     .client(async |cl| cl.get_remote_world(req).await)
-    .await?
+    .await
     .map_err(Into::into)
 }
 
@@ -25,7 +25,7 @@ pub async fn get_remote_world(
 pub async fn get_remote_worlds(app: AppHandle) -> Result<Vec<GetRemoteWorldResponse>> {
   app
     .client(async |cl| cl.get_remote_worlds().await)
-    .await?
+    .await
     .map_err(Into::into)
 }
 
@@ -33,7 +33,7 @@ pub async fn get_remote_worlds(app: AppHandle) -> Result<Vec<GetRemoteWorldRespo
 pub async fn get_world_config(app: AppHandle, req: GetWorldConfigRequest) -> Result<WorldConfig> {
   app
     .client(async |cl| cl.get_world_config(req).await)
-    .await?
+    .await
     .map_err(Into::into)
 }
 
@@ -41,7 +41,7 @@ pub async fn get_world_config(app: AppHandle, req: GetWorldConfigRequest) -> Res
 pub async fn get_world_stats(app: AppHandle, req: GetWorldStatsRequest) -> Result<WorldStats> {
   app
     .client(async |cl| cl.get_world_stats(req).await)
-    .await?
+    .await
     .map_err(Into::into)
 }
 
@@ -55,10 +55,10 @@ pub async fn read_savedata_info(path: PathBuf) -> Result<SavedataInfo> {
 
 #[tauri::command]
 pub async fn save_local_world(app: AppHandle, req: SaveLocalWorldRequest) -> Result<()> {
-  if app.nil().is_host().await {
+  if app.nil().is_local_and_host().await {
     app
       .client(async |cl| cl.save_local_world(req).await)
-      .await?
+      .await
       .map_err(Into::into)
   } else {
     Err(Error::Forbidden)

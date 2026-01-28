@@ -3,41 +3,60 @@
 
 use super::Client;
 use crate::error::Result;
+use crate::http;
 use nil_core::city::{City, PublicCity};
 use nil_core::ranking::Score;
 use nil_payload::city::*;
 
 impl Client {
   pub async fn get_city(&self, req: GetCityRequest) -> Result<City> {
-    self.http.json_post("get-city", req).await
+    http::json_post("get-city")
+      .body(req)
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_deref())
+      .send()
+      .await
   }
 
   pub async fn get_city_score(&self, req: GetCityScoreRequest) -> Result<Score> {
-    self
-      .http
-      .json_post("get-city-score", req)
+    http::json_post("get-city-score")
+      .body(req)
+      .server(self.server)
+      .send()
       .await
   }
 
   pub async fn get_public_city(&self, req: GetPublicCityRequest) -> Result<PublicCity> {
-    self
-      .http
-      .json_post("get-public-city", req)
+    http::json_post("get-public-city")
+      .body(req)
+      .server(self.server)
+      .send()
       .await
   }
 
   pub async fn rename_city(&self, req: RenameCityRequest) -> Result<()> {
-    self.http.post("rename-city", req).await
+    http::post("rename-city")
+      .body(req)
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_deref())
+      .send()
+      .await
   }
 
   pub async fn search_city(&self, req: SearchCityRequest) -> Result<Vec<City>> {
-    self.http.json_post("search-city", req).await
+    http::json_post("search-city")
+      .body(req)
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_deref())
+      .send()
+      .await
   }
 
   pub async fn search_public_city(&self, req: SearchPublicCityRequest) -> Result<Vec<PublicCity>> {
-    self
-      .http
-      .json_post("search-public-city", req)
+    http::json_post("search-public-city")
+      .body(req)
+      .server(self.server)
+      .send()
       .await
   }
 }

@@ -3,6 +3,7 @@
 
 use super::Client;
 use crate::error::Result;
+use crate::http;
 use nil_core::continent::Coord;
 use nil_core::infrastructure::storage::OverallStorageCapacity;
 use nil_core::military::Military;
@@ -13,13 +14,20 @@ use nil_payload::player::*;
 
 impl Client {
   pub async fn get_player(&self, req: GetPlayerRequest) -> Result<Player> {
-    self.http.json_post("get-player", req).await
+    http::json_post("get-player")
+      .body(req)
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_deref())
+      .send()
+      .await
   }
 
   pub async fn get_player_coords(&self, req: GetPlayerCoordsRequest) -> Result<Vec<Coord>> {
-    self
-      .http
-      .json_post("get-player-coords", req)
+    http::json_post("get-player-coords")
+      .body(req)
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_deref())
+      .send()
       .await
   }
 
@@ -27,51 +35,66 @@ impl Client {
     &self,
     req: GetPlayerMaintenanceRequest,
   ) -> Result<Maintenance> {
-    self
-      .http
-      .json_post("get-player-maintenance", req)
+    http::json_post("get-player-maintenance")
+      .body(req)
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_deref())
+      .send()
       .await
   }
 
   pub async fn get_player_military(&self, req: GetPlayerMilitaryRequest) -> Result<Military> {
-    self
-      .http
-      .json_post("get-player-military", req)
+    http::json_post("get-player-military")
+      .body(req)
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_deref())
+      .send()
       .await
   }
 
   pub async fn get_player_reports(&self, req: GetPlayerReportsRequest) -> Result<Vec<ReportId>> {
-    self
-      .http
-      .json_post("get-player-reports", req)
+    http::json_post("get-player-reports")
+      .body(req)
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_deref())
+      .send()
       .await
   }
 
   pub async fn get_player_status(&self, req: GetPlayerStatusRequest) -> Result<PlayerStatus> {
-    self
-      .http
-      .json_post("get-player-status", req)
+    http::json_post("get-player-status")
+      .body(req)
+      .server(self.server)
+      .send()
       .await
   }
 
   pub async fn get_players(&self, req: GetPlayersRequest) -> Result<Vec<Player>> {
-    self.http.json_post("get-players", req).await
+    http::json_post("get-players")
+      .body(req)
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_deref())
+      .send()
+      .await
   }
 
   pub async fn get_player_storage_capacity(
     &self,
     req: GetPlayerStorageCapacityRequest,
   ) -> Result<OverallStorageCapacity> {
-    self
-      .http
-      .json_post("get-player-storage-capacity", req)
+    http::json_post("get-player-storage-capacity")
+      .body(req)
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_deref())
+      .send()
       .await
   }
 
   pub async fn get_public_player(&self, req: GetPublicPlayerRequest) -> Result<PublicPlayer> {
-    self
-      .http
-      .json_post("get-public-player", req)
+    http::json_post("get-public-player")
+      .body(req)
+      .server(self.server)
+      .send()
       .await
   }
 
@@ -79,27 +102,36 @@ impl Client {
     &self,
     req: GetPublicPlayersRequest,
   ) -> Result<Vec<PublicPlayer>> {
-    self
-      .http
-      .json_post("get-public-players", req)
+    http::json_post("get-public-players")
+      .body(req)
+      .server(self.server)
+      .send()
       .await
   }
 
   pub async fn set_player_status(&self, req: SetPlayerStatusRequest) -> Result<()> {
-    self
-      .http
-      .post("set-player-status", req)
+    http::post("set-player-status")
+      .body(req)
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_deref())
+      .send()
       .await
   }
 
   pub async fn spawn_player(&self, req: SpawnPlayerRequest) -> Result<()> {
-    self.http.post("spawn-player", req).await
+    http::post("spawn-player")
+      .body(req)
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_deref())
+      .send()
+      .await
   }
 
   pub async fn player_exists(&self, req: PlayerExistsRequest) -> Result<bool> {
-    self
-      .http
-      .json_post("player-exists", req)
+    http::json_post("player-exists")
+      .body(req)
+      .server(self.server)
+      .send()
       .await
   }
 }

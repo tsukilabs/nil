@@ -3,43 +3,62 @@
 
 use crate::client::Client;
 use crate::error::Result;
+use crate::http;
 use nil_core::resources::Resources;
 use nil_payload::cheat::resources::*;
 
 impl Client {
   pub async fn cheat_get_resources(&self, req: CheatGetResourcesRequest) -> Result<Resources> {
-    self
-      .http
-      .json_post("cheat-get-resources", req)
+    http::json_post("cheat-get-resources")
+      .body(req)
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_deref())
+      .send()
       .await
   }
 
   pub async fn cheat_set_food(&self, req: CheatSetFoodRequest) -> Result<()> {
-    self.http.post("cheat-set-food", req).await
+    http::post("cheat-set-food")
+      .body(req)
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_deref())
+      .send()
+      .await
   }
 
   pub async fn cheat_set_iron(&self, req: CheatSetIronRequest) -> Result<()> {
-    self.http.post("cheat-set-iron", req).await
+    http::post("cheat-set-iron")
+      .body(req)
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_deref())
+      .send()
+      .await
   }
 
   pub async fn cheat_set_max_food(&self, req: CheatSetMaxFoodRequest) -> Result<()> {
-    self
-      .http
-      .post("cheat-set-max-food", req)
+    http::post("cheat-set-max-food")
+      .body(req)
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_deref())
+      .send()
       .await
   }
 
   pub async fn cheat_set_max_iron(&self, req: CheatSetMaxIronRequest) -> Result<()> {
-    self
-      .http
-      .post("cheat-set-max-iron", req)
+    http::post("cheat-set-max-iron")
+      .body(req)
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_deref())
+      .send()
       .await
   }
 
   pub async fn cheat_set_max_resources(&self, req: CheatSetMaxResourcesRequest) -> Result<()> {
-    self
-      .http
-      .post("cheat-set-max-resources", req)
+    http::post("cheat-set-max-resources")
+      .body(req)
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_deref())
+      .send()
       .await
   }
 
@@ -47,16 +66,20 @@ impl Client {
     &self,
     req: CheatSetMaxSiloResourcesRequest,
   ) -> Result<()> {
-    self
-      .http
-      .post("cheat-set-max-silo-resources", req)
+    http::post("cheat-set-max-silo-resources")
+      .body(req)
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_deref())
+      .send()
       .await
   }
 
   pub async fn cheat_set_max_stone(&self, req: CheatSetMaxStoneRequest) -> Result<()> {
-    self
-      .http
-      .post("cheat-set-max-stone", req)
+    http::post("cheat-set-max-stone")
+      .body(req)
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_deref())
+      .send()
       .await
   }
 
@@ -64,31 +87,47 @@ impl Client {
     &self,
     req: CheatSetMaxWarehouseResourcesRequest,
   ) -> Result<()> {
-    self
-      .http
-      .post("cheat-set-max-warehouse-resources", req)
+    http::post("cheat-set-max-warehouse-resources")
+      .body(req)
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_deref())
+      .send()
       .await
   }
 
   pub async fn cheat_set_max_wood(&self, req: CheatSetMaxWoodRequest) -> Result<()> {
-    self
-      .http
-      .post("cheat-set-max-wood", req)
+    http::post("cheat-set-max-wood")
+      .body(req)
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_deref())
+      .send()
       .await
   }
 
   pub async fn cheat_set_resources(&self, req: CheatSetResourcesRequest) -> Result<()> {
-    self
-      .http
-      .post("cheat-set-resources", req)
+    http::post("cheat-set-resources")
+      .body(req)
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_deref())
+      .send()
       .await
   }
 
   pub async fn cheat_set_stone(&self, req: CheatSetStoneRequest) -> Result<()> {
-    self.http.post("cheat-set-stone", req).await
+    http::post("cheat-set-stone")
+      .body(req)
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_deref())
+      .send()
+      .await
   }
 
   pub async fn cheat_set_wood(&self, req: CheatSetWoodRequest) -> Result<()> {
-    self.http.post("cheat-set-wood", req).await
+    http::post("cheat-set-wood")
+      .body(req)
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_deref())
+      .send()
+      .await
   }
 }

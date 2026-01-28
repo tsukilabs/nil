@@ -11,7 +11,7 @@ use tauri::AppHandle;
 pub async fn get_report(app: AppHandle, req: GetReportRequest) -> Result<ReportKind> {
   app
     .client(async |cl| cl.get_report(req).await)
-    .await?
+    .await
     .map_err(Into::into)
 }
 
@@ -23,6 +23,6 @@ pub async fn get_reports(app: AppHandle, req: GetReportsRequest) -> Result<Vec<R
 
   app
     .client(async |cl| cl.get_reports(req).await)
-    .await?
+    .await
     .map_err(Into::into)
 }

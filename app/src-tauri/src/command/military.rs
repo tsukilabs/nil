@@ -11,6 +11,6 @@ use tauri::AppHandle;
 pub async fn request_maneuver(app: AppHandle, req: RequestManeuverRequest) -> Result<ManeuverId> {
   app
     .client(async |cl| cl.request_maneuver(req).await)
-    .await?
+    .await
     .map_err(Into::into)
 }

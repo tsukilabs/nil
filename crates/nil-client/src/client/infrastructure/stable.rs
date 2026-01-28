@@ -3,14 +3,17 @@
 
 use crate::client::Client;
 use crate::error::Result;
+use crate::http;
 use nil_core::infrastructure::building::stable::StableRecruitCatalog;
 use nil_payload::infrastructure::stable::*;
 
 impl Client {
   pub async fn add_stable_recruit_order(&self, req: AddStableRecruitOrderRequest) -> Result<()> {
-    self
-      .http
-      .post("add-stable-recruit-order", req)
+    http::post("add-stable-recruit-order")
+      .body(req)
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_deref())
+      .send()
       .await
   }
 
@@ -18,9 +21,11 @@ impl Client {
     &self,
     req: CancelStableRecruitOrderRequest,
   ) -> Result<()> {
-    self
-      .http
-      .post("cancel-stable-recruit-order", req)
+    http::post("cancel-stable-recruit-order")
+      .body(req)
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_deref())
+      .send()
       .await
   }
 
@@ -28,9 +33,11 @@ impl Client {
     &self,
     req: GetStableRecruitCatalogRequest,
   ) -> Result<StableRecruitCatalog> {
-    self
-      .http
-      .json_post("get-stable-recruit-catalog", req)
+    http::json_post("get-stable-recruit-catalog")
+      .body(req)
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_deref())
+      .send()
       .await
   }
 }

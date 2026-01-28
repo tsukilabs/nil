@@ -3,6 +3,7 @@
 
 use crate::client::Client;
 use crate::error::Result;
+use crate::http;
 use nil_core::behavior::build::BuildStep;
 use nil_payload::cheat::behavior::*;
 
@@ -11,9 +12,11 @@ impl Client {
     &self,
     req: CheatGetBuildStepsRequest,
   ) -> Result<Vec<BuildStep>> {
-    self
-      .http
-      .json_post("cheat-get-build-steps", req)
+    http::json_post("cheat-get-build-steps")
+      .body(req)
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_deref())
+      .send()
       .await
   }
 }

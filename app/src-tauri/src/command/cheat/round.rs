@@ -10,6 +10,6 @@ use tauri::AppHandle;
 pub async fn cheat_skip_round(app: AppHandle, req: CheatSkipRoundRequest) -> Result<()> {
   app
     .client(async |cl| cl.cheat_skip_round(req).await)
-    .await?
+    .await
     .map_err(Into::into)
 }
