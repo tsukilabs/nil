@@ -26,6 +26,7 @@ import {
 
 const props = defineProps<{
   isHost: boolean;
+  isLocal: boolean;
   isPlayerReady: boolean;
   lastSavedAt: Option<RoundId>;
   onSave: () => Promise<void>;
@@ -51,9 +52,12 @@ const onClickOutsideOptions: OnClickOutsideProps['options'] = {
 };
 
 const canSave = computed(() => {
-  return (props.isHost &&
+  return (
+    props.isLocal &&
+    props.isHost &&
     round.value?.state.kind !== 'idle' &&
-    round.value?.id !== props.lastSavedAt);
+    round.value?.id !== props.lastSavedAt
+  );
 });
 
 onBeforeRouteUpdate(closeSidebar);
