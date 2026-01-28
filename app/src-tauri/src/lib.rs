@@ -38,6 +38,10 @@ pub fn run() {
     .invoke_handler(tauri::generate_handler![
       command::create_tray_icon,
       command::is_host,
+      command::is_local,
+      command::is_local_and_host,
+      command::is_remote,
+      command::is_remote_or_host,
       command::show_window,
       command::version,
       command::battle::simulate_battle,
