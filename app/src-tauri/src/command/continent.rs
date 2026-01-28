@@ -14,7 +14,7 @@ pub async fn get_continent_size(
 ) -> Result<ContinentSize> {
   app
     .client(async |cl| cl.get_continent_size(req).await)
-    .await?
+    .await
     .map_err(Into::into)
 }
 
@@ -22,7 +22,7 @@ pub async fn get_continent_size(
 pub async fn get_public_field(app: AppHandle, req: GetPublicFieldRequest) -> Result<PublicField> {
   app
     .client(async |cl| cl.get_public_field(req).await)
-    .await?
+    .await
     .map_err(Into::into)
 }
 
@@ -37,6 +37,6 @@ pub async fn get_public_fields(
 
   app
     .client(async |cl| cl.get_public_fields(req).await)
-    .await?
+    .await
     .map_err(Into::into)
 }

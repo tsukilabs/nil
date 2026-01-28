@@ -14,7 +14,7 @@ pub async fn add_prefecture_build_order(
 ) -> Result<()> {
   app
     .client(async |cl| cl.add_prefecture_build_order(req).await)
-    .await?
+    .await
     .map_err(Into::into)
 }
 
@@ -25,7 +25,7 @@ pub async fn cancel_prefecture_build_order(
 ) -> Result<()> {
   app
     .client(async |cl| cl.cancel_prefecture_build_order(req).await)
-    .await?
+    .await
     .map_err(Into::into)
 }
 
@@ -36,6 +36,6 @@ pub async fn get_prefecture_build_catalog(
 ) -> Result<PrefectureBuildCatalog> {
   app
     .client(async |cl| cl.get_prefecture_build_catalog(req).await)
-    .await?
+    .await
     .map_err(Into::into)
 }

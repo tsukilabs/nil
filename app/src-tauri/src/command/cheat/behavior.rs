@@ -14,6 +14,6 @@ pub async fn cheat_get_build_steps(
 ) -> Result<Vec<BuildStep>> {
   app
     .client(async |cl| cl.cheat_get_build_steps(req).await)
-    .await?
+    .await
     .map_err(Into::into)
 }

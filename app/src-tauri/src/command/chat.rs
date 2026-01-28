@@ -14,7 +14,7 @@ pub async fn get_chat_history(
 ) -> Result<(ChatHistory, ChatHistory)> {
   app
     .client(async |cl| cl.get_chat_history(req).await)
-    .await?
+    .await
     .map_err(Into::into)
 }
 
@@ -22,6 +22,6 @@ pub async fn get_chat_history(
 pub async fn push_chat_message(app: AppHandle, req: PushChatMessageRequest) -> Result<()> {
   app
     .client(async |cl| cl.push_chat_message(req).await)
-    .await?
+    .await
     .map_err(Into::into)
 }

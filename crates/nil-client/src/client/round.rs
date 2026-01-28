@@ -3,19 +3,34 @@
 
 use super::Client;
 use crate::error::Result;
+use crate::http;
 use nil_core::round::Round;
 use nil_payload::round::*;
 
 impl Client {
   pub async fn get_round(&self, req: GetRoundRequest) -> Result<Round> {
-    self.http.json_post("get-round", req).await
+    http::json_post("get-round")
+      .body(req)
+      .server(self.server)
+      .send()
+      .await
   }
 
   pub async fn set_player_ready(&self, req: SetPlayerReadyRequest) -> Result<()> {
-    self.http.post("set-player-ready", req).await
+    http::post("set-player-ready")
+      .body(req)
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_deref())
+      .send()
+      .await
   }
 
   pub async fn start_round(&self, req: StartRoundRequest) -> Result<()> {
-    self.http.post("start-round", req).await
+    http::post("start-round")
+      .body(req)
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_deref())
+      .send()
+      .await
   }
 }

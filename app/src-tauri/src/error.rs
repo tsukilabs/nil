@@ -13,8 +13,6 @@ pub type BoxResult<T> = StdResult<T, Box<dyn StdError>>;
 
 #[derive(Debug, thiserror::Error)]
 pub enum Error {
-  #[error("Client not connected")]
-  ClientNotConnected,
   #[error("Only the server host is authorized to execute this action")]
   Forbidden,
 

@@ -7,10 +7,16 @@ mod stable;
 
 use crate::client::Client;
 use crate::error::Result;
+use crate::http;
 use nil_payload::infrastructure::*;
 
 impl Client {
   pub async fn toggle_building(&self, req: ToggleBuildingRequest) -> Result<()> {
-    self.http.post("toggle-building", req).await
+    http::post("toggle-building")
+      .body(req)
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_deref())
+      .send()
+      .await
   }
 }

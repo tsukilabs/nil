@@ -18,7 +18,7 @@ use tauri::AppHandle;
 pub async fn get_player(app: AppHandle, req: GetPlayerRequest) -> Result<Player> {
   app
     .client(async |cl| cl.get_player(req).await)
-    .await?
+    .await
     .map_err(Into::into)
 }
 
@@ -26,7 +26,7 @@ pub async fn get_player(app: AppHandle, req: GetPlayerRequest) -> Result<Player>
 pub async fn get_player_coords(app: AppHandle, req: GetPlayerCoordsRequest) -> Result<Vec<Coord>> {
   app
     .client(async |cl| cl.get_player_coords(req).await)
-    .await?
+    .await
     .map_err(Into::into)
 }
 
@@ -37,7 +37,7 @@ pub async fn get_player_maintenance(
 ) -> Result<Maintenance> {
   app
     .client(async |cl| cl.get_player_maintenance(req).await)
-    .await?
+    .await
     .map_err(Into::into)
 }
 
@@ -48,7 +48,7 @@ pub async fn get_player_military(
 ) -> Result<Military> {
   app
     .client(async |cl| cl.get_player_military(req).await)
-    .await?
+    .await
     .map_err(Into::into)
 }
 
@@ -59,7 +59,7 @@ pub async fn get_player_reports(
 ) -> Result<Vec<ReportId>> {
   app
     .client(async |cl| cl.get_player_reports(req).await)
-    .await??
+    .await?
     .into_iter()
     .unique()
     .sorted_unstable()
@@ -74,7 +74,7 @@ pub async fn get_player_status(
 ) -> Result<PlayerStatus> {
   app
     .client(async |cl| cl.get_player_status(req).await)
-    .await?
+    .await
     .map_err(Into::into)
 }
 
@@ -85,7 +85,7 @@ pub async fn get_player_storage_capacity(
 ) -> Result<OverallStorageCapacity> {
   app
     .client(async |cl| cl.get_player_storage_capacity(req).await)
-    .await?
+    .await
     .map_err(Into::into)
 }
 
@@ -93,7 +93,7 @@ pub async fn get_player_storage_capacity(
 pub async fn get_players(app: AppHandle, req: GetPlayersRequest) -> Result<Vec<Player>> {
   app
     .client(async |cl| cl.get_players(req).await)
-    .await?
+    .await
     .map_err(Into::into)
 }
 
@@ -104,7 +104,7 @@ pub async fn get_public_player(
 ) -> Result<PublicPlayer> {
   app
     .client(async |cl| cl.get_public_player(req).await)
-    .await?
+    .await
     .map_err(Into::into)
 }
 
@@ -115,7 +115,7 @@ pub async fn get_public_players(
 ) -> Result<Vec<PublicPlayer>> {
   app
     .client(async |cl| cl.get_public_players(req).await)
-    .await?
+    .await
     .map_err(Into::into)
 }
 
@@ -123,7 +123,7 @@ pub async fn get_public_players(
 pub async fn player_exists(app: AppHandle, req: PlayerExistsRequest) -> Result<bool> {
   app
     .client(async |cl| cl.player_exists(req).await)
-    .await?
+    .await
     .map_err(Into::into)
 }
 
@@ -131,7 +131,7 @@ pub async fn player_exists(app: AppHandle, req: PlayerExistsRequest) -> Result<b
 pub async fn set_player_status(app: AppHandle, req: SetPlayerStatusRequest) -> Result<()> {
   app
     .client(async |cl| cl.set_player_status(req).await)
-    .await?
+    .await
     .map_err(Into::into)
 }
 
@@ -139,6 +139,6 @@ pub async fn set_player_status(app: AppHandle, req: SetPlayerStatusRequest) -> R
 pub async fn spawn_player(app: AppHandle, req: SpawnPlayerRequest) -> Result<()> {
   app
     .client(async |cl| cl.spawn_player(req).await)
-    .await?
+    .await
     .map_err(Into::into)
 }

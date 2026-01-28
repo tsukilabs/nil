@@ -14,7 +14,7 @@ pub async fn add_academy_recruit_order(
 ) -> Result<()> {
   app
     .client(async |cl| cl.add_academy_recruit_order(req).await)
-    .await?
+    .await
     .map_err(Into::into)
 }
 
@@ -25,7 +25,7 @@ pub async fn cancel_academy_recruit_order(
 ) -> Result<()> {
   app
     .client(async |cl| cl.cancel_academy_recruit_order(req).await)
-    .await?
+    .await
     .map_err(Into::into)
 }
 
@@ -36,6 +36,6 @@ pub async fn get_academy_recruit_catalog(
 ) -> Result<AcademyRecruitCatalog> {
   app
     .client(async |cl| cl.get_academy_recruit_catalog(req).await)
-    .await?
+    .await
     .map_err(Into::into)
 }

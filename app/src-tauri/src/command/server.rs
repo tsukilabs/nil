@@ -11,7 +11,7 @@ use std::path::PathBuf;
 use tauri::AppHandle;
 
 #[tauri::command]
-pub async fn get_server_addr(app: AppHandle) -> Result<ServerAddr> {
+pub async fn get_server_addr(app: AppHandle) -> ServerAddr {
   app.client(async |cl| cl.server_addr()).await
 }
 
@@ -19,7 +19,7 @@ pub async fn get_server_addr(app: AppHandle) -> Result<ServerAddr> {
 pub async fn get_server_kind(app: AppHandle) -> Result<ServerKind> {
   app
     .client(async |cl| cl.get_server_kind().await)
-    .await?
+    .await
     .map_err(Into::into)
 }
 
@@ -27,12 +27,12 @@ pub async fn get_server_kind(app: AppHandle) -> Result<ServerKind> {
 pub async fn get_server_version(app: AppHandle) -> Result<String> {
   app
     .client(async |cl| cl.version().await)
-    .await?
+    .await
     .map_err(Into::into)
 }
 
 #[tauri::command]
-pub async fn is_server_ready(app: AppHandle) -> Result<bool> {
+pub async fn is_server_ready(app: AppHandle) -> bool {
   app
     .client(async |cl| cl.is_ready().await)
     .await

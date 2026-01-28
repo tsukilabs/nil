@@ -3,14 +3,17 @@
 
 use super::Client;
 use crate::error::Result;
+use crate::http;
 use nil_core::military::maneuver::ManeuverId;
 use nil_payload::military::*;
 
 impl Client {
   pub async fn request_maneuver(&self, req: RequestManeuverRequest) -> Result<ManeuverId> {
-    self
-      .http
-      .json_post("request-maneuver", req)
+    http::json_post("request-maneuver")
+      .body(req)
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_deref())
+      .send()
       .await
   }
 }

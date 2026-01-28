@@ -10,6 +10,6 @@ use tauri::AppHandle;
 pub async fn cheat_set_stability(app: AppHandle, req: CheatSetStabilityRequest) -> Result<()> {
   app
     .client(async |cl| cl.cheat_set_stability(req).await)
-    .await?
+    .await
     .map_err(Into::into)
 }

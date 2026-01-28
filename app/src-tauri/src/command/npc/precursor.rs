@@ -15,7 +15,7 @@ pub async fn get_precursor_coords(
 ) -> Result<Vec<Coord>> {
   app
     .client(async |cl| cl.get_precursor_coords(req).await)
-    .await?
+    .await
     .map_err(Into::into)
 }
 
@@ -26,6 +26,6 @@ pub async fn get_public_precursor(
 ) -> Result<PublicPrecursor> {
   app
     .client(async |cl| cl.get_public_precursor(req).await)
-    .await?
+    .await
     .map_err(Into::into)
 }

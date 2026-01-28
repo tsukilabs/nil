@@ -15,7 +15,7 @@ pub async fn cheat_get_ethics(
 ) -> Result<Option<Ethics>> {
   app
     .client(async |cl| cl.cheat_get_ethics(req).await)
-    .await?
+    .await
     .map_err(Into::into)
 }
 
@@ -23,7 +23,7 @@ pub async fn cheat_get_ethics(
 pub async fn cheat_set_bot_ethics(app: AppHandle, req: CheatSetBotEthicsRequest) -> Result<()> {
   app
     .client(async |cl| cl.cheat_set_bot_ethics(req).await)
-    .await?
+    .await
     .map_err(Into::into)
 }
 
@@ -31,6 +31,6 @@ pub async fn cheat_set_bot_ethics(app: AppHandle, req: CheatSetBotEthicsRequest)
 pub async fn cheat_spawn_bot(app: AppHandle, req: CheatSpawnBotRequest) -> Result<BotId> {
   app
     .client(async |cl| cl.cheat_spawn_bot(req).await)
-    .await?
+    .await
     .map_err(Into::into)
 }

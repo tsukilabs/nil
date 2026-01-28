@@ -11,7 +11,7 @@ use tauri::AppHandle;
 pub async fn get_rank(app: AppHandle, req: GetRankRequest) -> Result<Option<RankingEntry>> {
   app
     .client(async |cl| cl.get_rank(req).await)
-    .await?
+    .await
     .map_err(Into::into)
 }
 
@@ -19,6 +19,6 @@ pub async fn get_rank(app: AppHandle, req: GetRankRequest) -> Result<Option<Rank
 pub async fn get_ranking(app: AppHandle, req: GetRankingRequest) -> Result<Ranking> {
   app
     .client(async |cl| cl.get_ranking(req).await)
-    .await?
+    .await
     .map_err(Into::into)
 }

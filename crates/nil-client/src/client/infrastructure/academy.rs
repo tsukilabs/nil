@@ -3,14 +3,17 @@
 
 use crate::client::Client;
 use crate::error::Result;
+use crate::http;
 use nil_core::infrastructure::building::academy::AcademyRecruitCatalog;
 use nil_payload::infrastructure::academy::*;
 
 impl Client {
   pub async fn add_academy_recruit_order(&self, req: AddAcademyRecruitOrderRequest) -> Result<()> {
-    self
-      .http
-      .post("add-academy-recruit-order", req)
+    http::post("add-academy-recruit-order")
+      .body(req)
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_deref())
+      .send()
       .await
   }
 
@@ -18,9 +21,11 @@ impl Client {
     &self,
     req: CancelAcademyRecruitOrderRequest,
   ) -> Result<()> {
-    self
-      .http
-      .post("cancel-academy-recruit-order", req)
+    http::post("cancel-academy-recruit-order")
+      .body(req)
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_deref())
+      .send()
       .await
   }
 
@@ -28,9 +33,11 @@ impl Client {
     &self,
     req: GetAcademyRecruitCatalogRequest,
   ) -> Result<AcademyRecruitCatalog> {
-    self
-      .http
-      .json_post("get-academy-recruit-catalog", req)
+    http::json_post("get-academy-recruit-catalog")
+      .body(req)
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_deref())
+      .send()
       .await
   }
 }

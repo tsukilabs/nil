@@ -12,11 +12,14 @@ const REMOTE_SERVER_ADDR: &str = "127.0.0.0:3000";
 #[cfg(not(debug_assertions))]
 const REMOTE_SERVER_ADDR: &str = "tsukilabs.dev.br/nil";
 
-#[derive(Clone, Copy, Debug, EnumIs, Deserialize, Serialize)]
+#[derive(Clone, Copy, Debug, Default, EnumIs, Deserialize, Serialize)]
 #[serde(tag = "kind", rename_all = "kebab-case")]
 pub enum ServerAddr {
-  Local { addr: SocketAddrV4 },
+  #[default]
   Remote,
+  Local {
+    addr: SocketAddrV4,
+  },
 }
 
 impl ServerAddr {

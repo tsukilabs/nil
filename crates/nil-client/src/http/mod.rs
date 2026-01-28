@@ -5,17 +5,12 @@ pub(crate) mod authorization;
 
 use crate::error::{Error, Result};
 use crate::server::ServerAddr;
-use authorization::Authorization;
 use futures::TryFutureExt;
 use http::header::AUTHORIZATION;
 use http::{HeaderValue, Method};
-use local_ip_address::local_ip;
-use nil_payload::AuthorizeRequest;
-use nil_server_types::ServerKind;
 use reqwest::{Client as HttpClient, Response};
 use serde::Serialize;
 use serde::de::DeserializeOwned;
-use std::net::IpAddr;
 use std::sync::LazyLock;
 use tokio::time::Duration;
 
@@ -30,100 +25,89 @@ static HTTP: LazyLock<HttpClient> = LazyLock::new(|| {
     .expect("Failed to create HTTP client")
 });
 
-pub struct Http {
-  server: ServerAddr,
-  authorization: Option<Authorization>,
+#[bon::builder(finish_fn = send)]
+pub async fn get(
+  #[builder(start_fn)] route: &str,
+  #[builder(default)] server: ServerAddr,
+  authorization: Option<&HeaderValue>,
+) -> Result<()> {
+  let url = server.url(route)?;
+  request(Method::GET, url.as_str())
+    .maybe_authorization(authorization)
+    .send()
+    .await
+    .map(drop)
 }
 
-impl Http {
-  pub(crate) fn new(server: ServerAddr) -> Self {
-    Self { server, authorization: None }
-  }
-
-  pub(crate) async fn authorize(&mut self, req: AuthorizeRequest) -> Result<Authorization> {
-    let authorization = self
-      .json_post::<String>("authorize", req)
-      .await
-      .map(|token| Authorization::new(&token))?
-      .map_err(|_| Error::FailedToAuthenticate)?;
-
-    self.authorization = Some(authorization.clone());
-
-    Ok(authorization)
-  }
-
-  pub async fn get(&self, route: &str) -> Result<()> {
-    let url = self.server.url(route)?;
-    request(Method::GET, url.as_str())
-      .maybe_authorization(self.authorization.as_deref())
-      .call()
-      .await
-      .map(drop)
-  }
-
-  pub async fn get_text(&self, route: &str) -> Result<String> {
-    let url = self.server.url(route)?;
-    request(Method::GET, url.as_str())
-      .maybe_authorization(self.authorization.as_deref())
-      .call()
-      .await?
-      .text()
-      .await
-      .map_err(Into::into)
-  }
-
-  pub async fn json_get<R>(&self, route: &str) -> Result<R>
-  where
-    R: DeserializeOwned,
-  {
-    let url = self.server.url(route)?;
-    request(Method::GET, url.as_str())
-      .maybe_authorization(self.authorization.as_deref())
-      .call()
-      .and_then(async |res| json::<R>(res).await)
-      .await
-  }
-
-  pub async fn post(&self, route: &str, body: impl Serialize) -> Result<()> {
-    let url = self.server.url(route)?;
-    request_with_body(Method::POST, url.as_str(), body)
-      .maybe_authorization(self.authorization.as_deref())
-      .call()
-      .await
-      .map(drop)
-  }
-
-  pub async fn json_post<R>(&self, route: &str, body: impl Serialize) -> Result<R>
-  where
-    R: DeserializeOwned,
-  {
-    let url = self.server.url(route)?;
-    request_with_body(Method::POST, url.as_str(), body)
-      .maybe_authorization(self.authorization.as_deref())
-      .call()
-      .and_then(async |res| json::<R>(res).await)
-      .await
-  }
-
-  pub fn server_addr(&self) -> ServerAddr {
-    let mut addr = self.server;
-    if let ServerAddr::Local { addr } = &mut addr
-      && addr.ip().is_loopback()
-      && let Ok(ip) = local_ip()
-      && let IpAddr::V4(ip) = ip
-    {
-      addr.set_ip(ip);
-    }
-
-    addr
-  }
-
-  pub async fn server_kind(&self) -> Result<ServerKind> {
-    self.json_get("get-server-kind").await
-  }
+#[bon::builder(finish_fn = send)]
+pub async fn get_text(
+  #[builder(start_fn)] route: &str,
+  #[builder(default)] server: ServerAddr,
+  authorization: Option<&HeaderValue>,
+) -> Result<String> {
+  let url = server.url(route)?;
+  request(Method::GET, url.as_str())
+    .maybe_authorization(authorization)
+    .send()
+    .await?
+    .text()
+    .await
+    .map_err(Into::into)
 }
 
-#[bon::builder]
+#[bon::builder(finish_fn = send)]
+pub async fn json_get<R>(
+  #[builder(start_fn)] route: &str,
+  #[builder(default)] server: ServerAddr,
+  authorization: Option<&HeaderValue>,
+) -> Result<R>
+where
+  R: DeserializeOwned,
+{
+  let url = server.url(route)?;
+  request(Method::GET, url.as_str())
+    .maybe_authorization(authorization)
+    .send()
+    .and_then(async |res| json::<R>(res).await)
+    .await
+}
+
+#[bon::builder(finish_fn = send)]
+pub async fn post(
+  #[builder(start_fn)] route: &str,
+  body: impl Serialize,
+  #[builder(default)] server: ServerAddr,
+  authorization: Option<&HeaderValue>,
+) -> Result<()> {
+  let url = server.url(route)?;
+  request_with_body(Method::POST, url.as_str())
+    .body(body)
+    .maybe_authorization(authorization)
+    .send()
+    .await
+    .map(drop)
+}
+
+#[bon::builder(finish_fn = send)]
+pub async fn json_post<R>(
+  #[builder(start_fn)] route: &str,
+  body: impl Serialize,
+  #[builder(default)] server: ServerAddr,
+  authorization: Option<&HeaderValue>,
+) -> Result<R>
+where
+  R: DeserializeOwned,
+{
+  let url = server.url(route)?;
+  request_with_body(Method::POST, url.as_str())
+    .body(body)
+    .maybe_authorization(authorization)
+    .send()
+    .and_then(async |res| json::<R>(res).await)
+    .await
+}
+
+#[bon::builder(finish_fn = send)]
 async fn request(
   #[builder(start_fn)] method: Method,
   #[builder(start_fn)] url: &str,
@@ -144,11 +128,11 @@ async fn request(
   }
 }
 
-#[bon::builder]
+#[bon::builder(finish_fn = send)]
 async fn request_with_body<T>(
   #[builder(start_fn)] method: Method,
   #[builder(start_fn)] url: &str,
-  #[builder(start_fn)] body: T,
+  body: T,
   authorization: Option<&HeaderValue>,
 ) -> Result<Response>
 where

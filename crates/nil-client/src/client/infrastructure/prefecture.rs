@@ -3,6 +3,7 @@
 
 use crate::client::Client;
 use crate::error::Result;
+use crate::http;
 use nil_core::infrastructure::building::prefecture::PrefectureBuildCatalog;
 use nil_payload::infrastructure::prefecture::*;
 
@@ -11,9 +12,11 @@ impl Client {
     &self,
     req: AddPrefectureBuildOrderRequest,
   ) -> Result<()> {
-    self
-      .http
-      .post("add-prefecture-build-order", req)
+    http::post("add-prefecture-build-order")
+      .body(req)
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_deref())
+      .send()
       .await
   }
 
@@ -21,9 +24,11 @@ impl Client {
     &self,
     req: CancelPrefectureBuildOrderRequest,
   ) -> Result<()> {
-    self
-      .http
-      .post("cancel-prefecture-build-order", req)
+    http::post("cancel-prefecture-build-order")
+      .body(req)
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_deref())
+      .send()
       .await
   }
 
@@ -31,9 +36,11 @@ impl Client {
     &self,
     req: GetPrefectureBuildCatalogRequest,
   ) -> Result<PrefectureBuildCatalog> {
-    self
-      .http
-      .json_post("get-prefecture-build-catalog", req)
+    http::json_post("get-prefecture-build-catalog")
+      .body(req)
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_deref())
+      .send()
       .await
   }
 }

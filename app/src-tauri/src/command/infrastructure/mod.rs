@@ -14,6 +14,6 @@ use tauri::AppHandle;
 pub async fn toggle_building(app: AppHandle, req: ToggleBuildingRequest) -> Result<()> {
   app
     .client(async |cl| cl.toggle_building(req).await)
-    .await?
+    .await
     .map_err(Into::into)
 }
