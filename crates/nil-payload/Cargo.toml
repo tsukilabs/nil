@@ -15,5 +15,6 @@ workspace = true
 
 [dependencies]
 nil-core.workspace = true
+nil-server-types.workspace = true
 nil-util.workspace = true
 serde.workspace = true

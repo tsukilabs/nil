@@ -5,7 +5,7 @@
 import { useI18n } from 'vue-i18n';
 import { storeToRefs } from 'pinia';
 import { Checkbox, Label } from '@tb-dev/vue-components';
-import { useStableSettings } from '@/settings/infrastructure/stable';
+import { useStableSettings } from '@/stores/settings/infrastructure/stable';
 import enUS from '@/locale/en-US/scenes/game/infrastructure/infrastructure.json';
 import ptBR from '@/locale/pt-BR/scenes/game/infrastructure/infrastructure.json';
 

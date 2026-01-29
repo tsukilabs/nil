@@ -120,6 +120,7 @@ pub fn run() {
       command::round::is_round_waiting,
       command::round::set_player_ready,
       command::round::start_round,
+      command::server::authorize,
       command::server::get_server_addr,
       command::server::get_server_kind,
       command::server::get_server_version,
@@ -127,6 +128,7 @@ pub fn run() {
       command::server::start_server_with_options,
       command::server::start_server_with_savedata,
       command::server::stop_server,
+      command::server::validate_token,
       command::user::create_user,
       command::world::get_remote_world,
       command::world::get_remote_worlds,
@@ -160,7 +162,7 @@ fn builder() -> tauri::Builder<Wry> {
 fn setup(app: &AppHandle) -> BoxResult<()> {
   let app_dir = app.path().app_data_dir()?;
   let pinia = tauri_plugin_pinia::Builder::new()
-    .path(app_dir.join("settings"))
+    .path(app_dir.join("storage"))
     .build();
 
   app.plugin(pinia)?;

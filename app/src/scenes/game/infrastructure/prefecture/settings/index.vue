@@ -9,7 +9,7 @@ import { renameCity } from '@/commands';
 import { Button, Checkbox, Input, Label } from '@tb-dev/vue-components';
 import enUS from '@/locale/en-US/scenes/game/infrastructure/prefecture.json';
 import ptBR from '@/locale/pt-BR/scenes/game/infrastructure/prefecture.json';
-import { usePrefectureSettings } from '@/settings/infrastructure/prefecture';
+import { usePrefectureSettings } from '@/stores/settings/infrastructure/prefecture';
 
 const { t } = useI18n({
   messages: {

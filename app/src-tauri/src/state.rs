@@ -8,6 +8,7 @@ use nil_core::event::Event;
 use nil_core::player::PlayerId;
 use nil_core::world::{WorldId, WorldOptions};
 use nil_server::local::{LocalServer, load_local, start_local};
+use nil_server_types::Token;
 use nil_util::password::Password;
 use std::path::PathBuf;
 use std::sync::Arc;
@@ -65,6 +66,7 @@ impl Nil {
     world_id: Option<WorldId>,
     player_id: Option<PlayerId>,
     player_password: Option<Password>,
+    authorization_token: Option<Token>,
   ) -> Result<()> {
     let mut client = self.client.write().await;
     client
@@ -72,6 +74,7 @@ impl Nil {
       .maybe_world_id(world_id)
       .maybe_player_id(player_id)
       .maybe_player_password(player_password)
+      .maybe_authorization_token(authorization_token)
       .on_event(on_event(self.app.clone()))
       .call()
       .await?;

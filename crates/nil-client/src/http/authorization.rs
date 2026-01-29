@@ -10,8 +10,11 @@ use std::fmt;
 pub(crate) struct Authorization(HeaderValue);
 
 impl Authorization {
-  pub fn new(token: &str) -> AnyResult<Self> {
-    Ok(Self(HeaderValue::from_str(token)?))
+  pub(crate) fn new<T>(token: T) -> AnyResult<Self>
+  where
+    T: AsRef<str>,
+  {
+    Ok(Self(HeaderValue::from_str(token.as_ref())?))
   }
 
   #[inline]

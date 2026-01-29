@@ -7,10 +7,13 @@ import { handleError } from '@/lib/error';
 import { Entity } from '@/core/entity/abstract';
 import { exit } from '@tauri-apps/plugin-process';
 
-async function joinGame(worldId: WorldId, playerOptions: PlayerOptions) {
-  await NIL.world.setId(worldId);
+async function joinGame(options: {
+  worldId: NonNullable<ClientOptions['worldId']>;
+  playerId: NonNullable<ClientOptions['playerId']>;
+}) {
+  await NIL.world.setId(options.worldId);
 
-  const playerId = playerOptions.id;
+  const { playerId } = options;
   if (await commands.playerExists(playerId)) {
     // TODO: what if the player is already active?
     const status = await commands.getPlayerStatus(playerId);
@@ -19,7 +22,7 @@ async function joinGame(worldId: WorldId, playerOptions: PlayerOptions) {
     }
   }
   else {
-    await commands.spawnPlayer(playerOptions);
+    await commands.spawnPlayer({ id: playerId });
   }
 
   await NIL.player.setId(playerId);
@@ -29,51 +32,69 @@ async function joinGame(worldId: WorldId, playerOptions: PlayerOptions) {
   await go('city');
 }
 
-export async function joinLocalGame(
-  serverAddr: ServerAddr,
-  worldId: Option<WorldId>,
-  playerOptions: PlayerOptions,
-) {
+export async function joinLocalGame(options: {
+  serverAddr: NonNullable<ClientOptions['serverAddr']>;
+  worldId?: ClientOptions['worldId'];
+  playerId: NonNullable<ClientOptions['playerId']>;
+}) {
   await commands.updateClient({
-    serverAddr,
-    worldId,
-    playerId: playerOptions.id,
-    playerPassword: playerOptions.password,
+    serverAddr: options.serverAddr,
+    worldId: options.worldId,
+    playerId: options.playerId,
   });
 
-  worldId ??= await commands.getLocalServerWorldId();
-  if (!worldId) {
+  options.worldId ??= await commands.getLocalServerWorldId();
+
+  if (options.worldId) {
+    return joinGame({
+      worldId: options.worldId,
+      playerId: options.playerId,
+    });
+  }
+  else {
     throw new Error('Missing world id');
   }
-
-  return joinGame(worldId, playerOptions);
 }
 
-export async function joinRemoteGame(
-  serverAddr: ServerAddr,
-  worldId: WorldId,
-  playerOptions: PlayerOptions,
-) {
+export async function joinRemoteGame(options: {
+  serverAddr: NonNullable<ClientOptions['serverAddr']>;
+  worldId: NonNullable<ClientOptions['worldId']>;
+  playerId: NonNullable<ClientOptions['playerId']>;
+  playerPassword?: ClientOptions['playerPassword'];
+  authorizationToken?: NonNullable<ClientOptions['authorizationToken']>;
+}) {
   await commands.updateClient({
-    serverAddr,
-    worldId,
-    playerId: playerOptions.id,
-    playerPassword: playerOptions.password,
+    serverAddr: options.serverAddr,
+    worldId: options.worldId,
+    playerId: options.playerId,
+    playerPassword: options.playerPassword,
+    authorizationToken: options.authorizationToken,
   });
 
-  return joinGame(worldId, playerOptions);
+  return joinGame({
+    worldId: options.worldId,
+    playerId: options.playerId,
+  });
 }
 
 export async function hostLocalGame(player: PlayerOptions, world: WorldOptions) {
   const server = await commands.startServerWithOptions(world);
   const serverAddr: ServerAddr = { kind: 'local', addr: server.addr };
-  await joinLocalGame(serverAddr, server.worldId, player);
+  await joinLocalGame({
+    serverAddr,
+    worldId: server.worldId,
+    playerId: player.id,
+  });
 }
 
 export async function hostLocalGameWithSavedata(path: string, player: PlayerOptions) {
   const server = await commands.startServerWithSavedata(path);
   const serverAddr: ServerAddr = { kind: 'local', addr: server.addr };
-  await joinLocalGame(serverAddr, server.worldId, player);
+  await joinLocalGame({
+    serverAddr,
+    worldId: server.worldId,
+    playerId: player.id,
+  });
 }
 
 export async function leaveGame() {

@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { gameRoutes } from './game';
+import { onlineRoutes } from './online';
 import {
   createRouter,
   createWebHistory,
@@ -45,7 +46,7 @@ export const router = createRouter({
     {
       component: () => import('@/scenes/online/index.vue'),
       path: '/online',
-      name: 'online' satisfies Scene,
+      children: onlineRoutes,
     },
     {
       component: () => import('@/scenes/settings/index.vue'),

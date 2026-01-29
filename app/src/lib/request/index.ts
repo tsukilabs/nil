@@ -15,3 +15,12 @@ export type * from './ranking';
 export type * from './military';
 export type * from './continent';
 export type * from './infrastructure';
+
+export interface AuthorizeRequest {
+  readonly player: PlayerId;
+  readonly password?: Option<string>;
+}
+
+export interface ValidateTokenRequest {
+  readonly token: string;
+}

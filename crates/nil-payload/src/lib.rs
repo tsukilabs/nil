@@ -18,6 +18,7 @@ pub mod world;
 
 use nil_core::player::PlayerId;
 use nil_core::world::WorldId;
+use nil_server_types::Token;
 use nil_util::password::Password;
 use serde::{Deserialize, Serialize};
 
@@ -33,6 +34,21 @@ pub struct AuthorizeRequest {
 #[serde(rename_all = "camelCase")]
 pub struct LeaveRequest {
   pub world: WorldId,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct ValidateTokenRequest {
+  pub token: Token,
+}
+
+impl<T> From<T> for ValidateTokenRequest
+where
+  T: AsRef<str>,
+{
+  fn from(token: T) -> Self {
+    Self { token: Token::new(token) }
+  }
 }
 
 #[derive(Clone, Debug, Deserialize)]

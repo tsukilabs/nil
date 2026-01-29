@@ -2,6 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { invoke } from '@tauri-apps/api/core';
+import type { AuthorizeRequest, ValidateTokenRequest } from '@/lib/request';
+
+export async function authorize(player: PlayerId, password: Option<string>) {
+  const req: AuthorizeRequest = { player, password };
+  return invoke<string>('authorize', { req });
+}
 
 export async function getLocalServerWorldId() {
   const serverKind = await getServerKind();
@@ -34,4 +40,9 @@ export async function startServerWithSavedata(savedata: string) {
 
 export async function stopServer() {
   await invoke('stop_server');
+}
+
+export async function validateToken(token: string) {
+  const req: ValidateTokenRequest = { token };
+  return invoke<Option<PlayerId>>('validate_token', { req });
 }

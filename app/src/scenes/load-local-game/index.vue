@@ -18,7 +18,7 @@ const { t } = useI18n();
 const router = useRouter();
 const route = useRoute();
 
-const player = localRef<WritablePartial<PlayerOptions>>('load-game:player', {
+const player = localRef<WritablePartial<PlayerOptions>>('load-local-game:player', {
   id: null,
 });
 

@@ -4,11 +4,21 @@
 use crate::error::Result;
 use crate::manager::ManagerExt;
 use nil_client::ServerAddr;
+use nil_core::player::PlayerId;
 use nil_core::world::WorldOptions;
+use nil_payload::{AuthorizeRequest, ValidateTokenRequest};
 use nil_server::local::LocalServer;
-use nil_server_types::ServerKind;
+use nil_server_types::{ServerKind, Token};
 use std::path::PathBuf;
 use tauri::AppHandle;
+
+#[tauri::command]
+pub async fn authorize(app: AppHandle, req: AuthorizeRequest) -> Result<Token> {
+  app
+    .client(async |cl| cl.authorize(req).await)
+    .await
+    .map_err(Into::into)
+}
 
 #[tauri::command]
 pub async fn get_server_addr(app: AppHandle) -> ServerAddr {
@@ -60,4 +70,12 @@ pub async fn start_server_with_savedata(app: AppHandle, savedata: PathBuf) -> Re
 #[tauri::command]
 pub async fn stop_server(app: AppHandle) {
   app.nil().stop_server().await;
+}
+
+#[tauri::command]
+pub async fn validate_token(app: AppHandle, req: ValidateTokenRequest) -> Result<Option<PlayerId>> {
+  app
+    .client(async |cl| cl.validate_token(req).await)
+    .await
+    .map_err(Into::into)
 }

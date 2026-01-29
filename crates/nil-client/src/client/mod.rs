@@ -28,8 +28,8 @@ use local_ip_address::local_ip;
 use nil_core::event::Event;
 use nil_core::player::PlayerId;
 use nil_core::world::WorldId;
-use nil_payload::{AuthorizeRequest, LeaveRequest};
-use nil_server_types::ServerKind;
+use nil_payload::{AuthorizeRequest, LeaveRequest, ValidateTokenRequest};
+use nil_server_types::{ServerKind, Token};
 use nil_util::password::Password;
 use std::net::IpAddr;
 
@@ -55,6 +55,7 @@ impl Client {
     world_id: Option<WorldId>,
     player_id: Option<PlayerId>,
     player_password: Option<Password>,
+    authorization_token: Option<Token>,
     on_event: Option<OnEvent>,
   ) -> Result<()>
   where
@@ -64,25 +65,36 @@ impl Client {
     self.server = server;
     self.world_id = world_id;
 
-    if let Some(player) = player_id {
-      self
-        .authorize(AuthorizeRequest { player, password: player_password })
-        .await?;
+    if self.server.is_remote()
+      && let Some(token) = authorization_token
+      && let Some(id) = self.validate_token(&token).await?
+      && player_id.as_ref().is_none_or(|it| it == &id)
+      && let Ok(authorization) = Authorization::new(token)
+    {
+      self.authorization = Some(authorization);
+    } else if let Some(player) = player_id {
+      let req = AuthorizeRequest { player, password: player_password };
+      self.authorization = self
+        .authorize(req)
+        .await
+        .map(|token| Some(Authorization::new(&token)))?
+        .transpose()
+        .map_err(|_| Error::FailedToAuthenticate)?;
+    }
 
-      if self.world_id.is_none()
-        && self.server.is_local()
-        && let ServerKind::Local { id } = self.get_server_kind().await?
-      {
-        self.world_id = Some(id);
-      }
+    if self.world_id.is_none()
+      && self.server.is_local()
+      && let ServerKind::Local { id } = self.get_server_kind().await?
+    {
+      self.world_id = Some(id);
+    }
 
-      if let Some(world_id) = self.world_id
-        && let Some(on_event) = on_event
-        && let Some(authorization) = self.authorization.clone()
-      {
-        let websocket = WebSocketClient::connect(server, world_id, authorization, on_event).await?;
-        self.websocket = Some(websocket);
-      }
+    if let Some(world_id) = self.world_id
+      && let Some(on_event) = on_event
+      && let Some(authorization) = self.authorization.clone()
+    {
+      let websocket = WebSocketClient::connect(server, world_id, authorization, on_event).await?;
+      self.websocket = Some(websocket);
     }
 
     Ok(())
@@ -127,17 +139,12 @@ impl Client {
     self.server.is_remote()
   }
 
-  pub async fn authorize(&mut self, req: AuthorizeRequest) -> Result<()> {
-    self.authorization = http::json_post("authorize")
+  pub async fn authorize(&self, req: AuthorizeRequest) -> Result<Token> {
+    http::json_post("authorize")
       .body(req)
       .server(self.server)
       .send()
       .await
-      .map(|token: String| Some(Authorization::new(&token)))?
-      .transpose()
-      .map_err(|_| Error::FailedToAuthenticate)?;
-
-    Ok(())
   }
 
   pub async fn get_server_kind(&self) -> Result<ServerKind> {
@@ -161,6 +168,17 @@ impl Client {
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_deref())
+      .send()
+      .await
+  }
+
+  pub async fn validate_token<T>(&self, req: T) -> Result<Option<PlayerId>>
+  where
+    T: Into<ValidateTokenRequest>,
+  {
+    http::json_post("validate-token")
+      .body(Into::<ValidateTokenRequest>::into(req))
+      .server(self.server)
       .send()
       .await
   }

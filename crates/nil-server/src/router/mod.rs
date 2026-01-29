@@ -19,7 +19,7 @@ mod user;
 mod world;
 
 use crate::app::App;
-use crate::middleware::authorization::{CurrentPlayer, authorization, encode_jwt};
+use crate::middleware::authorization::{CurrentPlayer, authorization, decode_jwt, encode_jwt};
 use crate::res;
 use crate::response::EitherExt;
 use crate::websocket::handle_socket;
@@ -34,7 +34,7 @@ use nil_core::player::{PlayerId, PlayerStatus};
 use nil_core::world::World;
 use nil_database::model::user_data::UserData;
 use nil_database::sql_types::user::User;
-use nil_payload::{AuthorizeRequest, LeaveRequest, WebsocketQuery};
+use nil_payload::{AuthorizeRequest, LeaveRequest, ValidateTokenRequest, WebsocketQuery};
 use nil_server_types::ServerKind;
 use tower_http::trace::{
   DefaultMakeSpan,
@@ -136,6 +136,7 @@ pub(crate) fn create() -> Router<App> {
     .route("/player-exists", post(player::exists))
     .route("/search-public-city", post(city::search_public))
     .route("/simulate-battle", post(battle::simulate))
+    .route("/validate-token", post(validate_token))
     .route("/version", get(version));
 
   router.layer(
@@ -193,6 +194,14 @@ async fn ok() -> StatusCode {
 
 async fn server_kind(State(app): State<App>) -> Response {
   res!(OK, Json(app.server_kind()))
+}
+
+async fn validate_token(Json(req): Json<ValidateTokenRequest>) -> Response {
+  let player = decode_jwt(&req.token)
+    .map(|token| token.claims.sub)
+    .ok();
+
+  res!(OK, Json(player))
 }
 
 async fn version() -> &'static str {

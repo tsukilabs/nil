@@ -4,12 +4,10 @@
 import { ref } from 'vue';
 import { defineStore } from 'pinia';
 
-export const usePrefectureSettings = defineStore('prefecture', () => {
-  const hideMaxed = ref(false);
+export const useStableSettings = defineStore('stable-settings', () => {
   const hideUnmet = ref(true);
 
   return {
-    hideMaxed,
     hideUnmet,
   };
 });

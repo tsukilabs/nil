@@ -4,7 +4,7 @@
 import { ref } from 'vue';
 import { defineStore } from 'pinia';
 
-export const useAcademySettings = defineStore('academy', () => {
+export const useAcademySettings = defineStore('academy-settings', () => {
   const hideUnmet = ref(true);
 
   return {

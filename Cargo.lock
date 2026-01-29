@@ -3155,6 +3155,7 @@ name = "nil-payload"
 version = "0.2.0"
 dependencies = [
  "nil-core",
+ "nil-server-types",
  "nil-util",
  "serde",
 ]
