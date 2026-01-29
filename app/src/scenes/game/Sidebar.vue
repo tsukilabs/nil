@@ -88,7 +88,7 @@ function copyServerAddr() {
           {{ config.name }}
         </h1>
         <h2
-          v-if="serverAddr"
+          v-if="isLocal && serverAddr"
           class="text-muted-foreground cursor-pointer text-sm"
           @click="copyServerAddr"
         >

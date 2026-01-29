@@ -127,15 +127,14 @@ pub(crate) fn from_core_err(err: CoreError) -> Response {
 pub(crate) fn from_database_err(err: DatabaseError) -> Response {
   use DatabaseError::*;
 
-  let text = err.to_string();
   match err {
     Core(err) => from_core_err(err),
     Diesel(..) => res!(INTERNAL_SERVER_ERROR),
-    InvalidPassword => res!(BAD_REQUEST, text),
-    InvalidUsername(..) => res!(BAD_REQUEST, text),
-    UserAlreadyExists(..) => res!(CONFLICT, text),
-    UserNotFound(..) => res!(NOT_FOUND, text),
-    WorldNotFound(..) => res!(NOT_FOUND, text),
+    InvalidPassword => res!(BAD_REQUEST, err.to_string()),
+    InvalidUsername(..) => res!(BAD_REQUEST, err.to_string()),
+    UserAlreadyExists(..) => res!(CONFLICT, err.to_string()),
+    UserNotFound(..) => res!(NOT_FOUND, err.to_string()),
+    WorldNotFound(..) => res!(NOT_FOUND, err.to_string()),
     Unknown(..) => res!(INTERNAL_SERVER_ERROR),
   }
 }
@@ -144,15 +143,14 @@ pub(crate) fn from_database_err(err: DatabaseError) -> Response {
 pub(crate) fn from_server_err(err: Error) -> Response {
   use Error::*;
 
-  let text = err.to_string();
   match err {
     Core(err) => from_core_err(err),
     Database(err) => from_database_err(err),
     FailedToStart => res!(INTERNAL_SERVER_ERROR),
-    IncorrectCredentials => res!(UNAUTHORIZED, text),
-    InvalidWorld(..) => res!(INTERNAL_SERVER_ERROR, text),
+    IncorrectCredentials => res!(UNAUTHORIZED, err.to_string()),
+    InvalidWorld(..) => res!(INTERNAL_SERVER_ERROR, err.to_string()),
     Io(..) => res!(INTERNAL_SERVER_ERROR),
-    MissingPassword => res!(BAD_REQUEST, text),
+    MissingPassword => res!(BAD_REQUEST, err.to_string()),
     Unknown(..) => res!(INTERNAL_SERVER_ERROR),
   }
 }
