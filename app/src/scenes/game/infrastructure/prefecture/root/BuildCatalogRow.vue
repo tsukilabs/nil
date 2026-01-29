@@ -13,8 +13,8 @@ import { useBreakpoints } from '@/composables/util/useBreakpoints';
 import BuildingTitle from '@/components/infrastructure/BuildingTitle.vue';
 import enUS from '@/locale/en-US/scenes/game/infrastructure/prefecture.json';
 import ptBR from '@/locale/pt-BR/scenes/game/infrastructure/prefecture.json';
-import { usePrefectureSettings } from '@/settings/infrastructure/prefecture';
 import type { BuildingImpl } from '@/core/model/infrastructure/building/abstract';
+import { usePrefectureSettings } from '@/stores/settings/infrastructure/prefecture';
 import { useResolvedBuildingLevel } from '@/composables/infrastructure/useResolvedBuildingLevel';
 import type { PrefectureImpl } from '@/core/model/infrastructure/building/prefecture/prefecture';
 

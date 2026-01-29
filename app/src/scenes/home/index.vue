@@ -54,7 +54,7 @@ const { sm, md } = useBreakpoints();
         :size="sm ? 'default' : 'lg'"
         role="link"
         tabindex="0"
-        @click="() => go('online')"
+        @click="() => go('sign-up')"
       >
         <span>{{ t('online') }}</span>
       </Button>

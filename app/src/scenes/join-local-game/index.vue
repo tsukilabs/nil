@@ -10,8 +10,8 @@ import { isPlayerOptions } from '@/lib/schema';
 import { SocketAddrV4 } from '@/lib/net/addr-v4';
 import { localRef, useMutex } from '@tb-dev/vue';
 import type { WritablePartial } from '@tb-dev/utils';
-import enUS from '@/locale/en-US/scenes/join-game.json';
-import ptBR from '@/locale/pt-BR/scenes/join-game.json';
+import enUS from '@/locale/en-US/scenes/join-local-game.json';
+import ptBR from '@/locale/pt-BR/scenes/join-local-game.json';
 import { Button, Card, CardContent, CardFooter, CardHeader, CardTitle, Input, Label } from '@tb-dev/vue-components';
 
 const { t } = useI18n({
@@ -23,12 +23,11 @@ const { t } = useI18n({
 
 const router = useRouter();
 
-const player = localRef<WritablePartial<PlayerOptions>>('join-game:player', {
+const player = localRef<WritablePartial<PlayerOptions>>('join-local-game:player', {
   id: null,
-  password: null,
 });
 
-const server = localRef<Option<string>>('join-game:server', null);
+const server = localRef<Option<string>>('join-local-game:server', null);
 const serverAddr = computed<Option<ServerAddr>>(() => {
   const addr = SocketAddrV4.tryParse(server.value);
   if (addr) {
@@ -47,7 +46,10 @@ const canJoin = computed(() => {
 async function join() {
   await lock(async () => {
     if (isPlayerOptions(player.value) && serverAddr.value) {
-      await joinLocalGame(serverAddr.value, null, player.value);
+      await joinLocalGame({
+        serverAddr: serverAddr.value,
+        playerId: player.value.id,
+      });
     }
   });
 }

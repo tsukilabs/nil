@@ -23,6 +23,7 @@ label:has(select),
 label:has(textarea),
 label:has(button[role="combobox"]),
 label:has(input[type="number"]),
+label:has(input[type="password"]),
 label:has(input[type="text"]),
 label:has(input[type="url"]) {
   @apply flex w-full flex-col justify-center items-start gap-2 py-1 font-normal;

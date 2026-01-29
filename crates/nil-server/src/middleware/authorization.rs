@@ -12,6 +12,7 @@ use jiff::{SignedDuration, Zoned};
 use jsonwebtoken::{DecodingKey, EncodingKey, Header, TokenData, Validation, decode, encode};
 use nil_core::player::PlayerId;
 use nil_core::ruler::Ruler;
+use nil_server_types::Token;
 use serde::{Deserialize, Serialize};
 use std::env;
 use std::sync::LazyLock;
@@ -25,8 +26,8 @@ static JWT_SECRET: LazyLock<Box<str>> = LazyLock::new(|| {
 
 pub async fn authorization(mut request: Request, next: Next) -> Response {
   if let Some(header) = request.headers().get(AUTHORIZATION)
-    && let Ok(token) = header.to_str()
-    && let Ok(data) = decode_jwt(token)
+    && let Ok(token) = header.to_str().map(Token::new)
+    && let Ok(data) = decode_jwt(&token)
   {
     request
       .extensions_mut()
@@ -39,13 +40,13 @@ pub async fn authorization(mut request: Request, next: Next) -> Response {
 }
 
 #[derive(Serialize, Deserialize)]
-struct Claims {
+pub(crate) struct Claims {
   pub sub: PlayerId,
   pub exp: usize,
   pub iat: usize,
 }
 
-pub(crate) fn encode_jwt(player: PlayerId) -> AnyResult<String> {
+pub(crate) fn encode_jwt(player: PlayerId) -> AnyResult<Token> {
   let now = Zoned::now();
   let iat = now.timestamp().as_millisecond().try_into()?;
   let exp = now
@@ -54,18 +55,18 @@ pub(crate) fn encode_jwt(player: PlayerId) -> AnyResult<String> {
     .as_millisecond()
     .try_into()?;
 
-  let jwt = encode(
+  let token = encode(
     &Header::default(),
     &Claims { sub: player, iat, exp },
     &EncodingKey::from_secret(JWT_SECRET.as_bytes()),
   )?;
 
-  Ok(jwt)
+  Ok(Token::new(token))
 }
 
-fn decode_jwt(jwt: &str) -> AnyResult<TokenData<Claims>> {
+pub(crate) fn decode_jwt(token: &Token) -> AnyResult<TokenData<Claims>> {
   let claims = decode(
-    jwt,
+    token,
     &DecodingKey::from_secret(JWT_SECRET.as_bytes()),
     &Validation::default(),
   )?;

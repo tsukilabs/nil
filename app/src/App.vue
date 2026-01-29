@@ -8,9 +8,10 @@ import { throttle } from 'es-toolkit';
 import { onKeyDown } from '@tb-dev/vue';
 import { handleError } from '@/lib/error';
 import { nextTick, onMounted } from 'vue';
+import Loading from '@/components/Loading.vue';
 import { Sonner } from '@tb-dev/vue-components';
-import { setTheme, useSettings } from '@/settings';
 import { createTrayIcon, showWindow } from '@/commands';
+import { setTheme, useSettings } from '@/stores/settings';
 import { syncRef, useColorMode, watchImmediate } from '@vueuse/core';
 import { defineGlobalCheats, defineGlobalCommands } from '@/lib/global';
 
@@ -53,7 +54,12 @@ function setLocale(value: Locale) {
     <div class="relative size-full overflow-hidden">
       <RouterView #default="{ Component }">
         <template v-if="Component">
-          <component :is="Component" />
+          <Suspense>
+            <component :is="Component" />
+            <template #fallback>
+              <Loading class="absolute inset-0" />
+            </template>
+          </Suspense>
         </template>
       </RouterView>
     </div>

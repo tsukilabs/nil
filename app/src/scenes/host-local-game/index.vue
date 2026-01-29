@@ -6,12 +6,12 @@ import { go } from '@/router';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
-import { useSettings } from '@/settings';
 import { hostLocalGame } from '@/core/game';
+import { useSettings } from '@/stores/settings';
 import { localRef, useMutex } from '@tb-dev/vue';
 import type { WritablePartial } from '@tb-dev/utils';
-import enUS from '@/locale/en-US/scenes/host-game.json';
-import ptBR from '@/locale/pt-BR/scenes/host-game.json';
+import enUS from '@/locale/en-US/scenes/host-local-game.json';
+import ptBR from '@/locale/pt-BR/scenes/host-local-game.json';
 import { isPlayerOptions, isWorldOptions } from '@/lib/schema';
 import {
   Button,
@@ -40,14 +40,14 @@ const { t } = useI18n({
 const router = useRouter();
 const settings = useSettings();
 
-const world = localRef<WritablePartial<WorldOptions>>('host-game:world', {
+const world = localRef<WritablePartial<WorldOptions>>('host-local-game:world', {
   name: null,
   size: 100,
   locale: settings.locale,
   allowCheats: false,
 });
 
-const player = localRef<WritablePartial<PlayerOptions>>('host-game:player', {
+const player = localRef<WritablePartial<PlayerOptions>>('host-local-game:player', {
   id: null,
 });
 

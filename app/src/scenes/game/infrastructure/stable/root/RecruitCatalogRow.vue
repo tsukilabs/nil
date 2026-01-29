@@ -9,7 +9,7 @@ import { ResourcesImpl } from '@/core/model/resources';
 import CostGrid from '@/components/resources/CostGrid.vue';
 import { TableCell, TableRow } from '@tb-dev/vue-components';
 import { useBreakpoints } from '@/composables/util/useBreakpoints';
-import { useStableSettings } from '@/settings/infrastructure/stable';
+import { useStableSettings } from '@/stores/settings/infrastructure/stable';
 import type { StableImpl } from '@/core/model/infrastructure/building/stable/stable';
 import { useRecruitCatalogEntry } from '@/composables/infrastructure/useRecruitCatalogEntry';
 import RecruitCatalogRowAction from '@/components/infrastructure/RecruitCatalogRowAction.vue';

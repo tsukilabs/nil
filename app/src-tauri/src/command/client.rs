@@ -6,6 +6,7 @@ use crate::manager::ManagerExt;
 use nil_client::ServerAddr;
 use nil_core::player::PlayerId;
 use nil_core::world::WorldId;
+use nil_server_types::Token;
 use nil_util::password::Password;
 use tauri::AppHandle;
 
@@ -21,9 +22,16 @@ pub async fn update_client(
   world_id: Option<WorldId>,
   player_id: Option<PlayerId>,
   player_password: Option<Password>,
+  authorization_token: Option<Token>,
 ) -> Result<()> {
   app
     .nil()
-    .update_client(server_addr, world_id, player_id, player_password)
+    .update_client(
+      server_addr,
+      world_id,
+      player_id,
+      player_password,
+      authorization_token,
+    )
     .await
 }

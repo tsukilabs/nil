@@ -10,5 +10,5 @@ mod server;
 mod websocket;
 
 pub use client::Client;
-pub use error::{Error, Result};
+pub use error::{AnyResult, Error, Result};
 pub use server::ServerAddr;

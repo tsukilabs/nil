@@ -1,9 +1,9 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { useSettings } from '@/settings';
 import { handleError } from '@/lib/error';
 import { attemptAsync } from 'es-toolkit';
+import { useSettings } from '@/stores/settings';
 import { shallowRef, type ShallowRef } from 'vue';
 import { check } from '@tauri-apps/plugin-updater';
 import { openUrl } from '@tauri-apps/plugin-opener';
