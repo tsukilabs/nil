@@ -6,7 +6,7 @@ import { useI18n } from 'vue-i18n';
 import { useMutex } from '@tb-dev/vue';
 import RoundState from './RoundState.vue';
 import { Button } from '@tb-dev/vue-components';
-import { useBreakpoints } from '@/composables/util/useBreakpoints';
+import { useBreakpoints } from '@/composables/useBreakpoints';
 
 const props = defineProps<{
   isHost: boolean;

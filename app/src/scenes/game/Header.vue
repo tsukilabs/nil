@@ -5,8 +5,8 @@
 import { go } from '@/router';
 import Round from './Round.vue';
 import Resources from './Resources.vue';
+import { useBreakpoints } from '@/composables/useBreakpoints';
 import { Button, SidebarTrigger } from '@tb-dev/vue-components';
-import { useBreakpoints } from '@/composables/util/useBreakpoints';
 
 defineProps<{
   isHost: boolean;

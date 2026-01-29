@@ -3,7 +3,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { useBreakpoints } from '@/composables/util/useBreakpoints';
+import { useBreakpoints } from '@/composables/useBreakpoints';
 import { usePlayerResources } from '@/composables/player/usePlayerResources';
 import { usePlayerStorageCapacity } from '@/composables/player/usePlayerStorageCapacity';
 

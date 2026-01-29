@@ -5,7 +5,7 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { formatInt } from '@/lib/intl';
-import { useBreakpoints } from '@/composables/util/useBreakpoints';
+import { useBreakpoints } from '@/composables/useBreakpoints';
 import type { StableImpl } from '@/core/model/infrastructure/building/stable/stable';
 import { Button, cn, Table, TableBody, TableCell, TableRow } from '@tb-dev/vue-components';
 

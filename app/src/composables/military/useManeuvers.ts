@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { computed } from 'vue';
-import { toContinentKeyRef } from '@/composables/util/toRef';
+import { toContinentKeyRef } from '@/composables/toRef';
 
 export function useManeuvers(key?: MaybeNilRef<ContinentKey>) {
   const keyRef = toContinentKeyRef(key);

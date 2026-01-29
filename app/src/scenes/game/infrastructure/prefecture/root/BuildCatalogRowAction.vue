@@ -4,7 +4,7 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import { Button, cn } from '@tb-dev/vue-components';
-import { useBreakpoints } from '@/composables/util/useBreakpoints';
+import { useBreakpoints } from '@/composables/useBreakpoints';
 import enUS from '@/locale/en-US/scenes/game/infrastructure/prefecture.json';
 import ptBR from '@/locale/pt-BR/scenes/game/infrastructure/prefecture.json';
 import type { BuildingImpl } from '@/core/model/infrastructure/building/abstract';

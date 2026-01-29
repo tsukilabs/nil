@@ -4,11 +4,14 @@
 <script setup lang="ts">
 import { go } from '@/router';
 import { useI18n } from 'vue-i18n';
+import { storeToRefs } from 'pinia';
+import * as commands from '@/commands';
 import { exitGame } from '@/core/game';
+import { useUserStore } from '@/stores/user';
 import enUS from '@/locale/en-US/scenes/home.json';
 import ptBR from '@/locale/pt-BR/scenes/home.json';
-import { useUpdate } from '@/composables/util/useUpdate';
-import { useBreakpoints } from '@/composables/util/useBreakpoints';
+import { useUpdate } from '@/composables/useUpdate';
+import { useBreakpoints } from '@/composables/useBreakpoints';
 import { Alert, AlertDescription, AlertTitle, Button } from '@tb-dev/vue-components';
 
 const { t } = useI18n({
@@ -20,6 +23,27 @@ const { t } = useI18n({
 
 const update = useUpdate();
 const { sm, md } = useBreakpoints();
+
+const userStore = useUserStore();
+const { authorizationToken } = storeToRefs(userStore);
+
+async function goToOnlineScene() {
+  if (
+    authorizationToken.value &&
+    await commands.isRemote() &&
+    await commands.validateToken(authorizationToken.value)
+  ) {
+    await commands.updateClient({
+      serverAddr: { kind: 'remote' },
+      authorizationToken: authorizationToken.value,
+    });
+
+    await go('lobby');
+  }
+  else {
+    await go('sign-in');
+  }
+}
 </script>
 
 <template>
@@ -54,7 +78,7 @@ const { sm, md } = useBreakpoints();
         :size="sm ? 'default' : 'lg'"
         role="link"
         tabindex="0"
-        @click="() => go('sign-up')"
+        @click="goToOnlineScene"
       >
         <span>{{ t('online') }}</span>
       </Button>
