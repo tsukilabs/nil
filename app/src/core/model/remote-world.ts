@@ -35,7 +35,7 @@ export class RemoteWorldImpl implements RemoteWorld {
   }
 
   get updatedAtDate() {
-    this.#updatedAtDate ??= fromZoned(this.createdAt);
+    this.#updatedAtDate ??= fromZoned(this.updatedAt);
     return this.#updatedAtDate;
   }
 
