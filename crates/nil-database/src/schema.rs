@@ -5,6 +5,8 @@ diesel::table! {
         id -> Integer,
         user -> Text,
         password -> Text,
+        created_at -> Text,
+        updated_at -> Text,
     }
 }
 
@@ -13,6 +15,8 @@ diesel::table! {
         id -> Text,
         password -> Nullable<Text>,
         created_by -> Integer,
+        created_at -> Text,
+        updated_at -> Text,
         data -> Binary,
     }
 }

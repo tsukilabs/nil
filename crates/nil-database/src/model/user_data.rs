@@ -6,6 +6,7 @@ use crate::error::{Error, Result};
 use crate::sql_types::hashed_password::HashedPassword;
 use crate::sql_types::id::UserDataId;
 use crate::sql_types::user::User;
+use crate::sql_types::zoned::Zoned;
 use diesel::prelude::*;
 use diesel::result::{DatabaseErrorKind, Error as DieselError};
 use either::Either;
@@ -18,6 +19,8 @@ pub struct UserData {
   pub id: UserDataId,
   pub user: User,
   pub password: HashedPassword,
+  pub created_at: Zoned,
+  pub updated_at: Zoned,
 }
 
 impl UserData {
@@ -49,6 +52,17 @@ impl UserData {
     }
   }
 
+  pub fn exists(database: &DatabaseHandle, user: &User) -> Result<bool> {
+    use crate::schema::user_data;
+    user_data::table
+      .filter(user_data::user.eq(user))
+      .select(user_data::id)
+      .first::<UserDataId>(&mut *database.conn())
+      .optional()
+      .map(|it| it.is_some())
+      .map_err(Into::into)
+  }
+
   #[inline]
   pub fn verify_password(&self, password: &Password) -> bool {
     self.password.verify(password)
@@ -60,6 +74,8 @@ impl UserData {
 pub struct NewUserData {
   user: User,
   password: HashedPassword,
+  created_at: Zoned,
+  updated_at: Zoned,
 }
 
 impl NewUserData {
@@ -75,6 +91,8 @@ impl NewUserData {
     Ok(Self {
       user,
       password: HashedPassword::new(password)?,
+      created_at: Zoned::now(),
+      updated_at: Zoned::now(),
     })
   }
 

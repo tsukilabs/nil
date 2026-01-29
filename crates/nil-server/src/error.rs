@@ -19,8 +19,14 @@ pub enum Error {
   #[error("Failed to start server")]
   FailedToStart,
 
+  #[error("Incorrect username or password")]
+  IncorrectCredentials,
+
   #[error("Invalid world")]
   InvalidWorld(WorldId),
+
+  #[error("Missing password")]
+  MissingPassword,
 
   #[error(transparent)]
   Core(#[from] CoreError),

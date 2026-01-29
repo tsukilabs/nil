@@ -6,6 +6,7 @@ use crate::error::{Error, Result};
 use crate::sql_types::hashed_password::HashedPassword;
 use crate::sql_types::id::UserDataId;
 use crate::sql_types::world_data_id::WorldDataId;
+use crate::sql_types::zoned::Zoned;
 use diesel::prelude::*;
 use diesel::result::Error as DieselError;
 use nil_core::world::{World, WorldId};
@@ -19,6 +20,8 @@ pub struct WorldData {
   pub id: WorldDataId,
   pub password: Option<HashedPassword>,
   pub created_by: UserDataId,
+  pub created_at: Zoned,
+  pub updated_at: Zoned,
   pub data: Vec<u8>,
 }
 
@@ -80,6 +83,8 @@ pub struct WorldDataless {
   pub id: WorldDataId,
   pub password: Option<HashedPassword>,
   pub created_by: UserDataId,
+  pub created_at: Zoned,
+  pub updated_at: Zoned,
 }
 
 impl WorldDataless {
@@ -104,8 +109,10 @@ impl WorldDataless {
 #[diesel(table_name = crate::schema::world_data)]
 pub struct NewWorldData {
   id: WorldDataId,
-  created_by: UserDataId,
   password: Option<HashedPassword>,
+  created_by: UserDataId,
+  created_at: Zoned,
+  updated_at: Zoned,
   data: Vec<u8>,
 }
 
@@ -115,8 +122,8 @@ impl NewWorldData {
   pub fn new(
     #[builder(start_fn)] id: WorldId,
     #[builder(start_fn)] data: Vec<u8>,
-    created_by: UserDataId,
     password: Option<&Password>,
+    created_by: UserDataId,
   ) -> Result<Self> {
     if let Some(password) = password {
       let pass_len = password.trim().chars().count();
@@ -127,10 +134,12 @@ impl NewWorldData {
 
     Ok(Self {
       id: WorldDataId::from(id),
-      created_by,
       password: password
         .map(HashedPassword::new)
         .transpose()?,
+      created_by,
+      created_at: Zoned::now(),
+      updated_at: Zoned::now(),
       data,
     })
   }
@@ -141,7 +150,7 @@ impl NewWorldData {
       .values(&self)
       .on_conflict(id)
       .do_update()
-      .set(data.eq(&self.data))
+      .set((data.eq(&self.data), updated_at.eq(Zoned::now())))
       .execute(&mut *database.conn())
       .map_err(Into::into)
   }

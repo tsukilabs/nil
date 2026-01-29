@@ -5,3 +5,4 @@ pub mod hashed_password;
 pub mod id;
 pub mod user;
 pub mod world_data_id;
+pub mod zoned;

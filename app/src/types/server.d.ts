@@ -27,3 +27,14 @@ interface ServerKindLocal {
 interface ServerKindRemote {
   readonly kind: 'remote';
 }
+
+interface RemoteWorld {
+  readonly config: WorldConfig;
+  readonly createdBy: PlayerId;
+  readonly createdAt: string;
+  readonly updatedAt: string;
+  readonly hasPassword: boolean;
+  readonly currentRound: RoundId;
+  readonly activePlayers: number;
+  readonly totalPlayers: number;
+}

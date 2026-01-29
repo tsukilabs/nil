@@ -19,8 +19,10 @@ mod user;
 mod world;
 
 use crate::app::App;
+use crate::error::Error;
 use crate::middleware::authorization::{CurrentPlayer, authorization, decode_jwt, encode_jwt};
 use crate::res;
+use crate::response::from_database_err;
 use crate::websocket::handle_socket;
 use axum::extract::ws::WebSocketUpgrade;
 use axum::extract::{Extension, Json, Query, State};
@@ -159,13 +161,17 @@ async fn authorize(State(app): State<App>, Json(req): Json<AuthorizeRequest>) ->
       ServerKind::Remote => {
         let database = app.database();
         let user = User::from(req.player);
-        if let Some(password) = req.password
-          && let Ok(user_data) = UserData::get(&database, &user)
-          && user_data.verify_password(&password)
+        let Some(password) = req.password else {
+          return Response::from(Error::MissingPassword);
+        };
+
+        if UserData::get(&database, &user)
+          .map_err(Into::<Error>::into)?
+          .verify_password(&password)
         {
           encode_jwt(PlayerId::from(user))?
         } else {
-          return res!(UNAUTHORIZED);
+          return Response::from(Error::IncorrectCredentials);
         }
       }
     }
@@ -173,7 +179,7 @@ async fn authorize(State(app): State<App>, Json(req): Json<AuthorizeRequest>) ->
 
   result
     .map(|token| res!(OK, Json(token)))
-    .unwrap_or_else(|_| res!(UNAUTHORIZED))
+    .unwrap_or_else(Response::from)
 }
 
 async fn ok() -> StatusCode {
@@ -184,10 +190,22 @@ async fn server_kind(State(app): State<App>) -> Response {
   res!(OK, Json(app.server_kind()))
 }
 
-async fn validate_token(Json(req): Json<ValidateTokenRequest>) -> Response {
+async fn validate_token(State(app): State<App>, Json(req): Json<ValidateTokenRequest>) -> Response {
   let player = decode_jwt(&req.token)
     .map(|token| token.claims.sub)
     .ok();
+
+  if app.server_kind().is_remote()
+    && let Some(player) = player.clone()
+  {
+    let database = app.database();
+    let user = User::from(player);
+    match UserData::exists(&database, &user) {
+      Ok(false) => return res!(OK, Json(None::<PlayerId>)),
+      Err(err) => return from_database_err(err),
+      _ => {}
+    }
+  }
 
   res!(OK, Json(player))
 }

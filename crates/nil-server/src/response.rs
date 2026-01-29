@@ -49,7 +49,7 @@ macro_rules! res {
     let body = if (status.is_client_error() || status.is_server_error())
       && let Some(reason) = status.canonical_reason()
     {
-      Body::new(format!("{status} {reason}"))
+      Body::new(reason.to_string())
     } else {
       Body::empty()
     };
@@ -69,11 +69,7 @@ macro_rules! res {
 
 impl From<Error> for Response {
   fn from(err: Error) -> Self {
-    match err {
-      Error::Core(err) => from_core_err(err),
-      Error::Database(err) => from_database_err(err),
-      _ => res!(INTERNAL_SERVER_ERROR, err.to_string()),
-    }
+    from_server_err(err)
   }
 }
 
@@ -86,8 +82,6 @@ pub(crate) fn from_core_err(err: CoreError) -> Response {
   use CoreError::*;
 
   let text = err.to_string();
-  tracing::error!(message = %err, error = ?err);
-
   match err {
     ArmyNotFound(..) => res!(NOT_FOUND, text),
     ArmyNotIdle(..) => res!(BAD_REQUEST, text),
@@ -134,16 +128,32 @@ pub(crate) fn from_database_err(err: DatabaseError) -> Response {
   use DatabaseError::*;
 
   let text = err.to_string();
-  tracing::error!(message = %err, error = ?err);
-
   match err {
     Core(err) => from_core_err(err),
+    Diesel(..) => res!(INTERNAL_SERVER_ERROR),
     InvalidPassword => res!(BAD_REQUEST, text),
     InvalidUsername(..) => res!(BAD_REQUEST, text),
     UserAlreadyExists(..) => res!(CONFLICT, text),
     UserNotFound(..) => res!(NOT_FOUND, text),
     WorldNotFound(..) => res!(NOT_FOUND, text),
-    _ => res!(INTERNAL_SERVER_ERROR, "Unknown database error"),
+    Unknown(..) => res!(INTERNAL_SERVER_ERROR),
+  }
+}
+
+#[expect(clippy::match_same_arms)]
+pub(crate) fn from_server_err(err: Error) -> Response {
+  use Error::*;
+
+  let text = err.to_string();
+  match err {
+    Core(err) => from_core_err(err),
+    Database(err) => from_database_err(err),
+    FailedToStart => res!(INTERNAL_SERVER_ERROR),
+    IncorrectCredentials => res!(UNAUTHORIZED, text),
+    InvalidWorld(..) => res!(INTERNAL_SERVER_ERROR, text),
+    Io(..) => res!(INTERNAL_SERVER_ERROR),
+    MissingPassword => res!(BAD_REQUEST, text),
+    Unknown(..) => res!(INTERNAL_SERVER_ERROR),
   }
 }
 
