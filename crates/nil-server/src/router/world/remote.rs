@@ -24,7 +24,12 @@ pub async fn create(
     let Ok(result) = spawn_blocking(move || {
       let user = User::from(player);
       let password = req.password.as_ref();
-      app.create_remote(&req.options, &user, password)
+      app
+        .create_remote(&req.options)
+        .user(&user)
+        .maybe_world_description(req.description)
+        .maybe_world_password(password)
+        .call()
     })
     .await
     else {
@@ -90,6 +95,7 @@ async fn make_remote_world(app: &App, id: WorldId) -> Result<RemoteWorld> {
 
   Ok(RemoteWorld {
     config: world.config().clone(),
+    description: world_data.description,
     created_by: user_data.user.into(),
     created_at: world_data.created_at.into(),
     updated_at: world_data.updated_at.into(),

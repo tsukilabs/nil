@@ -1,6 +1,7 @@
 {
   "about": "Sobre",
   "academy": "Academia",
+  "allow-cheats": "Permitir trapaças",
   "archer": "Arqueiro | Arqueiros",
   "attack": "Atacar",
   "attack-noun": "Ataque | Ataques",
@@ -56,6 +57,7 @@
   "light-cavalry": "Cavalaria Leve",
   "load": "Carregar",
   "load-game": "Carregar Jogo",
+  "lobby": "Saguão",
   "luck": "Sorte",
   "maintenance": "Manutenção",
   "maneuver": "Manobra | Manobras",
@@ -69,6 +71,7 @@
   "order": "Ordem",
   "origin": "Origem",
   "owner": "Proprietário",
+  "password": "Senha",
   "pikeman": "Piqueiro | Piqueiros",
   "player": "Jogador | Jogadores",
   "player-name": "Nome do Jogador",
@@ -116,6 +119,7 @@
   "update": "Atualizar",
   "update-noun": "Atualização",
   "updated-at": "Atualizado em",
+  "user": "Usuário | Usuários",
   "waiting-players": "Aguardando Jogadores",
   "wall": "Muralha",
   "war-room": "Sala de Guerra",
@@ -123,6 +127,8 @@
   "wood": "Madeira",
   "workforce": "Força de Trabalho",
   "world": "Mundo",
+  "world-name": "Nome do Mundo",
+  "world-size": "Tamanho do Mundo",
   "x-per-turn": "{0} por turno",
   "your-turn": "Seu Turno"
 }

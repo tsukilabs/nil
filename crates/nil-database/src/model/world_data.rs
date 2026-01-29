@@ -19,6 +19,7 @@ use nil_util::password::Password;
 pub struct WorldData {
   pub id: WorldDataId,
   pub password: Option<HashedPassword>,
+  pub description: Option<String>,
   pub created_by: UserDataId,
   pub created_at: Zoned,
   pub updated_at: Zoned,
@@ -82,6 +83,7 @@ impl WorldData {
 pub struct WorldDataless {
   pub id: WorldDataId,
   pub password: Option<HashedPassword>,
+  pub description: Option<String>,
   pub created_by: UserDataId,
   pub created_at: Zoned,
   pub updated_at: Zoned,
@@ -110,6 +112,7 @@ impl WorldDataless {
 pub struct NewWorldData {
   id: WorldDataId,
   password: Option<HashedPassword>,
+  description: Option<String>,
   created_by: UserDataId,
   created_at: Zoned,
   updated_at: Zoned,
@@ -123,6 +126,7 @@ impl NewWorldData {
     #[builder(start_fn)] id: WorldId,
     #[builder(start_fn)] data: Vec<u8>,
     password: Option<&Password>,
+    mut description: Option<String>,
     created_by: UserDataId,
   ) -> Result<Self> {
     if let Some(password) = password {
@@ -132,11 +136,18 @@ impl NewWorldData {
       }
     }
 
+    if let Some(description) = description.as_mut() {
+      while description.len() > 1000 {
+        description.pop();
+      }
+    }
+
     Ok(Self {
       id: WorldDataId::from(id),
       password: password
         .map(HashedPassword::new)
         .transpose()?,
+      description,
       created_by,
       created_at: Zoned::now(),
       updated_at: Zoned::now(),

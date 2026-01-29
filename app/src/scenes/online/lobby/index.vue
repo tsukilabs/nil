@@ -14,6 +14,7 @@ import ptBR from '@/locale/pt-BR/scenes/online.json';
 import { onKeyDown, useBreakpoints } from '@tb-dev/vue';
 import { watchToken } from '@/composables/online/watchToken';
 import { useRemoteWorlds } from '@/composables/useRemoteWorlds';
+import { QUERY_JOIN_REMOTE_GAME_WORLD_ID } from '@/router/online';
 import {
   Button,
   Card,
@@ -48,6 +49,10 @@ if (__DESKTOP__) {
 }
 
 watchToken('sign-in');
+
+async function goToJoinRemoteGameScene(id: WorldId) {
+  await go('join-remote-game', { query: { [QUERY_JOIN_REMOTE_GAME_WORLD_ID]: id } });
+}
 </script>
 
 <template>
@@ -62,6 +67,7 @@ watchToken('sign-in');
                 variant="default"
                 :size="sm ? 'default' : 'sm'"
                 class="md:px-4 xl:px-6 2xl:px-8"
+                @click="() => go('host-remote-game')"
               >
                 <span>{{ t('host') }}</span>
               </Button>
@@ -101,6 +107,7 @@ watchToken('sign-in');
               role="link"
               tabindex="0"
               class="cursor-pointer"
+              @click="() => goToJoinRemoteGameScene(world.config.id)"
             >
               <TableCell v-if="someHasPassword">
                 <LockIcon v-if="world.hasPassword" class="size-4" />

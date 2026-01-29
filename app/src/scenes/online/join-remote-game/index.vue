@@ -1,8 +1,105 @@
 <!-- Copyright (C) Call of Nil contributors -->
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import Box from './Box.vue';
+import { useI18n } from 'vue-i18n';
+import { storeToRefs } from 'pinia';
+import { computed, ref } from 'vue';
+import { useMutex } from '@tb-dev/vue';
+import { useRouter } from 'vue-router';
+import { formatToday } from '@/lib/date';
+import { useUserStore } from '@/stores/user';
+import Loading from '@/components/Loading.vue';
+import { isValidPassword } from '@/lib/schema';
+import { useRouteQuery } from '@vueuse/router';
+import enUS from '@/locale/en-US/scenes/online.json';
+import ptBR from '@/locale/pt-BR/scenes/online.json';
+import { useRemoteWorld } from '@/composables/useRemoteWorld';
+import { QUERY_JOIN_REMOTE_GAME_WORLD_ID } from '@/router/online';
+import { Button, Card, CardContent, CardFooter, CardHeader, CardTitle, Input } from '@tb-dev/vue-components';
+
+const { t } = useI18n({
+  messages: {
+    'en-US': enUS,
+    'pt-BR': ptBR,
+  },
+});
+
+const router = useRouter();
+const worldId = useRouteQuery<Option<WorldId>>(QUERY_JOIN_REMOTE_GAME_WORLD_ID, null);
+
+const userStore = useUserStore();
+const { authorizationToken } = storeToRefs(userStore);
+
+const { remoteWorld, loading } = useRemoteWorld(worldId);
+
+const password = ref<Option<string>>();
+
+const { locked, lock } = useMutex();
+const canJoin = computed(() => {
+  return (
+    Boolean(remoteWorld.value) &&
+    Boolean(authorizationToken.value) &&
+    (!remoteWorld.value?.hasPassword || isValidPassword(password.value))
+  );
+});
+
+async function join() {
+  await lock(async () => {});
+}
+</script>
 
 <template>
-  <div></div>
+  <div class="card-layout">
+    <Loading v-if="loading" />
+    <Card v-else-if="remoteWorld" class="md:min-w-150! md:max-w-1/2">
+      <CardHeader>
+        <CardTitle>{{ t('join-game') }}</CardTitle>
+      </CardHeader>
+
+      <CardContent class="relative size-full overflow-auto flex flex-col">
+        <h1 class="font-semibold text-lg text-center">{{ remoteWorld.name }}</h1>
+        <div class="grid grid-cols-3 gap-x-2 md:gap-x-4 gap-y-0 px-2 md:px-4">
+          <Box :label="t('round')" :content="remoteWorld.currentRound" />
+          <Box :label="t('active-players')" :content="remoteWorld.activePlayers" />
+          <Box :label="t('total-players')" :content="remoteWorld.totalPlayers" />
+          <Box :label="t('created-by')" :content="remoteWorld.createdBy" />
+          <Box :label="t('created-at')" :content="formatToday(remoteWorld.createdAtDate)" />
+          <Box :label="t('updated-at')" :content="formatToday(remoteWorld.updatedAtDate)" />
+        </div>
+
+        <div class="w-full flex justify-center items-center">
+          <span
+            v-if="remoteWorld.description"
+            class="md:max-w-6/8 break-all wrap-anywhere text-center text-muted-foreground"
+          >
+            {{ remoteWorld.description }}
+          </span>
+        </div>
+      </CardContent>
+
+      <CardFooter class="w-full flex flex-col gap-4!">
+        <Input
+          v-if="remoteWorld.hasPassword"
+          v-model="password"
+          type="password"
+          :placeholder="t('password')"
+          :disabled="locked"
+          :minlength="3"
+          :maxlength="50"
+          class="w-full md:max-w-2/3"
+        />
+
+        <div class="w-full md:max-w-1/2 grid grid-cols-2 gap-2">
+          <Button :disabled="!canJoin || locked" @click="join">
+            {{ t('join') }}
+          </Button>
+          <Button variant="secondary" :disabled="locked" @click="() => router.back()">
+            <span>{{ t('cancel') }}</span>
+          </Button>
+        </div>
+      </CardFooter>
+    </Card>
+  </div>
 </template>

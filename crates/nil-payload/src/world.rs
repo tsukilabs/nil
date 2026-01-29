@@ -11,6 +11,8 @@ use std::path::PathBuf;
 pub struct CreateRemoteWorldRequest {
   pub options: WorldOptions,
   #[serde(default)]
+  pub description: Option<String>,
+  #[serde(default)]
   pub password: Option<Password>,
 }
 

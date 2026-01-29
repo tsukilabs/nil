@@ -3,10 +3,22 @@
 
 import type { RouteRecordRaw } from 'vue-router';
 
+export const QUERY_JOIN_REMOTE_GAME_WORLD_ID = 'world';
+
 export const QUERY_SIGN_IN_USER = 'user';
 export const QUERY_SIGN_UP_USER = 'user';
 
 export const onlineRoutes: RouteRecordRaw[] = [
+  {
+    component: () => import('@/scenes/online/host-remote-game/index.vue'),
+    path: 'host-remote-game',
+    name: 'host-remote-game' satisfies OnlineScene,
+  },
+  {
+    component: () => import('@/scenes/online/join-remote-game/index.vue'),
+    path: 'join-remote-game',
+    name: 'join-remote-game' satisfies OnlineScene,
+  },
   {
     component: () => import('@/scenes/online/lobby/index.vue'),
     path: 'lobby',

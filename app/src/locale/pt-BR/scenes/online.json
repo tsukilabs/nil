@@ -1,10 +1,7 @@
 {
   "active-players": "Jogadores ativos",
   "confirm-password": "Confirmar senha",
-  "lobby": "Saguão",
-  "password": "Senha",
-  "sign-in": "Sign in",
-  "sign-up": "Sign up",
-  "total-players": "Total de jogadores",
-  "user": "Usuário"
+  "sign-in": "Entrar",
+  "sign-up": "Registrar",
+  "total-players": "Total de jogadores"
 }

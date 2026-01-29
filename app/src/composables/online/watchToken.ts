@@ -5,7 +5,7 @@ import { go } from '@/router';
 import { storeToRefs } from 'pinia';
 import { useUserStore } from '@/stores/user';
 import { validateToken } from '@/commands/server';
-import { tryOnUnmounted, watchImmediate } from '@vueuse/core';
+import { tryOnScopeDispose, watchImmediate } from '@vueuse/core';
 
 export function watchToken(fallbackScene: Scene) {
   const userStore = useUserStore();
@@ -17,5 +17,5 @@ export function watchToken(fallbackScene: Scene) {
     }
   });
 
-  tryOnUnmounted(() => stop());
+  tryOnScopeDispose(() => stop());
 }

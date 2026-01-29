@@ -1,10 +1,7 @@
 {
   "active-players": "Active players",
   "confirm-password": "Confirm password",
-  "lobby": "Lobby",
-  "password": "Password",
   "sign-in": "Sign in",
   "sign-up": "Sign up",
-  "total-players": "Total players",
-  "user": "User"
+  "total-players": "Total players"
 }

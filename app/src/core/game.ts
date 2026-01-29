@@ -57,24 +57,22 @@ export async function joinLocalGame(options: {
 }
 
 export async function joinRemoteGame(options: {
-  serverAddr: NonNullable<ClientOptions['serverAddr']>;
   worldId: NonNullable<ClientOptions['worldId']>;
-  playerId: NonNullable<ClientOptions['playerId']>;
-  playerPassword?: ClientOptions['playerPassword'];
-  authorizationToken?: NonNullable<ClientOptions['authorizationToken']>;
+  authorizationToken: NonNullable<ClientOptions['authorizationToken']>;
 }) {
-  await commands.updateClient({
-    serverAddr: options.serverAddr,
-    worldId: options.worldId,
-    playerId: options.playerId,
-    playerPassword: options.playerPassword,
-    authorizationToken: options.authorizationToken,
-  });
+  const playerId = await commands.validateToken(options.authorizationToken);
+  if (playerId) {
+    await commands.updateClient({
+      serverAddr: { kind: 'remote' },
+      worldId: options.worldId,
+      authorizationToken: options.authorizationToken,
+    });
 
-  return joinGame({
-    worldId: options.worldId,
-    playerId: options.playerId,
-  });
+    return joinGame({ worldId: options.worldId, playerId });
+  }
+  else {
+    throw new Error('Invalid token');
+  }
 }
 
 export async function hostLocalGame(player: PlayerOptions, world: WorldOptions) {
