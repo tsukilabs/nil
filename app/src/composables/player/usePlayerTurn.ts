@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { computed } from 'vue';
-import type { RoundImpl } from '@/core/model/round';
 import { toPlayerRef } from '@/composables/toRef';
+import type { RoundImpl } from '@/core/model/round';
 import type { PlayerImpl } from '@/core/model/player/player';
 
 export function usePlayerTurn(player?: MaybeNilRef<PlayerImpl>) {
