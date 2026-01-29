@@ -76,9 +76,6 @@ pub fn show_window(window: WebviewWindow) -> Result<()> {
 pub fn show_window() {}
 
 #[tauri::command]
-pub async fn version(app: AppHandle) -> Result<String> {
-  app
-    .client(async |cl| cl.version().await)
-    .await
-    .map_err(Into::into)
+pub fn version() -> &'static str {
+  env!("CARGO_PKG_VERSION")
 }

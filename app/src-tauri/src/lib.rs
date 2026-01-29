@@ -78,6 +78,7 @@ pub fn run() {
       command::city::rename_city,
       command::city::search_city,
       command::city::search_public_city,
+      command::client::get_client_version,
       command::client::stop_client,
       command::client::update_client,
       command::continent::get_public_field,

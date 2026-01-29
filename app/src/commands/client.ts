@@ -3,6 +3,10 @@
 
 import { invoke } from '@tauri-apps/api/core';
 
+export async function getClientVersion() {
+  return invoke<string>('get_client_version');
+}
+
 export async function stopClient() {
   await invoke('stop_client');
 }
