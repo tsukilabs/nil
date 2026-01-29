@@ -30,6 +30,7 @@ interface ServerKindRemote {
 
 interface RemoteWorld {
   readonly config: WorldConfig;
+  readonly description: Option<string>;
   readonly createdBy: PlayerId;
   readonly createdAt: string;
   readonly updatedAt: string;

@@ -13,9 +13,8 @@ import type {
   SaveLocalWorldRequest,
 } from '@/lib/request';
 
-export async function createRemoteWorld(options: WorldOptions, password?: Option<string>) {
-  password ??= null;
-  const req: CreateRemoteWorldRequest = { options, password };
+export async function createRemoteWorld(req: Writable<CreateRemoteWorldRequest>) {
+  req.description &&= req.description.slice(0, 300);
   return invoke<WorldId>('create_remote_world', { req });
 }
 

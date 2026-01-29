@@ -19,6 +19,7 @@ pub enum ServerKind {
 #[serde(rename_all = "camelCase")]
 pub struct RemoteWorld {
   pub config: WorldConfig,
+  pub description: Option<String>,
   pub created_by: PlayerId,
   pub created_at: Zoned,
   pub updated_at: Zoned,

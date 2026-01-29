@@ -17,6 +17,10 @@ export function isValidPassword(value: unknown): value is string {
   return password.safeParse(value).success;
 }
 
+export function isValidNullishPassword(value: unknown): value is Option<string> {
+  return password.nullish().safeParse(value).success;
+}
+
 export function isWorldOptions(value: unknown): value is WorldOptions {
   return worldOptions.safeParse(value).success;
 }

@@ -14,6 +14,7 @@ diesel::table! {
     world_data (id) {
         id -> Text,
         password -> Nullable<Text>,
+        description -> Nullable<Text>,
         created_by -> Integer,
         created_at -> Text,
         updated_at -> Text,

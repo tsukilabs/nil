@@ -3,7 +3,8 @@
 
 export interface CreateRemoteWorldRequest {
   readonly options: WorldOptions;
-  readonly password?: Option<string>;
+  readonly description: Option<string>;
+  readonly password: Option<string>;
 }
 
 export interface GetRemoteWorldRequest {

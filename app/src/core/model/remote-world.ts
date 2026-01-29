@@ -7,6 +7,7 @@ import { WorldConfigImpl } from './world-config';
 
 export class RemoteWorldImpl implements RemoteWorld {
   public readonly config: WorldConfigImpl;
+  public readonly description: Option<string>;
   public readonly createdBy: PlayerId;
   public readonly createdAt: string;
   public readonly updatedAt: string;
@@ -20,6 +21,7 @@ export class RemoteWorldImpl implements RemoteWorld {
 
   private constructor(world: RemoteWorld) {
     this.config = WorldConfigImpl.create(world.config);
+    this.description = world.description?.trim();
     this.createdBy = world.createdBy;
     this.createdAt = world.createdAt;
     this.updatedAt = world.updatedAt;
@@ -27,6 +29,14 @@ export class RemoteWorldImpl implements RemoteWorld {
     this.currentRound = world.currentRound;
     this.activePlayers = world.activePlayers;
     this.totalPlayers = world.totalPlayers;
+  }
+
+  get id() {
+    return this.config.id;
+  }
+
+  get name() {
+    return this.config.name;
   }
 
   get createdAtDate() {

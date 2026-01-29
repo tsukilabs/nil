@@ -10,8 +10,6 @@ import { hostLocalGame } from '@/core/game';
 import { useSettings } from '@/stores/settings';
 import { localRef, useMutex } from '@tb-dev/vue';
 import type { WritablePartial } from '@tb-dev/utils';
-import enUS from '@/locale/en-US/scenes/host-local-game.json';
-import ptBR from '@/locale/pt-BR/scenes/host-local-game.json';
 import { isPlayerOptions, isWorldOptions } from '@/lib/schema';
 import {
   Button,
@@ -30,12 +28,7 @@ import {
   NumberFieldInput,
 } from '@tb-dev/vue-components';
 
-const { t } = useI18n({
-  messages: {
-    'en-US': enUS,
-    'pt-BR': ptBR,
-  },
-});
+const { t } = useI18n();
 
 const router = useRouter();
 const settings = useSettings();

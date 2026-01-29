@@ -1,6 +1,7 @@
 {
   "about": "About",
   "academy": "Academy",
+  "allow-cheats": "Allow cheats",
   "archer": "Archer | Archers",
   "attack": "Attack",
   "attack-noun": "Attack | Attacks",
@@ -56,6 +57,7 @@
   "light-cavalry": "Light Cavalry",
   "load": "Load",
   "load-game": "Load Game",
+  "lobby": "Lobby",
   "luck": "Luck",
   "maintenance": "Maintenance",
   "maneuver": "Maneuver | Maneuvers",
@@ -69,6 +71,7 @@
   "order": "Order",
   "origin": "Origin",
   "owner": "Owner",
+  "password": "Password",
   "pikeman": "Pikeman | Pikemen",
   "player": "Player | Players",
   "player-name": "Player Name",
@@ -116,6 +119,7 @@
   "update": "Update",
   "update-noun": "Update",
   "updated-at": "Updated at",
+  "user": "User | Users",
   "waiting-players": "Waiting Players",
   "wall": "Wall",
   "war-room": "War Room",
@@ -123,6 +127,8 @@
   "wood": "Wood",
   "workforce": "Workforce",
   "world": "World",
+  "world-name": "World Name",
+  "world-size": "World Size",
   "x-per-turn": "{0} per turn",
   "your-turn": "Your Turn"
 }

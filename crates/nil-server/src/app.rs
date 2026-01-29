@@ -31,6 +31,7 @@ pub(crate) struct App {
   database: Option<DatabaseHandle>,
 }
 
+#[bon::bon]
 impl App {
   pub fn new_local(world: World) -> Self {
     let id = world.config().id();
@@ -97,11 +98,13 @@ impl App {
   /// # Panics
   ///
   /// Panics if the server is not remote.
+  #[builder]
   pub(crate) fn create_remote(
     &self,
-    options: &WorldOptions,
+    #[builder(start_fn)] options: &WorldOptions,
     user: &User,
-    password: Option<&Password>,
+    world_description: Option<String>,
+    world_password: Option<&Password>,
   ) -> Result<WorldId> {
     if let ServerKind::Remote = self.server_kind
       && let Some(database) = &self.database
@@ -113,7 +116,8 @@ impl App {
 
       NewWorldData::builder(world_id, bytes)
         .created_by(user.id)
-        .maybe_password(password)
+        .maybe_description(world_description)
+        .maybe_password(world_password)
         .build()?
         .create(database)?;
 
