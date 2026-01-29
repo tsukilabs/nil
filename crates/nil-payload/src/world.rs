@@ -3,9 +3,18 @@
 
 use nil_core::player::PlayerId;
 use nil_core::round::RoundId;
-use nil_core::world::{WorldConfig, WorldId};
+use nil_core::world::{WorldConfig, WorldId, WorldOptions};
+use nil_util::password::Password;
 use serde::{Deserialize, Serialize};
 use std::path::PathBuf;
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct CreateRemoteWorldRequest {
+  pub options: WorldOptions,
+  #[serde(default)]
+  pub password: Option<Password>,
+}
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
@@ -32,6 +41,12 @@ pub struct GetWorldConfigRequest {
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct GetWorldStatsRequest {
+  pub world: WorldId,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct LeaveRequest {
   pub world: WorldId,
 }
 

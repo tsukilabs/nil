@@ -7,7 +7,7 @@ use nil_client::{Client, ServerAddr};
 use nil_core::event::Event;
 use nil_core::player::PlayerId;
 use nil_core::world::{WorldId, WorldOptions};
-use nil_server::local::{LocalServer, load_local, start_local};
+use nil_server::local::{self, LocalServer};
 use nil_server_types::Token;
 use nil_util::password::Password;
 use std::path::PathBuf;
@@ -96,13 +96,13 @@ impl Nil {
 
   pub async fn start_server_with_options(&self, options: WorldOptions) -> Result<LocalServer> {
     self
-      .start_server(async move || Ok(start_local(&options).await?))
+      .start_server(async move || Ok(local::start(&options).await?))
       .await
   }
 
   pub async fn start_server_with_savedata(&self, path: PathBuf) -> Result<LocalServer> {
     self
-      .start_server(async move || Ok(load_local(path).await?))
+      .start_server(async move || Ok(local::load(path).await?))
       .await
   }
 

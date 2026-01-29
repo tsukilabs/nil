@@ -11,3 +11,9 @@ pub struct CreateUserRequest {
   pub player: PlayerId,
   pub password: Password,
 }
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct UserExistsRequest {
+  pub user: PlayerId,
+}

@@ -23,14 +23,14 @@ pub struct WorldData {
 }
 
 impl WorldData {
-  pub fn get(handle: &DatabaseHandle, id: WorldId) -> Result<Self> {
+  pub fn get(database: &DatabaseHandle, id: WorldId) -> Result<Self> {
     use crate::schema::world_data;
 
     let id = WorldDataId::from(id);
     let result = world_data::table
       .find(&id)
       .select(Self::as_select())
-      .first(&mut *handle.conn());
+      .first(&mut *database.conn());
 
     if let Err(DieselError::NotFound) = &result {
       Err(Error::WorldNotFound(id.into()))
@@ -39,20 +39,20 @@ impl WorldData {
     }
   }
 
-  pub fn get_all(handle: &DatabaseHandle) -> Result<Vec<Self>> {
+  pub fn get_all(database: &DatabaseHandle) -> Result<Vec<Self>> {
     use crate::schema::world_data::dsl::*;
     world_data
       .select(Self::as_select())
-      .load(&mut *handle.conn())
+      .load(&mut *database.conn())
       .map_err(Into::into)
   }
 
-  pub fn update_data(handle: &DatabaseHandle, world: WorldId, data: &[u8]) -> Result<usize> {
+  pub fn update_data(database: &DatabaseHandle, world: WorldId, data: &[u8]) -> Result<usize> {
     use crate::schema::world_data;
     let id = WorldDataId::from(world);
     diesel::update(world_data::table.filter(world_data::id.eq(&id)))
       .set(world_data::data.eq(data))
-      .execute(&mut *handle.conn())
+      .execute(&mut *database.conn())
       .map_err(Into::into)
   }
 
@@ -83,14 +83,14 @@ pub struct WorldDataless {
 }
 
 impl WorldDataless {
-  pub fn get(handle: &DatabaseHandle, id: WorldId) -> Result<Self> {
+  pub fn get(database: &DatabaseHandle, id: WorldId) -> Result<Self> {
     use crate::schema::world_data;
 
     let id = WorldDataId::from(id);
     let result = world_data::table
       .find(&id)
       .select(Self::as_select())
-      .first(&mut *handle.conn());
+      .first(&mut *database.conn());
 
     if let Err(DieselError::NotFound) = &result {
       Err(Error::WorldNotFound(id.into()))
@@ -135,14 +135,14 @@ impl NewWorldData {
     })
   }
 
-  pub fn create(self, handle: &DatabaseHandle) -> Result<usize> {
+  pub fn create(self, database: &DatabaseHandle) -> Result<usize> {
     use crate::schema::world_data::dsl::*;
     diesel::insert_into(world_data)
       .values(&self)
       .on_conflict(id)
       .do_update()
       .set(data.eq(&self.data))
-      .execute(&mut *handle.conn())
+      .execute(&mut *database.conn())
       .map_err(Into::into)
   }
 }

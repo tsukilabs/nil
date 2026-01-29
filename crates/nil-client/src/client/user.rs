@@ -14,4 +14,12 @@ impl Client {
       .send()
       .await
   }
+
+  pub async fn user_exists(&self, req: UserExistsRequest) -> Result<bool> {
+    http::json_post("user-exists")
+      .body(req)
+      .server(self.server)
+      .send()
+      .await
+  }
 }

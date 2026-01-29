@@ -5,3 +5,7 @@ export interface CreateUserRequest {
   readonly player: PlayerId;
   readonly password: string;
 }
+
+export interface UserExistsRequest {
+  readonly user: PlayerId;
+}

@@ -81,6 +81,10 @@ wasm-bindgen = "0.2"
 version = "0.8"
 features = ["macros", "ws"]
 
+[workspace.dependencies.clap]
+version = "4.5"
+features = ["derive"]
+
 [workspace.dependencies.derive_more]
 version = "2.1"
 features = ["deref", "deref_mut", "display", "from", "into"]

@@ -12,6 +12,7 @@ use jiff::{SignedDuration, Zoned};
 use jsonwebtoken::{DecodingKey, EncodingKey, Header, TokenData, Validation, decode, encode};
 use nil_core::player::PlayerId;
 use nil_core::ruler::Ruler;
+use nil_database::sql_types::user::User;
 use nil_server_types::Token;
 use serde::{Deserialize, Serialize};
 use std::env;
@@ -80,6 +81,12 @@ pub struct CurrentPlayer(pub(crate) PlayerId);
 impl From<CurrentPlayer> for Ruler {
   fn from(player: CurrentPlayer) -> Self {
     Ruler::Player { id: player.0 }
+  }
+}
+
+impl From<CurrentPlayer> for User {
+  fn from(player: CurrentPlayer) -> Self {
+    User::from(player.0)
   }
 }
 

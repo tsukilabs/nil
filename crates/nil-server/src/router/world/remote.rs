@@ -3,19 +3,42 @@
 
 use crate::app::App;
 use crate::error::Result;
+use crate::middleware::authorization::CurrentPlayer;
 use crate::res;
-use crate::server::local;
-use axum::extract::{Json, State};
+use axum::extract::{Extension, Json, State};
 use axum::response::Response;
-use nil_core::world::{World, WorldId};
+use nil_core::world::WorldId;
 use nil_database::model::user_data::UserData;
 use nil_database::model::world_data::WorldDataless;
+use nil_database::sql_types::user::User;
 use nil_payload::world::*;
+use tokio::task::spawn_blocking;
 
-pub async fn get_remote_world(
+pub async fn create(
   State(app): State<App>,
-  Json(req): Json<GetRemoteWorldRequest>,
+  Extension(player): Extension<CurrentPlayer>,
+  Json(req): Json<CreateRemoteWorldRequest>,
 ) -> Response {
+  if app.server_kind().is_remote() {
+    let Ok(result) = spawn_blocking(move || {
+      let user = User::from(player);
+      let password = req.password.as_ref();
+      app.create_remote(&req.options, &user, password)
+    })
+    .await
+    else {
+      return res!(INTERNAL_SERVER_ERROR);
+    };
+
+    result
+      .map(|world_id| res!(CREATED, Json(world_id)))
+      .unwrap_or_else(Response::from)
+  } else {
+    res!(FORBIDDEN)
+  }
+}
+
+pub async fn get(State(app): State<App>, Json(req): Json<GetRemoteWorldRequest>) -> Response {
   if app.server_kind().is_remote() {
     make_remote_world_response(&app, req.world)
       .await
@@ -26,7 +49,7 @@ pub async fn get_remote_world(
   }
 }
 
-pub async fn get_remote_worlds(State(app): State<App>) -> Response {
+pub async fn get_all(State(app): State<App>) -> Response {
   if app.server_kind().is_remote() {
     let ids = app.world_ids();
     let mut worlds = Vec::with_capacity(ids.len());
@@ -64,44 +87,4 @@ async fn make_remote_world_response(app: &App, id: WorldId) -> Result<GetRemoteW
     active_players,
     current_round: world.round().id(),
   })
-}
-
-pub async fn get_config(
-  State(app): State<App>,
-  Json(req): Json<GetWorldConfigRequest>,
-) -> Response {
-  app
-    .world(req.world, |world| world.config().clone())
-    .await
-    .map_left(|world| res!(OK, Json(world)))
-    .into_inner()
-}
-
-pub async fn get_stats(State(app): State<App>, Json(req): Json<GetWorldStatsRequest>) -> Response {
-  app
-    .world(req.world, World::stats)
-    .await
-    .map_left(|stats| res!(OK, Json(stats)))
-    .into_inner()
-}
-
-pub async fn save_local(
-  State(app): State<App>,
-  Json(req): Json<SaveLocalWorldRequest>,
-) -> Response {
-  if app.server_kind().is_local() {
-    let f = move |bytes: Vec<u8>| {
-      if let Err(err) = local::save_local(req.path, &bytes) {
-        tracing::error!(message = %err, error = ?err);
-      }
-    };
-
-    app
-      .world_mut(req.world, move |world| world.save(f))
-      .await
-      .map_left(|()| res!(OK))
-      .into_inner()
-  } else {
-    res!(FORBIDDEN)
-  }
 }

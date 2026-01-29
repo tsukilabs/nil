@@ -32,12 +32,6 @@ pub struct AuthorizeRequest {
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-pub struct LeaveRequest {
-  pub world: WorldId,
-}
-
-#[derive(Clone, Debug, Deserialize, Serialize)]
-#[serde(rename_all = "camelCase")]
 pub struct ValidateTokenRequest {
   pub token: Token,
 }

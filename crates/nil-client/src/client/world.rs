@@ -4,10 +4,19 @@
 use super::Client;
 use crate::error::Result;
 use crate::http;
-use nil_core::world::{WorldConfig, WorldStats};
+use nil_core::world::{WorldConfig, WorldId, WorldStats};
 use nil_payload::world::*;
 
 impl Client {
+  pub async fn create_remote_world(&self, req: CreateRemoteWorldRequest) -> Result<WorldId> {
+    http::json_post("create-remote-world")
+      .body(req)
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_deref())
+      .send()
+      .await
+  }
+
   pub async fn get_remote_world(
     &self,
     req: GetRemoteWorldRequest,
@@ -38,6 +47,15 @@ impl Client {
     http::json_post("get-world-stats")
       .body(req)
       .server(self.server)
+      .send()
+      .await
+  }
+
+  pub(super) async fn leave(&self, req: LeaveRequest) -> Result<()> {
+    http::post("leave")
+      .body(req)
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_deref())
       .send()
       .await
   }

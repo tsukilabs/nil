@@ -33,11 +33,7 @@ async function goToOnlineScene() {
     await commands.isRemote() &&
     await commands.validateToken(authorizationToken.value)
   ) {
-    await commands.updateClient({
-      serverAddr: { kind: 'remote' },
-      authorizationToken: authorizationToken.value,
-    });
-
+    await userStore.updateClient();
     await go('lobby');
   }
   else {

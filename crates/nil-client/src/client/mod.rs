@@ -28,7 +28,8 @@ use local_ip_address::local_ip;
 use nil_core::event::Event;
 use nil_core::player::PlayerId;
 use nil_core::world::WorldId;
-use nil_payload::{AuthorizeRequest, LeaveRequest, ValidateTokenRequest};
+use nil_payload::world::LeaveRequest;
+use nil_payload::{AuthorizeRequest, ValidateTokenRequest};
 use nil_server_types::{ServerKind, Token};
 use nil_util::password::Password;
 use std::net::IpAddr;
@@ -168,15 +169,6 @@ impl Client {
       .await
       .map(|()| true)
       .unwrap_or(false)
-  }
-
-  async fn leave(&self, req: LeaveRequest) -> Result<()> {
-    http::post("leave")
-      .body(req)
-      .server(self.server)
-      .maybe_authorization(self.authorization.as_deref())
-      .send()
-      .await
   }
 
   pub async fn validate_token<T>(&self, req: T) -> Result<Option<PlayerId>>
