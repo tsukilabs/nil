@@ -6,7 +6,7 @@ import { go } from '@/router';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import { MenuIcon } from 'lucide-vue-next';
-import { useBreakpoints } from '@/composables/util/useBreakpoints';
+import { useBreakpoints } from '@/composables/useBreakpoints';
 import {
   Button,
   type ButtonVariant,

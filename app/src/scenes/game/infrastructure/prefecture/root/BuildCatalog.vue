@@ -7,7 +7,7 @@ import { useI18n } from 'vue-i18n';
 import type { MaybePromise } from '@tb-dev/utils';
 import BuildCatalogRow from './BuildCatalogRow.vue';
 import { usePlayerTurn } from '@/composables/player/usePlayerTurn';
-import { useBreakpoints } from '@/composables/util/useBreakpoints';
+import { useBreakpoints } from '@/composables/useBreakpoints';
 import { usePlayerResources } from '@/composables/player/usePlayerResources';
 import enUS from '@/locale/en-US/scenes/game/infrastructure/prefecture.json';
 import ptBR from '@/locale/pt-BR/scenes/game/infrastructure/prefecture.json';

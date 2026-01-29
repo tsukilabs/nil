@@ -3,7 +3,7 @@
 
 import { computed } from 'vue';
 import type { MaybeNilRef } from '@tb-dev/vue';
-import { toCityRef } from '@/composables/util/toRef';
+import { toCityRef } from '@/composables/toRef';
 import type { CityImpl } from '@/core/model/city/city';
 
 export function useAcademy(city?: MaybeNilRef<CityImpl>) {

@@ -11,7 +11,7 @@ import { ListenerSet } from '@/lib/listener-set';
 import { Continent } from '@tsukilabs/nil-continent';
 import { CoordImpl } from '@/core/model/continent/coord';
 import { Card, CardContent } from '@tb-dev/vue-components';
-import { useBreakpoints } from '@/composables/util/useBreakpoints';
+import { useBreakpoints } from '@/composables/useBreakpoints';
 import { useQueryCoord } from '@/composables/continent/useQueryCoord';
 import { PublicFieldImpl } from '@/core/model/continent/public-field';
 import { memory } from '@tsukilabs/nil-continent/nil_continent_bg.wasm';

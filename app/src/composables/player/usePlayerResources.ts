@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { computed } from 'vue';
-import { toPlayerRef } from '@/composables/util/toRef';
+import { toPlayerRef } from '@/composables/toRef';
 import type { PlayerImpl } from '@/core/model/player/player';
 
 export function usePlayerResources(player?: MaybeNilRef<PlayerImpl>) {

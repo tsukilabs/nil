@@ -5,7 +5,7 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { ChevronDownIcon, ChevronUpIcon } from 'lucide-vue-next';
-import { useBreakpoints } from '@/composables/util/useBreakpoints';
+import { useBreakpoints } from '@/composables/useBreakpoints';
 import BuildingTitle from '@/components/infrastructure/BuildingTitle.vue';
 import enUS from '@/locale/en-US/scenes/game/infrastructure/prefecture.json';
 import ptBR from '@/locale/pt-BR/scenes/game/infrastructure/prefecture.json';

@@ -5,8 +5,8 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import RecruitCatalogRow from './RecruitCatalogRow.vue';
+import { useBreakpoints } from '@/composables/useBreakpoints';
 import { usePlayerTurn } from '@/composables/player/usePlayerTurn';
-import { useBreakpoints } from '@/composables/util/useBreakpoints';
 import { usePlayerResources } from '@/composables/player/usePlayerResources';
 import type { AcademyImpl } from '@/core/model/infrastructure/building/academy/academy';
 import { Table, TableBody, TableHead, TableHeader, TableRow } from '@tb-dev/vue-components';

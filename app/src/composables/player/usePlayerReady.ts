@@ -4,7 +4,7 @@
 import * as commands from '@/commands';
 import { computed, nextTick } from 'vue';
 import { handleError } from '@/lib/error';
-import { toPlayerRef } from '@/composables/util/toRef';
+import { toPlayerRef } from '@/composables/toRef';
 import type { PlayerImpl } from '@/core/model/player/player';
 import { usePlayerTurn } from '@/composables/player/usePlayerTurn';
 

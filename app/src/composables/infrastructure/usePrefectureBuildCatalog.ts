@@ -3,7 +3,7 @@
 
 import { shallowRef } from 'vue';
 import { useMutex } from '@tb-dev/vue';
-import { toCoordRef } from '@/composables/util/toRef';
+import { toCoordRef } from '@/composables/toRef';
 import type { CoordImpl } from '@/core/model/continent/coord';
 import {
   addPrefectureBuildOrder,

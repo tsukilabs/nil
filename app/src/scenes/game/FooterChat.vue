@@ -10,7 +10,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { useToggle, whenever } from '@vueuse/core';
 import { MessagesSquareIcon } from 'lucide-vue-next';
 import ChatInput from '@/components/chat/ChatInput.vue';
-import { useBreakpoints } from '@/composables/util/useBreakpoints';
+import { useBreakpoints } from '@/composables/useBreakpoints';
 import { Popover, PopoverContent, PopoverTrigger } from '@tb-dev/vue-components';
 
 const { player } = NIL.player.refs();

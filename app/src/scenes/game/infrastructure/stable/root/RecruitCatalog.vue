@@ -6,7 +6,7 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import RecruitCatalogRow from './RecruitCatalogRow.vue';
 import { usePlayerTurn } from '@/composables/player/usePlayerTurn';
-import { useBreakpoints } from '@/composables/util/useBreakpoints';
+import { useBreakpoints } from '@/composables/useBreakpoints';
 import { usePlayerResources } from '@/composables/player/usePlayerResources';
 import type { StableImpl } from '@/core/model/infrastructure/building/stable/stable';
 import { Table, TableBody, TableHead, TableHeader, TableRow } from '@tb-dev/vue-components';
