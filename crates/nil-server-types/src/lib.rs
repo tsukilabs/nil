@@ -1,6 +1,9 @@
 #![feature(str_as_str)]
 
-use nil_core::world::WorldId;
+use jiff::Zoned;
+use nil_core::player::PlayerId;
+use nil_core::round::RoundId;
+use nil_core::world::{WorldConfig, WorldId};
 use serde::{Deserialize, Serialize};
 use std::ops::Deref;
 use strum::EnumIs;
@@ -10,6 +13,19 @@ use strum::EnumIs;
 pub enum ServerKind {
   Local { id: WorldId },
   Remote,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct RemoteWorld {
+  pub config: WorldConfig,
+  pub created_by: PlayerId,
+  pub created_at: Zoned,
+  pub updated_at: Zoned,
+  pub has_password: bool,
+  pub current_round: RoundId,
+  pub active_players: usize,
+  pub total_players: usize,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]

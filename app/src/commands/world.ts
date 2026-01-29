@@ -4,7 +4,6 @@
 import { invoke } from '@tauri-apps/api/core';
 import type { SavedataInfo } from '@/core/savedata';
 import { WorldConfigImpl } from '@/core/model/world-config';
-import type { GetRemoteWorldResponse } from '@/lib/response';
 import { type RawWorldStats, WorldStatsImpl } from '@/core/model/stats/world-stats';
 import type {
   CreateRemoteWorldRequest,
@@ -17,7 +16,7 @@ import type {
 export async function createRemoteWorld(options: WorldOptions, password?: Option<string>) {
   password ??= null;
   const req: CreateRemoteWorldRequest = { options, password };
-  return invoke<GetRemoteWorldResponse>('create_remote_world', { req });
+  return invoke<WorldId>('create_remote_world', { req });
 }
 
 export async function getRemoteWorld(world?: Option<WorldId>) {
@@ -25,11 +24,11 @@ export async function getRemoteWorld(world?: Option<WorldId>) {
     world: world ?? NIL.world.getIdStrict(),
   };
 
-  return invoke<GetRemoteWorldResponse>('get_remote_world', { req });
+  return invoke<RemoteWorld>('get_remote_world', { req });
 }
 
 export async function getRemoteWorlds() {
-  return invoke<readonly GetRemoteWorldResponse[]>('get_remote_worlds');
+  return invoke<readonly RemoteWorld[]>('get_remote_worlds');
 }
 
 export async function getWorldConfig(world?: Option<WorldId>): Promise<WorldConfigImpl> {

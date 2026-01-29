@@ -6,6 +6,7 @@ use crate::error::Result;
 use crate::http;
 use nil_core::world::{WorldConfig, WorldId, WorldStats};
 use nil_payload::world::*;
+use nil_server_types::RemoteWorld;
 
 impl Client {
   pub async fn create_remote_world(&self, req: CreateRemoteWorldRequest) -> Result<WorldId> {
@@ -17,10 +18,7 @@ impl Client {
       .await
   }
 
-  pub async fn get_remote_world(
-    &self,
-    req: GetRemoteWorldRequest,
-  ) -> Result<GetRemoteWorldResponse> {
+  pub async fn get_remote_world(&self, req: GetRemoteWorldRequest) -> Result<RemoteWorld> {
     http::json_post("get-remote-world")
       .body(req)
       .server(self.server)
@@ -28,7 +26,7 @@ impl Client {
       .await
   }
 
-  pub async fn get_remote_worlds(&self) -> Result<Vec<GetRemoteWorldResponse>> {
+  pub async fn get_remote_worlds(&self) -> Result<Vec<RemoteWorld>> {
     http::json_get("get-remote-worlds")
       .server(self.server)
       .send()

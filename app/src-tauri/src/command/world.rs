@@ -6,6 +6,7 @@ use crate::manager::ManagerExt;
 use nil_core::savedata::SavedataInfo;
 use nil_core::world::{WorldConfig, WorldId, WorldStats};
 use nil_payload::world::*;
+use nil_server_types::RemoteWorld;
 use std::path::PathBuf;
 use tauri::AppHandle;
 use tauri::async_runtime::spawn_blocking;
@@ -19,10 +20,7 @@ pub async fn create_remote_world(app: AppHandle, req: CreateRemoteWorldRequest) 
 }
 
 #[tauri::command]
-pub async fn get_remote_world(
-  app: AppHandle,
-  req: GetRemoteWorldRequest,
-) -> Result<GetRemoteWorldResponse> {
+pub async fn get_remote_world(app: AppHandle, req: GetRemoteWorldRequest) -> Result<RemoteWorld> {
   app
     .client(async |cl| cl.get_remote_world(req).await)
     .await
@@ -30,7 +28,7 @@ pub async fn get_remote_world(
 }
 
 #[tauri::command]
-pub async fn get_remote_worlds(app: AppHandle) -> Result<Vec<GetRemoteWorldResponse>> {
+pub async fn get_remote_worlds(app: AppHandle) -> Result<Vec<RemoteWorld>> {
   app
     .client(async |cl| cl.get_remote_worlds().await)
     .await

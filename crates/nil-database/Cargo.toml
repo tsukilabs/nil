@@ -20,6 +20,7 @@ derive_more.workspace = true
 diesel.workspace = true
 diesel_migrations.workspace = true
 either.workspace = true
+jiff.workspace = true
 libsqlite3-sys.workspace = true
 nil-core.workspace = true
 nil-util.workspace = true

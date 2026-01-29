@@ -1,7 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use crate::error::AnyResult;
+use crate::error::{AnyResult, Result};
 use crate::res;
 use axum::extract::Request;
 use axum::http::header::AUTHORIZATION;
@@ -47,32 +47,44 @@ pub(crate) struct Claims {
   pub iat: usize,
 }
 
-pub(crate) fn encode_jwt(player: PlayerId) -> AnyResult<Token> {
-  let now = Zoned::now();
-  let iat = now.timestamp().as_millisecond().try_into()?;
-  let exp = now
-    .saturating_add(SignedDuration::from_hours(300))
-    .timestamp()
-    .as_millisecond()
-    .try_into()?;
+pub(crate) fn encode_jwt(player: PlayerId) -> Result<Token> {
+  // TODO: use heterogeneous try blocks once they’re available.
+  // See: https://github.com/rust-lang/rust/issues/149488
+  let inner = move || -> AnyResult<Token> {
+    let now = Zoned::now();
+    let iat = now.timestamp().as_millisecond().try_into()?;
+    let exp = now
+      .saturating_add(SignedDuration::from_hours(300))
+      .timestamp()
+      .as_millisecond()
+      .try_into()?;
 
-  let token = encode(
-    &Header::default(),
-    &Claims { sub: player, iat, exp },
-    &EncodingKey::from_secret(JWT_SECRET.as_bytes()),
-  )?;
+    let token = encode(
+      &Header::default(),
+      &Claims { sub: player, iat, exp },
+      &EncodingKey::from_secret(JWT_SECRET.as_bytes()),
+    )?;
 
-  Ok(Token::new(token))
+    Ok(Token::new(token))
+  };
+
+  inner().map_err(Into::into)
 }
 
-pub(crate) fn decode_jwt(token: &Token) -> AnyResult<TokenData<Claims>> {
-  let claims = decode(
-    token,
-    &DecodingKey::from_secret(JWT_SECRET.as_bytes()),
-    &Validation::default(),
-  )?;
+pub(crate) fn decode_jwt(token: &Token) -> Result<TokenData<Claims>> {
+  // TODO: use heterogeneous try blocks once they’re available.
+  // See: https://github.com/rust-lang/rust/issues/149488
+  let inner = move || -> AnyResult<TokenData<Claims>> {
+    let claims = decode(
+      token,
+      &DecodingKey::from_secret(JWT_SECRET.as_bytes()),
+      &Validation::default(),
+    )?;
 
-  Ok(claims)
+    Ok(claims)
+  };
+
+  inner().map_err(Into::into)
 }
 
 #[derive(Clone, Debug, Deref, From, Into, PartialEq, Eq)]

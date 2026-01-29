@@ -30,8 +30,9 @@ pub async fn exists(State(app): State<App>, Json(req): Json<UserExistsRequest>) 
   if app.server_kind().is_remote() {
     let database = app.database();
     let user = User::from(req.user);
-    let exists = UserData::get(&database, &user).is_ok();
-    res!(OK, Json(exists))
+    UserData::exists(&database, &user)
+      .map(|exists| res!(OK, Json(exists)))
+      .unwrap_or_else(from_database_err)
   } else {
     res!(FORBIDDEN)
   }

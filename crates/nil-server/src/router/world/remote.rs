@@ -12,6 +12,7 @@ use nil_database::model::user_data::UserData;
 use nil_database::model::world_data::WorldDataless;
 use nil_database::sql_types::user::User;
 use nil_payload::world::*;
+use nil_server_types::RemoteWorld;
 use tokio::task::spawn_blocking;
 
 pub async fn create(
@@ -40,7 +41,7 @@ pub async fn create(
 
 pub async fn get(State(app): State<App>, Json(req): Json<GetRemoteWorldRequest>) -> Response {
   if app.server_kind().is_remote() {
-    make_remote_world_response(&app, req.world)
+    make_remote_world(&app, req.world)
       .await
       .map(|world| res!(OK, Json(world)))
       .unwrap_or_else(Response::from)
@@ -55,7 +56,7 @@ pub async fn get_all(State(app): State<App>) -> Response {
     let mut worlds = Vec::with_capacity(ids.len());
 
     for id in ids {
-      if let Ok(world) = make_remote_world_response(&app, id).await {
+      if let Ok(world) = make_remote_world(&app, id).await {
         worlds.push(world);
       }
     }
@@ -68,23 +69,33 @@ pub async fn get_all(State(app): State<App>) -> Response {
   }
 }
 
-async fn make_remote_world_response(app: &App, id: WorldId) -> Result<GetRemoteWorldResponse> {
+async fn make_remote_world(app: &App, id: WorldId) -> Result<RemoteWorld> {
   let database = app.database();
   let world_data = WorldDataless::get(&database, id)?;
   let user_data = UserData::get_by_id(&database, world_data.created_by)?;
 
   let world = app.get(id)?;
   let world = world.read().await;
-  let active_players = world
-    .players()
-    .filter(|player| player.is_active())
-    .count();
 
-  Ok(GetRemoteWorldResponse {
+  let mut active_players = 0;
+  let mut total_players = 0;
+
+  for player in world.players() {
+    if player.is_active() {
+      active_players += 1;
+    }
+
+    total_players += 1;
+  }
+
+  Ok(RemoteWorld {
     config: world.config().clone(),
     created_by: user_data.user.into(),
+    created_at: world_data.created_at.into(),
+    updated_at: world_data.updated_at.into(),
     has_password: world_data.password.is_some(),
-    active_players,
     current_round: world.round().id(),
+    active_players,
+    total_players,
   })
 }
