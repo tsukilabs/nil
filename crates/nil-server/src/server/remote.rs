@@ -9,7 +9,7 @@ use nil_database::DatabaseHandle;
 use nil_database::model::world_data::WorldData;
 use std::net::SocketAddr;
 
-pub async fn start_remote(database_url: &str) -> Result<()> {
+pub async fn start(database_url: &str) -> Result<()> {
   let router = router::create()
     .with_state(App::new_remote(database_url)?)
     .into_make_service_with_connect_info::<SocketAddr>();

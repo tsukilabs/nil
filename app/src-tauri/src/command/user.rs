@@ -13,3 +13,11 @@ pub async fn create_user(app: AppHandle, req: CreateUserRequest) -> Result<()> {
     .await
     .map_err(Into::into)
 }
+
+#[tauri::command]
+pub async fn user_exists(app: AppHandle, req: UserExistsRequest) -> Result<bool> {
+  app
+    .client(async |cl| cl.user_exists(req).await)
+    .await
+    .map_err(Into::into)
+}

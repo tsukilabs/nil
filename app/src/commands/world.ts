@@ -7,11 +7,18 @@ import { WorldConfigImpl } from '@/core/model/world-config';
 import type { GetRemoteWorldResponse } from '@/lib/response';
 import { type RawWorldStats, WorldStatsImpl } from '@/core/model/stats/world-stats';
 import type {
+  CreateRemoteWorldRequest,
   GetRemoteWorldRequest,
   GetWorldConfigRequest,
   GetWorldStatsRequest,
-  SaveWorldRequest as SaveLocalWorldRequest,
+  SaveLocalWorldRequest,
 } from '@/lib/request';
+
+export async function createRemoteWorld(options: WorldOptions, password?: Option<string>) {
+  password ??= null;
+  const req: CreateRemoteWorldRequest = { options, password };
+  return invoke<GetRemoteWorldResponse>('create_remote_world', { req });
+}
 
 export async function getRemoteWorld(world?: Option<WorldId>) {
   const req: GetRemoteWorldRequest = {

@@ -258,7 +258,7 @@ impl World {
   }
 }
 
-#[derive(Builder, Clone, Deserialize, Serialize)]
+#[derive(Builder, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct WorldOptions {
   #[builder(start_fn, into)]

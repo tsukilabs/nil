@@ -131,6 +131,8 @@ pub fn run() {
       command::server::stop_server,
       command::server::validate_token,
       command::user::create_user,
+      command::user::user_exists,
+      command::world::create_remote_world,
       command::world::get_remote_world,
       command::world::get_remote_worlds,
       command::world::get_world_config,

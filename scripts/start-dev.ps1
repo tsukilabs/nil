@@ -11,6 +11,9 @@ param(
   [Alias('W')]
   [switch]$Wasm,
 
+  [Alias('R')]
+  [switch]$Remote,
+
   [Alias('V')]
   [switch]$Verbose,
 
@@ -22,6 +25,10 @@ $PSNativeCommandUseErrorActionPreference = $true
 
 if ($Wasm) {
   pnpm run wasm
+}
+
+if ($Remote) {
+  $Env:NIL_REMOTE_SERVER_ADDR = 'tsukilabs.dev.br/nil'
 }
 
 if ($LogTowerHttp -or $Verbose) {

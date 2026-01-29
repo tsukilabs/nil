@@ -4,11 +4,19 @@
 use crate::error::{Error, Result};
 use crate::manager::ManagerExt;
 use nil_core::savedata::SavedataInfo;
-use nil_core::world::{WorldConfig, WorldStats};
+use nil_core::world::{WorldConfig, WorldId, WorldStats};
 use nil_payload::world::*;
 use std::path::PathBuf;
 use tauri::AppHandle;
 use tauri::async_runtime::spawn_blocking;
+
+#[tauri::command]
+pub async fn create_remote_world(app: AppHandle, req: CreateRemoteWorldRequest) -> Result<WorldId> {
+  app
+    .client(async |cl| cl.create_remote_world(req).await)
+    .await
+    .map_err(Into::into)
+}
 
 #[tauri::command]
 pub async fn get_remote_world(

@@ -1,7 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use crate::error::Result;
+use crate::error::{Error, Result};
 use crate::event::Emitter;
 use crate::savedata::Savedata;
 use crate::world::World;
@@ -9,13 +9,18 @@ use crate::world::World;
 impl World {
   pub(super) fn consume_pending_save(&mut self) -> Result<()> {
     if let Some(handle) = self.pending_save.take() {
-      let mut buffer = Vec::new();
-      let mut data = Savedata::from(&*self);
-      data.write(&mut buffer)?;
-      handle.save(buffer);
+      handle.save(self.to_bytes()?);
     }
 
     Ok(())
+  }
+
+  pub fn to_bytes(&self) -> Result<Vec<u8>> {
+    let mut buffer = Vec::new();
+    let mut data = Savedata::from(self);
+    data.write(&mut buffer)?;
+
+    Ok(buffer)
   }
 }
 
@@ -56,5 +61,13 @@ impl From<Savedata> for World {
       pending_save: None,
       on_next_round: None,
     }
+  }
+}
+
+impl TryFrom<&World> for Vec<u8> {
+  type Error = Error;
+
+  fn try_from(world: &World) -> Result<Self> {
+    world.to_bytes()
   }
 }

@@ -14,10 +14,13 @@ use nil_core::player::PlayerManager;
 use nil_core::ranking::Ranking;
 use nil_core::report::ReportManager;
 use nil_core::round::Round;
-use nil_core::world::{World, WorldId};
+use nil_core::world::{World, WorldId, WorldOptions};
 use nil_database::DatabaseHandle;
-use nil_database::model::world_data::WorldData;
+use nil_database::model::user_data::UserData;
+use nil_database::model::world_data::{NewWorldData, WorldData};
+use nil_database::sql_types::user::User;
 use nil_server_types::ServerKind;
+use nil_util::password::Password;
 use std::sync::Arc;
 use tokio::sync::RwLock;
 
@@ -70,6 +73,9 @@ impl App {
     self.server_kind
   }
 
+  /// # Panics
+  ///
+  /// Panics if the server is not remote.
   pub fn database(&self) -> DatabaseHandle {
     if let ServerKind::Remote = self.server_kind
       && let Some(database) = &self.database
@@ -86,6 +92,42 @@ impl App {
       .iter()
       .map(|entry| *entry.key())
       .collect()
+  }
+
+  /// # Panics
+  ///
+  /// Panics if the server is not remote.
+  pub(crate) fn create_remote(
+    &self,
+    options: &WorldOptions,
+    user: &User,
+    password: Option<&Password>,
+  ) -> Result<WorldId> {
+    if let ServerKind::Remote = self.server_kind
+      && let Some(database) = &self.database
+    {
+      let user = UserData::get(database, user)?;
+      let mut world = World::try_from(options)?;
+      let world_id = world.config().id();
+      let bytes = world.to_bytes()?;
+
+      NewWorldData::builder(world_id, bytes)
+        .created_by(user.id)
+        .maybe_password(password)
+        .build()?
+        .create(database)?;
+
+      let database = database.clone();
+      world.on_next_round(remote::on_next_round(database));
+
+      self
+        .worlds
+        .insert(world_id, Arc::new(RwLock::new(world)));
+
+      Ok(world_id)
+    } else {
+      panic!("Not a remote server")
+    }
   }
 
   pub(crate) fn get(&self, id: WorldId) -> Result<Arc<RwLock<World>>> {

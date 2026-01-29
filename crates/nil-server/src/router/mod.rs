@@ -21,7 +21,6 @@ mod world;
 use crate::app::App;
 use crate::middleware::authorization::{CurrentPlayer, authorization, decode_jwt, encode_jwt};
 use crate::res;
-use crate::response::EitherExt;
 use crate::websocket::handle_socket;
 use axum::extract::ws::WebSocketUpgrade;
 use axum::extract::{Extension, Json, Query, State};
@@ -30,11 +29,11 @@ use axum::response::Response;
 use axum::routing::{any, get, post};
 use axum::{Router, middleware};
 use infrastructure::prelude::*;
-use nil_core::player::{PlayerId, PlayerStatus};
+use nil_core::player::PlayerId;
 use nil_core::world::World;
 use nil_database::model::user_data::UserData;
 use nil_database::sql_types::user::User;
-use nil_payload::{AuthorizeRequest, LeaveRequest, ValidateTokenRequest, WebsocketQuery};
+use nil_payload::{AuthorizeRequest, ValidateTokenRequest, WebsocketQuery};
 use nil_server_types::ServerKind;
 use tower_http::trace::{
   DefaultMakeSpan,
@@ -45,6 +44,7 @@ use tower_http::trace::{
 };
 use tracing::Level;
 
+#[expect(clippy::too_many_lines)]
 pub(crate) fn create() -> Router<App> {
   #[rustfmt::skip]
   let router = Router::new()
@@ -81,6 +81,7 @@ pub(crate) fn create() -> Router<App> {
     .route("/cheat-set-wood", post(cheat::resources::set_wood))
     .route("/cheat-spawn-bot", post(cheat::npc::spawn_bot))
     .route("/cheat-spawn-personnel", post(cheat::military::spawn_personnel))
+    .route("/create-remote-world", post(world::remote::create))
     .route("/get-academy-recruit-catalog", post(academy::get_recruit_catalog))
     .route("/get-chat-history", post(chat::get))
     .route("/get-city", post(city::get))
@@ -95,11 +96,11 @@ pub(crate) fn create() -> Router<App> {
     .route("/get-report", post(report::get))
     .route("/get-reports", post(report::get_by))
     .route("/get-stable-recruit-catalog", post(stable::get_recruit_catalog))
-    .route("/leave", post(leave))
+    .route("/leave", post(world::leave))
     .route("/push-chat-message", post(chat::push))
     .route("/rename-city", post(city::rename))
     .route("/request-maneuver", post(military::request_maneuver))
-    .route("/save-local-world", post(world::save_local))
+    .route("/save-local-world", post(world::local::save))
     .route("/search-city", post(city::search))
     .route("/set-player-ready", post(round::set_ready))
     .route("/set-player-status", post(player::set_status))
@@ -127,8 +128,8 @@ pub(crate) fn create() -> Router<App> {
     .route("/get-public-precursor", post(npc::precursor::get_public))
     .route("/get-rank", post(ranking::get_rank))
     .route("/get-ranking", post(ranking::get))
-    .route("/get-remote-world", post(world::get_remote_world))
-    .route("/get-remote-worlds", get(world::get_remote_worlds))
+    .route("/get-remote-world", post(world::remote::get))
+    .route("/get-remote-worlds", get(world::remote::get_all))
     .route("/get-round", post(round::get))
     .route("/get-server-kind", get(server_kind))
     .route("/get-world-config", post(world::get_config))
@@ -136,6 +137,7 @@ pub(crate) fn create() -> Router<App> {
     .route("/player-exists", post(player::exists))
     .route("/search-public-city", post(city::search_public))
     .route("/simulate-battle", post(battle::simulate))
+    .route("/user-exists", post(user::exists))
     .route("/validate-token", post(validate_token))
     .route("/version", get(version));
 
@@ -172,20 +174,6 @@ async fn authorize(State(app): State<App>, Json(req): Json<AuthorizeRequest>) ->
   result
     .map(|token| res!(OK, Json(token)))
     .unwrap_or_else(|_| res!(UNAUTHORIZED))
-}
-
-async fn leave(
-  State(app): State<App>,
-  Extension(player): Extension<CurrentPlayer>,
-  Json(req): Json<LeaveRequest>,
-) -> Response {
-  app
-    .world_mut(req.world, |world| {
-      world.set_player_status(&player.0, PlayerStatus::Inactive)
-    })
-    .await
-    .try_map_left(|()| res!(OK))
-    .into_inner()
 }
 
 async fn ok() -> StatusCode {

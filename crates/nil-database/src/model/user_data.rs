@@ -21,12 +21,12 @@ pub struct UserData {
 }
 
 impl UserData {
-  pub fn get(handle: &DatabaseHandle, user: &User) -> Result<Self> {
+  pub fn get(database: &DatabaseHandle, user: &User) -> Result<Self> {
     use crate::schema::user_data;
     let result = user_data::table
       .filter(user_data::user.eq(user))
       .select(Self::as_select())
-      .first(&mut *handle.conn());
+      .first(&mut *database.conn());
 
     if let Err(DieselError::NotFound) = &result {
       Err(Error::UserNotFound(Either::Left(user.clone())))
@@ -35,12 +35,12 @@ impl UserData {
     }
   }
 
-  pub fn get_by_id(handle: &DatabaseHandle, id: UserDataId) -> Result<Self> {
+  pub fn get_by_id(database: &DatabaseHandle, id: UserDataId) -> Result<Self> {
     use crate::schema::user_data;
     let result = user_data::table
       .find(id)
       .select(Self::as_select())
-      .first(&mut *handle.conn());
+      .first(&mut *database.conn());
 
     if let Err(DieselError::NotFound) = &result {
       Err(Error::UserNotFound(Either::Right(id)))
@@ -78,11 +78,11 @@ impl NewUserData {
     })
   }
 
-  pub fn create(self, handle: &DatabaseHandle) -> Result<usize> {
+  pub fn create(self, database: &DatabaseHandle) -> Result<usize> {
     use crate::schema::user_data::dsl::*;
     let result = diesel::insert_into(user_data)
       .values(&self)
-      .execute(&mut *handle.conn());
+      .execute(&mut *database.conn());
 
     if let Err(DieselError::DatabaseError(kind, _)) = &result
       && let DatabaseErrorKind::UniqueViolation = kind
