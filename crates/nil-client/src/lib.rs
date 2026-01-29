@@ -12,3 +12,5 @@ mod websocket;
 pub use client::Client;
 pub use error::{AnyResult, Error, Result};
 pub use server::ServerAddr;
+
+pub const VERSION: &str = env!("CARGO_PKG_VERSION");

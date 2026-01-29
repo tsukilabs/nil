@@ -11,6 +11,11 @@ use nil_util::password::Password;
 use tauri::AppHandle;
 
 #[tauri::command]
+pub fn get_client_version() -> &'static str {
+  nil_client::VERSION
+}
+
+#[tauri::command]
 pub async fn stop_client(app: AppHandle) {
   app.nil().stop_client().await;
 }

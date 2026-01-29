@@ -154,6 +154,13 @@ impl Client {
       .await
   }
 
+  pub async fn get_server_version(&self) -> Result<String> {
+    http::get_text("version")
+      .server(self.server)
+      .send()
+      .await
+  }
+
   pub async fn is_ready(&self) -> bool {
     http::get("")
       .server(self.server)
@@ -178,13 +185,6 @@ impl Client {
   {
     http::json_post("validate-token")
       .body(Into::<ValidateTokenRequest>::into(req))
-      .server(self.server)
-      .send()
-      .await
-  }
-
-  pub async fn version(&self) -> Result<String> {
-    http::get_text("version")
       .server(self.server)
       .send()
       .await
