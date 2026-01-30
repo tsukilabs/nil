@@ -5,12 +5,16 @@ use anyhow::{Result, anyhow};
 use argon2::password_hash::rand_core::OsRng;
 use argon2::password_hash::{PasswordHasher, SaltString};
 use argon2::{Argon2, PasswordHash, PasswordVerifier};
-use derive_more::{Display, Into};
+use derive_more::{Display, From, Into};
 use serde::{Deserialize, Serialize};
+use std::borrow::Cow;
 use std::ops::Deref;
 use std::sync::Arc;
 
-#[derive(Clone, Debug, Default, Display, Into, PartialEq, Eq, Hash, Deserialize, Serialize)]
+#[derive(
+  Clone, Debug, Default, Display, From, Into, PartialEq, Eq, Hash, Deserialize, Serialize,
+)]
+#[from(String, &str, Arc<str>, Box<str>, Cow<'_, str>)]
 pub struct Password(Arc<str>);
 
 impl Password {

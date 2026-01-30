@@ -13,6 +13,7 @@ use futures::{Sink, SinkExt, StreamExt};
 use http::{Method, header};
 use nil_core::event::Event;
 use nil_core::world::WorldId;
+use nil_util::password::Password;
 use std::ops::ControlFlow;
 use tokio::net::TcpStream;
 use tokio::spawn;
@@ -30,17 +31,20 @@ pub(super) struct WebSocketClient {
   _receiver: Receiver,
 }
 
+#[bon::bon]
 impl WebSocketClient {
+  #[builder]
   pub async fn connect<OnEvent>(
-    server: ServerAddr,
+    #[builder(start_fn)] server: ServerAddr,
     world_id: WorldId,
+    world_password: Option<Password>,
     authorization: Authorization,
     on_event: OnEvent,
   ) -> Result<Self>
   where
     OnEvent: Fn(Event) -> BoxFuture<'static, ()> + Send + Sync + 'static,
   {
-    let Ok(ws_stream) = make_stream(server, world_id, authorization).await else {
+    let Ok(ws_stream) = make_stream(server, world_id, world_password, authorization).await else {
       return Err(Error::FailedToConnectWebsocket);
     };
 
@@ -56,12 +60,14 @@ impl WebSocketClient {
 async fn make_stream(
   server: ServerAddr,
   world_id: WorldId,
+  world_password: Option<Password>,
   authorization: Authorization,
 ) -> AnyResult<Stream> {
   let mut url = server.url_with_scheme("ws", "websocket")?;
   url
     .query_pairs_mut()
-    .append_pair("world", &world_id.to_string());
+    .append_pair("worldId", &world_id.to_string())
+    .append_pair("worldPassword", &world_password.unwrap_or_default());
 
   let mut request = url.into_client_request()?;
   *request.method_mut() = Method::GET;

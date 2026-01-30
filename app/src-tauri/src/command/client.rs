@@ -25,18 +25,19 @@ pub async fn update_client(
   app: AppHandle,
   server_addr: ServerAddr,
   world_id: Option<WorldId>,
+  world_password: Option<Password>,
   player_id: Option<PlayerId>,
   player_password: Option<Password>,
   authorization_token: Option<Token>,
 ) -> Result<()> {
   app
     .nil()
-    .update_client(
-      server_addr,
-      world_id,
-      player_id,
-      player_password,
-      authorization_token,
-    )
+    .update_client(server_addr)
+    .maybe_world_id(world_id)
+    .maybe_world_password(world_password)
+    .maybe_player_id(player_id)
+    .maybe_player_password(player_password)
+    .maybe_authorization_token(authorization_token)
+    .call()
     .await
 }

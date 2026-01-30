@@ -8,6 +8,7 @@ diesel::table! {
         created_by -> Integer,
         created_at -> Text,
         updated_at -> Text,
+        server_version -> Text,
         world_blob -> Binary,
     }
 }

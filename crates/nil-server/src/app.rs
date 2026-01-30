@@ -18,6 +18,7 @@ use nil_core::world::{World, WorldId, WorldOptions};
 use nil_database::Database;
 use nil_database::model::game::NewGame;
 use nil_database::sql_types::player_id::SqlPlayerId;
+use nil_database::sql_types::version::SqlVersion;
 use nil_server_types::ServerKind;
 use nil_util::password::Password;
 use std::sync::Arc;
@@ -104,6 +105,7 @@ impl App {
     #[builder(into)] player_id: SqlPlayerId,
     #[builder(into)] world_description: Option<String>,
     world_password: Option<&Password>,
+    #[builder(into)] server_version: SqlVersion,
   ) -> Result<WorldId> {
     if let ServerKind::Remote = self.server_kind
       && let Some(db) = &self.database
@@ -111,12 +113,13 @@ impl App {
       let user = db.get_user(player_id)?;
       let mut world = World::try_from(options)?;
       let world_id = world.config().id();
-      let bytes = world.to_bytes()?;
+      let blob = world.to_bytes()?;
 
-      NewGame::builder(world_id, bytes)
+      NewGame::builder(world_id, blob)
         .created_by(user.id)
         .maybe_description(world_description)
         .maybe_password(world_password)
+        .server_version(server_version)
         .build()?
         .create(db)?;
 

@@ -13,3 +13,5 @@ mod websocket;
 
 pub use error::{Error, Result};
 pub use server::{local, remote};
+
+pub const VERSION: &str = env!("CARGO_PKG_VERSION");

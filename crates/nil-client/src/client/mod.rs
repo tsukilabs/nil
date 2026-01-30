@@ -54,6 +54,7 @@ impl Client {
     &mut self,
     #[builder(start_fn)] server: ServerAddr,
     world_id: Option<WorldId>,
+    world_password: Option<Password>,
     player_id: Option<PlayerId>,
     player_password: Option<Password>,
     authorization_token: Option<Token>,
@@ -94,7 +95,14 @@ impl Client {
       && let Some(on_event) = on_event
       && let Some(authorization) = self.authorization.clone()
     {
-      let websocket = WebSocketClient::connect(server, world_id, authorization, on_event).await?;
+      let websocket = WebSocketClient::connect(server)
+        .world_id(world_id)
+        .maybe_world_password(world_password)
+        .authorization(authorization)
+        .on_event(on_event)
+        .call()
+        .await?;
+
       self.websocket = Some(websocket);
     }
 

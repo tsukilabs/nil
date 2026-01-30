@@ -6,6 +6,7 @@ use crate::error::{Error, Result};
 use crate::sql_types::game_id::GameId;
 use crate::sql_types::hashed_password::HashedPassword;
 use crate::sql_types::id::UserId;
+use crate::sql_types::version::SqlVersion;
 use crate::sql_types::zoned::SqlZoned;
 use diesel::prelude::*;
 use nil_core::world::World;
@@ -54,6 +55,7 @@ pub struct NewGame {
   created_by: UserId,
   created_at: SqlZoned,
   updated_at: SqlZoned,
+  server_version: SqlVersion,
   world_blob: Vec<u8>,
 }
 
@@ -66,6 +68,7 @@ impl NewGame {
     password: Option<&Password>,
     mut description: Option<String>,
     created_by: UserId,
+    server_version: SqlVersion,
   ) -> Result<Self> {
     if let Some(password) = password {
       let pass_len = password.trim().chars().count();
@@ -89,6 +92,7 @@ impl NewGame {
       created_by,
       created_at: SqlZoned::now(),
       updated_at: SqlZoned::now(),
+      server_version,
       world_blob: blob,
     })
   }

@@ -3093,6 +3093,7 @@ name = "nil"
 version = "0.2.0"
 dependencies = [
  "anyhow",
+ "bon",
  "futures",
  "itertools",
  "nil-client",
@@ -3209,6 +3210,7 @@ dependencies = [
  "libsqlite3-sys",
  "nil-core",
  "nil-util",
+ "semver",
  "serde",
  "thiserror 2.0.18",
  "tracing",
@@ -3284,6 +3286,7 @@ dependencies = [
  "nil-payload",
  "nil-server-types",
  "nil-util",
+ "semver",
  "serde",
  "thiserror 2.0.18",
  "tokio",
