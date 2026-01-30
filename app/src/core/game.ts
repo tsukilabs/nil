@@ -4,6 +4,7 @@
 import { go } from '@/router';
 import * as commands from '@/commands';
 import { handleError } from '@/lib/error';
+import { useUserStore } from '@/stores/user';
 import { Entity } from '@/core/entity/abstract';
 import { exit } from '@tauri-apps/plugin-process';
 
@@ -114,11 +115,12 @@ export async function leaveGame() {
     handleError(err);
   }
   finally {
-    if (await commands.isLocal()) {
-      await go('home');
+    const { isAuthorizationTokenValid } = useUserStore();
+    if (await commands.isRemote() && await isAuthorizationTokenValid()) {
+      await go('lobby');
     }
     else {
-      await go('lobby');
+      await go('home');
     }
   }
 }
