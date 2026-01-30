@@ -57,5 +57,6 @@ export interface SetPlayerStatusRequest {
 
 export interface SpawnPlayerRequest {
   readonly world: WorldId;
+  readonly worldPassword: Option<string>;
   readonly options: PlayerOptions;
 }

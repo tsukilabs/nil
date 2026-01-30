@@ -9,6 +9,7 @@ import { computed, ref } from 'vue';
 import { useMutex } from '@tb-dev/vue';
 import { useRouter } from 'vue-router';
 import { formatToday } from '@/lib/date';
+import { joinRemoteGame } from '@/core/game';
 import { useUserStore } from '@/stores/user';
 import Loading from '@/components/Loading.vue';
 import { isValidPassword } from '@/lib/schema';
@@ -34,19 +35,27 @@ const { authorizationToken } = storeToRefs(userStore);
 
 const { remoteWorld, loading } = useRemoteWorld(worldId);
 
-const password = ref<Option<string>>();
+const worldPassword = ref<Option<string>>();
 
 const { locked, lock } = useMutex();
 const canJoin = computed(() => {
   return (
     Boolean(remoteWorld.value) &&
     Boolean(authorizationToken.value) &&
-    (!remoteWorld.value?.hasPassword || isValidPassword(password.value))
+    (!remoteWorld.value?.hasPassword || isValidPassword(worldPassword.value))
   );
 });
 
 async function join() {
-  await lock(async () => {});
+  await lock(async () => {
+    if (remoteWorld.value && authorizationToken.value) {
+      await joinRemoteGame({
+        worldId: remoteWorld.value.id,
+        worldPassword: worldPassword.value,
+        authorizationToken: authorizationToken.value,
+      });
+    }
+  });
 }
 </script>
 
@@ -69,11 +78,8 @@ async function join() {
           <Box :label="t('updated-at')" :content="formatToday(remoteWorld.updatedAtDate)" />
         </div>
 
-        <div class="w-full flex justify-center items-center">
-          <span
-            v-if="remoteWorld.description"
-            class="md:max-w-6/8 break-all wrap-anywhere text-center text-muted-foreground"
-          >
+        <div v-if="remoteWorld.description" class="w-full flex justify-center items-center py-2">
+          <span class="md:max-w-6/8 text-sm md:text-base text-center text-muted-foreground break-all wrap-anywhere">
             {{ remoteWorld.description }}
           </span>
         </div>
@@ -82,7 +88,7 @@ async function join() {
       <CardFooter class="w-full flex flex-col gap-4!">
         <Input
           v-if="remoteWorld.hasPassword"
-          v-model="password"
+          v-model="worldPassword"
           type="password"
           :placeholder="t('password')"
           :disabled="locked"

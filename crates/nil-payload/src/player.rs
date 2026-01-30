@@ -3,6 +3,7 @@
 
 use nil_core::player::{PlayerId, PlayerOptions, PlayerStatus};
 use nil_core::world::WorldId;
+use nil_util::password::Password;
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
@@ -87,5 +88,7 @@ pub struct SetPlayerStatusRequest {
 #[serde(rename_all = "camelCase")]
 pub struct SpawnPlayerRequest {
   pub world: WorldId,
+  #[serde(default)]
+  pub world_password: Option<Password>,
   pub options: PlayerOptions,
 }

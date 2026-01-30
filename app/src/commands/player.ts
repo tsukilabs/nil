@@ -121,9 +121,10 @@ export async function setPlayerStatus(status: PlayerStatus) {
   await invoke('set_player_status', { req });
 }
 
-export async function spawnPlayer(options: PlayerOptions) {
+export async function spawnPlayer(options: PlayerOptions, worldPassword: Option<string>) {
   const req: SpawnPlayerRequest = {
     world: NIL.world.getIdStrict(),
+    worldPassword: worldPassword ?? null,
     options,
   };
 

@@ -9,6 +9,7 @@ import { exit } from '@tauri-apps/plugin-process';
 
 async function joinGame(options: {
   worldId: NonNullable<ClientOptions['worldId']>;
+  worldPassword: ClientOptions['worldPassword'];
   playerId: NonNullable<ClientOptions['playerId']>;
 }) {
   await NIL.world.setId(options.worldId);
@@ -22,7 +23,8 @@ async function joinGame(options: {
     }
   }
   else {
-    await commands.spawnPlayer({ id: playerId });
+    const playerOptions: PlayerOptions = { id: playerId };
+    await commands.spawnPlayer(playerOptions, options.worldPassword);
   }
 
   await NIL.player.setId(playerId);
@@ -48,6 +50,7 @@ export async function joinLocalGame(options: {
   if (options.worldId) {
     return joinGame({
       worldId: options.worldId,
+      worldPassword: null,
       playerId: options.playerId,
     });
   }
@@ -58,6 +61,7 @@ export async function joinLocalGame(options: {
 
 export async function joinRemoteGame(options: {
   worldId: NonNullable<ClientOptions['worldId']>;
+  worldPassword: ClientOptions['worldPassword'];
   authorizationToken: NonNullable<ClientOptions['authorizationToken']>;
 }) {
   const playerId = await commands.validateToken(options.authorizationToken);
@@ -65,10 +69,15 @@ export async function joinRemoteGame(options: {
     await commands.updateClient({
       serverAddr: { kind: 'remote' },
       worldId: options.worldId,
+      worldPassword: options.worldPassword,
       authorizationToken: options.authorizationToken,
     });
 
-    return joinGame({ worldId: options.worldId, playerId });
+    return joinGame({
+      worldId: options.worldId,
+      worldPassword: options.worldPassword,
+      playerId,
+    });
   }
   else {
     throw new Error('Invalid token');
