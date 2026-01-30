@@ -6,16 +6,14 @@ use crate::res;
 use crate::response::from_database_err;
 use axum::extract::{Json, State};
 use axum::response::Response;
-use nil_database::model::user_data::{NewUserData, UserData};
-use nil_database::sql_types::user::User;
+use nil_database::model::user::NewUser;
 use nil_payload::user::*;
 
 pub async fn create(State(app): State<App>, Json(req): Json<CreateUserRequest>) -> Response {
   if app.server_kind().is_remote() {
-    let database = app.database();
-    let user = User::from(req.player);
     let result = try {
-      NewUserData::new(user, &req.password)?.create(&database)?;
+      let new = NewUser::new(req.player, &req.password)?;
+      app.database().create_user(&new)?;
     };
 
     result
@@ -28,9 +26,9 @@ pub async fn create(State(app): State<App>, Json(req): Json<CreateUserRequest>) 
 
 pub async fn exists(State(app): State<App>, Json(req): Json<UserExistsRequest>) -> Response {
   if app.server_kind().is_remote() {
-    let database = app.database();
-    let user = User::from(req.user);
-    UserData::exists(&database, &user)
+    app
+      .database()
+      .user_exists(req.user)
       .map(|exists| res!(OK, Json(exists)))
       .unwrap_or_else(from_database_err)
   } else {

@@ -8,9 +8,6 @@ use crate::res;
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
 use nil_core::world::WorldId;
-use nil_database::model::user_data::UserData;
-use nil_database::model::world_data::WorldDataless;
-use nil_database::sql_types::user::User;
 use nil_payload::world::*;
 use nil_server_types::RemoteWorld;
 use tokio::task::spawn_blocking;
@@ -22,11 +19,10 @@ pub async fn create(
 ) -> Response {
   if app.server_kind().is_remote() {
     let Ok(result) = spawn_blocking(move || {
-      let user = User::from(player);
       let password = req.password.as_ref();
       app
         .create_remote(&req.options)
-        .user(&user)
+        .player_id(player)
         .maybe_world_description(req.description)
         .maybe_world_password(password)
         .call()
@@ -76,8 +72,8 @@ pub async fn get_all(State(app): State<App>) -> Response {
 
 async fn make_remote_world(app: &App, id: WorldId) -> Result<RemoteWorld> {
   let database = app.database();
-  let world_data = WorldDataless::get(&database, id)?;
-  let user_data = UserData::get_by_id(&database, world_data.created_by)?;
+  let game = database.get_game(id)?;
+  let user = database.get_user_by_id(game.created_by)?;
 
   let world = app.get(id)?;
   let world = world.read().await;
@@ -95,11 +91,11 @@ async fn make_remote_world(app: &App, id: WorldId) -> Result<RemoteWorld> {
 
   Ok(RemoteWorld {
     config: world.config().clone(),
-    description: world_data.description,
-    created_by: user_data.user.into(),
-    created_at: world_data.created_at.into(),
-    updated_at: world_data.updated_at.into(),
-    has_password: world_data.password.is_some(),
+    description: game.description,
+    created_by: user.player_id.into(),
+    created_at: game.created_at.into(),
+    updated_at: game.updated_at.into(),
+    has_password: game.password.is_some(),
     current_round: world.round().id(),
     active_players,
     total_players,
