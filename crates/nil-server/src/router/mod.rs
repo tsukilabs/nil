@@ -33,7 +33,6 @@ use axum::{Router, middleware};
 use infrastructure::prelude::*;
 use nil_core::player::PlayerId;
 use nil_core::world::World;
-use nil_database::model::user_data::UserData;
 use nil_database::sql_types::user::User;
 use nil_payload::{AuthorizeRequest, ValidateTokenRequest, WebsocketQuery};
 use nil_server_types::ServerKind;
@@ -159,19 +158,20 @@ async fn authorize(State(app): State<App>, Json(req): Json<AuthorizeRequest>) ->
     match app.server_kind() {
       ServerKind::Local { .. } => encode_jwt(req.player)?,
       ServerKind::Remote => {
-        let database = app.database();
         let user = User::from(req.player);
         let Some(password) = req.password else {
           return Response::from(Error::MissingPassword);
         };
 
-        if UserData::get(&database, &user)
+        if app
+          .database()
+          .get_user_data(&user)
           .map_err(Into::<Error>::into)?
           .verify_password(&password)
         {
           encode_jwt(PlayerId::from(user))?
         } else {
-          return Response::from(Error::IncorrectCredentials);
+          return Response::from(Error::IncorrectUserCredentials);
         }
       }
     }
@@ -198,12 +198,11 @@ async fn validate_token(State(app): State<App>, Json(req): Json<ValidateTokenReq
   if app.server_kind().is_remote()
     && let Some(player) = player.clone()
   {
-    let database = app.database();
     let user = User::from(player);
-    match UserData::exists(&database, &user) {
+    match app.database().user_data_exists(&user) {
+      Ok(true) => {}
       Ok(false) => return res!(OK, Json(None::<PlayerId>)),
       Err(err) => return from_database_err(err),
-      _ => {}
     }
   }
 
@@ -221,8 +220,25 @@ async fn websocket(
   Query(query): Query<WebsocketQuery>,
 ) -> Response {
   let id = player.0;
+  if app.server_kind().is_remote() {
+    match app
+      .database()
+      .get_world_password(query.world_id)
+    {
+      Ok(Some(hash))
+        if query
+          .world_password
+          .is_none_or(|it| !hash.verify(&it)) =>
+      {
+        return Error::IncorrectWorldCredentials(query.world_id).into();
+      }
+      Err(err) => return from_database_err(err),
+      _ => {}
+    }
+  }
+
   app
-    .world(query.world, World::subscribe)
+    .world(query.world_id, World::subscribe)
     .await
     .map_left(|listener| ws.on_upgrade(move |socket| handle_socket(socket, listener, id)))
     .into_inner()

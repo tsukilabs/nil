@@ -15,9 +15,8 @@ use nil_core::ranking::Ranking;
 use nil_core::report::ReportManager;
 use nil_core::round::Round;
 use nil_core::world::{World, WorldId, WorldOptions};
-use nil_database::DatabaseHandle;
-use nil_database::model::user_data::UserData;
-use nil_database::model::world_data::{NewWorldData, WorldData};
+use nil_database::Database;
+use nil_database::model::world_data::NewWorldData;
 use nil_database::sql_types::user::User;
 use nil_server_types::ServerKind;
 use nil_util::password::Password;
@@ -28,7 +27,7 @@ use tokio::sync::RwLock;
 pub(crate) struct App {
   server_kind: ServerKind,
   worlds: Arc<DashMap<WorldId, Arc<RwLock<World>>>>,
-  database: Option<DatabaseHandle>,
+  database: Option<Database>,
 }
 
 #[bon::bon]
@@ -50,9 +49,9 @@ impl App {
 
   pub fn new_remote(database_url: &str) -> Result<Self> {
     let worlds = Arc::new(DashMap::new());
-    let database = DatabaseHandle::new(database_url)?;
+    let database = Database::new(database_url)?;
 
-    for data in WorldData::get_all(&database)? {
+    for data in database.get_worlds_data()? {
       let mut world = data.into_world()?;
       let world_id = world.config().id();
 
@@ -77,7 +76,7 @@ impl App {
   /// # Panics
   ///
   /// Panics if the server is not remote.
-  pub fn database(&self) -> DatabaseHandle {
+  pub fn database(&self) -> Database {
     if let ServerKind::Remote = self.server_kind
       && let Some(database) = &self.database
     {
@@ -107,9 +106,9 @@ impl App {
     world_password: Option<&Password>,
   ) -> Result<WorldId> {
     if let ServerKind::Remote = self.server_kind
-      && let Some(database) = &self.database
+      && let Some(db) = &self.database
     {
-      let user = UserData::get(database, user)?;
+      let user = db.get_user_data(user)?;
       let mut world = World::try_from(options)?;
       let world_id = world.config().id();
       let bytes = world.to_bytes()?;
@@ -119,10 +118,10 @@ impl App {
         .maybe_description(world_description)
         .maybe_password(world_password)
         .build()?
-        .create(database)?;
+        .create(db)?;
 
-      let database = database.clone();
-      world.on_next_round(remote::on_next_round(database));
+      let db = db.clone();
+      world.on_next_round(remote::on_next_round(db));
 
       self
         .worlds

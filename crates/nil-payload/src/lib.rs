@@ -48,5 +48,7 @@ where
 #[derive(Clone, Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct WebsocketQuery {
-  pub world: WorldId,
+  pub world_id: WorldId,
+  #[serde(default)]
+  pub world_password: Option<Password>,
 }

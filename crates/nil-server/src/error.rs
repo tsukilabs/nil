@@ -20,7 +20,10 @@ pub enum Error {
   FailedToStart,
 
   #[error("Incorrect username or password")]
-  IncorrectCredentials,
+  IncorrectUserCredentials,
+
+  #[error("Incorrect world password")]
+  IncorrectWorldCredentials(WorldId),
 
   #[error("Invalid world")]
   InvalidWorld(WorldId),

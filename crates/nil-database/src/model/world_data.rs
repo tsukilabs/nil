@@ -1,14 +1,13 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use crate::DatabaseHandle;
+use crate::Database;
 use crate::error::{Error, Result};
 use crate::sql_types::hashed_password::HashedPassword;
 use crate::sql_types::id::UserDataId;
 use crate::sql_types::world_data_id::WorldDataId;
 use crate::sql_types::zoned::Zoned;
 use diesel::prelude::*;
-use diesel::result::Error as DieselError;
 use nil_core::world::{World, WorldId};
 use nil_util::password::Password;
 
@@ -27,50 +26,9 @@ pub struct WorldData {
 }
 
 impl WorldData {
-  pub fn get(database: &DatabaseHandle, id: WorldId) -> Result<Self> {
-    use crate::schema::world_data;
-
-    let id = WorldDataId::from(id);
-    let result = world_data::table
-      .find(&id)
-      .select(Self::as_select())
-      .first(&mut *database.conn());
-
-    if let Err(DieselError::NotFound) = &result {
-      Err(Error::WorldNotFound(id.into()))
-    } else {
-      Ok(result?)
-    }
-  }
-
-  pub fn get_all(database: &DatabaseHandle) -> Result<Vec<Self>> {
-    use crate::schema::world_data::dsl::*;
-    world_data
-      .select(Self::as_select())
-      .load(&mut *database.conn())
-      .map_err(Into::into)
-  }
-
-  pub fn update_data(database: &DatabaseHandle, world: WorldId, data: &[u8]) -> Result<usize> {
-    use crate::schema::world_data;
-    let id = WorldDataId::from(world);
-    diesel::update(world_data::table.filter(world_data::id.eq(&id)))
-      .set(world_data::data.eq(data))
-      .execute(&mut *database.conn())
-      .map_err(Into::into)
-  }
-
   #[inline]
   pub fn into_world(self) -> Result<World> {
     Ok(World::load(&self.data)?)
-  }
-
-  #[inline]
-  pub fn verify_password(&self, password: &Password) -> bool {
-    self
-      .password
-      .as_ref()
-      .is_none_or(|it| it.verify(password))
   }
 }
 
@@ -87,24 +45,6 @@ pub struct WorldDataless {
   pub created_by: UserDataId,
   pub created_at: Zoned,
   pub updated_at: Zoned,
-}
-
-impl WorldDataless {
-  pub fn get(database: &DatabaseHandle, id: WorldId) -> Result<Self> {
-    use crate::schema::world_data;
-
-    let id = WorldDataId::from(id);
-    let result = world_data::table
-      .find(&id)
-      .select(Self::as_select())
-      .first(&mut *database.conn());
-
-    if let Err(DieselError::NotFound) = &result {
-      Err(Error::WorldNotFound(id.into()))
-    } else {
-      Ok(result?)
-    }
-  }
 }
 
 #[derive(Insertable, Clone, Debug)]
@@ -155,14 +95,13 @@ impl NewWorldData {
     })
   }
 
-  pub fn create(self, database: &DatabaseHandle) -> Result<usize> {
-    use crate::schema::world_data::dsl::*;
-    diesel::insert_into(world_data)
-      .values(&self)
-      .on_conflict(id)
-      .do_update()
-      .set((data.eq(&self.data), updated_at.eq(Zoned::now())))
-      .execute(&mut *database.conn())
-      .map_err(Into::into)
+  #[inline]
+  pub fn data(&self) -> &[u8] {
+    &self.data
+  }
+
+  #[inline]
+  pub fn create(self, database: &Database) -> Result<usize> {
+    database.create_world_data(&self)
   }
 }

@@ -8,8 +8,6 @@ use crate::res;
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
 use nil_core::world::WorldId;
-use nil_database::model::user_data::UserData;
-use nil_database::model::world_data::WorldDataless;
 use nil_database::sql_types::user::User;
 use nil_payload::world::*;
 use nil_server_types::RemoteWorld;
@@ -75,9 +73,9 @@ pub async fn get_all(State(app): State<App>) -> Response {
 }
 
 async fn make_remote_world(app: &App, id: WorldId) -> Result<RemoteWorld> {
-  let database = app.database();
-  let world_data = WorldDataless::get(&database, id)?;
-  let user_data = UserData::get_by_id(&database, world_data.created_by)?;
+  let db = app.database();
+  let world_data = db.get_world_dataless(id)?;
+  let user_data = db.get_user_data_by_id(world_data.created_by)?;
 
   let world = app.get(id)?;
   let world = world.read().await;

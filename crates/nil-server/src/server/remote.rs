@@ -5,8 +5,7 @@ use crate::app::App;
 use crate::error::Result;
 use crate::router;
 use nil_core::world::World;
-use nil_database::DatabaseHandle;
-use nil_database::model::world_data::WorldData;
+use nil_database::Database;
 use std::net::SocketAddr;
 
 pub async fn start(database_url: &str) -> Result<()> {
@@ -22,12 +21,13 @@ pub async fn start(database_url: &str) -> Result<()> {
   Ok(())
 }
 
-pub(crate) fn on_next_round(database: DatabaseHandle) -> Box<dyn Fn(&mut World) + Send + Sync> {
+pub(crate) fn on_next_round(db: Database) -> Box<dyn Fn(&mut World) + Send + Sync> {
   Box::new(move |world: &mut World| {
+    let db = db.clone();
     let id = world.config().id();
-    let database = database.clone();
+
     world.save(move |bytes| {
-      if let Err(err) = WorldData::update_data(&database, id, &bytes) {
+      if let Err(err) = db.update_world_data(id, &bytes) {
         tracing::error!(message = %err, error = ?err);
       }
     });
