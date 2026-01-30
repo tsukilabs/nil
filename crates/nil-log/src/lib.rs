@@ -3,7 +3,7 @@
 
 use anyhow::Result;
 use bitflags::bitflags;
-use std::{env, io};
+use std::{env, fs, io};
 use tracing::subscriber::set_global_default;
 use tracing_appender::non_blocking::WorkerGuard;
 use tracing_appender::rolling::{RollingFileAppender, Rotation};
@@ -53,18 +53,19 @@ pub fn setup(options: &Options) -> Result<LogGuard> {
   if options.layers.contains(Layers::FILE)
     && let Ok(path) = env::var("NIL_LOG_DIR")
   {
+    fs::create_dir_all(&path)?;
     let appender = RollingFileAppender::builder()
       .rotation(Rotation::DAILY)
       .filename_suffix("nil.log")
       .max_log_files(30)
       .build(path)?;
 
-    let (non_blocking, worker_guard) = tracing_appender::non_blocking(appender);
+    let (writer, worker_guard) = tracing_appender::non_blocking(appender);
     layers.push(
       Layer::default()
         .with_ansi(false)
         .with_timer(ChronoLocal::new(TIMESTAMP.into()))
-        .with_writer(non_blocking)
+        .with_writer(writer)
         .pretty()
         .boxed(),
     );
