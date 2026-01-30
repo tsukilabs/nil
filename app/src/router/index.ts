@@ -10,6 +10,8 @@ import {
   type RouteParams,
 } from 'vue-router';
 
+export const QUERY_LOAD_LOCAL_GAME_PLAYER_ID = 'playerId';
+
 export const router = createRouter({
   history: createWebHistory(),
   routes: [

@@ -2,7 +2,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { go } from '@/router';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
@@ -11,6 +10,7 @@ import { useSettings } from '@/stores/settings';
 import { localRef, useMutex } from '@tb-dev/vue';
 import type { WritablePartial } from '@tb-dev/utils';
 import { isPlayerOptions, isWorldOptions } from '@/lib/schema';
+import { go, QUERY_LOAD_LOCAL_GAME_PLAYER_ID } from '@/router';
 import {
   Button,
   Card,
@@ -33,34 +33,37 @@ const { t } = useI18n();
 const router = useRouter();
 const settings = useSettings();
 
-const world = localRef<WritablePartial<WorldOptions>>('host-local-game:world', {
+const worldOptions = localRef<WritablePartial<WorldOptions>>('host-local-game:world', {
   name: null,
   size: 100,
   locale: settings.locale,
   allowCheats: false,
 });
 
-const player = localRef<WritablePartial<PlayerOptions>>('host-local-game:player', {
+const playerOptions = localRef<WritablePartial<PlayerOptions>>('host-local-game:player', {
   id: null,
 });
 
 const { locked, lock } = useMutex();
-const isValidPlayer = computed(() => isPlayerOptions(player.value));
-const isValidWorld = computed(() => isWorldOptions(world.value));
+const isValidPlayer = computed(() => isPlayerOptions(playerOptions.value));
+const isValidWorld = computed(() => isWorldOptions(worldOptions.value));
 const canHost = computed(() => isValidPlayer.value && isValidWorld.value);
 
 async function host() {
-  world.value.locale ??= settings.locale;
+  worldOptions.value.locale ??= settings.locale;
   await lock(async () => {
-    if (isPlayerOptions(player.value) && isWorldOptions(world.value)) {
-      await hostLocalGame(player.value, world.value);
+    if (isPlayerOptions(playerOptions.value) && isWorldOptions(worldOptions.value)) {
+      await hostLocalGame({
+        playerOptions: playerOptions.value,
+        worldOptions: worldOptions.value,
+      });
     }
   });
 }
 
 async function goToLoadGameScene() {
   await go('load-local-game', {
-    query: { playerId: player.value.id },
+    query: { [QUERY_LOAD_LOCAL_GAME_PLAYER_ID]: playerOptions.value.id },
   });
 }
 </script>
@@ -76,7 +79,7 @@ async function goToLoadGameScene() {
         <Label>
           <span>{{ t('world-name') }}</span>
           <Input
-            v-model.trim="world.name"
+            v-model.trim="worldOptions.name"
             type="text"
             :disabled="locked"
             :minlength="1"
@@ -87,7 +90,7 @@ async function goToLoadGameScene() {
         <Label>
           <span>{{ t('world-size') }}</span>
           <NumberField
-            v-model="world.size"
+            v-model="worldOptions.size"
             :disabled="locked"
             :min="100"
             :max="200"
@@ -105,7 +108,7 @@ async function goToLoadGameScene() {
         <Label>
           <span>{{ t('player-name') }}</span>
           <Input
-            v-model.trim="player.id"
+            v-model.trim="playerOptions.id"
             type="text"
             :disabled="locked"
             :minlength="1"
@@ -115,7 +118,7 @@ async function goToLoadGameScene() {
 
         <div class="flex items-center justify-center py-1">
           <Label>
-            <Checkbox v-model="world.allowCheats" :disabled="locked" />
+            <Checkbox v-model="worldOptions.allowCheats" :disabled="locked" />
             <span>{{ t('allow-cheats') }}</span>
           </Label>
         </div>

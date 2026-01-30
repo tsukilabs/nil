@@ -16,7 +16,7 @@ const { t } = useI18n();
 
 const router = useRouter();
 
-const player = localRef<WritablePartial<PlayerOptions>>('join-local-game:player', {
+const playerOptions = localRef<WritablePartial<PlayerOptions>>('join-local-game:player', {
   id: null,
 });
 
@@ -33,15 +33,15 @@ const serverAddr = computed<Option<ServerAddr>>(() => {
 
 const { locked, lock } = useMutex();
 const canJoin = computed(() => {
-  return isPlayerOptions(player.value) && serverAddr.value;
+  return isPlayerOptions(playerOptions.value) && serverAddr.value;
 });
 
 async function join() {
   await lock(async () => {
-    if (isPlayerOptions(player.value) && serverAddr.value) {
+    if (isPlayerOptions(playerOptions.value) && serverAddr.value) {
       await joinLocalGame({
         serverAddr: serverAddr.value,
-        playerId: player.value.id,
+        playerId: playerOptions.value.id,
       });
     }
   });
@@ -59,7 +59,7 @@ async function join() {
         <Label>
           <span>{{ t('player-name') }}</span>
           <Input
-            v-model.trim="player.id"
+            v-model.trim="playerOptions.id"
             type="text"
             :disabled="locked"
             :minlength="1"

@@ -3,5 +3,7 @@
   "confirm-password": "Confirm password",
   "sign-in": "Sign in",
   "sign-up": "Sign up",
-  "total-players": "Total players"
+  "total-players": "Total players",
+  "world-description": "World Description",
+  "world-password": "World Password"
 }

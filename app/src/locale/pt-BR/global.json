@@ -65,6 +65,7 @@
   "name": "Nome",
   "new": "Novo",
   "next-level": "Próximo nível",
+  "no": "Não",
   "no-results-found": "Nenhum resultado encontrado",
   "not-yet-available": "Ainda não disponível",
   "online": "Online",
@@ -130,5 +131,6 @@
   "world-name": "Nome do Mundo",
   "world-size": "Tamanho do Mundo",
   "x-per-turn": "{0} por turno",
+  "yes": "Sim",
   "your-turn": "Seu Turno"
 }

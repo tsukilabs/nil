@@ -9,6 +9,7 @@ import { computed, onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import type { WritablePartial } from '@tb-dev/utils';
 import { hostLocalGameWithSavedata } from '@/core/game';
+import { QUERY_LOAD_LOCAL_GAME_PLAYER_ID } from '@/router';
 import { asyncRef, localRef, useMutex } from '@tb-dev/vue';
 import { getSavedataFiles, type SavedataFile } from '@/core/savedata';
 import { Button, Card, CardContent, CardFooter, CardHeader, CardTitle } from '@tb-dev/vue-components';
@@ -18,7 +19,7 @@ const { t } = useI18n();
 const router = useRouter();
 const route = useRoute();
 
-const player = localRef<WritablePartial<PlayerOptions>>('load-local-game:player', {
+const playerOptions = localRef<WritablePartial<PlayerOptions>>('load-local-game:player', {
   id: null,
 });
 
@@ -26,7 +27,7 @@ const savedata = ref<Option<SavedataFile>>();
 const { state: files, isLoading, execute } = asyncRef([], getSavedataFiles);
 
 const { locked, lock } = useMutex();
-const isValidPlayer = computed(() => isPlayerOptions(player.value));
+const isValidPlayer = computed(() => isPlayerOptions(playerOptions.value));
 
 const canLoad = computed(() => {
   return (
@@ -47,15 +48,18 @@ const canRemove = computed(() => {
 });
 
 onMounted(() => {
-  if (typeof route.query.playerId === 'string') {
-    player.value.id = route.query.playerId;
+  if (typeof route.query[QUERY_LOAD_LOCAL_GAME_PLAYER_ID] === 'string') {
+    playerOptions.value.id = route.query.playerId;
   }
 });
 
 async function load() {
   await lock(async () => {
-    if (savedata.value && isPlayerOptions(player.value)) {
-      await hostLocalGameWithSavedata(savedata.value.path, player.value);
+    if (savedata.value && isPlayerOptions(playerOptions.value)) {
+      await hostLocalGameWithSavedata({
+        path: savedata.value.path,
+        playerOptions: playerOptions.value,
+      });
     }
   });
 }
