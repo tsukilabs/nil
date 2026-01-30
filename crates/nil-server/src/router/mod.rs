@@ -219,18 +219,11 @@ async fn websocket(
   if app.server_kind().is_remote() {
     match app
       .database()
-      .get_game_password(query.world_id)
+      .verify_game_password(query.world_id, query.world_password.as_ref())
     {
-      Ok(Some(hash))
-        if query
-          .world_password
-          .filter(|it| !it.trim().is_empty())
-          .is_none_or(|it| !hash.verify(&it)) =>
-      {
-        return Error::IncorrectWorldCredentials(query.world_id).into();
-      }
+      Ok(true) => {}
+      Ok(false) => return Error::IncorrectWorldCredentials(query.world_id).into(),
       Err(err) => return from_database_err(err),
-      _ => {}
     }
   }
 

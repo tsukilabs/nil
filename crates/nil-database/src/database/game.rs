@@ -9,6 +9,8 @@ use crate::sql_types::hashed_password::HashedPassword;
 use crate::sql_types::zoned::SqlZoned;
 use diesel::prelude::*;
 use diesel::result::Error as DieselError;
+use nil_util::password::Password;
+use nil_util::result::WrapOk;
 
 macro_rules! decl_get {
   ($fn_name:ident, $model:ident) => {
@@ -80,5 +82,20 @@ impl Database {
       ))
       .execute(&mut *self.conn())
       .map_err(Into::into)
+  }
+
+  pub fn verify_game_password(
+    &self,
+    game_id: impl Into<GameId>,
+    password: Option<&Password>,
+  ) -> Result<bool> {
+    if let Some(hash) = self.get_game_password(game_id)? {
+      password
+        .filter(|it| !it.trim().is_empty())
+        .is_some_and(|it| hash.verify(it))
+        .wrap_ok()
+    } else {
+      Ok(true)
+    }
   }
 }

@@ -2,9 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::app::App;
+use crate::error::Error;
 use crate::middleware::authorization::CurrentPlayer;
 use crate::res;
-use crate::response::EitherExt;
+use crate::response::{EitherExt, from_database_err};
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
 use itertools::Itertools;
@@ -146,6 +147,17 @@ pub async fn set_status(
 }
 
 pub async fn spawn(State(app): State<App>, Json(req): Json<SpawnPlayerRequest>) -> Response {
+  if app.server_kind().is_remote() {
+    match app
+      .database()
+      .verify_game_password(req.world, req.world_password.as_ref())
+    {
+      Ok(true) => {}
+      Ok(false) => return Error::IncorrectWorldCredentials(req.world).into(),
+      Err(err) => return from_database_err(err),
+    }
+  }
+
   app
     .world_mut(req.world, |world| {
       world.spawn_player(Player::new(req.options))
