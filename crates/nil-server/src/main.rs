@@ -16,10 +16,9 @@ pub struct Cli {
 
 #[tokio::main]
 async fn main() -> Result<()> {
-  let layers = if cfg!(debug_assertions) { Layers::STDERR } else { Layers::all() };
   let _guard = nil_log::setup(&nil_log::Options {
     directives: Directives::all(),
-    layers,
+    layers: if cfg!(debug_assertions) { Layers::STDERR } else { Layers::FILE },
   })?;
 
   let cli = Cli::parse();
