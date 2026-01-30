@@ -57,8 +57,9 @@ export class WorldEntity extends Entity {
     const instance = this.use();
     return {
       config: instance.config as Readonly<typeof instance.config>,
-      stats: instance.stats as Readonly<typeof instance.stats>,
       continentSize: readonly(instance.continentSize),
+      stats: instance.stats as Readonly<typeof instance.stats>,
+      worldId: readonly(instance.id),
     } as const;
   }
 

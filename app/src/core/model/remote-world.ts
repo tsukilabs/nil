@@ -31,6 +31,10 @@ export class RemoteWorldImpl implements RemoteWorld {
     this.totalPlayers = world.totalPlayers;
   }
 
+  public wasCreatedBy(player: PlayerId) {
+    return this.createdBy === player;
+  }
+
   get id() {
     return this.config.id;
   }
@@ -60,5 +64,10 @@ export class RemoteWorldImpl implements RemoteWorld {
   public static async load(id?: Option<WorldId>) {
     const world = await commands.getRemoteWorld(id);
     return RemoteWorldImpl.create(world);
+  }
+
+  public static async wasCreatedBy(world: WorldId, player: PlayerId) {
+    const remoteWorld = await RemoteWorldImpl.load(world);
+    return remoteWorld.createdBy === player;
   }
 }

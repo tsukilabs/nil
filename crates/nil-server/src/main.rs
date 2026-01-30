@@ -16,10 +16,13 @@ pub struct Cli {
 
 #[tokio::main]
 async fn main() -> Result<()> {
-  let _guard = nil_log::setup(&nil_log::Options {
-    directives: Directives::all(),
-    layers: if cfg!(debug_assertions) { Layers::STDERR } else { Layers::FILE },
-  })?;
+  let Some(_guard) = nil_log::setup()
+    .directives(Directives::all())
+    .layers(Layers::FILE)
+    .call()?
+  else {
+    unreachable!();
+  };
 
   let cli = Cli::parse();
   let database_url = cli

@@ -15,11 +15,15 @@ import { handleError } from '@/lib/error';
 import Finder from '@/components/Finder.vue';
 import Loading from '@/components/Loading.vue';
 import { saveLocalGame } from '@/core/savedata';
-import { asyncRef, onCtrlKeyDown } from '@tb-dev/vue';
 import { SidebarProvider } from '@tb-dev/vue-components';
+import { RemoteWorldImpl } from '@/core/model/remote-world';
 import { usePlayerReady } from '@/composables/player/usePlayerReady';
+import { asyncComputed, asyncRef, onCtrlKeyDown } from '@tb-dev/vue';
 
+const { worldId } = NIL.world.refs();
 const { round } = NIL.round.refs();
+const { player } = NIL.player.refs();
+
 const { isPlayerTurn, isPlayerReady, togglePlayerReady } = usePlayerReady();
 
 const { state: isHost } = asyncRef(false, commands.isHost);
@@ -30,6 +34,15 @@ const [isFinderOpen, toggleFinder] = useToggle(false);
 
 const lastSavedAt = ref<Option<RoundId>>();
 
+const isRemoteCreatedBySelf = asyncComputed(false, async () => {
+  if (!isLocal.value && player.value && worldId.value) {
+    return RemoteWorldImpl.wasCreatedBy(worldId.value, player.value.id);
+  }
+  else {
+    return false;
+  }
+});
+
 if (__DESKTOP__) {
   onCtrlKeyDown(['b', 'B'], () => toggleSidebar());
   onCtrlKeyDown(['f', 'F'], () => toggleFinder());
@@ -39,7 +52,10 @@ if (__DESKTOP__) {
 }
 
 async function startRound() {
-  if (isHost.value && round.value?.state.kind === 'idle') {
+  if (
+    (isHost.value || isRemoteCreatedBySelf.value) &&
+    round.value?.state.kind === 'idle'
+  ) {
     await commands.startRound();
   }
 }
@@ -47,6 +63,7 @@ async function startRound() {
 async function save() {
   if (
     isHost.value &&
+    isLocal.value &&
     round.value?.state.kind !== 'idle' &&
     round.value?.id !== lastSavedAt.value
   ) {
@@ -77,6 +94,7 @@ async function save() {
         :is-host
         :is-player-turn
         :is-player-ready
+        :is-remote-created-by-self
         class="bg-background absolute inset-x-0 top-0 h-20 sm:h-16 border-b px-4"
         @start-round="startRound"
         @toggle-player-ready="togglePlayerReady"

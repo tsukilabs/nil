@@ -38,11 +38,15 @@ pub async fn leave(
   Extension(player): Extension<CurrentPlayer>,
   Json(req): Json<LeaveRequest>,
 ) -> Response {
-  app
-    .world_mut(req.world, |world| {
-      world.set_player_status(&player.0, PlayerStatus::Inactive)
-    })
-    .await
-    .try_map_left(|()| res!(OK))
-    .into_inner()
+  if app.server_kind().is_local() {
+    app
+      .world_mut(req.world, |world| {
+        world.set_player_status(&player.0, PlayerStatus::Inactive)
+      })
+      .await
+      .try_map_left(|()| res!(OK))
+      .into_inner()
+  } else {
+    res!(OK)
+  }
 }

@@ -21,7 +21,7 @@ use tauri::{AppHandle, Manager, Wry};
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
   #[cfg(debug_assertions)]
-  let _guard = nil_log::setup_default().unwrap();
+  nil_log::setup().call().unwrap();
 
   builder()
     .plugin(plugin::on_exit())
