@@ -24,6 +24,7 @@ pub struct Nil {
   server: NilServer,
 }
 
+#[bon::bon]
 impl Nil {
   pub fn new(app: &AppHandle) -> Self {
     Self {
@@ -60,10 +61,12 @@ impl Nil {
     self.is_remote().await || self.is_host().await
   }
 
+  #[builder]
   pub async fn update_client(
     &self,
-    server_addr: ServerAddr,
+    #[builder(start_fn)] server_addr: ServerAddr,
     world_id: Option<WorldId>,
+    world_password: Option<Password>,
     player_id: Option<PlayerId>,
     player_password: Option<Password>,
     authorization_token: Option<Token>,
@@ -72,6 +75,7 @@ impl Nil {
     client
       .update(server_addr)
       .maybe_world_id(world_id)
+      .maybe_world_password(world_password)
       .maybe_player_id(player_id)
       .maybe_player_password(player_password)
       .maybe_authorization_token(authorization_token)

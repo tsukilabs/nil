@@ -4,12 +4,13 @@
 use crate::app::App;
 use crate::error::Result;
 use crate::middleware::authorization::CurrentPlayer;
-use crate::res;
+use crate::{VERSION, res};
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
 use nil_core::world::WorldId;
 use nil_payload::world::*;
 use nil_server_types::RemoteWorld;
+use semver::Version;
 use tokio::task::spawn_blocking;
 
 pub async fn create(
@@ -18,13 +19,17 @@ pub async fn create(
   Json(req): Json<CreateRemoteWorldRequest>,
 ) -> Response {
   if app.server_kind().is_remote() {
+    let Ok(version) = Version::parse(VERSION) else {
+      return res!(INTERNAL_SERVER_ERROR);
+    };
+
     let Ok(result) = spawn_blocking(move || {
-      let password = req.password.as_ref();
       app
         .create_remote(&req.options)
         .player_id(player)
         .maybe_world_description(req.description)
-        .maybe_world_password(password)
+        .maybe_world_password(req.password.as_ref())
+        .server_version(version)
         .call()
     })
     .await

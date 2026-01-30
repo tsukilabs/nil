@@ -21,6 +21,7 @@ strip = "symbols"
 [profile.release-server]
 inherits = "release"
 panic = "unwind"
+strip = "none"
 
 [profile.release-wasm]
 inherits = "release"

@@ -13,6 +13,7 @@ export async function stopClient() {
 
 export async function updateClient(options: ClientOptions) {
   if (options.serverAddr.kind !== 'remote') {
+    options.worldPassword = null;
     options.playerPassword = null;
     options.authorizationToken = null;
   }
@@ -20,6 +21,7 @@ export async function updateClient(options: ClientOptions) {
   await invoke('update_client', {
     serverAddr: options.serverAddr,
     worldId: options.worldId ?? null,
+    worldPassword: options.worldPassword ?? null,
     playerId: options.playerId ?? null,
     playerPassword: options.playerPassword ?? null,
     authorizationToken: options.authorizationToken ?? null,

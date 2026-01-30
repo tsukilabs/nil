@@ -4,6 +4,7 @@
 interface ClientOptions {
   serverAddr: ServerAddr;
   worldId?: Option<WorldId>;
+  worldPassword?: Option<string>;
   playerId?: Option<PlayerId>;
   playerPassword?: Option<string>;
   authorizationToken?: Option<string>;

@@ -167,7 +167,7 @@ async fn authorize(State(app): State<App>, Json(req): Json<AuthorizeRequest>) ->
           .map_err(Into::<Error>::into)?
           .verify_password(&password)
         {
-          encode_jwt(PlayerId::from(req.player))?
+          encode_jwt(req.player)?
         } else {
           return Response::from(Error::IncorrectUserCredentials);
         }
@@ -224,6 +224,7 @@ async fn websocket(
       Ok(Some(hash))
         if query
           .world_password
+          .filter(|it| !it.trim().is_empty())
           .is_none_or(|it| !hash.verify(&it)) =>
       {
         return Error::IncorrectWorldCredentials(query.world_id).into();
