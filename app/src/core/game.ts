@@ -85,23 +85,48 @@ export async function joinRemoteGame(options: {
   }
 }
 
-export async function hostLocalGame(player: PlayerOptions, world: WorldOptions) {
-  const server = await commands.startServerWithOptions(world);
+export async function hostLocalGame(options: {
+  playerOptions: PlayerOptions;
+  worldOptions: WorldOptions;
+}) {
+  const server = await commands.startServerWithOptions(options.worldOptions);
   const serverAddr: ServerAddr = { kind: 'local', addr: server.addr };
-  await joinLocalGame({
+  return joinLocalGame({
     serverAddr,
     worldId: server.worldId,
-    playerId: player.id,
+    playerId: options.playerOptions.id,
   });
 }
 
-export async function hostLocalGameWithSavedata(path: string, player: PlayerOptions) {
-  const server = await commands.startServerWithSavedata(path);
+export async function hostLocalGameWithSavedata(options: {
+  path: string;
+  playerOptions: PlayerOptions;
+}) {
+  const server = await commands.startServerWithSavedata(options.path);
   const serverAddr: ServerAddr = { kind: 'local', addr: server.addr };
-  await joinLocalGame({
+  return joinLocalGame({
     serverAddr,
     worldId: server.worldId,
-    playerId: player.id,
+    playerId: options.playerOptions.id,
+  });
+}
+
+export async function hostRemoteGame(options: {
+  worldOptions: WorldOptions;
+  worldPassword: ClientOptions['worldPassword'];
+  worldDescription: Option<string>;
+  authorizationToken: NonNullable<ClientOptions['authorizationToken']>;
+}) {
+  const worldId = await commands.createRemoteWorld({
+    options: options.worldOptions,
+    password: options.worldPassword,
+    description: options.worldDescription,
+  });
+
+  return joinRemoteGame({
+    worldId,
+    worldPassword: options.worldPassword,
+    authorizationToken: options.authorizationToken,
   });
 }
 

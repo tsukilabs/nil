@@ -3,5 +3,7 @@
   "confirm-password": "Confirmar senha",
   "sign-in": "Entrar",
   "sign-up": "Registrar",
-  "total-players": "Total de jogadores"
+  "total-players": "Total de jogadores",
+  "world-description": "Descrição do Mundo",
+  "world-password": "Senha do Mundo"
 }

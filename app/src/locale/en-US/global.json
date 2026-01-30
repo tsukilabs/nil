@@ -65,6 +65,7 @@
   "name": "Name",
   "new": "New",
   "next-level": "Next level",
+  "no": "No",
   "no-results-found": "No results found",
   "not-yet-available": "Not yet available",
   "online": "Online",
@@ -130,5 +131,6 @@
   "world-name": "World Name",
   "world-size": "World Size",
   "x-per-turn": "{0} per turn",
+  "yes": "Yes",
   "your-turn": "Your Turn"
 }

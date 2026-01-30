@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { invoke } from '@tauri-apps/api/core';
+import { isValidPassword } from '@/lib/schema';
 import type { SavedataInfo } from '@/core/savedata';
 import { WorldConfigImpl } from '@/core/model/world-config';
 import { type RawWorldStats, WorldStatsImpl } from '@/core/model/stats/world-stats';
@@ -15,6 +16,12 @@ import type {
 
 export async function createRemoteWorld(req: Writable<CreateRemoteWorldRequest>) {
   req.description &&= req.description.slice(0, 300);
+  req.description ??= null;
+
+  if (req.password && !isValidPassword(req.password)) {
+    req.password = null;
+  }
+
   return invoke<WorldId>('create_remote_world', { req });
 }
 
