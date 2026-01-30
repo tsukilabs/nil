@@ -114,7 +114,12 @@ export async function leaveGame() {
     handleError(err);
   }
   finally {
-    await go('home');
+    if (await commands.isLocal()) {
+      await go('home');
+    }
+    else {
+      await go('lobby');
+    }
   }
 }
 
