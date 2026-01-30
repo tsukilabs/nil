@@ -16,8 +16,8 @@ use nil_core::report::ReportManager;
 use nil_core::round::Round;
 use nil_core::world::{World, WorldId, WorldOptions};
 use nil_database::Database;
-use nil_database::model::world_data::NewWorldData;
-use nil_database::sql_types::user::User;
+use nil_database::model::game::NewGame;
+use nil_database::sql_types::player_id::SqlPlayerId;
 use nil_server_types::ServerKind;
 use nil_util::password::Password;
 use std::sync::Arc;
@@ -51,8 +51,8 @@ impl App {
     let worlds = Arc::new(DashMap::new());
     let database = Database::new(database_url)?;
 
-    for data in database.get_worlds_data()? {
-      let mut world = data.into_world()?;
+    for game in database.get_games_with_blob()? {
+      let mut world = game.into_world()?;
       let world_id = world.config().id();
 
       let database = database.clone();
@@ -101,19 +101,19 @@ impl App {
   pub(crate) fn create_remote(
     &self,
     #[builder(start_fn)] options: &WorldOptions,
-    user: &User,
-    world_description: Option<String>,
+    #[builder(into)] player_id: SqlPlayerId,
+    #[builder(into)] world_description: Option<String>,
     world_password: Option<&Password>,
   ) -> Result<WorldId> {
     if let ServerKind::Remote = self.server_kind
       && let Some(db) = &self.database
     {
-      let user = db.get_user_data(user)?;
+      let user = db.get_user(player_id)?;
       let mut world = World::try_from(options)?;
       let world_id = world.config().id();
       let bytes = world.to_bytes()?;
 
-      NewWorldData::builder(world_id, bytes)
+      NewGame::builder(world_id, bytes)
         .created_by(user.id)
         .maybe_description(world_description)
         .maybe_password(world_password)

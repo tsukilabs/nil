@@ -3,71 +3,69 @@
 
 use crate::Database;
 use crate::error::{Error, Result};
+use crate::sql_types::game_id::GameId;
 use crate::sql_types::hashed_password::HashedPassword;
-use crate::sql_types::id::UserDataId;
-use crate::sql_types::world_data_id::WorldDataId;
-use crate::sql_types::zoned::Zoned;
+use crate::sql_types::id::UserId;
+use crate::sql_types::zoned::SqlZoned;
 use diesel::prelude::*;
-use nil_core::world::{World, WorldId};
+use nil_core::world::World;
 use nil_util::password::Password;
 
 #[derive(Identifiable, Queryable, Selectable, Clone, Debug)]
-#[diesel(table_name = crate::schema::world_data)]
+#[diesel(table_name = crate::schema::game)]
 #[diesel(check_for_backend(diesel::sqlite::Sqlite))]
 #[diesel(belongs_to(UserData, foreign_key = created_by))]
-pub struct WorldData {
-  pub id: WorldDataId,
+pub struct Game {
+  pub id: GameId,
   pub password: Option<HashedPassword>,
   pub description: Option<String>,
-  pub created_by: UserDataId,
-  pub created_at: Zoned,
-  pub updated_at: Zoned,
-  pub data: Vec<u8>,
+  pub created_by: UserId,
+  pub created_at: SqlZoned,
+  pub updated_at: SqlZoned,
 }
 
-impl WorldData {
+#[derive(Identifiable, Queryable, Selectable, Clone, Debug)]
+#[diesel(table_name = crate::schema::game)]
+#[diesel(check_for_backend(diesel::sqlite::Sqlite))]
+#[diesel(belongs_to(UserData, foreign_key = created_by))]
+pub struct GameWithBlob {
+  pub id: GameId,
+  pub password: Option<HashedPassword>,
+  pub description: Option<String>,
+  pub created_by: UserId,
+  pub created_at: SqlZoned,
+  pub updated_at: SqlZoned,
+  pub world_blob: Vec<u8>,
+}
+
+impl GameWithBlob {
   #[inline]
   pub fn into_world(self) -> Result<World> {
-    Ok(World::load(&self.data)?)
+    Ok(World::load(&self.world_blob)?)
   }
 }
 
-/// This can be used to avoid unnecessarily loading the binary data.
-/// We should come up with a better name for it.
-#[derive(Identifiable, Queryable, Selectable, Clone, Debug)]
-#[diesel(table_name = crate::schema::world_data)]
-#[diesel(check_for_backend(diesel::sqlite::Sqlite))]
-#[diesel(belongs_to(UserData, foreign_key = created_by))]
-pub struct WorldDataless {
-  pub id: WorldDataId,
-  pub password: Option<HashedPassword>,
-  pub description: Option<String>,
-  pub created_by: UserDataId,
-  pub created_at: Zoned,
-  pub updated_at: Zoned,
-}
-
 #[derive(Insertable, Clone, Debug)]
-#[diesel(table_name = crate::schema::world_data)]
-pub struct NewWorldData {
-  id: WorldDataId,
+#[diesel(table_name = crate::schema::game)]
+pub struct NewGame {
+  id: GameId,
   password: Option<HashedPassword>,
   description: Option<String>,
-  created_by: UserDataId,
-  created_at: Zoned,
-  updated_at: Zoned,
-  data: Vec<u8>,
+  created_by: UserId,
+  created_at: SqlZoned,
+  updated_at: SqlZoned,
+  world_blob: Vec<u8>,
 }
 
 #[bon::bon]
-impl NewWorldData {
+impl NewGame {
   #[builder]
   pub fn new(
-    #[builder(start_fn)] id: WorldId,
-    #[builder(start_fn)] data: Vec<u8>,
+    #[builder(start_fn, into)] id: GameId,
+    #[builder(start_fn)] blob: Vec<u8>,
     password: Option<&Password>,
     mut description: Option<String>,
-    created_by: UserDataId,
+    created_by: UserId,
   ) -> Result<Self> {
     if let Some(password) = password {
       let pass_len = password.trim().chars().count();
@@ -83,25 +81,25 @@ impl NewWorldData {
     }
 
     Ok(Self {
-      id: WorldDataId::from(id),
+      id,
       password: password
         .map(HashedPassword::new)
         .transpose()?,
       description,
       created_by,
-      created_at: Zoned::now(),
-      updated_at: Zoned::now(),
-      data,
+      created_at: SqlZoned::now(),
+      updated_at: SqlZoned::now(),
+      world_blob: blob,
     })
   }
 
   #[inline]
-  pub fn data(&self) -> &[u8] {
-    &self.data
+  pub fn blob(&self) -> &[u8] {
+    &self.world_blob
   }
 
   #[inline]
   pub fn create(self, database: &Database) -> Result<usize> {
-    database.create_world_data(&self)
+    database.create_game(&self)
   }
 }

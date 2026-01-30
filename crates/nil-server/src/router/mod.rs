@@ -33,7 +33,6 @@ use axum::{Router, middleware};
 use infrastructure::prelude::*;
 use nil_core::player::PlayerId;
 use nil_core::world::World;
-use nil_database::sql_types::user::User;
 use nil_payload::{AuthorizeRequest, ValidateTokenRequest, WebsocketQuery};
 use nil_server_types::ServerKind;
 use tower_http::trace::{
@@ -158,18 +157,17 @@ async fn authorize(State(app): State<App>, Json(req): Json<AuthorizeRequest>) ->
     match app.server_kind() {
       ServerKind::Local { .. } => encode_jwt(req.player)?,
       ServerKind::Remote => {
-        let user = User::from(req.player);
         let Some(password) = req.password else {
           return Response::from(Error::MissingPassword);
         };
 
         if app
           .database()
-          .get_user_data(&user)
+          .get_user(&req.player)
           .map_err(Into::<Error>::into)?
           .verify_password(&password)
         {
-          encode_jwt(PlayerId::from(user))?
+          encode_jwt(PlayerId::from(req.player))?
         } else {
           return Response::from(Error::IncorrectUserCredentials);
         }
@@ -198,8 +196,7 @@ async fn validate_token(State(app): State<App>, Json(req): Json<ValidateTokenReq
   if app.server_kind().is_remote()
     && let Some(player) = player.clone()
   {
-    let user = User::from(player);
-    match app.database().user_data_exists(&user) {
+    match app.database().user_exists(player) {
       Ok(true) => {}
       Ok(false) => return res!(OK, Json(None::<PlayerId>)),
       Err(err) => return from_database_err(err),
@@ -219,11 +216,10 @@ async fn websocket(
   Extension(player): Extension<CurrentPlayer>,
   Query(query): Query<WebsocketQuery>,
 ) -> Response {
-  let id = player.0;
   if app.server_kind().is_remote() {
     match app
       .database()
-      .get_world_password(query.world_id)
+      .get_game_password(query.world_id)
     {
       Ok(Some(hash))
         if query
@@ -237,6 +233,7 @@ async fn websocket(
     }
   }
 
+  let id = player.0;
   app
     .world(query.world_id, World::subscribe)
     .await

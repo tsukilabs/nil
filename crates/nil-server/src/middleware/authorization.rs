@@ -12,7 +12,7 @@ use jiff::{SignedDuration, Zoned};
 use jsonwebtoken::{DecodingKey, EncodingKey, Header, TokenData, Validation, decode, encode};
 use nil_core::player::PlayerId;
 use nil_core::ruler::Ruler;
-use nil_database::sql_types::user::User;
+use nil_database::sql_types::player_id::SqlPlayerId;
 use nil_server_types::Token;
 use serde::{Deserialize, Serialize};
 use std::env;
@@ -96,9 +96,9 @@ impl From<CurrentPlayer> for Ruler {
   }
 }
 
-impl From<CurrentPlayer> for User {
+impl From<CurrentPlayer> for SqlPlayerId {
   fn from(player: CurrentPlayer) -> Self {
-    User::from(player.0)
+    SqlPlayerId::from(player.0)
   }
 }
 

@@ -1,10 +1,10 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use crate::sql_types::id::UserDataId;
-use crate::sql_types::user::User;
+use crate::sql_types::game_id::GameId;
+use crate::sql_types::id::UserId;
+use crate::sql_types::player_id::SqlPlayerId;
 use either::Either;
-use nil_core::world::WorldId;
 use serde::Serialize;
 use serde::ser::Serializer;
 use std::convert::Infallible;
@@ -17,20 +17,20 @@ pub type AnyResult<T> = anyhow::Result<T>;
 
 #[derive(Debug, thiserror::Error)]
 pub enum Error {
+  #[error("Game not found")]
+  GameNotFound(GameId),
+
   #[error("Invalid password")]
   InvalidPassword,
 
   #[error("Invalid username: \"{0}\"")]
-  InvalidUsername(User),
+  InvalidUsername(SqlPlayerId),
 
   #[error("User already exists: \"{0}\"")]
-  UserAlreadyExists(User),
+  UserAlreadyExists(SqlPlayerId),
 
   #[error("User not found")]
-  UserNotFound(Either<User, UserDataId>),
-
-  #[error("World not found")]
-  WorldNotFound(WorldId),
+  UserNotFound(Either<SqlPlayerId, UserId>),
 
   #[error(transparent)]
   Core(#[from] CoreError),

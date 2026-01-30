@@ -3,6 +3,6 @@
 
 pub mod hashed_password;
 pub mod id;
-pub mod user;
-pub mod world_data_id;
+pub mod player_id;
+pub mod game_id;
 pub mod zoned;

@@ -27,7 +27,7 @@ pub(crate) fn on_next_round(db: Database) -> Box<dyn Fn(&mut World) + Send + Syn
     let id = world.config().id();
 
     world.save(move |bytes| {
-      if let Err(err) = db.update_world_data(id, &bytes) {
+      if let Err(err) = db.update_game_blob(id, &bytes) {
         tracing::error!(message = %err, error = ?err);
       }
     });

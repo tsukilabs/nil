@@ -70,4 +70,4 @@ macro_rules! impl_u32 {
   }
 }
 
-impl_u32!(UserDataId);
+impl_u32!(UserId);

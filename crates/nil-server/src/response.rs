@@ -130,11 +130,11 @@ pub(crate) fn from_database_err(err: DatabaseError) -> Response {
   match err {
     Core(err) => from_core_err(err),
     Diesel(..) => res!(INTERNAL_SERVER_ERROR),
+    GameNotFound(..) => res!(NOT_FOUND, err.to_string()),
     InvalidPassword => res!(BAD_REQUEST, err.to_string()),
     InvalidUsername(..) => res!(BAD_REQUEST, err.to_string()),
     UserAlreadyExists(..) => res!(CONFLICT, err.to_string()),
     UserNotFound(..) => res!(NOT_FOUND, err.to_string()),
-    WorldNotFound(..) => res!(NOT_FOUND, err.to_string()),
     Unknown(..) => res!(INTERNAL_SERVER_ERROR),
   }
 }
