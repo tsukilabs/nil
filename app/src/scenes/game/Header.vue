@@ -12,6 +12,7 @@ defineProps<{
   isHost: boolean;
   isPlayerReady: boolean;
   isPlayerTurn: boolean;
+  isRemoteCreatedBySelf: boolean;
   onStartRound: () => Promise<void>;
   onTogglePlayerReady: () => Promise<void>;
 }>();
@@ -49,6 +50,7 @@ const { sm } = useBreakpoints();
           :is-host
           :is-player-ready
           :is-player-turn
+          :is-remote-created-by-self
           @start-round="onStartRound"
           @toggle-player-ready="onTogglePlayerReady"
         />

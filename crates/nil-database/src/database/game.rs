@@ -6,9 +6,11 @@ use crate::error::{Error, Result};
 use crate::model::game::{Game, GameWithBlob, NewGame};
 use crate::sql_types::game_id::GameId;
 use crate::sql_types::hashed_password::HashedPassword;
+use crate::sql_types::id::UserId;
 use crate::sql_types::zoned::SqlZoned;
 use diesel::prelude::*;
 use diesel::result::Error as DieselError;
+use nil_core::player::PlayerId;
 use nil_util::password::Password;
 use nil_util::result::WrapOk;
 
@@ -62,6 +64,18 @@ impl Database {
       .map_err(Into::into)
   }
 
+  pub fn get_game_creator(&self, game_id: impl Into<GameId>) -> Result<PlayerId> {
+    use crate::schema::game;
+
+    let game_id: GameId = game_id.into();
+    let user_id = game::table
+      .find(&game_id)
+      .select(game::created_by)
+      .first::<UserId>(&mut *self.conn())?;
+
+    self.get_user_player_id(user_id)
+  }
+
   pub fn get_game_password(&self, game_id: impl Into<GameId>) -> Result<Option<HashedPassword>> {
     use crate::schema::game::dsl::*;
     let game_id: GameId = game_id.into();
@@ -97,5 +111,14 @@ impl Database {
     } else {
       Ok(true)
     }
+  }
+
+  pub fn was_game_created_by(
+    &self,
+    game_id: impl Into<GameId>,
+    player_id: impl Into<PlayerId>,
+  ) -> Result<bool> {
+    let player_id: PlayerId = player_id.into();
+    Ok(self.get_game_creator(game_id)? == player_id)
   }
 }

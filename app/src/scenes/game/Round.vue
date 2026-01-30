@@ -12,6 +12,7 @@ const props = defineProps<{
   isHost: boolean;
   isPlayerTurn: boolean;
   isPlayerReady: boolean;
+  isRemoteCreatedBySelf: boolean;
   onStartRound: () => Promise<void>;
   onTogglePlayerReady: () => Promise<void>;
 }>();
@@ -33,7 +34,7 @@ const toggleReady = () => lock(() => props.onTogglePlayerReady());
     <RoundState v-if="sm && player && round?.state.kind === 'waiting'" :is-player-ready />
 
     <Button
-      v-if="isHost && round?.state.kind === 'idle'"
+      v-if="(isHost || isRemoteCreatedBySelf) && round?.state.kind === 'idle'"
       size="sm"
       :disabled="locked"
       @click="start"

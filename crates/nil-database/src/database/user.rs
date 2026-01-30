@@ -9,6 +9,7 @@ use crate::sql_types::player_id::SqlPlayerId;
 use diesel::prelude::*;
 use diesel::result::{DatabaseErrorKind, Error as DieselError};
 use either::Either;
+use nil_core::player::PlayerId;
 
 impl Database {
   pub fn create_user(&self, new: &NewUser) -> Result<usize> {
@@ -55,6 +56,21 @@ impl Database {
       Err(Error::UserNotFound(Either::Right(id)))
     } else {
       Ok(result?)
+    }
+  }
+
+  pub fn get_user_player_id(&self, id: UserId) -> Result<PlayerId> {
+    use crate::schema::user;
+
+    let result = user::table
+      .find(id)
+      .select(user::player_id)
+      .first::<SqlPlayerId>(&mut *self.conn());
+
+    if let Err(DieselError::NotFound) = &result {
+      Err(Error::UserNotFound(Either::Right(id)))
+    } else {
+      Ok(PlayerId::from(result?))
     }
   }
 

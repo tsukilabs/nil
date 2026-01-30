@@ -1,8 +1,8 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-mod user;
 mod game;
+mod user;
 
 use crate::error::AnyResult;
 use crate::migration::run_pending_migrations;

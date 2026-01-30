@@ -3222,6 +3222,7 @@ version = "0.2.0"
 dependencies = [
  "anyhow",
  "bitflags 2.10.0",
+ "bon",
  "tracing",
  "tracing-appender",
  "tracing-subscriber",

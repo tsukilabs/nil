@@ -50,20 +50,28 @@ impl Client {
   }
 
   pub(super) async fn leave(&self, req: LeaveRequest) -> Result<()> {
-    http::post("leave")
-      .body(req)
-      .server(self.server)
-      .maybe_authorization(self.authorization.as_deref())
-      .send()
-      .await
+    if self.server.is_local() {
+      http::post("leave")
+        .body(req)
+        .server(self.server)
+        .maybe_authorization(self.authorization.as_deref())
+        .send()
+        .await
+    } else {
+      Ok(())
+    }
   }
 
   pub async fn save_local_world(&self, req: SaveLocalWorldRequest) -> Result<()> {
-    http::post("save-local-world")
-      .body(req)
-      .server(self.server)
-      .maybe_authorization(self.authorization.as_deref())
-      .send()
-      .await
+    if self.server.is_local() {
+      http::post("save-local-world")
+        .body(req)
+        .server(self.server)
+        .maybe_authorization(self.authorization.as_deref())
+        .send()
+        .await
+    } else {
+      Ok(())
+    }
   }
 }
