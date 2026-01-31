@@ -2,13 +2,16 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
+import { ref } from 'vue';
 import { go } from '@/router';
 import { useI18n } from 'vue-i18n';
 import { exitGame } from '@/core/game';
+import { handleError } from '@/lib/error';
 import { useUserStore } from '@/stores/user';
 import enUS from '@/locale/en-US/scenes/home.json';
 import ptBR from '@/locale/pt-BR/scenes/home.json';
 import { useUpdate } from '@/composables/useUpdate';
+import LoadingButton from '@/components/LoadingButton.vue';
 import { useBreakpoints } from '@/composables/useBreakpoints';
 import { Alert, AlertDescription, AlertTitle, Button } from '@tb-dev/vue-components';
 
@@ -24,13 +27,24 @@ const { sm, md } = useBreakpoints();
 
 const userStore = useUserStore();
 
+const isLoadingOnlineScene = ref(false);
+
 async function goToOnlineScene() {
-  await userStore.updateClient();
-  if (await userStore.isAuthorizationTokenValid()) {
-    await go('lobby');
+  try {
+    isLoadingOnlineScene.value = true;
+    await userStore.updateClient();
+    if (await userStore.isAuthorizationTokenValid()) {
+      await go('lobby');
+    }
+    else {
+      await go('sign-in');
+    }
   }
-  else {
-    await go('sign-in');
+  catch (err) {
+    handleError(err);
+  }
+  finally {
+    isLoadingOnlineScene.value = false;
   }
 }
 </script>
@@ -62,15 +76,17 @@ async function goToOnlineScene() {
         <span>{{ t('join-game') }}</span>
       </Button>
 
-      <Button
+      <LoadingButton
         variant="secondary"
         :size="sm ? 'default' : 'lg'"
+        :disabled="isLoadingOnlineScene"
+        :loading="isLoadingOnlineScene"
         role="link"
         tabindex="0"
         @click="goToOnlineScene"
       >
         <span>{{ t('online') }}</span>
-      </Button>
+      </LoadingButton>
 
       <Button
         variant="secondary"
