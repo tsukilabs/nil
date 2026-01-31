@@ -38,6 +38,8 @@ Invoke-Expression $BuildCmd
 
 if ($Android) {
   $Path = './app/src-tauri/gen/android/app/build/outputs/apk/universal/release/app-universal-release.apk'
+  $Path = (Resolve-Path $Path).ToString()
+
   $Version = Get-Content -Path 'package.json' -Raw
   | ConvertFrom-Json
   | Select-Object -ExpandProperty 'version'
@@ -45,7 +47,7 @@ if ($Android) {
   $Name = "call-of-nil-$Version.apk"
 
   if ($Kanata -and (Get-Command 'kanata' -ErrorAction SilentlyContinue)) {
-    kanata add --path "`"$Path`"" --name "`"$Name`""
+    kanata add --path $Path --name $Name
   }
 
   if ($TargetDir) {

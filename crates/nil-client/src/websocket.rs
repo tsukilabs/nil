@@ -7,6 +7,7 @@ use crate::http::authorization::Authorization;
 use crate::server::ServerAddr;
 use anyhow::Result as AnyResult;
 use bytes::Bytes;
+use either::Either;
 use futures::future::BoxFuture;
 use futures::stream::{SplitSink, SplitStream};
 use futures::{Sink, SinkExt, StreamExt};
@@ -20,6 +21,7 @@ use tokio::spawn;
 use tokio::sync::mpsc::channel;
 use tokio::task::AbortHandle;
 use tokio::time::{Duration, sleep};
+use tokio_tungstenite::tungstenite::Error as TungsteniteError;
 use tokio_tungstenite::tungstenite::client::IntoClientRequest;
 use tokio_tungstenite::tungstenite::protocol::Message;
 use tokio_tungstenite::{MaybeTlsStream, WebSocketStream, connect_async};
@@ -44,11 +46,26 @@ impl WebSocketClient {
   where
     OnEvent: Fn(Event) -> BoxFuture<'static, ()> + Send + Sync + 'static,
   {
-    let Ok(ws_stream) = make_stream(server, world_id, world_password, authorization).await else {
-      return Err(Error::FailedToConnectWebsocket);
+    let (tx, rx) = match make_stream(server)
+      .world_id(world_id)
+      .maybe_world_password(world_password)
+      .authorization(authorization)
+      .call()
+      .await
+    {
+      Ok(Either::Left(stream)) => stream.split(),
+      Ok(Either::Right(TungsteniteError::Http(response))) => {
+        if let Some(body) = response.into_body()
+          && let Ok(body) = String::from_utf8(body)
+          && !body.trim().is_empty()
+        {
+          return Err(Error::RequestFailed(body));
+        } else {
+          return Err(Error::FailedToConnectWebsocket);
+        }
+      }
+      Ok(Either::Right(_)) | Err(_) => return Err(Error::FailedToConnectWebsocket),
     };
-
-    let (tx, rx) = ws_stream.split();
 
     Ok(Self {
       _sender: Sender::new(tx),
@@ -57,12 +74,13 @@ impl WebSocketClient {
   }
 }
 
+#[bon::builder]
 async fn make_stream(
-  server: ServerAddr,
+  #[builder(start_fn)] server: ServerAddr,
   world_id: WorldId,
   world_password: Option<Password>,
   authorization: Authorization,
-) -> AnyResult<Stream> {
+) -> AnyResult<Either<Stream, TungsteniteError>> {
   let mut url = server.url_with_scheme("ws", "websocket")?;
   url
     .query_pairs_mut()
@@ -76,10 +94,10 @@ async fn make_stream(
   headers.insert(header::AUTHORIZATION, authorization.into_inner());
   headers.insert(header::USER_AGENT, USER_AGENT.parse()?);
 
-  connect_async(request)
-    .await
-    .map(|(ws_stream, _)| ws_stream)
-    .map_err(Into::into)
+  match connect_async(request).await {
+    Ok((ws_stream, _)) => Ok(Either::Left(ws_stream)),
+    Err(err) => Ok(Either::Right(err)),
+  }
 }
 
 struct Sender {

@@ -2,9 +2,9 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { ref } from 'vue';
 import { go } from '@/router';
 import { useI18n } from 'vue-i18n';
+import { computed, ref } from 'vue';
 import { exitGame } from '@/core/game';
 import { handleError } from '@/lib/error';
 import { useUserStore } from '@/stores/user';
@@ -28,6 +28,7 @@ const { sm, md } = useBreakpoints();
 const userStore = useUserStore();
 
 const isLoadingOnlineScene = ref(false);
+const disabled = computed(() => isLoadingOnlineScene.value);
 
 async function goToOnlineScene() {
   try {
@@ -59,6 +60,7 @@ async function goToOnlineScene() {
       <Button
         variant="default"
         :size="sm ? 'default' : 'lg'"
+        :disabled
         role="link"
         tabindex="0"
         @click="() => go('host-local-game')"
@@ -69,6 +71,7 @@ async function goToOnlineScene() {
       <Button
         variant="secondary"
         :size="sm ? 'default' : 'lg'"
+        :disabled
         role="link"
         tabindex="0"
         @click="() => go('join-local-game')"
@@ -79,7 +82,7 @@ async function goToOnlineScene() {
       <LoadingButton
         variant="secondary"
         :size="sm ? 'default' : 'lg'"
-        :disabled="isLoadingOnlineScene"
+        :disabled
         :loading="isLoadingOnlineScene"
         role="link"
         tabindex="0"
@@ -91,6 +94,7 @@ async function goToOnlineScene() {
       <Button
         variant="secondary"
         :size="sm ? 'default' : 'lg'"
+        :disabled
         role="link"
         tabindex="0"
         @click="() => go('settings')"
@@ -98,7 +102,12 @@ async function goToOnlineScene() {
         <span>{{ t('settings') }}</span>
       </Button>
 
-      <Button variant="secondary" :size="sm ? 'default' : 'lg'" @click="exitGame">
+      <Button
+        variant="secondary"
+        :size="sm ? 'default' : 'lg'"
+        :disabled
+        @click="() => exitGame()"
+      >
         <span>{{ t('exit') }}</span>
       </Button>
     </div>
