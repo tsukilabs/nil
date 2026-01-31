@@ -10,7 +10,6 @@
     "core:path:allow-extname",
     "core:path:allow-join",
     "core:path:allow-resolve-directory",
-    "core:webview:allow-clear-all-browsing-data",
     "clipboard-manager:allow-write-text",
     "dialog:allow-message",
     "dialog:allow-open",

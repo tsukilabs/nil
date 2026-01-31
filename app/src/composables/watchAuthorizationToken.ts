@@ -3,9 +3,9 @@
 
 import { go } from '@/router';
 import { storeToRefs } from 'pinia';
+import * as commands from '@/commands';
 import { handleError } from '@/lib/error';
 import { useUserStore } from '@/stores/user';
-import { clearAllBrowsingData } from '@/lib/webview';
 import { tryOnScopeDispose, watchImmediate } from '@vueuse/core';
 
 export function watchAuthorizationToken() {
@@ -17,7 +17,7 @@ export function watchAuthorizationToken() {
     try {
       if (!(await isAuthorizationTokenValid())) {
         await go('home');
-        await clearAllBrowsingData();
+        await commands.clearAllBrowsingData();
       }
     }
     catch (err) {

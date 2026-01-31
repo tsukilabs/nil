@@ -8,7 +8,6 @@ import { handleError } from '@/lib/error';
 import { useUserStore } from '@/stores/user';
 import { Entity } from '@/core/entity/abstract';
 import { exit } from '@tauri-apps/plugin-process';
-import { clearAllBrowsingData } from '@/lib/webview';
 
 async function joinGame(options: {
   worldId: NonNullable<ClientOptions['worldId']>;
@@ -161,7 +160,7 @@ export async function leaveGame(options?: {
     }
 
     if (options?.clearBrowsingData ?? true) {
-      await clearAllBrowsingData();
+      await commands.clearAllBrowsingData();
     }
   }
   catch (err) {
