@@ -50,7 +50,7 @@ const isValidWorld = computed(() => isWorldOptions(worldOptions.value));
 const canHost = computed(() => isValidPlayer.value && isValidWorld.value);
 
 async function host() {
-  worldOptions.value.locale ??= settings.locale;
+  worldOptions.value.locale = settings.locale;
   await lock(async () => {
     if (isPlayerOptions(playerOptions.value) && isWorldOptions(worldOptions.value)) {
       await hostLocalGame({

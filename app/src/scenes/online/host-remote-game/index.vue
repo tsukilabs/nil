@@ -66,7 +66,7 @@ const canHost = computed(() => {
 });
 
 async function host() {
-  worldOptions.value.locale ??= settings.locale;
+  worldOptions.value.locale = settings.locale;
   await lock(async () => {
     if (isWorldOptions(worldOptions.value) && authorizationToken.value) {
       await hostRemoteGame({
