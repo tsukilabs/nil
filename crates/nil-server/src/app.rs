@@ -60,11 +60,12 @@ impl App {
 
     let now = Zoned::now();
     let version = Version::parse(VERSION)?;
+    let minor = if version.major == 0 { version.minor } else { 0 };
     let version_cmp = semver::Comparator {
       op: semver::Op::Caret,
       major: version.major,
-      minor: Some(version.minor),
-      patch: Some(version.major),
+      minor: Some(minor),
+      patch: Some(0),
       pre: Prerelease::EMPTY,
     };
 
