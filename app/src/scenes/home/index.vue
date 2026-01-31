@@ -4,8 +4,6 @@
 <script setup lang="ts">
 import { go } from '@/router';
 import { useI18n } from 'vue-i18n';
-import { storeToRefs } from 'pinia';
-import * as commands from '@/commands';
 import { exitGame } from '@/core/game';
 import { useUserStore } from '@/stores/user';
 import enUS from '@/locale/en-US/scenes/home.json';
@@ -25,15 +23,10 @@ const update = useUpdate();
 const { sm, md } = useBreakpoints();
 
 const userStore = useUserStore();
-const { authorizationToken } = storeToRefs(userStore);
 
 async function goToOnlineScene() {
-  if (
-    authorizationToken.value &&
-    await commands.isRemote() &&
-    await commands.validateToken(authorizationToken.value)
-  ) {
-    await userStore.updateClient();
+  await userStore.updateClient();
+  if (await userStore.isAuthorizationTokenValid()) {
     await go('lobby');
   }
   else {

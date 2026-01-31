@@ -4,6 +4,8 @@
 import { getCurrentWebview } from '@tauri-apps/api/webview';
 
 export async function clearAllBrowsingData() {
-  const webview = getCurrentWebview();
-  await webview.clearAllBrowsingData();
+  if (__DESKTOP__) {
+    const webview = getCurrentWebview();
+    await webview.clearAllBrowsingData();
+  }
 }

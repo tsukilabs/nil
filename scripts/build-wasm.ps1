@@ -2,13 +2,8 @@
 # SPDX-License-Identifier: AGPL-3.0-only
 
 param(
-  [Alias('R')]
   [switch]$Release,
-
-  [Alias('P')]
   [switch]$Publish,
-
-  [Alias('I')]
   [switch]$Install
 )
 

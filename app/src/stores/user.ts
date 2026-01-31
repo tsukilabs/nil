@@ -9,12 +9,7 @@ export const useUserStore = defineStore('user', () => {
   const authorizationToken = ref<Option<string>>(null);
 
   async function isAuthorizationTokenValid() {
-    if (authorizationToken.value) {
-      return Boolean(await commands.validateToken(authorizationToken.value));
-    }
-    else {
-      return false;
-    }
+    return Boolean(await commands.validateToken(authorizationToken.value));
   }
 
   async function updateClient(options: Partial<ClientOptions> = {}) {
