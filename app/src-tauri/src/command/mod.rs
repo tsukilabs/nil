@@ -21,10 +21,29 @@ pub mod user;
 pub mod world;
 
 use crate::manager::ManagerExt;
-use tauri::AppHandle;
+use tauri::{AppHandle, WebviewWindow};
 
 #[cfg(desktop)]
-use {crate::error::Result, crate::tray, tauri::WebviewWindow};
+use {crate::error::Result, crate::tray};
+
+#[cfg(desktop)]
+#[tauri::command]
+pub fn clear_all_browsing_data(window: WebviewWindow) -> Result<()> {
+  window.clear_all_browsing_data()?;
+  Ok(())
+}
+
+#[cfg(target_os = "android")]
+#[tauri::command]
+pub fn clear_all_browsing_data(window: WebviewWindow) -> Result<()> {
+  window.with_webview(|webview| {
+    webview.jni_handle().exec(|env, _, webview| {
+      let _ = env.call_method(webview, "clearAllBrowsingData", "()V", &[]);
+    });
+  })?;
+
+  Ok(())
+}
 
 #[cfg(desktop)]
 #[tauri::command]

@@ -34,6 +34,7 @@ pub fn run() {
     .plugin(tauri_plugin_process::init())
     .setup(|app| setup(app.app_handle()))
     .invoke_handler(tauri::generate_handler![
+      command::clear_all_browsing_data,
       command::create_tray_icon,
       command::is_host,
       command::is_local,

@@ -7,7 +7,7 @@ param(
   [switch]$OpenPreview,
   [switch]$Wasm,
   [string]$TargetDir,
-  [switch]$CopyToDesktop
+  [switch]$Desktop
 )
 
 $ErrorActionPreference = 'Stop'
@@ -38,7 +38,7 @@ if (-not $Android) {
 Invoke-Expression $BuildCmd
 
 if ($Android) {
-  if ($IsWindows -and $CopyToDesktop) {
+  if ($IsWindows -and $Desktop) {
     $TargetDir = [Environment]::GetFolderPath('Desktop')
   }
 
@@ -52,7 +52,7 @@ if ($Android) {
       Destination = "$TargetDir/call-of-nil-$Version.apk"
     }
 
-    Copy-Item $Params
+    Copy-Item @Params
   }
 }
 
