@@ -20,11 +20,12 @@ pub mod server;
 pub mod user;
 pub mod world;
 
+use crate::error::Result;
 use crate::manager::ManagerExt;
 use tauri::{AppHandle, WebviewWindow};
 
 #[cfg(desktop)]
-use {crate::error::Result, crate::tray};
+use crate::tray;
 
 #[cfg(desktop)]
 #[tauri::command]

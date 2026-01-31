@@ -6,8 +6,7 @@ param(
   [switch]$Preview,
   [switch]$OpenPreview,
   [switch]$Wasm,
-  [string]$TargetDir,
-  [switch]$Desktop
+  [string]$TargetDir
 )
 
 $ErrorActionPreference = 'Stop'
@@ -34,29 +33,24 @@ if (-not $Android) {
   }
 }
 
-
 Invoke-Expression $BuildCmd
 
-if ($Android) {
-  if ($IsWindows -and $Desktop) {
+if ($Android -and $TargetDir) {
+  if ($IsWindows -and ($TargetDir.ToLower() -eq 'desktop')) {
     $TargetDir = [Environment]::GetFolderPath('Desktop')
   }
 
-  if ($TargetDir) {
-    $Version = Get-Content -Path 'package.json' -Raw
-    | ConvertFrom-Json
-    | Select-Object -ExpandProperty 'version'
+  $Version = Get-Content -Path 'package.json' -Raw
+  | ConvertFrom-Json
+  | Select-Object -ExpandProperty 'version'
 
-    $Params = @{
-      Path        = 'app/src-tauri/gen/android/app/build/outputs/apk/universal/release/app-universal-release.apk'
-      Destination = "$TargetDir/call-of-nil-$Version.apk"
-    }
-
-    Copy-Item @Params
+  $Params = @{
+    Path        = 'app/src-tauri/gen/android/app/build/outputs/apk/universal/release/app-universal-release.apk'
+    Destination = "$TargetDir/call-of-nil-$Version.apk"
   }
+
+  Copy-Item @Params
 }
-
-
 
 if ($Preview -and $OpenPreview) {
   Invoke-Item './target/preview/nil.exe'

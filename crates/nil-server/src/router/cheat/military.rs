@@ -13,7 +13,7 @@ pub async fn spawn_personnel(
   Json(req): Json<CheatSpawnPersonnelRequest>,
 ) -> Response {
   app
-    .world_mut(req.world, |world| {
+    .world_blocking_mut(req.world, move |world| {
       world.cheat_spawn_personnel(req.coord, req.personnel, req.ruler)
     })
     .await

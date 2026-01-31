@@ -47,13 +47,13 @@ pub fn setup(
 
   // The order matters.
   // See: https://github.com/tokio-rs/tracing/issues/1817
-  if layers.contains(Layers::FILE)
-    && let Ok(path) = env::var("NIL_LOG_DIR")
-  {
+  if layers.contains(Layers::FILE) {
+    let path = env::var("NIL_LOG_DIR")?;
     fs::create_dir_all(&path)?;
+
     let appender = RollingFileAppender::builder()
       .rotation(Rotation::HOURLY)
-      .filename_suffix("nil.log")
+      .filename_suffix("log")
       .max_log_files(30 * 24)
       .build(path)?;
 

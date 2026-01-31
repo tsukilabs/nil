@@ -10,7 +10,7 @@ use nil_payload::cheat::round::*;
 
 pub async fn skip(State(app): State<App>, Json(req): Json<CheatSkipRoundRequest>) -> Response {
   app
-    .world_mut(req.world, |world| world.cheat_skip_round(req.amount))
+    .world_blocking_mut(req.world, move |world| world.cheat_skip_round(req.amount))
     .await
     .try_map_left(|()| res!(OK))
     .into_inner()

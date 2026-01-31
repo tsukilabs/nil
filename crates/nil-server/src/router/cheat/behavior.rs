@@ -13,7 +13,7 @@ pub async fn get_build_steps(
   Json(req): Json<CheatGetBuildStepsRequest>,
 ) -> Response {
   app
-    .world_mut(req.world, |world| world.cheat_get_build_steps(req.coord))
+    .world(req.world, |world| world.cheat_get_build_steps(req.coord))
     .await
     .try_map_left(|steps| res!(OK, Json(steps)))
     .into_inner()

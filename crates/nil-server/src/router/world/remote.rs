@@ -47,8 +47,11 @@ pub async fn create(
 
 pub async fn get(State(app): State<App>, Json(req): Json<GetRemoteWorldRequest>) -> Response {
   if app.server_kind().is_remote() {
-    make_remote_world(&app, req.world)
-      .await
+    let Ok(result) = spawn_blocking(move || make_remote_world(&app, req.world)).await else {
+      return res!(INTERNAL_SERVER_ERROR);
+    };
+
+    result
       .map(|world| res!(OK, Json(world)))
       .unwrap_or_else(Response::from)
   } else {
@@ -58,16 +61,22 @@ pub async fn get(State(app): State<App>, Json(req): Json<GetRemoteWorldRequest>)
 
 pub async fn get_all(State(app): State<App>) -> Response {
   if app.server_kind().is_remote() {
-    let ids = app.world_ids();
-    let mut worlds = Vec::with_capacity(ids.len());
+    let Ok(worlds) = spawn_blocking(move || {
+      let ids = app.world_ids();
+      let mut worlds = Vec::with_capacity(ids.len());
 
-    for id in ids {
-      if let Ok(world) = make_remote_world(&app, id).await {
-        worlds.push(world);
+      for id in ids {
+        if let Ok(world) = make_remote_world(&app, id) {
+          worlds.push(world);
+        }
       }
-    }
 
-    worlds.sort_by_key(|b| std::cmp::Reverse(b.config.id()));
+      worlds.sort_by_key(|b| std::cmp::Reverse(b.config.id()));
+    })
+    .await
+    else {
+      return res!(INTERNAL_SERVER_ERROR);
+    };
 
     res!(OK, Json(worlds))
   } else {
@@ -75,23 +84,23 @@ pub async fn get_all(State(app): State<App>) -> Response {
   }
 }
 
-async fn make_remote_world(app: &App, id: WorldId) -> Result<RemoteWorld> {
+fn make_remote_world(app: &App, id: WorldId) -> Result<RemoteWorld> {
   let database = app.database();
   let game = database.get_game(id)?;
   let user = database.get_user_by_id(game.created_by)?;
 
   let world = app.get(id)?;
-  let world = world.read().await;
+  let world = world.blocking_read();
 
-  let mut active_players = 0;
-  let mut total_players = 0;
+  let mut active_players: usize = 0;
+  let mut total_players: usize = 0;
 
   for player in world.players() {
     if player.is_active() {
-      active_players += 1;
+      active_players = active_players.saturating_add(1);
     }
 
-    total_players += 1;
+    total_players = total_players.saturating_add(1);
   }
 
   Ok(RemoteWorld {

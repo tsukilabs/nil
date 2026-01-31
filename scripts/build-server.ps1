@@ -11,6 +11,10 @@ $PSNativeCommandUseErrorActionPreference = $true
 cargo build --profile release-server --package nil-server
 
 if ($TargetDir) {
+  if ($IsWindows -and ($TargetDir.ToLower() -eq 'desktop')) {
+    $TargetDir = [Environment]::GetFolderPath('Desktop')
+  }
+
   $File = if ($IsWindows) { 'nil-server.exe' } else { 'nil-server' }
   Copy-Item "./target/release-server/$File" -Destination $TargetDir
 }
