@@ -2,11 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::error::{Error, Result};
-use crate::res;
 use crate::response::{MaybeResponse, from_err};
 use crate::server::remote;
+use crate::{VERSION, res};
 use dashmap::DashMap;
 use either::Either;
+use jiff::Zoned;
 use nil_core::chat::Chat;
 use nil_core::continent::Continent;
 use nil_core::npc::bot::BotManager;
@@ -22,6 +23,7 @@ use nil_database::sql_types::player_id::SqlPlayerId;
 use nil_database::sql_types::version::SqlVersion;
 use nil_server_types::ServerKind;
 use nil_util::password::Password;
+use semver::{Prerelease, Version};
 use std::sync::Arc;
 use tokio::sync::RwLock;
 use tokio::task::spawn_blocking;
@@ -54,15 +56,36 @@ impl App {
     let worlds = Arc::new(DashMap::new());
     let database = Database::new(database_url)?;
 
+    let mut invalid_games = Vec::new();
+
+    let now = Zoned::now();
+    let version = Version::parse(VERSION)?;
+    let version_cmp = semver::Comparator {
+      op: semver::Op::Caret,
+      major: version.major,
+      minor: Some(version.minor),
+      patch: Some(version.major),
+      pre: Prerelease::EMPTY,
+    };
+
     for game in database.get_games_with_blob()? {
-      let mut world = game.into_world()?;
-      let world_id = world.config().id();
+      if version_cmp.matches(&game.server_version)
+        && let Ok(span) = game.updated_at.until(&now)
+        && span.get_days() <= 90
+      {
+        let mut world = game.into_world()?;
+        let world_id = world.config().id();
 
-      let database = database.clone();
-      world.on_next_round(remote::on_next_round(database));
+        let database = database.clone();
+        world.on_next_round(remote::on_next_round(database));
 
-      worlds.insert(world_id, Arc::new(RwLock::new(world)));
+        worlds.insert(world_id, Arc::new(RwLock::new(world)));
+      } else {
+        invalid_games.push(game.id);
+      }
     }
+
+    database.delete_games(&invalid_games)?;
 
     Ok(Self {
       server_kind: ServerKind::Remote,

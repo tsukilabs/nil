@@ -38,6 +38,8 @@ pub enum Error {
   #[error(transparent)]
   Io(#[from] io::Error),
   #[error(transparent)]
+  Semver(#[from] semver::Error),
+  #[error(transparent)]
   Unknown(#[from] anyhow::Error),
 }
 

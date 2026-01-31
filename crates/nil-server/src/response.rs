@@ -152,6 +152,7 @@ pub(crate) fn from_server_err(err: Error) -> Response {
     InvalidWorld(..) => res!(INTERNAL_SERVER_ERROR, err.to_string()),
     Io(..) => res!(INTERNAL_SERVER_ERROR),
     MissingPassword => res!(BAD_REQUEST, err.to_string()),
+    Semver(..) => res!(INTERNAL_SERVER_ERROR),
     Unknown(..) => res!(INTERNAL_SERVER_ERROR),
   }
 }

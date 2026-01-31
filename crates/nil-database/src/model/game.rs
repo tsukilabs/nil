@@ -36,6 +36,7 @@ pub struct GameWithBlob {
   pub created_by: UserId,
   pub created_at: SqlZoned,
   pub updated_at: SqlZoned,
+  pub server_version: SqlVersion,
   pub world_blob: Vec<u8>,
 }
 

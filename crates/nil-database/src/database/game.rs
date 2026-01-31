@@ -55,6 +55,7 @@ impl Database {
 
   pub fn create_game(&self, new: &NewGame) -> Result<usize> {
     use crate::schema::game::dsl::*;
+
     diesel::insert_into(game)
       .values(new)
       .on_conflict(id)
@@ -62,6 +63,26 @@ impl Database {
       .set((world_blob.eq(new.blob()), updated_at.eq(SqlZoned::now())))
       .execute(&mut *self.conn())
       .map_err(Into::into)
+  }
+
+  pub fn delete_game(&self, game: GameId) -> Result<usize> {
+    use crate::schema::game;
+
+    diesel::delete(game::table.find(game))
+      .execute(&mut *self.conn())
+      .map_err(Into::into)
+  }
+
+  pub fn delete_games(&self, games: &[GameId]) -> Result<usize> {
+    use crate::schema::game::dsl::*;
+
+    if games.is_empty() {
+      Ok(0)
+    } else {
+      diesel::delete(game.filter(id.eq_any(games)))
+        .execute(&mut *self.conn())
+        .map_err(Into::into)
+    }
   }
 
   pub fn get_game_creator(&self, game_id: impl Into<GameId>) -> Result<PlayerId> {
@@ -78,6 +99,7 @@ impl Database {
 
   pub fn get_game_password(&self, game_id: impl Into<GameId>) -> Result<Option<HashedPassword>> {
     use crate::schema::game::dsl::*;
+
     let game_id: GameId = game_id.into();
     game
       .find(&game_id)
@@ -88,6 +110,7 @@ impl Database {
 
   pub fn update_game_blob(&self, game_id: impl Into<GameId>, blob: &[u8]) -> Result<usize> {
     use crate::schema::game;
+
     let game_id: GameId = game_id.into();
     diesel::update(game::table.find(&game_id))
       .set((
