@@ -72,6 +72,7 @@ pub async fn get_all(State(app): State<App>) -> Response {
       }
 
       worlds.sort_by_key(|b| std::cmp::Reverse(b.config.id()));
+      worlds
     })
     .await
     else {
