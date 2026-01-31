@@ -104,5 +104,6 @@ async fn make_remote_world(app: &App, id: WorldId) -> Result<RemoteWorld> {
     current_round: world.round().id(),
     active_players,
     total_players,
+    continent_size: world.continent().size(),
   })
 }

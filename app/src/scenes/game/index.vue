@@ -35,7 +35,9 @@ const [isFinderOpen, toggleFinder] = useToggle(false);
 const lastSavedAt = ref<Option<RoundId>>();
 
 const isRemoteCreatedBySelf = asyncComputed(false, async () => {
-  if (!isLocal.value && player.value && worldId.value) {
+  // We can’t use `isLocal` because, by the time the computed runs
+  // for the first time, it may not have been loaded yet.
+  if (worldId.value && player.value && await commands.isRemote()) {
     return RemoteWorldImpl.wasCreatedBy(worldId.value, player.value.id);
   }
   else {

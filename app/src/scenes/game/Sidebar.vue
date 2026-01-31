@@ -150,10 +150,10 @@ function copyServerAddr() {
         ref="sidebarFooterEl"
         class="grid grid-cols-2 items-center justify-center gap-4"
       >
-        <Button size="sm" :disabled="!canSave" @click="onSave">
+        <Button size="sm" :disabled="!canSave" @click="() => onSave()">
           <span>{{ t('save') }}</span>
         </Button>
-        <Button variant="destructive" size="sm" @click="onLeave">
+        <Button variant="destructive" size="sm" @click="() => onLeave()">
           <span>{{ t('leave') }}</span>
         </Button>
       </div>

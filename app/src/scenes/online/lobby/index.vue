@@ -12,9 +12,9 @@ import Loading from '@/components/Loading.vue';
 import enUS from '@/locale/en-US/scenes/online.json';
 import ptBR from '@/locale/pt-BR/scenes/online.json';
 import { onKeyDown, useBreakpoints } from '@tb-dev/vue';
-import { watchToken } from '@/composables/online/watchToken';
 import { useRemoteWorlds } from '@/composables/useRemoteWorlds';
 import { QUERY_JOIN_REMOTE_GAME_WORLD_ID } from '@/router/online';
+import { watchAuthorizationToken } from '@/composables/watchAuthorizationToken';
 import {
   Button,
   Card,
@@ -48,7 +48,7 @@ if (__DESKTOP__) {
   onKeyDown('F5', throttle(load, 1000));
 }
 
-watchToken('sign-in');
+watchAuthorizationToken('sign-in');
 
 async function goToJoinRemoteGameScene(id: WorldId) {
   await go('join-remote-game', { query: { [QUERY_JOIN_REMOTE_GAME_WORLD_ID]: id } });
@@ -84,9 +84,9 @@ async function goToJoinRemoteGameScene(id: WorldId) {
         </CardTitle>
       </CardHeader>
 
-      <CardContent class="relative size-full overflow-auto px-2 py-0">
+      <CardContent class="size-full overflow-auto px-2 py-0">
         <Loading v-if="loading" />
-        <Table v-else-if="remoteWorlds.length > 0">
+        <Table v-else-if="remoteWorlds.length > 0" class="w-full min-w-max">
           <TableHeader>
             <TableRow class="hover:bg-card">
               <TableHead v-if="someHasPassword"></TableHead>
@@ -94,6 +94,7 @@ async function goToJoinRemoteGameScene(id: WorldId) {
               <TableHead>{{ t('round') }}</TableHead>
               <TableHead v-if="md">{{ t('active-players') }}</TableHead>
               <TableHead>{{ md ? t('total-players') : t('player', 2) }}</TableHead>
+              <TableHead v-if="xl">{{ t('size') }}</TableHead>
               <TableHead>{{ t('created-by') }}</TableHead>
               <TableHead v-if="xl">{{ t('created-at') }}</TableHead>
               <TableHead v-if="xl">{{ t('updated-at') }}</TableHead>
@@ -113,7 +114,7 @@ async function goToJoinRemoteGameScene(id: WorldId) {
                 <LockIcon v-if="world.hasPassword" class="size-4" />
               </TableCell>
               <TableCell>
-                <span class="break-all wrap-anywhere">{{ world.config.name }}</span>
+                <span>{{ world.config.name }}</span>
               </TableCell>
               <TableCell>
                 <span>{{ world.currentRound }}</span>
@@ -124,8 +125,11 @@ async function goToJoinRemoteGameScene(id: WorldId) {
               <TableCell>
                 <span>{{ world.totalPlayers }}</span>
               </TableCell>
+              <TableCell v-if="xl">
+                <span>{{ world.continentSize }}</span>
+              </TableCell>
               <TableCell>
-                <span class="break-all wrap-anywhere">{{ world.createdBy }}</span>
+                <span>{{ world.createdBy }}</span>
               </TableCell>
               <TableCell v-if="xl">
                 <span>{{ formatToday(world.createdAtDate) }}</span>

@@ -4,16 +4,18 @@
 import { go } from '@/router';
 import { storeToRefs } from 'pinia';
 import { useUserStore } from '@/stores/user';
-import { validateToken } from '@/commands/server';
+import { clearAllBrowsingData } from '@/lib/webview';
 import { tryOnScopeDispose, watchImmediate } from '@vueuse/core';
 
-export function watchToken(fallbackScene: Scene) {
+export function watchAuthorizationToken(fallbackScene: Scene) {
   const userStore = useUserStore();
   const { authorizationToken } = storeToRefs(userStore);
+  const { isAuthorizationTokenValid } = userStore;
 
-  const stop = watchImmediate(authorizationToken, async (token) => {
-    if (!token || !(await validateToken(token))) {
+  const stop = watchImmediate(authorizationToken, async () => {
+    if (!(await isAuthorizationTokenValid())) {
       await go(fallbackScene);
+      await clearAllBrowsingData();
     }
   });
 

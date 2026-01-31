@@ -41,14 +41,14 @@ importers:
         specifier: ~7.0.30
         version: 7.0.30
       '@tb-dev/utils':
-        specifier: ~7.1.2
-        version: 7.1.2
+        specifier: ~7.2.0
+        version: 7.2.0
       '@tb-dev/vue':
         specifier: ~3.4.3
         version: 3.4.3(typescript@5.9.3)
       '@tb-dev/vue-components':
-        specifier: ~7.0.5
-        version: 7.0.5(@nuxt/kit@4.1.0(magicast@0.3.5))(@nuxt/schema@4.1.0)(nuxt@4.1.0(@parcel/watcher@2.5.1)(@types/node@25.1.0)(@vue/compiler-sfc@3.5.27)(db0@0.3.2)(eslint@9.39.2(jiti@2.6.1))(ioredis@5.7.0)(lightningcss@1.30.2)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.50.0)(terser@5.44.0)(typescript@5.9.3)(vite@7.3.1(@types/node@25.1.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.0)(yaml@2.8.2))(vue-tsc@3.2.4(typescript@5.9.3))(yaml@2.8.2))(typescript@5.9.3)
+        specifier: ~7.0.6
+        version: 7.0.6(@nuxt/kit@4.1.0(magicast@0.3.5))(@nuxt/schema@4.1.0)(nuxt@4.1.0(@parcel/watcher@2.5.1)(@types/node@25.1.0)(@vue/compiler-sfc@3.5.27)(db0@0.3.2)(eslint@9.39.2(jiti@2.6.1))(ioredis@5.7.0)(lightningcss@1.30.2)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.50.0)(terser@5.44.0)(typescript@5.9.3)(vite@7.3.1(@types/node@25.1.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.0)(yaml@2.8.2))(vue-tsc@3.2.4(typescript@5.9.3))(yaml@2.8.2))(typescript@5.9.3)
       '@vueuse/components':
         specifier: ~14.1.0
         version: 14.1.0(vue@3.5.27(typescript@5.9.3))
@@ -1662,11 +1662,11 @@ packages:
   '@tb-dev/prototype-dom@7.0.30':
     resolution: {integrity: sha512-r8nvmRkwqLI8uJDZKLttusjZ8Ey9AYgUjrsmTFgxLgHqyIRjWii0/zkAbGTmnxf96u18X+4YYYyRvja7xRw2Yw==}
 
-  '@tb-dev/utils@7.1.2':
-    resolution: {integrity: sha512-TjkeafoffDz5/y3sLysAArnAn3zuS5TyBqCFrDXp/a0fVy9v8HW3f99meyVHQXrDtKeSKE1lYTO4z4cetM/KRQ==}
+  '@tb-dev/utils@7.2.0':
+    resolution: {integrity: sha512-lFxaFvkQN1vB7d5c1B8HxBphrEfXyHhRK8fnOCiMujK5simuOZxB9gNTl5mPLTKqDJTvGOMZJa/J4ChZP2U4nw==}
 
-  '@tb-dev/vue-components@7.0.5':
-    resolution: {integrity: sha512-jlSCywqy0Kdz1hulJx1PgpPdm4+h5UArtAdWR/JLrANx20ICu0w05tnt5aUdZQdDUlF3yjy0j18+XIk4nEgNiQ==}
+  '@tb-dev/vue-components@7.0.6':
+    resolution: {integrity: sha512-7FCubK78WPEq8Szfavy2KK1tN89xR/nJLJduJwlL/yBmGYa/PvFJaCTFPInhvKBl0+ln+kVlNZ+zsSBHJus7qw==}
 
   '@tb-dev/vue@3.4.3':
     resolution: {integrity: sha512-6s4L6NUaWK+5KvoeaqwGaZFUXILewdzVkrnrwQ/i1JWWf4Q7p22ZMBA/NAG/ZtStFYOxuOBBnMlq9qPMQWQt9Q==}
@@ -3139,11 +3139,6 @@ packages:
 
   lru-cache@5.1.1:
     resolution: {integrity: sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w==}
-
-  lucide-vue-next@0.562.0:
-    resolution: {integrity: sha512-LN0BLGKMFulv0lnfK29r14DcngRUhIqdcaL0zXTt2o0oS9odlrjCGaU3/X9hIihOjjN8l8e+Y9G/famcNYaI7Q==}
-    peerDependencies:
-      vue: '>=3.0.1'
 
   lucide-vue-next@0.563.0:
     resolution: {integrity: sha512-zsE/lCKtmaa7bGfhSpN84br1K9YoQ5pCN+2oKWjQQG3Lo6ufUUKBuHSjNFI6RvUevxaajNXb8XwFUKeTXG3sIA==}
@@ -6002,17 +5997,17 @@ snapshots:
 
   '@tb-dev/prototype-dom@7.0.30': {}
 
-  '@tb-dev/utils@7.1.2': {}
+  '@tb-dev/utils@7.2.0': {}
 
-  '@tb-dev/vue-components@7.0.5(@nuxt/kit@4.1.0(magicast@0.3.5))(@nuxt/schema@4.1.0)(nuxt@4.1.0(@parcel/watcher@2.5.1)(@types/node@25.1.0)(@vue/compiler-sfc@3.5.27)(db0@0.3.2)(eslint@9.39.2(jiti@2.6.1))(ioredis@5.7.0)(lightningcss@1.30.2)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.50.0)(terser@5.44.0)(typescript@5.9.3)(vite@7.3.1(@types/node@25.1.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.0)(yaml@2.8.2))(vue-tsc@3.2.4(typescript@5.9.3))(yaml@2.8.2))(typescript@5.9.3)':
+  '@tb-dev/vue-components@7.0.6(@nuxt/kit@4.1.0(magicast@0.3.5))(@nuxt/schema@4.1.0)(nuxt@4.1.0(@parcel/watcher@2.5.1)(@types/node@25.1.0)(@vue/compiler-sfc@3.5.27)(db0@0.3.2)(eslint@9.39.2(jiti@2.6.1))(ioredis@5.7.0)(lightningcss@1.30.2)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.50.0)(terser@5.44.0)(typescript@5.9.3)(vite@7.3.1(@types/node@25.1.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.0)(yaml@2.8.2))(vue-tsc@3.2.4(typescript@5.9.3))(yaml@2.8.2))(typescript@5.9.3)':
     dependencies:
       '@tanstack/vue-table': 8.21.3(vue@3.5.27(typescript@5.9.3))
-      '@tb-dev/utils': 7.1.2
+      '@tb-dev/utils': 7.2.0
       '@tb-dev/vue': 3.4.3(typescript@5.9.3)
       '@vueuse/core': 14.1.0(vue@3.5.27(typescript@5.9.3))
       class-variance-authority: 0.7.1
       clsx: 2.1.1
-      lucide-vue-next: 0.562.0(vue@3.5.27(typescript@5.9.3))
+      lucide-vue-next: 0.563.0(vue@3.5.27(typescript@5.9.3))
       reka-ui: 2.8.0(vue@3.5.27(typescript@5.9.3))
       tailwind-merge: 3.4.0
       tw-animate-css: 1.4.0
@@ -6029,7 +6024,7 @@ snapshots:
 
   '@tb-dev/vue@3.4.3(typescript@5.9.3)':
     dependencies:
-      '@tb-dev/utils': 7.1.2
+      '@tb-dev/utils': 7.2.0
       '@vueuse/core': 14.1.0(vue@3.5.27(typescript@5.9.3))
       es-toolkit: 1.44.0
       vue: 3.5.27(typescript@5.9.3)
@@ -7774,10 +7769,6 @@ snapshots:
     dependencies:
       yallist: 3.1.1
     optional: true
-
-  lucide-vue-next@0.562.0(vue@3.5.27(typescript@5.9.3)):
-    dependencies:
-      vue: 3.5.27(typescript@5.9.3)
 
   lucide-vue-next@0.563.0(vue@3.5.27(typescript@5.9.3)):
     dependencies:

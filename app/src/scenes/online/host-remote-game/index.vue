@@ -82,7 +82,7 @@ async function host() {
 
 <template>
   <div class="card-layout">
-    <Card>
+    <Card class="md:min-w-150! md:max-w-1/2">
       <CardHeader>
         <CardTitle>{{ t('host-game') }}</CardTitle>
       </CardHeader>
@@ -91,7 +91,7 @@ async function host() {
         <Label>
           <span>{{ t('world-name') }}</span>
           <Input
-            v-model.trim="worldOptions.name"
+            v-model="worldOptions.name"
             type="text"
             :disabled="locked"
             :minlength="1"
@@ -131,11 +131,12 @@ async function host() {
         <Label>
           <span>{{ t('world-description') }}</span>
           <Textarea
-            v-model.trim="description"
+            v-model="description"
             type="text"
             spellcheck="false"
             autocapitalize="off"
             autocomplete="off"
+            :maxlength="300"
             class="max-h-24 resize-none"
           />
         </Label>
@@ -148,14 +149,16 @@ async function host() {
         </div>
       </CardContent>
 
-      <CardFooter class="grid grid-cols-2">
-        <Button :disabled="locked || !canHost" @click="host">
-          <span>{{ t('host') }}</span>
-        </Button>
+      <CardFooter class="w-full flex">
+        <div class="w-full md:max-w-1/2 grid grid-cols-2 gap-2">
+          <Button :disabled="locked || !canHost" @click="host">
+            <span>{{ t('host') }}</span>
+          </Button>
 
-        <Button variant="secondary" :disabled="locked" @click="() => router.back()">
-          <span>{{ t('cancel') }}</span>
-        </Button>
+          <Button variant="secondary" :disabled="locked" @click="() => router.back()">
+            <span>{{ t('cancel') }}</span>
+          </Button>
+        </div>
       </CardFooter>
     </Card>
   </div>

@@ -1,6 +1,7 @@
 #![feature(str_as_str)]
 
 use jiff::Zoned;
+use nil_core::continent::ContinentSize;
 use nil_core::player::PlayerId;
 use nil_core::round::RoundId;
 use nil_core::world::{WorldConfig, WorldId};
@@ -27,6 +28,7 @@ pub struct RemoteWorld {
   pub current_round: RoundId,
   pub active_players: usize,
   pub total_players: usize,
+  pub continent_size: ContinentSize,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
