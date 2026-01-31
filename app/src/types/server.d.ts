@@ -38,4 +38,5 @@ interface RemoteWorld {
   readonly currentRound: RoundId;
   readonly activePlayers: number;
   readonly totalPlayers: number;
+  readonly continentSize: ContinentSize;
 }

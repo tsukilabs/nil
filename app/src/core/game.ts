@@ -3,10 +3,12 @@
 
 import { go } from '@/router';
 import * as commands from '@/commands';
+import { timeout } from '@tb-dev/utils';
 import { handleError } from '@/lib/error';
 import { useUserStore } from '@/stores/user';
 import { Entity } from '@/core/entity/abstract';
 import { exit } from '@tauri-apps/plugin-process';
+import { clearAllBrowsingData } from '@/lib/webview';
 
 async function joinGame(options: {
   worldId: NonNullable<ClientOptions['worldId']>;
@@ -130,27 +132,44 @@ export async function hostRemoteGame(options: {
   });
 }
 
-export async function leaveGame() {
+export async function leaveGame(options?: {
+  navigate?: boolean;
+  clearBrowsingData?: boolean;
+}) {
   try {
+    // We must check whether the server is remote
+    // BEFORE stopping the client, because stopping
+    // the client marks the server as remote.
+    const isRemote = await commands.isRemote();
+
     Entity.dispose();
     await commands.stopClient();
     await commands.stopServer();
+
+    if (options?.navigate ?? true) {
+      const { isAuthorizationTokenValid } = useUserStore();
+      if (
+        isRemote &&
+        location.pathname.startsWith('/game/') &&
+        await timeout(isAuthorizationTokenValid, 5000)
+      ) {
+        await go('lobby');
+      }
+      else {
+        await go('home');
+      }
+    }
+
+    if (options?.clearBrowsingData ?? true) {
+      await clearAllBrowsingData();
+    }
   }
   catch (err) {
     handleError(err);
   }
-  finally {
-    const { isAuthorizationTokenValid } = useUserStore();
-    if (await commands.isRemote() && await isAuthorizationTokenValid()) {
-      await go('lobby');
-    }
-    else {
-      await go('home');
-    }
-  }
 }
 
 export async function exitGame() {
-  await leaveGame();
+  await leaveGame({ navigate: false });
   await exit(0);
 }

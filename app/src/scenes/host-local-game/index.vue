@@ -79,7 +79,7 @@ async function goToLoadGameScene() {
         <Label>
           <span>{{ t('world-name') }}</span>
           <Input
-            v-model.trim="worldOptions.name"
+            v-model="worldOptions.name"
             type="text"
             :disabled="locked"
             :minlength="1"
@@ -108,7 +108,7 @@ async function goToLoadGameScene() {
         <Label>
           <span>{{ t('player-name') }}</span>
           <Input
-            v-model.trim="playerOptions.id"
+            v-model="playerOptions.id"
             type="text"
             :disabled="locked"
             :minlength="1"

@@ -59,7 +59,7 @@ async function join() {
         <Label>
           <span>{{ t('player-name') }}</span>
           <Input
-            v-model.trim="playerOptions.id"
+            v-model="playerOptions.id"
             type="text"
             :disabled="locked"
             :minlength="1"
@@ -69,7 +69,7 @@ async function join() {
         <Label>
           <span>{{ t('server') }}</span>
           <Input
-            v-model.trim="server"
+            v-model="server"
             type="text"
             :disabled="locked"
             :minlength="1"

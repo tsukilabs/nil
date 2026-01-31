@@ -15,6 +15,7 @@ export class RemoteWorldImpl implements RemoteWorld {
   public readonly currentRound: RoundId;
   public readonly activePlayers: number;
   public readonly totalPlayers: number;
+  public readonly continentSize: ContinentSize;
 
   #createdAtDate: Option<Date> = null;
   #updatedAtDate: Option<Date> = null;
@@ -29,6 +30,7 @@ export class RemoteWorldImpl implements RemoteWorld {
     this.currentRound = world.currentRound;
     this.activePlayers = world.activePlayers;
     this.totalPlayers = world.totalPlayers;
+    this.continentSize = world.continentSize;
   }
 
   public wasCreatedBy(player: PlayerId) {

@@ -16,7 +16,7 @@ pub struct Cli {
 
 #[tokio::main]
 async fn main() -> Result<()> {
-  let Some(_guard) = nil_log::setup()
+  let Some(guard) = nil_log::setup()
     .directives(Directives::all())
     .layers(Layers::FILE)
     .call()?
@@ -31,6 +31,8 @@ async fn main() -> Result<()> {
     .expect("Missing database url");
 
   remote::start(&database_url).await?;
+
+  drop(guard);
 
   Ok(())
 }
