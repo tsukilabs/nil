@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::error::{Error, Result};
+use crate::res;
 use crate::response::{MaybeResponse, from_err};
 use crate::server::remote;
 use dashmap::DashMap;
@@ -23,6 +24,7 @@ use nil_server_types::ServerKind;
 use nil_util::password::Password;
 use std::sync::Arc;
 use tokio::sync::RwLock;
+use tokio::task::spawn_blocking;
 
 #[derive(Clone)]
 pub(crate) struct App {
@@ -160,6 +162,38 @@ impl App {
   {
     match self.get(id) {
       Ok(world) => Either::Left(f(&mut *world.write().await)),
+      Err(err) => Either::Right(from_err(err)),
+    }
+  }
+
+  pub async fn world_blocking<F, T>(&self, id: WorldId, f: F) -> MaybeResponse<T>
+  where
+    F: FnOnce(&World) -> T + Send + Sync + 'static,
+    T: Send + Sync + 'static,
+  {
+    match self.get(id) {
+      Ok(world) => {
+        match spawn_blocking(move || f(&world.blocking_read())).await {
+          Ok(value) => Either::Left(value),
+          Err(_) => Either::Right(res!(INTERNAL_SERVER_ERROR)),
+        }
+      }
+      Err(err) => Either::Right(from_err(err)),
+    }
+  }
+
+  pub async fn world_blocking_mut<F, T>(&self, id: WorldId, f: F) -> MaybeResponse<T>
+  where
+    F: FnOnce(&mut World) -> T + Send + Sync + 'static,
+    T: Send + Sync + 'static,
+  {
+    match self.get(id) {
+      Ok(world) => {
+        match spawn_blocking(move || f(&mut world.blocking_write())).await {
+          Ok(value) => Either::Left(value),
+          Err(_) => Either::Right(res!(INTERNAL_SERVER_ERROR)),
+        }
+      }
       Err(err) => Either::Right(from_err(err)),
     }
   }

@@ -4,12 +4,11 @@
 use crate::app::App;
 use crate::middleware::authorization::CurrentPlayer;
 use crate::res;
-use crate::response::{EitherExt, from_core_err, from_database_err};
+use crate::response::{EitherExt, from_database_err};
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
 use nil_core::world::World;
 use nil_payload::round::*;
-use tokio::task::spawn_blocking;
 
 pub async fn get(State(app): State<App>, Json(req): Json<GetRoundRequest>) -> Response {
   app
@@ -24,23 +23,13 @@ pub async fn set_ready(
   Extension(player): Extension<CurrentPlayer>,
   Json(req): Json<SetPlayerReadyRequest>,
 ) -> Response {
-  match app.get(req.world) {
-    Ok(world) => {
-      let Ok(result) = spawn_blocking(move || {
-        let mut world = world.blocking_write();
-        world.set_player_ready(&player, req.is_ready)
-      })
-      .await
-      else {
-        return res!(INTERNAL_SERVER_ERROR);
-      };
-
-      result
-        .map(|()| res!(OK))
-        .unwrap_or_else(from_core_err)
-    }
-    Err(err) => Response::from(err),
-  }
+  app
+    .world_blocking_mut(req.world, move |world| {
+      world.set_player_ready(&player, req.is_ready)
+    })
+    .await
+    .try_map_left(|()| res!(OK))
+    .into_inner()
 }
 
 pub async fn start(
@@ -60,7 +49,7 @@ pub async fn start(
   }
 
   app
-    .world_mut(req.world, World::start_round)
+    .world_blocking_mut(req.world, World::start_round)
     .await
     .try_map_left(|()| res!(OK))
     .into_inner()

@@ -159,7 +159,7 @@ pub async fn spawn(State(app): State<App>, Json(req): Json<SpawnPlayerRequest>) 
   }
 
   app
-    .world_mut(req.world, |world| {
+    .world_blocking_mut(req.world, move |world| {
       world.spawn_player(Player::new(req.options))
     })
     .await

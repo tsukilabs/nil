@@ -10,7 +10,7 @@ use nil_payload::battle::*;
 
 pub async fn simulate(State(app): State<App>, Json(req): Json<SimulateBattleRequest>) -> Response {
   app
-    .world(req.world, |world| {
+    .world_blocking(req.world, move |world| {
       world.simulate_battle(&req.attacker, &req.defender, req.luck, req.wall)
     })
     .await
