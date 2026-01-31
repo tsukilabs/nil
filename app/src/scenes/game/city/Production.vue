@@ -37,6 +37,7 @@ const { production } = NIL.city.refs();
             tabindex="0"
             class="cursor-pointer"
             @click="() => go('sawmill')"
+            @keydown.enter="() => go('sawmill')"
           >
             <TableCell>{{ t('wood') }}</TableCell>
             <TableCell>{{ t('x-per-turn', [production.wood]) }}</TableCell>
@@ -48,6 +49,7 @@ const { production } = NIL.city.refs();
             tabindex="0"
             class="cursor-pointer"
             @click="() => go('quarry')"
+            @keydown.enter="() => go('quarry')"
           >
             <TableCell>{{ t('stone') }}</TableCell>
             <TableCell>{{ t('x-per-turn', [production.stone]) }}</TableCell>
@@ -59,6 +61,7 @@ const { production } = NIL.city.refs();
             tabindex="0"
             class="cursor-pointer"
             @click="() => go('iron-mine')"
+            @keydown.enter="() => go('iron-mine')"
           >
             <TableCell>{{ t('iron') }}</TableCell>
             <TableCell>{{ t('x-per-turn', [production.iron]) }}</TableCell>
@@ -70,6 +73,7 @@ const { production } = NIL.city.refs();
             tabindex="0"
             class="cursor-pointer"
             @click="() => go('farm')"
+            @keydown.enter="() => go('farm')"
           >
             <TableCell>{{ t('food') }}</TableCell>
             <TableCell>{{ t('x-per-turn', [production.food]) }}</TableCell>

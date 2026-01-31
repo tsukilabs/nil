@@ -20,10 +20,6 @@ export * from './military';
 export * from './continent';
 export * from './infrastructure';
 
-export async function clearAllBrowsingData() {
-  await invoke('clear_all_browsing_data');
-}
-
 export async function createTrayIcon() {
   await invoke('create_tray_icon');
 }
