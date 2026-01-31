@@ -6,7 +6,8 @@ param(
   [switch]$Preview,
   [switch]$OpenPreview,
   [switch]$Wasm,
-  [string]$TargetDir
+  [string]$TargetDir,
+  [switch]$Kanata
 )
 
 $ErrorActionPreference = 'Stop'
@@ -35,21 +36,25 @@ if (-not $Android) {
 
 Invoke-Expression $BuildCmd
 
-if ($Android -and $TargetDir) {
-  if ($IsWindows -and ($TargetDir.ToLower() -eq 'desktop')) {
-    $TargetDir = [Environment]::GetFolderPath('Desktop')
-  }
-
+if ($Android) {
+  $Path = './app/src-tauri/gen/android/app/build/outputs/apk/universal/release/app-universal-release.apk'
   $Version = Get-Content -Path 'package.json' -Raw
   | ConvertFrom-Json
   | Select-Object -ExpandProperty 'version'
 
-  $Params = @{
-    Path        = 'app/src-tauri/gen/android/app/build/outputs/apk/universal/release/app-universal-release.apk'
-    Destination = "$TargetDir/call-of-nil-$Version.apk"
+  $Name = "call-of-nil-$Version.apk"
+
+  if ($Kanata -and (Get-Command 'kanata' -ErrorAction SilentlyContinue)) {
+    kanata add --path "`"$Path`"" --name "`"$Name`""
   }
 
-  Copy-Item @Params
+  if ($TargetDir) {
+    if ($IsWindows -and ($TargetDir.ToLower() -eq 'desktop')) {
+      $TargetDir = [Environment]::GetFolderPath('Desktop')
+    }
+
+    Copy-Item $Path -Destination "$TargetDir/$Name"
+  }
 }
 
 if ($Preview -and $OpenPreview) {

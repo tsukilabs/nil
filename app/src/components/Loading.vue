@@ -21,10 +21,10 @@ const props = defineProps<{
   animation-duration: 1500ms;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
-  animation-name: spin;
+  animation-name: loading-icon-spin;
 }
 
-@keyframes spin {
+@keyframes loading-icon-spin {
   from {
     transform: rotate(0deg);
   }
