@@ -42,7 +42,12 @@ export async function stopServer() {
   await invoke('stop_server');
 }
 
-export async function validateToken(token: string) {
-  const req: ValidateTokenRequest = { token };
-  return invoke<Option<PlayerId>>('validate_token', { req });
+export async function validateToken(token: Option<string>) {
+  if (token) {
+    const req: ValidateTokenRequest = { token };
+    return invoke<Option<PlayerId>>('validate_token', { req });
+  }
+  else {
+    return null;
+  }
 }

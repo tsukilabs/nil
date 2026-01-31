@@ -48,7 +48,7 @@ if (__DESKTOP__) {
   onKeyDown('F5', throttle(load, 1000));
 }
 
-watchAuthorizationToken('sign-in');
+watchAuthorizationToken();
 
 async function goToJoinRemoteGameScene(id: WorldId) {
   await go('join-remote-game', { query: { [QUERY_JOIN_REMOTE_GAME_WORLD_ID]: id } });

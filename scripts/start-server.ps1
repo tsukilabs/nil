@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: AGPL-3.0-only
 
 param(
-  [Alias('U', 'Url')]
+  [Alias('Url')]
   [switch]$DatabaseUrl
 )
 

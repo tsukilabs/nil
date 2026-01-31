@@ -2,21 +2,11 @@
 # SPDX-License-Identifier: AGPL-3.0-only
 
 param(
-  [Alias('A')]
   [switch]$Android,
-
-  [Alias('D')]
   [string]$Device,
-
-  [Alias('W')]
   [switch]$Wasm,
-
-  [Alias('R')]
   [switch]$Remote,
-
-  [Alias('V')]
   [switch]$Verbose,
-
   [switch]$LogTowerHttp
 )
 

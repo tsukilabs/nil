@@ -48,7 +48,7 @@ const toggleReady = () => lock(() => props.onTogglePlayerReady());
       :disabled="locked || !isPlayerTurn"
       @click="toggleReady"
     >
-      <span v-if="isPlayerReady">{{ t('ready') }}</span>
+      <span v-if="isPlayerReady">{{ t('cancel') }}</span>
       <span v-else>{{ sm ? t('finish-turn') : t('finish') }}</span>
     </Button>
   </div>
