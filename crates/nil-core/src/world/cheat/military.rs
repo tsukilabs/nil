@@ -4,12 +4,32 @@
 use crate::bail_if_cheats_are_not_allowed;
 use crate::continent::Coord;
 use crate::error::Result;
-use crate::military::army::ArmyPersonnel;
+use crate::military::army::{Army, ArmyPersonnel};
 use crate::ruler::Ruler;
 use crate::world::World;
+use itertools::Itertools;
 use nil_util::ops::TryElse;
+use nil_util::result::WrapOk;
 
 impl World {
+  pub fn cheat_get_idle_armies_at(&self, coord: Coord) -> Result<Vec<Army>> {
+    bail_if_cheats_are_not_allowed!(self);
+    self
+      .military
+      .idle_armies_at(coord)
+      .cloned()
+      .collect_vec()
+      .wrap_ok()
+  }
+
+  pub fn cheat_get_idle_personnel_at(&self, coord: Coord) -> Result<ArmyPersonnel> {
+    bail_if_cheats_are_not_allowed!(self);
+    self
+      .military
+      .fold_idle_personnel_at(coord)
+      .wrap_ok()
+  }
+
   pub fn cheat_spawn_personnel(
     &mut self,
     coord: Coord,

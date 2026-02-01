@@ -9,6 +9,20 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+pub struct CheatGetIdleArmiesAtRequest {
+  pub world: WorldId,
+  pub coord: Coord,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct CheatGetIdlePersonnelAtRequest {
+  pub world: WorldId,
+  pub coord: Coord,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct CheatSpawnPersonnelRequest {
   pub world: WorldId,
   pub coord: Coord,

@@ -62,6 +62,8 @@ pub(crate) fn create() -> Router<App> {
     .route("/cheat-get-all-stable-recruit-queues", post(cheat::infrastructure::get_all_stable_recruit_queues))
     .route("/cheat-get-build-steps", post(cheat::behavior::get_build_steps))
     .route("/cheat-get-ethics", post(cheat::npc::get_ethics))
+    .route("/cheat-get-idle-armies-at", post(cheat::military::get_idle_armies_at))
+    .route("/cheat-get-idle-personnel-at", post(cheat::military::get_idle_personnel_at))
     .route("/cheat-get-infrastructure", post(cheat::infrastructure::get_infrastructure))
     .route("/cheat-get-prefecture-build-queue", post(cheat::infrastructure::get_prefecture_build_queue))
     .route("/cheat-get-prefecture-build-queues", post(cheat::infrastructure::get_prefecture_build_queues))

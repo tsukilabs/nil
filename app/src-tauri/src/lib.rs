@@ -60,6 +60,8 @@ pub fn run() {
       command::cheat::infrastructure::cheat_get_storage_capacity,
       command::cheat::infrastructure::cheat_set_building_level,
       command::cheat::infrastructure::cheat_set_max_infrastructure,
+      command::cheat::military::cheat_get_idle_armies_at,
+      command::cheat::military::cheat_get_idle_personnel_at,
       command::cheat::military::cheat_spawn_personnel,
       command::cheat::npc::cheat_get_ethics,
       command::cheat::npc::cheat_set_bot_ethics,

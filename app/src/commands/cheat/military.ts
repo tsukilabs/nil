@@ -4,8 +4,40 @@
 import { invoke } from '@tauri-apps/api/core';
 import { SquadImpl } from '@/core/model/military/squad';
 import { CoordImpl } from '@/core/model/continent/coord';
-import type { CheatSpawnPersonnelRequest } from '@/lib/request';
 import { ArmyPersonnelImpl } from '@/core/model/military/army-personnel';
+import type {
+  CheatGetIdleArmiesAtRequest,
+  CheatGetIdlePersonnelAtRequest,
+  CheatSpawnPersonnelRequest,
+} from '@/lib/request';
+
+export async function cheatGetIdleArmiesAt(coord?: Option<ContinentKey>) {
+  coord = CoordImpl.fromContinentKeyOrCurrentStrict(coord);
+  const req: CheatGetIdleArmiesAtRequest = {
+    world: NIL.world.getIdStrict(),
+    coord,
+  };
+
+  return invoke<readonly Army[]>('cheat_get_idle_armies_at', { req });
+}
+
+export async function cheatGetIdlePersonnelAt(coord?: Option<ContinentKey>) {
+  coord = CoordImpl.fromContinentKeyOrCurrentStrict(coord);
+  const req: CheatGetIdlePersonnelAtRequest = {
+    world: NIL.world.getIdStrict(),
+    coord,
+  };
+
+  return invoke<ArmyPersonnel>('cheat_get_idle_personnel_at', { req });
+}
+
+export async function cheatGetIdleSquadsAt(coord?: Option<ContinentKey>) {
+  const armies = await cheatGetIdleArmiesAt(coord);
+  return armies.flatMap((army) => {
+    const personnel = ArmyPersonnelImpl.create(army.personnel);
+    return personnel.getSquads();
+  });
+}
 
 export async function cheatSpawnPersonnel(
   coord?: Option<ContinentKey>,
