@@ -108,7 +108,7 @@ impl<T> Behavior for BuildBuildingBehavior<T>
 where
   T: Building + Debug + 'static,
 {
-  #[expect(clippy::too_many_lines)]
+  #[allow(clippy::too_many_lines)]
   fn score(&self, world: &World) -> Result<BehaviorScore> {
     let infrastructure = world.infrastructure(self.coord)?;
     let building = infrastructure.building(self.building);
