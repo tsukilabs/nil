@@ -4,6 +4,7 @@
 use crate::error::Result;
 use crate::infrastructure::building::prefecture::PrefectureBuildOrderKind;
 use crate::infrastructure::building::{BuildingId, BuildingLevel, BuildingStatsTable};
+use crate::infrastructure::queue::InfrastructureQueue;
 use crate::infrastructure::requirements::InfrastructureRequirements;
 use crate::infrastructure::{Infrastructure, InfrastructureStats};
 use crate::resources::{Maintenance, Resources, Workforce};

@@ -80,6 +80,21 @@ impl Academy {
       None
     }
   }
+
+  #[inline]
+  pub fn workforce(&self) -> Workforce {
+    Workforce::from(self.level)
+  }
+
+  pub fn turns_in_recruit_queue(&self) -> f64 {
+    if self.level > 0u8 {
+      let turn = self.workforce();
+      let in_queue = self.recruit_queue.sum_pending_workforce();
+      f64::from(in_queue) / f64::from(turn)
+    } else {
+      0.0
+    }
+  }
 }
 
 impl Default for Academy {

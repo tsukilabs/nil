@@ -66,23 +66,13 @@ impl StableRecruitQueue {
 
     self.orders.remove(position)
   }
-
-  pub fn iter(&self) -> impl Iterator<Item = &StableRecruitOrder> {
-    self.orders.iter()
-  }
-
-  #[inline]
-  pub fn len(&self) -> usize {
-    self.orders.len()
-  }
-
-  #[inline]
-  pub fn is_empty(&self) -> bool {
-    self.orders.is_empty()
-  }
 }
 
 impl InfrastructureQueue<StableRecruitOrder> for StableRecruitQueue {
+  fn queue(&self) -> &VecDeque<StableRecruitOrder> {
+    &self.orders
+  }
+
   fn queue_mut(&mut self) -> &mut VecDeque<StableRecruitOrder> {
     &mut self.orders
   }
@@ -131,6 +121,10 @@ impl InfrastructureQueueOrder for StableRecruitOrder {
     self.state = StableRecruitOrderState::Done;
   }
 
+  fn pending_workforce(&self) -> Option<Workforce> {
+    self.state.pending_workforce()
+  }
+
   fn pending_workforce_mut(&mut self) -> Option<&mut Workforce> {
     self.state.pending_workforce_mut()
   }
@@ -160,6 +154,10 @@ pub enum StableRecruitOrderState {
 }
 
 impl StableRecruitOrderState {
+  fn pending_workforce(&self) -> Option<Workforce> {
+    if let Self::Pending { workforce } = self { Some(*workforce) } else { None }
+  }
+
   fn pending_workforce_mut(&mut self) -> Option<&mut Workforce> {
     if let Self::Pending { workforce } = self { Some(workforce) } else { None }
   }

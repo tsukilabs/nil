@@ -3,7 +3,6 @@
 
 import { go } from '@/router';
 import { storeToRefs } from 'pinia';
-import * as commands from '@/commands';
 import { handleError } from '@/lib/error';
 import { useUserStore } from '@/stores/user';
 import { tryOnScopeDispose, watchImmediate } from '@vueuse/core';
@@ -17,7 +16,6 @@ export function watchAuthorizationToken() {
     try {
       if (!(await isAuthorizationTokenValid())) {
         await go('home');
-        await commands.clearAllBrowsingData();
       }
     }
     catch (err) {

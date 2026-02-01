@@ -6,6 +6,7 @@ use super::{PrefectureBuildOrderKind, PrefectureBuildOrderRequest};
 use crate::continent::Coord;
 use crate::error::Error;
 use crate::infrastructure::building::{BuildingId, BuildingStatsTable};
+use crate::infrastructure::queue::InfrastructureQueue;
 use crate::infrastructure::{Infrastructure, InfrastructureStats};
 use crate::resources::Resources;
 use std::sync::LazyLock;

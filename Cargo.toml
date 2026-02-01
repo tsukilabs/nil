@@ -3,7 +3,7 @@ resolver = "3"
 members = ["app/src-tauri", "crates/*"]
 
 [workspace.package]
-version = "0.2.4"
+version = "0.2.5"
 edition = "2024"
 rust-version = "1.95"
 license-file = "./LICENSE"
@@ -169,6 +169,10 @@ features = ["full"]
 [workspace.dependencies.tokio-tungstenite]
 version = "0.27"
 features = ["url"]
+
+[workspace.dependencies.tower]
+version = "0.5"
+features = []
 
 [workspace.dependencies.tower-http]
 version = "0.6"

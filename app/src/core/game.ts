@@ -133,7 +133,6 @@ export async function hostRemoteGame(options: {
 
 export async function leaveGame(options?: {
   navigate?: boolean;
-  clearBrowsingData?: boolean;
 }) {
   try {
     // We must check whether the server is remote
@@ -157,10 +156,6 @@ export async function leaveGame(options?: {
       else {
         await go('home');
       }
-    }
-
-    if (options?.clearBrowsingData ?? true) {
-      await commands.clearAllBrowsingData();
     }
   }
   catch (err) {

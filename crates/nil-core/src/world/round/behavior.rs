@@ -3,6 +3,7 @@
 
 use crate::behavior::build::BuildBehavior;
 use crate::behavior::idle::IdleBehavior;
+use crate::behavior::recruit::RecruitBehavior;
 use crate::behavior::{Behavior, BehaviorProcessor};
 use crate::error::Result;
 use crate::ruler::Ruler;
@@ -25,7 +26,7 @@ impl World {
 
     for bot in bots {
       let mut behaviors = vec![IdleBehavior.boxed()];
-      behaviors.extend(build(self, &bot));
+      behaviors.extend(with_coords(self, &bot));
       BehaviorProcessor::new(self, behaviors).try_each()?;
     }
 
@@ -40,7 +41,7 @@ impl World {
 
     for precursor in precursors {
       let mut behaviors = vec![IdleBehavior.boxed()];
-      behaviors.extend(build(self, &precursor));
+      behaviors.extend(with_coords(self, &precursor));
       BehaviorProcessor::new(self, behaviors).try_each()?;
     }
 
@@ -48,14 +49,20 @@ impl World {
   }
 }
 
-fn build(world: &World, ruler: &Ruler) -> impl Iterator<Item = Box<dyn Behavior>> {
+fn with_coords(world: &World, ruler: &Ruler) -> impl Iterator<Item = Box<dyn Behavior>> {
   world
     .continent()
-    .cities_of(ruler.clone())
-    .map(move |city| {
-      BuildBehavior::builder()
-        .coord(city.coord())
-        .build()
-        .boxed()
+    .coords_of(ruler.clone())
+    .flat_map(|coord| {
+      [
+        BuildBehavior::builder()
+          .coord(coord)
+          .build()
+          .boxed(),
+        RecruitBehavior::builder()
+          .coord(coord)
+          .build()
+          .boxed(),
+      ]
     })
 }

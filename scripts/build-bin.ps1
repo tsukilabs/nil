@@ -44,7 +44,7 @@ if ($Android) {
   | ConvertFrom-Json
   | Select-Object -ExpandProperty 'version'
 
-  $Name = "call-of-nil-$Version.apk"
+  $Name = "Call.of.Nil_$Version.apk"
 
   if ($Kanata -and (Get-Command 'kanata' -ErrorAction SilentlyContinue)) {
     kanata add --path $Path --name $Name

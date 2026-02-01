@@ -79,20 +79,6 @@ impl PrefectureBuildQueue {
     self.orders.pop_back()
   }
 
-  pub fn iter(&self) -> impl Iterator<Item = &PrefectureBuildOrder> {
-    self.orders.iter()
-  }
-
-  #[inline]
-  pub fn len(&self) -> usize {
-    self.orders.len()
-  }
-
-  #[inline]
-  pub fn is_empty(&self) -> bool {
-    self.orders.is_empty()
-  }
-
   pub fn resolve_level(&self, building: BuildingId, current_level: BuildingLevel) -> BuildingLevel {
     self
       .iter()
@@ -104,18 +90,13 @@ impl PrefectureBuildQueue {
         }
       })
   }
-
-  pub fn sum_pending_workforce(&self) -> Workforce {
-    self
-      .iter()
-      .filter_map(|order| order.state.pending_workforce())
-      .map(u32::from)
-      .sum::<u32>()
-      .into()
-  }
 }
 
 impl InfrastructureQueue<PrefectureBuildOrder> for PrefectureBuildQueue {
+  fn queue(&self) -> &VecDeque<PrefectureBuildOrder> {
+    &self.orders
+  }
+
   fn queue_mut(&mut self) -> &mut VecDeque<PrefectureBuildOrder> {
     &mut self.orders
   }
@@ -163,6 +144,10 @@ impl InfrastructureQueueOrder for PrefectureBuildOrder {
 
   fn set_done(&mut self) {
     self.state = PrefectureBuildOrderState::Done;
+  }
+
+  fn pending_workforce(&self) -> Option<Workforce> {
+    self.state.pending_workforce()
   }
 
   fn pending_workforce_mut(&mut self) -> Option<&mut Workforce> {
