@@ -5,14 +5,16 @@ mod stability;
 
 use crate::continent::Coord;
 use crate::error::Result;
+use crate::infrastructure::Infrastructure;
 use crate::infrastructure::building::StorageId;
+use crate::infrastructure::stats::InfrastructureStats;
 use crate::infrastructure::storage::OverallStorageCapacity;
-use crate::infrastructure::{Infrastructure, InfrastructureStats};
 use crate::npc::bot::BotId;
 use crate::npc::precursor::PrecursorId;
 use crate::player::PlayerId;
 use crate::ranking::Score;
-use crate::resources::{Maintenance, Resources};
+use crate::resources::Resources;
+use crate::resources::maintenance::Maintenance;
 use crate::ruler::Ruler;
 use bon::Builder;
 use derive_more::{Deref, DerefMut, From};

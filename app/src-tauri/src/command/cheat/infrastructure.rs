@@ -3,6 +3,8 @@
 
 use crate::error::Result;
 use crate::manager::ManagerExt;
+use itertools::Itertools;
+use nil_core::continent::Coord;
 use nil_core::infrastructure::Infrastructure;
 use nil_core::infrastructure::building::academy::AcademyRecruitQueue;
 use nil_core::infrastructure::building::prefecture::PrefectureBuildQueue;
@@ -18,6 +20,63 @@ pub async fn cheat_get_academy_recruit_queue(
 ) -> Result<AcademyRecruitQueue> {
   app
     .client(async |cl| cl.cheat_get_academy_recruit_queue(req).await)
+    .await
+    .map_err(Into::into)
+}
+
+#[tauri::command]
+pub async fn cheat_get_academy_recruit_queues(
+  app: AppHandle,
+  mut req: CheatGetAcademyRecruitQueuesRequest,
+) -> Result<Vec<(Coord, AcademyRecruitQueue)>> {
+  req.coords = req.coords.into_iter().unique().collect();
+  app
+    .client(async |cl| {
+      cl.cheat_get_academy_recruit_queues(req)
+        .await
+    })
+    .await
+    .map_err(Into::into)
+}
+
+#[tauri::command]
+pub async fn cheat_get_all_academy_recruit_queues(
+  app: AppHandle,
+  req: CheatGetAllAcademyRecruitQueuesRequest,
+) -> Result<Vec<(Coord, AcademyRecruitQueue)>> {
+  app
+    .client(async |cl| {
+      cl.cheat_get_all_academy_recruit_queues(req)
+        .await
+    })
+    .await
+    .map_err(Into::into)
+}
+
+#[tauri::command]
+pub async fn cheat_get_all_prefecture_build_queues(
+  app: AppHandle,
+  req: CheatGetAllPrefectureBuildQueuesRequest,
+) -> Result<Vec<(Coord, PrefectureBuildQueue)>> {
+  app
+    .client(async |cl| {
+      cl.cheat_get_all_prefecture_build_queues(req)
+        .await
+    })
+    .await
+    .map_err(Into::into)
+}
+
+#[tauri::command]
+pub async fn cheat_get_all_stable_recruit_queues(
+  app: AppHandle,
+  req: CheatGetAllStableRecruitQueuesRequest,
+) -> Result<Vec<(Coord, StableRecruitQueue)>> {
+  app
+    .client(async |cl| {
+      cl.cheat_get_all_stable_recruit_queues(req)
+        .await
+    })
     .await
     .map_err(Into::into)
 }
@@ -48,12 +107,39 @@ pub async fn cheat_get_prefecture_build_queue(
 }
 
 #[tauri::command]
+pub async fn cheat_get_prefecture_build_queues(
+  app: AppHandle,
+  mut req: CheatGetPrefectureBuildQueuesRequest,
+) -> Result<Vec<(Coord, PrefectureBuildQueue)>> {
+  req.coords = req.coords.into_iter().unique().collect();
+  app
+    .client(async |cl| {
+      cl.cheat_get_prefecture_build_queues(req)
+        .await
+    })
+    .await
+    .map_err(Into::into)
+}
+
+#[tauri::command]
 pub async fn cheat_get_stable_recruit_queue(
   app: AppHandle,
   req: CheatGetStableRecruitQueueRequest,
 ) -> Result<StableRecruitQueue> {
   app
     .client(async |cl| cl.cheat_get_stable_recruit_queue(req).await)
+    .await
+    .map_err(Into::into)
+}
+
+#[tauri::command]
+pub async fn cheat_get_stable_recruit_queues(
+  app: AppHandle,
+  mut req: CheatGetStableRecruitQueuesRequest,
+) -> Result<Vec<(Coord, StableRecruitQueue)>> {
+  req.coords = req.coords.into_iter().unique().collect();
+  app
+    .client(async |cl| cl.cheat_get_stable_recruit_queues(req).await)
     .await
     .map_err(Into::into)
 }

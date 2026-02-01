@@ -5,10 +5,19 @@ use crate::behavior::idle::IdleBehavior;
 use crate::behavior::{Behavior, BehaviorProcessor, BehaviorScore};
 use crate::continent::Coord;
 use crate::error::Result;
+use crate::ethic::EthicPowerAxis;
+use crate::infrastructure::building::academy::AcademyRecruitOrderRequest;
+use crate::infrastructure::building::stable::StableRecruitOrderRequest;
+use crate::military::unit::prelude::*;
+use crate::military::unit::{AcademyUnitId, StableUnitId};
 use crate::world::World;
 use bon::Builder;
 use nil_util::iter::IterExt;
-use std::ops::ControlFlow;
+use rand::random_range;
+use std::fmt::Debug;
+use std::marker::PhantomData;
+use std::num::NonZeroU32;
+use std::ops::{Add, ControlFlow};
 
 #[derive(Builder, Debug)]
 pub struct RecruitBehavior {
@@ -16,21 +25,29 @@ pub struct RecruitBehavior {
 }
 
 impl RecruitBehavior {
-  const MAX_IN_QUEUE: f64 = 1.0;
+  const MAX_IN_QUEUE: f64 = 2.0;
 }
 
 impl Behavior for RecruitBehavior {
   fn score(&self, world: &World) -> Result<BehaviorScore> {
     let infrastructure = world.infrastructure(self.coord)?;
-    let in_academy_queue = infrastructure
-      .academy()
-      .turns_in_recruit_queue();
-    let in_stable_queue = infrastructure
-      .stable()
-      .turns_in_recruit_queue();
+    macro_rules! score {
+      ($building:ident) => {{
+        if let Some(in_queue) = infrastructure
+          .$building()
+          .turns_in_recruit_queue()
+        {
+          BehaviorScore::new(1.0 - (in_queue / Self::MAX_IN_QUEUE))
+        } else {
+          BehaviorScore::MIN
+        }
+      }};
+    }
 
-    let in_queue = in_academy_queue.min(in_stable_queue);
-    Ok(BehaviorScore::new(1.0 - (in_queue / Self::MAX_IN_QUEUE)))
+    let academy = score!(academy);
+    let stable = score!(stable);
+
+    Ok(academy.max(stable))
   }
 
   fn behave(&self, world: &mut World) -> Result<ControlFlow<()>> {
@@ -38,6 +55,92 @@ impl Behavior for RecruitBehavior {
     BehaviorProcessor::new(world, behaviors)
       .take(1)
       .try_each()?;
+
+    Ok(ControlFlow::Break(()))
+  }
+}
+
+#[derive(Builder, Debug)]
+pub struct RecruitUnitBehavior<T>
+where
+  T: Unit + Debug,
+{
+  coord: Coord,
+  unit: UnitId,
+  marker: PhantomData<T>,
+}
+
+impl<T> Behavior for RecruitUnitBehavior<T>
+where
+  T: Unit + Debug + 'static,
+{
+  fn score(&self, world: &World) -> Result<BehaviorScore> {
+    let boxed = UnitBox::from(self.unit);
+    let infrastructure = world.infrastructure(self.coord)?;
+
+    if !boxed
+      .infrastructure_requirements()
+      .has_required_levels(infrastructure)
+    {
+      return Ok(BehaviorScore::MIN);
+    }
+
+    let chunk = boxed.chunk();
+    let owner = world.continent().owner_of(self.coord)?;
+    let ruler_ref = world.ruler(owner)?;
+
+    if !world
+      .ruler(owner)?
+      .has_resources(&chunk.resources())
+    {
+      return Ok(BehaviorScore::MIN);
+    }
+
+    if !world
+      .get_maintenance_balance(owner.clone())?
+      .add(chunk.maintenance() * 5u32)
+      .is_sustainable()
+    {
+      return Ok(BehaviorScore::MIN);
+    }
+
+    let mut score = BehaviorScore::new(random_range(0.8..=1.0));
+
+    if let Some(ethics) = ruler_ref.ethics() {
+      if boxed.is_defensive() {
+        score *= match ethics.power() {
+          EthicPowerAxis::Militarist => 0.75,
+          EthicPowerAxis::FanaticMilitarist => 0.5,
+          EthicPowerAxis::Pacifist => 1.25,
+          EthicPowerAxis::FanaticPacifist => 1.5,
+        }
+      } else {
+        score *= match ethics.power() {
+          EthicPowerAxis::Militarist => 1.25,
+          EthicPowerAxis::FanaticMilitarist => 1.5,
+          EthicPowerAxis::Pacifist => 0.75,
+          EthicPowerAxis::FanaticPacifist => 0.5,
+        }
+      }
+    }
+
+    Ok(score)
+  }
+
+  fn behave(&self, world: &mut World) -> Result<ControlFlow<()>> {
+    if let Ok(id) = AcademyUnitId::try_from(self.unit) {
+      world.add_academy_recruit_order(&AcademyRecruitOrderRequest {
+        coord: self.coord,
+        unit: id,
+        chunks: NonZeroU32::MIN,
+      })?;
+    } else if let Ok(id) = StableUnitId::try_from(self.unit) {
+      world.add_stable_recruit_order(&StableRecruitOrderRequest {
+        coord: self.coord,
+        unit: id,
+        chunks: NonZeroU32::MIN,
+      })?;
+    }
 
     Ok(ControlFlow::Break(()))
   }

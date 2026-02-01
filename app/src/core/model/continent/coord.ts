@@ -131,6 +131,10 @@ export class CoordImpl implements Coord {
     }
   }
 
+  public static fromContinentKeyStrict(key?: Option<ContinentKey>) {
+    return key ? this.fromContinentKey(key) : panic('Missing continent key');
+  }
+
   public static fromContinentKeyOrCurrent(key?: Option<ContinentKey>) {
     if (isNil(key)) {
       return NIL.city.getCoord();

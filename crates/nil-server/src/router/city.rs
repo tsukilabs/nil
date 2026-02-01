@@ -4,7 +4,7 @@
 use crate::app::App;
 use crate::middleware::authorization::CurrentPlayer;
 use crate::response::{EitherExt, from_core_err};
-use crate::{bail_not_owned_by, res};
+use crate::{bail_if_city_is_not_owned_by, res};
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
 use itertools::Itertools;
@@ -20,7 +20,7 @@ pub async fn get(
     Ok(world) => {
       let result = try {
         let world = world.read().await;
-        bail_not_owned_by!(world, &player.0, req.coord);
+        bail_if_city_is_not_owned_by!(world, &player.0, req.coord);
         world.city(req.coord)?.clone()
       };
 
@@ -57,7 +57,7 @@ pub async fn rename(
     Ok(world) => {
       let result = try {
         let mut world = world.write().await;
-        bail_not_owned_by!(world, &player.0, req.coord);
+        bail_if_city_is_not_owned_by!(world, &player.0, req.coord);
         world.rename_city(req.coord, &req.name)?;
       };
 

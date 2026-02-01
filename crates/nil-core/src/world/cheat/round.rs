@@ -1,7 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use crate::bail_cheat_not_allowed;
+use crate::bail_if_cheats_are_not_allowed;
 use crate::error::Result;
 use crate::player::Player;
 use crate::world::World;
@@ -10,7 +10,7 @@ use std::num::NonZeroU8;
 
 impl World {
   pub fn cheat_skip_round(&mut self, amount: NonZeroU8) -> Result<()> {
-    bail_cheat_not_allowed!(self);
+    bail_if_cheats_are_not_allowed!(self);
 
     let amount = amount.get();
     let players = self

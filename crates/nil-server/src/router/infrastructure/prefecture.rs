@@ -4,7 +4,7 @@
 use crate::app::App;
 use crate::middleware::authorization::CurrentPlayer;
 use crate::response::from_core_err;
-use crate::{bail_not_owned_by, bail_not_pending, res};
+use crate::{bail_if_city_is_not_owned_by, bail_if_player_is_not_pending, res};
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
 use nil_core::infrastructure::building::prefecture::PrefectureBuildCatalog;
@@ -19,8 +19,8 @@ pub async fn add_build_order(
     Ok(world) => {
       let result = try {
         let mut world = world.write().await;
-        bail_not_pending!(world, &player.0);
-        bail_not_owned_by!(world, &player.0, req.request.coord);
+        bail_if_player_is_not_pending!(world, &player.0);
+        bail_if_city_is_not_owned_by!(world, &player.0, req.request.coord);
         world.add_prefecture_build_order(&req.request)?;
       };
 
@@ -41,8 +41,8 @@ pub async fn cancel_build_order(
     Ok(world) => {
       let result = try {
         let mut world = world.write().await;
-        bail_not_pending!(world, &player.0);
-        bail_not_owned_by!(world, &player.0, req.coord);
+        bail_if_player_is_not_pending!(world, &player.0);
+        bail_if_city_is_not_owned_by!(world, &player.0, req.coord);
         world.cancel_prefecture_build_order(req.coord)?;
       };
 
@@ -63,7 +63,7 @@ pub async fn get_build_catalog(
     Ok(world) => {
       let result = try {
         let world = world.read().await;
-        bail_not_owned_by!(world, &player.0, req.coord);
+        bail_if_city_is_not_owned_by!(world, &player.0, req.coord);
         let infra = world.city(req.coord)?.infrastructure();
         let stats = world.stats().infrastructure();
         PrefectureBuildCatalog::new(infra, &stats)?

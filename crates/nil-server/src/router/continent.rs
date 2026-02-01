@@ -24,6 +24,10 @@ pub async fn get_public_fields(
   State(app): State<App>,
   Json(req): Json<GetPublicFieldsRequest>,
 ) -> Response {
+  if req.coords.is_empty() {
+    return res!(OK, Json(Vec::<()>::new()));
+  }
+
   match app.get(req.world) {
     Ok(world) => {
       let result = try {

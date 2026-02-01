@@ -4,7 +4,9 @@
 use crate::infrastructure::Infrastructure;
 use crate::infrastructure::requirements::InfrastructureRequirements;
 use crate::military::unit::{AcademyUnitId, Unit, UnitBox};
-use crate::resources::{Maintenance, Resources, Workforce};
+use crate::resources::Resources;
+use crate::resources::maintenance::Maintenance;
+use crate::resources::workforce::Workforce;
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, Deserialize, Serialize)]

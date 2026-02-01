@@ -146,7 +146,7 @@ pub(crate) fn from_server_err(err: Error) -> Response {
   match err {
     Core(err) => from_core_err(err),
     Database(err) => from_database_err(err),
-    FailedToStart => res!(INTERNAL_SERVER_ERROR),
+    FailedToStart => res!(INTERNAL_SERVER_ERROR, err.to_string()),
     IncorrectUserCredentials => res!(UNAUTHORIZED, err.to_string()),
     IncorrectWorldCredentials(..) => res!(UNAUTHORIZED, err.to_string()),
     InvalidWorld(..) => res!(INTERNAL_SERVER_ERROR, err.to_string()),
@@ -159,7 +159,7 @@ pub(crate) fn from_server_err(err: Error) -> Response {
 
 #[doc(hidden)]
 #[macro_export]
-macro_rules! bail_not_pending {
+macro_rules! bail_if_player_is_not_pending {
   ($world:expr, $player:expr) => {
     if !$world.round().is_waiting_player($player) {
       use nil_core::error::Error;
@@ -171,7 +171,7 @@ macro_rules! bail_not_pending {
 
 #[doc(hidden)]
 #[macro_export]
-macro_rules! bail_not_player {
+macro_rules! bail_if_not_player {
   ($current_player:expr, $player:expr) => {
     if $current_player != $player {
       return $crate::res!(FORBIDDEN);
@@ -181,7 +181,7 @@ macro_rules! bail_not_player {
 
 #[doc(hidden)]
 #[macro_export]
-macro_rules! bail_not_owned_by {
+macro_rules! bail_if_city_is_not_owned_by {
   ($world:expr, $player:expr, $coord:expr) => {
     if !$world
       .city($coord)?

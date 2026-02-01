@@ -133,33 +133,29 @@ impl App {
     world_password: Option<&Password>,
     #[builder(into)] server_version: SqlVersion,
   ) -> Result<WorldId> {
-    if let ServerKind::Remote = self.server_kind
-      && let Some(db) = &self.database
-    {
-      let user = db.get_user(player_id)?;
-      let mut world = World::try_from(options)?;
-      let world_id = world.config().id();
-      let blob = world.to_bytes()?;
+    let db = self.database();
+    let user = db.get_user(player_id)?;
 
-      NewGame::builder(world_id, blob)
-        .created_by(user.id)
-        .maybe_description(world_description)
-        .maybe_password(world_password)
-        .server_version(server_version)
-        .build()?
-        .create(db)?;
+    let mut world = World::try_from(options)?;
+    let world_id = world.config().id();
+    let blob = world.to_bytes()?;
 
-      let db = db.clone();
-      world.on_next_round(remote::on_next_round(db));
+    NewGame::builder(world_id, blob)
+      .created_by(user.id)
+      .maybe_description(world_description)
+      .maybe_password(world_password)
+      .server_version(server_version)
+      .build()?
+      .create(&db)?;
 
-      self
-        .worlds
-        .insert(world_id, Arc::new(RwLock::new(world)));
+    let db = db.clone();
+    world.on_next_round(remote::on_next_round(db));
 
-      Ok(world_id)
-    } else {
-      panic!("Not a remote server")
-    }
+    self
+      .worlds
+      .insert(world_id, Arc::new(RwLock::new(world)));
+
+    Ok(world_id)
   }
 
   pub(crate) fn get(&self, id: WorldId) -> Result<Arc<RwLock<World>>> {

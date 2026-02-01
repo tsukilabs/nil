@@ -15,7 +15,8 @@ use crate::infrastructure::building::stable::StableRecruitOrderId;
 use crate::military::army::ArmyPersonnel;
 use crate::military::squad::Squad;
 use crate::ranking::Score;
-use crate::resources::{Maintenance, Resources};
+use crate::resources::Resources;
+use crate::resources::maintenance::Maintenance;
 use bon::Builder;
 use building::academy::{AcademyRecruitOrder, AcademyRecruitOrderRequest};
 use building::prefecture::{
@@ -28,10 +29,9 @@ use building::{Building, BuildingId, BuildingStatsTable, MineId, StorageId};
 use mine::Mine;
 use prelude::*;
 use serde::{Deserialize, Serialize};
+use stats::InfrastructureStats;
 use storage::Storage;
 use strum::IntoEnumIterator;
-
-pub use stats::InfrastructureStats;
 
 #[derive(Builder, Clone, Debug, Default, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]

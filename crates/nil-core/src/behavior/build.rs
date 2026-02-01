@@ -14,7 +14,6 @@ use crate::infrastructure::building::prefecture::{
 use crate::infrastructure::prelude::*;
 use crate::infrastructure::queue::InfrastructureQueue;
 use crate::military::maneuver::Maneuver;
-use crate::resources::Food;
 use crate::world::World;
 use bon::Builder;
 use nil_util::iter::IterExt;
@@ -40,11 +39,14 @@ impl BuildBehavior {
 impl Behavior for BuildBehavior {
   fn score(&self, world: &World) -> Result<BehaviorScore> {
     let infrastructure = world.infrastructure(self.coord)?;
-    let in_queue = infrastructure
+    if let Some(in_queue) = infrastructure
       .prefecture()
-      .turns_in_build_queue();
-
-    Ok(BehaviorScore::new(1.0 - (in_queue / Self::MAX_IN_QUEUE)))
+      .turns_in_build_queue()
+    {
+      Ok(BehaviorScore::new(1.0 - (in_queue / Self::MAX_IN_QUEUE)))
+    } else {
+      Ok(BehaviorScore::MIN)
+    }
   }
 
   fn behave(&self, world: &mut World) -> Result<ControlFlow<()>> {
@@ -164,20 +166,12 @@ where
       }
     }
 
-    if let BuildingId::Farm = self.building {
-      let mut food_production = Food::new(0);
-      let mut maintenance = world
-        .military()
-        .maintenance_of(owner.clone());
-
-      for city in world.continent().cities_of(owner.clone()) {
-        maintenance += city.maintenance(&stats)?;
-        food_production += city.round_production(&stats)?.food;
-      }
-
-      if maintenance >= food_production {
-        return Ok(BehaviorScore::MAX);
-      }
+    if let BuildingId::Farm = self.building
+      && !world
+        .get_maintenance_balance(owner.clone())?
+        .is_sustainable()
+    {
+      return Ok(BehaviorScore::MAX);
     }
 
     // Prioritize storage when its capacity is almost full.

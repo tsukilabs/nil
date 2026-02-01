@@ -42,6 +42,35 @@ pub trait Unit: Send + Sync {
 
   /// Building levels required to recruit the unit.
   fn infrastructure_requirements(&self) -> &InfrastructureRequirements;
+
+  fn is_cavalry(&self) -> bool {
+    matches!(self.kind(), UnitKind::Cavalry)
+  }
+
+  fn is_infantry(&self) -> bool {
+    matches!(self.kind(), UnitKind::Infantry)
+  }
+
+  fn is_ranged(&self) -> bool {
+    matches!(self.kind(), UnitKind::Ranged)
+  }
+
+  fn is_offensive(&self) -> bool {
+    if self.is_ranged() {
+      true
+    } else {
+      let defense = self
+        .infantry_defense()
+        .max(self.cavalry_defense())
+        .max(self.ranged_defense());
+
+      self.attack() > defense
+    }
+  }
+
+  fn is_defensive(&self) -> bool {
+    self.is_ranged() || !self.is_offensive()
+  }
 }
 
 #[subenum(AcademyUnitId, StableUnitId)]

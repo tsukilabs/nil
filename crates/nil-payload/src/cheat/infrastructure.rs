@@ -16,6 +16,39 @@ pub struct CheatGetAcademyRecruitQueueRequest {
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+pub struct CheatGetAcademyRecruitQueuesRequest {
+  pub world: WorldId,
+  pub coords: Vec<Coord>,
+  #[serde(default)]
+  pub filter_empty: bool,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct CheatGetAllAcademyRecruitQueuesRequest {
+  pub world: WorldId,
+  #[serde(default)]
+  pub filter_empty: bool,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct CheatGetAllPrefectureBuildQueuesRequest {
+  pub world: WorldId,
+  #[serde(default)]
+  pub filter_empty: bool,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct CheatGetAllStableRecruitQueuesRequest {
+  pub world: WorldId,
+  #[serde(default)]
+  pub filter_empty: bool,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct CheatGetInfrastructureRequest {
   pub world: WorldId,
   pub coord: Coord,
@@ -30,9 +63,27 @@ pub struct CheatGetPrefectureBuildQueueRequest {
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+pub struct CheatGetPrefectureBuildQueuesRequest {
+  pub world: WorldId,
+  pub coords: Vec<Coord>,
+  #[serde(default)]
+  pub filter_empty: bool,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct CheatGetStableRecruitQueueRequest {
   pub world: WorldId,
   pub coord: Coord,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct CheatGetStableRecruitQueuesRequest {
+  pub world: WorldId,
+  pub coords: Vec<Coord>,
+  #[serde(default)]
+  pub filter_empty: bool,
 }
 
 #[derive(Clone, Debug, Default, Deserialize, Serialize)]

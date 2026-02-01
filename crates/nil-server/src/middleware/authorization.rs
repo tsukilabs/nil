@@ -74,7 +74,7 @@ pub(crate) fn encode_jwt(player: PlayerId) -> Result<Token> {
     Ok(Token::new(token))
   };
 
-  inner().map_err(Into::into)
+  Ok(inner()?)
 }
 
 pub(crate) fn decode_jwt(token: &Token) -> Result<TokenData<Claims>> {
@@ -90,7 +90,7 @@ pub(crate) fn decode_jwt(token: &Token) -> Result<TokenData<Claims>> {
     Ok(claims)
   };
 
-  inner().map_err(Into::into)
+  Ok(inner()?)
 }
 
 #[derive(Clone, Debug, Deref, From, Into, PartialEq, Eq)]

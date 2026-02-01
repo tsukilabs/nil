@@ -1,11 +1,13 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use derive_more::{Deref, Into};
+use derive_more::{Deref, From, Into};
 use serde::{Deserialize, Serialize};
 use std::ops::{Div, Mul};
 
-#[derive(Clone, Copy, Debug, Deref, Into, PartialEq, Eq, Deserialize, Serialize)]
+#[derive(
+  Clone, Copy, Debug, Deref, From, Into, PartialEq, Eq, PartialOrd, Ord, Deserialize, Serialize,
+)]
 #[into(u32, f64)]
 pub struct Power(u32);
 

@@ -1,7 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use crate::bail_cheat_not_allowed;
+use crate::bail_if_cheats_are_not_allowed;
 use crate::continent::Coord;
 use crate::error::Result;
 use crate::military::army::ArmyPersonnel;
@@ -16,7 +16,7 @@ impl World {
     personnel: ArmyPersonnel,
     ruler: Option<Ruler>,
   ) -> Result<()> {
-    bail_cheat_not_allowed!(self);
+    bail_if_cheats_are_not_allowed!(self);
 
     let ruler = ruler.unwrap_or_try_else(|| {
       let city = self.city(coord)?;

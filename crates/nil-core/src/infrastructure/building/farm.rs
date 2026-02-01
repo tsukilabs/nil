@@ -6,7 +6,9 @@ use crate::infrastructure::building::{BuildingId, BuildingLevel, MineId};
 use crate::infrastructure::mine::MineProduction;
 use crate::infrastructure::requirements::InfrastructureRequirements;
 use crate::ranking::Score;
-use crate::resources::{Cost, MaintenanceRatio, ResourceRatio, Workforce};
+use crate::resources::cost::{ResourceRatio, Cost};
+use crate::resources::maintenance::MaintenanceRatio;
+use crate::resources::workforce::Workforce;
 use nil_core_macros::{Building, Mine};
 use serde::{Deserialize, Serialize};
 

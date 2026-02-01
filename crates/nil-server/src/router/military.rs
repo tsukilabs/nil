@@ -4,7 +4,7 @@
 use crate::app::App;
 use crate::middleware::authorization::CurrentPlayer;
 use crate::response::from_core_err;
-use crate::{bail_not_pending, res};
+use crate::{bail_if_player_is_not_pending, res};
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
 use nil_payload::military::*;
@@ -18,7 +18,7 @@ pub async fn request_maneuver(
     Ok(world) => {
       let result = try {
         let mut world = world.write().await;
-        bail_not_pending!(world, &player.0);
+        bail_if_player_is_not_pending!(world, &player.0);
         world.request_maneuver(req.request)?
       };
 

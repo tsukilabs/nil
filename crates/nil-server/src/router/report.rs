@@ -7,7 +7,6 @@ use crate::response::EitherExt;
 use axum::extract::{Json, State};
 use axum::response::Response;
 use itertools::Itertools;
-use nil_core::report::ReportKind;
 use nil_payload::report::*;
 
 pub async fn get(State(app): State<App>, Json(req): Json<GetReportRequest>) -> Response {
@@ -20,7 +19,7 @@ pub async fn get(State(app): State<App>, Json(req): Json<GetReportRequest>) -> R
 
 pub async fn get_by(State(app): State<App>, Json(req): Json<GetReportsRequest>) -> Response {
   if req.ids.is_empty() {
-    return res!(OK, Json(Vec::<ReportKind>::new()));
+    return res!(OK, Json(Vec::<()>::new()));
   }
 
   match app.get(req.world) {

@@ -6,7 +6,9 @@ use crate::infrastructure::building::{BuildingId, BuildingLevel, StorageId};
 use crate::infrastructure::requirements::InfrastructureRequirements;
 use crate::infrastructure::storage::StorageCapacity;
 use crate::ranking::Score;
-use crate::resources::{Cost, MaintenanceRatio, ResourceRatio, Workforce};
+use crate::resources::cost::{ResourceRatio, Cost};
+use crate::resources::maintenance::MaintenanceRatio;
+use crate::resources::workforce::Workforce;
 use nil_core_macros::{Building, Storage};
 use serde::{Deserialize, Serialize};
 

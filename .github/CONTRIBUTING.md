@@ -2,12 +2,20 @@
 
 ## Requirements
 
-- [Rust 1.93 (nightly)](https://www.rust-lang.org/tools/install)
+- [Rust 1.95 (nightly)](https://www.rust-lang.org/tools/install)
 - [Node 24](https://nodejs.org/en/download/current)
 - [PowerShell 7](https://github.com/PowerShell/PowerShell/releases/latest)
 - [pnpm](https://pnpm.io/installation)
-- [wasm-pack](https://github.com/drager/wasm-pack/releases)
-- [binaryen](https://github.com/WebAssembly/binaryen/releases/latest)
+- [wasm-pack](https://drager.github.io/wasm-pack/installer/)
+- [Diesel](https://diesel.rs/guides/getting-started#installing-diesel-cli)
+
+To install Diesel, run:
+
+```pwsh
+cargo install diesel_cli --no-default-features --features "sqlite-bundled"
+```
+
+If you also want to work on the Android version, you’ll need to go through some additional steps. The [official Tauri guide](https://v2.tauri.app/start/prerequisites/#android) should help you with that.
 
 ## Environment variables
 

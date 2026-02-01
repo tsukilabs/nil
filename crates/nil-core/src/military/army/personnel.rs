@@ -6,7 +6,7 @@ use crate::military::unit::stats::haul::Haul;
 use crate::military::unit::stats::speed::Speed;
 use crate::military::unit::{UnitId, UnitIdIter};
 use crate::ranking::Score;
-use crate::resources::Maintenance;
+use crate::resources::maintenance::Maintenance;
 use serde::{Deserialize, Serialize};
 use std::ops::{Add, AddAssign, Sub, SubAssign};
 use strum::IntoEnumIterator;

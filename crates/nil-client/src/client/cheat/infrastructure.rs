@@ -4,6 +4,7 @@
 use crate::client::Client;
 use crate::error::Result;
 use crate::http;
+use nil_core::continent::Coord;
 use nil_core::infrastructure::Infrastructure;
 use nil_core::infrastructure::building::academy::AcademyRecruitQueue;
 use nil_core::infrastructure::building::prefecture::PrefectureBuildQueue;
@@ -17,6 +18,54 @@ impl Client {
     req: CheatGetAcademyRecruitQueueRequest,
   ) -> Result<AcademyRecruitQueue> {
     http::json_post("cheat-get-academy-recruit-queue")
+      .body(req)
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_ref())
+      .send()
+      .await
+  }
+
+  pub async fn cheat_get_academy_recruit_queues(
+    &self,
+    req: CheatGetAcademyRecruitQueuesRequest,
+  ) -> Result<Vec<(Coord, AcademyRecruitQueue)>> {
+    http::json_post("cheat-get-academy-recruit-queues")
+      .body(req)
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_ref())
+      .send()
+      .await
+  }
+
+  pub async fn cheat_get_all_academy_recruit_queues(
+    &self,
+    req: CheatGetAllAcademyRecruitQueuesRequest,
+  ) -> Result<Vec<(Coord, AcademyRecruitQueue)>> {
+    http::json_post("cheat-get-all-academy-recruit-queues")
+      .body(req)
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_ref())
+      .send()
+      .await
+  }
+
+  pub async fn cheat_get_all_prefecture_build_queues(
+    &self,
+    req: CheatGetAllPrefectureBuildQueuesRequest,
+  ) -> Result<Vec<(Coord, PrefectureBuildQueue)>> {
+    http::json_post("cheat-get-all-prefecture-build-queues")
+      .body(req)
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_ref())
+      .send()
+      .await
+  }
+
+  pub async fn cheat_get_all_stable_recruit_queues(
+    &self,
+    req: CheatGetAllStableRecruitQueuesRequest,
+  ) -> Result<Vec<(Coord, StableRecruitQueue)>> {
+    http::json_post("cheat-get-all-stable-recruit-queues")
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
@@ -48,11 +97,35 @@ impl Client {
       .await
   }
 
+  pub async fn cheat_get_prefecture_build_queues(
+    &self,
+    req: CheatGetPrefectureBuildQueuesRequest,
+  ) -> Result<Vec<(Coord, PrefectureBuildQueue)>> {
+    http::json_post("cheat-get-prefecture-build-queues")
+      .body(req)
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_ref())
+      .send()
+      .await
+  }
+
   pub async fn cheat_get_stable_recruit_queue(
     &self,
     req: CheatGetStableRecruitQueueRequest,
   ) -> Result<StableRecruitQueue> {
     http::json_post("cheat-get-stable-recruit-queue")
+      .body(req)
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_ref())
+      .send()
+      .await
+  }
+
+  pub async fn cheat_get_stable_recruit_queues(
+    &self,
+    req: CheatGetStableRecruitQueuesRequest,
+  ) -> Result<Vec<(Coord, StableRecruitQueue)>> {
+    http::json_post("cheat-get-stable-recruit-queues")
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())

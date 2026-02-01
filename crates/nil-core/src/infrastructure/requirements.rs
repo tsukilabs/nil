@@ -46,17 +46,17 @@ impl InfrastructureRequirements {
     Self::builder().build()
   }
 
-  /// Determina se a infraestrutura da aldeia atende aos requerimentos.
-  pub fn has_required_levels(&self, infra: &Infrastructure) -> bool {
-    infra.academy.level() >= self.academy
-      && infra.farm.level() >= self.farm
-      && infra.iron_mine.level() >= self.iron_mine
-      && infra.prefecture.level() >= self.prefecture
-      && infra.quarry.level() >= self.quarry
-      && infra.sawmill.level() >= self.sawmill
-      && infra.silo.level() >= self.silo
-      && infra.stable.level() >= self.stable
-      && infra.wall.level() >= self.wall
-      && infra.warehouse.level() >= self.warehouse
+  /// Determines whether the city infrastructure meets the requirements.
+  pub fn has_required_levels(&self, infrastructure: &Infrastructure) -> bool {
+    infrastructure.academy.level() >= self.academy
+      && infrastructure.farm.level() >= self.farm
+      && infrastructure.iron_mine.level() >= self.iron_mine
+      && infrastructure.prefecture.level() >= self.prefecture
+      && infrastructure.quarry.level() >= self.quarry
+      && infrastructure.sawmill.level() >= self.sawmill
+      && infrastructure.silo.level() >= self.silo
+      && infrastructure.stable.level() >= self.stable
+      && infrastructure.wall.level() >= self.wall
+      && infrastructure.warehouse.level() >= self.warehouse
   }
 }

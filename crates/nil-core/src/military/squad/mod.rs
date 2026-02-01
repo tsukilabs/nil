@@ -8,7 +8,7 @@ use crate::military::unit::stats::haul::Haul;
 use crate::military::unit::stats::speed::Speed;
 use crate::military::unit::{Unit, UnitBox, UnitId, UnitKind};
 use crate::ranking::Score;
-use crate::resources::Maintenance;
+use crate::resources::maintenance::Maintenance;
 use derive_more::{Deref, Into};
 use serde::{Deserialize, Serialize};
 use std::ops::{Add, AddAssign, Sub, SubAssign};

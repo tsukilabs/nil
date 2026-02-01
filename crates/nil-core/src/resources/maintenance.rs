@@ -169,9 +169,21 @@ impl PartialEq<Food> for Maintenance {
   }
 }
 
+impl PartialEq<Maintenance> for Food {
+  fn eq(&self, other: &Maintenance) -> bool {
+    self.eq(&other.0)
+  }
+}
+
 impl PartialOrd<Food> for Maintenance {
   fn partial_cmp(&self, other: &Food) -> Option<Ordering> {
     self.0.partial_cmp(other)
+  }
+}
+
+impl PartialOrd<Maintenance> for Food {
+  fn partial_cmp(&self, other: &Maintenance) -> Option<Ordering> {
+    self.partial_cmp(&other.0)
   }
 }
 
@@ -183,5 +195,31 @@ impl MaintenanceRatio {
   #[inline]
   pub const fn new(value: f64) -> Self {
     Self(value.clamp(0.0, 1.0))
+  }
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct MaintenanceBalance {
+  pub maintenance: Maintenance,
+  pub production: Food,
+}
+
+impl MaintenanceBalance {
+  /// Checks if the food production is enough to cover the maintenance costs.
+  #[inline]
+  pub fn is_sustainable(&self) -> bool {
+    self.production >= self.maintenance
+  }
+}
+
+impl Add<Maintenance> for MaintenanceBalance {
+  type Output = Self;
+
+  fn add(self, rhs: Maintenance) -> Self::Output {
+    Self {
+      maintenance: self.maintenance + rhs,
+      production: self.production,
+    }
   }
 }

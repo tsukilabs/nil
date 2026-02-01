@@ -32,7 +32,7 @@ jobs:
         shell: pwsh
         run: scripts/build-wasm.ps1 -Publish -Install
 
-  release:
+  release-client:
     needs: publish
     permissions:
       contents: write
