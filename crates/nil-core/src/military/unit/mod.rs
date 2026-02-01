@@ -11,6 +11,7 @@ pub mod stats;
 pub mod swordsman;
 
 use crate::error::Result;
+use crate::infrastructure::prelude::BuildingId;
 use crate::infrastructure::requirements::InfrastructureRequirements;
 use crate::ranking::Score;
 use crate::resources::prelude::*;
@@ -43,6 +44,18 @@ pub trait Unit: Send + Sync {
   /// Building levels required to recruit the unit.
   fn infrastructure_requirements(&self) -> &InfrastructureRequirements;
 
+  /// Building where the unit is recruited.
+  fn building(&self) -> BuildingId {
+    let id = self.id();
+    if AcademyUnitId::try_from(id).is_ok() {
+      BuildingId::Academy
+    } else if StableUnitId::try_from(id).is_ok() {
+      BuildingId::Stable
+    } else {
+      unreachable!();
+    }
+  }
+
   fn is_cavalry(&self) -> bool {
     matches!(self.kind(), UnitKind::Cavalry)
   }
@@ -59,12 +72,9 @@ pub trait Unit: Send + Sync {
     if self.is_ranged() {
       true
     } else {
-      let defense = self
-        .infantry_defense()
-        .max(self.cavalry_defense())
-        .max(self.ranged_defense());
-
-      self.attack() > defense
+      let infantry = self.infantry_defense();
+      let cavalry = self.cavalry_defense();
+      self.attack() > infantry.max(cavalry)
     }
   }
 
@@ -91,6 +101,12 @@ pub enum UnitId {
   Pikeman,
   #[subenum(AcademyUnitId)]
   Swordsman,
+}
+
+impl From<UnitId> for BuildingId {
+  fn from(id: UnitId) -> Self {
+    UnitBox::from(id).building()
+  }
 }
 
 #[derive(Deref)]

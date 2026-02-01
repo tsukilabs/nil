@@ -78,9 +78,12 @@ where
     let unit_box = UnitBox::from(self.unit);
     let infrastructure = world.infrastructure(self.coord)?;
 
-    if !unit_box
-      .infrastructure_requirements()
-      .has_required_levels(infrastructure)
+    if !infrastructure
+      .building(unit_box.building())
+      .is_enabled()
+      || !unit_box
+        .infrastructure_requirements()
+        .has_required_levels(infrastructure)
     {
       return Ok(BehaviorScore::MIN);
     }
