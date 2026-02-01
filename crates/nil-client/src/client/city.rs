@@ -13,7 +13,7 @@ impl Client {
     http::json_post("get-city")
       .body(req)
       .server(self.server)
-      .maybe_authorization(self.authorization.as_deref())
+      .maybe_authorization(self.authorization.as_ref())
       .send()
       .await
   }
@@ -38,7 +38,7 @@ impl Client {
     http::post("rename-city")
       .body(req)
       .server(self.server)
-      .maybe_authorization(self.authorization.as_deref())
+      .maybe_authorization(self.authorization.as_ref())
       .send()
       .await
   }
@@ -47,7 +47,7 @@ impl Client {
     http::json_post("search-city")
       .body(req)
       .server(self.server)
-      .maybe_authorization(self.authorization.as_deref())
+      .maybe_authorization(self.authorization.as_ref())
       .send()
       .await
   }

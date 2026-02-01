@@ -4,10 +4,11 @@
 pub(crate) mod authorization;
 
 use crate::error::{Error, Result};
+use crate::http::authorization::Authorization;
 use crate::server::ServerAddr;
 use futures::TryFutureExt;
+use http::Method;
 use http::header::AUTHORIZATION;
-use http::{HeaderValue, Method};
 use reqwest::{Client as HttpClient, Response};
 use serde::Serialize;
 use serde::de::DeserializeOwned;
@@ -29,7 +30,7 @@ static HTTP: LazyLock<HttpClient> = LazyLock::new(|| {
 pub async fn get(
   #[builder(start_fn)] route: &str,
   #[builder(default)] server: ServerAddr,
-  authorization: Option<&HeaderValue>,
+  authorization: Option<&Authorization>,
 ) -> Result<()> {
   let url = server.url(route)?;
   request(Method::GET, url.as_str())
@@ -43,7 +44,7 @@ pub async fn get(
 pub async fn get_text(
   #[builder(start_fn)] route: &str,
   #[builder(default)] server: ServerAddr,
-  authorization: Option<&HeaderValue>,
+  authorization: Option<&Authorization>,
 ) -> Result<String> {
   let url = server.url(route)?;
   request(Method::GET, url.as_str())
@@ -59,7 +60,7 @@ pub async fn get_text(
 pub async fn json_get<R>(
   #[builder(start_fn)] route: &str,
   #[builder(default)] server: ServerAddr,
-  authorization: Option<&HeaderValue>,
+  authorization: Option<&Authorization>,
 ) -> Result<R>
 where
   R: DeserializeOwned,
@@ -77,7 +78,7 @@ pub async fn post(
   #[builder(start_fn)] route: &str,
   #[builder(default)] server: ServerAddr,
   body: impl Serialize,
-  authorization: Option<&HeaderValue>,
+  authorization: Option<&Authorization>,
 ) -> Result<()> {
   let url = server.url(route)?;
   request_with_body(Method::POST, url.as_str())
@@ -93,7 +94,7 @@ pub async fn json_post<R>(
   #[builder(start_fn)] route: &str,
   #[builder(default)] server: ServerAddr,
   body: impl Serialize,
-  authorization: Option<&HeaderValue>,
+  authorization: Option<&Authorization>,
 ) -> Result<R>
 where
   R: DeserializeOwned,
@@ -111,11 +112,11 @@ where
 async fn request(
   #[builder(start_fn)] method: Method,
   #[builder(start_fn)] url: &str,
-  authorization: Option<&HeaderValue>,
+  authorization: Option<&Authorization>,
 ) -> Result<Response> {
   let mut request = HTTP.request(method, url);
   if let Some(authorization) = authorization {
-    request = request.header(AUTHORIZATION, authorization);
+    request = request.header(AUTHORIZATION, authorization.as_inner());
   }
 
   let response = request.send().await?;
@@ -133,14 +134,14 @@ async fn request_with_body<T>(
   #[builder(start_fn)] method: Method,
   #[builder(start_fn)] url: &str,
   body: T,
-  authorization: Option<&HeaderValue>,
+  authorization: Option<&Authorization>,
 ) -> Result<Response>
 where
   T: Serialize,
 {
   let mut request = HTTP.request(method, url);
   if let Some(authorization) = authorization {
-    request = request.header(AUTHORIZATION, authorization);
+    request = request.header(AUTHORIZATION, authorization.as_inner());
   }
 
   let response = request.json(&body).send().await?;

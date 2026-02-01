@@ -19,7 +19,7 @@ impl Client {
     http::json_post("cheat-get-academy-recruit-queue")
       .body(req)
       .server(self.server)
-      .maybe_authorization(self.authorization.as_deref())
+      .maybe_authorization(self.authorization.as_ref())
       .send()
       .await
   }
@@ -31,7 +31,7 @@ impl Client {
     http::json_post("cheat-get-infrastructure")
       .body(req)
       .server(self.server)
-      .maybe_authorization(self.authorization.as_deref())
+      .maybe_authorization(self.authorization.as_ref())
       .send()
       .await
   }
@@ -43,7 +43,7 @@ impl Client {
     http::json_post("cheat-get-prefecture-build-queue")
       .body(req)
       .server(self.server)
-      .maybe_authorization(self.authorization.as_deref())
+      .maybe_authorization(self.authorization.as_ref())
       .send()
       .await
   }
@@ -55,7 +55,7 @@ impl Client {
     http::json_post("cheat-get-stable-recruit-queue")
       .body(req)
       .server(self.server)
-      .maybe_authorization(self.authorization.as_deref())
+      .maybe_authorization(self.authorization.as_ref())
       .send()
       .await
   }
@@ -67,7 +67,7 @@ impl Client {
     http::json_post("cheat-get-storage-capacity")
       .body(req)
       .server(self.server)
-      .maybe_authorization(self.authorization.as_deref())
+      .maybe_authorization(self.authorization.as_ref())
       .send()
       .await
   }
@@ -76,7 +76,7 @@ impl Client {
     http::post("cheat-set-building-level")
       .body(req)
       .server(self.server)
-      .maybe_authorization(self.authorization.as_deref())
+      .maybe_authorization(self.authorization.as_ref())
       .send()
       .await
   }
@@ -88,7 +88,7 @@ impl Client {
     http::post("cheat-set-max-infrastructure")
       .body(req)
       .server(self.server)
-      .maybe_authorization(self.authorization.as_deref())
+      .maybe_authorization(self.authorization.as_ref())
       .send()
       .await
   }

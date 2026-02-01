@@ -17,7 +17,7 @@ impl Client {
     http::json_post("get-player")
       .body(req)
       .server(self.server)
-      .maybe_authorization(self.authorization.as_deref())
+      .maybe_authorization(self.authorization.as_ref())
       .send()
       .await
   }
@@ -26,7 +26,7 @@ impl Client {
     http::json_post("get-player-coords")
       .body(req)
       .server(self.server)
-      .maybe_authorization(self.authorization.as_deref())
+      .maybe_authorization(self.authorization.as_ref())
       .send()
       .await
   }
@@ -38,7 +38,7 @@ impl Client {
     http::json_post("get-player-maintenance")
       .body(req)
       .server(self.server)
-      .maybe_authorization(self.authorization.as_deref())
+      .maybe_authorization(self.authorization.as_ref())
       .send()
       .await
   }
@@ -47,7 +47,7 @@ impl Client {
     http::json_post("get-player-military")
       .body(req)
       .server(self.server)
-      .maybe_authorization(self.authorization.as_deref())
+      .maybe_authorization(self.authorization.as_ref())
       .send()
       .await
   }
@@ -56,7 +56,7 @@ impl Client {
     http::json_post("get-player-reports")
       .body(req)
       .server(self.server)
-      .maybe_authorization(self.authorization.as_deref())
+      .maybe_authorization(self.authorization.as_ref())
       .send()
       .await
   }
@@ -73,7 +73,7 @@ impl Client {
     http::json_post("get-players")
       .body(req)
       .server(self.server)
-      .maybe_authorization(self.authorization.as_deref())
+      .maybe_authorization(self.authorization.as_ref())
       .send()
       .await
   }
@@ -85,7 +85,7 @@ impl Client {
     http::json_post("get-player-storage-capacity")
       .body(req)
       .server(self.server)
-      .maybe_authorization(self.authorization.as_deref())
+      .maybe_authorization(self.authorization.as_ref())
       .send()
       .await
   }
@@ -113,7 +113,7 @@ impl Client {
     http::post("set-player-status")
       .body(req)
       .server(self.server)
-      .maybe_authorization(self.authorization.as_deref())
+      .maybe_authorization(self.authorization.as_ref())
       .send()
       .await
   }
@@ -122,7 +122,7 @@ impl Client {
     http::post("spawn-player")
       .body(req)
       .server(self.server)
-      .maybe_authorization(self.authorization.as_deref())
+      .maybe_authorization(self.authorization.as_ref())
       .send()
       .await
   }

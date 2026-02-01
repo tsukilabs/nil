@@ -11,7 +11,7 @@ impl Client {
     http::post("cheat-spawn-personnel")
       .body(req)
       .server(self.server)
-      .maybe_authorization(self.authorization.as_deref())
+      .maybe_authorization(self.authorization.as_ref())
       .send()
       .await
   }

@@ -12,7 +12,7 @@ impl Client {
     http::json_post("cheat-get-resources")
       .body(req)
       .server(self.server)
-      .maybe_authorization(self.authorization.as_deref())
+      .maybe_authorization(self.authorization.as_ref())
       .send()
       .await
   }
@@ -21,7 +21,7 @@ impl Client {
     http::post("cheat-set-food")
       .body(req)
       .server(self.server)
-      .maybe_authorization(self.authorization.as_deref())
+      .maybe_authorization(self.authorization.as_ref())
       .send()
       .await
   }
@@ -30,7 +30,7 @@ impl Client {
     http::post("cheat-set-iron")
       .body(req)
       .server(self.server)
-      .maybe_authorization(self.authorization.as_deref())
+      .maybe_authorization(self.authorization.as_ref())
       .send()
       .await
   }
@@ -39,7 +39,7 @@ impl Client {
     http::post("cheat-set-max-food")
       .body(req)
       .server(self.server)
-      .maybe_authorization(self.authorization.as_deref())
+      .maybe_authorization(self.authorization.as_ref())
       .send()
       .await
   }
@@ -48,7 +48,7 @@ impl Client {
     http::post("cheat-set-max-iron")
       .body(req)
       .server(self.server)
-      .maybe_authorization(self.authorization.as_deref())
+      .maybe_authorization(self.authorization.as_ref())
       .send()
       .await
   }
@@ -57,7 +57,7 @@ impl Client {
     http::post("cheat-set-max-resources")
       .body(req)
       .server(self.server)
-      .maybe_authorization(self.authorization.as_deref())
+      .maybe_authorization(self.authorization.as_ref())
       .send()
       .await
   }
@@ -69,7 +69,7 @@ impl Client {
     http::post("cheat-set-max-silo-resources")
       .body(req)
       .server(self.server)
-      .maybe_authorization(self.authorization.as_deref())
+      .maybe_authorization(self.authorization.as_ref())
       .send()
       .await
   }
@@ -78,7 +78,7 @@ impl Client {
     http::post("cheat-set-max-stone")
       .body(req)
       .server(self.server)
-      .maybe_authorization(self.authorization.as_deref())
+      .maybe_authorization(self.authorization.as_ref())
       .send()
       .await
   }
@@ -90,7 +90,7 @@ impl Client {
     http::post("cheat-set-max-warehouse-resources")
       .body(req)
       .server(self.server)
-      .maybe_authorization(self.authorization.as_deref())
+      .maybe_authorization(self.authorization.as_ref())
       .send()
       .await
   }
@@ -99,7 +99,7 @@ impl Client {
     http::post("cheat-set-max-wood")
       .body(req)
       .server(self.server)
-      .maybe_authorization(self.authorization.as_deref())
+      .maybe_authorization(self.authorization.as_ref())
       .send()
       .await
   }
@@ -108,7 +108,7 @@ impl Client {
     http::post("cheat-set-resources")
       .body(req)
       .server(self.server)
-      .maybe_authorization(self.authorization.as_deref())
+      .maybe_authorization(self.authorization.as_ref())
       .send()
       .await
   }
@@ -117,7 +117,7 @@ impl Client {
     http::post("cheat-set-stone")
       .body(req)
       .server(self.server)
-      .maybe_authorization(self.authorization.as_deref())
+      .maybe_authorization(self.authorization.as_ref())
       .send()
       .await
   }
@@ -126,7 +126,7 @@ impl Client {
     http::post("cheat-set-wood")
       .body(req)
       .server(self.server)
-      .maybe_authorization(self.authorization.as_deref())
+      .maybe_authorization(self.authorization.as_ref())
       .send()
       .await
   }

@@ -13,7 +13,7 @@ impl Client {
     http::json_post("cheat-get-ethics")
       .body(req)
       .server(self.server)
-      .maybe_authorization(self.authorization.as_deref())
+      .maybe_authorization(self.authorization.as_ref())
       .send()
       .await
   }
@@ -22,7 +22,7 @@ impl Client {
     http::post("cheat-set-bot-ethics")
       .body(req)
       .server(self.server)
-      .maybe_authorization(self.authorization.as_deref())
+      .maybe_authorization(self.authorization.as_ref())
       .send()
       .await
   }
@@ -31,7 +31,7 @@ impl Client {
     http::json_post("cheat-spawn-bot")
       .body(req)
       .server(self.server)
-      .maybe_authorization(self.authorization.as_deref())
+      .maybe_authorization(self.authorization.as_ref())
       .send()
       .await
   }

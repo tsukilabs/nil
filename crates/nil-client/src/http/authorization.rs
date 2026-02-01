@@ -3,8 +3,8 @@
 
 use crate::error::AnyResult;
 use derive_more::Deref;
+use headers::authorization::Credentials;
 use http::HeaderValue;
-use std::fmt;
 
 #[derive(Clone, Debug, Deref)]
 pub(crate) struct Authorization(HeaderValue);
@@ -14,7 +14,13 @@ impl Authorization {
   where
     T: AsRef<str>,
   {
-    Ok(Self(HeaderValue::from_str(token.as_ref())?))
+    let header = headers::Authorization::bearer(token.as_ref())?;
+    Ok(Self(header.0.encode()))
+  }
+
+  #[inline]
+  pub fn as_inner(&self) -> &HeaderValue {
+    &self.0
   }
 
   #[inline]
@@ -26,11 +32,5 @@ impl Authorization {
 impl From<Authorization> for HeaderValue {
   fn from(authorization: Authorization) -> Self {
     authorization.into_inner()
-  }
-}
-
-impl fmt::Display for Authorization {
-  fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-    write!(f, "{}", String::from_utf8_lossy(self.0.as_bytes()))
   }
 }

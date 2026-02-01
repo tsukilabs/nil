@@ -12,7 +12,7 @@ impl Client {
     http::post("add-academy-recruit-order")
       .body(req)
       .server(self.server)
-      .maybe_authorization(self.authorization.as_deref())
+      .maybe_authorization(self.authorization.as_ref())
       .send()
       .await
   }
@@ -24,7 +24,7 @@ impl Client {
     http::post("cancel-academy-recruit-order")
       .body(req)
       .server(self.server)
-      .maybe_authorization(self.authorization.as_deref())
+      .maybe_authorization(self.authorization.as_ref())
       .send()
       .await
   }
@@ -36,7 +36,7 @@ impl Client {
     http::json_post("get-academy-recruit-catalog")
       .body(req)
       .server(self.server)
-      .maybe_authorization(self.authorization.as_deref())
+      .maybe_authorization(self.authorization.as_ref())
       .send()
       .await
   }

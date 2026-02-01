@@ -12,7 +12,7 @@ impl Client {
     http::post("add-stable-recruit-order")
       .body(req)
       .server(self.server)
-      .maybe_authorization(self.authorization.as_deref())
+      .maybe_authorization(self.authorization.as_ref())
       .send()
       .await
   }
@@ -24,7 +24,7 @@ impl Client {
     http::post("cancel-stable-recruit-order")
       .body(req)
       .server(self.server)
-      .maybe_authorization(self.authorization.as_deref())
+      .maybe_authorization(self.authorization.as_ref())
       .send()
       .await
   }
@@ -36,7 +36,7 @@ impl Client {
     http::json_post("get-stable-recruit-catalog")
       .body(req)
       .server(self.server)
-      .maybe_authorization(self.authorization.as_deref())
+      .maybe_authorization(self.authorization.as_ref())
       .send()
       .await
   }

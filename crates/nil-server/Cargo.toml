@@ -16,12 +16,14 @@ workspace = true
 [dependencies]
 anyhow.workspace = true
 axum.workspace = true
+axum-extra.workspace = true
 bon.workspace = true
 clap.workspace = true
 dashmap.workspace = true
 derive_more.workspace = true
 either.workspace = true
 futures.workspace = true
+headers.workspace = true
 itertools.workspace = true
 jiff.workspace = true
 jsonwebtoken.workspace = true
