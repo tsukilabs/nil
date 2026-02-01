@@ -12,7 +12,7 @@ use crate::infrastructure::building::{BuildingId, BuildingLevel};
 use crate::infrastructure::queue::InfrastructureQueue;
 use crate::infrastructure::requirements::InfrastructureRequirements;
 use crate::ranking::Score;
-use crate::resources::cost::{ResourceRatio, Cost};
+use crate::resources::cost::{Cost, ResourceRatio};
 use crate::resources::maintenance::MaintenanceRatio;
 use crate::resources::workforce::Workforce;
 use nil_core_macros::Building;

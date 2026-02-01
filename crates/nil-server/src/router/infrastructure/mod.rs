@@ -9,7 +9,7 @@ pub mod stable;
 use crate::app::App;
 use crate::middleware::authorization::CurrentPlayer;
 use crate::response::from_core_err;
-use crate::{bail_if_player_is_not_pending, bail_if_city_is_not_owned_by, res};
+use crate::{bail_if_city_is_not_owned_by, bail_if_player_is_not_pending, res};
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
 use nil_payload::infrastructure::*;
