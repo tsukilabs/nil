@@ -12,6 +12,7 @@ use crate::infrastructure::building::prefecture::{
   PrefectureBuildOrderRequest,
 };
 use crate::infrastructure::prelude::*;
+use crate::infrastructure::queue::InfrastructureQueue;
 use crate::military::maneuver::Maneuver;
 use crate::resources::Food;
 use crate::world::World;
@@ -39,9 +40,11 @@ impl BuildBehavior {
 impl Behavior for BuildBehavior {
   fn score(&self, world: &World) -> Result<BehaviorScore> {
     let infrastructure = world.infrastructure(self.coord)?;
-    let in_queue = infrastructure.prefecture().turns_in_queue();
-    let score = BehaviorScore::new(1.0 - (in_queue / Self::MAX_IN_QUEUE));
-    Ok(score)
+    let in_queue = infrastructure
+      .prefecture()
+      .turns_in_build_queue();
+
+    Ok(BehaviorScore::new(1.0 - (in_queue / Self::MAX_IN_QUEUE)))
   }
 
   fn behave(&self, world: &mut World) -> Result<ControlFlow<()>> {

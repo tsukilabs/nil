@@ -82,7 +82,7 @@ impl Prefecture {
 
   #[inline]
   pub fn workforce(&self) -> Workforce {
-    self.level.into()
+    Workforce::from(self.level)
   }
 
   pub fn resolve_level(&self, building: BuildingId, current_level: BuildingLevel) -> BuildingLevel {
@@ -91,10 +91,14 @@ impl Prefecture {
       .resolve_level(building, current_level)
   }
 
-  pub fn turns_in_queue(&self) -> f64 {
-    let turn = self.workforce();
-    let queue = self.build_queue.sum_pending_workforce();
-    f64::from(queue) / f64::from(turn)
+  pub fn turns_in_build_queue(&self) -> f64 {
+    if self.level > 0u8 {
+      let turn = self.workforce();
+      let in_queue = self.build_queue.sum_pending_workforce();
+      f64::from(in_queue) / f64::from(turn)
+    } else {
+      0.0
+    }
   }
 }
 

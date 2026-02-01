@@ -60,9 +60,9 @@ impl WebSocketClient {
           && !body.trim().is_empty()
         {
           return Err(Error::RequestFailed(body));
-        } else {
-          return Err(Error::FailedToConnectWebsocket);
         }
+
+        return Err(Error::FailedToConnectWebsocket);
       }
       Ok(Either::Right(_)) | Err(_) => return Err(Error::FailedToConnectWebsocket),
     };

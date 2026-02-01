@@ -3,6 +3,7 @@
 
 pub mod build;
 pub mod idle;
+pub mod recruit;
 
 use crate::error::Result;
 use crate::world::World;
@@ -82,15 +83,15 @@ impl Iterator for BehaviorProcessor<'_> {
       .buffer
       .sort_unstable_by_key(|(_, score)| *score);
 
-    let last = self.buffer.last()?;
-    if self.is_idle(last.0) {
+    let highest = self.buffer.last()?;
+    if self.is_idle(highest.0) {
       return None;
     }
 
     self
       .buffer
       .iter()
-      .filter(|(_, score)| last.1.is_within_range(*score, 0.2))
+      .filter(|(_, score)| highest.1.is_within_range(*score, 0.2))
       .map(|(idx, score)| (*idx, f64::from(*score)))
       .collect_into(&mut self.candidates);
 
@@ -137,6 +138,12 @@ impl BehaviorScore {
 impl Default for BehaviorScore {
   fn default() -> Self {
     Self(0.0)
+  }
+}
+
+impl From<f64> for BehaviorScore {
+  fn from(score: f64) -> Self {
+    Self::new(score)
   }
 }
 

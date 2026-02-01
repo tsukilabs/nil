@@ -170,6 +170,10 @@ features = ["full"]
 version = "0.27"
 features = ["url"]
 
+[workspace.dependencies.tower]
+version = "0.5"
+features = []
+
 [workspace.dependencies.tower-http]
 version = "0.6"
 features = ["trace"]
