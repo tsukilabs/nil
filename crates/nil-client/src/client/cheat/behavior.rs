@@ -15,7 +15,7 @@ impl Client {
     http::json_post("cheat-get-build-steps")
       .body(req)
       .server(self.server)
-      .maybe_authorization(self.authorization.as_deref())
+      .maybe_authorization(self.authorization.as_ref())
       .send()
       .await
   }

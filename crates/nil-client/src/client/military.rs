@@ -12,7 +12,7 @@ impl Client {
     http::json_post("request-maneuver")
       .body(req)
       .server(self.server)
-      .maybe_authorization(self.authorization.as_deref())
+      .maybe_authorization(self.authorization.as_ref())
       .send()
       .await
   }

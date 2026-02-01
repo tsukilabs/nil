@@ -3,11 +3,15 @@
 
 use crate::error::{AnyResult, Result};
 use crate::res;
+use axum::RequestExt;
 use axum::extract::Request;
-use axum::http::header::AUTHORIZATION;
 use axum::middleware::Next;
 use axum::response::Response;
+use axum_extra::TypedHeader;
 use derive_more::{Deref, From, Into};
+use futures::TryFutureExt;
+use headers::Authorization;
+use headers::authorization::Bearer;
 use jiff::{SignedDuration, Zoned};
 use jsonwebtoken::{DecodingKey, EncodingKey, Header, TokenData, Validation, decode, encode};
 use nil_core::player::PlayerId;
@@ -26,8 +30,10 @@ static JWT_SECRET: LazyLock<Box<str>> = LazyLock::new(|| {
 });
 
 pub async fn authorization(mut request: Request, next: Next) -> Response {
-  if let Some(header) = request.headers().get(AUTHORIZATION)
-    && let Ok(token) = header.to_str().map(Token::new)
+  if let Ok(token) = request
+    .extract_parts::<TypedHeader<Authorization<Bearer>>>()
+    .map_ok(|header| Token::new(header.token()))
+    .await
     && let Ok(data) = decode_jwt(&token)
   {
     request

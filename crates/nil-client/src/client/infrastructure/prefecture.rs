@@ -15,7 +15,7 @@ impl Client {
     http::post("add-prefecture-build-order")
       .body(req)
       .server(self.server)
-      .maybe_authorization(self.authorization.as_deref())
+      .maybe_authorization(self.authorization.as_ref())
       .send()
       .await
   }
@@ -27,7 +27,7 @@ impl Client {
     http::post("cancel-prefecture-build-order")
       .body(req)
       .server(self.server)
-      .maybe_authorization(self.authorization.as_deref())
+      .maybe_authorization(self.authorization.as_ref())
       .send()
       .await
   }
@@ -39,7 +39,7 @@ impl Client {
     http::json_post("get-prefecture-build-catalog")
       .body(req)
       .server(self.server)
-      .maybe_authorization(self.authorization.as_deref())
+      .maybe_authorization(self.authorization.as_ref())
       .send()
       .await
   }

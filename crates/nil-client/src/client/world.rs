@@ -13,7 +13,7 @@ impl Client {
     http::json_post("create-remote-world")
       .body(req)
       .server(self.server)
-      .maybe_authorization(self.authorization.as_deref())
+      .maybe_authorization(self.authorization.as_ref())
       .send()
       .await
   }
@@ -54,7 +54,7 @@ impl Client {
       http::post("leave")
         .body(req)
         .server(self.server)
-        .maybe_authorization(self.authorization.as_deref())
+        .maybe_authorization(self.authorization.as_ref())
         .send()
         .await
     } else {
@@ -67,7 +67,7 @@ impl Client {
       http::post("save-local-world")
         .body(req)
         .server(self.server)
-        .maybe_authorization(self.authorization.as_deref())
+        .maybe_authorization(self.authorization.as_ref())
         .send()
         .await
     } else {
