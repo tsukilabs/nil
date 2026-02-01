@@ -1,9 +1,9 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { getBotCoords } from './npc/bot';
-import { getPlayerCoords } from './player';
-import { getPrecursorCoords } from './npc/precursor';
+import { getBotCoords } from '@/commands/npc/bot';
+import { getPlayerCoords } from '@/commands/player';
+import { getPrecursorCoords } from '@/commands/npc/precursor';
 
 export async function getRulerCoords(ruler: Ruler) {
   switch (ruler.kind) {

@@ -137,10 +137,7 @@ where
       .get(level + 1u8)?
       .resources;
 
-    if !world
-      .ruler(owner)?
-      .has_resources(required_resources)
-    {
+    if !ruler_ref.has_resources(required_resources) {
       return Ok(BehaviorScore::MIN);
     }
 

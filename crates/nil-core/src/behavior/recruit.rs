@@ -75,24 +75,21 @@ where
   T: Unit + Debug + 'static,
 {
   fn score(&self, world: &World) -> Result<BehaviorScore> {
-    let boxed = UnitBox::from(self.unit);
+    let unit_box = UnitBox::from(self.unit);
     let infrastructure = world.infrastructure(self.coord)?;
 
-    if !boxed
+    if !unit_box
       .infrastructure_requirements()
       .has_required_levels(infrastructure)
     {
       return Ok(BehaviorScore::MIN);
     }
 
-    let chunk = boxed.chunk();
+    let chunk = unit_box.chunk();
     let owner = world.continent().owner_of(self.coord)?;
     let ruler_ref = world.ruler(owner)?;
 
-    if !world
-      .ruler(owner)?
-      .has_resources(&chunk.resources())
-    {
+    if !ruler_ref.has_resources(&chunk.resources()) {
       return Ok(BehaviorScore::MIN);
     }
 
@@ -107,7 +104,7 @@ where
     let mut score = BehaviorScore::new(random_range(0.8..=1.0));
 
     if let Some(ethics) = ruler_ref.ethics() {
-      if boxed.is_defensive() {
+      if unit_box.is_defensive() {
         score *= match ethics.power() {
           EthicPowerAxis::Militarist => 0.75,
           EthicPowerAxis::FanaticMilitarist => 0.5,
