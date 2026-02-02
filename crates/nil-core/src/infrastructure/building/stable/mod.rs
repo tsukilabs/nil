@@ -9,7 +9,9 @@ use crate::infrastructure::building::{BuildingId, BuildingLevel};
 use crate::infrastructure::queue::InfrastructureQueue;
 use crate::infrastructure::requirements::InfrastructureRequirements;
 use crate::ranking::Score;
-use crate::resources::{Cost, MaintenanceRatio, ResourceRatio, Workforce};
+use crate::resources::cost::{Cost, ResourceRatio};
+use crate::resources::maintenance::MaintenanceRatio;
+use crate::resources::workforce::Workforce;
 use nil_core_macros::Building;
 use serde::{Deserialize, Serialize};
 use std::ops::Not;
@@ -84,13 +86,13 @@ impl Stable {
     Workforce::from(self.level)
   }
 
-  pub fn turns_in_recruit_queue(&self) -> f64 {
+  pub fn turns_in_recruit_queue(&self) -> Option<f64> {
     if self.level > 0u8 {
       let turn = self.workforce();
       let in_queue = self.recruit_queue.sum_pending_workforce();
-      f64::from(in_queue) / f64::from(turn)
+      Some(f64::from(in_queue) / f64::from(turn))
     } else {
-      0.0
+      None
     }
   }
 }

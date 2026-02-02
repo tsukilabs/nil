@@ -7,7 +7,9 @@ use crate::infrastructure::building::{BuildingId, BuildingLevel, BuildingStatsTa
 use crate::infrastructure::queue::InfrastructureQueue;
 use crate::infrastructure::requirements::InfrastructureRequirements;
 use crate::infrastructure::{Infrastructure, InfrastructureStats};
-use crate::resources::{Maintenance, Resources, Workforce};
+use crate::resources::Resources;
+use crate::resources::maintenance::Maintenance;
+use crate::resources::workforce::Workforce;
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, Deserialize, Serialize)]

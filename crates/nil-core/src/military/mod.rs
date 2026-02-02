@@ -15,7 +15,7 @@ use crate::military::army::{ArmyId, collapse_armies};
 use crate::military::maneuver::ManeuverId;
 use crate::military::squad::Squad;
 use crate::ranking::Score;
-use crate::resources::Maintenance;
+use crate::resources::maintenance::Maintenance;
 use crate::ruler::Ruler;
 use army::{Army, ArmyPersonnel};
 use itertools::Itertools;

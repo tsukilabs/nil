@@ -144,6 +144,10 @@ impl Continent {
     self.coords_by(move |city| city.owner() == &owner)
   }
 
+  pub fn city_coords(&self) -> impl Iterator<Item = Coord> {
+    self.cities().map(City::coord)
+  }
+
   pub fn owner_of(&self, key: impl ContinentKey) -> Result<&Ruler> {
     self.city(key).map(City::owner)
   }

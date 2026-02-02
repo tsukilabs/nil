@@ -35,6 +35,7 @@ use nil_core::player::PlayerId;
 use nil_core::world::World;
 use nil_payload::{AuthorizeRequest, ValidateTokenRequest, WebsocketQuery};
 use nil_server_types::ServerKind;
+use tokio::task::spawn_blocking;
 use tower_http::trace::{
   DefaultMakeSpan,
   DefaultOnFailure,
@@ -55,13 +56,21 @@ pub(crate) fn create() -> Router<App> {
     .route("/cancel-prefecture-build-order", post(prefecture::cancel_build_order))
     .route("/cancel-stable-recruit-order", post(stable::cancel_recruit_order))
     .route("/cheat-get-academy-recruit-queue", post(cheat::infrastructure::get_academy_recruit_queue))
+    .route("/cheat-get-academy-recruit-queues", post(cheat::infrastructure::get_academy_recruit_queues))
+    .route("/cheat-get-all-academy-recruit-queues", post(cheat::infrastructure::get_all_academy_recruit_queues))
+    .route("/cheat-get-all-prefecture-build-queues", post(cheat::infrastructure::get_all_prefecture_build_queues))
+    .route("/cheat-get-all-stable-recruit-queues", post(cheat::infrastructure::get_all_stable_recruit_queues))
     .route("/cheat-get-build-steps", post(cheat::behavior::get_build_steps))
     .route("/cheat-get-ethics", post(cheat::npc::get_ethics))
+    .route("/cheat-get-idle-armies-at", post(cheat::military::get_idle_armies_at))
+    .route("/cheat-get-idle-personnel-at", post(cheat::military::get_idle_personnel_at))
     .route("/cheat-get-infrastructure", post(cheat::infrastructure::get_infrastructure))
     .route("/cheat-get-prefecture-build-queue", post(cheat::infrastructure::get_prefecture_build_queue))
+    .route("/cheat-get-prefecture-build-queues", post(cheat::infrastructure::get_prefecture_build_queues))
     .route("/cheat-get-resources", post(cheat::resources::get_resources))
     .route("/cheat-skip-round", post(cheat::round::skip))
     .route("/cheat-get-stable-recruit-queue", post(cheat::infrastructure::get_stable_recruit_queue))
+    .route("/cheat-get-stable-recruit-queues", post(cheat::infrastructure::get_stable_recruit_queues))
     .route("/cheat-get-storage-capacity", post(cheat::infrastructure::get_storage_capacity))
     .route("/cheat-set-bot-ethics", post(cheat::npc::set_bot_ethics))
     .route("/cheat-set-building-level", post(cheat::infrastructure::set_building_level))
@@ -153,12 +162,12 @@ pub(crate) fn create() -> Router<App> {
 }
 
 async fn authorize(State(app): State<App>, Json(req): Json<AuthorizeRequest>) -> Response {
-  let result = try {
+  let Ok(result) = spawn_blocking(move || {
     match app.server_kind() {
-      ServerKind::Local { .. } => encode_jwt(req.player)?,
+      ServerKind::Local { .. } => encode_jwt(req.player),
       ServerKind::Remote => {
         let Some(password) = req.password else {
-          return Response::from(Error::MissingPassword);
+          return Err(Error::MissingPassword);
         };
 
         if app
@@ -167,12 +176,16 @@ async fn authorize(State(app): State<App>, Json(req): Json<AuthorizeRequest>) ->
           .map_err(Into::<Error>::into)?
           .verify_password(&password)
         {
-          encode_jwt(req.player)?
+          encode_jwt(req.player)
         } else {
-          return Response::from(Error::IncorrectUserCredentials);
+          Err(Error::IncorrectUserCredentials)
         }
       }
     }
+  })
+  .await
+  else {
+    return res!(INTERNAL_SERVER_ERROR);
   };
 
   result

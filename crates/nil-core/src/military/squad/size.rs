@@ -3,7 +3,7 @@
 
 use crate::military::unit::stats::power::Power;
 use crate::ranking::Score;
-use crate::resources::Maintenance;
+use crate::resources::maintenance::Maintenance;
 use derive_more::{Deref, Display, From, Into};
 use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;

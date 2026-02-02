@@ -6,12 +6,47 @@ mod tests;
 
 use crate::continent::ContinentKey;
 use crate::error::Result;
-use crate::resources::Resources;
+use crate::resources::maintenance::MaintenanceBalance;
+use crate::resources::prelude::Maintenance;
+use crate::resources::{Food, Resources};
 use crate::ruler::Ruler;
 use crate::world::World;
 use nil_num::ops::MulCeil;
 
 impl World {
+  pub(crate) fn get_maintenance<R>(&self, ruler: R) -> Result<Maintenance>
+  where
+    R: Into<Ruler>,
+  {
+    let ruler: Ruler = ruler.into();
+    let stats = self.stats().infrastructure();
+    let mut maintenance = self.military().maintenance_of(ruler.clone());
+
+    for city in self.continent().cities_of(ruler) {
+      maintenance += city.maintenance(&stats)?;
+    }
+
+    Ok(maintenance)
+  }
+
+  pub(crate) fn get_maintenance_balance<R>(&self, ruler: R) -> Result<MaintenanceBalance>
+  where
+    R: Into<Ruler>,
+  {
+    let ruler: Ruler = ruler.into();
+    let stats = self.stats().infrastructure();
+
+    let mut production = Food::new(0);
+    let mut maintenance = self.military().maintenance_of(ruler.clone());
+
+    for city in self.continent().cities_of(ruler) {
+      maintenance += city.maintenance(&stats)?;
+      production += city.round_production(&stats)?.food;
+    }
+
+    Ok(MaintenanceBalance { maintenance, production })
+  }
+
   pub fn get_weighted_resources<K>(&self, key: K) -> Result<Resources>
   where
     K: ContinentKey,

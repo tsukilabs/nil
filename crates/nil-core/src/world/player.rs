@@ -6,17 +6,13 @@ use crate::error::{Error, Result};
 use crate::military::Military;
 use crate::player::{Player, PlayerId, PlayerStatus};
 use crate::report::ReportId;
-use crate::resources::Maintenance;
+use crate::resources::maintenance::Maintenance;
 use crate::world::World;
 
 impl World {
+  #[inline]
   pub fn get_player_maintenance(&self, player: &PlayerId) -> Result<Maintenance> {
-    self
-      .continent
-      .cities_of(player)
-      .try_fold(Maintenance::default(), |acc, city| {
-        Ok(acc + city.maintenance(&self.stats.infrastructure)?)
-      })
+    self.get_maintenance(player)
   }
 
   pub fn get_player_military(&self, player: &PlayerId) -> Result<Military> {

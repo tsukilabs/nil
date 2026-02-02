@@ -216,6 +216,22 @@ macro_rules! decl_resource_diff {
         }
       }
 
+      impl Add<i32> for $diff {
+        type Output = Self;
+
+        fn add(self, rhs: i32) -> Self {
+          Self(self.0.saturating_add(rhs))
+        }
+      }
+
+      impl Add<u32> for $diff {
+        type Output = Self;
+
+        fn add(self, rhs: u32) -> Self {
+          Self(self.0.saturating_add_unsigned(rhs))
+        }
+      }
+
       impl AddAssign for $diff {
         fn add_assign(&mut self, rhs: Self) {
           *self = *self + rhs;
@@ -230,6 +246,18 @@ macro_rules! decl_resource_diff {
 
       impl AddAssign<$diff> for $original {
         fn add_assign(&mut self, rhs: $diff) {
+          *self = *self + rhs;
+        }
+      }
+
+      impl AddAssign<i32> for $diff {
+        fn add_assign(&mut self, rhs: i32) {
+          *self = *self + rhs;
+        }
+      }
+
+      impl AddAssign<u32> for $diff {
+        fn add_assign(&mut self, rhs: u32) {
           *self = *self + rhs;
         }
       }
@@ -258,6 +286,22 @@ macro_rules! decl_resource_diff {
         }
       }
 
+      impl Sub<i32> for $diff {
+        type Output = Self;
+
+        fn sub(self, rhs: i32) -> Self {
+          Self(self.0.saturating_sub(rhs))
+        }
+      }
+
+      impl Sub<u32> for $diff {
+        type Output = Self;
+
+        fn sub(self, rhs: u32) -> Self {
+          Self(self.0.saturating_sub_unsigned(rhs))
+        }
+      }
+
       impl SubAssign for $diff {
         fn sub_assign(&mut self, rhs: Self) {
           *self = *self - rhs;
@@ -272,6 +316,18 @@ macro_rules! decl_resource_diff {
 
       impl SubAssign<$diff> for $original {
         fn sub_assign(&mut self, rhs: $diff) {
+          *self = *self - rhs;
+        }
+      }
+
+      impl SubAssign<i32> for $diff {
+        fn sub_assign(&mut self, rhs: i32) {
+          *self = *self - rhs;
+        }
+      }
+
+      impl SubAssign<u32> for $diff {
+        fn sub_assign(&mut self, rhs: u32) {
           *self = *self - rhs;
         }
       }

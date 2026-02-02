@@ -17,6 +17,7 @@ pub mod continent;
 pub mod error;
 pub mod ethic;
 pub mod event;
+pub mod hooks;
 pub mod infrastructure;
 pub mod military;
 pub mod npc;

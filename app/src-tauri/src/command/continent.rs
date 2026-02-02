@@ -3,6 +3,7 @@
 
 use crate::error::Result;
 use crate::manager::ManagerExt;
+use itertools::Itertools;
 use nil_core::continent::{ContinentSize, Coord, PublicField};
 use nil_payload::continent::*;
 use tauri::AppHandle;
@@ -29,11 +30,13 @@ pub async fn get_public_field(app: AppHandle, req: GetPublicFieldRequest) -> Res
 #[tauri::command]
 pub async fn get_public_fields(
   app: AppHandle,
-  req: GetPublicFieldsRequest,
+  mut req: GetPublicFieldsRequest,
 ) -> Result<Vec<(Coord, PublicField)>> {
   if req.coords.is_empty() {
     return Ok(Vec::new());
   }
+
+  req.coords = req.coords.into_iter().unique().collect();
 
   app
     .client(async |cl| cl.get_public_fields(req).await)

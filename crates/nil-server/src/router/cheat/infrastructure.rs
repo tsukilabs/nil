@@ -23,6 +23,62 @@ pub async fn get_academy_recruit_queue(
     .into_inner()
 }
 
+pub async fn get_academy_recruit_queues(
+  State(app): State<App>,
+  Json(req): Json<CheatGetAcademyRecruitQueuesRequest>,
+) -> Response {
+  if req.coords.is_empty() {
+    return res!(OK, Json(Vec::<()>::new()));
+  }
+
+  app
+    .world_blocking(req.world, move |world| {
+      world.cheat_get_academy_recruit_queues(&req.coords, req.filter_empty)
+    })
+    .await
+    .try_map_left(|queues| res!(OK, Json(queues)))
+    .into_inner()
+}
+
+pub async fn get_all_academy_recruit_queues(
+  State(app): State<App>,
+  Json(req): Json<CheatGetAllAcademyRecruitQueuesRequest>,
+) -> Response {
+  app
+    .world_blocking(req.world, move |world| {
+      world.cheat_get_all_academy_recruit_queues(req.filter_empty)
+    })
+    .await
+    .try_map_left(|queues| res!(OK, Json(queues)))
+    .into_inner()
+}
+
+pub async fn get_all_prefecture_build_queues(
+  State(app): State<App>,
+  Json(req): Json<CheatGetAllPrefectureBuildQueuesRequest>,
+) -> Response {
+  app
+    .world_blocking(req.world, move |world| {
+      world.cheat_get_all_prefecture_build_queues(req.filter_empty)
+    })
+    .await
+    .try_map_left(|queues| res!(OK, Json(queues)))
+    .into_inner()
+}
+
+pub async fn get_all_stable_recruit_queues(
+  State(app): State<App>,
+  Json(req): Json<CheatGetAllStableRecruitQueuesRequest>,
+) -> Response {
+  app
+    .world_blocking(req.world, move |world| {
+      world.cheat_get_all_stable_recruit_queues(req.filter_empty)
+    })
+    .await
+    .try_map_left(|queues| res!(OK, Json(queues)))
+    .into_inner()
+}
+
 pub async fn get_infrastructure(
   State(app): State<App>,
   Json(req): Json<CheatGetInfrastructureRequest>,
@@ -47,6 +103,23 @@ pub async fn get_prefecture_build_queue(
     .into_inner()
 }
 
+pub async fn get_prefecture_build_queues(
+  State(app): State<App>,
+  Json(req): Json<CheatGetPrefectureBuildQueuesRequest>,
+) -> Response {
+  if req.coords.is_empty() {
+    return res!(OK, Json(Vec::<()>::new()));
+  }
+
+  app
+    .world_blocking(req.world, move |world| {
+      world.cheat_get_prefecture_build_queues(&req.coords, req.filter_empty)
+    })
+    .await
+    .try_map_left(|queues| res!(OK, Json(queues)))
+    .into_inner()
+}
+
 pub async fn get_stable_recruit_queue(
   State(app): State<App>,
   Json(req): Json<CheatGetStableRecruitQueueRequest>,
@@ -57,6 +130,23 @@ pub async fn get_stable_recruit_queue(
     })
     .await
     .try_map_left(|queue| res!(OK, Json(queue)))
+    .into_inner()
+}
+
+pub async fn get_stable_recruit_queues(
+  State(app): State<App>,
+  Json(req): Json<CheatGetStableRecruitQueuesRequest>,
+) -> Response {
+  if req.coords.is_empty() {
+    return res!(OK, Json(Vec::<()>::new()));
+  }
+
+  app
+    .world_blocking(req.world, move |world| {
+      world.cheat_get_stable_recruit_queues(&req.coords, req.filter_empty)
+    })
+    .await
+    .try_map_left(|queues| res!(OK, Json(queues)))
     .into_inner()
 }
 

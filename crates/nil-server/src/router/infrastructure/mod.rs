@@ -9,7 +9,7 @@ pub mod stable;
 use crate::app::App;
 use crate::middleware::authorization::CurrentPlayer;
 use crate::response::from_core_err;
-use crate::{bail_not_owned_by, bail_not_pending, res};
+use crate::{bail_if_city_is_not_owned_by, bail_if_player_is_not_pending, res};
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
 use nil_payload::infrastructure::*;
@@ -23,8 +23,8 @@ pub async fn toggle(
     Ok(world) => {
       let result = try {
         let mut world = world.write().await;
-        bail_not_pending!(world, &player.0);
-        bail_not_owned_by!(world, &player.0, req.coord);
+        bail_if_player_is_not_pending!(world, &player.0);
+        bail_if_city_is_not_owned_by!(world, &player.0, req.coord);
         world.toggle_building(req.coord, req.id, req.enabled)?;
       };
 

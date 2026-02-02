@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: AGPL-3.0-only
 
 param(
+  [string]$Release,
   [string]$TargetDir
 )
 
@@ -10,11 +11,28 @@ $PSNativeCommandUseErrorActionPreference = $true
 
 cargo build --profile release-server --package nil-server
 
+$File = if ($IsWindows) { 'nil-server.exe' } else { 'nil-server' }
+$Path = "./target/release-server/$File"
+
 if ($TargetDir) {
   if ($IsWindows -and ($TargetDir.ToLower() -eq 'desktop')) {
     $TargetDir = [Environment]::GetFolderPath('Desktop')
   }
 
-  $File = if ($IsWindows) { 'nil-server.exe' } else { 'nil-server' }
-  Copy-Item "./target/release-server/$File" -Destination $TargetDir
+  Copy-Item $Path -Destination $TargetDir
+}
+
+if ($Release -and ($IsWindows -or $IsLinux)) {
+  $Version = Get-Content -Path 'package.json' -Raw
+  | ConvertFrom-Json
+  | Select-Object -ExpandProperty 'version'
+
+  $Name = "Call.of.Nil_$($Version)_server"
+  if ($IsWindows) {
+    $Name += '.exe'
+  }
+
+  Rename-Item -Path $Path -NewName $Name
+
+  gh release upload $Release $Path
 }

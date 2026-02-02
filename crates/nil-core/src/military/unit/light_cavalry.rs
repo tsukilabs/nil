@@ -4,18 +4,19 @@
 use super::stats::prelude::*;
 use super::{UnitChunk, UnitChunkSize, UnitId, UnitKind};
 use crate::check_total_resource_ratio;
-use crate::infrastructure::building::BuildingLevel;
+use crate::infrastructure::building::{BuildingId, BuildingLevel};
 use crate::infrastructure::requirements::InfrastructureRequirements;
 use crate::ranking::Score;
 use crate::resources::prelude::*;
 use nil_core_macros::Unit;
 
-#[derive(Unit)]
+#[derive(Unit, Clone, Debug)]
 pub struct LightCavalry;
 
 impl LightCavalry {
   pub const ID: UnitId = UnitId::LightCavalry;
   pub const KIND: UnitKind = UnitKind::Cavalry;
+  pub const BUILDING: BuildingId = BuildingId::Stable;
 
   pub const SCORE: Score = Score::new(4);
 

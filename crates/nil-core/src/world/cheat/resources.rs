@@ -1,7 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use crate::bail_cheat_not_allowed;
+use crate::bail_if_cheats_are_not_allowed;
 use crate::error::Result;
 use crate::resources::prelude::*;
 use crate::ruler::Ruler;
@@ -9,14 +9,14 @@ use crate::world::World;
 
 impl World {
   pub fn cheat_get_resources(&self, ruler: &Ruler) -> Result<Resources> {
-    bail_cheat_not_allowed!(self);
+    bail_if_cheats_are_not_allowed!(self);
     self
       .ruler(ruler)
       .map(|ruler| ruler.resources().clone())
   }
 
   pub fn cheat_set_resources(&mut self, ruler: &Ruler, resources: Resources) -> Result<()> {
-    bail_cheat_not_allowed!(self);
+    bail_if_cheats_are_not_allowed!(self);
 
     let mut ruler_ref = self.ruler_mut(ruler)?;
     *ruler_ref.resources_mut() = resources;

@@ -9,7 +9,7 @@ use crate::military::maneuver::ManeuverId;
 use crate::military::unit::stats::haul::Haul;
 use crate::military::unit::stats::speed::Speed;
 use crate::ranking::Score;
-use crate::resources::Maintenance;
+use crate::resources::maintenance::Maintenance;
 use crate::ruler::Ruler;
 use bon::Builder;
 use derive_more::Display;

@@ -1,28 +1,24 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-mod cost;
-mod diff;
-mod maintenance;
+pub mod cost;
+pub mod diff;
+pub mod maintenance;
 pub mod prelude;
-mod workforce;
+pub mod workforce;
 
 use crate::city::Stability;
 use crate::infrastructure::mine::MineProduction;
 use crate::infrastructure::storage::{OverallStorageCapacity, StorageCapacity};
 use bon::Builder;
 use derive_more::{Deref, Display, Into};
+use diff::{FoodDiff, IronDiff, ResourcesDiff, StoneDiff, WoodDiff};
 use nil_num::impl_mul_ceil;
 use nil_num::ops::MulCeil;
 use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
 use std::num::NonZeroU32;
 use std::ops::{Add, AddAssign, Mul, MulAssign, Sub, SubAssign};
-
-pub use cost::{Cost, ResourceRatio};
-pub use diff::{FoodDiff, IronDiff, ResourcesDiff, StoneDiff, WoodDiff};
-pub use maintenance::{Maintenance, MaintenanceRatio};
-pub use workforce::Workforce;
 
 #[derive(Builder, Clone, Debug, PartialEq, Eq, Deserialize, Serialize)]
 #[serde(default, rename_all = "camelCase")]
