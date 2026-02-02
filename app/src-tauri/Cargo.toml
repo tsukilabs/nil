@@ -42,11 +42,14 @@ tauri-plugin-pinia.workspace = true
 tauri-plugin-process.workspace = true
 thiserror.workspace = true
 tokio.workspace = true
-tracing.workspace = true
 
 [dependencies.tauri]
 version = "2.9"
 features = ["image-png", "protocol-asset", "rustls-tls", "tray-icon"]
+
+[dependencies.tracing]
+workspace = true
+features = ["release_max_level_off"]
 
 [target.'cfg(not(target_os = "android"))'.dependencies]
 tauri-plugin-prevent-default.workspace = true

@@ -1,5 +1,6 @@
 {
   "attacker-luck": "Sorte do atacante",
   "battle-report-title": "{attacker} ataca {destinationName} ({destination})",
+  "support-report-title": "{sender} apoia {destinationName} ({destination})",
   "winner": "Vencedor"
 }

@@ -22,6 +22,13 @@ pub struct GetCityScoreRequest {
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+pub struct GetPublicCitiesRequest {
+  pub world: WorldId,
+  pub coords: Vec<Coord>,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct GetPublicCityRequest {
   pub world: WorldId,
   pub coord: Coord,

@@ -11,7 +11,7 @@ interface ChatMessage {
   readonly kind: ChatMessageKind;
   readonly author: ChatMessageAuthor;
   readonly content: ChatMessageContent;
-  readonly timestamp: string;
+  readonly time: string;
 }
 
 type ChatMessageKind = 'default';

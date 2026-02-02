@@ -3,7 +3,7 @@
 
 use crate::error::AnyResult;
 use crate::world::WorldOptions;
-use derive_more::Deref;
+use derive_more::{Deref, Display};
 use serde::{Deserialize, Serialize};
 use std::sync::Arc;
 use uuid::Uuid;
@@ -49,7 +49,7 @@ impl WorldConfig {
 }
 
 #[derive(
-  Clone, Copy, Debug, Deref, PartialEq, Eq, PartialOrd, Ord, Hash, Deserialize, Serialize,
+  Clone, Copy, Debug, Deref, Display, PartialEq, Eq, PartialOrd, Ord, Hash, Deserialize, Serialize,
 )]
 pub struct WorldId(Uuid);
 

@@ -50,7 +50,9 @@ pub struct Savedata {
 
 impl Savedata {
   pub fn read(bytes: &[u8]) -> Result<Self> {
-    read_tar(bytes, "world").map_err(|_| Error::FailedToReadSavedata)
+    read_tar(bytes, "world")
+      .inspect_err(|err| tracing::error!(message = %err, error = ?err))
+      .map_err(|_| Error::FailedToReadSavedata)
   }
 
   pub(crate) fn write(&mut self, buffer: &mut Vec<u8>) -> Result<()> {
@@ -58,7 +60,9 @@ impl Savedata {
       *player.status_mut() = PlayerStatus::Inactive;
     }
 
-    write_tar(buffer, self).map_err(|_| Error::FailedToWriteSavedata)
+    write_tar(buffer, self)
+      .inspect_err(|err| tracing::error!(message = %err, error = ?err))
+      .map_err(|_| Error::FailedToWriteSavedata)
   }
 }
 
@@ -82,7 +86,9 @@ impl SavedataInfo {
   }
 
   pub fn read(bytes: &[u8]) -> Result<Self> {
-    read_tar(bytes, "info").map_err(|_| Error::FailedToReadSavedata)
+    read_tar(bytes, "info")
+      .inspect_err(|err| tracing::error!(message = %err, error = ?err))
+      .map_err(|_| Error::FailedToReadSavedata)
   }
 }
 

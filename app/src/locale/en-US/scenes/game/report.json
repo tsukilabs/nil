@@ -1,5 +1,6 @@
 {
   "attacker-luck": "Attacker's luck",
   "battle-report-title": "{attacker} attacks {destinationName} ({destination})",
+  "support-report-title": "{sender} supports {destinationName} ({destination})",
   "winner": "Winner"
 }

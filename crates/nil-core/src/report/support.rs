@@ -1,10 +1,9 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use crate::battle::BattleResult;
 use crate::continent::Coord;
+use crate::military::army::ArmyPersonnel;
 use crate::report::ReportId;
-use crate::resources::Resources;
 use crate::round::RoundId;
 use crate::ruler::Ruler;
 use bon::Builder;
@@ -14,34 +13,28 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Report, Builder, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-pub struct BattleReport {
+pub struct SupportReport {
   #[builder(skip = ReportId::new())]
   id: ReportId,
-  attacker: Ruler,
-  defender: Ruler,
+  sender: Ruler,
+  receiver: Ruler,
   origin: Coord,
   destination: Coord,
-  result: BattleResult,
-  hauled_resources: Resources,
+  personnel: ArmyPersonnel,
   round: RoundId,
   #[builder(skip = Zoned::now())]
   time: Zoned,
 }
 
-impl BattleReport {
+impl SupportReport {
   #[inline]
-  pub fn attacker(&self) -> &Ruler {
-    &self.attacker
+  pub fn sender(&self) -> &Ruler {
+    &self.sender
   }
 
   #[inline]
-  pub fn defender(&self) -> &Ruler {
-    &self.defender
-  }
-
-  #[inline]
-  pub fn result(&self) -> &BattleResult {
-    &self.result
+  pub fn receiver(&self) -> &Ruler {
+    &self.receiver
   }
 
   #[inline]
@@ -55,7 +48,7 @@ impl BattleReport {
   }
 
   #[inline]
-  pub fn hauled_resources(&self) -> &Resources {
-    &self.hauled_resources
+  pub fn personnel(&self) -> &ArmyPersonnel {
+    &self.personnel
   }
 }

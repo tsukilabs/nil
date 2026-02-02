@@ -26,6 +26,14 @@ impl Client {
       .await
   }
 
+  pub async fn get_public_cities(&self, req: GetPublicCitiesRequest) -> Result<Vec<PublicCity>> {
+    http::json_post("get-public-cities")
+      .body(req)
+      .server(self.server)
+      .send()
+      .await
+  }
+
   pub async fn get_public_city(&self, req: GetPublicCityRequest) -> Result<PublicCity> {
     http::json_post("get-public-city")
       .body(req)

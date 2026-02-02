@@ -6,6 +6,7 @@ import { CoordImpl } from '@/core/model/continent/coord';
 import type {
   GetCityRequest,
   GetCityScoreRequest,
+  GetPublicCitiesRequest,
   GetPublicCityRequest,
   RenameCityRequest,
   SearchCityRequest,
@@ -34,6 +35,15 @@ export async function getCityScore(coord: ContinentKey) {
   };
 
   return invoke<number>('get_city_score', { req });
+}
+
+export async function getPublicCities(coords: ContinentKey[]) {
+  const req: GetPublicCitiesRequest = {
+    world: NIL.world.getIdStrict(),
+    coords: coords.map((coord) => CoordImpl.fromContinentKey(coord)),
+  };
+
+  return invoke<readonly PublicCity[]>('get_public_cities', { req });
 }
 
 export async function getPublicCity(coord: ContinentKey) {

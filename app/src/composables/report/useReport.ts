@@ -6,6 +6,7 @@ import { asyncRef } from '@tb-dev/vue';
 import { getReport } from '@/commands/report';
 import type { ReportImpl } from '@/core/model/report/abstract';
 import { BattleReportImpl } from '@/core/model/report/battle-report';
+import { SupportReportImpl } from '@/core/model/report/support-report';
 
 export function useReport(id: MaybeNilRef<ReportId>) {
   const idRef = toRef(id);
@@ -24,9 +25,11 @@ export function useReport(id: MaybeNilRef<ReportId>) {
 
 async function toReportImpl({ kind, report }: ReportKind) {
   switch (kind) {
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     case 'battle': {
       return BattleReportImpl.load(report);
+    }
+    case 'support': {
+      return SupportReportImpl.load(report);
     }
   }
 }

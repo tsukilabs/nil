@@ -7,6 +7,7 @@ import { asyncRef } from '@tb-dev/vue';
 import { CoordImpl } from '@/core/model/continent/coord';
 import type { ReportImpl } from '@/core/model/report/abstract';
 import { BattleReportImpl } from '@/core/model/report/battle-report';
+import { SupportReportImpl } from '@/core/model/report/support-report';
 
 type CityCache = Map<ContinentIndex, MaybePromise<PublicCity>>;
 
@@ -32,9 +33,15 @@ export function useReports(ids: Ref<readonly ReportId[]>) {
 
 async function toReportImpl({ kind, report }: ReportKind, cityCache: CityCache) {
   switch (kind) {
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     case 'battle': {
       return BattleReportImpl.create({
+        report,
+        originCity: await getCity(cityCache, report.origin),
+        destinationCity: await getCity(cityCache, report.destination),
+      });
+    }
+    case 'support': {
+      return SupportReportImpl.create({
         report,
         originCity: await getCity(cityCache, report.origin),
         destinationCity: await getCity(cityCache, report.destination),

@@ -97,7 +97,7 @@ pub struct ChatMessage {
   author: ChatMessageAuthor,
 
   #[builder(skip = Zoned::now())]
-  timestamp: Zoned,
+  time: Zoned,
 }
 
 impl ChatMessage {
