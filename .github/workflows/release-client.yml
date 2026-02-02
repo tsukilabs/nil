@@ -1,4 +1,4 @@
-name: Release
+name: Release Client
 
 on:
   workflow_dispatch:
@@ -32,7 +32,7 @@ jobs:
         shell: pwsh
         run: scripts/build-wasm.ps1 -Publish -Install
 
-  release-client:
+  release:
     needs: publish
     permissions:
       contents: write
@@ -40,9 +40,9 @@ jobs:
       fail-fast: true
       matrix:
         include:
-          - platform: "ubuntu-24.04"
+          - platform: ubuntu-24.04
             args: ""
-          - platform: "windows-latest"
+          - platform: windows-latest
             args: ""
 
     runs-on: ${{ matrix.platform }}
