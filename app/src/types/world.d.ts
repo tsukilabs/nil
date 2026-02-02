@@ -5,14 +5,14 @@ interface WorldOptions {
   readonly name: string;
   readonly size: number;
   readonly locale: Locale;
-  readonly allowCheats: boolean;
+  readonly allowCheats: bool;
 }
 
 interface WorldConfig {
   readonly id: WorldId;
   readonly name: string;
   readonly locale: Locale;
-  readonly allowCheats: boolean;
+  readonly allowCheats: bool;
 }
 
 type WorldId = string;
