@@ -3,6 +3,8 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
+import { throttle } from 'es-toolkit';
+import { onKeyDown } from '@tb-dev/vue';
 import { useRouteParams } from '@vueuse/router';
 import CityTable from '@/components/profile/CityTable.vue';
 import { usePublicCities } from '@/composables/city/usePublicCities';
@@ -22,8 +24,12 @@ import {
 const { t } = useI18n();
 
 const id = useRouteParams<Option<PlayerId>>('id', null);
-const { player, coords } = usePublicPlayer(id);
+const { player, coords, load } = usePublicPlayer(id);
 const { cities } = usePublicCities(coords);
+
+if (__DESKTOP__) {
+  onKeyDown('F5', throttle(load, 1000));
+}
 </script>
 
 <template>
