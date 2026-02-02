@@ -10,7 +10,7 @@ use crate::ranking::Score;
 use crate::resources::prelude::*;
 use nil_core_macros::Unit;
 
-#[derive(Unit)]
+#[derive(Unit, Clone, Debug)]
 pub struct LightCavalry;
 
 impl LightCavalry {

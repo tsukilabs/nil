@@ -33,17 +33,19 @@ pub struct BuildBehavior {
 }
 
 impl BuildBehavior {
-  const MAX_IN_QUEUE: f64 = 3.0;
+  const MAX_IN_QUEUE: u8 = 3;
 }
 
 impl Behavior for BuildBehavior {
   fn score(&self, world: &World) -> Result<BehaviorScore> {
     let infrastructure = world.infrastructure(self.coord)?;
+    let max_in_queue = f64::from(Self::MAX_IN_QUEUE);
+
     if let Some(in_queue) = infrastructure
       .prefecture()
       .turns_in_build_queue()
     {
-      Ok(BehaviorScore::new(1.0 - (in_queue / Self::MAX_IN_QUEUE)))
+      Ok(BehaviorScore::new(1.0 - (in_queue / max_in_queue)))
     } else {
       Ok(BehaviorScore::MIN)
     }
@@ -80,7 +82,7 @@ impl Behavior for BuildBehavior {
     }
 
     BehaviorProcessor::new(world, behaviors)
-      .take(3)
+      .take(usize::from(Self::MAX_IN_QUEUE))
       .try_each()?;
 
     Ok(ControlFlow::Break(()))

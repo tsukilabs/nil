@@ -18,6 +18,7 @@ use std::fmt::Debug;
 use std::marker::PhantomData;
 use std::num::NonZeroU32;
 use std::ops::{Add, ControlFlow};
+use strum::IntoEnumIterator;
 
 #[derive(Builder, Debug)]
 pub struct RecruitBehavior {
@@ -25,19 +26,21 @@ pub struct RecruitBehavior {
 }
 
 impl RecruitBehavior {
-  const MAX_IN_QUEUE: f64 = 2.0;
+  const MAX_IN_QUEUE: u8 = 2;
 }
 
 impl Behavior for RecruitBehavior {
   fn score(&self, world: &World) -> Result<BehaviorScore> {
     let infrastructure = world.infrastructure(self.coord)?;
+    let max_in_queue = f64::from(Self::MAX_IN_QUEUE);
+
     macro_rules! score {
       ($building:ident) => {{
         if let Some(in_queue) = infrastructure
           .$building()
           .turns_in_recruit_queue()
         {
-          BehaviorScore::new(1.0 - (in_queue / Self::MAX_IN_QUEUE))
+          BehaviorScore::new(1.0 - (in_queue / max_in_queue))
         } else {
           BehaviorScore::MIN
         }
@@ -51,9 +54,33 @@ impl Behavior for RecruitBehavior {
   }
 
   fn behave(&self, world: &mut World) -> Result<ControlFlow<()>> {
-    let behaviors = vec![IdleBehavior.boxed()];
+    let mut behaviors = vec![IdleBehavior.boxed()];
+    macro_rules! push {
+      ($unit:ident, $id:expr) => {{
+        let behavior = RecruitUnitBehavior::builder()
+          .marker(PhantomData::<$unit>)
+          .coord(self.coord)
+          .unit($id)
+          .build()
+          .boxed();
+
+        behaviors.push(behavior);
+      }};
+    }
+
+    for id in UnitId::iter() {
+      match id {
+        UnitId::Archer => push!(Archer, id),
+        UnitId::Axeman => push!(Axeman, id),
+        UnitId::HeavyCavalry => push!(HeavyCavalry, id),
+        UnitId::LightCavalry => push!(LightCavalry, id),
+        UnitId::Pikeman => push!(Pikeman, id),
+        UnitId::Swordsman => push!(Swordsman, id),
+      }
+    }
+
     BehaviorProcessor::new(world, behaviors)
-      .take(1)
+      .take(usize::from(Self::MAX_IN_QUEUE))
       .try_each()?;
 
     Ok(ControlFlow::Break(()))
@@ -142,6 +169,6 @@ where
       })?;
     }
 
-    Ok(ControlFlow::Break(()))
+    Ok(ControlFlow::Continue(()))
   }
 }
