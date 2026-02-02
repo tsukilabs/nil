@@ -10,7 +10,7 @@ use nil_payload::cheat::round::*;
 use std::num::NonZeroU8;
 
 pub async fn skip(State(app): State<App>, Json(mut req): Json<CheatSkipRoundRequest>) -> Response {
-  if app.server_kind().is_remote() && !cfg!(debug_assertions) {
+  if app.server_kind().is_remote() && cfg!(not(debug_assertions)) {
     req.amount = NonZeroU8::MIN;
   }
 

@@ -4,7 +4,7 @@
 use super::stats::prelude::*;
 use super::{UnitChunk, UnitChunkSize, UnitId, UnitKind};
 use crate::check_total_resource_ratio;
-use crate::infrastructure::building::BuildingLevel;
+use crate::infrastructure::building::{BuildingId, BuildingLevel};
 use crate::infrastructure::requirements::InfrastructureRequirements;
 use crate::ranking::Score;
 use crate::resources::prelude::*;
@@ -16,6 +16,7 @@ pub struct Pikeman;
 impl Pikeman {
   pub const ID: UnitId = UnitId::Pikeman;
   pub const KIND: UnitKind = UnitKind::Infantry;
+  pub const BUILDING: BuildingId = BuildingId::Academy;
 
   pub const SCORE: Score = Score::new(1);
 

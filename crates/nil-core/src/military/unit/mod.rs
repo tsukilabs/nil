@@ -28,6 +28,9 @@ pub trait Unit: Send + Sync {
   fn id(&self) -> UnitId;
   fn kind(&self) -> UnitKind;
 
+  /// Building where the unit is recruited.
+  fn building(&self) -> BuildingId;
+
   fn score(&self) -> Score;
 
   fn stats(&self) -> &UnitStats;
@@ -43,18 +46,6 @@ pub trait Unit: Send + Sync {
 
   /// Building levels required to recruit the unit.
   fn infrastructure_requirements(&self) -> &InfrastructureRequirements;
-
-  /// Building where the unit is recruited.
-  fn building(&self) -> BuildingId {
-    let id = self.id();
-    if AcademyUnitId::try_from(id).is_ok() {
-      BuildingId::Academy
-    } else if StableUnitId::try_from(id).is_ok() {
-      BuildingId::Stable
-    } else {
-      unreachable!();
-    }
-  }
 
   fn is_cavalry(&self) -> bool {
     matches!(self.kind(), UnitKind::Cavalry)

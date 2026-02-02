@@ -10,6 +10,7 @@ pub fn impl_unit(ast: &DeriveInput) -> TokenStream {
   let stream = quote! {
     mod __impl_unit {
       use super::#name;
+      use crate::infrastructure::building::BuildingId;
       use crate::infrastructure::requirements::InfrastructureRequirements;
       use crate::military::unit::{Unit, UnitBox, UnitChunk, UnitId, UnitKind};
       use crate::military::unit::stats::prelude::*;
@@ -28,6 +29,10 @@ pub fn impl_unit(ast: &DeriveInput) -> TokenStream {
 
         fn kind(&self) -> UnitKind {
           Self::KIND
+        }
+
+        fn building(&self) -> BuildingId {
+          Self::BUILDING
         }
 
         fn score(&self) -> Score {
