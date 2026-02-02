@@ -1,8 +1,9 @@
 name: Release Server
 
 on:
+  workflow_dispatch:
   release:
-    types: [published]
+    types: [released]
 
 jobs:
   release:
