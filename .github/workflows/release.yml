@@ -1,4 +1,4 @@
-name: Release Client
+name: Release
 
 on:
   workflow_dispatch:
@@ -32,7 +32,7 @@ jobs:
         shell: pwsh
         run: scripts/build-wasm.ps1 -Publish -Install
 
-  release:
+  release-client:
     needs: publish
     permissions:
       contents: write
@@ -87,3 +87,35 @@ jobs:
           updaterJsonPreferNsis: true
           generateReleaseNotes: true
           args: ${{ matrix.args }}
+
+  release-server:
+    needs: release-client
+    permissions:
+      contents: write
+    strategy:
+      fail-fast: true
+      matrix:
+        include:
+          - platform: ubuntu-20.04
+            args: ""
+          - platform: windows-latest
+            args: ""
+
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@nightly
+
+      - name: Install dependencies (Ubuntu)
+        if: matrix.platform == 'ubuntu-20.04'
+        run: |
+          sudo apt-get update
+
+      - name: Release
+        shell: pwsh
+        run: scripts/build-server.ps1 -Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RUST_BACKTRACE: 1

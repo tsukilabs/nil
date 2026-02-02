@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: AGPL-3.0-only
 
 param(
-  [string]$Release,
+  [switch]$Release,
   [string]$TargetDir
 )
 
@@ -34,5 +34,9 @@ if ($Release -and ($IsWindows -or $IsLinux)) {
 
   Rename-Item -Path $Path -NewName $Name
 
-  gh release upload $Release $Path
+  $TagName = gh release view --json tagName -R 'tsukilabs/nil'
+  | ConvertFrom-Json 
+  | Select-Object -ExpandProperty 'tagName'
+
+  gh release upload $TagName $Path -R 'tsukilabs/nil' 
 }
