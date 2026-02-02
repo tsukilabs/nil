@@ -47,11 +47,6 @@ export default defineConfig({
         link: '/guide/',
         activeMatch: '^/guide/',
       },
-      {
-        text: 'Status',
-        link: '/status/',
-        activeMatch: '^/status/',
-      },
     ],
 
     sidebar: {
