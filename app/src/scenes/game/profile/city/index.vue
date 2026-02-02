@@ -4,6 +4,8 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { throttle } from 'es-toolkit';
+import { onKeyDown } from '@tb-dev/vue';
 import { useRouteParams } from '@vueuse/router';
 import enUS from '@/locale/en-US/scenes/game/profile.json';
 import ptBR from '@/locale/pt-BR/scenes/game/profile.json';
@@ -31,10 +33,14 @@ const { t } = useI18n({
 });
 
 const continentKey = useRouteParams('ckey', null, { transform: Number.parseInt });
-const { city, loading } = usePublicCity(continentKey);
+const { city, loading, load } = usePublicCity(continentKey);
 
 const owner = computed(() => city.value?.owner);
 const toOwnerScene = useCityOwnerSceneLink(owner);
+
+if (__DESKTOP__) {
+  onKeyDown('F5', throttle(load, 1000));
+}
 </script>
 
 <template>

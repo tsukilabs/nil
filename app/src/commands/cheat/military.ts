@@ -31,12 +31,22 @@ export async function cheatGetIdlePersonnelAt(coord?: Option<ContinentKey>) {
   return invoke<ArmyPersonnel>('cheat_get_idle_personnel_at', { req });
 }
 
+export async function cheatGetIdlePersonnelSizeAt(coord?: Option<ContinentKey>) {
+  const personnel = await cheatGetIdlePersonnelAt(coord);
+  return ArmyPersonnelImpl.create(personnel).getSize();
+}
+
 export async function cheatGetIdleSquadsAt(coord?: Option<ContinentKey>) {
   const armies = await cheatGetIdleArmiesAt(coord);
   return armies.flatMap((army) => {
     const personnel = ArmyPersonnelImpl.create(army.personnel);
     return personnel.getSquads();
   });
+}
+
+export async function cheatGetIdleUnitAmountAt(coord?: Option<ContinentKey>) {
+  const size = await cheatGetIdlePersonnelSizeAt(coord);
+  return Object.values(size).reduce((acc, curr) => acc + curr, 0);
 }
 
 export async function cheatSpawnPersonnel(

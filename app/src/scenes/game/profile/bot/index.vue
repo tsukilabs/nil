@@ -3,6 +3,8 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
+import { throttle } from 'es-toolkit';
+import { onKeyDown } from '@tb-dev/vue';
 import { useRouteParams } from '@vueuse/router';
 import CityTable from '@/components/profile/CityTable.vue';
 import { usePublicBot } from '@/composables/npc/usePublicBot';
@@ -22,8 +24,12 @@ import {
 const { t } = useI18n();
 
 const id = useRouteParams<Option<BotId>>('id', null);
-const { bot, coords } = usePublicBot(id);
+const { bot, coords, load } = usePublicBot(id);
 const { cities } = usePublicCities(coords);
+
+if (__DESKTOP__) {
+  onKeyDown('F5', throttle(load, 1000));
+}
 </script>
 
 <template>
