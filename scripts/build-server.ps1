@@ -12,7 +12,7 @@ $PSNativeCommandUseErrorActionPreference = $true
 cargo build --profile release-server --package nil-server
 
 $File = if ($IsWindows) { 'nil-server.exe' } else { 'nil-server' }
-$Path = "./target/release-server/$File"
+$Path = (Resolve-Path "./target/release-server/$File").ToString()
 
 if ($TargetDir) {
   if ($IsWindows -and ($TargetDir.ToLower() -eq 'desktop')) {
@@ -38,5 +38,15 @@ if ($Release -and ($IsWindows -or $IsLinux)) {
   | ConvertFrom-Json 
   | Select-Object -ExpandProperty 'tagName'
 
-  gh release upload $TagName $Path -R 'tsukilabs/nil' 
+  gh release upload $TagName $Path -R 'tsukilabs/nil'
+
+  $Token = [Environment]::GetEnvironmentVariable('TSUKILABS_TOKEN')
+  if ($Token) {
+    $Uri = 'http://tsukilabs.dev.br/release/nil'
+    $Headers = @{
+      Authorization = "Bearer $Token"
+    }
+
+    Invoke-WebRequest -Uri $Uri -Headers $Headers
+  }
 }

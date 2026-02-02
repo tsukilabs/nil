@@ -119,3 +119,4 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           RUST_BACKTRACE: 1
+          TSUKILABS_TOKEN: ${{ secrets.TSUKILABS_TOKEN }}
