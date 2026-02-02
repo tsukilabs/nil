@@ -18,7 +18,7 @@ if ($Wasm) {
 }
 
 $BuildCmd = if ($Android) {
-  'cargo tauri android build --apk true'
+  'cargo tauri android build --apk'
 }
 else {
   'cargo tauri build'
