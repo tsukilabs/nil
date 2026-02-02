@@ -5,7 +5,9 @@ use crate::chat::ChatMessage;
 use crate::continent::Coord;
 use crate::event::{Event, Listener};
 use crate::player::PlayerId;
-use crate::report::{BattleReport, Report, ReportId};
+use crate::report::battle::BattleReport;
+use crate::report::support::SupportReport;
+use crate::report::{Report, ReportId};
 use crate::world::World;
 
 impl World {
@@ -49,6 +51,11 @@ impl World {
     self.broadcast(Event::ChatUpdated { message });
   }
 
+  /// Emits [`Event::CityUpdated`].
+  pub(super) fn emit_city_updated(&self, coord: Coord) {
+    self.emit_to_owner(coord, Event::CityUpdated { coord });
+  }
+
   /// Emits [`Event::MilitaryUpdated`].
   pub(super) fn emit_military_updated(&self, player: PlayerId) {
     self.emit_to(player.clone(), Event::MilitaryUpdated { player });
@@ -75,8 +82,14 @@ impl World {
     self.broadcast(Event::RoundUpdated { round });
   }
 
-  /// Emits [`Event::CityUpdated`].
-  pub(super) fn emit_city_updated(&self, coord: Coord) {
-    self.emit_to_owner(coord, Event::CityUpdated { coord });
+  pub(super) fn emit_support_report(&self, report: &SupportReport) {
+    if let Some(sender) = report.sender().player().cloned() {
+      self.emit_report(sender, report.id());
+    }
+
+    if let Some(receiver) = report.receiver().player().cloned() {
+      debug_assert_ne!(report.sender().player(), Some(&receiver));
+      self.emit_report(receiver, report.id());
+    }
   }
 }

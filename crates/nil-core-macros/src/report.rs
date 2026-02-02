@@ -27,8 +27,8 @@ pub fn impl_report(ast: &DeriveInput) -> TokenStream {
           self.round
         }
 
-        fn timestamp(&self) -> &Zoned {
-          &self.timestamp
+        fn time(&self) -> &Zoned {
+          &self.time
         }
       }
 

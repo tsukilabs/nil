@@ -1,24 +1,25 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-mod battle;
+pub mod battle;
+pub mod support;
 
 use crate::error::{Error, Result};
 use crate::player::PlayerId;
 use crate::round::RoundId;
+use battle::BattleReport;
 use itertools::Itertools;
 use jiff::Zoned;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::sync::Arc;
+use support::SupportReport;
 use uuid::Uuid;
-
-pub use battle::BattleReport;
 
 pub trait Report {
   fn id(&self) -> ReportId;
   fn round(&self) -> RoundId;
-  fn timestamp(&self) -> &Zoned;
+  fn time(&self) -> &Zoned;
 }
 
 #[derive(Clone, Debug, Default, Deserialize, Serialize)]
@@ -83,12 +84,14 @@ impl ReportManager {
 #[remain::sorted]
 pub enum ReportKind {
   Battle { report: Arc<BattleReport> },
+  Support { report: Arc<SupportReport> },
 }
 
 impl ReportKind {
   pub fn as_dyn(&self) -> &dyn Report {
     match self {
       Self::Battle { report } => report.as_ref(),
+      Self::Support { report } => report.as_ref(),
     }
   }
 }

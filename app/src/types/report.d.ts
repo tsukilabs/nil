@@ -4,14 +4,21 @@
 interface Report_ {
   readonly id: ReportId;
   readonly round: RoundId;
-  readonly timestamp: string;
+  readonly time: string;
 }
 
-type ReportKind = ReportKindBattle;
+type ReportId = string;
+
+type ReportKind = ReportKindBattle | ReportKindSupport;
 
 interface ReportKindBattle {
   readonly kind: 'battle';
   readonly report: BattleReport;
+}
+
+interface ReportKindSupport {
+  readonly kind: 'support';
+  readonly report: SupportReport;
 }
 
 interface BattleReport extends Report_ {
@@ -23,4 +30,10 @@ interface BattleReport extends Report_ {
   readonly hauledResources: Resources;
 }
 
-type ReportId = string;
+interface SupportReport extends Report_ {
+  readonly sender: Ruler;
+  readonly receiver: Ruler;
+  readonly origin: Coord;
+  readonly destination: Coord;
+  readonly personnel: ArmyPersonnel;
+}

@@ -8,7 +8,7 @@ export class ChatMessageImpl implements ChatMessage {
   public readonly kind: ChatMessageKind;
   public readonly author: ChatMessageAuthor;
   public readonly content: ChatMessageContent;
-  public readonly timestamp: string;
+  public readonly time: string;
   public readonly date: Date;
 
   private constructor(message: ChatMessage) {
@@ -16,8 +16,8 @@ export class ChatMessageImpl implements ChatMessage {
     this.kind = message.kind;
     this.author = message.author;
     this.content = message.content;
-    this.timestamp = message.timestamp;
-    this.date = fromZoned(message.timestamp);
+    this.time = message.time;
+    this.date = fromZoned(message.time);
   }
 
   public isEmpty() {

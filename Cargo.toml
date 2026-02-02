@@ -102,7 +102,7 @@ features = ["deref", "deref_mut", "display", "from", "into"]
 [workspace.dependencies.diesel]
 version = "2.3"
 default-features = false
-features = ["returning_clauses_for_sqlite_3_35", "sqlite"]
+features = ["returning_clauses_for_sqlite_3_35", "serde_json", "sqlite", "uuid"]
 
 [workspace.dependencies.diesel_migrations]
 version = "2.3"
@@ -185,7 +185,7 @@ features = ["trace"]
 
 [workspace.dependencies.tracing]
 version = "0.1"
-features = ["release_max_level_off"]
+features = []
 
 [workspace.dependencies.tracing-appender]
 version = "0.2"

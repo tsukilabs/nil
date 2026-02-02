@@ -11,6 +11,11 @@ export interface GetCityScoreRequest {
   readonly coord: Coord;
 }
 
+export interface GetPublicCitiesRequest {
+  readonly world: WorldId;
+  readonly coords: readonly Coord[];
+}
+
 export interface GetPublicCityRequest {
   readonly world: WorldId;
   readonly coord: Coord;

@@ -82,6 +82,7 @@ pub fn run() {
       command::cheat::round::cheat_skip_round,
       command::city::get_city,
       command::city::get_city_score,
+      command::city::get_public_cities,
       command::city::get_public_city,
       command::city::rename_city,
       command::city::search_city,

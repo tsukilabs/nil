@@ -1224,8 +1224,10 @@ dependencies = [
  "diesel_derives",
  "downcast-rs 2.0.2",
  "libsqlite3-sys",
+ "serde_json",
  "sqlite-wasm-rs",
  "time",
+ "uuid",
 ]
 
 [[package]]

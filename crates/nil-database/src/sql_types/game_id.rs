@@ -1,7 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use derive_more::{From, Into};
+use derive_more::{Display, From, Into};
 use diesel::backend::Backend;
 use diesel::deserialize::{self as de, FromSql, FromSqlRow};
 use diesel::expression::AsExpression;
@@ -10,7 +10,7 @@ use diesel::sql_types::Text;
 use diesel::sqlite::Sqlite;
 use nil_core::world::WorldId;
 
-#[derive(FromSqlRow, AsExpression, Clone, Debug, From, Into, PartialEq, Eq, Hash)]
+#[derive(FromSqlRow, AsExpression, Clone, Debug, Display, From, Into, PartialEq, Eq, Hash)]
 #[diesel(sql_type = Text)]
 pub struct GameId(WorldId);
 

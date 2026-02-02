@@ -9,7 +9,8 @@ use crate::military::army::{Army, ArmyState};
 use crate::military::maneuver::{Maneuver, ManeuverDirection, ManeuverHaul, ManeuverKind};
 use crate::military::unit::stats::haul::Haul;
 use crate::player::PlayerId;
-use crate::report::BattleReport;
+use crate::report::battle::BattleReport;
+use crate::report::support::SupportReport;
 use crate::resources::Resources;
 use crate::ruler::Ruler;
 use crate::world::World;
@@ -81,6 +82,24 @@ impl World {
         self.report.manage(report.into(), players);
       }
       ManeuverKind::Support => {
+        let mut players = Vec::new();
+        players.try_push(rulers.sender.player().cloned());
+        players.try_push(rulers.destination_ruler.player().cloned());
+
+        let personnel = self.military.personnel(army_id).cloned()?;
+
+        let report = SupportReport::builder()
+          .sender(rulers.sender)
+          .receiver(rulers.destination_ruler)
+          .origin(origin)
+          .destination(destination)
+          .personnel(personnel)
+          .round(self.round.id())
+          .build();
+
+        self.emit_support_report(&report);
+        self.report.manage(report.into(), players);
+
         self
           .military
           .relocate_army(army_id, destination)?;

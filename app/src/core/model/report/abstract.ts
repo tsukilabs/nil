@@ -9,14 +9,14 @@ import enUS from '@/locale/en-US/scenes/game/report.json';
 export abstract class ReportImpl implements Report_ {
   public readonly id: ReportId;
   public readonly round: RoundId;
-  public readonly timestamp: string;
+  public readonly time: string;
   public readonly date: Date;
 
   protected constructor(report: Report_) {
     this.id = report.id;
     this.round = report.round;
-    this.timestamp = report.timestamp;
-    this.date = fromZoned(report.timestamp);
+    this.time = report.time;
+    this.date = fromZoned(report.time);
   }
 
   public abstract getTitle(t: ComposerTranslation<typeof enUS>): string;
