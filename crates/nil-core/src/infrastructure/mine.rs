@@ -8,7 +8,6 @@ use nil_num::growth::growth;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
-/// Um edifício que gera recursos.
 pub trait Mine: Building {
   fn mine_id(&self) -> MineId;
 
