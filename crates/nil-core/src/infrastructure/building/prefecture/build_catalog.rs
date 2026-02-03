@@ -25,6 +25,7 @@ pub struct PrefectureBuildCatalog {
   stable: PrefectureBuildCatalogEntry,
   wall: PrefectureBuildCatalogEntry,
   warehouse: PrefectureBuildCatalogEntry,
+  workshop: PrefectureBuildCatalogEntry,
 }
 
 impl PrefectureBuildCatalog {
@@ -47,6 +48,7 @@ impl PrefectureBuildCatalog {
       stable: make_entry!(Stable)?,
       wall: make_entry!(Wall)?,
       warehouse: make_entry!(Warehouse)?,
+      workshop: make_entry!(Workshop)?,
     })
   }
 }

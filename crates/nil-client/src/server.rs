@@ -12,7 +12,7 @@ use url::Url;
 static REMOTE_SERVER_ADDR: LazyLock<Box<str>> = LazyLock::new(|| {
   if let Ok(addr) = env::var("NIL_REMOTE_SERVER_ADDR") {
     Box::from(addr)
-  } else if cfg!(debug_assertions) {
+  } else if cfg!(debug_assertions) && cfg!(not(target_os = "android")) {
     Box::from("127.0.0.1:3000")
   } else {
     Box::from("tsukilabs.dev.br/nil")

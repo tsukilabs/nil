@@ -62,8 +62,6 @@ pub fn setup(
       Layer::default()
         .with_ansi(false)
         .with_timer(ChronoLocal::new(TIMESTAMP.into()))
-        .with_thread_ids(true)
-        .with_thread_names(true)
         .with_writer(writer)
         .pretty()
         .boxed(),
