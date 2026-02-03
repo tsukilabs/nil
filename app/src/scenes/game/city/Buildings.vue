@@ -73,6 +73,20 @@ const { t } = useI18n();
             </TableCell>
           </TableRow>
 
+          <TableRow v-if="city.workshop.level > 0">
+            <TableCell>
+              <RouterLink
+                :to="{ name: 'workshop' satisfies InfrastructureScene }"
+                class="flex w-full gap-2 p-1"
+              >
+                <span>{{ t('workshop') }}</span>
+                <span class="text-muted-foreground">
+                  {{ `(${t('level')} ${city.workshop.level})` }}
+                </span>
+              </RouterLink>
+            </TableCell>
+          </TableRow>
+
           <TableRow v-if="city.sawmill.level > 0">
             <TableCell>
               <RouterLink

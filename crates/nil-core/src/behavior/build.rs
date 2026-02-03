@@ -78,6 +78,7 @@ impl Behavior for BuildBehavior {
         BuildingId::Stable => push!(Stable, id),
         BuildingId::Wall => push!(Wall, id),
         BuildingId::Warehouse => push!(Warehouse, id),
+        BuildingId::Workshop => push!(Workshop, id),
       }
     }
 

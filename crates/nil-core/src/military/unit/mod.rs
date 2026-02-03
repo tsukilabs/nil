@@ -7,6 +7,7 @@ pub mod heavy_cavalry;
 pub mod light_cavalry;
 pub mod pikeman;
 pub mod prelude;
+pub mod ram;
 pub mod stats;
 pub mod swordsman;
 

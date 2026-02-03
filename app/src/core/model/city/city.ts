@@ -66,6 +66,10 @@ export class CityImpl extends PublicCityImpl implements City {
     return this.infrastructure.warehouse;
   }
 
+  get workshop() {
+    return this.infrastructure.workshop;
+  }
+
   public static override create(args: CityImplConstructorArgs) {
     if (args.city instanceof CityImpl) {
       return args.city;

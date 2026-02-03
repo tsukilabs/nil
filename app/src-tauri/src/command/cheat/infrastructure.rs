@@ -6,7 +6,7 @@ use crate::manager::ManagerExt;
 use itertools::Itertools;
 use nil_core::continent::Coord;
 use nil_core::infrastructure::Infrastructure;
-use nil_core::infrastructure::building::academy::AcademyRecruitQueue;
+use nil_core::infrastructure::building::academy::recruit_queue::AcademyRecruitQueue;
 use nil_core::infrastructure::building::prefecture::PrefectureBuildQueue;
 use nil_core::infrastructure::building::stable::StableRecruitQueue;
 use nil_core::infrastructure::storage::OverallStorageCapacity;

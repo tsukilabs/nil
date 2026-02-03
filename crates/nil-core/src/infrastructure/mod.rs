@@ -10,21 +10,23 @@ pub mod stats;
 pub mod storage;
 
 use crate::error::Result;
-use crate::infrastructure::building::academy::AcademyRecruitOrderId;
-use crate::infrastructure::building::stable::StableRecruitOrderId;
 use crate::military::army::ArmyPersonnel;
 use crate::military::squad::Squad;
 use crate::ranking::Score;
 use crate::resources::Resources;
 use crate::resources::maintenance::Maintenance;
 use bon::Builder;
-use building::academy::{AcademyRecruitOrder, AcademyRecruitOrderRequest};
+use building::academy::recruit_queue::{
+  AcademyRecruitOrder,
+  AcademyRecruitOrderId,
+  AcademyRecruitOrderRequest,
+};
 use building::prefecture::{
   PrefectureBuildOrder,
   PrefectureBuildOrderKind,
   PrefectureBuildOrderRequest,
 };
-use building::stable::{StableRecruitOrder, StableRecruitOrderRequest};
+use building::stable::{StableRecruitOrder, StableRecruitOrderId, StableRecruitOrderRequest};
 use building::{Building, BuildingId, BuildingStatsTable, MineId, StorageId};
 use mine::Mine;
 use prelude::*;
@@ -65,6 +67,9 @@ pub struct Infrastructure {
 
   #[builder(default)]
   warehouse: Warehouse,
+
+  #[builder(default)]
+  workshop: Workshop,
 }
 
 impl Infrastructure {
@@ -86,6 +91,7 @@ impl Infrastructure {
       stable: Stable::with_max_level(),
       wall: Wall::with_max_level(),
       warehouse: Warehouse::with_max_level(),
+      workshop: Workshop::with_max_level(),
     }
   }
 
@@ -101,6 +107,7 @@ impl Infrastructure {
       BuildingId::Stable => &self.stable,
       BuildingId::Wall => &self.wall,
       BuildingId::Warehouse => &self.warehouse,
+      BuildingId::Workshop => &self.workshop,
     }
   }
 
@@ -116,6 +123,7 @@ impl Infrastructure {
       BuildingId::Stable => &mut self.stable,
       BuildingId::Wall => &mut self.wall,
       BuildingId::Warehouse => &mut self.warehouse,
+      BuildingId::Workshop => &mut self.workshop,
     }
   }
 

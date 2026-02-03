@@ -4,7 +4,7 @@
 use crate::client::Client;
 use crate::error::Result;
 use crate::http;
-use nil_core::infrastructure::building::academy::AcademyRecruitCatalog;
+use nil_core::infrastructure::building::academy::recruit_catalog::AcademyRecruitCatalog;
 use nil_payload::infrastructure::academy::*;
 
 impl Client {

@@ -5,7 +5,7 @@ use crate::bail_if_cheats_are_not_allowed;
 use crate::continent::Coord;
 use crate::error::Result;
 use crate::infrastructure::Infrastructure;
-use crate::infrastructure::building::academy::AcademyRecruitQueue;
+use crate::infrastructure::building::academy::recruit_queue::AcademyRecruitQueue;
 use crate::infrastructure::building::prefecture::PrefectureBuildQueue;
 use crate::infrastructure::building::stable::StableRecruitQueue;
 use crate::infrastructure::building::{BuildingId, BuildingLevel};
