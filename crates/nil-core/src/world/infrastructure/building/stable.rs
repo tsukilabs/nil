@@ -3,7 +3,10 @@
 
 use crate::continent::Coord;
 use crate::error::{Error, Result};
-use crate::infrastructure::building::stable::{StableRecruitOrderId, StableRecruitOrderRequest};
+use crate::infrastructure::building::stable::recruit_queue::{
+  StableRecruitOrderId,
+  StableRecruitOrderRequest,
+};
 use crate::world::World;
 
 impl World {

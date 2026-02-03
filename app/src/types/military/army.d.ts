@@ -8,7 +8,7 @@ interface Army {
   readonly state: ArmyState;
 }
 
-interface ArmyPersonnel extends ArmyAcademyPersonnel, ArmyStablePersonnel {}
+interface ArmyPersonnel extends ArmyAcademyPersonnel, ArmyStablePersonnel, ArmyWorkshopPersonnel {}
 
 interface ArmyAcademyPersonnel {
   readonly archer: Squad;
@@ -20,6 +20,10 @@ interface ArmyAcademyPersonnel {
 interface ArmyStablePersonnel {
   readonly heavyCavalry: Squad;
   readonly lightCavalry: Squad;
+}
+
+interface ArmyWorkshopPersonnel {
+  readonly ram: Squad;
 }
 
 type ArmyId = string;

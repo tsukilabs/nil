@@ -10,6 +10,7 @@ export class ArmyPersonnelImpl implements ArmyPersonnel {
   public readonly heavyCavalry: SquadImpl;
   public readonly lightCavalry: SquadImpl;
   public readonly pikeman: SquadImpl;
+  public readonly ram: SquadImpl;
   public readonly swordsman: SquadImpl;
 
   private constructor(personnel: ArmyPersonnel) {
@@ -18,6 +19,7 @@ export class ArmyPersonnelImpl implements ArmyPersonnel {
     this.heavyCavalry = SquadImpl.create(personnel.heavyCavalry);
     this.lightCavalry = SquadImpl.create(personnel.lightCavalry);
     this.pikeman = SquadImpl.create(personnel.pikeman);
+    this.ram = SquadImpl.create(personnel.ram);
     this.swordsman = SquadImpl.create(personnel.swordsman);
   }
 
@@ -75,6 +77,7 @@ export class ArmyPersonnelImpl implements ArmyPersonnel {
       heavyCavalry: SquadImpl.createEmptyRaw('heavy-cavalry'),
       lightCavalry: SquadImpl.createEmptyRaw('light-cavalry'),
       pikeman: SquadImpl.createEmptyRaw('pikeman'),
+      ram: SquadImpl.createEmptyRaw('ram'),
       swordsman: SquadImpl.createEmptyRaw('swordsman'),
     };
   }
@@ -91,6 +94,7 @@ export class ArmyPersonnelImpl implements ArmyPersonnel {
       heavyCavalry: SquadImpl.create({ unit: 'heavy-cavalry', size }),
       lightCavalry: SquadImpl.create({ unit: 'light-cavalry', size }),
       pikeman: SquadImpl.create({ unit: 'pikeman', size }),
+      ram: SquadImpl.create({ unit: 'ram', size }),
       swordsman: SquadImpl.create({ unit: 'swordsman', size }),
     };
   }
@@ -118,6 +122,7 @@ export class ArmyPersonnelImpl implements ArmyPersonnel {
       heavyCavalry: personnel.heavyCavalry.size,
       lightCavalry: personnel.lightCavalry.size,
       pikeman: personnel.pikeman.size,
+      ram: personnel.ram.size,
       swordsman: personnel.swordsman.size,
     };
   }
@@ -129,6 +134,7 @@ export class ArmyPersonnelImpl implements ArmyPersonnel {
       SquadImpl.isEmpty(personnel.heavyCavalry) &&
       SquadImpl.isEmpty(personnel.lightCavalry) &&
       SquadImpl.isEmpty(personnel.pikeman) &&
+      SquadImpl.isEmpty(personnel.ram) &&
       SquadImpl.isEmpty(personnel.swordsman)
     );
   }
@@ -140,6 +146,7 @@ export class ArmyPersonnelImpl implements ArmyPersonnel {
       heavyCavalry: SquadImpl.normalize(personnel.heavyCavalry),
       lightCavalry: SquadImpl.normalize(personnel.lightCavalry),
       pikeman: SquadImpl.normalize(personnel.pikeman),
+      ram: SquadImpl.normalize(personnel.ram),
       swordsman: SquadImpl.normalize(personnel.swordsman),
     });
   }
@@ -151,6 +158,7 @@ export class ArmyPersonnelImpl implements ArmyPersonnel {
       heavyCavalry: SquadImpl.add(lhs.heavyCavalry, rhs.heavyCavalry),
       lightCavalry: SquadImpl.add(lhs.lightCavalry, rhs.lightCavalry),
       pikeman: SquadImpl.add(lhs.pikeman, rhs.pikeman),
+      ram: SquadImpl.add(lhs.ram, rhs.ram),
       swordsman: SquadImpl.add(lhs.swordsman, rhs.swordsman),
     });
   }
@@ -162,6 +170,7 @@ export class ArmyPersonnelImpl implements ArmyPersonnel {
       heavyCavalry: SquadImpl.sub(lhs.heavyCavalry, rhs.heavyCavalry),
       lightCavalry: SquadImpl.sub(lhs.lightCavalry, rhs.lightCavalry),
       pikeman: SquadImpl.sub(lhs.pikeman, rhs.pikeman),
+      ram: SquadImpl.sub(lhs.ram, rhs.ram),
       swordsman: SquadImpl.sub(lhs.swordsman, rhs.swordsman),
     });
   }

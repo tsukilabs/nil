@@ -61,21 +61,26 @@ pub trait Unit: Send + Sync {
   }
 
   fn is_offensive(&self) -> bool {
-    if self.is_ranged() {
-      true
-    } else {
-      let infantry = self.infantry_defense();
-      let cavalry = self.cavalry_defense();
-      self.attack() > infantry.max(cavalry)
+    match self.id() {
+      UnitId::Archer | UnitId::Ram => true,
+      _ => {
+        let infantry = self.infantry_defense();
+        let cavalry = self.cavalry_defense();
+        self.attack() > infantry.max(cavalry)
+      }
     }
   }
 
   fn is_defensive(&self) -> bool {
-    self.is_ranged() || !self.is_offensive()
+    match self.id() {
+      UnitId::Archer => true,
+      UnitId::Ram => false,
+      _ => !self.is_offensive(),
+    }
   }
 }
 
-#[subenum(AcademyUnitId, StableUnitId)]
+#[subenum(AcademyUnitId, StableUnitId, WorkshopUnitId)]
 #[derive(Clone, Copy, Debug, Display, PartialEq, Eq, Hash, Deserialize, Serialize, EnumIter)]
 #[serde(rename_all = "kebab-case")]
 #[strum(serialize_all = "kebab-case")]
@@ -91,6 +96,8 @@ pub enum UnitId {
   LightCavalry,
   #[subenum(AcademyUnitId)]
   Pikeman,
+  #[subenum(WorkshopUnitId)]
+  Ram,
   #[subenum(AcademyUnitId)]
   Swordsman,
 }
@@ -147,6 +154,7 @@ impl From<UnitId> for UnitBox {
       UnitId::HeavyCavalry => HeavyCavalry::new_boxed(),
       UnitId::LightCavalry => LightCavalry::new_boxed(),
       UnitId::Pikeman => Pikeman::new_boxed(),
+      UnitId::Ram => Ram::new_boxed(),
       UnitId::Swordsman => Swordsman::new_boxed(),
     }
   }
@@ -160,6 +168,12 @@ impl From<AcademyUnitId> for UnitBox {
 
 impl From<StableUnitId> for UnitBox {
   fn from(id: StableUnitId) -> Self {
+    Self::from(UnitId::from(id))
+  }
+}
+
+impl From<WorkshopUnitId> for UnitBox {
+  fn from(id: WorkshopUnitId) -> Self {
     Self::from(UnitId::from(id))
   }
 }

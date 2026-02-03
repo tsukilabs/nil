@@ -6,5 +6,6 @@ pub use super::axeman::Axeman;
 pub use super::heavy_cavalry::HeavyCavalry;
 pub use super::light_cavalry::LightCavalry;
 pub use super::pikeman::Pikeman;
+pub use super::ram::Ram;
 pub use super::swordsman::Swordsman;
 pub use super::{Unit, UnitBox, UnitId};

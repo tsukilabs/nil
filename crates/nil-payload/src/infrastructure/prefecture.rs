@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use nil_core::continent::Coord;
-use nil_core::infrastructure::building::prefecture::PrefectureBuildOrderRequest;
+use nil_core::infrastructure::building::prefecture::build_queue::PrefectureBuildOrderRequest;
 use nil_core::world::WorldId;
 use serde::{Deserialize, Serialize};
 

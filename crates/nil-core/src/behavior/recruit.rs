@@ -7,7 +7,7 @@ use crate::continent::Coord;
 use crate::error::Result;
 use crate::ethic::EthicPowerAxis;
 use crate::infrastructure::building::academy::recruit_queue::AcademyRecruitOrderRequest;
-use crate::infrastructure::building::stable::StableRecruitOrderRequest;
+use crate::infrastructure::building::stable::recruit_queue::StableRecruitOrderRequest;
 use crate::military::unit::prelude::*;
 use crate::military::unit::{AcademyUnitId, StableUnitId};
 use crate::world::World;
@@ -75,6 +75,7 @@ impl Behavior for RecruitBehavior {
         UnitId::HeavyCavalry => push!(HeavyCavalry, id),
         UnitId::LightCavalry => push!(LightCavalry, id),
         UnitId::Pikeman => push!(Pikeman, id),
+        UnitId::Ram => push!(Ram, id),
         UnitId::Swordsman => push!(Swordsman, id),
       }
     }

@@ -1,8 +1,8 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-mod recruit_catalog;
-mod recruit_queue;
+pub mod recruit_catalog;
+pub mod recruit_queue;
 
 use crate::check_total_resource_ratio;
 use crate::infrastructure::building::{BuildingId, BuildingLevel};
@@ -13,21 +13,9 @@ use crate::resources::cost::{Cost, ResourceRatio};
 use crate::resources::maintenance::MaintenanceRatio;
 use crate::resources::workforce::Workforce;
 use nil_core_macros::Building;
+use recruit_queue::{StableRecruitOrder, StableRecruitQueue};
 use serde::{Deserialize, Serialize};
 use std::ops::Not;
-
-pub use recruit_catalog::{
-  StableRecruitCatalog,
-  StableRecruitCatalogEntry,
-  StableRecruitCatalogRecipe,
-};
-pub use recruit_queue::{
-  StableRecruitOrder,
-  StableRecruitOrderId,
-  StableRecruitOrderRequest,
-  StableRecruitOrderState,
-  StableRecruitQueue,
-};
 
 #[derive(Building, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]

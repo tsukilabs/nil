@@ -3,7 +3,7 @@
 
 use crate::continent::Coord;
 use crate::error::{Error, Result};
-use crate::infrastructure::building::prefecture::PrefectureBuildOrderRequest;
+use crate::infrastructure::building::prefecture::build_queue::PrefectureBuildOrderRequest;
 use crate::world::World;
 use std::sync::Arc;
 

@@ -39,6 +39,9 @@ pub struct InfrastructureRequirements {
 
   #[builder(default = BuildingLevel::ZERO)]
   warehouse: BuildingLevel,
+
+  #[builder(default = BuildingLevel::ZERO)]
+  workshop: BuildingLevel,
 }
 
 impl InfrastructureRequirements {
@@ -58,5 +61,6 @@ impl InfrastructureRequirements {
       && infrastructure.stable.level() >= self.stable
       && infrastructure.wall.level() >= self.wall
       && infrastructure.warehouse.level() >= self.warehouse
+      && infrastructure.workshop.level() >= self.workshop
   }
 }
