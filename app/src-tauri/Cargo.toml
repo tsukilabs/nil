@@ -44,7 +44,7 @@ thiserror.workspace = true
 tokio.workspace = true
 
 [dependencies.tauri]
-version = "2.9"
+version = "2.10"
 features = ["image-png", "protocol-asset", "rustls-tls", "tray-icon"]
 
 [dependencies.tracing]

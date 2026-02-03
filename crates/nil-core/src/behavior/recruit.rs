@@ -108,9 +108,13 @@ where
     if !infrastructure
       .building(unit_box.building())
       .is_enabled()
-      || !unit_box
-        .infrastructure_requirements()
-        .has_required_levels(infrastructure)
+    {
+      return Ok(BehaviorScore::MIN);
+    }
+
+    if !unit_box
+      .infrastructure_requirements()
+      .has_required_levels(infrastructure)
     {
       return Ok(BehaviorScore::MIN);
     }
