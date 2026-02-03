@@ -18,7 +18,6 @@ anyhow.workspace = true
 axum.workspace = true
 axum-extra.workspace = true
 bon.workspace = true
-clap.workspace = true
 dashmap.workspace = true
 derive_more.workspace = true
 either.workspace = true

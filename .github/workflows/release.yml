@@ -118,5 +118,6 @@ jobs:
         run: scripts/build-server.ps1 -Release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NIL_DISCORD_WEBHOOK_URL: ${{ secrets.NIL_DISCORD_WEBHOOK_URL }}
           RUST_BACKTRACE: 1
           TSUKILABS_TOKEN: ${{ secrets.TSUKILABS_TOKEN }}

@@ -70,19 +70,19 @@ impl App {
     };
 
     for game in database.get_games_with_blob()? {
+      let id = game.id;
       if version_cmp.matches(&game.server_version)
         && let Ok(span) = game.updated_at.until(&now)
         && span.get_days() <= 90
+        && let Ok(mut world) = game.into_world()
       {
-        let mut world = game.into_world()?;
         let world_id = world.config().id();
-
         let database = database.clone();
         world.on_next_round(remote::on_next_round(database));
 
         worlds.insert(world_id, Arc::new(RwLock::new(world)));
       } else {
-        invalid_games.push(game.id);
+        invalid_games.push(id);
       }
     }
 
