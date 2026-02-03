@@ -1,8 +1,8 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-mod recruit_catalog;
-mod recruit_queue;
+pub mod recruit_catalog;
+pub mod recruit_queue;
 
 use crate::check_total_resource_ratio;
 use crate::infrastructure::building::{BuildingId, BuildingLevel};
@@ -13,24 +13,9 @@ use crate::resources::cost::{Cost, ResourceRatio};
 use crate::resources::maintenance::MaintenanceRatio;
 use crate::resources::workforce::Workforce;
 use nil_core_macros::Building;
+use recruit_queue::{AcademyRecruitOrder, AcademyRecruitQueue};
 use serde::{Deserialize, Serialize};
 use std::ops::Not;
-
-pub use recruit_catalog::{
-  AcademyRecruitCatalog,
-  AcademyRecruitCatalogEntry,
-  AcademyRecruitCatalogRecipe,
-};
-pub use recruit_queue::{
-  AcademyRecruitOrder,
-  AcademyRecruitOrderId,
-  AcademyRecruitOrderRequest,
-  AcademyRecruitOrderState,
-  AcademyRecruitQueue,
-};
-
-// TODO: The implementation of the recruit queues and catalogs is mostly identical.
-// We should probably do something to avoid this unnecessary repetition.
 
 #[derive(Building, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]

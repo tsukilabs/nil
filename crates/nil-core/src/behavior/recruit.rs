@@ -6,7 +6,7 @@ use crate::behavior::{Behavior, BehaviorProcessor, BehaviorScore};
 use crate::continent::Coord;
 use crate::error::Result;
 use crate::ethic::EthicPowerAxis;
-use crate::infrastructure::building::academy::AcademyRecruitOrderRequest;
+use crate::infrastructure::building::academy::recruit_queue::AcademyRecruitOrderRequest;
 use crate::infrastructure::building::stable::StableRecruitOrderRequest;
 use crate::military::unit::prelude::*;
 use crate::military::unit::{AcademyUnitId, StableUnitId};

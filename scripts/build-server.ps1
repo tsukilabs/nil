@@ -19,7 +19,7 @@ if ($TargetDir) {
     $TargetDir = [Environment]::GetFolderPath('Desktop')
   }
 
-  Copy-Item $Path -Destination $TargetDir
+  Copy-Item $Path -Destination (Resolve-Path $TargetDir).ToString()
 }
 
 if ($Release -and ($IsWindows -or $IsLinux)) {
@@ -33,6 +33,8 @@ if ($Release -and ($IsWindows -or $IsLinux)) {
   }
 
   Rename-Item -Path $Path -NewName $Name
+  
+  $Path = (Resolve-Path "./target/release-server/$Name").ToString()
 
   $TagName = gh release view --json tagName -R 'tsukilabs/nil'
   | ConvertFrom-Json 

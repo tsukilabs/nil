@@ -11,6 +11,7 @@ pub mod silo;
 pub mod stable;
 pub mod wall;
 pub mod warehouse;
+pub mod workshop;
 
 use crate::error::{Error, Result};
 use crate::infrastructure::requirements::InfrastructureRequirements;
@@ -161,6 +162,9 @@ pub enum BuildingId {
 
   #[subenum(CivilBuildingId, StorageId)]
   Warehouse,
+
+  #[subenum(MilitaryBuildingId)]
+  Workshop,
 }
 
 impl BuildingId {

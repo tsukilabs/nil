@@ -3,6 +3,7 @@
 
 import { stableRoutes } from './stable';
 import { academyRoutes } from './academy';
+import { workshopRoutes } from './workshop';
 import { prefectureRoutes } from './prefecture';
 import type { RouteRecordRaw } from 'vue-router';
 
@@ -56,5 +57,10 @@ export const infrastructureRoutes: RouteRecordRaw[] = [
     component: () => import('@/scenes/game/infrastructure/warehouse/index.vue'),
     path: 'warehouse',
     name: 'warehouse' satisfies InfrastructureScene,
+  },
+  {
+    component: () => import('@/scenes/game/infrastructure/workshop/index.vue'),
+    path: 'workshop',
+    children: workshopRoutes,
   },
 ];

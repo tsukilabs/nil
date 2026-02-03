@@ -11,7 +11,8 @@ type BuildingId =
   | 'silo'
   | 'stable'
   | 'wall'
-  | 'warehouse';
+  | 'warehouse'
+  | 'workshop';
 
 type BuildingLevel = number;
 
@@ -26,7 +27,6 @@ type IronMine = Building;
 type Farm = Building;
 type Warehouse = Building;
 type Silo = Building;
-type Wall = Building;
 
 interface BuildingStats {
   readonly level: BuildingLevel;

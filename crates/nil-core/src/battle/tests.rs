@@ -31,7 +31,7 @@ fn offensive_power_max_luck() {
   let attacker = [s(Axeman, 100), s(Swordsman, 50)];
   let battle = Battle::builder()
     .attacker(&attacker)
-    .luck(Luck::new(20))
+    .luck(Luck::MAX)
     .build();
 
   let power = offensive(&battle);
@@ -43,7 +43,7 @@ fn offensive_power_min_luck() {
   let attacker = [s(Axeman, 100), s(Swordsman, 50)];
   let battle = Battle::builder()
     .attacker(&attacker)
-    .luck(Luck::new(-20))
+    .luck(Luck::MIN)
     .build();
 
   let power = offensive(&battle);

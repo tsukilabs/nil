@@ -10,6 +10,7 @@ import { IronMineImpl } from './building/iron-mine';
 import { WarehouseImpl } from './building/warehouse';
 import { StableImpl } from './building/stable/stable';
 import { AcademyImpl } from './building/academy/academy';
+import { WorkshopImpl } from './building/workshop/workshop';
 import { PrefectureImpl } from './building/prefecture/prefecture';
 
 export class InfrastructureImpl implements Infrastructure {
@@ -23,6 +24,7 @@ export class InfrastructureImpl implements Infrastructure {
   public readonly stable: StableImpl;
   public readonly wall: WallImpl;
   public readonly warehouse: WarehouseImpl;
+  public readonly workshop: WorkshopImpl;
 
   private constructor(infrastructure: Infrastructure) {
     this.academy = AcademyImpl.create(infrastructure.academy);
@@ -35,6 +37,7 @@ export class InfrastructureImpl implements Infrastructure {
     this.stable = StableImpl.create(infrastructure.stable);
     this.wall = WallImpl.create(infrastructure.wall);
     this.warehouse = WarehouseImpl.create(infrastructure.warehouse);
+    this.workshop = WorkshopImpl.create(infrastructure.workshop);
   }
 
   public static create(infrastructure: Infrastructure) {

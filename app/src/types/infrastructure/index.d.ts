@@ -12,6 +12,7 @@ interface Infrastructure {
   readonly stable: Stable;
   readonly wall: Wall;
   readonly warehouse: Warehouse;
+  readonly workshop: Workshop;
 }
 
 interface InfrastructureStats {

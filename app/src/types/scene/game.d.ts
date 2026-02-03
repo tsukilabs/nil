@@ -15,6 +15,7 @@ type InfrastructureScene =
   | AcademyScene
   | PrefectureScene
   | StableScene
+  | WorkshopScene
   | 'farm'
   | 'iron-mine'
   | 'quarry'
@@ -34,3 +35,5 @@ type ProfileScene = 'profile-bot' | 'profile-city' | 'profile-player' | 'profile
 type ReportScene = 'report' | 'report-view';
 
 type WarRoomScene = 'war-room' | 'war-room-simulator';
+
+type WorkshopScene = 'workshop' | 'workshop-settings';
