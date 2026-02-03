@@ -42,13 +42,16 @@ if ($Release -and ($IsWindows -or $IsLinux)) {
 
   gh release upload $TagName $Path -R 'tsukilabs/nil'
 
-  $Token = [Environment]::GetEnvironmentVariable('TSUKILABS_TOKEN')
-  if ($Token) {
-    $Uri = 'http://tsukilabs.dev.br/release/nil'
-    $Headers = @{
-      Authorization = "Bearer $Token"
-    }
+  if ($IsLinux) {
+    $Token = [Environment]::GetEnvironmentVariable('TSUKILABS_TOKEN')
 
-    Invoke-WebRequest -Uri $Uri -Headers $Headers
+    if ($Token) {
+      $Uri = 'http://tsukilabs.dev.br/release/nil'
+      $Headers = @{
+        Authorization = "Bearer $Token"
+      }
+
+      Invoke-WebRequest -Uri $Uri -Headers $Headers
+    }
   }
 }
