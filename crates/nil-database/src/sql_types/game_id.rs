@@ -10,7 +10,9 @@ use diesel::sql_types::Text;
 use diesel::sqlite::Sqlite;
 use nil_core::world::WorldId;
 
-#[derive(FromSqlRow, AsExpression, Clone, Debug, Display, From, Into, PartialEq, Eq, Hash)]
+#[derive(
+  FromSqlRow, AsExpression, Clone, Copy, Debug, Display, From, Into, PartialEq, Eq, Hash,
+)]
 #[diesel(sql_type = Text)]
 pub struct GameId(WorldId);
 

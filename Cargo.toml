@@ -3,7 +3,7 @@ resolver = "3"
 members = ["app/src-tauri", "crates/*"]
 
 [workspace.package]
-version = "0.2.11"
+version = "0.2.12"
 edition = "2024"
 rust-version = "1.95"
 license-file = "./LICENSE"
@@ -79,7 +79,7 @@ tauri-plugin-os = "2.3"
 tauri-plugin-persisted-scope = "2.3"
 tauri-plugin-process = "2.3"
 tauri-plugin-single-instance = "2.3"
-tauri-plugin-updater = "2.9"
+tauri-plugin-updater = "2.10"
 thiserror = "2.0"
 wasm-bindgen = "0.2"
 
@@ -90,10 +90,6 @@ features = ["macros", "ws"]
 [workspace.dependencies.axum-extra]
 version = "0.12"
 features = ["typed-header"]
-
-[workspace.dependencies.clap]
-version = "4.5"
-features = ["derive"]
 
 [workspace.dependencies.derive_more]
 version = "2.1"

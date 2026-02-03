@@ -40,10 +40,11 @@ if ($Release -and ($IsWindows -or $IsLinux)) {
   | ConvertFrom-Json 
   | Select-Object -ExpandProperty 'tagName'
 
-  gh release upload $TagName $Path -R 'tsukilabs/nil'
+  gh release upload --clobber $TagName $Path -R 'tsukilabs/nil'
 
   if ($IsLinux) {
     $Token = [Environment]::GetEnvironmentVariable('TSUKILABS_TOKEN')
+    $WebhookUrl = [Environment]::GetEnvironmentVariable('NIL_DISCORD_WEBHOOK_URL')
 
     if ($Token) {
       $Uri = 'http://tsukilabs.dev.br/release/nil'
@@ -52,6 +53,17 @@ if ($Release -and ($IsWindows -or $IsLinux)) {
       }
 
       Invoke-WebRequest -Uri $Uri -Headers $Headers
+
+      if ($WebhookUrl) {
+        $Message = "Server updated to v$Version."
+        $Message += "`nhttps://github.com/tsukilabs/nil/releases/tag/$TagName"
+
+        $Body = @{
+          content = $Message
+        }
+
+        Invoke-WebRequest -Uri $WebhookUrl -Method Post -Body $Body
+      }
     }
   }
 }
