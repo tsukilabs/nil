@@ -90,18 +90,9 @@ jobs:
 
   release-server:
     needs: release-client
+    runs-on: ubuntu-22.04
     permissions:
       contents: write
-    strategy:
-      fail-fast: true
-      matrix:
-        include:
-          - platform: ubuntu-22.04
-            args: ""
-          - platform: windows-latest
-            args: ""
-
-    runs-on: ${{ matrix.platform }}
     steps:
       - uses: actions/checkout@v6
 
@@ -109,7 +100,6 @@ jobs:
         uses: dtolnay/rust-toolchain@nightly
 
       - name: Install dependencies (Ubuntu)
-        if: matrix.platform == 'ubuntu-22.04'
         run: |
           sudo apt-get update
 
