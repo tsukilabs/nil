@@ -10,7 +10,7 @@ env:
 
 jobs:
   publish:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     permissions:
       id-token: write
     steps:
@@ -109,7 +109,7 @@ jobs:
         uses: dtolnay/rust-toolchain@nightly
 
       - name: Install dependencies (Ubuntu)
-        if: matrix.platform == 'ubuntu-20.04'
+        if: matrix.platform == 'ubuntu-22.04'
         run: |
           sudo apt-get update
 
