@@ -3,7 +3,7 @@ resolver = "3"
 members = ["app/src-tauri", "crates/*"]
 
 [workspace.package]
-version = "0.2.13"
+version = "0.2.14"
 edition = "2024"
 rust-version = "1.95"
 license-file = "./LICENSE"
@@ -132,7 +132,7 @@ features = ["nightly"]
 [workspace.dependencies.reqwest]
 version = "0.13"
 default-features = false
-features = ["charset", "json", "rustls-no-provider"]
+features = ["charset", "json", "rustls"]
 
 [workspace.dependencies.semver]
 version = "1.0"
@@ -149,10 +149,6 @@ features = ["derive"]
 [workspace.dependencies.syn]
 version = "2.0"
 features = ["derive"]
-
-[workspace.dependencies.tauri]
-version = "2.10"
-features = ["rustls-tls"]
 
 [workspace.dependencies.tauri-plugin-pinia]
 git = "https://github.com/ferreira-tb/tauri-store"

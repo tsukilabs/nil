@@ -197,6 +197,11 @@ impl Infrastructure {
     &self.warehouse
   }
 
+  #[inline]
+  pub const fn workshop(&self) -> &Workshop {
+    &self.workshop
+  }
+
   pub fn score(&self, stats: &InfrastructureStats) -> Result<Score> {
     let mut score = Score::default();
     for id in BuildingId::iter() {
@@ -257,6 +262,7 @@ impl Infrastructure {
     add!(Stable, stable);
     add!(Wall, wall);
     add!(Warehouse, warehouse);
+    add!(Workshop, workshop);
 
     Ok(maintenance)
   }

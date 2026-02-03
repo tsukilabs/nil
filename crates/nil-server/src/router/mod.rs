@@ -153,7 +153,7 @@ pub(crate) fn create() -> Router<App> {
 
   router.layer(
     TraceLayer::new_for_http()
-      .make_span_with(DefaultMakeSpan::new().level(Level::DEBUG))
+      .make_span_with(DefaultMakeSpan::new().include_headers(true))
       .on_request(DefaultOnRequest::new().level(Level::TRACE))
       .on_response(DefaultOnResponse::new().level(Level::TRACE))
       .on_failure(DefaultOnFailure::new().level(Level::TRACE))

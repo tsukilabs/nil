@@ -6,8 +6,7 @@ param(
   [string]$Device,
   [switch]$Wasm,
   [switch]$Remote,
-  [switch]$Verbose,
-  [switch]$LogTowerHttp
+  [switch]$Verbose
 )
 
 $ErrorActionPreference = 'Stop'
@@ -21,7 +20,7 @@ if ($Remote) {
   $Env:NIL_REMOTE_SERVER_ADDR = 'tsukilabs.dev.br/nil'
 }
 
-if ($LogTowerHttp -or $Verbose) {
+if ($Verbose) {
   $Env:NIL_LOG_TOWER_HTTP = 'true'
 }
 

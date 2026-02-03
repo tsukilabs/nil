@@ -90,6 +90,17 @@ const { sm } = useBreakpoints();
         @toggle="() => onToggle('stable', !infrastructure.stable.enabled)"
       />
       <BuildCatalogRow
+        :entry="catalog.workshop"
+        :building="infrastructure.workshop"
+        :prefecture="infrastructure.prefecture"
+        scene="workshop"
+        :loading
+        :is-player-turn
+        :player-resources
+        @build-order="(kind) => onBuildOrder('workshop', kind)"
+        @toggle="() => onToggle('workshop', !infrastructure.workshop.enabled)"
+      />
+      <BuildCatalogRow
         :entry="catalog.sawmill"
         :building="infrastructure.sawmill"
         :prefecture="infrastructure.prefecture"
