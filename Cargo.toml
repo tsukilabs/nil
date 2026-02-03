@@ -3,7 +3,7 @@ resolver = "3"
 members = ["app/src-tauri", "crates/*"]
 
 [workspace.package]
-version = "0.2.12"
+version = "0.2.13"
 edition = "2024"
 rust-version = "1.95"
 license-file = "./LICENSE"
@@ -132,7 +132,7 @@ features = ["nightly"]
 [workspace.dependencies.reqwest]
 version = "0.13"
 default-features = false
-features = ["charset", "json", "rustls"]
+features = ["charset", "json", "rustls-no-provider"]
 
 [workspace.dependencies.semver]
 version = "1.0"
