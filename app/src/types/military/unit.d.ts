@@ -1,11 +1,13 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-type UnitId = AcademyUnitId | StableUnitId;
+type UnitId = AcademyUnitId | StableUnitId | WorkshopUnitId;
 
 type AcademyUnitId = 'archer' | 'axeman' | 'pikeman' | 'swordsman';
 
 type StableUnitId = 'heavy-cavalry' | 'light-cavalry';
+
+type WorkshopUnitId = 'ram';
 
 type UnitKind = 'infantry' | 'cavalry' | 'ranged';
 

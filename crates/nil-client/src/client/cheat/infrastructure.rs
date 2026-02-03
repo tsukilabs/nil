@@ -7,8 +7,8 @@ use crate::http;
 use nil_core::continent::Coord;
 use nil_core::infrastructure::Infrastructure;
 use nil_core::infrastructure::building::academy::recruit_queue::AcademyRecruitQueue;
-use nil_core::infrastructure::building::prefecture::PrefectureBuildQueue;
-use nil_core::infrastructure::building::stable::StableRecruitQueue;
+use nil_core::infrastructure::building::prefecture::build_queue::PrefectureBuildQueue;
+use nil_core::infrastructure::building::stable::recruit_queue::StableRecruitQueue;
 use nil_core::infrastructure::storage::OverallStorageCapacity;
 use nil_payload::cheat::infrastructure::*;
 

@@ -21,12 +21,16 @@ use building::academy::recruit_queue::{
   AcademyRecruitOrderId,
   AcademyRecruitOrderRequest,
 };
-use building::prefecture::{
+use building::prefecture::build_queue::{
   PrefectureBuildOrder,
   PrefectureBuildOrderKind,
   PrefectureBuildOrderRequest,
 };
-use building::stable::{StableRecruitOrder, StableRecruitOrderId, StableRecruitOrderRequest};
+use building::stable::recruit_queue::{
+  StableRecruitOrder,
+  StableRecruitOrderId,
+  StableRecruitOrderRequest,
+};
 use building::{Building, BuildingId, BuildingStatsTable, MineId, StorageId};
 use mine::Mine;
 use prelude::*;

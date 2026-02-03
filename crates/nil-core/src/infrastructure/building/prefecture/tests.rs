@@ -1,8 +1,8 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use super::PrefectureBuildOrderKind::*;
-use super::{PrefectureBuildOrderKind, PrefectureBuildOrderRequest};
+use super::build_queue::PrefectureBuildOrderKind::*;
+use super::build_queue::{PrefectureBuildOrderKind, PrefectureBuildOrderRequest};
 use crate::continent::Coord;
 use crate::error::Error;
 use crate::infrastructure::building::{BuildingId, BuildingStatsTable};

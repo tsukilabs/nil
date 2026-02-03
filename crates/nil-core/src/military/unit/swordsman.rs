@@ -26,7 +26,7 @@ impl Swordsman {
     .cavalry_defense(Power::new(15))
     .ranged_defense(Power::new(40))
     .ranged_debuff(RangedDebuff::MIN)
-    .speed(Speed::new(2.5))
+    .speed(Speed::new(2.0))
     .haul(Haul::new(15))
     .build();
 

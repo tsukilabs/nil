@@ -19,6 +19,7 @@ pub struct ArmyPersonnel {
   heavy_cavalry: Squad,
   light_cavalry: Squad,
   pikeman: Squad,
+  ram: Squad,
   swordsman: Squad,
 }
 
@@ -31,6 +32,7 @@ impl ArmyPersonnel {
     #[builder(default, into)] heavy_cavalry: SquadSize,
     #[builder(default, into)] light_cavalry: SquadSize,
     #[builder(default, into)] pikeman: SquadSize,
+    #[builder(default, into)] ram: SquadSize,
     #[builder(default, into)] swordsman: SquadSize,
   ) -> Self {
     use UnitId::*;
@@ -40,6 +42,7 @@ impl ArmyPersonnel {
       heavy_cavalry: Squad::new(HeavyCavalry, heavy_cavalry),
       light_cavalry: Squad::new(LightCavalry, light_cavalry),
       pikeman: Squad::new(Pikeman, pikeman),
+      ram: Squad::new(Ram, ram),
       swordsman: Squad::new(Swordsman, swordsman),
     }
   }
@@ -52,6 +55,7 @@ impl ArmyPersonnel {
       .heavy_cavalry(size)
       .light_cavalry(size)
       .pikeman(size)
+      .ram(size)
       .swordsman(size)
       .build()
   }
@@ -63,6 +67,7 @@ impl ArmyPersonnel {
       .heavy_cavalry(SquadSize::random())
       .light_cavalry(SquadSize::random())
       .pikeman(SquadSize::random())
+      .ram(SquadSize::random())
       .swordsman(SquadSize::random())
       .build()
   }
@@ -74,6 +79,7 @@ impl ArmyPersonnel {
       UnitId::HeavyCavalry => &self.heavy_cavalry,
       UnitId::LightCavalry => &self.light_cavalry,
       UnitId::Pikeman => &self.pikeman,
+      UnitId::Ram => &self.ram,
       UnitId::Swordsman => &self.swordsman,
     }
   }
@@ -85,6 +91,7 @@ impl ArmyPersonnel {
       UnitId::HeavyCavalry => &mut self.heavy_cavalry,
       UnitId::LightCavalry => &mut self.light_cavalry,
       UnitId::Pikeman => &mut self.pikeman,
+      UnitId::Ram => &mut self.ram,
       UnitId::Swordsman => &mut self.swordsman,
     }
   }
@@ -145,6 +152,7 @@ impl ArmyPersonnel {
       && self.heavy_cavalry.size() >= required.heavy_cavalry.size()
       && self.light_cavalry.size() >= required.light_cavalry.size()
       && self.pikeman.size() >= required.pikeman.size()
+      && self.ram.size() >= required.ram.size()
       && self.swordsman.size() >= required.swordsman.size()
   }
 
@@ -165,6 +173,7 @@ impl ArmyPersonnel {
         .heavy_cavalry(sub!(heavy_cavalry)?)
         .light_cavalry(sub!(light_cavalry)?)
         .pikeman(sub!(pikeman)?)
+        .ram(sub!(ram)?)
         .swordsman(sub!(swordsman)?)
         .build(),
     )
@@ -191,6 +200,7 @@ impl From<ArmyPersonnel> for Vec<Squad> {
       personnel.heavy_cavalry,
       personnel.light_cavalry,
       personnel.pikeman,
+      personnel.ram,
       personnel.swordsman,
     ]
   }
