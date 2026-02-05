@@ -51,6 +51,11 @@ const losses = useBattleLosses(() => props.report.result);
           <TableCell>{{ report.result.formatLuck() }}</TableCell>
         </TableRow>
 
+        <TableRow v-if="report.result.wallLevel > 0" class="hover:bg-card">
+          <TableHead>{{ t('wall-level') }}</TableHead>
+          <TableCell>{{ report.result.wallLevel }}</TableCell>
+        </TableRow>
+
         <TableRow v-if="!report.hauledResources.isEmpty()" class="hover:bg-card">
           <TableHead>{{ t('haul') }}</TableHead>
           <TableCell>

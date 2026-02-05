@@ -29,6 +29,7 @@ const { t } = useI18n({
         <TableHead>{{ t('archer') }}</TableHead>
         <TableHead>{{ t('light-cavalry') }}</TableHead>
         <TableHead>{{ t('heavy-cavalry') }}</TableHead>
+        <TableHead>{{ t('ram') }}</TableHead>
       </TableRow>
     </TableHeader>
 
@@ -40,6 +41,7 @@ const { t } = useI18n({
         <TableCell>{{ personnel.archer.size }}</TableCell>
         <TableCell>{{ personnel.lightCavalry.size }}</TableCell>
         <TableCell>{{ personnel.heavyCavalry.size }}</TableCell>
+        <TableCell>{{ personnel.ram.size }}</TableCell>
       </TableRow>
     </TableBody>
   </Table>

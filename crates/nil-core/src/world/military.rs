@@ -30,8 +30,12 @@ impl World {
       return Err(Error::InsufficientUnits);
     };
 
+    // We should use the speed of the requested personnel instead of the army’s.
+    // The slowest unit in the army may not have been sent as part of this maneuver.
+    // Related issue: https://github.com/tsukilabs/nil/issues/267
+    let speed = request.personnel.speed();
+
     let army_id = army.id();
-    let army_speed = army.speed();
     let army_owner = army.owner().clone();
     *army.personnel_mut() = request.personnel;
 
@@ -40,7 +44,7 @@ impl World {
       .kind(request.kind)
       .origin(request.origin)
       .destination(request.destination)
-      .speed(army_speed)
+      .speed(speed)
       .build()?;
 
     self.military.insert_maneuver(maneuver);

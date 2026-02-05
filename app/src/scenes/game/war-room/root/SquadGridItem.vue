@@ -6,21 +6,33 @@ import { useI18n } from 'vue-i18n';
 import { formatInt } from '@/lib/intl';
 import { Label, NumberField, NumberFieldContent, NumberFieldInput } from '@tb-dev/vue-components';
 
-defineProps<{
+const props = defineProps<{
   available: Squad['size'];
 }>();
 
-const squad = defineModel<Squad>({ required: true });
+const squad = defineModel<Writable<Squad>>({ required: true });
 
 const { t } = useI18n();
+
+function toggleMax() {
+  if (squad.value.size !== props.available) {
+    squad.value.size = props.available;
+  }
+  else {
+    squad.value.size = 0;
+  }
+}
 </script>
 
 <template>
   <div>
     <Label>
-      <span class="text-xs md:text-sm text-muted-foreground">
-        {{ `${t(squad.unit)} (${formatInt(available)})` }}
-      </span>
+      <div class="text-xs md:text-sm text-muted-foreground">
+        <span>{{ t(squad.unit) }}</span>
+        <span class="cursor-pointer" @click="toggleMax">
+          {{ ` (${formatInt(available)})` }}
+        </span>
+      </div>
       <NumberField
         v-model="squad.size"
         :min="0"
