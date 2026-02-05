@@ -15,7 +15,6 @@ use crate::resources::workforce::Workforce;
 use nil_core_macros::Building;
 use recruit_queue::{AcademyRecruitOrder, AcademyRecruitQueue};
 use serde::{Deserialize, Serialize};
-use std::ops::Not;
 
 #[derive(Building, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
@@ -62,7 +61,7 @@ impl Academy {
   pub(crate) fn process_queue(&mut self) -> Option<Vec<AcademyRecruitOrder>> {
     if self.enabled {
       let orders = self.recruit_queue.process(self.level.into());
-      orders.is_empty().not().then_some(orders)
+      (!orders.is_empty()).then_some(orders)
     } else {
       None
     }

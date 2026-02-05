@@ -8,8 +8,9 @@ use crate::error::Result;
 use crate::ethic::EthicPowerAxis;
 use crate::infrastructure::building::academy::recruit_queue::AcademyRecruitOrderRequest;
 use crate::infrastructure::building::stable::recruit_queue::StableRecruitOrderRequest;
+use crate::infrastructure::building::workshop::recruit_queue::WorkshopRecruitOrderRequest;
 use crate::military::unit::prelude::*;
-use crate::military::unit::{AcademyUnitId, StableUnitId};
+use crate::military::unit::{AcademyUnitId, StableUnitId, WorkshopUnitId};
 use crate::world::World;
 use bon::Builder;
 use nil_util::iter::IterExt;
@@ -168,6 +169,12 @@ where
       })?;
     } else if let Ok(id) = StableUnitId::try_from(self.unit) {
       world.add_stable_recruit_order(&StableRecruitOrderRequest {
+        coord: self.coord,
+        unit: id,
+        chunks: NonZeroU32::MIN,
+      })?;
+    } else if let Ok(id) = WorkshopUnitId::try_from(self.unit) {
+      world.add_workshop_recruit_order(&WorkshopRecruitOrderRequest {
         coord: self.coord,
         unit: id,
         chunks: NonZeroU32::MIN,

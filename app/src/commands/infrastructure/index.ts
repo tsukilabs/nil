@@ -6,6 +6,7 @@ import type { ToggleBuildingRequest } from '@/lib/request';
 
 export * from './stable';
 export * from './academy';
+export * from './workshop';
 export * from './prefecture';
 
 export async function toggleBuilding(coord: Coord, id: BuildingId, enabled: boolean) {

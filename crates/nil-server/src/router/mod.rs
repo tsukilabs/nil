@@ -30,7 +30,6 @@ use axum::http::StatusCode;
 use axum::response::Response;
 use axum::routing::{any, get, post};
 use axum::{Router, middleware};
-use infrastructure::prelude::*;
 use nil_core::player::PlayerId;
 use nil_core::world::World;
 use nil_payload::{AuthorizeRequest, ValidateTokenRequest, WebsocketQuery};
@@ -49,12 +48,14 @@ use tracing::Level;
 pub(crate) fn create() -> Router<App> {
   #[rustfmt::skip]
   let router = Router::new()
-    .route("/add-academy-recruit-order", post(academy::add_recruit_order))
-    .route("/add-prefecture-build-order", post(prefecture::add_build_order))
-    .route("/add-stable-recruit-order", post(stable::add_recruit_order))
-    .route("/cancel-academy-recruit-order", post(academy::cancel_recruit_order))
-    .route("/cancel-prefecture-build-order", post(prefecture::cancel_build_order))
-    .route("/cancel-stable-recruit-order", post(stable::cancel_recruit_order))
+    .route("/add-academy-recruit-order", post(infrastructure::academy::add_recruit_order))
+    .route("/add-prefecture-build-order", post(infrastructure::prefecture::add_build_order))
+    .route("/add-stable-recruit-order", post(infrastructure::stable::add_recruit_order))
+    .route("/add-workshop-recruit-order", post(infrastructure::workshop::add_recruit_order))
+    .route("/cancel-academy-recruit-order", post(infrastructure::academy::cancel_recruit_order))
+    .route("/cancel-prefecture-build-order", post(infrastructure::prefecture::cancel_build_order))
+    .route("/cancel-stable-recruit-order", post(infrastructure::stable::cancel_recruit_order))
+    .route("/cancel-workshop-recruit-order", post(infrastructure::workshop::cancel_recruit_order))
     .route("/cheat-get-academy-recruit-queue", post(cheat::infrastructure::get_academy_recruit_queue))
     .route("/cheat-get-academy-recruit-queues", post(cheat::infrastructure::get_academy_recruit_queues))
     .route("/cheat-get-all-academy-recruit-queues", post(cheat::infrastructure::get_all_academy_recruit_queues))
@@ -91,7 +92,7 @@ pub(crate) fn create() -> Router<App> {
     .route("/cheat-spawn-bot", post(cheat::npc::spawn_bot))
     .route("/cheat-spawn-personnel", post(cheat::military::spawn_personnel))
     .route("/create-remote-world", post(world::remote::create))
-    .route("/get-academy-recruit-catalog", post(academy::get_recruit_catalog))
+    .route("/get-academy-recruit-catalog", post(infrastructure::academy::get_recruit_catalog))
     .route("/get-chat-history", post(chat::get))
     .route("/get-city", post(city::get_city))
     .route("/get-player", post(player::get))
@@ -101,10 +102,11 @@ pub(crate) fn create() -> Router<App> {
     .route("/get-player-reports", post(player::get_reports))
     .route("/get-player-storage-capacity", post(player::get_storage_capacity))
     .route("/get-players", post(player::get_all))
-    .route("/get-prefecture-build-catalog", post(prefecture::get_build_catalog))
+    .route("/get-prefecture-build-catalog", post(infrastructure::prefecture::get_build_catalog))
     .route("/get-report", post(report::get))
     .route("/get-reports", post(report::get_by))
-    .route("/get-stable-recruit-catalog", post(stable::get_recruit_catalog))
+    .route("/get-stable-recruit-catalog", post(infrastructure::stable::get_recruit_catalog))
+    .route("/get-workshop-recruit-catalog", post(infrastructure::workshop::get_recruit_catalog))
     .route("/leave", post(world::leave))
     .route("/push-chat-message", post(chat::push))
     .route("/rename-city", post(city::rename_city))

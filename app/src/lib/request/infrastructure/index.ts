@@ -3,6 +3,7 @@
 
 export type * from './stable';
 export type * from './academy';
+export type * from './workshop';
 export type * from './prefecture';
 
 export interface ToggleBuildingRequest {

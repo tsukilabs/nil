@@ -4,7 +4,6 @@
 
 - [Rust 1.95 (nightly)](https://www.rust-lang.org/tools/install)
 - [Node 24](https://nodejs.org/en/download/current)
-- [PowerShell 7](https://github.com/PowerShell/PowerShell/releases/latest)
 - [pnpm](https://pnpm.io/installation)
 - [wasm-pack](https://drager.github.io/wasm-pack/installer/)
 - [Diesel](https://diesel.rs/guides/getting-started#installing-diesel-cli)

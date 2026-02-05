@@ -4,6 +4,7 @@
 pub mod academy;
 pub mod prefecture;
 pub mod stable;
+pub mod workshop;
 
 use nil_core::continent::Coord;
 use nil_core::infrastructure::building::BuildingId;

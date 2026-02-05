@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 pub mod building;
+pub mod catalog;
 pub mod mine;
 pub mod prelude;
 pub mod queue;
@@ -30,6 +31,11 @@ use building::stable::recruit_queue::{
   StableRecruitOrder,
   StableRecruitOrderId,
   StableRecruitOrderRequest,
+};
+use building::workshop::recruit_queue::{
+  WorkshopRecruitOrder,
+  WorkshopRecruitOrderId,
+  WorkshopRecruitOrderRequest,
 };
 use building::{Building, BuildingId, BuildingStatsTable, MineId, StorageId};
 use mine::Mine;
@@ -296,66 +302,76 @@ impl Infrastructure {
       }
     }
   }
-
-  pub(crate) fn add_academy_recruit_order(
-    &mut self,
-    request: &AcademyRecruitOrderRequest,
-    current_resources: Option<&Resources>,
-  ) -> Result<&AcademyRecruitOrder> {
-    self
-      .academy
-      .recruit_queue_mut()
-      .recruit(request, current_resources)
-  }
-
-  #[must_use]
-  pub(crate) fn cancel_academy_recruit_order(
-    &mut self,
-    id: AcademyRecruitOrderId,
-  ) -> Option<AcademyRecruitOrder> {
-    self.academy.recruit_queue_mut().cancel(id)
-  }
-
-  #[must_use]
-  pub(crate) fn process_academy_recruit_queue(&mut self) -> Option<ArmyPersonnel> {
-    let personnel = self
-      .academy
-      .process_queue()?
-      .into_iter()
-      .map(Squad::from)
-      .collect();
-
-    Some(personnel)
-  }
-
-  pub(crate) fn add_stable_recruit_order(
-    &mut self,
-    request: &StableRecruitOrderRequest,
-    current_resources: Option<&Resources>,
-  ) -> Result<&StableRecruitOrder> {
-    self
-      .stable
-      .recruit_queue_mut()
-      .recruit(request, current_resources)
-  }
-
-  #[must_use]
-  pub(crate) fn cancel_stable_recruit_order(
-    &mut self,
-    id: StableRecruitOrderId,
-  ) -> Option<StableRecruitOrder> {
-    self.stable.recruit_queue_mut().cancel(id)
-  }
-
-  #[must_use]
-  pub(crate) fn process_stable_recruit_queue(&mut self) -> Option<ArmyPersonnel> {
-    let personnel = self
-      .stable
-      .process_queue()?
-      .into_iter()
-      .map(Squad::from)
-      .collect();
-
-    Some(personnel)
-  }
 }
+
+macro_rules! impl_recruitment {
+  (
+    $building:ident,
+    $add_fn:ident,
+    $cancel_fn:ident,
+    $process_fn:ident,
+    $id:ident,
+    $order:ident,
+    $request:ident
+  ) => {
+    impl Infrastructure {
+      pub(crate) fn $add_fn(
+        &mut self,
+        request: &$request,
+        current_resources: Option<&Resources>,
+      ) -> Result<&$order> {
+        self
+          .$building
+          .recruit_queue_mut()
+          .recruit(request, current_resources)
+      }
+
+      #[must_use]
+      pub(crate) fn $cancel_fn(&mut self, id: $id) -> Option<$order> {
+        self.$building.recruit_queue_mut().cancel(id)
+      }
+
+      #[must_use]
+      pub(crate) fn $process_fn(&mut self) -> Option<ArmyPersonnel> {
+        let personnel = self
+          .$building
+          .process_queue()?
+          .into_iter()
+          .map(Squad::from)
+          .collect();
+
+        Some(personnel)
+      }
+    }
+  };
+}
+
+impl_recruitment!(
+  academy,
+  add_academy_recruit_order,
+  cancel_academy_recruit_order,
+  process_academy_recruit_queue,
+  AcademyRecruitOrderId,
+  AcademyRecruitOrder,
+  AcademyRecruitOrderRequest
+);
+
+impl_recruitment!(
+  stable,
+  add_stable_recruit_order,
+  cancel_stable_recruit_order,
+  process_stable_recruit_queue,
+  StableRecruitOrderId,
+  StableRecruitOrder,
+  StableRecruitOrderRequest
+);
+
+impl_recruitment!(
+  workshop,
+  add_workshop_recruit_order,
+  cancel_workshop_recruit_order,
+  process_workshop_recruit_queue,
+  WorkshopRecruitOrderId,
+  WorkshopRecruitOrder,
+  WorkshopRecruitOrderRequest
+);

@@ -99,20 +99,25 @@ impl World {
     for city in self.continent.cities_mut() {
       let coord = city.coord();
       let owner = city.owner().clone();
-      let infra = city.infrastructure_mut();
-      infra.process_prefecture_build_queue();
+      let infrastructure = city.infrastructure_mut();
 
-      if let Some(personnel) = infra.process_academy_recruit_queue() {
-        self
-          .military
-          .spawn(coord, owner.clone(), personnel);
+      infrastructure.process_prefecture_build_queue();
+
+      macro_rules! process_recruit_queue {
+        ($($process_fn:ident),+ $(,)?) => {
+          $(
+            if let Some(personnel) = infrastructure.$process_fn() {
+              self.military.spawn(coord, owner.clone(), personnel);
+            }
+          )+
+        };
       }
 
-      if let Some(personnel) = infra.process_stable_recruit_queue() {
-        self
-          .military
-          .spawn(coord, owner.clone(), personnel);
-      }
+      process_recruit_queue!(
+        process_academy_recruit_queue,
+        process_stable_recruit_queue,
+        process_workshop_recruit_queue
+      );
     }
   }
 }

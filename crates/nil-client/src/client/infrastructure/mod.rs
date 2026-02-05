@@ -4,6 +4,7 @@
 mod academy;
 mod prefecture;
 mod stable;
+mod workshop;
 
 use crate::client::Client;
 use crate::error::Result;

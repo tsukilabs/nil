@@ -7,7 +7,6 @@
     "tamasfe.even-better-toml",
     "vivaxy.vscode-conventional-commits",
     "github.vscode-pull-request-github",
-    "dprint.dprint",
-    "ms-vscode.powershell"
+    "dprint.dprint"
   ]
 }
