@@ -137,7 +137,9 @@ fn on_event(app: AppHandle) -> impl Fn(Event) -> BoxFuture<'static, ()> {
     let app = app.clone();
     Box::pin(async move {
       let name = format!("nil://{event}");
-      let _ = app.emit_to("main", &name, event);
+      if let Err(err) = app.emit_to("main", &name, event) {
+        tracing::error!(message = %err, error = ?err);
+      }
     })
   }
 }

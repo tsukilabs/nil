@@ -20,9 +20,9 @@ use crate::ruler::Ruler;
 use army::{Army, ArmyPersonnel};
 use itertools::Itertools;
 use maneuver::Maneuver;
-use nil_util::result::WrapOk;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
+use tap::Pipe;
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
@@ -315,6 +315,6 @@ impl Military {
       .into_iter()
       .filter_map(|id| self.maneuvers.remove(&id))
       .collect_vec()
-      .wrap_ok()
+      .pipe(Ok)
   }
 }

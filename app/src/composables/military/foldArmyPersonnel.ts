@@ -14,6 +14,7 @@ export function foldArmyPersonnel(armies: MaybeRefOrGetter<readonly Army[]>) {
       acc.heavyCavalry.size += curr.personnel.heavyCavalry.size;
       acc.lightCavalry.size += curr.personnel.lightCavalry.size;
       acc.pikeman.size += curr.personnel.pikeman.size;
+      acc.ram.size += curr.personnel.ram.size;
       acc.swordsman.size += curr.personnel.swordsman.size;
       return acc;
     }, initial);

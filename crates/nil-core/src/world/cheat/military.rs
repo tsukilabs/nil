@@ -9,7 +9,7 @@ use crate::ruler::Ruler;
 use crate::world::World;
 use itertools::Itertools;
 use nil_util::ops::TryElse;
-use nil_util::result::WrapOk;
+use tap::Pipe;
 
 impl World {
   pub fn cheat_get_idle_armies_at(&self, coord: Coord) -> Result<Vec<Army>> {
@@ -19,7 +19,7 @@ impl World {
       .idle_armies_at(coord)
       .cloned()
       .collect_vec()
-      .wrap_ok()
+      .pipe(Ok)
   }
 
   pub fn cheat_get_idle_personnel_at(&self, coord: Coord) -> Result<ArmyPersonnel> {
@@ -27,7 +27,7 @@ impl World {
     self
       .military
       .fold_idle_personnel_at(coord)
-      .wrap_ok()
+      .pipe(Ok)
   }
 
   pub fn cheat_spawn_personnel(

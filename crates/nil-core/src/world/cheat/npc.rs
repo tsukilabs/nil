@@ -7,16 +7,12 @@ use crate::ethic::Ethics;
 use crate::npc::bot::BotId;
 use crate::ruler::Ruler;
 use crate::world::World;
-use nil_util::result::WrapOk;
+use tap::Pipe;
 
 impl World {
   pub fn cheat_get_ethics(&self, ruler: &Ruler) -> Result<Option<Ethics>> {
     bail_if_cheats_are_not_allowed!(self);
-    self
-      .ruler(ruler)?
-      .ethics()
-      .cloned()
-      .wrap_ok()
+    self.ruler(ruler)?.ethics().cloned().pipe(Ok)
   }
 
   pub fn cheat_set_bot_ethics(&mut self, id: &BotId, ethics: Ethics) -> Result<()> {

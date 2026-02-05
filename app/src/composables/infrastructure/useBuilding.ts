@@ -55,3 +55,8 @@ export function useWarehouse(city?: MaybeNilRef<CityImpl>) {
   const cityRef = toCityRef(city);
   return computed(() => cityRef.value?.infrastructure.warehouse);
 }
+
+export function useWorkshop(city?: MaybeNilRef<CityImpl>) {
+  const cityRef = toCityRef(city);
+  return computed(() => cityRef.value?.infrastructure.workshop);
+}

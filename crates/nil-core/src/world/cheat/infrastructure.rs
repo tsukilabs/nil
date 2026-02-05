@@ -14,8 +14,8 @@ use crate::infrastructure::storage::OverallStorageCapacity;
 use crate::ruler::Ruler;
 use crate::world::World;
 use itertools::Itertools;
-use nil_util::result::WrapOk;
 use strum::IntoEnumIterator;
+use tap::Pipe;
 
 impl World {
   pub fn cheat_get_academy_recruit_queue(&self, coord: Coord) -> Result<AcademyRecruitQueue> {
@@ -26,7 +26,7 @@ impl World {
       .academy()
       .recruit_queue()
       .clone()
-      .wrap_ok()
+      .pipe(Ok)
   }
 
   pub fn cheat_get_academy_recruit_queues(
@@ -84,7 +84,7 @@ impl World {
       .city(coord)?
       .infrastructure()
       .clone()
-      .wrap_ok()
+      .pipe(Ok)
   }
 
   pub fn cheat_get_prefecture_build_queue(&self, coord: Coord) -> Result<PrefectureBuildQueue> {
@@ -95,7 +95,7 @@ impl World {
       .prefecture()
       .build_queue()
       .clone()
-      .wrap_ok()
+      .pipe(Ok)
   }
 
   pub fn cheat_get_prefecture_build_queues(
@@ -119,7 +119,7 @@ impl World {
       .stable()
       .recruit_queue()
       .clone()
-      .wrap_ok()
+      .pipe(Ok)
   }
 
   pub fn cheat_get_stable_recruit_queues(

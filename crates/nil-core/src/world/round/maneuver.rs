@@ -15,10 +15,9 @@ use crate::resources::Resources;
 use crate::ruler::Ruler;
 use crate::world::World;
 use itertools::Itertools;
-use nil_util::option::WrapSome;
-use nil_util::result::WrapOk;
 use nil_util::vec::VecExt;
 use num_traits::ToPrimitive;
+use tap::Pipe;
 
 impl World {
   pub(super) fn process_maneuvers(&mut self) -> Result<()> {
@@ -62,7 +61,7 @@ impl World {
             .ruler(rulers.destination_ruler.clone())
             .resources(hauled_resources.clone())
             .build()
-            .wrap_some();
+            .pipe(Some);
 
           self.military.insert_maneuver(maneuver);
         }
@@ -196,7 +195,7 @@ fn perform_battle(world: &World, maneuver: &Maneuver) -> Result<BattleResult> {
     .maybe_wall(wall_stats)
     .build()
     .result()
-    .wrap_ok()
+    .pipe(Ok)
 }
 
 fn calculate_hauled_resources(world: &World, target: Coord, base: Haul) -> Result<Resources> {

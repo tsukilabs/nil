@@ -34,6 +34,7 @@ export class ArmyPersonnelImpl implements ArmyPersonnel {
       this.heavyCavalry,
       this.lightCavalry,
       this.pikeman,
+      this.ram,
       this.swordsman,
     ];
   }

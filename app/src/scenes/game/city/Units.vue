@@ -69,6 +69,12 @@ const size = useArmyPersonnelSize(() => props.personnel);
               {{ `${size.heavyCavalry} ${t('heavy-cavalry', size.heavyCavalry)}` }}
             </TableCell>
           </TableRow>
+
+          <TableRow v-if="size.ram > 0">
+            <TableCell>
+              {{ `${size.ram} ${t('ram', size.ram)}` }}
+            </TableCell>
+          </TableRow>
         </TableBody>
       </Table>
     </CardContent>

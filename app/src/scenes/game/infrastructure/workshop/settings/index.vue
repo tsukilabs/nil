@@ -1,8 +1,32 @@
 <!-- Copyright (C) Call of Nil contributors -->
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useI18n } from 'vue-i18n';
+import { storeToRefs } from 'pinia';
+import { Checkbox, Label } from '@tb-dev/vue-components';
+import { useWorkshopSettings } from '@/stores/settings/infrastructure/workshop';
+import enUS from '@/locale/en-US/scenes/game/infrastructure/infrastructure.json';
+import ptBR from '@/locale/pt-BR/scenes/game/infrastructure/infrastructure.json';
+
+const { t } = useI18n({
+  messages: {
+    'en-US': enUS,
+    'pt-BR': ptBR,
+  },
+});
+
+const settings = useWorkshopSettings();
+const { hideUnmet } = storeToRefs(settings);
+</script>
 
 <template>
-  <div></div>
+  <div class="size-full px-4">
+    <div class="flex flex-col">
+      <Label>
+        <Checkbox v-model="hideUnmet" />
+        <span>{{ t('hide-unavailable-units') }}</span>
+      </Label>
+    </div>
+  </div>
 </template>

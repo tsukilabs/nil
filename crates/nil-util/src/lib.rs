@@ -5,7 +5,5 @@
 
 pub mod iter;
 pub mod ops;
-pub mod option;
 pub mod process;
-pub mod result;
 pub mod vec;
