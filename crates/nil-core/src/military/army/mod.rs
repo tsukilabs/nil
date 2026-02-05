@@ -6,6 +6,7 @@ mod personnel;
 use crate::continent::ContinentKey;
 use crate::military::Military;
 use crate::military::maneuver::ManeuverId;
+use crate::military::squad::Squad;
 use crate::military::unit::stats::haul::Haul;
 use crate::military::unit::stats::speed::Speed;
 use crate::ranking::Score;
@@ -64,6 +65,11 @@ impl Army {
 
   pub(crate) fn state_mut(&mut self) -> &mut ArmyState {
     &mut self.state
+  }
+
+  #[inline]
+  pub fn slowest_squad(&self) -> Option<&Squad> {
+    self.personnel.slowest_squad()
   }
 
   #[inline]

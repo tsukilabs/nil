@@ -1,6 +1,9 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+#[cfg(test)]
+mod tests;
+
 use crate::error::{Error, Result};
 use crate::military::army::{Army, ArmyState};
 use crate::military::maneuver::{Maneuver, ManeuverId, ManeuverRequest};
@@ -30,21 +33,21 @@ impl World {
       return Err(Error::InsufficientUnits);
     };
 
-    // We should use the speed of the requested personnel instead of the army’s.
-    // The slowest unit in the army may not have been sent as part of this maneuver.
-    // Related issue: https://github.com/tsukilabs/nil/issues/267
-    let speed = request.personnel.speed();
-
     let army_id = army.id();
     let army_owner = army.owner().clone();
     *army.personnel_mut() = request.personnel;
+
+    // We must take the speed of the army only after updating its personnel,
+    // because the slowest unit in it may not have been sent as part of the maneuver.
+    // Related issue: https://github.com/tsukilabs/nil/issues/267
+    let army_speed = army.speed();
 
     let (id, maneuver) = Maneuver::builder()
       .army(army_id)
       .kind(request.kind)
       .origin(request.origin)
       .destination(request.destination)
-      .speed(speed)
+      .speed(army_speed)
       .build()?;
 
     self.military.insert_maneuver(maneuver);

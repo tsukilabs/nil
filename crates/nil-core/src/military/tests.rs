@@ -10,6 +10,7 @@ use crate::military::unit::stats::speed::Speed;
 use crate::npc::bot::{Bot, BotId};
 use crate::ruler::Ruler;
 use std::assert_matches;
+use tap::Pipe;
 
 #[test]
 fn spawn() {
@@ -31,35 +32,31 @@ fn collapse() {
   let mut armies = Vec::with_capacity(15);
 
   for _ in 0..10 {
-    armies.push(
-      Army::builder()
-        .owner(ruler.clone())
-        .personnel(ArmyPersonnel::splat(10))
-        .build(),
-    );
-  }
-
-  armies.push(
     Army::builder()
       .owner(ruler.clone())
       .personnel(ArmyPersonnel::splat(10))
-      .state(ArmyState::with_maneuver(ManeuverId::new()))
-      .build(),
-  );
+      .build()
+      .pipe(|army| armies.push(army));
+  }
 
-  armies.push(
-    Army::builder()
-      .owner(make_ruler("Bot 2"))
-      .personnel(ArmyPersonnel::splat(10))
-      .build(),
-  );
+  Army::builder()
+    .owner(ruler.clone())
+    .personnel(ArmyPersonnel::splat(10))
+    .state(ArmyState::with_maneuver(ManeuverId::new()))
+    .build()
+    .pipe(|army| armies.push(army));
 
-  armies.push(
-    Army::builder()
-      .owner(make_ruler("Bot 3"))
-      .personnel(ArmyPersonnel::splat(10))
-      .build(),
-  );
+  Army::builder()
+    .owner(make_ruler("Bot 2"))
+    .personnel(ArmyPersonnel::splat(10))
+    .build()
+    .pipe(|army| armies.push(army));
+
+  Army::builder()
+    .owner(make_ruler("Bot 3"))
+    .personnel(ArmyPersonnel::splat(10))
+    .build()
+    .pipe(|army| armies.push(army));
 
   assert_eq!(armies.len(), 13);
   collapse_armies(&mut armies);

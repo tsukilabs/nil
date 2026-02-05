@@ -10,6 +10,7 @@ use crate::resources::maintenance::Maintenance;
 use serde::{Deserialize, Serialize};
 use std::ops::{Add, AddAssign, Sub, SubAssign};
 use strum::IntoEnumIterator;
+use tap::Pipe;
 
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
@@ -105,12 +106,17 @@ impl ArmyPersonnel {
     ArmyPersonnelIter::new(self)
   }
 
-  pub fn speed(&self) -> Speed {
+  pub fn slowest_squad(&self) -> Option<&Squad> {
     self
       .iter()
       .filter(|squad| squad.size() > 0u32)
+      .min_by(|a, b| a.speed().total_cmp(&b.speed()))
+  }
+
+  pub fn speed(&self) -> Speed {
+    self
+      .slowest_squad()
       .map(Squad::speed)
-      .min_by(|a, b| a.total_cmp(b))
       .unwrap_or_default()
   }
 
@@ -166,17 +172,16 @@ impl ArmyPersonnel {
       }};
     }
 
-    Some(
-      Self::builder()
-        .archer(sub!(archer)?)
-        .axeman(sub!(axeman)?)
-        .heavy_cavalry(sub!(heavy_cavalry)?)
-        .light_cavalry(sub!(light_cavalry)?)
-        .pikeman(sub!(pikeman)?)
-        .ram(sub!(ram)?)
-        .swordsman(sub!(swordsman)?)
-        .build(),
-    )
+    Self::builder()
+      .archer(sub!(archer)?)
+      .axeman(sub!(axeman)?)
+      .heavy_cavalry(sub!(heavy_cavalry)?)
+      .light_cavalry(sub!(light_cavalry)?)
+      .pikeman(sub!(pikeman)?)
+      .ram(sub!(ram)?)
+      .swordsman(sub!(swordsman)?)
+      .build()
+      .pipe(Some)
   }
 }
 

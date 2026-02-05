@@ -22,9 +22,23 @@ defineProps<{
 
     <TableBody>
       <TableRow v-for="maneuver of maneuvers" :key="maneuver.id">
-        <TableCell>{{ maneuver.kind }}</TableCell>
-        <TableCell>{{ maneuver.destination.format() }}</TableCell>
-        <TableCell>{{ maneuver.getPendingDistance() }}</TableCell>
+        <TableCell>
+          <span>{{ maneuver.kind }}</span>
+        </TableCell>
+
+        <TableCell
+          role="link"
+          tabindex="0"
+          class="cursor-pointer"
+          @click="() => maneuver.destination.goToProfile()"
+          @keydown.enter="() => maneuver.destination.goToProfile()"
+        >
+          {{ maneuver.destination.format() }}
+        </TableCell>
+
+        <TableCell>
+          <span>{{ maneuver.getPendingDistance() }}</span>
+        </TableCell>
       </TableRow>
     </TableBody>
   </Table>
