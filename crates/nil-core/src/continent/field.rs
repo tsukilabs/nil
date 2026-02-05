@@ -11,7 +11,7 @@ pub enum Field {
   #[default]
   Empty,
   City {
-    city: City,
+    city: Box<City>,
   },
 }
 
@@ -28,7 +28,7 @@ impl Field {
 
 impl From<City> for Field {
   fn from(city: City) -> Self {
-    Self::City { city }
+    Self::City { city: Box::new(city) }
   }
 }
 
@@ -47,7 +47,7 @@ impl From<&Field> for PublicField {
   fn from(field: &Field) -> Self {
     match field {
       Field::Empty => Self::Empty,
-      Field::City { city } => Self::City { city: PublicCity::from(city) },
+      Field::City { city } => Self::City { city: PublicCity::from(&**city) },
     }
   }
 }
