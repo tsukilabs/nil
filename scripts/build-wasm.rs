@@ -71,8 +71,6 @@ fn main() -> Result<()> {
   }
 
   if args.publish {
-    spawn!("pnpm install --no-frozen-lockfile")?;
-
     let package = fs::read("package.json")?;
     let package = serde_json::from_slice::<Package>(&package)?;
     let current_version = package.version;
@@ -82,6 +80,8 @@ fn main() -> Result<()> {
       .add(glob("*.ts"))
       .build()
       .unwrap();
+
+    spawn!("pnpm install --no-frozen-lockfile")?;
 
     for krate in krates {
       let url = format!("https://registry.npmjs.org/@tsukilabs/{krate}");
@@ -107,10 +107,12 @@ fn main() -> Result<()> {
           let mut contents = String::new();
           writeln!(contents, "// Copyright (C) Call of Nil contributors")?;
           writeln!(contents, "// SPDX-License-Identifier: AGPL-3.0-only")?;
-          writeln!(contents, "\n{}", fs::read_to_string(file)?)?;
+          writeln!(contents, "\n{}", fs::read_to_string(&file)?)?;
+
+          fs::write(file, contents)?;
         }
 
-        spawn_fmt!("npm publish \"{path}\" --access=public --tag=latest --provenance")?;
+        spawn_fmt!("npm publish {path} --access=public --tag=latest --provenance")?;
       }
     }
   }
