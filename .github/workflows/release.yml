@@ -16,6 +16,8 @@ jobs:
 
       - name: Install Rust
         uses: dtolnay/rust-toolchain@nightly
+        with:
+          components: clippy
 
       - name: Clippy
         run: cargo +nightly -Zscript scripts/run-clippy.rs
