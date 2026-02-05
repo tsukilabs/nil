@@ -36,10 +36,11 @@ export class MilitaryImpl implements Military {
     });
   }
 
-  public getManeuversBy(f: (maneuver: ManeuverImpl) => boolean) {
+  public getManeuversBy(f: (maneuver: ManeuverImpl) => boolean): ManeuverImpl[] {
     return this.maneuvers.values()
       .filter((maneuver) => maneuver.isPending() && f(maneuver))
-      .toArray();
+      .toArray()
+      .sort((a, b) => a.getPendingDistance() - b.getPendingDistance());
   }
 
   public getGoingManeuversBy(f: (maneuver: ManeuverImpl) => boolean) {

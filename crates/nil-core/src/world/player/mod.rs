@@ -1,6 +1,9 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+#[cfg(test)]
+mod tests;
+
 use crate::city::City;
 use crate::error::{Error, Result};
 use crate::military::Military;
