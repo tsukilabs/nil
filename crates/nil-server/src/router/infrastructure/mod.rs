@@ -3,8 +3,8 @@
 
 pub mod academy;
 pub mod prefecture;
-pub mod prelude;
 pub mod stable;
+pub mod workshop;
 
 use crate::app::App;
 use crate::middleware::authorization::CurrentPlayer;

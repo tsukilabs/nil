@@ -1,24 +1,24 @@
 {
   "name": "nil",
-  "version": "0.2.14",
+  "version": "0.2.15",
   "type": "module",
   "packageManager": "pnpm@10.28.2",
   "license": "AGPL-3.0-only",
   "private": true,
   "scripts": {
-    "build": "pwsh scripts/build-client.ps1",
-    "clippy": "pwsh scripts/invoke-clippy.ps1",
-    "dev": "pwsh scripts/start-dev.ps1",
+    "build": "cargo +nightly -Zscript scripts/build-client.rs",
+    "clippy": "cargo +nightly -Zscript scripts/run-clippy.rs",
+    "dev": "cargo +nightly -Zscript scripts/start-dev.rs",
     "docs": "cargo +nightly doc -p nil-* --open --no-deps --lib --document-private-items",
     "format": "dprint fmt && cargo fmt --all",
     "lint": "eslint . --config eslint.config.ts",
     "lint-fix": "eslint . --config eslint.config.ts --fix",
-    "miri": "pwsh scripts/test.ps1 -Miri",
-    "preview": "pwsh scripts/build-client.ps1 -Preview",
-    "server": "pwsh scripts/start-server.ps1",
-    "test": "pwsh scripts/test.ps1",
+    "miri": "cargo +nightly -Zscript scripts/test.ps1 --miri",
+    "preview": "cargo +nightly -Zscript scripts/build-client.rs --preview",
+    "server": "cargo +nightly -Zscript scripts/start-server.rs",
+    "test": "cargo +nightly -Zscript scripts/test.rs",
     "type-check": "pnpm run -r --bail type-check",
-    "wasm": "pwsh scripts/build-wasm.ps1"
+    "wasm": "cargo +nightly -Zscript scripts/build-wasm.rs"
   },
   "dependencies": {
     "@tauri-apps/api": "~2.10.1",

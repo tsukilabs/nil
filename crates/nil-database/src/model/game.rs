@@ -10,7 +10,7 @@ use crate::sql_types::version::SqlVersion;
 use crate::sql_types::zoned::SqlZoned;
 use diesel::prelude::*;
 use nil_core::world::World;
-use nil_util::password::Password;
+use nil_crypto::password::Password;
 
 #[derive(Identifiable, Queryable, Selectable, Clone, Debug)]
 #[diesel(table_name = crate::schema::game)]

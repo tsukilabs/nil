@@ -11,7 +11,7 @@ use crate::sql_types::zoned::SqlZoned;
 use diesel::prelude::*;
 use diesel::result::Error as DieselError;
 use nil_core::player::PlayerId;
-use nil_util::password::Password;
+use nil_crypto::password::Password;
 use nil_util::result::WrapOk;
 
 macro_rules! decl_get {

@@ -4,6 +4,7 @@
 pub mod academy;
 pub mod prefecture;
 pub mod stable;
+pub mod workshop;
 
 use crate::error::Result;
 use crate::manager::ManagerExt;

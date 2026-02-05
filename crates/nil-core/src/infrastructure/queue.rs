@@ -85,3 +85,173 @@ pub trait InfrastructureQueueOrder {
     self.is_done()
   }
 }
+
+#[doc(hidden)]
+#[macro_export]
+macro_rules! decl_recruit_queue {
+  ($queue:ident, $order:ident, $order_state:ident, $id:ident, $unit_id:ident, $request:ident) => {
+    #[derive(Clone, Debug, Default, Deserialize, Serialize)]
+    #[serde(rename_all = "camelCase")]
+    pub struct $queue {
+      orders: VecDeque<$order>,
+    }
+
+    impl $queue {
+      pub(crate) fn recruit(
+        &mut self,
+        request: &$request,
+        current_resources: Option<&Resources>,
+      ) -> Result<&$order> {
+        let unit = UnitBox::from(request.unit);
+        let chunk = unit.as_dyn().chunk();
+        let size = SquadSize::new(chunk.size() * request.chunks);
+        let resources = &chunk.resources() * request.chunks;
+        let workforce = chunk.workforce() * request.chunks;
+
+        if let Some(current_resources) = current_resources
+          && current_resources
+            .checked_sub(&resources)
+            .is_none()
+        {
+          return Err(Error::InsufficientResources);
+        }
+
+        self.orders.push_back($order {
+          id: $id::new(),
+          squad: Squad::new(unit.id(), size),
+          resources,
+          workforce,
+          state: $order_state::new(workforce),
+        });
+
+        let len = self.orders.len();
+        Ok(unsafe {
+          self
+            .orders
+            .get(len.unchecked_sub(1))
+            .unwrap_unchecked()
+        })
+      }
+
+      /// Cancels a recruit order.
+      #[must_use]
+      pub(crate) fn cancel(&mut self, id: $id) -> Option<$order> {
+        let position = self
+          .orders
+          .iter()
+          .position(|order| order.id == id)?;
+
+        self.orders.remove(position)
+      }
+    }
+
+    impl InfrastructureQueue<$order> for $queue {
+      fn queue(&self) -> &VecDeque<$order> {
+        &self.orders
+      }
+
+      fn queue_mut(&mut self) -> &mut VecDeque<$order> {
+        &mut self.orders
+      }
+    }
+
+    #[must_use]
+    #[derive(Clone, Debug, Deserialize, Serialize)]
+    #[serde(rename_all = "camelCase")]
+    pub struct $order {
+      id: $id,
+      squad: Squad,
+      resources: Resources,
+      workforce: Workforce,
+      state: $order_state,
+    }
+
+    impl $order {
+      #[inline]
+      pub fn id(&self) -> $id {
+        self.id
+      }
+
+      #[inline]
+      pub fn squad(&self) -> &Squad {
+        &self.squad
+      }
+
+      #[inline]
+      pub fn resources(&self) -> &Resources {
+        &self.resources
+      }
+    }
+
+    impl From<$order> for Squad {
+      fn from(order: $order) -> Self {
+        order.squad
+      }
+    }
+
+    impl InfrastructureQueueOrder for $order {
+      fn is_done(&self) -> bool {
+        self.state.is_done()
+      }
+
+      fn set_done(&mut self) {
+        self.state = $order_state::Done;
+      }
+
+      fn pending_workforce(&self) -> Option<Workforce> {
+        self.state.pending_workforce()
+      }
+
+      fn pending_workforce_mut(&mut self) -> Option<&mut Workforce> {
+        self.state.pending_workforce_mut()
+      }
+    }
+
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Deserialize, Serialize)]
+    pub struct $id(Uuid);
+
+    impl $id {
+      #[must_use]
+      pub fn new() -> Self {
+        Self(Uuid::new_v4())
+      }
+    }
+
+    impl Default for $id {
+      fn default() -> Self {
+        Self::new()
+      }
+    }
+
+    #[derive(Clone, Debug, EnumIs, Deserialize, Serialize)]
+    #[serde(tag = "kind", rename_all = "kebab-case")]
+    pub enum $order_state {
+      Pending { workforce: Workforce },
+      Done,
+    }
+
+    impl $order_state {
+      fn pending_workforce(&self) -> Option<Workforce> {
+        if let Self::Pending { workforce } = self { Some(*workforce) } else { None }
+      }
+
+      fn pending_workforce_mut(&mut self) -> Option<&mut Workforce> {
+        if let Self::Pending { workforce } = self { Some(workforce) } else { None }
+      }
+    }
+
+    impl $order_state {
+      fn new(workforce: Workforce) -> Self {
+        Self::Pending { workforce }
+      }
+    }
+
+    #[derive(Clone, Debug, Deserialize, Serialize)]
+    #[serde(rename_all = "camelCase")]
+    pub struct $request {
+      pub coord: Coord,
+      pub unit: $unit_id,
+      pub chunks: NonZeroU32,
+    }
+  };
+}

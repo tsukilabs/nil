@@ -32,6 +32,17 @@
   "powershell.codeFormatting.useCorrectCasing": true,
   "powershell.codeFormatting.whitespaceBetweenParameters": true,
   "rust-analyzer.cargo.targetDir": true,
+  "rust-analyzer.linkedProjects": [
+    "./Cargo.toml",
+    "./scripts/build-client.rs",
+    "./scripts/build-docs.rs",
+    "./scripts/build-server.rs",
+    "./scripts/build-wasm.rs",
+    "./scripts/run-clippy.rs",
+    "./scripts/start-dev.rs",
+    "./scripts/start-server.rs",
+    "./scripts/test.rs"
+  ],
   "workbench.editor.customLabels.patterns": {
     "**/App.vue": "${dirname}/App.vue",
     "**/build.rs": "${dirname}/build.rs",

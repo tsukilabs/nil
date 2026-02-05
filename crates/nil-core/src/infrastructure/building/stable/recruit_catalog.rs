@@ -1,6 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+use crate::decl_recruit_catalog_entry;
 use crate::infrastructure::Infrastructure;
 use crate::infrastructure::requirements::InfrastructureRequirements;
 use crate::military::unit::{StableUnitId, Unit, UnitBox};
@@ -32,43 +33,4 @@ impl StableRecruitCatalog {
   }
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
-#[serde(tag = "kind", rename_all = "kebab-case")]
-pub enum StableRecruitCatalogEntry {
-  /// Unit is available for recruitment.
-  Available {
-    recipe: Box<StableRecruitCatalogRecipe>,
-  },
-  /// City does not meet the requirements for recruitment.
-  Unmet {
-    requirements: InfrastructureRequirements,
-  },
-}
-
-impl StableRecruitCatalogEntry {
-  fn new(unit: &dyn Unit, infrastructure: &Infrastructure) -> Self {
-    let infra_req = unit.infrastructure_requirements();
-    if !infra_req.has_required_levels(infrastructure) {
-      return Self::Unmet { requirements: infra_req.clone() };
-    }
-
-    let chunk = unit.chunk();
-    let recipe = Box::new(StableRecruitCatalogRecipe {
-      resources: chunk.resources(),
-      maintenance: chunk.maintenance(),
-      workforce: chunk.workforce(),
-      requirements: infra_req.clone(),
-    });
-
-    Self::Available { recipe }
-  }
-}
-
-#[derive(Clone, Debug, Deserialize, Serialize)]
-#[serde(rename_all = "camelCase")]
-pub struct StableRecruitCatalogRecipe {
-  resources: Resources,
-  maintenance: Maintenance,
-  workforce: Workforce,
-  requirements: InfrastructureRequirements,
-}
+decl_recruit_catalog_entry!(StableRecruitCatalogEntry, StableRecruitCatalogRecipe);

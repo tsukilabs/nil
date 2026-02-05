@@ -9,7 +9,26 @@ env:
   NIL_MAP_WORKSPACE_DEPS: "true"
 
 jobs:
+  test:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@nightly
+
+      - name: Clippy
+        run: cargo +nightly -Zscript scripts/run-clippy.rs
+        env:
+          RUST_BACKTRACE: 1
+
+      - name: Run tests
+        run: cargo +nightly -Zscript scripts/test.rs
+        env:
+          RUST_BACKTRACE: 1
+
   publish:
+    needs: test
     runs-on: ubuntu-22.04
     permissions:
       id-token: write
@@ -29,8 +48,7 @@ jobs:
           targets: wasm32-unknown-unknown
 
       - name: Publish WASM packages
-        shell: pwsh
-        run: scripts/build-wasm.ps1 -Publish -Install
+        run: cargo +nightly -Zscript scripts/build-wasm.rs --publish --install
 
   release-client:
     needs: publish
@@ -66,12 +84,6 @@ jobs:
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
 
-      - name: Run tests
-        shell: pwsh
-        run: scripts/test.ps1
-        env:
-          RUST_BACKTRACE: 1
-
       - uses: tauri-apps/tauri-action@v0.6
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -104,8 +116,7 @@ jobs:
           sudo apt-get update
 
       - name: Release
-        shell: pwsh
-        run: scripts/build-server.ps1 -Release
+        run: cargo +nightly -Zscript scripts/build-server.rs --release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NIL_DISCORD_WEBHOOK_URL: ${{ secrets.NIL_DISCORD_WEBHOOK_URL }}

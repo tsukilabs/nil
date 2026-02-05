@@ -3,7 +3,7 @@
 
 use nil_core::player::{PlayerId, PlayerOptions, PlayerStatus};
 use nil_core::world::WorldId;
-use nil_util::password::Password;
+use nil_crypto::password::Password;
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, Deserialize, Serialize)]

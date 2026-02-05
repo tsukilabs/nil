@@ -3,6 +3,5 @@
 *.mjs linguist-detectable=false
 *.html linguist-detectable=false
 *.css linguist-detectable=false
-*.ps1 linguist-detectable=false
 *.kt linguist-detectable=false
 *.kts linguist-detectable=false

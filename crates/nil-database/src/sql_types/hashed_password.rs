@@ -9,7 +9,7 @@ use diesel::expression::AsExpression;
 use diesel::serialize::{self as ser, IsNull, Output, ToSql};
 use diesel::sql_types::Text;
 use diesel::sqlite::Sqlite;
-use nil_util::password::Password;
+use nil_crypto::password::Password;
 
 #[derive(FromSqlRow, AsExpression, Clone, Debug, From, Into, PartialEq, Eq, Hash)]
 #[diesel(sql_type = Text)]

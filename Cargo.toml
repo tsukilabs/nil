@@ -3,7 +3,7 @@ resolver = "3"
 members = ["app/src-tauri", "crates/*"]
 
 [workspace.package]
-version = "0.2.14"
+version = "0.2.15"
 edition = "2024"
 rust-version = "1.95"
 license-file = "./LICENSE"
@@ -40,6 +40,7 @@ debug-assertions = true
 nil-client.path = "./crates/nil-client"
 nil-core.path = "./crates/nil-core"
 nil-core-macros.path = "./crates/nil-core-macros"
+nil-crypto.path = "./crates/nil-crypto"
 nil-database.path = "./crates/nil-database"
 nil-log.path = "./crates/nil-log"
 nil-namegen.path = "./crates/nil-namegen"
@@ -98,7 +99,7 @@ features = ["deref", "deref_mut", "display", "from", "into"]
 [workspace.dependencies.diesel]
 version = "2.3"
 default-features = false
-features = ["returning_clauses_for_sqlite_3_35", "serde_json", "sqlite", "uuid"]
+features = ["returning_clauses_for_sqlite_3_35", "sqlite"]
 
 [workspace.dependencies.diesel_migrations]
 version = "2.3"
@@ -185,8 +186,7 @@ features = ["parking_lot"]
 
 [workspace.dependencies.tracing-subscriber]
 version = "0.3"
-default-features = false
-features = ["ansi", "chrono", "env-filter", "fmt", "parking_lot", "registry", "smallvec", "std"]
+features = ["chrono", "env-filter", "parking_lot"]
 
 [workspace.dependencies.url]
 version = "2.5"
