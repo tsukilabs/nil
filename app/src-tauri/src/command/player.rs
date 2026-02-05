@@ -11,7 +11,7 @@ use nil_core::player::{Player, PlayerStatus, PublicPlayer};
 use nil_core::report::ReportId;
 use nil_core::resources::maintenance::Maintenance;
 use nil_payload::player::*;
-use nil_util::result::WrapOk;
+use tap::Pipe;
 use tauri::AppHandle;
 
 #[tauri::command]
@@ -64,7 +64,7 @@ pub async fn get_player_reports(
     .unique()
     .sorted_unstable()
     .collect_vec()
-    .wrap_ok()
+    .pipe(Ok)
 }
 
 #[tauri::command]

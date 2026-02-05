@@ -12,7 +12,7 @@ use diesel::prelude::*;
 use diesel::result::Error as DieselError;
 use nil_core::player::PlayerId;
 use nil_crypto::password::Password;
-use nil_util::result::WrapOk;
+use tap::Pipe;
 
 macro_rules! decl_get {
   ($fn_name:ident, $model:ident) => {
@@ -130,7 +130,7 @@ impl Database {
       password
         .filter(|it| !it.trim().is_empty())
         .is_some_and(|it| hash.verify(it))
-        .wrap_ok()
+        .pipe(Ok)
     } else {
       Ok(true)
     }
