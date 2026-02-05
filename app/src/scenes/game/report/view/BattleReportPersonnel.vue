@@ -30,6 +30,7 @@ const { t } = useI18n({
         <TableHead>{{ t('archer') }}</TableHead>
         <TableHead>{{ t('light-cavalry') }}</TableHead>
         <TableHead>{{ t('heavy-cavalry') }}</TableHead>
+        <TableHead>{{ t('ram') }}</TableHead>
       </TableRow>
     </TableHeader>
 
@@ -41,6 +42,7 @@ const { t } = useI18n({
         <TableCell>{{ personnel.archer.size }}</TableCell>
         <TableCell>{{ personnel.lightCavalry.size }}</TableCell>
         <TableCell>{{ personnel.heavyCavalry.size }}</TableCell>
+        <TableCell>{{ personnel.ram.size }}</TableCell>
       </TableRow>
 
       <TableRow class="hover:bg-card">
@@ -50,6 +52,7 @@ const { t } = useI18n({
         <TableCell>{{ losses.archer.size }}</TableCell>
         <TableCell>{{ losses.lightCavalry.size }}</TableCell>
         <TableCell>{{ losses.heavyCavalry.size }}</TableCell>
+        <TableCell>{{ losses.ram.size }}</TableCell>
       </TableRow>
     </TableBody>
   </Table>

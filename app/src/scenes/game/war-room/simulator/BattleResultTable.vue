@@ -30,6 +30,7 @@ const { t } = useI18n({
         <TableHead>{{ t('archer') }}</TableHead>
         <TableHead>{{ t('light-cavalry') }}</TableHead>
         <TableHead>{{ t('heavy-cavalry') }}</TableHead>
+        <TableHead>{{ t('ram') }}</TableHead>
       </TableRow>
     </TableHeader>
 

@@ -5,10 +5,10 @@
 import SquadGridItem from './SquadGridItem.vue';
 
 defineProps<{
-  available: ArmyPersonnel;
+  available: WritableArmyPersonnel;
 }>();
 
-const personnel = defineModel<ArmyPersonnel>({ required: true });
+const personnel = defineModel<WritableArmyPersonnel>({ required: true });
 </script>
 
 <template>
@@ -19,5 +19,6 @@ const personnel = defineModel<ArmyPersonnel>({ required: true });
     <SquadGridItem v-model="personnel.archer" :available="available.archer.size" />
     <SquadGridItem v-model="personnel.lightCavalry" :available="available.lightCavalry.size" />
     <SquadGridItem v-model="personnel.heavyCavalry" :available="available.heavyCavalry.size" />
+    <SquadGridItem v-model="personnel.ram" :available="available.ram.size" />
   </div>
 </template>

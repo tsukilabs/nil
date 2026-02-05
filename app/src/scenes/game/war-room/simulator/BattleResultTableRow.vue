@@ -20,5 +20,6 @@ defineProps<{
     <TableCell>{{ formatInt(personnel.archer.size) }}</TableCell>
     <TableCell>{{ formatInt(personnel.lightCavalry.size) }}</TableCell>
     <TableCell>{{ formatInt(personnel.heavyCavalry.size) }}</TableCell>
+    <TableCell>{{ formatInt(personnel.ram.size) }}</TableCell>
   </TableRow>
 </template>

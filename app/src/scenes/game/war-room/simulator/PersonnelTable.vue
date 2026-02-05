@@ -61,6 +61,10 @@ const { stats } = NIL.world.refs();
         v-model:attacker="attacker.heavyCavalry"
         v-model:defender="defender.heavyCavalry"
       />
+      <PersonnelTableRow
+        v-model:attacker="attacker.ram"
+        v-model:defender="defender.ram"
+      />
 
       <div class="mt-4"></div>
 
