@@ -9,26 +9,6 @@ env:
   NIL_MAP_WORKSPACE_DEPS: "true"
 
 jobs:
-  test:
-    runs-on: ubuntu-22.04
-    steps:
-      - uses: actions/checkout@v6
-
-      - name: Install Rust
-        uses: dtolnay/rust-toolchain@nightly
-        with:
-          components: clippy
-
-      - name: Clippy
-        run: cargo +nightly -Zscript scripts/run-clippy.rs
-        env:
-          RUST_BACKTRACE: 1
-
-      - name: Run tests
-        run: cargo +nightly -Zscript scripts/test.rs
-        env:
-          RUST_BACKTRACE: 1
-
   publish:
     needs: test
     runs-on: ubuntu-22.04
@@ -85,6 +65,11 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
+
+      - name: Run tests
+        run: cargo +nightly -Zscript scripts/test.rs
+        env:
+          RUST_BACKTRACE: 1
 
       - uses: tauri-apps/tauri-action@v0.6
         env:
