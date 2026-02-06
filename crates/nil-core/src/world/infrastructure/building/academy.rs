@@ -10,9 +10,4 @@ use crate::infrastructure::building::academy::recruit_queue::{
 };
 use crate::world::World;
 
-decl_world_recruit_order_fn!(
-  add_academy_recruit_order,
-  cancel_academy_recruit_order,
-  AcademyRecruitOrderId,
-  AcademyRecruitOrderRequest
-);
+decl_world_recruit_order_fn!(Academy);

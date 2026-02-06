@@ -14,7 +14,6 @@ fn cannot_spawn_twice() -> Result<()> {
   spawn(&mut world, &player_a)?;
 
   assert!(world.has_player(&player_a));
-
   assert_matches!(
     spawn(&mut world, &player_a),
     Err(Error::PlayerAlreadySpawned(_))

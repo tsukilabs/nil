@@ -104,20 +104,18 @@ impl World {
       infrastructure.process_prefecture_build_queue();
 
       macro_rules! process_recruit_queue {
-        ($($process_fn:ident),+ $(,)?) => {
-          $(
-            if let Some(personnel) = infrastructure.$process_fn() {
+        ($building:ident) => {
+          paste::paste! {
+            if let Some(personnel) = infrastructure.[<process_ $building:snake _recruit_queue>]() {
               self.military.spawn(coord, owner.clone(), personnel);
             }
-          )+
+          }
         };
       }
 
-      process_recruit_queue!(
-        process_academy_recruit_queue,
-        process_stable_recruit_queue,
-        process_workshop_recruit_queue
-      );
+      process_recruit_queue!(Academy);
+      process_recruit_queue!(Stable);
+      process_recruit_queue!(Workshop);
     }
   }
 }

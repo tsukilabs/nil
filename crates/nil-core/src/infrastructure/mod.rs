@@ -44,6 +44,7 @@ use serde::{Deserialize, Serialize};
 use stats::InfrastructureStats;
 use storage::Storage;
 use strum::IntoEnumIterator;
+use tap::Pipe;
 
 #[derive(Builder, Clone, Debug, Default, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
@@ -88,55 +89,6 @@ impl Infrastructure {
     Self::default()
   }
 
-  /// Creates a new instance with all buildings set to their maximum level.
-  pub fn with_max_level() -> Self {
-    Self {
-      academy: Academy::with_max_level(),
-      farm: Farm::with_max_level(),
-      iron_mine: IronMine::with_max_level(),
-      prefecture: Prefecture::with_max_level(),
-      quarry: Quarry::with_max_level(),
-      sawmill: Sawmill::with_max_level(),
-      silo: Silo::with_max_level(),
-      stable: Stable::with_max_level(),
-      wall: Wall::with_max_level(),
-      warehouse: Warehouse::with_max_level(),
-      workshop: Workshop::with_max_level(),
-    }
-  }
-
-  pub const fn building(&self, id: BuildingId) -> &dyn Building {
-    match id {
-      BuildingId::Academy => &self.academy,
-      BuildingId::Farm => &self.farm,
-      BuildingId::IronMine => &self.iron_mine,
-      BuildingId::Prefecture => &self.prefecture,
-      BuildingId::Quarry => &self.quarry,
-      BuildingId::Sawmill => &self.sawmill,
-      BuildingId::Silo => &self.silo,
-      BuildingId::Stable => &self.stable,
-      BuildingId::Wall => &self.wall,
-      BuildingId::Warehouse => &self.warehouse,
-      BuildingId::Workshop => &self.workshop,
-    }
-  }
-
-  pub(crate) const fn building_mut(&mut self, id: BuildingId) -> &mut dyn Building {
-    match id {
-      BuildingId::Academy => &mut self.academy,
-      BuildingId::Farm => &mut self.farm,
-      BuildingId::IronMine => &mut self.iron_mine,
-      BuildingId::Prefecture => &mut self.prefecture,
-      BuildingId::Quarry => &mut self.quarry,
-      BuildingId::Sawmill => &mut self.sawmill,
-      BuildingId::Silo => &mut self.silo,
-      BuildingId::Stable => &mut self.stable,
-      BuildingId::Wall => &mut self.wall,
-      BuildingId::Warehouse => &mut self.warehouse,
-      BuildingId::Workshop => &mut self.workshop,
-    }
-  }
-
   pub const fn storage(&self, id: StorageId) -> &dyn Storage {
     match id {
       StorageId::Silo => &self.silo,
@@ -151,61 +103,6 @@ impl Infrastructure {
       MineId::Quarry => &self.quarry,
       MineId::Sawmill => &self.sawmill,
     }
-  }
-
-  #[inline]
-  pub const fn academy(&self) -> &Academy {
-    &self.academy
-  }
-
-  #[inline]
-  pub const fn farm(&self) -> &Farm {
-    &self.farm
-  }
-
-  #[inline]
-  pub const fn iron_mine(&self) -> &IronMine {
-    &self.iron_mine
-  }
-
-  #[inline]
-  pub const fn prefecture(&self) -> &Prefecture {
-    &self.prefecture
-  }
-
-  #[inline]
-  pub const fn quarry(&self) -> &Quarry {
-    &self.quarry
-  }
-
-  #[inline]
-  pub const fn sawmill(&self) -> &Sawmill {
-    &self.sawmill
-  }
-
-  #[inline]
-  pub const fn silo(&self) -> &Silo {
-    &self.silo
-  }
-
-  #[inline]
-  pub const fn stable(&self) -> &Stable {
-    &self.stable
-  }
-
-  #[inline]
-  pub const fn wall(&self) -> &Wall {
-    &self.wall
-  }
-
-  #[inline]
-  pub const fn warehouse(&self) -> &Warehouse {
-    &self.warehouse
-  }
-
-  #[inline]
-  pub const fn workshop(&self) -> &Workshop {
-    &self.workshop
   }
 
   pub fn score(&self, stats: &InfrastructureStats) -> Result<Score> {
@@ -227,50 +124,23 @@ impl Infrastructure {
     let mut resources = Resources::default();
 
     macro_rules! set {
-      ($id:ident, $mine:ident, $resource:ident) => {
-        let mine = &self.$mine;
-        if mine.level() > 0u8 && mine.is_enabled() {
-          let mine_stats = stats.mine(MineId::$id)?;
-          resources.$resource = mine.production(mine_stats)?.into();
+      ($building:ident, $resource:ident) => {
+        paste::paste! {
+          let mine = &self.[<$building:snake>];
+          if mine.level() > 0u8 && mine.is_enabled() {
+            let mine_stats = stats.mine(MineId::$building)?;
+            resources.$resource = mine.production(mine_stats)?.into();
+          }
         }
       };
     }
 
-    set!(Farm, farm, food);
-    set!(IronMine, iron_mine, iron);
-    set!(Quarry, quarry, stone);
-    set!(Sawmill, sawmill, wood);
+    set!(Farm, food);
+    set!(IronMine, iron);
+    set!(Quarry, stone);
+    set!(Sawmill, wood);
 
     Ok(resources)
-  }
-
-  /// Determines the maintenance tax required for all buildings at their current levels.
-  pub fn base_maintenance(&self, stats: &InfrastructureStats) -> Result<Maintenance> {
-    let mut maintenance = Maintenance::default();
-
-    macro_rules! add {
-      ($id:ident, $building:ident) => {
-        let building = &self.$building;
-        if building.level() > 0u8 && building.is_enabled() {
-          let building_stats = stats.building(BuildingId::$id)?;
-          maintenance += building.maintenance(&building_stats)?;
-        }
-      };
-    }
-
-    add!(Academy, academy);
-    add!(Farm, farm);
-    add!(IronMine, iron_mine);
-    add!(Prefecture, prefecture);
-    add!(Quarry, quarry);
-    add!(Sawmill, sawmill);
-    add!(Silo, silo);
-    add!(Stable, stable);
-    add!(Wall, wall);
-    add!(Warehouse, warehouse);
-    add!(Workshop, workshop);
-
-    Ok(maintenance)
   }
 
   pub(crate) fn add_prefecture_build_order(
@@ -304,74 +174,96 @@ impl Infrastructure {
   }
 }
 
-macro_rules! impl_recruitment {
-  (
-    $building:ident,
-    $add_fn:ident,
-    $cancel_fn:ident,
-    $process_fn:ident,
-    $id:ident,
-    $order:ident,
-    $request:ident
-  ) => {
-    impl Infrastructure {
-      pub(crate) fn $add_fn(
-        &mut self,
-        request: &$request,
-        current_resources: Option<&Resources>,
-      ) -> Result<&$order> {
-        self
-          .$building
-          .recruit_queue_mut()
-          .recruit(request, current_resources)
-      }
+macro_rules! impl_infrastructure {
+  ($($building:ident),+) => {
+    paste::paste! {
+      impl Infrastructure {
+        $(
+          #[inline]
+          pub const fn [<$building:snake>](&self) -> &$building {
+            &self.[<$building:snake>]
+          }
+        )+
 
-      #[must_use]
-      pub(crate) fn $cancel_fn(&mut self, id: $id) -> Option<$order> {
-        self.$building.recruit_queue_mut().cancel(id)
-      }
+        /// Creates a new instance with all buildings set to their maximum level.
+        pub fn with_max_level() -> Self {
+          Self {
+            $([<$building:snake>]: $building::with_max_level(),)+
+          }
+        }
 
-      #[must_use]
-      pub(crate) fn $process_fn(&mut self) -> Option<ArmyPersonnel> {
-        let personnel = self
-          .$building
-          .process_queue()?
-          .into_iter()
-          .map(Squad::from)
-          .collect();
+        pub const fn building(&self, id: BuildingId) -> &dyn Building {
+          match id {
+            $(BuildingId::$building => &self.[<$building:snake>],)+
+          }
+        }
 
-        Some(personnel)
+        pub(crate) const fn building_mut(&mut self, id: BuildingId) -> &mut dyn Building {
+          match id {
+            $(BuildingId::$building => &mut self.[<$building:snake>],)+
+          }
+        }
+
+        /// Determines the maintenance tax required for all buildings at their current levels.
+        pub fn base_maintenance(&self, stats: &InfrastructureStats) -> Result<Maintenance> {
+          let mut maintenance = Maintenance::default();
+          $(
+            let building = &self.[<$building:snake>];
+            if building.level() > 0u8 && building.is_enabled() {
+              let building_stats = stats.building(BuildingId::$building)?;
+              maintenance += building.maintenance(&building_stats)?;
+            }
+          )+
+
+          Ok(maintenance)
+        }
       }
     }
   };
 }
 
-impl_recruitment!(
-  academy,
-  add_academy_recruit_order,
-  cancel_academy_recruit_order,
-  process_academy_recruit_queue,
-  AcademyRecruitOrderId,
-  AcademyRecruitOrder,
-  AcademyRecruitOrderRequest
+impl_infrastructure!(
+  Academy, Farm, IronMine, Prefecture, Quarry, Sawmill, Silo, Stable, Wall, Warehouse, Workshop
 );
 
-impl_recruitment!(
-  stable,
-  add_stable_recruit_order,
-  cancel_stable_recruit_order,
-  process_stable_recruit_queue,
-  StableRecruitOrderId,
-  StableRecruitOrder,
-  StableRecruitOrderRequest
-);
+macro_rules! impl_recruitment {
+  ($building:ident) => {
+    paste::paste! {
+      impl Infrastructure {
+        pub(crate) fn [<add_ $building:snake _recruit_order>](
+          &mut self,
+          request: &[<$building RecruitOrderRequest>],
+          current_resources: Option<&Resources>,
+        ) -> Result<&[<$building RecruitOrder>]> {
+          self
+            .[<$building:snake>]
+            .recruit_queue_mut()
+            .recruit(request, current_resources)
+        }
 
-impl_recruitment!(
-  workshop,
-  add_workshop_recruit_order,
-  cancel_workshop_recruit_order,
-  process_workshop_recruit_queue,
-  WorkshopRecruitOrderId,
-  WorkshopRecruitOrder,
-  WorkshopRecruitOrderRequest
-);
+        #[must_use]
+        pub(crate) fn [<cancel_ $building:snake _recruit_order>](
+          &mut self,
+          id: [<$building RecruitOrderId>]
+        ) -> Option<[<$building RecruitOrder>]> {
+          self.[<$building:snake>].recruit_queue_mut().cancel(id)
+        }
+
+        #[must_use]
+        pub(crate) fn [<process_ $building:snake _recruit_queue>](&mut self) -> Option<ArmyPersonnel> {
+          self
+            .[<$building:snake>]
+            .process_queue()?
+            .into_iter()
+            .map(Squad::from)
+            .collect::<ArmyPersonnel>()
+            .pipe(Some)
+        }
+      }
+    }
+  };
+}
+
+impl_recruitment!(Academy);
+impl_recruitment!(Stable);
+impl_recruitment!(Workshop);

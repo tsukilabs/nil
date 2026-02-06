@@ -37,4 +37,4 @@ impl AcademyRecruitCatalog {
   }
 }
 
-decl_recruit_catalog_entry!(AcademyRecruitCatalogEntry, AcademyRecruitCatalogRecipe);
+decl_recruit_catalog_entry!(Academy);

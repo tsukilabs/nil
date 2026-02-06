@@ -3169,6 +3169,7 @@ dependencies = [
  "nil-num",
  "nil-util",
  "num-traits",
+ "paste",
  "rand 0.9.2",
  "remain",
  "semver",
@@ -3866,6 +3867,11 @@ dependencies = [
  "rand_core 0.6.4",
  "subtle",
 ]
+
+[[package]]
+name = "paste"
+version = "1.0.15"
+source = "git+https://github.com/tb-forks/paste?branch=master#6a302522990cbfd9de4e0c61d91854622f7b2999"
 
 [[package]]
 name = "pathdiff"
@@ -5814,8 +5820,8 @@ dependencies = [
 
 [[package]]
 name = "tauri-plugin-pinia"
-version = "4.1.0"
-source = "git+https://github.com/ferreira-tb/tauri-store?branch=main#cc54223d67a6d16412f8db15d1cb4f5f85e260fb"
+version = "4.1.1"
+source = "git+https://github.com/ferreira-tb/tauri-store?branch=main#3e614f0b3c0fea2cdf74713dc7dddbd33283664c"
 dependencies = [
  "serde",
  "tauri",
@@ -5950,8 +5956,8 @@ dependencies = [
 
 [[package]]
 name = "tauri-store"
-version = "1.1.0"
-source = "git+https://github.com/ferreira-tb/tauri-store?branch=main#cc54223d67a6d16412f8db15d1cb4f5f85e260fb"
+version = "1.1.1"
+source = "git+https://github.com/ferreira-tb/tauri-store?branch=main#3e614f0b3c0fea2cdf74713dc7dddbd33283664c"
 dependencies = [
  "dashmap",
  "futures",
@@ -5968,8 +5974,8 @@ dependencies = [
 
 [[package]]
 name = "tauri-store-macros"
-version = "1.1.0"
-source = "git+https://github.com/ferreira-tb/tauri-store?branch=main#cc54223d67a6d16412f8db15d1cb4f5f85e260fb"
+version = "1.1.1"
+source = "git+https://github.com/ferreira-tb/tauri-store?branch=main#3e614f0b3c0fea2cdf74713dc7dddbd33283664c"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -5978,8 +5984,8 @@ dependencies = [
 
 [[package]]
 name = "tauri-store-utils"
-version = "0.7.1"
-source = "git+https://github.com/ferreira-tb/tauri-store?branch=main#cc54223d67a6d16412f8db15d1cb4f5f85e260fb"
+version = "0.7.2"
+source = "git+https://github.com/ferreira-tb/tauri-store?branch=main#3e614f0b3c0fea2cdf74713dc7dddbd33283664c"
 dependencies = [
  "parking_lot",
  "semver",

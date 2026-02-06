@@ -33,4 +33,4 @@ impl StableRecruitCatalog {
   }
 }
 
-decl_recruit_catalog_entry!(StableRecruitCatalogEntry, StableRecruitCatalogRecipe);
+decl_recruit_catalog_entry!(Stable);
