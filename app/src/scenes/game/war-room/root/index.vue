@@ -69,21 +69,23 @@ function clear() {
 </script>
 
 <template>
-  <div class="w-full flex flex-col gap-8 px-4">
-    <SquadGrid v-model="personnel" :available />
+  <div class="w-full flex flex-col gap-4 px-4 xl:flex-row xl:gap-8">
+    <div class="w-full flex flex-col gap-8">
+      <SquadGrid v-model="personnel" :available />
 
-    <Destination v-model="destination" :destination-city />
+      <Destination v-model="destination" :destination-city />
 
-    <div class="grid grid-cols-3 items-center justify-start gap-4 max-w-max">
-      <Button variant="default" :disabled="!canSend" @click="() => send('attack')">
-        <span>{{ t('attack') }}</span>
-      </Button>
-      <Button variant="default" :disabled="!canSend" @click="() => send('support')">
-        <span>{{ t('support') }}</span>
-      </Button>
-      <Button variant="secondary" @click="clear">
-        <span>{{ t('clear') }}</span>
-      </Button>
+      <div class="grid grid-cols-3 items-center justify-start gap-4 max-w-max">
+        <Button variant="default" :disabled="!canSend" @click="() => send('attack')">
+          <span>{{ t('attack') }}</span>
+        </Button>
+        <Button variant="default" :disabled="!canSend" @click="() => send('support')">
+          <span>{{ t('support') }}</span>
+        </Button>
+        <Button variant="secondary" @click="clear">
+          <span>{{ t('clear') }}</span>
+        </Button>
+      </div>
     </div>
 
     <Maneuvers v-if="maneuvers.length > 0" :maneuvers />

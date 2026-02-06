@@ -53,7 +53,7 @@ function clear() {
 </script>
 
 <template>
-  <div class="w-full min-w-max flex flex-col gap-4 xl:flex-row-reverse xl:justify-end">
+  <div class="w-full min-w-max flex flex-col gap-4 md:px-4 xl:flex-row-reverse xl:justify-end xl:gap-12">
     <BattleResultTable v-if="result" :result />
     <div class="w-full flex flex-col gap-4 xl:max-w-max">
       <PersonnelTable

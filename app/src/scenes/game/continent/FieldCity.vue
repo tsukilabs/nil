@@ -77,7 +77,7 @@ function getPrecursorColor(id: PrecursorId) {
           v-if="toCityProfile"
           :to="toCityProfile"
           :class="color"
-          class="size-[75%] cursor-pointer rounded-full"
+          class="size-[75%] rounded-full"
         />
       </div>
     </HoverCardTrigger>
@@ -93,7 +93,11 @@ function getPrecursorColor(id: PrecursorId) {
             <TableBody>
               <TableRow>
                 <TableHead>{{ t('coordinate', 2) }}</TableHead>
-                <TableCell>{{ city.coord.format() }}</TableCell>
+                <TableCell>
+                  <RouterLink v-if="toCityProfile" :to="toCityProfile">
+                    <span>{{ city.coord.format() }}</span>
+                  </RouterLink>
+                </TableCell>
               </TableRow>
 
               <TableRow>
