@@ -1,6 +1,8 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+use tap::Pipe;
+
 use crate::bail_if_cheats_are_not_allowed;
 use crate::error::Result;
 use crate::resources::prelude::*;
@@ -39,22 +41,20 @@ impl World {
   }
 
   pub fn cheat_set_max_warehouse_resources(&mut self, ruler: &Ruler) -> Result<()> {
-    let resources = Resources::builder()
+    Resources::builder()
       .iron(Iron::MAX)
       .stone(Stone::MAX)
       .wood(Wood::MAX)
-      .build();
-
-    self.cheat_set_resources(ruler, resources)
+      .build()
+      .pipe(|resources| self.cheat_set_resources(ruler, resources))
   }
 
   pub fn cheat_set_food(&mut self, ruler: &Ruler, food: Food) -> Result<()> {
-    let resources = self
+    self
       .ruler(ruler)?
       .resources()
-      .with_food(food);
-
-    self.cheat_set_resources(ruler, resources)
+      .with_food(food)
+      .pipe(|resources| self.cheat_set_resources(ruler, resources))
   }
 
   #[inline]
@@ -63,12 +63,11 @@ impl World {
   }
 
   pub fn cheat_set_iron(&mut self, ruler: &Ruler, iron: Iron) -> Result<()> {
-    let resources = self
+    self
       .ruler(ruler)?
       .resources()
-      .with_iron(iron);
-
-    self.cheat_set_resources(ruler, resources)
+      .with_iron(iron)
+      .pipe(|resources| self.cheat_set_resources(ruler, resources))
   }
 
   #[inline]
@@ -77,12 +76,11 @@ impl World {
   }
 
   pub fn cheat_set_stone(&mut self, ruler: &Ruler, stone: Stone) -> Result<()> {
-    let resources = self
+    self
       .ruler(ruler)?
       .resources()
-      .with_stone(stone);
-
-    self.cheat_set_resources(ruler, resources)
+      .with_stone(stone)
+      .pipe(|resources| self.cheat_set_resources(ruler, resources))
   }
 
   #[inline]
@@ -91,12 +89,11 @@ impl World {
   }
 
   pub fn cheat_set_wood(&mut self, ruler: &Ruler, wood: Wood) -> Result<()> {
-    let resources = self
+    self
       .ruler(ruler)?
       .resources()
-      .with_wood(wood);
-
-    self.cheat_set_resources(ruler, resources)
+      .with_wood(wood)
+      .pipe(|resources| self.cheat_set_resources(ruler, resources))
   }
 
   #[inline]

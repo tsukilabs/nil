@@ -148,191 +148,193 @@ impl SubAssign<ResourcesDiff> for Resources {
 }
 
 macro_rules! decl_resource_diff {
-  ($($original:ident => $diff:ident),+ $(,)?) => {
-    $(
-      #[derive(
-        Clone,
-        Copy,
-        Debug,
-        Default,
-        Deref,
-        Display,
-        Into,
-        PartialEq,
-        Eq,
-        PartialOrd,
-        Ord,
-        Deserialize,
-        Serialize,
-      )]
-      #[into(i32, f64)]
-      pub struct $diff(i32);
+  ($($resource:ident),+ $(,)?) => {
+    paste::paste! {
+      $(
+        #[derive(
+          Clone,
+          Copy,
+          Debug,
+          Default,
+          Deref,
+          Display,
+          Into,
+          PartialEq,
+          Eq,
+          PartialOrd,
+          Ord,
+          Deserialize,
+          Serialize,
+        )]
+        #[into(i32, f64)]
+        pub struct [<$resource Diff>](i32);
 
-      impl $diff {
-        #[inline]
-        pub const fn new(value: i32) -> Self {
-          Self(value)
+        impl [<$resource Diff>] {
+          #[inline]
+          pub const fn new(value: i32) -> Self {
+            Self(value)
+          }
+
+          #[inline]
+          pub const fn zero() -> Self {
+            Self(0)
+          }
         }
 
-        #[inline]
-        pub const fn zero() -> Self {
-          Self(0)
+        impl PartialEq<i32> for [<$resource Diff>] {
+          fn eq(&self, other: &i32) -> bool {
+            self.0.eq(other)
+          }
         }
-      }
 
-      impl PartialEq<i32> for $diff {
-        fn eq(&self, other: &i32) -> bool {
-          self.0.eq(other)
+        impl PartialOrd<i32> for [<$resource Diff>] {
+          fn partial_cmp(&self, other: &i32) -> Option<Ordering> {
+            self.0.partial_cmp(other)
+          }
         }
-      }
 
-      impl PartialOrd<i32> for $diff {
-        fn partial_cmp(&self, other: &i32) -> Option<Ordering> {
-          self.0.partial_cmp(other)
+        impl Add for [<$resource Diff>] {
+          type Output = Self;
+
+          fn add(self, rhs: Self) -> Self {
+            Self(self.0.saturating_add(rhs.0))
+          }
         }
-      }
 
-      impl Add for $diff {
-        type Output = Self;
+        impl Add<$resource> for [<$resource Diff>] {
+          type Output = Self;
 
-        fn add(self, rhs: Self) -> Self {
-          Self(self.0.saturating_add(rhs.0))
+          fn add(self, rhs: $resource) -> Self {
+            Self(self.0.saturating_add_unsigned(rhs.0))
+          }
         }
-      }
 
-      impl Add<$original> for $diff {
-        type Output = Self;
+        impl Add<[<$resource Diff>]> for $resource {
+          type Output = Self;
 
-        fn add(self, rhs: $original) -> Self {
-          Self(self.0.saturating_add_unsigned(rhs.0))
+          fn add(self, rhs: [<$resource Diff>]) -> Self {
+            Self(self.0.saturating_add_signed(rhs.0))
+          }
         }
-      }
 
-      impl Add<$diff> for $original {
-        type Output = Self;
+        impl Add<i32> for [<$resource Diff>] {
+          type Output = Self;
 
-        fn add(self, rhs: $diff) -> Self {
-          Self(self.0.saturating_add_signed(rhs.0))
+          fn add(self, rhs: i32) -> Self {
+            Self(self.0.saturating_add(rhs))
+          }
         }
-      }
 
-      impl Add<i32> for $diff {
-        type Output = Self;
+        impl Add<u32> for [<$resource Diff>] {
+          type Output = Self;
 
-        fn add(self, rhs: i32) -> Self {
-          Self(self.0.saturating_add(rhs))
+          fn add(self, rhs: u32) -> Self {
+            Self(self.0.saturating_add_unsigned(rhs))
+          }
         }
-      }
 
-      impl Add<u32> for $diff {
-        type Output = Self;
-
-        fn add(self, rhs: u32) -> Self {
-          Self(self.0.saturating_add_unsigned(rhs))
+        impl AddAssign for [<$resource Diff>] {
+          fn add_assign(&mut self, rhs: Self) {
+            *self = *self + rhs;
+          }
         }
-      }
 
-      impl AddAssign for $diff {
-        fn add_assign(&mut self, rhs: Self) {
-          *self = *self + rhs;
+        impl AddAssign<$resource> for [<$resource Diff>] {
+          fn add_assign(&mut self, rhs: $resource) {
+            *self = *self + rhs;
+          }
         }
-      }
 
-      impl AddAssign<$original> for $diff {
-        fn add_assign(&mut self, rhs: $original) {
-          *self = *self + rhs;
+        impl AddAssign<[<$resource Diff>]> for $resource {
+          fn add_assign(&mut self, rhs: [<$resource Diff>]) {
+            *self = *self + rhs;
+          }
         }
-      }
 
-      impl AddAssign<$diff> for $original {
-        fn add_assign(&mut self, rhs: $diff) {
-          *self = *self + rhs;
+        impl AddAssign<i32> for [<$resource Diff>] {
+          fn add_assign(&mut self, rhs: i32) {
+            *self = *self + rhs;
+          }
         }
-      }
 
-      impl AddAssign<i32> for $diff {
-        fn add_assign(&mut self, rhs: i32) {
-          *self = *self + rhs;
+        impl AddAssign<u32> for [<$resource Diff>] {
+          fn add_assign(&mut self, rhs: u32) {
+            *self = *self + rhs;
+          }
         }
-      }
 
-      impl AddAssign<u32> for $diff {
-        fn add_assign(&mut self, rhs: u32) {
-          *self = *self + rhs;
+        impl Sub for [<$resource Diff>] {
+          type Output = Self;
+
+          fn sub(self, rhs: Self) -> Self {
+            Self(self.0.saturating_sub(rhs.0))
+          }
         }
-      }
 
-      impl Sub for $diff {
-        type Output = Self;
+        impl Sub<$resource> for [<$resource Diff>] {
+          type Output = Self;
 
-        fn sub(self, rhs: Self) -> Self {
-          Self(self.0.saturating_sub(rhs.0))
+          fn sub(self, rhs: $resource) -> Self {
+            Self(self.0.saturating_sub_unsigned(rhs.0))
+          }
         }
-      }
 
-      impl Sub<$original> for $diff {
-        type Output = Self;
+        impl Sub<[<$resource Diff>]> for $resource {
+          type Output = Self;
 
-        fn sub(self, rhs: $original) -> Self {
-          Self(self.0.saturating_sub_unsigned(rhs.0))
+          fn sub(self, rhs: [<$resource Diff>]) -> Self {
+            Self(self.0.saturating_sub_signed(rhs.0))
+          }
         }
-      }
 
-      impl Sub<$diff> for $original {
-        type Output = Self;
+        impl Sub<i32> for [<$resource Diff>] {
+          type Output = Self;
 
-        fn sub(self, rhs: $diff) -> Self {
-          Self(self.0.saturating_sub_signed(rhs.0))
+          fn sub(self, rhs: i32) -> Self {
+            Self(self.0.saturating_sub(rhs))
+          }
         }
-      }
 
-      impl Sub<i32> for $diff {
-        type Output = Self;
+        impl Sub<u32> for [<$resource Diff>] {
+          type Output = Self;
 
-        fn sub(self, rhs: i32) -> Self {
-          Self(self.0.saturating_sub(rhs))
+          fn sub(self, rhs: u32) -> Self {
+            Self(self.0.saturating_sub_unsigned(rhs))
+          }
         }
-      }
 
-      impl Sub<u32> for $diff {
-        type Output = Self;
-
-        fn sub(self, rhs: u32) -> Self {
-          Self(self.0.saturating_sub_unsigned(rhs))
+        impl SubAssign for [<$resource Diff>] {
+          fn sub_assign(&mut self, rhs: Self) {
+            *self = *self - rhs;
+          }
         }
-      }
 
-      impl SubAssign for $diff {
-        fn sub_assign(&mut self, rhs: Self) {
-          *self = *self - rhs;
+        impl SubAssign<$resource> for [<$resource Diff>] {
+          fn sub_assign(&mut self, rhs: $resource) {
+            *self = *self - rhs;
+          }
         }
-      }
 
-      impl SubAssign<$original> for $diff {
-        fn sub_assign(&mut self, rhs: $original) {
-          *self = *self - rhs;
+        impl SubAssign<[<$resource Diff>]> for $resource {
+          fn sub_assign(&mut self, rhs: [<$resource Diff>]) {
+            *self = *self - rhs;
+          }
         }
-      }
 
-      impl SubAssign<$diff> for $original {
-        fn sub_assign(&mut self, rhs: $diff) {
-          *self = *self - rhs;
+        impl SubAssign<i32> for [<$resource Diff>] {
+          fn sub_assign(&mut self, rhs: i32) {
+            *self = *self - rhs;
+          }
         }
-      }
 
-      impl SubAssign<i32> for $diff {
-        fn sub_assign(&mut self, rhs: i32) {
-          *self = *self - rhs;
+        impl SubAssign<u32> for [<$resource Diff>] {
+          fn sub_assign(&mut self, rhs: u32) {
+            *self = *self - rhs;
+          }
         }
-      }
-
-      impl SubAssign<u32> for $diff {
-        fn sub_assign(&mut self, rhs: u32) {
-          *self = *self - rhs;
-        }
-      }
-    )+
+      )+
+    }
   }
 }
 
-decl_resource_diff!(Food => FoodDiff, Iron => IronDiff, Stone => StoneDiff, Wood => WoodDiff);
+decl_resource_diff!(Food, Iron, Stone, Wood);

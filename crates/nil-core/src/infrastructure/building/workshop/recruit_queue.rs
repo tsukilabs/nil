@@ -15,11 +15,4 @@ use std::num::NonZeroU32;
 use strum::EnumIs;
 use uuid::Uuid;
 
-decl_recruit_queue!(
-  WorkshopRecruitQueue,
-  WorkshopRecruitOrder,
-  WorkshopRecruitOrderState,
-  WorkshopRecruitOrderId,
-  WorkshopUnitId,
-  WorkshopRecruitOrderRequest
-);
+decl_recruit_queue!(Workshop);

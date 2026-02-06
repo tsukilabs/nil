@@ -27,6 +27,7 @@ nil-namegen.workspace = true
 nil-num.workspace = true
 nil-util.workspace = true
 num-traits.workspace = true
+paste.workspace = true
 rand.workspace = true
 remain.workspace = true
 semver.workspace = true

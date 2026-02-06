@@ -10,9 +10,4 @@ use crate::infrastructure::building::stable::recruit_queue::{
 };
 use crate::world::World;
 
-decl_world_recruit_order_fn!(
-  add_stable_recruit_order,
-  cancel_stable_recruit_order,
-  StableRecruitOrderId,
-  StableRecruitOrderRequest
-);
+decl_world_recruit_order_fn!(Stable);

@@ -127,6 +127,10 @@ features = ["rust_crypto"]
 version = "0.35"
 features = ["bundled"]
 
+[workspace.dependencies.paste]
+git = "https://github.com/tb-forks/paste"
+branch = "master"
+
 [workspace.dependencies.rand]
 version = "0.9"
 features = ["nightly"]

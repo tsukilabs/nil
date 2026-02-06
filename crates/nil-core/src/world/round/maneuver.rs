@@ -1,7 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use crate::battle::{Battle, BattleResult};
+use crate::battle::{Battle, BattleResult, Luck};
 use crate::continent::Coord;
 use crate::error::Result;
 use crate::infrastructure::building::{Building, BuildingLevel};
@@ -192,6 +192,7 @@ fn perform_battle(world: &World, maneuver: &Maneuver) -> Result<BattleResult> {
   Battle::builder()
     .attacker(&attacker)
     .defender(&defender)
+    .luck(Luck::random())
     .maybe_wall(wall_stats)
     .build()
     .result()

@@ -15,11 +15,4 @@ use std::num::NonZeroU32;
 use strum::EnumIs;
 use uuid::Uuid;
 
-decl_recruit_queue!(
-  AcademyRecruitQueue,
-  AcademyRecruitOrder,
-  AcademyRecruitOrderState,
-  AcademyRecruitOrderId,
-  AcademyUnitId,
-  AcademyRecruitOrderRequest
-);
+decl_recruit_queue!(Academy);

@@ -10,9 +10,4 @@ use crate::infrastructure::building::workshop::recruit_queue::{
 };
 use crate::world::World;
 
-decl_world_recruit_order_fn!(
-  add_workshop_recruit_order,
-  cancel_workshop_recruit_order,
-  WorkshopRecruitOrderId,
-  WorkshopRecruitOrderRequest
-);
+decl_world_recruit_order_fn!(Workshop);

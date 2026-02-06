@@ -35,20 +35,20 @@ importers:
         specifier: '=2.10.0'
         version: 2.10.0
       '@tauri-store/pinia':
-        specifier: '=4.1.0'
-        version: 4.1.0(typescript@5.9.3)
+        specifier: '=4.1.1'
+        version: 4.1.1(typescript@5.9.3)
       '@tb-dev/prototype-dom':
-        specifier: '=7.0.31'
-        version: 7.0.31
+        specifier: '=7.0.32'
+        version: 7.0.32
       '@tb-dev/utils':
         specifier: '=7.2.2'
         version: 7.2.2
       '@tb-dev/vue':
-        specifier: '=3.4.4'
-        version: 3.4.4(typescript@5.9.3)
+        specifier: '=3.4.5'
+        version: 3.4.5(typescript@5.9.3)
       '@tb-dev/vue-components':
-        specifier: '=7.0.7'
-        version: 7.0.7(@nuxt/kit@4.1.0(magicast@0.3.5))(@nuxt/schema@4.1.0)(@vue/compiler-sfc@3.5.27)(nuxt@4.1.0(@parcel/watcher@2.5.1)(@types/node@25.2.1)(@vue/compiler-sfc@3.5.27)(db0@0.3.2)(eslint@9.39.2(jiti@2.6.1))(ioredis@5.7.0)(lightningcss@1.30.2)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.50.0)(terser@5.44.0)(typescript@5.9.3)(vite@7.3.1(@types/node@25.2.1)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.0)(yaml@2.8.2))(vue-tsc@3.2.4(typescript@5.9.3))(yaml@2.8.2))(pinia@3.0.4(typescript@5.9.3)(vue@3.5.27(typescript@5.9.3)))(typescript@5.9.3)
+        specifier: '=7.0.8'
+        version: 7.0.8(@nuxt/kit@4.1.0(magicast@0.3.5))(@nuxt/schema@4.1.0)(@vue/compiler-sfc@3.5.27)(nuxt@4.1.0(@parcel/watcher@2.5.1)(@types/node@25.2.1)(@vue/compiler-sfc@3.5.27)(db0@0.3.2)(eslint@9.39.2(jiti@2.6.1))(ioredis@5.7.0)(lightningcss@1.30.2)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.50.0)(terser@5.44.0)(typescript@5.9.3)(vite@7.3.1(@types/node@25.2.1)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.0)(yaml@2.8.2))(vue-tsc@3.2.4(typescript@5.9.3))(yaml@2.8.2))(pinia@3.0.4(typescript@5.9.3)(vue@3.5.27(typescript@5.9.3)))(typescript@5.9.3)
       '@vueuse/components':
         specifier: '=14.2.0'
         version: 14.2.0(vue@3.5.27(typescript@5.9.3))
@@ -80,7 +80,7 @@ importers:
         specifier: '=1.4.0'
         version: 1.4.0
       vue:
-        specifier: ~3.5.27
+        specifier: '=3.5.27'
         version: 3.5.27(typescript@5.9.3)
       vue-i18n:
         specifier: '=11.2.8'
@@ -232,11 +232,6 @@ packages:
   '@babel/helpers@7.28.3':
     resolution: {integrity: sha512-PTNtvUQihsAsDHMOP5pfobP8C6CM4JWXmP8DrEIt46c3r2bf87Ua1zoqevsMo9g+tWDwgWrFP5EIxuBx5RudAw==}
     engines: {node: '>=6.9.0'}
-
-  '@babel/parser@7.28.5':
-    resolution: {integrity: sha512-KKBU1VGYR7ORr3At5HAtUQ+TV3SzRCXmA/8OdDZiLDBIZxVyzXuztPjfLd3BV1PRAQGCMWWSHYhL0F8d5uHBDQ==}
-    engines: {node: '>=6.0.0'}
-    hasBin: true
 
   '@babel/parser@7.28.6':
     resolution: {integrity: sha512-TeR9zWR18BvbfPmGbLampPMW+uW1NZnJlRuuHso8i87QZNq2JRF9i6RgxRqtEq+wQGsS19NNTWr2duhnE49mfQ==}
@@ -1638,27 +1633,27 @@ packages:
   '@tauri-apps/plugin-updater@2.10.0':
     resolution: {integrity: sha512-ljN8jPlnT0aSn8ecYhuBib84alxfMx6Hc8vJSKMJyzGbTPFZAC44T2I1QNFZssgWKrAlofvJqCC6Rr472JWfkQ==}
 
-  '@tauri-store/pinia@4.1.0':
-    resolution: {integrity: sha512-5zn4c/IBzga+tihsS5dXywzsg9Xs+ZylRvyn899Cyz+tbJxZ00XQCiUO/DrTcwdseKz85rn7aFtjtDZPh1H5/g==}
+  '@tauri-store/pinia@4.1.1':
+    resolution: {integrity: sha512-j56+sbR+CFxPsnDoyWxme8+NPJanJVdunLoM4gfgpFk9pVKLBfsplBAT0vQ6nA2AZvQGfjFYuHjzjmQ2qNULMA==}
 
-  '@tauri-store/shared@0.10.2':
-    resolution: {integrity: sha512-hnEBbe/m9UG5ATSBp4yJOosLkX5QLblVsGIvz7mtBAqmzeWFfjP4+8X/T81L+bCH6+ref/0vsR9Ekex138kAfg==}
+  '@tauri-store/shared@0.10.3':
+    resolution: {integrity: sha512-6S2SbYxZUBOLL/t+49cIF4gdZNxYnw9yitNlIUsgiPI5ApRtdXfj4JdQd7WmDwoQXXTOzlOYaqGpmICWhzmmRg==}
 
   '@tb-dev/eslint-config@8.2.6':
     resolution: {integrity: sha512-wy031ycAyWwW1ZhSaVAHMFQe7GwTRjm3j3rwIr2a9Cruwm3tQw9YOm1bF4tgag7kRRTCMoiubYUV6V/h/ukA5A==}
     engines: {node: '>=24'}
 
-  '@tb-dev/prototype-dom@7.0.31':
-    resolution: {integrity: sha512-FAwEe8+WQEIgMrXjgdlxYTNoA234RQw/sO9AQyeCrtOq9w/vV/GFHqtjRQDgYiNmST8rjhAYDUoUSdy+bzJjbA==}
+  '@tb-dev/prototype-dom@7.0.32':
+    resolution: {integrity: sha512-J8mFyITN6SVUt+5lqYE1k2VaBLvdBJSKKWuaFcZPEMrx68/VTbFiGJV6c5cyZcjGY4q5oT7aJeF94sCQa+vSoQ==}
 
   '@tb-dev/utils@7.2.2':
     resolution: {integrity: sha512-ng0SRneAQ+1DdnE3qqc64D/qjjoNJKX6FWDm2PuW1vtH1c2t1p38FKI4wrCghxzqYlFqi4Q2UMbZEgEYIYM9jA==}
 
-  '@tb-dev/vue-components@7.0.7':
-    resolution: {integrity: sha512-MP8Y5jipmgi/eTH9HE7jQ1CbEpztVcu64BmRavGAHYdKw2xTuol2c53mQ/cfWXAuAQKdqnLoh3RSaezdlTna8g==}
+  '@tb-dev/vue-components@7.0.8':
+    resolution: {integrity: sha512-+4o4AiV9zF6LRRyd8B4mm2f0wHIdyZYKISNSmTU7YFVif+dMTsi5IGSE4Gk/ORchN1jkoX+G0XCvBaDU13KKCg==}
 
-  '@tb-dev/vue@3.4.4':
-    resolution: {integrity: sha512-dCbPyHXoODjj/gVzxI6OlS8IzYVSLrXsqNhafv9HktXbEoJVW/PsWOh8axiM3yhDNiDz4z5sL9GjYtVypm5fVA==}
+  '@tb-dev/vue@3.4.5':
+    resolution: {integrity: sha512-3QxzGkGIUCuon/IvVTuL+sOoP8hiXU4ALNGcDxOcqzSEdvUdDaPXTzTWbhtFg9vDA/8R3DlMZRnFrwgbcWVb1w==}
 
   '@tybys/wasm-util@0.10.0':
     resolution: {integrity: sha512-VyyPYFlOMNylG45GoAe0xDoLwWuowvf92F9kySqzYh8vmYm7D2u4iUJKa1tOUpS70Ku13ASrOkS4ScXFsTaCNQ==}
@@ -4724,10 +4719,6 @@ snapshots:
       '@babel/types': 7.28.6
     optional: true
 
-  '@babel/parser@7.28.5':
-    dependencies:
-      '@babel/types': 7.28.6
-
   '@babel/parser@7.28.6':
     dependencies:
       '@babel/types': 7.28.6
@@ -5975,16 +5966,16 @@ snapshots:
     dependencies:
       '@tauri-apps/api': 2.10.1
 
-  '@tauri-store/pinia@4.1.0(typescript@5.9.3)':
+  '@tauri-store/pinia@4.1.1(typescript@5.9.3)':
     dependencies:
       '@tauri-apps/api': 2.10.1
-      '@tauri-store/shared': 0.10.2
+      '@tauri-store/shared': 0.10.3
       pinia: 3.0.4(typescript@5.9.3)(vue@3.5.27(typescript@5.9.3))
       vue: 3.5.27(typescript@5.9.3)
     transitivePeerDependencies:
       - typescript
 
-  '@tauri-store/shared@0.10.2':
+  '@tauri-store/shared@0.10.3':
     dependencies:
       '@tauri-apps/api': 2.10.1
       es-toolkit: 1.44.0
@@ -6004,15 +5995,15 @@ snapshots:
       - supports-color
       - typescript
 
-  '@tb-dev/prototype-dom@7.0.31': {}
+  '@tb-dev/prototype-dom@7.0.32': {}
 
   '@tb-dev/utils@7.2.2': {}
 
-  '@tb-dev/vue-components@7.0.7(@nuxt/kit@4.1.0(magicast@0.3.5))(@nuxt/schema@4.1.0)(@vue/compiler-sfc@3.5.27)(nuxt@4.1.0(@parcel/watcher@2.5.1)(@types/node@25.2.1)(@vue/compiler-sfc@3.5.27)(db0@0.3.2)(eslint@9.39.2(jiti@2.6.1))(ioredis@5.7.0)(lightningcss@1.30.2)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.50.0)(terser@5.44.0)(typescript@5.9.3)(vite@7.3.1(@types/node@25.2.1)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.0)(yaml@2.8.2))(vue-tsc@3.2.4(typescript@5.9.3))(yaml@2.8.2))(pinia@3.0.4(typescript@5.9.3)(vue@3.5.27(typescript@5.9.3)))(typescript@5.9.3)':
+  '@tb-dev/vue-components@7.0.8(@nuxt/kit@4.1.0(magicast@0.3.5))(@nuxt/schema@4.1.0)(@vue/compiler-sfc@3.5.27)(nuxt@4.1.0(@parcel/watcher@2.5.1)(@types/node@25.2.1)(@vue/compiler-sfc@3.5.27)(db0@0.3.2)(eslint@9.39.2(jiti@2.6.1))(ioredis@5.7.0)(lightningcss@1.30.2)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.50.0)(terser@5.44.0)(typescript@5.9.3)(vite@7.3.1(@types/node@25.2.1)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.0)(yaml@2.8.2))(vue-tsc@3.2.4(typescript@5.9.3))(yaml@2.8.2))(pinia@3.0.4(typescript@5.9.3)(vue@3.5.27(typescript@5.9.3)))(typescript@5.9.3)':
     dependencies:
       '@tanstack/vue-table': 8.21.3(vue@3.5.27(typescript@5.9.3))
       '@tb-dev/utils': 7.2.2
-      '@tb-dev/vue': 3.4.4(typescript@5.9.3)
+      '@tb-dev/vue': 3.4.5(typescript@5.9.3)
       '@vueuse/core': 14.2.0(vue@3.5.27(typescript@5.9.3))
       class-variance-authority: 0.7.1
       clsx: 2.1.1
@@ -6034,7 +6025,7 @@ snapshots:
       - pinia
       - typescript
 
-  '@tb-dev/vue@3.4.4(typescript@5.9.3)':
+  '@tb-dev/vue@3.4.5(typescript@5.9.3)':
     dependencies:
       '@tb-dev/utils': 7.2.2
       '@vueuse/core': 14.2.0(vue@3.5.27(typescript@5.9.3))
@@ -6306,7 +6297,7 @@ snapshots:
 
   '@vue/compiler-sfc@3.5.27':
     dependencies:
-      '@babel/parser': 7.28.5
+      '@babel/parser': 7.28.6
       '@vue/compiler-core': 3.5.27
       '@vue/compiler-dom': 3.5.27
       '@vue/compiler-ssr': 3.5.27

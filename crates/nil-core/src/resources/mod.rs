@@ -295,178 +295,180 @@ impl Mul<NonZeroU32> for &Resources {
 }
 
 macro_rules! decl_resource {
-  ($($name:ident => $diff:ident),+ $(,)?) => {
-    $(
-      #[derive(
-        Clone,
-        Copy,
-        Debug,
-        Default,
-        Deref,
-        Display,
-        Into,
-        PartialEq,
-        Eq,
-        PartialOrd,
-        Ord,
-        Deserialize,
-        Serialize,
-      )]
-      #[into(u32, f64)]
-      pub struct $name(u32);
+  ($($resource:ident),+ $(,)?) => {
+    paste::paste! {
+      $(
+        #[derive(
+          Clone,
+          Copy,
+          Debug,
+          Default,
+          Deref,
+          Display,
+          Into,
+          PartialEq,
+          Eq,
+          PartialOrd,
+          Ord,
+          Deserialize,
+          Serialize,
+        )]
+        #[into(u32, f64)]
+        pub struct $resource(u32);
 
-      impl $name {
-        pub const MIN: Self = Self::new(0);
-        pub const MAX: Self = Self::new(u32::MAX);
+        impl $resource {
+          pub const MIN: Self = Self::new(0);
+          pub const MAX: Self = Self::new(u32::MAX);
 
-        #[inline]
-        pub const fn new(value: u32) -> Self {
-          Self(value)
-        }
+          #[inline]
+          pub const fn new(value: u32) -> Self {
+            Self(value)
+          }
 
-        #[inline]
-        pub fn checked_sub(self, rhs: Self) -> Option<Self> {
-          self.0.checked_sub(rhs.0).map(Self::new)
-        }
+          #[inline]
+          pub fn checked_sub(self, rhs: Self) -> Option<Self> {
+            self.0.checked_sub(rhs.0).map(Self::new)
+          }
 
-        pub fn add_within_capacity(&mut self, diff: $diff, capacity: StorageCapacity) {
-          if diff < 0i32 {
-            *self += diff;
-          } else if self.0 < *capacity {
-            let capacity = $name::from(capacity);
-            *self = (*self + diff).min(capacity);
+          pub fn add_within_capacity(&mut self, diff: [<$resource Diff>], capacity: StorageCapacity) {
+            if diff < 0i32 {
+              *self += diff;
+            } else if self.0 < *capacity {
+              let capacity = $resource::from(capacity);
+              *self = (*self + diff).min(capacity);
+            }
           }
         }
-      }
 
-      impl From<u32> for $name {
-        fn from(value: u32) -> Self {
-          Self(value)
+        impl From<u32> for $resource {
+          fn from(value: u32) -> Self {
+            Self(value)
+          }
         }
-      }
 
-      impl From<f64> for $name {
-        fn from(value: f64) -> Self {
-          debug_assert!(value.is_finite());
-          Self(value as u32)
+        impl From<f64> for $resource {
+          fn from(value: f64) -> Self {
+            debug_assert!(value.is_finite());
+            Self(value as u32)
+          }
         }
-      }
 
-      impl From<MineProduction> for $name {
-        fn from(value: MineProduction) -> Self {
-          Self(*value)
+        impl From<MineProduction> for $resource {
+          fn from(value: MineProduction) -> Self {
+            Self(*value)
+          }
         }
-      }
 
-      impl From<StorageCapacity> for $name {
-        fn from(value: StorageCapacity) -> Self {
-          Self(*value)
+        impl From<StorageCapacity> for $resource {
+          fn from(value: StorageCapacity) -> Self {
+            Self(*value)
+          }
         }
-      }
 
-      impl PartialEq<u32> for $name {
-        fn eq(&self, other: &u32) -> bool {
-          self.0.eq(other)
+        impl PartialEq<u32> for $resource {
+          fn eq(&self, other: &u32) -> bool {
+            self.0.eq(other)
+          }
         }
-      }
 
-      impl PartialOrd<u32> for $name {
-        fn partial_cmp(&self, other: &u32) -> Option<Ordering> {
-          self.0.partial_cmp(other)
+        impl PartialOrd<u32> for $resource {
+          fn partial_cmp(&self, other: &u32) -> Option<Ordering> {
+            self.0.partial_cmp(other)
+          }
         }
-      }
 
-      impl Add for $name {
-        type Output = Self;
+        impl Add for $resource {
+          type Output = Self;
 
-        fn add(self, rhs: Self) -> Self {
-          Self(self.0.saturating_add(rhs.0))
+          fn add(self, rhs: Self) -> Self {
+            Self(self.0.saturating_add(rhs.0))
+          }
         }
-      }
 
-      impl Add<u32> for $name {
-        type Output = Self;
+        impl Add<u32> for $resource {
+          type Output = Self;
 
-        fn add(self, rhs: u32) -> Self {
-          Self(self.0.saturating_add(rhs))
+          fn add(self, rhs: u32) -> Self {
+            Self(self.0.saturating_add(rhs))
+          }
         }
-      }
 
-      impl AddAssign for $name {
-        fn add_assign(&mut self, rhs: Self) {
-          *self = *self + rhs;
+        impl AddAssign for $resource {
+          fn add_assign(&mut self, rhs: Self) {
+            *self = *self + rhs;
+          }
         }
-      }
 
-      impl Sub for $name {
-        type Output = Self;
+        impl Sub for $resource {
+          type Output = Self;
 
-        fn sub(self, rhs: Self) -> Self {
-          Self(self.0.saturating_sub(rhs.0))
+          fn sub(self, rhs: Self) -> Self {
+            Self(self.0.saturating_sub(rhs.0))
+          }
         }
-      }
 
-      impl Sub<u32> for $name {
-        type Output = Self;
+        impl Sub<u32> for $resource {
+          type Output = Self;
 
-        fn sub(self, rhs: u32) -> Self {
-          Self(self.0.saturating_sub(rhs))
+          fn sub(self, rhs: u32) -> Self {
+            Self(self.0.saturating_sub(rhs))
+          }
         }
-      }
 
-      impl SubAssign for $name {
-        fn sub_assign(&mut self, rhs: Self) {
-          *self = *self - rhs;
+        impl SubAssign for $resource {
+          fn sub_assign(&mut self, rhs: Self) {
+            *self = *self - rhs;
+          }
         }
-      }
 
-      impl Mul<u32> for $name {
-        type Output = Self;
+        impl Mul<u32> for $resource {
+          type Output = Self;
 
-        fn mul(self, rhs: u32) -> Self::Output {
-          Self(self.0.saturating_mul(rhs))
+          fn mul(self, rhs: u32) -> Self::Output {
+            Self(self.0.saturating_mul(rhs))
+          }
         }
-      }
 
-      impl Mul<NonZeroU32> for $name {
-        type Output = Self;
+        impl Mul<NonZeroU32> for $resource {
+          type Output = Self;
 
-        fn mul(self, rhs: NonZeroU32) -> Self::Output {
-          self * rhs.get()
+          fn mul(self, rhs: NonZeroU32) -> Self::Output {
+            self * rhs.get()
+          }
         }
-      }
 
-      impl Mul<f64> for $name {
-        type Output = f64;
+        impl Mul<f64> for $resource {
+          type Output = f64;
 
-        fn mul(self, rhs: f64) -> Self::Output {
-          f64::from(self.0) * rhs
+          fn mul(self, rhs: f64) -> Self::Output {
+            f64::from(self.0) * rhs
+          }
         }
-      }
 
-      impl Mul<Stability> for $name {
-        type Output = $name;
+        impl Mul<Stability> for $resource {
+          type Output = $resource;
 
-        fn mul(self, rhs: Stability) -> Self::Output {
-          Self::from(self.mul_ceil(*rhs))
+          fn mul(self, rhs: Stability) -> Self::Output {
+            Self::from(self.mul_ceil(*rhs))
+          }
         }
-      }
 
-      impl MulAssign<u32> for $name {
-        fn mul_assign(&mut self, rhs: u32) {
-          *self = *self * rhs;
+        impl MulAssign<u32> for $resource {
+          fn mul_assign(&mut self, rhs: u32) {
+            *self = *self * rhs;
+          }
         }
-      }
 
-      impl MulAssign<Stability> for $name {
-        fn mul_assign(&mut self, rhs: Stability) {
-          *self = *self * rhs;
+        impl MulAssign<Stability> for $resource {
+          fn mul_assign(&mut self, rhs: Stability) {
+            *self = *self * rhs;
+          }
         }
-      }
 
-      impl_mul_ceil!($name);
-    )+
+        impl_mul_ceil!($resource);
+      )+
+    }
   };
 }
 
-decl_resource!(Food => FoodDiff, Iron => IronDiff, Stone => StoneDiff, Wood => WoodDiff);
+decl_resource!(Food, Iron, Stone, Wood);

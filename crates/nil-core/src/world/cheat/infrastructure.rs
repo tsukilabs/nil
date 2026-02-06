@@ -143,9 +143,10 @@ impl World {
   pub fn cheat_set_max_infrastructure(&mut self, coord: Coord) -> Result<()> {
     bail_if_cheats_are_not_allowed!(self);
 
-    let infra = self.city_mut(coord)?.infrastructure_mut();
+    let infrastructure = self.city_mut(coord)?.infrastructure_mut();
+
     for id in BuildingId::iter() {
-      let building = infra.building_mut(id);
+      let building = infrastructure.building_mut(id);
       building.set_level(building.max_level());
     }
 

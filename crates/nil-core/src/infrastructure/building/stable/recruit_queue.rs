@@ -15,11 +15,4 @@ use std::num::NonZeroU32;
 use strum::EnumIs;
 use uuid::Uuid;
 
-decl_recruit_queue!(
-  StableRecruitQueue,
-  StableRecruitOrder,
-  StableRecruitOrderState,
-  StableRecruitOrderId,
-  StableUnitId,
-  StableRecruitOrderRequest
-);
+decl_recruit_queue!(Stable);

@@ -29,4 +29,4 @@ impl WorkshopRecruitCatalog {
   }
 }
 
-decl_recruit_catalog_entry!(WorkshopRecruitCatalogEntry, WorkshopRecruitCatalogRecipe);
+decl_recruit_catalog_entry!(Workshop);
