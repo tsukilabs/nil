@@ -39,6 +39,7 @@
     "./scripts/build-server.rs",
     "./scripts/build-wasm.rs",
     "./scripts/run-clippy.rs",
+    "./scripts/sort-namegen-data.rs",
     "./scripts/start-dev.rs",
     "./scripts/start-server.rs",
     "./scripts/test.rs"
