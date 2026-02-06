@@ -1,6 +1,9 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+#[cfg(test)]
+mod tests;
+
 use crate::error::{Error, Result};
 use crate::player::PlayerId;
 use derive_more::Deref;
@@ -147,6 +150,12 @@ impl RoundId {
 impl Default for RoundId {
   fn default() -> Self {
     Self(NonZeroU32::MIN)
+  }
+}
+
+impl PartialEq<u32> for RoundId {
+  fn eq(&self, other: &u32) -> bool {
+    self.0.get().eq(other)
   }
 }
 
