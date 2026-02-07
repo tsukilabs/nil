@@ -4,7 +4,8 @@
 use crate::client::Client;
 use crate::error::Result;
 use crate::http;
-use nil_core::military::army::{Army, ArmyPersonnel};
+use nil_core::military::army::Army;
+use nil_core::military::army::personnel::ArmyPersonnel;
 use nil_payload::cheat::military::*;
 
 impl Client {

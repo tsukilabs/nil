@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::continent::Coord;
-use crate::military::army::ArmyPersonnel;
+use crate::military::army::personnel::ArmyPersonnel;
 use crate::report::ReportId;
 use crate::round::RoundId;
 use crate::ruler::Ruler;

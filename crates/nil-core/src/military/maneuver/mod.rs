@@ -5,7 +5,8 @@ mod distance;
 
 use crate::continent::Coord;
 use crate::error::{Error, Result};
-use crate::military::army::{ArmyId, ArmyPersonnel};
+use crate::military::army::ArmyId;
+use crate::military::army::personnel::ArmyPersonnel;
 use crate::military::unit::stats::speed::Speed;
 use crate::resources::Resources;
 use crate::ruler::Ruler;

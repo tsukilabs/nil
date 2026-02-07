@@ -11,16 +11,15 @@ pub mod unit;
 
 use crate::continent::{ContinentIndex, ContinentKey, ContinentSize, Coord};
 use crate::error::{Error, Result};
-use crate::military::army::{ArmyId, collapse_armies};
-use crate::military::maneuver::ManeuverId;
-use crate::military::squad::Squad;
 use crate::ranking::Score;
 use crate::resources::maintenance::Maintenance;
 use crate::ruler::Ruler;
-use army::{Army, ArmyPersonnel};
+use army::personnel::ArmyPersonnel;
+use army::{Army, ArmyId, collapse_armies};
 use itertools::Itertools;
-use maneuver::Maneuver;
+use maneuver::{Maneuver, ManeuverId};
 use serde::{Deserialize, Serialize};
+use squad::Squad;
 use std::collections::HashMap;
 use tap::Pipe;
 

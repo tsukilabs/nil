@@ -1,8 +1,8 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use crate::infrastructure::Infrastructure;
-use crate::infrastructure::building::{Building, BuildingLevel};
+use super::Infrastructure;
+use super::building::BuildingLevel;
 use bon::Builder;
 use serde::{Deserialize, Serialize};
 
@@ -11,37 +11,37 @@ use serde::{Deserialize, Serialize};
 #[builder(const)]
 pub struct InfrastructureRequirements {
   #[builder(default = BuildingLevel::ZERO)]
-  academy: BuildingLevel,
+  pub(super) academy: BuildingLevel,
 
   #[builder(default = BuildingLevel::ZERO)]
-  farm: BuildingLevel,
+  pub(super) farm: BuildingLevel,
 
   #[builder(default = BuildingLevel::ZERO)]
-  iron_mine: BuildingLevel,
+  pub(super) iron_mine: BuildingLevel,
 
   #[builder(default = BuildingLevel::ZERO)]
-  prefecture: BuildingLevel,
+  pub(super) prefecture: BuildingLevel,
 
   #[builder(default = BuildingLevel::ZERO)]
-  quarry: BuildingLevel,
+  pub(super) quarry: BuildingLevel,
 
   #[builder(default = BuildingLevel::ZERO)]
-  sawmill: BuildingLevel,
+  pub(super) sawmill: BuildingLevel,
 
   #[builder(default = BuildingLevel::ZERO)]
-  silo: BuildingLevel,
+  pub(super) silo: BuildingLevel,
 
   #[builder(default = BuildingLevel::ZERO)]
-  stable: BuildingLevel,
+  pub(super) stable: BuildingLevel,
 
   #[builder(default = BuildingLevel::ZERO)]
-  wall: BuildingLevel,
+  pub(super) wall: BuildingLevel,
 
   #[builder(default = BuildingLevel::ZERO)]
-  warehouse: BuildingLevel,
+  pub(super) warehouse: BuildingLevel,
 
   #[builder(default = BuildingLevel::ZERO)]
-  workshop: BuildingLevel,
+  pub(super) workshop: BuildingLevel,
 }
 
 impl InfrastructureRequirements {
@@ -50,17 +50,8 @@ impl InfrastructureRequirements {
   }
 
   /// Determines whether the city infrastructure meets the requirements.
+  #[inline]
   pub fn has_required_levels(&self, infrastructure: &Infrastructure) -> bool {
-    infrastructure.academy.level() >= self.academy
-      && infrastructure.farm.level() >= self.farm
-      && infrastructure.iron_mine.level() >= self.iron_mine
-      && infrastructure.prefecture.level() >= self.prefecture
-      && infrastructure.quarry.level() >= self.quarry
-      && infrastructure.sawmill.level() >= self.sawmill
-      && infrastructure.silo.level() >= self.silo
-      && infrastructure.stable.level() >= self.stable
-      && infrastructure.wall.level() >= self.wall
-      && infrastructure.warehouse.level() >= self.warehouse
-      && infrastructure.workshop.level() >= self.workshop
+    infrastructure.has_required_levels(self)
   }
 }

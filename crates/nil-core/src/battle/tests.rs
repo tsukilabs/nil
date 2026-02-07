@@ -5,7 +5,7 @@ use crate::battle::luck::Luck;
 use crate::battle::{Battle, BattleWinner, DefensivePower, OffensivePower};
 use crate::infrastructure::building::BuildingLevel;
 use crate::infrastructure::stats::InfrastructureStats;
-use crate::military::army::ArmyPersonnel;
+use crate::military::army::personnel::ArmyPersonnel;
 use crate::military::squad::{Squad, SquadSize};
 use crate::military::unit::UnitId;
 use crate::military::unit::UnitId::*;

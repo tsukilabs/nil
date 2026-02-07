@@ -4,7 +4,8 @@
 use crate::bail_if_cheats_are_not_allowed;
 use crate::continent::Coord;
 use crate::error::Result;
-use crate::military::army::{Army, ArmyPersonnel};
+use crate::military::army::Army;
+use crate::military::army::personnel::ArmyPersonnel;
 use crate::ruler::Ruler;
 use crate::world::World;
 use itertools::Itertools;

@@ -8,7 +8,7 @@ mod tests;
 
 use crate::infrastructure::building::wall::WallStats;
 use crate::infrastructure::prelude::BuildingLevel;
-use crate::military::army::ArmyPersonnel;
+use crate::military::army::personnel::ArmyPersonnel;
 use crate::military::squad::{Squad, SquadSize};
 use crate::military::unit::UnitKind;
 use bon::Builder;

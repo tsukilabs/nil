@@ -3,7 +3,7 @@
 
 use crate::continent::Coord;
 use crate::error::{Error, Result};
-use crate::military::army::ArmyPersonnel;
+use crate::military::army::personnel::ArmyPersonnel;
 use crate::military::maneuver::{ManeuverKind, ManeuverRequest};
 use crate::military::unit::heavy_cavalry::HeavyCavalry;
 use crate::player::{PlayerId, PlayerOptions};
