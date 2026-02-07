@@ -1,7 +1,4 @@
 {
-  "[powershell]": {
-    "editor.defaultFormatter": "ms-vscode.powershell"
-  },
   "[rust]": {
     "editor.defaultFormatter": "rust-lang.rust-analyzer"
   },
@@ -26,11 +23,6 @@
   },
   "files.eol": "\n",
   "githubPullRequests.defaultMergeMethod": "squash",
-  "powershell.codeFormatting.autoCorrectAliases": true,
-  "powershell.codeFormatting.avoidSemicolonsAsLineTerminators": true,
-  "powershell.codeFormatting.useConstantStrings": true,
-  "powershell.codeFormatting.useCorrectCasing": true,
-  "powershell.codeFormatting.whitespaceBetweenParameters": true,
   "rust-analyzer.cargo.targetDir": true,
   "rust-analyzer.linkedProjects": [
     "./Cargo.toml",
@@ -39,7 +31,7 @@
     "./scripts/build-server.rs",
     "./scripts/build-wasm.rs",
     "./scripts/run-clippy.rs",
-    "./scripts/sort-namegen-data.rs",
+    "./scripts/sort-namegen.rs",
     "./scripts/start-dev.rs",
     "./scripts/start-server.rs",
     "./scripts/test.rs"
