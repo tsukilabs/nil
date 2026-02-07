@@ -1,6 +1,6 @@
 {
   "name": "nil",
-  "version": "0.2.17",
+  "version": "0.2.18",
   "type": "module",
   "packageManager": "pnpm@10.28.2",
   "license": "AGPL-3.0-only",
@@ -13,7 +13,7 @@
     "format": "dprint fmt && cargo fmt --all",
     "lint": "eslint . --config eslint.config.ts",
     "lint-fix": "eslint . --config eslint.config.ts --fix",
-    "miri": "cargo +nightly -Zscript scripts/test.ps1 --miri",
+    "miri": "cargo +nightly -Zscript scripts/test.rs --miri",
     "preview": "cargo +nightly -Zscript scripts/build-client.rs --preview",
     "server": "cargo +nightly -Zscript scripts/start-server.rs",
     "test": "cargo +nightly -Zscript scripts/test.rs",

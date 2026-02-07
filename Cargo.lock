@@ -2916,9 +2916,9 @@ checksum = "47e1ffaa40ddd1f3ed91f717a33c8c0ee23fff369e3aa8772b9605cc1d22f4c3"
 
 [[package]]
 name = "memchr"
-version = "2.7.6"
+version = "2.8.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f52b00d39961fc5b2736ea853c9cc86238e165017a493d1d5c8eac6bdc4cc273"
+checksum = "f8ca58f447f06ed17d5fc4043ce1b10dd205e060fb3ce5b979b8ed8e59ff3f79"
 
 [[package]]
 name = "memoffset"
@@ -3081,7 +3081,7 @@ checksum = "650eef8c711430f1a879fdd01d4745a7deea475becfb90269c06775983bbf086"
 
 [[package]]
 name = "nil"
-version = "0.2.17"
+version = "0.2.18"
 dependencies = [
  "anyhow",
  "bon",
@@ -3119,7 +3119,7 @@ dependencies = [
 
 [[package]]
 name = "nil-client"
-version = "0.2.17"
+version = "0.2.18"
 dependencies = [
  "anyhow",
  "bon",
@@ -3147,14 +3147,14 @@ dependencies = [
 
 [[package]]
 name = "nil-continent"
-version = "0.2.17"
+version = "0.2.18"
 dependencies = [
  "wasm-bindgen",
 ]
 
 [[package]]
 name = "nil-core"
-version = "0.2.17"
+version = "0.2.18"
 dependencies = [
  "anyhow",
  "bon",
@@ -3187,7 +3187,7 @@ dependencies = [
 
 [[package]]
 name = "nil-core-macros"
-version = "0.2.17"
+version = "0.2.18"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -3196,7 +3196,7 @@ dependencies = [
 
 [[package]]
 name = "nil-crypto"
-version = "0.2.17"
+version = "0.2.18"
 dependencies = [
  "anyhow",
  "argon2",
@@ -3206,7 +3206,7 @@ dependencies = [
 
 [[package]]
 name = "nil-database"
-version = "0.2.17"
+version = "0.2.18"
 dependencies = [
  "anyhow",
  "bon",
@@ -3228,7 +3228,7 @@ dependencies = [
 
 [[package]]
 name = "nil-log"
-version = "0.2.17"
+version = "0.2.18"
 dependencies = [
  "anyhow",
  "bitflags 2.10.0",
@@ -3240,7 +3240,7 @@ dependencies = [
 
 [[package]]
 name = "nil-namegen"
-version = "0.2.17"
+version = "0.2.18"
 dependencies = [
  "itertools",
  "rand 0.9.2",
@@ -3249,7 +3249,7 @@ dependencies = [
 
 [[package]]
 name = "nil-num"
-version = "0.2.17"
+version = "0.2.18"
 dependencies = [
  "bon",
  "nil-num-macros",
@@ -3259,7 +3259,7 @@ dependencies = [
 
 [[package]]
 name = "nil-num-macros"
-version = "0.2.17"
+version = "0.2.18"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -3268,7 +3268,7 @@ dependencies = [
 
 [[package]]
 name = "nil-payload"
-version = "0.2.17"
+version = "0.2.18"
 dependencies = [
  "nil-core",
  "nil-crypto",
@@ -3278,7 +3278,7 @@ dependencies = [
 
 [[package]]
 name = "nil-server"
-version = "0.2.17"
+version = "0.2.18"
 dependencies = [
  "anyhow",
  "axum",
@@ -3311,7 +3311,7 @@ dependencies = [
 
 [[package]]
 name = "nil-server-types"
-version = "0.2.17"
+version = "0.2.18"
 dependencies = [
  "jiff",
  "nil-core",
@@ -3321,7 +3321,7 @@ dependencies = [
 
 [[package]]
 name = "nil-util"
-version = "0.2.17"
+version = "0.2.18"
 dependencies = [
  "anyhow",
 ]
@@ -4608,9 +4608,9 @@ dependencies = [
 
 [[package]]
 name = "reqwest"
-version = "0.13.1"
+version = "0.13.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "04e9018c9d814e5f30cc16a0f03271aeab3571e609612d9fe78c1aa8d11c2f62"
+checksum = "ab3f43e3283ab1488b624b44b0e988d0acea0b3214e694730a055cb6b2efa801"
 dependencies = [
  "base64 0.22.1",
  "bytes",
@@ -6808,9 +6808,9 @@ dependencies = [
 
 [[package]]
 name = "wasm-streams"
-version = "0.4.2"
+version = "0.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "15053d8d85c7eccdbefef60f06769760a563c7f0a9d6902a13d35c7800b0ad65"
+checksum = "9d1ec4f6517c9e11ae630e200b2b65d193279042e28edd4a2cda233e46670bbb"
 dependencies = [
  "futures-util",
  "js-sys",
