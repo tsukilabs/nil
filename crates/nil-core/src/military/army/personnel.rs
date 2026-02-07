@@ -48,55 +48,6 @@ impl ArmyPersonnel {
     }
   }
 
-  pub fn splat(size: impl Into<SquadSize>) -> Self {
-    let size: SquadSize = size.into();
-    Self::builder()
-      .archer(size)
-      .axeman(size)
-      .heavy_cavalry(size)
-      .light_cavalry(size)
-      .pikeman(size)
-      .ram(size)
-      .swordsman(size)
-      .build()
-  }
-
-  pub fn random() -> Self {
-    Self::builder()
-      .archer(SquadSize::random())
-      .axeman(SquadSize::random())
-      .heavy_cavalry(SquadSize::random())
-      .light_cavalry(SquadSize::random())
-      .pikeman(SquadSize::random())
-      .ram(SquadSize::random())
-      .swordsman(SquadSize::random())
-      .build()
-  }
-
-  pub fn squad(&self, id: UnitId) -> &Squad {
-    match id {
-      UnitId::Archer => &self.archer,
-      UnitId::Axeman => &self.axeman,
-      UnitId::HeavyCavalry => &self.heavy_cavalry,
-      UnitId::LightCavalry => &self.light_cavalry,
-      UnitId::Pikeman => &self.pikeman,
-      UnitId::Ram => &self.ram,
-      UnitId::Swordsman => &self.swordsman,
-    }
-  }
-
-  fn squad_mut(&mut self, id: UnitId) -> &mut Squad {
-    match id {
-      UnitId::Archer => &mut self.archer,
-      UnitId::Axeman => &mut self.axeman,
-      UnitId::HeavyCavalry => &mut self.heavy_cavalry,
-      UnitId::LightCavalry => &mut self.light_cavalry,
-      UnitId::Pikeman => &mut self.pikeman,
-      UnitId::Ram => &mut self.ram,
-      UnitId::Swordsman => &mut self.swordsman,
-    }
-  }
-
   pub fn to_vec(self) -> Vec<Squad> {
     Vec::<Squad>::from(self)
   }
@@ -151,39 +102,81 @@ impl ArmyPersonnel {
   pub fn is_empty(&self) -> bool {
     self.iter().all(Squad::is_empty)
   }
-
-  pub fn has_enough_personnel(&self, required: &ArmyPersonnel) -> bool {
-    self.archer.size() >= required.archer.size()
-      && self.axeman.size() >= required.axeman.size()
-      && self.heavy_cavalry.size() >= required.heavy_cavalry.size()
-      && self.light_cavalry.size() >= required.light_cavalry.size()
-      && self.pikeman.size() >= required.pikeman.size()
-      && self.ram.size() >= required.ram.size()
-      && self.swordsman.size() >= required.swordsman.size()
-  }
-
-  pub fn checked_sub(&self, rhs: &Self) -> Option<Self> {
-    macro_rules! sub {
-      ($unit:ident) => {{
-        self
-          .$unit
-          .size()
-          .checked_sub(rhs.$unit.size())
-      }};
-    }
-
-    Self::builder()
-      .archer(sub!(archer)?)
-      .axeman(sub!(axeman)?)
-      .heavy_cavalry(sub!(heavy_cavalry)?)
-      .light_cavalry(sub!(light_cavalry)?)
-      .pikeman(sub!(pikeman)?)
-      .ram(sub!(ram)?)
-      .swordsman(sub!(swordsman)?)
-      .build()
-      .pipe(Some)
-  }
 }
+
+macro_rules! impl_army_personnel {
+  ($($unit:ident),+) => {
+    paste::paste! {
+      impl ArmyPersonnel {
+        pub fn splat(size: impl Into<SquadSize>) -> Self {
+          let size: SquadSize = size.into();
+          Self::builder()
+            $(.[<$unit:snake>](size))+
+            .build()
+        }
+
+        pub fn random() -> Self {
+          Self::builder()
+            $(.[<$unit:snake>](SquadSize::random()))+
+            .build()
+        }
+
+        pub fn squad(&self, id: UnitId) -> &Squad {
+          match id {
+            $(UnitId::$unit => &self.[<$unit:snake>],)+
+          }
+        }
+
+        fn squad_mut(&mut self, id: UnitId) -> &mut Squad {
+          match id {
+            $(UnitId::$unit => &mut self.[<$unit:snake>],)+
+          }
+        }
+
+        $(
+          #[inline]
+          pub fn [<$unit:snake>](&self) -> &Squad {
+            &self.[<$unit:snake>]
+          }
+        )+
+
+        pub fn has_enough_personnel(&self, required: &ArmyPersonnel) -> bool {
+          $(self.[<$unit:snake>].size() >= required.[<$unit:snake>].size() && )+ true
+        }
+
+        pub fn checked_sub(&self, rhs: &Self) -> Option<Self> {
+          Self::builder()
+            $(
+              .[<$unit:snake>](
+                self
+                  .[<$unit:snake>]
+                  .size()
+                  .checked_sub(rhs.[<$unit:snake>].size())?
+              )
+            )+
+            .build()
+            .pipe(Some)
+        }
+      }
+
+      impl From<ArmyPersonnel> for Vec<Squad> {
+        fn from(personnel: ArmyPersonnel) -> Self {
+          vec![$(personnel.[<$unit:snake>],)+]
+        }
+      }
+    }
+  };
+}
+
+impl_army_personnel!(
+  Archer,
+  Axeman,
+  HeavyCavalry,
+  LightCavalry,
+  Pikeman,
+  Ram,
+  Swordsman
+);
 
 impl Default for ArmyPersonnel {
   fn default() -> Self {
@@ -194,20 +187,6 @@ impl Default for ArmyPersonnel {
 impl From<SquadSize> for ArmyPersonnel {
   fn from(size: SquadSize) -> Self {
     ArmyPersonnel::splat(size)
-  }
-}
-
-impl From<ArmyPersonnel> for Vec<Squad> {
-  fn from(personnel: ArmyPersonnel) -> Self {
-    vec![
-      personnel.archer,
-      personnel.axeman,
-      personnel.heavy_cavalry,
-      personnel.light_cavalry,
-      personnel.pikeman,
-      personnel.ram,
-      personnel.swordsman,
-    ]
   }
 }
 

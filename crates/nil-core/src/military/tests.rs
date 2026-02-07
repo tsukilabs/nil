@@ -1,12 +1,13 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+use super::Military;
+use super::army::personnel::ArmyPersonnel;
+use super::army::{Army, ArmyId, ArmyState, collapse_armies};
+use super::maneuver::{Maneuver, ManeuverId, ManeuverKind};
+use super::unit::stats::speed::Speed;
 use crate::continent::{ContinentSize, Coord};
 use crate::error::Error;
-use crate::military::Military;
-use crate::military::army::{Army, ArmyId, ArmyPersonnel, ArmyState, collapse_armies};
-use crate::military::maneuver::{Maneuver, ManeuverId, ManeuverKind};
-use crate::military::unit::stats::speed::Speed;
 use crate::npc::bot::{Bot, BotId};
 use crate::ruler::Ruler;
 use std::assert_matches;

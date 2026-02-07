@@ -1,12 +1,13 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-mod personnel;
+pub mod personnel;
 
 use crate::continent::ContinentKey;
 use crate::military::Military;
 use crate::military::maneuver::ManeuverId;
 use crate::military::squad::Squad;
+use crate::military::unit::UnitId;
 use crate::military::unit::stats::haul::Haul;
 use crate::military::unit::stats::speed::Speed;
 use crate::ranking::Score;
@@ -14,12 +15,11 @@ use crate::resources::maintenance::Maintenance;
 use crate::ruler::Ruler;
 use bon::Builder;
 use derive_more::Display;
+use personnel::ArmyPersonnel;
 use serde::{Deserialize, Serialize};
 use std::mem;
 use strum::EnumIs;
 use uuid::Uuid;
-
-pub use personnel::ArmyPersonnel;
 
 #[derive(Builder, Clone, Debug, Deserialize, Serialize)]
 #[builder(builder_type(vis = "pub(crate)"))]
@@ -135,6 +135,37 @@ impl From<Army> for ArmyPersonnel {
     army.personnel
   }
 }
+
+macro_rules! impl_army {
+  ($($unit:ident),+) => {
+    paste::paste! {
+      impl Army {
+        pub fn squad(&self, id: UnitId) -> &Squad {
+          match id {
+            $(UnitId::$unit => &self.personnel.[<$unit:snake>](),)+
+          }
+        }
+
+        $(
+          #[inline]
+          pub fn [<$unit:snake>](&self) -> &Squad {
+            &self.personnel.[<$unit:snake>]()
+          }
+        )+
+      }
+    }
+  };
+}
+
+impl_army!(
+  Archer,
+  Axeman,
+  HeavyCavalry,
+  LightCavalry,
+  Pikeman,
+  Ram,
+  Swordsman
+);
 
 #[must_use]
 #[derive(Clone, Copy, Debug, Display, PartialEq, Eq, Deserialize, Serialize)]

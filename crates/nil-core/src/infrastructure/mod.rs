@@ -11,7 +11,7 @@ pub mod stats;
 pub mod storage;
 
 use crate::error::Result;
-use crate::military::army::ArmyPersonnel;
+use crate::military::army::personnel::ArmyPersonnel;
 use crate::military::squad::Squad;
 use crate::ranking::Score;
 use crate::resources::Resources;
@@ -40,6 +40,7 @@ use building::workshop::recruit_queue::{
 use building::{Building, BuildingId, BuildingStatsTable, MineId, StorageId};
 use mine::Mine;
 use prelude::*;
+use requirements::InfrastructureRequirements;
 use serde::{Deserialize, Serialize};
 use stats::InfrastructureStats;
 use storage::Storage;
@@ -216,6 +217,11 @@ macro_rules! impl_infrastructure {
           )+
 
           Ok(maintenance)
+        }
+
+        /// Determines whether the infrastructure meets the requirements.
+        pub fn has_required_levels(&self, requirements: &InfrastructureRequirements) -> bool {
+          $(self.[<$building:snake>].level() >= requirements.[<$building:snake>] &&)+ true
         }
       }
     }

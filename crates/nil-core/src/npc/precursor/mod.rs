@@ -6,7 +6,7 @@ mod b;
 
 use crate::continent::{ContinentSize, Coord, Distance};
 use crate::ethic::Ethics;
-use crate::military::army::ArmyPersonnel;
+use crate::military::army::personnel::ArmyPersonnel;
 use crate::resources::Resources;
 use derive_more::Deref;
 use serde::{Deserialize, Serialize};

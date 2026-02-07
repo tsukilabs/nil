@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use nil_core::continent::Coord;
-use nil_core::military::army::ArmyPersonnel;
+use nil_core::military::army::personnel::ArmyPersonnel;
 use nil_core::ruler::Ruler;
 use nil_core::world::WorldId;
 use serde::{Deserialize, Serialize};
