@@ -10,6 +10,8 @@ import { handleError } from '@/lib/error';
 import { nextTick, onMounted } from 'vue';
 import Loading from '@/components/Loading.vue';
 import { Sonner } from '@tb-dev/vue-components';
+import { ListenerSet } from '@/lib/listener-set';
+import { setDragDropEventListener } from '@/lib/event';
 import { createTrayIcon, showWindow } from '@/commands';
 import { setTheme, useSettings } from '@/stores/settings';
 import { syncRef, useColorMode, watchImmediate } from '@vueuse/core';
@@ -19,6 +21,9 @@ const i18n = useI18n();
 
 const settings = useSettings();
 const { locale, theme, colorMode } = storeToRefs(settings);
+
+const listeners = new ListenerSet();
+listeners.on(setDragDropEventListener());
 
 watchImmediate(locale, setLocale);
 watchImmediate(theme, setTheme);

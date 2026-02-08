@@ -21,8 +21,18 @@ export * from './military';
 export * from './continent';
 export * from './infrastructure';
 
+export async function allowScope(path: string) {
+  if (await exists(path)) {
+    await invoke('allow_scope', { path });
+  }
+}
+
 export async function createTrayIcon() {
   await invoke('create_tray_icon');
+}
+
+export async function exists(path: string) {
+  return invoke<boolean>('exists', { path });
 }
 
 export async function isHost() {

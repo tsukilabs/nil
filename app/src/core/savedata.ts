@@ -45,11 +45,7 @@ export async function getSavedataFiles() {
       try {
         if (entry.isFile && await extname(entry.name) === 'nil') {
           const path = await join(dir, entry.name);
-          const name = await basename(path, '.nil');
-          const info = await commands.readSavedataInfo(path);
-          const date = fromZoned(info.savedAt);
-
-          files.push(new SavedataFile(path, name, date, info));
+          files.push(await getSavedataFile(path));
         }
       }
       catch (err) {
@@ -66,6 +62,14 @@ export async function getSavedataFiles() {
   }
 
   return files;
+}
+
+export async function getSavedataFile(path: string) {
+  const name = await basename(path, '.nil');
+  const info = await commands.readSavedataInfo(path);
+  const date = fromZoned(info.savedAt);
+
+  return new SavedataFile(path, name, date, info);
 }
 
 export async function saveLocalGame() {

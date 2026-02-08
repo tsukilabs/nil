@@ -20,11 +20,35 @@ pub mod server;
 pub mod user;
 pub mod world;
 
+use crate::error::Error;
 use crate::manager::ManagerExt;
+use std::path::PathBuf;
 use tauri::AppHandle;
+use tauri::async_runtime::spawn_blocking;
+use tauri_plugin_fs::FsExt;
 
 #[cfg(desktop)]
 use {crate::error::Result, crate::tray, tauri::WebviewWindow};
+
+#[tauri::command]
+pub async fn allow_scope(app: AppHandle, path: PathBuf) -> Result<()> {
+  let task = spawn_blocking(move || {
+    let scope = app.fs_scope();
+    if !scope.is_allowed(&path) {
+      if path.is_file() {
+        scope.allow_file(path)?;
+      } else if path.is_dir() {
+        scope.allow_directory(path, true)?;
+      }
+    }
+
+    Ok::<_, Error>(())
+  });
+
+  task.await??;
+
+  Ok(())
+}
 
 #[cfg(desktop)]
 #[tauri::command]
@@ -36,6 +60,11 @@ pub fn create_tray_icon(app: AppHandle) -> Result<()> {
 #[cfg(mobile)]
 #[tauri::command]
 pub fn create_tray_icon() {}
+
+#[tauri::command]
+pub async fn exists(path: PathBuf) -> Result<bool> {
+  Ok(tokio::fs::try_exists(path).await?)
+}
 
 #[tauri::command]
 pub async fn is_host(app: AppHandle) -> bool {

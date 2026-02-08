@@ -5,6 +5,7 @@
 
 mod command;
 mod error;
+mod event;
 mod manager;
 mod plugin;
 mod state;
@@ -34,7 +35,9 @@ pub fn run() {
     .plugin(tauri_plugin_process::init())
     .setup(|app| setup(app.app_handle()))
     .invoke_handler(tauri::generate_handler![
+      command::allow_scope,
       command::create_tray_icon,
+      command::exists,
       command::is_host,
       command::is_local,
       command::is_local_and_host,
@@ -147,6 +150,7 @@ pub fn run() {
       command::world::create_remote_world,
       command::world::get_remote_world,
       command::world::get_remote_worlds,
+      command::world::get_savedata_players,
       command::world::get_world_config,
       command::world::get_world_stats,
       command::world::read_savedata_info,
@@ -177,7 +181,7 @@ fn builder() -> tauri::Builder<Wry> {
 fn setup(app: &AppHandle) -> BoxResult<()> {
   let app_dir = app.path().app_data_dir()?;
   let pinia = tauri_plugin_pinia::Builder::new()
-    .path(app_dir.join("storage"))
+    .path(app_dir.join("stores"))
     .build();
 
   app.plugin(pinia)?;

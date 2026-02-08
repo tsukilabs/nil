@@ -7,7 +7,7 @@ use crate::error::{AnyResult, Error, Result};
 use crate::military::Military;
 use crate::npc::bot::BotManager;
 use crate::npc::precursor::PrecursorManager;
-use crate::player::{PlayerManager, PlayerStatus};
+use crate::player::{Player, PlayerManager, PlayerStatus};
 use crate::ranking::Ranking;
 use crate::report::ReportManager;
 use crate::round::{Round, RoundId};
@@ -63,6 +63,10 @@ impl Savedata {
     write_tar(buffer, self)
       .inspect_err(|err| tracing::error!(message = %err, error = ?err))
       .map_err(|_| Error::FailedToWriteSavedata)
+  }
+
+  pub fn players(&self) -> impl Iterator<Item = &Player> {
+    self.player_manager.players()
   }
 }
 

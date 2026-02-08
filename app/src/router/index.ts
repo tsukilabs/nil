@@ -10,7 +10,7 @@ import {
   type RouteParams,
 } from 'vue-router';
 
-export const QUERY_LOAD_LOCAL_GAME_PLAYER_ID = 'playerId';
+export const QUERY_LOAD_LOCAL_GAME_PATH = 'path';
 
 export const router = createRouter({
   history: createWebHistory(),
@@ -69,4 +69,30 @@ export function go(scene: Scene, options?: RouteOptions) {
     params: options?.params ?? undefined,
     query: options?.query ?? undefined,
   });
+}
+
+export function isGameRoute() {
+  return location.pathname.startsWith('/game');
+}
+
+export function previousRouteIsGame() {
+  let state: unknown = router.options.history.state;
+  state ??= history.state;
+
+  if (state && typeof state === 'object') {
+    const back = Reflect.get(state, 'back');
+    return typeof back === 'string' && back.startsWith('/game');
+  }
+  else {
+    return false;
+  }
+}
+
+export async function goBackIfPreviousIsNotGame() {
+  if (previousRouteIsGame()) {
+    await go('home');
+  }
+  else {
+    router.back();
+  }
 }

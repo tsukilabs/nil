@@ -2,9 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::error::Result;
-use futures::future::BoxFuture;
+use crate::event::on_core_event;
 use nil_client::{Client, ServerAddr};
-use nil_core::event::Event;
 use nil_core::player::PlayerId;
 use nil_core::world::{WorldId, WorldOptions};
 use nil_crypto::password::Password;
@@ -12,7 +11,7 @@ use nil_server::local::{self, LocalServer};
 use nil_server_types::Token;
 use std::path::PathBuf;
 use std::sync::Arc;
-use tauri::{AppHandle, Emitter};
+use tauri::AppHandle;
 use tokio::sync::RwLock;
 
 pub type NilClient = Arc<RwLock<Client>>;
@@ -79,7 +78,7 @@ impl Nil {
       .maybe_player_id(player_id)
       .maybe_player_password(player_password)
       .maybe_authorization_token(authorization_token)
-      .on_event(on_event(self.app.clone()))
+      .on_event(on_core_event(self.app.clone()))
       .call()
       .await?;
 
@@ -129,17 +128,5 @@ impl Clone for Nil {
       client: Arc::clone(&self.client),
       server: Arc::clone(&self.server),
     }
-  }
-}
-
-fn on_event(app: AppHandle) -> impl Fn(Event) -> BoxFuture<'static, ()> {
-  move |event: Event| {
-    let app = app.clone();
-    Box::pin(async move {
-      let name = format!("nil://{event}");
-      if let Err(err) = app.emit_to("main", &name, event) {
-        tracing::error!(message = %err, error = ?err);
-      }
-    })
   }
 }
