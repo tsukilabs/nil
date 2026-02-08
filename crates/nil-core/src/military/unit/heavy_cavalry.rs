@@ -42,7 +42,7 @@ impl HeavyCavalry {
 
   pub const INFRASTRUCTURE_REQUIREMENTS: InfrastructureRequirements =
     InfrastructureRequirements::builder()
-      .stable(BuildingLevel::new(10))
+      .stable(BuildingLevel::new(3))
       .build();
 }
 

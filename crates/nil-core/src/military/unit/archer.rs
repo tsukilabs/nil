@@ -42,7 +42,7 @@ impl Archer {
 
   pub const INFRASTRUCTURE_REQUIREMENTS: InfrastructureRequirements =
     InfrastructureRequirements::builder()
-      .academy(BuildingLevel::new(10))
+      .academy(BuildingLevel::new(5))
       .build();
 }
 
