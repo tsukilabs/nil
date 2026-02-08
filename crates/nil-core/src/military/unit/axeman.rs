@@ -42,7 +42,7 @@ impl Axeman {
 
   pub const INFRASTRUCTURE_REQUIREMENTS: InfrastructureRequirements =
     InfrastructureRequirements::builder()
-      .academy(BuildingLevel::new(3))
+      .academy(BuildingLevel::new(1))
       .build();
 }
 

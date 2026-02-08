@@ -46,8 +46,8 @@ impl Workshop {
 
   pub const INFRASTRUCTURE_REQUIREMENTS: InfrastructureRequirements =
     InfrastructureRequirements::builder()
-      .prefecture(BuildingLevel::new(10))
-      .academy(BuildingLevel::new(5))
+      .prefecture(BuildingLevel::new(3))
+      .academy(BuildingLevel::new(1))
       .build();
 
   pub fn recruit_queue(&self) -> &WorkshopRecruitQueue {

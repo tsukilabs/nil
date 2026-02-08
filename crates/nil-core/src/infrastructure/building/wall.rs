@@ -50,6 +50,7 @@ impl Wall {
 
   pub const INFRASTRUCTURE_REQUIREMENTS: InfrastructureRequirements =
     InfrastructureRequirements::builder()
+      .prefecture(BuildingLevel::new(3))
       .academy(BuildingLevel::new(1))
       .build();
 }
