@@ -6,9 +6,6 @@ export default defineConfig({
     'app/tsconfig.json',
     'docs/tsconfig.json',
   ],
-  ignores: [
-    'crates/nil-continent/**',
-  ],
   features: {
     perfectionist: true,
     unicorn: true,

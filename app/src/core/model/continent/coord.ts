@@ -3,7 +3,6 @@
 
 import { go } from '@/router';
 import { isNil, type Option, panic } from '@tb-dev/utils';
-import type { Coord as WasmCoord } from '@tsukilabs/nil-continent';
 import {
   QUERY_WAR_ROOM_DEST_X,
   QUERY_WAR_ROOM_DEST_Y,
@@ -22,7 +21,7 @@ export class CoordImpl implements Coord {
 
   private constructor(coord: Coord) {
     // We should not use `toU8` or anything similar here,
-    // because the `nil-continent` wasm code works with coordinates in the `i16` range.
+    // because the continent works with coordinates in the `i16` range.
     // Clamping the values to `u8` will break it.
     this.x = Math.trunc(coord.x);
     this.y = Math.trunc(coord.y);
@@ -163,10 +162,6 @@ export class CoordImpl implements Coord {
 
   public static toContinentIndexString(coord: Coord) {
     return this.toContinentIndex(coord).toString(10);
-  }
-
-  public static fromWasmCoord(coord: WasmCoord) {
-    return this.create({ x: coord.x(), y: coord.y() });
   }
 
   public static format(coord: Coord) {

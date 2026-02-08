@@ -32,17 +32,10 @@ struct Args {
 
   #[arg(long)]
   verbose: bool,
-
-  #[arg(long)]
-  wasm: bool,
 }
 
 fn main() -> Result<()> {
   let args = Args::parse();
-  if args.wasm {
-    spawn!("pnpm run wasm")?;
-  }
-
   let mut env = Vec::new();
 
   if args.remote && !args.android {

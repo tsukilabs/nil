@@ -1,7 +1,8 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { shallowRef } from 'vue';
+import { debounce } from 'es-toolkit';
+import { readonly, shallowRef } from 'vue';
 import { useRouteQuery } from '@vueuse/router';
 import { CoordImpl, isOutside } from '@/core/model/continent/coord';
 
@@ -23,7 +24,19 @@ export function useQueryCoord() {
     }
   }
 
-  return { initialCoord, queryX, queryY };
+  function updateQueryCoords(x: number, y: number) {
+    queryX.value = x;
+    queryY.value = y;
+  }
+
+  return {
+    initialCoord: readonly(initialCoord),
+    queryX: readonly(queryX),
+    queryY: readonly(queryY),
+
+    // Updating the query many times within a short interval may throw an error on Linux.
+    updateQueryCoords: debounce(updateQueryCoords, 200),
+  };
 }
 
 export function transform(value: Option<string>) {

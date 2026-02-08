@@ -25,9 +25,9 @@ export async function getField(coord: Coord) {
   return invoke<PublicField>('get_public_field', { req });
 }
 
-export async function getFields(coords: Coord[]) {
+export async function getFields(coords: Coord[], world?: Option<WorldId>) {
   const req: GetPublicFieldsRequest = {
-    world: NIL.world.getIdStrict(),
+    world: world ?? NIL.world.getIdStrict(),
     coords,
   };
 

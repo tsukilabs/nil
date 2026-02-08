@@ -111,6 +111,7 @@ export class PublicFieldImpl {
   }
 
   public static createBulkInitializer() {
+    const world = NIL.world.getIdStrict();
     const isInitializing = new Set<ContinentIndex>();
     tryOnScopeDispose(() => isInitializing.clear());
 
@@ -129,7 +130,7 @@ export class PublicFieldImpl {
 
       let counter = 0;
       if (coords.length > 0) {
-        for (const [coord, field] of await getFields(coords)) {
+        for (const [coord, field] of await getFields(coords, world)) {
           const impl = fields.find((it) => it.coord.is(coord));
           if (impl) {
             impl.init(field.kind);

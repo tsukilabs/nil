@@ -3146,13 +3146,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "nil-continent"
-version = "0.2.19"
-dependencies = [
- "wasm-bindgen",
-]
-
-[[package]]
 name = "nil-core"
 version = "0.2.19"
 dependencies = [

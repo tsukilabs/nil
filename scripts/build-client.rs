@@ -47,17 +47,10 @@ struct Args {
 
   #[arg(long)]
   target_dir: Option<PathBuf>,
-
-  #[arg(long)]
-  wasm: bool,
 }
 
 fn main() -> Result<()> {
   let args = Args::parse();
-  if args.wasm {
-    spawn!("pnpm run wasm --release")?;
-  }
-
   let mut command = if args.android {
     String::from("cargo tauri android build --apk")
   } else {

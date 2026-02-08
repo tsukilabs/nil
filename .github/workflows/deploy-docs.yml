@@ -4,8 +4,6 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
-  release:
-    types: [released]
 
 permissions:
   contents: read
@@ -15,9 +13,6 @@ permissions:
 concurrency:
   group: pages
   cancel-in-progress: true
-
-env:
-  NIL_MAP_WORKSPACE_DEPS: "true"
 
 jobs:
   build:
