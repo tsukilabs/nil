@@ -36,6 +36,7 @@ use std::{env, fs};
 struct Args {
   #[arg(long)]
   release: bool,
+
   #[arg(long)]
   target_dir: Option<PathBuf>,
 }

@@ -38,8 +38,10 @@ use walkdir::{DirEntry, WalkDir};
 struct Args {
   #[arg(long)]
   install: bool,
+
   #[arg(long)]
   publish: bool,
+
   #[arg(long)]
   release: bool,
 }

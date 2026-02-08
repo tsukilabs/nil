@@ -35,14 +35,19 @@ use std::path::PathBuf;
 struct Args {
   #[arg(long)]
   android: bool,
+
   #[arg(long)]
   kanata: bool,
+
   #[arg(long)]
   open_preview: bool,
+
   #[arg(long)]
   preview: bool,
+
   #[arg(long)]
   target_dir: Option<PathBuf>,
+
   #[arg(long)]
   wasm: bool,
 }
@@ -61,11 +66,9 @@ fn main() -> Result<()> {
 
   let mut env = Vec::new();
 
-  if args.preview {
+  if args.preview && !args.android {
     env.push(("NIL_MINIFY_SOURCE", "false"));
     write!(command, " --no-bundle -- --profile preview")?;
-  } else {
-    write!(command, " -- --release")?;
   }
 
   spawn!(command, env)?;
