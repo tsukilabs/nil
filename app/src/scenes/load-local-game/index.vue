@@ -4,36 +4,64 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import { formatDate } from 'date-fns';
-import { isPlayerOptions } from '@/lib/schema';
-import { computed, onMounted, ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import type { WritablePartial } from '@tb-dev/utils';
+import { computed, ref, watch } from 'vue';
+import { useRouteQuery } from '@vueuse/router';
 import { hostLocalGameWithSavedata } from '@/core/game';
-import { QUERY_LOAD_LOCAL_GAME_PLAYER_ID } from '@/router';
-import { asyncRef, localRef, useMutex } from '@tb-dev/vue';
-import { getSavedataFiles, type SavedataFile } from '@/core/savedata';
-import { Button, Card, CardContent, CardFooter, CardHeader, CardTitle } from '@tb-dev/vue-components';
+import { asyncComputed, asyncRef, useMutex } from '@tb-dev/vue';
+import { useSavedataPlayers } from '@/composables/useSavedataPlayers';
+import { goBackIfPreviousIsNotGame, QUERY_LOAD_LOCAL_GAME_PATH } from '@/router';
+import { getSavedataFile, getSavedataFiles, type SavedataFile } from '@/core/savedata';
+import {
+  Button,
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@tb-dev/vue-components';
 
 const { t } = useI18n();
 
-const router = useRouter();
-const route = useRoute();
+const path = useRouteQuery<Option<string>>(QUERY_LOAD_LOCAL_GAME_PATH, null);
 
-const playerOptions = localRef<WritablePartial<PlayerOptions>>('load-local-game:player', {
-  id: null,
+const playerId = ref<Option<PlayerId>>();
+const savedata = ref<Option<SavedataFile>>();
+
+const {
+  players,
+  loading: isLoadingPlayers,
+  load: loadPlayers,
+} = useSavedataPlayers(savedata);
+
+const {
+  state: savedataDirFiles,
+  isLoading: isLoadingSavedataDirFiles,
+  execute,
+} = asyncRef([], getSavedataFiles);
+
+const files = asyncComputed([], async () => {
+  const _files = [...savedataDirFiles.value];
+  if (path.value) {
+    _files.unshift(await getSavedataFile(path.value));
+  }
+
+  return _files;
 });
 
-const savedata = ref<Option<SavedataFile>>();
-const { state: files, isLoading, execute } = asyncRef([], getSavedataFiles);
-
 const { locked, lock } = useMutex();
-const isValidPlayer = computed(() => isPlayerOptions(playerOptions.value));
 
 const canLoad = computed(() => {
   return (
     Boolean(savedata.value) &&
-    isValidPlayer.value &&
-    !isLoading.value &&
+    Boolean(playerId.value) &&
+    players.value.some((player) => player === playerId.value) &&
+    !isLoadingSavedataDirFiles.value &&
+    !isLoadingPlayers.value &&
     !locked.value
   );
 });
@@ -42,23 +70,31 @@ const canRemove = computed(() => {
   return (
     files.value.length > 0 &&
     Boolean(savedata.value) &&
-    !isLoading.value &&
+    !isLoadingSavedataDirFiles.value &&
+    !isLoadingPlayers.value &&
     !locked.value
   );
 });
 
-onMounted(() => {
-  if (typeof route.query[QUERY_LOAD_LOCAL_GAME_PLAYER_ID] === 'string') {
-    playerOptions.value.id = route.query.playerId;
+watch(files, (value) => {
+  savedata.value ??= value.at(0);
+});
+
+watch(savedata, async (value) => {
+  await loadPlayers();
+  if (value && players.value.every((player) => player !== playerId.value)) {
+    playerId.value = players.value.at(0);
   }
 });
 
 async function load() {
   await lock(async () => {
-    if (savedata.value && isPlayerOptions(playerOptions.value)) {
+    if (savedata.value && playerId.value) {
       await hostLocalGameWithSavedata({
         path: savedata.value.path,
-        playerOptions: playerOptions.value,
+        playerOptions: {
+          id: playerId.value,
+        },
       });
     }
   });
@@ -82,21 +118,36 @@ async function remove() {
         <CardTitle>{{ t('load-game') }}</CardTitle>
       </CardHeader>
 
-      <CardContent class="h-full overflow-x-hidden overflow-y-auto">
-        <div class="flex flex-col items-start gap-1 p-0">
-          <Button
-            v-for="file of files"
-            :key="file.name"
-            :variant="file.path === savedata?.path ? 'secondary' : 'ghost'"
-            class="h-16 w-full flex flex-col items-start gap-1"
-            @click="() => (savedata = file)"
-          >
-            <span class="ellipsis">{{ file.info.worldName }}</span>
-            <div class="flex gap-4 text-muted-foreground text-xs">
-              <span>{{ t('round-x', [file.info.round]) }}</span>
-              <span>{{ formatDate(file.date, 'dd/MM/yyyy HH:mm:ss') }}</span>
-            </div>
-          </Button>
+      <CardContent class="h-full overflow-hidden px-2!">
+        <div class="w-full">
+          <Select v-model="playerId" :placeholder="t('player')">
+            <SelectTrigger class="w-full">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem v-for="player of players" :key="player" :value="player">
+                {{ player }}
+              </SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div class="h-full overflow-x-hidden overflow-y-auto md:px-2">
+          <div class="flex flex-col items-start gap-1 p-0">
+            <Button
+              v-for="file of files"
+              :key="file.name"
+              :variant="file.path === savedata?.path ? 'secondary' : 'ghost'"
+              class="h-16 w-full flex flex-col items-start gap-1"
+              @click="() => (savedata = file)"
+            >
+              <span class="ellipsis">{{ file.info.worldName }}</span>
+              <div class="flex gap-4 text-muted-foreground text-xs">
+                <span>{{ t('round-x', [file.info.round]) }}</span>
+                <span>{{ formatDate(file.date, 'dd/MM/yyyy HH:mm:ss') }}</span>
+              </div>
+            </Button>
+          </div>
         </div>
       </CardContent>
 
@@ -107,7 +158,7 @@ async function remove() {
         <Button variant="destructive" :disabled="!canRemove" @click="remove">
           {{ t('delete') }}
         </Button>
-        <Button variant="secondary" :disabled="locked" @click="() => router.back()">
+        <Button variant="secondary" :disabled="locked" @click="goBackIfPreviousIsNotGame">
           <span>{{ t('cancel') }}</span>
         </Button>
       </CardFooter>

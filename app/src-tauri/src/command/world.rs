@@ -1,13 +1,16 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use crate::error::{Error, Result};
+use crate::error::{CoreError, Error, Result};
 use crate::manager::ManagerExt;
-use nil_core::savedata::SavedataInfo;
+use itertools::Itertools;
+use nil_core::player::{Player, PlayerId};
+use nil_core::savedata::{Savedata, SavedataInfo};
 use nil_core::world::{WorldConfig, WorldId, WorldStats};
 use nil_payload::world::*;
 use nil_server_types::RemoteWorld;
 use std::path::PathBuf;
+use tap::Pipe;
 use tauri::AppHandle;
 use tauri::async_runtime::spawn_blocking;
 
@@ -33,6 +36,20 @@ pub async fn get_remote_worlds(app: AppHandle) -> Result<Vec<RemoteWorld>> {
     .client(async |cl| cl.get_remote_worlds().await)
     .await
     .map_err(Into::into)
+}
+
+#[tauri::command]
+pub async fn get_savedata_players(path: PathBuf) -> Result<Vec<PlayerId>> {
+  let bytes = tokio::fs::read(path).await?;
+  spawn_blocking(move || {
+    Savedata::read(&bytes)?
+      .players()
+      .map(Player::id)
+      .collect_vec()
+      .pipe(Ok::<_, CoreError>)
+  })
+  .await?
+  .map_err(Into::into)
 }
 
 #[tauri::command]

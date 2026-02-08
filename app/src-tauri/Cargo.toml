@@ -33,6 +33,7 @@ nil-util.workspace = true
 remain.workspace = true
 serde.workspace = true
 serde_json.workspace = true
+strum.workspace = true
 tap.workspace = true
 tauri-plugin-clipboard-manager.workspace = true
 tauri-plugin-dialog.workspace = true

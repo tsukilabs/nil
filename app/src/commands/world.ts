@@ -37,6 +37,10 @@ export async function getRemoteWorlds() {
   return invoke<readonly RemoteWorld[]>('get_remote_worlds');
 }
 
+export async function getSavedataPlayers(path: string) {
+  return invoke<readonly PlayerId[]>('get_savedata_players', { path });
+}
+
 export async function getWorldConfig(world?: Option<WorldId>): Promise<WorldConfigImpl> {
   const req: GetWorldConfigRequest = {
     world: world ?? NIL.world.getIdStrict(),

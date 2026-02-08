@@ -6,6 +6,8 @@ use serde::ser::Serializer;
 use std::error::Error as StdError;
 use std::io;
 
+pub use nil_core::error::Error as CoreError;
+
 pub use std::result::Result as StdResult;
 
 pub type Result<T, E = Error> = StdResult<T, E>;

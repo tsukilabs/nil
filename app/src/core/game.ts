@@ -1,10 +1,10 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { go } from '@/router';
 import * as commands from '@/commands';
 import { timeout } from '@tb-dev/utils';
 import { handleError } from '@/lib/error';
+import { go, isGameRoute } from '@/router';
 import { useUserStore } from '@/stores/user';
 import { Entity } from '@/core/entity/abstract';
 import { exit } from '@tauri-apps/plugin-process';
@@ -148,8 +148,8 @@ export async function leaveGame(options?: {
       const { isAuthorizationTokenValid } = useUserStore();
       if (
         isRemote &&
-        location.pathname.startsWith('/game/') &&
-        await timeout(isAuthorizationTokenValid, 5000)
+        isGameRoute() &&
+        await timeout(isAuthorizationTokenValid, 2000)
       ) {
         await go('lobby');
       }

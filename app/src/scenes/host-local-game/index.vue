@@ -2,6 +2,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
+import { go } from '@/router';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
@@ -10,7 +11,6 @@ import { useSettings } from '@/stores/settings';
 import { localRef, useMutex } from '@tb-dev/vue';
 import type { WritablePartial } from '@tb-dev/utils';
 import { isPlayerOptions, isWorldOptions } from '@/lib/schema';
-import { go, QUERY_LOAD_LOCAL_GAME_PLAYER_ID } from '@/router';
 import {
   Button,
   Card,
@@ -58,12 +58,6 @@ async function host() {
         worldOptions: worldOptions.value,
       });
     }
-  });
-}
-
-async function goToLoadGameScene() {
-  await go('load-local-game', {
-    query: { [QUERY_LOAD_LOCAL_GAME_PLAYER_ID]: playerOptions.value.id },
   });
 }
 </script>
@@ -131,10 +125,10 @@ async function goToLoadGameScene() {
 
         <Button
           variant="secondary"
-          :disabled="locked || !isValidPlayer"
+          :disabled="locked"
           role="link"
           tabindex="0"
-          @click="goToLoadGameScene"
+          @click="() => go('load-local-game')"
         >
           <span>{{ t('load') }}</span>
         </Button>
