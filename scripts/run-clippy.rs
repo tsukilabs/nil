@@ -23,6 +23,7 @@ use std::fmt::Write;
 struct Args {
   #[arg(short = 'a', long)]
   allow: Vec<String>,
+
   #[arg(short = 'u', long)]
   unused: bool,
 }

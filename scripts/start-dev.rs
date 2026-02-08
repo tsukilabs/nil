@@ -23,12 +23,16 @@ use std::fmt::Write;
 struct Args {
   #[arg(long)]
   android: bool,
+
   #[arg(long)]
   device: Option<String>,
+
   #[arg(long)]
   remote: bool,
+
   #[arg(long)]
   verbose: bool,
+
   #[arg(long)]
   wasm: bool,
 }
@@ -45,7 +49,7 @@ fn main() -> Result<()> {
     env.push(("NIL_REMOTE_SERVER_ADDR", "tsukilabs.dev.br/nil"));
   }
 
-  if args.verbose {
+  if args.verbose && !args.android {
     env.push(("NIL_LOG_TOWER_HTTP", "true"));
   }
 
@@ -55,7 +59,7 @@ fn main() -> Result<()> {
       write!(command, " {device}")?;
     }
 
-    spawn!(command, env)
+    spawn!(command)
   } else {
     spawn!("cargo tauri dev", env)
   }

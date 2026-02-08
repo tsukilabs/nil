@@ -20,8 +20,8 @@ pub const USER_AGENT: &str = concat!("nil/", env!("CARGO_PKG_VERSION"));
 static HTTP: LazyLock<HttpClient> = LazyLock::new(|| {
   HttpClient::builder()
     .user_agent(USER_AGENT)
-    .use_rustls_tls()
     .timeout(Duration::from_mins(1))
+    .tls_backend_rustls()
     .build()
     .expect("Failed to create HTTP client")
 });
