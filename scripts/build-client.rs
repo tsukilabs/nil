@@ -39,6 +39,9 @@ struct Args {
   #[arg(long)]
   kanata: bool,
 
+  #[arg(long, alias = "ui")]
+  only_ui: bool,
+
   #[arg(long)]
   open_preview: bool,
 
@@ -51,6 +54,13 @@ struct Args {
 
 fn main() -> Result<()> {
   let args = Args::parse();
+  let mut env = Vec::new();
+
+  if args.only_ui {
+    env.push(("NIL_MINIFY_SOURCE", "false"));
+    return spawn!("pnpm run -F ui build", env);
+  }
+
   let mut command = if args.android {
     String::from("cargo tauri android build --apk")
   } else {
