@@ -39,6 +39,9 @@ struct Args {
   #[arg(long)]
   kanata: bool,
 
+  #[arg(long, alias = "ui")]
+  only_ui: bool,
+
   #[arg(long)]
   open_preview: bool,
 
@@ -47,15 +50,15 @@ struct Args {
 
   #[arg(long)]
   target_dir: Option<PathBuf>,
-
-  #[arg(long)]
-  wasm: bool,
 }
 
 fn main() -> Result<()> {
   let args = Args::parse();
-  if args.wasm {
-    spawn!("pnpm run wasm --release")?;
+  let mut env = Vec::new();
+
+  if args.only_ui {
+    env.push(("NIL_MINIFY_SOURCE", "false"));
+    return spawn!("pnpm run -F ui build", env);
   }
 
   let mut command = if args.android {

@@ -8,8 +8,5 @@
     "build": "vite build",
     "dev": "vite",
     "type-check": "vue-tsc --noEmit"
-  },
-  "dependencies": {
-    "@tsukilabs/nil-continent": "workspace:*"
   }
 }

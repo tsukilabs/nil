@@ -34,13 +34,7 @@ fn main() -> Result<()> {
     String::from("cargo test")
   };
 
-  let exclude = ["nil", "nil-continent"];
-
-  for krate in exclude {
-    write!(command, " --exclude {krate}")?;
-  }
-
-  write!(command, " --workspace --tests")?;
+  write!(command, " --exclude nil --workspace --tests")?;
 
   spawn!(command)
 }
