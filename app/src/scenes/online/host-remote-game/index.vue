@@ -7,7 +7,6 @@ import { storeToRefs } from 'pinia';
 import { computed, ref } from 'vue';
 import { toMerged } from 'es-toolkit';
 import { useRouter } from 'vue-router';
-import { formatPercent } from '@/lib/intl';
 import { hostRemoteGame } from '@/core/game';
 import { useUserStore } from '@/stores/user';
 import { useSettings } from '@/stores/settings';
@@ -18,27 +17,14 @@ import ptBR_online from '@/locale/pt-BR/scenes/online.json';
 import enUS_hostGame from '@/locale/en-US/scenes/host-game.json';
 import ptBR_hostGame from '@/locale/pt-BR/scenes/host-game.json';
 import { isValidNullishPassword, isWorldOptions } from '@/lib/schema';
+import WorldNameInput from '@/components/host-game/WorldNameInput.vue';
+import WorldSizeInput from '@/components/host-game/WorldSizeInput.vue';
 import type { WithPartialNullish, WritablePartial } from '@tb-dev/utils';
-import { useBotDensitySlider } from '@/composables/world/useBotDensitySlider';
-import { useBotAdvancedStartRatioSlider } from '@/composables/world/useBotAdvancedStartRatioSlider';
-import {
-  Button,
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-  Checkbox,
-  Input,
-  Label,
-  NumberField,
-  NumberFieldContent,
-  NumberFieldDecrement,
-  NumberFieldIncrement,
-  NumberFieldInput,
-  Slider,
-  Textarea,
-} from '@tb-dev/vue-components';
+import BotDensitySlider from '@/components/host-game/BotDensitySlider.vue';
+import WorldPasswordInput from '@/components/host-game/WorldPasswordInput.vue';
+import WorldDescriptionTextarea from '@/components/host-game/WorldDescriptionTextarea.vue';
+import BotAdvancedStartRatioSlider from '@/components/host-game/BotAdvancedStartRatioSlider.vue';
+import { Button, Card, CardContent, CardFooter, CardHeader, CardTitle, Checkbox, Label } from '@tb-dev/vue-components';
 
 const { t } = useI18n({
   messages: {
@@ -67,9 +53,6 @@ const worldOptions = localRef<WritablePartial<WorldOptions>>(
 
 const worldPassword = ref<Option<string>>();
 const description = ref<Option<string>>();
-
-const botDensity = useBotDensitySlider(worldOptions);
-const botAdvancedStartRatio = useBotAdvancedStartRatioSlider(worldOptions);
 
 const { locked, lock } = useMutex();
 const isValidWorld = computed(() => isWorldOptions(worldOptions.value));
@@ -104,85 +87,12 @@ async function host() {
       </CardHeader>
 
       <CardContent>
-        <Label>
-          <span>{{ t('world-name') }}</span>
-          <Input
-            v-model="worldOptions.name"
-            type="text"
-            :disabled="locked"
-            :minlength="1"
-            :maxlength="30"
-          />
-        </Label>
-
-        <Label>
-          <span>{{ t('world-size') }}</span>
-          <NumberField
-            v-model="worldOptions.size"
-            :disabled="locked"
-            :min="100"
-            :max="200"
-            :step="10"
-            class="w-full"
-          >
-            <NumberFieldContent>
-              <NumberFieldDecrement />
-              <NumberFieldInput class="dark:bg-input/40" />
-              <NumberFieldIncrement />
-            </NumberFieldContent>
-          </NumberField>
-        </Label>
-
-        <Label>
-          <span>{{ t('world-password') }}</span>
-          <Input
-            v-model="worldPassword"
-            type="password"
-            :disabled="locked"
-            :minlength="3"
-            :maxlength="50"
-          />
-        </Label>
-
-        <Label>
-          <span>{{ t('world-description') }}</span>
-          <Textarea
-            v-model="description"
-            type="text"
-            spellcheck="false"
-            autocapitalize="off"
-            autocomplete="off"
-            :maxlength="300"
-            class="max-h-24 resize-none"
-          />
-        </Label>
-
-        <Label>
-          <span>{{ t('bot-density') }}</span>
-          <div>
-            <Slider
-              v-model:model-value="botDensity"
-              :disabled="locked"
-              :min="0"
-              :max="3"
-              :step="0.01"
-            />
-            <span>{{ formatPercent(botDensity[0]) }}</span>
-          </div>
-        </Label>
-
-        <Label>
-          <span>{{ t('advanced-bots-ratio') }}</span>
-          <div class="w-full flex gap-2">
-            <Slider
-              v-model:model-value="botAdvancedStartRatio"
-              :min="0"
-              :max="1"
-              :step="0.01"
-            />
-            <span>{{ formatPercent(botAdvancedStartRatio[0]) }}</span>
-          </div>
-        </Label>
+        <WorldNameInput v-model="worldOptions.name" :disabled="locked" />
+        <WorldSizeInput v-model="worldOptions.size" :disabled="locked" />
+        <WorldPasswordInput v-model="worldPassword" :disabled="locked" />
+        <WorldDescriptionTextarea v-model="description" :disabled="locked" />
+        <BotDensitySlider v-model="worldOptions" :disabled="locked" />
+        <BotAdvancedStartRatioSlider v-model="worldOptions" :disabled="locked" />
 
         <div class="flex items-center justify-center py-1">
           <Label>

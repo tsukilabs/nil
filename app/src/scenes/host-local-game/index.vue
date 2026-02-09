@@ -6,7 +6,6 @@ import { go } from '@/router';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
-import { formatPercent } from '@/lib/intl';
 import { hostLocalGame } from '@/core/game';
 import { useSettings } from '@/stores/settings';
 import { localRef, useMutex } from '@tb-dev/vue';
@@ -14,26 +13,13 @@ import enUS from '@/locale/en-US/scenes/host-game.json';
 import ptBR from '@/locale/pt-BR/scenes/host-game.json';
 import { WorldConfigImpl } from '@/core/model/world-config';
 import { isPlayerOptions, isWorldOptions } from '@/lib/schema';
+import WorldNameInput from '@/components/host-game/WorldNameInput.vue';
+import WorldSizeInput from '@/components/host-game/WorldSizeInput.vue';
+import PlayerNameInput from '@/components/join-game/PlayerNameInput.vue';
 import type { WithPartialNullish, WritablePartial } from '@tb-dev/utils';
-import { useBotDensitySlider } from '@/composables/world/useBotDensitySlider';
-import { useBotAdvancedStartRatioSlider } from '@/composables/world/useBotAdvancedStartRatioSlider';
-import {
-  Button,
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-  Checkbox,
-  Input,
-  Label,
-  NumberField,
-  NumberFieldContent,
-  NumberFieldDecrement,
-  NumberFieldIncrement,
-  NumberFieldInput,
-  Slider,
-} from '@tb-dev/vue-components';
+import BotDensitySlider from '@/components/host-game/BotDensitySlider.vue';
+import BotAdvancedStartRatioSlider from '@/components/host-game/BotAdvancedStartRatioSlider.vue';
+import { Button, Card, CardContent, CardFooter, CardHeader, CardTitle, Checkbox, Label } from '@tb-dev/vue-components';
 
 const { t } = useI18n({
   messages: {
@@ -64,9 +50,6 @@ const playerOptions = localRef<WritablePartial<PlayerOptions>>(
   } satisfies WithPartialNullish<PlayerOptions, 'id'>,
 );
 
-const botDensity = useBotDensitySlider(worldOptions);
-const botAdvancedStartRatio = useBotAdvancedStartRatioSlider(worldOptions);
-
 const { locked, lock } = useMutex();
 const isValidPlayer = computed(() => isPlayerOptions(playerOptions.value));
 const isValidWorld = computed(() => isWorldOptions(worldOptions.value));
@@ -93,73 +76,11 @@ async function host() {
       </CardHeader>
 
       <CardContent>
-        <Label>
-          <span>{{ t('world-name') }}</span>
-          <Input
-            v-model="worldOptions.name"
-            type="text"
-            :disabled="locked"
-            :minlength="1"
-            :maxlength="30"
-          />
-        </Label>
-
-        <Label>
-          <span>{{ t('world-size') }}</span>
-          <NumberField
-            v-model="worldOptions.size"
-            :disabled="locked"
-            :min="100"
-            :max="200"
-            :step="10"
-            class="w-full"
-          >
-            <NumberFieldContent>
-              <NumberFieldDecrement />
-              <NumberFieldInput class="dark:bg-input/40" />
-              <NumberFieldIncrement />
-            </NumberFieldContent>
-          </NumberField>
-        </Label>
-
-        <Label>
-          <span>{{ t('player-name') }}</span>
-          <Input
-            v-model="playerOptions.id"
-            type="text"
-            :disabled="locked"
-            :minlength="1"
-            :maxlength="20"
-          />
-        </Label>
-
-        <Label>
-          <span>{{ t('bot-density') }}</span>
-          <div>
-            <Slider
-              v-model:model-value="botDensity"
-              :disabled="locked"
-              :min="0"
-              :max="3"
-              :step="0.01"
-            />
-            <span>{{ formatPercent(botDensity[0]) }}</span>
-          </div>
-        </Label>
-
-        <Label>
-          <span>{{ t('advanced-bots-ratio') }}</span>
-          <div>
-            <Slider
-              v-model:model-value="botAdvancedStartRatio"
-              :disabled="locked"
-              :min="0"
-              :max="1"
-              :step="0.01"
-            />
-            <span>{{ formatPercent(botAdvancedStartRatio[0]) }}</span>
-          </div>
-        </Label>
+        <WorldNameInput v-model="worldOptions.name" :disabled="locked" />
+        <WorldSizeInput v-model="worldOptions.size" :disabled="locked" />
+        <PlayerNameInput v-model="playerOptions.id" :disabled="locked" />
+        <BotDensitySlider v-model="worldOptions" :disabled="locked" />
+        <BotAdvancedStartRatioSlider v-model="worldOptions" :disabled="locked" />
 
         <div class="flex items-center justify-center py-1">
           <Label>

@@ -27,6 +27,13 @@ declare global {
     readonly u8Max: number;
     readonly u16Max: number;
     readonly u32Max: number;
+
+    readonly botDensityMin: BotDensity;
+    readonly botDensityMax: BotDensity;
+    readonly botAdvancedStartRatioMin: BotAdvancedStartRatio;
+    readonly botAdvancedStartRatioMax: BotAdvancedStartRatio;
+    readonly continentSizeMin: ContinentSize;
+    readonly continentSizeMax: ContinentSize;
   };
 
   var NIL: {

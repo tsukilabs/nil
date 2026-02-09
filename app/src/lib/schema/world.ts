@@ -4,10 +4,28 @@
 import { z } from 'zod';
 import { isSafePathSegment } from './refine';
 
+export const worldName = z.string()
+  .trim()
+  .min(3)
+  .max(30)
+  .refine(isSafePathSegment);
+
+export const worldSize = z.int()
+  .min(__CONSTS__.continentSizeMin)
+  .max(__CONSTS__.continentSizeMax);
+
+export const botDensity = z.number()
+  .min(__CONSTS__.botDensityMin)
+  .max(__CONSTS__.botDensityMax);
+
+export const botAdvancedStartRatio = z.number()
+  .min(__CONSTS__.botAdvancedStartRatioMin)
+  .max(__CONSTS__.botAdvancedStartRatioMax);
+
 export const worldOptions = z.object({
-  name: z.string().trim().min(3).max(30).refine(isSafePathSegment),
-  size: z.int().min(100).max(200),
+  name: worldName,
+  size: worldSize,
   allowCheats: z.boolean(),
-  botDensity: z.number().min(0).max(3),
-  botAdvancedStartRatio: z.number().min(0).max(1),
+  botDensity,
+  botAdvancedStartRatio,
 });
