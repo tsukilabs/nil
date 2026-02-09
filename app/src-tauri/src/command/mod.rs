@@ -20,7 +20,7 @@ pub mod server;
 pub mod user;
 pub mod world;
 
-use crate::error::Error;
+use crate::error::{Error, Result};
 use crate::manager::ManagerExt;
 use std::path::PathBuf;
 use tauri::AppHandle;
@@ -28,7 +28,7 @@ use tauri::async_runtime::spawn_blocking;
 use tauri_plugin_fs::FsExt;
 
 #[cfg(desktop)]
-use {crate::error::Result, crate::tray, tauri::WebviewWindow};
+use {crate::tray, tauri::WebviewWindow};
 
 #[tauri::command]
 pub async fn allow_scope(app: AppHandle, path: PathBuf) -> Result<()> {

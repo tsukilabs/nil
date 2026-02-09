@@ -6,7 +6,7 @@ import { asyncRef } from '@tb-dev/vue';
 import { SocketAddrV4 } from '@/lib/net/addr-v4';
 
 export function useLocalServerAddr() {
-  const { state, execute, isLoading } = asyncRef(null, async () => {
+  const { state, load, loading } = asyncRef(null, async () => {
     const serverAddr = await commands.getServerAddr();
     if (serverAddr.kind === 'local') {
       return SocketAddrV4.parse(serverAddr.addr);
@@ -18,7 +18,7 @@ export function useLocalServerAddr() {
 
   return {
     serverAddr: state,
-    loading: isLoading,
-    load: execute,
+    loading,
+    load,
   };
 }

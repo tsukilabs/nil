@@ -6,14 +6,14 @@ import { asyncRef } from '@tb-dev/vue';
 import { RemoteWorldImpl } from '@/core/model/remote-world';
 
 export function useRemoteWorlds() {
-  const { state, isLoading, execute } = asyncRef<readonly RemoteWorldImpl[]>([], async () => {
+  const { state, loading, load } = asyncRef<readonly RemoteWorldImpl[]>([], async () => {
     const worlds = await commands.getRemoteWorlds();
     return worlds.map(RemoteWorldImpl.create.bind(RemoteWorldImpl));
   });
 
   return {
     remoteWorlds: state,
-    loading: isLoading,
-    load: execute,
+    loading,
+    load,
   };
 }

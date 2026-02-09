@@ -7,18 +7,18 @@ import { PublicPrecursorImpl } from '@/core/model/npc/public-precursor';
 
 export function usePublicPrecursor(id: MaybeNilRef<PrecursorId>) {
   const idRef = toRef(id);
-  const { state, isLoading, execute } = asyncRef(null, async () => {
+  const { state, loading, load } = asyncRef(null, async () => {
     return idRef.value ? PublicPrecursorImpl.load(idRef.value) : null;
   });
 
   const coords = computed(() => state.value?.coords ?? []);
 
-  watch(idRef, execute);
+  watch(idRef, load);
 
   return {
     precursor: state,
     coords,
-    loading: isLoading,
-    load: execute,
+    loading,
+    load,
   };
 }

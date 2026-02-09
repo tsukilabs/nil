@@ -16,7 +16,7 @@ export class MilitaryEntity extends Entity {
 
     const military = asyncRef(null, MilitaryImpl.load.bind(MilitaryImpl));
     this.military = military.state;
-    this.updateMilitary = military.execute;
+    this.updateMilitary = military.load;
 
     this.initListeners();
   }

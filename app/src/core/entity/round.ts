@@ -16,7 +16,7 @@ export class RoundEntity extends Entity {
 
     const round = asyncRef(null, RoundImpl.load.bind(RoundImpl));
     this.round = round.state;
-    this.updateRound = round.execute;
+    this.updateRound = round.load;
 
     this.initListeners();
   }

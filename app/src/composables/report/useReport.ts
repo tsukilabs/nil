@@ -10,16 +10,16 @@ import { SupportReportImpl } from '@/core/model/report/support-report';
 
 export function useReport(id: MaybeNilRef<ReportId>) {
   const idRef = toRef(id);
-  const { state, isLoading, execute } = asyncRef<Option<ReportImpl>>(null, async () => {
+  const { state, loading, load } = asyncRef<Option<ReportImpl>>(null, async () => {
     return idRef.value ? getReport(idRef.value).then(toReportImpl) : null;
   });
 
-  watch(idRef, execute);
+  watch(idRef, load);
 
   return {
     report: state,
-    loading: isLoading,
-    load: execute,
+    loading,
+    load,
   };
 }
 

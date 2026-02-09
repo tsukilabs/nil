@@ -18,7 +18,7 @@ export class PlayerEntity extends Entity {
 
     const player = usePlayer(this.id);
     this.player = player.state;
-    this.updatePlayer = player.execute;
+    this.updatePlayer = player.load;
 
     this.initListeners();
   }

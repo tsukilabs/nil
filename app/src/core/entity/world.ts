@@ -37,11 +37,11 @@ export class WorldEntity extends Entity {
     });
 
     this.config = config.state;
-    this.updateConfig = config.execute;
+    this.updateConfig = config.load;
     this.stats = stats.state;
-    this.updateStats = stats.execute;
+    this.updateStats = stats.load;
     this.continentSize = continentSize.state;
-    this.updateContinentSize = continentSize.execute;
+    this.updateContinentSize = continentSize.load;
   }
 
   public override async update() {
