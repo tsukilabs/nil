@@ -1,14 +1,15 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use crate::military::squad::{Squad, SquadSize};
+use crate::military::squad::Squad;
+use crate::military::squad::size::SquadSize;
 use crate::military::unit::stats::haul::Haul;
 use crate::military::unit::stats::speed::Speed;
 use crate::military::unit::{UnitId, UnitIdIter};
 use crate::ranking::Score;
 use crate::resources::maintenance::Maintenance;
 use serde::{Deserialize, Serialize};
-use std::ops::{Add, AddAssign, Sub, SubAssign};
+use std::ops::{Add, AddAssign, Mul, MulAssign, Sub, SubAssign};
 use strum::IntoEnumIterator;
 use tap::Pipe;
 
@@ -127,7 +128,7 @@ macro_rules! impl_army_personnel {
           }
         }
 
-        fn squad_mut(&mut self, id: UnitId) -> &mut Squad {
+        pub(super) fn squad_mut(&mut self, id: UnitId) -> &mut Squad {
           match id {
             $(UnitId::$unit => &mut self.[<$unit:snake>],)+
           }
@@ -274,14 +275,31 @@ impl SubAssign<Squad> for ArmyPersonnel {
   }
 }
 
+impl Mul<f64> for ArmyPersonnel {
+  type Output = ArmyPersonnel;
+
+  fn mul(mut self, rhs: f64) -> Self::Output {
+    self *= rhs;
+    self
+  }
+}
+
+impl MulAssign<f64> for ArmyPersonnel {
+  fn mul_assign(&mut self, rhs: f64) {
+    for id in UnitId::iter() {
+      *self.squad_mut(id) *= rhs;
+    }
+  }
+}
+
 pub struct ArmyPersonnelIter<'a> {
   personnel: &'a ArmyPersonnel,
-  iter: UnitIdIter,
+  units: UnitIdIter,
 }
 
 impl<'a> ArmyPersonnelIter<'a> {
   pub fn new(personnel: &'a ArmyPersonnel) -> Self {
-    Self { personnel, iter: UnitId::iter() }
+    Self { personnel, units: UnitId::iter() }
   }
 }
 
@@ -289,6 +307,7 @@ impl<'a> Iterator for ArmyPersonnelIter<'a> {
   type Item = &'a Squad;
 
   fn next(&mut self) -> Option<Self::Item> {
-    Some(self.personnel.squad(self.iter.next()?))
+    let id = self.units.next()?;
+    Some(self.personnel.squad(id))
   }
 }

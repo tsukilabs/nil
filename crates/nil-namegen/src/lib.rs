@@ -11,13 +11,13 @@ const FEMALE: &str = include_str!("../data/female.csv");
 const MALE: &str = include_str!("../data/male.csv");
 const SURNAME: &str = include_str!("../data/surname.csv");
 
-pub fn generate(count: usize) -> Vec<Arc<str>> {
-  let mut names = Vec::with_capacity(count);
+pub fn generate(amount: usize) -> Vec<Arc<str>> {
+  let mut names = Vec::with_capacity(amount);
   let mut female = lines(FEMALE);
   let mut male = lines(MALE);
   let mut surname = lines(SURNAME);
 
-  for _ in 0..=count {
+  for _ in 0..=amount {
     let gender = Gender::random();
     let Some(first) = (match gender {
       Gender::Female => take(&mut female),

@@ -1,7 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-mod luck;
+pub mod luck;
 
 #[cfg(test)]
 mod tests;
@@ -9,12 +9,12 @@ mod tests;
 use crate::infrastructure::building::wall::WallStats;
 use crate::infrastructure::prelude::BuildingLevel;
 use crate::military::army::personnel::ArmyPersonnel;
-use crate::military::squad::{Squad, SquadSize};
+use crate::military::squad::Squad;
+use crate::military::squad::size::SquadSize;
 use crate::military::unit::UnitKind;
 use bon::Builder;
+use luck::Luck;
 use serde::{Deserialize, Serialize};
-
-pub use luck::Luck;
 
 #[derive(Builder)]
 pub struct Battle<'a> {
@@ -124,6 +124,22 @@ impl BattleResult {
   #[inline]
   pub fn defender_surviving_personnel(&self) -> &ArmyPersonnel {
     &self.defender_surviving_personnel
+  }
+
+  pub fn defender_surviving_personnel_ratio(&self) -> f64 {
+    let total = self
+      .defender_personnel
+      .iter()
+      .map(|squad| f64::from(squad.size()))
+      .sum::<f64>();
+
+    let surviving = self
+      .defender_surviving_personnel
+      .iter()
+      .map(|squad| f64::from(squad.size()))
+      .sum::<f64>();
+
+    if total > 0.0 { surviving / total } else { 0.0 }
   }
 }
 

@@ -1,7 +1,8 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use crate::battle::{Battle, BattleResult, Luck};
+use crate::battle::luck::Luck;
+use crate::battle::{Battle, BattleResult};
 use crate::error::Result;
 use crate::infrastructure::prelude::BuildingLevel;
 use crate::military::squad::Squad;

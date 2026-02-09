@@ -18,7 +18,8 @@ use derive_more::Display;
 use personnel::ArmyPersonnel;
 use serde::{Deserialize, Serialize};
 use std::mem;
-use strum::EnumIs;
+use std::ops::{Mul, MulAssign};
+use strum::{EnumIs, IntoEnumIterator};
 use uuid::Uuid;
 
 #[derive(Builder, Clone, Debug, Deserialize, Serialize)]
@@ -51,6 +52,15 @@ impl Army {
 
   pub(crate) fn personnel_mut(&mut self) -> &mut ArmyPersonnel {
     &mut self.personnel
+  }
+
+  #[inline]
+  pub fn squad(&self, id: UnitId) -> &Squad {
+    self.personnel.squad(id)
+  }
+
+  fn squad_mut(&mut self, id: UnitId) -> &mut Squad {
+    self.personnel.squad_mut(id)
   }
 
   #[inline]
@@ -136,16 +146,27 @@ impl From<Army> for ArmyPersonnel {
   }
 }
 
+impl Mul<f64> for Army {
+  type Output = Army;
+
+  fn mul(mut self, rhs: f64) -> Self::Output {
+    self *= rhs;
+    self
+  }
+}
+
+impl MulAssign<f64> for Army {
+  fn mul_assign(&mut self, rhs: f64) {
+    for id in UnitId::iter() {
+      *self.squad_mut(id) *= rhs;
+    }
+  }
+}
+
 macro_rules! impl_army {
   ($($unit:ident),+) => {
     paste::paste! {
       impl Army {
-        pub fn squad(&self, id: UnitId) -> &Squad {
-          match id {
-            $(UnitId::$unit => &self.personnel.[<$unit:snake>](),)+
-          }
-        }
-
         $(
           #[inline]
           pub fn [<$unit:snake>](&self) -> &Squad {

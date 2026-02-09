@@ -14,8 +14,9 @@ impl World {
   pub(crate) fn spawn_bots(&mut self) -> Result<()> {
     let size = self.continent.size();
     let density = self.config().bot_density();
-    let count = (f64::from(size) * f64::from(density))
-      .ceil()
+    let amount = (f64::from(size) * f64::from(density))
+      .floor()
+      .max(0.0)
       .to_usize()
       .unwrap_or_else(|| usize::from(size).saturating_mul(2));
 
@@ -24,7 +25,7 @@ impl World {
       .bot_advanced_start_ratio()
       .conv::<f64>();
 
-    for name in nil_namegen::generate(count) {
+    for name in nil_namegen::generate(amount) {
       let infrastructure = if rand::random::<f64>() > advanced_start_ratio {
         Infrastructure::default()
       } else {

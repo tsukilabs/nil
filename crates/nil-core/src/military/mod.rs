@@ -121,6 +121,16 @@ impl Military {
     Ok(curr_vec.swap_remove(pos))
   }
 
+  pub(crate) fn remove_armies<I>(&mut self, armies: I) -> Result<Vec<Army>>
+  where
+    I: IntoIterator<Item = ArmyId>,
+  {
+    armies
+      .into_iter()
+      .map(|id| self.remove_army(id))
+      .try_collect()
+  }
+
   pub(crate) fn relocate_army<K>(&mut self, id: ArmyId, new_key: K) -> Result<()>
   where
     K: ContinentKey,
@@ -203,6 +213,16 @@ impl Military {
     self
       .armies_at(key)
       .iter()
+      .filter(|army| army.is_idle())
+  }
+
+  pub(crate) fn idle_armies_mut_at<K>(&mut self, key: K) -> impl Iterator<Item = &mut Army>
+  where
+    K: ContinentKey,
+  {
+    self
+      .armies_mut_at(key)
+      .iter_mut()
       .filter(|army| army.is_idle())
   }
 
