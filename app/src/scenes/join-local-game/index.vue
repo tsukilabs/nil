@@ -9,8 +9,10 @@ import { joinLocalGame } from '@/core/game';
 import { isPlayerOptions } from '@/lib/schema';
 import { SocketAddrV4 } from '@/lib/net/addr-v4';
 import { localRef, useMutex } from '@tb-dev/vue';
+import PlayerNameInput from '@/components/join-game/PlayerNameInput.vue';
 import type { WithPartialNullish, WritablePartial } from '@tb-dev/utils';
-import { Button, Card, CardContent, CardFooter, CardHeader, CardTitle, Input, Label } from '@tb-dev/vue-components';
+import ServerAddressInput from '@/components/join-game/ServerAddressInput.vue';
+import { Button, Card, CardContent, CardFooter, CardHeader, CardTitle } from '@tb-dev/vue-components';
 
 const { t } = useI18n();
 
@@ -59,26 +61,8 @@ async function join() {
       </CardHeader>
 
       <CardContent>
-        <Label>
-          <span>{{ t('player-name') }}</span>
-          <Input
-            v-model="playerOptions.id"
-            type="text"
-            :disabled="locked"
-            :minlength="1"
-            :maxlength="20"
-          />
-        </Label>
-        <Label>
-          <span>{{ t('server') }}</span>
-          <Input
-            v-model="server"
-            type="text"
-            :disabled="locked"
-            :minlength="1"
-            :maxlength="50"
-          />
-        </Label>
+        <PlayerNameInput v-model="playerOptions.id" :disabled="locked" />
+        <ServerAddressInput v-model="server" :disabled="locked" />
       </CardContent>
 
       <CardFooter class="grid grid-cols-2">

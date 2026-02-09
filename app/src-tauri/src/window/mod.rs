@@ -6,6 +6,8 @@ pub mod desktop;
 #[cfg(mobile)]
 pub mod mobile;
 
+use nil_core::continent::ContinentSize;
+use nil_core::world::config::{BotAdvancedStartRatio, BotDensity};
 use serde::Serialize;
 use serde_json::json;
 use tauri::WebviewUrl;
@@ -51,6 +53,13 @@ struct Constants {
   u8_max: u8,
   u16_max: u16,
   u32_max: u32,
+
+  bot_density_min: BotDensity,
+  bot_density_max: BotDensity,
+  bot_advanced_start_ratio_min: BotAdvancedStartRatio,
+  bot_advanced_start_ratio_max: BotAdvancedStartRatio,
+  continent_size_min: ContinentSize,
+  continent_size_max: ContinentSize,
 }
 
 impl Default for Constants {
@@ -63,6 +72,13 @@ impl Default for Constants {
       u8_max: u8::MAX,
       u16_max: u16::MAX,
       u32_max: u32::MAX,
+
+      bot_density_min: BotDensity::MIN,
+      bot_density_max: BotDensity::MAX,
+      bot_advanced_start_ratio_min: BotAdvancedStartRatio::MIN,
+      bot_advanced_start_ratio_max: BotAdvancedStartRatio::MAX,
+      continent_size_min: ContinentSize::MIN,
+      continent_size_max: ContinentSize::MAX,
     }
   }
 }
