@@ -40,8 +40,8 @@ const {
 
 const {
   state: savedataDirFiles,
-  isLoading: isLoadingSavedataDirFiles,
-  execute,
+  loading: isLoadingSavedataDirFiles,
+  load: loadSavedataFiles,
 } = asyncRef([], getSavedataFiles);
 
 const files = asyncComputed([], async () => {
@@ -105,7 +105,7 @@ async function remove() {
     if (savedata.value) {
       await savedata.value.remove();
       savedata.value = null;
-      await execute();
+      await loadSavedataFiles();
     }
   });
 }

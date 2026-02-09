@@ -19,7 +19,7 @@ export class ReportEntity extends Entity {
 
     const reports = asyncRef([], getPlayerReports);
     this.reports = reports.state;
-    this.updateReports = reports.execute;
+    this.updateReports = reports.load;
 
     this.initListeners();
   }

@@ -11,7 +11,7 @@ export function useSavedataPlayers(savedata: MaybeNilRef<SavedataFile>) {
   const savedataRef = toRef(savedata);
   const cache = new Map<string, readonly PlayerId[]>();
 
-  const { state, isLoading, execute } = asyncRef<readonly PlayerId[]>([], async () => {
+  const { state, loading, load } = asyncRef<readonly PlayerId[]>([], async () => {
     let players: readonly PlayerId[] = [];
     if (savedataRef.value) {
       players = cache.get(savedataRef.value.path) ?? [];
@@ -28,7 +28,7 @@ export function useSavedataPlayers(savedata: MaybeNilRef<SavedataFile>) {
 
   return {
     players: state as Readonly<typeof state>,
-    loading: isLoading,
-    load: execute,
+    loading,
+    load,
   };
 }

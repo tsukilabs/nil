@@ -22,7 +22,7 @@ export class CityEntity extends Entity {
     });
 
     this.city = city.state;
-    this.updateCity = city.execute;
+    this.updateCity = city.load;
 
     this.production = computed(() => {
       return this.city.value?.getProduction();

@@ -8,15 +8,15 @@ import { PublicCityImpl } from '@/core/model/city/public-city';
 
 export function usePublicCity(key?: MaybeNilRef<ContinentKey>, options?: AsyncRefOptions) {
   const keyRef = toContinentKeyRef(key);
-  const { state, isLoading, execute } = asyncRef(null, async () => {
+  const { state, loading, load } = asyncRef(null, async () => {
     return keyRef.value ? PublicCityImpl.load(keyRef.value) : null;
   }, options);
 
-  watch(keyRef, execute);
+  watch(keyRef, load);
 
   return {
     city: state,
-    loading: isLoading,
-    load: execute,
+    loading,
+    load,
   };
 }

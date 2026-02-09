@@ -16,7 +16,7 @@ export class ChatEntity extends Entity {
 
     const chat = asyncRef(null, ChatImpl.load.bind(ChatImpl));
     this.chat = chat.state;
-    this.updateChat = chat.execute;
+    this.updateChat = chat.load;
 
     this.initListeners();
   }

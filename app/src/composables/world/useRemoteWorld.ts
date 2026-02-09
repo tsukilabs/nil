@@ -8,7 +8,7 @@ import { RemoteWorldImpl } from '@/core/model/remote-world';
 
 export function useRemoteWorld(id: MaybeNilRef<WorldId>) {
   const idRef = toRef(id);
-  const { state, isLoading, execute } = asyncRef(null, async () => {
+  const { state, loading, load } = asyncRef(null, async () => {
     if (idRef.value) {
       const world = await commands.getRemoteWorld(idRef.value);
       return RemoteWorldImpl.create(world);
@@ -18,11 +18,11 @@ export function useRemoteWorld(id: MaybeNilRef<WorldId>) {
     }
   });
 
-  watch(idRef, execute);
+  watch(idRef, load);
 
   return {
     remoteWorld: state,
-    loading: isLoading,
-    load: execute,
+    loading,
+    load,
   };
 }

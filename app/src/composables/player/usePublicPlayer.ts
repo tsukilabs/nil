@@ -7,18 +7,18 @@ import { PublicPlayerImpl } from '@/core/model/player/public-player';
 
 export function usePublicPlayer(id: MaybeNilRef<PlayerId>) {
   const idRef = toRef(id);
-  const { state, isLoading, execute } = asyncRef(null, async () => {
+  const { state, loading, load } = asyncRef(null, async () => {
     return idRef.value ? PublicPlayerImpl.load(idRef.value) : null;
   });
 
   const coords = computed(() => state.value?.coords ?? []);
 
-  watch(idRef, execute);
+  watch(idRef, load);
 
   return {
     player: state,
     coords,
-    loading: isLoading,
-    load: execute,
+    loading,
+    load,
   };
 }

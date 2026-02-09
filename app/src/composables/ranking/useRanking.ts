@@ -9,7 +9,7 @@ export function useRanking() {
 
   return {
     ranking: ranking.state,
-    loading: ranking.isLoading,
-    load: ranking.execute,
+    loading: ranking.loading,
+    load: ranking.load,
   };
 }

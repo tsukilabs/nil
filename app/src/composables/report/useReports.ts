@@ -12,7 +12,7 @@ import { SupportReportImpl } from '@/core/model/report/support-report';
 type CityCache = Map<ContinentIndex, MaybePromise<PublicCity>>;
 
 export function useReports(ids: Ref<readonly ReportId[]>) {
-  const { state, isLoading, execute } = asyncRef<ReportImpl[]>([], async () => {
+  const { state, loading, load } = asyncRef<ReportImpl[]>([], async () => {
     if (ids.value.length > 0) {
       const reports = await commands.getReports(ids.value);
       const cityCache: CityCache = new Map();
@@ -26,8 +26,8 @@ export function useReports(ids: Ref<readonly ReportId[]>) {
 
   return {
     reports: state,
-    loading: isLoading,
-    load: execute,
+    loading,
+    load,
   };
 }
 
