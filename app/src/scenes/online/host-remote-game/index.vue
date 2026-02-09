@@ -17,6 +17,7 @@ import enUS_hostGame from '@/locale/en-US/scenes/host-game.json';
 import ptBR_hostGame from '@/locale/pt-BR/scenes/host-game.json';
 import { isValidNullishPassword, isWorldOptions } from '@/lib/schema';
 import type { WithPartialNullish, WritablePartial } from '@tb-dev/utils';
+import { useAdvancedStartRatioSlider } from '@/composables/world/useAdvancedStartRatioSlider';
 import {
   Button,
   Card,
@@ -63,13 +64,7 @@ const worldOptions = localRef<WritablePartial<WorldOptions>>(
 const worldPassword = ref<Option<string>>();
 const description = ref<Option<string>>();
 
-const advancedStartRatio = computed({
-  get: () => [worldOptions.value.advancedStartRatio ?? 0.2],
-  set: (value) => {
-    console.log(value);
-    worldOptions.value.advancedStartRatio = value.at(0) ?? 0.2;
-  },
-});
+const advancedStartRatio = useAdvancedStartRatioSlider(worldOptions);
 
 const { locked, lock } = useMutex();
 const isValidWorld = computed(() => isWorldOptions(worldOptions.value));

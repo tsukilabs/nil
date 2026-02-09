@@ -16,8 +16,8 @@ import { isValidPassword } from '@/lib/schema';
 import { useRouteQuery } from '@vueuse/router';
 import enUS from '@/locale/en-US/scenes/online.json';
 import ptBR from '@/locale/pt-BR/scenes/online.json';
-import { useRemoteWorld } from '@/composables/useRemoteWorld';
 import { QUERY_JOIN_REMOTE_GAME_WORLD_ID } from '@/router/online';
+import { useRemoteWorld } from '@/composables/world/useRemoteWorld';
 import { Button, Card, CardContent, CardFooter, CardHeader, CardTitle, Input } from '@tb-dev/vue-components';
 
 const { t } = useI18n({

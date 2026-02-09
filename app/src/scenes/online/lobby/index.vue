@@ -12,8 +12,8 @@ import Loading from '@/components/Loading.vue';
 import enUS from '@/locale/en-US/scenes/online.json';
 import ptBR from '@/locale/pt-BR/scenes/online.json';
 import { onKeyDown, useBreakpoints } from '@tb-dev/vue';
-import { useRemoteWorlds } from '@/composables/useRemoteWorlds';
 import { QUERY_JOIN_REMOTE_GAME_WORLD_ID } from '@/router/online';
+import { useRemoteWorlds } from '@/composables/world/useRemoteWorlds';
 import { watchAuthorizationToken } from '@/composables/watchAuthorizationToken';
 import {
   Button,

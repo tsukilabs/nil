@@ -14,6 +14,7 @@ import enUS from '@/locale/en-US/scenes/host-game.json';
 import ptBR from '@/locale/pt-BR/scenes/host-game.json';
 import { isPlayerOptions, isWorldOptions } from '@/lib/schema';
 import type { WithPartialNullish, WritablePartial } from '@tb-dev/utils';
+import { useAdvancedStartRatioSlider } from '@/composables/world/useAdvancedStartRatioSlider';
 import {
   Button,
   Card,
@@ -57,13 +58,7 @@ const playerOptions = localRef<WritablePartial<PlayerOptions>>('host-local-game:
   id: null,
 });
 
-const advancedStartRatio = computed({
-  get: () => [worldOptions.value.advancedStartRatio ?? 0.2],
-  set: (value) => {
-    console.log(value);
-    worldOptions.value.advancedStartRatio = value.at(0) ?? 0.2;
-  },
-});
+const advancedStartRatio = useAdvancedStartRatioSlider(worldOptions);
 
 const { locked, lock } = useMutex();
 const isValidPlayer = computed(() => isPlayerOptions(playerOptions.value));
