@@ -35,7 +35,7 @@ use crate::round::Round;
 use crate::ruler::{Ruler, RulerRef, RulerRefMut};
 use crate::savedata::{SaveHandle, Savedata};
 use bon::Builder;
-use config::{BotAdvancedStartRatio, Locale, WorldConfig, WorldName};
+use config::{BotAdvancedStartRatio, BotDensity, Locale, WorldConfig, WorldName};
 use serde::{Deserialize, Serialize};
 use stats::WorldStats;
 
@@ -276,7 +276,11 @@ pub struct WorldOptions {
 
   #[builder(default)]
   #[serde(default)]
-  pub advanced_start_ratio: BotAdvancedStartRatio,
+  pub bot_density: BotDensity,
+
+  #[builder(default)]
+  #[serde(default)]
+  pub bot_advanced_start_ratio: BotAdvancedStartRatio,
 }
 
 impl WorldOptions {

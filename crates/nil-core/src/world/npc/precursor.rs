@@ -29,7 +29,7 @@ impl World {
     coords.retain(|coord| coord.is_within_continent(size));
 
     for (idx, coord) in coords
-      .choose_multiple(&mut rand::rng(), amount.into())
+      .sample(&mut rand::rng(), amount.into())
       .copied()
       .enumerate()
     {

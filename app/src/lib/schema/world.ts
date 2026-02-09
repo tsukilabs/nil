@@ -8,5 +8,6 @@ export const worldOptions = z.object({
   name: z.string().trim().min(3).max(30).refine(isSafePathSegment),
   size: z.int().min(100).max(200),
   allowCheats: z.boolean(),
-  advancedStartRatio: z.number().min(0).max(1),
+  botDensity: z.number().min(0).max(3),
+  botAdvancedStartRatio: z.number().min(0).max(1),
 });

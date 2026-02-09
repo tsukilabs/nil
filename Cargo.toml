@@ -66,6 +66,7 @@ local-ip-address = "=0.6.10"
 num-traits = "=0.2.19"
 proc-macro2 = "1.0"
 quote = "1.0"
+rand = "0.10"
 regex = "1.12"
 remain = "0.2"
 serde_json = "1.0"
@@ -128,10 +129,6 @@ features = ["bundled"]
 [workspace.dependencies.paste]
 git = "https://github.com/tb-forks/paste"
 branch = "master"
-
-[workspace.dependencies.rand]
-version = "0.9"
-features = ["nightly"]
 
 [workspace.dependencies.reqwest]
 version = "0.13"
