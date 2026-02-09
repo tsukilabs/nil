@@ -8,7 +8,7 @@ pub mod workshop;
 
 use nil_core::continent::Coord;
 use nil_core::infrastructure::building::BuildingId;
-use nil_core::world::WorldId;
+use nil_core::world::config::WorldId;
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, Deserialize, Serialize)]

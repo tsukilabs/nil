@@ -9,16 +9,19 @@ import { joinLocalGame } from '@/core/game';
 import { isPlayerOptions } from '@/lib/schema';
 import { SocketAddrV4 } from '@/lib/net/addr-v4';
 import { localRef, useMutex } from '@tb-dev/vue';
-import type { WritablePartial } from '@tb-dev/utils';
+import type { WithPartialNullish, WritablePartial } from '@tb-dev/utils';
 import { Button, Card, CardContent, CardFooter, CardHeader, CardTitle, Input, Label } from '@tb-dev/vue-components';
 
 const { t } = useI18n();
 
 const router = useRouter();
 
-const playerOptions = localRef<WritablePartial<PlayerOptions>>('join-local-game:player', {
-  id: null,
-});
+const playerOptions = localRef<WritablePartial<PlayerOptions>>(
+  'join-local-game:player',
+  {
+    id: null,
+  } satisfies WithPartialNullish<PlayerOptions, 'id'>,
+);
 
 const server = localRef<Option<string>>('join-local-game:server', null);
 const serverAddr = computed<Option<ServerAddr>>(() => {

@@ -4,7 +4,7 @@ use jiff::Zoned;
 use nil_core::continent::ContinentSize;
 use nil_core::player::PlayerId;
 use nil_core::round::RoundId;
-use nil_core::world::{WorldConfig, WorldId};
+use nil_core::world::config::{WorldConfig, WorldId};
 use serde::{Deserialize, Serialize};
 use std::ops::Deref;
 use strum::EnumIs;

@@ -6,7 +6,7 @@ use nil_core::infrastructure::building::workshop::recruit_queue::{
   WorkshopRecruitOrderId,
   WorkshopRecruitOrderRequest,
 };
-use nil_core::world::WorldId;
+use nil_core::world::config::WorldId;
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, Deserialize, Serialize)]

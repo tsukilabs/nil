@@ -27,7 +27,7 @@ use futures::future::BoxFuture;
 use local_ip_address::local_ip;
 use nil_core::event::Event;
 use nil_core::player::PlayerId;
-use nil_core::world::WorldId;
+use nil_core::world::config::WorldId;
 use nil_crypto::password::Password;
 use nil_payload::world::LeaveRequest;
 use nil_payload::{AuthorizeRequest, ValidateTokenRequest};

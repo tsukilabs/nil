@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use nil_core::report::ReportId;
-use nil_core::world::WorldId;
+use nil_core::world::config::WorldId;
 use serde::{Deserialize, Serialize};
 use std::collections::HashSet;
 

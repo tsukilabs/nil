@@ -34,7 +34,10 @@ pub async fn set_bot_ethics(
 
 pub async fn spawn_bot(State(app): State<App>, Json(req): Json<CheatSpawnBotRequest>) -> Response {
   app
-    .world_blocking_mut(req.world, move |world| world.cheat_spawn_bot(&req.name))
+    .world_blocking_mut(req.world, move |world| {
+      let infrastructure = req.infrastructure.unwrap_or_default();
+      world.cheat_spawn_bot(&req.name, infrastructure)
+    })
     .await
     .try_map_left(|id| res!(OK, Json(id)))
     .into_inner()

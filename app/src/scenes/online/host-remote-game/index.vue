@@ -5,15 +5,19 @@
 import { useI18n } from 'vue-i18n';
 import { storeToRefs } from 'pinia';
 import { computed, ref } from 'vue';
+import { toMerged } from 'es-toolkit';
 import { useRouter } from 'vue-router';
 import { hostRemoteGame } from '@/core/game';
 import { useUserStore } from '@/stores/user';
 import { useSettings } from '@/stores/settings';
 import { localRef, useMutex } from '@tb-dev/vue';
-import enUS from '@/locale/en-US/scenes/online.json';
-import ptBR from '@/locale/pt-BR/scenes/online.json';
-import type { WritablePartial } from '@tb-dev/utils';
+import enUS_online from '@/locale/en-US/scenes/online.json';
+import ptBR_online from '@/locale/pt-BR/scenes/online.json';
+import enUS_hostGame from '@/locale/en-US/scenes/host-game.json';
+import ptBR_hostGame from '@/locale/pt-BR/scenes/host-game.json';
 import { isValidNullishPassword, isWorldOptions } from '@/lib/schema';
+import type { WithPartialNullish, WritablePartial } from '@tb-dev/utils';
+import { useAdvancedStartRatioSlider } from '@/composables/world/useAdvancedStartRatioSlider';
 import {
   Button,
   Card,
@@ -29,13 +33,14 @@ import {
   NumberFieldDecrement,
   NumberFieldIncrement,
   NumberFieldInput,
+  Slider,
   Textarea,
 } from '@tb-dev/vue-components';
 
 const { t } = useI18n({
   messages: {
-    'en-US': enUS,
-    'pt-BR': ptBR,
+    'en-US': toMerged(enUS_hostGame, enUS_online),
+    'pt-BR': toMerged(ptBR_hostGame, ptBR_online),
   },
 });
 
@@ -45,15 +50,21 @@ const settings = useSettings();
 const userStore = useUserStore();
 const { authorizationToken } = storeToRefs(userStore);
 
-const worldOptions = localRef<WritablePartial<WorldOptions>>('host-remote-game:world', {
-  name: null,
-  size: 100,
-  locale: settings.locale,
-  allowCheats: false,
-});
+const worldOptions = localRef<WritablePartial<WorldOptions>>(
+  'host-remote-game:world',
+  {
+    name: null,
+    size: 100,
+    locale: settings.locale,
+    allowCheats: false,
+    advancedStartRatio: 0.2,
+  } satisfies WithPartialNullish<WorldOptions, 'name'>,
+);
 
 const worldPassword = ref<Option<string>>();
 const description = ref<Option<string>>();
+
+const advancedStartRatio = useAdvancedStartRatioSlider(worldOptions);
 
 const { locked, lock } = useMutex();
 const isValidWorld = computed(() => isWorldOptions(worldOptions.value));
@@ -139,6 +150,19 @@ async function host() {
             :maxlength="300"
             class="max-h-24 resize-none"
           />
+        </Label>
+
+        <Label>
+          <span>{{ t('advanced-bots-ratio') }}</span>
+          <div class="w-full flex gap-2">
+            <Slider
+              v-model:model-value="advancedStartRatio"
+              :min="0"
+              :max="1"
+              :step="0.01"
+            />
+            <span>{{ advancedStartRatio[0] }}</span>
+          </div>
         </Label>
 
         <div class="flex items-center justify-center py-1">

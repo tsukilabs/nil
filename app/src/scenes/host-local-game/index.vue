@@ -6,11 +6,15 @@ import { go } from '@/router';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
+import { formatPercent } from '@/lib/intl';
 import { hostLocalGame } from '@/core/game';
 import { useSettings } from '@/stores/settings';
 import { localRef, useMutex } from '@tb-dev/vue';
-import type { WritablePartial } from '@tb-dev/utils';
+import enUS from '@/locale/en-US/scenes/host-game.json';
+import ptBR from '@/locale/pt-BR/scenes/host-game.json';
 import { isPlayerOptions, isWorldOptions } from '@/lib/schema';
+import type { WithPartialNullish, WritablePartial } from '@tb-dev/utils';
+import { useAdvancedStartRatioSlider } from '@/composables/world/useAdvancedStartRatioSlider';
 import {
   Button,
   Card,
@@ -26,23 +30,35 @@ import {
   NumberFieldDecrement,
   NumberFieldIncrement,
   NumberFieldInput,
+  Slider,
 } from '@tb-dev/vue-components';
 
-const { t } = useI18n();
+const { t } = useI18n({
+  messages: {
+    'en-US': enUS,
+    'pt-BR': ptBR,
+  },
+});
 
 const router = useRouter();
 const settings = useSettings();
 
-const worldOptions = localRef<WritablePartial<WorldOptions>>('host-local-game:world', {
-  name: null,
-  size: 100,
-  locale: settings.locale,
-  allowCheats: false,
-});
+const worldOptions = localRef<WritablePartial<WorldOptions>>(
+  'host-local-game:world',
+  {
+    name: null,
+    size: 100,
+    locale: settings.locale,
+    allowCheats: false,
+    advancedStartRatio: 0.2,
+  } satisfies WithPartialNullish<WorldOptions, 'name'>,
+);
 
 const playerOptions = localRef<WritablePartial<PlayerOptions>>('host-local-game:player', {
   id: null,
 });
+
+const advancedStartRatio = useAdvancedStartRatioSlider(worldOptions);
 
 const { locked, lock } = useMutex();
 const isValidPlayer = computed(() => isPlayerOptions(playerOptions.value));
@@ -108,6 +124,20 @@ async function host() {
             :minlength="1"
             :maxlength="20"
           />
+        </Label>
+
+        <Label>
+          <span>{{ t('advanced-bots-ratio') }}</span>
+          <div class="w-full flex gap-2">
+            <Slider
+              v-model:model-value="advancedStartRatio"
+              :disabled="locked"
+              :min="0"
+              :max="1"
+              :step="0.01"
+            />
+            <span>{{ formatPercent(advancedStartRatio[0]) }}</span>
+          </div>
         </Label>
 
         <div class="flex items-center justify-center py-1">

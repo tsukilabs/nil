@@ -8,7 +8,7 @@ use diesel::expression::AsExpression;
 use diesel::serialize::{self as ser, IsNull, Output, ToSql};
 use diesel::sql_types::Text;
 use diesel::sqlite::Sqlite;
-use nil_core::world::WorldId;
+use nil_core::world::config::WorldId;
 
 #[derive(
   FromSqlRow, AsExpression, Clone, Copy, Debug, Display, From, Into, PartialEq, Eq, Hash,

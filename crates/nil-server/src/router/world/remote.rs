@@ -7,7 +7,7 @@ use crate::middleware::authorization::CurrentPlayer;
 use crate::{VERSION, res};
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
-use nil_core::world::WorldId;
+use nil_core::world::config::WorldId;
 use nil_payload::world::*;
 use nil_server_types::RemoteWorld;
 use semver::Version;

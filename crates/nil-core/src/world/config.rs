@@ -3,7 +3,7 @@
 
 use crate::error::AnyResult;
 use crate::world::WorldOptions;
-use derive_more::{Deref, Display};
+use derive_more::{Deref, Display, Into};
 use serde::{Deserialize, Serialize};
 use std::sync::Arc;
 use uuid::Uuid;
@@ -15,6 +15,7 @@ pub struct WorldConfig {
   name: WorldName,
   locale: Locale,
   allow_cheats: bool,
+  advanced_start_ratio: BotAdvancedStartRatio,
 }
 
 impl WorldConfig {
@@ -24,6 +25,7 @@ impl WorldConfig {
       name: options.name.clone(),
       locale: options.locale,
       allow_cheats: options.allow_cheats,
+      advanced_start_ratio: options.advanced_start_ratio,
     }
   }
 
@@ -45,6 +47,11 @@ impl WorldConfig {
   #[inline]
   pub fn are_cheats_allowed(&self) -> bool {
     self.allow_cheats
+  }
+
+  #[inline]
+  pub fn advanced_start_ratio(&self) -> BotAdvancedStartRatio {
+    self.advanced_start_ratio
   }
 }
 
@@ -91,4 +98,23 @@ pub enum Locale {
 
   #[serde(rename = "pt-BR")]
   Portuguese,
+}
+
+/// Proportion of bots that will have an advanced start with higher level infrastructure.
+#[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize)]
+pub struct BotAdvancedStartRatio(f64);
+
+impl BotAdvancedStartRatio {
+  #[inline]
+  pub const fn new(ratio: f64) -> Self {
+    debug_assert!(ratio.is_finite());
+    debug_assert!(!ratio.is_subnormal());
+    Self(ratio.clamp(0.0, 1.0))
+  }
+}
+
+impl Default for BotAdvancedStartRatio {
+  fn default() -> Self {
+    Self::new(0.2)
+  }
 }

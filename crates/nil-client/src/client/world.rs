@@ -4,7 +4,8 @@
 use super::Client;
 use crate::error::Result;
 use crate::http;
-use nil_core::world::{WorldConfig, WorldId, WorldStats};
+use nil_core::world::config::{WorldConfig, WorldId};
+use nil_core::world::stats::WorldStats;
 use nil_payload::world::*;
 use nil_server_types::RemoteWorld;
 

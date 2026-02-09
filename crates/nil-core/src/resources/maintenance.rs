@@ -193,8 +193,10 @@ pub struct MaintenanceRatio(f64);
 
 impl MaintenanceRatio {
   #[inline]
-  pub const fn new(value: f64) -> Self {
-    Self(value.clamp(0.0, 1.0))
+  pub const fn new(ratio: f64) -> Self {
+    debug_assert!(ratio.is_finite());
+    debug_assert!(!ratio.is_subnormal());
+    Self(ratio.clamp(0.0, 1.0))
   }
 }
 

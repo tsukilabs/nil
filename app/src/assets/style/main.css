@@ -25,11 +25,20 @@ label:has(button[role="combobox"]),
 label:has(input[type="number"]),
 label:has(input[type="password"]),
 label:has(input[type="text"]),
-label:has(input[type="url"]) {
+label:has(input[type="url"]),
+label:has(span[data-slot="slider"]) {
   @apply flex w-full flex-col justify-center items-start gap-2 py-1 font-normal;
 
   & > span {
     @apply w-full;
+  }
+
+  & > span[data-slot="slider"] {
+    @apply pt-1;
+  }
+
+  & div:has(> span[data-slot="slider"]) {
+    @apply pt-1;
   }
 }
 
