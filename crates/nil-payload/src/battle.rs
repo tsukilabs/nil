@@ -1,7 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use nil_core::battle::Luck;
+use nil_core::battle::luck::Luck;
 use nil_core::infrastructure::building::BuildingLevel;
 use nil_core::military::squad::Squad;
 use nil_core::world::config::WorldId;

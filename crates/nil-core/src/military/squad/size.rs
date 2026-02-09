@@ -7,7 +7,7 @@ use crate::resources::maintenance::Maintenance;
 use derive_more::{Deref, Display, From, Into};
 use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
-use std::ops::{Add, AddAssign, Mul, Sub, SubAssign};
+use std::ops::{Add, AddAssign, Mul, MulAssign, Sub, SubAssign};
 
 #[derive(
   Clone,
@@ -150,5 +150,22 @@ impl Mul<Score> for SquadSize {
   fn mul(self, rhs: Score) -> Self::Output {
     let rhs = u32::from(rhs);
     Score::new(self.0.saturating_mul(rhs))
+  }
+}
+
+impl Mul<f64> for SquadSize {
+  type Output = SquadSize;
+
+  fn mul(self, rhs: f64) -> Self::Output {
+    debug_assert!(rhs.is_finite());
+    debug_assert!(rhs.is_sign_positive());
+    debug_assert!(!rhs.is_subnormal());
+    Self((f64::from(self.0) * rhs).round() as u32)
+  }
+}
+
+impl MulAssign<f64> for SquadSize {
+  fn mul_assign(&mut self, rhs: f64) {
+    *self = *self * rhs;
   }
 }

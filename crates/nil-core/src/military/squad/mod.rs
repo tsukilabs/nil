@@ -1,7 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-mod size;
+pub mod size;
 
 use crate::error::{Error, Result};
 use crate::military::unit::stats::haul::Haul;
@@ -11,9 +11,8 @@ use crate::ranking::Score;
 use crate::resources::maintenance::Maintenance;
 use derive_more::{Deref, Into};
 use serde::{Deserialize, Serialize};
-use std::ops::{Add, AddAssign, Sub, SubAssign};
-
-pub use size::SquadSize;
+use size::SquadSize;
+use std::ops::{Add, AddAssign, Mul, MulAssign, Sub, SubAssign};
 
 /// A group of units of the same type.
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
@@ -159,6 +158,21 @@ impl SubAssign for Squad {
 impl SubAssign<SquadSize> for Squad {
   fn sub_assign(&mut self, rhs: SquadSize) {
     self.size -= rhs;
+  }
+}
+
+impl Mul<f64> for Squad {
+  type Output = Squad;
+
+  fn mul(mut self, rhs: f64) -> Self::Output {
+    self *= rhs;
+    self
+  }
+}
+
+impl MulAssign<f64> for Squad {
+  fn mul_assign(&mut self, rhs: f64) {
+    self.size *= rhs;
   }
 }
 

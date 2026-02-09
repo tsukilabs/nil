@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::infrastructure::storage::StorageCapacity;
-use crate::military::squad::SquadSize;
+use crate::military::squad::size::SquadSize;
 use crate::resources::prelude::*;
 use derive_more::{Deref, From, Into};
 use nil_num::ops::MulCeil;

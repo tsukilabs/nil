@@ -1,7 +1,8 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use crate::battle::{Battle, BattleResult, Luck};
+use crate::battle::luck::Luck;
+use crate::battle::{Battle, BattleResult};
 use crate::continent::Coord;
 use crate::error::Result;
 use crate::infrastructure::building::{Building, BuildingLevel};
@@ -32,78 +33,110 @@ impl World {
     Ok(())
   }
 
-  fn process_going_maneuver(&mut self, mut maneuver: Maneuver) -> Result<()> {
+  fn process_going_maneuver(&mut self, maneuver: Maneuver) -> Result<()> {
+    match maneuver.kind() {
+      ManeuverKind::Attack => self.process_going_attack_maneuver(maneuver),
+      ManeuverKind::Support => self.process_going_support_maneuver(maneuver),
+    }
+  }
+
+  fn process_going_attack_maneuver(&mut self, mut maneuver: Maneuver) -> Result<()> {
     let army_id = maneuver.army();
     let origin = maneuver.origin();
     let destination = maneuver.destination();
     let rulers = ManeuverRulers::new(self, &maneuver)?;
 
-    match maneuver.kind() {
-      // TODO: Calculate defender losses.
-      ManeuverKind::Attack => {
-        let battle_result = perform_battle(self, &maneuver)?;
-        *self
-          .military
-          .army_mut(army_id)?
-          .personnel_mut() = battle_result
-          .attacker_surviving_personnel()
-          .clone();
+    let battle_result = perform_battle(self, &maneuver)?;
+    *self
+      .military
+      .army_mut(army_id)?
+      .personnel_mut() = battle_result
+      .attacker_surviving_personnel()
+      .clone();
 
-        let haul = self.military.army(army_id)?.haul();
-        let mut hauled_resources = calculate_hauled_resources(self, destination, haul)?;
-        self.take_resources_of(rulers.destination_ruler.clone(), &mut hauled_resources)?;
+    let mut defender_dead_armies = Vec::new();
+    let defender_surviving_ratio = battle_result.defender_surviving_personnel_ratio();
 
-        if self.military.army(army_id)?.is_empty() {
-          self.military.remove_army(army_id)?;
-        } else {
-          maneuver.reverse()?;
-          *maneuver.hauled_resources_mut() = ManeuverHaul::builder()
-            .ruler(rulers.destination_ruler.clone())
-            .resources(hauled_resources.clone())
-            .build()
-            .pipe(Some);
+    for army in self.military.idle_armies_mut_at(destination) {
+      let owner = army.owner();
+      if owner == &rulers.destination_ruler
+        || rulers
+          .destination_army_owners
+          .contains(owner)
+      {
+        *army *= defender_surviving_ratio;
 
-          self.military.insert_maneuver(maneuver);
+        if army.is_empty() {
+          defender_dead_armies.push(army.id());
         }
-
-        let players = rulers.players();
-        let report = BattleReport::builder()
-          .attacker(rulers.sender)
-          .defender(rulers.destination_ruler)
-          .origin(origin)
-          .destination(destination)
-          .result(battle_result)
-          .hauled_resources(hauled_resources)
-          .round(self.round.id())
-          .build();
-
-        self.emit_battle_report(&report);
-        self.report.manage(report.into(), players);
-      }
-      ManeuverKind::Support => {
-        let mut players = Vec::new();
-        players.try_push(rulers.sender.player().cloned());
-        players.try_push(rulers.destination_ruler.player().cloned());
-
-        let personnel = self.military.personnel(army_id).cloned()?;
-
-        let report = SupportReport::builder()
-          .sender(rulers.sender)
-          .receiver(rulers.destination_ruler)
-          .origin(origin)
-          .destination(destination)
-          .personnel(personnel)
-          .round(self.round.id())
-          .build();
-
-        self.emit_support_report(&report);
-        self.report.manage(report.into(), players);
-
-        self
-          .military
-          .relocate_army(army_id, destination)?;
       }
     }
+
+    self
+      .military
+      .remove_armies(defender_dead_armies)?;
+
+    let haul = self.military.army(army_id)?.haul();
+    let mut hauled_resources = calculate_hauled_resources(self, destination, haul)?;
+    self.take_resources_of(rulers.destination_ruler.clone(), &mut hauled_resources)?;
+
+    if self.military.army(army_id)?.is_empty() {
+      self.military.remove_army(army_id)?;
+    } else {
+      maneuver.reverse()?;
+      *maneuver.hauled_resources_mut() = ManeuverHaul::builder()
+        .ruler(rulers.destination_ruler.clone())
+        .resources(hauled_resources.clone())
+        .build()
+        .pipe(Some);
+
+      self.military.insert_maneuver(maneuver);
+    }
+
+    let players = rulers.players();
+    let report = BattleReport::builder()
+      .attacker(rulers.sender)
+      .defender(rulers.destination_ruler)
+      .origin(origin)
+      .destination(destination)
+      .result(battle_result)
+      .hauled_resources(hauled_resources)
+      .round(self.round.id())
+      .build();
+
+    self.emit_battle_report(&report);
+    self.report.manage(report.into(), players);
+
+    Ok(())
+  }
+
+  fn process_going_support_maneuver(&mut self, maneuver: Maneuver) -> Result<()> {
+    let army_id = maneuver.army();
+    let origin = maneuver.origin();
+    let destination = maneuver.destination();
+    let rulers = ManeuverRulers::new(self, &maneuver)?;
+
+    let mut players = Vec::new();
+    players.try_push(rulers.sender.player().cloned());
+    players.try_push(rulers.destination_ruler.player().cloned());
+
+    let personnel = self.military.personnel(army_id).cloned()?;
+
+    let report = SupportReport::builder()
+      .sender(rulers.sender)
+      .receiver(rulers.destination_ruler)
+      .origin(origin)
+      .destination(destination)
+      .personnel(personnel)
+      .round(self.round.id())
+      .build();
+
+    self.emit_support_report(&report);
+    self.report.manage(report.into(), players);
+
+    self
+      .military
+      .relocate_army(army_id, destination)?;
 
     Ok(())
   }
@@ -125,7 +158,6 @@ impl World {
   }
 }
 
-#[expect(dead_code)]
 struct ManeuverRulers {
   sender: Ruler,
   destination_ruler: Ruler,
