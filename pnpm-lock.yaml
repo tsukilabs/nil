@@ -36,8 +36,8 @@ importers:
         specifier: '=4.1.1'
         version: 4.1.1(typescript@5.9.3)
       '@tb-dev/prototype-dom':
-        specifier: '=7.0.32'
-        version: 7.0.32
+        specifier: '=7.0.33'
+        version: 7.0.33
       '@tb-dev/utils':
         specifier: '=7.3.1'
         version: 7.3.1
@@ -1641,8 +1641,8 @@ packages:
     resolution: {integrity: sha512-wy031ycAyWwW1ZhSaVAHMFQe7GwTRjm3j3rwIr2a9Cruwm3tQw9YOm1bF4tgag7kRRTCMoiubYUV6V/h/ukA5A==}
     engines: {node: '>=24'}
 
-  '@tb-dev/prototype-dom@7.0.32':
-    resolution: {integrity: sha512-J8mFyITN6SVUt+5lqYE1k2VaBLvdBJSKKWuaFcZPEMrx68/VTbFiGJV6c5cyZcjGY4q5oT7aJeF94sCQa+vSoQ==}
+  '@tb-dev/prototype-dom@7.0.33':
+    resolution: {integrity: sha512-i2cqW/OJr+rl+0DMYd8PDpafhe9cUImpNrAEkRZhI5KL09utb61eQwVpwmrereVBwbDO+FV88KMOdzEN6kqp4Q==}
 
   '@tb-dev/utils@7.3.1':
     resolution: {integrity: sha512-pZh0arJC2LmIfxsJxtqbwn8Ch1xW572I4w98vWUmZvkZV8gmZkR6r4FM/CR/F/qYGZSHwcy2+/RpTkwzwdWXxQ==}
@@ -6016,7 +6016,7 @@ snapshots:
       - supports-color
       - typescript
 
-  '@tb-dev/prototype-dom@7.0.32': {}
+  '@tb-dev/prototype-dom@7.0.33': {}
 
   '@tb-dev/utils@7.3.1': {}
 
