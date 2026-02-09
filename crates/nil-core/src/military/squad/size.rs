@@ -160,7 +160,7 @@ impl Mul<f64> for SquadSize {
     debug_assert!(rhs.is_finite());
     debug_assert!(rhs.is_sign_positive());
     debug_assert!(!rhs.is_subnormal());
-    Self((f64::from(self.0) * rhs).round() as u32)
+    Self((f64::from(self.0) * rhs).floor() as u32)
   }
 }
 
