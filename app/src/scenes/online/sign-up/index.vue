@@ -4,7 +4,6 @@
 <script setup lang="ts">
 import { go } from '@/router';
 import { useI18n } from 'vue-i18n';
-import type { NewUser } from './types';
 import * as commands from '@/commands';
 import { useMutex } from '@tb-dev/vue';
 import { useRouter } from 'vue-router';
@@ -23,6 +22,12 @@ const { t } = useI18n({
 });
 
 const router = useRouter();
+
+interface NewUser {
+  name: Option<PlayerId>;
+  password: Option<string>;
+  password2: Option<string>;
+}
 
 const newUser = ref<NewUser>({
   name: null,

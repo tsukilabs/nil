@@ -4,7 +4,7 @@
 use nil_core::continent::Coord;
 use nil_core::infrastructure::prelude::{BuildingId, BuildingLevel};
 use nil_core::ruler::Ruler;
-use nil_core::world::WorldId;
+use nil_core::world::config::WorldId;
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, Deserialize, Serialize)]

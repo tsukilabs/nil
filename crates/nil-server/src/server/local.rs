@@ -4,7 +4,8 @@
 use crate::app::App;
 use crate::error::{CoreError, Error, Result};
 use crate::router;
-use nil_core::world::{World, WorldId, WorldOptions};
+use nil_core::world::config::WorldId;
+use nil_core::world::{World, WorldOptions};
 use serde::Serialize;
 use std::net::{Ipv4Addr, SocketAddr, SocketAddrV4};
 use std::path::Path;

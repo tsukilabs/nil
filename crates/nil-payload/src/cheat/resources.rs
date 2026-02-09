@@ -3,7 +3,7 @@
 
 use nil_core::resources::{Food, Iron, Resources, Stone, Wood};
 use nil_core::ruler::Ruler;
-use nil_core::world::WorldId;
+use nil_core::world::config::WorldId;
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, Default, Deserialize, Serialize)]

@@ -4,6 +4,7 @@
 use crate::bail_if_cheats_are_not_allowed;
 use crate::error::Result;
 use crate::ethic::Ethics;
+use crate::infrastructure::Infrastructure;
 use crate::npc::bot::BotId;
 use crate::ruler::Ruler;
 use crate::world::World;
@@ -21,8 +22,8 @@ impl World {
     Ok(())
   }
 
-  pub fn cheat_spawn_bot(&mut self, name: &str) -> Result<BotId> {
+  pub fn cheat_spawn_bot(&mut self, name: &str, infrastructure: Infrastructure) -> Result<BotId> {
     bail_if_cheats_are_not_allowed!(self);
-    self.spawn_bot(name)
+    self.spawn_bot(name, infrastructure)
   }
 }

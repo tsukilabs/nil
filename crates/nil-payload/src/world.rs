@@ -1,7 +1,8 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use nil_core::world::{WorldId, WorldOptions};
+use nil_core::world::WorldOptions;
+use nil_core::world::config::WorldId;
 use nil_crypto::password::Password;
 use serde::{Deserialize, Serialize};
 use std::path::PathBuf;

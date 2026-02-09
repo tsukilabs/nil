@@ -22,6 +22,7 @@ impl BotManager {
     }
 
     self.0.insert(id.clone(), Bot::new(id));
+
     Ok(())
   }
 

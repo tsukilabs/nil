@@ -7,32 +7,48 @@ use crate::infrastructure::Infrastructure;
 use crate::npc::bot::BotId;
 use crate::with_random_level;
 use crate::world::World;
+use tap::Conv;
 
 impl World {
   pub(crate) fn spawn_bots(&mut self) -> Result<()> {
     let size = usize::from(self.continent.size());
     let count = size.saturating_mul(2);
+
+    let advanced_start_ratio = self
+      .config
+      .advanced_start_ratio()
+      .conv::<f64>();
+
     for name in nil_namegen::generate(count) {
-      self.spawn_bot(name)?;
+      let infrastructure = if rand::random::<f64>() > advanced_start_ratio {
+        Infrastructure::default()
+      } else {
+        Infrastructure::builder()
+          .farm(with_random_level!(Farm, 1, 10))
+          .iron_mine(with_random_level!(IronMine, 1, 10))
+          .prefecture(with_random_level!(Prefecture, 1, 5))
+          .quarry(with_random_level!(Quarry, 1, 10))
+          .sawmill(with_random_level!(Sawmill, 1, 10))
+          .silo(with_random_level!(Silo, 10, 15))
+          .warehouse(with_random_level!(Warehouse, 10, 15))
+          .build()
+      };
+
+      self.spawn_bot(name, infrastructure)?;
     }
 
     Ok(())
   }
 
-  pub(crate) fn spawn_bot(&mut self, id: impl Into<BotId>) -> Result<BotId> {
+  pub(crate) fn spawn_bot(
+    &mut self,
+    id: impl Into<BotId>,
+    infrastructure: Infrastructure,
+  ) -> Result<BotId> {
     let id: BotId = id.into();
     self.bot_manager.manage(id.clone())?;
-    let (coord, field) = self.find_spawn_point()?;
 
-    let infrastructure = Infrastructure::builder()
-      .farm(with_random_level!(Farm, 1, 10))
-      .iron_mine(with_random_level!(IronMine, 1, 10))
-      .prefecture(with_random_level!(Prefecture, 1, 5))
-      .quarry(with_random_level!(Quarry, 1, 10))
-      .sawmill(with_random_level!(Sawmill, 1, 10))
-      .silo(with_random_level!(Silo, 10, 15))
-      .warehouse(with_random_level!(Warehouse, 10, 15))
-      .build();
+    let (coord, field) = self.find_spawn_point()?;
 
     *field = City::builder(coord)
       .name(id.as_ref())

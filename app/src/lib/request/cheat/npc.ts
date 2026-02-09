@@ -15,4 +15,5 @@ export interface CheatSetBotEthicsRequest {
 export interface CheatSpawnBotRequest {
   readonly world: WorldId;
   readonly name: string;
+  readonly infrastructure: Option<Infrastructure>;
 }

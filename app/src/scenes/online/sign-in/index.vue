@@ -4,7 +4,6 @@
 <script setup lang="ts">
 import { go } from '@/router';
 import { useI18n } from 'vue-i18n';
-import type { User } from './types';
 import * as commands from '@/commands';
 import { useMutex } from '@tb-dev/vue';
 import { useRouter } from 'vue-router';
@@ -25,6 +24,11 @@ const { t } = useI18n({
 
 const router = useRouter();
 const userStore = useUserStore();
+
+interface User {
+  name: Option<string>;
+  password: Option<string>;
+}
 
 const user = ref<User>({
   name: null,

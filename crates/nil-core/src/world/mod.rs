@@ -5,7 +5,7 @@ mod battle;
 mod chat;
 mod cheat;
 mod city;
-mod config;
+pub mod config;
 mod continent;
 mod event;
 mod infrastructure;
@@ -16,7 +16,7 @@ mod ranking;
 mod resources;
 mod round;
 mod savedata;
-mod stats;
+pub mod stats;
 
 use crate::chat::Chat;
 use crate::city::City;
@@ -35,10 +35,9 @@ use crate::round::Round;
 use crate::ruler::{Ruler, RulerRef, RulerRefMut};
 use crate::savedata::{SaveHandle, Savedata};
 use bon::Builder;
+use config::{BotAdvancedStartRatio, Locale, WorldConfig, WorldName};
 use serde::{Deserialize, Serialize};
-
-pub use config::{Locale, WorldConfig, WorldId, WorldName};
-pub use stats::WorldStats;
+use stats::WorldStats;
 
 #[derive(Debug)]
 pub struct World {
@@ -264,13 +263,20 @@ pub struct WorldOptions {
   pub name: WorldName,
 
   #[builder(default)]
+  #[serde(default)]
   pub size: ContinentSize,
 
   #[builder(default)]
+  #[serde(default)]
   pub locale: Locale,
 
   #[builder(default)]
+  #[serde(default)]
   pub allow_cheats: bool,
+
+  #[builder(default)]
+  #[serde(default)]
+  pub advanced_start_ratio: BotAdvancedStartRatio,
 }
 
 impl WorldOptions {

@@ -96,7 +96,7 @@ export async function cheatSetOwnerBotTruthEthic(coord: ContinentKey, ethic: Eth
   }
 }
 
-export async function cheatSpawnBot(name?: Option<string>) {
+export async function cheatSpawnBot(name?: Option<string>, infrastructure?: Infrastructure) {
   if (typeof name !== 'string' || name.length === 0) {
     name = `Bot ${globalThis.crypto.randomUUID()}`;
   }
@@ -104,6 +104,7 @@ export async function cheatSpawnBot(name?: Option<string>) {
   const req: CheatSpawnBotRequest = {
     world: NIL.world.getIdStrict(),
     name,
+    infrastructure: infrastructure ?? null,
   };
 
   return invoke<BotId>('cheat_spawn_bot', { req });

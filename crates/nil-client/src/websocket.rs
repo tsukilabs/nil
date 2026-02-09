@@ -13,7 +13,7 @@ use futures::stream::{SplitSink, SplitStream};
 use futures::{Sink, SinkExt, StreamExt};
 use http::{Method, header};
 use nil_core::event::Event;
-use nil_core::world::WorldId;
+use nil_core::world::config::WorldId;
 use nil_crypto::password::Password;
 use std::ops::ControlFlow;
 use tokio::net::TcpStream;

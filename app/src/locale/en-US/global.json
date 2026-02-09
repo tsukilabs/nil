@@ -1,7 +1,6 @@
 {
   "about": "About",
   "academy": "Academy",
-  "allow-cheats": "Allow cheats",
   "archer": "Archer | Archers",
   "attack": "Attack",
   "attack-noun": "Attack | Attacks",
@@ -131,8 +130,6 @@
   "workforce": "Workforce",
   "workshop": "Workshop",
   "world": "World",
-  "world-name": "World Name",
-  "world-size": "World Size",
   "x-per-turn": "{0} per turn",
   "yes": "Yes",
   "your-turn": "Your Turn"
