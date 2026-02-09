@@ -23,7 +23,7 @@ const playerOptions = localRef<WritablePartial<PlayerOptions>>(
   } satisfies WithPartialNullish<PlayerOptions, 'id'>,
 );
 
-const server = localRef<Option<string>>('join-local-game:server', null);
+const server = localRef<string>('join-local-game:server', '');
 const serverAddr = computed<Option<ServerAddr>>(() => {
   const addr = SocketAddrV4.tryParse(server.value);
   if (addr) {

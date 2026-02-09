@@ -15,7 +15,8 @@ pub struct WorldConfig {
   name: WorldName,
   locale: Locale,
   allow_cheats: bool,
-  advanced_start_ratio: BotAdvancedStartRatio,
+  bot_density: BotDensity,
+  bot_advanced_start_ratio: BotAdvancedStartRatio,
 }
 
 impl WorldConfig {
@@ -25,7 +26,8 @@ impl WorldConfig {
       name: options.name.clone(),
       locale: options.locale,
       allow_cheats: options.allow_cheats,
-      advanced_start_ratio: options.advanced_start_ratio,
+      bot_density: options.bot_density,
+      bot_advanced_start_ratio: options.bot_advanced_start_ratio,
     }
   }
 
@@ -50,8 +52,13 @@ impl WorldConfig {
   }
 
   #[inline]
-  pub fn advanced_start_ratio(&self) -> BotAdvancedStartRatio {
-    self.advanced_start_ratio
+  pub fn bot_density(&self) -> BotDensity {
+    self.bot_density
+  }
+
+  #[inline]
+  pub fn bot_advanced_start_ratio(&self) -> BotAdvancedStartRatio {
+    self.bot_advanced_start_ratio
   }
 }
 
@@ -100,16 +107,40 @@ pub enum Locale {
   Portuguese,
 }
 
+#[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize)]
+pub struct BotDensity(f64);
+
+impl BotDensity {
+  pub const MIN: Self = BotDensity(0.0);
+  pub const MAX: Self = BotDensity(3.0);
+
+  #[inline]
+  pub const fn new(density: f64) -> Self {
+    debug_assert!(density.is_finite());
+    debug_assert!(!density.is_subnormal());
+    Self(density.clamp(Self::MIN.0, Self::MAX.0))
+  }
+}
+
+impl Default for BotDensity {
+  fn default() -> Self {
+    Self::new(2.0)
+  }
+}
+
 /// Proportion of bots that will have an advanced start with higher level infrastructure.
 #[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize)]
 pub struct BotAdvancedStartRatio(f64);
 
 impl BotAdvancedStartRatio {
+  pub const MIN: Self = BotAdvancedStartRatio(0.0);
+  pub const MAX: Self = BotAdvancedStartRatio(1.0);
+
   #[inline]
   pub const fn new(ratio: f64) -> Self {
     debug_assert!(ratio.is_finite());
     debug_assert!(!ratio.is_subnormal());
-    Self(ratio.clamp(0.0, 1.0))
+    Self(ratio.clamp(Self::MIN.0, Self::MAX.0))
   }
 }
 

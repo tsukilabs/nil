@@ -7,17 +7,20 @@ import { storeToRefs } from 'pinia';
 import { computed, ref } from 'vue';
 import { toMerged } from 'es-toolkit';
 import { useRouter } from 'vue-router';
+import { formatPercent } from '@/lib/intl';
 import { hostRemoteGame } from '@/core/game';
 import { useUserStore } from '@/stores/user';
 import { useSettings } from '@/stores/settings';
 import { localRef, useMutex } from '@tb-dev/vue';
+import { WorldConfigImpl } from '@/core/model/world-config';
 import enUS_online from '@/locale/en-US/scenes/online.json';
 import ptBR_online from '@/locale/pt-BR/scenes/online.json';
 import enUS_hostGame from '@/locale/en-US/scenes/host-game.json';
 import ptBR_hostGame from '@/locale/pt-BR/scenes/host-game.json';
 import { isValidNullishPassword, isWorldOptions } from '@/lib/schema';
 import type { WithPartialNullish, WritablePartial } from '@tb-dev/utils';
-import { useAdvancedStartRatioSlider } from '@/composables/world/useAdvancedStartRatioSlider';
+import { useBotDensitySlider } from '@/composables/world/useBotDensitySlider';
+import { useBotAdvancedStartRatioSlider } from '@/composables/world/useBotAdvancedStartRatioSlider';
 import {
   Button,
   Card,
@@ -57,14 +60,16 @@ const worldOptions = localRef<WritablePartial<WorldOptions>>(
     size: 100,
     locale: settings.locale,
     allowCheats: false,
-    advancedStartRatio: 0.2,
+    botDensity: WorldConfigImpl.DEFAULT_BOT_DENSITY,
+    botAdvancedStartRatio: WorldConfigImpl.DEFAULT_BOT_ADVANCED_START_RATIO,
   } satisfies WithPartialNullish<WorldOptions, 'name'>,
 );
 
 const worldPassword = ref<Option<string>>();
 const description = ref<Option<string>>();
 
-const advancedStartRatio = useAdvancedStartRatioSlider(worldOptions);
+const botDensity = useBotDensitySlider(worldOptions);
+const botAdvancedStartRatio = useBotAdvancedStartRatioSlider(worldOptions);
 
 const { locked, lock } = useMutex();
 const isValidWorld = computed(() => isWorldOptions(worldOptions.value));
@@ -153,15 +158,29 @@ async function host() {
         </Label>
 
         <Label>
+          <span>{{ t('bot-density') }}</span>
+          <div>
+            <Slider
+              v-model:model-value="botDensity"
+              :disabled="locked"
+              :min="0"
+              :max="3"
+              :step="0.01"
+            />
+            <span>{{ formatPercent(botDensity[0]) }}</span>
+          </div>
+        </Label>
+
+        <Label>
           <span>{{ t('advanced-bots-ratio') }}</span>
           <div class="w-full flex gap-2">
             <Slider
-              v-model:model-value="advancedStartRatio"
+              v-model:model-value="botAdvancedStartRatio"
               :min="0"
               :max="1"
               :step="0.01"
             />
-            <span>{{ advancedStartRatio[0] }}</span>
+            <span>{{ formatPercent(botAdvancedStartRatio[0]) }}</span>
           </div>
         </Label>
 

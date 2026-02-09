@@ -7,16 +7,21 @@ use crate::infrastructure::Infrastructure;
 use crate::npc::bot::BotId;
 use crate::with_random_level;
 use crate::world::World;
+use num_traits::ToPrimitive;
 use tap::Conv;
 
 impl World {
   pub(crate) fn spawn_bots(&mut self) -> Result<()> {
-    let size = usize::from(self.continent.size());
-    let count = size.saturating_mul(2);
+    let size = self.continent.size();
+    let density = self.config().bot_density();
+    let count = (f64::from(size) * f64::from(density))
+      .ceil()
+      .to_usize()
+      .unwrap_or_else(|| usize::from(size).saturating_mul(2));
 
     let advanced_start_ratio = self
       .config
-      .advanced_start_ratio()
+      .bot_advanced_start_ratio()
       .conv::<f64>();
 
     for name in nil_namegen::generate(count) {

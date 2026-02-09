@@ -42,8 +42,8 @@ importers:
         specifier: '=7.3.0'
         version: 7.3.0
       '@tb-dev/vue':
-        specifier: '=3.5.0'
-        version: 3.5.0(typescript@5.9.3)
+        specifier: '=4.0.0'
+        version: 4.0.0(typescript@5.9.3)
       '@tb-dev/vue-components':
         specifier: '=7.0.8'
         version: 7.0.8(@nuxt/kit@4.1.0(magicast@0.3.5))(@nuxt/schema@4.1.0)(@vue/compiler-sfc@3.5.27)(nuxt@4.1.0(@parcel/watcher@2.5.1)(@types/node@25.2.2)(@vue/compiler-sfc@3.5.27)(db0@0.3.2)(eslint@9.39.2(jiti@2.6.1))(ioredis@5.7.0)(lightningcss@1.30.2)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.50.0)(terser@5.44.0)(typescript@5.9.3)(vite@7.3.1(@types/node@25.2.2)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.0)(yaml@2.8.2))(vue-tsc@3.2.4(typescript@5.9.3))(yaml@2.8.2))(pinia@3.0.4(typescript@5.9.3)(vue@3.5.27(typescript@5.9.3)))(typescript@5.9.3)
@@ -1643,6 +1643,9 @@ packages:
 
   '@tb-dev/vue@3.5.0':
     resolution: {integrity: sha512-TSQ6j4DXryij8JX+Pd2TWzXUlNnrC5/ubuqLeuCthlpBZWJvbZg3/dmXViJuGOTg+sQAoT3S7j/SNjvX9v240w==}
+
+  '@tb-dev/vue@4.0.0':
+    resolution: {integrity: sha512-WwdVZ9PS+1PgoOxg/WyYGNdNigvoPCTrJncbto4tUCbc/AumS3WaRsyV6tEMin74aaLJmspaaISJfvjZ+TieWw==}
 
   '@tybys/wasm-util@0.10.0':
     resolution: {integrity: sha512-VyyPYFlOMNylG45GoAe0xDoLwWuowvf92F9kySqzYh8vmYm7D2u4iUJKa1tOUpS70Ku13ASrOkS4ScXFsTaCNQ==}
@@ -6010,6 +6013,15 @@ snapshots:
       - typescript
 
   '@tb-dev/vue@3.5.0(typescript@5.9.3)':
+    dependencies:
+      '@tb-dev/utils': 7.3.0
+      '@vueuse/core': 14.2.0(vue@3.5.27(typescript@5.9.3))
+      es-toolkit: 1.44.0
+      vue: 3.5.27(typescript@5.9.3)
+    transitivePeerDependencies:
+      - typescript
+
+  '@tb-dev/vue@4.0.0(typescript@5.9.3)':
     dependencies:
       '@tb-dev/utils': 7.3.0
       '@vueuse/core': 14.2.0(vue@3.5.27(typescript@5.9.3))

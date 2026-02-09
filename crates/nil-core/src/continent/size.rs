@@ -62,6 +62,12 @@ impl From<ContinentSize> for i16 {
   }
 }
 
+impl From<ContinentSize> for f64 {
+  fn from(size: ContinentSize) -> Self {
+    f64::from(size.0.get())
+  }
+}
+
 impl PartialEq<u8> for ContinentSize {
   fn eq(&self, other: &u8) -> bool {
     self.0.get().eq(other)

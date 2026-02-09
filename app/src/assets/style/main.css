@@ -38,7 +38,7 @@ label:has(span[data-slot="slider"]) {
   }
 
   & div:has(> span[data-slot="slider"]) {
-    @apply pt-1;
+    @apply w-full flex gap-2 pt-1;
   }
 }
 

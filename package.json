@@ -31,7 +31,7 @@
     "@tauri-store/pinia": "=4.1.1",
     "@tb-dev/prototype-dom": "=7.0.32",
     "@tb-dev/utils": "=7.3.0",
-    "@tb-dev/vue": "=3.5.0",
+    "@tb-dev/vue": "=4.0.0",
     "@tb-dev/vue-components": "=7.0.8",
     "@vueuse/components": "=14.2.0",
     "@vueuse/core": "=14.2.0",

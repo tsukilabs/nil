@@ -6,15 +6,20 @@ export class WorldConfigImpl implements WorldConfig {
   public readonly name: string;
   public readonly locale: Locale;
   public readonly allowCheats: boolean;
-  public readonly advancedStartRatio: BotAdvancedStartRatio;
+  public readonly botDensity: BotDensity;
+  public readonly botAdvancedStartRatio: BotAdvancedStartRatio;
 
   private constructor(config: WorldConfig) {
     this.id = config.id;
     this.name = config.name;
     this.locale = config.locale;
     this.allowCheats = config.allowCheats;
-    this.advancedStartRatio = config.advancedStartRatio;
+    this.botDensity = config.botDensity;
+    this.botAdvancedStartRatio = config.botAdvancedStartRatio;
   }
+
+  public static DEFAULT_BOT_DENSITY = 2.0;
+  public static DEFAULT_BOT_ADVANCED_START_RATIO = 0.2;
 
   public static create(config: WorldConfig) {
     if (config instanceof WorldConfigImpl) {
