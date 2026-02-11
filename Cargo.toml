@@ -111,8 +111,8 @@ default-features = false
 features = ["zlib-rs"]
 
 [workspace.dependencies.glam]
-version = "0.31"
-features = ["fast-math"]
+version = "0.32"
+features = ["core-simd", "fast-math"]
 
 [workspace.dependencies.jiff]
 version = "0.2"
