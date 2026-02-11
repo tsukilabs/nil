@@ -110,16 +110,16 @@ function copyServerAddr() {
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton as-child>
-                  <RouterLink :to="{ name: 'continent' satisfies Scene }">
-                    {{ t('continent') }}
+                  <RouterLink :to="{ name: 'war-room' satisfies Scene }">
+                    {{ t('war-room') }}
                   </RouterLink>
                 </SidebarMenuButton>
               </SidebarMenuItem>
 
               <SidebarMenuItem>
                 <SidebarMenuButton as-child>
-                  <RouterLink :to="{ name: 'war-room' satisfies Scene }">
-                    {{ t('war-room') }}
+                  <RouterLink :to="{ name: 'continent' satisfies Scene }">
+                    {{ t('continent') }}
                   </RouterLink>
                 </SidebarMenuButton>
               </SidebarMenuItem>
