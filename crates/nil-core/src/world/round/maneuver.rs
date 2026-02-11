@@ -36,7 +36,7 @@ impl World {
   fn process_going_maneuver(&mut self, maneuver: Maneuver) -> Result<()> {
     match maneuver.kind() {
       ManeuverKind::Attack => self.process_going_attack_maneuver(maneuver),
-      ManeuverKind::Support => self.process_going_support_maneuver(maneuver),
+      ManeuverKind::Support => self.process_going_support_maneuver(&maneuver),
     }
   }
 
@@ -110,11 +110,11 @@ impl World {
     Ok(())
   }
 
-  fn process_going_support_maneuver(&mut self, maneuver: Maneuver) -> Result<()> {
+  fn process_going_support_maneuver(&mut self, maneuver: &Maneuver) -> Result<()> {
     let army_id = maneuver.army();
     let origin = maneuver.origin();
     let destination = maneuver.destination();
-    let rulers = ManeuverRulers::new(self, &maneuver)?;
+    let rulers = ManeuverRulers::new(self, maneuver)?;
 
     let mut players = Vec::new();
     players.try_push(rulers.sender.player().cloned());
