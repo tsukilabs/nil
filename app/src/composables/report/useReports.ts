@@ -54,7 +54,8 @@ async function getCity(cache: CityCache, coord: Coord) {
   const index = CoordImpl.toContinentIndex(coord);
   let city = cache.get(index);
   if (!city) {
-    city = commands.getPublicCity(coord);
+    const promise = commands.getPublicCity({ coord });
+    city = promise.then((it) => it.city);
     cache.set(index, city);
   }
 

@@ -14,6 +14,7 @@ authors.workspace = true
 workspace = true
 
 [dependencies]
+bon.workspace = true
 nil-core.workspace = true
 nil-crypto.workspace = true
 nil-server-types.workspace = true

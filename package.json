@@ -1,6 +1,6 @@
 {
   "name": "nil",
-  "version": "0.2.21",
+  "version": "0.2.22",
   "type": "module",
   "packageManager": "pnpm@10.29.3",
   "license": "AGPL-3.0-only",
@@ -32,7 +32,8 @@
     "@tb-dev/prototype-dom": "=7.0.33",
     "@tb-dev/utils": "=7.3.1",
     "@tb-dev/vue": "=4.0.3",
-    "@tb-dev/vue-components": "=7.0.9",
+    "@tb-dev/vue-components": "=7.0.10",
+    "@tb-dev/vue-sonner": "=0.1.2",
     "@vueuse/components": "=14.2.1",
     "@vueuse/core": "=14.2.1",
     "@vueuse/math": "=14.2.1",
@@ -46,7 +47,6 @@
     "vue": "=3.5.28",
     "vue-i18n": "=11.2.8",
     "vue-router": "=5.0.2",
-    "vue-sonner": "=2.0.9",
     "zod": "=4.3.6"
   },
   "devDependencies": {

@@ -2,14 +2,16 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::app::App;
+use crate::error::Error;
 use crate::middleware::authorization::CurrentPlayer;
 use crate::response::{EitherExt, from_core_err};
 use crate::{bail_if_city_is_not_owned_by, res};
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
 use itertools::Itertools;
-use nil_core::city::PublicCity;
+use nil_core::city::{City, PublicCity};
 use nil_payload::city::*;
+use tap::Pipe;
 
 pub async fn get_city(
   State(app): State<App>,
@@ -36,18 +38,33 @@ pub async fn get_public_cities(
   State(app): State<App>,
   Json(req): Json<GetPublicCitiesRequest>,
 ) -> Response {
-  if req.coords.is_empty() {
+  if req.coords.is_empty() && !req.all {
     return res!(OK, Json(Vec::<()>::new()));
   }
 
   app
-    .continent(req.world, |k| {
-      k.cities_by(|city| req.coords.contains(&city.coord()))
-        .map(PublicCity::from)
-        .collect_vec()
+    .world(req.world, |world| {
+      let mut responses = Vec::with_capacity(req.coords.len());
+      let cities: Box<dyn Iterator<Item = &City>> = if req.all {
+        world.continent().cities().pipe(Box::new)
+      } else {
+        world
+          .continent()
+          .cities_by(|city| req.coords.contains(&city.coord()))
+          .pipe(Box::new)
+      };
+
+      for city in cities {
+        GetPublicCityResponse::builder(world, city.coord())
+          .score(req.score)
+          .build()?
+          .pipe(|it| responses.push(it));
+      }
+
+      Ok::<_, Error>(responses)
     })
     .await
-    .map_left(|cities| res!(OK, Json(cities)))
+    .try_map_left(|responses| res!(OK, Json(responses)))
     .into_inner()
 }
 
@@ -56,9 +73,13 @@ pub async fn get_public_city(
   Json(req): Json<GetPublicCityRequest>,
 ) -> Response {
   app
-    .continent(req.world, |k| k.city(req.coord).map(PublicCity::from))
+    .world(req.world, |world| {
+      GetPublicCityResponse::builder(world, req.coord)
+        .score(req.score)
+        .build()
+    })
     .await
-    .try_map_left(|city| res!(OK, Json(city)))
+    .try_map_left(|response| res!(OK, Json(response)))
     .into_inner()
 }
 

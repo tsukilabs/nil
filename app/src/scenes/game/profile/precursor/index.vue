@@ -6,7 +6,7 @@ import { useI18n } from 'vue-i18n';
 import { throttle } from 'es-toolkit';
 import { onKeyDown } from '@tb-dev/vue';
 import { useRouteParams } from '@vueuse/router';
-import CityTable from '@/components/profile/CityTable.vue';
+import CityTable from '@/components/CityTable.vue';
 import { usePublicCities } from '@/composables/city/usePublicCities';
 import { usePublicPrecursor } from '@/composables/npc/usePublicPrecursor';
 import {

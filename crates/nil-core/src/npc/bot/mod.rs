@@ -6,7 +6,7 @@ use crate::ethic::Ethics;
 use crate::resources::Resources;
 use derive_more::{Display, From, Into};
 use serde::{Deserialize, Serialize};
-use std::borrow::Cow;
+use std::borrow::{Borrow, Cow};
 use std::collections::HashMap;
 use std::ops::Deref;
 use std::sync::Arc;
@@ -99,7 +99,7 @@ impl Clone for BotId {
 
 impl AsRef<str> for BotId {
   fn as_ref(&self) -> &str {
-    &self.0
+    self.0.as_str()
   }
 }
 
@@ -107,7 +107,13 @@ impl Deref for BotId {
   type Target = str;
 
   fn deref(&self) -> &Self::Target {
-    &self.0
+    self.0.as_str()
+  }
+}
+
+impl Borrow<str> for BotId {
+  fn borrow(&self) -> &str {
+    self.0.as_str()
   }
 }
 

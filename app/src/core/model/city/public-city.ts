@@ -1,6 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { go } from '@/router';
 import * as commands from '@/commands';
 import { formatInt } from '@/lib/intl';
 import { CoordImpl } from '@/core/model/continent/coord';
@@ -26,6 +27,11 @@ export class PublicCityImpl implements PublicCity {
     await this.coord.goToProfile();
   }
 
+  public async goToOwnerProfile() {
+    const scene: ProfileScene = `profile-${this.owner.kind}`;
+    await go(scene, { params: { id: this.owner.id } });
+  }
+
   public async goToWarRoom(kind: 'origin' | 'destination') {
     await this.coord.goToWarRoom(kind);
   }
@@ -47,13 +53,39 @@ export class PublicCityImpl implements PublicCity {
   }
 
   public static async load(key: ContinentKey) {
-    const coord = CoordImpl.fromContinentKey(key);
-    const [city, score] = await Promise.all([
-      commands.getPublicCity(coord),
-      commands.getCityScore(coord),
-    ]);
+    const response = await commands.getPublicCity({
+      coord: CoordImpl.fromContinentKey(key),
+      score: true,
+    });
 
-    return PublicCityImpl.create({ city, score });
+    return PublicCityImpl.create({
+      city: response.city,
+      score: response.score ?? 0,
+    });
+  }
+
+  public static async loadAll() {
+    const response = await commands.getPublicCities({
+      coords: null,
+      score: true,
+      all: true,
+    });
+
+    return response.map(({ city, score }) => {
+      return PublicCityImpl.create({ city, score: score ?? 0 });
+    });
+  }
+
+  public static async bulkLoad(keys: readonly ContinentKey[]) {
+    const response = await commands.getPublicCities({
+      coords: keys.map((key) => CoordImpl.fromContinentKey(key)),
+      score: true,
+      all: false,
+    });
+
+    return response.map(({ city, score }) => {
+      return PublicCityImpl.create({ city, score: score ?? 0 });
+    });
   }
 }
 

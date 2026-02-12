@@ -6,6 +6,7 @@
   file_buffered,
   iter_collect_into,
   iterator_try_collect,
+  str_as_str,
   try_blocks
 )]
 

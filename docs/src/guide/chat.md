@@ -47,3 +47,5 @@
 ### `$warehouse`
 
 ### `$wood` <Badge type="tip" text="cheat" />
+
+### `$workshop`

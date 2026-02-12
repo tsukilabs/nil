@@ -14,11 +14,14 @@ export interface GetCityScoreRequest {
 export interface GetPublicCitiesRequest {
   readonly world: WorldId;
   readonly coords: readonly Coord[];
+  readonly score?: boolean;
+  readonly all?: boolean;
 }
 
 export interface GetPublicCityRequest {
   readonly world: WorldId;
   readonly coord: Coord;
+  readonly score?: boolean;
 }
 
 export interface RenameCityRequest {
