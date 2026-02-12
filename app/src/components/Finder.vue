@@ -28,6 +28,7 @@ const items = computed<FinderItem[]>(() => {
     { value: 'academy', label: t('academy') },
     { value: 'city', label: t('city') },
     { value: 'continent', label: t('continent-map') },
+    { value: 'continent-cities', label: t('continent-cities') },
     { value: 'farm', label: t('farm') },
     { value: 'iron-mine', label: t('iron-mine') },
     { value: 'prefecture', label: t('prefecture') },
@@ -41,6 +42,7 @@ const items = computed<FinderItem[]>(() => {
     { value: 'warehouse', label: t('warehouse') },
     { value: 'war-room', label: t('war-room') },
     { value: 'war-room-simulator', label: t('simulator') },
+    { value: 'workshop', label: t('workshop') },
   ];
 
   _items.sort((a, b) => compare(a.label, b.label));

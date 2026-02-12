@@ -28,7 +28,7 @@ pub async fn get_city_score(app: AppHandle, req: GetCityScoreRequest) -> Result<
 pub async fn get_public_cities(
   app: AppHandle,
   req: GetPublicCitiesRequest,
-) -> Result<Vec<PublicCity>> {
+) -> Result<Vec<GetPublicCityResponse>> {
   app
     .client(async |cl| cl.get_public_cities(req).await)
     .await
@@ -36,7 +36,10 @@ pub async fn get_public_cities(
 }
 
 #[tauri::command]
-pub async fn get_public_city(app: AppHandle, req: GetPublicCityRequest) -> Result<PublicCity> {
+pub async fn get_public_city(
+  app: AppHandle,
+  req: GetPublicCityRequest,
+) -> Result<GetPublicCityResponse> {
   app
     .client(async |cl| cl.get_public_city(req).await)
     .await

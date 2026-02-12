@@ -4,6 +4,7 @@
 import { reportRoutes } from './report';
 import { profileRoutes } from './profile';
 import { warRoomRoutes } from './war-room';
+import { continentRoutes } from './continent';
 import type { RouteRecordRaw } from 'vue-router';
 import { infrastructureRoutes } from './infrastructure';
 
@@ -21,7 +22,7 @@ export const gameRoutes: RouteRecordRaw[] = [
   {
     component: () => import('@/scenes/game/continent/index.vue'),
     path: 'continent',
-    name: 'continent' satisfies GameScene,
+    children: continentRoutes,
   },
   {
     component: () => import('@/scenes/game/infrastructure/index.vue'),

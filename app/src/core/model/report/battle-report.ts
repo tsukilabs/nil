@@ -1,7 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { getPublicCity } from '@/commands/city';
+import { getPublicCities } from '@/commands/city';
 import type { ComposerTranslation } from 'vue-i18n';
 import { ResourcesImpl } from '@/core/model/resources';
 import { CoordImpl } from '@/core/model/continent/coord';
@@ -50,15 +50,18 @@ export class BattleReportImpl extends ReportImpl implements BattleReport {
   }
 
   public static async load(report: BattleReport) {
-    const [originCity, destinationCity] = await Promise.all([
-      getPublicCity(report.origin),
-      getPublicCity(report.destination),
-    ]);
+    const response = await getPublicCities({
+      coords: [report.origin, report.destination],
+    });
+
+    const eq = (a: Coord, b: Coord) => CoordImpl.isEqual(a, b);
+    const originCity = response.find((it) => eq(it.city.coord, report.origin))!;
+    const destinationCity = response.find((it) => eq(it.city.coord, report.destination))!;
 
     return BattleReportImpl.create({
       report,
-      originCity,
-      destinationCity,
+      originCity: originCity.city,
+      destinationCity: destinationCity.city,
     });
   }
 }

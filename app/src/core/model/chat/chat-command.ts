@@ -33,6 +33,7 @@ const enum ChatCommandKind {
   Wall = 'wall',
   Warehouse = 'warehouse',
   Wood = 'wood',
+  Workshop = 'workshop',
 }
 
 type RegexMap = Readonly<Omit<Record<ChatCommandKind, RegExp>, 'default'>>;
@@ -61,6 +62,7 @@ const regex: RegexMap = {
   [ChatCommandKind.Wall]: /^\$wall$/i,
   [ChatCommandKind.Warehouse]: /^\$warehouse$/i,
   [ChatCommandKind.Wood]: /^\$wood(?:\s(\d+))?/i,
+  [ChatCommandKind.Workshop]: /^\$workshop$/i,
 };
 
 export class ChatCommand {
@@ -188,6 +190,10 @@ export class ChatCommand {
       }
       case ChatCommandKind.Wood: {
         await commands.cheatSetWood(Number.parseInt(this.text));
+        break;
+      }
+      case ChatCommandKind.Workshop: {
+        await go('workshop');
         break;
       }
     }

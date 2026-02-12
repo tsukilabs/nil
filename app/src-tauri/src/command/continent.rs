@@ -4,9 +4,17 @@
 use crate::error::Result;
 use crate::manager::ManagerExt;
 use itertools::Itertools;
-use nil_core::continent::{ContinentSize, Coord, PublicField};
+use nil_core::continent::{ContinentSize, Coord, Distance, PublicField};
 use nil_payload::continent::*;
 use tauri::AppHandle;
+
+#[tauri::command]
+pub async fn get_bulk_distance(origin: Coord, destinations: Vec<Coord>) -> Vec<(Coord, Distance)> {
+  destinations
+    .into_iter()
+    .map(|destination| (destination, origin.distance(destination)))
+    .collect()
+}
 
 #[tauri::command]
 pub async fn get_continent_size(
@@ -17,6 +25,11 @@ pub async fn get_continent_size(
     .client(async |cl| cl.get_continent_size(req).await)
     .await
     .map_err(Into::into)
+}
+
+#[tauri::command]
+pub async fn get_distance(origin: Coord, destination: Coord) -> Distance {
+  origin.distance(destination)
 }
 
 #[tauri::command]

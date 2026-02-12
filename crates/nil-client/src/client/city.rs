@@ -26,7 +26,10 @@ impl Client {
       .await
   }
 
-  pub async fn get_public_cities(&self, req: GetPublicCitiesRequest) -> Result<Vec<PublicCity>> {
+  pub async fn get_public_cities(
+    &self,
+    req: GetPublicCitiesRequest,
+  ) -> Result<Vec<GetPublicCityResponse>> {
     http::json_post("get-public-cities")
       .body(req)
       .server(self.server)
@@ -34,7 +37,7 @@ impl Client {
       .await
   }
 
-  pub async fn get_public_city(&self, req: GetPublicCityRequest) -> Result<PublicCity> {
+  pub async fn get_public_city(&self, req: GetPublicCityRequest) -> Result<GetPublicCityResponse> {
     http::json_post("get-public-city")
       .body(req)
       .server(self.server)

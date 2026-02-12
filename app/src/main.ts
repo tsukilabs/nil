@@ -1,7 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import 'vue-sonner/style.css';
+import '@tb-dev/vue-sonner/style.css';
 import '@/assets/style/base.css';
 import '@/assets/style/vars.css';
 import '@/assets/style/themes.css';

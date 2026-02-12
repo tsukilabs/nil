@@ -3,6 +3,7 @@
 
 import { invoke } from '@tauri-apps/api/core';
 import { CoordImpl } from '@/core/model/continent/coord';
+import type { GetPublicCityResponse } from '@/lib/response/city';
 import type {
   GetCityRequest,
   GetCityScoreRequest,
@@ -24,7 +25,7 @@ export async function getCity(coord: ContinentKey) {
 }
 
 export async function getCityOwner(coord: ContinentKey) {
-  return getPublicCity(coord).then((city) => city.owner);
+  return getPublicCity({ coord }).then(({ city }) => city.owner);
 }
 
 export async function getCityScore(coord: ContinentKey) {
@@ -37,23 +38,33 @@ export async function getCityScore(coord: ContinentKey) {
   return invoke<number>('get_city_score', { req });
 }
 
-export async function getPublicCities(coords: ContinentKey[]) {
+export async function getPublicCities(options: {
+  coords?: Option<ContinentKey[]>;
+  score?: Option<boolean>;
+  all?: Option<boolean>;
+}) {
+  const coords = options.coords?.map((coord) => CoordImpl.fromContinentKey(coord));
   const req: GetPublicCitiesRequest = {
     world: NIL.world.getIdStrict(),
-    coords: coords.map((coord) => CoordImpl.fromContinentKey(coord)),
+    coords: coords ?? [],
+    score: options.score ?? false,
+    all: options.all ?? false,
   };
 
-  return invoke<readonly PublicCity[]>('get_public_cities', { req });
+  return invoke<readonly GetPublicCityResponse[]>('get_public_cities', { req });
 }
 
-export async function getPublicCity(coord: ContinentKey) {
-  coord = CoordImpl.fromContinentKey(coord);
+export async function getPublicCity(options: {
+  coord: ContinentKey;
+  score?: Option<boolean>;
+}) {
   const req: GetPublicCityRequest = {
     world: NIL.world.getIdStrict(),
-    coord,
+    coord: CoordImpl.fromContinentKey(options.coord),
+    score: options.score ?? false,
   };
 
-  return invoke<PublicCity>('get_public_city', { req });
+  return invoke<GetPublicCityResponse>('get_public_city', { req });
 }
 
 export async function renameCity(coord: ContinentKey, name: string) {

@@ -13,15 +13,9 @@ export function usePublicCities(keys: MaybeNilRef<readonly ContinentKey[]>) {
     return (keysRef.value ?? []).map((key) => CoordImpl.fromContinentKey(key));
   });
 
-  const { state, loading, load } = asyncRef([], async () => {
-    const cities: PublicCityImpl[] = [];
-    await Promise.all(coords.value.map(async (coord) => {
-      cities.push(await PublicCityImpl.load(coord));
-    }));
-
-    cities.sort((a, b) => compare(a.name, b.name));
-
-    return cities as readonly PublicCityImpl[];
+  const { state, loading, load } = asyncRef<readonly PublicCityImpl[]>([], async () => {
+    const cities = await PublicCityImpl.bulkLoad(coords.value);
+    return cities.sort((a, b) => compare(a.name, b.name));
   });
 
   watch(coords, load);

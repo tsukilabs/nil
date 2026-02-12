@@ -176,6 +176,10 @@ export class CoordImpl implements Coord {
     return this.intl.format(coord.y);
   }
 
+  public static isEqual(a: ContinentKey, b: ContinentKey) {
+    return CoordImpl.fromContinentKey(a).is(b);
+  }
+
   private static readonly intl = new Intl.NumberFormat('default', {
     maximumFractionDigits: 0,
     minimumIntegerDigits: 3,
