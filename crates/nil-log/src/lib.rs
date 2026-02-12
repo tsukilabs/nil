@@ -1,26 +1,29 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+mod timer;
+
 use anyhow::Result;
 use bitflags::bitflags;
 use std::{env, fs, io};
+use timer::Timer;
 use tracing::subscriber::set_global_default;
 use tracing_appender::non_blocking::WorkerGuard;
 use tracing_appender::rolling::{RollingFileAppender, Rotation};
 use tracing_subscriber::fmt::Layer;
-use tracing_subscriber::fmt::time::ChronoLocal;
 use tracing_subscriber::layer::SubscriberExt;
 use tracing_subscriber::{EnvFilter, Layer as _, Registry};
-
-const TIMESTAMP: &str = "%F %T%.3f";
 
 #[bon::builder]
 pub fn setup(
   #[builder(default)] directives: Directives,
-  #[builder(default)] layers: Layers,
+  #[builder(default)] debug_layers: Layers,
+  #[builder(default)] release_layers: Layers,
 ) -> Result<Option<WorkerGuard>> {
   let mut guard = None::<WorkerGuard>;
   let mut filter = EnvFilter::builder().from_env()?;
+
+  let layers = if cfg!(debug_assertions) { debug_layers } else { release_layers };
 
   macro_rules! add_directive {
     ($flag:ident, $directive:literal) => {
@@ -61,7 +64,7 @@ pub fn setup(
     chosen_layers.push(
       Layer::default()
         .with_ansi(false)
-        .with_timer(ChronoLocal::new(TIMESTAMP.into()))
+        .with_timer(Timer)
         .with_writer(writer)
         .pretty()
         .boxed(),
@@ -74,7 +77,7 @@ pub fn setup(
     chosen_layers.push(
       Layer::default()
         .with_ansi(true)
-        .with_timer(ChronoLocal::new(TIMESTAMP.into()))
+        .with_timer(Timer)
         .with_writer(io::stderr)
         .pretty()
         .boxed(),

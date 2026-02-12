@@ -511,21 +511,6 @@ name = "bytemuck"
 version = "1.25.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c8efb64bd706a16a1bdde310ae86b351e4d21550d98d056f22f8a7f7a2183fec"
-dependencies = [
- "bytemuck_derive",
- "rustversion",
-]
-
-[[package]]
-name = "bytemuck_derive"
-version = "1.10.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f9abbd1bc6865053c427f7198e6af43bfdedc55ab791faed4fbd361d789575ff"
-dependencies = [
- "proc-macro2",
- "quote",
- "syn 2.0.115",
-]
 
 [[package]]
 name = "byteorder"
@@ -2019,9 +2004,6 @@ name = "glam"
 version = "0.32.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "34627c5158214743a374170fed714833fdf4e4b0cbcc1ea98417866a4c5d4441"
-dependencies = [
- "bytemuck",
-]
 
 [[package]]
 name = "glib"
@@ -3145,7 +3127,7 @@ checksum = "650eef8c711430f1a879fdd01d4745a7deea475becfb90269c06775983bbf086"
 
 [[package]]
 name = "nil"
-version = "0.2.22"
+version = "0.2.23"
 dependencies = [
  "anyhow",
  "bon",
@@ -3184,7 +3166,7 @@ dependencies = [
 
 [[package]]
 name = "nil-client"
-version = "0.2.22"
+version = "0.2.23"
 dependencies = [
  "anyhow",
  "bon",
@@ -3212,7 +3194,7 @@ dependencies = [
 
 [[package]]
 name = "nil-core"
-version = "0.2.22"
+version = "0.2.23"
 dependencies = [
  "anyhow",
  "bon",
@@ -3245,7 +3227,7 @@ dependencies = [
 
 [[package]]
 name = "nil-core-macros"
-version = "0.2.22"
+version = "0.2.23"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -3254,7 +3236,7 @@ dependencies = [
 
 [[package]]
 name = "nil-crypto"
-version = "0.2.22"
+version = "0.2.23"
 dependencies = [
  "anyhow",
  "argon2",
@@ -3264,7 +3246,7 @@ dependencies = [
 
 [[package]]
 name = "nil-database"
-version = "0.2.22"
+version = "0.2.23"
 dependencies = [
  "anyhow",
  "bon",
@@ -3286,11 +3268,12 @@ dependencies = [
 
 [[package]]
 name = "nil-log"
-version = "0.2.22"
+version = "0.2.23"
 dependencies = [
  "anyhow",
  "bitflags 2.10.0",
  "bon",
+ "jiff",
  "tracing",
  "tracing-appender",
  "tracing-subscriber",
@@ -3298,7 +3281,7 @@ dependencies = [
 
 [[package]]
 name = "nil-namegen"
-version = "0.2.22"
+version = "0.2.23"
 dependencies = [
  "itertools",
  "rand 0.10.0",
@@ -3307,7 +3290,7 @@ dependencies = [
 
 [[package]]
 name = "nil-num"
-version = "0.2.22"
+version = "0.2.23"
 dependencies = [
  "bon",
  "nil-num-macros",
@@ -3317,7 +3300,7 @@ dependencies = [
 
 [[package]]
 name = "nil-num-macros"
-version = "0.2.22"
+version = "0.2.23"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -3326,7 +3309,7 @@ dependencies = [
 
 [[package]]
 name = "nil-payload"
-version = "0.2.22"
+version = "0.2.23"
 dependencies = [
  "bon",
  "nil-core",
@@ -3337,7 +3320,7 @@ dependencies = [
 
 [[package]]
 name = "nil-server"
-version = "0.2.22"
+version = "0.2.23"
 dependencies = [
  "anyhow",
  "axum",
@@ -3371,7 +3354,7 @@ dependencies = [
 
 [[package]]
 name = "nil-server-types"
-version = "0.2.22"
+version = "0.2.23"
 dependencies = [
  "jiff",
  "nil-core",
@@ -3381,7 +3364,7 @@ dependencies = [
 
 [[package]]
 name = "nil-util"
-version = "0.2.22"
+version = "0.2.23"
 dependencies = [
  "anyhow",
 ]
@@ -6532,7 +6515,6 @@ version = "0.3.22"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2f30143827ddab0d256fd843b7a66d164e9f271cfa0dde49142c5ca0ca291f1e"
 dependencies = [
- "chrono",
  "matchers",
  "nu-ansi-term",
  "once_cell",
