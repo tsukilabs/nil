@@ -62,7 +62,13 @@ if (__DESKTOP__) {
             </TableBody>
           </Table>
 
-          <CityTable :cities class="sm:max-w-max md:min-w-50 pb-8" />
+          <CityTable
+            :cities
+            sortable
+            default-sort-mode="name"
+            default-sort-order="asc"
+            class="sm:max-w-max md:min-w-50 pb-8"
+          />
         </div>
       </CardContent>
     </Card>

@@ -77,6 +77,11 @@ function sort(mode: SortMode, ascending: boolean) {
             return 0;
           }
         }
+        case 'name': {
+          return sortOrder.value === 'asc' ?
+            compare(a.name, b.name) :
+            compare(b.name, a.name);
+        }
         case 'owner': {
           return sortOrder.value === 'asc' ?
             compare(a.owner.id, b.owner.id) :
@@ -87,12 +92,8 @@ function sort(mode: SortMode, ascending: boolean) {
             a.score - b.score :
             b.score - a.score;
         }
-        case 'name':
-        default: {
-          return sortOrder.value === 'asc' ?
-            compare(a.name, b.name) :
-            compare(b.name, a.name);
-        }
+        default:
+          return 0;
       }
     });
   }
@@ -113,7 +114,7 @@ defineExpose({
           :class="tableHeadClass"
           @click="() => sort('name', sortOrder === 'asc' ? false : true)"
         >
-          {{ t('city', 2) }}
+          {{ t('city') }}
         </TableHead>
 
         <TableHead

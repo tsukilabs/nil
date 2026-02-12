@@ -10,7 +10,8 @@ use std::env;
 async fn main() -> Result<()> {
   let Some(_guard) = nil_log::setup()
     .directives(Directives::all())
-    .layers(Layers::FILE)
+    .debug_layers(Layers::STDERR)
+    .release_layers(Layers::FILE)
     .call()?
   else {
     unreachable!();
