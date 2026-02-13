@@ -2,6 +2,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
+import Menu from './Menu.vue';
 import Field from './Field.vue';
 import { until } from '@vueuse/core';
 import { useRoute } from 'vue-router';
@@ -112,6 +113,8 @@ function move(direction: Direction, delta: number) {
   <div class="game-layout">
     <Card class="size-full overflow-hidden p-0">
       <CardContent class="relative size-full overflow-hidden p-0 select-none">
+        <Menu />
+
         <div id="continent-container" ref="container" class="bg-card">
           <Navigation
             :cell-size
