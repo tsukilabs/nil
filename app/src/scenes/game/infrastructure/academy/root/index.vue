@@ -3,15 +3,20 @@
 
 <script setup lang="ts">
 import { watch } from 'vue';
+import { storeToRefs } from 'pinia';
 import RecruitQueue from './RecruitQueue.vue';
 import RecruitCatalog from './RecruitCatalog.vue';
 import { useAcademy } from '@/composables/infrastructure/useBuilding';
+import { useAcademySettings } from '@/stores/settings/infrastructure/academy';
 import { useAcademyRecruitCatalog } from '@/composables/infrastructure/useAcademyRecruitCatalog';
 
 const { coord, city } = NIL.city.refs();
 
 const academy = useAcademy();
 const { catalog, loading, add, cancel, load } = useAcademyRecruitCatalog(coord);
+
+const settings = useAcademySettings();
+const { hideUnmet } = storeToRefs(settings);
 
 await load();
 
@@ -20,9 +25,14 @@ watch(city, load);
 
 <template>
   <div class="flex w-full min-w-max flex-col gap-4 xl:flex-row-reverse">
-    <RecruitQueue v-if="academy" :academy :loading @cancel="cancel" />
+    <RecruitQueue
+      v-if="academy && academy.level > 0"
+      :academy
+      :loading
+      @cancel="cancel"
+    />
     <RecruitCatalog
-      v-if="academy && catalog"
+      v-if="academy && catalog && (academy.level > 0 || !hideUnmet)"
       :academy
       :catalog
       :loading
