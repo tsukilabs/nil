@@ -22,7 +22,7 @@ const { md } = useBreakpoints();
 <template>
   <DropdownMenu>
     <DropdownMenuTrigger as-child>
-      <Button variant="secondary" size="icon" class="absolute z-20 top-5 right-5">
+      <Button variant="default" size="icon" class="absolute z-20 top-5 right-5">
         <MenuIcon stroke-width="1.5px" />
       </Button>
     </DropdownMenuTrigger>

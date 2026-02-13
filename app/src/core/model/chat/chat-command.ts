@@ -22,6 +22,7 @@ const enum ChatCommandKind {
   Max = 'max',
   Prefecture = 'prefecture',
   Quarry = 'quarry',
+  Ranking = 'ranking',
   Resources = 'resources',
   SaveGame = 'save-game',
   Sawmill = 'sawmill',
@@ -51,6 +52,7 @@ const regex: RegexMap = {
   [ChatCommandKind.Max]: /^\$max$/i,
   [ChatCommandKind.Prefecture]: /^\$prefecture$/i,
   [ChatCommandKind.Quarry]: /^\$quarry$/i,
+  [ChatCommandKind.Ranking]: /^\$ranking$/i,
   [ChatCommandKind.Resources]: /^\$res(?:\s(\d+))?/i,
   [ChatCommandKind.SaveGame]: /^\$save$/i,
   [ChatCommandKind.Sawmill]: /^\$sawmill$/i,
@@ -143,6 +145,10 @@ export class ChatCommand {
       }
       case ChatCommandKind.Quarry: {
         await go('quarry');
+        break;
+      }
+      case ChatCommandKind.Ranking: {
+        await go('ranking');
         break;
       }
       case ChatCommandKind.Resources: {

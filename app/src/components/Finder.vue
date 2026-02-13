@@ -26,23 +26,27 @@ interface FinderItem {
 const items = computed<FinderItem[]>(() => {
   const _items: FinderItem[] = [
     { value: 'academy', label: t('academy') },
+    { value: 'academy-settings', label: t('academy-settings') },
     { value: 'city', label: t('city') },
     { value: 'continent', label: t('continent-map') },
     { value: 'continent-cities', label: t('continent-cities') },
     { value: 'farm', label: t('farm') },
     { value: 'iron-mine', label: t('iron-mine') },
     { value: 'prefecture', label: t('prefecture') },
+    { value: 'prefecture-settings', label: t('prefecture-settings') },
     { value: 'quarry', label: t('quarry') },
     { value: 'ranking', label: t('ranking') },
     { value: 'sawmill', label: t('sawmill') },
     { value: 'settings', label: t('settings') },
     { value: 'silo', label: t('silo') },
     { value: 'stable', label: t('stable') },
+    { value: 'stable-settings', label: t('stable-settings') },
     { value: 'wall', label: t('wall') },
     { value: 'warehouse', label: t('warehouse') },
     { value: 'war-room', label: t('war-room') },
     { value: 'war-room-simulator', label: t('simulator') },
     { value: 'workshop', label: t('workshop') },
+    { value: 'workshop-settings', label: t('workshop-settings') },
   ];
 
   _items.sort((a, b) => compare(a.label, b.label));
