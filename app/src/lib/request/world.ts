@@ -11,7 +11,19 @@ export interface GetRemoteWorldRequest {
   readonly world: WorldId;
 }
 
+export interface GetWorldBotsRequest {
+  readonly world: WorldId;
+}
+
 export interface GetWorldConfigRequest {
+  readonly world: WorldId;
+}
+
+export interface GetWorldPlayersRequest {
+  readonly world: WorldId;
+}
+
+export interface GetWorldPrecursorsRequest {
   readonly world: WorldId;
 }
 

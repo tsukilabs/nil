@@ -129,29 +129,38 @@ pub(crate) fn create() -> Router<App> {
     .route("/get-city-score", post(city::get_city_score))
     .route("/get-continent-size", post(continent::size))
     .route("/get-player-status", post(player::get_status))
+    .route("/get-player-worlds", post(player::get_worlds))
     .route("/get-precursor-coords", post(npc::precursor::get_coords))
-    .route("/get-public-bot", post(npc::bot::get_public))
+    .route("/get-public-bot", post(npc::bot::get_public_bot))
+    .route("/get-public-bots", post(npc::bot::get_public_bots))
     .route("/get-public-cities", post(city::get_public_cities))
     .route("/get-public-city", post(city::get_public_city))
     .route("/get-public-field", post(continent::get_public_field))
     .route("/get-public-fields", post(continent::get_public_fields))
     .route("/get-public-player", post(player::get_public))
     .route("/get-public-players", post(player::get_all_public))
-    .route("/get-public-precursor", post(npc::precursor::get_public))
+    .route("/get-public-precursor", post(npc::precursor::get_public_precursor))
+    .route("/get-public-precursors", post(npc::precursor::get_public_precursors))
     .route("/get-rank", post(ranking::get_rank))
     .route("/get-ranking", post(ranking::get))
     .route("/get-remote-world", post(world::remote::get))
     .route("/get-remote-worlds", get(world::remote::get_all))
     .route("/get-round", post(round::get))
     .route("/get-server-kind", get(server_kind))
+    .route("/get-world-bots", post(world::get_bots))
     .route("/get-world-config", post(world::get_config))
+    .route("/get-world-players", post(world::get_players))
+    .route("/get-world-precursors", post(world::get_precursors))
     .route("/get-world-stats", post(world::get_stats))
     .route("/player-exists", post(player::exists))
     .route("/search-public-city", post(city::search_public_city))
     .route("/simulate-battle", post(battle::simulate))
     .route("/user-exists", post(user::exists))
     .route("/validate-token", post(validate_token))
-    .route("/version", get(version));
+    .route("/version", get(version))
+    
+    // Files.
+    .route("/robots.txt", any(robots_txt));
 
   router.layer(
     TraceLayer::new_for_http()
@@ -198,6 +207,10 @@ async fn authorize(State(app): State<App>, Json(req): Json<AuthorizeRequest>) ->
 
 async fn ok() -> StatusCode {
   StatusCode::OK
+}
+
+async fn robots_txt() -> String {
+  format!("User-agent: *\nDisallow: /")
 }
 
 async fn server_kind(State(app): State<App>) -> Response {

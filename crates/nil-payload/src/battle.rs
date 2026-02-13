@@ -11,8 +11,12 @@ use serde::{Deserialize, Serialize};
 #[serde(rename_all = "camelCase")]
 pub struct SimulateBattleRequest {
   pub world: WorldId,
+  #[serde(default)]
   pub attacker: Vec<Squad>,
+  #[serde(default)]
   pub defender: Vec<Squad>,
+  #[serde(default)]
   pub luck: Luck,
+  #[serde(default)]
   pub wall: BuildingLevel,
 }

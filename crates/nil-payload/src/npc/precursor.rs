@@ -18,3 +18,9 @@ pub struct GetPublicPrecursorRequest {
   pub world: WorldId,
   pub id: PrecursorId,
 }
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct GetPublicPrecursorsRequest {
+  pub world: WorldId,
+}

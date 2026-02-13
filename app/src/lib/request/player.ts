@@ -36,6 +36,10 @@ export interface GetPlayerStorageCapacityRequest {
   readonly world: WorldId;
 }
 
+export interface GetPlayerWorldsRequest {
+  readonly id: PlayerId;
+}
+
 export interface GetPublicPlayerRequest {
   readonly world: WorldId;
   readonly id: PlayerId;

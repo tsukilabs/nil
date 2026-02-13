@@ -29,3 +29,14 @@ pub async fn get_public_precursor(
     .await
     .map_err(Into::into)
 }
+
+#[tauri::command]
+pub async fn get_public_precursors(
+  app: AppHandle,
+  req: GetPublicPrecursorsRequest,
+) -> Result<Vec<PublicPrecursor>> {
+  app
+    .client(async |cl| cl.get_public_precursors(req).await)
+    .await
+    .map_err(Into::into)
+}

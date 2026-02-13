@@ -18,3 +18,9 @@ pub struct GetPublicBotRequest {
   pub world: WorldId,
   pub id: BotId,
 }
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct GetPublicBotsRequest {
+  pub world: WorldId,
+}

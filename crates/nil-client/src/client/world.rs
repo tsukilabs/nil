@@ -4,6 +4,9 @@
 use super::Client;
 use crate::error::Result;
 use crate::http;
+use nil_core::npc::bot::BotId;
+use nil_core::npc::precursor::PrecursorId;
+use nil_core::player::PlayerId;
 use nil_core::world::config::{WorldConfig, WorldId};
 use nil_core::world::stats::WorldStats;
 use nil_payload::world::*;
@@ -34,8 +37,35 @@ impl Client {
       .await
   }
 
+  pub async fn get_world_bots(&self, req: GetWorldBotsRequest) -> Result<Vec<BotId>> {
+    http::json_post("get-world-bots")
+      .body(req)
+      .server(self.server)
+      .send()
+      .await
+  }
+
   pub async fn get_world_config(&self, req: GetWorldConfigRequest) -> Result<WorldConfig> {
     http::json_post("get-world-config")
+      .body(req)
+      .server(self.server)
+      .send()
+      .await
+  }
+
+  pub async fn get_world_players(&self, req: GetWorldPlayersRequest) -> Result<Vec<PlayerId>> {
+    http::json_post("get-world-players")
+      .body(req)
+      .server(self.server)
+      .send()
+      .await
+  }
+
+  pub async fn get_world_precursors(
+    &self,
+    req: GetWorldPrecursorsRequest,
+  ) -> Result<Vec<PrecursorId>> {
+    http::json_post("get-world-precursors")
       .body(req)
       .server(self.server)
       .send()

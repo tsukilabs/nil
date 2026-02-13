@@ -18,10 +18,24 @@ pub async fn get_coords(State(app): State<App>, Json(req): Json<GetBotCoordsRequ
     .into_inner()
 }
 
-pub async fn get_public(State(app): State<App>, Json(req): Json<GetPublicBotRequest>) -> Response {
+pub async fn get_public_bot(
+  State(app): State<App>,
+  Json(req): Json<GetPublicBotRequest>,
+) -> Response {
   app
     .bot_manager(req.world, |bm| bm.bot(&req.id).map(PublicBot::from))
     .await
     .try_map_left(|bot| res!(OK, Json(bot)))
+    .into_inner()
+}
+
+pub async fn get_public_bots(
+  State(app): State<App>,
+  Json(req): Json<GetPublicBotsRequest>,
+) -> Response {
+  app
+    .bot_manager(req.world, |bm| bm.bots().map(PublicBot::from).collect_vec())
+    .await
+    .map_left(|bots| res!(OK, Json(bots)))
     .into_inner()
 }

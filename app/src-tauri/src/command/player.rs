@@ -10,6 +10,7 @@ use nil_core::military::Military;
 use nil_core::player::{Player, PlayerStatus, PublicPlayer};
 use nil_core::report::ReportId;
 use nil_core::resources::maintenance::Maintenance;
+use nil_core::world::config::WorldId;
 use nil_payload::player::*;
 use tap::Pipe;
 use tauri::AppHandle;
@@ -85,6 +86,17 @@ pub async fn get_player_storage_capacity(
 ) -> Result<OverallStorageCapacity> {
   app
     .client(async |cl| cl.get_player_storage_capacity(req).await)
+    .await
+    .map_err(Into::into)
+}
+
+#[tauri::command]
+pub async fn get_player_worlds(
+  app: AppHandle,
+  req: GetPlayerWorldsRequest,
+) -> Result<Vec<WorldId>> {
+  app
+    .client(async |cl| cl.get_player_worlds(req).await)
     .await
     .map_err(Into::into)
 }

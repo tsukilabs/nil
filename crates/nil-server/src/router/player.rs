@@ -8,6 +8,7 @@ use crate::res;
 use crate::response::{EitherExt, from_database_err};
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
+use either::Either;
 use itertools::Itertools;
 use nil_core::player::{Player, PublicPlayer};
 use nil_payload::player::*;
@@ -130,6 +131,24 @@ pub async fn get_storage_capacity(
     .await
     .try_map_left(|capacity| res!(OK, Json(capacity)))
     .into_inner()
+}
+
+pub async fn get_worlds(
+  State(app): State<App>,
+  Json(req): Json<GetPlayerWorldsRequest>,
+) -> Response {
+  let mut worlds = Vec::new();
+
+  for id in app.world_ids() {
+    if let Either::Left(true) = app
+      .player_manager(id, |pm| pm.has(&req.id))
+      .await
+    {
+      worlds.push(id);
+    }
+  }
+
+  res!(OK, Json(worlds))
 }
 
 pub async fn set_status(

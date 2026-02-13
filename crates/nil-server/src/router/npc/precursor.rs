@@ -20,7 +20,7 @@ pub async fn get_coords(
     .into_inner()
 }
 
-pub async fn get_public(
+pub async fn get_public_precursor(
   State(app): State<App>,
   Json(req): Json<GetPublicPrecursorRequest>,
 ) -> Response {
@@ -28,5 +28,20 @@ pub async fn get_public(
     .precursor_manager(req.world, |pm| PublicPrecursor::new(pm.precursor(req.id)))
     .await
     .map_left(|precursor| res!(OK, Json(precursor)))
+    .into_inner()
+}
+
+pub async fn get_public_precursors(
+  State(app): State<App>,
+  Json(req): Json<GetPublicPrecursorsRequest>,
+) -> Response {
+  app
+    .precursor_manager(req.world, |pm| {
+      pm.precursors()
+        .map(PublicPrecursor::from)
+        .collect_vec()
+    })
+    .await
+    .map_left(|precursors| res!(OK, Json(precursors)))
     .into_inner()
 }

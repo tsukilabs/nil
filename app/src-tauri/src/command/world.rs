@@ -4,6 +4,8 @@
 use crate::error::{CoreError, Error, Result};
 use crate::manager::ManagerExt;
 use itertools::Itertools;
+use nil_core::npc::bot::BotId;
+use nil_core::npc::precursor::PrecursorId;
 use nil_core::player::{Player, PlayerId};
 use nil_core::savedata::{Savedata, SavedataInfo};
 use nil_core::world::config::{WorldConfig, WorldId};
@@ -54,9 +56,39 @@ pub async fn get_savedata_players(path: PathBuf) -> Result<Vec<PlayerId>> {
 }
 
 #[tauri::command]
+pub async fn get_world_bots(app: AppHandle, req: GetWorldBotsRequest) -> Result<Vec<BotId>> {
+  app
+    .client(async |cl| cl.get_world_bots(req).await)
+    .await
+    .map_err(Into::into)
+}
+
+#[tauri::command]
 pub async fn get_world_config(app: AppHandle, req: GetWorldConfigRequest) -> Result<WorldConfig> {
   app
     .client(async |cl| cl.get_world_config(req).await)
+    .await
+    .map_err(Into::into)
+}
+
+#[tauri::command]
+pub async fn get_world_players(
+  app: AppHandle,
+  req: GetWorldPlayersRequest,
+) -> Result<Vec<PlayerId>> {
+  app
+    .client(async |cl| cl.get_world_players(req).await)
+    .await
+    .map_err(Into::into)
+}
+
+#[tauri::command]
+pub async fn get_world_precursors(
+  app: AppHandle,
+  req: GetWorldPrecursorsRequest,
+) -> Result<Vec<PrecursorId>> {
+  app
+    .client(async |cl| cl.get_world_precursors(req).await)
     .await
     .map_err(Into::into)
 }

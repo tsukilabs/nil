@@ -27,4 +27,15 @@ impl Client {
       .send()
       .await
   }
+
+  pub async fn get_public_precursors(
+    &self,
+    req: GetPublicPrecursorsRequest,
+  ) -> Result<Vec<PublicPrecursor>> {
+    http::json_post("get-public-precursors")
+      .body(req)
+      .server(self.server)
+      .send()
+      .await
+  }
 }

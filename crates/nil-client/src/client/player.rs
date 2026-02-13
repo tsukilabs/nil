@@ -10,6 +10,7 @@ use nil_core::military::Military;
 use nil_core::player::{Player, PlayerStatus, PublicPlayer};
 use nil_core::report::ReportId;
 use nil_core::resources::maintenance::Maintenance;
+use nil_core::world::config::WorldId;
 use nil_payload::player::*;
 
 impl Client {
@@ -63,6 +64,14 @@ impl Client {
 
   pub async fn get_player_status(&self, req: GetPlayerStatusRequest) -> Result<PlayerStatus> {
     http::json_post("get-player-status")
+      .body(req)
+      .server(self.server)
+      .send()
+      .await
+  }
+
+  pub async fn get_player_worlds(&self, req: GetPlayerWorldsRequest) -> Result<Vec<WorldId>> {
+    http::json_post("get-player-worlds")
       .body(req)
       .server(self.server)
       .send()

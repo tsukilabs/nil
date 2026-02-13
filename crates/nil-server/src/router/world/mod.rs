@@ -10,9 +10,20 @@ use crate::res;
 use crate::response::EitherExt;
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
-use nil_core::player::PlayerStatus;
+use itertools::Itertools;
+use nil_core::npc::bot::Bot;
+use nil_core::npc::precursor::Precursor;
+use nil_core::player::{Player, PlayerStatus};
 use nil_core::world::World;
 use nil_payload::world::*;
+
+pub async fn get_bots(State(app): State<App>, Json(req): Json<GetWorldBotsRequest>) -> Response {
+  app
+    .bot_manager(req.world, |bm| bm.bots().map(Bot::id).collect_vec())
+    .await
+    .map_left(|bots| res!(OK, Json(bots)))
+    .into_inner()
+}
 
 pub async fn get_config(
   State(app): State<App>,
@@ -22,6 +33,32 @@ pub async fn get_config(
     .world(req.world, |world| world.config().clone())
     .await
     .map_left(|world| res!(OK, Json(world)))
+    .into_inner()
+}
+
+pub async fn get_players(
+  State(app): State<App>,
+  Json(req): Json<GetWorldPlayersRequest>,
+) -> Response {
+  app
+    .player_manager(req.world, |pm| pm.players().map(Player::id).collect_vec())
+    .await
+    .map_left(|players| res!(OK, Json(players)))
+    .into_inner()
+}
+
+pub async fn get_precursors(
+  State(app): State<App>,
+  Json(req): Json<GetWorldPrecursorsRequest>,
+) -> Response {
+  app
+    .precursor_manager(req.world, |pm| {
+      pm.precursors()
+        .map(Precursor::id)
+        .collect_vec()
+    })
+    .await
+    .map_left(|precursors| res!(OK, Json(precursors)))
     .into_inner()
 }
 

@@ -10,3 +10,7 @@ export interface GetPublicPrecursorRequest {
   readonly world: WorldId;
   readonly id: PrecursorId;
 }
+
+export interface GetPublicPrecursorsRequest {
+  readonly world: WorldId;
+}
