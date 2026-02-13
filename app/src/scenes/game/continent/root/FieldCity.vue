@@ -82,7 +82,7 @@ function getPrecursorColor(id: PrecursorId) {
       </div>
     </HoverCardTrigger>
 
-    <HoverCardContent>
+    <HoverCardContent class="shadow-lg">
       <div class="flex flex-col select-none">
         <div v-if="city && owner" class="flex flex-col gap-2 md:gap-4 overflow-hidden">
           <h1 class="ellipsis text-lg text-center">
