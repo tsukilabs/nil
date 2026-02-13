@@ -36,10 +36,7 @@
     "forceConsistentCasingInFileNames": true,
     "noEmitOnError": true,
 
-    "types": [
-      "@tauri-store/pinia",
-      "@tb-dev/prototype-dom"
-    ]
+    "types": ["@tauri-store/pinia", "@tb-dev/prototype-dom"]
   },
 
   "vueCompilerOptions": {

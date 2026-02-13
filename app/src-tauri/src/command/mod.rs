@@ -22,6 +22,7 @@ pub mod world;
 
 use crate::error::{Error, Result};
 use crate::manager::ManagerExt;
+use std::env;
 use std::path::PathBuf;
 use tauri::AppHandle;
 use tauri::async_runtime::spawn_blocking;
@@ -50,6 +51,11 @@ pub async fn allow_scope(app: AppHandle, path: PathBuf) -> Result<()> {
   Ok(())
 }
 
+#[tauri::command]
+pub fn args() -> Vec<String> {
+  env::args().collect()
+}
+
 #[cfg(desktop)]
 #[tauri::command]
 pub fn create_tray_icon(app: AppHandle) -> Result<()> {
@@ -60,6 +66,16 @@ pub fn create_tray_icon(app: AppHandle) -> Result<()> {
 #[cfg(mobile)]
 #[tauri::command]
 pub fn create_tray_icon() {}
+
+#[tauri::command]
+pub fn current_dir() -> Result<PathBuf> {
+  Ok(env::current_dir()?)
+}
+
+#[tauri::command]
+pub fn current_exe() -> Result<PathBuf> {
+  Ok(env::current_exe()?)
+}
 
 #[tauri::command]
 pub async fn exists(path: PathBuf) -> Result<bool> {

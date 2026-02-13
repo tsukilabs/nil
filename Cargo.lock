@@ -602,9 +602,9 @@ dependencies = [
 
 [[package]]
 name = "cc"
-version = "1.2.55"
+version = "1.2.56"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "47b26a0954ae34af09b50f0de26458fa95369a0d478d8236d3f93082b219bd29"
+checksum = "aebf35691d1bfb0ac386a69bac2fde4dd276fb618cf8bf4f5318fe285e821bb2"
 dependencies = [
  "find-msvc-tools",
  "jobserver",
@@ -2822,9 +2822,9 @@ dependencies = [
 
 [[package]]
 name = "libc"
-version = "0.2.181"
+version = "0.2.182"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "459427e2af2b9c839b132acb702a1c654d95e10f8c326bfc2ad11310e458b1c5"
+checksum = "6800badb6cb2082ffd7b6a67e6125bb39f18782f793520caee8cb8846be06112"
 
 [[package]]
 name = "libloading"
@@ -3127,7 +3127,7 @@ checksum = "650eef8c711430f1a879fdd01d4745a7deea475becfb90269c06775983bbf086"
 
 [[package]]
 name = "nil"
-version = "0.2.23"
+version = "0.2.24"
 dependencies = [
  "anyhow",
  "bon",
@@ -3166,7 +3166,7 @@ dependencies = [
 
 [[package]]
 name = "nil-client"
-version = "0.2.23"
+version = "0.2.24"
 dependencies = [
  "anyhow",
  "bon",
@@ -3194,7 +3194,7 @@ dependencies = [
 
 [[package]]
 name = "nil-core"
-version = "0.2.23"
+version = "0.2.24"
 dependencies = [
  "anyhow",
  "bon",
@@ -3227,7 +3227,7 @@ dependencies = [
 
 [[package]]
 name = "nil-core-macros"
-version = "0.2.23"
+version = "0.2.24"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -3236,7 +3236,7 @@ dependencies = [
 
 [[package]]
 name = "nil-crypto"
-version = "0.2.23"
+version = "0.2.24"
 dependencies = [
  "anyhow",
  "argon2",
@@ -3246,7 +3246,7 @@ dependencies = [
 
 [[package]]
 name = "nil-database"
-version = "0.2.23"
+version = "0.2.24"
 dependencies = [
  "anyhow",
  "bon",
@@ -3268,7 +3268,7 @@ dependencies = [
 
 [[package]]
 name = "nil-log"
-version = "0.2.23"
+version = "0.2.24"
 dependencies = [
  "anyhow",
  "bitflags 2.10.0",
@@ -3281,7 +3281,7 @@ dependencies = [
 
 [[package]]
 name = "nil-namegen"
-version = "0.2.23"
+version = "0.2.24"
 dependencies = [
  "itertools",
  "rand 0.10.0",
@@ -3290,7 +3290,7 @@ dependencies = [
 
 [[package]]
 name = "nil-num"
-version = "0.2.23"
+version = "0.2.24"
 dependencies = [
  "bon",
  "nil-num-macros",
@@ -3300,7 +3300,7 @@ dependencies = [
 
 [[package]]
 name = "nil-num-macros"
-version = "0.2.23"
+version = "0.2.24"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -3309,7 +3309,7 @@ dependencies = [
 
 [[package]]
 name = "nil-payload"
-version = "0.2.23"
+version = "0.2.24"
 dependencies = [
  "bon",
  "nil-core",
@@ -3320,7 +3320,7 @@ dependencies = [
 
 [[package]]
 name = "nil-server"
-version = "0.2.23"
+version = "0.2.24"
 dependencies = [
  "anyhow",
  "axum",
@@ -3354,7 +3354,7 @@ dependencies = [
 
 [[package]]
 name = "nil-server-types"
-version = "0.2.23"
+version = "0.2.24"
 dependencies = [
  "jiff",
  "nil-core",
@@ -3364,7 +3364,7 @@ dependencies = [
 
 [[package]]
 name = "nil-util"
-version = "0.2.23"
+version = "0.2.24"
 dependencies = [
  "anyhow",
 ]

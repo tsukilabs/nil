@@ -21,9 +21,6 @@ use tauri::{AppHandle, Manager, Wry};
 #[expect(clippy::too_many_lines)]
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
-  #[cfg(debug_assertions)]
-  nil_log::setup().call().unwrap();
-
   builder()
     .plugin(plugin::on_exit())
     .plugin(tauri_plugin_clipboard_manager::init())
@@ -36,7 +33,10 @@ pub fn run() {
     .setup(|app| setup(app.app_handle()))
     .invoke_handler(tauri::generate_handler![
       command::allow_scope,
+      command::args,
       command::create_tray_icon,
+      command::current_dir,
+      command::current_exe,
       command::exists,
       command::is_host,
       command::is_local,

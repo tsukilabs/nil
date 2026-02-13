@@ -42,7 +42,9 @@ fn on_window_event(app: &AppHandle) -> impl Fn(&WindowEvent) + use<> {
         .get_or_default("settings", "hideOnClose")
     {
       api.prevent_close();
-      let _ = app.main_window().hide();
+      if let Err(err) = app.main_window().hide() {
+        tracing::error!(message = %err, error = ?err);
+      }
     }
   }
 }
