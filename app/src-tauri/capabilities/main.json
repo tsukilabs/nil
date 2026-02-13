@@ -41,7 +41,11 @@
     },
     {
       "identifier": "opener:allow-open-url",
-      "allow": [{ "url": "https://github.com/tsukilabs/*" }, { "url": "https://nil.dev.br/*" }]
+      "allow": [
+        { "url": "https://github.com/tsukilabs/*" },
+        { "url": "https://nil.dev.br/*" },
+        { "url": "http://tsukilabs.dev.br/*" }
+      ]
     }
   ]
 }

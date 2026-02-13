@@ -41,6 +41,7 @@ pub fn setup(
   add_directive!(NIL, "nil=trace");
   add_directive!(NIL_CLIENT, "nil_client=trace");
   add_directive!(NIL_CORE, "nil_core=trace");
+  add_directive!(NIL_CRYPTO, "nil_crypto=trace");
   add_directive!(NIL_DATABASE, "nil_database=trace");
   add_directive!(NIL_SERVER, "nil_server=trace");
 
@@ -99,9 +100,10 @@ bitflags! {
     const NIL            = 1 << 0;
     const NIL_CLIENT     = 1 << 1;
     const NIL_CORE       = 1 << 2;
-    const NIL_DATABASE   = 1 << 3;
-    const NIL_SERVER     = 1 << 4;
-    const TOWER_HTTP     = 1 << 5;
+    const NIL_CRYPTO     = 1 << 3;
+    const NIL_DATABASE   = 1 << 4;
+    const NIL_SERVER     = 1 << 5;
+    const TOWER_HTTP     = 1 << 6;
   }
 }
 

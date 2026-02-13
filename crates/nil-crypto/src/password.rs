@@ -5,15 +5,15 @@ use anyhow::{Result, anyhow};
 use argon2::password_hash::rand_core::OsRng;
 use argon2::password_hash::{PasswordHasher, SaltString};
 use argon2::{Argon2, PasswordHash, PasswordVerifier};
-use derive_more::{Display, From, Into};
+use derive_more::{From, Into};
 use serde::{Deserialize, Serialize};
 use std::borrow::Cow;
+use std::fmt;
 use std::ops::Deref;
 use std::sync::Arc;
+use tap::Pipe;
 
-#[derive(
-  Clone, Debug, Default, Display, From, Into, PartialEq, Eq, Hash, Deserialize, Serialize,
-)]
+#[derive(Clone, Default, From, Into, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[from(String, &str, Arc<str>, Box<str>, Cow<'_, str>)]
 pub struct Password(Arc<str>);
 
@@ -25,12 +25,12 @@ impl Password {
 
   pub fn hash(&self) -> Result<Box<str>> {
     let salt = SaltString::generate(&mut OsRng);
-    let hash = Argon2::default()
+    Argon2::default()
       .hash_password(self.0.as_bytes(), &salt)
-      .map_err(|_| anyhow!("Failed to hash password"))?
-      .to_string();
-
-    Ok(Box::from(hash))
+      .map_err(|err| anyhow!("Failed to hash password").context(err))?
+      .to_string()
+      .into_boxed_str()
+      .pipe(Ok)
   }
 
   pub fn verify(&self, hash: &str) -> bool {
@@ -40,6 +40,11 @@ impl Password {
       Argon2::default().verify_password(password, &hash)?
     };
 
+    #[cfg(debug_assertions)]
+    if let Err(err) = &result {
+      tracing::debug!(error = %err);
+    }
+
     result.is_ok()
   }
 }
@@ -48,7 +53,15 @@ impl Deref for Password {
   type Target = str;
 
   fn deref(&self) -> &Self::Target {
-    &self.0
+    self.0.as_str()
+  }
+}
+
+impl fmt::Debug for Password {
+  fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+    f.debug_tuple("Password")
+      .field(&"***")
+      .finish()
   }
 }
 
