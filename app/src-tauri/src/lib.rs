@@ -187,12 +187,7 @@ fn builder() -> tauri::Builder<Wry> {
 }
 
 fn setup(app: &AppHandle) -> BoxResult<()> {
-  let app_dir = app.path().app_data_dir()?;
-  let pinia = tauri_plugin_pinia::Builder::new()
-    .path(app_dir.join("stores"))
-    .build();
-
-  app.plugin(pinia)?;
+  app.plugin(plugin::pinia(app)?)?;
   app.manage(Nil::new(app));
 
   #[cfg(desktop)]
