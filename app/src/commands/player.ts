@@ -12,6 +12,7 @@ import type {
   GetPlayersRequest,
   GetPlayerStatusRequest,
   GetPlayerStorageCapacityRequest,
+  GetPlayerWorldsRequest,
   GetPublicPlayerRequest,
   GetPublicPlayersRequest,
   PlayerExistsRequest,
@@ -76,6 +77,11 @@ export async function getPlayerStorageCapacity() {
   };
 
   return invoke<OverallStorageCapacity>('get_player_storage_capacity', { req });
+}
+
+export async function getPlayerWorlds(id: PlayerId) {
+  const req: GetPlayerWorldsRequest = { id };
+  return invoke<readonly WorldId[]>('get_player_worlds', { req });
 }
 
 export async function getPlayers() {

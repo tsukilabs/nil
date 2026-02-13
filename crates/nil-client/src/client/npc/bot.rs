@@ -24,4 +24,12 @@ impl Client {
       .send()
       .await
   }
+
+  pub async fn get_public_bots(&self, req: GetPublicBotsRequest) -> Result<Vec<PublicBot>> {
+    http::json_post("get-public-bots")
+      .body(req)
+      .server(self.server)
+      .send()
+      .await
+  }
 }

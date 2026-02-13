@@ -23,3 +23,11 @@ pub async fn get_public_bot(app: AppHandle, req: GetPublicBotRequest) -> Result<
     .await
     .map_err(Into::into)
 }
+
+#[tauri::command]
+pub async fn get_public_bots(app: AppHandle, req: GetPublicBotsRequest) -> Result<Vec<PublicBot>> {
+  app
+    .client(async |cl| cl.get_public_bots(req).await)
+    .await
+    .map_err(Into::into)
+}

@@ -9,7 +9,10 @@ import { type RawWorldStats, WorldStatsImpl } from '@/core/model/stats/world-sta
 import type {
   CreateRemoteWorldRequest,
   GetRemoteWorldRequest,
+  GetWorldBotsRequest,
   GetWorldConfigRequest,
+  GetWorldPlayersRequest,
+  GetWorldPrecursorsRequest,
   GetWorldStatsRequest,
   SaveLocalWorldRequest,
 } from '@/lib/request';
@@ -41,6 +44,14 @@ export async function getSavedataPlayers(path: string) {
   return invoke<readonly PlayerId[]>('get_savedata_players', { path });
 }
 
+export async function getWorldBots(world?: Option<WorldId>) {
+  const req: GetWorldBotsRequest = {
+    world: world ?? NIL.world.getIdStrict(),
+  };
+
+  return invoke<readonly BotId[]>('get_world_bots', { req });
+}
+
 export async function getWorldConfig(world?: Option<WorldId>): Promise<WorldConfigImpl> {
   const req: GetWorldConfigRequest = {
     world: world ?? NIL.world.getIdStrict(),
@@ -48,6 +59,22 @@ export async function getWorldConfig(world?: Option<WorldId>): Promise<WorldConf
 
   const config = await invoke<WorldConfig>('get_world_config', { req });
   return WorldConfigImpl.create(config);
+}
+
+export async function getWorldPlayers(world?: Option<WorldId>) {
+  const req: GetWorldPlayersRequest = {
+    world: world ?? NIL.world.getIdStrict(),
+  };
+
+  return invoke<readonly PlayerId[]>('get_world_players', { req });
+}
+
+export async function getWorldPrecursors(world?: Option<WorldId>) {
+  const req: GetWorldPrecursorsRequest = {
+    world: world ?? NIL.world.getIdStrict(),
+  };
+
+  return invoke<readonly PrecursorId[]>('get_world_precursors', { req });
 }
 
 export async function getWorldStats(world?: Option<WorldId>): Promise<WorldStatsImpl> {

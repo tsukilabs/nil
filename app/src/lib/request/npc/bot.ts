@@ -10,3 +10,7 @@ export interface GetPublicBotRequest {
   readonly world: WorldId;
   readonly id: BotId;
 }
+
+export interface GetPublicBotsRequest {
+  readonly world: WorldId;
+}

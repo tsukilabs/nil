@@ -59,6 +59,12 @@ pub struct GetPlayerStorageCapacityRequest {
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+pub struct GetPlayerWorldsRequest {
+  pub id: PlayerId,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct GetPublicPlayerRequest {
   pub world: WorldId,
   pub id: PlayerId,
