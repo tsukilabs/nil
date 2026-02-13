@@ -5,14 +5,15 @@
 import { useI18n } from 'vue-i18n';
 import { storeToRefs } from 'pinia';
 import { throttle } from 'es-toolkit';
-import { onKeyDown } from '@tb-dev/vue';
 import { handleError } from '@/lib/error';
 import { nextTick, onMounted } from 'vue';
 import Loading from '@/components/Loading.vue';
 import { Sonner } from '@tb-dev/vue-components';
 import { ListenerSet } from '@/lib/listener-set';
+import { loadSavedataFromArgs } from '@/core/savedata';
 import { setDragDropEventListener } from '@/lib/event';
 import { createTrayIcon, showWindow } from '@/commands';
+import { onKeyDown, useBreakpoints } from '@tb-dev/vue';
 import { setTheme, useSettings } from '@/stores/settings';
 import { syncRef, useColorMode, watchImmediate } from '@vueuse/core';
 import { defineGlobalCheats, defineGlobalCommands } from '@/lib/global';
@@ -21,6 +22,8 @@ const i18n = useI18n();
 
 const settings = useSettings();
 const { locale, theme, colorMode } = storeToRefs(settings);
+
+const { md } = useBreakpoints();
 
 const listeners = new ListenerSet();
 listeners.on(setDragDropEventListener());
@@ -40,6 +43,7 @@ onMounted(async () => {
     defineGlobalCheats();
 
     await nextTick();
+    await loadSavedataFromArgs();
     await createTrayIcon();
     await showWindow();
   }
@@ -55,7 +59,7 @@ function setLocale(value: Locale) {
 
 <template>
   <main class="fixed inset-0 select-none pb-safe">
-    <Sonner />
+    <Sonner :position="md ? 'bottom-right' : 'top-center'" />
     <div class="relative size-full overflow-hidden">
       <RouterView #default="{ Component }">
         <template v-if="Component">

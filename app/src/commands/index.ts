@@ -27,8 +27,20 @@ export async function allowScope(path: string) {
   }
 }
 
+export async function args() {
+  return invoke<readonly string[]>('args');
+}
+
 export async function createTrayIcon() {
   await invoke('create_tray_icon');
+}
+
+export async function currentDir() {
+  return invoke<string>('current_dir');
+}
+
+export async function currentExe() {
+  return invoke<string>('current_exe');
 }
 
 export async function exists(path: string) {

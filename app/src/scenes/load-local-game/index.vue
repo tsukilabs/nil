@@ -8,9 +8,9 @@ import { computed, ref, watch } from 'vue';
 import { useRouteQuery } from '@vueuse/router';
 import { hostLocalGameWithSavedata } from '@/core/game';
 import { asyncComputed, asyncRef, useMutex } from '@tb-dev/vue';
+import { getSavedataFiles, SavedataFile } from '@/core/savedata';
 import { useSavedataPlayers } from '@/composables/useSavedataPlayers';
 import { goBackIfPreviousIsNotGame, QUERY_LOAD_LOCAL_GAME_PATH } from '@/router';
-import { getSavedataFile, getSavedataFiles, type SavedataFile } from '@/core/savedata';
 import {
   Button,
   Card,
@@ -47,7 +47,7 @@ const {
 const files = asyncComputed([], async () => {
   const _files = [...savedataDirFiles.value];
   if (path.value) {
-    _files.unshift(await getSavedataFile(path.value));
+    _files.unshift(await SavedataFile.read(path.value));
   }
 
   return _files;

@@ -32,9 +32,8 @@ use nil_crypto::password::Password;
 use nil_payload::world::LeaveRequest;
 use nil_payload::{AuthorizeRequest, ValidateTokenRequest};
 use nil_server_types::{ServerKind, Token};
-use std::net::IpAddr;
+use std::net::{IpAddr, SocketAddrV4};
 
-#[derive(Default)]
 pub struct Client {
   server: ServerAddr,
   world_id: Option<WorldId>,
@@ -45,8 +44,23 @@ pub struct Client {
 #[bon::bon]
 impl Client {
   #[inline]
-  pub fn new() -> Self {
-    Self::default()
+  pub fn new(server: ServerAddr) -> Self {
+    Self {
+      server,
+      world_id: None,
+      authorization: None,
+      websocket: None,
+    }
+  }
+
+  #[inline]
+  pub fn new_local(addr: SocketAddrV4) -> Self {
+    Self::new(ServerAddr::Local { addr })
+  }
+
+  #[inline]
+  pub fn new_remote() -> Self {
+    Self::new(ServerAddr::Remote)
   }
 
   #[builder]
@@ -188,5 +202,11 @@ impl Client {
       .server(self.server)
       .send()
       .await
+  }
+}
+
+impl Default for Client {
+  fn default() -> Self {
+    Self::new_remote()
   }
 }

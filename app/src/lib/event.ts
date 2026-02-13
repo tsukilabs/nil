@@ -1,13 +1,9 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as commands from '@/commands';
-import { leaveGame } from '@/core/game';
 import { handleError } from '@/lib/error';
-import { lstat } from '@tauri-apps/plugin-fs';
-import { extname } from '@tauri-apps/api/path';
-import { go, QUERY_LOAD_LOCAL_GAME_PATH } from '@/router';
 import type { Fn, MaybePromise, Option } from '@tb-dev/utils';
+import { isSavedataFile, SavedataFile } from '@/core/savedata';
 import { getCurrentWebviewWindow, type WebviewWindow } from '@tauri-apps/api/webviewWindow';
 
 export type ListenerFn<T> = (payload: T) => MaybePromise<unknown>;
@@ -76,18 +72,10 @@ export async function setDragDropEventListener() {
 
 async function onDragDropEvent(paths: readonly string[]) {
   for (const path of paths) {
-    const metadata = await lstat(path);
-    if (metadata.isFile) {
-      const extension = await extname(path);
-      if (extension.toLowerCase() === 'nil') {
-        await commands.allowScope(path);
-        await leaveGame({ navigate: false });
-        await go('load-local-game', {
-          query: {
-            [QUERY_LOAD_LOCAL_GAME_PATH]: path,
-          },
-        });
-      }
+    if (await isSavedataFile(path)) {
+      const savedata = await SavedataFile.read(path);
+      await savedata.load();
+      break;
     }
   }
 }

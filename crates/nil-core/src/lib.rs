@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 #![feature(
-  assert_matches,
   file_buffered,
   iter_collect_into,
   iterator_try_collect,

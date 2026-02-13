@@ -7,5 +7,8 @@
 )]
 
 fn main() {
+  #[cfg(debug_assertions)]
+  nil_log::setup().call().unwrap();
+
   nil_lib::run();
 }

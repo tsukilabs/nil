@@ -19,7 +19,6 @@
     "pinia:default",
     "process:allow-exit",
     "process:allow-restart",
-
     {
       "identifier": "fs:allow-exists",
       "allow": [{ "path": "$APPDATA/**/*" }]
@@ -42,10 +41,7 @@
     },
     {
       "identifier": "opener:allow-open-url",
-      "allow": [
-        { "url": "https://github.com/tsukilabs/*" },
-        { "url": "https://nil.dev.br/*" }
-      ]
+      "allow": [{ "url": "https://github.com/tsukilabs/*" }, { "url": "https://nil.dev.br/*" }]
     }
   ]
 }

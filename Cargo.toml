@@ -3,10 +3,11 @@ resolver = "3"
 members = ["app/src-tauri", "crates/*"]
 
 [workspace.package]
-version = "0.2.23"
+version = "0.2.24"
 edition = "2024"
 rust-version = "1.95"
 license-file = "./LICENSE"
+readme = "./README.md"
 homepage = "https://nil.dev.br"
 repository = "https://github.com/tsukilabs/nil"
 authors = ["Andrew Ferreira <andrew.shien2@gmail.com>", "Danilo Soares <danilofs18@gmail.com>"]
