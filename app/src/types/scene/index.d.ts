@@ -3,10 +3,14 @@
 
 type Scene =
   | GameScene
-  | OnlineScene
   | 'about'
   | 'home'
   | 'host-local-game'
+  | 'host-remote-game'
   | 'join-local-game'
+  | 'join-remote-game'
   | 'load-local-game'
-  | 'settings';
+  | 'lobby'
+  | 'settings'
+  | 'sign-in'
+  | 'sign-up';
