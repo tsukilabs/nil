@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::app::App;
-use crate::error::Error;
+use crate::error::{CoreError, Error};
 use crate::middleware::authorization::CurrentPlayer;
 use crate::response::{EitherExt, from_core_err};
 use crate::{bail_if_city_is_not_owned_by, res};
@@ -116,46 +116,36 @@ pub async fn rename_city(
 }
 
 pub async fn search_city(State(app): State<App>, Json(req): Json<SearchCityRequest>) -> Response {
-  match app.get(req.world) {
-    Ok(world) => {
-      let result = try {
-        let world = world.read().await;
-        world
-          .continent()
-          .search(req.search)?
-          .into_iter()
-          .cloned()
-          .collect_vec()
-      };
-
-      result
-        .map(|city| res!(OK, Json(city)))
-        .unwrap_or_else(from_core_err)
-    }
-    Err(err) => Response::from(err),
-  }
+  app
+    .world_blocking(req.world, move |world| {
+      world
+        .continent()
+        .search(req.search)?
+        .into_iter()
+        .cloned()
+        .collect_vec()
+        .pipe(Ok::<_, CoreError>)
+    })
+    .await
+    .try_map_left(|cities| res!(OK, Json(cities)))
+    .into_inner()
 }
 
 pub async fn search_public_city(
   State(app): State<App>,
   Json(req): Json<SearchPublicCityRequest>,
 ) -> Response {
-  match app.get(req.world) {
-    Ok(world) => {
-      let result = try {
-        let world = world.read().await;
-        world
-          .continent()
-          .search(req.search)?
-          .into_iter()
-          .map_into::<PublicCity>()
-          .collect_vec()
-      };
-
-      result
-        .map(|city| res!(OK, Json(city)))
-        .unwrap_or_else(from_core_err)
-    }
-    Err(err) => Response::from(err),
-  }
+  app
+    .world_blocking(req.world, move |world| {
+      world
+        .continent()
+        .search(req.search)?
+        .into_iter()
+        .map_into::<PublicCity>()
+        .collect_vec()
+        .pipe(Ok::<_, CoreError>)
+    })
+    .await
+    .try_map_left(|cities| res!(OK, Json(cities)))
+    .into_inner()
 }
