@@ -69,7 +69,6 @@ pub(crate) fn create() -> Router<App> {
     .route("/cheat-get-prefecture-build-queue", post(cheat::infrastructure::get_prefecture_build_queue))
     .route("/cheat-get-prefecture-build-queues", post(cheat::infrastructure::get_prefecture_build_queues))
     .route("/cheat-get-resources", post(cheat::resources::get_resources))
-    .route("/cheat-skip-round", post(cheat::round::skip))
     .route("/cheat-get-stable-recruit-queue", post(cheat::infrastructure::get_stable_recruit_queue))
     .route("/cheat-get-stable-recruit-queues", post(cheat::infrastructure::get_stable_recruit_queues))
     .route("/cheat-get-storage-capacity", post(cheat::infrastructure::get_storage_capacity))
@@ -89,6 +88,7 @@ pub(crate) fn create() -> Router<App> {
     .route("/cheat-set-stability", post(cheat::city::set_stability))
     .route("/cheat-set-stone", post(cheat::resources::set_stone))
     .route("/cheat-set-wood", post(cheat::resources::set_wood))
+    .route("/cheat-skip-round", post(cheat::round::skip))
     .route("/cheat-spawn-bot", post(cheat::npc::spawn_bot))
     .route("/cheat-spawn-personnel", post(cheat::military::spawn_personnel))
     .route("/create-remote-world", post(world::remote::create))
@@ -96,7 +96,6 @@ pub(crate) fn create() -> Router<App> {
     .route("/get-chat-history", post(chat::get))
     .route("/get-city", post(city::get_city))
     .route("/get-player", post(player::get))
-    .route("/get-player-coords", post(player::get_coords))
     .route("/get-player-maintenance", post(player::get_maintenance))
     .route("/get-player-military", post(player::get_military))
     .route("/get-player-reports", post(player::get_reports))
@@ -128,6 +127,7 @@ pub(crate) fn create() -> Router<App> {
     .route("/get-bot-coords", post(npc::bot::get_coords))
     .route("/get-city-score", post(city::get_city_score))
     .route("/get-continent-size", post(continent::size))
+    .route("/get-player-coords", post(player::get_coords))
     .route("/get-player-status", post(player::get_status))
     .route("/get-player-worlds", post(player::get_worlds))
     .route("/get-precursor-coords", post(npc::precursor::get_coords))
@@ -209,8 +209,8 @@ async fn ok() -> StatusCode {
   StatusCode::OK
 }
 
-async fn robots_txt() -> String {
-  format!("User-agent: *\nDisallow: /")
+async fn robots_txt() -> &'static str {
+  "User-agent: *\nDisallow: /"
 }
 
 async fn server_kind(State(app): State<App>) -> Response {
