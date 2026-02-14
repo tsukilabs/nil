@@ -2,7 +2,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { go } from '@/router';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { formatDate } from 'date-fns';
@@ -12,7 +11,7 @@ import Loading from '@/components/Loading.vue';
 import enUS from '@/locale/en-US/scenes/online.json';
 import ptBR from '@/locale/pt-BR/scenes/online.json';
 import { onKeyDown, useBreakpoints } from '@tb-dev/vue';
-import { QUERY_JOIN_REMOTE_GAME_WORLD_ID } from '@/router/online';
+import { go, QUERY_JOIN_REMOTE_GAME_WORLD_ID } from '@/router';
 import { useRemoteWorlds } from '@/composables/world/useRemoteWorlds';
 import { watchAuthorizationToken } from '@/composables/watchAuthorizationToken';
 import {

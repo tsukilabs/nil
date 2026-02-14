@@ -2,7 +2,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { go } from '@/router';
 import { useI18n } from 'vue-i18n';
 import * as commands from '@/commands';
 import { useMutex } from '@tb-dev/vue';
@@ -12,7 +11,7 @@ import { computed, onBeforeMount, ref } from 'vue';
 import enUS from '@/locale/en-US/scenes/online.json';
 import ptBR from '@/locale/pt-BR/scenes/online.json';
 import { isValidPassword, isValidPlayerId } from '@/lib/schema';
-import { QUERY_SIGN_IN_USER, QUERY_SIGN_UP_USER } from '@/router/online';
+import { go, QUERY_SIGN_IN_USER, QUERY_SIGN_UP_USER } from '@/router';
 import { Button, Card, CardContent, CardFooter, CardHeader, CardTitle, Input, Label } from '@tb-dev/vue-components';
 
 const { t } = useI18n({
