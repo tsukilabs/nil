@@ -48,7 +48,7 @@ use strum::IntoEnumIterator;
 use tap::Pipe;
 
 #[derive(Builder, Clone, Debug, Default, Deserialize, Serialize)]
-#[serde(rename_all = "camelCase")]
+#[serde(default, rename_all = "camelCase")]
 pub struct Infrastructure {
   #[builder(default)]
   academy: Academy,

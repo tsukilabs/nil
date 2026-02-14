@@ -7,9 +7,10 @@ use nil_core::world::config::WorldId;
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, Default, Deserialize, Serialize)]
-#[serde(default, rename_all = "camelCase")]
+#[serde(rename_all = "camelCase")]
 pub struct CheatGetResourcesRequest {
   pub world: WorldId,
+  #[serde(default)]
   pub ruler: Option<Ruler>,
 }
 
@@ -19,6 +20,7 @@ pub struct CheatSetFoodRequest {
   pub world: WorldId,
   #[serde(default)]
   pub ruler: Option<Ruler>,
+  #[serde(default)]
   pub food: Food,
 }
 
@@ -28,55 +30,63 @@ pub struct CheatSetIronRequest {
   pub world: WorldId,
   #[serde(default)]
   pub ruler: Option<Ruler>,
+  #[serde(default)]
   pub iron: Iron,
 }
 
 #[derive(Clone, Debug, Default, Deserialize, Serialize)]
-#[serde(default, rename_all = "camelCase")]
+#[serde(rename_all = "camelCase")]
 pub struct CheatSetMaxFoodRequest {
   pub world: WorldId,
+  #[serde(default)]
   pub ruler: Option<Ruler>,
 }
 
 #[derive(Clone, Debug, Default, Deserialize, Serialize)]
-#[serde(default, rename_all = "camelCase")]
+#[serde(rename_all = "camelCase")]
 pub struct CheatSetMaxIronRequest {
   pub world: WorldId,
+  #[serde(default)]
   pub ruler: Option<Ruler>,
 }
 
 #[derive(Clone, Debug, Default, Deserialize, Serialize)]
-#[serde(default, rename_all = "camelCase")]
+#[serde(rename_all = "camelCase")]
 pub struct CheatSetMaxResourcesRequest {
   pub world: WorldId,
+  #[serde(default)]
   pub ruler: Option<Ruler>,
 }
 
 #[derive(Clone, Debug, Default, Deserialize, Serialize)]
-#[serde(default, rename_all = "camelCase")]
+#[serde(rename_all = "camelCase")]
 pub struct CheatSetMaxSiloResourcesRequest {
   pub world: WorldId,
+  #[serde(default)]
   pub ruler: Option<Ruler>,
 }
 
 #[derive(Clone, Debug, Default, Deserialize, Serialize)]
-#[serde(default, rename_all = "camelCase")]
+#[serde(rename_all = "camelCase")]
 pub struct CheatSetMaxStoneRequest {
   pub world: WorldId,
+  #[serde(default)]
   pub ruler: Option<Ruler>,
 }
 
 #[derive(Clone, Debug, Default, Deserialize, Serialize)]
-#[serde(default, rename_all = "camelCase")]
+#[serde(rename_all = "camelCase")]
 pub struct CheatSetMaxWarehouseResourcesRequest {
   pub world: WorldId,
+  #[serde(default)]
   pub ruler: Option<Ruler>,
 }
 
 #[derive(Clone, Debug, Default, Deserialize, Serialize)]
-#[serde(default, rename_all = "camelCase")]
+#[serde(rename_all = "camelCase")]
 pub struct CheatSetMaxWoodRequest {
   pub world: WorldId,
+  #[serde(default)]
   pub ruler: Option<Ruler>,
 }
 
@@ -86,6 +96,7 @@ pub struct CheatSetResourcesRequest {
   pub world: WorldId,
   #[serde(default)]
   pub ruler: Option<Ruler>,
+  #[serde(default)]
   pub resources: Resources,
 }
 
@@ -95,6 +106,7 @@ pub struct CheatSetStoneRequest {
   pub world: WorldId,
   #[serde(default)]
   pub ruler: Option<Ruler>,
+  #[serde(default)]
   pub stone: Stone,
 }
 
@@ -104,5 +116,6 @@ pub struct CheatSetWoodRequest {
   pub world: WorldId,
   #[serde(default)]
   pub ruler: Option<Ruler>,
+  #[serde(default)]
   pub wood: Wood,
 }

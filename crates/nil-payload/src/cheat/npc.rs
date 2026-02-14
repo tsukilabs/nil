@@ -20,7 +20,8 @@ pub struct CheatGetEthicsRequest {
 pub struct CheatSetBotEthicsRequest {
   pub world: WorldId,
   pub id: BotId,
-  pub ethics: Ethics,
+  #[serde(default)]
+  pub ethics: Option<Ethics>,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
