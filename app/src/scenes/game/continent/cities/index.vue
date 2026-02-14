@@ -38,6 +38,7 @@ if (__DESKTOP__) {
           sortable
           default-sort-mode="distance"
           default-sort-order="asc"
+          class="min-w-max"
         />
       </CardContent>
     </Card>
