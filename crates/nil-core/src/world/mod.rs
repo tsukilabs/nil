@@ -55,7 +55,7 @@ pub struct World {
 
   // These are not included in the savedata.
   emitter: Emitter,
-  pending_save: Option<SaveHandle>,
+  save_handle: Option<SaveHandle>,
   on_next_round: Option<OnNextRound>,
 }
 
@@ -80,7 +80,7 @@ impl World {
       chat: Chat::default(),
 
       emitter: Emitter::default(),
-      pending_save: None,
+      save_handle: None,
       on_next_round: None,
     };
 
@@ -245,7 +245,7 @@ impl World {
   where
     F: FnOnce(Vec<u8>) + Send + Sync + 'static,
   {
-    self.pending_save = Some(SaveHandle::new(f));
+    self.save_handle = Some(SaveHandle::new(f));
   }
 
   pub fn on_next_round<F>(&mut self, f: F)
@@ -262,24 +262,24 @@ pub struct WorldOptions {
   #[builder(start_fn, into)]
   pub name: WorldName,
 
-  #[builder(default)]
   #[serde(default)]
+  #[builder(default)]
   pub size: ContinentSize,
 
-  #[builder(default)]
   #[serde(default)]
+  #[builder(default)]
   pub locale: Locale,
 
-  #[builder(default)]
   #[serde(default)]
+  #[builder(default)]
   pub allow_cheats: bool,
 
-  #[builder(default)]
   #[serde(default)]
+  #[builder(default)]
   pub bot_density: BotDensity,
 
-  #[builder(default)]
   #[serde(default)]
+  #[builder(default)]
   pub bot_advanced_start_ratio: BotAdvancedStartRatio,
 }
 

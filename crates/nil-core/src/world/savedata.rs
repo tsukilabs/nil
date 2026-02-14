@@ -8,7 +8,7 @@ use crate::world::World;
 
 impl World {
   pub(super) fn consume_pending_save(&mut self) -> Result<()> {
-    if let Some(handle) = self.pending_save.take() {
+    if let Some(handle) = self.save_handle.take() {
       handle.save(self.to_bytes()?);
     }
 
@@ -58,7 +58,7 @@ impl From<Savedata> for World {
       chat: savedata.chat,
 
       emitter: Emitter::default(),
-      pending_save: None,
+      save_handle: None,
       on_next_round: None,
     }
   }
