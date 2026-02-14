@@ -25,7 +25,8 @@ pub async fn set_bot_ethics(
 ) -> Response {
   app
     .world_mut(req.world, |world| {
-      world.cheat_set_bot_ethics(&req.id, req.ethics)
+      let ethics = req.ethics.unwrap_or_default();
+      world.cheat_set_bot_ethics(&req.id, ethics)
     })
     .await
     .try_map_left(|()| res!(OK))
