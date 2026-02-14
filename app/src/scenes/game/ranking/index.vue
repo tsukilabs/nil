@@ -40,7 +40,7 @@ if (__DESKTOP__) {
 
       <CardContent class="relative size-full overflow-auto px-2 py-0">
         <Loading v-if="loading" />
-        <Table v-else-if="ranking">
+        <Table v-else-if="ranking" class="min-w-max">
           <TableHeader>
             <TableRow class="hover:bg-card">
               <TableHead>{{ t('rank') }}</TableHead>
