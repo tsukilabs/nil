@@ -13,12 +13,12 @@ import enUS from '@/locale/en-US/scenes/host-game.json';
 import ptBR from '@/locale/pt-BR/scenes/host-game.json';
 import { WorldConfigImpl } from '@/core/model/world-config';
 import { isPlayerOptions, isWorldOptions } from '@/lib/schema';
-import WorldNameInput from '@/components/host-game/WorldNameInput.vue';
-import WorldSizeInput from '@/components/host-game/WorldSizeInput.vue';
-import PlayerNameInput from '@/components/join-game/PlayerNameInput.vue';
+import InputWorldName from '@/components/form/InputWorldName.vue';
+import InputWorldSize from '@/components/form/InputWorldSize.vue';
+import InputPlayerName from '@/components/form/InputPlayerName.vue';
+import SliderBotDensity from '@/components/form/SliderBotDensity.vue';
 import type { WithPartialNullish, WritablePartial } from '@tb-dev/utils';
-import BotDensitySlider from '@/components/host-game/BotDensitySlider.vue';
-import BotAdvancedStartRatioSlider from '@/components/host-game/BotAdvancedStartRatioSlider.vue';
+import SliderBotAdvancedStartRatio from '@/components/form/SliderBotAdvancedStartRatio.vue';
 import { Button, Card, CardContent, CardFooter, CardHeader, CardTitle, Checkbox, Label } from '@tb-dev/vue-components';
 
 const { t } = useI18n({
@@ -76,11 +76,11 @@ async function host() {
       </CardHeader>
 
       <CardContent>
-        <WorldNameInput v-model="worldOptions.name" :disabled="locked" />
-        <WorldSizeInput v-model="worldOptions.size" :disabled="locked" />
-        <PlayerNameInput v-model="playerOptions.id" :disabled="locked" />
-        <BotDensitySlider v-model="worldOptions" :disabled="locked" />
-        <BotAdvancedStartRatioSlider v-model="worldOptions" :disabled="locked" />
+        <InputWorldName v-model="worldOptions.name" :disabled="locked" />
+        <InputWorldSize v-model="worldOptions.size" :disabled="locked" />
+        <InputPlayerName v-model="playerOptions.id" :disabled="locked" />
+        <SliderBotDensity v-model="worldOptions" :disabled="locked" />
+        <SliderBotAdvancedStartRatio v-model="worldOptions" :disabled="locked" />
 
         <div class="flex items-center justify-center py-1">
           <Label>

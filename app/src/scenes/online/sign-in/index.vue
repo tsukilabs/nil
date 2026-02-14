@@ -89,6 +89,7 @@ async function goToSignUpScene() {
             :disabled="locked"
             :minlength="1"
             :maxlength="20"
+            @keydown.enter="signIn"
           />
         </Label>
         <Label>
@@ -99,6 +100,7 @@ async function goToSignUpScene() {
             :disabled="locked"
             :minlength="3"
             :maxlength="50"
+            @keydown.enter="signIn"
           />
         </Label>
       </CardContent>

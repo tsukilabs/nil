@@ -16,14 +16,14 @@ import enUS_online from '@/locale/en-US/scenes/online.json';
 import ptBR_online from '@/locale/pt-BR/scenes/online.json';
 import enUS_hostGame from '@/locale/en-US/scenes/host-game.json';
 import ptBR_hostGame from '@/locale/pt-BR/scenes/host-game.json';
+import InputWorldName from '@/components/form/InputWorldName.vue';
+import InputWorldSize from '@/components/form/InputWorldSize.vue';
+import SliderBotDensity from '@/components/form/SliderBotDensity.vue';
 import { isValidNullishPassword, isWorldOptions } from '@/lib/schema';
-import WorldNameInput from '@/components/host-game/WorldNameInput.vue';
-import WorldSizeInput from '@/components/host-game/WorldSizeInput.vue';
 import type { WithPartialNullish, WritablePartial } from '@tb-dev/utils';
-import BotDensitySlider from '@/components/host-game/BotDensitySlider.vue';
-import WorldPasswordInput from '@/components/host-game/WorldPasswordInput.vue';
-import WorldDescriptionTextarea from '@/components/host-game/WorldDescriptionTextarea.vue';
-import BotAdvancedStartRatioSlider from '@/components/host-game/BotAdvancedStartRatioSlider.vue';
+import InputWorldPassword from '@/components/form/InputWorldPassword.vue';
+import TextareaWorldDescription from '@/components/form/TextareaWorldDescription.vue';
+import SliderBotAdvancedStartRatio from '@/components/form/SliderBotAdvancedStartRatio.vue';
 import { Button, Card, CardContent, CardFooter, CardHeader, CardTitle, Checkbox, Label } from '@tb-dev/vue-components';
 
 const { t } = useI18n({
@@ -87,12 +87,12 @@ async function host() {
       </CardHeader>
 
       <CardContent>
-        <WorldNameInput v-model="worldOptions.name" :disabled="locked" />
-        <WorldSizeInput v-model="worldOptions.size" :disabled="locked" />
-        <WorldPasswordInput v-model="worldPassword" :disabled="locked" />
-        <WorldDescriptionTextarea v-model="description" :disabled="locked" />
-        <BotDensitySlider v-model="worldOptions" :disabled="locked" />
-        <BotAdvancedStartRatioSlider v-model="worldOptions" :disabled="locked" />
+        <InputWorldName v-model="worldOptions.name" :disabled="locked" />
+        <InputWorldSize v-model="worldOptions.size" :disabled="locked" />
+        <InputWorldPassword v-model="worldPassword" :disabled="locked" />
+        <TextareaWorldDescription v-model="description" :disabled="locked" />
+        <SliderBotDensity v-model="worldOptions" :disabled="locked" />
+        <SliderBotAdvancedStartRatio v-model="worldOptions" :disabled="locked" />
 
         <div class="flex items-center justify-center py-1">
           <Label>
