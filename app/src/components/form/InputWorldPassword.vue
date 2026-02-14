@@ -9,6 +9,7 @@ import { Input, Label } from '@tb-dev/vue-components';
 
 defineProps<{
   disabled: boolean;
+  onEnter?: () => void;
 }>();
 
 const password = defineModel<Option<string>>({ required: true });
@@ -30,6 +31,7 @@ const { t } = useI18n({
       :disabled
       :minlength="3"
       :maxlength="50"
+      @keydown.enter="onEnter"
     />
   </Label>
 </template>

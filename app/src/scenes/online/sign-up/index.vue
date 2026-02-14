@@ -49,7 +49,7 @@ onBeforeMount(() => {
   newUser.value.name = url.searchParams.get(QUERY_SIGN_UP_USER);
 });
 
-async function create() {
+async function signUp() {
   await lock(async () => {
     if (
       isValidPlayerId(newUser.value.name) &&
@@ -79,6 +79,7 @@ async function create() {
             :disabled="locked"
             :minlength="1"
             :maxlength="20"
+            @keydown.enter="signUp"
           />
         </Label>
         <Label>
@@ -89,6 +90,7 @@ async function create() {
             :disabled="locked"
             :minlength="3"
             :maxlength="50"
+            @keydown.enter="signUp"
           />
         </Label>
         <Label>
@@ -99,12 +101,13 @@ async function create() {
             :disabled="locked"
             :minlength="3"
             :maxlength="50"
+            @keydown.enter="signUp"
           />
         </Label>
       </CardContent>
 
       <CardFooter class="grid grid-cols-2">
-        <Button :disabled="locked || !canCreate" @click="create">
+        <Button :disabled="locked || !canCreate" @click="signUp">
           {{ t('create') }}
         </Button>
         <Button variant="secondary" :disabled="locked" @click="() => router.back()">

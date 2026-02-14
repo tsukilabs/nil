@@ -5,8 +5,8 @@
 import { go } from '@/router';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { formatDate } from 'date-fns';
 import { throttle } from 'es-toolkit';
-import { formatToday } from '@/lib/date';
 import { LockIcon } from 'lucide-vue-next';
 import Loading from '@/components/Loading.vue';
 import enUS from '@/locale/en-US/scenes/online.json';
@@ -132,10 +132,10 @@ async function goToJoinRemoteGameScene(id: WorldId) {
                 <span>{{ world.createdBy }}</span>
               </TableCell>
               <TableCell v-if="xl">
-                <span>{{ formatToday(world.createdAtDate) }}</span>
+                <span>{{ formatDate(world.createdAtDate, 'dd/MM/yyyy HH:mm') }}</span>
               </TableCell>
               <TableCell v-if="xl">
-                <span>{{ formatToday(world.updatedAtDate) }}</span>
+                <span>{{ formatDate(world.updatedAtDate, 'dd/MM/yyyy HH:mm') }}</span>
               </TableCell>
             </TableRow>
           </TableBody>

@@ -139,7 +139,7 @@ async function remove() {
               :key="file.name"
               :variant="file.path === savedata?.path ? 'secondary' : 'ghost'"
               class="h-16 w-full flex flex-col items-start gap-1"
-              @click="() => (savedata = file)"
+              @click="() => void (savedata = file)"
             >
               <span class="ellipsis">{{ file.info.worldName }}</span>
               <div class="flex gap-4 text-muted-foreground text-xs">

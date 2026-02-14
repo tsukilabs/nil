@@ -95,6 +95,7 @@ async function join() {
           :minlength="3"
           :maxlength="50"
           class="w-full md:max-w-2/3"
+          @keydown.enter="join"
         />
 
         <div class="w-full md:max-w-1/2 grid grid-cols-2 gap-2">
