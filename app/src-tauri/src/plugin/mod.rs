@@ -9,8 +9,8 @@ use crate::manager::ManagerExt;
 use tap::Pipe;
 use tauri::async_runtime::block_on;
 use tauri::plugin::{Builder, TauriPlugin};
-use tauri::{AppHandle, Manager, RunEvent, Wry};
-use tauri_plugin_pinia::PrettyTomlMarshaler;
+use tauri::{AppHandle, RunEvent, Wry};
+use tauri_plugin_pinia::PrettyJsonMarshaler;
 
 #[cfg(desktop)]
 pub use desktop::{prevent_default, single_instance};
@@ -32,10 +32,9 @@ pub fn on_exit() -> TauriPlugin<Wry> {
 }
 
 pub fn pinia(app: &AppHandle) -> BoxResult<TauriPlugin<Wry>> {
-  let cache_dir = app.path().app_cache_dir()?;
   tauri_plugin_pinia::Builder::new()
-    .path(cache_dir)
-    .marshaler(Box::new(PrettyTomlMarshaler))
+    .path(app.nil_dir()?)
+    .marshaler(Box::new(PrettyJsonMarshaler))
     .build()
     .pipe(Ok)
 }
