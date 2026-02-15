@@ -31,7 +31,7 @@ const { t } = useI18n({
       :disabled
       :minlength="3"
       :maxlength="50"
-      @keydown.enter="onEnter"
+      @keydown.enter="() => onEnter?.()"
     />
   </Label>
 </template>
