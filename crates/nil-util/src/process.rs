@@ -13,10 +13,9 @@ where
   Key: AsRef<OsStr>,
   Value: AsRef<OsStr>,
 {
-  let should_use_pwsh = cfg!(windows) && program == "pnpm";
-  let mut command = if should_use_pwsh { Command::new("pwsh") } else { Command::new(program) };
+  let mut command = if cfg!(windows) { Command::new("pwsh") } else { Command::new(program) };
 
-  if should_use_pwsh {
+  if cfg!(windows) {
     command
       .args(["-Command", program])
       .args(args);

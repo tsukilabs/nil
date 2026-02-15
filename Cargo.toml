@@ -155,7 +155,6 @@ features = ["derive"]
 [workspace.dependencies.tauri-plugin-pinia]
 git = "https://github.com/ferreira-tb/tauri-store"
 branch = "main"
-features = ["marshaler-toml"]
 
 [workspace.dependencies.tauri-plugin-prevent-default]
 git = "https://github.com/ferreira-tb/tauri-plugin-prevent-default"
