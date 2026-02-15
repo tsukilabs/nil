@@ -7,6 +7,7 @@
   "private": true,
   "scripts": {
     "build": "cargo +nightly -Zscript scripts/build-client.rs",
+    "clean": "cargo +nightly -Zscript scripts/clean.rs",
     "clippy": "cargo +nightly -Zscript scripts/run-clippy.rs",
     "dev": "cargo +nightly -Zscript scripts/start-dev.rs",
     "docs": "cargo +nightly doc -p nil-* --open --no-deps --lib --document-private-items",

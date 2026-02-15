@@ -29,6 +29,7 @@
     "./scripts/build-client.rs",
     "./scripts/build-docs.rs",
     "./scripts/build-server.rs",
+    "./scripts/clean.rs",
     "./scripts/run-clippy.rs",
     "./scripts/sort-namegen.rs",
     "./scripts/start-dev.rs",
