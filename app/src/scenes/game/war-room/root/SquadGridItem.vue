@@ -27,7 +27,7 @@ function toggleMax() {
 <template>
   <div>
     <Label>
-      <div class="text-xs md:text-sm text-muted-foreground">
+      <div class="text-xs 2xl:text-sm text-muted-foreground">
         <span>{{ t(squad.unit) }}</span>
         <span class="cursor-pointer" @click="toggleMax">
           {{ ` (${formatInt(available)})` }}
@@ -39,6 +39,7 @@ function toggleMax() {
         :max="available"
         :step="1"
         :default-value="0"
+        invert-wheel-change
         class="w-full"
       >
         <NumberFieldContent>
