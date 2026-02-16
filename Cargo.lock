@@ -3320,9 +3320,21 @@ dependencies = [
 ]
 
 [[package]]
+name = "nil-repl"
+version = "0.2.29"
+dependencies = [
+ "anyhow",
+ "nil-script",
+]
+
+[[package]]
 name = "nil-script"
 version = "0.2.29"
 dependencies = [
+ "derive_more 2.1.1",
+ "itertools",
+ "serde",
+ "strum",
  "thiserror 2.0.18",
 ]
 
@@ -6400,9 +6412,9 @@ dependencies = [
 
 [[package]]
 name = "toml_parser"
-version = "1.0.8+spec-1.1.0"
+version = "1.0.9+spec-1.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0742ff5ff03ea7e67c8ae6c93cac239e0d9784833362da3f9a9c1da8dfefcbdc"
+checksum = "702d4415e08923e7e1ef96cd5727c0dfed80b4d2fa25db9647fe5eb6f7c5a4c4"
 dependencies = [
  "winnow 0.7.14",
 ]

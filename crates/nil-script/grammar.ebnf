@@ -1,0 +1,39 @@
+program = { declaration }, EOF;
+
+declaration = let_decl | statement;
+
+let_decl = "let", IDENTIFIER, [ "=", expression ], ";";
+
+statement = block | expr_stmt | if_stmt | panic_stmt | print_stmt | while_stmt;
+
+block = "{", { declaration }, "}";
+
+expr_stmt = expression, ";";
+
+if_stmt = "if", "(", expression, ")", statement, [ "else", statement ];
+
+panic_stmt = "panic", expression, ";";
+
+print_stmt = "print", expression, ";";
+
+while_stmt = "while", "(", expression, ")", statement;
+
+expression = assignment;
+
+assignment = IDENTIFIER, "=", assignment | logic_or;
+
+logic_or = logic_and, { "||", logic_and };
+
+logic_and = equality, { "&&", equality };
+
+equality = comparison, { ( "==" | "!=" ), comparison };
+
+comparison = term, { ( ">" | ">=" | "<" | "<=" ), term };
+
+term = factor, { ( "-" | "+" ), factor };
+
+factor = unary, { ( "/" | "*" ), unary };
+
+unary = ( "-" | "!" ), unary | primary;
+
+primary = IDENTIFIER | NUMBER | STRING | "false" | "true" | "nil" | "(", expression, ")";

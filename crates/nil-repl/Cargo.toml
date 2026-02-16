@@ -1,5 +1,5 @@
 [package]
-name = "nil-script"
+name = "nil-repl"
 publish = false
 
 version.workspace = true
@@ -14,8 +14,9 @@ authors.workspace = true
 workspace = true
 
 [dependencies]
-derive_more.workspace = true
-itertools.workspace = true
-serde.workspace = true
-strum.workspace = true
-thiserror.workspace = true
+anyhow.workspace = true
+nil-script.workspace = true
+
+[[bin]]
+name = "ns"
+path = "src/main.rs"
