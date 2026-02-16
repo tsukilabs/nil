@@ -86,7 +86,7 @@ impl Chunk {
     let mut acc = offset;
     for line in &self.lines {
       if acc < line.repeat {
-        return Ok(&line);
+        return Ok(line);
       }
 
       acc -= line.repeat;
