@@ -1,6 +1,7 @@
 [print_schema]
 file = "crates/nil-database/src/schema.rs"
-with_docs = false
+with_docs = true
+column_sorting = "name"
 
 [migrations_directory]
 dir = "crates/nil-database/migrations"
