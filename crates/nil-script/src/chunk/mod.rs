@@ -1,10 +1,15 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+pub mod line;
+
+#[cfg(test)]
+mod tests;
+
 use crate::error::{Error, Result};
 use crate::op_code::OpCode;
 use crate::value::Constant;
-use std::fmt;
+use line::Line;
 use std::ops::Index;
 
 const U24: usize = usize::from_le_bytes([255, 255, 255, 0, 0, 0, 0, 0]);
@@ -87,7 +92,7 @@ impl Chunk {
     self.code.is_empty()
   }
 
-  pub fn line_of(&self, offset: usize) -> Result<&Line> {
+  pub(crate) fn line_of(&self, offset: usize) -> Result<&Line> {
     let mut acc = offset;
     for line in &self.lines {
       if acc < line.repeat {
@@ -106,29 +111,5 @@ impl Index<usize> for Chunk {
 
   fn index(&self, offset: usize) -> &Self::Output {
     &self.code[offset]
-  }
-}
-
-#[derive(Clone, Debug, PartialEq, Eq)]
-pub struct Line {
-  value: usize,
-  repeat: usize,
-}
-
-impl Line {
-  #[inline]
-  pub const fn new(line: usize) -> Self {
-    Self { value: line, repeat: 1 }
-  }
-
-  #[inline]
-  pub const fn value(&self) -> usize {
-    self.value
-  }
-}
-
-impl fmt::Display for Line {
-  fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-    write!(f, "{}", self.value)
   }
 }

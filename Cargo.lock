@@ -3331,6 +3331,7 @@ dependencies = [
 name = "nil-script"
 version = "0.2.29"
 dependencies = [
+ "anyhow",
  "derive_more 2.1.1",
  "itertools",
  "serde",
