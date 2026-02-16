@@ -73,7 +73,7 @@ impl Chunk {
       Ok(next_offset)
     } else {
       // A bigger offset would require four bytes.
-      todo!("err")
+      Err(Error::TooManyConstants)
     }
   }
 

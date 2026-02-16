@@ -12,6 +12,9 @@ pub type Result<T, E = Error> = StdResult<T, E>;
 pub enum Error {
   #[error("No line found for offset {offset}")]
   LineNotFound { offset: usize },
+
+  #[error("Too many constants in one chunk")]
+  TooManyConstants,
 }
 
 impl Serialize for Error {
