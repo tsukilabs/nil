@@ -26,7 +26,7 @@ pub fn disassemble_instruction(chunk: &Chunk, offset: usize) -> Result<usize> {
   if offset > 0 && line == chunk.line_of(offset - 1)? {
     print!("   | ");
   } else {
-    print!("{line:04} ");
+    print!("{:04} ", line.value());
   }
 
   match op {

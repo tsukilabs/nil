@@ -4,8 +4,6 @@
 use std::mem;
 use strum::Display;
 
-pub const LONG_SIZE: usize = usize::from_le_bytes([255, 255, 255, 0, 0, 0, 0, 0]);
-
 #[repr(u8)]
 #[expect(non_camel_case_types)]
 #[derive(Clone, Copy, Debug, Display)]

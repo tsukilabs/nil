@@ -2,10 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::error::{Error, Result};
-use crate::op_code::{LONG_SIZE, OpCode};
+use crate::op_code::OpCode;
 use crate::value::Constant;
 use std::fmt;
 use std::ops::Index;
+
+const U24: usize = usize::from_le_bytes([255, 255, 255, 0, 0, 0, 0, 0]);
 
 #[derive(Default)]
 pub struct Chunk {
@@ -41,11 +43,11 @@ impl Chunk {
     self.write(op as u8, line);
   }
 
-  pub fn write_constant<T>(&mut self, constant: T, line: usize)
+  pub fn write_constant<T>(&mut self, constant: T, line: usize) -> Result<()>
   where
     T: Into<Constant>,
   {
-    let index = self.add_constant(constant);
+    let index = self.add_constant(constant)?;
     let bytes = index.to_le_bytes();
 
     if index > usize::from(u8::MAX) {
@@ -57,19 +59,22 @@ impl Chunk {
       self.write_op(OpCode::OP_CONSTANT, line);
       self.write(bytes[0], line);
     }
+
+    Ok(())
   }
 
-  fn add_constant<T>(&mut self, constant: T) -> usize
+  fn add_constant<T>(&mut self, constant: T) -> Result<usize>
   where
     T: Into<Constant>,
   {
     let next_offset = self.constants.len();
-    if next_offset > LONG_SIZE {
-      todo!("err");
+    if next_offset <= U24 {
+      self.constants.push(constant.into());
+      Ok(next_offset)
+    } else {
+      // A bigger offset would require four bytes.
+      todo!("err")
     }
-
-    self.constants.push(constant.into());
-    next_offset
   }
 
   #[inline]
@@ -114,6 +119,11 @@ impl Line {
   #[inline]
   pub const fn new(line: usize) -> Self {
     Self { value: line, repeat: 1 }
+  }
+
+  #[inline]
+  pub const fn value(&self) -> usize {
+    self.value
   }
 }
 

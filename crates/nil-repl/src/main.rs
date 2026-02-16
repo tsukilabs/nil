@@ -9,7 +9,7 @@ use nil_script::op_code::OpCode::*;
 fn main() -> Result<()> {
   let mut chunk = Chunk::new();
 
-  chunk.write_constant(5u16, 1);
+  chunk.write_constant(5u16, 1)?;
   chunk.write_op(OP_RETURN, 1);
   chunk.write_op(OP_RETURN, 2);
   chunk.write_op(OP_RETURN, 2);
