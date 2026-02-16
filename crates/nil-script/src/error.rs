@@ -9,7 +9,10 @@ use std::result::Result as StdResult;
 pub type Result<T, E = Error> = StdResult<T, E>;
 
 #[derive(Debug, thiserror::Error)]
-pub enum Error {}
+pub enum Error {
+  #[error("No line found for offset {offset}")]
+  LineNotFound { offset: usize },
+}
 
 impl Serialize for Error {
   fn serialize<S>(&self, serializer: S) -> StdResult<S::Ok, S::Error>

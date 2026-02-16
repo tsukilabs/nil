@@ -2,25 +2,28 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::chunk::Chunk;
+use crate::error::Result;
 use crate::op_code::OpCode::{self, *};
 use itertools::Itertools;
 use std::iter::repeat_n;
 
-pub fn disassemble(chunk: &Chunk) {
+pub fn disassemble(chunk: &Chunk) -> Result<()> {
   let mut offset = 0;
 
   while offset < chunk.len() {
-    offset = disassemble_instruction(chunk, offset);
+    offset = disassemble_instruction(chunk, offset)?;
   }
+
+  Ok(())
 }
 
-pub fn disassemble_instruction(chunk: &Chunk, offset: usize) -> usize {
+pub fn disassemble_instruction(chunk: &Chunk, offset: usize) -> Result<usize> {
   print!("{offset:04} ");
 
   let op = OpCode::from(chunk[offset]);
-  let line = chunk.line_of(offset);
+  let line = chunk.line_of(offset)?;
 
-  if offset > 0 && line == chunk.line_of(offset - 1) {
+  if offset > 0 && line == chunk.line_of(offset - 1)? {
     print!("   | ");
   } else {
     print!("{:04} ", line);
@@ -32,7 +35,7 @@ pub fn disassemble_instruction(chunk: &Chunk, offset: usize) -> usize {
     OP_RETURN => simple(op),
   }
 
-  offset.strict_add(op.size())
+  Ok(offset.strict_add(op.size()))
 }
 
 fn simple(op: OpCode) {

@@ -1,10 +1,11 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+use crate::error::{Error, Result};
 use crate::op_code::{LONG_SIZE, OpCode};
 use crate::value::Constant;
+use std::fmt;
 use std::ops::Index;
-use std::{fmt, u8};
 
 #[derive(Default)]
 pub struct Chunk {
@@ -19,13 +20,11 @@ impl Chunk {
     Self::default()
   }
 
-  #[inline]
-  pub fn constants(&self) -> &[Constant] {
+  pub(crate) fn constants(&self) -> &[Constant] {
     &self.constants
   }
 
-  #[inline]
-  pub fn write(&mut self, byte: u8, line: usize) {
+  fn write(&mut self, byte: u8, line: usize) {
     self.code.push(byte);
 
     if let Some(last) = self.lines.last_mut()
@@ -83,8 +82,17 @@ impl Chunk {
     self.code.is_empty()
   }
 
-  pub fn line_of(&self, offset: usize) -> usize {
-    todo!()
+  pub fn line_of(&self, offset: usize) -> Result<&Line> {
+    let mut acc = offset;
+    for line in &self.lines {
+      if acc < line.repeat {
+        return Ok(&line);
+      }
+
+      acc -= line.repeat;
+    }
+
+    Err(Error::LineNotFound { offset })
   }
 }
 
@@ -96,7 +104,7 @@ impl Index<usize> for Chunk {
   }
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Line {
   value: usize,
   repeat: usize,
