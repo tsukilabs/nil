@@ -3,7 +3,7 @@ resolver = "3"
 members = ["app/src-tauri", "crates/*"]
 
 [workspace.package]
-version = "0.2.28"
+version = "0.2.29"
 edition = "2024"
 rust-version = "1.95"
 license-file = "./LICENSE"
@@ -47,6 +47,7 @@ nil-log.path = "./crates/nil-log"
 nil-namegen.path = "./crates/nil-namegen"
 nil-num.path = "./crates/nil-num"
 nil-num-macros.path = "./crates/nil-num-macros"
+nil-script.path = "./crates/nil-script"
 nil-server.path = "./crates/nil-server"
 nil-server-types.path = "./crates/nil-server-types"
 nil-payload.path = "./crates/nil-payload"

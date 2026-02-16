@@ -16,3 +16,7 @@ git clone https://github.com/tsukilabs/nil.git
 cd nil
 cargo +nightly -Zscript scripts/build-client.rs
 ```
+
+## License
+
+All source code files in this repository are licensed under [AGPL-3.0](./LICENSE) unless explicitly stated otherwise.
