@@ -11,9 +11,12 @@ fn main() -> Result<()> {
 
   chunk.write_constant(5u16, 1)?;
   chunk.write_constant(5555u32, 1)?;
-  chunk.write_constant(50u16, 1)?;
-  chunk.write_constant(5u16, 1)?;
+  chunk.write_op(OP_ADD, 1);
+
+  chunk.write_constant(2u8, 1)?;
+  chunk.write_op(OP_DIVIDE, 1);
   chunk.write_op(OP_NEGATE, 1);
+
   chunk.write_op(OP_RETURN, 2);
 
   let vm = VirtualMachine::new(chunk);
