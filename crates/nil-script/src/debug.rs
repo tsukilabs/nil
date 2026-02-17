@@ -16,6 +16,7 @@ pub fn disassemble(chunk: &Chunk) -> Result<()> {
   Ok(())
 }
 
+#[expect(clippy::match_same_arms)]
 pub fn disassemble_instruction(chunk: &Chunk, offset: usize) -> Result<usize> {
   print!("{offset:04} ");
 
@@ -29,13 +30,17 @@ pub fn disassemble_instruction(chunk: &Chunk, offset: usize) -> Result<usize> {
   }
 
   match op {
+    OP_ADD => simple(op),
     OP_CONSTANT => constant(op, chunk, offset),
     OP_CONSTANT_LONG => constant_long(op, chunk, offset),
+    OP_DIVIDE => simple(op),
+    OP_MULTIPLY => simple(op),
     OP_NEGATE => simple(op),
     OP_RETURN => simple(op),
+    OP_SUBTRACT => simple(op),
   }
 
-  Ok(offset.strict_add(op.size()))
+  Ok(offset + usize::from(op.bytecode_size()))
 }
 
 fn simple(op: OpCode) {

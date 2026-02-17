@@ -3,17 +3,13 @@
 
 use std::fmt;
 
+#[derive(Default)]
 pub enum Value {
-  Bool(bool),
+  #[default]
   Nil,
+  Bool(bool),
   Number(f64),
   String(String),
-}
-
-impl Default for Value {
-  fn default() -> Self {
-    Self::Nil
-  }
 }
 
 impl fmt::Display for Value {
@@ -27,17 +23,12 @@ impl fmt::Display for Value {
   }
 }
 
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Clone, Debug, Default, PartialEq)]
 pub enum Constant {
+  #[default]
   Nil,
   Number(f64),
   String(Box<str>),
-}
-
-impl Default for Constant {
-  fn default() -> Self {
-    Self::Nil
-  }
 }
 
 impl fmt::Display for Constant {

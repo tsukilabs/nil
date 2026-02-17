@@ -48,14 +48,19 @@ impl VirtualMachine {
       }
 
       match OpCode::from(self.read_u8()) {
+        OP_ADD => self.op_add(),
         OP_CONSTANT => self.op_constant(),
         OP_CONSTANT_LONG => self.op_constant_long(),
+        OP_DIVIDE => self.op_divide(),
+        OP_MULTIPLY => self.op_multiply(),
         OP_NEGATE => self.op_negate(),
+        OP_SUBTRACT => self.op_subtract(),
+
         OP_RETURN => {
           self.op_return();
           return Ok(());
         }
-      };
+      }
     }
   }
 
