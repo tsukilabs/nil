@@ -63,6 +63,16 @@ impl Client {
     Self::new(ServerAddr::Remote)
   }
 
+  #[inline]
+  pub fn server(&self) -> ServerAddr {
+    self.server
+  }
+
+  #[inline]
+  pub fn world(&self) -> Option<WorldId> {
+    self.world_id
+  }
+
   #[builder]
   pub async fn update<OnEvent>(
     &mut self,

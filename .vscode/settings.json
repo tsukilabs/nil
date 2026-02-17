@@ -1,4 +1,7 @@
 {
+  "[lua]": {
+    "editor.defaultFormatter": "sumneko.lua"
+  },
   "[rust]": {
     "editor.defaultFormatter": "rust-lang.rust-analyzer"
   },
@@ -23,6 +26,7 @@
   },
   "files.eol": "\n",
   "githubPullRequests.defaultMergeMethod": "squash",
+  "Lua.workspace.library": ["crates/nil-lua/types"],
   "rust-analyzer.cargo.targetDir": true,
   "rust-analyzer.linkedProjects": [
     "./Cargo.toml",

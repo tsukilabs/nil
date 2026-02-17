@@ -5,6 +5,9 @@ use nil_core::player::PlayerId;
 use serde::Serialize;
 use serde::ser::Serializer;
 
+#[cfg(feature = "lua")]
+use mlua::ExternalError as _;
+
 pub use std::result::Result as StdResult;
 
 pub type Result<T, E = Error> = StdResult<T, E>;
@@ -41,5 +44,12 @@ impl Serialize for Error {
     S: Serializer,
   {
     serializer.serialize_str(self.to_string().as_str())
+  }
+}
+
+#[cfg(feature = "lua")]
+impl From<Error> for mlua::Error {
+  fn from(err: Error) -> Self {
+    err.into_lua_err()
   }
 }

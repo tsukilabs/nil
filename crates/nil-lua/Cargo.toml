@@ -1,0 +1,39 @@
+[package]
+name = "nil-lua"
+publish = false
+
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license-file.workspace = true
+homepage.workspace = true
+repository.workspace = true
+authors.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+anyhow.workspace = true
+clap.workspace = true
+futures.workspace = true
+mlua.workspace = true
+nil-crypto.workspace = true
+nil-payload.workspace = true
+serde.workspace = true
+tap.workspace = true
+thiserror.workspace = true
+tracing.workspace = true
+tokio.workspace = true
+
+[dependencies.nil-client]
+workspace = true
+features = ["lua"]
+
+[dependencies.nil-core]
+workspace = true
+features = ["lua"]
+
+[[bin]]
+name = "nls"
+path = "src/main.rs"
