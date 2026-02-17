@@ -11,15 +11,17 @@ use strum::Display;
 pub enum OpCode {
   OP_CONSTANT,
   OP_CONSTANT_LONG,
+  OP_NEGATE,
   OP_RETURN,
 }
 
 impl OpCode {
   pub fn size(self) -> usize {
+    use OpCode::*;
     match self {
-      OpCode::OP_RETURN => 1,
-      OpCode::OP_CONSTANT => 2,
-      OpCode::OP_CONSTANT_LONG => 4,
+      OP_NEGATE | OP_RETURN => 1,
+      OP_CONSTANT => 2,
+      OP_CONSTANT_LONG => 4,
     }
   }
 }

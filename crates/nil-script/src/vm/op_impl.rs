@@ -7,14 +7,27 @@ use crate::value::Value;
 
 impl VirtualMachine {
   pub(super) fn op_constant(&mut self) {
-    let index = usize::from(unsafe { self.read_u8() });
+    let index = usize::from(self.read_u8());
     let constant = &self.chunk.constants()[index];
-    unsafe { self.push(Value::from(constant)) };
+    self.push(Value::from(constant));
   }
 
   pub(super) fn op_constant_long(&mut self) {
-    let index = u8_array_to_usize(unsafe { [self.read_u8(), self.read_u8(), self.read_u8()] });
+    let index = u8_array_to_usize([self.read_u8(), self.read_u8(), self.read_u8()]);
     let constant = &self.chunk.constants()[index];
-    unsafe { self.push(Value::from(constant)) };
+    self.push(Value::from(constant));
+  }
+
+  pub(super) fn op_negate(&mut self) {
+    let value = self.pop();
+    if let Value::Number(value) = &value {
+      self.push(Value::Number(-value));
+    } else {
+      todo!("err on invalid value");
+    }
+  }
+
+  pub(super) fn op_return(&mut self) {
+    self.pop();
   }
 }

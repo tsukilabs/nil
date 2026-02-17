@@ -31,6 +31,7 @@ pub fn disassemble_instruction(chunk: &Chunk, offset: usize) -> Result<usize> {
   match op {
     OP_CONSTANT => constant(op, chunk, offset),
     OP_CONSTANT_LONG => constant_long(op, chunk, offset),
+    OP_NEGATE => simple(op),
     OP_RETURN => simple(op),
   }
 

@@ -47,26 +47,30 @@ impl VirtualMachine {
         debug::disassemble_instruction(&self.chunk, offset.try_into().unwrap())?;
       }
 
-      match OpCode::from(unsafe { self.read_u8() }) {
+      match OpCode::from(self.read_u8()) {
         OP_CONSTANT => self.op_constant(),
         OP_CONSTANT_LONG => self.op_constant_long(),
-        OP_RETURN => return Ok(()),
+        OP_NEGATE => self.op_negate(),
+        OP_RETURN => {
+          self.op_return();
+          return Ok(());
+        }
       };
     }
   }
 
-  unsafe fn read_u8(&mut self) -> u8 {
+  fn read_u8(&mut self) -> u8 {
     let byte = unsafe { *self.ip };
     self.ip = unsafe { self.ip.add(1) };
     byte
   }
 
-  unsafe fn push(&mut self, value: Value) {
+  fn push(&mut self, value: Value) {
     unsafe { *self.stack_top = value };
     self.stack_top = unsafe { self.stack_top.add(1) };
   }
 
-  unsafe fn pop(&mut self) -> Value {
+  fn pop(&mut self) -> Value {
     self.stack_top = unsafe { self.stack_top.sub(1) };
     // unsafe { *self.stack_top }
     todo!()
