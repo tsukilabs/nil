@@ -8,6 +8,7 @@ pub mod compiler;
 pub mod debug;
 pub mod error;
 pub mod op_code;
+mod util;
 pub mod value;
 pub mod vm;
 

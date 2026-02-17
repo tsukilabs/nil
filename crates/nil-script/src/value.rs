@@ -3,11 +3,17 @@
 
 use std::fmt;
 
-#[expect(variant_size_differences)]
 pub enum Value {
   Bool(bool),
   Nil,
   Number(f64),
+  String(String),
+}
+
+impl Default for Value {
+  fn default() -> Self {
+    Self::Nil
+  }
 }
 
 impl fmt::Display for Value {
@@ -16,15 +22,22 @@ impl fmt::Display for Value {
       Value::Bool(it) => write!(f, "{it}"),
       Value::Nil => write!(f, "nil"),
       Value::Number(it) => write!(f, "{it}"),
+      Value::String(it) => write!(f, "{it}"),
     }
   }
 }
 
-#[derive(Clone)]
+#[derive(Clone, Debug, PartialEq)]
 pub enum Constant {
   Nil,
   Number(f64),
   String(Box<str>),
+}
+
+impl Default for Constant {
+  fn default() -> Self {
+    Self::Nil
+  }
 }
 
 impl fmt::Display for Constant {
@@ -37,12 +50,12 @@ impl fmt::Display for Constant {
   }
 }
 
-impl From<Constant> for Value {
-  fn from(constant: Constant) -> Self {
+impl From<&Constant> for Value {
+  fn from(constant: &Constant) -> Self {
     match constant {
       Constant::Nil => Value::Nil,
-      Constant::Number(it) => Value::Number(it),
-      Constant::String(_) => todo!(),
+      Constant::Number(it) => Value::Number(*it),
+      Constant::String(it) => Value::String(it.to_string()),
     }
   }
 }

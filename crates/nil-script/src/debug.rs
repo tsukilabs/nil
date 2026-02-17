@@ -4,8 +4,7 @@
 use crate::chunk::Chunk;
 use crate::error::Result;
 use crate::op_code::OpCode::{self, *};
-use itertools::Itertools;
-use std::iter::repeat_n;
+use crate::util::u8_array_to_usize;
 
 pub fn disassemble(chunk: &Chunk) -> Result<()> {
   let mut offset = 0;
@@ -49,13 +48,7 @@ fn constant(op: OpCode, chunk: &Chunk, offset: usize) {
 }
 
 fn constant_long(op: OpCode, chunk: &Chunk, offset: usize) {
-  let bytes = [chunk[offset + 1], chunk[offset + 2], chunk[offset + 3]]
-    .into_iter()
-    .chain(repeat_n(0u8, 5))
-    .collect_array::<8>()
-    .expect("iterator has exactly eight values");
-
-  let index = usize::from_le_bytes(bytes);
+  let index = u8_array_to_usize([chunk[offset + 1], chunk[offset + 2], chunk[offset + 3]]);
   let constant = &chunk.constants()[index];
   println!("{op:16} {index:4} '{constant}'");
 }

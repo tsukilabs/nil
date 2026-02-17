@@ -17,6 +17,9 @@ workspace = true
 anyhow.workspace = true
 nil-script.workspace = true
 
+[features]
+trace = ["nil-script/trace"]
+
 [[bin]]
 name = "ns"
 path = "src/main.rs"

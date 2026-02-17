@@ -6,18 +6,23 @@ use std::fmt;
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Line {
   pub(super) value: usize,
-  pub(super) repeat: usize,
+  pub(super) count: usize,
 }
 
 impl Line {
   #[inline]
   pub const fn new(line: usize) -> Self {
-    Self { value: line, repeat: 1 }
+    Self { value: line, count: 1 }
   }
 
   #[inline]
   pub const fn value(&self) -> usize {
     self.value
+  }
+
+  #[inline]
+  pub const fn count(&self) -> usize {
+    self.count
   }
 }
 
