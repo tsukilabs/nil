@@ -1,7 +1,19 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+mod battle;
+mod chat;
+mod cheat;
 mod city;
+mod continent;
+mod infrastructure;
+mod military;
+mod npc;
+mod player;
+mod ranking;
+mod report;
+mod round;
+mod user;
 mod world;
 
 use mlua::{LuaSerdeExt, UserData, UserDataMethods};

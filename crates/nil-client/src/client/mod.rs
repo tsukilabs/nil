@@ -98,6 +98,7 @@ impl Client {
         .await
         .map(|token| Some(Authorization::new(&token)))?
         .transpose()
+        .inspect_err(|err| tracing::error!(message = %err, error = ?err))
         .map_err(|_| Error::FailedToAuthenticate)?;
     }
 

@@ -25,6 +25,7 @@ clap.workspace = true
 futures.workspace = true
 mlua.workspace = true
 nil-crypto.workspace = true
+nil-log.workspace = true
 nil-lua.workspace = true
 nil-server-types.workspace = true
 serde.workspace = true

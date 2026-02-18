@@ -53,6 +53,7 @@ impl WebSocketClient {
       .user_agent(user_agent)
       .call()
       .await
+      .inspect_err(|err| tracing::error!(message = %err, error = ?err))
     {
       Ok(Either::Left(stream)) => stream.split(),
       Ok(Either::Right(TungsteniteError::Http(response))) => {
@@ -98,7 +99,10 @@ async fn make_stream(
 
   match connect_async(request).await {
     Ok((ws_stream, _)) => Ok(Either::Left(ws_stream)),
-    Err(err) => Ok(Either::Right(err)),
+    Err(err) => {
+      tracing::error!(message = %err, error = ?err);
+      Ok(Either::Right(err))
+    }
   }
 }
 

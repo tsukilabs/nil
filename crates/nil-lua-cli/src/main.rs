@@ -49,9 +49,11 @@ struct Cli {
 
 #[tokio::main]
 async fn main() -> Result<()> {
+  #[cfg(debug_assertions)]
+  nil_log::setup().call()?;
+
   let cli = Cli::parse();
   let config = Config::load()?;
-  let chunk = fs::read_to_string(cli.script)?;
 
   let world = cli
     .world
@@ -61,12 +63,12 @@ async fn main() -> Result<()> {
     .map_err(|err| anyhow!("Invalid world id").context(err))?
     .or(config.world);
 
+  let mut client = Client::new_remote();
+  client.set_user_agent(USER_AGENT);
+
   macro_rules! or {
     ($key:ident) => {{ cli.$key.or(config.$key) }};
   }
-
-  let mut client = Client::new_remote();
-  client.set_user_agent(USER_AGENT);
 
   client
     .update(cli.server.unwrap_or(config.server))
@@ -80,9 +82,10 @@ async fn main() -> Result<()> {
     .await?;
 
   let mut lua = Lua::with_client(client)?;
+  let chunk = fs::read_to_string(cli.script)?;
   let output = lua.execute(&chunk).await?;
 
-  println!("{}", output.stdout);
+  print!("{}", output.stdout);
 
   Ok(())
 }

@@ -3532,6 +3532,7 @@ dependencies = [
  "nil-client",
  "nil-core",
  "nil-crypto",
+ "nil-log",
  "nil-lua",
  "nil-server-types",
  "serde",

@@ -79,7 +79,7 @@ impl From<OsString> for ServerAddr {
   }
 }
 
-macro_rules! into_server_addr {
+macro_rules! from_bytes {
   ($($type_:ty),+ $(,)?) => {
     $(
       impl From<$type_> for ServerAddr {
@@ -91,4 +91,4 @@ macro_rules! into_server_addr {
   };
 }
 
-into_server_addr!(&str, String, &String, Arc<str>, Box<str>);
+from_bytes!(&str, String, &String, Arc<str>, Box<str>);
