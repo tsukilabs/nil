@@ -25,6 +25,9 @@ function client:isServerRemote() end
 function client:server() end
 
 ---@return string
+function client:userAgent() end
+
+---@return string
 function client:version() end
 
 ---@return WorldId|nil

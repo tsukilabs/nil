@@ -76,6 +76,13 @@ impl UserData for ClientUserData {
         .pipe(|it| lua.to_value(&it))
     });
 
+    methods.add_async_method("userAgent", async |lua, this, ()| {
+      this
+        .client(async |it| it.user_agent().to_owned())
+        .await
+        .pipe(|it| lua.to_value(&it))
+    });
+
     methods.add_method("version", |lua, _, ()| lua.to_value(nil_client::VERSION));
 
     methods.add_async_method("world", async |lua, this, ()| {
