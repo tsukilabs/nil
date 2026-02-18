@@ -19,8 +19,8 @@
 ---@alias BuildingLevel number
 
 ---@class Building
----@field enabled boolean
 ---@field level BuildingLevel
+---@field enabled boolean
 
 ---@alias Sawmill Building
 ---@alias Quarry Building

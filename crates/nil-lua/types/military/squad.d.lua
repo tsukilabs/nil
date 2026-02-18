@@ -3,5 +3,6 @@
 
 ---@meta
 
----@class Prefecture: Building
----@field buildQueue table
+---@class Squad
+---@field unit UnitId
+---@field size number
