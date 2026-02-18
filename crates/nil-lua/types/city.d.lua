@@ -3,7 +3,11 @@
 
 ---@meta
 
----@class RenameCityRequest
----@field world string
+---@class PublicCity
 ---@field coord Coord
 ---@field name string
+---@field owner Ruler
+
+---@class City : PublicCity
+---@field infrastructure Infrastructure
+---@field stability number
