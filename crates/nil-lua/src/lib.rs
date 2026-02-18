@@ -12,35 +12,28 @@ use crate::client::ClientUserData;
 use crate::error::Result;
 use mlua::{LuaOptions, StdLib, Value, Variadic};
 use nil_client::Client;
+use serde::{Deserialize, Serialize};
+use std::mem;
 use std::sync::Arc;
 use tokio::sync::RwLock;
 use tokio::sync::mpsc::{self, UnboundedReceiver};
 
 pub struct Lua {
   inner: mlua::Lua,
-  client: Arc<RwLock<Client>>,
   stdout: Stdio,
   stderr: Stdio,
 }
 
 impl Lua {
-  pub fn new(client: Arc<RwLock<Client>>) -> Result<Self> {
+  pub fn new(client: &Arc<RwLock<Client>>) -> Result<Self> {
     Self::with_libs(client, StdLib::MATH | StdLib::STRING | StdLib::TABLE)
   }
 
-  pub fn with_client(client: Client) -> Result<Self> {
-    Self::new(Arc::new(RwLock::new(client)))
-  }
-
-  pub fn with_client_and_libs(client: Client, libs: StdLib) -> Result<Self> {
-    Self::with_libs(Arc::new(RwLock::new(client)), libs)
-  }
-
-  pub fn with_libs(client: Arc<RwLock<Client>>, libs: StdLib) -> Result<Self> {
+  pub fn with_libs(client: &Arc<RwLock<Client>>, libs: StdLib) -> Result<Self> {
     let lua = mlua::Lua::new_with(libs, LuaOptions::default())?;
 
     let globals = lua.globals();
-    let client_data = ClientUserData::new(Arc::clone(&client));
+    let client_data = ClientUserData::new(Arc::clone(client));
     globals.set("client", lua.create_userdata(client_data)?)?;
 
     let stdout_rx = pipe_stdio(&lua, "print", "println")?;
@@ -48,26 +41,12 @@ impl Lua {
 
     Ok(Self {
       inner: lua,
-      client,
       stdout: Stdio::new(stdout_rx),
       stderr: Stdio::new(stderr_rx),
     })
   }
 
-  pub fn client(&self) -> Arc<RwLock<Client>> {
-    Arc::clone(&self.client)
-  }
-
-  pub fn output(&mut self) -> Output<'_> {
-    self.flush();
-
-    Output {
-      stdout: &self.stdout.buffer,
-      stderr: &self.stderr.buffer,
-    }
-  }
-
-  pub async fn execute(&mut self, chunk: &str) -> Result<Output<'_>> {
+  pub async fn execute(&mut self, chunk: &str) -> Result<ScriptOutput> {
     self.flush();
     self.clear();
 
@@ -76,7 +55,16 @@ impl Lua {
     Ok(self.output())
   }
 
-  pub fn flush(&mut self) {
+  fn output(&mut self) -> ScriptOutput {
+    self.flush();
+
+    ScriptOutput {
+      stdout: mem::take(&mut self.stdout.buffer),
+      stderr: mem::take(&mut self.stderr.buffer),
+    }
+  }
+
+  fn flush(&mut self) {
     self.stdout.flush();
     self.stderr.flush();
   }
@@ -114,9 +102,11 @@ fn pipe_stdio(lua: &mlua::Lua, name: &str, name_ln: &str) -> Result<UnboundedRec
   Ok(rx)
 }
 
-pub struct Output<'a> {
-  pub stdout: &'a str,
-  pub stderr: &'a str,
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct ScriptOutput {
+  pub stdout: String,
+  pub stderr: String,
 }
 
 pub struct Stdio {

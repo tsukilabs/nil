@@ -15,9 +15,6 @@ use serde::ser::Serializer;
 use std::result::Result as StdResult;
 use strum::EnumIs;
 
-#[cfg(feature = "lua")]
-use mlua::ExternalError as _;
-
 pub type Result<T, E = Error> = StdResult<T, E>;
 pub type AnyResult<T> = anyhow::Result<T>;
 
@@ -148,6 +145,6 @@ impl Serialize for Error {
 #[cfg(feature = "lua")]
 impl From<Error> for mlua::Error {
   fn from(err: Error) -> Self {
-    err.into_lua_err()
+    mlua::ExternalError::into_lua_err(err)
   }
 }

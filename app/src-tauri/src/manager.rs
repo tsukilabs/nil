@@ -4,6 +4,7 @@
 use crate::error::Result;
 use crate::state::Nil;
 use nil_client::Client;
+use nil_lua::Lua;
 use std::env;
 use std::path::PathBuf;
 use tauri::{Manager, State, Wry};
@@ -18,6 +19,13 @@ pub trait ManagerExt: Manager<Wry> {
     F: AsyncFnOnce(&Client) -> T,
   {
     self.nil().client(f).await
+  }
+
+  async fn lua<F, T>(&self, f: F) -> T
+  where
+    F: AsyncFnOnce(&mut Lua) -> T,
+  {
+    self.nil().lua(f).await
   }
 
   fn nil_dir(&self) -> Result<PathBuf> {

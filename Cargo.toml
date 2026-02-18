@@ -83,6 +83,7 @@ http = "1.4"
 itertools = "0.14"
 local-ip-address = "=0.6.10"
 num-traits = "=0.2.19"
+paste = "=1.0.15"
 proc-macro2 = "1.0"
 quote = "1.0"
 rand = "0.10"
@@ -97,6 +98,7 @@ tauri-plugin-fs = "2.4"
 tauri-plugin-opener = "2.5"
 tauri-plugin-os = "2.3"
 tauri-plugin-persisted-scope = "2.3"
+tauri-plugin-pinia = "4.1"
 tauri-plugin-process = "2.3"
 tauri-plugin-single-instance = "2.4"
 tauri-plugin-updater = "2.10"
@@ -155,10 +157,6 @@ features = ["bundled"]
 version = "0.11"
 features = ["anyhow", "async", "error-send", "lua55", "send", "serde", "vendored"]
 
-[workspace.dependencies.paste]
-git = "https://github.com/tb-forks/paste"
-branch = "master"
-
 [workspace.dependencies.reqwest]
 version = "0.13"
 default-features = false
@@ -180,13 +178,8 @@ features = ["derive"]
 version = "2.0"
 features = ["derive"]
 
-[workspace.dependencies.tauri-plugin-pinia]
-git = "https://github.com/ferreira-tb/tauri-store"
-branch = "main"
-
 [workspace.dependencies.tauri-plugin-prevent-default]
-git = "https://github.com/ferreira-tb/tauri-plugin-prevent-default"
-branch = "main"
+version = "4.0"
 features = ["platform-windows"]
 
 [workspace.dependencies.tokio]

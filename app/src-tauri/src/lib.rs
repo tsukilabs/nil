@@ -142,6 +142,8 @@ pub fn run() {
       command::round::is_round_waiting,
       command::round::set_player_ready,
       command::round::start_round,
+      command::script::execute_script,
+      command::script::execute_script_at,
       command::server::authorize,
       command::server::get_server_addr,
       command::server::get_server_kind,
@@ -189,7 +191,7 @@ fn builder() -> tauri::Builder<Wry> {
 
 fn setup(app: &AppHandle) -> BoxResult<()> {
   app.plugin(plugin::pinia(app)?)?;
-  app.manage(Nil::new(app));
+  app.manage(Nil::new(app)?);
 
   #[cfg(desktop)]
   window::desktop::open(app)?;

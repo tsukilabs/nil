@@ -307,9 +307,9 @@ checksum = "c08606f8c3cbf4ce6ec8e28fb0014a2c086708fe954eaa885384a6165172e7e8"
 
 [[package]]
 name = "aws-lc-rs"
-version = "1.15.4"
+version = "1.16.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7b7b6141e96a8c160799cc2d5adecd5cbbe5054cb8c7c4af53da0f83bb7ad256"
+checksum = "d9a7b350e3bb1767102698302bc37256cbd48422809984b98d292c40e2579aa9"
 dependencies = [
  "aws-lc-sys",
  "zeroize",
@@ -571,9 +571,9 @@ dependencies = [
 
 [[package]]
 name = "bumpalo"
-version = "3.19.1"
+version = "3.20.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5dd9dc738b7a8311c7ade152424974d8115f2cdad61e8dab8dac9f2362298510"
+checksum = "5c6f81257d10a0f602a294ae4182251151ff97dbb504ef9afcdda4a64b24d9b4"
 
 [[package]]
 name = "bytemuck"
@@ -3357,10 +3357,12 @@ dependencies = [
  "bon",
  "futures",
  "itertools",
+ "mlua",
  "nil-client",
  "nil-core",
  "nil-crypto",
  "nil-log",
+ "nil-lua",
  "nil-payload",
  "nil-server",
  "nil-server-types",
@@ -3538,7 +3540,7 @@ dependencies = [
  "serde",
  "tap",
  "tokio",
- "toml 1.0.2+spec-1.1.0",
+ "toml 1.0.3+spec-1.1.0",
 ]
 
 [[package]]
@@ -4191,7 +4193,8 @@ dependencies = [
 [[package]]
 name = "paste"
 version = "1.0.15"
-source = "git+https://github.com/tb-forks/paste?branch=master#6a302522990cbfd9de4e0c61d91854622f7b2999"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "57c0d7b74b563b49d38dae00a0c37d4d6de9b432382b2892f0574ddcae73fd0a"
 
 [[package]]
 name = "pathdiff"
@@ -6179,7 +6182,8 @@ dependencies = [
 [[package]]
 name = "tauri-plugin-pinia"
 version = "4.1.1"
-source = "git+https://github.com/ferreira-tb/tauri-store?branch=main#3e614f0b3c0fea2cdf74713dc7dddbd33283664c"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "5c69e1db19d289243edcb83a9167a94d184ac4c938c5d18ad7147fc48c9d192c"
 dependencies = [
  "serde",
  "tauri",
@@ -6190,7 +6194,8 @@ dependencies = [
 [[package]]
 name = "tauri-plugin-prevent-default"
 version = "4.0.3"
-source = "git+https://github.com/ferreira-tb/tauri-plugin-prevent-default?branch=main#c5c7892b0c54ccdf2a0756493aeefa2819ab59b3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f767327690b44fd3d20dbd9a3c6f09663721ece6ec9c8e18ef1c5185c2c31a11"
 dependencies = [
  "bitflags 2.11.0",
  "itertools",
@@ -6315,7 +6320,8 @@ dependencies = [
 [[package]]
 name = "tauri-store"
 version = "1.1.1"
-source = "git+https://github.com/ferreira-tb/tauri-store?branch=main#3e614f0b3c0fea2cdf74713dc7dddbd33283664c"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "2c0cf1b1a3a5e7d100f57c3eccbf8d67e53cffc1598b787c628d809405d6de56"
 dependencies = [
  "dashmap",
  "futures",
@@ -6333,7 +6339,8 @@ dependencies = [
 [[package]]
 name = "tauri-store-macros"
 version = "1.1.1"
-source = "git+https://github.com/ferreira-tb/tauri-store?branch=main#3e614f0b3c0fea2cdf74713dc7dddbd33283664c"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f0cec6aff21e898c5731ffc7fa80dc65b193f6f32d8c33e2185629015f378f51"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -6343,7 +6350,8 @@ dependencies = [
 [[package]]
 name = "tauri-store-utils"
 version = "0.7.2"
-source = "git+https://github.com/ferreira-tb/tauri-store?branch=main#3e614f0b3c0fea2cdf74713dc7dddbd33283664c"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "2edd6d150fd2797bbce745d1c55c11887c4456c41d31f56e8eb867d62bd334e7"
 dependencies = [
  "parking_lot",
  "semver",
@@ -6636,9 +6644,9 @@ dependencies = [
 
 [[package]]
 name = "toml"
-version = "1.0.2+spec-1.1.0"
+version = "1.0.3+spec-1.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d1dfefef6a142e93f346b64c160934eb13b5594b84ab378133ac6815cb2bd57f"
+checksum = "c7614eaf19ad818347db24addfa201729cf2a9b6fdfd9eb0ab870fcacc606c0c"
 dependencies = [
  "indexmap 2.13.0",
  "serde_core",

@@ -15,6 +15,7 @@ export * from './battle';
 export * from './client';
 export * from './player';
 export * from './report';
+export * from './script';
 export * from './server';
 export * from './ranking';
 export * from './military';

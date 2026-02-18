@@ -19,6 +19,8 @@ use nil_lua::Lua;
 use nil_server_types::Token;
 use std::fs;
 use std::path::PathBuf;
+use std::sync::Arc;
+use tokio::sync::RwLock;
 
 const USER_AGENT: &str = concat!("nil-lua/", env!("CARGO_PKG_VERSION"));
 
@@ -82,7 +84,9 @@ async fn main() -> Result<()> {
     .call()
     .await?;
 
-  let mut lua = Lua::with_client_and_libs(client, StdLib::ALL_SAFE)?;
+  let client = Arc::new(RwLock::new(client));
+  let mut lua = Lua::with_libs(&client, StdLib::ALL_SAFE)?;
+
   let chunk = fs::read_to_string(cli.script)?;
   let output = lua.execute(&chunk).await?;
 
