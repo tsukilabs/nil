@@ -1,6 +1,7 @@
 [package]
 name = "nil-namegen"
 publish = false
+readme = "../../../README.md"
 
 version.workspace = true
 edition.workspace = true

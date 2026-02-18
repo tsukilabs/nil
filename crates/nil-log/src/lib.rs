@@ -1,6 +1,8 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+#![doc(html_favicon_url = "https://nil.dev.br/favicon.png")]
+
 mod timer;
 
 use anyhow::Result;

@@ -1,6 +1,7 @@
 [package]
 name = "nil-database"
 publish = false
+readme = "../../../README.md"
 
 version.workspace = true
 edition.workspace = true
