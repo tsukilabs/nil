@@ -43,8 +43,8 @@ impl Lua {
     let client_data = ClientUserData::new(Arc::clone(&client));
     globals.set("client", lua.create_userdata(client_data)?)?;
 
-    let stdout_rx = set_stdio_pipe(&lua, "print", "println")?;
-    let stderr_rx = set_stdio_pipe(&lua, "eprint", "eprintln")?;
+    let stdout_rx = pipe_stdio(&lua, "print", "println")?;
+    let stderr_rx = pipe_stdio(&lua, "eprint", "eprintln")?;
 
     Ok(Self {
       inner: lua,
@@ -87,7 +87,7 @@ impl Lua {
   }
 }
 
-fn set_stdio_pipe(lua: &mlua::Lua, name: &str, name_ln: &str) -> Result<UnboundedReceiver<String>> {
+fn pipe_stdio(lua: &mlua::Lua, name: &str, name_ln: &str) -> Result<UnboundedReceiver<String>> {
   let (tx, rx) = mpsc::unbounded_channel();
   let create_fn = |line_break: bool| {
     let tx = tx.clone();
