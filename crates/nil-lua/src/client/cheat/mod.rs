@@ -1,10 +1,10 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-mod behavior;
-mod city;
-mod infrastructure;
-mod military;
-mod npc;
-mod resources;
-mod round;
+pub mod behavior;
+pub mod city;
+pub mod infrastructure;
+pub mod military;
+pub mod npc;
+pub mod resources;
+pub mod round;

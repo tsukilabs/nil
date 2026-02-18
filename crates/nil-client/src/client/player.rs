@@ -76,15 +76,6 @@ impl Client {
       .await
   }
 
-  pub async fn get_player_worlds(&self, req: GetPlayerWorldsRequest) -> Result<Vec<WorldId>> {
-    http::json_post("get-player-worlds")
-      .body(req)
-      .server(self.server)
-      .user_agent(&self.user_agent)
-      .send()
-      .await
-  }
-
   pub async fn get_player_storage_capacity(
     &self,
     req: GetPlayerStorageCapacityRequest,
@@ -93,6 +84,15 @@ impl Client {
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
+      .user_agent(&self.user_agent)
+      .send()
+      .await
+  }
+
+  pub async fn get_player_worlds(&self, req: GetPlayerWorldsRequest) -> Result<Vec<WorldId>> {
+    http::json_post("get-player-worlds")
+      .body(req)
+      .server(self.server)
       .user_agent(&self.user_agent)
       .send()
       .await
@@ -119,6 +119,15 @@ impl Client {
       .await
   }
 
+  pub async fn player_exists(&self, req: PlayerExistsRequest) -> Result<bool> {
+    http::json_post("player-exists")
+      .body(req)
+      .server(self.server)
+      .user_agent(&self.user_agent)
+      .send()
+      .await
+  }
+
   pub async fn set_player_status(&self, req: SetPlayerStatusRequest) -> Result<()> {
     http::post("set-player-status")
       .body(req)
@@ -134,15 +143,6 @@ impl Client {
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
-      .user_agent(&self.user_agent)
-      .send()
-      .await
-  }
-
-  pub async fn player_exists(&self, req: PlayerExistsRequest) -> Result<bool> {
-    http::json_post("player-exists")
-      .body(req)
-      .server(self.server)
       .user_agent(&self.user_agent)
       .send()
       .await

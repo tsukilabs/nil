@@ -1,6 +1,8 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+#![expect(clippy::wildcard_imports)]
+
 mod battle;
 mod chat;
 mod cheat;
@@ -42,8 +44,32 @@ impl ClientUserData {
 }
 
 impl UserData for ClientUserData {
+  #[expect(clippy::too_many_lines)]
   fn add_methods<M: UserDataMethods<Self>>(methods: &mut M) {
+    battle::add_methods(methods);
+    chat::add_methods(methods);
+    cheat::behavior::add_methods(methods);
+    cheat::city::add_methods(methods);
+    cheat::infrastructure::add_methods(methods);
+    cheat::military::add_methods(methods);
+    cheat::npc::add_methods(methods);
+    cheat::resources::add_methods(methods);
+    cheat::round::add_methods(methods);
     city::add_methods(methods);
+    continent::add_methods(methods);
+    infrastructure::add_methods(methods);
+    infrastructure::academy::add_methods(methods);
+    infrastructure::prefecture::add_methods(methods);
+    infrastructure::stable::add_methods(methods);
+    infrastructure::workshop::add_methods(methods);
+    military::add_methods(methods);
+    npc::bot::add_methods(methods);
+    npc::precursor::add_methods(methods);
+    player::add_methods(methods);
+    ranking::add_methods(methods);
+    report::add_methods(methods);
+    round::add_methods(methods);
+    user::add_methods(methods);
     world::add_methods(methods);
 
     methods.add_async_method("getServerKind", async |lua, this, ()| {
