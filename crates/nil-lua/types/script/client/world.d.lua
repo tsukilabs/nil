@@ -31,7 +31,7 @@ function client:getWorldPlayers(req) end
 function client:getWorldPrecursors(req) end
 
 ---@param req GetWorldStatsRequest
----@return table
+---@return WorldStats
 function client:getWorldStats(req) end
 
 ---@param req SaveLocalWorldRequest

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::military::unit::stats::power::Power;
-use crate::ranking::Score;
+use crate::ranking::score::Score;
 use crate::resources::maintenance::Maintenance;
 use derive_more::{Deref, Display, From, Into};
 use serde::{Deserialize, Serialize};

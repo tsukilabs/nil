@@ -1,15 +1,14 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-mod score;
+pub mod score;
 
 use crate::ruler::Ruler;
 use bon::Builder;
 use derive_more::Deref;
 use itertools::Itertools;
+use score::Score;
 use serde::{Deserialize, Serialize};
-
-pub use score::Score;
 
 #[derive(Clone, Debug, Default, Deref, Deserialize, Serialize)]
 pub struct Ranking(Vec<RankingEntry>);

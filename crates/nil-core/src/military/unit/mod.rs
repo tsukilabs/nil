@@ -14,7 +14,7 @@ pub mod swordsman;
 use crate::error::Result;
 use crate::infrastructure::prelude::BuildingId;
 use crate::infrastructure::requirements::InfrastructureRequirements;
-use crate::ranking::Score;
+use crate::ranking::score::Score;
 use crate::resources::prelude::*;
 use derive_more::{Deref, Display, From, Into};
 use serde::{Deserialize, Deserializer, Serialize, Serializer};

@@ -12,7 +12,7 @@ use crate::infrastructure::storage::OverallStorageCapacity;
 use crate::npc::bot::BotId;
 use crate::npc::precursor::PrecursorId;
 use crate::player::PlayerId;
-use crate::ranking::Score;
+use crate::ranking::score::Score;
 use crate::resources::Resources;
 use crate::resources::maintenance::Maintenance;
 use crate::ruler::Ruler;

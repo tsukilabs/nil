@@ -5,7 +5,7 @@ use super::Client;
 use crate::error::Result;
 use crate::http;
 use nil_core::city::{City, PublicCity};
-use nil_core::ranking::Score;
+use nil_core::ranking::score::Score;
 use nil_payload::city::*;
 
 impl Client {

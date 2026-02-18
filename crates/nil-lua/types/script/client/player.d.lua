@@ -16,7 +16,7 @@ function client:getPlayerCoords(req) end
 function client:getPlayerMaintenance(req) end
 
 ---@param req GetPlayerMilitaryRequest
----@return table
+---@return Military
 function client:getPlayerMilitary(req) end
 
 ---@param req GetPlayerReportsRequest

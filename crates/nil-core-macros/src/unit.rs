@@ -14,7 +14,7 @@ pub fn impl_unit(ast: &DeriveInput) -> TokenStream {
       use crate::infrastructure::requirements::InfrastructureRequirements;
       use crate::military::unit::{Unit, UnitBox, UnitChunk, UnitId, UnitKind};
       use crate::military::unit::stats::prelude::*;
-      use crate::ranking::Score;
+      use crate::ranking::score::Score;
 
       impl #name {
         pub fn new_boxed() -> UnitBox {

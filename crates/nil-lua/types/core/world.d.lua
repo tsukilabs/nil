@@ -25,3 +25,5 @@
 
 ---@alias BotDensity number
 ---@alias BotAdvancedStartRatio number
+
+---@alias WorldStats table

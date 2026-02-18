@@ -5,4 +5,4 @@
 
 ---@class GetPublicCityResponse
 ---@field city PublicCity
----@field score number|nil
+---@field score Score|nil

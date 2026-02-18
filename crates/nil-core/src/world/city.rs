@@ -3,7 +3,7 @@
 
 use crate::continent::ContinentKey;
 use crate::error::Result;
-use crate::ranking::Score;
+use crate::ranking::score::Score;
 use crate::ruler::Ruler;
 use crate::world::World;
 

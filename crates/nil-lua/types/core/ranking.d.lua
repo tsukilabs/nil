@@ -8,5 +8,7 @@
 ---@class RankingEntry
 ---@field rank number
 ---@field ruler Ruler
----@field score number
+---@field score Score
 ---@field cities number
+
+---@alias Score number
