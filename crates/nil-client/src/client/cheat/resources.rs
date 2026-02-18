@@ -13,6 +13,7 @@ impl Client {
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
+      .user_agent(&self.user_agent)
       .send()
       .await
   }
@@ -22,6 +23,7 @@ impl Client {
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
+      .user_agent(&self.user_agent)
       .send()
       .await
   }
@@ -31,6 +33,7 @@ impl Client {
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
+      .user_agent(&self.user_agent)
       .send()
       .await
   }
@@ -40,6 +43,7 @@ impl Client {
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
+      .user_agent(&self.user_agent)
       .send()
       .await
   }
@@ -49,6 +53,7 @@ impl Client {
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
+      .user_agent(&self.user_agent)
       .send()
       .await
   }
@@ -58,6 +63,7 @@ impl Client {
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
+      .user_agent(&self.user_agent)
       .send()
       .await
   }
@@ -70,6 +76,7 @@ impl Client {
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
+      .user_agent(&self.user_agent)
       .send()
       .await
   }
@@ -79,6 +86,7 @@ impl Client {
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
+      .user_agent(&self.user_agent)
       .send()
       .await
   }
@@ -91,6 +99,7 @@ impl Client {
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
+      .user_agent(&self.user_agent)
       .send()
       .await
   }
@@ -100,6 +109,7 @@ impl Client {
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
+      .user_agent(&self.user_agent)
       .send()
       .await
   }
@@ -109,6 +119,7 @@ impl Client {
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
+      .user_agent(&self.user_agent)
       .send()
       .await
   }
@@ -118,6 +129,7 @@ impl Client {
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
+      .user_agent(&self.user_agent)
       .send()
       .await
   }
@@ -127,6 +139,7 @@ impl Client {
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
+      .user_agent(&self.user_agent)
       .send()
       .await
   }

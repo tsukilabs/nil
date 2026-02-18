@@ -18,6 +18,7 @@ impl Client {
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
+      .user_agent(&self.user_agent)
       .send()
       .await
   }
@@ -26,6 +27,7 @@ impl Client {
     http::json_post("get-remote-world")
       .body(req)
       .server(self.server)
+      .user_agent(&self.user_agent)
       .send()
       .await
   }
@@ -33,6 +35,7 @@ impl Client {
   pub async fn get_remote_worlds(&self) -> Result<Vec<RemoteWorld>> {
     http::json_get("get-remote-worlds")
       .server(self.server)
+      .user_agent(&self.user_agent)
       .send()
       .await
   }
@@ -41,6 +44,7 @@ impl Client {
     http::json_post("get-world-bots")
       .body(req)
       .server(self.server)
+      .user_agent(&self.user_agent)
       .send()
       .await
   }
@@ -49,6 +53,7 @@ impl Client {
     http::json_post("get-world-config")
       .body(req)
       .server(self.server)
+      .user_agent(&self.user_agent)
       .send()
       .await
   }
@@ -57,6 +62,7 @@ impl Client {
     http::json_post("get-world-players")
       .body(req)
       .server(self.server)
+      .user_agent(&self.user_agent)
       .send()
       .await
   }
@@ -68,6 +74,7 @@ impl Client {
     http::json_post("get-world-precursors")
       .body(req)
       .server(self.server)
+      .user_agent(&self.user_agent)
       .send()
       .await
   }
@@ -76,6 +83,7 @@ impl Client {
     http::json_post("get-world-stats")
       .body(req)
       .server(self.server)
+      .user_agent(&self.user_agent)
       .send()
       .await
   }
@@ -86,6 +94,7 @@ impl Client {
         .body(req)
         .server(self.server)
         .maybe_authorization(self.authorization.as_ref())
+        .user_agent(&self.user_agent)
         .send()
         .await
     } else {
@@ -99,6 +108,7 @@ impl Client {
         .body(req)
         .server(self.server)
         .maybe_authorization(self.authorization.as_ref())
+        .user_agent(&self.user_agent)
         .send()
         .await
     } else {

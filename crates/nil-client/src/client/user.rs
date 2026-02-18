@@ -11,6 +11,7 @@ impl Client {
     http::post("create-user")
       .body(req)
       .server(self.server)
+      .user_agent(&self.user_agent)
       .send()
       .await
   }
@@ -19,6 +20,7 @@ impl Client {
     http::json_post("user-exists")
       .body(req)
       .server(self.server)
+      .user_agent(&self.user_agent)
       .send()
       .await
   }

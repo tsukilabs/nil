@@ -3512,18 +3512,32 @@ name = "nil-lua"
 version = "0.3.0"
 dependencies = [
  "anyhow",
+ "mlua",
+ "nil-client",
+ "nil-payload",
+ "serde",
+ "tap",
+ "thiserror 2.0.18",
+ "tokio",
+]
+
+[[package]]
+name = "nil-lua-cli"
+version = "0.3.0"
+dependencies = [
+ "anyhow",
  "clap",
  "futures",
  "mlua",
  "nil-client",
  "nil-core",
  "nil-crypto",
- "nil-payload",
+ "nil-lua",
+ "nil-server-types",
  "serde",
  "tap",
- "thiserror 2.0.18",
  "tokio",
- "tracing",
+ "toml 1.0.2+spec-1.1.0",
 ]
 
 [[package]]
@@ -3603,6 +3617,7 @@ dependencies = [
 name = "nil-server-types"
 version = "0.3.0"
 dependencies = [
+ "derive_more 2.1.1",
  "jiff",
  "nil-core",
  "serde",
@@ -6619,6 +6634,21 @@ dependencies = [
 ]
 
 [[package]]
+name = "toml"
+version = "1.0.2+spec-1.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d1dfefef6a142e93f346b64c160934eb13b5594b84ab378133ac6815cb2bd57f"
+dependencies = [
+ "indexmap 2.13.0",
+ "serde_core",
+ "serde_spanned 1.0.4",
+ "toml_datetime 1.0.0+spec-1.1.0",
+ "toml_parser",
+ "toml_writer",
+ "winnow 0.7.14",
+]
+
+[[package]]
 name = "toml_datetime"
 version = "0.6.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -6632,6 +6662,15 @@ name = "toml_datetime"
 version = "0.7.5+spec-1.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "92e1cfed4a3038bc5a127e35a2d360f145e1f4b971b551a2ba5fd7aedf7e1347"
+dependencies = [
+ "serde_core",
+]
+
+[[package]]
+name = "toml_datetime"
+version = "1.0.0+spec-1.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "32c2555c699578a4f59f0cc68e5116c8d7cabbd45e1409b989d4be085b53f13e"
 dependencies = [
  "serde_core",
 ]

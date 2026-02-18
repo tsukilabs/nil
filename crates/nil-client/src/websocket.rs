@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::error::{Error, Result};
-use crate::http::USER_AGENT;
 use crate::http::authorization::Authorization;
 use crate::server::ServerAddr;
 use anyhow::Result as AnyResult;
@@ -41,6 +40,7 @@ impl WebSocketClient {
     world_id: WorldId,
     world_password: Option<Password>,
     authorization: Authorization,
+    user_agent: &str,
     on_event: OnEvent,
   ) -> Result<Self>
   where
@@ -50,6 +50,7 @@ impl WebSocketClient {
       .world_id(world_id)
       .maybe_world_password(world_password)
       .authorization(authorization)
+      .user_agent(user_agent)
       .call()
       .await
     {
@@ -80,6 +81,7 @@ async fn make_stream(
   world_id: WorldId,
   world_password: Option<Password>,
   authorization: Authorization,
+  user_agent: &str,
 ) -> AnyResult<Either<Stream, TungsteniteError>> {
   let mut url = server.url_with_scheme("ws", "websocket")?;
   url
@@ -92,7 +94,7 @@ async fn make_stream(
 
   let headers = request.headers_mut();
   headers.insert(header::AUTHORIZATION, authorization.into_inner());
-  headers.insert(header::USER_AGENT, USER_AGENT.parse()?);
+  headers.insert(header::USER_AGENT, user_agent.parse()?);
 
   match connect_async(request).await {
     Ok((ws_stream, _)) => Ok(Either::Left(ws_stream)),

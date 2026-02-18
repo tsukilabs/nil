@@ -5,12 +5,14 @@
 #![doc(html_favicon_url = "https://nil.dev.br/favicon.png")]
 #![feature(str_as_str)]
 
+use derive_more::From;
 use jiff::Zoned;
 use nil_core::continent::ContinentSize;
 use nil_core::player::PlayerId;
 use nil_core::round::RoundId;
 use nil_core::world::config::{WorldConfig, WorldId};
 use serde::{Deserialize, Serialize};
+use std::borrow::Cow;
 use std::ops::Deref;
 use strum::EnumIs;
 
@@ -36,7 +38,8 @@ pub struct RemoteWorld {
   pub continent_size: ContinentSize,
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, From, Deserialize, Serialize)]
+#[from(String, &str, Box<str>, Cow<'_, str>)]
 pub struct Token(Box<str>);
 
 impl Token {

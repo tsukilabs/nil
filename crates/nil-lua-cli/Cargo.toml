@@ -1,5 +1,5 @@
 [package]
-name = "nil-lua"
+name = "nil-lua-cli"
 publish = false
 readme = "../../../README.md"
 
@@ -21,13 +21,25 @@ workspace = true
 
 [dependencies]
 anyhow.workspace = true
+clap.workspace = true
+futures.workspace = true
 mlua.workspace = true
-nil-payload.workspace = true
+nil-crypto.workspace = true
+nil-lua.workspace = true
+nil-server-types.workspace = true
 serde.workspace = true
 tap.workspace = true
-thiserror.workspace = true
 tokio.workspace = true
+toml.workspace = true
 
 [dependencies.nil-client]
 workspace = true
 features = ["lua"]
+
+[dependencies.nil-core]
+workspace = true
+features = ["lua"]
+
+[[bin]]
+name = "nls"
+path = "src/main.rs"

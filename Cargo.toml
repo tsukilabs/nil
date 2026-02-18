@@ -1,6 +1,23 @@
 [workspace]
 resolver = "3"
-members = ["app/src-tauri", "crates/*"]
+members = [
+  "app/src-tauri",
+  "crates/nil-client",
+  "crates/nil-core",
+  "crates/nil-core-macros",
+  "crates/nil-crypto",
+  "crates/nil-database",
+  "crates/nil-log",
+  "crates/nil-lua",
+  "crates/nil-lua-cli",
+  "crates/nil-namegen",
+  "crates/nil-num",
+  "crates/nil-num-macros",
+  "crates/nil-payload",
+  "crates/nil-server",
+  "crates/nil-server-types",
+  "crates/nil-util",
+]
 
 [workspace.package]
 version = "0.3.0"
@@ -84,6 +101,7 @@ tauri-plugin-process = "2.3"
 tauri-plugin-single-instance = "2.4"
 tauri-plugin-updater = "2.10"
 thiserror = "2.0"
+toml = "1.0"
 tracing = "0.1"
 tracing-appender = "0.2"
 
