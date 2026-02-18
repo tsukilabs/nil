@@ -3,22 +3,36 @@
 
 ---@meta
 
----@class ServerAddr
----@field kind string
----@field addr string|nil
+---@class LocalServer
+---@field worldId WorldId
+---@field addr string
 
----@class ServerKind
----@field kind string
----@field id WorldId|nil
+---@alias ServerAddr ServerAddrLocal | ServerAddrRemote
+
+---@class ServerAddrLocal
+---@field kind 'local'
+---@field addr string
+
+---@class ServerAddrRemote
+---@field kind 'remote'
+
+---@alias ServerKind ServerKindLocal | ServerKindRemote
+
+---@class ServerKindLocal
+---@field kind 'local'
+---@field id WorldId
+
+---@class ServerKindRemote
+---@field kind 'remote'
 
 ---@class RemoteWorld
 ---@field config WorldConfig
 ---@field description string|nil
----@field createdBy string
+---@field createdBy PlayerId
 ---@field createdAt string
 ---@field updatedAt string
 ---@field hasPassword boolean
----@field currentRound number
+---@field currentRound RoundId
 ---@field activePlayers number
 ---@field totalPlayers number
----@field continentSize number
+---@field continentSize ContinentSize
