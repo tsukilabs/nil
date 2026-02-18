@@ -43,6 +43,10 @@ export async function currentExe() {
   return invoke<string>('current_exe');
 }
 
+export async function homeDir() {
+  return invoke<Option<string>>('home_dir');
+}
+
 export async function exists(path: string) {
   return invoke<boolean>('exists', { path });
 }
@@ -65,6 +69,10 @@ export async function isRemote() {
 
 export async function isRemoteOrHost() {
   return invoke<boolean>('is_remote_or_host');
+}
+
+export async function nilDir() {
+  return invoke<string>('nil_dir');
 }
 
 export async function showWindow() {

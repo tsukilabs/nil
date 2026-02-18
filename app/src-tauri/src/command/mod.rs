@@ -83,6 +83,11 @@ pub async fn exists(path: PathBuf) -> Result<bool> {
 }
 
 #[tauri::command]
+pub fn home_dir() -> Option<PathBuf> {
+  env::home_dir()
+}
+
+#[tauri::command]
 pub async fn is_host(app: AppHandle) -> bool {
   app.nil().is_host().await
 }
@@ -105,6 +110,11 @@ pub async fn is_remote(app: AppHandle) -> bool {
 #[tauri::command]
 pub async fn is_remote_or_host(app: AppHandle) -> bool {
   app.nil().is_remote_or_host().await
+}
+
+#[tauri::command]
+pub async fn nil_dir(app: AppHandle) -> Result<PathBuf> {
+  app.nil_dir()
 }
 
 #[cfg(desktop)]
