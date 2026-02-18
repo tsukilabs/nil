@@ -16,6 +16,8 @@
 ---@field warehouse Warehouse
 ---@field workshop Workshop
 
+---@alias InfrastructureStats table
+
 ---@class InfrastructureRequirements
 ---@field academy BuildingLevel
 ---@field farm BuildingLevel

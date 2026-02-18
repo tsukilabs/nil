@@ -102,14 +102,6 @@ pub async fn get_player_worlds(
 }
 
 #[tauri::command]
-pub async fn get_players(app: AppHandle, req: GetPlayersRequest) -> Result<Vec<Player>> {
-  app
-    .client(async |cl| cl.get_players(req).await)
-    .await
-    .map_err(Into::into)
-}
-
-#[tauri::command]
 pub async fn get_public_player(
   app: AppHandle,
   req: GetPublicPlayerRequest,

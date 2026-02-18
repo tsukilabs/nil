@@ -35,3 +35,5 @@
 ---@field resources Resources
 ---@field maintenance number
 ---@field workforce number
+
+---@alias BuildingStatsTable table

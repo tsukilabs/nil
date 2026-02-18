@@ -5,14 +5,10 @@
 
 ---@class GetPlayerRequest
 ---@field world WorldId
----@field id PlayerId
 
 ---@class GetPlayerCoordsRequest
 ---@field world WorldId
 ---@field id PlayerId
-
----@class GetPlayersRequest
----@field world WorldId
 
 ---@class GetPlayerMaintenanceRequest
 ---@field world WorldId

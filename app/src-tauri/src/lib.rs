@@ -126,7 +126,6 @@ pub fn run() {
       command::player::get_player_status,
       command::player::get_player_storage_capacity,
       command::player::get_player_worlds,
-      command::player::get_players,
       command::player::get_public_player,
       command::player::get_public_players,
       command::player::player_exists,

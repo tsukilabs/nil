@@ -78,15 +78,6 @@ impl Client {
       .await
   }
 
-  pub async fn get_players(&self, req: GetPlayersRequest) -> Result<Vec<Player>> {
-    http::json_post("get-players")
-      .body(req)
-      .server(self.server)
-      .maybe_authorization(self.authorization.as_ref())
-      .send()
-      .await
-  }
-
   pub async fn get_player_storage_capacity(
     &self,
     req: GetPlayerStorageCapacityRequest,

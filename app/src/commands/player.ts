@@ -9,7 +9,6 @@ import type {
   GetPlayerMilitaryRequest,
   GetPlayerReportsRequest,
   GetPlayerRequest,
-  GetPlayersRequest,
   GetPlayerStatusRequest,
   GetPlayerStorageCapacityRequest,
   GetPlayerWorldsRequest,
@@ -20,10 +19,9 @@ import type {
   SpawnPlayerRequest,
 } from '@/lib/request';
 
-export async function getPlayer(id: PlayerId) {
+export async function getPlayer() {
   const req: GetPlayerRequest = {
     world: NIL.world.getIdStrict(),
-    id,
   };
 
   return invoke<Player>('get_player', { req });
@@ -82,14 +80,6 @@ export async function getPlayerStorageCapacity() {
 export async function getPlayerWorlds(id: PlayerId) {
   const req: GetPlayerWorldsRequest = { id };
   return invoke<readonly WorldId[]>('get_player_worlds', { req });
-}
-
-export async function getPlayers() {
-  const req: GetPlayersRequest = {
-    world: NIL.world.getIdStrict(),
-  };
-
-  return invoke<readonly Player[]>('get_players', { req });
 }
 
 export async function getPublicPlayer(id: PlayerId) {

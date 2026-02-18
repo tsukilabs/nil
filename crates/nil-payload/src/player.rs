@@ -10,7 +10,6 @@ use serde::{Deserialize, Serialize};
 #[serde(rename_all = "camelCase")]
 pub struct GetPlayerRequest {
   pub world: WorldId,
-  pub id: PlayerId,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
@@ -18,12 +17,6 @@ pub struct GetPlayerRequest {
 pub struct GetPlayerCoordsRequest {
   pub world: WorldId,
   pub id: PlayerId,
-}
-
-#[derive(Clone, Debug, Deserialize, Serialize)]
-#[serde(rename_all = "camelCase")]
-pub struct GetPlayersRequest {
-  pub world: WorldId,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
