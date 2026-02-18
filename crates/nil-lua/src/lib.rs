@@ -32,6 +32,10 @@ impl Lua {
     Self::new(Arc::new(RwLock::new(client)))
   }
 
+  pub fn with_client_and_libs(client: Client, libs: StdLib) -> Result<Self> {
+    Self::with_libs(Arc::new(RwLock::new(client)), libs)
+  }
+
   pub fn with_libs(client: Arc<RwLock<Client>>, libs: StdLib) -> Result<Self> {
     let lua = mlua::Lua::new_with(libs, LuaOptions::default())?;
 

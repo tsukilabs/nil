@@ -9,6 +9,7 @@ use anyhow::{Result, anyhow};
 use clap::Parser;
 use config::Config;
 use futures::future::BoxFuture;
+use mlua::StdLib;
 use nil_client::{Client, ServerAddr};
 use nil_core::event::Event;
 use nil_core::player::PlayerId;
@@ -81,7 +82,7 @@ async fn main() -> Result<()> {
     .call()
     .await?;
 
-  let mut lua = Lua::with_client(client)?;
+  let mut lua = Lua::with_client_and_libs(client, StdLib::ALL_SAFE)?;
   let chunk = fs::read_to_string(cli.script)?;
   let output = lua.execute(&chunk).await?;
 

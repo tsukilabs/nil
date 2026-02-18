@@ -25,6 +25,24 @@ struct Args {
 
   #[arg(short = 'r', long)]
   release: bool,
+
+  #[arg(long)]
+  server: Option<String>,
+
+  #[arg(long)]
+  player: Option<String>,
+
+  #[arg(long)]
+  player_password: Option<String>,
+
+  #[arg(long)]
+  world: Option<String>,
+
+  #[arg(long)]
+  world_password: Option<String>,
+
+  #[arg(long)]
+  token: Option<String>,
 }
 
 fn main() -> Result<()> {
@@ -37,6 +55,22 @@ fn main() -> Result<()> {
 
   let script = args.script.trim_end_matches(".lua");
   write!(command, " crates/nil-lua/examples/{script}.lua")?;
+
+  macro_rules! set {
+    ($flag:literal, $value:ident) => {
+      if let Some(value) = args.$value {
+        let flag = $flag;
+        write!(command, " --{flag} {value}")?;
+      }
+    };
+  }
+
+  set!("server", server);
+  set!("player", player);
+  set!("player-password", player_password);
+  set!("world", world);
+  set!("world-password", world_password);
+  set!("token", token);
 
   spawn!(command)
 }

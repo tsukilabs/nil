@@ -19,7 +19,8 @@
     "preview": "cargo +nightly -Zscript scripts/build-client.rs --preview",
     "server": "cargo +nightly -Zscript scripts/start-server.rs",
     "test": "cargo +nightly -Zscript scripts/test.rs",
-    "type-check": "pnpm run -r --bail type-check"
+    "type-check": "pnpm run -r --bail type-check",
+    "udeps": "cargo +nightly udeps"
   },
   "dependencies": {
     "@tauri-apps/api": "=2.10.1",
