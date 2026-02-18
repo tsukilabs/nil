@@ -9,7 +9,7 @@
 
 ---@class ServerKind
 ---@field kind string
----@field id string|nil
+---@field id WorldId|nil
 
 ---@class RemoteWorld
 ---@field config WorldConfig

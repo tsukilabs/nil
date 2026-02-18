@@ -8,6 +8,6 @@
 ---@field name string
 ---@field owner Ruler
 
----@class City : PublicCity
+---@class City: PublicCity
 ---@field infrastructure Infrastructure
 ---@field stability number

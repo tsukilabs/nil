@@ -27,5 +27,5 @@ function client:server() end
 ---@return string
 function client:version() end
 
----@return string|nil
+---@return WorldId|nil
 function client:world() end

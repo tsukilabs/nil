@@ -4,11 +4,13 @@
 ---@meta
 
 ---@class WorldConfig {
----@field id string
+---@field id WorldId
 ---@field name string
 ---@field locale Locale
 ---@field allowCheats boolean
 ---@field botDensity number
 ---@field botAdvancedStartRatio number
+
+---@alias WorldId string
 
 ---@alias Locale 'en-US' | 'pt-BR';

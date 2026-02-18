@@ -4,6 +4,6 @@
 ---@meta
 
 ---@class RenameCityRequest
----@field world string
+---@field world WorldId
 ---@field coord Coord
 ---@field name string
