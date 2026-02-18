@@ -11,6 +11,7 @@
     "clippy": "cargo +nightly -Zscript scripts/run-clippy.rs",
     "dev": "cargo +nightly -Zscript scripts/start-dev.rs",
     "docs": "cargo +nightly doc -p nil-* --open --no-deps --lib --document-private-items",
+    "example": "cargo +nightly -Zscript scripts/run-example.rs",
     "format": "dprint fmt && cargo fmt --all",
     "lint": "eslint . --config eslint.config.ts",
     "lint-fix": "eslint . --config eslint.config.ts --fix",
