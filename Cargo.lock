@@ -6753,7 +6753,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "786d480bce6247ab75f005b14ae1624ad978d3029d9113f0a22fa1ac773faeaf"
 dependencies = [
  "crossbeam-channel",
- "parking_lot",
  "thiserror 2.0.18",
  "time",
  "tracing-subscriber",
@@ -6800,7 +6799,6 @@ dependencies = [
  "matchers",
  "nu-ansi-term",
  "once_cell",
- "parking_lot",
  "regex-automata",
  "sharded-slab",
  "smallvec",

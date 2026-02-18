@@ -84,6 +84,8 @@ tauri-plugin-process = "2.3"
 tauri-plugin-single-instance = "2.4"
 tauri-plugin-updater = "2.10"
 thiserror = "2.0"
+tracing = "0.1"
+tracing-appender = "0.2"
 
 [workspace.dependencies.axum]
 version = "0.8"
@@ -185,17 +187,9 @@ features = []
 version = "0.6"
 features = ["trace"]
 
-[workspace.dependencies.tracing]
-version = "0.1"
-features = []
-
-[workspace.dependencies.tracing-appender]
-version = "0.2"
-features = ["parking_lot"]
-
 [workspace.dependencies.tracing-subscriber]
 version = "0.3"
-features = ["env-filter", "parking_lot"]
+features = ["env-filter"]
 
 [workspace.dependencies.url]
 version = "2.5"
