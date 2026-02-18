@@ -44,7 +44,6 @@ impl ClientUserData {
 }
 
 impl UserData for ClientUserData {
-  #[expect(clippy::too_many_lines)]
   fn add_methods<M: UserDataMethods<Self>>(methods: &mut M) {
     battle::add_methods(methods);
     chat::add_methods(methods);

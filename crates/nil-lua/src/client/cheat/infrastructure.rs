@@ -5,6 +5,7 @@ use crate::client::ClientUserData;
 use mlua::{LuaSerdeExt, UserDataMethods, Value};
 use nil_payload::cheat::infrastructure::*;
 
+#[expect(clippy::too_many_lines)]
 pub fn add_methods<M: UserDataMethods<ClientUserData>>(methods: &mut M) {
   methods.add_async_method(
     "cheatGetAcademyRecruitQueue",
