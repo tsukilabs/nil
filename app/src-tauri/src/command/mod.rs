@@ -124,6 +124,16 @@ pub fn now() -> Zoned {
   Zoned::now()
 }
 
+#[cfg(all(debug_assertions, desktop))]
+#[tauri::command]
+pub fn open_devtools(window: WebviewWindow) {
+  window.open_devtools();
+}
+
+#[cfg(not(all(debug_assertions, desktop)))]
+#[tauri::command]
+pub fn open_devtools(window: WebviewWindow) {}
+
 #[cfg(desktop)]
 #[tauri::command]
 pub fn show_window(window: WebviewWindow) -> Result<()> {

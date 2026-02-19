@@ -46,6 +46,7 @@ pub fn run() {
       command::is_remote_or_host,
       command::nil_dir,
       command::now,
+      command::open_devtools,
       command::show_window,
       command::version,
       command::battle::simulate_battle,

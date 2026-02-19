@@ -5,6 +5,7 @@
 import { useI18n } from 'vue-i18n';
 import { storeToRefs } from 'pinia';
 import { throttle } from 'es-toolkit';
+import * as commands from '@/commands';
 import { handleError } from '@/lib/error';
 import { nextTick, onMounted } from 'vue';
 import { handleProcessArgs } from '@/lib/env';
@@ -12,6 +13,7 @@ import Loading from '@/components/Loading.vue';
 import { Sonner } from '@tb-dev/vue-components';
 import { ListenerSet } from '@/lib/listener-set';
 import { setDragDropEventListener } from '@/lib/event';
+import { type as osType } from '@tauri-apps/plugin-os';
 import { createTrayIcon, showWindow } from '@/commands';
 import { onKeyDown, useBreakpoints } from '@tb-dev/vue';
 import { setTheme, useSettings } from '@/stores/settings';
@@ -35,6 +37,10 @@ syncRef(useColorMode(), colorMode, { direction: 'rtl' });
 
 if (__DESKTOP__) {
   onKeyDown('F5', throttle(NIL.update, 1000));
+
+  if (__DEBUG_ASSERTIONS__ && osType() === 'linux') {
+    onKeyDown('F12', commands.openDevtools);
+  }
 }
 
 onMounted(async () => {

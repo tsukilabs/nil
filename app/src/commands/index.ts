@@ -80,6 +80,12 @@ export async function now() {
   return invoke<string>('now');
 }
 
+export async function openDevtools() {
+  if (__DEBUG_ASSERTIONS__ && __DESKTOP__) {
+    await invoke('open_devtools');
+  }
+}
+
 export async function showWindow() {
   await invoke('show_window');
 }
