@@ -44,7 +44,7 @@ const regex: RegexMap = {
   [ChatCommandKind.About]: /^\$about$/i,
   [ChatCommandKind.Academy]: /^\$academy$/i,
   [ChatCommandKind.EndTurn]: /^\$end$/i,
-  [ChatCommandKind.Eval]: /^\$eval\s(.+)/i,
+  [ChatCommandKind.Eval]: /^\$eval\s([\s\S]+)/i,
   [ChatCommandKind.Farm]: /^\$farm$/i,
   [ChatCommandKind.Food]: /^\$food(?:\s(\d+))?/i,
   [ChatCommandKind.Iron]: /^\$iron(?:\s(\d+))?/i,

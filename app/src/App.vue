@@ -59,7 +59,7 @@ function setLocale(value: Locale) {
 
 <template>
   <main class="fixed inset-0 select-none pb-safe">
-    <Sonner :position="md ? 'bottom-right' : 'top-center'" />
+    <Sonner :position="md ? 'bottom-left' : 'top-center'" />
     <div class="relative size-full overflow-hidden">
       <RouterView #default="{ Component }">
         <template v-if="Component">
