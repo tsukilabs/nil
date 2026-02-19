@@ -11,6 +11,9 @@ use serde::Deserialize;
 use std::io::ErrorKind;
 use std::{env, fs};
 
+#[cfg(debug_assertions)]
+const PATH: &str = ".tsukilabs/nil/.dev/lua.toml";
+#[cfg(not(debug_assertions))]
 const PATH: &str = ".tsukilabs/nil/lua.toml";
 
 #[derive(Clone, Debug, Default, Deserialize)]

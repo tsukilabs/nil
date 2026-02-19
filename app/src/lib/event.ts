@@ -1,9 +1,10 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import * as commands from '@/commands';
 import { handleError } from '@/lib/error';
+import { SavedataFile } from '@/core/savedata';
 import type { Fn, MaybePromise, Option } from '@tb-dev/utils';
-import { isSavedataFile, SavedataFile } from '@/core/savedata';
 import { getCurrentWebviewWindow, type WebviewWindow } from '@tauri-apps/api/webviewWindow';
 
 export type ListenerFn<T> = (payload: T) => MaybePromise<unknown>;
@@ -71,11 +72,21 @@ export async function setDragDropEventListener() {
 }
 
 async function onDragDropEvent(paths: readonly string[]) {
+  const scripts: string[] = [];
+  let foundSavedata = false;
+
   for (const path of paths) {
-    if (await isSavedataFile(path)) {
+    if (!foundSavedata && await commands.isSavedata(path)) {
+      foundSavedata = true;
       const savedata = await SavedataFile.read(path);
       await savedata.load();
-      break;
     }
+    else if (await commands.isScript(path)) {
+      scripts.push(path);
+    }
+  }
+
+  if (scripts.length > 0) {
+    await commands.importScripts(scripts);
   }
 }

@@ -144,6 +144,10 @@ pub fn run() {
       command::round::start_round,
       command::script::execute_script,
       command::script::execute_script_at,
+      command::script::import_script,
+      command::script::import_scripts,
+      command::script::is_script,
+      command::script::script_dir,
       command::server::authorize,
       command::server::get_server_addr,
       command::server::get_server_kind,
@@ -164,8 +168,10 @@ pub fn run() {
       command::world::get_world_players,
       command::world::get_world_precursors,
       command::world::get_world_stats,
+      command::world::is_savedata,
       command::world::read_savedata_info,
       command::world::save_local_world,
+      command::world::savedata_dir,
     ])
     .run(tauri::generate_context!())
     .expect("Failed to start Call of Nil app");

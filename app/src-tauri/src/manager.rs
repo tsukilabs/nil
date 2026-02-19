@@ -41,6 +41,14 @@ pub trait ManagerExt: Manager<Wry> {
 
     Ok(dir)
   }
+
+  fn savedata_dir(&self) -> Result<PathBuf> {
+    Ok(self.nil_dir()?.join("savedata"))
+  }
+
+  fn script_dir(&self) -> Result<PathBuf> {
+    Ok(self.nil_dir()?.join("scripts"))
+  }
 }
 
 impl<T: Manager<Wry>> ManagerExt for T {}

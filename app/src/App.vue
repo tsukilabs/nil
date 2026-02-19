@@ -7,10 +7,10 @@ import { storeToRefs } from 'pinia';
 import { throttle } from 'es-toolkit';
 import { handleError } from '@/lib/error';
 import { nextTick, onMounted } from 'vue';
+import { handleProcessArgs } from '@/lib/env';
 import Loading from '@/components/Loading.vue';
 import { Sonner } from '@tb-dev/vue-components';
 import { ListenerSet } from '@/lib/listener-set';
-import { loadSavedataFromArgs } from '@/core/savedata';
 import { setDragDropEventListener } from '@/lib/event';
 import { createTrayIcon, showWindow } from '@/commands';
 import { onKeyDown, useBreakpoints } from '@tb-dev/vue';
@@ -43,7 +43,7 @@ onMounted(async () => {
     defineGlobalCheats();
 
     await nextTick();
-    await loadSavedataFromArgs();
+    await handleProcessArgs();
     await createTrayIcon();
     await showWindow();
   }

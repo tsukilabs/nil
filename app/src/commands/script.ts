@@ -10,3 +10,19 @@ export async function executeScript(chunk: string) {
 export async function executeScriptAt(path: string) {
   return invoke<ScriptOutput>('execute_script_at', { path });
 }
+
+export async function importScript(path: string) {
+  await invoke('import_script', { path });
+}
+
+export async function importScripts(paths: readonly string[]) {
+  await invoke('import_scripts', { paths });
+}
+
+export async function isScript(path: string) {
+  return invoke<boolean>('is_script', { path });
+}
+
+export async function scriptDir() {
+  return invoke<string>('script_dir');
+}
