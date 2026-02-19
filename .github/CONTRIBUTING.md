@@ -51,6 +51,7 @@ Here’s a simplified list of the steps you’ll need to take. In some cases, yo
 ## Environment variables
 
 - [`NIL_DATABASE_URL`](/crates/nil-server/src/main.rs)
+- [`NIL_DIR`](/app/src-tauri/src/manager.rs)
 - [`NIL_JWT_SECRET`](/crates/nil-server/src/middleware/authorization.rs)
 - [`NIL_LOG_DIR`](/crates/nil-log/src/lib.rs)
 - [`NIL_LOG_TOWER_HTTP`](/crates/nil-log/src/lib.rs)

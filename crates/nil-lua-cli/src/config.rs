@@ -11,11 +11,6 @@ use serde::Deserialize;
 use std::io::ErrorKind;
 use std::{env, fs};
 
-#[cfg(debug_assertions)]
-const PATH: &str = ".tsukilabs/nil/.dev/lua.toml";
-#[cfg(not(debug_assertions))]
-const PATH: &str = ".tsukilabs/nil/lua.toml";
-
 #[derive(Clone, Debug, Default, Deserialize)]
 #[serde(default)]
 pub struct Config {
@@ -29,11 +24,19 @@ pub struct Config {
 
 impl Config {
   pub fn load() -> Result<Self> {
-    let Some(home) = env::home_dir() else {
+    let Some(mut path) = env::home_dir() else {
       return Ok(Self::default());
     };
 
-    match fs::read(home.join(PATH)) {
+    path.push(env!("NIL_DIR"));
+
+    if cfg!(debug_assertions) {
+      path.push(".dev");
+    }
+
+    path.push("lua.toml");
+
+    match fs::read(path) {
       Ok(bytes) => Ok(toml::from_slice(&bytes)?),
       Err(err) if let ErrorKind::NotFound = err.kind() => Ok(Self::default()),
       Err(err) => Err(err.into()),

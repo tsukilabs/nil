@@ -7,6 +7,7 @@ use crate::res;
 use crate::response::EitherExt;
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
+use nil_core::world::World;
 use nil_payload::cheat::player::*;
 
 pub async fn get_player(
@@ -27,7 +28,7 @@ pub async fn get_players(
   Json(req): Json<CheatGetPlayersRequest>,
 ) -> Response {
   app
-    .world(req.world, |world| world.cheat_get_players())
+    .world(req.world, World::cheat_get_players)
     .await
     .try_map_left(|players| res!(OK, Json(players)))
     .into_inner()

@@ -30,7 +30,7 @@ pub trait ManagerExt: Manager<Wry> {
 
   fn nil_dir(&self) -> Result<PathBuf> {
     let mut dir = if let Some(home) = env::home_dir() {
-      home.join(".tsukilabs/nil")
+      home.join(env!("NIL_DIR"))
     } else {
       self.path().app_cache_dir()?
     };
