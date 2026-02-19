@@ -4,8 +4,11 @@
 ---@meta
 
 ---@param req GetChatHistoryRequest
----@return [ChatHistory, ChatHistory]
+---@return GetChatHistoryResponse
 function client:getChatHistory(req) end
 
 ---@param req PushChatMessageRequest
 function client:pushChatMessage(req) end
+
+---@param req PushStdoutMessageRequest
+function client:pushStdoutMessage(req) end

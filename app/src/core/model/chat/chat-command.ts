@@ -70,8 +70,8 @@ const regex: RegexMap = {
 };
 
 export class ChatCommand {
-  private readonly text: string;
-  private readonly kind: ChatCommandKind;
+  public readonly text: string;
+  public readonly kind: ChatCommandKind;
 
   constructor(draft: Option<string>) {
     this.text = draft?.trim() ?? '';
@@ -114,7 +114,8 @@ export class ChatCommand {
         break;
       }
       case ChatCommandKind.Eval: {
-        await commands.executeScript(this.text);
+        const output = await commands.executeScript(this.text);
+        await commands.pushStdoutMessage(output.stdout);
         break;
       }
       case ChatCommandKind.Farm: {

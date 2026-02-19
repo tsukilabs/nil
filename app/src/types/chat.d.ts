@@ -14,7 +14,7 @@ interface ChatMessage {
   readonly time: string;
 }
 
-type ChatMessageKind = 'default';
+type ChatMessageKind = 'default' | 'stdout';
 
 type ChatMessageAuthor = ChatMessageAuthorPlayer | ChatMessageAuthorSystem;
 

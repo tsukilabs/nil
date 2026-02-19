@@ -51,6 +51,11 @@ impl World {
     self.broadcast(Event::ChatUpdated { message });
   }
 
+  /// Emits [`Event::ChatUpdated`] to a specific player.
+  pub(super) fn emit_chat_updated_to(&self, player: PlayerId, message: ChatMessage) {
+    self.emit_to(player, Event::ChatUpdated { message });
+  }
+
   /// Emits [`Event::CityUpdated`].
   pub(super) fn emit_city_updated(&self, coord: Coord) {
     self.emit_to_owner(coord, Event::CityUpdated { coord });

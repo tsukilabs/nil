@@ -9,3 +9,8 @@ export interface PushChatMessageRequest {
   readonly world: WorldId;
   readonly message: string;
 }
+
+export interface PushStdoutMessageRequest {
+  readonly world: WorldId;
+  readonly stdout: string;
+}

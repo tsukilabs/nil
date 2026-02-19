@@ -27,6 +27,9 @@ export class ChatImpl {
 
   public static async load() {
     const history = await getChatHistory();
-    return ChatImpl.create(history);
+    return ChatImpl.create([
+      history.public,
+      history.private,
+    ]);
   }
 }

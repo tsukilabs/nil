@@ -14,7 +14,7 @@
 ---@field content ChatMessageContent
 ---@field time string
 
----@alias ChatMessageKind 'default'
+---@alias ChatMessageKind 'default' | 'stdout'
 
 ---@alias ChatMessageAuthor ChatMessageAuthorPlayer | ChatMessageAuthorSystem
 

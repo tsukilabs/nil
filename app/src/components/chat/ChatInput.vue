@@ -3,8 +3,9 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import { useMutex } from '@tb-dev/vue';
+import { sleep } from '@tb-dev/utils';
 import { handleError } from '@/lib/error';
+import { localRef, useMutex } from '@tb-dev/vue';
 import { Button, Input } from '@tb-dev/vue-components';
 import { ChatCommand } from '@/core/model/chat/chat-command';
 import { computed, nextTick, ref, useTemplateRef } from 'vue';
@@ -21,13 +22,21 @@ const chatInputInner = computed(() => chatInput.value?.$el);
 const draft = ref<Option<string>>();
 const { locked, ...mutex } = useMutex();
 
+const lastSent = localRef<string>('chat-input:last-sent', '');
+
 async function send() {
   if (draft.value) {
     try {
       await mutex.acquire();
-      const command = new ChatCommand(draft.value);
+
+      const message = draft.value;
+      const command = new ChatCommand(message);
       await command.execute();
       await props.onSend?.();
+
+      if (message) {
+        lastSent.value = message;
+      }
     }
     catch (err) {
       handleError(err);
@@ -37,6 +46,20 @@ async function send() {
       mutex.release();
       await nextTick();
       chatInputInner.value?.focus();
+    }
+  }
+}
+
+async function restore() {
+  if (!draft.value?.trim() && lastSent.value) {
+    draft.value = lastSent.value;
+
+    if (chatInputInner.value) {
+      chatInputInner.value.focus();
+      await sleep(5);
+
+      const length = chatInputInner.value.value.length;
+      chatInputInner.value.setSelectionRange(length, length);
     }
   }
 }
@@ -53,6 +76,7 @@ async function send() {
       :maxlength="5000"
       spellcheck="false"
       @keydown.enter="send"
+      @keydown.up="restore"
     />
     <Button :disabled="!draft || locked" @click="send">
       {{ t('send') }}

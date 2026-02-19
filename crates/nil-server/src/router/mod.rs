@@ -107,6 +107,7 @@ pub(crate) fn create() -> Router<App> {
     .route("/get-workshop-recruit-catalog", post(infrastructure::workshop::get_recruit_catalog))
     .route("/leave", post(world::leave))
     .route("/push-chat-message", post(chat::push))
+    .route("/push-stdout-message", post(chat::push_stdout))
     .route("/rename-city", post(city::rename_city))
     .route("/request-maneuver", post(military::request_maneuver))
     .route("/save-local-world", post(world::local::save))

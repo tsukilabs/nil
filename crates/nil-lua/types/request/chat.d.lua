@@ -9,3 +9,7 @@
 ---@class PushChatMessageRequest
 ---@field world WorldId
 ---@field message string
+
+---@class PushStdoutMessageRequest
+---@field world WorldId
+---@field stdout string
