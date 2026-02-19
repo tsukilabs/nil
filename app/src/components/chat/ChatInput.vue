@@ -71,7 +71,6 @@ async function send(e: Event) {
 
 function updateHistory(message: string) {
   history.value.sort((a, b) => a.lastUpdate - b.lastUpdate);
-
   while (history.value.length > 10) {
     history.value.shift();
   }
@@ -94,8 +93,12 @@ function updateHistory(message: string) {
   });
 
   entry.lastUpdate = now;
-  entry.messages.sort((a, b) => a.id - b.id);
   currentHistoryEntryId.value = null;
+
+  entry.messages.sort((a, b) => a.id - b.id);
+  while (entry.messages.length > 50) {
+    entry.messages.shift();
+  }
 }
 
 async function restore(direction: 'up' | 'down') {
