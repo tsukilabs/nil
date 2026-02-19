@@ -5,7 +5,7 @@ use crate::error::{Error, Result};
 use crate::manager::ManagerExt;
 use futures::TryFutureExt;
 use nil_lua::ScriptOutput;
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 use tauri::AppHandle;
 use tokio::fs;
 
@@ -36,7 +36,7 @@ pub async fn import_scripts(app: AppHandle, paths: Vec<PathBuf>) -> Result<()> {
   fs::create_dir_all(&dir).await?;
 
   for path in paths {
-    if is_script(path.clone()).await?
+    if is_script_(&path).await?
       && let Some(name) = path.file_stem()
       && let Some(name) = name.to_str()
     {
@@ -66,6 +66,10 @@ pub async fn import_scripts(app: AppHandle, paths: Vec<PathBuf>) -> Result<()> {
 
 #[tauri::command]
 pub async fn is_script(path: PathBuf) -> Result<bool> {
+  is_script_(&path).await
+}
+
+async fn is_script_(path: &Path) -> Result<bool> {
   if let Some(ext) = path.extension()
     && ext.eq_ignore_ascii_case("lua")
   {
