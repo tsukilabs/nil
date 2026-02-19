@@ -72,6 +72,7 @@ pub fn run() {
       command::cheat::npc::cheat_get_ethics,
       command::cheat::npc::cheat_set_bot_ethics,
       command::cheat::npc::cheat_spawn_bot,
+      command::cheat::player::cheat_get_players,
       command::cheat::resources::cheat_get_resources,
       command::cheat::resources::cheat_set_food,
       command::cheat::resources::cheat_set_iron,

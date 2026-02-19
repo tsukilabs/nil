@@ -52,6 +52,7 @@ impl UserData for ClientUserData {
     cheat::infrastructure::add_methods(methods);
     cheat::military::add_methods(methods);
     cheat::npc::add_methods(methods);
+    cheat::player::add_methods(methods);
     cheat::resources::add_methods(methods);
     cheat::round::add_methods(methods);
     city::add_methods(methods);

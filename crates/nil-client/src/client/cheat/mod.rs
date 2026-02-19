@@ -6,5 +6,6 @@ mod city;
 mod infrastructure;
 mod military;
 mod npc;
+mod player;
 mod resources;
 mod round;
