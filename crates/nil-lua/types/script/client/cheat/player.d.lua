@@ -3,6 +3,10 @@
 
 ---@meta
 
+---@param req CheatGetPlayerRequest
+---@return Player
+function client:cheatGetPlayer(req) end
+
 ---@param req CheatGetPlayersRequest
 ---@return Player[]
 function client:cheatGetPlayers(req) end

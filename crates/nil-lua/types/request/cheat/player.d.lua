@@ -3,5 +3,9 @@
 
 ---@meta
 
+---@class CheatGetPlayerRequest
+---@field world WorldId
+---@field player PlayerId|nil
+
 ---@class CheatGetPlayersRequest
 ---@field world WorldId

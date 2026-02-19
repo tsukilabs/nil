@@ -8,6 +8,14 @@ use nil_payload::cheat::player::*;
 use tauri::AppHandle;
 
 #[tauri::command]
+pub async fn cheat_get_player(app: AppHandle, req: CheatGetPlayerRequest) -> Result<Player> {
+  app
+    .client(async |cl| cl.cheat_get_player(req).await)
+    .await
+    .map_err(Into::into)
+}
+
+#[tauri::command]
 pub async fn cheat_get_players(app: AppHandle, req: CheatGetPlayersRequest) -> Result<Vec<Player>> {
   app
     .client(async |cl| cl.cheat_get_players(req).await)
