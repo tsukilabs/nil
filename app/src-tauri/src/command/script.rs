@@ -33,33 +33,31 @@ pub async fn import_script(app: AppHandle, path: PathBuf) -> Result<()> {
 #[tauri::command]
 pub async fn import_scripts(app: AppHandle, paths: Vec<PathBuf>) -> Result<()> {
   let dir = app.script_dir()?;
+  fs::create_dir_all(&dir).await?;
+
   for path in paths {
-    if let Some(name) = path.file_stem()
+    if is_script(path.clone()).await?
+      && let Some(name) = path.file_stem()
       && let Some(name) = name.to_str()
-      && let Some(ext) = path.extension()
-      && ext.eq_ignore_ascii_case("lua")
     {
-      let metadata = fs::metadata(&path).await?;
-      if metadata.file_type().is_file() {
-        let mut new = dir.join(name);
-        let mut suffix = 1;
+      let mut new = dir.join(name);
+      let mut suffix = 1;
 
-        'inner: loop {
-          if suffix > 1 {
-            new.set_file_name(format!("{name}_{suffix}.lua"));
-          } else {
-            new.set_file_name(format!("{name}.lua"));
-          }
-
-          if fs::try_exists(&new).await? {
-            suffix += 1;
-          } else {
-            break 'inner;
-          }
+      'inner: loop {
+        if suffix > 1 {
+          new.set_file_name(format!("{name}_{suffix}.lua"));
+        } else {
+          new.set_file_name(format!("{name}.lua"));
         }
 
-        fs::copy(path, new).await?;
+        if fs::try_exists(&new).await? {
+          suffix += 1;
+        } else {
+          break 'inner;
+        }
       }
+
+      fs::copy(path, new).await?;
     }
   }
 
