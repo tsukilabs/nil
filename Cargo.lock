@@ -3476,28 +3476,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "nil-database"
-version = "0.3.0"
-dependencies = [
- "anyhow",
- "bon",
- "derive_more 2.1.1",
- "diesel",
- "diesel_migrations",
- "either",
- "jiff",
- "libsqlite3-sys",
- "nil-core",
- "nil-crypto",
- "nil-util",
- "semver",
- "serde",
- "tap",
- "thiserror 2.0.18",
- "tracing",
-]
-
-[[package]]
 name = "nil-log"
 version = "0.3.0"
 dependencies = [
@@ -3601,9 +3579,9 @@ dependencies = [
  "jsonwebtoken",
  "nil-core",
  "nil-crypto",
- "nil-database",
  "nil-log",
  "nil-payload",
+ "nil-server-database",
  "nil-server-types",
  "nil-util",
  "semver",
@@ -3615,6 +3593,28 @@ dependencies = [
  "tower-http",
  "tracing",
  "uuid",
+]
+
+[[package]]
+name = "nil-server-database"
+version = "0.3.0"
+dependencies = [
+ "anyhow",
+ "bon",
+ "derive_more 2.1.1",
+ "diesel",
+ "diesel_migrations",
+ "either",
+ "jiff",
+ "libsqlite3-sys",
+ "nil-core",
+ "nil-crypto",
+ "nil-util",
+ "semver",
+ "serde",
+ "tap",
+ "thiserror 2.0.18",
+ "tracing",
 ]
 
 [[package]]

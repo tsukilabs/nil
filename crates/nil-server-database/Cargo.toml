@@ -1,5 +1,5 @@
 [package]
-name = "nil-database"
+name = "nil-server-database"
 publish = false
 readme = "../../../README.md"
 

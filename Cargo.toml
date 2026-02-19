@@ -6,7 +6,6 @@ members = [
   "crates/nil-core",
   "crates/nil-core-macros",
   "crates/nil-crypto",
-  "crates/nil-database",
   "crates/nil-log",
   "crates/nil-lua",
   "crates/nil-lua-cli",
@@ -15,6 +14,7 @@ members = [
   "crates/nil-num-macros",
   "crates/nil-payload",
   "crates/nil-server",
+  "crates/nil-server-database",
   "crates/nil-server-types",
   "crates/nil-util",
 ]
@@ -59,13 +59,13 @@ nil-client.path = "./crates/nil-client"
 nil-core.path = "./crates/nil-core"
 nil-core-macros.path = "./crates/nil-core-macros"
 nil-crypto.path = "./crates/nil-crypto"
-nil-database.path = "./crates/nil-database"
 nil-log.path = "./crates/nil-log"
 nil-lua.path = "./crates/nil-lua"
 nil-namegen.path = "./crates/nil-namegen"
 nil-num.path = "./crates/nil-num"
 nil-num-macros.path = "./crates/nil-num-macros"
 nil-server.path = "./crates/nil-server"
+nil-server-database.path = "./crates/nil-server-database"
 nil-server-types.path = "./crates/nil-server-types"
 nil-payload.path = "./crates/nil-payload"
 nil-util.path = "./crates/nil-util"

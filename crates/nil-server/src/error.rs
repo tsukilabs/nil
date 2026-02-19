@@ -9,7 +9,7 @@ use std::io;
 use std::result::Result as StdResult;
 
 pub use nil_core::error::Error as CoreError;
-pub use nil_database::error::Error as DatabaseError;
+pub use nil_server_database::error::Error as DatabaseError;
 
 pub type Result<T, E = Error> = StdResult<T, E>;
 pub type AnyResult<T> = anyhow::Result<T>;

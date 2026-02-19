@@ -14,7 +14,7 @@ cargo install diesel_cli --no-default-features --features "sqlite-bundled"
 ```
 
 > [!NOTE]
-> The truth is you don’t really need to install Diesel unless you want to work with the [remote server database](/crates/nil-database).
+> The truth is you don’t really need to install Diesel unless you want to work with the [remote server database](/crates/nil-server-database).
 
 If you also want to work on the Android version, you’ll need to go through some additional steps. The [official Tauri guide](https://v2.tauri.app/start/prerequisites/#android) should help you with that.
 
