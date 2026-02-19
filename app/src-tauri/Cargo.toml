@@ -22,6 +22,7 @@ anyhow.workspace = true
 bon.workspace = true
 futures.workspace = true
 itertools.workspace = true
+jiff.workspace = true
 mlua.workspace = true
 nil-client.workspace = true
 nil-core.workspace = true

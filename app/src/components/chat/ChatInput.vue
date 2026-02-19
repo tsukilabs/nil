@@ -2,6 +2,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
+import { maxBy } from 'es-toolkit';
 import { useI18n } from 'vue-i18n';
 import { sleep } from '@tb-dev/utils';
 import { handleError } from '@/lib/error';
@@ -22,9 +23,27 @@ const chatInputInner = computed(() => chatInput.value?.$el);
 const draft = ref<Option<string>>();
 const { locked, ...mutex } = useMutex();
 
-const lastSent = localRef<string>('chat-input:last-sent', '');
+interface MessageHistory {
+  readonly world: WorldId;
+  lastUpdate: number;
+  readonly messages: {
+    readonly id: number;
+    readonly content: string;
+  }[];
+}
 
-async function send() {
+const history = localRef<MessageHistory[]>('chat-input:message-history', []);
+const currentHistoryEntryId = ref<Option<number>>();
+
+async function send(e: Event) {
+  if (
+    e instanceof KeyboardEvent &&
+    e.key.toLowerCase() === 'enter' &&
+    e.shiftKey
+  ) {
+    return;
+  }
+
   if (draft.value) {
     try {
       await mutex.acquire();
@@ -35,7 +54,7 @@ async function send() {
       await props.onSend?.();
 
       if (message) {
-        lastSent.value = message;
+        updateHistory(message);
       }
     }
     catch (err) {
@@ -50,16 +69,86 @@ async function send() {
   }
 }
 
-async function restore() {
-  if (!draft.value?.trim() && lastSent.value) {
-    draft.value = lastSent.value;
+function updateHistory(message: string) {
+  history.value.sort((a, b) => a.lastUpdate - b.lastUpdate);
 
-    if (chatInputInner.value) {
-      chatInputInner.value.focus();
-      await sleep(5);
+  while (history.value.length > 10) {
+    history.value.shift();
+  }
 
-      const length = chatInputInner.value.value.length;
-      chatInputInner.value.setSelectionRange(length, length);
+  const now = Date.now();
+  const world = NIL.world.getIdStrict();
+  let entry = history.value.find((it) => it.world === world);
+
+  if (!entry) {
+    entry = { world, messages: [], lastUpdate: now };
+    history.value.push(entry);
+  }
+
+  const id = maxBy(entry.messages, (it) => it.id)?.id;
+  const nextId = (id ?? 0) + 1;
+
+  entry.messages.push({
+    id: nextId,
+    content: message,
+  });
+
+  entry.lastUpdate = now;
+  entry.messages.sort((a, b) => a.id - b.id);
+  currentHistoryEntryId.value = null;
+}
+
+async function restore(direction: 'up' | 'down') {
+  const world = NIL.world.getIdStrict();
+  const entry = history.value.find((it) => it.world === world);
+  if (entry && entry.messages.length > 0) {
+    try {
+      await mutex.acquire();
+      switch (direction) {
+        case 'up': {
+          let previous: Option<MessageHistory['messages'][0]> = null;
+          if (currentHistoryEntryId.value) {
+            const previousId = currentHistoryEntryId.value - 1;
+            previous = entry.messages.find((it) => it.id === previousId);
+          }
+
+          previous ??= entry.messages.at(-1);
+
+          if (previous) {
+            draft.value = previous.content;
+            currentHistoryEntryId.value = previous.id;
+          }
+
+          break;
+        }
+        case 'down': {
+          if (currentHistoryEntryId.value) {
+            const nextId = currentHistoryEntryId.value + 1;
+            const next = entry.messages.find((it) => it.id === nextId);
+            if (next) {
+              draft.value = next.content;
+              currentHistoryEntryId.value = nextId;
+            }
+            else {
+              draft.value = null;
+              currentHistoryEntryId.value = null;
+            }
+          }
+        }
+      }
+    }
+    catch (err) {
+      handleError(err);
+    }
+    finally {
+      mutex.release();
+      if (chatInputInner.value) {
+        chatInputInner.value.focus();
+        await sleep(5);
+
+        const length = chatInputInner.value.value.length;
+        chatInputInner.value.setSelectionRange(length, length);
+      }
     }
   }
 }
@@ -76,7 +165,8 @@ async function restore() {
       :maxlength="5000"
       spellcheck="false"
       @keydown.enter="send"
-      @keydown.up="restore"
+      @keydown.up.prevent="() => restore('up')"
+      @keydown.down.prevent="() => restore('down')"
     />
     <Button :disabled="!draft || locked" @click="send">
       {{ t('send') }}

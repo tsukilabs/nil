@@ -76,6 +76,10 @@ export async function nilDir() {
   return invoke<string>('nil_dir');
 }
 
+export async function now() {
+  return invoke<string>('now');
+}
+
 export async function showWindow() {
   await invoke('show_window');
 }

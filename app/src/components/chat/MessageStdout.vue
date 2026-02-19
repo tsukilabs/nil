@@ -15,12 +15,12 @@ const content = computed(() => {
 </script>
 
 <template>
-  <div class="flex w-full items-center overflow-hidden gap-2 md:gap-4">
-    <template v-for="(line, idx) of content" :key="idx">
+  <template v-for="(line, idx) of content" :key="idx">
+    <div class="flex w-full items-center overflow-hidden gap-2 md:gap-4">
       <span class="text-sm text-yellow-600">$</span>
       <pre class="text-secondary-foreground/80 text-pretty break-normal wrap-anywhere whitespace-normal select-text">
         {{ line }}
       </pre>
-    </template>
-  </div>
+    </div>
+  </template>
 </template>

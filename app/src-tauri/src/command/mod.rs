@@ -23,6 +23,7 @@ pub mod world;
 
 use crate::error::{Error, Result};
 use crate::manager::ManagerExt;
+use jiff::Zoned;
 use std::env;
 use std::path::PathBuf;
 use tauri::AppHandle;
@@ -116,6 +117,11 @@ pub async fn is_remote_or_host(app: AppHandle) -> bool {
 #[tauri::command]
 pub async fn nil_dir(app: AppHandle) -> Result<PathBuf> {
   app.nil_dir()
+}
+
+#[tauri::command]
+pub fn now() -> Zoned {
+  Zoned::now()
 }
 
 #[cfg(desktop)]
