@@ -7,6 +7,7 @@ mod tests;
 use crate::error::{Error, Result};
 use crate::player::PlayerId;
 use derive_more::Deref;
+use jiff::Zoned;
 use nil_util::iter::IterExt;
 use serde::{Deserialize, Serialize};
 use std::collections::HashSet;
@@ -18,6 +19,7 @@ use strum::EnumIs;
 pub struct Round {
   id: RoundId,
   state: RoundState,
+  started_at: Option<Zoned>,
 }
 
 impl Round {
@@ -26,6 +28,7 @@ impl Round {
     I: IntoIterator<Item = PlayerId>,
   {
     if let RoundState::Idle = &self.state {
+      self.started_at = Some(Zoned::now());
       self.wait(players);
       Ok(())
     } else {
@@ -45,6 +48,7 @@ impl Round {
       }
       RoundState::Waiting { .. } | RoundState::Done => {
         self.id = self.id.next();
+        self.started_at = Some(Zoned::now());
         self.wait(players);
         Ok(())
       }
@@ -55,7 +59,10 @@ impl Round {
   /// where players are expected to take their turns.
   ///
   /// If `players` is empty, the round will be set to [`RoundState::Done`] instead.
-  fn wait(&mut self, players: impl IntoIterator<Item = PlayerId>) {
+  fn wait<I>(&mut self, players: I)
+  where
+    I: IntoIterator<Item = PlayerId>,
+  {
     let pending = players.into_iter().collect_set();
     if pending.is_empty() {
       self.state = RoundState::Done;
@@ -126,6 +133,14 @@ impl Round {
     } else {
       false
     }
+  }
+
+  #[inline]
+  pub fn started_at(&self) -> Result<&Zoned> {
+    self
+      .started_at
+      .as_ref()
+      .ok_or(Error::RoundNotStarted)
   }
 
   /// Clones the round, setting its state to [`RoundState::Idle`].

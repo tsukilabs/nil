@@ -6,6 +6,7 @@
 ---@class Round
 ---@field id RoundId
 ---@field state RoundState
+---@field startedAt string
 
 ---@alias RoundId number
 

@@ -4,6 +4,7 @@
 interface Round {
   readonly id: RoundId;
   readonly state: RoundState;
+  readonly startedAt: string;
 }
 
 type RoundId = number;

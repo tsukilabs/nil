@@ -6,10 +6,12 @@ import * as commands from '@/commands';
 export class RoundImpl implements Round {
   public readonly id: number;
   public readonly state: RoundState;
+  public readonly startedAt: string;
 
   private constructor(round: Round) {
     this.id = round.id;
     this.state = round.state;
+    this.startedAt = round.startedAt;
   }
 
   public isIdle() {
