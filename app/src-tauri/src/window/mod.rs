@@ -48,18 +48,25 @@ fn script() -> String {
 struct Constants {
   i8_min: i8,
   i8_max: i8,
+
   i16_min: i16,
   i16_max: i16,
+
   u8_max: u8,
   u16_max: u16,
   u32_max: u32,
 
   bot_density_min: BotDensity,
   bot_density_max: BotDensity,
+  bot_density_default: BotDensity,
+
   bot_advanced_start_ratio_min: BotAdvancedStartRatio,
   bot_advanced_start_ratio_max: BotAdvancedStartRatio,
+  bot_advanced_start_ratio_default: BotAdvancedStartRatio,
+
   continent_size_min: ContinentSize,
   continent_size_max: ContinentSize,
+  continent_size_default: ContinentSize,
 }
 
 impl Default for Constants {
@@ -67,18 +74,25 @@ impl Default for Constants {
     Self {
       i8_min: i8::MIN,
       i8_max: i8::MAX,
+
       i16_min: i16::MIN,
       i16_max: i16::MAX,
+
       u8_max: u8::MAX,
       u16_max: u16::MAX,
       u32_max: u32::MAX,
 
       bot_density_min: BotDensity::MIN,
       bot_density_max: BotDensity::MAX,
+      bot_density_default: BotDensity::default(),
+
       bot_advanced_start_ratio_min: BotAdvancedStartRatio::MIN,
       bot_advanced_start_ratio_max: BotAdvancedStartRatio::MAX,
+      bot_advanced_start_ratio_default: BotAdvancedStartRatio::default(),
+
       continent_size_min: ContinentSize::MIN,
       continent_size_max: ContinentSize::MAX,
+      continent_size_default: ContinentSize::default(),
     }
   }
 }

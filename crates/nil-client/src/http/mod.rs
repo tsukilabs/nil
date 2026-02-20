@@ -7,7 +7,7 @@ use crate::error::{Error, Result};
 use crate::http::authorization::Authorization;
 use crate::server::ServerAddr;
 use futures::TryFutureExt;
-use http::{Method, header};
+use http::{Method, StatusCode, header};
 use reqwest::{Client as HttpClient, Response};
 use serde::Serialize;
 use serde::de::DeserializeOwned;
@@ -136,8 +136,7 @@ async fn request(
   if response.status().is_success() {
     Ok(response)
   } else {
-    let text = response.text().await?;
-    Err(Error::RequestFailed(text))
+    Err(into_error(response).await?)
   }
 }
 
@@ -165,8 +164,7 @@ where
   if response.status().is_success() {
     Ok(response)
   } else {
-    let text = response.text().await?;
-    Err(Error::RequestFailed(text))
+    Err(into_error(response).await?)
   }
 }
 
@@ -180,5 +178,16 @@ where
       tracing::error!(message = %err, error = ?err);
       Err(Error::Reqwest(err))
     }
+  }
+}
+
+async fn into_error(response: Response) -> Result<Error> {
+  let status = response.status();
+  if status == StatusCode::TOO_MANY_REQUESTS
+    && let Some(reason) = status.canonical_reason()
+  {
+    Ok(Error::RequestFailed(reason.to_owned()))
+  } else {
+    Ok(Error::RequestFailed(response.text().await?))
   }
 }

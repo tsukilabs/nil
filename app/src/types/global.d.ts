@@ -22,18 +22,25 @@ declare global {
   var __CONSTS__: {
     readonly i8Min: number;
     readonly i8Max: number;
+
     readonly i16Min: number;
     readonly i16Max: number;
+
     readonly u8Max: number;
     readonly u16Max: number;
     readonly u32Max: number;
 
     readonly botDensityMin: BotDensity;
     readonly botDensityMax: BotDensity;
+    readonly botDensityDefault: BotDensity;
+
     readonly botAdvancedStartRatioMin: BotAdvancedStartRatio;
     readonly botAdvancedStartRatioMax: BotAdvancedStartRatio;
+    readonly botAdvancedStartRatioDefault: BotAdvancedStartRatio;
+
     readonly continentSizeMin: ContinentSize;
     readonly continentSizeMax: ContinentSize;
+    readonly continentSizeDefault: ContinentSize;
   };
 
   var NIL: {

@@ -10,7 +10,8 @@ type GameScene =
   | 'chat'
   | 'city'
   | 'continent'
-  | 'ranking';
+  | 'ranking'
+  | 'scripts';
 
 type ContinentScene = 'continent' | 'continent-cities';
 

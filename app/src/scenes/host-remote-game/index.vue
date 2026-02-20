@@ -11,7 +11,6 @@ import { hostRemoteGame } from '@/core/game';
 import { useUserStore } from '@/stores/user';
 import { useSettings } from '@/stores/settings';
 import { localRef, useMutex } from '@tb-dev/vue';
-import { WorldConfigImpl } from '@/core/model/world-config';
 import enUS_online from '@/locale/en-US/scenes/online.json';
 import ptBR_online from '@/locale/pt-BR/scenes/online.json';
 import enUS_hostGame from '@/locale/en-US/scenes/host-game.json';
@@ -43,11 +42,11 @@ const worldOptions = localRef<WritablePartial<WorldOptions>>(
   'host-remote-game:world',
   {
     name: null,
-    size: 100,
+    size: __CONSTS__.continentSizeDefault,
     locale: settings.locale,
     allowCheats: false,
-    botDensity: WorldConfigImpl.DEFAULT_BOT_DENSITY,
-    botAdvancedStartRatio: WorldConfigImpl.DEFAULT_BOT_ADVANCED_START_RATIO,
+    botDensity: __CONSTS__.botDensityDefault,
+    botAdvancedStartRatio: __CONSTS__.botAdvancedStartRatioDefault,
   } satisfies WithPartialNullish<WorldOptions, 'name'>,
 );
 

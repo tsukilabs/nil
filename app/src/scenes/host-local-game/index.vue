@@ -11,7 +11,6 @@ import { useSettings } from '@/stores/settings';
 import { localRef, useMutex } from '@tb-dev/vue';
 import enUS from '@/locale/en-US/scenes/host-game.json';
 import ptBR from '@/locale/pt-BR/scenes/host-game.json';
-import { WorldConfigImpl } from '@/core/model/world-config';
 import { isPlayerOptions, isWorldOptions } from '@/lib/schema';
 import InputWorldName from '@/components/form/InputWorldName.vue';
 import InputWorldSize from '@/components/form/InputWorldSize.vue';
@@ -35,11 +34,11 @@ const worldOptions = localRef<WritablePartial<WorldOptions>>(
   'host-local-game:world',
   {
     name: null,
-    size: 100,
+    size: __CONSTS__.continentSizeDefault,
     locale: settings.locale,
     allowCheats: false,
-    botDensity: WorldConfigImpl.DEFAULT_BOT_DENSITY,
-    botAdvancedStartRatio: WorldConfigImpl.DEFAULT_BOT_ADVANCED_START_RATIO,
+    botDensity: __CONSTS__.botDensityDefault,
+    botAdvancedStartRatio: __CONSTS__.botAdvancedStartRatioDefault,
   } satisfies WithPartialNullish<WorldOptions, 'name'>,
 );
 

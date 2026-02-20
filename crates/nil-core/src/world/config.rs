@@ -124,7 +124,7 @@ impl BotDensity {
 
 impl Default for BotDensity {
   fn default() -> Self {
-    Self::new(2.0)
+    if cfg!(target_os = "android") { Self::new(1.0) } else { Self::new(2.0) }
   }
 }
 

@@ -45,6 +45,11 @@ export const gameRoutes: RouteRecordRaw[] = [
     children: reportRoutes,
   },
   {
+    component: () => import('@/scenes/game/scripts/index.vue'),
+    path: 'scripts',
+    name: 'scripts' satisfies GameScene,
+  },
+  {
     component: () => import('@/scenes/game/war-room/index.vue'),
     path: 'war-room',
     children: warRoomRoutes,
