@@ -50,6 +50,7 @@
   --font-mono: "Geist Mono", monospace;
   --font-syne: "Syne";
   --font-syne-mono: "Syne Mono";
+  --font-ubuntu-mono: "Ubuntu Mono";
 }
 
 @utility ellipsis {
