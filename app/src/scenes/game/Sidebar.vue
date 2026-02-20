@@ -84,7 +84,7 @@ function copyServerAddr() {
   <Sidebar class="z-(--game-sidebar-z-index) select-none">
     <SidebarHeader>
       <div ref="sidebarHeaderEl" class="flex flex-col items-center overflow-hidden pt-4">
-        <h1 v-if="config" class="font-nil text-lg break-all text-center">
+        <h1 v-if="config" class="font-syne-mono text-lg break-all text-center">
           {{ config.name }}
         </h1>
         <h2

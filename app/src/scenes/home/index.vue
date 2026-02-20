@@ -52,7 +52,7 @@ async function goToOnlineScene() {
 
 <template>
   <div class="flex size-full flex-col items-center justify-center gap-2">
-    <h1 class="font-nil -mt-16 mb-8 text-5xl font-extrabold sm:text-6xl md:text-7xl">
+    <h1 class="font-syne-mono -mt-16 mb-8 text-5xl font-extrabold sm:text-6xl md:text-7xl">
       <span>Call of Nil</span>
     </h1>
 

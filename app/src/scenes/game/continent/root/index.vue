@@ -135,13 +135,13 @@ function move(direction: Direction, delta: number) {
           </div>
         </div>
 
-        <div id="rule-horizontal" class="rule bg-accent font-nil text-xs sm:text-lg">
+        <div id="rule-horizontal" class="rule bg-accent font-syne-mono text-xs sm:text-lg">
           <div v-for="col of cols" :key="col[0]">
             <span v-if="typeof col[1] === 'number'">{{ col[1] }}</span>
           </div>
         </div>
 
-        <div id="rule-vertical" class="rule bg-accent font-nil text-xs sm:text-lg">
+        <div id="rule-vertical" class="rule bg-accent font-syne-mono text-xs sm:text-lg">
           <div v-for="row of rows" :key="row[0]">
             <span v-if="typeof row[1] === 'number'">{{ row[1] }}</span>
           </div>
