@@ -36,7 +36,7 @@ pub async fn import_scripts(app: AppHandle, paths: Vec<PathBuf>) -> Result<()> {
   fs::create_dir_all(&dir).await?;
 
   for path in paths {
-    if is_script_(&path).await?
+    if is_script(&path).await?
       && let Some(name) = path.file_stem()
       && let Some(name) = name.to_str()
     {
@@ -65,11 +65,7 @@ pub async fn import_scripts(app: AppHandle, paths: Vec<PathBuf>) -> Result<()> {
 }
 
 #[tauri::command]
-pub async fn is_script(path: PathBuf) -> Result<bool> {
-  is_script_(&path).await
-}
-
-async fn is_script_(path: &Path) -> Result<bool> {
+pub async fn is_script(path: &Path) -> Result<bool> {
   if let Some(ext) = path.extension()
     && ext.eq_ignore_ascii_case("lua")
   {
