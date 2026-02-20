@@ -11,8 +11,9 @@ use crate::sql_types::zoned::SqlZoned;
 use diesel::prelude::*;
 use nil_core::world::World;
 use nil_crypto::password::Password;
+use std::fmt;
 
-#[derive(Identifiable, Queryable, Selectable, Clone, Debug)]
+#[derive(Identifiable, Queryable, Selectable, Clone)]
 #[diesel(table_name = crate::schema::game)]
 #[diesel(check_for_backend(diesel::sqlite::Sqlite))]
 #[diesel(belongs_to(UserData, foreign_key = created_by))]
@@ -25,7 +26,31 @@ pub struct Game {
   pub updated_at: SqlZoned,
 }
 
-#[derive(Identifiable, Queryable, Selectable, Clone, Debug)]
+impl From<GameWithBlob> for Game {
+  fn from(game: GameWithBlob) -> Self {
+    Self {
+      id: game.id,
+      password: game.password,
+      description: game.description,
+      created_by: game.created_by,
+      created_at: game.created_at,
+      updated_at: game.updated_at,
+    }
+  }
+}
+
+impl fmt::Debug for Game {
+  fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+    f.debug_struct("Game")
+      .field("id", &self.id.to_string())
+      .field("created_by", &self.created_by)
+      .field("created_at", &self.created_at.to_string())
+      .field("updated_at", &self.updated_at.to_string())
+      .finish_non_exhaustive()
+  }
+}
+
+#[derive(Identifiable, Queryable, Selectable, Clone)]
 #[diesel(table_name = crate::schema::game)]
 #[diesel(check_for_backend(diesel::sqlite::Sqlite))]
 #[diesel(belongs_to(UserData, foreign_key = created_by))]
@@ -42,7 +67,7 @@ pub struct GameWithBlob {
 
 impl GameWithBlob {
   #[inline]
-  pub fn into_world(self) -> Result<World> {
+  pub fn to_world(&self) -> Result<World> {
     Ok(World::load(&self.world_blob)?)
   }
 }

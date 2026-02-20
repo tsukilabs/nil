@@ -6,7 +6,8 @@ import type { GetChatHistoryResponse } from '@/lib/response';
 import type {
   GetChatHistoryRequest,
   PushChatMessageRequest,
-  PushStdoutMessageRequest,
+  PushStdioMessagesRequest,
+  PushStdioMessagesRequestMessage,
 } from '@/lib/request';
 
 export async function getChatHistory() {
@@ -28,13 +29,13 @@ export async function pushChatMessage(message: string) {
   }
 }
 
-export async function pushStdoutMessage(stdout: string) {
-  if (stdout.trim().length > 0) {
-    const req: PushStdoutMessageRequest = {
+export async function pushStdioMessages(messages: PushStdioMessagesRequestMessage[]) {
+  if (messages.length > 0) {
+    const req: PushStdioMessagesRequest = {
       world: NIL.world.getIdStrict(),
-      stdout,
+      messages,
     };
 
-    await invoke('push_stdout_message', { req });
+    await invoke('push_stdio_messages', { req });
   }
 }

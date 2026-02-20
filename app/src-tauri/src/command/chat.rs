@@ -26,9 +26,9 @@ pub async fn push_chat_message(app: AppHandle, req: PushChatMessageRequest) -> R
 }
 
 #[tauri::command]
-pub async fn push_stdout_message(app: AppHandle, req: PushStdoutMessageRequest) -> Result<()> {
+pub async fn push_stdio_messages(app: AppHandle, req: PushStdioMessagesRequest) -> Result<()> {
   app
-    .client(async |cl| cl.push_stdout_message(req).await)
+    .client(async |cl| cl.push_stdio_messages(req).await)
     .await
     .map_err(Into::into)
 }

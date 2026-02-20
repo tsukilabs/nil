@@ -10,8 +10,9 @@ use diesel::serialize::{self as ser, IsNull, Output, ToSql};
 use diesel::sql_types::Text;
 use diesel::sqlite::Sqlite;
 use nil_crypto::password::Password;
+use std::fmt;
 
-#[derive(FromSqlRow, AsExpression, Clone, Debug, From, Into, PartialEq, Eq, Hash)]
+#[derive(FromSqlRow, AsExpression, Clone, From, Into, PartialEq, Eq, Hash)]
 #[diesel(sql_type = Text)]
 pub struct HashedPassword(Box<str>);
 
@@ -41,5 +42,13 @@ where
   fn to_sql<'b>(&'b self, out: &mut Output<'b, '_, Sqlite>) -> ser::Result {
     out.set_value(self.0.as_str());
     Ok(IsNull::No)
+  }
+}
+
+impl fmt::Debug for HashedPassword {
+  fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+    f.debug_tuple("HashedPassword")
+      .field(&"***")
+      .finish()
   }
 }

@@ -7,6 +7,7 @@
 
 pub mod client;
 pub mod error;
+pub mod stdio;
 
 use crate::client::ClientUserData;
 use crate::error::Result;
@@ -15,6 +16,7 @@ use nil_client::Client;
 use serde::{Deserialize, Serialize};
 use std::mem;
 use std::sync::Arc;
+use stdio::{Stdio, StdioMessage};
 use tokio::sync::RwLock;
 use tokio::sync::mpsc::{self, UnboundedReceiver};
 
@@ -57,6 +59,8 @@ impl Lua {
 
   fn output(&mut self) -> ScriptOutput {
     self.flush();
+    self.stdout.buffer.sort();
+    self.stderr.buffer.sort();
 
     ScriptOutput {
       stdout: mem::take(&mut self.stdout.buffer),
@@ -75,7 +79,11 @@ impl Lua {
   }
 }
 
-fn pipe_stdio(lua: &mlua::Lua, name: &str, name_ln: &str) -> Result<UnboundedReceiver<String>> {
+fn pipe_stdio(
+  lua: &mlua::Lua,
+  name: &str,
+  name_ln: &str,
+) -> Result<UnboundedReceiver<StdioMessage>> {
   let (tx, rx) = mpsc::unbounded_channel();
   let create_fn = |line_break: bool| {
     let tx = tx.clone();
@@ -89,7 +97,7 @@ fn pipe_stdio(lua: &mlua::Lua, name: &str, name_ln: &str) -> Result<UnboundedRec
         string.push('\n');
       }
 
-      let _ = tx.send(string);
+      let _ = tx.send(StdioMessage::new(string));
 
       Ok(())
     })
@@ -105,23 +113,6 @@ fn pipe_stdio(lua: &mlua::Lua, name: &str, name_ln: &str) -> Result<UnboundedRec
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct ScriptOutput {
-  pub stdout: String,
-  pub stderr: String,
-}
-
-pub struct Stdio {
-  buffer: String,
-  receiver: UnboundedReceiver<String>,
-}
-
-impl Stdio {
-  fn new(receiver: UnboundedReceiver<String>) -> Self {
-    Self { buffer: String::new(), receiver }
-  }
-
-  fn flush(&mut self) {
-    while let Ok(value) = self.receiver.try_recv() {
-      self.buffer.push_str(&value);
-    }
-  }
+  pub stdout: Vec<StdioMessage>,
+  pub stderr: Vec<StdioMessage>,
 }

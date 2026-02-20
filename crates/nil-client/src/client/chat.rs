@@ -30,8 +30,8 @@ impl Client {
       .await
   }
 
-  pub async fn push_stdout_message(&self, req: PushStdoutMessageRequest) -> Result<()> {
-    http::post("push-stdout-message")
+  pub async fn push_stdio_messages(&self, req: PushStdioMessagesRequest) -> Result<()> {
+    http::post("push-stdio-messages")
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())

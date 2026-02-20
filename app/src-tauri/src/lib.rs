@@ -52,7 +52,7 @@ pub fn run() {
       command::battle::simulate_battle,
       command::chat::get_chat_history,
       command::chat::push_chat_message,
-      command::chat::push_stdout_message,
+      command::chat::push_stdio_messages,
       command::cheat::behavior::cheat_get_build_steps,
       command::cheat::city::cheat_set_stability,
       command::cheat::infrastructure::cheat_get_academy_recruit_queue,

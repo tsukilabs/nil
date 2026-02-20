@@ -1,6 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+use jiff::Zoned;
 use nil_core::chat::ChatHistory;
 use nil_core::world::config::WorldId;
 use serde::{Deserialize, Serialize};
@@ -27,7 +28,15 @@ pub struct PushChatMessageRequest {
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-pub struct PushStdoutMessageRequest {
+pub struct PushStdioMessagesRequest {
   pub world: WorldId,
-  pub stdout: String,
+  pub messages: Vec<PushStdioMessagesRequestMessage>,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct PushStdioMessagesRequestMessage {
+  pub content: String,
+  #[serde(default)]
+  pub time: Option<Zoned>,
 }

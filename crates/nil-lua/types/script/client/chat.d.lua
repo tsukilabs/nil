@@ -10,5 +10,5 @@ function client:getChatHistory(req) end
 ---@param req PushChatMessageRequest
 function client:pushChatMessage(req) end
 
----@param req PushStdoutMessageRequest
-function client:pushStdoutMessage(req) end
+---@param req PushStdioMessagesRequest
+function client:pushStdioMessages(req) end

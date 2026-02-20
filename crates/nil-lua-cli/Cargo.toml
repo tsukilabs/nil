@@ -23,6 +23,7 @@ workspace = true
 anyhow.workspace = true
 clap.workspace = true
 futures.workspace = true
+itertools.workspace = true
 mlua.workspace = true
 nil-crypto.workspace = true
 nil-log.workspace = true

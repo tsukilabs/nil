@@ -34,11 +34,13 @@ watchEffect(() => {
   }
 });
 
-function onChatUpdated({ message }: ChatUpdatedPayload) {
+function onChatUpdated({ messages }: ChatUpdatedPayload) {
   if (
     !isChatOpen.value &&
     route.name !== ('chat' satisfies GameScene) &&
-    (message.author.kind !== 'player' || message.author.id !== player.value?.id)
+    messages.some((message) => {
+      return message.author.kind === 'player' && message.author.id !== player.value?.id;
+    })
   ) {
     hasUnread.value = true;
   }

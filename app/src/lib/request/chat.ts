@@ -10,7 +10,12 @@ export interface PushChatMessageRequest {
   readonly message: string;
 }
 
-export interface PushStdoutMessageRequest {
+export interface PushStdioMessagesRequest {
   readonly world: WorldId;
-  readonly stdout: string;
+  readonly messages: PushStdioMessagesRequestMessage[];
+}
+
+export interface PushStdioMessagesRequestMessage {
+  readonly content: string;
+  readonly time?: Option<string>;
 }

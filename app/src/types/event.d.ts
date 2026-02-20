@@ -14,7 +14,7 @@ type EventPayloadKind = EventPayload['kind'];
 
 interface ChatUpdatedPayload {
   readonly kind: 'chat-updated';
-  readonly message: ChatMessage;
+  readonly messages: readonly ChatMessage[];
 }
 
 interface CityUpdatedPayload {

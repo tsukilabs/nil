@@ -29,9 +29,12 @@ export class ChatEntity extends Entity {
     await this.updateChat();
   }
 
-  private onChatUpdated({ message }: ChatUpdatedPayload) {
-    if (this.chat.value) {
-      this.chat.value.push(message);
+  private onChatUpdated({ messages }: ChatUpdatedPayload) {
+    if (this.chat.value && messages.length > 0) {
+      for (const message of messages) {
+        this.chat.value.push(message);
+      }
+
       triggerRef(this.chat);
     }
   }

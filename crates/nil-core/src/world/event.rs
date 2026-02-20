@@ -47,13 +47,17 @@ impl World {
   }
 
   /// Emits [`Event::ChatUpdated`].
-  pub(super) fn emit_chat_updated(&self, message: ChatMessage) {
-    self.broadcast(Event::ChatUpdated { message });
+  pub(super) fn emit_chat_updated(&self, messages: Vec<ChatMessage>) {
+    if !messages.is_empty() {
+      self.broadcast(Event::ChatUpdated { messages });
+    }
   }
 
   /// Emits [`Event::ChatUpdated`] to a specific player.
-  pub(super) fn emit_chat_updated_to(&self, player: PlayerId, message: ChatMessage) {
-    self.emit_to(player, Event::ChatUpdated { message });
+  pub(super) fn emit_chat_updated_to(&self, player: PlayerId, messages: Vec<ChatMessage>) {
+    if !messages.is_empty() {
+      self.emit_to(player, Event::ChatUpdated { messages });
+    }
   }
 
   /// Emits [`Event::CityUpdated`].

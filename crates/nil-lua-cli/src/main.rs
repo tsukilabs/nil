@@ -7,6 +7,7 @@ use anyhow::{Result, anyhow};
 use clap::Parser;
 use config::Config;
 use futures::future::BoxFuture;
+use itertools::Itertools;
 use mlua::StdLib;
 use nil_client::{Client, ServerAddr};
 use nil_core::event::Event;
@@ -88,7 +89,14 @@ async fn main() -> Result<()> {
   let chunk = fs::read_to_string(cli.script)?;
   let output = lua.execute(&chunk).await?;
 
-  print!("{}", output.stdout);
+  for message in output
+    .stdout
+    .into_iter()
+    .chain(output.stderr)
+    .sorted()
+  {
+    print!("{message}");
+  }
 
   Ok(())
 }

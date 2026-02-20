@@ -63,8 +63,8 @@ impl fmt::Debug for Emitter {
 #[strum(serialize_all = "kebab-case")]
 #[remain::sorted]
 pub enum Event {
-  /// A new message has been sent in the chat.
-  ChatUpdated { message: ChatMessage },
+  /// New messages have been sent in the chat.
+  ChatUpdated { messages: Vec<ChatMessage> },
 
   /// Indicates that there has been a change in the city's data, be it public or not.
   ///

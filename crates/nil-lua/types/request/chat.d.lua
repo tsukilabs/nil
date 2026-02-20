@@ -10,6 +10,10 @@
 ---@field world WorldId
 ---@field message string
 
----@class PushStdoutMessageRequest
+---@class PushStdioMessagesRequest
 ---@field world WorldId
----@field stdout string
+---@field messages PushStdioMessagesRequestMessage[]
+
+---@class PushStdioMessagesRequestMessage
+---@field content string
+---@field time string|nil

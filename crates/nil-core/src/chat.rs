@@ -104,7 +104,7 @@ pub struct ChatMessage {
   #[builder(default, into)]
   author: ChatMessageAuthor,
 
-  #[builder(skip = Zoned::now())]
+  #[builder(default = Zoned::now())]
   time: Zoned,
 }
 
@@ -147,7 +147,7 @@ impl Default for ChatMessageId {
 pub enum ChatMessageKind {
   #[default]
   Default,
-  Stdout,
+  Stdio,
 }
 
 #[derive(Clone, Debug, Default, Deserialize, Serialize)]

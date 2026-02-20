@@ -3493,6 +3493,7 @@ name = "nil-lua"
 version = "0.3.0"
 dependencies = [
  "anyhow",
+ "jiff",
  "mlua",
  "nil-client",
  "nil-payload",
@@ -3509,6 +3510,7 @@ dependencies = [
  "anyhow",
  "clap",
  "futures",
+ "itertools",
  "mlua",
  "nil-client",
  "nil-core",
@@ -3555,6 +3557,7 @@ name = "nil-payload"
 version = "0.3.0"
 dependencies = [
  "bon",
+ "jiff",
  "nil-core",
  "nil-crypto",
  "nil-server-types",
