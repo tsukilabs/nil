@@ -6,6 +6,7 @@ import { useI18n } from 'vue-i18n';
 import { storeToRefs } from 'pinia';
 import { throttle } from 'es-toolkit';
 import * as commands from '@/commands';
+import { onKeyDown } from '@tb-dev/vue';
 import { handleError } from '@/lib/error';
 import { nextTick, onMounted } from 'vue';
 import { handleProcessArgs } from '@/lib/env';
@@ -15,8 +16,8 @@ import { ListenerSet } from '@/lib/listener-set';
 import { setDragDropEventListener } from '@/lib/event';
 import { type as osType } from '@tauri-apps/plugin-os';
 import { createTrayIcon, showWindow } from '@/commands';
-import { onKeyDown, useBreakpoints } from '@tb-dev/vue';
 import { setTheme, useSettings } from '@/stores/settings';
+import { useBreakpoints } from '@/composables/useBreakpoints';
 import { syncRef, useColorMode, watchImmediate } from '@vueuse/core';
 import { defineGlobalCheats, defineGlobalCommands } from '@/lib/global';
 

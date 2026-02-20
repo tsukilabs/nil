@@ -2,23 +2,18 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n';
-import Sidebar from './Sidebar.vue';
-import { Card, CardContent, CardHeader, CardTitle } from '@tb-dev/vue-components';
-
-const { t } = useI18n();
+import Loading from '@/components/Loading.vue';
 </script>
 
 <template>
-  <div class="game-layout">
-    <Card class="size-full">
-      <CardHeader>
-        <CardTitle>
-          <span>{{ t('script', 2) }}</span>
-        </CardTitle>
-      </CardHeader>
-
-      <CardContent class="overflow-hidden"> </CardContent>
-    </Card>
-  </div>
+  <RouterView #default="{ Component }">
+    <template v-if="Component">
+      <Suspense>
+        <component :is="Component" />
+        <template #fallback>
+          <Loading class="absolute inset-0" />
+        </template>
+      </Suspense>
+    </template>
+  </RouterView>
 </template>

@@ -4,6 +4,7 @@
 use super::Client;
 use crate::error::Result;
 use crate::http;
+use nil_core::chat::ChatMessageId;
 use nil_payload::chat::*;
 
 impl Client {
@@ -20,18 +21,8 @@ impl Client {
       .await
   }
 
-  pub async fn push_chat_message(&self, req: PushChatMessageRequest) -> Result<()> {
-    http::post("push-chat-message")
-      .body(req)
-      .server(self.server)
-      .maybe_authorization(self.authorization.as_ref())
-      .user_agent(&self.user_agent)
-      .send()
-      .await
-  }
-
-  pub async fn push_stdio_messages(&self, req: PushStdioMessagesRequest) -> Result<()> {
-    http::post("push-stdio-messages")
+  pub async fn push_chat_message(&self, req: PushChatMessageRequest) -> Result<ChatMessageId> {
+    http::json_post("push-chat-message")
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())

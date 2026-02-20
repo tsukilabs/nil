@@ -32,32 +32,9 @@ pub async fn push(
 ) -> Response {
   app
     .world_mut(req.world, |world| {
-      world.push_chat_message(player.0, &req.message);
+      world.push_chat_message(player.0, &req.message)
     })
     .await
-    .map_left(|()| res!(OK))
-    .into_inner()
-}
-
-pub async fn push_stdio(
-  State(app): State<App>,
-  Extension(player): Extension<CurrentPlayer>,
-  Json(req): Json<PushStdioMessagesRequest>,
-) -> Response {
-  if req.messages.is_empty() {
-    return res!(OK, Json(Vec::<()>::new()));
-  }
-
-  app
-    .world_blocking_mut(req.world, move |world| {
-      let messages = req
-        .messages
-        .into_iter()
-        .map(|message| (message.content, message.time));
-
-      world.push_stdio_messages(player.0, messages);
-    })
-    .await
-    .map_left(|()| res!(OK))
+    .map_left(|id| res!(OK, Json(id)))
     .into_inner()
 }

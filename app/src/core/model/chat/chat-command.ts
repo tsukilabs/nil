@@ -7,7 +7,6 @@ import { leaveGame } from '@/core/game';
 import { ResourcesImpl } from '../resources';
 import { saveLocalGame } from '@/core/savedata';
 import { isPlayerTurn } from '@/composables/player/usePlayerTurn';
-import type { PushStdioMessagesRequestMessage } from '@/lib/request';
 
 const enum ChatCommandKind {
   Default = 'default',
@@ -115,18 +114,7 @@ export class ChatCommand {
         break;
       }
       case ChatCommandKind.Eval: {
-        const output = await commands.executeScript(this.text);
-        const messages: PushStdioMessagesRequestMessage[] = [];
-
-        for (const { content, time } of output.stdout) {
-          messages.push({ content, time });
-        }
-
-        for (const { content, time } of output.stderr) {
-          messages.push({ content, time });
-        }
-
-        await commands.pushStdioMessages(messages);
+        await commands.executeScript(this.text);
         break;
       }
       case ChatCommandKind.Farm: {

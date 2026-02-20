@@ -7,11 +7,11 @@ import FooterChat from './FooterChat.vue';
 import Unread from '@/components/Unread.vue';
 import ButtonIcon from '@/components/ButtonIcon.vue';
 import { useBreakpoints } from '@/composables/useBreakpoints';
-import { EarthIcon, ScrollTextIcon, SwordsIcon } from 'lucide-vue-next';
+import { EarthIcon, ScrollTextIcon, SquareTerminalIcon, SwordsIcon } from 'lucide-vue-next';
 
 const { unread: unreadReports } = NIL.report.refs();
 
-const { sm } = useBreakpoints();
+const { sm, md } = useBreakpoints();
 </script>
 
 <template>
@@ -31,6 +31,10 @@ const { sm } = useBreakpoints();
       </RouterLink>
 
       <FooterChat />
+
+      <RouterLink v-if="md" :to="{ name: 'scripts-terminal' satisfies GameScene }">
+        <ButtonIcon :icon="SquareTerminalIcon" />
+      </RouterLink>
     </div>
   </footer>
 </template>

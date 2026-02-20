@@ -3,6 +3,7 @@
 
 use crate::error::Result;
 use crate::manager::ManagerExt;
+use nil_core::chat::ChatMessageId;
 use nil_payload::chat::*;
 use tauri::AppHandle;
 
@@ -18,17 +19,12 @@ pub async fn get_chat_history(
 }
 
 #[tauri::command]
-pub async fn push_chat_message(app: AppHandle, req: PushChatMessageRequest) -> Result<()> {
+pub async fn push_chat_message(
+  app: AppHandle,
+  req: PushChatMessageRequest,
+) -> Result<ChatMessageId> {
   app
     .client(async |cl| cl.push_chat_message(req).await)
-    .await
-    .map_err(Into::into)
-}
-
-#[tauri::command]
-pub async fn push_stdio_messages(app: AppHandle, req: PushStdioMessagesRequest) -> Result<()> {
-  app
-    .client(async |cl| cl.push_stdio_messages(req).await)
     .await
     .map_err(Into::into)
 }

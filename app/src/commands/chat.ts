@@ -3,12 +3,7 @@
 
 import { invoke } from '@tauri-apps/api/core';
 import type { GetChatHistoryResponse } from '@/lib/response';
-import type {
-  GetChatHistoryRequest,
-  PushChatMessageRequest,
-  PushStdioMessagesRequest,
-  PushStdioMessagesRequestMessage,
-} from '@/lib/request';
+import type { GetChatHistoryRequest, PushChatMessageRequest } from '@/lib/request';
 
 export async function getChatHistory() {
   const req: GetChatHistoryRequest = {
@@ -19,23 +14,10 @@ export async function getChatHistory() {
 }
 
 export async function pushChatMessage(message: string) {
-  if (message.trim().length > 0) {
-    const req: PushChatMessageRequest = {
-      world: NIL.world.getIdStrict(),
-      message,
-    };
+  const req: PushChatMessageRequest = {
+    world: NIL.world.getIdStrict(),
+    message,
+  };
 
-    await invoke('push_chat_message', { req });
-  }
-}
-
-export async function pushStdioMessages(messages: PushStdioMessagesRequestMessage[]) {
-  if (messages.length > 0) {
-    const req: PushStdioMessagesRequest = {
-      world: NIL.world.getIdStrict(),
-      messages,
-    };
-
-    await invoke('push_stdio_messages', { req });
-  }
+  return invoke<ChatMessageId>('push_chat_message', { req });
 }
