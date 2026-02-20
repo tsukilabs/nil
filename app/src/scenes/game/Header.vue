@@ -6,7 +6,7 @@ import { go } from '@/router';
 import Round from './Round.vue';
 import Resources from './Resources.vue';
 import { useBreakpoints } from '@/composables/useBreakpoints';
-import { Button, SidebarTrigger } from '@tb-dev/vue-components';
+import { Button, Separator, SidebarTrigger } from '@tb-dev/vue-components';
 
 defineProps<{
   isHost: boolean;
@@ -25,8 +25,9 @@ const { sm } = useBreakpoints();
 <template>
   <header class="flex flex-col items-center justify-center gap-2 overflow-hidden">
     <div class="w-full flex items-center justify-between">
-      <div class="max-w-3/5 flex items-center gap-2">
-        <SidebarTrigger />
+      <div class="max-w-3/5 flex items-center shrink-0 gap-2">
+        <SidebarTrigger class="-ml-1" />
+        <Separator orientation="vertical" class="data-[orientation=vertical]:h-4" />
         <Button
           v-if="city"
           variant="ghost"
