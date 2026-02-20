@@ -35,7 +35,7 @@
     "@tb-dev/prototype-dom": "=7.0.34",
     "@tb-dev/utils": "=7.3.2",
     "@tb-dev/vue": "=4.0.4",
-    "@tb-dev/vue-components": "=7.0.11",
+    "@tb-dev/vue-components": "=7.1.0",
     "@tb-dev/vue-sonner": "=0.1.2",
     "@vueuse/components": "=14.2.1",
     "@vueuse/core": "=14.2.1",

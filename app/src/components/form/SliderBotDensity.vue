@@ -9,7 +9,6 @@ import type { WritablePartial } from '@tb-dev/utils';
 import { Label, Slider } from '@tb-dev/vue-components';
 import enUS from '@/locale/en-US/scenes/host-game.json';
 import ptBR from '@/locale/pt-BR/scenes/host-game.json';
-import { WorldConfigImpl } from '@/core/model/world-config';
 
 defineProps<{
   disabled: boolean;
@@ -18,12 +17,11 @@ defineProps<{
 const worldOptions = defineModel<WritablePartial<WorldOptions>>({ required: true });
 
 const consts = __CONSTS__;
-const defaultValue = WorldConfigImpl.DEFAULT_BOT_DENSITY;
 
 const botDensity = computed({
-  get: () => [worldOptions.value.botDensity ?? defaultValue],
+  get: () => [worldOptions.value.botDensity ?? consts.botDensityDefault],
   set: (value) => {
-    worldOptions.value.botDensity = value.at(0) ?? defaultValue;
+    worldOptions.value.botDensity = value.at(0) ?? consts.botDensityDefault;
   },
 });
 
