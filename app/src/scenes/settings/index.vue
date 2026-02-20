@@ -14,6 +14,7 @@ import {
   Button,
   Card,
   CardContent,
+  CardFooter,
   CardHeader,
   CardTitle,
   Checkbox,
@@ -42,22 +43,10 @@ const { sm, md } = useBreakpoints();
   <div :class="md ? 'card-layout' : 'game-layout'">
     <Card :key="settings.locale" class="max-md:size-full">
       <CardHeader>
-        <CardTitle>
-          <div class="flex items-center justify-between">
-            <span>{{ t('settings') }}</span>
-            <Button
-              variant="default"
-              :size="sm ? 'default' : 'sm'"
-              class="px-8"
-              @click="() => router.back()"
-            >
-              <span>{{ t('back') }}</span>
-            </Button>
-          </div>
-        </CardTitle>
+        <CardTitle>{{ t('settings') }}</CardTitle>
       </CardHeader>
 
-      <CardContent class="w-full flex flex-col gap-4 overflow-auto md:pb-8">
+      <CardContent class="w-full flex flex-col gap-4 overflow-auto">
         <Section :title="t('general')" title-id="general">
           <div class="w-full max-md:max-w-72 flex flex-col gap-4">
             <div v-if="DESKTOP" class="flex flex-col items-start justify-center gap-1 py-1">
@@ -126,6 +115,17 @@ const { sm, md } = useBreakpoints();
           </div>
         </Section>
       </CardContent>
+
+      <CardFooter class="w-full flex">
+        <Button
+          variant="default"
+          :size="sm ? 'default' : 'sm'"
+          class="px-8"
+          @click="() => router.back()"
+        >
+          <span>{{ t('back') }}</span>
+        </Button>
+      </CardFooter>
     </Card>
   </div>
 </template>
