@@ -21,7 +21,7 @@ const chatInput = useTemplateRef('chatInputEl');
 const chatInputInner = computed(() => chatInput.value?.$el);
 
 const draft = ref<Option<string>>();
-const { locked, ...mutex } = useMutex();
+const mutex = useMutex();
 
 interface Message {
   readonly id: number;
@@ -138,14 +138,13 @@ async function restore(direction: 'up' | 'down') {
       ref="chatInputEl"
       v-model="draft"
       type="text"
-      :disabled="locked"
       :maxlength="5000"
       spellcheck="false"
       @keydown.enter="send"
       @keydown.up.prevent="() => restore('up')"
       @keydown.down.prevent="() => restore('down')"
     />
-    <Button :disabled="!draft || locked" @click="send">
+    <Button :disabled="!draft" @click="send">
       {{ t('send') }}
     </Button>
   </div>
