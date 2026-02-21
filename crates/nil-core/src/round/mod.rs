@@ -29,7 +29,7 @@ impl Round {
   {
     if let RoundState::Idle = &self.state {
       self.started_at = Some(Zoned::now());
-      self.wait(players);
+      self.wait_players(players);
       Ok(())
     } else {
       Err(Error::RoundAlreadyStarted)
@@ -49,9 +49,26 @@ impl Round {
       RoundState::Waiting { .. } | RoundState::Done => {
         self.id = self.id.next();
         self.started_at = Some(Zoned::now());
-        self.wait(players);
+        self.wait_players(players);
         Ok(())
       }
+    }
+  }
+
+  /// Sets the round state to [`RoundState::Waiting`],
+  /// where players are expected to take their turns.
+  ///
+  /// If `players` is empty, the round will be set to [`RoundState::Done`] instead.
+  fn wait_players<I>(&mut self, players: I)
+  where
+    I: IntoIterator<Item = PlayerId>,
+  {
+    let pending = players.into_iter().collect_set();
+    if pending.is_empty() {
+      self.state = RoundState::Done;
+    } else {
+      let ready = HashSet::with_capacity(pending.len());
+      self.state = RoundState::Waiting { pending, ready };
     }
   }
 
@@ -68,23 +85,6 @@ impl Round {
       if pending.is_empty() {
         self.state = RoundState::Done;
       }
-    }
-  }
-
-  /// Sets the round state to [`RoundState::Waiting`],
-  /// where players are expected to take their turns.
-  ///
-  /// If `players` is empty, the round will be set to [`RoundState::Done`] instead.
-  fn wait<I>(&mut self, players: I)
-  where
-    I: IntoIterator<Item = PlayerId>,
-  {
-    let pending = players.into_iter().collect_set();
-    if pending.is_empty() {
-      self.state = RoundState::Done;
-    } else {
-      let ready = HashSet::with_capacity(pending.len());
-      self.state = RoundState::Waiting { pending, ready };
     }
   }
 
