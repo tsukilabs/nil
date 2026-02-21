@@ -74,9 +74,7 @@ function updateHistory(message: string) {
   currentHistoryEntryId.value = null;
 
   history.value.sort((a, b) => a.id - b.id);
-  while (history.value.length > 50) {
-    history.value.shift();
-  }
+  history.value.splice(0, history.value.length - 50);
 }
 
 async function restore(direction: 'up' | 'down') {
