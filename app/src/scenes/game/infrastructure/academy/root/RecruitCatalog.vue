@@ -4,8 +4,8 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useBreakpoints } from '@tb-dev/vue';
 import RecruitCatalogRow from './RecruitCatalogRow.vue';
-import { useBreakpoints } from '@/composables/useBreakpoints';
 import { usePlayerTurn } from '@/composables/player/usePlayerTurn';
 import { usePlayerResources } from '@/composables/player/usePlayerResources';
 import type { AcademyImpl } from '@/core/model/infrastructure/building/academy/academy';

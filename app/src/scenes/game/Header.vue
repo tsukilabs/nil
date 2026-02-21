@@ -5,7 +5,7 @@
 import { go } from '@/router';
 import Round from './Round.vue';
 import Resources from './Resources.vue';
-import { useBreakpoints } from '@/composables/useBreakpoints';
+import { useBreakpoints } from '@tb-dev/vue';
 import { Button, Separator, SidebarTrigger } from '@tb-dev/vue-components';
 
 defineProps<{

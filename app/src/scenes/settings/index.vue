@@ -6,10 +6,10 @@ import { useI18n } from 'vue-i18n';
 import Section from './Section.vue';
 import { DESKTOP } from '@/lib/global';
 import { useRouter } from 'vue-router';
+import { useBreakpoints } from '@tb-dev/vue';
 import { useSettings } from '@/stores/settings';
 import enUS from '@/locale/en-US/scenes/settings.json';
 import ptBR from '@/locale/pt-BR/scenes/settings.json';
-import { useBreakpoints } from '@/composables/useBreakpoints';
 import {
   Button,
   Card,

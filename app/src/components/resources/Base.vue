@@ -3,8 +3,8 @@
 
 <script setup lang="ts">
 import { formatInt } from '@/lib/intl';
+import { useBreakpoints } from '@tb-dev/vue';
 import { type ClassValue, cn } from '@tb-dev/vue-components';
-import { useBreakpoints } from '@/composables/useBreakpoints';
 
 const props = defineProps<{
   amount?: Option<number>;

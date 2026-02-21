@@ -5,10 +5,10 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { storeToRefs } from 'pinia';
+import { useBreakpoints } from '@tb-dev/vue';
 import { ResourcesImpl } from '@/core/model/resources';
 import CostGrid from '@/components/resources/CostGrid.vue';
 import { TableCell, TableRow } from '@tb-dev/vue-components';
-import { useBreakpoints } from '@/composables/useBreakpoints';
 import { useAcademySettings } from '@/stores/settings/infrastructure/academy';
 import type { AcademyImpl } from '@/core/model/infrastructure/building/academy/academy';
 import { useRecruitCatalogEntry } from '@/composables/infrastructure/useRecruitCatalogEntry';

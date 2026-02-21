@@ -4,7 +4,7 @@
 <script setup lang="ts">
 import { onUnmounted } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useBreakpoints } from '@/composables/useBreakpoints';
+import { useBreakpoints } from '@tb-dev/vue';
 import { useTerminal } from '@/composables/scripts/useTerminal';
 import { createHighlighter, disposeHighlighter, toHtml } from '@/lib/highlighter';
 import { Button, Card, CardContent, CardHeader, CardTitle, Textarea } from '@tb-dev/vue-components';

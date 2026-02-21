@@ -8,11 +8,11 @@ import { computed, ref } from 'vue';
 import { exitGame } from '@/core/game';
 import { handleError } from '@/lib/error';
 import { useUserStore } from '@/stores/user';
+import { useBreakpoints } from '@tb-dev/vue';
 import enUS from '@/locale/en-US/scenes/home.json';
 import ptBR from '@/locale/pt-BR/scenes/home.json';
 import { useUpdate } from '@/composables/useUpdate';
 import LoadingButton from '@/components/LoadingButton.vue';
-import { useBreakpoints } from '@/composables/useBreakpoints';
 import { Alert, AlertDescription, AlertTitle, Button } from '@tb-dev/vue-components';
 
 const { t } = useI18n({

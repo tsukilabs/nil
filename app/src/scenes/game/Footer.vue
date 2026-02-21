@@ -5,8 +5,8 @@
 import Resources from './Resources.vue';
 import FooterChat from './FooterChat.vue';
 import Unread from '@/components/Unread.vue';
+import { useBreakpoints } from '@tb-dev/vue';
 import ButtonIcon from '@/components/ButtonIcon.vue';
-import { useBreakpoints } from '@/composables/useBreakpoints';
 import { EarthIcon, ScrollTextIcon, SquareTerminalIcon, SwordsIcon } from 'lucide-vue-next';
 
 const { unread: unreadReports } = NIL.report.refs();

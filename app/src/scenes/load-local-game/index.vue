@@ -9,7 +9,7 @@ import { useRouteQuery } from '@vueuse/router';
 import { hostLocalGameWithSavedata } from '@/core/game';
 import { asyncComputed, asyncRef, useMutex } from '@tb-dev/vue';
 import { getSavedataFiles, SavedataFile } from '@/core/savedata';
-import { useSavedataPlayers } from '@/composables/useSavedataPlayers';
+import { useSavedataPlayers } from '@/composables/world/useSavedataPlayers';
 import { goBackIfPreviousIsNotGame, QUERY_LOAD_LOCAL_GAME_PATH } from '@/router';
 import {
   Button,

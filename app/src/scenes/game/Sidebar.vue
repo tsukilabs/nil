@@ -4,9 +4,9 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import RoundState from './RoundState.vue';
+import { useBreakpoints } from '@tb-dev/vue';
 import { onBeforeRouteUpdate } from 'vue-router';
 import { computed, nextTick, useTemplateRef } from 'vue';
-import { useBreakpoints } from '@/composables/useBreakpoints';
 import { writeText } from '@tauri-apps/plugin-clipboard-manager';
 import { useLocalServerAddr } from '@/composables/useLocalServerAddr';
 import { type OnClickOutsideProps, vOnClickOutside } from '@vueuse/components';

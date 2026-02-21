@@ -5,10 +5,10 @@
 import { useI18n } from 'vue-i18n';
 import { storeToRefs } from 'pinia';
 import { computed, nextTick } from 'vue';
+import { useBreakpoints } from '@tb-dev/vue';
 import CostGrid from '@/components/resources/CostGrid.vue';
 import type { ResourcesImpl } from '@/core/model/resources';
 import { TableCell, TableRow } from '@tb-dev/vue-components';
-import { useBreakpoints } from '@/composables/useBreakpoints';
 import BuildCatalogRowAction from './BuildCatalogRowAction.vue';
 import BuildingTitle from '@/components/infrastructure/BuildingTitle.vue';
 import enUS from '@/locale/en-US/scenes/game/infrastructure/prefecture.json';

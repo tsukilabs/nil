@@ -3,10 +3,10 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
+import { useBreakpoints } from '@tb-dev/vue';
 import enUS from '@/locale/en-US/scenes/game/report.json';
 import ptBR from '@/locale/pt-BR/scenes/game/report.json';
 import { useReports } from '@/composables/report/useReports';
-import { useBreakpoints } from '@/composables/useBreakpoints';
 import {
   Card,
   CardContent,
