@@ -1,13 +1,54 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { handleError } from '@/lib/error';
 import { type InjectionKey, markRaw, ref } from 'vue';
-import { sessionRef, tryInjectOrElse } from '@tb-dev/vue';
+import { ChatCommand } from '@/core/model/chat/chat-command';
+import { sessionRef, tryInjectOrElse, useMutex } from '@tb-dev/vue';
 
 const chatInputKey = Symbol() as InjectionKey<ReturnType<typeof create>>;
 
 export function useChatInput() {
   return tryInjectOrElse(chatInputKey, create);
+}
+
+export interface EnqueueOptions {
+  readonly onBeforeCommit?: () => MaybePromise<void>;
+}
+
+class MessageQueue {
+  private readonly queue: string[] = [];
+  private readonly mutex = useMutex();
+
+  constructor(
+    private readonly commit: (message: string) => void,
+  ) {}
+
+  public enqueue(message: string, options?: EnqueueOptions) {
+    if (message.length > 0) {
+      this.queue.push(message);
+      void this.process(options);
+    }
+  }
+
+  private async process(options?: EnqueueOptions) {
+    try {
+      await this.mutex.acquire();
+      const head = this.queue.shift();
+      if (head) {
+        const command = new ChatCommand(head);
+        await command.execute();
+        await options?.onBeforeCommit?.();
+        this.commit(head);
+      }
+    }
+    catch (err) {
+      handleError(err);
+    }
+    finally {
+      this.mutex.release();
+    }
+  }
 }
 
 class Message {
@@ -30,6 +71,22 @@ function create() {
     listenToStorageChanges: true,
     shallow: false,
   });
+
+  const queue = new MessageQueue(commit);
+
+  function send(options?: EnqueueOptions) {
+    if (draft.value) {
+      queue.enqueue(draft.value, options);
+    }
+  }
+
+  function commit(value: string) {
+    draft.value = null;
+    currentId.value = null;
+    history.value.push(markRaw(new Message(value)));
+    history.value.sort((a, b) => a.id - b.id);
+    history.value.splice(0, history.value.length - 50);
+  }
 
   function prev() {
     let prevMessage: Option<Message> = null;
@@ -61,18 +118,10 @@ function create() {
     currentId.value = null;
   }
 
-  function commit(value: string) {
-    draft.value = null;
-    currentId.value = null;
-    history.value.push(markRaw(new Message(value)));
-    history.value.sort((a, b) => a.id - b.id);
-    history.value.splice(0, history.value.length - 50);
-  }
-
   return {
     draft,
+    send,
     prev,
     next,
-    commit,
   };
 }
