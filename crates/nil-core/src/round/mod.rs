@@ -55,6 +55,22 @@ impl Round {
     }
   }
 
+  pub(crate) fn set_ready(&mut self, player: &PlayerId, is_ready: bool) {
+    if let RoundState::Waiting { pending, ready } = &mut self.state {
+      if is_ready {
+        pending.remove(player);
+        ready.insert(player.clone());
+      } else {
+        ready.remove(player);
+        pending.insert(player.clone());
+      }
+
+      if pending.is_empty() {
+        self.state = RoundState::Done;
+      }
+    }
+  }
+
   /// Sets the round state to [`RoundState::Waiting`],
   /// where players are expected to take their turns.
   ///
@@ -69,22 +85,6 @@ impl Round {
     } else {
       let ready = HashSet::with_capacity(pending.len());
       self.state = RoundState::Waiting { pending, ready };
-    }
-  }
-
-  pub(crate) fn set_ready(&mut self, player: &PlayerId, is_ready: bool) {
-    if let RoundState::Waiting { pending, ready } = &mut self.state {
-      if is_ready {
-        pending.remove(player);
-        ready.insert(player.clone());
-      } else {
-        ready.remove(player);
-        pending.insert(player.clone());
-      }
-
-      if pending.is_empty() {
-        self.state = RoundState::Done;
-      }
     }
   }
 
