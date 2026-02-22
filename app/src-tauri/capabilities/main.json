@@ -21,23 +21,48 @@
     "process:allow-restart",
     {
       "identifier": "fs:allow-exists",
-      "allow": [{ "path": "$APPDATA/**/*" }]
+      "allow": [
+        { "path": "$APPCACHE/**/*" },
+        { "path": "$APPCONFIG/**/*" },
+        { "path": "$APPDATA/**/*" },
+        { "path": "$HOME/.tsukilabs/nil/**/*" }
+      ]
     },
     {
       "identifier": "fs:allow-lstat",
-      "allow": [{ "path": "$APPDATA/**/*" }]
+      "allow": [
+        { "path": "$APPCACHE/**/*" },
+        { "path": "$APPCONFIG/**/*" },
+        { "path": "$APPDATA/**/*" },
+        { "path": "$HOME/.tsukilabs/nil/**/*" }
+      ]
     },
     {
       "identifier": "fs:allow-mkdir",
-      "allow": [{ "path": "$APPDATA/**/*" }]
+      "allow": [
+        { "path": "$APPCACHE/**/*" },
+        { "path": "$APPCONFIG/**/*" },
+        { "path": "$APPDATA/**/*" },
+        { "path": "$HOME/.tsukilabs/nil/**/*" }
+      ]
     },
     {
       "identifier": "fs:allow-read-dir",
-      "allow": [{ "path": "$APPDATA/**/*" }]
+      "allow": [
+        { "path": "$APPCACHE/**/*" },
+        { "path": "$APPCONFIG/**/*" },
+        { "path": "$APPDATA/**/*" },
+        { "path": "$HOME/.tsukilabs/nil/**/*" }
+      ]
     },
     {
       "identifier": "fs:allow-remove",
-      "allow": [{ "path": "$APPDATA/**/*" }]
+      "allow": [
+        { "path": "$APPCACHE/**/*" },
+        { "path": "$APPCONFIG/**/*" },
+        { "path": "$APPDATA/**/*" },
+        { "path": "$HOME/.tsukilabs/nil/**/*" }
+      ]
     },
     {
       "identifier": "opener:allow-open-url",

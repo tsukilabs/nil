@@ -3,6 +3,7 @@
 
 import * as commands from '@/commands';
 import { toHtml } from '@/lib/highlighter';
+import { remove } from '@tauri-apps/plugin-fs';
 
 export class ScriptImpl implements Script {
   public readonly name: string;
@@ -17,6 +18,10 @@ export class ScriptImpl implements Script {
 
   public async execute() {
     return commands.executeScript(this.chunk);
+  }
+
+  public async remove() {
+    await remove(this.path);
   }
 
   public toHtml() {

@@ -15,7 +15,7 @@
     "security": {
       "assetProtocol": {
         "enable": true,
-        "scope": ["$APPCACHE/**", "$APPCONFIG/**", "$APPDATA/**"]
+        "scope": ["$APPCACHE/**", "$APPCONFIG/**", "$APPDATA/**", "$HOME/.tsukilabs/nil/**"]
       },
       "csp": {
         "default-src": "'self'",
