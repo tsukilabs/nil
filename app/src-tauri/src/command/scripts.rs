@@ -89,6 +89,8 @@ pub async fn load_scripts(app: AppHandle) -> Result<Vec<Script>> {
     }
   }
 
+  scripts.sort_by(|a, b| a.name.cmp(&b.name));
+
   Ok(scripts)
 }
 
