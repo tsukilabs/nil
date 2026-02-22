@@ -85,7 +85,9 @@ async function join() {
           <TableBody>
             <TableRow class="hover:bg-card">
               <TableHead class="max-w-max pr-4">{{ t('name') }}</TableHead>
-              <TableCell class="w-full">{{ remoteWorld.name }}</TableCell>
+              <TableCell class="w-full wrap-anywhere whitespace-normal">
+                {{ remoteWorld.name }}
+              </TableCell>
             </TableRow>
 
             <TableRow class="hover:bg-card">
@@ -105,7 +107,9 @@ async function join() {
 
             <TableRow class="hover:bg-card">
               <TableHead class="max-w-max pr-4">{{ t('created-by') }}</TableHead>
-              <TableCell class="w-full">{{ remoteWorld.createdBy }}</TableCell>
+              <TableCell class="w-full wrap-anywhere whitespace-normal">
+                {{ remoteWorld.createdBy }}
+              </TableCell>
             </TableRow>
 
             <TableRow class="hover:bg-card">
