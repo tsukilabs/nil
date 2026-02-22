@@ -16,6 +16,7 @@ import { useSettings } from '@/stores/settings';
 import enUS from '@/locale/en-US/scenes/online.json';
 import ptBR from '@/locale/pt-BR/scenes/online.json';
 import { QUERY_JOIN_REMOTE_GAME_WORLD_ID } from '@/router';
+import ButtonSpinner from '@/components/button/ButtonSpinner.vue';
 import { useRemoteWorld } from '@/composables/world/useRemoteWorld';
 import { Button, Card, CardContent, CardFooter, CardHeader, CardTitle, Input } from '@tb-dev/vue-components';
 
@@ -97,9 +98,9 @@ async function join() {
         />
 
         <div class="w-full md:max-w-1/2 grid grid-cols-2 gap-2">
-          <Button :disabled="!canJoin || locked" @click="join">
+          <ButtonSpinner :loading="locked" :disabled="!canJoin || locked" @click="join">
             {{ t('join') }}
-          </Button>
+          </ButtonSpinner>
           <Button variant="secondary" :disabled="locked" @click="() => router.back()">
             <span>{{ t('cancel') }}</span>
           </Button>

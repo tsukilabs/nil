@@ -13,6 +13,7 @@ import enUS_online from '@/locale/en-US/scenes/online.json';
 import ptBR_online from '@/locale/pt-BR/scenes/online.json';
 import enUS_hostGame from '@/locale/en-US/scenes/host-game.json';
 import ptBR_hostGame from '@/locale/pt-BR/scenes/host-game.json';
+import ButtonSpinner from '@/components/button/ButtonSpinner.vue';
 import InputWorldName from '@/components/form/InputWorldName.vue';
 import InputWorldSize from '@/components/form/InputWorldSize.vue';
 import SliderBotDensity from '@/components/form/SliderBotDensity.vue';
@@ -98,9 +99,9 @@ async function host() {
 
       <CardFooter class="w-full flex">
         <div class="w-full md:max-w-1/2 grid grid-cols-2 gap-2">
-          <Button :disabled="locked || !canHost" @click="host">
+          <ButtonSpinner :loading="locked" :disabled="locked || !canHost" @click="host">
             <span>{{ t('host') }}</span>
-          </Button>
+          </ButtonSpinner>
 
           <Button variant="secondary" :disabled="locked" @click="() => router.back()">
             <span>{{ t('cancel') }}</span>
