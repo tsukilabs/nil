@@ -12,7 +12,7 @@ import { useBreakpoints } from '@tb-dev/vue';
 import enUS from '@/locale/en-US/scenes/home.json';
 import ptBR from '@/locale/pt-BR/scenes/home.json';
 import { useUpdate } from '@/composables/useUpdate';
-import LoadingButton from '@/components/LoadingButton.vue';
+import ButtonSpinner from '@/components/button/ButtonSpinner.vue';
 import { Alert, AlertDescription, AlertTitle, Button } from '@tb-dev/vue-components';
 
 const { t } = useI18n({
@@ -79,7 +79,7 @@ async function goToOnlineScene() {
         <span>{{ t('join-game') }}</span>
       </Button>
 
-      <LoadingButton
+      <ButtonSpinner
         variant="secondary"
         :size="sm ? 'default' : 'lg'"
         :disabled
@@ -89,7 +89,7 @@ async function goToOnlineScene() {
         @click="goToOnlineScene"
       >
         <span>{{ t('online') }}</span>
-      </LoadingButton>
+      </ButtonSpinner>
 
       <Button
         variant="secondary"

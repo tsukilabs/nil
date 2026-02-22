@@ -3,13 +3,7 @@
 
 #![cfg_attr(docsrs, feature(doc_cfg))]
 #![doc(html_favicon_url = "https://nil.dev.br/favicon.png")]
-#![feature(
-  file_buffered,
-  iter_collect_into,
-  iterator_try_collect,
-  str_as_str,
-  try_blocks
-)]
+#![feature(file_buffered, iter_collect_into, iterator_try_collect, try_blocks)]
 
 pub mod battle;
 pub mod behavior;
