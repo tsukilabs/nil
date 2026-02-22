@@ -8,10 +8,10 @@ import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { hostLocalGame } from '@/core/game';
 import { useSettings } from '@/stores/settings';
-import { localRef, useMutex } from '@tb-dev/vue';
 import enUS from '@/locale/en-US/scenes/host-game.json';
 import ptBR from '@/locale/pt-BR/scenes/host-game.json';
 import { isPlayerOptions, isWorldOptions } from '@/lib/schema';
+import { localRef, useBreakpoints, useMutex } from '@tb-dev/vue';
 import InputWorldName from '@/components/form/InputWorldName.vue';
 import InputWorldSize from '@/components/form/InputWorldSize.vue';
 import InputPlayerName from '@/components/form/InputPlayerName.vue';
@@ -29,6 +29,8 @@ const { t } = useI18n({
 
 const router = useRouter();
 const settings = useSettings();
+
+const { md } = useBreakpoints();
 
 const worldOptions = localRef<WritablePartial<WorldOptions>>(
   'host-local-game:world',
@@ -68,8 +70,8 @@ async function host() {
 </script>
 
 <template>
-  <div class="card-layout">
-    <Card>
+  <div :class="md ? 'card-layout' : 'game-layout'">
+    <Card class="max-md:size-full">
       <CardHeader>
         <CardTitle>{{ t('host-game') }}</CardTitle>
       </CardHeader>
@@ -89,7 +91,7 @@ async function host() {
         </div>
       </CardContent>
 
-      <CardFooter class="grid grid-cols-3">
+      <CardFooter class="w-full grid grid-cols-3 gap-2">
         <Button :disabled="locked || !canHost" @click="host">
           <span>{{ t('host') }}</span>
         </Button>

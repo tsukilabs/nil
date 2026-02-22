@@ -8,11 +8,11 @@ import { toMerged } from 'es-toolkit';
 import { useRouter } from 'vue-router';
 import { hostRemoteGame } from '@/core/game';
 import { useSettings } from '@/stores/settings';
-import { localRef, useMutex } from '@tb-dev/vue';
 import enUS_online from '@/locale/en-US/scenes/online.json';
 import ptBR_online from '@/locale/pt-BR/scenes/online.json';
 import enUS_hostGame from '@/locale/en-US/scenes/host-game.json';
 import ptBR_hostGame from '@/locale/pt-BR/scenes/host-game.json';
+import { localRef, useBreakpoints, useMutex } from '@tb-dev/vue';
 import ButtonSpinner from '@/components/button/ButtonSpinner.vue';
 import InputWorldName from '@/components/form/InputWorldName.vue';
 import InputWorldSize from '@/components/form/InputWorldSize.vue';
@@ -33,6 +33,8 @@ const { t } = useI18n({
 
 const router = useRouter();
 const settings = useSettings();
+
+const { md } = useBreakpoints();
 
 const worldOptions = localRef<WritablePartial<WorldOptions>>(
   'host-remote-game:world',
@@ -75,8 +77,8 @@ async function host() {
 </script>
 
 <template>
-  <div class="card-layout">
-    <Card class="md:min-w-150! md:max-w-1/2">
+  <div :class="md ? 'card-layout' : 'game-layout'">
+    <Card class="max-md:size-full md:min-w-150! md:max-w-1/2">
       <CardHeader>
         <CardTitle>{{ t('host-game') }}</CardTitle>
       </CardHeader>

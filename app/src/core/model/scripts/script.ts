@@ -17,7 +17,7 @@ export class ScriptImpl implements Script {
   }
 
   public async execute() {
-    return commands.executeScript(this.chunk);
+    return commands.executeScriptAt(this.path);
   }
 
   public async remove() {

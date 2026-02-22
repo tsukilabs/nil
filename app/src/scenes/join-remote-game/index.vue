@@ -2,12 +2,10 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import Box from './Box.vue';
 import { useI18n } from 'vue-i18n';
 import { computed, ref } from 'vue';
-import { useMutex } from '@tb-dev/vue';
+import { formatDate } from 'date-fns';
 import { useRouter } from 'vue-router';
-import { formatToday } from '@/lib/date';
 import { joinRemoteGame } from '@/core/game';
 import Loading from '@/components/Loading.vue';
 import { isValidPassword } from '@/lib/schema';
@@ -15,10 +13,24 @@ import { useRouteQuery } from '@vueuse/router';
 import { useSettings } from '@/stores/settings';
 import enUS from '@/locale/en-US/scenes/online.json';
 import ptBR from '@/locale/pt-BR/scenes/online.json';
+import { useBreakpoints, useMutex } from '@tb-dev/vue';
 import { QUERY_JOIN_REMOTE_GAME_WORLD_ID } from '@/router';
 import ButtonSpinner from '@/components/button/ButtonSpinner.vue';
 import { useRemoteWorld } from '@/composables/world/useRemoteWorld';
-import { Button, Card, CardContent, CardFooter, CardHeader, CardTitle, Input } from '@tb-dev/vue-components';
+import {
+  Button,
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+  Input,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+} from '@tb-dev/vue-components';
 
 const { t } = useI18n({
   messages: {
@@ -31,6 +43,8 @@ const router = useRouter();
 const worldId = useRouteQuery<Option<WorldId>>(QUERY_JOIN_REMOTE_GAME_WORLD_ID, null);
 
 const settings = useSettings();
+
+const { md } = useBreakpoints();
 
 const { remoteWorld, loading } = useRemoteWorld(worldId);
 
@@ -59,29 +73,63 @@ async function join() {
 </script>
 
 <template>
-  <div class="card-layout">
+  <div :class="md ? 'card-layout' : 'game-layout'">
     <Loading v-if="loading" />
-    <Card v-else-if="remoteWorld" class="md:min-w-150! md:max-w-1/2">
+    <Card v-else-if="remoteWorld" class="max-md:size-full md:min-w-150! md:max-w-1/2">
       <CardHeader>
         <CardTitle>{{ t('join-game') }}</CardTitle>
       </CardHeader>
 
-      <CardContent class="relative size-full overflow-auto flex flex-col">
-        <h1 class="font-semibold text-lg text-center">{{ remoteWorld.name }}</h1>
-        <div class="grid grid-cols-3 gap-x-2 md:gap-x-4 gap-y-0 px-2 md:px-4">
-          <Box :label="t('round')" :content="remoteWorld.currentRound" />
-          <Box :label="t('active-players')" :content="remoteWorld.activePlayers" />
-          <Box :label="t('total-players')" :content="remoteWorld.totalPlayers" />
-          <Box :label="t('created-by')" :content="remoteWorld.createdBy" />
-          <Box :label="t('created-at')" :content="formatToday(remoteWorld.createdAtDate)" />
-          <Box :label="t('updated-at')" :content="formatToday(remoteWorld.updatedAtDate)" />
-        </div>
+      <CardContent class="size-full overflow-x-hidden overflow-y-auto">
+        <Table>
+          <TableBody>
+            <TableRow class="hover:bg-card">
+              <TableHead class="max-w-max pr-4">{{ t('name') }}</TableHead>
+              <TableCell class="w-full">{{ remoteWorld.name }}</TableCell>
+            </TableRow>
 
-        <div v-if="remoteWorld.description" class="w-full flex justify-center items-center py-2">
-          <span class="md:max-w-6/8 text-sm md:text-base text-center text-muted-foreground break-all wrap-anywhere">
-            {{ remoteWorld.description }}
-          </span>
-        </div>
+            <TableRow class="hover:bg-card">
+              <TableHead class="max-w-max pr-4">{{ t('round') }}</TableHead>
+              <TableCell class="w-full">{{ remoteWorld.currentRound }}</TableCell>
+            </TableRow>
+
+            <TableRow class="hover:bg-card">
+              <TableHead class="max-w-max pr-4">{{ t('active-players') }}</TableHead>
+              <TableCell class="w-full">{{ remoteWorld.activePlayers }}</TableCell>
+            </TableRow>
+
+            <TableRow class="hover:bg-card">
+              <TableHead class="max-w-max pr-4">{{ t('total-players') }}</TableHead>
+              <TableCell class="w-full">{{ remoteWorld.totalPlayers }}</TableCell>
+            </TableRow>
+
+            <TableRow class="hover:bg-card">
+              <TableHead class="max-w-max pr-4">{{ t('created-by') }}</TableHead>
+              <TableCell class="w-full">{{ remoteWorld.createdBy }}</TableCell>
+            </TableRow>
+
+            <TableRow class="hover:bg-card">
+              <TableHead class="max-w-max pr-4">{{ t('created-at') }}</TableHead>
+              <TableCell class="w-full">
+                {{ formatDate(remoteWorld.createdAtDate, 'dd/MM/yyyy HH:mm') }}
+              </TableCell>
+            </TableRow>
+
+            <TableRow class="hover:bg-card">
+              <TableHead class="max-w-max pr-4">{{ t('updated-at') }}</TableHead>
+              <TableCell class="w-full">
+                {{ formatDate(remoteWorld.updatedAtDate, 'dd/MM/yyyy HH:mm') }}
+              </TableCell>
+            </TableRow>
+
+            <TableRow v-if="remoteWorld.description" class="hover:bg-card">
+              <TableHead class="max-w-max pr-4">{{ t('world-description') }}</TableHead>
+              <TableCell class="w-full wrap-anywhere whitespace-normal">
+                {{ remoteWorld.description }}
+              </TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
       </CardContent>
 
       <CardFooter class="w-full flex flex-col gap-4!">
