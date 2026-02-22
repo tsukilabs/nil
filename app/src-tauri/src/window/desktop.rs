@@ -1,6 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+use crate::settings::GeneralSettings;
 use anyhow::Result;
 use tauri::{AppHandle, Manager, WebviewWindow, WebviewWindowBuilder, WindowEvent, Wry};
 use tauri_plugin_pinia::ManagerExt as _;
@@ -39,7 +40,8 @@ fn on_window_event(app: &AppHandle) -> impl Fn(&WindowEvent) + use<> {
     if let WindowEvent::CloseRequested { api, .. } = event
       && app
         .pinia()
-        .get_or_default("settings", "hideOnClose")
+        .get::<GeneralSettings>("settings", "general")
+        .is_ok_and(|it| it.hide_on_close)
     {
       api.prevent_close();
       if let Err(err) = app.main_window().hide() {

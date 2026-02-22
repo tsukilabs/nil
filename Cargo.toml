@@ -98,7 +98,6 @@ tauri-plugin-fs = "2.4"
 tauri-plugin-opener = "2.5"
 tauri-plugin-os = "2.3"
 tauri-plugin-persisted-scope = "2.3"
-tauri-plugin-pinia = "4.1"
 tauri-plugin-process = "2.3"
 tauri-plugin-single-instance = "2.4"
 tauri-plugin-updater = "2.10"
@@ -177,6 +176,10 @@ features = ["derive"]
 [workspace.dependencies.syn]
 version = "2.0"
 features = ["derive"]
+
+[workspace.dependencies.tauri-plugin-pinia]
+version = "4.1"
+features = ["marshaler-toml"]
 
 [workspace.dependencies.tauri-plugin-prevent-default]
 version = "4.0"

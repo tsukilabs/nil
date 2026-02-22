@@ -6,6 +6,7 @@ pub mod desktop;
 #[cfg(mobile)]
 pub mod mobile;
 
+use crate::settings::Settings;
 use nil_core::continent::ContinentSize;
 use nil_core::world::config::{BotAdvancedStartRatio, BotDensity};
 use serde::Serialize;
@@ -56,6 +57,8 @@ struct Constants {
   u16_max: u16,
   u32_max: u32,
 
+  default_settings: Settings,
+
   bot_density_min: BotDensity,
   bot_density_max: BotDensity,
   bot_density_default: BotDensity,
@@ -81,6 +84,8 @@ impl Default for Constants {
       u8_max: u8::MAX,
       u16_max: u16::MAX,
       u32_max: u32::MAX,
+
+      default_settings: Settings::default(),
 
       bot_density_min: BotDensity::MIN,
       bot_density_max: BotDensity::MAX,

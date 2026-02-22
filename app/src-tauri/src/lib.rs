@@ -8,6 +8,7 @@ mod error;
 mod event;
 mod manager;
 mod plugin;
+mod settings;
 mod state;
 mod window;
 

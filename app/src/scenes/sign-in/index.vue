@@ -6,7 +6,7 @@ import { useI18n } from 'vue-i18n';
 import * as commands from '@/commands';
 import { useMutex } from '@tb-dev/vue';
 import { useRouter } from 'vue-router';
-import { useUserStore } from '@/stores/user';
+import { useSettings } from '@/stores/settings';
 import { computed, onBeforeMount, ref } from 'vue';
 import enUS from '@/locale/en-US/scenes/online.json';
 import ptBR from '@/locale/pt-BR/scenes/online.json';
@@ -22,7 +22,7 @@ const { t } = useI18n({
 });
 
 const router = useRouter();
-const userStore = useUserStore();
+const settings = useSettings();
 
 interface User {
   name: Option<string>;
@@ -61,7 +61,7 @@ async function signIn() {
         authorizationToken: token,
       });
 
-      userStore.authorizationToken = token;
+      settings.auth.token = token;
       await go('lobby');
     }
   });

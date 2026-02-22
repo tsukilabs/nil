@@ -3,12 +3,10 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import { storeToRefs } from 'pinia';
 import { computed, ref } from 'vue';
 import { toMerged } from 'es-toolkit';
 import { useRouter } from 'vue-router';
 import { hostRemoteGame } from '@/core/game';
-import { useUserStore } from '@/stores/user';
 import { useSettings } from '@/stores/settings';
 import { localRef, useMutex } from '@tb-dev/vue';
 import enUS_online from '@/locale/en-US/scenes/online.json';
@@ -35,15 +33,12 @@ const { t } = useI18n({
 const router = useRouter();
 const settings = useSettings();
 
-const userStore = useUserStore();
-const { authorizationToken } = storeToRefs(userStore);
-
 const worldOptions = localRef<WritablePartial<WorldOptions>>(
   'host-remote-game:world',
   {
     name: null,
     size: __CONSTS__.continentSizeDefault,
-    locale: settings.locale,
+    locale: settings.general.locale,
     allowCheats: false,
     botDensity: __CONSTS__.botDensityDefault,
     botAdvancedStartRatio: __CONSTS__.botAdvancedStartRatioDefault,
@@ -58,20 +53,20 @@ const isValidWorld = computed(() => isWorldOptions(worldOptions.value));
 const canHost = computed(() => {
   return (
     isValidWorld.value &&
-    Boolean(authorizationToken.value) &&
+    Boolean(settings.auth.token) &&
     isValidNullishPassword(worldPassword.value)
   );
 });
 
 async function host() {
-  worldOptions.value.locale = settings.locale;
+  worldOptions.value.locale = settings.general.locale;
   await lock(async () => {
-    if (isWorldOptions(worldOptions.value) && authorizationToken.value) {
+    if (isWorldOptions(worldOptions.value) && settings.auth.token) {
       await hostRemoteGame({
         worldOptions: worldOptions.value,
         worldPassword: worldPassword.value,
         worldDescription: description.value,
-        authorizationToken: authorizationToken.value,
+        authorizationToken: settings.auth.token,
       });
     }
   });

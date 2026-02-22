@@ -3,37 +3,35 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import { storeToRefs } from 'pinia';
 import { throttle } from 'es-toolkit';
 import * as commands from '@/commands';
 import { handleError } from '@/lib/error';
 import { nextTick, onMounted } from 'vue';
 import { handleProcessArgs } from '@/lib/env';
 import Loading from '@/components/Loading.vue';
+import { useSettings } from '@/stores/settings';
 import { Sonner } from '@tb-dev/vue-components';
 import { ListenerSet } from '@/lib/listener-set';
 import { setDragDropEventListener } from '@/lib/event';
 import { type as osType } from '@tauri-apps/plugin-os';
 import { createTrayIcon, showWindow } from '@/commands';
 import { onKeyDown, useBreakpoints } from '@tb-dev/vue';
-import { setTheme, useSettings } from '@/stores/settings';
-import { syncRef, useColorMode, watchImmediate } from '@vueuse/core';
 import { defineGlobalCheats, defineGlobalCommands } from '@/lib/global';
+import { type BasicColorSchema, useColorMode, watchImmediate } from '@vueuse/core';
 
 const i18n = useI18n();
 
 const settings = useSettings();
-const { locale, theme, colorMode } = storeToRefs(settings);
 
 const { md } = useBreakpoints();
+const colorMode = useColorMode();
 
 const listeners = new ListenerSet();
 listeners.on(setDragDropEventListener());
 
-watchImmediate(locale, setLocale);
-watchImmediate(theme, setTheme);
-
-syncRef(useColorMode(), colorMode, { direction: 'rtl' });
+watchImmediate(() => settings.appearance.colorMode, setColorMode);
+watchImmediate(() => settings.appearance.theme, setTheme);
+watchImmediate(() => settings.general.locale, setLocale);
 
 if (__DESKTOP__) {
   onKeyDown('F5', throttle(NIL.update, 1000));
@@ -58,8 +56,16 @@ onMounted(async () => {
   }
 });
 
+function setColorMode(mode: BasicColorSchema) {
+  colorMode.value = mode;
+}
+
 function setLocale(value: Locale) {
   i18n.locale.value = value;
+}
+
+function setTheme() {
+  settings.appearance.setTheme();
 }
 </script>
 

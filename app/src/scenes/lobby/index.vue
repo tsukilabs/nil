@@ -10,10 +10,10 @@ import { LockIcon } from 'lucide-vue-next';
 import Loading from '@/components/Loading.vue';
 import enUS from '@/locale/en-US/scenes/online.json';
 import ptBR from '@/locale/pt-BR/scenes/online.json';
+import { watchToken } from '@/composables/watchToken';
 import { onKeyDown, useBreakpoints } from '@tb-dev/vue';
 import { go, QUERY_JOIN_REMOTE_GAME_WORLD_ID } from '@/router';
 import { useRemoteWorlds } from '@/composables/world/useRemoteWorlds';
-import { watchAuthorizationToken } from '@/composables/watchAuthorizationToken';
 import {
   Button,
   Card,
@@ -47,7 +47,7 @@ if (__DESKTOP__) {
   onKeyDown('F5', throttle(load, 1000));
 }
 
-watchAuthorizationToken();
+watchToken();
 
 async function goToJoinRemoteGameScene(id: WorldId) {
   await go('join-remote-game', { query: { [QUERY_JOIN_REMOTE_GAME_WORLD_ID]: id } });

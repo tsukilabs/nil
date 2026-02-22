@@ -35,7 +35,7 @@ const worldOptions = localRef<WritablePartial<WorldOptions>>(
   {
     name: null,
     size: __CONSTS__.continentSizeDefault,
-    locale: settings.locale,
+    locale: settings.general.locale,
     allowCheats: false,
     botDensity: __CONSTS__.botDensityDefault,
     botAdvancedStartRatio: __CONSTS__.botAdvancedStartRatioDefault,
@@ -55,7 +55,7 @@ const isValidWorld = computed(() => isWorldOptions(worldOptions.value));
 const canHost = computed(() => isValidPlayer.value && isValidWorld.value);
 
 async function host() {
-  worldOptions.value.locale = settings.locale;
+  worldOptions.value.locale = settings.general.locale;
   await lock(async () => {
     if (isPlayerOptions(playerOptions.value) && isWorldOptions(worldOptions.value)) {
       await hostLocalGame({

@@ -41,7 +41,7 @@ const { sm, md } = useBreakpoints();
 
 <template>
   <div :class="md ? 'card-layout' : 'game-layout'">
-    <Card :key="settings.locale" class="max-md:size-full">
+    <Card :key="settings.general.locale" class="max-md:size-full">
       <CardHeader>
         <CardTitle>{{ t('settings') }}</CardTitle>
       </CardHeader>
@@ -51,18 +51,18 @@ const { sm, md } = useBreakpoints();
           <div class="w-full max-md:max-w-72 flex flex-col gap-4">
             <div v-if="DESKTOP" class="flex flex-col items-start justify-center gap-1 py-1">
               <Label>
-                <Checkbox v-model="settings.hideOnClose" />
+                <Checkbox v-model="settings.general.hideOnClose" />
                 <span>{{ t('hide-on-close') }}</span>
               </Label>
               <Label>
-                <Checkbox v-model="settings.autoUpdate" />
+                <Checkbox v-model="settings.general.autoUpdate" />
                 <span>{{ t('auto-update') }}</span>
               </Label>
             </div>
 
             <Label>
               <span>{{ t('language') }}</span>
-              <Select v-model="settings.locale">
+              <Select v-model="settings.general.locale">
                 <SelectTrigger class="w-full">
                   <SelectValue />
                 </SelectTrigger>
@@ -79,7 +79,7 @@ const { sm, md } = useBreakpoints();
           <div class="w-full max-md:max-w-72 flex flex-col gap-4">
             <Label>
               <span>{{ t('mode') }}</span>
-              <Select v-model="settings.colorMode">
+              <Select v-model="settings.appearance.colorMode">
                 <SelectTrigger class="w-full">
                   <SelectValue />
                 </SelectTrigger>
@@ -92,7 +92,7 @@ const { sm, md } = useBreakpoints();
 
             <Label>
               <span>{{ t('theme') }}</span>
-              <Select v-model="settings.theme">
+              <Select v-model="settings.appearance.theme">
                 <SelectTrigger class="w-full">
                   <SelectValue />
                 </SelectTrigger>

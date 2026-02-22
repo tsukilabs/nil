@@ -4,16 +4,15 @@
 <script setup lang="ts">
 import Box from './Box.vue';
 import { useI18n } from 'vue-i18n';
-import { storeToRefs } from 'pinia';
 import { computed, ref } from 'vue';
 import { useMutex } from '@tb-dev/vue';
 import { useRouter } from 'vue-router';
 import { formatToday } from '@/lib/date';
 import { joinRemoteGame } from '@/core/game';
-import { useUserStore } from '@/stores/user';
 import Loading from '@/components/Loading.vue';
 import { isValidPassword } from '@/lib/schema';
 import { useRouteQuery } from '@vueuse/router';
+import { useSettings } from '@/stores/settings';
 import enUS from '@/locale/en-US/scenes/online.json';
 import ptBR from '@/locale/pt-BR/scenes/online.json';
 import { QUERY_JOIN_REMOTE_GAME_WORLD_ID } from '@/router';
@@ -30,8 +29,7 @@ const { t } = useI18n({
 const router = useRouter();
 const worldId = useRouteQuery<Option<WorldId>>(QUERY_JOIN_REMOTE_GAME_WORLD_ID, null);
 
-const userStore = useUserStore();
-const { authorizationToken } = storeToRefs(userStore);
+const settings = useSettings();
 
 const { remoteWorld, loading } = useRemoteWorld(worldId);
 
@@ -41,18 +39,18 @@ const { locked, lock } = useMutex();
 const canJoin = computed(() => {
   return (
     Boolean(remoteWorld.value) &&
-    Boolean(authorizationToken.value) &&
+    Boolean(settings.auth.token) &&
     (!remoteWorld.value?.hasPassword || isValidPassword(worldPassword.value))
   );
 });
 
 async function join() {
   await lock(async () => {
-    if (remoteWorld.value && authorizationToken.value) {
+    if (remoteWorld.value && settings.auth.token) {
       await joinRemoteGame({
         worldId: remoteWorld.value.id,
         worldPassword: worldPassword.value,
-        authorizationToken: authorizationToken.value,
+        authorizationToken: settings.auth.token,
       });
     }
   });

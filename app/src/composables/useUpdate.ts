@@ -40,7 +40,7 @@ async function checkForUpdates(updateRef: ShallowRef<Option<Update>>) {
 
     const settings = useSettings();
 
-    if (settings.autoUpdate) {
+    if (settings.general.autoUpdate) {
       void install();
     }
     else {

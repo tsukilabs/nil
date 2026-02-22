@@ -4,12 +4,11 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { storeToRefs } from 'pinia';
 import { renameCity } from '@/commands';
+import { useSettings } from '@/stores/settings';
 import { Button, Checkbox, Input, Label } from '@tb-dev/vue-components';
 import enUS from '@/locale/en-US/scenes/game/infrastructure/prefecture.json';
 import ptBR from '@/locale/pt-BR/scenes/game/infrastructure/prefecture.json';
-import { usePrefectureSettings } from '@/stores/settings/infrastructure/prefecture';
 
 const { t } = useI18n({
   messages: {
@@ -20,8 +19,7 @@ const { t } = useI18n({
 
 const { coord, city } = NIL.city.refs();
 
-const settings = usePrefectureSettings();
-const { hideMaxed, hideUnmet } = storeToRefs(settings);
+const settings = useSettings();
 
 const cityName = ref(city.value?.name);
 
@@ -37,12 +35,12 @@ function rename() {
     <div class="flex flex-col gap-4">
       <div class="flex flex-col gap-2">
         <Label>
-          <Checkbox v-model="hideMaxed" />
+          <Checkbox v-model="settings.prefecture.hideMaxed" />
           <span>{{ t('hide-fully-constructed') }}</span>
         </Label>
 
         <Label>
-          <Checkbox v-model="hideUnmet" />
+          <Checkbox v-model="settings.prefecture.hideUnmet" />
           <span>{{ t('hide-unavailable-buildings') }}</span>
         </Label>
       </div>

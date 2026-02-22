@@ -7,8 +7,8 @@ import { useI18n } from 'vue-i18n';
 import { computed, ref } from 'vue';
 import { exitGame } from '@/core/game';
 import { handleError } from '@/lib/error';
-import { useUserStore } from '@/stores/user';
 import { useBreakpoints } from '@tb-dev/vue';
+import { useSettings } from '@/stores/settings';
 import enUS from '@/locale/en-US/scenes/home.json';
 import ptBR from '@/locale/pt-BR/scenes/home.json';
 import { useUpdate } from '@/composables/useUpdate';
@@ -25,7 +25,7 @@ const { t } = useI18n({
 const update = useUpdate();
 const { sm, md } = useBreakpoints();
 
-const userStore = useUserStore();
+const settings = useSettings();
 
 const isLoadingOnlineScene = ref(false);
 const disabled = computed(() => isLoadingOnlineScene.value);
@@ -33,8 +33,8 @@ const disabled = computed(() => isLoadingOnlineScene.value);
 async function goToOnlineScene() {
   try {
     isLoadingOnlineScene.value = true;
-    await userStore.updateClient();
-    if (await userStore.isAuthorizationTokenValid()) {
+    await settings.auth.updateClient();
+    if (await settings.auth.isTokenValid()) {
       await go('lobby');
     }
     else {
