@@ -4,7 +4,7 @@
 use crate::error::{Error, Result};
 use crate::manager::ManagerExt;
 use futures::TryFutureExt;
-use nil_lua::ScriptOutput;
+use nil_lua::script::{Script, ScriptOutput};
 use std::path::{Path, PathBuf};
 use tauri::AppHandle;
 use tokio::fs;
@@ -74,6 +74,22 @@ pub async fn is_script(path: &Path) -> Result<bool> {
   } else {
     Ok(false)
   }
+}
+
+#[tauri::command]
+pub async fn load_scripts(app: AppHandle) -> Result<Vec<Script>> {
+  let mut scripts = Vec::new();
+  let dir = app.script_dir()?;
+  let mut entries = fs::read_dir(dir).await?;
+
+  while let Some(entry) = entries.next_entry().await? {
+    let path = entry.path();
+    if is_script(&path).await? {
+      scripts.push(Script::load(path).await?);
+    }
+  }
+
+  Ok(scripts)
 }
 
 #[tauri::command]

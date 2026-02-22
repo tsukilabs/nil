@@ -16,7 +16,7 @@ pub mod player;
 pub mod ranking;
 pub mod report;
 pub mod round;
-pub mod script;
+pub mod scripts;
 pub mod server;
 pub mod user;
 pub mod world;

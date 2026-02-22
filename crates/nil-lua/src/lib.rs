@@ -7,13 +7,14 @@
 
 pub mod client;
 pub mod error;
+pub mod script;
 pub mod stdio;
 
 use crate::client::ClientUserData;
 use crate::error::Result;
+use crate::script::ScriptOutput;
 use mlua::{LuaOptions, StdLib, Value, Variadic};
 use nil_client::Client;
-use serde::{Deserialize, Serialize};
 use std::mem;
 use std::sync::Arc;
 use stdio::{Stdio, StdioMessage};
@@ -108,11 +109,4 @@ fn pipe_stdio(
   globals.set(name_ln, create_fn(true)?)?;
 
   Ok(rx)
-}
-
-#[derive(Clone, Debug, Deserialize, Serialize)]
-#[serde(rename_all = "camelCase")]
-pub struct ScriptOutput {
-  pub stdout: Vec<StdioMessage>,
-  pub stderr: Vec<StdioMessage>,
 }

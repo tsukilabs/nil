@@ -23,6 +23,10 @@ export async function isScript(path: string) {
   return invoke<boolean>('is_script', { path });
 }
 
+export async function loadScripts() {
+  return invoke<readonly Script[]>('load_scripts');
+}
+
 export async function scriptDir() {
   return invoke<string>('script_dir');
 }
