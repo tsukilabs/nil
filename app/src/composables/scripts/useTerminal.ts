@@ -1,16 +1,27 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { readonly, ref } from 'vue';
 import * as commands from '@/commands';
+import { markRaw, readonly, ref } from 'vue';
 import { sessionRef, useMutex } from '@tb-dev/vue';
 import { ScriptOutputImpl } from '@/core/model/scripts/script-output';
 
-export interface Line {
-  readonly id: number;
-  readonly kind: 'input' | 'output';
-  readonly content: string;
-  readonly time: number;
+type LineKind = 'input' | 'output';
+
+class Line {
+  private static id = 0;
+
+  public readonly id: number;
+  public readonly time: number;
+
+  constructor(
+    public readonly kind: LineKind,
+    public readonly content: string,
+    time?: Option<number>,
+  ) {
+    this.id = ++Line.id;
+    this.time = time ?? Date.now();
+  }
 }
 
 export function useTerminal() {
@@ -46,14 +57,9 @@ export function useTerminal() {
     }
   }
 
-  function pushLine(kind: Line['kind'], content: string, time?: number) {
+  function pushLine(kind: LineKind, content: string, time?: number) {
     const push = (value: string) => {
-      lines.value.push({
-        id: ++currentLineId.value,
-        kind,
-        content: value,
-        time: time ?? Date.now(),
-      });
+      lines.value.push(markRaw(new Line(kind, value, time)));
     };
 
     if (kind === 'input') {

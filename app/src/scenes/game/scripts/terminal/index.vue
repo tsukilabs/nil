@@ -7,7 +7,7 @@ import { useI18n } from 'vue-i18n';
 import { useBreakpoints } from '@tb-dev/vue';
 import { useTerminal } from '@/composables/scripts/useTerminal';
 import { createHighlighter, disposeHighlighter, toHtml } from '@/lib/highlighter';
-import { Button, Card, CardContent, CardHeader, CardTitle, Textarea } from '@tb-dev/vue-components';
+import { Button, Card, CardContent, CardHeader, CardTitle, Input } from '@tb-dev/vue-components';
 
 const { t } = useI18n();
 
@@ -17,16 +17,6 @@ const { md } = useBreakpoints();
 const { chunk, lines, loading, execute, clear } = useTerminal();
 
 await createHighlighter();
-
-async function onEnter(e: Event) {
-  if (
-    e instanceof KeyboardEvent &&
-    e.key.toLowerCase() === 'enter' &&
-    !e.shiftKey
-  ) {
-    await execute();
-  }
-}
 
 onUnmounted(() => disposeHighlighter());
 </script>
@@ -53,16 +43,12 @@ onUnmounted(() => disposeHighlighter());
         </div>
 
         <div class="h-[50px] max-w-full flex items-center justify-between gap-2 px-1 sm:px-2 pb-2">
-          <Textarea
+          <Input
             v-model="chunk"
             type="text"
             :disabled="loading"
             spellcheck="false"
-            autocapitalize="off"
-            autocomplete="off"
-            rows="1"
-            class="h-full! min-h-0! resize-none"
-            @keydown.enter="onEnter"
+            @keydown.enter.prevent="execute"
           />
           <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
             <Button :disabled="!chunk || loading" @click="execute">
