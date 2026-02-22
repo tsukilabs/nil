@@ -31,7 +31,7 @@
     "@tauri-apps/plugin-os": "=2.3.2",
     "@tauri-apps/plugin-process": "=2.3.1",
     "@tauri-apps/plugin-updater": "=2.10.0",
-    "@tauri-store/pinia": "=4.1.1",
+    "@tauri-store/pinia": "=4.2.0",
     "@tb-dev/prototype-dom": "=7.0.34",
     "@tb-dev/utils": "=7.3.2",
     "@tb-dev/vue": "=4.0.4",

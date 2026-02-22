@@ -5051,6 +5051,21 @@ dependencies = [
 ]
 
 [[package]]
+name = "ron"
+version = "0.12.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "fd490c5b18261893f14449cbd28cb9c0b637aebf161cd77900bfdedaff21ec32"
+dependencies = [
+ "bitflags 2.11.0",
+ "indexmap 2.13.0",
+ "once_cell",
+ "serde",
+ "serde_derive",
+ "typeid",
+ "unicode-ident",
+]
+
+[[package]]
 name = "rsa"
 version = "0.9.10"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -5405,6 +5420,7 @@ version = "1.0.149"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "83fc039473c5595ace860d8c4fafa220ff474b3fc6bfdb4293327f1a37e94d86"
 dependencies = [
+ "indexmap 2.13.0",
  "itoa",
  "memchr",
  "serde",
@@ -6205,9 +6221,9 @@ dependencies = [
 
 [[package]]
 name = "tauri-plugin-pinia"
-version = "4.1.1"
+version = "4.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5c69e1db19d289243edcb83a9167a94d184ac4c938c5d18ad7147fc48c9d192c"
+checksum = "8b68808a24bf4cb8ed2fbfc71d3b6a05d4b8362209089744652bc49e52379e5c"
 dependencies = [
  "serde",
  "tauri",
@@ -6343,13 +6359,14 @@ dependencies = [
 
 [[package]]
 name = "tauri-store"
-version = "1.1.1"
+version = "1.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2c0cf1b1a3a5e7d100f57c3eccbf8d67e53cffc1598b787c628d809405d6de56"
+checksum = "71f00f31f562ebb5a87940427fb495793214541b2749d82195c83c955ad697e5"
 dependencies = [
  "dashmap",
  "futures",
  "itertools",
+ "ron",
  "semver",
  "serde",
  "serde_json",
@@ -6358,14 +6375,14 @@ dependencies = [
  "tauri-store-utils",
  "thiserror 2.0.18",
  "tokio",
- "toml 0.9.12+spec-1.1.0",
+ "toml 1.0.3+spec-1.1.0",
 ]
 
 [[package]]
 name = "tauri-store-macros"
-version = "1.1.1"
+version = "1.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f0cec6aff21e898c5731ffc7fa80dc65b193f6f32d8c33e2185629015f378f51"
+checksum = "044d012170e938f4204ffc4fab4478a198d788ae8b84b0f61e448df283797bb4"
 dependencies = [
  "proc-macro2",
  "quote",

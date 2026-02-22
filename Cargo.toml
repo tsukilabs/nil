@@ -178,8 +178,8 @@ version = "2.0"
 features = ["derive"]
 
 [workspace.dependencies.tauri-plugin-pinia]
-version = "4.1"
-features = ["marshaler-toml"]
+version = "4.2"
+features = ["marshaler-toml", "preserve-order"]
 
 [workspace.dependencies.tauri-plugin-prevent-default]
 version = "4.0"

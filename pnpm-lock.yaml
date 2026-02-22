@@ -36,8 +36,8 @@ importers:
         specifier: '=2.10.0'
         version: 2.10.0
       '@tauri-store/pinia':
-        specifier: '=4.1.1'
-        version: 4.1.1(typescript@5.9.3)
+        specifier: '=4.2.0'
+        version: 4.2.0(typescript@5.9.3)
       '@tb-dev/prototype-dom':
         specifier: '=7.0.34'
         version: 7.0.34
@@ -869,8 +869,8 @@ packages:
   '@tauri-apps/plugin-updater@2.10.0':
     resolution: {integrity: sha512-ljN8jPlnT0aSn8ecYhuBib84alxfMx6Hc8vJSKMJyzGbTPFZAC44T2I1QNFZssgWKrAlofvJqCC6Rr472JWfkQ==}
 
-  '@tauri-store/pinia@4.1.1':
-    resolution: {integrity: sha512-j56+sbR+CFxPsnDoyWxme8+NPJanJVdunLoM4gfgpFk9pVKLBfsplBAT0vQ6nA2AZvQGfjFYuHjzjmQ2qNULMA==}
+  '@tauri-store/pinia@4.2.0':
+    resolution: {integrity: sha512-fOwbrAuAN5kdjU42jjgOb6qAisglyskgVgAfSdLyz3lyxgN/2xRR4boQmzD6M40Q5mmX9TxMuAaL2bm5AZyEmw==}
 
   '@tauri-store/shared@0.10.3':
     resolution: {integrity: sha512-6S2SbYxZUBOLL/t+49cIF4gdZNxYnw9yitNlIUsgiPI5ApRtdXfj4JdQd7WmDwoQXXTOzlOYaqGpmICWhzmmRg==}
@@ -2791,7 +2791,7 @@ snapshots:
     dependencies:
       '@tauri-apps/api': 2.10.1
 
-  '@tauri-store/pinia@4.1.1(typescript@5.9.3)':
+  '@tauri-store/pinia@4.2.0(typescript@5.9.3)':
     dependencies:
       '@tauri-apps/api': 2.10.1
       '@tauri-store/shared': 0.10.3
