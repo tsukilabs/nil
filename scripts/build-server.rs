@@ -68,7 +68,7 @@ fn main() -> Result<()> {
     spawn_fmt!("gh release upload --clobber {tag_name} {asset_path} -R tsukilabs/nil")?;
 
     if let Ok(token) = env::var("TSUKILABS_TOKEN") {
-      ureq::get("http://tsukilabs.dev.br/release/nil")
+      ureq::get("https://tsukilabs.dev.br/release/nil")
         .header("Authorization", format!("Bearer {token}"))
         .call()?;
 

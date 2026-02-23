@@ -31,7 +31,11 @@ pub enum ServerAddr {
 impl ServerAddr {
   #[inline]
   pub fn url(&self, route: &str) -> Result<Url> {
-    self.url_with_scheme("http", route)
+    if cfg!(debug_assertions) {
+      self.url_with_scheme("http", route)
+    } else {
+      self.url_with_scheme("https", route)
+    }
   }
 
   pub fn url_with_scheme(&self, scheme: &str, route: &str) -> Result<Url> {

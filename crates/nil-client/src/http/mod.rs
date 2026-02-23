@@ -20,6 +20,7 @@ static HTTP: LazyLock<HttpClient> = LazyLock::new(|| {
   HttpClient::builder()
     .timeout(Duration::from_mins(1))
     .tls_backend_rustls()
+    .https_only(!cfg!(debug_assertions))
     .build()
     .expect("Failed to create HTTP client")
 });

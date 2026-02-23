@@ -28,14 +28,16 @@ export async function createHighlighter() {
 export function toHtml(code: string) {
   return cache.highlighter?.codeToHtml(code, {
     lang: 'lua',
-    themes: {
-      light: 'ayu-light',
-      dark: 'ayu-dark',
-    },
+    theme: isDark() ? 'ayu-dark' : 'ayu-light',
   });
 }
 
 export function disposeHighlighter() {
   cache.highlighter?.dispose();
   cache.highlighter = null;
+}
+
+function isDark() {
+  const html = document.querySelector('html');
+  return html ? html.classList.contains('dark') : true;
 }

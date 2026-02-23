@@ -69,7 +69,7 @@
       "allow": [
         { "url": "https://github.com/tsukilabs/*" },
         { "url": "https://nil.dev.br/*" },
-        { "url": "http://tsukilabs.dev.br/*" }
+        { "url": "https://tsukilabs.dev.br/*" }
       ]
     }
   ]

@@ -733,9 +733,9 @@ dependencies = [
 
 [[package]]
 name = "chrono"
-version = "0.4.43"
+version = "0.4.44"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "fac4744fb15ae8337dc853fee7fb3f4e48c0fbaa23d0afe49c447b4fab126118"
+checksum = "c673075a2e0e5f4a1dde27ce9dee1ea4558c7ffe648f576438a20ca1d2acc4b0"
 dependencies = [
  "iana-time-zone",
  "num-traits",
@@ -2802,9 +2802,9 @@ dependencies = [
 
 [[package]]
 name = "jiff"
-version = "0.2.20"
+version = "0.2.21"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c867c356cc096b33f4981825ab281ecba3db0acefe60329f044c1789d94c6543"
+checksum = "b3e3d65f018c6ae946ab16e80944b97096ed73c35b221d1c478a6c81d8f57940"
 dependencies = [
  "jiff-static",
  "jiff-tzdb-platform",
@@ -2817,9 +2817,9 @@ dependencies = [
 
 [[package]]
 name = "jiff-static"
-version = "0.2.20"
+version = "0.2.21"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f7946b4325269738f270bb55b3c19ab5c5040525f83fd625259422a9d25d9be5"
+checksum = "a17c2b211d863c7fde02cbea8a3c1a439b98e109286554f2860bdded7ff83818"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -6359,12 +6359,13 @@ dependencies = [
 
 [[package]]
 name = "tauri-store"
-version = "1.2.0"
+version = "1.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "71f00f31f562ebb5a87940427fb495793214541b2749d82195c83c955ad697e5"
+checksum = "9be9521d54e10be792f25be936805981d017d6047c3e41b5a76b612cc94d8d43"
 dependencies = [
  "dashmap",
  "futures",
+ "indexmap 2.13.0",
  "itertools",
  "ron",
  "semver",
@@ -6380,9 +6381,9 @@ dependencies = [
 
 [[package]]
 name = "tauri-store-macros"
-version = "1.2.0"
+version = "1.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "044d012170e938f4204ffc4fab4478a198d788ae8b84b0f61e448df283797bb4"
+checksum = "2a5d9ac1d8d3cca6a8fdd90b428e20b801bd40c7e24c745fb677628ba5749dcb"
 dependencies = [
  "proc-macro2",
  "quote",

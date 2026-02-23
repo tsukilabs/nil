@@ -19,7 +19,7 @@
       },
       "csp": {
         "default-src": "'self'",
-        "connect-src": "ipc: http://ipc.localhost http://tauri.localhost http://nil.dev.br",
+        "connect-src": "ipc: http://ipc.localhost http://tauri.localhost http://nil.dev.br http://tsukilabs.dev.br",
         "img-src": "'self' asset: http://asset.localhost blob: data:",
         "script-src": "'self' 'unsafe-eval'",
         "style-src": "'self' 'unsafe-inline'"
