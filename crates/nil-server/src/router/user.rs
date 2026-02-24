@@ -7,8 +7,8 @@ use crate::res;
 use crate::response::from_database_err;
 use axum::extract::{Json, State};
 use axum::response::Response;
-use nil_database::model::user::NewUser;
 use nil_payload::user::*;
+use nil_server_database::model::user::NewUser;
 use tokio::task::spawn_blocking;
 
 pub async fn create(State(app): State<App>, Json(req): Json<CreateUserRequest>) -> Response {

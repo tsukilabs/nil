@@ -8,11 +8,10 @@ import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { hostLocalGame } from '@/core/game';
 import { useSettings } from '@/stores/settings';
-import { localRef, useMutex } from '@tb-dev/vue';
 import enUS from '@/locale/en-US/scenes/host-game.json';
 import ptBR from '@/locale/pt-BR/scenes/host-game.json';
-import { WorldConfigImpl } from '@/core/model/world-config';
 import { isPlayerOptions, isWorldOptions } from '@/lib/schema';
+import { localRef, useBreakpoints, useMutex } from '@tb-dev/vue';
 import InputWorldName from '@/components/form/InputWorldName.vue';
 import InputWorldSize from '@/components/form/InputWorldSize.vue';
 import InputPlayerName from '@/components/form/InputPlayerName.vue';
@@ -31,15 +30,17 @@ const { t } = useI18n({
 const router = useRouter();
 const settings = useSettings();
 
+const { md } = useBreakpoints();
+
 const worldOptions = localRef<WritablePartial<WorldOptions>>(
   'host-local-game:world',
   {
     name: null,
-    size: 100,
-    locale: settings.locale,
+    size: __CONSTS__.continentSizeDefault,
+    locale: settings.general.locale,
     allowCheats: false,
-    botDensity: WorldConfigImpl.DEFAULT_BOT_DENSITY,
-    botAdvancedStartRatio: WorldConfigImpl.DEFAULT_BOT_ADVANCED_START_RATIO,
+    botDensity: __CONSTS__.botDensityDefault,
+    botAdvancedStartRatio: __CONSTS__.botAdvancedStartRatioDefault,
   } satisfies WithPartialNullish<WorldOptions, 'name'>,
 );
 
@@ -56,7 +57,7 @@ const isValidWorld = computed(() => isWorldOptions(worldOptions.value));
 const canHost = computed(() => isValidPlayer.value && isValidWorld.value);
 
 async function host() {
-  worldOptions.value.locale = settings.locale;
+  worldOptions.value.locale = settings.general.locale;
   await lock(async () => {
     if (isPlayerOptions(playerOptions.value) && isWorldOptions(worldOptions.value)) {
       await hostLocalGame({
@@ -69,8 +70,8 @@ async function host() {
 </script>
 
 <template>
-  <div class="card-layout">
-    <Card>
+  <div :class="md ? 'card-layout' : 'game-layout'">
+    <Card class="max-md:size-full">
       <CardHeader>
         <CardTitle>{{ t('host-game') }}</CardTitle>
       </CardHeader>
@@ -90,7 +91,7 @@ async function host() {
         </div>
       </CardContent>
 
-      <CardFooter class="grid grid-cols-3">
+      <CardFooter class="w-full grid grid-cols-3 gap-2">
         <Button :disabled="locked || !canHost" @click="host">
           <span>{{ t('host') }}</span>
         </Button>

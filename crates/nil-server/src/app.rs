@@ -19,10 +19,10 @@ use nil_core::round::Round;
 use nil_core::world::config::WorldId;
 use nil_core::world::{World, WorldOptions};
 use nil_crypto::password::Password;
-use nil_database::Database;
-use nil_database::model::game::NewGame;
-use nil_database::sql_types::player_id::SqlPlayerId;
-use nil_database::sql_types::version::SqlVersion;
+use nil_server_database::Database;
+use nil_server_database::model::game::{Game, NewGame};
+use nil_server_database::sql_types::player_id::SqlPlayerId;
+use nil_server_database::sql_types::version::SqlVersion;
 use nil_server_types::ServerKind;
 use semver::{Prerelease, Version};
 use std::sync::Arc;
@@ -75,7 +75,7 @@ impl App {
       if version_cmp.matches(&game.server_version)
         && let Ok(span) = game.updated_at.until(&now)
         && span.get_days() <= 90
-        && let Ok(mut world) = game.into_world()
+        && let Ok(mut world) = game.to_world()
       {
         let world_id = world.config().id();
         let database = database.clone();
@@ -83,6 +83,7 @@ impl App {
 
         worlds.insert(world_id, Arc::new(RwLock::new(world)));
       } else {
+        tracing::warn!(invalid_game = ?Game::from(game));
         invalid_games.push(id);
       }
     }
@@ -196,7 +197,10 @@ impl App {
       Ok(world) => {
         match spawn_blocking(move || f(&world.blocking_read())).await {
           Ok(value) => Either::Left(value),
-          Err(_) => Either::Right(res!(INTERNAL_SERVER_ERROR)),
+          Err(err) => {
+            tracing::error!(message = %err, error = ?err);
+            Either::Right(res!(INTERNAL_SERVER_ERROR))
+          }
         }
       }
       Err(err) => Either::Right(from_err(err)),
@@ -212,7 +216,10 @@ impl App {
       Ok(world) => {
         match spawn_blocking(move || f(&mut world.blocking_write())).await {
           Ok(value) => Either::Left(value),
-          Err(_) => Either::Right(res!(INTERNAL_SERVER_ERROR)),
+          Err(err) => {
+            tracing::error!(message = %err, error = ?err);
+            Either::Right(res!(INTERNAL_SERVER_ERROR))
+          }
         }
       }
       Err(err) => Either::Right(from_err(err)),

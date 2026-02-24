@@ -5,7 +5,7 @@
 import Units from './Units.vue';
 import Buildings from './Buildings.vue';
 import Production from './Production.vue';
-import { useBreakpoints } from '@/composables/useBreakpoints';
+import { useBreakpoints } from '@tb-dev/vue';
 import { useIdleArmiesAt } from '@/composables/military/useIdleArmiesAt';
 import { foldArmyPersonnel } from '@/composables/military/foldArmyPersonnel';
 

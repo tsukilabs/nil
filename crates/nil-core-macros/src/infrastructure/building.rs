@@ -13,7 +13,7 @@ pub fn impl_building(ast: &DeriveInput) -> TokenStream {
       use super::#name;
       use crate::error::Result;
       use crate::infrastructure::prelude::*;
-      use crate::ranking::Score;
+      use crate::ranking::score::Score;
       use crate::resources::prelude::*;
 
       #[bon::bon]

@@ -141,3 +141,10 @@ impl Serialize for Error {
     serializer.serialize_str(self.to_string().as_str())
   }
 }
+
+#[cfg(feature = "lua")]
+impl From<Error> for mlua::Error {
+  fn from(err: Error) -> Self {
+    mlua::ExternalError::into_lua_err(err)
+  }
+}

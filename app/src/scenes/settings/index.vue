@@ -6,14 +6,15 @@ import { useI18n } from 'vue-i18n';
 import Section from './Section.vue';
 import { DESKTOP } from '@/lib/global';
 import { useRouter } from 'vue-router';
+import { useBreakpoints } from '@tb-dev/vue';
 import { useSettings } from '@/stores/settings';
 import enUS from '@/locale/en-US/scenes/settings.json';
 import ptBR from '@/locale/pt-BR/scenes/settings.json';
-import { useBreakpoints } from '@/composables/useBreakpoints';
 import {
   Button,
   Card,
   CardContent,
+  CardFooter,
   CardHeader,
   CardTitle,
   Checkbox,
@@ -40,40 +41,28 @@ const { sm, md } = useBreakpoints();
 
 <template>
   <div :class="md ? 'card-layout' : 'game-layout'">
-    <Card :key="settings.locale" class="max-md:size-full">
+    <Card :key="settings.general.locale" class="max-md:size-full">
       <CardHeader>
-        <CardTitle>
-          <div class="flex items-center justify-between">
-            <span>{{ t('settings') }}</span>
-            <Button
-              variant="default"
-              :size="sm ? 'default' : 'sm'"
-              class="px-8"
-              @click="() => router.back()"
-            >
-              <span>{{ t('back') }}</span>
-            </Button>
-          </div>
-        </CardTitle>
+        <CardTitle>{{ t('settings') }}</CardTitle>
       </CardHeader>
 
-      <CardContent class="w-full flex flex-col gap-4 overflow-auto md:pb-8">
+      <CardContent class="w-full flex flex-col gap-4 overflow-auto">
         <Section :title="t('general')" title-id="general">
           <div class="w-full max-md:max-w-72 flex flex-col gap-4">
             <div v-if="DESKTOP" class="flex flex-col items-start justify-center gap-1 py-1">
               <Label>
-                <Checkbox v-model="settings.hideOnClose" />
+                <Checkbox v-model="settings.general.hideOnClose" />
                 <span>{{ t('hide-on-close') }}</span>
               </Label>
               <Label>
-                <Checkbox v-model="settings.autoUpdate" />
+                <Checkbox v-model="settings.general.autoUpdate" />
                 <span>{{ t('auto-update') }}</span>
               </Label>
             </div>
 
             <Label>
               <span>{{ t('language') }}</span>
-              <Select v-model="settings.locale">
+              <Select v-model="settings.general.locale">
                 <SelectTrigger class="w-full">
                   <SelectValue />
                 </SelectTrigger>
@@ -90,7 +79,7 @@ const { sm, md } = useBreakpoints();
           <div class="w-full max-md:max-w-72 flex flex-col gap-4">
             <Label>
               <span>{{ t('mode') }}</span>
-              <Select v-model="settings.colorMode">
+              <Select v-model="settings.appearance.colorMode">
                 <SelectTrigger class="w-full">
                   <SelectValue />
                 </SelectTrigger>
@@ -103,7 +92,7 @@ const { sm, md } = useBreakpoints();
 
             <Label>
               <span>{{ t('theme') }}</span>
-              <Select v-model="settings.theme">
+              <Select v-model="settings.appearance.theme">
                 <SelectTrigger class="w-full">
                   <SelectValue />
                 </SelectTrigger>
@@ -126,6 +115,17 @@ const { sm, md } = useBreakpoints();
           </div>
         </Section>
       </CardContent>
+
+      <CardFooter class="w-full flex">
+        <Button
+          variant="default"
+          :size="sm ? 'default' : 'sm'"
+          class="px-8"
+          @click="() => router.back()"
+        >
+          <span>{{ t('back') }}</span>
+        </Button>
+      </CardFooter>
     </Card>
   </div>
 </template>

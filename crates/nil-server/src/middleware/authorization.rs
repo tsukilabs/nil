@@ -16,7 +16,7 @@ use jiff::{SignedDuration, Zoned};
 use jsonwebtoken::{DecodingKey, EncodingKey, Header, TokenData, Validation, decode, encode};
 use nil_core::player::PlayerId;
 use nil_core::ruler::Ruler;
-use nil_database::sql_types::player_id::SqlPlayerId;
+use nil_server_database::sql_types::player_id::SqlPlayerId;
 use nil_server_types::Token;
 use serde::{Deserialize, Serialize};
 use std::env;
@@ -25,7 +25,7 @@ use std::sync::LazyLock;
 // Using a known secret is not a problem for local servers.
 static JWT_SECRET: LazyLock<Box<str>> = LazyLock::new(|| {
   env::var("NIL_JWT_SECRET")
-    .map(Box::from)
+    .map(String::into_boxed_str)
     .unwrap_or_else(|_| Box::from("CALL-OF-NIL"))
 });
 
@@ -54,9 +54,7 @@ pub(crate) struct Claims {
 }
 
 pub(crate) fn encode_jwt(player: PlayerId) -> Result<Token> {
-  // TODO: use heterogeneous try blocks once they’re available.
-  // See: https://github.com/rust-lang/rust/issues/149488
-  let inner = move || -> AnyResult<Token> {
+  let result = try bikeshed AnyResult<Token> {
     let now = Zoned::now();
     let iat = now.timestamp().as_millisecond().try_into()?;
     let exp = now
@@ -71,26 +69,22 @@ pub(crate) fn encode_jwt(player: PlayerId) -> Result<Token> {
       &EncodingKey::from_secret(JWT_SECRET.as_bytes()),
     )?;
 
-    Ok(Token::new(token))
+    Token::new(token)
   };
 
-  Ok(inner()?)
+  Ok(result?)
 }
 
 pub(crate) fn decode_jwt(token: &Token) -> Result<TokenData<Claims>> {
-  // TODO: use heterogeneous try blocks once they’re available.
-  // See: https://github.com/rust-lang/rust/issues/149488
-  let inner = move || -> AnyResult<TokenData<Claims>> {
-    let claims = decode(
+  let claims = try bikeshed AnyResult<TokenData<Claims>> {
+    decode(
       token,
       &DecodingKey::from_secret(JWT_SECRET.as_bytes()),
       &Validation::default(),
-    )?;
+    )?
+  }?;
 
-    Ok(claims)
-  };
-
-  Ok(inner()?)
+  Ok(claims)
 }
 
 #[derive(Clone, Debug, Deref, From, Into, PartialEq, Eq)]

@@ -13,7 +13,7 @@ pub mod storage;
 use crate::error::Result;
 use crate::military::army::personnel::ArmyPersonnel;
 use crate::military::squad::Squad;
-use crate::ranking::Score;
+use crate::ranking::score::Score;
 use crate::resources::Resources;
 use crate::resources::maintenance::Maintenance;
 use bon::Builder;

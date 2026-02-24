@@ -12,6 +12,7 @@ impl Client {
     http::json_post("get-continent-size")
       .body(req)
       .server(self.server)
+      .user_agent(&self.user_agent)
       .send()
       .await
   }
@@ -20,6 +21,7 @@ impl Client {
     http::json_post("get-public-field")
       .body(req)
       .server(self.server)
+      .user_agent(&self.user_agent)
       .send()
       .await
   }
@@ -31,6 +33,7 @@ impl Client {
     http::json_post("get-public-fields")
       .body(req)
       .server(self.server)
+      .user_agent(&self.user_agent)
       .send()
       .await
   }

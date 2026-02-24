@@ -42,8 +42,15 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
 
-  --font-nil: "Syne Mono";
+  --font-sans: "Geist", sans-serif;
+  --font-mono: "Geist Mono", monospace;
+  --font-syne: "Syne";
+  --font-syne-mono: "Syne Mono";
+  --font-ubuntu-mono: "Ubuntu Mono";
 }
 
 @utility ellipsis {

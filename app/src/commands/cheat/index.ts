@@ -4,6 +4,7 @@
 export * from './npc';
 export * from './city';
 export * from './round';
+export * from './player';
 export * from './behavior';
 export * from './military';
 export * from './resources';

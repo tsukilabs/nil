@@ -11,7 +11,7 @@ pub mod unit;
 
 use crate::continent::{ContinentIndex, ContinentKey, ContinentSize, Coord};
 use crate::error::{Error, Result};
-use crate::ranking::Score;
+use crate::ranking::score::Score;
 use crate::resources::maintenance::Maintenance;
 use crate::ruler::Ruler;
 use army::personnel::ArmyPersonnel;

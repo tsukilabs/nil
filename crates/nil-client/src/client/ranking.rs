@@ -12,6 +12,7 @@ impl Client {
     http::json_post("get-rank")
       .body(req)
       .server(self.server)
+      .user_agent(&self.user_agent)
       .send()
       .await
   }
@@ -20,6 +21,7 @@ impl Client {
     http::json_post("get-ranking")
       .body(req)
       .server(self.server)
+      .user_agent(&self.user_agent)
       .send()
       .await
   }

@@ -11,7 +11,7 @@ use crate::check_total_resource_ratio;
 use crate::infrastructure::building::{BuildingId, BuildingLevel};
 use crate::infrastructure::queue::InfrastructureQueue;
 use crate::infrastructure::requirements::InfrastructureRequirements;
-use crate::ranking::Score;
+use crate::ranking::score::Score;
 use crate::resources::cost::{Cost, ResourceRatio};
 use crate::resources::maintenance::MaintenanceRatio;
 use crate::resources::workforce::Workforce;

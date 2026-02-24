@@ -14,37 +14,30 @@
     "dialog:allow-message",
     "dialog:allow-open",
     "dialog:allow-save",
+    "fs:allow-lstat",
+    "fs:allow-mkdir",
+    "fs:allow-read-dir",
+    "fs:allow-remove",
     "os:allow-os-type",
     "os:allow-platform",
     "pinia:default",
     "process:allow-exit",
     "process:allow-restart",
     {
-      "identifier": "fs:allow-exists",
-      "allow": [{ "path": "$APPDATA/**/*" }]
-    },
-    {
-      "identifier": "fs:allow-lstat",
-      "allow": [{ "path": "$APPDATA/**/*" }]
-    },
-    {
-      "identifier": "fs:allow-mkdir",
-      "allow": [{ "path": "$APPDATA/**/*" }]
-    },
-    {
-      "identifier": "fs:allow-read-dir",
-      "allow": [{ "path": "$APPDATA/**/*" }]
-    },
-    {
-      "identifier": "fs:allow-remove",
-      "allow": [{ "path": "$APPDATA/**/*" }]
+      "identifier": "fs:scope",
+      "allow": [
+        { "path": "$APPCACHE/**/*" },
+        { "path": "$APPCONFIG/**/*" },
+        { "path": "$APPDATA/**/*" },
+        { "path": "$HOME/.tsukilabs/nil/**/*" }
+      ]
     },
     {
       "identifier": "opener:allow-open-url",
       "allow": [
         { "url": "https://github.com/tsukilabs/*" },
         { "url": "https://nil.dev.br/*" },
-        { "url": "http://tsukilabs.dev.br/*" }
+        { "url": "https://tsukilabs.dev.br/*" }
       ]
     }
   ]

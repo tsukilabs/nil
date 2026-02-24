@@ -13,6 +13,7 @@ impl Client {
     http::json_post("get-precursor-coords")
       .body(req)
       .server(self.server)
+      .user_agent(&self.user_agent)
       .send()
       .await
   }
@@ -24,6 +25,7 @@ impl Client {
     http::json_post("get-public-precursor")
       .body(req)
       .server(self.server)
+      .user_agent(&self.user_agent)
       .send()
       .await
   }
@@ -35,6 +37,7 @@ impl Client {
     http::json_post("get-public-precursors")
       .body(req)
       .server(self.server)
+      .user_agent(&self.user_agent)
       .send()
       .await
   }

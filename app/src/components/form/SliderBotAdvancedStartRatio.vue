@@ -9,7 +9,6 @@ import type { WritablePartial } from '@tb-dev/utils';
 import { Label, Slider } from '@tb-dev/vue-components';
 import enUS from '@/locale/en-US/scenes/host-game.json';
 import ptBR from '@/locale/pt-BR/scenes/host-game.json';
-import { WorldConfigImpl } from '@/core/model/world-config';
 
 defineProps<{
   disabled: boolean;
@@ -18,12 +17,11 @@ defineProps<{
 const worldOptions = defineModel<WritablePartial<WorldOptions>>({ required: true });
 
 const consts = __CONSTS__;
-const defaultValue = WorldConfigImpl.DEFAULT_BOT_ADVANCED_START_RATIO;
 
 const botAdvancedStartRatio = computed({
-  get: () => [worldOptions.value.botAdvancedStartRatio ?? defaultValue],
+  get: () => [worldOptions.value.botAdvancedStartRatio ?? consts.botAdvancedStartRatioDefault],
   set: (value) => {
-    worldOptions.value.botAdvancedStartRatio = value.at(0) ?? defaultValue;
+    worldOptions.value.botAdvancedStartRatio = value.at(0) ?? consts.botAdvancedStartRatioDefault;
   },
 });
 

@@ -4,16 +4,15 @@
 use crate::error::Result;
 use serde::{Deserialize, Serialize};
 use std::env;
+use std::ffi::{OsStr, OsString};
 use std::net::SocketAddrV4;
-use std::sync::LazyLock;
+use std::sync::{Arc, LazyLock};
 use strum::EnumIs;
 use url::Url;
 
 static REMOTE_SERVER_ADDR: LazyLock<Box<str>> = LazyLock::new(|| {
   if let Ok(addr) = env::var("NIL_REMOTE_SERVER_ADDR") {
     Box::from(addr)
-  } else if cfg!(debug_assertions) && cfg!(not(target_os = "android")) {
-    Box::from("127.0.0.1:3000")
   } else {
     Box::from("tsukilabs.dev.br/nil")
   }
@@ -32,7 +31,11 @@ pub enum ServerAddr {
 impl ServerAddr {
   #[inline]
   pub fn url(&self, route: &str) -> Result<Url> {
-    self.url_with_scheme("http", route)
+    if cfg!(debug_assertions) {
+      self.url_with_scheme("http", route)
+    } else {
+      self.url_with_scheme("https", route)
+    }
   }
 
   pub fn url_with_scheme(&self, scheme: &str, route: &str) -> Result<Url> {
@@ -57,3 +60,39 @@ impl From<SocketAddrV4> for ServerAddr {
     Self::Local { addr }
   }
 }
+
+impl From<&[u8]> for ServerAddr {
+  fn from(bytes: &[u8]) -> Self {
+    if let Ok(addr) = SocketAddrV4::parse_ascii(bytes) {
+      Self::Local { addr }
+    } else {
+      Self::Remote
+    }
+  }
+}
+
+impl From<&OsStr> for ServerAddr {
+  fn from(value: &OsStr) -> Self {
+    Self::from(value.as_encoded_bytes())
+  }
+}
+
+impl From<OsString> for ServerAddr {
+  fn from(value: OsString) -> Self {
+    Self::from(value.as_os_str())
+  }
+}
+
+macro_rules! from_bytes {
+  ($($type_:ty),+ $(,)?) => {
+    $(
+      impl From<$type_> for ServerAddr {
+        fn from(value: $type_) -> Self {
+          Self::from(value.as_bytes())
+        }
+      }
+    )+
+  };
+}
+
+from_bytes!(&str, String, &String, Arc<str>, Box<str>);

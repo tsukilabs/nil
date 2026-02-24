@@ -6,7 +6,7 @@ use crate::military::squad::size::SquadSize;
 use crate::military::unit::stats::haul::Haul;
 use crate::military::unit::stats::speed::Speed;
 use crate::military::unit::{UnitId, UnitIdIter};
-use crate::ranking::Score;
+use crate::ranking::score::Score;
 use crate::resources::maintenance::Maintenance;
 use serde::{Deserialize, Serialize};
 use std::ops::{Add, AddAssign, Mul, MulAssign, Sub, SubAssign};

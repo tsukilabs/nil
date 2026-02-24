@@ -1,0 +1,9 @@
+-- Copyright (C) Call of Nil contributors
+-- SPDX-License-Identifier: AGPL-3.0-only
+
+---@meta
+
+---@class Military
+---@field continent table
+---@field continentSize ContinentSize
+---@field maneuvers table

@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { formatToday, fromZoned } from '@/lib/date';
+import { compareAsc as compareDateAsc } from 'date-fns';
 
 export class ChatMessageImpl implements ChatMessage {
   public readonly id: ChatMessageId;
@@ -22,6 +23,11 @@ export class ChatMessageImpl implements ChatMessage {
 
   public isEmpty() {
     return this.content.trim().length === 0;
+  }
+
+  public compareDateAsc(other: ChatMessage) {
+    const otherImpl = ChatMessageImpl.create(other);
+    return compareDateAsc(this.date, otherImpl.date);
   }
 
   public formatDate() {

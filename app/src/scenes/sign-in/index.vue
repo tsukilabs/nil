@@ -6,11 +6,12 @@ import { useI18n } from 'vue-i18n';
 import * as commands from '@/commands';
 import { useMutex } from '@tb-dev/vue';
 import { useRouter } from 'vue-router';
-import { useUserStore } from '@/stores/user';
-import { computed, onBeforeMount, ref } from 'vue';
+import { useSettings } from '@/stores/settings';
 import enUS from '@/locale/en-US/scenes/online.json';
 import ptBR from '@/locale/pt-BR/scenes/online.json';
+import { computed, onBeforeMount, reactive } from 'vue';
 import { isValidPassword, isValidPlayerId } from '@/lib/schema';
+import ButtonSpinner from '@/components/button/ButtonSpinner.vue';
 import { go, QUERY_SIGN_IN_USER, QUERY_SIGN_UP_USER } from '@/router';
 import { Button, Card, CardContent, CardFooter, CardHeader, CardTitle, Input, Label } from '@tb-dev/vue-components';
 
@@ -22,14 +23,14 @@ const { t } = useI18n({
 });
 
 const router = useRouter();
-const userStore = useUserStore();
+const settings = useSettings();
 
 interface User {
   name: Option<string>;
   password: Option<string>;
 }
 
-const user = ref<User>({
+const user = reactive<User>({
   name: null,
   password: null,
 });
@@ -37,38 +38,38 @@ const user = ref<User>({
 const { locked, lock } = useMutex();
 const canSignIn = computed(() => {
   return (
-    isValidPlayerId(user.value.name) &&
-    isValidPassword(user.value.password)
+    isValidPlayerId(user.name) &&
+    isValidPassword(user.password)
   );
 });
 
 onBeforeMount(() => {
   const url = new URL(window.location.href);
-  user.value.name = url.searchParams.get(QUERY_SIGN_IN_USER);
+  user.name = url.searchParams.get(QUERY_SIGN_IN_USER);
 });
 
 async function signIn() {
   await lock(async () => {
     if (
-      isValidPlayerId(user.value.name) &&
-      isValidPassword(user.value.password)
+      isValidPlayerId(user.name) &&
+      isValidPassword(user.password)
     ) {
-      const token = await commands.authorize(user.value.name, user.value.password);
+      const token = await commands.authorize(user.name, user.password);
       await commands.updateClient({
         serverAddr: { kind: 'remote' },
-        playerId: user.value.name,
-        playerPassword: user.value.password,
+        playerId: user.name,
+        playerPassword: user.password,
         authorizationToken: token,
       });
 
-      userStore.authorizationToken = token;
+      settings.auth.token = token;
       await go('lobby');
     }
   });
 }
 
 async function goToSignUpScene() {
-  await go('sign-up', { query: { [QUERY_SIGN_UP_USER]: user.value.name } });
+  await go('sign-up', { query: { [QUERY_SIGN_UP_USER]: user.name } });
 }
 </script>
 
@@ -105,9 +106,9 @@ async function goToSignUpScene() {
       </CardContent>
 
       <CardFooter class="grid grid-cols-3">
-        <Button :disabled="locked || !canSignIn" @click="signIn">
+        <ButtonSpinner :loading="locked" :disabled="locked || !canSignIn" @click="signIn">
           {{ t('sign-in') }}
-        </Button>
+        </ButtonSpinner>
 
         <Button
           variant="secondary"

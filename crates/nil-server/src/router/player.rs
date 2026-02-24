@@ -21,23 +21,30 @@ pub async fn exists(State(app): State<App>, Json(req): Json<PlayerExistsRequest>
     .into_inner()
 }
 
-pub async fn get(State(app): State<App>, Json(req): Json<GetPlayerRequest>) -> Response {
+pub async fn get_player(
+  State(app): State<App>,
+  Extension(player): Extension<CurrentPlayer>,
+  Json(req): Json<GetPlayerRequest>,
+) -> Response {
   app
-    .player_manager(req.world, |pm| pm.player(&req.id).cloned())
+    .player_manager(req.world, |pm| pm.player(&player).cloned())
     .await
     .try_map_left(|player| res!(OK, Json(player)))
     .into_inner()
 }
 
-pub async fn get_all(State(app): State<App>, Json(req): Json<GetPlayersRequest>) -> Response {
+pub async fn get_public_player(
+  State(app): State<App>,
+  Json(req): Json<GetPublicPlayerRequest>,
+) -> Response {
   app
-    .player_manager(req.world, |pm| pm.players().cloned().collect_vec())
+    .player_manager(req.world, |pm| pm.player(&req.id).map(PublicPlayer::from))
     .await
-    .map_left(|players| res!(OK, Json(players)))
+    .try_map_left(|player| res!(OK, Json(player)))
     .into_inner()
 }
 
-pub async fn get_all_public(
+pub async fn get_public_players(
   State(app): State<App>,
   Json(req): Json<GetPublicPlayersRequest>,
 ) -> Response {
@@ -84,17 +91,6 @@ pub async fn get_military(
     .world(req.world, |world| world.get_player_military(&player))
     .await
     .try_map_left(|military| res!(OK, Json(military)))
-    .into_inner()
-}
-
-pub async fn get_public(
-  State(app): State<App>,
-  Json(req): Json<GetPublicPlayerRequest>,
-) -> Response {
-  app
-    .player_manager(req.world, |pm| pm.player(&req.id).map(PublicPlayer::from))
-    .await
-    .try_map_left(|player| res!(OK, Json(player)))
     .into_inner()
 }
 

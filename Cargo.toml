@@ -1,12 +1,29 @@
 [workspace]
 resolver = "3"
-members = ["app/src-tauri", "crates/*"]
+members = [
+  "app/src-tauri",
+  "crates/nil-client",
+  "crates/nil-core",
+  "crates/nil-core-macros",
+  "crates/nil-crypto",
+  "crates/nil-log",
+  "crates/nil-lua",
+  "crates/nil-lua-cli",
+  "crates/nil-namegen",
+  "crates/nil-num",
+  "crates/nil-num-macros",
+  "crates/nil-payload",
+  "crates/nil-server",
+  "crates/nil-server-database",
+  "crates/nil-server-types",
+  "crates/nil-util",
+]
 
 [workspace.package]
-version = "0.2.28"
+version = "0.3.0"
 edition = "2024"
 rust-version = "1.95"
-license-file = "./LICENSE"
+license = "AGPL-3.0-only"
 readme = "./README.md"
 homepage = "https://nil.dev.br"
 repository = "https://github.com/tsukilabs/nil"
@@ -42,17 +59,18 @@ nil-client.path = "./crates/nil-client"
 nil-core.path = "./crates/nil-core"
 nil-core-macros.path = "./crates/nil-core-macros"
 nil-crypto.path = "./crates/nil-crypto"
-nil-database.path = "./crates/nil-database"
 nil-log.path = "./crates/nil-log"
+nil-lua.path = "./crates/nil-lua"
 nil-namegen.path = "./crates/nil-namegen"
 nil-num.path = "./crates/nil-num"
 nil-num-macros.path = "./crates/nil-num-macros"
 nil-server.path = "./crates/nil-server"
+nil-server-database.path = "./crates/nil-server-database"
 nil-server-types.path = "./crates/nil-server-types"
 nil-payload.path = "./crates/nil-payload"
 nil-util.path = "./crates/nil-util"
 
-argon2 = "0.5"
+argon2 = "=0.6.0-rc.7"
 anyhow = "1.0"
 bitflags = "2.11"
 bon = "3.9"
@@ -65,10 +83,11 @@ http = "1.4"
 itertools = "0.14"
 local-ip-address = "=0.6.10"
 num-traits = "=0.2.19"
+natord = "=1.0.9"
+paste = "=1.0.15"
 proc-macro2 = "1.0"
 quote = "1.0"
 rand = "0.10"
-regex = "1.12"
 remain = "0.2"
 serde_json = "1.0"
 subenum = "=1.1.3"
@@ -84,6 +103,8 @@ tauri-plugin-process = "2.3"
 tauri-plugin-single-instance = "2.4"
 tauri-plugin-updater = "2.10"
 thiserror = "2.0"
+tracing = "0.1"
+tracing-appender = "0.2"
 
 [workspace.dependencies.axum]
 version = "0.8"
@@ -92,6 +113,10 @@ features = ["macros", "ws"]
 [workspace.dependencies.axum-extra]
 version = "0.12"
 features = ["typed-header"]
+
+[workspace.dependencies.clap]
+version = "4.5"
+features = ["derive"]
 
 [workspace.dependencies.derive_more]
 version = "2.1"
@@ -127,9 +152,9 @@ features = ["rust_crypto"]
 version = "0.35"
 features = ["bundled"]
 
-[workspace.dependencies.paste]
-git = "https://github.com/tb-forks/paste"
-branch = "master"
+[workspace.dependencies.mlua]
+version = "0.11"
+features = ["anyhow", "async", "error-send", "lua55", "send", "serde", "vendored"]
 
 [workspace.dependencies.reqwest]
 version = "0.13"
@@ -145,7 +170,7 @@ version = "1.0"
 features = ["derive", "rc"]
 
 [workspace.dependencies.strum]
-version = "0.27"
+version = "0.28"
 features = ["derive"]
 
 [workspace.dependencies.syn]
@@ -153,12 +178,11 @@ version = "2.0"
 features = ["derive"]
 
 [workspace.dependencies.tauri-plugin-pinia]
-git = "https://github.com/ferreira-tb/tauri-store"
-branch = "main"
+version = "4.2"
+features = ["marshaler-toml", "preserve-order"]
 
 [workspace.dependencies.tauri-plugin-prevent-default]
-git = "https://github.com/ferreira-tb/tauri-plugin-prevent-default"
-branch = "main"
+version = "4.0"
 features = ["platform-windows"]
 
 [workspace.dependencies.tokio]
@@ -169,6 +193,10 @@ features = ["full"]
 version = "0.28"
 features = ["url"]
 
+[workspace.dependencies.toml]
+version = "1.0"
+features = ["fast_hash", "preserve_order"]
+
 [workspace.dependencies.tower]
 version = "0.5"
 features = []
@@ -177,17 +205,9 @@ features = []
 version = "0.6"
 features = ["trace"]
 
-[workspace.dependencies.tracing]
-version = "0.1"
-features = []
-
-[workspace.dependencies.tracing-appender]
-version = "0.2"
-features = ["parking_lot"]
-
 [workspace.dependencies.tracing-subscriber]
 version = "0.3"
-features = ["env-filter", "parking_lot"]
+features = ["env-filter"]
 
 [workspace.dependencies.url]
 version = "2.5"
@@ -210,7 +230,6 @@ cast_sign_loss = "allow"
 clone_on_ref_ptr = "deny"
 dbg_macro = "deny"
 enum_glob_use = "allow"
-filetype_is_file = "deny"
 get_unwrap = "deny"
 large_enum_variant = "deny"
 map_unwrap_or = "allow"

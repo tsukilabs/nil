@@ -2,10 +2,11 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import MessagePlayer from './MessagePlayer.vue';
+import { sleep } from '@tb-dev/utils';
+import ChatMessage from './ChatMessage.vue';
 import { ListenerSet } from '@/lib/listener-set';
 import { ScrollArea } from '@tb-dev/vue-components';
-import { nextTick, onMounted, useTemplateRef, type VNode } from 'vue';
+import { onMounted, useTemplateRef, type VNode } from 'vue';
 
 interface Props {
   scrollHeight?: string;
@@ -27,7 +28,7 @@ const listener = new ListenerSet();
 listener.event.onChatUpdated(scroll);
 
 async function scroll() {
-  await nextTick();
+  await sleep(10);
   content.value?.parentElement?.parentElement?.scrollTo({
     top: Number.MAX_SAFE_INTEGER,
     behavior: 'instant',
@@ -46,7 +47,7 @@ defineExpose({ scroll });
         <ScrollArea :style="{ height: scrollHeight }">
           <div v-if="chat" ref="contentEl" class="flex flex-col gap-3 pr-6 pl-2 sm:pl-4">
             <div v-for="message of chat" :key="message.id">
-              <MessagePlayer v-if="message.author.kind === 'player'" :message />
+              <ChatMessage v-if="message.author.kind === 'player'" :message />
             </div>
           </div>
         </ScrollArea>

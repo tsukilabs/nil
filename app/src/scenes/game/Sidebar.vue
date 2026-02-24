@@ -4,9 +4,9 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import RoundState from './RoundState.vue';
+import { useBreakpoints } from '@tb-dev/vue';
 import { onBeforeRouteUpdate } from 'vue-router';
 import { computed, nextTick, useTemplateRef } from 'vue';
-import { useBreakpoints } from '@/composables/useBreakpoints';
 import { writeText } from '@tauri-apps/plugin-clipboard-manager';
 import { useLocalServerAddr } from '@/composables/useLocalServerAddr';
 import { type OnClickOutsideProps, vOnClickOutside } from '@vueuse/components';
@@ -84,7 +84,7 @@ function copyServerAddr() {
   <Sidebar class="z-(--game-sidebar-z-index) select-none">
     <SidebarHeader>
       <div ref="sidebarHeaderEl" class="flex flex-col items-center overflow-hidden pt-4">
-        <h1 v-if="config" class="font-nil text-lg break-all text-center">
+        <h1 v-if="config" class="font-syne-mono text-lg break-all text-center">
           {{ config.name }}
         </h1>
         <h2
@@ -110,7 +110,7 @@ function copyServerAddr() {
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton as-child>
-                  <RouterLink :to="{ name: 'war-room' satisfies Scene }">
+                  <RouterLink :to="{ name: 'war-room' satisfies GameScene }">
                     {{ t('war-room') }}
                   </RouterLink>
                 </SidebarMenuButton>
@@ -118,7 +118,7 @@ function copyServerAddr() {
 
               <SidebarMenuItem>
                 <SidebarMenuButton as-child>
-                  <RouterLink :to="{ name: 'continent' satisfies Scene }">
+                  <RouterLink :to="{ name: 'continent' satisfies GameScene }">
                     {{ t('continent') }}
                   </RouterLink>
                 </SidebarMenuButton>
@@ -128,6 +128,14 @@ function copyServerAddr() {
                 <SidebarMenuButton as-child>
                   <RouterLink :to="{ name: 'ranking' satisfies GameScene }">
                     {{ t('ranking') }}
+                  </RouterLink>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+
+              <SidebarMenuItem>
+                <SidebarMenuButton as-child>
+                  <RouterLink :to="{ name: 'scripts' satisfies GameScene }">
+                    {{ t('script', 2) }}
                   </RouterLink>
                 </SidebarMenuButton>
               </SidebarMenuItem>

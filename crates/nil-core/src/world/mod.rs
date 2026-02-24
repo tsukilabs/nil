@@ -35,7 +35,7 @@ use crate::round::Round;
 use crate::ruler::{Ruler, RulerRef, RulerRefMut};
 use crate::savedata::{SaveHandle, Savedata};
 use bon::Builder;
-use config::{BotAdvancedStartRatio, BotDensity, Locale, WorldConfig, WorldName};
+use config::{BotAdvancedStartRatio, BotDensity, Locale, WorldConfig, WorldId, WorldName};
 use serde::{Deserialize, Serialize};
 use stats::WorldStats;
 
@@ -99,6 +99,11 @@ impl World {
   pub fn load(bytes: &[u8]) -> Result<Self> {
     let savedata = Savedata::read(bytes)?;
     Ok(Self::with_savedata(savedata))
+  }
+
+  #[inline]
+  pub fn id(&self) -> WorldId {
+    self.config.id()
   }
 
   #[inline]

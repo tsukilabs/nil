@@ -6,7 +6,7 @@ use super::{UnitChunk, UnitChunkSize, UnitId, UnitKind};
 use crate::check_total_resource_ratio;
 use crate::infrastructure::building::{BuildingId, BuildingLevel};
 use crate::infrastructure::requirements::InfrastructureRequirements;
-use crate::ranking::Score;
+use crate::ranking::score::Score;
 use crate::resources::prelude::*;
 use nil_core_macros::Unit;
 

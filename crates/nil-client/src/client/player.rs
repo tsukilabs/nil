@@ -19,6 +19,7 @@ impl Client {
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
+      .user_agent(&self.user_agent)
       .send()
       .await
   }
@@ -28,6 +29,7 @@ impl Client {
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
+      .user_agent(&self.user_agent)
       .send()
       .await
   }
@@ -40,6 +42,7 @@ impl Client {
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
+      .user_agent(&self.user_agent)
       .send()
       .await
   }
@@ -49,6 +52,7 @@ impl Client {
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
+      .user_agent(&self.user_agent)
       .send()
       .await
   }
@@ -58,6 +62,7 @@ impl Client {
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
+      .user_agent(&self.user_agent)
       .send()
       .await
   }
@@ -66,23 +71,7 @@ impl Client {
     http::json_post("get-player-status")
       .body(req)
       .server(self.server)
-      .send()
-      .await
-  }
-
-  pub async fn get_player_worlds(&self, req: GetPlayerWorldsRequest) -> Result<Vec<WorldId>> {
-    http::json_post("get-player-worlds")
-      .body(req)
-      .server(self.server)
-      .send()
-      .await
-  }
-
-  pub async fn get_players(&self, req: GetPlayersRequest) -> Result<Vec<Player>> {
-    http::json_post("get-players")
-      .body(req)
-      .server(self.server)
-      .maybe_authorization(self.authorization.as_ref())
+      .user_agent(&self.user_agent)
       .send()
       .await
   }
@@ -95,6 +84,16 @@ impl Client {
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
+      .user_agent(&self.user_agent)
+      .send()
+      .await
+  }
+
+  pub async fn get_player_worlds(&self, req: GetPlayerWorldsRequest) -> Result<Vec<WorldId>> {
+    http::json_post("get-player-worlds")
+      .body(req)
+      .server(self.server)
+      .user_agent(&self.user_agent)
       .send()
       .await
   }
@@ -103,6 +102,7 @@ impl Client {
     http::json_post("get-public-player")
       .body(req)
       .server(self.server)
+      .user_agent(&self.user_agent)
       .send()
       .await
   }
@@ -114,6 +114,16 @@ impl Client {
     http::json_post("get-public-players")
       .body(req)
       .server(self.server)
+      .user_agent(&self.user_agent)
+      .send()
+      .await
+  }
+
+  pub async fn player_exists(&self, req: PlayerExistsRequest) -> Result<bool> {
+    http::json_post("player-exists")
+      .body(req)
+      .server(self.server)
+      .user_agent(&self.user_agent)
       .send()
       .await
   }
@@ -123,6 +133,7 @@ impl Client {
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
+      .user_agent(&self.user_agent)
       .send()
       .await
   }
@@ -132,14 +143,7 @@ impl Client {
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
-      .send()
-      .await
-  }
-
-  pub async fn player_exists(&self, req: PlayerExistsRequest) -> Result<bool> {
-    http::json_post("player-exists")
-      .body(req)
-      .server(self.server)
+      .user_agent(&self.user_agent)
       .send()
       .await
   }

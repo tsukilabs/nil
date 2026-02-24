@@ -2,9 +2,225 @@
 /** SPDX-License-Identifier: AGPL-3.0-only */
 
 @font-face {
+  font-family: "Geist";
+  font-weight: 100;
   font-style: normal;
-  font-weight: 400;
-  src: url(/fonts/SyneMono-Regular.ttf) format("truetype");
-  font-family: "Syne Mono";
   font-display: swap;
+  src: url(/fonts/Geist/Geist-Thin.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "Geist";
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+  src: url(/fonts/Geist/Geist-ExtraLight.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "Geist";
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+  src: url(/fonts/Geist_Mono/GeistMono-Light.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "Geist";
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  src: url(/fonts/Geist_Mono/GeistMono-Regular.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "Geist";
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+  src: url(/fonts/Geist_Mono/GeistMono-Medium.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "Geist";
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+  src: url(/fonts/Geist_Mono/GeistMono-SemiBold.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "Geist";
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  src: url(/fonts/Geist_Mono/GeistMono-Bold.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "Geist";
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+  src: url(/fonts/Geist_Mono/GeistMono-ExtraBold.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "Geist";
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+  src: url(/fonts/Geist_Mono/GeistMono-Black.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "Geist Mono";
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+  src: url(/fonts/Geist_Mono/GeistMono-Thin.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "Geist Mono";
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+  src: url(/fonts/Geist_Mono/GeistMono-ExtraLight.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "Geist Mono";
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+  src: url(/fonts/Geist_Mono/GeistMono-Light.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "Geist Mono";
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  src: url(/fonts/Geist_Mono/GeistMono-Regular.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "Geist Mono";
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+  src: url(/fonts/Geist_Mono/GeistMono-Medium.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "Geist Mono";
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+  src: url(/fonts/Geist_Mono/GeistMono-SemiBold.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "Geist Mono";
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  src: url(/fonts/Geist_Mono/GeistMono-Bold.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "Geist Mono";
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+  src: url(/fonts/Geist_Mono/GeistMono-ExtraBold.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "Geist Mono";
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+  src: url(/fonts/Geist_Mono/GeistMono-Black.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "Syne";
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  src: url(/fonts/Syne/Syne-Regular.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "Syne";
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+  src: url(/fonts/Syne/Syne-Medium.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "Syne";
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+  src: url(/fonts/Syne/Syne-SemiBold.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "Syne";
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  src: url(/fonts/Syne/Syne-Bold.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "Syne";
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+  src: url(/fonts/Syne/Syne-ExtraBold.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "Syne Mono";
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  src: url(/fonts/Syne_Mono/SyneMono-Regular.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "Ubuntu Mono";
+  font-weight: 400;
+  font-style: normal;
+  font-display: fallback;
+  src: url(/fonts/Ubuntu_Mono/UbuntuMono-Regular.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "Ubuntu Mono";
+  font-weight: 400;
+  font-style: italic;
+  font-display: fallback;
+  src: url(/fonts/Ubuntu_Mono/UbuntuMono-Italic.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "Ubuntu Mono";
+  font-weight: 700;
+  font-style: normal;
+  font-display: fallback;
+  src: url(/fonts/Ubuntu_Mono/UbuntuMono-Bold.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "Ubuntu Mono";
+  font-weight: 700;
+  font-style: italic;
+  font-display: fallback;
+  src: url(/fonts/Ubuntu_Mono/UbuntuMono-BoldItalic.ttf) format("truetype");
 }

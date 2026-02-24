@@ -5,7 +5,7 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { formatInt } from '@/lib/intl';
-import { useBreakpoints } from '@/composables/useBreakpoints';
+import { useBreakpoints } from '@tb-dev/vue';
 import type { AcademyImpl } from '@/core/model/infrastructure/building/academy/academy';
 import { Button, cn, Table, TableBody, TableCell, TableRow } from '@tb-dev/vue-components';
 

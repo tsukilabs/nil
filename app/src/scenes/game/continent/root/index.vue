@@ -7,10 +7,9 @@ import Field from './Field.vue';
 import { until } from '@vueuse/core';
 import { useRoute } from 'vue-router';
 import Navigation from './Navigation.vue';
-import { useElementSize } from '@tb-dev/vue';
 import { CoordImpl } from '@/core/model/continent/coord';
 import { Card, CardContent } from '@tb-dev/vue-components';
-import { useBreakpoints } from '@/composables/useBreakpoints';
+import { useBreakpoints, useElementSize } from '@tb-dev/vue';
 import { useContinent } from '@/composables/continent/useContinent';
 import { useQueryCoord } from '@/composables/continent/useQueryCoord';
 import { computed, nextTick, onBeforeMount, onMounted, useTemplateRef, watch } from 'vue';
@@ -135,13 +134,13 @@ function move(direction: Direction, delta: number) {
           </div>
         </div>
 
-        <div id="rule-horizontal" class="rule bg-accent font-nil text-xs sm:text-lg">
+        <div id="rule-horizontal" class="rule bg-accent font-syne-mono text-xs sm:text-lg">
           <div v-for="col of cols" :key="col[0]">
             <span v-if="typeof col[1] === 'number'">{{ col[1] }}</span>
           </div>
         </div>
 
-        <div id="rule-vertical" class="rule bg-accent font-nil text-xs sm:text-lg">
+        <div id="rule-vertical" class="rule bg-accent font-syne-mono text-xs sm:text-lg">
           <div v-for="row of rows" :key="row[0]">
             <span v-if="typeof row[1] === 'number'">{{ row[1] }}</span>
           </div>

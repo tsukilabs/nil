@@ -96,7 +96,7 @@ pub struct ChatMessage {
   #[builder(default, into)]
   author: ChatMessageAuthor,
 
-  #[builder(skip = Zoned::now())]
+  #[builder(default = Zoned::now())]
   time: Zoned,
 }
 

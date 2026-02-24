@@ -8,6 +8,6 @@
  * @see https://docs.rs/url/latest/url/struct.PathSegmentsMut.html#method.extend
  */
 export function isSafePathSegment(value: string) {
-  const chars = ['@', '$', '%', '/', '\\'];
+  const chars = ['@', '#', '$', '%', '&', '=', '/', '\\'];
   return chars.every((c) => !value.includes(c));
 }

@@ -3,16 +3,11 @@
 
 export interface GetPlayerRequest {
   readonly world: WorldId;
-  readonly id: PlayerId;
 }
 
 export interface GetPlayerCoordsRequest {
   readonly world: WorldId;
   readonly id: PlayerId;
-}
-
-export interface GetPlayersRequest {
-  readonly world: WorldId;
 }
 
 export interface GetPlayerMaintenanceRequest {

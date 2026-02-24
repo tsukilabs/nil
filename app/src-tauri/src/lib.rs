@@ -8,6 +8,7 @@ mod error;
 mod event;
 mod manager;
 mod plugin;
+mod settings;
 mod state;
 mod window;
 
@@ -38,11 +39,15 @@ pub fn run() {
       command::current_dir,
       command::current_exe,
       command::exists,
+      command::home_dir,
       command::is_host,
       command::is_local,
       command::is_local_and_host,
       command::is_remote,
       command::is_remote_or_host,
+      command::nil_dir,
+      command::now,
+      command::open_devtools,
       command::show_window,
       command::version,
       command::battle::simulate_battle,
@@ -69,6 +74,8 @@ pub fn run() {
       command::cheat::npc::cheat_get_ethics,
       command::cheat::npc::cheat_set_bot_ethics,
       command::cheat::npc::cheat_spawn_bot,
+      command::cheat::player::cheat_get_player,
+      command::cheat::player::cheat_get_players,
       command::cheat::resources::cheat_get_resources,
       command::cheat::resources::cheat_set_food,
       command::cheat::resources::cheat_set_iron,
@@ -126,7 +133,6 @@ pub fn run() {
       command::player::get_player_status,
       command::player::get_player_storage_capacity,
       command::player::get_player_worlds,
-      command::player::get_players,
       command::player::get_public_player,
       command::player::get_public_players,
       command::player::player_exists,
@@ -141,6 +147,13 @@ pub fn run() {
       command::round::is_round_waiting,
       command::round::set_player_ready,
       command::round::start_round,
+      command::scripts::execute_script,
+      command::scripts::execute_script_at,
+      command::scripts::import_script,
+      command::scripts::import_scripts,
+      command::scripts::is_script,
+      command::scripts::load_scripts,
+      command::scripts::script_dir,
       command::server::authorize,
       command::server::get_server_addr,
       command::server::get_server_kind,
@@ -161,8 +174,10 @@ pub fn run() {
       command::world::get_world_players,
       command::world::get_world_precursors,
       command::world::get_world_stats,
+      command::world::is_savedata,
       command::world::read_savedata_info,
       command::world::save_local_world,
+      command::world::savedata_dir,
     ])
     .run(tauri::generate_context!())
     .expect("Failed to start Call of Nil app");
@@ -188,7 +203,7 @@ fn builder() -> tauri::Builder<Wry> {
 
 fn setup(app: &AppHandle) -> BoxResult<()> {
   app.plugin(plugin::pinia(app)?)?;
-  app.manage(Nil::new(app));
+  app.manage(Nil::new(app)?);
 
   #[cfg(desktop)]
   window::desktop::open(app)?;

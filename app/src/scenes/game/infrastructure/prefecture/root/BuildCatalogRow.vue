@@ -3,18 +3,17 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import { storeToRefs } from 'pinia';
 import { computed, nextTick } from 'vue';
+import { useBreakpoints } from '@tb-dev/vue';
+import { useSettings } from '@/stores/settings';
 import CostGrid from '@/components/resources/CostGrid.vue';
 import type { ResourcesImpl } from '@/core/model/resources';
 import { TableCell, TableRow } from '@tb-dev/vue-components';
-import { useBreakpoints } from '@/composables/useBreakpoints';
 import BuildCatalogRowAction from './BuildCatalogRowAction.vue';
 import BuildingTitle from '@/components/infrastructure/BuildingTitle.vue';
 import enUS from '@/locale/en-US/scenes/game/infrastructure/prefecture.json';
 import ptBR from '@/locale/pt-BR/scenes/game/infrastructure/prefecture.json';
 import type { BuildingImpl } from '@/core/model/infrastructure/building/abstract';
-import { usePrefectureSettings } from '@/stores/settings/infrastructure/prefecture';
 import { useResolvedBuildingLevel } from '@/composables/infrastructure/useResolvedBuildingLevel';
 import type { PrefectureImpl } from '@/core/model/infrastructure/building/prefecture/prefecture';
 
@@ -39,8 +38,9 @@ const { t } = useI18n({
 
 const { player } = NIL.player.refs();
 
-const settings = usePrefectureSettings();
-const { hideMaxed, hideUnmet } = storeToRefs(settings);
+const settings = useSettings();
+const hideMaxed = computed(() => settings.prefecture.hideMaxed);
+const hideUnmet = computed(() => settings.prefecture.hideUnmet);
 
 const level = useResolvedBuildingLevel(() => props.building);
 

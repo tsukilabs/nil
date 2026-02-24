@@ -5,7 +5,7 @@ use super::Client;
 use crate::error::Result;
 use crate::http;
 use nil_core::city::{City, PublicCity};
-use nil_core::ranking::Score;
+use nil_core::ranking::score::Score;
 use nil_payload::city::*;
 
 impl Client {
@@ -14,6 +14,7 @@ impl Client {
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
+      .user_agent(&self.user_agent)
       .send()
       .await
   }
@@ -22,6 +23,7 @@ impl Client {
     http::json_post("get-city-score")
       .body(req)
       .server(self.server)
+      .user_agent(&self.user_agent)
       .send()
       .await
   }
@@ -33,6 +35,7 @@ impl Client {
     http::json_post("get-public-cities")
       .body(req)
       .server(self.server)
+      .user_agent(&self.user_agent)
       .send()
       .await
   }
@@ -41,6 +44,7 @@ impl Client {
     http::json_post("get-public-city")
       .body(req)
       .server(self.server)
+      .user_agent(&self.user_agent)
       .send()
       .await
   }
@@ -50,6 +54,7 @@ impl Client {
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
+      .user_agent(&self.user_agent)
       .send()
       .await
   }
@@ -59,6 +64,7 @@ impl Client {
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
+      .user_agent(&self.user_agent)
       .send()
       .await
   }
@@ -67,6 +73,7 @@ impl Client {
     http::json_post("search-public-city")
       .body(req)
       .server(self.server)
+      .user_agent(&self.user_agent)
       .send()
       .await
   }

@@ -34,7 +34,7 @@ export async function setPlayerReady(isReady: boolean) {
     isReady,
   };
 
-  await invoke('set_player_ready', { req });
+  return invoke<Round>('set_player_ready', { req });
 }
 
 export async function startRound() {
@@ -42,5 +42,5 @@ export async function startRound() {
     world: NIL.world.getIdStrict(),
   };
 
-  await invoke('start_round', { req });
+  return invoke<Round>('start_round', { req });
 }

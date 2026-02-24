@@ -8,30 +8,33 @@ use nil_core::player::PlayerId;
 use nil_core::world::WorldOptions;
 use nil_core::world::config::WorldId;
 use nil_crypto::password::Password;
+use nil_lua::Lua;
 use nil_server::local::{self, LocalServer};
 use nil_server_types::Token;
 use std::path::PathBuf;
 use std::sync::Arc;
 use tauri::AppHandle;
-use tokio::sync::RwLock;
-
-pub type NilClient = Arc<RwLock<Client>>;
-pub type NilServer = Arc<RwLock<Option<LocalServer>>>;
+use tokio::sync::{Mutex, RwLock};
 
 pub struct Nil {
   app: AppHandle,
-  client: NilClient,
-  server: NilServer,
+  client: Arc<RwLock<Client>>,
+  server: Arc<RwLock<Option<LocalServer>>>,
+  lua: Arc<Mutex<Lua>>,
 }
 
 #[bon::bon]
 impl Nil {
-  pub fn new(app: &AppHandle) -> Self {
-    Self {
+  pub fn new(app: &AppHandle) -> Result<Self> {
+    let client = Arc::default();
+    let lua = Lua::new(&client)?;
+
+    Ok(Self {
       app: app.clone(),
-      client: NilClient::default(),
-      server: NilServer::default(),
-    }
+      client,
+      server: Arc::default(),
+      lua: Arc::new(Mutex::new(lua)),
+    })
   }
 
   pub async fn client<F, T>(&self, f: F) -> T
@@ -41,24 +44,11 @@ impl Nil {
     f(&*self.client.read().await).await
   }
 
-  pub async fn is_host(&self) -> bool {
-    self.server.read().await.is_some()
-  }
-
-  pub async fn is_local(&self) -> bool {
-    self.client.read().await.is_local()
-  }
-
-  pub async fn is_remote(&self) -> bool {
-    self.client.read().await.is_remote()
-  }
-
-  pub async fn is_local_and_host(&self) -> bool {
-    self.is_local().await && self.is_host().await
-  }
-
-  pub async fn is_remote_or_host(&self) -> bool {
-    self.is_remote().await || self.is_host().await
+  pub async fn lua<F, T>(&self, f: F) -> T
+  where
+    F: AsyncFnOnce(&mut Lua) -> T,
+  {
+    f(&mut *self.lua.lock().await).await
   }
 
   #[builder]
@@ -120,6 +110,26 @@ impl Nil {
       server.stop();
     }
   }
+
+  pub async fn is_host(&self) -> bool {
+    self.server.read().await.is_some()
+  }
+
+  pub async fn is_local(&self) -> bool {
+    self.client.read().await.is_local()
+  }
+
+  pub async fn is_remote(&self) -> bool {
+    self.client.read().await.is_remote()
+  }
+
+  pub async fn is_local_and_host(&self) -> bool {
+    self.is_local().await && self.is_host().await
+  }
+
+  pub async fn is_remote_or_host(&self) -> bool {
+    self.is_remote().await || self.is_host().await
+  }
 }
 
 impl Clone for Nil {
@@ -128,6 +138,7 @@ impl Clone for Nil {
       app: self.app.clone(),
       client: Arc::clone(&self.client),
       server: Arc::clone(&self.server),
+      lua: Arc::clone(&self.lua),
     }
   }
 }

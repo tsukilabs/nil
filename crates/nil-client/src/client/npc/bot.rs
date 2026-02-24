@@ -13,6 +13,7 @@ impl Client {
     http::json_post("get-bot-coords")
       .body(req)
       .server(self.server)
+      .user_agent(&self.user_agent)
       .send()
       .await
   }
@@ -21,6 +22,7 @@ impl Client {
     http::json_post("get-public-bot")
       .body(req)
       .server(self.server)
+      .user_agent(&self.user_agent)
       .send()
       .await
   }
@@ -29,6 +31,7 @@ impl Client {
     http::json_post("get-public-bots")
       .body(req)
       .server(self.server)
+      .user_agent(&self.user_agent)
       .send()
       .await
   }

@@ -1,7 +1,7 @@
 {
   "$schema": "https://schema.tauri.app/config/2.0.0",
   "productName": "Call of Nil",
-  "version": "0.2.28",
+  "version": "0.3.0",
   "identifier": "tsukilabs.nil",
   "build": {
     "beforeDevCommand": "pnpm run -F ui dev",
@@ -15,11 +15,11 @@
     "security": {
       "assetProtocol": {
         "enable": true,
-        "scope": ["$APPCACHE/**", "$APPCONFIG/**", "$APPDATA/**"]
+        "scope": ["$APPCACHE/**", "$APPCONFIG/**", "$APPDATA/**", "$HOME/.tsukilabs/nil/**"]
       },
       "csp": {
         "default-src": "'self'",
-        "connect-src": "ipc: http://ipc.localhost http://tauri.localhost http://nil.dev.br",
+        "connect-src": "ipc: http://ipc.localhost http://tauri.localhost http://nil.dev.br http://tsukilabs.dev.br",
         "img-src": "'self' asset: http://asset.localhost blob: data:",
         "script-src": "'self' 'unsafe-eval'",
         "style-src": "'self' 'unsafe-inline'"
@@ -39,9 +39,11 @@
     "fileAssociations": [{
       "ext": ["nil"],
       "rank": "Owner",
-      "role": "Viewer",
-      "description": "Call of Nil savedata",
-      "mimeType": "application/x-tar"
+      "role": "Viewer"
+    }, {
+      "ext": ["lua"],
+      "rank": "Alternate",
+      "role": "Viewer"
     }],
     "icon": [
       "icons/32x32.png",
@@ -54,6 +56,9 @@
     ]
   },
   "plugins": {
+    "fs": {
+      "requireLiteralLeadingDot": false
+    },
     "updater": {
       "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEY2QUIzRENBNkVBMjM0QjYKUldTMk5LSnV5ajJyOXRiczNoVkJrYkxIUEtFT2x3R21xaGtaY09XT1crRG90NS9lbG5saUhhZVcK",
       "endpoints": ["https://github.com/tsukilabs/nil/releases/latest/download/latest.json"],

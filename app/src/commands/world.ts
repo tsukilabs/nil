@@ -86,6 +86,10 @@ export async function getWorldStats(world?: Option<WorldId>): Promise<WorldStats
   return WorldStatsImpl.fromRaw(stats);
 }
 
+export async function isSavedata(path: string) {
+  return invoke<boolean>('is_savedata', { path });
+}
+
 export async function readSavedataInfo(path: string) {
   return invoke<SavedataInfo>('read_savedata_info', { path });
 }
@@ -97,4 +101,8 @@ export async function saveLocalWorld(path: string) {
   };
 
   await invoke('save_local_world', { req });
+}
+
+export async function savedataDir() {
+  return invoke<string>('savedata_dir');
 }

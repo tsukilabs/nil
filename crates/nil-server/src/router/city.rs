@@ -115,13 +115,18 @@ pub async fn rename_city(
   }
 }
 
-pub async fn search_city(State(app): State<App>, Json(req): Json<SearchCityRequest>) -> Response {
+pub async fn search_city(
+  State(app): State<App>,
+  Extension(player): Extension<CurrentPlayer>,
+  Json(req): Json<SearchCityRequest>,
+) -> Response {
   app
     .world_blocking(req.world, move |world| {
       world
         .continent()
         .search(req.search)?
         .into_iter()
+        .filter(|city| city.is_owned_by_player_and(|it| it == &player.0))
         .cloned()
         .collect_vec()
         .pipe(Ok::<_, CoreError>)

@@ -7,12 +7,12 @@ import { useI18n } from 'vue-i18n';
 import { computed, ref } from 'vue';
 import { exitGame } from '@/core/game';
 import { handleError } from '@/lib/error';
-import { useUserStore } from '@/stores/user';
+import { useBreakpoints } from '@tb-dev/vue';
+import { useSettings } from '@/stores/settings';
 import enUS from '@/locale/en-US/scenes/home.json';
 import ptBR from '@/locale/pt-BR/scenes/home.json';
 import { useUpdate } from '@/composables/useUpdate';
-import LoadingButton from '@/components/LoadingButton.vue';
-import { useBreakpoints } from '@/composables/useBreakpoints';
+import ButtonSpinner from '@/components/button/ButtonSpinner.vue';
 import { Alert, AlertDescription, AlertTitle, Button } from '@tb-dev/vue-components';
 
 const { t } = useI18n({
@@ -25,7 +25,7 @@ const { t } = useI18n({
 const update = useUpdate();
 const { sm, md } = useBreakpoints();
 
-const userStore = useUserStore();
+const settings = useSettings();
 
 const isLoadingOnlineScene = ref(false);
 const disabled = computed(() => isLoadingOnlineScene.value);
@@ -33,8 +33,8 @@ const disabled = computed(() => isLoadingOnlineScene.value);
 async function goToOnlineScene() {
   try {
     isLoadingOnlineScene.value = true;
-    await userStore.updateClient();
-    if (await userStore.isAuthorizationTokenValid()) {
+    await settings.auth.updateClient();
+    if (await settings.auth.isTokenValid()) {
       await go('lobby');
     }
     else {
@@ -52,7 +52,7 @@ async function goToOnlineScene() {
 
 <template>
   <div class="flex size-full flex-col items-center justify-center gap-2">
-    <h1 class="font-nil -mt-16 mb-8 text-5xl font-extrabold sm:text-6xl md:text-7xl">
+    <h1 class="font-syne-mono -mt-16 mb-8 text-5xl font-extrabold sm:text-6xl md:text-7xl">
       <span>Call of Nil</span>
     </h1>
 
@@ -79,7 +79,7 @@ async function goToOnlineScene() {
         <span>{{ t('join-game') }}</span>
       </Button>
 
-      <LoadingButton
+      <ButtonSpinner
         variant="secondary"
         :size="sm ? 'default' : 'lg'"
         :disabled
@@ -89,7 +89,7 @@ async function goToOnlineScene() {
         @click="goToOnlineScene"
       >
         <span>{{ t('online') }}</span>
-      </LoadingButton>
+      </ButtonSpinner>
 
       <Button
         variant="secondary"

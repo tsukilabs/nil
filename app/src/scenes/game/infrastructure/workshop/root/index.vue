@@ -3,20 +3,24 @@
 
 <script setup lang="ts">
 import { watch } from 'vue';
-import { storeToRefs } from 'pinia';
 import RecruitQueue from './RecruitQueue.vue';
+import { useSettings } from '@/stores/settings';
 import RecruitCatalog from './RecruitCatalog.vue';
 import { useWorkshop } from '@/composables/infrastructure/useBuilding';
-import { useWorkshopSettings } from '@/stores/settings/infrastructure/workshop';
 import { useWorkshopRecruitCatalog } from '@/composables/infrastructure/useWorkshopRecruitCatalog';
 
 const { coord, city } = NIL.city.refs();
 
 const workshop = useWorkshop();
-const { catalog, loading, add, cancel, load } = useWorkshopRecruitCatalog(coord);
+const {
+  catalog,
+  loading,
+  add,
+  cancel,
+  load,
+} = useWorkshopRecruitCatalog(coord);
 
-const settings = useWorkshopSettings();
-const { hideUnmet } = storeToRefs(settings);
+const settings = useSettings();
 
 await load();
 
@@ -32,7 +36,7 @@ watch(city, load);
       @cancel="cancel"
     />
     <RecruitCatalog
-      v-if="workshop && catalog && (workshop.level > 0 || !hideUnmet)"
+      v-if="workshop && catalog && (workshop.level > 0 || !settings.workshop.hideUnmet)"
       :workshop
       :catalog
       :loading

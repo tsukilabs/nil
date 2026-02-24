@@ -4,7 +4,7 @@
 use nil_core::city::{CitySearch, PublicCity};
 use nil_core::continent::Coord;
 use nil_core::error::Error as CoreError;
-use nil_core::ranking::Score;
+use nil_core::ranking::score::Score;
 use nil_core::world::World;
 use nil_core::world::config::WorldId;
 use serde::{Deserialize, Serialize};

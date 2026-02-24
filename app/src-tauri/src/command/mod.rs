@@ -16,12 +16,14 @@ pub mod player;
 pub mod ranking;
 pub mod report;
 pub mod round;
+pub mod scripts;
 pub mod server;
 pub mod user;
 pub mod world;
 
 use crate::error::{Error, Result};
 use crate::manager::ManagerExt;
+use jiff::Zoned;
 use std::env;
 use std::path::PathBuf;
 use tauri::AppHandle;
@@ -83,6 +85,11 @@ pub async fn exists(path: PathBuf) -> Result<bool> {
 }
 
 #[tauri::command]
+pub fn home_dir() -> Option<PathBuf> {
+  env::home_dir()
+}
+
+#[tauri::command]
 pub async fn is_host(app: AppHandle) -> bool {
   app.nil().is_host().await
 }
@@ -106,6 +113,26 @@ pub async fn is_remote(app: AppHandle) -> bool {
 pub async fn is_remote_or_host(app: AppHandle) -> bool {
   app.nil().is_remote_or_host().await
 }
+
+#[tauri::command]
+pub async fn nil_dir(app: AppHandle) -> Result<PathBuf> {
+  app.nil_dir()
+}
+
+#[tauri::command]
+pub fn now() -> Zoned {
+  Zoned::now()
+}
+
+#[cfg(all(debug_assertions, desktop))]
+#[tauri::command]
+pub fn open_devtools(window: WebviewWindow) {
+  window.open_devtools();
+}
+
+#[cfg(not(all(debug_assertions, desktop)))]
+#[tauri::command]
+pub fn open_devtools(window: WebviewWindow) {}
 
 #[cfg(desktop)]
 #[tauri::command]

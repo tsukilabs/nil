@@ -23,6 +23,8 @@ pub enum Error {
   #[error(transparent)]
   Core(#[from] nil_core::error::Error),
   #[error(transparent)]
+  Lua(#[from] nil_lua::error::Error),
+  #[error(transparent)]
   Server(#[from] nil_server::Error),
 
   #[error(transparent)]
@@ -45,5 +47,17 @@ impl Serialize for Error {
 impl From<io::ErrorKind> for Error {
   fn from(value: io::ErrorKind) -> Self {
     Self::Io(io::Error::from(value))
+  }
+}
+
+impl From<mlua::Error> for Error {
+  fn from(err: mlua::Error) -> Self {
+    Self::Lua(nil_lua::error::Error::Lua(err))
+  }
+}
+
+impl From<Error> for mlua::Error {
+  fn from(err: Error) -> Self {
+    mlua::ExternalError::into_lua_err(err)
   }
 }

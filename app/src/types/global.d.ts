@@ -3,9 +3,9 @@
 
 /* eslint-disable no-inner-declarations */
 
-import type { App } from 'vue';
 import type { go } from '@/router';
 import type { commands } from '@/lib/api';
+import type { App, DeepReadonly } from 'vue';
 import type { ChatEntity } from '@/core/entity/chat';
 import type { CityEntity } from '@/core/entity/city';
 import type { RoundEntity } from '@/core/entity/round';
@@ -22,18 +22,27 @@ declare global {
   var __CONSTS__: {
     readonly i8Min: number;
     readonly i8Max: number;
+
     readonly i16Min: number;
     readonly i16Max: number;
+
     readonly u8Max: number;
     readonly u16Max: number;
     readonly u32Max: number;
 
+    readonly defaultSettings: DeepReadonly<Settings>;
+
     readonly botDensityMin: BotDensity;
     readonly botDensityMax: BotDensity;
+    readonly botDensityDefault: BotDensity;
+
     readonly botAdvancedStartRatioMin: BotAdvancedStartRatio;
     readonly botAdvancedStartRatioMax: BotAdvancedStartRatio;
+    readonly botAdvancedStartRatioDefault: BotAdvancedStartRatio;
+
     readonly continentSizeMin: ContinentSize;
     readonly continentSizeMax: ContinentSize;
+    readonly continentSizeDefault: ContinentSize;
   };
 
   var NIL: {

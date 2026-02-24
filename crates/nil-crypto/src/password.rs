@@ -2,8 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use anyhow::{Result, anyhow};
-use argon2::password_hash::rand_core::OsRng;
-use argon2::password_hash::{PasswordHasher, SaltString};
+use argon2::password_hash::PasswordHasher;
 use argon2::{Argon2, PasswordHash, PasswordVerifier};
 use derive_more::{From, Into};
 use serde::{Deserialize, Serialize};
@@ -24,9 +23,8 @@ impl Password {
   }
 
   pub fn hash(&self) -> Result<Box<str>> {
-    let salt = SaltString::generate(&mut OsRng);
     Argon2::default()
-      .hash_password(self.0.as_bytes(), &salt)
+      .hash_password(self.0.as_bytes())
       .map_err(|err| anyhow!("Failed to hash password").context(err))?
       .to_string()
       .into_boxed_str()
@@ -34,11 +32,7 @@ impl Password {
   }
 
   pub fn verify(&self, hash: &str) -> bool {
-    let result = try {
-      let password = self.0.as_bytes();
-      let hash = PasswordHash::new(hash)?;
-      Argon2::default().verify_password(password, &hash)?
-    };
+    let result = verify(self.0.as_bytes(), hash);
 
     #[cfg(debug_assertions)]
     if let Err(err) = &result {
@@ -63,6 +57,13 @@ impl fmt::Debug for Password {
       .field(&"***")
       .finish()
   }
+}
+
+fn verify(password: &[u8], hash: &str) -> Result<()> {
+  let hash = PasswordHash::new(hash)?;
+  Argon2::default()
+    .verify_password(password, &hash)
+    .map_err(Into::into)
 }
 
 #[cfg(test)]

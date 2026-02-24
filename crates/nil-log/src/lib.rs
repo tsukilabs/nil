@@ -1,7 +1,9 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-mod timer;
+#![doc(html_favicon_url = "https://nil.dev.br/favicon.png")]
+
+pub mod timer;
 
 use anyhow::Result;
 use bitflags::bitflags;
@@ -42,8 +44,10 @@ pub fn setup(
   add_directive!(NIL_CLIENT, "nil_client=trace");
   add_directive!(NIL_CORE, "nil_core=trace");
   add_directive!(NIL_CRYPTO, "nil_crypto=trace");
-  add_directive!(NIL_DATABASE, "nil_database=trace");
+  add_directive!(NIL_LUA, "nil_lua=trace");
+  add_directive!(NIL_LUA_CLI, "nil_lua_cli=trace");
   add_directive!(NIL_SERVER, "nil_server=trace");
+  add_directive!(NIL_SERVER_DATABASE, "nil_server_database=trace");
 
   add_directive!(TOWER_HTTP, "tower_http=trace", "NIL_LOG_TOWER_HTTP");
 
@@ -97,13 +101,15 @@ pub fn setup(
 bitflags! {
   #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
   pub struct Directives: u32 {
-    const NIL            = 1 << 0;
-    const NIL_CLIENT     = 1 << 1;
-    const NIL_CORE       = 1 << 2;
-    const NIL_CRYPTO     = 1 << 3;
-    const NIL_DATABASE   = 1 << 4;
-    const NIL_SERVER     = 1 << 5;
-    const TOWER_HTTP     = 1 << 6;
+    const NIL                   = 1 << 0;
+    const NIL_CLIENT            = 1 << 1;
+    const NIL_CORE              = 1 << 2;
+    const NIL_CRYPTO            = 1 << 3;
+    const NIL_LUA               = 1 << 4;
+    const NIL_LUA_CLI           = 1 << 5;
+    const NIL_SERVER            = 1 << 6;
+    const NIL_SERVER_DATABASE   = 1 << 7;
+    const TOWER_HTTP            = 1 << 8;
   }
 }
 

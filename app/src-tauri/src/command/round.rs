@@ -34,7 +34,7 @@ pub async fn is_round_waiting(app: AppHandle, req: GetRoundRequest) -> Result<bo
 }
 
 #[tauri::command]
-pub async fn set_player_ready(app: AppHandle, req: SetPlayerReadyRequest) -> Result<()> {
+pub async fn set_player_ready(app: AppHandle, req: SetPlayerReadyRequest) -> Result<Round> {
   app
     .client(async |cl| cl.set_player_ready(req).await)
     .await
@@ -42,7 +42,7 @@ pub async fn set_player_ready(app: AppHandle, req: SetPlayerReadyRequest) -> Res
 }
 
 #[tauri::command]
-pub async fn start_round(app: AppHandle, req: StartRoundRequest) -> Result<()> {
+pub async fn start_round(app: AppHandle, req: StartRoundRequest) -> Result<Round> {
   if app.nil().is_remote_or_host().await {
     app
       .client(async |cl| cl.start_round(req).await)

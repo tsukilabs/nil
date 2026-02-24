@@ -2,7 +2,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import ButtonIcon from '@/components/ButtonIcon.vue';
+import ButtonIcon from '@/components/button/ButtonIcon.vue';
 import type { Component, HTMLAttributes, VNode } from 'vue';
 
 defineProps<{

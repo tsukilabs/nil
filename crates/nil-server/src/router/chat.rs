@@ -14,7 +14,12 @@ pub async fn get(
   Json(req): Json<GetChatHistoryRequest>,
 ) -> Response {
   app
-    .chat(req.world, |chat| (chat.public(), chat.private(&player)))
+    .chat(req.world, |chat| {
+      GetChatHistoryResponse {
+        public: chat.public(),
+        private: chat.private(&player),
+      }
+    })
     .await
     .map_left(|chat| res!(OK, Json(chat)))
     .into_inner()
@@ -27,9 +32,9 @@ pub async fn push(
 ) -> Response {
   app
     .world_mut(req.world, |world| {
-      world.push_chat_message(player.0, &req.message);
+      world.push_chat_message(player.0, &req.message)
     })
     .await
-    .map_left(|()| res!(OK))
+    .map_left(|id| res!(OK, Json(id)))
     .into_inner()
 }

@@ -13,7 +13,7 @@ pub async fn get_ethics(
   Json(req): Json<CheatGetEthicsRequest>,
 ) -> Response {
   app
-    .world_mut(req.world, |world| world.cheat_get_ethics(&req.ruler))
+    .world(req.world, |world| world.cheat_get_ethics(&req.ruler))
     .await
     .try_map_left(|ethics| res!(OK, Json(ethics)))
     .into_inner()

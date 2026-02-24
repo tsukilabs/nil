@@ -15,7 +15,7 @@ pub mod workshop;
 
 use crate::error::{Error, Result};
 use crate::infrastructure::requirements::InfrastructureRequirements;
-use crate::ranking::Score;
+use crate::ranking::score::Score;
 use crate::resources::prelude::*;
 use derive_more::{Deref, Into};
 use nil_num::growth::growth;

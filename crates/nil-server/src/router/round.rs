@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::app::App;
+use crate::error::CoreError;
 use crate::middleware::authorization::CurrentPlayer;
 use crate::res;
 use crate::response::{EitherExt, from_database_err};
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
-use nil_core::world::World;
 use nil_payload::round::*;
 
 pub async fn get(State(app): State<App>, Json(req): Json<GetRoundRequest>) -> Response {
@@ -25,10 +25,11 @@ pub async fn set_ready(
 ) -> Response {
   app
     .world_blocking_mut(req.world, move |world| {
-      world.set_player_ready(&player, req.is_ready)
+      world.set_player_ready(&player, req.is_ready)?;
+      Ok::<_, CoreError>(world.round().clone())
     })
     .await
-    .try_map_left(|()| res!(OK))
+    .try_map_left(|round| res!(OK, Json(round)))
     .into_inner()
 }
 
@@ -49,8 +50,11 @@ pub async fn start(
   }
 
   app
-    .world_blocking_mut(req.world, World::start_round)
+    .world_blocking_mut(req.world, move |world| {
+      world.start_round()?;
+      Ok::<_, CoreError>(world.round().clone())
+    })
     .await
-    .try_map_left(|()| res!(OK))
+    .try_map_left(|round| res!(OK, Json(round)))
     .into_inner()
 }

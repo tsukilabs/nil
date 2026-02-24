@@ -3,19 +3,17 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import { storeToRefs } from 'pinia';
 import { computed, ref } from 'vue';
 import { toMerged } from 'es-toolkit';
 import { useRouter } from 'vue-router';
 import { hostRemoteGame } from '@/core/game';
-import { useUserStore } from '@/stores/user';
 import { useSettings } from '@/stores/settings';
-import { localRef, useMutex } from '@tb-dev/vue';
-import { WorldConfigImpl } from '@/core/model/world-config';
 import enUS_online from '@/locale/en-US/scenes/online.json';
 import ptBR_online from '@/locale/pt-BR/scenes/online.json';
 import enUS_hostGame from '@/locale/en-US/scenes/host-game.json';
 import ptBR_hostGame from '@/locale/pt-BR/scenes/host-game.json';
+import { localRef, useBreakpoints, useMutex } from '@tb-dev/vue';
+import ButtonSpinner from '@/components/button/ButtonSpinner.vue';
 import InputWorldName from '@/components/form/InputWorldName.vue';
 import InputWorldSize from '@/components/form/InputWorldSize.vue';
 import SliderBotDensity from '@/components/form/SliderBotDensity.vue';
@@ -36,18 +34,17 @@ const { t } = useI18n({
 const router = useRouter();
 const settings = useSettings();
 
-const userStore = useUserStore();
-const { authorizationToken } = storeToRefs(userStore);
+const { md } = useBreakpoints();
 
 const worldOptions = localRef<WritablePartial<WorldOptions>>(
   'host-remote-game:world',
   {
     name: null,
-    size: 100,
-    locale: settings.locale,
+    size: __CONSTS__.continentSizeDefault,
+    locale: settings.general.locale,
     allowCheats: false,
-    botDensity: WorldConfigImpl.DEFAULT_BOT_DENSITY,
-    botAdvancedStartRatio: WorldConfigImpl.DEFAULT_BOT_ADVANCED_START_RATIO,
+    botDensity: __CONSTS__.botDensityDefault,
+    botAdvancedStartRatio: __CONSTS__.botAdvancedStartRatioDefault,
   } satisfies WithPartialNullish<WorldOptions, 'name'>,
 );
 
@@ -59,20 +56,20 @@ const isValidWorld = computed(() => isWorldOptions(worldOptions.value));
 const canHost = computed(() => {
   return (
     isValidWorld.value &&
-    Boolean(authorizationToken.value) &&
+    Boolean(settings.auth.token) &&
     isValidNullishPassword(worldPassword.value)
   );
 });
 
 async function host() {
-  worldOptions.value.locale = settings.locale;
+  worldOptions.value.locale = settings.general.locale;
   await lock(async () => {
-    if (isWorldOptions(worldOptions.value) && authorizationToken.value) {
+    if (isWorldOptions(worldOptions.value) && settings.auth.token) {
       await hostRemoteGame({
         worldOptions: worldOptions.value,
         worldPassword: worldPassword.value,
         worldDescription: description.value,
-        authorizationToken: authorizationToken.value,
+        authorizationToken: settings.auth.token,
       });
     }
   });
@@ -80,8 +77,8 @@ async function host() {
 </script>
 
 <template>
-  <div class="card-layout">
-    <Card class="md:min-w-150! md:max-w-1/2">
+  <div :class="md ? 'card-layout' : 'game-layout'">
+    <Card class="max-md:size-full md:min-w-150! md:max-w-1/2">
       <CardHeader>
         <CardTitle>{{ t('host-game') }}</CardTitle>
       </CardHeader>
@@ -104,9 +101,9 @@ async function host() {
 
       <CardFooter class="w-full flex">
         <div class="w-full md:max-w-1/2 grid grid-cols-2 gap-2">
-          <Button :disabled="locked || !canHost" @click="host">
+          <ButtonSpinner :loading="locked" :disabled="locked || !canHost" @click="host">
             <span>{{ t('host') }}</span>
-          </Button>
+          </ButtonSpinner>
 
           <Button variant="secondary" :disabled="locked" @click="() => router.back()">
             <span>{{ t('cancel') }}</span>

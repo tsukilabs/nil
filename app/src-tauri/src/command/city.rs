@@ -4,7 +4,7 @@
 use crate::error::Result;
 use crate::manager::ManagerExt;
 use nil_core::city::{City, PublicCity};
-use nil_core::ranking::Score;
+use nil_core::ranking::score::Score;
 use nil_payload::city::*;
 use tauri::AppHandle;
 

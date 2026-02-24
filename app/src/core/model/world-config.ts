@@ -18,9 +18,6 @@ export class WorldConfigImpl implements WorldConfig {
     this.botAdvancedStartRatio = config.botAdvancedStartRatio;
   }
 
-  public static DEFAULT_BOT_DENSITY = 2.0;
-  public static DEFAULT_BOT_ADVANCED_START_RATIO = 0.2;
-
   public static create(config: WorldConfig) {
     if (config instanceof WorldConfigImpl) {
       return config;

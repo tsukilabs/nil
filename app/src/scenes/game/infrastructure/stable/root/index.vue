@@ -3,11 +3,10 @@
 
 <script setup lang="ts">
 import { watch } from 'vue';
-import { storeToRefs } from 'pinia';
 import RecruitQueue from './RecruitQueue.vue';
+import { useSettings } from '@/stores/settings';
 import RecruitCatalog from './RecruitCatalog.vue';
 import { useStable } from '@/composables/infrastructure/useBuilding';
-import { useStableSettings } from '@/stores/settings/infrastructure/stable';
 import { useStableRecruitCatalog } from '@/composables/infrastructure/useStableRecruitCatalog';
 
 const { coord, city } = NIL.city.refs();
@@ -15,8 +14,7 @@ const { coord, city } = NIL.city.refs();
 const stable = useStable();
 const { catalog, loading, add, cancel, load } = useStableRecruitCatalog(coord);
 
-const settings = useStableSettings();
-const { hideUnmet } = storeToRefs(settings);
+const settings = useSettings();
 
 await load();
 
@@ -32,7 +30,7 @@ watch(city, load);
       @cancel="cancel"
     />
     <RecruitCatalog
-      v-if="stable && catalog && (stable.level > 0 || !hideUnmet)"
+      v-if="stable && catalog && (stable.level > 0 || !settings.stable.hideUnmet)"
       :stable
       :catalog
       :loading

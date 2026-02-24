@@ -1,11 +1,12 @@
 [package]
 name = "nil-server"
 publish = false
+readme = "../../../README.md"
 
 version.workspace = true
 edition.workspace = true
 rust-version.workspace = true
-license-file.workspace = true
+license.workspace = true
 homepage.workspace = true
 repository.workspace = true
 authors.workspace = true
@@ -28,9 +29,9 @@ jiff.workspace = true
 jsonwebtoken.workspace = true
 nil-core.workspace = true
 nil-crypto.workspace = true
-nil-database.workspace = true
 nil-log.workspace = true
 nil-payload.workspace = true
+nil-server-database.workspace = true
 nil-server-types.workspace = true
 nil-util.workspace = true
 semver.workspace = true

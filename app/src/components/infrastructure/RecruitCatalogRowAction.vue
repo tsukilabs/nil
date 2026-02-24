@@ -3,7 +3,7 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import { useBreakpoints } from '@/composables/useBreakpoints';
+import { useBreakpoints } from '@tb-dev/vue';
 import {
   Button,
   NumberField,

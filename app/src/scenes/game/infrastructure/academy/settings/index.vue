@@ -3,9 +3,8 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import { storeToRefs } from 'pinia';
+import { useSettings } from '@/stores/settings';
 import { Checkbox, Label } from '@tb-dev/vue-components';
-import { useAcademySettings } from '@/stores/settings/infrastructure/academy';
 import enUS from '@/locale/en-US/scenes/game/infrastructure/infrastructure.json';
 import ptBR from '@/locale/pt-BR/scenes/game/infrastructure/infrastructure.json';
 
@@ -16,15 +15,14 @@ const { t } = useI18n({
   },
 });
 
-const settings = useAcademySettings();
-const { hideUnmet } = storeToRefs(settings);
+const settings = useSettings();
 </script>
 
 <template>
   <div class="size-full px-4">
     <div class="flex flex-col">
       <Label>
-        <Checkbox v-model="hideUnmet" />
+        <Checkbox v-model="settings.academy.hideUnmet" />
         <span>{{ t('hide-unavailable-units') }}</span>
       </Label>
     </div>

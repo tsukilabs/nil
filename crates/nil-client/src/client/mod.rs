@@ -19,8 +19,8 @@ mod user;
 mod world;
 
 use crate::error::{Error, Result};
-use crate::http;
 use crate::http::authorization::Authorization;
+use crate::http::{self, USER_AGENT};
 use crate::server::ServerAddr;
 use crate::websocket::WebSocketClient;
 use futures::future::BoxFuture;
@@ -32,6 +32,7 @@ use nil_crypto::password::Password;
 use nil_payload::world::LeaveRequest;
 use nil_payload::{AuthorizeRequest, ValidateTokenRequest};
 use nil_server_types::{ServerKind, Token};
+use std::borrow::Cow;
 use std::net::{IpAddr, SocketAddrV4};
 
 pub struct Client {
@@ -39,6 +40,7 @@ pub struct Client {
   world_id: Option<WorldId>,
   authorization: Option<Authorization>,
   websocket: Option<WebSocketClient>,
+  user_agent: Cow<'static, str>,
 }
 
 #[bon::bon]
@@ -50,6 +52,7 @@ impl Client {
       world_id: None,
       authorization: None,
       websocket: None,
+      user_agent: Cow::Borrowed(USER_AGENT),
     }
   }
 
@@ -95,6 +98,7 @@ impl Client {
         .await
         .map(|token| Some(Authorization::new(&token)))?
         .transpose()
+        .inspect_err(|err| tracing::error!(message = %err, error = ?err))
         .map_err(|_| Error::FailedToAuthenticate)?;
     }
 
@@ -113,6 +117,7 @@ impl Client {
         .world_id(world_id)
         .maybe_world_password(world_password)
         .authorization(authorization)
+        .user_agent(&self.user_agent)
         .on_event(on_event)
         .call()
         .await?;
@@ -153,6 +158,25 @@ impl Client {
   }
 
   #[inline]
+  pub fn server(&self) -> ServerAddr {
+    self.server
+  }
+
+  #[inline]
+  pub fn world(&self) -> Option<WorldId> {
+    self.world_id
+  }
+
+  #[inline]
+  pub fn user_agent(&self) -> &str {
+    &self.user_agent
+  }
+
+  pub fn set_user_agent(&mut self, user_agent: &str) {
+    self.user_agent = Cow::Owned(user_agent.to_owned());
+  }
+
+  #[inline]
   pub fn is_local(&self) -> bool {
     self.server.is_local()
   }
@@ -166,6 +190,7 @@ impl Client {
     http::json_post("authorize")
       .body(req)
       .server(self.server)
+      .user_agent(&self.user_agent)
       .send()
       .await
   }
@@ -173,6 +198,7 @@ impl Client {
   pub async fn get_server_kind(&self) -> Result<ServerKind> {
     http::json_get("get-server-kind")
       .server(self.server)
+      .user_agent(&self.user_agent)
       .send()
       .await
   }
@@ -180,6 +206,7 @@ impl Client {
   pub async fn get_server_version(&self) -> Result<String> {
     http::get_text("version")
       .server(self.server)
+      .user_agent(&self.user_agent)
       .send()
       .await
   }
@@ -187,6 +214,7 @@ impl Client {
   pub async fn is_ready(&self) -> bool {
     http::get("")
       .server(self.server)
+      .user_agent(&self.user_agent)
       .send()
       .await
       .map(|()| true)
@@ -200,6 +228,7 @@ impl Client {
     http::json_post("validate-token")
       .body(Into::<ValidateTokenRequest>::into(req))
       .server(self.server)
+      .user_agent(&self.user_agent)
       .send()
       .await
   }

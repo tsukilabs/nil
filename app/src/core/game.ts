@@ -5,8 +5,8 @@ import * as commands from '@/commands';
 import { timeout } from '@tb-dev/utils';
 import { handleError } from '@/lib/error';
 import { go, isGameRoute } from '@/router';
-import { useUserStore } from '@/stores/user';
 import { Entity } from '@/core/entity/abstract';
+import { useSettings } from '@/stores/settings';
 import { exit } from '@tauri-apps/plugin-process';
 
 async function joinGame(options: {
@@ -145,11 +145,13 @@ export async function leaveGame(options?: {
     await commands.stopServer();
 
     if (options?.navigate ?? true) {
-      const { isAuthorizationTokenValid } = useUserStore();
+      const settings = useSettings();
+      const isTokenValid = () => settings.auth.isTokenValid();
+
       if (
         isRemote &&
         isGameRoute() &&
-        await timeout(isAuthorizationTokenValid, 2000)
+        await timeout(isTokenValid, 2000)
       ) {
         await go('lobby');
       }

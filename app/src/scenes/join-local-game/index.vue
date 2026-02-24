@@ -8,7 +8,7 @@ import { useRouter } from 'vue-router';
 import { joinLocalGame } from '@/core/game';
 import { isPlayerOptions } from '@/lib/schema';
 import { SocketAddrV4 } from '@/lib/net/addr-v4';
-import { localRef, useMutex } from '@tb-dev/vue';
+import { localRef, useBreakpoints, useMutex } from '@tb-dev/vue';
 import InputPlayerName from '@/components/form/InputPlayerName.vue';
 import type { WithPartialNullish, WritablePartial } from '@tb-dev/utils';
 import InputServerAddress from '@/components/form/InputServerAddress.vue';
@@ -17,6 +17,8 @@ import { Button, Card, CardContent, CardFooter, CardHeader, CardTitle } from '@t
 const { t } = useI18n();
 
 const router = useRouter();
+
+const { md } = useBreakpoints();
 
 const playerOptions = localRef<WritablePartial<PlayerOptions>>(
   'join-local-game:player',
@@ -54,8 +56,8 @@ async function join() {
 </script>
 
 <template>
-  <div class="card-layout">
-    <Card>
+  <div :class="md ? 'card-layout' : 'game-layout'">
+    <Card class="max-md:size-full">
       <CardHeader>
         <CardTitle>{{ t('join-game') }}</CardTitle>
       </CardHeader>
@@ -65,7 +67,7 @@ async function join() {
         <InputServerAddress v-model="server" :disabled="locked" />
       </CardContent>
 
-      <CardFooter class="grid grid-cols-2">
+      <CardFooter class="w-full grid grid-cols-2 gap-2">
         <Button :disabled="!canJoin || locked" @click="join">
           {{ t('join') }}
         </Button>

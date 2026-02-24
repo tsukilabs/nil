@@ -3,6 +3,7 @@
 
 import { reportRoutes } from './report';
 import { profileRoutes } from './profile';
+import { scriptsRoutes } from './scripts';
 import { warRoomRoutes } from './war-room';
 import { continentRoutes } from './continent';
 import type { RouteRecordRaw } from 'vue-router';
@@ -43,6 +44,11 @@ export const gameRoutes: RouteRecordRaw[] = [
     component: () => import('@/scenes/game/report/index.vue'),
     path: 'report',
     children: reportRoutes,
+  },
+  {
+    component: () => import('@/scenes/game/scripts/index.vue'),
+    path: 'scripts',
+    children: scriptsRoutes,
   },
   {
     component: () => import('@/scenes/game/war-room/index.vue'),

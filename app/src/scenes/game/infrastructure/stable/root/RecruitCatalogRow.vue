@@ -4,12 +4,11 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { storeToRefs } from 'pinia';
+import { useBreakpoints } from '@tb-dev/vue';
+import { useSettings } from '@/stores/settings';
 import { ResourcesImpl } from '@/core/model/resources';
 import CostGrid from '@/components/resources/CostGrid.vue';
 import { TableCell, TableRow } from '@tb-dev/vue-components';
-import { useBreakpoints } from '@/composables/useBreakpoints';
-import { useStableSettings } from '@/stores/settings/infrastructure/stable';
 import type { StableImpl } from '@/core/model/infrastructure/building/stable/stable';
 import { useRecruitCatalogEntry } from '@/composables/infrastructure/useRecruitCatalogEntry';
 import RecruitCatalogRowAction from '@/components/infrastructure/RecruitCatalogRowAction.vue';
@@ -28,8 +27,7 @@ const { t } = useI18n();
 
 const { player } = NIL.player.refs();
 
-const settings = useStableSettings();
-const { hideUnmet } = storeToRefs(settings);
+const settings = useSettings();
 
 const {
   chunks,
@@ -97,7 +95,7 @@ const { sm } = useBreakpoints();
     </TableCell>
   </TableRow>
 
-  <TableRow v-else-if="entry.kind === 'unmet' && !hideUnmet">
+  <TableRow v-else-if="entry.kind === 'unmet' && !settings.stable.hideUnmet">
     <TableCell class="min-w-24">
       <span>{{ t(unit) }}</span>
     </TableCell>

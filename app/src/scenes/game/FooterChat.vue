@@ -4,13 +4,13 @@
 <script setup lang="ts">
 import { watchEffect } from 'vue';
 import Unread from '@/components/Unread.vue';
+import { useBreakpoints } from '@tb-dev/vue';
 import Chat from '@/components/chat/Chat.vue';
 import { ListenerSet } from '@/lib/listener-set';
 import { useRoute, useRouter } from 'vue-router';
 import { useToggle, whenever } from '@vueuse/core';
 import { MessagesSquareIcon } from 'lucide-vue-next';
 import ChatInput from '@/components/chat/ChatInput.vue';
-import { useBreakpoints } from '@/composables/useBreakpoints';
 import { Popover, PopoverContent, PopoverTrigger } from '@tb-dev/vue-components';
 
 const { player } = NIL.player.refs();
@@ -38,7 +38,8 @@ function onChatUpdated({ message }: ChatUpdatedPayload) {
   if (
     !isChatOpen.value &&
     route.name !== ('chat' satisfies GameScene) &&
-    (message.author.kind !== 'player' || message.author.id !== player.value?.id)
+    message.author.kind === 'player' &&
+    message.author.id !== player.value?.id
   ) {
     hasUnread.value = true;
   }

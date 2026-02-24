@@ -30,7 +30,7 @@ export class PlayerImpl extends PublicPlayerImpl implements Player {
 
   public static override async load(id: PlayerId) {
     const [player, coords, ranking, capacity] = await Promise.all([
-      commands.getPlayer(id),
+      commands.getPlayer(),
       commands.getPlayerCoords(id),
       commands.getPlayerRank(id),
       commands.getPlayerStorageCapacity(),

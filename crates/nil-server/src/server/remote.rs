@@ -5,7 +5,7 @@ use crate::app::App;
 use crate::error::Result;
 use crate::router;
 use nil_core::world::World;
-use nil_database::Database;
+use nil_server_database::Database;
 use std::net::SocketAddr;
 
 pub async fn start(database_url: &str) -> Result<()> {

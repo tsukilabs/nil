@@ -9,10 +9,14 @@ You can download the latest version from our [website](https://nil.dev.br/downlo
 
 ## Building from source
 
-Call of Nil requires a [nightly Rust toolchain](https://rust-lang.github.io/rustup/concepts/channels.html#working-with-nightly-rust) to compile. You must also set up additional dependencies, such as [Node.js](https://nodejs.org/en/about). A complete list of requirements can be found in the [contributing guide](https://github.com/tsukilabs/nil/blob/main/.github/CONTRIBUTING.md#requirements).
+Call of Nil requires a [nightly Rust toolchain](https://rust-lang.github.io/rustup/concepts/channels.html#working-with-nightly-rust) to compile. You must also set up additional dependencies, such as [Node.js](https://nodejs.org/en/about). A complete list of requirements can be found in the [contributing guide](/.github/CONTRIBUTING.md#requirements).
 
 ```sh
 git clone https://github.com/tsukilabs/nil.git
 cd nil
 cargo +nightly -Zscript scripts/build-client.rs
 ```
+
+## License
+
+All source code files in this repository are licensed under [AGPL-3.0](./LICENSE) unless explicitly stated otherwise.

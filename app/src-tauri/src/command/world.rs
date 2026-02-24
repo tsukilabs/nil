@@ -16,6 +16,7 @@ use std::path::PathBuf;
 use tap::Pipe;
 use tauri::AppHandle;
 use tauri::async_runtime::spawn_blocking;
+use tokio::fs;
 
 #[tauri::command]
 pub async fn create_remote_world(app: AppHandle, req: CreateRemoteWorldRequest) -> Result<WorldId> {
@@ -43,7 +44,7 @@ pub async fn get_remote_worlds(app: AppHandle) -> Result<Vec<RemoteWorld>> {
 
 #[tauri::command]
 pub async fn get_savedata_players(path: PathBuf) -> Result<Vec<PlayerId>> {
-  let bytes = tokio::fs::read(path).await?;
+  let bytes = fs::read(path).await?;
   spawn_blocking(move || {
     Savedata::read(&bytes)?
       .players()
@@ -102,8 +103,20 @@ pub async fn get_world_stats(app: AppHandle, req: GetWorldStatsRequest) -> Resul
 }
 
 #[tauri::command]
+pub async fn is_savedata(path: PathBuf) -> Result<bool> {
+  if let Some(ext) = path.extension()
+    && ext.eq_ignore_ascii_case("nil")
+  {
+    let metadata = fs::metadata(&path).await?;
+    Ok(metadata.is_file() && metadata.len() > 0)
+  } else {
+    Ok(false)
+  }
+}
+
+#[tauri::command]
 pub async fn read_savedata_info(path: PathBuf) -> Result<SavedataInfo> {
-  let bytes = tokio::fs::read(path).await?;
+  let bytes = fs::read(path).await?;
   spawn_blocking(move || SavedataInfo::read(&bytes))
     .await?
     .map_err(Into::into)
@@ -119,4 +132,9 @@ pub async fn save_local_world(app: AppHandle, req: SaveLocalWorldRequest) -> Res
   } else {
     Err(Error::Forbidden)
   }
+}
+
+#[tauri::command]
+pub async fn savedata_dir(app: AppHandle) -> Result<PathBuf> {
+  app.savedata_dir()
 }

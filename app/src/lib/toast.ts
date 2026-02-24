@@ -9,7 +9,7 @@ type ToastOptions = Partial<ExternalToast>;
 const defaultToastOptions: ToastOptions = {
   closeButton: false,
   dismissible: true,
-  duration: 3000,
+  duration: 5000,
 };
 
 export const toast = {

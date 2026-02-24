@@ -1,7 +1,9 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-#![feature(str_as_str, try_blocks)]
+#![cfg_attr(docsrs, feature(doc_cfg))]
+#![doc(html_favicon_url = "https://nil.dev.br/favicon.png")]
+#![feature(addr_parse_ascii, str_as_str, try_blocks)]
 
 mod client;
 mod error;

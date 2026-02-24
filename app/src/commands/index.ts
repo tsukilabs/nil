@@ -17,6 +17,7 @@ export * from './player';
 export * from './report';
 export * from './server';
 export * from './ranking';
+export * from './scripts';
 export * from './military';
 export * from './continent';
 export * from './infrastructure';
@@ -43,6 +44,10 @@ export async function currentExe() {
   return invoke<string>('current_exe');
 }
 
+export async function homeDir() {
+  return invoke<Option<string>>('home_dir');
+}
+
 export async function exists(path: string) {
   return invoke<boolean>('exists', { path });
 }
@@ -65,6 +70,20 @@ export async function isRemote() {
 
 export async function isRemoteOrHost() {
   return invoke<boolean>('is_remote_or_host');
+}
+
+export async function nilDir() {
+  return invoke<string>('nil_dir');
+}
+
+export async function now() {
+  return invoke<string>('now');
+}
+
+export async function openDevtools() {
+  if (__DEBUG_ASSERTIONS__ && __DESKTOP__) {
+    await invoke('open_devtools');
+  }
 }
 
 export async function showWindow() {

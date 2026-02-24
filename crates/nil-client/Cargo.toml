@@ -1,14 +1,21 @@
 [package]
 name = "nil-client"
 publish = false
+readme = "../../../README.md"
 
 version.workspace = true
 edition.workspace = true
 rust-version.workspace = true
-license-file.workspace = true
+license.workspace = true
 homepage.workspace = true
 repository.workspace = true
 authors.workspace = true
+
+[package.metadata.docs.rs]
+no-default-features = true
+features = ["lua"]
+default-target = "x86_64-unknown-linux-gnu"
+targets = []
 
 [lints]
 workspace = true
@@ -36,3 +43,11 @@ tokio.workspace = true
 tracing.workspace = true
 tokio-tungstenite.workspace = true
 url.workspace = true
+
+[dependencies.mlua]
+version = "0.11"
+default-features = false
+optional = true
+
+[features]
+lua = ["dep:mlua", "nil-core/lua"]

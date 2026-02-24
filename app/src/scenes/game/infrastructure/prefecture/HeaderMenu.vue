@@ -6,7 +6,7 @@ import { go } from '@/router';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import { MenuIcon } from 'lucide-vue-next';
-import { useBreakpoints } from '@/composables/useBreakpoints';
+import { useBreakpoints } from '@tb-dev/vue';
 import enUS from '@/locale/en-US/scenes/game/infrastructure/prefecture.json';
 import ptBR from '@/locale/pt-BR/scenes/game/infrastructure/prefecture.json';
 import {

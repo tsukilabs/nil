@@ -7,8 +7,8 @@ import { fromZoned } from '@/lib/date';
 import { Semaphore } from 'es-toolkit';
 import { go, QUERY_LOAD_LOCAL_GAME_PATH } from '@/router';
 import { compareDesc as compareDateDesc } from 'date-fns';
-import { appDataDir, basename, extname, join } from '@tauri-apps/api/path';
-import { exists, lstat, mkdir, readDir, remove as removeFile } from '@tauri-apps/plugin-fs';
+import { basename, extname, join } from '@tauri-apps/api/path';
+import { exists, mkdir, readDir, remove as removeFile } from '@tauri-apps/plugin-fs';
 
 export class SavedataFile {
   private constructor(
@@ -50,7 +50,7 @@ export interface SavedataInfo {
 
 export async function getSavedataFiles() {
   const files: SavedataFile[] = [];
-  const dir = await savedataDir();
+  const dir = await commands.savedataDir();
 
   if (!(await exists(dir))) {
     await mkdir(dir, { recursive: true });
@@ -84,34 +84,7 @@ export async function getSavedataFiles() {
   return files;
 }
 
-export async function isSavedataFile(path: string) {
-  if (await commands.exists(path)) {
-    const metadata = await lstat(path);
-    if (metadata.isFile) {
-      const extension = await extname(path);
-      return extension.toLowerCase() === 'nil';
-    }
-  }
-
-  return false;
-}
-
-export async function loadSavedataFromArgs() {
-  if (__DESKTOP__ && !__DEBUG_ASSERTIONS__) {
-    const args = await commands.args();
-    if (args[1] && await isSavedataFile(args[1])) {
-      const savedata = await SavedataFile.read(args[1]);
-      await savedata.load();
-    }
-  }
-}
-
 export async function saveLocalGame() {
-  const path = await savedataDir();
+  const path = await commands.savedataDir();
   await commands.saveLocalWorld(path);
-}
-
-export async function savedataDir() {
-  const dataDir = await appDataDir();
-  return join(dataDir, 'savedata');
 }

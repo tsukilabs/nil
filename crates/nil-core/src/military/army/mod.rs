@@ -10,7 +10,7 @@ use crate::military::squad::Squad;
 use crate::military::unit::UnitId;
 use crate::military::unit::stats::haul::Haul;
 use crate::military::unit::stats::speed::Speed;
-use crate::ranking::Score;
+use crate::ranking::score::Score;
 use crate::resources::maintenance::Maintenance;
 use crate::ruler::Ruler;
 use bon::Builder;
