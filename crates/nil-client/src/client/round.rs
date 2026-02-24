@@ -17,8 +17,8 @@ impl Client {
       .await
   }
 
-  pub async fn set_player_ready(&self, req: SetPlayerReadyRequest) -> Result<()> {
-    http::post("set-player-ready")
+  pub async fn set_player_ready(&self, req: SetPlayerReadyRequest) -> Result<Round> {
+    http::json_post("set-player-ready")
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
@@ -27,8 +27,8 @@ impl Client {
       .await
   }
 
-  pub async fn start_round(&self, req: StartRoundRequest) -> Result<()> {
-    http::post("start-round")
+  pub async fn start_round(&self, req: StartRoundRequest) -> Result<Round> {
+    http::json_post("start-round")
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())

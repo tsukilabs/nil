@@ -3,7 +3,7 @@
 
 <script setup lang="ts">
 import type { HTMLAttributes, VNode } from 'vue';
-import { Button, type ButtonSize, type ButtonVariant, type ClassValue, Spinner } from '@tb-dev/vue-components';
+import { Button, type ButtonSize, type ButtonVariant, Spinner } from '@tb-dev/vue-components';
 
 defineProps<{
   variant?: ButtonVariant;
@@ -12,7 +12,7 @@ defineProps<{
   loading: boolean;
   role?: HTMLAttributes['role'];
   tabindex?: HTMLAttributes['tabindex'];
-  iconClass?: ClassValue;
+  iconClass?: string;
   onClick?: () => MaybePromise<void>;
 }>();
 
