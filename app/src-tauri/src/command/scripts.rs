@@ -4,6 +4,7 @@
 use crate::error::{Error, Result};
 use crate::manager::ManagerExt;
 use futures::TryFutureExt;
+use natord::compare_ignore_case;
 use nil_lua::script::{Script, ScriptOutput};
 use std::path::{Path, PathBuf};
 use tauri::AppHandle;
@@ -89,7 +90,7 @@ pub async fn load_scripts(app: AppHandle) -> Result<Vec<Script>> {
     }
   }
 
-  scripts.sort_by(|a, b| a.name.cmp(&b.name));
+  scripts.sort_by(|a, b| compare_ignore_case(&a.name, &b.name));
 
   Ok(scripts)
 }

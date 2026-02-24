@@ -38,7 +38,7 @@ onUnmounted(() => disposeHighlighter());
               <span v-html="toHtml(line.content)"></span>
             </div>
 
-            <span v-else class="terminal-output">{{ line.content }} </span>
+            <span v-else class="lua terminal-output">{{ line.content }} </span>
           </div>
         </div>
 
@@ -65,16 +65,6 @@ onUnmounted(() => disposeHighlighter());
 </template>
 
 <style scoped>
-:deep(.shiki), .terminal-output {
-  background-color: transparent !important;
-  white-space: normal;
-  text-wrap: pretty;
-  overflow-wrap: anywhere;
-
-  -webkit-user-select: text;
-  user-select: text;
-}
-
 div:has(.terminal-input) + div:has(.terminal-output),
 div:has(.terminal-output) + div:has(.terminal-input) {
   padding-top: 0.5rem;

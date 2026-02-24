@@ -14,49 +14,17 @@
     "dialog:allow-message",
     "dialog:allow-open",
     "dialog:allow-save",
+    "fs:allow-lstat",
+    "fs:allow-mkdir",
+    "fs:allow-read-dir",
+    "fs:allow-remove",
     "os:allow-os-type",
     "os:allow-platform",
     "pinia:default",
     "process:allow-exit",
     "process:allow-restart",
     {
-      "identifier": "fs:allow-exists",
-      "allow": [
-        { "path": "$APPCACHE/**/*" },
-        { "path": "$APPCONFIG/**/*" },
-        { "path": "$APPDATA/**/*" },
-        { "path": "$HOME/.tsukilabs/nil/**/*" }
-      ]
-    },
-    {
-      "identifier": "fs:allow-lstat",
-      "allow": [
-        { "path": "$APPCACHE/**/*" },
-        { "path": "$APPCONFIG/**/*" },
-        { "path": "$APPDATA/**/*" },
-        { "path": "$HOME/.tsukilabs/nil/**/*" }
-      ]
-    },
-    {
-      "identifier": "fs:allow-mkdir",
-      "allow": [
-        { "path": "$APPCACHE/**/*" },
-        { "path": "$APPCONFIG/**/*" },
-        { "path": "$APPDATA/**/*" },
-        { "path": "$HOME/.tsukilabs/nil/**/*" }
-      ]
-    },
-    {
-      "identifier": "fs:allow-read-dir",
-      "allow": [
-        { "path": "$APPCACHE/**/*" },
-        { "path": "$APPCONFIG/**/*" },
-        { "path": "$APPDATA/**/*" },
-        { "path": "$HOME/.tsukilabs/nil/**/*" }
-      ]
-    },
-    {
-      "identifier": "fs:allow-remove",
+      "identifier": "fs:scope",
       "allow": [
         { "path": "$APPCACHE/**/*" },
         { "path": "$APPCONFIG/**/*" },
