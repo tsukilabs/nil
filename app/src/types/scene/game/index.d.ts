@@ -11,14 +11,13 @@ type GameScene =
   | 'chat'
   | 'city'
   | 'continent'
-  | 'ranking';
+  | 'ranking'
+  | 'scripts';
 
 type ContinentScene = 'continent' | 'continent-cities';
 
 type ProfileScene = 'profile-bot' | 'profile-city' | 'profile-player' | 'profile-precursor';
 
 type ReportScene = 'report' | 'report-view';
-
-type ScriptsScene = 'scripts' | 'scripts-terminal';
 
 type WarRoomScene = 'war-room' | 'war-room-simulator';

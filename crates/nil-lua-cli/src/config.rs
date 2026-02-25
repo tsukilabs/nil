@@ -9,8 +9,9 @@ use nil_crypto::password::Password;
 use nil_server_types::Token;
 use serde::Deserialize;
 use std::io::ErrorKind;
+use std::path::PathBuf;
 use std::{env, fs};
-use tap::Tap;
+use tap::{Pipe, Tap};
 
 #[derive(Clone, Debug, Default, Deserialize)]
 #[serde(default)]
@@ -25,14 +26,9 @@ pub struct Config {
 
 impl Config {
   pub fn load() -> Result<Self> {
-    let Some(path) = env::home_dir() else {
+    let Some(path) = path() else {
       return Ok(Self::default());
     };
-
-    let path = path
-      .tap_mut(|it| it.push(env!("NIL_DIR")))
-      .tap_mut_dbg(|it| it.push(".dev"))
-      .tap_mut(|it| it.push("lua.toml"));
 
     match fs::read(path) {
       Ok(bytes) => Ok(toml::from_slice(&bytes)?),
@@ -40,4 +36,12 @@ impl Config {
       Err(err) => Err(err.into()),
     }
   }
+}
+
+fn path() -> Option<PathBuf> {
+  env::home_dir()?
+    .tap_mut(|it| it.push(env!("NIL_DIR")))
+    .tap_mut_dbg(|it| it.push(".dev"))
+    .tap_mut(|it| it.push("lua.toml"))
+    .pipe(Some)
 }
