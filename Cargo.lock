@@ -3357,7 +3357,7 @@ checksum = "650eef8c711430f1a879fdd01d4745a7deea475becfb90269c06775983bbf086"
 
 [[package]]
 name = "nil"
-version = "0.3.0"
+version = "0.3.1"
 dependencies = [
  "anyhow",
  "bon",
@@ -3400,7 +3400,7 @@ dependencies = [
 
 [[package]]
 name = "nil-client"
-version = "0.3.0"
+version = "0.3.1"
 dependencies = [
  "anyhow",
  "bon",
@@ -3430,7 +3430,7 @@ dependencies = [
 
 [[package]]
 name = "nil-core"
-version = "0.3.0"
+version = "0.3.1"
 dependencies = [
  "anyhow",
  "bon",
@@ -3464,7 +3464,7 @@ dependencies = [
 
 [[package]]
 name = "nil-core-macros"
-version = "0.3.0"
+version = "0.3.1"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -3473,7 +3473,7 @@ dependencies = [
 
 [[package]]
 name = "nil-crypto"
-version = "0.3.0"
+version = "0.3.1"
 dependencies = [
  "anyhow",
  "argon2",
@@ -3485,7 +3485,7 @@ dependencies = [
 
 [[package]]
 name = "nil-log"
-version = "0.3.0"
+version = "0.3.1"
 dependencies = [
  "anyhow",
  "bitflags 2.11.0",
@@ -3498,7 +3498,7 @@ dependencies = [
 
 [[package]]
 name = "nil-lua"
-version = "0.3.0"
+version = "0.3.1"
 dependencies = [
  "anyhow",
  "jiff",
@@ -3513,7 +3513,7 @@ dependencies = [
 
 [[package]]
 name = "nil-lua-cli"
-version = "0.3.0"
+version = "0.3.1"
 dependencies = [
  "anyhow",
  "clap",
@@ -3534,7 +3534,7 @@ dependencies = [
 
 [[package]]
 name = "nil-namegen"
-version = "0.3.0"
+version = "0.3.1"
 dependencies = [
  "itertools",
  "rand 0.10.0",
@@ -3543,7 +3543,7 @@ dependencies = [
 
 [[package]]
 name = "nil-num"
-version = "0.3.0"
+version = "0.3.1"
 dependencies = [
  "bon",
  "nil-num-macros",
@@ -3553,7 +3553,7 @@ dependencies = [
 
 [[package]]
 name = "nil-num-macros"
-version = "0.3.0"
+version = "0.3.1"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -3562,7 +3562,7 @@ dependencies = [
 
 [[package]]
 name = "nil-payload"
-version = "0.3.0"
+version = "0.3.1"
 dependencies = [
  "bon",
  "nil-core",
@@ -3573,7 +3573,7 @@ dependencies = [
 
 [[package]]
 name = "nil-server"
-version = "0.3.0"
+version = "0.3.1"
 dependencies = [
  "anyhow",
  "axum",
@@ -3607,7 +3607,7 @@ dependencies = [
 
 [[package]]
 name = "nil-server-database"
-version = "0.3.0"
+version = "0.3.1"
 dependencies = [
  "anyhow",
  "bon",
@@ -3629,7 +3629,7 @@ dependencies = [
 
 [[package]]
 name = "nil-server-types"
-version = "0.3.0"
+version = "0.3.1"
 dependencies = [
  "derive_more 2.1.1",
  "jiff",
@@ -3640,7 +3640,7 @@ dependencies = [
 
 [[package]]
 name = "nil-util"
-version = "0.3.0"
+version = "0.3.1"
 dependencies = [
  "anyhow",
 ]
