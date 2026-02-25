@@ -1,7 +1,9 @@
 [package]
 name = "nil-core-macros"
 publish = true
+readme = "../../README.md"
 
+description.workspace = true
 version.workspace = true
 edition.workspace = true
 rust-version.workspace = true

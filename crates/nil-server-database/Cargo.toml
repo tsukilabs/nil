@@ -1,8 +1,9 @@
 [package]
 name = "nil-server-database"
 publish = false
-readme = "../../../README.md"
+readme = "../../README.md"
 
+description.workspace = true
 version.workspace = true
 edition.workspace = true
 rust-version.workspace = true
