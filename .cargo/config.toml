@@ -4,6 +4,3 @@ rustflags = []
 
 [env]
 CARGO_TARGET_DIR = "target"
-
-# Relative to the home dir.
-NIL_DIR = ".tsukilabs/nil"

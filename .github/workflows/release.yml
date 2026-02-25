@@ -6,7 +6,26 @@ on:
     branches: [release]
 
 jobs:
+  publish:
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@nightly
+
+      - name: Install dependencies (Ubuntu)
+        run: sudo apt-get update
+
+      - name: Publish
+        run: cargo publish --workspace
+        env:
+          RUST_BACKTRACE: 1
+
   release-client:
+    needs: publish
     permissions:
       contents: write
     strategy:
@@ -72,8 +91,7 @@ jobs:
         uses: dtolnay/rust-toolchain@nightly
 
       - name: Install dependencies (Ubuntu)
-        run: |
-          sudo apt-get update
+        run: sudo apt-get update
 
       - name: Release
         run: cargo +nightly -Zscript scripts/build-server.rs --release

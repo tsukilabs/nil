@@ -40,7 +40,7 @@ impl Config {
 
 fn path() -> Option<PathBuf> {
   env::home_dir()?
-    .tap_mut(|it| it.push(env!("NIL_DIR")))
+    .tap_mut(|it| it.push(".tsukilabs/nil"))
     .tap_mut_dbg(|it| it.push(".dev"))
     .tap_mut(|it| it.push("lua.toml"))
     .pipe(Some)

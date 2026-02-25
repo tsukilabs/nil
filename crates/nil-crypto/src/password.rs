@@ -10,7 +10,7 @@ use std::borrow::Cow;
 use std::fmt;
 use std::ops::Deref;
 use std::sync::Arc;
-use tap::Pipe;
+use tap::{Pipe, TapFallible};
 
 #[derive(Clone, Default, From, Into, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[from(String, &str, Arc<str>, Box<str>, Cow<'_, str>)]
@@ -32,14 +32,9 @@ impl Password {
   }
 
   pub fn verify(&self, hash: &str) -> bool {
-    let result = verify(self.0.as_bytes(), hash);
-
-    #[cfg(debug_assertions)]
-    if let Err(err) = &result {
-      tracing::debug!(error = %err);
-    }
-
-    result.is_ok()
+    verify(self.0.as_bytes(), hash)
+      .tap_err_dbg(|err| tracing::debug!(error = %err))
+      .is_ok()
   }
 }
 
