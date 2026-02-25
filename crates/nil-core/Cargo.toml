@@ -52,8 +52,9 @@ uuid.workspace = true
 
 [dependencies.mlua]
 version = "0.11"
-default-features = false
 optional = true
+default-features = false
+features = ["lua55"]
 
 [features]
 lua = ["dep:mlua"]
