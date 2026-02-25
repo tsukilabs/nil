@@ -56,18 +56,15 @@ const { md } = useBreakpoints();
         :side-offset="md ? 5 : 0"
         class="w-56"
       >
-        <DropdownMenuGroup>
-          <DropdownMenuItem v-if="!md" @click="() => toggleSheet(true)">
-            <span>{{ t('script', 2) }}</span>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <RouterLink :to="{ name: 'scripts-terminal' satisfies ScriptsScene }" class="w-full">
-              {{ t('terminal') }}
-            </RouterLink>
-          </DropdownMenuItem>
-        </DropdownMenuGroup>
+        <template v-if="!md">
+          <DropdownMenuGroup>
+            <DropdownMenuItem @click="() => toggleSheet(true)">
+              <span>{{ t('script', 2) }}</span>
+            </DropdownMenuItem>
+          </DropdownMenuGroup>
 
-        <DropdownMenuSeparator />
+          <DropdownMenuSeparator />
+        </template>
 
         <DropdownMenuGroup>
           <DropdownMenuItem :disabled="!currentScript || disabled" @click="onRemove">
