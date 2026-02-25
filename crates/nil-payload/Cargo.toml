@@ -1,6 +1,6 @@
 [package]
 name = "nil-payload"
-publish = false
+publish = true
 readme = "../../../README.md"
 
 version.workspace = true
