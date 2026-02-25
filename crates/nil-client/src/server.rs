@@ -10,12 +10,16 @@ use std::sync::{Arc, LazyLock};
 use strum::EnumIs;
 use url::Url;
 
-static REMOTE_SERVER_ADDR: LazyLock<Box<str>> = LazyLock::new(|| {
-  if let Ok(addr) = env::var("NIL_REMOTE_SERVER_ADDR") {
-    Box::from(addr)
+static REMOTE_SERVER_ADDR: LazyLock<Url> = LazyLock::new(|| {
+  let result = if let Ok(addr) = env::var("NIL_REMOTE_SERVER_ADDR") {
+    Url::parse(&addr)
+  } else if cfg!(debug_assertions) && cfg!(not(target_os = "android")) {
+    Url::parse("http://127.0.0.1:3000/")
   } else {
-    Box::from("tsukilabs.dev.br/nil")
-  }
+    Url::parse("https://tsukilabs.dev.br/nil/")
+  };
+
+  result.expect("Failed to parse remote server address")
 });
 
 #[derive(Clone, Copy, Debug, Default, EnumIs, Deserialize, Serialize)]
@@ -31,27 +35,14 @@ pub enum ServerAddr {
 impl ServerAddr {
   #[inline]
   pub fn url(&self, route: &str) -> Result<Url> {
-    if cfg!(debug_assertions) {
-      self.url_with_scheme("http", route)
-    } else {
-      self.url_with_scheme("https", route)
-    }
-  }
-
-  pub fn url_with_scheme(&self, scheme: &str, route: &str) -> Result<Url> {
-    let url = match self {
-      Self::Remote => {
-        let addr = REMOTE_SERVER_ADDR.as_str();
-        format!("{scheme}://{addr}/{route}")
-      }
+    match self {
+      Self::Remote => Ok(REMOTE_SERVER_ADDR.join(route)?),
       Self::Local { addr } => {
         let ip = addr.ip();
         let port = addr.port();
-        format!("{scheme}://{ip}:{port}/{route}")
+        Ok(Url::parse(&format!("http://{ip}:{port}/{route}"))?)
       }
-    };
-
-    Ok(Url::parse(&url)?)
+    }
   }
 }
 

@@ -15,8 +15,8 @@ pub enum Error {
   #[error("Failed to authenticate")]
   FailedToAuthenticate,
 
-  #[error("Failed to connect websocket")]
-  FailedToConnectWebsocket,
+  #[error("{}", display_failed_to_connect_websocket(.0.as_deref()))]
+  FailedToConnectWebsocket(Option<String>),
 
   #[error("Player name contains invalid characters: {0}")]
   InvalidPlayerId(PlayerId),
@@ -49,4 +49,10 @@ impl From<Error> for mlua::Error {
   fn from(err: Error) -> Self {
     mlua::ExternalError::into_lua_err(err)
   }
+}
+
+fn display_failed_to_connect_websocket(message: Option<&str>) -> String {
+  message
+    .map(ToOwned::to_owned)
+    .unwrap_or_else(|| String::from("Failed to connect websocket"))
 }

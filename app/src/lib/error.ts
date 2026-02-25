@@ -5,7 +5,7 @@ import { toast } from '@/lib/toast';
 import type { Option } from '@tb-dev/utils';
 
 export function handleError(err: unknown, message?: Option<string>) {
-  if (__DEBUG_ASSERTIONS__) {
+  if (__DEBUG_ASSERTIONS__ && err) {
     if (err instanceof Error) {
       console.error(`${err.message}\n${err.stack}`);
     }
@@ -14,13 +14,10 @@ export function handleError(err: unknown, message?: Option<string>) {
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+  message ||= err instanceof Error ? err.message : String(err);
+
   if (message) {
     toast.error(message);
-  }
-  else if (err instanceof Error) {
-    toast.error(err.message);
-  }
-  else {
-    toast.error(String(err));
   }
 }
