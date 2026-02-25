@@ -191,7 +191,7 @@ features = ["full"]
 
 [workspace.dependencies.tokio-tungstenite]
 version = "0.28"
-features = ["url"]
+features = ["rustls-tls-native-roots", "url"]
 
 [workspace.dependencies.toml]
 version = "1.0"
@@ -244,6 +244,7 @@ needless_for_each = "allow"
 obfuscated_if_else = "allow"
 rc_buffer = "deny"
 rc_mutex = "deny"
+redundant_else = "allow"
 rest_pat_in_fully_bound_structs = "deny"
 similar_names = "allow"
 struct_field_names = "allow"

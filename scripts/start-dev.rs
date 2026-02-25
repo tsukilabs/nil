@@ -39,7 +39,7 @@ fn main() -> Result<()> {
   let mut env = Vec::new();
 
   if args.remote && !args.android {
-    env.push(("NIL_REMOTE_SERVER_ADDR", "tsukilabs.dev.br/nil"));
+    env.push(("NIL_REMOTE_SERVER_ADDR", "https://tsukilabs.dev.br/nil/"));
   }
 
   if args.verbose && !args.android {

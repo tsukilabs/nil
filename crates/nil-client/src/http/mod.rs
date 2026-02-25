@@ -6,21 +6,23 @@ pub(crate) mod authorization;
 use crate::error::{Error, Result};
 use crate::http::authorization::Authorization;
 use crate::server::ServerAddr;
+use anyhow::anyhow;
 use futures::TryFutureExt;
-use http::{Method, StatusCode, header};
+use http::{HeaderMap, Method, header};
 use reqwest::{Client as HttpClient, Response};
 use serde::Serialize;
 use serde::de::DeserializeOwned;
 use std::sync::LazyLock;
+use tap::Tap;
 use tokio::time::Duration;
 
 pub const USER_AGENT: &str = concat!("nil/", env!("CARGO_PKG_VERSION"));
 
 static HTTP: LazyLock<HttpClient> = LazyLock::new(|| {
   HttpClient::builder()
+    .https_only(false)
     .timeout(Duration::from_mins(1))
     .tls_backend_rustls()
-    .https_only(!cfg!(debug_assertions))
     .build()
     .expect("Failed to create HTTP client")
 });
@@ -132,7 +134,11 @@ async fn request(
     request = request.header(header::AUTHORIZATION, authorization.as_inner());
   }
 
-  let response = request.send().await?;
+  let response = request
+    .tap_borrow_dbg(debug_request)
+    .send()
+    .await?
+    .tap_borrow_dbg(debug_response);
 
   if response.status().is_success() {
     Ok(response)
@@ -160,7 +166,12 @@ where
     request = request.header(header::AUTHORIZATION, authorization.as_inner());
   }
 
-  let response = request.json(&body).send().await?;
+  let response = request
+    .tap_borrow_dbg(debug_request)
+    .json(&body)
+    .send()
+    .await?
+    .tap_borrow_dbg(debug_response);
 
   if response.status().is_success() {
     Ok(response)
@@ -184,11 +195,32 @@ where
 
 async fn into_error(response: Response) -> Result<Error> {
   let status = response.status();
-  if status == StatusCode::TOO_MANY_REQUESTS
-    && let Some(reason) = status.canonical_reason()
-  {
-    Ok(Error::RequestFailed(reason.to_owned()))
+  let html = has_html_content_type(response.headers());
+  let text = response.text().await?;
+
+  if html || text.trim().is_empty() {
+    if let Some(reason) = status.canonical_reason() {
+      Ok(Error::RequestFailed(reason.to_owned()))
+    } else {
+      Ok(Error::Unknown(anyhow!("Unknown server error: {status}")))
+    }
   } else {
-    Ok(Error::RequestFailed(response.text().await?))
+    Ok(Error::RequestFailed(text))
   }
+}
+
+pub(crate) fn has_html_content_type(headers: &HeaderMap) -> bool {
+  headers
+    .get(header::CONTENT_TYPE)
+    .and_then(|it| it.to_str().ok())
+    .is_some_and(|it| it.eq_ignore_ascii_case("text/html"))
+}
+
+fn debug_request(request: &reqwest::RequestBuilder) {
+  tracing::debug!(?request);
+}
+
+fn debug_response(response: &Response) {
+  let status = response.status();
+  tracing::debug!(?status, ?response);
 }

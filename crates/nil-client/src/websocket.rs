@@ -1,10 +1,11 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use crate::error::{Error, Result};
+use crate::error::{AnyResult, Error, Result};
 use crate::http::authorization::Authorization;
+use crate::http::has_html_content_type;
 use crate::server::ServerAddr;
-use anyhow::Result as AnyResult;
+use anyhow::anyhow;
 use bytes::Bytes;
 use either::Either;
 use futures::future::BoxFuture;
@@ -15,6 +16,7 @@ use nil_core::event::Event;
 use nil_core::world::config::WorldId;
 use nil_crypto::password::Password;
 use std::ops::ControlFlow;
+use tap::TapFallible;
 use tokio::net::TcpStream;
 use tokio::spawn;
 use tokio::sync::mpsc::channel;
@@ -57,16 +59,25 @@ impl WebSocketClient {
     {
       Ok(Either::Left(stream)) => stream.split(),
       Ok(Either::Right(TungsteniteError::Http(response))) => {
+        if has_html_content_type(response.headers()) {
+          let status = response.status();
+          if let Some(reason) = status.canonical_reason() {
+            return Err(Error::FailedToConnectWebsocket(Some(reason.to_owned())));
+          } else {
+            return Err(Error::Unknown(anyhow!("Unknown websocket error: {status}")));
+          }
+        }
+
         if let Some(body) = response.into_body()
           && let Ok(body) = String::from_utf8(body)
           && !body.trim().is_empty()
         {
-          return Err(Error::RequestFailed(body));
+          return Err(Error::FailedToConnectWebsocket(Some(body)));
         }
 
-        return Err(Error::FailedToConnectWebsocket);
+        return Err(Error::FailedToConnectWebsocket(None));
       }
-      Ok(Either::Right(_)) | Err(_) => return Err(Error::FailedToConnectWebsocket),
+      Ok(Either::Right(_)) | Err(_) => return Err(Error::FailedToConnectWebsocket(None)),
     };
 
     Ok(Self {
@@ -84,7 +95,13 @@ async fn make_stream(
   authorization: Authorization,
   user_agent: &str,
 ) -> AnyResult<Either<Stream, TungsteniteError>> {
-  let mut url = server.url_with_scheme("ws", "websocket")?;
+  let mut url = server.url("websocket")?;
+  if url.scheme().eq_ignore_ascii_case("https") {
+    let _ = url.set_scheme("wss");
+  } else {
+    let _ = url.set_scheme("ws");
+  }
+
   url
     .query_pairs_mut()
     .append_pair("worldId", &world_id.to_string())
@@ -97,7 +114,13 @@ async fn make_stream(
   headers.insert(header::AUTHORIZATION, authorization.into_inner());
   headers.insert(header::USER_AGENT, user_agent.parse()?);
 
-  match connect_async(request).await {
+  #[cfg(debug_assertions)]
+  tracing::debug!(?request);
+
+  match connect_async(request)
+    .await
+    .tap_ok_dbg(|(_, response)| tracing::debug!(?response))
+  {
     Ok((ws_stream, _)) => Ok(Either::Left(ws_stream)),
     Err(err) => {
       tracing::error!(message = %err, error = ?err);
