@@ -55,21 +55,6 @@ debug = true
 debug-assertions = true
 
 [workspace.dependencies]
-nil-client.path = "./crates/nil-client"
-nil-core.path = "./crates/nil-core"
-nil-core-macros.path = "./crates/nil-core-macros"
-nil-crypto.path = "./crates/nil-crypto"
-nil-log.path = "./crates/nil-log"
-nil-lua.path = "./crates/nil-lua"
-nil-namegen.path = "./crates/nil-namegen"
-nil-num.path = "./crates/nil-num"
-nil-num-macros.path = "./crates/nil-num-macros"
-nil-server.path = "./crates/nil-server"
-nil-server-database.path = "./crates/nil-server-database"
-nil-server-types.path = "./crates/nil-server-types"
-nil-payload.path = "./crates/nil-payload"
-nil-util.path = "./crates/nil-util"
-
 argon2 = "=0.6.0-rc.7"
 anyhow = "1.0"
 bitflags = "2.11"
@@ -155,6 +140,62 @@ features = ["bundled"]
 [workspace.dependencies.mlua]
 version = "0.11"
 features = ["anyhow", "async", "error-send", "lua55", "send", "serde", "vendored"]
+
+[workspace.dependencies.nil-client]
+version = "0.3"
+path = "./crates/nil-client"
+
+[workspace.dependencies.nil-core]
+version = "0.3"
+path = "./crates/nil-core"
+
+[workspace.dependencies.nil-core-macros]
+version = "0.3"
+path = "./crates/nil-core-macros"
+
+[workspace.dependencies.nil-crypto]
+version = "0.3"
+path = "./crates/nil-crypto"
+
+[workspace.dependencies.nil-log]
+version = "0.3"
+path = "./crates/nil-log"
+
+[workspace.dependencies.nil-lua]
+version = "0.3"
+path = "./crates/nil-lua"
+
+[workspace.dependencies.nil-namegen]
+version = "0.3"
+path = "./crates/nil-namegen"
+
+[workspace.dependencies.nil-num]
+version = "0.3"
+path = "./crates/nil-num"
+
+[workspace.dependencies.nil-num-macros]
+version = "0.3"
+path = "./crates/nil-num-macros"
+
+[workspace.dependencies.nil-server]
+version = "0.3"
+path = "./crates/nil-server"
+
+[workspace.dependencies.nil-server-database]
+version = "0.3"
+path = "./crates/nil-server-database"
+
+[workspace.dependencies.nil-server-types]
+version = "0.3"
+path = "./crates/nil-server-types"
+
+[workspace.dependencies.nil-payload]
+version = "0.3"
+path = "./crates/nil-payload"
+
+[workspace.dependencies.nil-util]
+version = "0.3"
+path = "./crates/nil-util"
 
 [workspace.dependencies.reqwest]
 version = "0.13"
