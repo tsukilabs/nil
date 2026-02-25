@@ -1,6 +1,6 @@
 [package]
 name = "nil-core-macros"
-publish = false
+publish = true
 
 version.workspace = true
 edition.workspace = true
