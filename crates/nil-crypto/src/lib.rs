@@ -3,6 +3,6 @@
 
 #![cfg_attr(docsrs, feature(doc_cfg))]
 #![doc(html_favicon_url = "https://nil.dev.br/favicon.png")]
-#![feature(str_as_str, try_blocks)]
+#![feature(str_as_str)]
 
 pub mod password;

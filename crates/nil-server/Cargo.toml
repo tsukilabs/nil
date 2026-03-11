@@ -28,6 +28,7 @@ headers.workspace = true
 itertools.workspace = true
 jiff.workspace = true
 jsonwebtoken.workspace = true
+mimalloc.workspace = true
 nil-core.workspace = true
 nil-crypto.workspace = true
 nil-log.workspace = true
