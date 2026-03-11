@@ -37,6 +37,9 @@ struct Args {
   android: bool,
 
   #[arg(long)]
+  clean: bool,
+
+  #[arg(long)]
   kanata: bool,
 
   #[arg(long, alias = "ui")]
@@ -99,6 +102,10 @@ fn main() -> Result<()> {
     } else {
       open::that_detached("target/preview/nil")?;
     }
+  }
+
+  if args.clean {
+    spawn!("pnpm run clean")?;
   }
 
   Ok(())

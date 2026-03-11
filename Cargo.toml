@@ -21,7 +21,7 @@ members = [
 
 [workspace.package]
 description = "Multiplayer strategy game"
-version = "0.3.1"
+version = "0.3.2"
 edition = "2024"
 rust-version = "1.95"
 license = "AGPL-3.0-only"
@@ -138,6 +138,10 @@ features = ["rust_crypto"]
 version = "0.35"
 features = ["bundled"]
 
+[workspace.dependencies.mimalloc]
+version = "0.1"
+features = ["secure", "v3"]
+
 [workspace.dependencies.mlua]
 version = "0.11"
 features = ["anyhow", "async", "error-send", "lua55", "send", "serde", "vendored"]
@@ -199,9 +203,9 @@ version = "0.3"
 path = "./crates/nil-util"
 
 [workspace.dependencies.reqwest]
-version = "0.13"
+version = "0.12"
 default-features = false
-features = ["charset", "json", "rustls"]
+features = ["charset", "json", "rustls-tls"]
 
 [workspace.dependencies.semver]
 version = "1.0"
@@ -228,7 +232,7 @@ version = "4.0"
 features = ["platform-windows"]
 
 [workspace.dependencies.tokio]
-version = "1.49"
+version = "1.50"
 features = ["full"]
 
 [workspace.dependencies.tokio-tungstenite]
@@ -256,7 +260,7 @@ version = "2.5"
 features = ["serde"]
 
 [workspace.dependencies.uuid]
-version = "1.21"
+version = "1.22"
 features = ["serde", "v4", "v7"]
 
 [workspace.lints.rust]

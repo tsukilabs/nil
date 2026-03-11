@@ -1,7 +1,7 @@
 {
   "name": "ui",
   "type": "module",
-  "packageManager": "pnpm@10.30.2",
+  "packageManager": "pnpm@10.32.1",
   "license": "AGPL-3.0-only",
   "private": true,
   "scripts": {

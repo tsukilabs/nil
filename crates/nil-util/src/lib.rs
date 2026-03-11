@@ -3,7 +3,7 @@
 
 #![cfg_attr(docsrs, feature(doc_cfg))]
 #![doc(html_favicon_url = "https://nil.dev.br/favicon.png")]
-#![feature(exit_status_error, try_blocks, try_trait_v2)]
+#![feature(exit_status_error, try_trait_v2)]
 
 pub mod iter;
 pub mod ops;
