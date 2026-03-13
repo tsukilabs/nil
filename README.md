@@ -19,4 +19,4 @@ cargo +nightly -Zscript scripts/build-client.rs
 
 ## License
 
-All source code files in this repository are licensed under [AGPL-3.0](./LICENSE) unless explicitly stated otherwise.
+All source code files are licensed under [AGPL-3.0](https://spdx.org/licenses/AGPL-3.0-only.html) unless explicitly stated otherwise.
