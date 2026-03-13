@@ -8,39 +8,30 @@ export default defineConfig({
   cleanUrls: true,
   metaChunk: true,
   lastUpdated: false,
-
   head: [
     ['link', { rel: 'icon', href: '/favicon.png' }],
   ],
-
   sitemap: {
     hostname: 'https://nil.dev.br',
   },
-
   vite: {
     build: {
       emptyOutDir: true,
       minify: true,
-      target: 'baseline-widely-available',
     },
   },
-
   themeConfig: {
     logo: '/favicon.png',
-
     outline: {
       level: [2, 3],
     },
-
     search: {
       provider: 'local',
     },
-
     socialLinks: [
       { icon: 'github', link: 'https://github.com/tsukilabs/nil' },
       { icon: 'discord', link: 'https://discord.gg/c2kvRWJSfz' },
     ],
-
     nav: [
       {
         text: 'Guide',
@@ -48,7 +39,6 @@ export default defineConfig({
         activeMatch: '^/guide/',
       },
     ],
-
     sidebar: {
       '/': [
         {

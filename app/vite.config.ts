@@ -17,7 +17,6 @@ export default defineConfig({
   clearScreen: false,
   publicDir: 'src/public',
   build: {
-    target: 'baseline-widely-available',
     chunkSizeWarningLimit: 5000,
     copyPublicDir: true,
     emptyOutDir: true,

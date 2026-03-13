@@ -7,7 +7,7 @@ edition = "2024"
 anyhow = "1.0"
 
 [dependencies.clap]
-version = "4.5"
+version = "4.6"
 features = ["derive"]
 
 [dependencies.nil-util]
