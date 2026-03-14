@@ -41,8 +41,8 @@ const { level, stats, actual, base, stabilityLoss } = useMineStats(quarry);
         </CardTitle>
       </CardHeader>
 
-      <CardContent class="px-2 py-0">
-        <Table>
+      <CardContent class="size-full px-2 py-0 overflow-auto">
+        <Table class="min-w-max">
           <TableHeader>
             <TableRow class="bg-card hover:bg-card">
               <TableHead />

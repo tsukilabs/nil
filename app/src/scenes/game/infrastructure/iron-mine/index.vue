@@ -41,8 +41,8 @@ const { level, stats, actual, base, stabilityLoss } = useMineStats(ironMine);
         </CardTitle>
       </CardHeader>
 
-      <CardContent class="px-2 py-0">
-        <Table>
+      <CardContent class="size-full px-2 py-0 overflow-auto">
+        <Table class="min-w-max">
           <TableHeader>
             <TableRow class="hover:bg-card">
               <TableHead />

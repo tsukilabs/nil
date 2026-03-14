@@ -42,8 +42,8 @@ const { level, stats } = useStorageStats(silo);
         </CardTitle>
       </CardHeader>
 
-      <CardContent class="px-2 py-0">
-        <Table v-if="stats.current">
+      <CardContent class="size-full px-2 py-0 overflow-auto">
+        <Table v-if="stats.current" class="min-w-max">
           <TableHeader>
             <TableRow class="bg-card hover:bg-card">
               <TableHead></TableHead>

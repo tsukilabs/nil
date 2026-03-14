@@ -7,7 +7,6 @@ import RoundState from './RoundState.vue';
 import { useBreakpoints } from '@tb-dev/vue';
 import { onBeforeRouteUpdate } from 'vue-router';
 import { computed, nextTick, useTemplateRef } from 'vue';
-import { createThrottledUpdater } from '@/core/entity/abstract';
 import { writeText } from '@tauri-apps/plugin-clipboard-manager';
 import { useLocalServerAddr } from '@/composables/useLocalServerAddr';
 import { type OnClickOutsideProps, vOnClickOutside } from '@vueuse/components';
@@ -61,7 +60,7 @@ const canSave = computed(() => {
   );
 });
 
-const updateAll = createThrottledUpdater(3000);
+const update = NIL.throttledUpdate;
 
 onBeforeRouteUpdate(closeSidebar);
 
@@ -164,7 +163,7 @@ function copyServerAddr() {
         <Button v-if="canSave" size="sm" @click="() => onSave()">
           <span>{{ t('save') }}</span>
         </Button>
-        <Button v-else size="sm" @click="() => updateAll()">
+        <Button v-else size="sm" @click="() => update()">
           <span>{{ t('update') }}</span>
         </Button>
 
