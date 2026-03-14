@@ -3,7 +3,6 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import { throttle } from 'es-toolkit';
 import * as commands from '@/commands';
 import { handleError } from '@/lib/error';
 import { nextTick, onMounted } from 'vue';
@@ -34,7 +33,7 @@ watchImmediate(() => settings.appearance.theme, setTheme);
 watchImmediate(() => settings.general.locale, setLocale);
 
 if (__DESKTOP__) {
-  onKeyDown('F5', throttle(NIL.update, 1000));
+  onKeyDown('F5', NIL.throttledUpdate);
 
   if (__DEBUG_ASSERTIONS__ && osType() === 'linux') {
     onKeyDown('F12', commands.openDevtools);

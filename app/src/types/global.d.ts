@@ -48,6 +48,7 @@ declare global {
   var NIL: {
     /** Updates **all** entities. */
     readonly update: () => Promise<void>;
+    readonly throttledUpdate: () => Promise<void>;
 
     readonly chat: {
       readonly refs: (typeof ChatEntity)['refs'];

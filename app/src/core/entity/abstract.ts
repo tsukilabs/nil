@@ -5,8 +5,8 @@
 
 import { handleError } from '@/lib/error';
 import { ListenerSet } from '@/lib/listener-set';
-import { asyncNoop, Mutex, noop } from 'es-toolkit';
 import { type EffectScope, effectScope } from 'vue';
+import { asyncNoop, Mutex, noop, throttle } from 'es-toolkit';
 
 type Ctor = new() => Entity;
 
@@ -57,6 +57,7 @@ export abstract class Entity {
   }
 
   public static readonly updateAll = createUpdater(this.table);
+  public static readonly throttledUpdateAll = createThrottledUpdater();
 }
 
 function createScope() {
@@ -85,4 +86,8 @@ function createUpdater(table: Map<Ctor, Entity>) {
       mutex.release();
     }
   };
+}
+
+export function createThrottledUpdater(throttleMs = 1000) {
+  return throttle(Entity.updateAll.bind(Entity), throttleMs);
 }

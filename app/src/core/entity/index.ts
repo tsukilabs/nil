@@ -18,6 +18,7 @@ export function initEntities() {
       writable: false,
       value: {
         update: () => Entity.updateAll(),
+        throttledUpdate: () => Entity.throttledUpdateAll(),
       },
     });
   }
