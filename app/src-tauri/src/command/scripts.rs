@@ -79,8 +79,10 @@ pub async fn is_script(path: &Path) -> Result<bool> {
 
 #[tauri::command]
 pub async fn load_scripts(app: AppHandle) -> Result<Vec<Script>> {
-  let mut scripts = Vec::new();
   let dir = app.script_dir()?;
+  fs::create_dir_all(&dir).await?;
+
+  let mut scripts = Vec::new();
   let mut entries = fs::read_dir(dir).await?;
 
   while let Some(entry) = entries.next_entry().await? {
