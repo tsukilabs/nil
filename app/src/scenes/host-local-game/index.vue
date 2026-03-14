@@ -76,7 +76,7 @@ async function host() {
         <CardTitle>{{ t('host-game') }}</CardTitle>
       </CardHeader>
 
-      <CardContent>
+      <CardContent class="flex flex-col gap-2 max-md:px-2">
         <InputWorldName v-model="worldOptions.name" :disabled="locked" />
         <InputWorldSize v-model="worldOptions.size" :disabled="locked" />
         <InputPlayerName v-model="playerOptions.id" :disabled="locked" />

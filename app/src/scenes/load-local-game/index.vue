@@ -120,7 +120,11 @@ async function remove() {
 
       <CardContent class="h-full overflow-hidden px-2!">
         <div class="w-full">
-          <Select v-model="playerId" :placeholder="t('player')">
+          <Select
+            v-model="playerId"
+            :placeholder="t('player')"
+            :disabled="players.length === 0"
+          >
             <SelectTrigger class="w-full">
               <SelectValue />
             </SelectTrigger>

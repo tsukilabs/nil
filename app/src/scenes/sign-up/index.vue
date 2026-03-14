@@ -70,7 +70,7 @@ async function signUp() {
         <CardTitle>{{ t('sign-up') }}</CardTitle>
       </CardHeader>
 
-      <CardContent>
+      <CardContent class="max-md:px-2">
         <Label>
           <span>{{ t('user') }}</span>
           <Input

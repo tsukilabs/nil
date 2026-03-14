@@ -80,7 +80,7 @@ async function goToSignUpScene() {
         <CardTitle>{{ t('sign-in') }}</CardTitle>
       </CardHeader>
 
-      <CardContent>
+      <CardContent class="max-md:px-2">
         <Label>
           <span>{{ t('user') }}</span>
           <Input
