@@ -14,6 +14,7 @@
     "dialog:allow-message",
     "dialog:allow-open",
     "dialog:allow-save",
+    "fs:allow-exists",
     "fs:allow-lstat",
     "fs:allow-mkdir",
     "fs:allow-read-dir",

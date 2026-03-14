@@ -46,9 +46,9 @@ const { sm, md } = useBreakpoints();
         <CardTitle>{{ t('settings') }}</CardTitle>
       </CardHeader>
 
-      <CardContent class="w-full flex flex-col gap-4 overflow-auto">
+      <CardContent class="w-full flex flex-col gap-4 overflow-auto max-md:px-2">
         <Section :title="t('general')" title-id="general">
-          <div class="w-full max-md:max-w-72 flex flex-col gap-4">
+          <div class="w-full max-md:max-w-72 flex flex-col gap-2">
             <div v-if="DESKTOP" class="flex flex-col items-start justify-center gap-1 py-1">
               <Label>
                 <Checkbox v-model="settings.general.hideOnClose" />
@@ -76,7 +76,7 @@ const { sm, md } = useBreakpoints();
         </Section>
 
         <Section :title="t('appearance')" title-id="appearance">
-          <div class="w-full max-md:max-w-72 flex flex-col gap-4">
+          <div class="w-full max-md:max-w-72 flex flex-col gap-2">
             <Label>
               <span>{{ t('mode') }}</span>
               <Select v-model="settings.appearance.colorMode">
@@ -116,7 +116,7 @@ const { sm, md } = useBreakpoints();
         </Section>
       </CardContent>
 
-      <CardFooter class="w-full flex">
+      <CardFooter class="w-full flex justify-center items-center">
         <Button
           variant="default"
           :size="sm ? 'default' : 'sm'"

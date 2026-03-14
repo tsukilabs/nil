@@ -62,7 +62,7 @@ async function join() {
         <CardTitle>{{ t('join-game') }}</CardTitle>
       </CardHeader>
 
-      <CardContent>
+      <CardContent class="flex flex-col gap-2 max-md:px-2">
         <InputPlayerName v-model="playerOptions.id" :disabled="locked" />
         <InputServerAddress v-model="server" :disabled="locked" />
       </CardContent>
