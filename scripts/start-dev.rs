@@ -28,7 +28,7 @@ struct Args {
   device: Option<String>,
 
   #[arg(long)]
-  remote: bool,
+  local: bool,
 
   #[arg(long)]
   verbose: bool,
@@ -38,7 +38,7 @@ fn main() -> Result<()> {
   let args = Args::parse();
   let mut env = Vec::new();
 
-  if args.remote && !args.android {
+  if !args.local || args.android {
     env.push(("NIL_REMOTE_SERVER_ADDR", "https://tsukilabs.dev.br/nil/"));
   }
 
