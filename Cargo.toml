@@ -21,7 +21,7 @@ members = [
 
 [workspace.package]
 description = "Multiplayer strategy game"
-version = "0.3.3"
+version = "0.3.4"
 edition = "2024"
 rust-version = "1.96"
 license = "AGPL-3.0-only"
@@ -237,7 +237,7 @@ features = ["full"]
 
 [workspace.dependencies.tokio-tungstenite]
 version = "0.28"
-features = ["rustls-tls-native-roots", "url"]
+features = ["rustls-tls-webpki-roots", "url"]
 
 [workspace.dependencies.toml]
 version = "1.0"
