@@ -57,7 +57,7 @@ export abstract class Entity {
   }
 
   public static readonly updateAll = createUpdater(this.table);
-  public static readonly throttledUpdateAll = createThrottledUpdater();
+  public static readonly throttledUpdateAll = throttle(this.updateAll.bind(this), 1000);
 }
 
 function createScope() {
@@ -86,8 +86,4 @@ function createUpdater(table: Map<Ctor, Entity>) {
       mutex.release();
     }
   };
-}
-
-export function createThrottledUpdater(throttleMs = 1000) {
-  return throttle(Entity.updateAll.bind(Entity), throttleMs);
 }
