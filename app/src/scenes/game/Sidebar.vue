@@ -7,6 +7,7 @@ import RoundState from './RoundState.vue';
 import { useBreakpoints } from '@tb-dev/vue';
 import { onBeforeRouteUpdate } from 'vue-router';
 import { computed, nextTick, useTemplateRef } from 'vue';
+import { createThrottledUpdater } from '@/core/entity/abstract';
 import { writeText } from '@tauri-apps/plugin-clipboard-manager';
 import { useLocalServerAddr } from '@/composables/useLocalServerAddr';
 import { type OnClickOutsideProps, vOnClickOutside } from '@vueuse/components';
@@ -59,6 +60,8 @@ const canSave = computed(() => {
     round.value?.id !== props.lastSavedAt
   );
 });
+
+const updateAll = createThrottledUpdater(3000);
 
 onBeforeRouteUpdate(closeSidebar);
 
@@ -156,11 +159,15 @@ function copyServerAddr() {
     <SidebarFooter>
       <div
         ref="sidebarFooterEl"
-        class="grid grid-cols-2 items-center justify-center gap-4"
+        class="grid grid-cols-2 items-center justify-center gap-2 lg:gap-4"
       >
-        <Button size="sm" :disabled="!canSave" @click="() => onSave()">
+        <Button v-if="canSave" size="sm" @click="() => onSave()">
           <span>{{ t('save') }}</span>
         </Button>
+        <Button v-else size="sm" @click="() => updateAll()">
+          <span>{{ t('update') }}</span>
+        </Button>
+
         <Button variant="destructive" size="sm" @click="() => onLeave()">
           <span>{{ t('leave') }}</span>
         </Button>
