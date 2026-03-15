@@ -29,6 +29,7 @@ use std::path::PathBuf;
 use tauri::async_runtime::spawn_blocking;
 use tauri::{AppHandle, WebviewWindow};
 use tauri_plugin_fs::FsExt;
+use tokio::fs;
 
 #[cfg(desktop)]
 use crate::tray;
@@ -81,7 +82,7 @@ pub fn current_exe() -> Result<PathBuf> {
 
 #[tauri::command]
 pub async fn exists(path: PathBuf) -> Result<bool> {
-  Ok(tokio::fs::try_exists(path).await?)
+  Ok(fs::try_exists(path).await?)
 }
 
 #[tauri::command]

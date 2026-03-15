@@ -3,9 +3,10 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
+import { watchOnce } from '@vueuse/core';
 import { PLACEHOLDER } from '@/lib/string';
 import { compare, formatInt } from '@/lib/intl';
-import { computed, onBeforeMount, ref, shallowRef } from 'vue';
+import { computed, ref, shallowRef } from 'vue';
 import type { PublicCityImpl } from '@/core/model/city/public-city';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@tb-dev/vue-components';
 
@@ -36,7 +37,7 @@ const tableHeadClass = computed(() => {
   return props.sortable ? 'cursor-pointer' : null;
 });
 
-onBeforeMount(() => {
+watchOnce(() => props.cities, () => {
   sort(props.defaultSortMode, props.defaultSortOrder !== 'desc');
 });
 
