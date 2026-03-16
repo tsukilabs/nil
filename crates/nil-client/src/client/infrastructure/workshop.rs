@@ -38,10 +38,11 @@ impl Client {
     &self,
     req: GetWorkshopRecruitCatalogRequest,
   ) -> Result<WorkshopRecruitCatalog> {
-    http::json_post("get-workshop-recruit-catalog")
+    http::json_put("get-workshop-recruit-catalog")
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
+      .retry(&self.retry)
       .user_agent(&self.user_agent)
       .send()
       .await

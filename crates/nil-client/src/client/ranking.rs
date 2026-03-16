@@ -9,18 +9,20 @@ use nil_payload::ranking::*;
 
 impl Client {
   pub async fn get_rank(&self, req: GetRankRequest) -> Result<Option<RankingEntry>> {
-    http::json_post("get-rank")
+    http::json_put("get-rank")
       .body(req)
       .server(self.server)
+      .retry(&self.retry)
       .user_agent(&self.user_agent)
       .send()
       .await
   }
 
   pub async fn get_ranking(&self, req: GetRankingRequest) -> Result<Ranking> {
-    http::json_post("get-ranking")
+    http::json_put("get-ranking")
       .body(req)
       .server(self.server)
+      .retry(&self.retry)
       .user_agent(&self.user_agent)
       .send()
       .await

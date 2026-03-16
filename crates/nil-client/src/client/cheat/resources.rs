@@ -9,10 +9,11 @@ use nil_payload::cheat::resources::*;
 
 impl Client {
   pub async fn cheat_get_resources(&self, req: CheatGetResourcesRequest) -> Result<Resources> {
-    http::json_post("cheat-get-resources")
+    http::json_put("cheat-get-resources")
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
+      .retry(&self.retry)
       .user_agent(&self.user_agent)
       .send()
       .await

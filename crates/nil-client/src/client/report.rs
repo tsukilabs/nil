@@ -9,20 +9,22 @@ use nil_payload::report::*;
 
 impl Client {
   pub async fn get_report(&self, req: GetReportRequest) -> Result<ReportKind> {
-    http::json_post("get-report")
+    http::json_put("get-report")
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
+      .retry(&self.retry)
       .user_agent(&self.user_agent)
       .send()
       .await
   }
 
   pub async fn get_reports(&self, req: GetReportsRequest) -> Result<Vec<ReportKind>> {
-    http::json_post("get-reports")
+    http::json_put("get-reports")
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
+      .retry(&self.retry)
       .user_agent(&self.user_agent)
       .send()
       .await

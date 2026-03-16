@@ -38,10 +38,11 @@ impl Client {
     &self,
     req: GetPrefectureBuildCatalogRequest,
   ) -> Result<PrefectureBuildCatalog> {
-    http::json_post("get-prefecture-build-catalog")
+    http::json_put("get-prefecture-build-catalog")
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
+      .retry(&self.retry)
       .user_agent(&self.user_agent)
       .send()
       .await

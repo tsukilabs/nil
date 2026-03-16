@@ -12,10 +12,11 @@ impl Client {
     &self,
     req: GetChatHistoryRequest,
   ) -> Result<GetChatHistoryResponse> {
-    http::json_post("get-chat-history")
+    http::json_put("get-chat-history")
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
+      .retry(&self.retry)
       .user_agent(&self.user_agent)
       .send()
       .await

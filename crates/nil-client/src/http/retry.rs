@@ -9,7 +9,6 @@ use std::num::{NonZeroU8, NonZeroU16};
 use std::time::Duration;
 
 #[derive(Builder, Clone, Debug)]
-#[builder(const)]
 pub struct Retry {
   #[builder(default = NonZeroU8::MIN)]
   attempts: NonZeroU8,
@@ -28,8 +27,8 @@ pub struct Retry {
 }
 
 impl Retry {
-  pub const fn with_attempts(attempts: u8) -> Self {
-    let attempts = if attempts == 0 { 1 } else { attempts };
+  pub fn with_attempts(attempts: u8) -> Self {
+    let attempts = attempts.max(1);
     Self::builder()
       .attempts(unsafe { NonZeroU8::new_unchecked(attempts) })
       .build()

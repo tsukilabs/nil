@@ -132,26 +132,6 @@ where
 }
 
 #[bon::builder(finish_fn = send)]
-pub async fn put(
-  #[builder(start_fn)] route: &str,
-  #[builder(default)] server: ServerAddr,
-  body: impl Serialize,
-  authorization: Option<&Authorization>,
-  retry: Option<&Retry>,
-  user_agent: &str,
-) -> Result<()> {
-  let url = server.url(route)?;
-  request_with_body(Method::PUT, url.as_str())
-    .body(body)
-    .maybe_authorization(authorization)
-    .maybe_retry(retry)
-    .user_agent(user_agent)
-    .send()
-    .await
-    .map(drop)
-}
-
-#[bon::builder(finish_fn = send)]
 pub async fn json_put<R>(
   #[builder(start_fn)] route: &str,
   #[builder(default)] server: ServerAddr,

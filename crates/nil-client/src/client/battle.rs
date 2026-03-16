@@ -9,9 +9,10 @@ use nil_payload::battle::*;
 
 impl Client {
   pub async fn simulate_battle(&self, req: SimulateBattleRequest) -> Result<BattleResult> {
-    http::json_post("simulate-battle")
+    http::json_put("simulate-battle")
       .body(req)
       .server(self.server)
+      .retry(&self.retry)
       .user_agent(&self.user_agent)
       .send()
       .await

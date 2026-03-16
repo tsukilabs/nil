@@ -10,9 +10,10 @@ use nil_payload::npc::precursor::*;
 
 impl Client {
   pub async fn get_precursor_coords(&self, req: GetPrecursorCoordsRequest) -> Result<Vec<Coord>> {
-    http::json_post("get-precursor-coords")
+    http::json_put("get-precursor-coords")
       .body(req)
       .server(self.server)
+      .retry(&self.retry)
       .user_agent(&self.user_agent)
       .send()
       .await
@@ -22,9 +23,10 @@ impl Client {
     &self,
     req: GetPublicPrecursorRequest,
   ) -> Result<PublicPrecursor> {
-    http::json_post("get-public-precursor")
+    http::json_put("get-public-precursor")
       .body(req)
       .server(self.server)
+      .retry(&self.retry)
       .user_agent(&self.user_agent)
       .send()
       .await
@@ -34,9 +36,10 @@ impl Client {
     &self,
     req: GetPublicPrecursorsRequest,
   ) -> Result<Vec<PublicPrecursor>> {
-    http::json_post("get-public-precursors")
+    http::json_put("get-public-precursors")
       .body(req)
       .server(self.server)
+      .retry(&self.retry)
       .user_agent(&self.user_agent)
       .send()
       .await

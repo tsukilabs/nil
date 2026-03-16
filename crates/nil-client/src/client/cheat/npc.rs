@@ -10,10 +10,11 @@ use nil_payload::cheat::npc::*;
 
 impl Client {
   pub async fn cheat_get_ethics(&self, req: CheatGetEthicsRequest) -> Result<Option<Ethics>> {
-    http::json_post("cheat-get-ethics")
+    http::json_put("cheat-get-ethics")
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
+      .retry(&self.retry)
       .user_agent(&self.user_agent)
       .send()
       .await

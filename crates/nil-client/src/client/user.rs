@@ -17,9 +17,10 @@ impl Client {
   }
 
   pub async fn user_exists(&self, req: UserExistsRequest) -> Result<bool> {
-    http::json_post("user-exists")
+    http::json_put("user-exists")
       .body(req)
       .server(self.server)
+      .retry(&self.retry)
       .user_agent(&self.user_agent)
       .send()
       .await

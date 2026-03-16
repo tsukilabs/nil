@@ -15,22 +15,22 @@ use nil_payload::player::*;
 
 impl Client {
   pub async fn get_player(&self, req: GetPlayerRequest) -> Result<Player> {
-    http::json_post("get-player")
+    http::json_put("get-player")
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
-      .retry(&self.default_retry)
+      .retry(&self.retry)
       .user_agent(&self.user_agent)
       .send()
       .await
   }
 
   pub async fn get_player_coords(&self, req: GetPlayerCoordsRequest) -> Result<Vec<Coord>> {
-    http::json_post("get-player-coords")
+    http::json_put("get-player-coords")
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
-      .retry(&self.default_retry)
+      .retry(&self.retry)
       .user_agent(&self.user_agent)
       .send()
       .await
@@ -40,43 +40,43 @@ impl Client {
     &self,
     req: GetPlayerMaintenanceRequest,
   ) -> Result<Maintenance> {
-    http::json_post("get-player-maintenance")
+    http::json_put("get-player-maintenance")
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
-      .retry(&self.default_retry)
+      .retry(&self.retry)
       .user_agent(&self.user_agent)
       .send()
       .await
   }
 
   pub async fn get_player_military(&self, req: GetPlayerMilitaryRequest) -> Result<Military> {
-    http::json_post("get-player-military")
+    http::json_put("get-player-military")
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
-      .retry(&self.default_retry)
+      .retry(&self.retry)
       .user_agent(&self.user_agent)
       .send()
       .await
   }
 
   pub async fn get_player_reports(&self, req: GetPlayerReportsRequest) -> Result<Vec<ReportId>> {
-    http::json_post("get-player-reports")
+    http::json_put("get-player-reports")
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
-      .retry(&self.default_retry)
+      .retry(&self.retry)
       .user_agent(&self.user_agent)
       .send()
       .await
   }
 
   pub async fn get_player_status(&self, req: GetPlayerStatusRequest) -> Result<PlayerStatus> {
-    http::json_post("get-player-status")
+    http::json_put("get-player-status")
       .body(req)
       .server(self.server)
-      .retry(&self.default_retry)
+      .retry(&self.retry)
       .user_agent(&self.user_agent)
       .send()
       .await
@@ -86,31 +86,31 @@ impl Client {
     &self,
     req: GetPlayerStorageCapacityRequest,
   ) -> Result<OverallStorageCapacity> {
-    http::json_post("get-player-storage-capacity")
+    http::json_put("get-player-storage-capacity")
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
-      .retry(&self.default_retry)
+      .retry(&self.retry)
       .user_agent(&self.user_agent)
       .send()
       .await
   }
 
   pub async fn get_player_worlds(&self, req: GetPlayerWorldsRequest) -> Result<Vec<WorldId>> {
-    http::json_post("get-player-worlds")
+    http::json_put("get-player-worlds")
       .body(req)
       .server(self.server)
-      .retry(&self.default_retry)
+      .retry(&self.retry)
       .user_agent(&self.user_agent)
       .send()
       .await
   }
 
   pub async fn get_public_player(&self, req: GetPublicPlayerRequest) -> Result<PublicPlayer> {
-    http::json_post("get-public-player")
+    http::json_put("get-public-player")
       .body(req)
       .server(self.server)
-      .retry(&self.default_retry)
+      .retry(&self.retry)
       .user_agent(&self.user_agent)
       .send()
       .await
@@ -120,20 +120,20 @@ impl Client {
     &self,
     req: GetPublicPlayersRequest,
   ) -> Result<Vec<PublicPlayer>> {
-    http::json_post("get-public-players")
+    http::json_put("get-public-players")
       .body(req)
       .server(self.server)
-      .retry(&self.default_retry)
+      .retry(&self.retry)
       .user_agent(&self.user_agent)
       .send()
       .await
   }
 
   pub async fn player_exists(&self, req: PlayerExistsRequest) -> Result<bool> {
-    http::json_post("player-exists")
+    http::json_put("player-exists")
       .body(req)
       .server(self.server)
-      .retry(&self.default_retry)
+      .retry(&self.retry)
       .user_agent(&self.user_agent)
       .send()
       .await

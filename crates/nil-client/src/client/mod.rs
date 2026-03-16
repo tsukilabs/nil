@@ -41,7 +41,7 @@ pub struct Client {
   world_id: Option<WorldId>,
   authorization: Option<Authorization>,
   websocket: Option<WebSocketClient>,
-  default_retry: Retry,
+  retry: Retry,
   user_agent: Cow<'static, str>,
 }
 
@@ -54,7 +54,7 @@ impl Client {
       world_id: None,
       authorization: None,
       websocket: None,
-      default_retry: Retry::with_attempts(2),
+      retry: Retry::with_attempts(2),
       user_agent: Cow::Borrowed(USER_AGENT),
     }
   }
@@ -201,7 +201,7 @@ impl Client {
   pub async fn get_server_kind(&self) -> Result<ServerKind> {
     http::json_get("get-server-kind")
       .server(self.server)
-      .retry(&self.default_retry)
+      .retry(&self.retry)
       .user_agent(&self.user_agent)
       .send()
       .await
@@ -210,7 +210,7 @@ impl Client {
   pub async fn get_server_version(&self) -> Result<String> {
     http::get_text("version")
       .server(self.server)
-      .retry(&self.default_retry)
+      .retry(&self.retry)
       .user_agent(&self.user_agent)
       .send()
       .await
@@ -219,7 +219,7 @@ impl Client {
   pub async fn is_ready(&self) -> bool {
     http::get("")
       .server(self.server)
-      .retry(&self.default_retry)
+      .retry(&self.retry)
       .user_agent(&self.user_agent)
       .send()
       .await
@@ -231,10 +231,10 @@ impl Client {
   where
     T: Into<ValidateTokenRequest>,
   {
-    http::json_post("validate-token")
+    http::json_put("validate-token")
       .body(Into::<ValidateTokenRequest>::into(req))
       .server(self.server)
-      .retry(&self.default_retry)
+      .retry(&self.retry)
       .user_agent(&self.user_agent)
       .send()
       .await
