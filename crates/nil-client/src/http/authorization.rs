@@ -7,10 +7,10 @@ use headers::authorization::Credentials;
 use http::HeaderValue;
 
 #[derive(Clone, Debug, Deref)]
-pub(crate) struct Authorization(HeaderValue);
+pub struct Authorization(HeaderValue);
 
 impl Authorization {
-  pub(crate) fn new<T>(token: T) -> AnyResult<Self>
+  pub fn new<T>(token: T) -> AnyResult<Self>
   where
     T: AsRef<str>,
   {

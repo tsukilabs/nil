@@ -2,19 +2,23 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 pub(crate) mod authorization;
+pub(crate) mod circuit_breaker;
 pub(crate) mod retry;
 
 use crate::error::{Error, Result};
 use crate::http::authorization::Authorization;
+use crate::http::circuit_breaker::CircuitState;
 use crate::server::ServerAddr;
 use anyhow::anyhow;
+use circuit_breaker::CircuitBreaker;
 use futures::TryFutureExt;
 use http::{HeaderMap, Method, header};
 use reqwest::{Client as HttpClient, Response};
 use retry::{Retry, is_retryable_err, is_retryable_status};
 use serde::Serialize;
 use serde::de::DeserializeOwned;
-use std::sync::LazyLock;
+use std::sync::nonpoison::Mutex;
+use std::sync::{LazyLock, Weak};
 use tap::{Pipe, Tap, TapFallible};
 use tokio::time::{Duration, sleep};
 
@@ -34,12 +38,14 @@ pub async fn get(
   #[builder(start_fn)] route: &str,
   #[builder(default)] server: ServerAddr,
   authorization: Option<&Authorization>,
+  circuit_breaker: Weak<Mutex<CircuitBreaker>>,
   retry: &Retry,
   user_agent: &str,
 ) -> Result<()> {
   let url = server.url(route)?;
   request(Method::GET, url.as_str())
     .maybe_authorization(authorization)
+    .circuit_breaker(circuit_breaker)
     .retry(retry)
     .user_agent(user_agent)
     .send()
@@ -52,12 +58,14 @@ pub async fn get_text(
   #[builder(start_fn)] route: &str,
   #[builder(default)] server: ServerAddr,
   authorization: Option<&Authorization>,
+  circuit_breaker: Weak<Mutex<CircuitBreaker>>,
   retry: &Retry,
   user_agent: &str,
 ) -> Result<String> {
   let url = server.url(route)?;
   request(Method::GET, url.as_str())
     .maybe_authorization(authorization)
+    .circuit_breaker(circuit_breaker)
     .retry(retry)
     .user_agent(user_agent)
     .send()
@@ -72,6 +80,7 @@ pub async fn json_get<R>(
   #[builder(start_fn)] route: &str,
   #[builder(default)] server: ServerAddr,
   authorization: Option<&Authorization>,
+  circuit_breaker: Weak<Mutex<CircuitBreaker>>,
   retry: &Retry,
   user_agent: &str,
 ) -> Result<R>
@@ -81,6 +90,7 @@ where
   let url = server.url(route)?;
   request(Method::GET, url.as_str())
     .maybe_authorization(authorization)
+    .circuit_breaker(circuit_breaker)
     .retry(retry)
     .user_agent(user_agent)
     .send()
@@ -94,6 +104,7 @@ pub async fn post(
   #[builder(default)] server: ServerAddr,
   body: impl Serialize,
   authorization: Option<&Authorization>,
+  circuit_breaker: Weak<Mutex<CircuitBreaker>>,
   retry: Option<&Retry>,
   user_agent: &str,
 ) -> Result<()> {
@@ -101,6 +112,7 @@ pub async fn post(
   request_with_body(Method::POST, url.as_str())
     .body(body)
     .maybe_authorization(authorization)
+    .circuit_breaker(circuit_breaker)
     .maybe_retry(retry)
     .user_agent(user_agent)
     .send()
@@ -114,6 +126,7 @@ pub async fn json_post<R>(
   #[builder(default)] server: ServerAddr,
   body: impl Serialize,
   authorization: Option<&Authorization>,
+  circuit_breaker: Weak<Mutex<CircuitBreaker>>,
   retry: Option<&Retry>,
   user_agent: &str,
 ) -> Result<R>
@@ -124,6 +137,7 @@ where
   request_with_body(Method::POST, url.as_str())
     .body(body)
     .maybe_authorization(authorization)
+    .circuit_breaker(circuit_breaker)
     .maybe_retry(retry)
     .user_agent(user_agent)
     .send()
@@ -137,6 +151,7 @@ pub async fn json_put<R>(
   #[builder(default)] server: ServerAddr,
   body: impl Serialize,
   authorization: Option<&Authorization>,
+  circuit_breaker: Weak<Mutex<CircuitBreaker>>,
   retry: Option<&Retry>,
   user_agent: &str,
 ) -> Result<R>
@@ -147,6 +162,7 @@ where
   request_with_body(Method::PUT, url.as_str())
     .body(body)
     .maybe_authorization(authorization)
+    .circuit_breaker(circuit_breaker)
     .maybe_retry(retry)
     .user_agent(user_agent)
     .send()
@@ -159,11 +175,13 @@ async fn request(
   #[builder(start_fn)] method: Method,
   #[builder(start_fn)] url: &str,
   authorization: Option<&Authorization>,
+  circuit_breaker: Weak<Mutex<CircuitBreaker>>,
   retry: Option<&Retry>,
   user_agent: &str,
 ) -> Result<Response> {
   send_request(method, url)
     .maybe_authorization(authorization)
+    .circuit_breaker(circuit_breaker)
     .maybe_retry(retry)
     .user_agent(user_agent)
     .send(async |request| {
@@ -184,11 +202,13 @@ async fn request_with_body(
   #[builder(start_fn)] url: &str,
   body: impl Serialize,
   authorization: Option<&Authorization>,
+  circuit_breaker: Weak<Mutex<CircuitBreaker>>,
   retry: Option<&Retry>,
   user_agent: &str,
 ) -> Result<Response> {
   send_request(method, url)
     .maybe_authorization(authorization)
+    .circuit_breaker(circuit_breaker)
     .maybe_retry(retry)
     .user_agent(user_agent)
     .send(async move |request| {
@@ -228,6 +248,7 @@ async fn send_request<F>(
   #[builder(start_fn)] url: &str,
   #[builder(finish_fn)] f: F,
   authorization: Option<&Authorization>,
+  circuit_breaker: Weak<Mutex<CircuitBreaker>>,
   retry: Option<&Retry>,
   user_agent: &str,
 ) -> Result<Response>
@@ -236,6 +257,12 @@ where
 {
   let mut last_err = None::<String>;
   let attempts = retry.map(Retry::attempts).unwrap_or(1);
+
+  if let Some(circuit_breaker) = Weak::upgrade(&circuit_breaker)
+    && let CircuitState::Open = circuit_breaker.lock().update()
+  {
+    return Err(Error::ServiceUnavailable);
+  }
 
   for attempt in 1..=attempts {
     let request = create_request(method.clone(), url)
@@ -261,26 +288,43 @@ where
       Ok(response) => {
         let status = response.status();
         if status.is_success() {
+          if let Some(circuit_breaker) = Weak::upgrade(&circuit_breaker) {
+            circuit_breaker.lock().record_success();
+          }
+
           return Ok(response);
-        } else if attempt < attempts
+        }
+
+        if attempt < attempts
           && let Some(retry) = retry
           && is_retryable_status(status)
         {
+          if let Some(circuit_breaker) = Weak::upgrade(&circuit_breaker) {
+            circuit_breaker.lock().record_failure();
+          }
+
           retry_fn(retry).await;
-        } else {
-          return Err(into_error(response).await?);
+          continue;
         }
+
+        return Err(into_error(response).await?);
       }
+
       Err(err) => {
+        if let Some(circuit_breaker) = Weak::upgrade(&circuit_breaker) {
+          circuit_breaker.lock().record_failure();
+        }
+
         if attempt < attempts
           && let Some(retry) = retry
           && is_retryable_err(&err)
         {
           last_err = Some(err.to_string());
           retry_fn(retry).await;
-        } else {
-          return Err(err);
+          continue;
         }
+
+        return Err(err);
       }
     }
   }

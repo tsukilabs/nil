@@ -3,7 +3,12 @@
 
 #![cfg_attr(docsrs, feature(doc_cfg))]
 #![doc(html_favicon_url = "https://nil.dev.br/favicon.png")]
-#![feature(addr_parse_ascii)]
+#![feature(
+  addr_parse_ascii,
+  lock_value_accessors,
+  nonpoison_mutex,
+  sync_nonpoison
+)]
 
 mod client;
 mod error;

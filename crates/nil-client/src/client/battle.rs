@@ -12,6 +12,7 @@ impl Client {
     http::json_put("simulate-battle")
       .body(req)
       .server(self.server)
+      .circuit_breaker(self.circuit_breaker())
       .retry(&self.retry)
       .user_agent(&self.user_agent)
       .send()

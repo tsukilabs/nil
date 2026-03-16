@@ -33,6 +33,9 @@ pub enum Error {
   #[error("{0}")]
   RequestFailed(String),
 
+  #[error("Service unavailable")]
+  ServiceUnavailable,
+
   #[error(transparent)]
   Reqwest(#[from] reqwest::Error),
   #[error(transparent)]

@@ -20,6 +20,7 @@ mod world;
 
 use crate::error::{Error, Result};
 use crate::http::authorization::Authorization;
+use crate::http::circuit_breaker::CircuitBreaker;
 use crate::http::retry::Retry;
 use crate::http::{self, USER_AGENT};
 use crate::server::ServerAddr;
@@ -35,12 +36,15 @@ use nil_payload::{AuthorizeRequest, ValidateTokenRequest};
 use nil_server_types::{ServerKind, Token};
 use std::borrow::Cow;
 use std::net::{IpAddr, SocketAddrV4};
+use std::sync::nonpoison::Mutex;
+use std::sync::{Arc, Weak};
 
 pub struct Client {
   server: ServerAddr,
   world_id: Option<WorldId>,
   authorization: Option<Authorization>,
   websocket: Option<WebSocketClient>,
+  circuit_breaker: Arc<Mutex<CircuitBreaker>>,
   retry: Retry,
   user_agent: Cow<'static, str>,
 }
@@ -54,6 +58,7 @@ impl Client {
       world_id: None,
       authorization: None,
       websocket: None,
+      circuit_breaker: Arc::new(Mutex::default()),
       retry: Retry::with_attempts(2),
       user_agent: Cow::Borrowed(USER_AGENT),
     }
@@ -84,8 +89,14 @@ impl Client {
     OnEvent: Fn(Event) -> BoxFuture<'static, ()> + Send + Sync + 'static,
   {
     self.stop().await;
-    self.server = server;
     self.world_id = world_id;
+
+    if server != self.server {
+      self.server = server;
+      self
+        .circuit_breaker
+        .set(CircuitBreaker::new());
+    }
 
     if self.server.is_remote()
       && let Some(token) = authorization_token
@@ -189,10 +200,15 @@ impl Client {
     self.server.is_remote()
   }
 
+  fn circuit_breaker(&self) -> Weak<Mutex<CircuitBreaker>> {
+    Arc::downgrade(&self.circuit_breaker)
+  }
+
   pub async fn authorize(&self, req: AuthorizeRequest) -> Result<Token> {
     http::json_post("authorize")
       .body(req)
       .server(self.server)
+      .circuit_breaker(self.circuit_breaker())
       .user_agent(&self.user_agent)
       .send()
       .await
@@ -202,6 +218,7 @@ impl Client {
     http::json_get("get-server-kind")
       .server(self.server)
       .retry(&self.retry)
+      .circuit_breaker(self.circuit_breaker())
       .user_agent(&self.user_agent)
       .send()
       .await
@@ -211,6 +228,7 @@ impl Client {
     http::get_text("version")
       .server(self.server)
       .retry(&self.retry)
+      .circuit_breaker(self.circuit_breaker())
       .user_agent(&self.user_agent)
       .send()
       .await
@@ -220,6 +238,7 @@ impl Client {
     http::get("")
       .server(self.server)
       .retry(&self.retry)
+      .circuit_breaker(self.circuit_breaker())
       .user_agent(&self.user_agent)
       .send()
       .await
@@ -234,6 +253,7 @@ impl Client {
     http::json_put("validate-token")
       .body(Into::<ValidateTokenRequest>::into(req))
       .server(self.server)
+      .circuit_breaker(self.circuit_breaker())
       .retry(&self.retry)
       .user_agent(&self.user_agent)
       .send()

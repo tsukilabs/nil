@@ -8,6 +8,7 @@ use num_traits::ToPrimitive;
 use std::num::{NonZeroU8, NonZeroU16};
 use std::time::Duration;
 
+/// See: <https://learn.microsoft.com/en-us/azure/architecture/patterns/retry>
 #[derive(Builder, Clone, Debug)]
 pub struct Retry {
   #[builder(default = NonZeroU8::MIN)]

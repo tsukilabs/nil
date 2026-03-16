@@ -11,6 +11,7 @@ impl Client {
     http::post("create-user")
       .body(req)
       .server(self.server)
+      .circuit_breaker(self.circuit_breaker())
       .user_agent(&self.user_agent)
       .send()
       .await
@@ -20,6 +21,7 @@ impl Client {
     http::json_put("user-exists")
       .body(req)
       .server(self.server)
+      .circuit_breaker(self.circuit_breaker())
       .retry(&self.retry)
       .user_agent(&self.user_agent)
       .send()

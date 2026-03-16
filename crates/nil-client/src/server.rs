@@ -22,7 +22,7 @@ static REMOTE_SERVER_ADDR: LazyLock<Url> = LazyLock::new(|| {
   result.expect("Failed to parse remote server address")
 });
 
-#[derive(Clone, Copy, Debug, Default, EnumIs, Deserialize, Serialize)]
+#[derive(Clone, Copy, Debug, Default, EnumIs, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[serde(tag = "kind", rename_all = "kebab-case")]
 pub enum ServerAddr {
   #[default]
