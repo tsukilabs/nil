@@ -34,13 +34,13 @@ pub async fn get(
   #[builder(start_fn)] route: &str,
   #[builder(default)] server: ServerAddr,
   authorization: Option<&Authorization>,
-  retry: Option<&Retry>,
+  retry: &Retry,
   user_agent: &str,
 ) -> Result<()> {
   let url = server.url(route)?;
   request(Method::GET, url.as_str())
     .maybe_authorization(authorization)
-    .maybe_retry(retry)
+    .retry(retry)
     .user_agent(user_agent)
     .send()
     .await
@@ -52,13 +52,13 @@ pub async fn get_text(
   #[builder(start_fn)] route: &str,
   #[builder(default)] server: ServerAddr,
   authorization: Option<&Authorization>,
-  retry: Option<&Retry>,
+  retry: &Retry,
   user_agent: &str,
 ) -> Result<String> {
   let url = server.url(route)?;
   request(Method::GET, url.as_str())
     .maybe_authorization(authorization)
-    .maybe_retry(retry)
+    .retry(retry)
     .user_agent(user_agent)
     .send()
     .await?
@@ -72,7 +72,7 @@ pub async fn json_get<R>(
   #[builder(start_fn)] route: &str,
   #[builder(default)] server: ServerAddr,
   authorization: Option<&Authorization>,
-  retry: Option<&Retry>,
+  retry: &Retry,
   user_agent: &str,
 ) -> Result<R>
 where
@@ -81,7 +81,7 @@ where
   let url = server.url(route)?;
   request(Method::GET, url.as_str())
     .maybe_authorization(authorization)
-    .maybe_retry(retry)
+    .retry(retry)
     .user_agent(user_agent)
     .send()
     .and_then(async |res| json::<R>(res).await)
