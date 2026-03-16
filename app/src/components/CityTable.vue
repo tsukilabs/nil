@@ -3,10 +3,9 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import { watchOnce } from '@vueuse/core';
+import { computed, ref } from 'vue';
 import { PLACEHOLDER } from '@/lib/string';
 import { compare, formatInt } from '@/lib/intl';
-import { computed, ref, shallowRef } from 'vue';
 import type { PublicCityImpl } from '@/core/model/city/public-city';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@tb-dev/vue-components';
 
@@ -29,16 +28,66 @@ const props = withDefaults(defineProps<Props>(), {
 
 const { t } = useI18n();
 
-const sorted = shallowRef<readonly PublicCityImpl[]>([]);
-const sortMode = ref<SortMode>('name');
-const sortOrder = ref<SortOrder>('asc');
+const sortMode = ref<Option<SortMode>>();
+const sortOrder = ref<Option<SortOrder>>();
+
+const sorted = computed<readonly PublicCityImpl[]>(() => {
+  if (props.sortable) {
+    const mode = sortMode.value ?? props.defaultSortMode;
+    const order = sortOrder.value ?? props.defaultSortOrder;
+
+    return props.cities.toSorted((a, b) => {
+      switch (mode) {
+        case 'coord': {
+          if (a.coord.x === b.coord.y) {
+            return order === 'asc' ?
+              a.coord.y - b.coord.y :
+              b.coord.y - a.coord.y;
+          }
+          else {
+            return order === 'asc' ?
+              a.coord.x - b.coord.x :
+              b.coord.x - a.coord.x;
+          }
+        }
+        case 'distance': {
+          if (props.getDistance) {
+            const distanceA = props.getDistance(a.coord) ?? 0;
+            const distanceB = props.getDistance(b.coord) ?? 0;
+            return order === 'asc' ?
+              distanceA - distanceB :
+              distanceB - distanceA;
+          }
+          else {
+            return 0;
+          }
+        }
+        case 'name': {
+          return order === 'asc' ?
+            compare(a.name, b.name) :
+            compare(b.name, a.name);
+        }
+        case 'owner': {
+          return order === 'asc' ?
+            compare(a.owner.id, b.owner.id) :
+            compare(b.owner.id, a.owner.id);
+        }
+        case 'score': {
+          return order === 'asc' ?
+            a.score - b.score :
+            b.score - a.score;
+        }
+        default:
+          return 0;
+      }
+    });
+  }
+
+  return props.cities;
+});
 
 const tableHeadClass = computed(() => {
   return props.sortable ? 'cursor-pointer' : null;
-});
-
-watchOnce(() => props.cities, () => {
-  sort(props.defaultSortMode, props.defaultSortOrder !== 'desc');
 });
 
 function sort(mode: SortMode, ascending: boolean) {
@@ -51,60 +100,8 @@ function sort(mode: SortMode, ascending: boolean) {
     }
 
     sortMode.value = mode;
-
-    sorted.value = props.cities.toSorted((a, b) => {
-      switch (mode) {
-        case 'coord': {
-          if (a.coord.x === b.coord.y) {
-            return sortOrder.value === 'asc' ?
-              a.coord.y - b.coord.y :
-              b.coord.y - a.coord.y;
-          }
-          else {
-            return sortOrder.value === 'asc' ?
-              a.coord.x - b.coord.x :
-              b.coord.x - a.coord.x;
-          }
-        }
-        case 'distance': {
-          if (props.getDistance) {
-            const distanceA = props.getDistance(a.coord) ?? 0;
-            const distanceB = props.getDistance(b.coord) ?? 0;
-            return sortOrder.value === 'asc' ?
-              distanceA - distanceB :
-              distanceB - distanceA;
-          }
-          else {
-            return 0;
-          }
-        }
-        case 'name': {
-          return sortOrder.value === 'asc' ?
-            compare(a.name, b.name) :
-            compare(b.name, a.name);
-        }
-        case 'owner': {
-          return sortOrder.value === 'asc' ?
-            compare(a.owner.id, b.owner.id) :
-            compare(b.owner.id, a.owner.id);
-        }
-        case 'score': {
-          return sortOrder.value === 'asc' ?
-            a.score - b.score :
-            b.score - a.score;
-        }
-        default:
-          return 0;
-      }
-    });
   }
 }
-
-defineExpose({
-  sort(mode?: Option<SortMode>, ascending?: Option<boolean>) {
-    sort(mode ?? sortMode.value, ascending ?? sortOrder.value === 'asc');
-  },
-});
 </script>
 
 <template>
