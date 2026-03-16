@@ -234,6 +234,7 @@ async fn send_request<F>(
 where
   F: AsyncFn(reqwest::RequestBuilder) -> Result<Response>,
 {
+  let mut last_err = None::<String>;
   let attempts = retry.map(Retry::attempts).unwrap_or(1);
 
   for attempt in 1..=attempts {
@@ -275,6 +276,7 @@ where
           && let Some(retry) = retry
           && is_retryable_err(&err)
         {
+          last_err = Some(err.to_string());
           retry_fn(retry).await;
         } else {
           return Err(err);
@@ -283,7 +285,7 @@ where
     }
   }
 
-  Err(Error::MaxRetriesExceeded { attempts })
+  Err(Error::MaxRetriesExceeded { attempts, message: last_err })
 }
 
 async fn json<R>(response: Response) -> Result<R>
