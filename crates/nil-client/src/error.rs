@@ -21,6 +21,9 @@ pub enum Error {
   #[error("Player name contains invalid characters: {0}")]
   InvalidPlayerId(PlayerId),
 
+  #[error("Request failed after {attempts} attempts")]
+  MaxRetriesExceeded { attempts: u8 },
+
   #[error("Missing world id")]
   MissingWorldId,
 

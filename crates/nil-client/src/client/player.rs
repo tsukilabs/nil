@@ -19,6 +19,7 @@ impl Client {
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
+      .retry(&self.default_retry)
       .user_agent(&self.user_agent)
       .send()
       .await
@@ -29,6 +30,7 @@ impl Client {
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
+      .retry(&self.default_retry)
       .user_agent(&self.user_agent)
       .send()
       .await
@@ -42,6 +44,7 @@ impl Client {
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
+      .retry(&self.default_retry)
       .user_agent(&self.user_agent)
       .send()
       .await
@@ -52,6 +55,7 @@ impl Client {
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
+      .retry(&self.default_retry)
       .user_agent(&self.user_agent)
       .send()
       .await
@@ -62,6 +66,7 @@ impl Client {
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
+      .retry(&self.default_retry)
       .user_agent(&self.user_agent)
       .send()
       .await
@@ -71,6 +76,7 @@ impl Client {
     http::json_post("get-player-status")
       .body(req)
       .server(self.server)
+      .retry(&self.default_retry)
       .user_agent(&self.user_agent)
       .send()
       .await
@@ -84,6 +90,7 @@ impl Client {
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
+      .retry(&self.default_retry)
       .user_agent(&self.user_agent)
       .send()
       .await
@@ -93,6 +100,7 @@ impl Client {
     http::json_post("get-player-worlds")
       .body(req)
       .server(self.server)
+      .retry(&self.default_retry)
       .user_agent(&self.user_agent)
       .send()
       .await
@@ -102,6 +110,7 @@ impl Client {
     http::json_post("get-public-player")
       .body(req)
       .server(self.server)
+      .retry(&self.default_retry)
       .user_agent(&self.user_agent)
       .send()
       .await
@@ -114,6 +123,7 @@ impl Client {
     http::json_post("get-public-players")
       .body(req)
       .server(self.server)
+      .retry(&self.default_retry)
       .user_agent(&self.user_agent)
       .send()
       .await
@@ -123,6 +133,7 @@ impl Client {
     http::json_post("player-exists")
       .body(req)
       .server(self.server)
+      .retry(&self.default_retry)
       .user_agent(&self.user_agent)
       .send()
       .await

@@ -20,6 +20,7 @@ mod world;
 
 use crate::error::{Error, Result};
 use crate::http::authorization::Authorization;
+use crate::http::retry::Retry;
 use crate::http::{self, USER_AGENT};
 use crate::server::ServerAddr;
 use crate::websocket::WebSocketClient;
@@ -40,6 +41,7 @@ pub struct Client {
   world_id: Option<WorldId>,
   authorization: Option<Authorization>,
   websocket: Option<WebSocketClient>,
+  default_retry: Retry,
   user_agent: Cow<'static, str>,
 }
 
@@ -52,6 +54,7 @@ impl Client {
       world_id: None,
       authorization: None,
       websocket: None,
+      default_retry: Retry::with_attempts(2),
       user_agent: Cow::Borrowed(USER_AGENT),
     }
   }
@@ -198,6 +201,7 @@ impl Client {
   pub async fn get_server_kind(&self) -> Result<ServerKind> {
     http::json_get("get-server-kind")
       .server(self.server)
+      .retry(&self.default_retry)
       .user_agent(&self.user_agent)
       .send()
       .await
@@ -206,6 +210,7 @@ impl Client {
   pub async fn get_server_version(&self) -> Result<String> {
     http::get_text("version")
       .server(self.server)
+      .retry(&self.default_retry)
       .user_agent(&self.user_agent)
       .send()
       .await
@@ -214,6 +219,7 @@ impl Client {
   pub async fn is_ready(&self) -> bool {
     http::get("")
       .server(self.server)
+      .retry(&self.default_retry)
       .user_agent(&self.user_agent)
       .send()
       .await
@@ -228,6 +234,7 @@ impl Client {
     http::json_post("validate-token")
       .body(Into::<ValidateTokenRequest>::into(req))
       .server(self.server)
+      .retry(&self.default_retry)
       .user_agent(&self.user_agent)
       .send()
       .await
