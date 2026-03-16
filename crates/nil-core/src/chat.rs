@@ -7,7 +7,7 @@ use derive_more::From;
 use jiff::Zoned;
 use serde::{Deserialize, Serialize};
 use std::borrow::Cow;
-use std::collections::{HashMap, VecDeque};
+use std::collections::VecDeque;
 use std::num::NonZeroUsize;
 use std::sync::Arc;
 use strum::EnumIs;
@@ -16,27 +16,17 @@ use uuid::Uuid;
 #[derive(Clone, Debug, Default, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Chat {
-  public: ChatHistory,
-  private: HashMap<PlayerId, ChatHistory>,
+  history: ChatHistory,
 }
 
 impl Chat {
   #[inline]
-  pub fn public(&self) -> ChatHistory {
-    self.public.clone()
-  }
-
-  #[inline]
-  pub fn private(&self, player: &PlayerId) -> ChatHistory {
-    self
-      .private
-      .get(player)
-      .cloned()
-      .unwrap_or_default()
+  pub fn history(&self) -> ChatHistory {
+    self.history.clone()
   }
 
   pub(crate) fn push(&mut self, message: ChatMessage) {
-    self.public.push(message);
+    self.history.push(message);
   }
 }
 

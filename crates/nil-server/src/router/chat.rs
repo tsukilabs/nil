@@ -6,20 +6,12 @@ use crate::middleware::authorization::CurrentPlayer;
 use crate::res;
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
+use nil_core::chat::Chat;
 use nil_payload::chat::*;
 
-pub async fn get(
-  State(app): State<App>,
-  Extension(player): Extension<CurrentPlayer>,
-  Json(req): Json<GetChatHistoryRequest>,
-) -> Response {
+pub async fn get(State(app): State<App>, Json(req): Json<GetChatHistoryRequest>) -> Response {
   app
-    .chat(req.world, |chat| {
-      GetChatHistoryResponse {
-        public: chat.public(),
-        private: chat.private(&player),
-      }
-    })
+    .chat(req.world, Chat::history)
     .await
     .map_left(|chat| res!(OK, Json(chat)))
     .into_inner()
