@@ -152,7 +152,7 @@ pub async fn json_put<R>(
   body: impl Serialize,
   authorization: Option<&Authorization>,
   circuit_breaker: Weak<Mutex<CircuitBreaker>>,
-  retry: Option<&Retry>,
+  retry: &Retry,
   user_agent: &str,
 ) -> Result<R>
 where
@@ -163,7 +163,7 @@ where
     .body(body)
     .maybe_authorization(authorization)
     .circuit_breaker(circuit_breaker)
-    .maybe_retry(retry)
+    .retry(retry)
     .user_agent(user_agent)
     .send()
     .and_then(async |res| json::<R>(res).await)
