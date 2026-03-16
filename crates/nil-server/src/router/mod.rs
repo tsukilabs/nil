@@ -27,7 +27,7 @@ use crate::websocket::handle_socket;
 use axum::extract::ws::WebSocketUpgrade;
 use axum::extract::{Extension, Json, Query, State};
 use axum::http::StatusCode;
-use axum::response::Response;
+use axum::response::{Redirect, Response};
 use axum::routing::{any, get, post, put};
 use axum::{Router, middleware};
 use nil_core::player::PlayerId;
@@ -161,6 +161,7 @@ pub(crate) fn create() -> Router<App> {
     .route("/version", get(version))
     
     // Files.
+    .route("/license", any(license))
     .route("/robots.txt", any(robots_txt));
 
   router.layer(
@@ -208,6 +209,10 @@ async fn authorize(State(app): State<App>, Json(req): Json<AuthorizeRequest>) ->
 
 async fn ok() -> StatusCode {
   StatusCode::OK
+}
+
+async fn license() -> Redirect {
+  Redirect::to("https://spdx.org/licenses/AGPL-3.0-only.html")
 }
 
 async fn robots_txt() -> &'static str {
