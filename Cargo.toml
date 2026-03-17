@@ -245,7 +245,7 @@ features = []
 
 [workspace.dependencies.tower-http]
 version = "0.6"
-features = ["trace"]
+features = ["cors", "trace"]
 
 [workspace.dependencies.tracing-subscriber]
 version = "0.3"

@@ -3,6 +3,7 @@
 
 #![expect(clippy::wildcard_imports)]
 
+mod auth;
 mod battle;
 mod chat;
 mod cheat;
@@ -16,25 +17,18 @@ mod ranking;
 mod report;
 mod round;
 mod user;
+mod websocket;
 mod world;
 
 use crate::app::App;
-use crate::error::Error;
-use crate::middleware::authorization::{CurrentPlayer, authorization, decode_jwt, encode_jwt};
+use crate::middleware::authorization::authorization;
 use crate::res;
-use crate::response::from_database_err;
-use crate::websocket::handle_socket;
-use axum::extract::ws::WebSocketUpgrade;
-use axum::extract::{Extension, Json, Query, State};
-use axum::http::StatusCode;
+use axum::extract::{Json, State};
+use axum::http::{Method, StatusCode};
 use axum::response::{Redirect, Response};
 use axum::routing::{any, get, post, put};
 use axum::{Router, middleware};
-use nil_core::player::PlayerId;
-use nil_core::world::World;
-use nil_payload::{AuthorizeRequest, ValidateTokenRequest, WebsocketQuery};
-use nil_server_types::ServerKind;
-use tokio::task::spawn_blocking;
+use tower_http::cors::{Any, CorsLayer};
 use tower_http::trace::{
   DefaultMakeSpan,
   DefaultOnFailure,
@@ -119,12 +113,11 @@ pub(crate) fn create() -> Router<App> {
     .route("/spawn-player", post(player::spawn))
     .route("/start-round", post(round::start))
     .route("/toggle-building", post(infrastructure::toggle))
-    .route("/websocket", any(websocket))
+    .route("/websocket", any(websocket::websocket))
     .route_layer(middleware::from_fn(authorization))
 
     // These don't need authorization.
-    .route("/", get(ok))
-    .route("/authorize", post(authorize))
+    .route("/authorize", post(auth::authorize))
     .route("/create-user", post(user::create))
     .route("/get-bot-coords", put(npc::bot::get_coords))
     .route("/get-city-score", put(city::get_city_score))
@@ -148,7 +141,6 @@ pub(crate) fn create() -> Router<App> {
     .route("/get-remote-world", put(world::remote::get))
     .route("/get-remote-world-limit", get(world::remote::get_limit))
     .route("/get-remote-world-limit-per-user", get(world::remote::get_limit_per_user))
-    .route("/get-remote-worlds", get(world::remote::get_all))
     .route("/get-round", put(round::get))
     .route("/get-server-kind", get(server_kind))
     .route("/get-world-bots", put(world::get_bots))
@@ -160,14 +152,13 @@ pub(crate) fn create() -> Router<App> {
     .route("/search-public-city", put(city::search_public_city))
     .route("/simulate-battle", put(battle::simulate))
     .route("/user-exists", put(user::exists))
-    .route("/validate-token", put(validate_token))
-    .route("/version", get(version))
+    .route("/validate-token", put(auth::validate_token))
     
     // Files.
     .route("/license", any(license))
     .route("/robots.txt", any(robots_txt));
 
-  router.layer(
+  router.merge(with_cors()).layer(
     TraceLayer::new_for_http()
       .make_span_with(DefaultMakeSpan::new().include_headers(true))
       .on_request(DefaultOnRequest::new().level(Level::TRACE))
@@ -178,36 +169,19 @@ pub(crate) fn create() -> Router<App> {
   )
 }
 
-async fn authorize(State(app): State<App>, Json(req): Json<AuthorizeRequest>) -> Response {
-  let Ok(result) = spawn_blocking(move || {
-    match app.server_kind() {
-      ServerKind::Local { .. } => encode_jwt(req.player),
-      ServerKind::Remote => {
-        let Some(password) = req.password else {
-          return Err(Error::MissingPassword);
-        };
+fn with_cors() -> Router<App> {
+  let cors = CorsLayer::new()
+    .allow_methods([Method::GET])
+    .allow_origin(Any);
 
-        if app
-          .database()
-          .get_user(&req.player)
-          .map_err(Into::<Error>::into)?
-          .verify_password(&password)
-        {
-          encode_jwt(req.player)
-        } else {
-          Err(Error::IncorrectUserCredentials)
-        }
-      }
-    }
-  })
-  .await
-  else {
-    return res!(INTERNAL_SERVER_ERROR);
-  };
+  #[rustfmt::skip]
+  let router = Router::new()
+    .route("/", get(ok))
+    .route("/get-remote-worlds", get(world::remote::get_all))
+    .route("/version", get(version))
+    .route_layer(cors);
 
-  result
-    .map(|token| res!(OK, Json(token)))
-    .unwrap_or_else(Response::from)
+  router
 }
 
 async fn ok() -> StatusCode {
@@ -226,55 +200,6 @@ async fn server_kind(State(app): State<App>) -> Response {
   res!(OK, Json(app.server_kind()))
 }
 
-async fn validate_token(State(app): State<App>, Json(req): Json<ValidateTokenRequest>) -> Response {
-  let Ok(player) = spawn_blocking(move || {
-    decode_jwt(&req.token)
-      .map(|token| token.claims.sub)
-      .ok()
-  })
-  .await
-  else {
-    return res!(INTERNAL_SERVER_ERROR);
-  };
-
-  if app.server_kind().is_remote()
-    && let Some(player) = player.clone()
-  {
-    match app.database().user_exists(player) {
-      Ok(true) => {}
-      Ok(false) => return res!(OK, Json(None::<PlayerId>)),
-      Err(err) => return from_database_err(err),
-    }
-  }
-
-  res!(OK, Json(player))
-}
-
 async fn version() -> &'static str {
   env!("CARGO_PKG_VERSION")
-}
-
-async fn websocket(
-  ws: WebSocketUpgrade,
-  State(app): State<App>,
-  Extension(player): Extension<CurrentPlayer>,
-  Query(query): Query<WebsocketQuery>,
-) -> Response {
-  if app.server_kind().is_remote() {
-    match app
-      .database()
-      .verify_game_password(query.world_id, query.world_password.as_ref())
-    {
-      Ok(true) => {}
-      Ok(false) => return Error::IncorrectWorldCredentials(query.world_id).into(),
-      Err(err) => return from_database_err(err),
-    }
-  }
-
-  let id = player.0;
-  app
-    .world(query.world_id, World::subscribe)
-    .await
-    .map_left(|listener| ws.on_upgrade(move |socket| handle_socket(socket, listener, id)))
-    .into_inner()
 }
