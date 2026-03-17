@@ -35,6 +35,7 @@
     "./scripts/build-client.rs",
     "./scripts/build-docs.rs",
     "./scripts/build-server.rs",
+    "./scripts/bump.rs",
     "./scripts/clean.rs",
     "./scripts/run-clippy.rs",
     "./scripts/run-example.rs",

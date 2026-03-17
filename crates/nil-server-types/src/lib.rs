@@ -38,7 +38,7 @@ pub struct RemoteWorld {
   pub continent_size: ContinentSize,
 }
 
-#[derive(Clone, Debug, From, Deserialize, Serialize)]
+#[derive(Clone, Debug, From, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[from(String, &str, Box<str>, Cow<'_, str>)]
 pub struct Token(Box<str>);
 

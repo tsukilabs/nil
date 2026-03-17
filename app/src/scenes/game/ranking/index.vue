@@ -24,8 +24,14 @@ const { t } = useI18n();
 
 const { ranking, loading, load } = useRanking();
 
+const { id: playerId } = NIL.player.refs();
+
 if (__DESKTOP__) {
   onKeyDown('F5', throttle(load, 1000));
+}
+
+function getIdClass(ruler: Ruler) {
+  return ruler.kind === 'player' && ruler.id === playerId.value ? 'font-bold' : null;
 }
 </script>
 
@@ -60,10 +66,18 @@ if (__DESKTOP__) {
               @click="() => entry.goToProfile()"
               @keydown.enter="() => entry.goToProfile()"
             >
-              <TableCell>{{ entry.formatRank() }}</TableCell>
-              <TableCell>{{ entry.ruler.id }}</TableCell>
-              <TableCell>{{ entry.formatScore() }}</TableCell>
-              <TableCell>{{ entry.formatCities() }}</TableCell>
+              <TableCell>
+                {{ entry.formatRank() }}
+              </TableCell>
+              <TableCell :class="getIdClass(entry.ruler)">
+                {{ entry.ruler.id }}
+              </TableCell>
+              <TableCell>
+                {{ entry.formatScore() }}
+              </TableCell>
+              <TableCell>
+                {{ entry.formatCities() }}
+              </TableCell>
             </TableRow>
           </TableBody>
         </Table>

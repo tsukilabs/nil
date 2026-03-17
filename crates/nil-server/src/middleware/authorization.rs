@@ -58,7 +58,7 @@ pub(crate) fn encode_jwt(player: PlayerId) -> Result<Token> {
     let now = Zoned::now();
     let iat = now.timestamp().as_millisecond().try_into()?;
     let exp = now
-      .saturating_add(SignedDuration::from_hours(24))
+      .saturating_add(SignedDuration::from_hours(24 * 7))
       .timestamp()
       .as_millisecond()
       .try_into()?;

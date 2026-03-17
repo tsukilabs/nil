@@ -3,6 +3,7 @@
 
 #![expect(clippy::wildcard_imports)]
 
+mod auth;
 mod battle;
 mod chat;
 mod cheat;
@@ -31,8 +32,8 @@ use nil_core::event::Event;
 use nil_core::player::PlayerId;
 use nil_core::world::config::WorldId;
 use nil_crypto::password::Password;
+use nil_payload::AuthorizeRequest;
 use nil_payload::world::LeaveRequest;
-use nil_payload::{AuthorizeRequest, ValidateTokenRequest};
 use nil_server_types::{ServerKind, Token};
 use std::borrow::Cow;
 use std::net::{IpAddr, SocketAddrV4};
@@ -204,16 +205,6 @@ impl Client {
     Arc::downgrade(&self.circuit_breaker)
   }
 
-  pub async fn authorize(&self, req: AuthorizeRequest) -> Result<Token> {
-    http::json_post("authorize")
-      .body(req)
-      .server(self.server)
-      .circuit_breaker(self.circuit_breaker())
-      .user_agent(&self.user_agent)
-      .send()
-      .await
-  }
-
   pub async fn get_server_kind(&self) -> Result<ServerKind> {
     http::json_get("get-server-kind")
       .server(self.server)
@@ -244,20 +235,6 @@ impl Client {
       .await
       .map(|()| true)
       .unwrap_or(false)
-  }
-
-  pub async fn validate_token<T>(&self, req: T) -> Result<Option<PlayerId>>
-  where
-    T: Into<ValidateTokenRequest>,
-  {
-    http::json_put("validate-token")
-      .body(Into::<ValidateTokenRequest>::into(req))
-      .server(self.server)
-      .circuit_breaker(self.circuit_breaker())
-      .retry(&self.retry)
-      .user_agent(&self.user_agent)
-      .send()
-      .await
   }
 }
 
