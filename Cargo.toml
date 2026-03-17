@@ -42,10 +42,6 @@ inherits = "release"
 panic = "unwind"
 strip = "none"
 
-[profile.release-wasm]
-inherits = "release"
-strip = "none"
-
 [profile.preview]
 inherits = "release"
 incremental = true

@@ -37,7 +37,7 @@ impl Retry {
 
   pub(super) fn delay(&self, attempt: u8) -> Duration {
     debug_assert!(attempt > 0);
-    debug_assert!(self.min_delay >= self.max_delay);
+    debug_assert!(self.min_delay <= self.max_delay);
     debug_assert!(self.multiplier.is_normal() && self.multiplier >= 1.0);
 
     if self.backoff && attempt > 1 {
