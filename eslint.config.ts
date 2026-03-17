@@ -21,5 +21,8 @@ export default defineConfig({
       '@typescript-eslint/no-unsafe-member-access': 'off',
       '@typescript-eslint/no-unused-private-class-members': 'off',
     },
+    vue: {
+      'vue/enforce-style-attribute': ['error', { allow: ['module', 'scoped'] }],
+    },
   },
 });

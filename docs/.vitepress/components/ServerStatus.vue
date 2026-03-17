@@ -4,13 +4,12 @@
 <script setup lang="ts">
 import type { NilServer } from '../composables/useServer';
 
-defineProps<{ server: NilServer; }>();
+defineProps<{
+  server: NilServer;
+}>();
 </script>
 
 <template>
-  <p>Version: {{ server.version }}</p>
-
-  <h2>Worlds</h2>
   <table>
     <thead>
       <tr>
@@ -27,5 +26,18 @@ defineProps<{ server: NilServer; }>();
         <td>{{ world.totalPlayers }}</td>
       </tr>
     </tbody>
+
+    <tfoot>
+      <tr>
+        <th scope="row" colspan="2" :class="$style.version">Version</th>
+        <td>{{ server.version }}</td>
+      </tr>
+    </tfoot>
   </table>
 </template>
+
+<style module>
+.version {
+  text-align: right !important;
+}
+</style>
