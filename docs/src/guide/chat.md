@@ -12,10 +12,6 @@
 
 Executes a Lua snippet.
 
-```lua
-$eval print(client:world())
-```
-
 ### `$farm`
 
 ### `$food` <Badge type="tip" text="cheat" />
