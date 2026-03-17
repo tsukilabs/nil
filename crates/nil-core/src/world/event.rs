@@ -48,38 +48,52 @@ impl World {
 
   /// Emits [`Event::ChatUpdated`].
   pub(super) fn emit_chat_updated(&self, message: ChatMessage) {
-    self.broadcast(Event::ChatUpdated { message });
+    let world = self.config.id();
+    self.broadcast(Event::ChatUpdated { world, message });
   }
 
   /// Emits [`Event::CityUpdated`].
   pub(super) fn emit_city_updated(&self, coord: Coord) {
-    self.emit_to_owner(coord, Event::CityUpdated { coord });
+    let world = self.config.id();
+    self.emit_to_owner(coord, Event::CityUpdated { world, coord });
+  }
+
+  /// Emits [`Event::Drop`].
+  /// This should never be called manually.
+  pub(super) fn emit_drop(&self) {
+    let world = self.config.id();
+    self.broadcast(Event::Drop { world });
   }
 
   /// Emits [`Event::MilitaryUpdated`].
   pub(super) fn emit_military_updated(&self, player: PlayerId) {
-    self.emit_to(player.clone(), Event::MilitaryUpdated { player });
+    let world = self.config.id();
+    self.emit_to(player.clone(), Event::MilitaryUpdated { world, player });
   }
 
   /// Emits [`Event::PlayerUpdated`].
   pub(super) fn emit_player_updated(&self, player: PlayerId) {
-    self.emit_to(player.clone(), Event::PlayerUpdated { player });
+    let world = self.config.id();
+    self.emit_to(player.clone(), Event::PlayerUpdated { world, player });
   }
 
   /// Emits [`Event::PublicCityUpdated`].
   pub(super) fn emit_public_city_updated(&self, coord: Coord) {
-    self.broadcast(Event::PublicCityUpdated { coord });
+    let world = self.config.id();
+    self.broadcast(Event::PublicCityUpdated { world, coord });
   }
 
   /// Emits [`Event::Report`].
   pub(super) fn emit_report(&self, player: PlayerId, report: ReportId) {
-    self.emit_to(player, Event::Report { report });
+    let world = self.config.id();
+    self.emit_to(player, Event::Report { world, report });
   }
 
   /// Emits [`Event::RoundUpdated`].
   pub(super) fn emit_round_updated(&self) {
+    let world = self.config.id();
     let round = self.round.clone();
-    self.broadcast(Event::RoundUpdated { round });
+    self.broadcast(Event::RoundUpdated { world, round });
   }
 
   pub(super) fn emit_support_report(&self, report: &SupportReport) {

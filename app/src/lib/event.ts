@@ -23,7 +23,10 @@ class Listener<T extends EventPayload> {
           }
 
           try {
-            await fn(payload);
+            const world = NIL.world.getId();
+            if (world && payload.world === world) {
+              await fn(payload);
+            }
           }
           catch (err) {
             handleError(err);
@@ -38,6 +41,7 @@ class Listener<T extends EventPayload> {
   public static readonly listeners = {
     onChatUpdated: new this<ChatUpdatedPayload>('chat-updated'),
     onCityUpdated: new this<CityUpdatedPayload>('city-updated'),
+    onDrop: new this<DropPayload>('drop'),
     onMilitaryUpdated: new this<MilitaryUpdatedPayload>('military-updated'),
     onPlayerUpdated: new this<PlayerUpdatedPayload>('player-updated'),
     onPublicCityUpdated: new this<PublicCityUpdatedPayload>('public-city-updated'),

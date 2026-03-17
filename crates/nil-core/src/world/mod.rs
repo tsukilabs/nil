@@ -261,6 +261,12 @@ impl World {
   }
 }
 
+impl Drop for World {
+  fn drop(&mut self) {
+    self.emit_drop();
+  }
+}
+
 #[derive(Builder, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct WorldOptions {
