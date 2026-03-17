@@ -5,8 +5,10 @@
 import { useI18n } from 'vue-i18n';
 import { computed, ref } from 'vue';
 import { formatDate } from 'date-fns';
+import * as commands from '@/commands';
 import { useRouter } from 'vue-router';
 import { joinRemoteGame } from '@/core/game';
+import { Trash2Icon } from 'lucide-vue-next';
 import Loading from '@/components/Loading.vue';
 import { isValidPassword } from '@/lib/schema';
 import { useRouteQuery } from '@vueuse/router';
@@ -14,7 +16,8 @@ import { useSettings } from '@/stores/settings';
 import enUS from '@/locale/en-US/scenes/online.json';
 import ptBR from '@/locale/pt-BR/scenes/online.json';
 import { useBreakpoints, useMutex } from '@tb-dev/vue';
-import { QUERY_JOIN_REMOTE_GAME_WORLD_ID } from '@/router';
+import ButtonIcon from '@/components/button/ButtonIcon.vue';
+import { go, QUERY_JOIN_REMOTE_GAME_WORLD_ID } from '@/router';
 import ButtonSpinner from '@/components/button/ButtonSpinner.vue';
 import { useRemoteWorld } from '@/composables/world/useRemoteWorld';
 import {
@@ -59,7 +62,7 @@ const canJoin = computed(() => {
   );
 });
 
-async function join() {
+async function joinGame() {
   await lock(async () => {
     if (remoteWorld.value && settings.auth.token) {
       await joinRemoteGame({
@@ -70,6 +73,15 @@ async function join() {
     }
   });
 }
+
+async function deleteGame() {
+  await lock(async () => {
+    if (remoteWorld.value && settings.auth.token) {
+      await commands.deleteRemoteWorld(remoteWorld.value.id);
+      await go('lobby');
+    }
+  });
+}
 </script>
 
 <template>
@@ -77,7 +89,20 @@ async function join() {
     <Loading v-if="loading" />
     <Card v-else-if="remoteWorld" class="max-md:size-full md:min-w-150! md:max-w-1/2">
       <CardHeader>
-        <CardTitle>{{ t('join-game') }}</CardTitle>
+        <CardTitle>
+          <div class="flex items-center justify-between">
+            <span class="w-full">{{ t('join-game') }}</span>
+            <div class="flex items-center justify-center">
+              <ButtonIcon
+                variant="outline"
+                :size="md ? 'icon' : 'icon-sm'"
+                :icon="Trash2Icon"
+                :disabled="locked"
+                @click="deleteGame"
+              />
+            </div>
+          </div>
+        </CardTitle>
       </CardHeader>
 
       <CardContent class="size-full overflow-x-hidden overflow-y-auto">
@@ -146,11 +171,11 @@ async function join() {
           :minlength="3"
           :maxlength="50"
           class="w-full md:max-w-2/3"
-          @keydown.enter="join"
+          @keydown.enter="joinGame"
         />
 
         <div class="w-full md:max-w-1/2 grid grid-cols-2 gap-2">
-          <ButtonSpinner :loading="locked" :disabled="!canJoin || locked" @click="join">
+          <ButtonSpinner :loading="locked" :disabled="!canJoin || locked" @click="joinGame">
             {{ t('join') }}
           </ButtonSpinner>
           <Button variant="secondary" :disabled="locked" @click="() => router.back()">
