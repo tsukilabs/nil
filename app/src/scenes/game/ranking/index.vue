@@ -3,9 +3,9 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import { throttle } from 'es-toolkit';
 import { onKeyDown } from '@vueuse/core';
 import Loading from '@/components/Loading.vue';
+import { throttle } from 'es-toolkit/function';
 import { useRanking } from '@/composables/ranking/useRanking';
 import {
   Card,

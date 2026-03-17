@@ -1,7 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { clamp } from 'es-toolkit';
+import { clamp } from 'es-toolkit/math';
 
 export function toI8(value: number) {
   if (!Number.isFinite(value)) return 0;

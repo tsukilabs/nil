@@ -4,9 +4,9 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import { computed, ref } from 'vue';
-import { toMerged } from 'es-toolkit';
 import { useRouter } from 'vue-router';
 import { hostRemoteGame } from '@/core/game';
+import { toMerged } from 'es-toolkit/object';
 import { useSettings } from '@/stores/settings';
 import enUS_online from '@/locale/en-US/scenes/online.json';
 import ptBR_online from '@/locale/pt-BR/scenes/online.json';

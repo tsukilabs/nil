@@ -3,8 +3,8 @@
 
 import type { App } from 'vue';
 import * as commands from '@/commands';
-import { camelCase } from 'es-toolkit';
 import * as cheats from '@/commands/cheat';
+import { camelCase } from 'es-toolkit/string';
 import Food from '@/components/resources/Food.vue';
 import Iron from '@/components/resources/Iron.vue';
 import Wood from '@/components/resources/Wood.vue';
