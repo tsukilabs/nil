@@ -5,12 +5,12 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { formatDate } from 'date-fns';
-import { throttle } from 'es-toolkit';
 import { LockIcon } from 'lucide-vue-next';
 import Loading from '@/components/Loading.vue';
+import { throttle } from 'es-toolkit/function';
 import enUS from '@/locale/en-US/scenes/online.json';
 import ptBR from '@/locale/pt-BR/scenes/online.json';
-import { watchToken } from '@/composables/watchToken';
+import { useToken } from '@/composables/auth/useToken';
 import { onKeyDown, useBreakpoints } from '@tb-dev/vue';
 import { go, QUERY_JOIN_REMOTE_GAME_WORLD_ID } from '@/router';
 import { useRemoteWorlds } from '@/composables/world/useRemoteWorlds';
@@ -42,6 +42,16 @@ const { remoteWorlds, loading, load } = useRemoteWorlds();
 
 const worldLimit = useRemoteWorldLimit();
 
+const { playerId, isTokenValid } = useToken();
+
+const canHost = computed(() => {
+  return (
+    isTokenValid.value &&
+    remoteWorlds.value.length < (worldLimit.value.global ?? 0) &&
+    countCurrentPlayerWorlds() < (worldLimit.value.perUser ?? 0)
+  );
+});
+
 const someHasPassword = computed(() => {
   return remoteWorlds.value.some((world) => world.hasPassword);
 });
@@ -50,10 +60,15 @@ if (__DESKTOP__) {
   onKeyDown('F5', throttle(load, 1000));
 }
 
-watchToken();
-
 async function goToJoinRemoteGameScene(id: WorldId) {
   await go('join-remote-game', { query: { [QUERY_JOIN_REMOTE_GAME_WORLD_ID]: id } });
+}
+
+function countCurrentPlayerWorlds() {
+  return remoteWorlds.value.reduce((acc, world) => {
+    if (world.createdBy === playerId.value) ++acc;
+    return acc;
+  }, 0);
 }
 </script>
 
@@ -68,7 +83,7 @@ async function goToJoinRemoteGameScene(id: WorldId) {
               <Button
                 variant="default"
                 :size="sm ? 'default' : 'sm'"
-                :disabled="remoteWorlds.length >= worldLimit"
+                :disabled="!canHost"
                 class="md:px-4 xl:px-6 2xl:px-8"
                 @click="() => go('host-remote-game')"
               >

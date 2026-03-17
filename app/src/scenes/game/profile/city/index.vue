@@ -4,8 +4,8 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { throttle } from 'es-toolkit';
 import { onKeyDown } from '@tb-dev/vue';
+import { throttle } from 'es-toolkit/function';
 import { useRouteParams } from '@vueuse/router';
 import enUS from '@/locale/en-US/scenes/game/profile.json';
 import ptBR from '@/locale/pt-BR/scenes/game/profile.json';

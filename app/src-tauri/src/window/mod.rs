@@ -40,6 +40,7 @@ fn script() -> String {
   define!("__DEBUG_ASSERTIONS__", cfg!(debug_assertions));
   define!("__DESKTOP__", cfg!(desktop));
   define!("__MOBILE__", cfg!(mobile));
+  define!("__VERSION__", env!("CARGO_PKG_VERSION"));
 
   script
 }

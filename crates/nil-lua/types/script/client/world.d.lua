@@ -14,6 +14,9 @@ function client:getRemoteWorld(req) end
 ---@return number
 function client:getRemoteWorldLimit() end
 
+---@return number
+function client:getRemoteWorldLimitPerUser() end
+
 ---@return RemoteWorld[]
 function client:getRemoteWorlds() end
 

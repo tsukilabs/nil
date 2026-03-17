@@ -3,8 +3,8 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import { throttle } from 'es-toolkit';
 import { onKeyDown } from '@tb-dev/vue';
+import { throttle } from 'es-toolkit/function';
 import { useRouteParams } from '@vueuse/router';
 import CityTable from '@/components/CityTable.vue';
 import { usePublicCities } from '@/composables/city/usePublicCities';

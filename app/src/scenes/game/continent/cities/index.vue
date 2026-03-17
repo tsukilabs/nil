@@ -3,9 +3,9 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import { throttle } from 'es-toolkit';
 import { onKeyDown } from '@tb-dev/vue';
 import Loading from '@/components/Loading.vue';
+import { throttle } from 'es-toolkit/function';
 import CityTable from '@/components/CityTable.vue';
 import { useContinentCities } from '@/composables/continent/useContinentCities';
 import { Card, CardContent, CardHeader, CardTitle } from '@tb-dev/vue-components';

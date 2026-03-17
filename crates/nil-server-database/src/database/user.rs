@@ -12,6 +12,20 @@ use either::Either;
 use nil_core::player::PlayerId;
 
 impl Database {
+  pub fn count_games_by_user(&self, player_id: impl Into<SqlPlayerId>) -> Result<i64> {
+    self.count_games_by_user_id(self.get_user_id(player_id)?)
+  }
+
+  pub fn count_games_by_user_id(&self, id: UserId) -> Result<i64> {
+    use crate::schema::game;
+
+    game::table
+      .filter(game::created_by.eq(id))
+      .count()
+      .get_result(&mut *self.conn())
+      .map_err(Into::into)
+  }
+
   pub fn create_user(&self, new: &NewUser) -> Result<usize> {
     use crate::schema::user::dsl::*;
 
@@ -54,6 +68,22 @@ impl Database {
 
     if let Err(DieselError::NotFound) = &result {
       Err(Error::UserNotFound(Either::Right(id)))
+    } else {
+      Ok(result?)
+    }
+  }
+
+  pub fn get_user_id(&self, player_id: impl Into<SqlPlayerId>) -> Result<UserId> {
+    use crate::schema::user;
+
+    let player_id: SqlPlayerId = player_id.into();
+    let result = user::table
+      .filter(user::player_id.eq(&player_id))
+      .select(user::id)
+      .first(&mut *self.conn());
+
+    if let Err(DieselError::NotFound) = &result {
+      Err(Error::UserNotFound(Either::Left(player_id)))
     } else {
       Ok(result?)
     }
