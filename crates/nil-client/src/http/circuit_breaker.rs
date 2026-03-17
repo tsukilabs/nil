@@ -14,7 +14,7 @@ pub struct CircuitBreaker {
   #[builder(skip)]
   failure_count: u32,
 
-  #[builder(default = unsafe { NonZeroU32::new_unchecked(10)})]
+  #[builder(default = unsafe { NonZeroU32::new_unchecked(25)})]
   failure_threshold: NonZeroU32,
 
   #[builder(skip = Timestamp::UNIX_EPOCH)]
