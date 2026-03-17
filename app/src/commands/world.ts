@@ -8,6 +8,7 @@ import { WorldConfigImpl } from '@/core/model/world-config';
 import { type RawWorldStats, WorldStatsImpl } from '@/core/model/stats/world-stats';
 import type {
   CreateRemoteWorldRequest,
+  DeleteRemoteWorldRequest,
   GetRemoteWorldRequest,
   GetWorldBotsRequest,
   GetWorldConfigRequest,
@@ -26,6 +27,14 @@ export async function createRemoteWorld(req: Writable<CreateRemoteWorldRequest>)
   }
 
   return invoke<WorldId>('create_remote_world', { req });
+}
+
+export async function deleteRemoteWorld(world?: Option<WorldId>) {
+  const req: DeleteRemoteWorldRequest = {
+    world: world ?? NIL.world.getIdStrict(),
+  };
+
+  await invoke('delete_remote_world', { req });
 }
 
 export async function getRemoteWorld(world?: Option<WorldId>) {

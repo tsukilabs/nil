@@ -14,6 +14,14 @@ pub(super) fn add_methods<M: UserDataMethods<ClientUserData>>(methods: &mut M) {
       .map(|it| lua.to_value(&it))?
   });
 
+  methods.add_async_method("deleteRemoteWorld", async |lua, this, req: Value| {
+    let req: DeleteRemoteWorldRequest = lua.from_value(req)?;
+    this
+      .client(async |it| it.delete_remote_world(req).await)
+      .await
+      .map(|it| lua.to_value(&it))?
+  });
+
   methods.add_async_method("getRemoteWorld", async |lua, this, req: Value| {
     let req: GetRemoteWorldRequest = lua.from_value(req)?;
     this

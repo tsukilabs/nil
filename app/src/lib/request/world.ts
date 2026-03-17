@@ -7,6 +7,10 @@ export interface CreateRemoteWorldRequest {
   readonly password: Option<string>;
 }
 
+export interface DeleteRemoteWorldRequest {
+  readonly world: WorldId;
+}
+
 export interface GetRemoteWorldRequest {
   readonly world: WorldId;
 }

@@ -4,6 +4,7 @@
 use crate::error::{CoreError, DatabaseError, Error};
 use axum::response::Response;
 use either::Either;
+use nil_server_database::error::DieselError;
 use std::ops::{ControlFlow, Try};
 
 pub type MaybeResponse<L> = Either<L, Response>;
@@ -129,13 +130,21 @@ pub(crate) fn from_database_err(err: DatabaseError) -> Response {
 
   match err {
     Core(err) => from_core_err(err),
-    Diesel(..) => res!(INTERNAL_SERVER_ERROR),
+    Diesel(err) => from_diesel_err(&err),
     GameNotFound(..) => res!(NOT_FOUND, err.to_string()),
     InvalidPassword => res!(BAD_REQUEST, err.to_string()),
     InvalidUsername(..) => res!(BAD_REQUEST, err.to_string()),
     UserAlreadyExists(..) => res!(CONFLICT, err.to_string()),
     UserNotFound(..) => res!(NOT_FOUND, err.to_string()),
     Unknown(..) => res!(INTERNAL_SERVER_ERROR),
+  }
+}
+
+fn from_diesel_err(err: &DieselError) -> Response {
+  if let DieselError::NotFound = &err {
+    res!(NOT_FOUND)
+  } else {
+    res!(INTERNAL_SERVER_ERROR)
   }
 }
 

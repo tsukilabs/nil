@@ -166,6 +166,7 @@ pub fn run() {
       command::user::create_user,
       command::user::user_exists,
       command::world::create_remote_world,
+      command::world::delete_remote_world,
       command::world::get_remote_world,
       command::world::get_remote_world_limit,
       command::world::get_remote_world_limit_per_user,

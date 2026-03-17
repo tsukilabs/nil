@@ -7,6 +7,9 @@
 ---@return WorldId
 function client:createRemoteWorld(req) end
 
+---@param req DeleteRemoteWorldRequest
+function client:deleteRemoteWorld(req) end
+
 ---@param req GetRemoteWorldRequest
 ---@return RemoteWorld
 function client:getRemoteWorld(req) end

@@ -27,6 +27,14 @@ pub async fn create_remote_world(app: AppHandle, req: CreateRemoteWorldRequest) 
 }
 
 #[tauri::command]
+pub async fn delete_remote_world(app: AppHandle, req: DeleteRemoteWorldRequest) -> Result<()> {
+  app
+    .client(async |cl| cl.delete_remote_world(req).await)
+    .await
+    .map_err(Into::into)
+}
+
+#[tauri::command]
 pub async fn get_remote_world(app: AppHandle, req: GetRemoteWorldRequest) -> Result<RemoteWorld> {
   app
     .client(async |cl| cl.get_remote_world(req).await)

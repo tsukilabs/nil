@@ -35,9 +35,9 @@ Here’s a simplified list of the steps you’ll need to take. In some cases, yo
   - [Update the client](/crates/nil-client/src/client/mod.rs)
 
 - [`nil`](/app)
-  - [Create a new command (Rust)](/app/src-tauri/src/command/mod.rs)
+  - [Create a new Rust command](/app/src-tauri/src/command/mod.rs)
   - [Expose it to the frontend](/app/src-tauri/src/lib.rs)
-  - [Create a new command (TypeScript)](/app/src/commands/index.ts)
+  - [Create a new TypeScript command](/app/src/commands/index.ts)
   - [Declare an interface for the request struct](/app/src/lib/request)
   - [Declare an interface for the response struct](/app/src/lib/response)
 
