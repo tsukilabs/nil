@@ -1,3 +1,6 @@
+// Copyright (C) Call of Nil contributors
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import { defineConfig } from 'vitepress';
 
 export default defineConfig({
@@ -37,6 +40,11 @@ export default defineConfig({
         text: 'Guide',
         link: '/guide/',
         activeMatch: '^/guide/',
+      },
+      {
+        text: 'Status',
+        link: '/status/',
+        activeMatch: '^/status/',
       },
     ],
     sidebar: {
