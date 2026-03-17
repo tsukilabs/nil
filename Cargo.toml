@@ -29,6 +29,8 @@ readme = "./README.md"
 homepage = "https://nil.dev.br"
 repository = "https://github.com/tsukilabs/nil"
 authors = ["Andrew Ferreira <andrew.shien2@gmail.com>", "Danilo Soares <danilofs18@gmail.com>"]
+keywords = ["call-of-nil", "strategy-game"]
+categories = ["games"]
 
 [profile.release]
 codegen-units = 1
