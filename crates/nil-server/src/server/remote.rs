@@ -21,13 +21,13 @@ pub async fn start(database_url: &str) -> Result<()> {
   Ok(())
 }
 
-pub(crate) fn on_next_round(db: Database) -> Box<dyn Fn(&mut World) + Send + Sync> {
+pub(crate) fn on_next_round(database: Database) -> Box<dyn Fn(&mut World) + Send + Sync> {
   Box::new(move |world: &mut World| {
-    let db = db.clone();
-    let id = world.config().id();
+    let id = world.id();
+    let database = database.clone();
 
     world.save(move |bytes| {
-      if let Err(err) = db.update_game_blob(id, &bytes) {
+      if let Err(err) = database.update_game_blob(id, &bytes) {
         tracing::error!(message = %err, error = ?err);
       }
     });

@@ -53,17 +53,20 @@ pub async fn delete(
   Json(req): Json<DeleteRemoteWorldRequest>,
 ) -> Response {
   if app.server_kind().is_remote() {
-    let Ok(either) = spawn_blocking(move || {
-      let result = try {
-        let database = app.database();
-        if database.was_game_created_by(req.world, player.0)? {
-          database.delete_game(req.world)?
-        } else {
-          return Either::Right(res!(FORBIDDEN));
-        }
-      };
+    let Ok(either) = spawn_blocking({
+      let app = app.clone();
+      move || {
+        let result = try {
+          let database = app.database();
+          if database.was_game_created_by(req.world, player.0)? {
+            database.delete_game(req.world)?
+          } else {
+            return Either::Right(res!(FORBIDDEN));
+          }
+        };
 
-      Either::Left(result)
+        Either::Left(result)
+      }
     })
     .await
     else {
@@ -72,6 +75,10 @@ pub async fn delete(
 
     match either {
       Either::Left(result) => {
+        if result.as_ref().is_ok_and(|it| *it > 0) {
+          drop(app.remove(req.world));
+        }
+
         result
           .map(|_| res!(NO_CONTENT))
           .unwrap_or_else(from_database_err)

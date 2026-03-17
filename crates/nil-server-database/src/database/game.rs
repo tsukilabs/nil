@@ -94,6 +94,16 @@ impl Database {
     }
   }
 
+  pub fn game_exists(&self, game_id: impl Into<GameId>) -> Result<bool> {
+    use crate::schema::game;
+    use diesel::dsl::{exists, select};
+
+    let game_id: GameId = game_id.into();
+    select(exists(game::table.find(game_id)))
+      .get_result(&mut *self.conn())
+      .map_err(Into::into)
+  }
+
   pub fn get_game_creator(&self, game_id: impl Into<GameId>) -> Result<PlayerId> {
     use crate::schema::game;
 

@@ -179,6 +179,7 @@ impl App {
     Ok(world_id)
   }
 
+  /// Checks if the player can create a new remote world.
   fn check_remote_world_limit(&self, player: SqlPlayerId) -> Result<()> {
     let database = self.database();
 
@@ -200,7 +201,11 @@ impl App {
       .worlds
       .get(&id)
       .map(|world| Arc::clone(&world))
-      .ok_or_else(|| Error::InvalidWorld(id))
+      .ok_or_else(|| Error::WorldNotFound(id))
+  }
+
+  pub(crate) fn remove(&self, id: WorldId) -> Option<Arc<RwLock<World>>> {
+    self.worlds.remove(&id).map(|it| it.1)
   }
 
   pub async fn world<F, T>(&self, id: WorldId, f: F) -> MaybeResponse<T>

@@ -25,14 +25,14 @@ pub enum Error {
   #[error("Incorrect world password")]
   IncorrectWorldCredentials(WorldId),
 
-  #[error("Invalid world")]
-  InvalidWorld(WorldId),
-
   #[error("Missing password")]
   MissingPassword,
 
   #[error("World limit reached")]
   WorldLimitReached,
+
+  #[error("World not found")]
+  WorldNotFound(WorldId),
 
   #[error(transparent)]
   Core(#[from] CoreError),
