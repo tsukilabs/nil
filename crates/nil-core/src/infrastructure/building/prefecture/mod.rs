@@ -34,7 +34,7 @@ impl Prefecture {
   pub const MIN_LEVEL: BuildingLevel = BuildingLevel::new(1);
   pub const MAX_LEVEL: BuildingLevel = BuildingLevel::new(30);
 
-  pub const MIN_COST: Cost = Cost::new(1000);
+  pub const MIN_COST: Cost = Cost::new(1_000);
   pub const MAX_COST: Cost = Cost::new(150_000);
 
   pub const WOOD_RATIO: ResourceRatio = ResourceRatio::new(0.3);
@@ -46,7 +46,7 @@ impl Prefecture {
   pub const MAX_WORKFORCE: Workforce = Workforce::new(50);
 
   pub const MIN_SCORE: Score = Score::new(10);
-  pub const MAX_SCORE: Score = Score::new(1978);
+  pub const MAX_SCORE: Score = Score::new(1_978);
 
   pub const INFRASTRUCTURE_REQUIREMENTS: InfrastructureRequirements =
     InfrastructureRequirements::none();

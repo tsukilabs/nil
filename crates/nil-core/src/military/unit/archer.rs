@@ -32,7 +32,7 @@ impl Archer {
 
   pub const CHUNK: UnitChunk = UnitChunk {
     size: UnitChunkSize::new(10),
-    cost: Cost::new(1900),
+    cost: Cost::new(1_900),
     wood_ratio: ResourceRatio::new(0.5),
     stone_ratio: ResourceRatio::new(0.15),
     iron_ratio: ResourceRatio::new(0.35),
