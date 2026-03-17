@@ -5,6 +5,7 @@
 #![doc(html_favicon_url = "https://nil.dev.br/favicon.png")]
 #![feature(
   addr_parse_ascii,
+  duration_millis_float,
   lock_value_accessors,
   nonpoison_mutex,
   sync_nonpoison

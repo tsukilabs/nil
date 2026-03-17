@@ -1,12 +1,13 @@
 {
   "name": "nil",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "type": "module",
   "packageManager": "pnpm@10.32.1",
   "license": "AGPL-3.0-only",
   "private": true,
   "scripts": {
     "build": "cargo +nightly -Zscript scripts/build-client.rs",
+    "bump": "cargo +nightly -Zscript scripts/bump.rs",
     "clean": "cargo +nightly -Zscript scripts/clean.rs",
     "clippy": "cargo +nightly -Zscript scripts/run-clippy.rs",
     "dev": "cargo +nightly -Zscript scripts/start-dev.rs",

@@ -18,7 +18,7 @@ pub struct B {
 impl B {
   pub const ID: PrecursorId = PrecursorId::B;
   pub const ETHICS: Ethics = Ethics::builder()
-    .power(EthicPowerAxis::Pacifist)
+    .power(EthicPowerAxis::Militarist)
     .truth(EthicTruthAxis::FanaticSpiritualist)
     .build();
 
