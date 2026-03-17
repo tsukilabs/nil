@@ -117,3 +117,7 @@ fn make_remote_world(app: &App, id: WorldId) -> Result<RemoteWorld> {
     continent_size: world.continent().size(),
   })
 }
+
+pub async fn get_limit(State(app): State<App>) -> Response {
+  res!(OK, Json(app.world_limit()))
+}
