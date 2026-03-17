@@ -106,14 +106,11 @@ impl Database {
 
   pub fn user_exists(&self, player_id: impl Into<SqlPlayerId>) -> Result<bool> {
     use crate::schema::user;
+    use diesel::dsl::{exists, select};
 
     let player_id: SqlPlayerId = player_id.into();
-    user::table
-      .filter(user::player_id.eq(&player_id))
-      .select(user::id)
-      .first::<UserId>(&mut *self.conn())
-      .optional()
-      .map(|it| it.is_some())
+    select(exists(user::table.filter(user::player_id.eq(&player_id))))
+      .get_result(&mut *self.conn())
       .map_err(Into::into)
   }
 }
