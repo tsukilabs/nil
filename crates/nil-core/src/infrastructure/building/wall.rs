@@ -40,7 +40,7 @@ impl Wall {
   pub const MAX_WORKFORCE: Workforce = Workforce::new(200);
 
   pub const MIN_DEFENSE: WallDefense = WallDefense::new(500);
-  pub const MAX_DEFENSE: WallDefense = WallDefense::new(10000);
+  pub const MAX_DEFENSE: WallDefense = WallDefense::new(10_000);
 
   pub const MIN_DEFENSE_BONUS: WallDefenseBonus = WallDefenseBonus::new(5.0);
   pub const MAX_DEFENSE_BONUS: WallDefenseBonus = WallDefenseBonus::new(107.0);

@@ -38,11 +38,11 @@ impl Silo {
   pub const MIN_WORKFORCE: Workforce = Workforce::new(2);
   pub const MAX_WORKFORCE: Workforce = Workforce::new(250);
 
-  pub const MIN_CAPACITY: StorageCapacity = StorageCapacity::new(2500);
+  pub const MIN_CAPACITY: StorageCapacity = StorageCapacity::new(2_500);
   pub const MAX_CAPACITY: StorageCapacity = StorageCapacity::new(250_000);
 
   pub const MIN_SCORE: Score = Score::new(6);
-  pub const MAX_SCORE: Score = Score::new(1187);
+  pub const MAX_SCORE: Score = Score::new(1_187);
 
   pub const INFRASTRUCTURE_REQUIREMENTS: InfrastructureRequirements =
     InfrastructureRequirements::none();

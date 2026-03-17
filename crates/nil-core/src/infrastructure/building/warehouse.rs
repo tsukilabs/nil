@@ -41,7 +41,7 @@ impl Warehouse {
   pub const MAX_CAPACITY: StorageCapacity = StorageCapacity::new(400_000);
 
   pub const MIN_SCORE: Score = Score::new(6);
-  pub const MAX_SCORE: Score = Score::new(1187);
+  pub const MAX_SCORE: Score = Score::new(1_187);
 
   pub const INFRASTRUCTURE_REQUIREMENTS: InfrastructureRequirements =
     InfrastructureRequirements::none();

@@ -38,10 +38,10 @@ impl IronMine {
   pub const MAX_WORKFORCE: Workforce = Workforce::new(150);
 
   pub const MIN_PRODUCTION: MineProduction = MineProduction::new(30);
-  pub const MAX_PRODUCTION: MineProduction = MineProduction::new(2400);
+  pub const MAX_PRODUCTION: MineProduction = MineProduction::new(2_400);
 
   pub const MIN_SCORE: Score = Score::new(6);
-  pub const MAX_SCORE: Score = Score::new(1187);
+  pub const MAX_SCORE: Score = Score::new(1_187);
 
   pub const INFRASTRUCTURE_REQUIREMENTS: InfrastructureRequirements =
     InfrastructureRequirements::none();
