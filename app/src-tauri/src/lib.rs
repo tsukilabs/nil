@@ -168,6 +168,7 @@ pub fn run() {
       command::world::create_remote_world,
       command::world::get_remote_world,
       command::world::get_remote_world_limit,
+      command::world::get_remote_world_limit_per_user,
       command::world::get_remote_worlds,
       command::world::get_savedata_players,
       command::world::get_world_bots,

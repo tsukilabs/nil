@@ -43,6 +43,14 @@ pub async fn get_remote_world_limit(app: AppHandle) -> Result<u16> {
 }
 
 #[tauri::command]
+pub async fn get_remote_world_limit_per_user(app: AppHandle) -> Result<u16> {
+  app
+    .client(async |cl| cl.get_remote_world_limit_per_user().await)
+    .await
+    .map_err(Into::into)
+}
+
+#[tauri::command]
 pub async fn get_remote_worlds(app: AppHandle) -> Result<Vec<RemoteWorld>> {
   app
     .client(async |cl| cl.get_remote_worlds().await)

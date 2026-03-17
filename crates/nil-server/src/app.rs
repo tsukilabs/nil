@@ -4,7 +4,7 @@
 use crate::error::{Error, Result};
 use crate::response::{MaybeResponse, from_err};
 use crate::server::remote;
-use crate::{VERSION, res};
+use crate::{VERSION, env, res};
 use dashmap::DashMap;
 use either::Either;
 use jiff::Zoned;
@@ -25,7 +25,6 @@ use nil_server_database::sql_types::player_id::SqlPlayerId;
 use nil_server_database::sql_types::version::SqlVersion;
 use nil_server_types::ServerKind;
 use semver::{Prerelease, Version};
-use std::env;
 use std::num::NonZeroU16;
 use std::sync::Arc;
 use tokio::sync::RwLock;
@@ -37,6 +36,7 @@ pub(crate) struct App {
   database: Option<Database>,
   worlds: Arc<DashMap<WorldId, Arc<RwLock<World>>>>,
   world_limit: NonZeroU16,
+  world_limit_per_user: NonZeroU16,
 }
 
 #[bon::bon]
@@ -48,6 +48,7 @@ impl App {
       database: None,
       worlds: Arc::new(DashMap::new()),
       world_limit: NonZeroU16::MIN,
+      world_limit_per_user: NonZeroU16::MIN,
     };
 
     app
@@ -98,7 +99,8 @@ impl App {
       server_kind: ServerKind::Remote,
       database: Some(database),
       worlds,
-      world_limit: default_remote_world_limit(),
+      world_limit: env::remote_world_limit(),
+      world_limit_per_user: env::remote_world_limit_per_user(),
     })
   }
 
@@ -133,6 +135,11 @@ impl App {
     self.world_limit.get()
   }
 
+  #[inline]
+  pub fn world_limit_per_user(&self) -> u16 {
+    self.world_limit_per_user.get()
+  }
+
   /// # Panics
   ///
   /// Panics if the server is not remote.
@@ -145,11 +152,9 @@ impl App {
     world_password: Option<&Password>,
     #[builder(into)] server_version: SqlVersion,
   ) -> Result<WorldId> {
-    let database = self.database();
-    if database.count_games()? >= i64::from(self.world_limit.get()) {
-      return Err(Error::WorldLimitReached);
-    }
+    self.check_remote_world_limit(player_id.clone())?;
 
+    let database = self.database();
     let user = database.get_user(player_id)?;
 
     let mut world = World::try_from(options)?;
@@ -172,6 +177,22 @@ impl App {
       .insert(world_id, Arc::new(RwLock::new(world)));
 
     Ok(world_id)
+  }
+
+  fn check_remote_world_limit(&self, player: SqlPlayerId) -> Result<()> {
+    let database = self.database();
+
+    let limit = i64::from(self.world_limit.get());
+    if database.count_games()? >= limit {
+      return Err(Error::WorldLimitReached);
+    }
+
+    let limit_per_user = i64::from(self.world_limit_per_user.get());
+    if database.count_games_by_user(player)? >= limit_per_user {
+      return Err(Error::WorldLimitReached);
+    }
+
+    Ok(())
   }
 
   pub(crate) fn get(&self, id: WorldId) -> Result<Arc<RwLock<World>>> {
@@ -309,11 +330,4 @@ impl App {
       .world(id, |world| f(world.round()))
       .await
   }
-}
-
-fn default_remote_world_limit() -> NonZeroU16 {
-  env::var("NIL_REMOTE_WORLD_LIMIT")
-    .ok()
-    .and_then(|it| it.parse::<NonZeroU16>().ok())
-    .unwrap_or_else(|| unsafe { NonZeroU16::new_unchecked(100) })
 }

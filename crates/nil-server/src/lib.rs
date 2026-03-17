@@ -5,6 +5,7 @@
 #![feature(try_blocks, try_blocks_heterogeneous, try_trait_v2)]
 
 mod app;
+mod env;
 mod error;
 mod middleware;
 mod response;

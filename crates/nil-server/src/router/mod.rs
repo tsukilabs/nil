@@ -146,6 +146,7 @@ pub(crate) fn create() -> Router<App> {
     .route("/get-ranking", put(ranking::get))
     .route("/get-remote-world", put(world::remote::get))
     .route("/get-remote-world-limit", get(world::remote::get_limit))
+    .route("/get-remote-world-limit-per-user", get(world::remote::get_limit_per_user))
     .route("/get-remote-worlds", get(world::remote::get_all))
     .route("/get-round", put(round::get))
     .route("/get-server-kind", get(server_kind))

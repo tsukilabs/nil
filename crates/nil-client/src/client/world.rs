@@ -45,6 +45,16 @@ impl Client {
       .await
   }
 
+  pub async fn get_remote_world_limit_per_user(&self) -> Result<u16> {
+    http::json_get("get-remote-world-limit-per-user")
+      .server(self.server)
+      .circuit_breaker(self.circuit_breaker())
+      .retry(&self.retry)
+      .user_agent(&self.user_agent)
+      .send()
+      .await
+  }
+
   pub async fn get_remote_worlds(&self) -> Result<Vec<RemoteWorld>> {
     http::json_get("get-remote-worlds")
       .server(self.server)

@@ -121,3 +121,7 @@ fn make_remote_world(app: &App, id: WorldId) -> Result<RemoteWorld> {
 pub async fn get_limit(State(app): State<App>) -> Response {
   res!(OK, Json(app.world_limit()))
 }
+
+pub async fn get_limit_per_user(State(app): State<App>) -> Response {
+  res!(OK, Json(app.world_limit_per_user()))
+}

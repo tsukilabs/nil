@@ -18,6 +18,7 @@ declare global {
   var __DEBUG_ASSERTIONS__: boolean;
   var __DESKTOP__: boolean;
   var __MOBILE__: boolean;
+  var __VERSION__: string;
 
   var __CONSTS__: {
     readonly i8Min: number;
