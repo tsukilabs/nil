@@ -6,7 +6,6 @@ type GameScene =
   | InfrastructureScene
   | ProfileScene
   | ReportScene
-  | ScriptsScene
   | WarRoomScene
   | 'chat'
   | 'city'

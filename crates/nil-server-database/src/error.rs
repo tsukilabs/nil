@@ -10,6 +10,7 @@ use serde::ser::Serializer;
 use std::convert::Infallible;
 use std::result::Result as StdResult;
 
+pub use diesel::result::Error as DieselError;
 pub use nil_core::error::Error as CoreError;
 
 pub type Result<T, E = Error> = StdResult<T, E>;

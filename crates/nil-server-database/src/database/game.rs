@@ -73,10 +73,11 @@ impl Database {
       .map_err(Into::into)
   }
 
-  pub fn delete_game(&self, game: GameId) -> Result<usize> {
+  pub fn delete_game(&self, game_id: impl Into<GameId>) -> Result<usize> {
     use crate::schema::game;
 
-    diesel::delete(game::table.find(game))
+    let game_id: GameId = game_id.into();
+    diesel::delete(game::table.find(game_id))
       .execute(&mut *self.conn())
       .map_err(Into::into)
   }

@@ -19,6 +19,12 @@ pub struct CreateRemoteWorldRequest {
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+pub struct DeleteRemoteWorldRequest {
+  pub world: WorldId,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct GetRemoteWorldRequest {
   pub world: WorldId,
 }

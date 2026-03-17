@@ -8,6 +8,9 @@
 ---@field description string|nil
 ---@field password string|nil
 
+---@class DeleteRemoteWorldRequest
+---@field world WorldId
+
 ---@class GetRemoteWorldRequest
 ---@field world WorldId
 

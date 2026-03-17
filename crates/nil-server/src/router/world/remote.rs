@@ -4,9 +4,11 @@
 use crate::app::App;
 use crate::error::Result;
 use crate::middleware::authorization::CurrentPlayer;
+use crate::response::from_database_err;
 use crate::{VERSION, res};
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
+use either::Either;
 use nil_core::world::config::WorldId;
 use nil_payload::world::*;
 use nil_server_types::RemoteWorld;
@@ -40,6 +42,42 @@ pub async fn create(
     result
       .map(|world_id| res!(CREATED, Json(world_id)))
       .unwrap_or_else(Response::from)
+  } else {
+    res!(FORBIDDEN)
+  }
+}
+
+pub async fn delete(
+  State(app): State<App>,
+  Extension(player): Extension<CurrentPlayer>,
+  Json(req): Json<DeleteRemoteWorldRequest>,
+) -> Response {
+  if app.server_kind().is_remote() {
+    let Ok(either) = spawn_blocking(move || {
+      let result = try {
+        let database = app.database();
+        if database.was_game_created_by(req.world, player.0)? {
+          database.delete_game(req.world)?
+        } else {
+          return Either::Right(res!(FORBIDDEN));
+        }
+      };
+
+      Either::Left(result)
+    })
+    .await
+    else {
+      return res!(INTERNAL_SERVER_ERROR);
+    };
+
+    match either {
+      Either::Left(result) => {
+        result
+          .map(|_| res!(NO_CONTENT))
+          .unwrap_or_else(from_database_err)
+      }
+      Either::Right(response) => response,
+    }
   } else {
     res!(FORBIDDEN)
   }

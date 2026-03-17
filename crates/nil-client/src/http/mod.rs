@@ -271,16 +271,14 @@ where
       .create();
 
     let retry_fn = async |retry: &Retry| {
-      #[cfg(debug_assertions)]
-      if attempt > 1 {
-        assert!(
-          method == Method::GET || method == Method::PUT,
-          "Should only retry idempotent requests"
-        );
-      }
+      debug_assert!(
+        method == Method::GET || method == Method::PUT,
+        "Should only retry idempotent requests"
+      );
 
       let delay = retry.delay(attempt);
-      tracing::warn!(%method, url, attempt, attempts, retrying_in = ?delay);
+      tracing::warn!(%method, url, attempt, max_attempts = attempts, retrying_in = ?delay);
+
       sleep(delay).await;
     };
 

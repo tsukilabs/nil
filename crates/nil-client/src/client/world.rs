@@ -24,6 +24,17 @@ impl Client {
       .await
   }
 
+  pub async fn delete_remote_world(&self, req: DeleteRemoteWorldRequest) -> Result<()> {
+    http::post("delete-remote-world")
+      .body(req)
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_ref())
+      .circuit_breaker(self.circuit_breaker())
+      .user_agent(&self.user_agent)
+      .send()
+      .await
+  }
+
   pub async fn get_remote_world(&self, req: GetRemoteWorldRequest) -> Result<RemoteWorld> {
     http::json_put("get-remote-world")
       .body(req)

@@ -3,3 +3,6 @@ packages:
   - "docs"
 
 ignoreWorkspaceRootCheck: true
+
+overrides:
+  flatted@<3.4.0: ">=3.4.0"
