@@ -27,8 +27,8 @@ use crate::websocket::handle_socket;
 use axum::extract::ws::WebSocketUpgrade;
 use axum::extract::{Extension, Json, Query, State};
 use axum::http::StatusCode;
-use axum::response::Response;
-use axum::routing::{any, get, post};
+use axum::response::{Redirect, Response};
+use axum::routing::{any, get, post, put};
 use axum::{Router, middleware};
 use nil_core::player::PlayerId;
 use nil_core::world::World;
@@ -56,24 +56,24 @@ pub(crate) fn create() -> Router<App> {
     .route("/cancel-prefecture-build-order", post(infrastructure::prefecture::cancel_build_order))
     .route("/cancel-stable-recruit-order", post(infrastructure::stable::cancel_recruit_order))
     .route("/cancel-workshop-recruit-order", post(infrastructure::workshop::cancel_recruit_order))
-    .route("/cheat-get-academy-recruit-queue", post(cheat::infrastructure::get_academy_recruit_queue))
-    .route("/cheat-get-academy-recruit-queues", post(cheat::infrastructure::get_academy_recruit_queues))
-    .route("/cheat-get-all-academy-recruit-queues", post(cheat::infrastructure::get_all_academy_recruit_queues))
-    .route("/cheat-get-all-prefecture-build-queues", post(cheat::infrastructure::get_all_prefecture_build_queues))
-    .route("/cheat-get-all-stable-recruit-queues", post(cheat::infrastructure::get_all_stable_recruit_queues))
-    .route("/cheat-get-build-steps", post(cheat::behavior::get_build_steps))
-    .route("/cheat-get-ethics", post(cheat::npc::get_ethics))
-    .route("/cheat-get-idle-armies-at", post(cheat::military::get_idle_armies_at))
-    .route("/cheat-get-idle-personnel-at", post(cheat::military::get_idle_personnel_at))
-    .route("/cheat-get-infrastructure", post(cheat::infrastructure::get_infrastructure))
-    .route("/cheat-get-player", post(cheat::player::get_player))
-    .route("/cheat-get-players", post(cheat::player::get_players))
-    .route("/cheat-get-prefecture-build-queue", post(cheat::infrastructure::get_prefecture_build_queue))
-    .route("/cheat-get-prefecture-build-queues", post(cheat::infrastructure::get_prefecture_build_queues))
-    .route("/cheat-get-resources", post(cheat::resources::get_resources))
-    .route("/cheat-get-stable-recruit-queue", post(cheat::infrastructure::get_stable_recruit_queue))
-    .route("/cheat-get-stable-recruit-queues", post(cheat::infrastructure::get_stable_recruit_queues))
-    .route("/cheat-get-storage-capacity", post(cheat::infrastructure::get_storage_capacity))
+    .route("/cheat-get-academy-recruit-queue", put(cheat::infrastructure::get_academy_recruit_queue))
+    .route("/cheat-get-academy-recruit-queues", put(cheat::infrastructure::get_academy_recruit_queues))
+    .route("/cheat-get-all-academy-recruit-queues", put(cheat::infrastructure::get_all_academy_recruit_queues))
+    .route("/cheat-get-all-prefecture-build-queues", put(cheat::infrastructure::get_all_prefecture_build_queues))
+    .route("/cheat-get-all-stable-recruit-queues", put(cheat::infrastructure::get_all_stable_recruit_queues))
+    .route("/cheat-get-build-steps", put(cheat::behavior::get_build_steps))
+    .route("/cheat-get-ethics", put(cheat::npc::get_ethics))
+    .route("/cheat-get-idle-armies-at", put(cheat::military::get_idle_armies_at))
+    .route("/cheat-get-idle-personnel-at", put(cheat::military::get_idle_personnel_at))
+    .route("/cheat-get-infrastructure", put(cheat::infrastructure::get_infrastructure))
+    .route("/cheat-get-player", put(cheat::player::get_player))
+    .route("/cheat-get-players", put(cheat::player::get_players))
+    .route("/cheat-get-prefecture-build-queue", put(cheat::infrastructure::get_prefecture_build_queue))
+    .route("/cheat-get-prefecture-build-queues", put(cheat::infrastructure::get_prefecture_build_queues))
+    .route("/cheat-get-resources", put(cheat::resources::get_resources))
+    .route("/cheat-get-stable-recruit-queue", put(cheat::infrastructure::get_stable_recruit_queue))
+    .route("/cheat-get-stable-recruit-queues", put(cheat::infrastructure::get_stable_recruit_queues))
+    .route("/cheat-get-storage-capacity", put(cheat::infrastructure::get_storage_capacity))
     .route("/cheat-set-bot-ethics", post(cheat::npc::set_bot_ethics))
     .route("/cheat-set-building-level", post(cheat::infrastructure::set_building_level))
     .route("/cheat-set-food", post(cheat::resources::set_food))
@@ -94,25 +94,25 @@ pub(crate) fn create() -> Router<App> {
     .route("/cheat-spawn-bot", post(cheat::npc::spawn_bot))
     .route("/cheat-spawn-personnel", post(cheat::military::spawn_personnel))
     .route("/create-remote-world", post(world::remote::create))
-    .route("/get-academy-recruit-catalog", post(infrastructure::academy::get_recruit_catalog))
-    .route("/get-chat-history", post(chat::get))
-    .route("/get-city", post(city::get_city))
-    .route("/get-player", post(player::get_player))
-    .route("/get-player-maintenance", post(player::get_maintenance))
-    .route("/get-player-military", post(player::get_military))
-    .route("/get-player-reports", post(player::get_reports))
-    .route("/get-player-storage-capacity", post(player::get_storage_capacity))
-    .route("/get-prefecture-build-catalog", post(infrastructure::prefecture::get_build_catalog))
-    .route("/get-report", post(report::get))
-    .route("/get-reports", post(report::get_by))
-    .route("/get-stable-recruit-catalog", post(infrastructure::stable::get_recruit_catalog))
-    .route("/get-workshop-recruit-catalog", post(infrastructure::workshop::get_recruit_catalog))
+    .route("/get-academy-recruit-catalog", put(infrastructure::academy::get_recruit_catalog))
+    .route("/get-chat-history", put(chat::get))
+    .route("/get-city", put(city::get_city))
+    .route("/get-player", put(player::get_player))
+    .route("/get-player-maintenance", put(player::get_maintenance))
+    .route("/get-player-military", put(player::get_military))
+    .route("/get-player-reports", put(player::get_reports))
+    .route("/get-player-storage-capacity", put(player::get_storage_capacity))
+    .route("/get-prefecture-build-catalog", put(infrastructure::prefecture::get_build_catalog))
+    .route("/get-report", put(report::get))
+    .route("/get-reports", put(report::get_by))
+    .route("/get-stable-recruit-catalog", put(infrastructure::stable::get_recruit_catalog))
+    .route("/get-workshop-recruit-catalog", put(infrastructure::workshop::get_recruit_catalog))
     .route("/leave", post(world::leave))
     .route("/push-chat-message", post(chat::push))
     .route("/rename-city", post(city::rename_city))
     .route("/request-maneuver", post(military::request_maneuver))
     .route("/save-local-world", post(world::local::save))
-    .route("/search-city", post(city::search_city))
+    .route("/search-city", put(city::search_city))
     .route("/set-player-ready", post(round::set_ready))
     .route("/set-player-status", post(player::set_status))
     .route("/spawn-player", post(player::spawn))
@@ -125,42 +125,44 @@ pub(crate) fn create() -> Router<App> {
     .route("/", get(ok))
     .route("/authorize", post(authorize))
     .route("/create-user", post(user::create))
-    .route("/get-bot-coords", post(npc::bot::get_coords))
-    .route("/get-city-score", post(city::get_city_score))
-    .route("/get-continent-size", post(continent::size))
-    .route("/get-player-coords", post(player::get_coords))
-    .route("/get-player-status", post(player::get_status))
-    .route("/get-player-worlds", post(player::get_worlds))
-    .route("/get-precursor-coords", post(npc::precursor::get_coords))
-    .route("/get-public-bot", post(npc::bot::get_public_bot))
-    .route("/get-public-bots", post(npc::bot::get_public_bots))
-    .route("/get-public-cities", post(city::get_public_cities))
-    .route("/get-public-city", post(city::get_public_city))
-    .route("/get-public-field", post(continent::get_public_field))
-    .route("/get-public-fields", post(continent::get_public_fields))
-    .route("/get-public-player", post(player::get_public_player))
-    .route("/get-public-players", post(player::get_public_players))
-    .route("/get-public-precursor", post(npc::precursor::get_public_precursor))
-    .route("/get-public-precursors", post(npc::precursor::get_public_precursors))
-    .route("/get-rank", post(ranking::get_rank))
-    .route("/get-ranking", post(ranking::get))
-    .route("/get-remote-world", post(world::remote::get))
+    .route("/get-bot-coords", put(npc::bot::get_coords))
+    .route("/get-city-score", put(city::get_city_score))
+    .route("/get-continent-size", put(continent::size))
+    .route("/get-player-coords", put(player::get_coords))
+    .route("/get-player-status", put(player::get_status))
+    .route("/get-player-worlds", put(player::get_worlds))
+    .route("/get-precursor-coords", put(npc::precursor::get_coords))
+    .route("/get-public-bot", put(npc::bot::get_public_bot))
+    .route("/get-public-bots", put(npc::bot::get_public_bots))
+    .route("/get-public-cities", put(city::get_public_cities))
+    .route("/get-public-city", put(city::get_public_city))
+    .route("/get-public-field", put(continent::get_public_field))
+    .route("/get-public-fields", put(continent::get_public_fields))
+    .route("/get-public-player", put(player::get_public_player))
+    .route("/get-public-players", put(player::get_public_players))
+    .route("/get-public-precursor", put(npc::precursor::get_public_precursor))
+    .route("/get-public-precursors", put(npc::precursor::get_public_precursors))
+    .route("/get-rank", put(ranking::get_rank))
+    .route("/get-ranking", put(ranking::get))
+    .route("/get-remote-world", put(world::remote::get))
+    .route("/get-remote-world-limit", get(world::remote::get_limit))
     .route("/get-remote-worlds", get(world::remote::get_all))
-    .route("/get-round", post(round::get))
+    .route("/get-round", put(round::get))
     .route("/get-server-kind", get(server_kind))
-    .route("/get-world-bots", post(world::get_bots))
-    .route("/get-world-config", post(world::get_config))
-    .route("/get-world-players", post(world::get_players))
-    .route("/get-world-precursors", post(world::get_precursors))
-    .route("/get-world-stats", post(world::get_stats))
-    .route("/player-exists", post(player::exists))
-    .route("/search-public-city", post(city::search_public_city))
-    .route("/simulate-battle", post(battle::simulate))
-    .route("/user-exists", post(user::exists))
-    .route("/validate-token", post(validate_token))
+    .route("/get-world-bots", put(world::get_bots))
+    .route("/get-world-config", put(world::get_config))
+    .route("/get-world-players", put(world::get_players))
+    .route("/get-world-precursors", put(world::get_precursors))
+    .route("/get-world-stats", put(world::get_stats))
+    .route("/player-exists", put(player::exists))
+    .route("/search-public-city", put(city::search_public_city))
+    .route("/simulate-battle", put(battle::simulate))
+    .route("/user-exists", put(user::exists))
+    .route("/validate-token", put(validate_token))
     .route("/version", get(version))
     
     // Files.
+    .route("/license", any(license))
     .route("/robots.txt", any(robots_txt));
 
   router.layer(
@@ -210,6 +212,10 @@ async fn ok() -> StatusCode {
   StatusCode::OK
 }
 
+async fn license() -> Redirect {
+  Redirect::to("https://spdx.org/licenses/AGPL-3.0-only.html")
+}
+
 async fn robots_txt() -> &'static str {
   "User-agent: *\nDisallow: /"
 }
@@ -219,9 +225,15 @@ async fn server_kind(State(app): State<App>) -> Response {
 }
 
 async fn validate_token(State(app): State<App>, Json(req): Json<ValidateTokenRequest>) -> Response {
-  let player = decode_jwt(&req.token)
-    .map(|token| token.claims.sub)
-    .ok();
+  let Ok(player) = spawn_blocking(move || {
+    decode_jwt(&req.token)
+      .map(|token| token.claims.sub)
+      .ok()
+  })
+  .await
+  else {
+    return res!(INTERNAL_SERVER_ERROR);
+  };
 
   if app.server_kind().is_remote()
     && let Some(player) = player.clone()

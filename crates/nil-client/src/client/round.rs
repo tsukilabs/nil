@@ -9,9 +9,11 @@ use nil_payload::round::*;
 
 impl Client {
   pub async fn get_round(&self, req: GetRoundRequest) -> Result<Round> {
-    http::json_post("get-round")
+    http::json_put("get-round")
       .body(req)
       .server(self.server)
+      .circuit_breaker(self.circuit_breaker())
+      .retry(&self.retry)
       .user_agent(&self.user_agent)
       .send()
       .await
@@ -22,6 +24,7 @@ impl Client {
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
+      .circuit_breaker(self.circuit_breaker())
       .user_agent(&self.user_agent)
       .send()
       .await
@@ -32,6 +35,7 @@ impl Client {
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
+      .circuit_breaker(self.circuit_breaker())
       .user_agent(&self.user_agent)
       .send()
       .await

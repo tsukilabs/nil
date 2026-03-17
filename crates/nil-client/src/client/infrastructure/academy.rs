@@ -13,6 +13,7 @@ impl Client {
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
+      .circuit_breaker(self.circuit_breaker())
       .user_agent(&self.user_agent)
       .send()
       .await
@@ -26,6 +27,7 @@ impl Client {
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
+      .circuit_breaker(self.circuit_breaker())
       .user_agent(&self.user_agent)
       .send()
       .await
@@ -35,10 +37,12 @@ impl Client {
     &self,
     req: GetAcademyRecruitCatalogRequest,
   ) -> Result<AcademyRecruitCatalog> {
-    http::json_post("get-academy-recruit-catalog")
+    http::json_put("get-academy-recruit-catalog")
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
+      .circuit_breaker(self.circuit_breaker())
+      .retry(&self.retry)
       .user_agent(&self.user_agent)
       .send()
       .await

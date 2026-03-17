@@ -53,6 +53,14 @@ impl Database {
   decl_get_all!(get_games, Game);
   decl_get_all!(get_games_with_blob, GameWithBlob);
 
+  pub fn count_games(&self) -> Result<i64> {
+    use crate::schema::game::dsl::*;
+    game
+      .count()
+      .get_result(&mut *self.conn())
+      .map_err(Into::into)
+  }
+
   pub fn create_game(&self, new: &NewGame) -> Result<usize> {
     use crate::schema::game::dsl::*;
 

@@ -17,10 +17,12 @@ impl Client {
     &self,
     req: CheatGetAcademyRecruitQueueRequest,
   ) -> Result<AcademyRecruitQueue> {
-    http::json_post("cheat-get-academy-recruit-queue")
+    http::json_put("cheat-get-academy-recruit-queue")
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
+      .circuit_breaker(self.circuit_breaker())
+      .retry(&self.retry)
       .user_agent(&self.user_agent)
       .send()
       .await
@@ -30,10 +32,12 @@ impl Client {
     &self,
     req: CheatGetAcademyRecruitQueuesRequest,
   ) -> Result<Vec<(Coord, AcademyRecruitQueue)>> {
-    http::json_post("cheat-get-academy-recruit-queues")
+    http::json_put("cheat-get-academy-recruit-queues")
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
+      .circuit_breaker(self.circuit_breaker())
+      .retry(&self.retry)
       .user_agent(&self.user_agent)
       .send()
       .await
@@ -43,10 +47,12 @@ impl Client {
     &self,
     req: CheatGetAllAcademyRecruitQueuesRequest,
   ) -> Result<Vec<(Coord, AcademyRecruitQueue)>> {
-    http::json_post("cheat-get-all-academy-recruit-queues")
+    http::json_put("cheat-get-all-academy-recruit-queues")
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
+      .circuit_breaker(self.circuit_breaker())
+      .retry(&self.retry)
       .user_agent(&self.user_agent)
       .send()
       .await
@@ -56,10 +62,12 @@ impl Client {
     &self,
     req: CheatGetAllPrefectureBuildQueuesRequest,
   ) -> Result<Vec<(Coord, PrefectureBuildQueue)>> {
-    http::json_post("cheat-get-all-prefecture-build-queues")
+    http::json_put("cheat-get-all-prefecture-build-queues")
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
+      .circuit_breaker(self.circuit_breaker())
+      .retry(&self.retry)
       .user_agent(&self.user_agent)
       .send()
       .await
@@ -69,10 +77,12 @@ impl Client {
     &self,
     req: CheatGetAllStableRecruitQueuesRequest,
   ) -> Result<Vec<(Coord, StableRecruitQueue)>> {
-    http::json_post("cheat-get-all-stable-recruit-queues")
+    http::json_put("cheat-get-all-stable-recruit-queues")
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
+      .circuit_breaker(self.circuit_breaker())
+      .retry(&self.retry)
       .user_agent(&self.user_agent)
       .send()
       .await
@@ -82,10 +92,12 @@ impl Client {
     &self,
     req: CheatGetInfrastructureRequest,
   ) -> Result<Infrastructure> {
-    http::json_post("cheat-get-infrastructure")
+    http::json_put("cheat-get-infrastructure")
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
+      .circuit_breaker(self.circuit_breaker())
+      .retry(&self.retry)
       .user_agent(&self.user_agent)
       .send()
       .await
@@ -95,10 +107,12 @@ impl Client {
     &self,
     req: CheatGetPrefectureBuildQueueRequest,
   ) -> Result<PrefectureBuildQueue> {
-    http::json_post("cheat-get-prefecture-build-queue")
+    http::json_put("cheat-get-prefecture-build-queue")
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
+      .circuit_breaker(self.circuit_breaker())
+      .retry(&self.retry)
       .user_agent(&self.user_agent)
       .send()
       .await
@@ -108,10 +122,12 @@ impl Client {
     &self,
     req: CheatGetPrefectureBuildQueuesRequest,
   ) -> Result<Vec<(Coord, PrefectureBuildQueue)>> {
-    http::json_post("cheat-get-prefecture-build-queues")
+    http::json_put("cheat-get-prefecture-build-queues")
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
+      .circuit_breaker(self.circuit_breaker())
+      .retry(&self.retry)
       .user_agent(&self.user_agent)
       .send()
       .await
@@ -121,10 +137,12 @@ impl Client {
     &self,
     req: CheatGetStableRecruitQueueRequest,
   ) -> Result<StableRecruitQueue> {
-    http::json_post("cheat-get-stable-recruit-queue")
+    http::json_put("cheat-get-stable-recruit-queue")
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
+      .circuit_breaker(self.circuit_breaker())
+      .retry(&self.retry)
       .user_agent(&self.user_agent)
       .send()
       .await
@@ -134,10 +152,12 @@ impl Client {
     &self,
     req: CheatGetStableRecruitQueuesRequest,
   ) -> Result<Vec<(Coord, StableRecruitQueue)>> {
-    http::json_post("cheat-get-stable-recruit-queues")
+    http::json_put("cheat-get-stable-recruit-queues")
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
+      .circuit_breaker(self.circuit_breaker())
+      .retry(&self.retry)
       .user_agent(&self.user_agent)
       .send()
       .await
@@ -147,10 +167,12 @@ impl Client {
     &self,
     req: CheatGetStorageCapacityRequest,
   ) -> Result<OverallStorageCapacity> {
-    http::json_post("cheat-get-storage-capacity")
+    http::json_put("cheat-get-storage-capacity")
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
+      .circuit_breaker(self.circuit_breaker())
+      .retry(&self.retry)
       .user_agent(&self.user_agent)
       .send()
       .await
@@ -161,6 +183,7 @@ impl Client {
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
+      .circuit_breaker(self.circuit_breaker())
       .user_agent(&self.user_agent)
       .send()
       .await
@@ -174,6 +197,7 @@ impl Client {
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
+      .circuit_breaker(self.circuit_breaker())
       .user_agent(&self.user_agent)
       .send()
       .await

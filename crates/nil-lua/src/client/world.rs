@@ -22,6 +22,13 @@ pub(super) fn add_methods<M: UserDataMethods<ClientUserData>>(methods: &mut M) {
       .map(|it| lua.to_value(&it))?
   });
 
+  methods.add_async_method("getRemoteWorldLimit", async |lua, this, ()| {
+    this
+      .client(async |it| it.get_remote_world_limit().await)
+      .await
+      .map(|it| lua.to_value(&it))?
+  });
+
   methods.add_async_method("getRemoteWorlds", async |lua, this, ()| {
     this
       .client(async |it| it.get_remote_worlds().await)

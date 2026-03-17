@@ -36,6 +36,10 @@ export async function getRemoteWorld(world?: Option<WorldId>) {
   return invoke<RemoteWorld>('get_remote_world', { req });
 }
 
+export async function getRemoteWorldLimit() {
+  return invoke<number>('get_remote_world_limit');
+}
+
 export async function getRemoteWorlds() {
   return invoke<readonly RemoteWorld[]>('get_remote_worlds');
 }

@@ -14,6 +14,7 @@ import { watchToken } from '@/composables/watchToken';
 import { onKeyDown, useBreakpoints } from '@tb-dev/vue';
 import { go, QUERY_JOIN_REMOTE_GAME_WORLD_ID } from '@/router';
 import { useRemoteWorlds } from '@/composables/world/useRemoteWorlds';
+import { useRemoteWorldLimit } from '@/composables/world/useRemoteWorldLimit';
 import {
   Button,
   Card,
@@ -38,6 +39,8 @@ const { t } = useI18n({
 const { sm, md, xl } = useBreakpoints();
 
 const { remoteWorlds, loading, load } = useRemoteWorlds();
+
+const worldLimit = useRemoteWorldLimit();
 
 const someHasPassword = computed(() => {
   return remoteWorlds.value.some((world) => world.hasPassword);
@@ -65,6 +68,7 @@ async function goToJoinRemoteGameScene(id: WorldId) {
               <Button
                 variant="default"
                 :size="sm ? 'default' : 'sm'"
+                :disabled="remoteWorlds.length >= worldLimit"
                 class="md:px-4 xl:px-6 2xl:px-8"
                 @click="() => go('host-remote-game')"
               >

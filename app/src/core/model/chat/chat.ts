@@ -5,31 +5,26 @@ import { ChatHistoryImpl } from './chat-history';
 import { getChatHistory } from '@/commands/chat';
 
 export class ChatImpl {
-  public readonly public: ChatHistoryImpl;
-  public readonly private: ChatHistoryImpl;
+  public readonly history: ChatHistoryImpl;
 
-  private constructor(history: [ChatHistory, ChatHistory]) {
-    this.public = ChatHistoryImpl.create(history[0]);
-    this.private = ChatHistoryImpl.create(history[1]);
+  private constructor(history: ChatHistory) {
+    this.history = ChatHistoryImpl.create(history);
   }
 
   public *[Symbol.iterator]() {
-    yield* this.public.merge(this.private);
+    yield* this.history;
   }
 
   public push(message: ChatMessage) {
-    this.public.push(message);
+    this.history.push(message);
   }
 
-  public static create(history: [ChatHistory, ChatHistory]) {
+  public static create(history: ChatHistory) {
     return new ChatImpl(history);
   }
 
   public static async load() {
     const history = await getChatHistory();
-    return ChatImpl.create([
-      history.public,
-      history.private,
-    ]);
+    return ChatImpl.create(history);
   }
 }

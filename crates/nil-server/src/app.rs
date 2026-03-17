@@ -25,6 +25,8 @@ use nil_server_database::sql_types::player_id::SqlPlayerId;
 use nil_server_database::sql_types::version::SqlVersion;
 use nil_server_types::ServerKind;
 use semver::{Prerelease, Version};
+use std::env;
+use std::num::NonZeroU16;
 use std::sync::Arc;
 use tokio::sync::RwLock;
 use tokio::task::spawn_blocking;
@@ -32,8 +34,9 @@ use tokio::task::spawn_blocking;
 #[derive(Clone)]
 pub(crate) struct App {
   server_kind: ServerKind,
-  worlds: Arc<DashMap<WorldId, Arc<RwLock<World>>>>,
   database: Option<Database>,
+  worlds: Arc<DashMap<WorldId, Arc<RwLock<World>>>>,
+  world_limit: NonZeroU16,
 }
 
 #[bon::bon]
@@ -42,8 +45,9 @@ impl App {
     let id = world.config().id();
     let app = Self {
       server_kind: ServerKind::Local { id },
-      worlds: Arc::new(DashMap::new()),
       database: None,
+      worlds: Arc::new(DashMap::new()),
+      world_limit: NonZeroU16::MIN,
     };
 
     app
@@ -92,8 +96,9 @@ impl App {
 
     Ok(Self {
       server_kind: ServerKind::Remote,
-      worlds,
       database: Some(database),
+      worlds,
+      world_limit: default_remote_world_limit(),
     })
   }
 
@@ -123,6 +128,11 @@ impl App {
       .collect()
   }
 
+  #[inline]
+  pub fn world_limit(&self) -> u16 {
+    self.world_limit.get()
+  }
+
   /// # Panics
   ///
   /// Panics if the server is not remote.
@@ -135,8 +145,12 @@ impl App {
     world_password: Option<&Password>,
     #[builder(into)] server_version: SqlVersion,
   ) -> Result<WorldId> {
-    let db = self.database();
-    let user = db.get_user(player_id)?;
+    let database = self.database();
+    if database.count_games()? >= i64::from(self.world_limit.get()) {
+      return Err(Error::WorldLimitReached);
+    }
+
+    let user = database.get_user(player_id)?;
 
     let mut world = World::try_from(options)?;
     let world_id = world.config().id();
@@ -148,10 +162,10 @@ impl App {
       .maybe_password(world_password)
       .server_version(server_version)
       .build()?
-      .create(&db)?;
+      .create(&database)?;
 
-    let db = db.clone();
-    world.on_next_round(remote::on_next_round(db));
+    let database = database.clone();
+    world.on_next_round(remote::on_next_round(database));
 
     self
       .worlds
@@ -295,4 +309,11 @@ impl App {
       .world(id, |world| f(world.round()))
       .await
   }
+}
+
+fn default_remote_world_limit() -> NonZeroU16 {
+  env::var("NIL_REMOTE_WORLD_LIMIT")
+    .ok()
+    .and_then(|it| it.parse::<NonZeroU16>().ok())
+    .unwrap_or_else(|| unsafe { NonZeroU16::new_unchecked(100) })
 }

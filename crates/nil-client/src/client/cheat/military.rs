@@ -13,10 +13,12 @@ impl Client {
     &self,
     req: CheatGetIdleArmiesAtRequest,
   ) -> Result<Vec<Army>> {
-    http::json_post("cheat-get-idle-armies-at")
+    http::json_put("cheat-get-idle-armies-at")
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
+      .circuit_breaker(self.circuit_breaker())
+      .retry(&self.retry)
       .user_agent(&self.user_agent)
       .send()
       .await
@@ -26,10 +28,12 @@ impl Client {
     &self,
     req: CheatGetIdlePersonnelAtRequest,
   ) -> Result<ArmyPersonnel> {
-    http::json_post("cheat-get-idle-personnel-at")
+    http::json_put("cheat-get-idle-personnel-at")
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
+      .circuit_breaker(self.circuit_breaker())
+      .retry(&self.retry)
       .user_agent(&self.user_agent)
       .send()
       .await
@@ -40,6 +44,7 @@ impl Client {
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
+      .circuit_breaker(self.circuit_breaker())
       .user_agent(&self.user_agent)
       .send()
       .await

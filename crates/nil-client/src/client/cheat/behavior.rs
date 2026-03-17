@@ -12,10 +12,12 @@ impl Client {
     &self,
     req: CheatGetBuildStepsRequest,
   ) -> Result<Vec<BuildStep>> {
-    http::json_post("cheat-get-build-steps")
+    http::json_put("cheat-get-build-steps")
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
+      .circuit_breaker(self.circuit_breaker())
+      .retry(&self.retry)
       .user_agent(&self.user_agent)
       .send()
       .await

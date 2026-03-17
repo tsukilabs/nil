@@ -31,6 +31,9 @@ pub enum Error {
   #[error("Missing password")]
   MissingPassword,
 
+  #[error("World limit reached")]
+  WorldLimitReached,
+
   #[error(transparent)]
   Core(#[from] CoreError),
   #[error(transparent)]

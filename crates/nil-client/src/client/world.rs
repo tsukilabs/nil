@@ -18,15 +18,28 @@ impl Client {
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())
+      .circuit_breaker(self.circuit_breaker())
       .user_agent(&self.user_agent)
       .send()
       .await
   }
 
   pub async fn get_remote_world(&self, req: GetRemoteWorldRequest) -> Result<RemoteWorld> {
-    http::json_post("get-remote-world")
+    http::json_put("get-remote-world")
       .body(req)
       .server(self.server)
+      .circuit_breaker(self.circuit_breaker())
+      .retry(&self.retry)
+      .user_agent(&self.user_agent)
+      .send()
+      .await
+  }
+
+  pub async fn get_remote_world_limit(&self) -> Result<u16> {
+    http::json_get("get-remote-world-limit")
+      .server(self.server)
+      .circuit_breaker(self.circuit_breaker())
+      .retry(&self.retry)
       .user_agent(&self.user_agent)
       .send()
       .await
@@ -35,33 +48,41 @@ impl Client {
   pub async fn get_remote_worlds(&self) -> Result<Vec<RemoteWorld>> {
     http::json_get("get-remote-worlds")
       .server(self.server)
+      .circuit_breaker(self.circuit_breaker())
+      .retry(&self.retry)
       .user_agent(&self.user_agent)
       .send()
       .await
   }
 
   pub async fn get_world_bots(&self, req: GetWorldBotsRequest) -> Result<Vec<BotId>> {
-    http::json_post("get-world-bots")
+    http::json_put("get-world-bots")
       .body(req)
       .server(self.server)
+      .circuit_breaker(self.circuit_breaker())
+      .retry(&self.retry)
       .user_agent(&self.user_agent)
       .send()
       .await
   }
 
   pub async fn get_world_config(&self, req: GetWorldConfigRequest) -> Result<WorldConfig> {
-    http::json_post("get-world-config")
+    http::json_put("get-world-config")
       .body(req)
       .server(self.server)
+      .circuit_breaker(self.circuit_breaker())
+      .retry(&self.retry)
       .user_agent(&self.user_agent)
       .send()
       .await
   }
 
   pub async fn get_world_players(&self, req: GetWorldPlayersRequest) -> Result<Vec<PlayerId>> {
-    http::json_post("get-world-players")
+    http::json_put("get-world-players")
       .body(req)
       .server(self.server)
+      .circuit_breaker(self.circuit_breaker())
+      .retry(&self.retry)
       .user_agent(&self.user_agent)
       .send()
       .await
@@ -71,18 +92,22 @@ impl Client {
     &self,
     req: GetWorldPrecursorsRequest,
   ) -> Result<Vec<PrecursorId>> {
-    http::json_post("get-world-precursors")
+    http::json_put("get-world-precursors")
       .body(req)
       .server(self.server)
+      .circuit_breaker(self.circuit_breaker())
+      .retry(&self.retry)
       .user_agent(&self.user_agent)
       .send()
       .await
   }
 
   pub async fn get_world_stats(&self, req: GetWorldStatsRequest) -> Result<WorldStats> {
-    http::json_post("get-world-stats")
+    http::json_put("get-world-stats")
       .body(req)
       .server(self.server)
+      .circuit_breaker(self.circuit_breaker())
+      .retry(&self.retry)
       .user_agent(&self.user_agent)
       .send()
       .await
@@ -94,6 +119,7 @@ impl Client {
         .body(req)
         .server(self.server)
         .maybe_authorization(self.authorization.as_ref())
+        .circuit_breaker(self.circuit_breaker())
         .user_agent(&self.user_agent)
         .send()
         .await
@@ -108,6 +134,7 @@ impl Client {
         .body(req)
         .server(self.server)
         .maybe_authorization(self.authorization.as_ref())
+        .circuit_breaker(self.circuit_breaker())
         .user_agent(&self.user_agent)
         .send()
         .await

@@ -154,6 +154,7 @@ pub(crate) fn from_server_err(err: Error) -> Response {
     MissingPassword => res!(BAD_REQUEST, err.to_string()),
     Semver(..) => res!(INTERNAL_SERVER_ERROR),
     Unknown(..) => res!(INTERNAL_SERVER_ERROR),
+    WorldLimitReached => res!(INTERNAL_SERVER_ERROR),
   }
 }
 
