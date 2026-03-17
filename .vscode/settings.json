@@ -25,6 +25,8 @@
     "*.css": "tailwindcss"
   },
   "files.eol": "\n",
+  "git.branchProtection": ["main"],
+  "git.branchProtectionPrompt": "alwaysPrompt",
   "githubPullRequests.defaultMergeMethod": "squash",
   "Lua.workspace.library": ["crates/nil-lua/types"],
   "rust-analyzer.cargo.targetDir": true,

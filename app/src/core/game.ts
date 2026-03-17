@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as commands from '@/commands';
-import { timeout } from '@tb-dev/utils';
 import { handleError } from '@/lib/error';
 import { go, isGameRoute } from '@/router';
 import { Entity } from '@/core/entity/abstract';
@@ -146,12 +145,11 @@ export async function leaveGame(options?: {
 
     if (options?.navigate ?? true) {
       const settings = useSettings();
-      const isTokenValid = () => settings.auth.isTokenValid();
 
       if (
         isRemote &&
         isGameRoute() &&
-        await timeout(isTokenValid, 2000)
+        await settings.auth.isTokenValid()
       ) {
         await go('lobby');
       }

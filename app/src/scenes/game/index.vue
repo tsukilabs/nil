@@ -15,6 +15,7 @@ import { handleError } from '@/lib/error';
 import Finder from '@/components/Finder.vue';
 import Loading from '@/components/Loading.vue';
 import { saveLocalGame } from '@/core/savedata';
+import { ListenerSet } from '@/lib/listener-set';
 import { SidebarProvider } from '@tb-dev/vue-components';
 import { RemoteWorldImpl } from '@/core/model/remote-world';
 import { usePlayerReady } from '@/composables/player/usePlayerReady';
@@ -44,6 +45,9 @@ const isRemoteCreatedBySelf = asyncComputed(false, async () => {
     return false;
   }
 });
+
+const listeners = new ListenerSet();
+listeners.event.onDrop(() => leaveGame());
 
 if (__DESKTOP__) {
   onCtrlKeyDown(['b', 'B'], () => toggleSidebar());
