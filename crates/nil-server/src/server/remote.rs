@@ -11,11 +11,15 @@ use nil_server_types::round::RoundDuration;
 use std::net::SocketAddr;
 use std::sync::Weak;
 use tokio::sync::RwLock;
-use tokio::task::spawn;
+use tokio::task::{spawn, spawn_blocking};
 
-pub async fn start(database_url: &str) -> Result<()> {
+pub async fn start(database_url: String) -> Result<()> {
+  let app = spawn_blocking(move || App::new_remote(&database_url))
+    .await
+    .unwrap()?;
+
   let router = router::create()
-    .with_state(App::new_remote(database_url)?)
+    .with_state(app)
     .into_make_service_with_connect_info::<SocketAddr>();
 
   let (listener, _) = super::bind(3000).await.unwrap();
