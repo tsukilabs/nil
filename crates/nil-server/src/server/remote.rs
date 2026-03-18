@@ -7,9 +7,9 @@ use crate::router;
 use crate::server::spawn_round_duration_task;
 use nil_core::world::World;
 use nil_server_database::Database;
+use nil_server_types::round::RoundDuration;
 use std::net::SocketAddr;
 use std::sync::Weak;
-use std::time::Duration;
 use tokio::sync::RwLock;
 use tokio::task::spawn;
 
@@ -30,7 +30,7 @@ pub async fn start(database_url: &str) -> Result<()> {
 pub(crate) fn on_next_round(
   database: Database,
   weak_world: Weak<RwLock<World>>,
-  #[builder(into)] round_duration: Option<Duration>,
+  #[builder(into)] round_duration: Option<RoundDuration>,
 ) -> Box<dyn Fn(&mut World) + Send + Sync> {
   Box::new(move |world: &mut World| {
     let id = world.id();

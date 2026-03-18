@@ -8,6 +8,7 @@ use futures::future::BoxFuture;
 use jiff::{SignedDuration, Zoned};
 use nil_core::round::RoundId;
 use nil_core::world::World;
+use nil_server_types::round::RoundDuration;
 use rand::random_range;
 use std::net::{Ipv4Addr, SocketAddr, SocketAddrV4};
 use std::sync::{Arc, Weak};
@@ -35,12 +36,12 @@ async fn bind(port: u16) -> Option<(TcpListener, SocketAddrV4)> {
 fn spawn_round_duration_task(
   current_round: RoundId,
   weak_world: Weak<RwLock<World>>,
-  duration: Duration,
+  duration: RoundDuration,
 ) -> BoxFuture<'static, ()> {
   Box::pin(async move {
     if let Some(arc_world) = Weak::upgrade(&weak_world) {
       let delta = random_range(1.0..=1.2);
-      let duration = duration.mul_f64(delta);
+      let duration = Duration::from(duration).mul_f64(delta);
 
       let lock = arc_world.read().await;
       let round = lock.round();
