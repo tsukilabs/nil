@@ -27,6 +27,8 @@ use nil_server_types::round::RoundDuration;
 use semver::{Prerelease, Version};
 use std::num::NonZeroU16;
 use std::sync::Arc;
+use std::time::Duration;
+use tap::TryConv;
 use tokio::sync::RwLock;
 use tokio::task::spawn_blocking;
 
@@ -359,9 +361,13 @@ fn has_valid_version(game: &GameWithBlob) -> bool {
 }
 
 fn has_valid_age(game: &GameWithBlob) -> bool {
-  game
+  let Ok(duration) = game
     .updated_at
-    .until(&Zoned::now())
-    .map(|span| span.get_days() <= 90)
-    .unwrap_or(false)
+    .duration_until(&Zoned::now())
+    .try_conv::<Duration>()
+  else {
+    return false;
+  };
+
+  duration <= Duration::from_days(30)
 }
