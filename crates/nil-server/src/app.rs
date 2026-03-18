@@ -20,7 +20,7 @@ use nil_core::world::config::WorldId;
 use nil_core::world::{World, WorldOptions};
 use nil_crypto::password::Password;
 use nil_server_database::Database;
-use nil_server_database::model::game::{Game, GameWithBlob, NewGame};
+use nil_server_database::model::game::{GameWithBlob, NewGame};
 use nil_server_database::sql_types::player_id::SqlPlayerId;
 use nil_server_types::ServerKind;
 use nil_server_types::round::RoundDuration;
@@ -66,8 +66,9 @@ impl App {
 
     let mut invalid_games = Vec::new();
 
-    for game in database.get_games_with_blob()? {
-      if has_valid_version(&game)
+    for game_id in database.get_game_ids()? {
+      if let Ok(game) = database.get_game_with_blob(game_id)
+        && has_valid_version(&game)
         && has_valid_age(&game)
         && let Ok(world) = game.to_world()
       {
@@ -85,8 +86,7 @@ impl App {
 
         worlds.insert(world_id, world);
       } else {
-        let game_id = game.id;
-        tracing::warn!(invalid_game = ?Game::from(game));
+        tracing::warn!(invalid_game = %game_id);
         invalid_games.push(game_id);
       }
     }
