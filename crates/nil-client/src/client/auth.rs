@@ -8,6 +8,7 @@ use crate::http::retry::Retry;
 use nil_core::player::PlayerId;
 use nil_payload::{AuthorizeRequest, ValidateTokenRequest};
 use nil_server_types::auth::Token;
+use std::num::NonZeroU8;
 
 impl Client {
   pub async fn authorize(&self, req: AuthorizeRequest) -> Result<Token> {
@@ -24,11 +25,16 @@ impl Client {
   where
     T: Into<ValidateTokenRequest>,
   {
+    let retry = Retry::builder()
+      .attempts(unsafe { NonZeroU8::new_unchecked(3) })
+      .backoff(false)
+      .build();
+
     http::json_put("validate-token")
       .body(Into::<ValidateTokenRequest>::into(req))
       .server(self.server)
       .circuit_breaker(self.circuit_breaker())
-      .retry(&Retry::with_attempts(3))
+      .retry(&retry)
       .user_agent(&self.user_agent)
       .send()
       .await
