@@ -33,6 +33,7 @@
 ---@field updatedAt string
 ---@field hasPassword boolean
 ---@field currentRound RoundId
+---@field roundDuration RoundDuration
 ---@field activePlayers number
 ---@field totalPlayers number
 ---@field continentSize ContinentSize

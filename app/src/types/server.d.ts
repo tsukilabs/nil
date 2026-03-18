@@ -36,6 +36,7 @@ interface RemoteWorld {
   readonly updatedAt: string;
   readonly hasPassword: boolean;
   readonly currentRound: RoundId;
+  readonly roundDuration: Option<RoundDuration>;
   readonly activePlayers: number;
   readonly totalPlayers: number;
   readonly continentSize: ContinentSize;

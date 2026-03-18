@@ -8,12 +8,9 @@
 pub mod auth;
 pub mod round;
 pub mod time;
+pub mod world;
 
-use jiff::Zoned;
-use nil_core::continent::ContinentSize;
-use nil_core::player::PlayerId;
-use nil_core::round::RoundId;
-use nil_core::world::config::{WorldConfig, WorldId};
+use nil_core::world::config::WorldId;
 use serde::{Deserialize, Serialize};
 use strum::EnumIs;
 
@@ -22,19 +19,4 @@ use strum::EnumIs;
 pub enum ServerKind {
   Local { id: WorldId },
   Remote,
-}
-
-#[derive(Clone, Debug, Deserialize, Serialize)]
-#[serde(rename_all = "camelCase")]
-pub struct RemoteWorld {
-  pub config: WorldConfig,
-  pub description: Option<String>,
-  pub created_by: PlayerId,
-  pub created_at: Zoned,
-  pub updated_at: Zoned,
-  pub has_password: bool,
-  pub current_round: RoundId,
-  pub active_players: usize,
-  pub total_players: usize,
-  pub continent_size: ContinentSize,
 }
