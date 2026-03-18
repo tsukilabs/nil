@@ -8,7 +8,7 @@ import '@/assets/style/themes.css';
 import '@/assets/style/fonts.css';
 import '@/assets/style/main.css';
 import '@/assets/style/layout.css';
-import '@/assets/style/lua.css';
+import '@/assets/style/code.css';
 import '@/lib/prototype';
 import App from '@/App.vue';
 import { i18n } from '@/locale';

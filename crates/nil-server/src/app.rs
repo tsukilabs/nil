@@ -20,13 +20,15 @@ use nil_core::world::config::WorldId;
 use nil_core::world::{World, WorldOptions};
 use nil_crypto::password::Password;
 use nil_server_database::Database;
-use nil_server_database::model::game::{Game, NewGame};
+use nil_server_database::model::game::{Game, GameWithBlob, NewGame};
 use nil_server_database::sql_types::player_id::SqlPlayerId;
-use nil_server_database::sql_types::version::SqlVersion;
 use nil_server_types::ServerKind;
+use nil_server_types::round::RoundDuration;
 use semver::{Prerelease, Version};
 use std::num::NonZeroU16;
 use std::sync::Arc;
+use std::time::Duration;
+use tap::TryConv;
 use tokio::sync::RwLock;
 use tokio::task::spawn_blocking;
 
@@ -64,32 +66,28 @@ impl App {
 
     let mut invalid_games = Vec::new();
 
-    let now = Zoned::now();
-    let version = Version::parse(VERSION)?;
-    let minor = if version.major == 0 { version.minor } else { 0 };
-    let version_cmp = semver::Comparator {
-      op: semver::Op::Caret,
-      major: version.major,
-      minor: Some(minor),
-      patch: Some(0),
-      pre: Prerelease::EMPTY,
-    };
-
     for game in database.get_games_with_blob()? {
-      let id = game.id;
-      if version_cmp.matches(&game.server_version)
-        && let Ok(span) = game.updated_at.until(&now)
-        && span.get_days() <= 90
-        && let Ok(mut world) = game.to_world()
+      if has_valid_version(&game)
+        && has_valid_age(&game)
+        && let Ok(world) = game.to_world()
       {
         let world_id = world.config().id();
         let database = database.clone();
-        world.on_next_round(remote::on_next_round(database));
+        let world = Arc::new(RwLock::new(world));
 
-        worlds.insert(world_id, Arc::new(RwLock::new(world)));
+        world.blocking_write().on_next_round(
+          remote::on_next_round()
+            .database(database)
+            .weak_world(Arc::downgrade(&world))
+            .maybe_round_duration(game.round_duration)
+            .call(),
+        );
+
+        worlds.insert(world_id, world);
       } else {
+        let game_id = game.id;
         tracing::warn!(invalid_game = ?Game::from(game));
-        invalid_games.push(id);
+        invalid_games.push(game_id);
       }
     }
 
@@ -150,14 +148,15 @@ impl App {
     #[builder(into)] player_id: SqlPlayerId,
     #[builder(into)] world_description: Option<String>,
     world_password: Option<&Password>,
-    #[builder(into)] server_version: SqlVersion,
+    round_duration: Option<RoundDuration>,
+    server_version: Version,
   ) -> Result<WorldId> {
     self.check_remote_world_limit(player_id.clone())?;
 
     let database = self.database();
     let user = database.get_user(player_id)?;
 
-    let mut world = World::try_from(options)?;
+    let world = World::try_from(options)?;
     let world_id = world.config().id();
     let blob = world.to_bytes()?;
 
@@ -165,16 +164,23 @@ impl App {
       .created_by(user.id)
       .maybe_description(world_description)
       .maybe_password(world_password)
+      .maybe_round_duration(round_duration)
       .server_version(server_version)
       .build()?
       .create(&database)?;
 
     let database = database.clone();
-    world.on_next_round(remote::on_next_round(database));
+    let world = Arc::new(RwLock::new(world));
 
-    self
-      .worlds
-      .insert(world_id, Arc::new(RwLock::new(world)));
+    world.blocking_write().on_next_round(
+      remote::on_next_round()
+        .database(database)
+        .weak_world(Arc::downgrade(&world))
+        .maybe_round_duration(round_duration)
+        .call(),
+    );
+
+    self.worlds.insert(world_id, world);
 
     Ok(world_id)
   }
@@ -335,4 +341,33 @@ impl App {
       .world(id, |world| f(world.round()))
       .await
   }
+}
+
+fn has_valid_version(game: &GameWithBlob) -> bool {
+  let Ok(version) = Version::parse(VERSION) else {
+    unreachable!("Current version should always be valid")
+  };
+
+  let minor = if version.major == 0 { version.minor } else { 0 };
+  let version_cmp = semver::Comparator {
+    op: semver::Op::Caret,
+    major: version.major,
+    minor: Some(minor),
+    patch: Some(0),
+    pre: Prerelease::EMPTY,
+  };
+
+  version_cmp.matches(&game.server_version)
+}
+
+fn has_valid_age(game: &GameWithBlob) -> bool {
+  let Ok(duration) = game
+    .updated_at
+    .duration_until(&Zoned::now())
+    .try_conv::<Duration>()
+  else {
+    return false;
+  };
+
+  duration <= Duration::from_days(30)
 }

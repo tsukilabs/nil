@@ -40,3 +40,5 @@ interface RemoteWorld {
   readonly totalPlayers: number;
   readonly continentSize: ContinentSize;
 }
+
+type RoundDuration = number;

@@ -10,12 +10,13 @@ use nil_core::world::config::WorldId;
 use nil_crypto::password::Password;
 use nil_lua::Lua;
 use nil_server::local::{self, LocalServer};
-use nil_server_types::Token;
+use nil_server_types::auth::Token;
 use std::path::PathBuf;
 use std::sync::Arc;
 use tauri::AppHandle;
 use tokio::sync::{Mutex, RwLock};
 
+#[derive(Clone)]
 pub struct Nil {
   app: AppHandle,
   client: Arc<RwLock<Client>>,
@@ -129,16 +130,5 @@ impl Nil {
 
   pub async fn is_remote_or_host(&self) -> bool {
     self.is_remote().await || self.is_host().await
-  }
-}
-
-impl Clone for Nil {
-  fn clone(&self) -> Self {
-    Nil {
-      app: self.app.clone(),
-      client: Arc::clone(&self.client),
-      server: Arc::clone(&self.server),
-      lua: Arc::clone(&self.lua),
-    }
   }
 }

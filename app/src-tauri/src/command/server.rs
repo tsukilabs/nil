@@ -8,7 +8,8 @@ use nil_core::player::PlayerId;
 use nil_core::world::WorldOptions;
 use nil_payload::{AuthorizeRequest, ValidateTokenRequest};
 use nil_server::local::LocalServer;
-use nil_server_types::{ServerKind, Token};
+use nil_server_types::ServerKind;
+use nil_server_types::auth::Token;
 use std::path::PathBuf;
 use tauri::AppHandle;
 

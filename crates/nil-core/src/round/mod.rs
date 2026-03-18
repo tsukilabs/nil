@@ -65,7 +65,7 @@ impl Round {
   {
     let pending = players.into_iter().collect_set();
     if pending.is_empty() {
-      self.state = RoundState::Done;
+      self.dangerously_set_done();
     } else {
       let ready = HashSet::with_capacity(pending.len());
       self.state = RoundState::Waiting { pending, ready };
@@ -83,9 +83,14 @@ impl Round {
       }
 
       if pending.is_empty() {
-        self.state = RoundState::Done;
+        self.dangerously_set_done();
       }
     }
+  }
+
+  pub(crate) fn dangerously_set_done(&mut self) {
+    debug_assert!(!self.state.is_idle());
+    self.state = RoundState::Done;
   }
 
   #[inline]
@@ -152,7 +157,7 @@ impl Round {
   }
 }
 
-#[derive(Clone, Copy, Debug, Deref, Deserialize, Serialize)]
+#[derive(Clone, Copy, Debug, Deref, PartialEq, Eq, PartialOrd, Ord, Deserialize, Serialize)]
 pub struct RoundId(NonZeroU32);
 
 impl RoundId {

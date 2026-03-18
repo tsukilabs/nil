@@ -38,6 +38,7 @@ nil-payload.workspace = true
 nil-server-database.workspace = true
 nil-server-types.workspace = true
 nil-util.workspace = true
+rand.workspace = true
 semver.workspace = true
 serde.workspace = true
 tap.workspace = true

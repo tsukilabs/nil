@@ -13,7 +13,6 @@ use anyhow::anyhow;
 use circuit_breaker::CircuitBreaker;
 use futures::TryFutureExt;
 use http::{HeaderMap, Method, StatusCode, header};
-use num_traits::ToPrimitive;
 use reqwest::{Client as HttpClient, Response};
 use retry::{Retry, is_retryable_err, is_retryable_status};
 use serde::Serialize;
@@ -279,11 +278,7 @@ where
 
       let mut delay = retry.delay(attempt);
       if matches!(status, Some(StatusCode::TOO_MANY_REQUESTS)) {
-        let delta = rand::random_range(1.0..=2.0);
-        let millis = delay.as_millis_f64() * delta;
-        if let Some(millis) = millis.ceil().to_u64() {
-          delay = Duration::from_millis(millis);
-        }
+        delay = delay.mul_f64(rand::random_range(1.0..=2.0));
       }
 
       tracing::warn!(%method, url, attempt, max_attempts = attempts, retrying_in = ?delay);

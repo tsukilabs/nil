@@ -20,9 +20,10 @@ import SliderBotDensity from '@/components/form/SliderBotDensity.vue';
 import { isValidNullishPassword, isWorldOptions } from '@/lib/schema';
 import type { WithPartialNullish, WritablePartial } from '@tb-dev/utils';
 import InputWorldPassword from '@/components/form/InputWorldPassword.vue';
+import SliderRoundDuration from '@/components/form/SliderRoundDuration.vue';
 import TextareaWorldDescription from '@/components/form/TextareaWorldDescription.vue';
 import SliderBotAdvancedStartRatio from '@/components/form/SliderBotAdvancedStartRatio.vue';
-import { Button, Card, CardContent, CardFooter, CardHeader, CardTitle, Checkbox, Label } from '@tb-dev/vue-components';
+import { Button, Card, CardContent, CardFooter, CardHeader, CardTitle, Label, Switch } from '@tb-dev/vue-components';
 
 const { t } = useI18n({
   messages: {
@@ -37,7 +38,7 @@ const settings = useSettings();
 const { md } = useBreakpoints();
 
 const worldOptions = localRef<WritablePartial<WorldOptions>>(
-  'host-remote-game:world',
+  key('world'),
   {
     name: null,
     size: __CONSTS__.continentSizeDefault,
@@ -50,6 +51,9 @@ const worldOptions = localRef<WritablePartial<WorldOptions>>(
 
 const worldPassword = ref<Option<string>>();
 const description = ref<Option<string>>();
+
+const roundDuration = localRef(key('round-duration'), __CONSTS__.roundDurationDefault);
+const isRoundDurationEnabled = localRef(key('round-duration-enabled'), false);
 
 const { locked, lock } = useMutex();
 const isValidWorld = computed(() => isWorldOptions(worldOptions.value));
@@ -70,30 +74,40 @@ async function host() {
         worldPassword: worldPassword.value,
         worldDescription: description.value,
         authorizationToken: settings.auth.token,
+        roundDuration: isRoundDurationEnabled.value ? roundDuration.value : null,
       });
     }
   });
+}
+
+function key(name: string) {
+  return `host-remote-game:${name}`;
 }
 </script>
 
 <template>
   <div :class="md ? 'card-layout' : 'game-layout'">
-    <Card class="max-md:size-full md:min-w-150! md:max-w-1/2">
+    <Card class="max-md:size-full md:min-w-150! md:max-w-1/2 overflow-hidden">
       <CardHeader>
         <CardTitle>{{ t('host-game') }}</CardTitle>
       </CardHeader>
 
-      <CardContent>
+      <CardContent class="size-full overflow-x-hidden overflow-y-auto">
         <InputWorldName v-model="worldOptions.name" :disabled="locked" />
         <InputWorldSize v-model="worldOptions.size" :disabled="locked" />
         <InputWorldPassword v-model="worldPassword" :disabled="locked" />
         <TextareaWorldDescription v-model="description" :disabled="locked" />
         <SliderBotDensity v-model="worldOptions" :disabled="locked" />
         <SliderBotAdvancedStartRatio v-model="worldOptions" :disabled="locked" />
+        <SliderRoundDuration
+          v-model:duration="roundDuration"
+          v-model:enabled="isRoundDurationEnabled"
+          :disabled="locked"
+        />
 
         <div class="flex items-center justify-center py-1">
           <Label>
-            <Checkbox v-model="worldOptions.allowCheats" :disabled="locked" />
+            <Switch v-model="worldOptions.allowCheats" :disabled="locked" />
             <span>{{ t('allow-cheats') }}</span>
           </Label>
         </div>

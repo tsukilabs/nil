@@ -4,6 +4,7 @@
 use super::Database;
 use crate::error::{Error, Result};
 use crate::model::game::{Game, GameWithBlob, NewGame};
+use crate::sql_types::duration::SqlDuration;
 use crate::sql_types::game_id::GameId;
 use crate::sql_types::hashed_password::HashedPassword;
 use crate::sql_types::id::UserId;
@@ -123,6 +124,17 @@ impl Database {
     game
       .find(&game_id)
       .select(password)
+      .first(&mut *self.conn())
+      .map_err(Into::into)
+  }
+
+  pub fn get_game_round_duration(&self, game_id: impl Into<GameId>) -> Result<Option<SqlDuration>> {
+    use crate::schema::game::dsl::*;
+
+    let game_id: GameId = game_id.into();
+    game
+      .find(&game_id)
+      .select(round_duration)
       .first(&mut *self.conn())
       .map_err(Into::into)
   }

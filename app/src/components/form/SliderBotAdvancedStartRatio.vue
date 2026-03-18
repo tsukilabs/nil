@@ -18,7 +18,7 @@ const worldOptions = defineModel<WritablePartial<WorldOptions>>({ required: true
 
 const consts = __CONSTS__;
 
-const botAdvancedStartRatio = computed({
+const sliderValue = computed({
   get: () => [worldOptions.value.botAdvancedStartRatio ?? consts.botAdvancedStartRatioDefault],
   set: (value) => {
     worldOptions.value.botAdvancedStartRatio = value.at(0) ?? consts.botAdvancedStartRatioDefault;
@@ -38,13 +38,13 @@ const { t } = useI18n({
     <span>{{ t('advanced-bots-ratio') }}</span>
     <div>
       <Slider
-        v-model:model-value="botAdvancedStartRatio"
+        v-model:model-value="sliderValue"
         :disabled
         :min="consts.botAdvancedStartRatioMin"
         :max="consts.botAdvancedStartRatioMax"
         :step="0.01"
       />
-      <span>{{ formatPercent(botAdvancedStartRatio[0]) }}</span>
+      <span>{{ formatPercent(sliderValue[0]) }}</span>
     </div>
   </Label>
 </template>
