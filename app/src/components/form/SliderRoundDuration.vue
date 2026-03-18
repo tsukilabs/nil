@@ -35,7 +35,7 @@ const { t } = useI18n({
 <template>
   <Label for="slider-round-duration">
     <span>{{ t('round-duration') }}</span>
-    <div class="flex flex-row gap-1">
+    <div class="flex flex-row items-center gap-1">
       <Switch v-model="enabled" />
       <Slider
         id="slider-round-duration"
