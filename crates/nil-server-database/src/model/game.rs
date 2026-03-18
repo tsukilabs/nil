@@ -97,34 +97,19 @@ impl NewGame {
     #[builder(start_fn)] blob: Vec<u8>,
     password: Option<&Password>,
     mut description: Option<String>,
-    mut round_duration: Option<RoundDuration>,
+    round_duration: Option<RoundDuration>,
     #[builder(into)] server_version: SqlVersion,
     created_by: UserId,
   ) -> Result<Self> {
-    if let Some(password) = password {
-      let pass_len = password.trim().chars().count();
-      if !(3..=50).contains(&pass_len) {
-        return Err(Error::InvalidPassword);
-      }
-    }
-
     if let Some(description) = &mut description {
       while description.len() > 1000 {
         description.pop();
       }
     }
 
-    let password = password
-      .map(HashedPassword::new)
-      .transpose()?;
-
-    if let Some(round_duration) = &mut round_duration {
-      *round_duration = (*round_duration).clamp(RoundDuration::MIN, RoundDuration::MAX);
-    }
-
     Ok(Self {
       id,
-      password,
+      password: hash_password(password)?,
       description,
       round_duration: round_duration.map(Into::into),
       server_version,
@@ -144,4 +129,15 @@ impl NewGame {
   pub fn create(self, database: &Database) -> Result<usize> {
     database.create_game(&self)
   }
+}
+
+fn hash_password(password: Option<&Password>) -> Result<Option<HashedPassword>> {
+  let Some(password) = password else { return Ok(None) };
+  let pass_len = password.trim().chars().count();
+
+  if !(3..=50).contains(&pass_len) {
+    return Err(Error::InvalidPassword);
+  }
+
+  Ok(Some(HashedPassword::new(password)?))
 }
