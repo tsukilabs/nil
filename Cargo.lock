@@ -1420,7 +1420,7 @@ dependencies = [
  "foldhash 0.2.0",
  "html5ever 0.38.0",
  "precomputed-hash",
- "selectors 0.36.0",
+ "selectors 0.36.1",
  "tendril 0.5.0",
 ]
 
@@ -3381,7 +3381,7 @@ checksum = "650eef8c711430f1a879fdd01d4745a7deea475becfb90269c06775983bbf086"
 
 [[package]]
 name = "nil"
-version = "0.4.4"
+version = "0.4.5"
 dependencies = [
  "anyhow",
  "bon",
@@ -3424,7 +3424,7 @@ dependencies = [
 
 [[package]]
 name = "nil-client"
-version = "0.4.4"
+version = "0.4.5"
 dependencies = [
  "anyhow",
  "bon",
@@ -3457,7 +3457,7 @@ dependencies = [
 
 [[package]]
 name = "nil-core"
-version = "0.4.4"
+version = "0.4.5"
 dependencies = [
  "anyhow",
  "bon",
@@ -3491,7 +3491,7 @@ dependencies = [
 
 [[package]]
 name = "nil-core-macros"
-version = "0.4.4"
+version = "0.4.5"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -3500,7 +3500,7 @@ dependencies = [
 
 [[package]]
 name = "nil-crypto"
-version = "0.4.4"
+version = "0.4.5"
 dependencies = [
  "anyhow",
  "argon2",
@@ -3512,7 +3512,7 @@ dependencies = [
 
 [[package]]
 name = "nil-log"
-version = "0.4.4"
+version = "0.4.5"
 dependencies = [
  "anyhow",
  "bitflags 2.11.0",
@@ -3525,7 +3525,7 @@ dependencies = [
 
 [[package]]
 name = "nil-lua"
-version = "0.4.4"
+version = "0.4.5"
 dependencies = [
  "anyhow",
  "jiff",
@@ -3540,7 +3540,7 @@ dependencies = [
 
 [[package]]
 name = "nil-lua-cli"
-version = "0.4.4"
+version = "0.4.5"
 dependencies = [
  "anyhow",
  "clap",
@@ -3561,7 +3561,7 @@ dependencies = [
 
 [[package]]
 name = "nil-namegen"
-version = "0.4.4"
+version = "0.4.5"
 dependencies = [
  "itertools",
  "rand 0.10.0",
@@ -3570,7 +3570,7 @@ dependencies = [
 
 [[package]]
 name = "nil-num"
-version = "0.4.4"
+version = "0.4.5"
 dependencies = [
  "bon",
  "nil-num-macros",
@@ -3580,7 +3580,7 @@ dependencies = [
 
 [[package]]
 name = "nil-num-macros"
-version = "0.4.4"
+version = "0.4.5"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -3589,7 +3589,7 @@ dependencies = [
 
 [[package]]
 name = "nil-payload"
-version = "0.4.4"
+version = "0.4.5"
 dependencies = [
  "bon",
  "nil-core",
@@ -3600,7 +3600,7 @@ dependencies = [
 
 [[package]]
 name = "nil-server"
-version = "0.4.4"
+version = "0.4.5"
 dependencies = [
  "anyhow",
  "axum",
@@ -3636,7 +3636,7 @@ dependencies = [
 
 [[package]]
 name = "nil-server-database"
-version = "0.4.4"
+version = "0.4.5"
 dependencies = [
  "anyhow",
  "bon",
@@ -3659,7 +3659,7 @@ dependencies = [
 
 [[package]]
 name = "nil-server-types"
-version = "0.4.4"
+version = "0.4.5"
 dependencies = [
  "derive_more 2.1.1",
  "jiff",
@@ -3670,7 +3670,7 @@ dependencies = [
 
 [[package]]
 name = "nil-util"
-version = "0.4.4"
+version = "0.4.5"
 dependencies = [
  "anyhow",
 ]
@@ -5442,9 +5442,9 @@ dependencies = [
 
 [[package]]
 name = "selectors"
-version = "0.36.0"
+version = "0.36.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "223b960be86f7d302b7168cdbab137f9bdbf7e04a90c185312fab14dff49dc5f"
+checksum = "c5d9c0c92a92d33f08817311cf3f2c29a3538a8240e94a6a3c622ce652d7e00c"
 dependencies = [
  "bitflags 2.11.0",
  "cssparser 0.36.0",
