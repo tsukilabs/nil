@@ -16,9 +16,6 @@ pub type AnyResult<T> = anyhow::Result<T>;
 
 #[derive(Debug, thiserror::Error)]
 pub enum Error {
-  #[error("Failed to start server")]
-  FailedToStart,
-
   #[error("Incorrect username or password")]
   IncorrectUserCredentials,
 

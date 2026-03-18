@@ -22,10 +22,8 @@ pub async fn start(database_url: String) -> Result<()> {
     .with_state(app)
     .into_make_service_with_connect_info::<SocketAddr>();
 
-  let (listener, _) = super::bind(3000).await.unwrap();
-  axum::serve(listener, router)
-    .await
-    .expect("Failed to start Call of Nil server");
+  let (listener, _) = super::bind(3000).await?;
+  axum::serve(listener, router).await?;
 
   Ok(())
 }
