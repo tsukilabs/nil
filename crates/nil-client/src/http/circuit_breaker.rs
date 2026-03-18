@@ -2,8 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use bon::Builder;
-use jiff::Timestamp;
+use jiff::{SignedDuration, Timestamp};
 use std::num::NonZeroU32;
+use tap::{Conv, Pipe};
 
 /// See: <https://learn.microsoft.com/en-us/azure/architecture/patterns/circuit-breaker>
 #[derive(Builder)]
@@ -75,12 +76,14 @@ impl CircuitBreaker {
   }
 
   pub fn has_recent_failure(&self) -> bool {
-    let last = self.last_failure.as_millisecond();
-    let timeout = i64::from(self.failure_timeout_ms.get());
+    let timeout = self
+      .failure_timeout_ms
+      .get()
+      .conv::<i64>()
+      .pipe(SignedDuration::from_millis);
 
     Timestamp::now()
-      .as_millisecond()
-      .saturating_sub(last)
+      .duration_since(self.last_failure)
       .le(&timeout)
   }
 
