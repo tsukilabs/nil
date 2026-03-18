@@ -10,7 +10,7 @@ use nil_core::player::PlayerId;
 use nil_core::world::config::{WorldConfig, WorldId};
 use nil_core::world::stats::WorldStats;
 use nil_payload::world::*;
-use nil_server_types::RemoteWorld;
+use nil_server_types::world::RemoteWorld;
 
 impl Client {
   pub async fn create_remote_world(&self, req: CreateRemoteWorldRequest) -> Result<WorldId> {

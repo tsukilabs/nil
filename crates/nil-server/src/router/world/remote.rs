@@ -11,7 +11,7 @@ use axum::response::Response;
 use either::Either;
 use nil_core::world::config::WorldId;
 use nil_payload::world::*;
-use nil_server_types::RemoteWorld;
+use nil_server_types::world::RemoteWorld;
 use semver::Version;
 use tokio::task::spawn_blocking;
 
@@ -157,6 +157,7 @@ fn make_remote_world(app: &App, id: WorldId) -> Result<RemoteWorld> {
     updated_at: game.updated_at.into(),
     has_password: game.password.is_some(),
     current_round: world.round().id(),
+    round_duration: game.round_duration.map(Into::into),
     active_players,
     total_players,
     continent_size: world.continent().size(),

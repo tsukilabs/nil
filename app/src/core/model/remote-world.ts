@@ -13,6 +13,7 @@ export class RemoteWorldImpl implements RemoteWorld {
   public readonly updatedAt: string;
   public readonly hasPassword: boolean;
   public readonly currentRound: RoundId;
+  public readonly roundDuration: Option<RoundDuration>;
   public readonly activePlayers: number;
   public readonly totalPlayers: number;
   public readonly continentSize: ContinentSize;
@@ -28,6 +29,7 @@ export class RemoteWorldImpl implements RemoteWorld {
     this.updatedAt = world.updatedAt;
     this.hasPassword = world.hasPassword;
     this.currentRound = world.currentRound;
+    this.roundDuration = world.roundDuration;
     this.activePlayers = world.activePlayers;
     this.totalPlayers = world.totalPlayers;
     this.continentSize = world.continentSize;
