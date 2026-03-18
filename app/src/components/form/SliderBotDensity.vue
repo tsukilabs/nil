@@ -18,7 +18,7 @@ const worldOptions = defineModel<WritablePartial<WorldOptions>>({ required: true
 
 const consts = __CONSTS__;
 
-const botDensity = computed({
+const sliderValue = computed({
   get: () => [worldOptions.value.botDensity ?? consts.botDensityDefault],
   set: (value) => {
     worldOptions.value.botDensity = value.at(0) ?? consts.botDensityDefault;
@@ -38,13 +38,13 @@ const { t } = useI18n({
     <span>{{ t('bot-density') }}</span>
     <div>
       <Slider
-        v-model:model-value="botDensity"
+        v-model:model-value="sliderValue"
         :disabled
         :min="consts.botDensityMin"
         :max="consts.botDensityMax"
         :step="0.01"
       />
-      <span>{{ formatPercent(botDensity[0]) }}</span>
+      <span>{{ formatPercent(sliderValue[0]) }}</span>
     </div>
   </Label>
 </template>

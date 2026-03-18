@@ -5,10 +5,11 @@ diesel::table! {
         id -> Text,
         password -> Nullable<Text>,
         description -> Nullable<Text>,
+        round_duration -> Nullable<Text>,
+        server_version -> Text,
         created_by -> Integer,
         created_at -> Text,
         updated_at -> Text,
-        server_version -> Text,
         world_blob -> Binary,
     }
 }

@@ -1,7 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { clamp } from 'es-toolkit';
+import { clamp } from 'es-toolkit/math';
 import { invoke } from '@tauri-apps/api/core';
 import { CoordImpl } from '@/core/model/continent/coord';
 import type { CheatSetStabilityRequest } from '@/lib/request';

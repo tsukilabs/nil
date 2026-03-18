@@ -38,6 +38,8 @@ pub enum Error {
   #[error(transparent)]
   Diesel(#[from] diesel::result::Error),
   #[error(transparent)]
+  Jiff(#[from] jiff::Error),
+  #[error(transparent)]
   Unknown(#[from] anyhow::Error),
 }
 

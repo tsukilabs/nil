@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { handleError } from '@/lib/error';
-import { attemptAsync } from 'es-toolkit';
+import { attemptAsync } from 'es-toolkit/util';
 import { useSettings } from '@/stores/settings';
 import { shallowRef, type ShallowRef } from 'vue';
 import { check } from '@tauri-apps/plugin-updater';

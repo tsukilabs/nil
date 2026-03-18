@@ -44,6 +44,10 @@ declare global {
     readonly continentSizeMin: ContinentSize;
     readonly continentSizeMax: ContinentSize;
     readonly continentSizeDefault: ContinentSize;
+
+    readonly roundDurationMin: RoundDuration;
+    readonly roundDurationMax: RoundDuration;
+    readonly roundDurationDefault: RoundDuration;
   };
 
   var NIL: {

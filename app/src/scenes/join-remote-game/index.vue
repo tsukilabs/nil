@@ -90,7 +90,7 @@ async function deleteGame() {
 <template>
   <div :class="md ? 'card-layout' : 'game-layout'">
     <Loading v-if="loading" />
-    <Card v-else-if="remoteWorld" class="max-md:size-full md:min-w-150! md:max-w-1/2">
+    <Card v-else-if="remoteWorld" class="max-md:size-full md:min-w-150! md:max-w-1/2 overflow-hidden">
       <CardHeader>
         <CardTitle>
           <div class="flex items-center justify-between">

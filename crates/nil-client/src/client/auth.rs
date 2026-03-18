@@ -6,7 +6,7 @@ use crate::error::Result;
 use crate::http;
 use nil_core::player::PlayerId;
 use nil_payload::{AuthorizeRequest, ValidateTokenRequest};
-use nil_server_types::Token;
+use nil_server_types::auth::Token;
 
 impl Client {
   pub async fn authorize(&self, req: AuthorizeRequest) -> Result<Token> {

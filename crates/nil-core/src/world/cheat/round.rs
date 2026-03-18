@@ -3,28 +3,18 @@
 
 use crate::bail_if_cheats_are_not_allowed;
 use crate::error::Result;
-use crate::player::Player;
 use crate::world::World;
-use itertools::Itertools;
 use std::num::NonZeroU8;
 
 impl World {
   pub fn cheat_skip_round(&mut self, amount: NonZeroU8) -> Result<()> {
     bail_if_cheats_are_not_allowed!(self);
 
-    let amount = amount.get();
-    let players = self
-      .player_manager
-      .active_players()
-      .map(Player::id)
-      .collect_vec();
-
-    for i in 1..=amount {
-      for player in &players {
-        self.round.set_ready(player, true);
+    if !self.round.is_idle() {
+      let amount = amount.get();
+      for i in 1..=amount {
+        self.dangerously_end_round(i == amount)?;
       }
-
-      self.next_round(i == amount)?;
     }
 
     Ok(())

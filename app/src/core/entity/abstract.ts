@@ -4,9 +4,10 @@
 /* eslint-disable @typescript-eslint/class-methods-use-this */
 
 import { handleError } from '@/lib/error';
+import { Mutex } from 'es-toolkit/promise';
 import { ListenerSet } from '@/lib/listener-set';
 import { type EffectScope, effectScope } from 'vue';
-import { asyncNoop, Mutex, noop, throttle } from 'es-toolkit';
+import { asyncNoop, noop, throttle } from 'es-toolkit/function';
 
 type Ctor = new() => Entity;
 

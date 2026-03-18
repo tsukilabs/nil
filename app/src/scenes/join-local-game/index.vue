@@ -21,13 +21,13 @@ const router = useRouter();
 const { md } = useBreakpoints();
 
 const playerOptions = localRef<WritablePartial<PlayerOptions>>(
-  'join-local-game:player',
+  key('player'),
   {
     id: null,
   } satisfies WithPartialNullish<PlayerOptions, 'id'>,
 );
 
-const server = localRef<string>('join-local-game:server', '');
+const server = localRef<string>(key('server'), '');
 const serverAddr = computed<Option<ServerAddr>>(() => {
   const addr = SocketAddrV4.tryParse(server.value);
   if (addr) {
@@ -53,16 +53,20 @@ async function join() {
     }
   });
 }
+
+function key(name: string) {
+  return `join-local-game:${name}`;
+}
 </script>
 
 <template>
   <div :class="md ? 'card-layout' : 'game-layout'">
-    <Card class="max-md:size-full">
+    <Card class="max-md:size-full overflow-hidden">
       <CardHeader>
         <CardTitle>{{ t('join-game') }}</CardTitle>
       </CardHeader>
 
-      <CardContent class="flex flex-col gap-2 max-md:px-2">
+      <CardContent class="size-full flex flex-col gap-2 max-md:px-2 overflow-x-hidden overflow-y-auto">
         <InputPlayerName v-model="playerOptions.id" :disabled="locked" />
         <InputServerAddress v-model="server" :disabled="locked" />
       </CardContent>

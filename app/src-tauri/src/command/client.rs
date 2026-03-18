@@ -7,7 +7,7 @@ use nil_client::ServerAddr;
 use nil_core::player::PlayerId;
 use nil_core::world::config::WorldId;
 use nil_crypto::password::Password;
-use nil_server_types::Token;
+use nil_server_types::auth::Token;
 use tauri::AppHandle;
 
 #[tauri::command]

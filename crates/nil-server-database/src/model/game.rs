@@ -3,6 +3,7 @@
 
 use crate::Database;
 use crate::error::{Error, Result};
+use crate::sql_types::duration::SqlDuration;
 use crate::sql_types::game_id::GameId;
 use crate::sql_types::hashed_password::HashedPassword;
 use crate::sql_types::id::UserId;
@@ -11,6 +12,7 @@ use crate::sql_types::zoned::SqlZoned;
 use diesel::prelude::*;
 use nil_core::world::World;
 use nil_crypto::password::Password;
+use nil_server_types::round::RoundDuration;
 use std::fmt;
 
 #[derive(Identifiable, Queryable, Selectable, Clone)]
@@ -58,10 +60,11 @@ pub struct GameWithBlob {
   pub id: GameId,
   pub password: Option<HashedPassword>,
   pub description: Option<String>,
+  pub round_duration: Option<SqlDuration>,
+  pub server_version: SqlVersion,
   pub created_by: UserId,
   pub created_at: SqlZoned,
   pub updated_at: SqlZoned,
-  pub server_version: SqlVersion,
   pub world_blob: Vec<u8>,
 }
 
@@ -78,10 +81,11 @@ pub struct NewGame {
   id: GameId,
   password: Option<HashedPassword>,
   description: Option<String>,
+  round_duration: Option<SqlDuration>,
+  server_version: SqlVersion,
   created_by: UserId,
   created_at: SqlZoned,
   updated_at: SqlZoned,
-  server_version: SqlVersion,
   world_blob: Vec<u8>,
 }
 
@@ -93,8 +97,9 @@ impl NewGame {
     #[builder(start_fn)] blob: Vec<u8>,
     password: Option<&Password>,
     mut description: Option<String>,
+    mut round_duration: Option<RoundDuration>,
+    #[builder(into)] server_version: SqlVersion,
     created_by: UserId,
-    server_version: SqlVersion,
   ) -> Result<Self> {
     if let Some(password) = password {
       let pass_len = password.trim().chars().count();
@@ -103,22 +108,29 @@ impl NewGame {
       }
     }
 
-    if let Some(description) = description.as_mut() {
+    if let Some(description) = &mut description {
       while description.len() > 1000 {
         description.pop();
       }
     }
 
+    let password = password
+      .map(HashedPassword::new)
+      .transpose()?;
+
+    if let Some(round_duration) = &mut round_duration {
+      *round_duration = (*round_duration).clamp(RoundDuration::MIN, RoundDuration::MAX);
+    }
+
     Ok(Self {
       id,
-      password: password
-        .map(HashedPassword::new)
-        .transpose()?,
+      password,
       description,
+      round_duration: round_duration.map(Into::into),
+      server_version,
       created_by,
       created_at: SqlZoned::now(),
       updated_at: SqlZoned::now(),
-      server_version,
       world_blob: blob,
     })
   }

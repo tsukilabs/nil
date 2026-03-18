@@ -36,3 +36,5 @@
 ---@field activePlayers number
 ---@field totalPlayers number
 ---@field continentSize ContinentSize
+
+---@alias RoundDuration number

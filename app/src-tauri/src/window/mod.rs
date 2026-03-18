@@ -9,6 +9,7 @@ pub mod mobile;
 use crate::settings::Settings;
 use nil_core::continent::ContinentSize;
 use nil_core::world::config::{BotAdvancedStartRatio, BotDensity};
+use nil_server_types::round::RoundDuration;
 use serde::Serialize;
 use serde_json::json;
 use tauri::WebviewUrl;
@@ -71,6 +72,10 @@ struct Constants {
   continent_size_min: ContinentSize,
   continent_size_max: ContinentSize,
   continent_size_default: ContinentSize,
+
+  round_duration_min: RoundDuration,
+  round_duration_max: RoundDuration,
+  round_duration_default: RoundDuration,
 }
 
 impl Default for Constants {
@@ -99,6 +104,10 @@ impl Default for Constants {
       continent_size_min: ContinentSize::MIN,
       continent_size_max: ContinentSize::MAX,
       continent_size_default: ContinentSize::default(),
+
+      round_duration_min: RoundDuration::MIN,
+      round_duration_max: RoundDuration::MAX,
+      round_duration_default: RoundDuration::default(),
     }
   }
 }
