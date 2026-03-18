@@ -156,7 +156,6 @@ pub(crate) fn from_server_err(err: Error) -> Response {
   match err {
     Core(err) => from_core_err(err),
     Database(err) => from_database_err(err),
-    FailedToStart => res!(INTERNAL_SERVER_ERROR, err.to_string()),
     IncorrectUserCredentials => res!(UNAUTHORIZED, err.to_string()),
     IncorrectWorldCredentials(..) => res!(UNAUTHORIZED, err.to_string()),
     Io(..) => res!(INTERNAL_SERVER_ERROR),

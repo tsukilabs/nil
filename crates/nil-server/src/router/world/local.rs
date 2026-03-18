@@ -7,13 +7,12 @@ use crate::server::local;
 use axum::extract::{Json, State};
 use axum::response::Response;
 use nil_payload::world::*;
+use tokio::task::spawn;
 
 pub async fn save(State(app): State<App>, Json(req): Json<SaveLocalWorldRequest>) -> Response {
   if app.server_kind().is_local() {
-    let f = move |bytes: Vec<u8>| {
-      if let Err(err) = local::save(req.path, &bytes) {
-        tracing::error!(message = %err, error = ?err);
-      }
+    let f = move |bytes| {
+      spawn(local::save(req.path, bytes));
     };
 
     app

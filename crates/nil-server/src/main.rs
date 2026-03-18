@@ -1,6 +1,8 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+#![feature(try_blocks_heterogeneous)]
+
 use anyhow::Result;
 use mimalloc::MiMalloc;
 use nil_log::{Directives, Layers};
@@ -18,8 +20,14 @@ async fn main() -> Result<()> {
     .release_layers(Layers::FILE)
     .call()?;
 
-  let database_url = env::var("NIL_DATABASE_URL")?;
-  remote::start(database_url).await?;
+  let result = try bikeshed Result<()> {
+    let database_url = env::var("NIL_DATABASE_URL")?;
+    remote::start(database_url).await?;
+  };
 
-  Ok(())
+  if let Err(err) = &result {
+    tracing::error!(message = %err, error = ?err);
+  }
+
+  result
 }

@@ -4,6 +4,7 @@
 pub mod local;
 pub mod remote;
 
+use crate::error::Result;
 use jiff::{SignedDuration, Zoned};
 use nil_core::round::RoundId;
 use nil_core::world::World;
@@ -16,24 +17,16 @@ use tokio::net::TcpListener;
 use tokio::sync::RwLock;
 use tokio::time::sleep;
 
-async fn bind(port: u16) -> Option<(TcpListener, SocketAddrV4)> {
-  let result = try {
-    let addr = SocketAddrV4::new(Ipv4Addr::UNSPECIFIED, port);
-    let listener = TcpListener::bind(addr).await?;
-    let SocketAddr::V4(addr) = listener.local_addr()? else {
-      unreachable!("Address should never be Ipv6");
-    };
-
-    tracing::info!("Listening on port {}", addr.port());
-
-    (listener, addr)
+async fn bind(port: u16) -> Result<(TcpListener, SocketAddrV4)> {
+  let addr = SocketAddrV4::new(Ipv4Addr::UNSPECIFIED, port);
+  let listener = TcpListener::bind(addr).await?;
+  let SocketAddr::V4(addr) = listener.local_addr()? else {
+    unreachable!("Address should never be Ipv6");
   };
 
-  if let Err(err) = &result {
-    tracing::error!(message = %err, error = ?err);
-  }
+  tracing::info!("Listening on port {}", addr.port());
 
-  result.ok()
+  Ok((listener, addr))
 }
 
 async fn spawn_round_duration_task(
