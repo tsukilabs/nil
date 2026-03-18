@@ -31,6 +31,7 @@ pub async fn create(
         .player_id(player)
         .maybe_world_description(req.description)
         .maybe_world_password(req.password.as_ref())
+        .maybe_round_duration(req.round_duration)
         .server_version(version)
         .call()
     })
