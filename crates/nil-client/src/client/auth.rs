@@ -4,6 +4,7 @@
 use super::Client;
 use crate::error::Result;
 use crate::http;
+use crate::http::retry::Retry;
 use nil_core::player::PlayerId;
 use nil_payload::{AuthorizeRequest, ValidateTokenRequest};
 use nil_server_types::auth::Token;
@@ -27,7 +28,7 @@ impl Client {
       .body(Into::<ValidateTokenRequest>::into(req))
       .server(self.server)
       .circuit_breaker(self.circuit_breaker())
-      .retry(&self.retry)
+      .retry(&Retry::with_attempts(3))
       .user_agent(&self.user_agent)
       .send()
       .await
