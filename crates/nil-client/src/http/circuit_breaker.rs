@@ -88,8 +88,12 @@ impl CircuitBreaker {
   }
 
   pub(super) fn record_failure(&mut self) {
-    self.failure_count += 1;
     self.last_failure = Timestamp::now();
+    if self.state == CircuitState::HalfOpen {
+      self.enter(CircuitState::Open);
+    } else {
+      self.failure_count += 1;
+    }
   }
 
   pub(super) fn record_success(&mut self) {
