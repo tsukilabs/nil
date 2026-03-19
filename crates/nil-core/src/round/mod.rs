@@ -11,6 +11,7 @@ use jiff::Zoned;
 use nil_util::iter::IterExt;
 use serde::{Deserialize, Serialize};
 use std::collections::HashSet;
+use std::fmt;
 use std::num::NonZeroU32;
 use strum::EnumIs;
 
@@ -179,7 +180,7 @@ impl PartialEq<u32> for RoundId {
   }
 }
 
-#[derive(Clone, Debug, Default, Deserialize, Serialize, EnumIs)]
+#[derive(Clone, Default, Deserialize, Serialize, EnumIs)]
 #[serde(tag = "kind", rename_all = "kebab-case")]
 enum RoundState {
   /// The game hasn't started yet.
@@ -194,4 +195,19 @@ enum RoundState {
 
   /// The round is finished.
   Done,
+}
+
+impl fmt::Debug for RoundState {
+  fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+    match self {
+      Self::Idle => write!(f, "Idle"),
+      Self::Waiting { pending, ready } => {
+        f.debug_struct("Waiting")
+          .field("pending", &pending.len())
+          .field("ready", &ready.len())
+          .finish()
+      }
+      Self::Done => write!(f, "Done"),
+    }
+  }
 }
