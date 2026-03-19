@@ -4,7 +4,7 @@
 use super::Client;
 use crate::error::Result;
 use crate::http;
-use crate::http::retry::Retry;
+use crate::retry::Retry;
 use nil_core::player::PlayerId;
 use nil_payload::{AuthorizeRequest, ValidateTokenRequest};
 use nil_server_types::auth::Token;

@@ -35,7 +35,7 @@ impl Retry {
       .build()
   }
 
-  pub(super) fn delay(&self, attempt: u8) -> Duration {
+  pub(crate) fn delay(&self, attempt: u8) -> Duration {
     debug_assert!(attempt > 0);
     debug_assert!(self.min_delay <= self.max_delay);
     debug_assert!(self.multiplier.is_normal() && self.multiplier >= 1.0);
@@ -76,7 +76,7 @@ impl Default for Retry {
   }
 }
 
-pub(super) fn is_retryable_status(status: StatusCode) -> bool {
+pub(crate) fn is_retryable_status(status: StatusCode) -> bool {
   matches!(
     status,
     StatusCode::REQUEST_TIMEOUT
@@ -87,6 +87,6 @@ pub(super) fn is_retryable_status(status: StatusCode) -> bool {
   )
 }
 
-pub(super) fn is_retryable_err(err: &Error) -> bool {
+pub(crate) fn is_retryable_err(err: &Error) -> bool {
   if let Error::Reqwest(err) = err { err.is_connect() } else { false }
 }

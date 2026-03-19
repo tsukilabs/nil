@@ -1,20 +1,15 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-pub(crate) mod authorization;
-pub(crate) mod circuit_breaker;
-pub(crate) mod retry;
-
+use crate::authorization::Authorization;
+use crate::circuit_breaker::{CircuitBreaker, CircuitState};
 use crate::error::{Error, Result};
-use crate::http::authorization::Authorization;
-use crate::http::circuit_breaker::CircuitState;
+use crate::retry::{Retry, is_retryable_err, is_retryable_status};
 use crate::server::ServerAddr;
 use anyhow::anyhow;
-use circuit_breaker::CircuitBreaker;
 use futures::TryFutureExt;
 use http::{HeaderMap, Method, StatusCode, header};
 use reqwest::{Client as HttpClient, Response};
-use retry::{Retry, is_retryable_err, is_retryable_status};
 use serde::Serialize;
 use serde::de::DeserializeOwned;
 use std::sync::nonpoison::Mutex;
@@ -331,7 +326,7 @@ where
     }
   }
 
-  unreachable!("Should always return on the last attempt");
+  unreachable!();
 }
 
 async fn json<R>(response: Response) -> Result<R>

@@ -125,7 +125,7 @@ impl From<Bytes> for Event {
   }
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub enum EventTarget {
   Broadcast,
   Player(PlayerId),
