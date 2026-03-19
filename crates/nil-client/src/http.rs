@@ -271,14 +271,6 @@ where
         delay = delay.mul_f64(rand::random_range(1.0..=2.0));
       }
 
-      tracing::warn!(
-        %method,
-        url,
-        attempt,
-        max_attempts = attempts,
-        retrying_in = ?delay
-      );
-
       sleep(delay).await;
     };
 
