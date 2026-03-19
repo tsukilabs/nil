@@ -76,12 +76,11 @@ impl WebSocketClient {
         Ok(stream) => stream.split(),
         Err(err) => {
           tracing::error!(message = %err, error = ?err);
+          if let Some(circuit_breaker) = Weak::upgrade(&circuit_breaker) {
+            circuit_breaker.lock().record_failure();
+          }
 
           if attempt < retry.attempts() && is_retryable_error(&err) {
-            if let Some(circuit_breaker) = Weak::upgrade(&circuit_breaker) {
-              circuit_breaker.lock().record_failure();
-            }
-
             sleep(retry.delay(attempt)).await;
             continue;
           }
