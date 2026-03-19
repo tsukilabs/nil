@@ -105,7 +105,6 @@ pub async fn post(
   body: impl Serialize,
   authorization: Option<&Authorization>,
   circuit_breaker: Weak<Mutex<CircuitBreaker>>,
-  retry: Option<&Retry>,
   user_agent: &str,
 ) -> Result<()> {
   let url = server.url(route)?;
@@ -113,7 +112,6 @@ pub async fn post(
     .body(body)
     .maybe_authorization(authorization)
     .circuit_breaker(circuit_breaker)
-    .maybe_retry(retry)
     .user_agent(user_agent)
     .send()
     .await
@@ -127,7 +125,6 @@ pub async fn json_post<R>(
   body: impl Serialize,
   authorization: Option<&Authorization>,
   circuit_breaker: Weak<Mutex<CircuitBreaker>>,
-  retry: Option<&Retry>,
   user_agent: &str,
 ) -> Result<R>
 where
@@ -138,7 +135,6 @@ where
     .body(body)
     .maybe_authorization(authorization)
     .circuit_breaker(circuit_breaker)
-    .maybe_retry(retry)
     .user_agent(user_agent)
     .send()
     .and_then(async |res| json::<R>(res).await)
@@ -255,16 +251,15 @@ async fn send_request<F>(
 where
   F: AsyncFn(reqwest::RequestBuilder) -> Result<Response>,
 {
-  let mut last_err = None::<String>;
   let attempts = retry.map(Retry::attempts).unwrap_or(1);
 
-  if let Some(circuit_breaker) = Weak::upgrade(&circuit_breaker)
-    && let CircuitState::Open = circuit_breaker.lock().update()
-  {
-    return Err(Error::ServiceUnavailable);
-  }
-
   for attempt in 1..=attempts {
+    if let Some(circuit_breaker) = Weak::upgrade(&circuit_breaker)
+      && let CircuitState::Open = circuit_breaker.lock().update()
+    {
+      return Err(Error::ServiceUnavailable);
+    }
+
     let request = create_request(method.clone(), url)
       .maybe_authorization(authorization)
       .user_agent(user_agent)
@@ -281,7 +276,13 @@ where
         delay = delay.mul_f64(rand::random_range(1.0..=2.0));
       }
 
-      tracing::warn!(%method, url, attempt, max_attempts = attempts, retrying_in = ?delay);
+      tracing::warn!(
+        %method,
+        url,
+        attempt,
+        max_attempts = attempts,
+        retrying_in = ?delay
+      );
 
       sleep(delay).await;
     };
@@ -321,7 +322,6 @@ where
           && let Some(retry) = retry
           && is_retryable_err(&err)
         {
-          last_err = Some(err.to_string());
           wait_delay(retry, None).await;
           continue;
         }
@@ -331,7 +331,7 @@ where
     }
   }
 
-  Err(Error::MaxRetriesExceeded { attempts, message: last_err })
+  unreachable!("Should always return on the last attempt");
 }
 
 async fn json<R>(response: Response) -> Result<R>
@@ -365,7 +365,8 @@ pub(crate) fn has_html_content_type(headers: &HeaderMap) -> bool {
   headers
     .get(header::CONTENT_TYPE)
     .and_then(|it| it.to_str().ok())
-    .is_some_and(|it| it.eq_ignore_ascii_case("text/html"))
+    .and_then(|it| it.split(';').next())
+    .is_some_and(|it| it.trim().eq_ignore_ascii_case("text/html"))
 }
 
 fn log_err(err: &reqwest::Error) {
