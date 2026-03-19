@@ -596,6 +596,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "bytesize"
+version = "2.3.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "6bd91ee7b2422bcb158d90ef4d14f75ef67f340943fc4149891dcce8f8b972a3"
+
+[[package]]
 name = "cairo-rs"
 version = "0.18.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3381,7 +3387,7 @@ checksum = "650eef8c711430f1a879fdd01d4745a7deea475becfb90269c06775983bbf086"
 
 [[package]]
 name = "nil"
-version = "0.4.6"
+version = "0.4.7"
 dependencies = [
  "anyhow",
  "bon",
@@ -3424,7 +3430,7 @@ dependencies = [
 
 [[package]]
 name = "nil-client"
-version = "0.4.6"
+version = "0.4.7"
 dependencies = [
  "anyhow",
  "bon",
@@ -3457,7 +3463,7 @@ dependencies = [
 
 [[package]]
 name = "nil-core"
-version = "0.4.6"
+version = "0.4.7"
 dependencies = [
  "anyhow",
  "bon",
@@ -3491,7 +3497,7 @@ dependencies = [
 
 [[package]]
 name = "nil-core-macros"
-version = "0.4.6"
+version = "0.4.7"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -3500,7 +3506,7 @@ dependencies = [
 
 [[package]]
 name = "nil-crypto"
-version = "0.4.6"
+version = "0.4.7"
 dependencies = [
  "anyhow",
  "argon2",
@@ -3512,7 +3518,7 @@ dependencies = [
 
 [[package]]
 name = "nil-log"
-version = "0.4.6"
+version = "0.4.7"
 dependencies = [
  "anyhow",
  "bitflags 2.11.0",
@@ -3525,7 +3531,7 @@ dependencies = [
 
 [[package]]
 name = "nil-lua"
-version = "0.4.6"
+version = "0.4.7"
 dependencies = [
  "anyhow",
  "jiff",
@@ -3540,7 +3546,7 @@ dependencies = [
 
 [[package]]
 name = "nil-lua-cli"
-version = "0.4.6"
+version = "0.4.7"
 dependencies = [
  "anyhow",
  "clap",
@@ -3561,7 +3567,7 @@ dependencies = [
 
 [[package]]
 name = "nil-namegen"
-version = "0.4.6"
+version = "0.4.7"
 dependencies = [
  "itertools",
  "rand 0.10.0",
@@ -3570,7 +3576,7 @@ dependencies = [
 
 [[package]]
 name = "nil-num"
-version = "0.4.6"
+version = "0.4.7"
 dependencies = [
  "bon",
  "nil-num-macros",
@@ -3580,7 +3586,7 @@ dependencies = [
 
 [[package]]
 name = "nil-num-macros"
-version = "0.4.6"
+version = "0.4.7"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -3589,7 +3595,7 @@ dependencies = [
 
 [[package]]
 name = "nil-payload"
-version = "0.4.6"
+version = "0.4.7"
 dependencies = [
  "bon",
  "nil-core",
@@ -3600,12 +3606,13 @@ dependencies = [
 
 [[package]]
 name = "nil-server"
-version = "0.4.6"
+version = "0.4.7"
 dependencies = [
  "anyhow",
  "axum",
  "axum-extra",
  "bon",
+ "bytesize",
  "dashmap",
  "derive_more 2.1.1",
  "either",
@@ -3637,7 +3644,7 @@ dependencies = [
 
 [[package]]
 name = "nil-server-database"
-version = "0.4.6"
+version = "0.4.7"
 dependencies = [
  "anyhow",
  "bon",
@@ -3660,7 +3667,7 @@ dependencies = [
 
 [[package]]
 name = "nil-server-types"
-version = "0.4.6"
+version = "0.4.7"
 dependencies = [
  "derive_more 2.1.1",
  "jiff",
@@ -3671,7 +3678,7 @@ dependencies = [
 
 [[package]]
 name = "nil-util"
-version = "0.4.6"
+version = "0.4.7"
 dependencies = [
  "anyhow",
 ]
@@ -6142,9 +6149,9 @@ checksum = "55937e1799185b12863d447f42597ed69d9928686b8d88a1df17376a097d8369"
 
 [[package]]
 name = "tar"
-version = "0.4.44"
+version = "0.4.45"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1d863878d212c87a19c1a610eb53bb01fe12951c0501cf5a0d65f724914a667a"
+checksum = "22692a6476a21fa75fdfc11d452fda482af402c008cdbaf3476414e122040973"
 dependencies = [
  "filetime",
  "libc",
