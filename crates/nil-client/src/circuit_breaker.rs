@@ -36,7 +36,7 @@ impl CircuitBreaker {
     Self::default()
   }
 
-  pub(super) fn update(&mut self) -> CircuitState {
+  pub(crate) fn update(&mut self) -> CircuitState {
     match self.state {
       CircuitState::Closed => {
         if self.failure_count >= self.failure_threshold.get() {
@@ -87,7 +87,7 @@ impl CircuitBreaker {
       .le(&timeout)
   }
 
-  pub(super) fn record_failure(&mut self) {
+  pub(crate) fn record_failure(&mut self) {
     self.last_failure = Timestamp::now();
     if self.state == CircuitState::HalfOpen {
       self.enter(CircuitState::Open);
@@ -96,7 +96,7 @@ impl CircuitBreaker {
     }
   }
 
-  pub(super) fn record_success(&mut self) {
+  pub(crate) fn record_success(&mut self) {
     if let CircuitState::HalfOpen = self.state {
       self.success_count += 1;
     }

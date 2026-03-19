@@ -33,6 +33,8 @@ pub enum Error {
   #[error(transparent)]
   Reqwest(#[from] reqwest::Error),
   #[error(transparent)]
+  Tungstenite(#[from] tokio_tungstenite::tungstenite::Error),
+  #[error(transparent)]
   Unknown(#[from] anyhow::Error),
   #[error(transparent)]
   Url(#[from] url::ParseError),

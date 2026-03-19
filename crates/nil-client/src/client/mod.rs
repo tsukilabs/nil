@@ -19,11 +19,11 @@ mod round;
 mod user;
 mod world;
 
+use crate::authorization::Authorization;
+use crate::circuit_breaker::CircuitBreaker;
 use crate::error::{Error, Result};
-use crate::http::authorization::Authorization;
-use crate::http::circuit_breaker::CircuitBreaker;
-use crate::http::retry::Retry;
 use crate::http::{self, USER_AGENT};
+use crate::retry::Retry;
 use crate::server::ServerAddr;
 use crate::websocket::WebSocketClient;
 use futures::future::BoxFuture;
@@ -133,6 +133,7 @@ impl Client {
         .world_id(world_id)
         .maybe_world_password(world_password)
         .authorization(authorization)
+        .circuit_breaker(self.circuit_breaker())
         .user_agent(&self.user_agent)
         .on_event(on_event)
         .call()
