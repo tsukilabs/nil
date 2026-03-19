@@ -41,6 +41,7 @@ nil-util.workspace = true
 rand.workspace = true
 semver.workspace = true
 serde.workspace = true
+sysinfo.workspace = true
 tap.workspace = true
 thiserror.workspace = true
 tokio.workspace = true
