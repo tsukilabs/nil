@@ -5,15 +5,14 @@ use crate::authorization::Authorization;
 use crate::circuit_breaker::{CircuitBreaker, CircuitState};
 use crate::error::{AnyResult, Error, Result};
 use crate::http::has_html_content_type;
-use crate::retry::{Retry, is_retryable_status};
+use crate::retry::{Retry, is_retryable_error};
 use crate::server::ServerAddr;
 use anyhow::anyhow;
 use bytes::Bytes;
-use either::Either;
 use futures::future::BoxFuture;
 use futures::stream::{SplitSink, SplitStream};
 use futures::{Sink, SinkExt, StreamExt};
-use http::{Method, Response, header};
+use http::{Method, Request, Response, header};
 use nil_core::event::Event;
 use nil_core::world::config::WorldId;
 use nil_crypto::password::Password;
@@ -74,10 +73,11 @@ impl WebSocketClient {
         .call()
         .await
       {
-        Ok(Either::Left(stream)) => stream.split(),
-        Ok(Either::Right(TungsteniteError::Http(response))) => {
-          let status = response.status();
-          if attempt < retry.attempts() && is_retryable_status(status) {
+        Ok(stream) => stream.split(),
+        Err(err) => {
+          tracing::error!(message = %err, error = ?err);
+
+          if attempt < retry.attempts() && is_retryable_error(&err) {
             if let Some(circuit_breaker) = Weak::upgrade(&circuit_breaker) {
               circuit_breaker.lock().record_failure();
             }
@@ -86,15 +86,11 @@ impl WebSocketClient {
             continue;
           }
 
-          return Err(handle_http_error(*response));
-        }
-        Ok(Either::Right(err)) => {
-          tracing::error!(message = %err, error = ?err);
-          return Err(Error::FailedToConnectWebsocket(None));
-        }
-        Err(err) => {
-          tracing::error!(message = %err, error = ?err);
-          return Err(Error::FailedToConnectWebsocket(None));
+          if let Error::Tungstenite(TungsteniteError::Http(response)) = err {
+            return Err(handle_http_error(*response));
+          } else {
+            return Err(Error::FailedToConnectWebsocket(None));
+          }
         }
       };
 
@@ -119,36 +115,39 @@ async fn make_stream(
   world_password: Option<Password>,
   authorization: Authorization,
   user_agent: &str,
-) -> AnyResult<Either<Stream, TungsteniteError>> {
-  let mut url = server.url("websocket")?;
-  if url.scheme().eq_ignore_ascii_case("https") {
-    let _ = url.set_scheme("wss");
-  } else {
-    let _ = url.set_scheme("ws");
-  }
+) -> Result<Stream> {
+  // Can't use try blocks with `bon`.
+  let make_request = || -> AnyResult<Request<()>> {
+    let mut url = server.url("websocket")?;
+    if url.scheme().eq_ignore_ascii_case("https") {
+      let _ = url.set_scheme("wss");
+    } else {
+      let _ = url.set_scheme("ws");
+    }
 
-  url
-    .query_pairs_mut()
-    .append_pair("worldId", &world_id.to_string())
-    .append_pair("worldPassword", &world_password.unwrap_or_default());
+    url
+      .query_pairs_mut()
+      .append_pair("worldId", &world_id.to_string())
+      .append_pair("worldPassword", &world_password.unwrap_or_default());
 
-  let mut request = url.into_client_request()?;
-  *request.method_mut() = Method::GET;
+    let mut request = url.into_client_request()?;
+    *request.method_mut() = Method::GET;
 
-  let headers = request.headers_mut();
-  headers.insert(header::AUTHORIZATION, authorization.into_inner());
-  headers.insert(header::USER_AGENT, user_agent.parse()?);
+    let headers = request.headers_mut();
+    headers.insert(header::AUTHORIZATION, authorization.into_inner());
+    headers.insert(header::USER_AGENT, user_agent.parse()?);
 
-  #[cfg(debug_assertions)]
-  tracing::debug!(?request);
+    #[cfg(debug_assertions)]
+    tracing::debug!(?request);
 
-  match connect_async(request)
+    Ok(request)
+  };
+
+  connect_async(make_request()?)
     .await
     .tap_ok_dbg(|(_, response)| tracing::debug!(?response))
-  {
-    Ok((ws_stream, _)) => Ok(Either::Left(ws_stream)),
-    Err(err) => Ok(Either::Right(err)),
-  }
+    .map(|(stream, _)| stream)
+    .map_err(Into::into)
 }
 
 fn handle_http_error(response: Response<Option<Vec<u8>>>) -> Error {
@@ -180,6 +179,7 @@ impl Sender {
   fn new<T>(mut ws_sender: SplitSink<T, Message>) -> Self
   where
     T: Sink<Message> + Send + 'static,
+    T::Error: Into<TungsteniteError>,
   {
     let (tx, mut rx) = channel::<SenderMessage>(10);
     let ws_sender_task = spawn(async move {
@@ -219,12 +219,24 @@ impl SenderMessage {
   async fn send<T>(self, ws_sender: &mut SplitSink<T, Message>) -> ControlFlow<()>
   where
     T: Sink<Message>,
+    T::Error: Into<TungsteniteError>,
   {
     match self {
       SenderMessage::KeepAlive => {
-        let _ = ws_sender
+        if let Err(err) = ws_sender
           .send(Message::Ping(Bytes::default()))
-          .await;
+          .await
+          .map_err(Into::<TungsteniteError>::into)
+        {
+          tracing::error!(message = %err, error = ?err);
+
+          if matches!(
+            err,
+            TungsteniteError::AlreadyClosed | TungsteniteError::ConnectionClosed
+          ) {
+            return ControlFlow::Break(());
+          }
+        }
       }
     }
 

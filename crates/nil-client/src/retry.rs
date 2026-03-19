@@ -7,6 +7,7 @@ use http::StatusCode;
 use num_traits::ToPrimitive;
 use std::num::{NonZeroU8, NonZeroU16};
 use std::time::Duration;
+use tokio_tungstenite::tungstenite::Error as TungsteniteError;
 
 /// See: <https://learn.microsoft.com/en-us/azure/architecture/patterns/retry>
 #[derive(Builder, Clone, Debug)]
@@ -87,6 +88,11 @@ pub(crate) fn is_retryable_status(status: StatusCode) -> bool {
   )
 }
 
-pub(crate) fn is_retryable_err(err: &Error) -> bool {
-  if let Error::Reqwest(err) = err { err.is_connect() } else { false }
+pub(crate) fn is_retryable_error(err: &Error) -> bool {
+  match err {
+    Error::Reqwest(err) if err.is_connect() => true,
+    Error::Tungstenite(TungsteniteError::Io(..)) => true,
+    Error::Tungstenite(TungsteniteError::Http(res)) => is_retryable_status(res.status()),
+    _ => false,
+  }
 }

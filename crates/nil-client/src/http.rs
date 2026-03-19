@@ -4,7 +4,7 @@
 use crate::authorization::Authorization;
 use crate::circuit_breaker::{CircuitBreaker, CircuitState};
 use crate::error::{Error, Result};
-use crate::retry::{Retry, is_retryable_err, is_retryable_status};
+use crate::retry::{Retry, is_retryable_error, is_retryable_status};
 use crate::server::ServerAddr;
 use anyhow::anyhow;
 use futures::TryFutureExt;
@@ -315,7 +315,7 @@ where
 
         if attempt < attempts
           && let Some(retry) = retry
-          && is_retryable_err(&err)
+          && is_retryable_error(&err)
         {
           wait_delay(retry, None).await;
           continue;
