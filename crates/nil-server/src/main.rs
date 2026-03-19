@@ -4,6 +4,7 @@
 #![feature(try_blocks_heterogeneous)]
 
 use anyhow::Result;
+use bytesize::ByteSize;
 use mimalloc::MiMalloc;
 use nil_log::{Directives, Layers};
 use nil_server::remote;
@@ -51,6 +52,10 @@ fn watch_process(pid: Pid) {
       ),
     );
 
+    macro_rules! b {
+      ($bytes:expr) => {{ ByteSize::b($bytes).display().si() }};
+    }
+
     loop {
       sys.refresh_processes_specifics(
         ProcessesToUpdate::Some(&[pid]),
@@ -62,17 +67,22 @@ fn watch_process(pid: Pid) {
       );
 
       if let Some(process) = sys.process(pid) {
+        let disk_usage = process.disk_usage();
         tracing::info!(
           name = %process.name().to_string_lossy(),
           cpu_usage = process.cpu_usage(),
-          disk_usage = ?process.disk_usage(),
-          memory = process.memory(),
-          virtual_memory = process.virtual_memory(),
+          memory = %b!(process.memory()),
+          virtual_memory = %b!(process.virtual_memory()),
+          read_bytes = %b!(disk_usage.read_bytes),
+          total_read_bytes = %b!(disk_usage.total_read_bytes),
+          written_bytes = %b!(disk_usage.written_bytes),
+          total_written_bytes = %b!(disk_usage.total_written_bytes),
           run_time = ?Duration::from_secs(process.run_time()),
         );
       }
 
-      sleep(Duration::from_mins(30)).await;
+      let mins = rand::random_range(10..=30);
+      sleep(Duration::from_mins(mins)).await;
     }
   });
 }
