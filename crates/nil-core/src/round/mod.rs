@@ -100,6 +100,11 @@ impl Round {
   }
 
   #[inline]
+  pub fn state(&self) -> &RoundState {
+    &self.state
+  }
+
+  #[inline]
   pub fn is_idle(&self) -> bool {
     self.state.is_idle()
   }
@@ -182,7 +187,7 @@ impl PartialEq<u32> for RoundId {
 
 #[derive(Clone, Default, Deserialize, Serialize, EnumIs)]
 #[serde(tag = "kind", rename_all = "kebab-case")]
-enum RoundState {
+pub enum RoundState {
   /// The game hasn't started yet.
   #[default]
   Idle,
