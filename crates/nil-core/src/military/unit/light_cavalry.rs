@@ -32,7 +32,7 @@ impl LightCavalry {
 
   pub const CHUNK: UnitChunk = UnitChunk {
     size: UnitChunkSize::new(5),
-    cost: Cost::new(2375),
+    cost: Cost::new(2_375),
     wood_ratio: ResourceRatio::new(0.3),
     stone_ratio: ResourceRatio::new(0.2),
     iron_ratio: ResourceRatio::new(0.5),

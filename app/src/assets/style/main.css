@@ -42,10 +42,10 @@ label:has(span[data-slot="slider"]) {
   }
 }
 
-label:has(button[role="checkbox"]),
-label:has(button[role="switch"]),
-label:has(input[type="checkbox"]),
-label:has(input[type="radio"]) {
+label:has(button[role="checkbox"]):not(:has(span[data-slot="slider"])),
+label:has(button[role="switch"]):not(:has(span[data-slot="slider"])),
+label:has(input[type="checkbox"]):not(:has(span[data-slot="slider"])),
+label:has(input[type="radio"]):not(:has(span[data-slot="slider"])) {
   @apply flex flex-row justify-start items-center gap-2 py-1 font-normal;
 
   & > span {

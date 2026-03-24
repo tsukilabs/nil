@@ -2,8 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use bon::Builder;
-use jiff::Timestamp;
+use jiff::{SignedDuration, Timestamp};
 use std::num::NonZeroU32;
+use tap::{Conv, Pipe};
 
 /// See: <https://learn.microsoft.com/en-us/azure/architecture/patterns/circuit-breaker>
 #[derive(Builder)]
@@ -14,7 +15,7 @@ pub struct CircuitBreaker {
   #[builder(skip)]
   failure_count: u32,
 
-  #[builder(default = unsafe { NonZeroU32::new_unchecked(10)})]
+  #[builder(default = unsafe { NonZeroU32::new_unchecked(25)})]
   failure_threshold: NonZeroU32,
 
   #[builder(skip = Timestamp::UNIX_EPOCH)]
@@ -35,7 +36,7 @@ impl CircuitBreaker {
     Self::default()
   }
 
-  pub(super) fn update(&mut self) -> CircuitState {
+  pub(crate) fn update(&mut self) -> CircuitState {
     match self.state {
       CircuitState::Closed => {
         if self.failure_count >= self.failure_threshold.get() {
@@ -75,21 +76,27 @@ impl CircuitBreaker {
   }
 
   pub fn has_recent_failure(&self) -> bool {
-    let last = self.last_failure.as_millisecond();
-    let timeout = i64::from(self.failure_timeout_ms.get());
+    let timeout = self
+      .failure_timeout_ms
+      .get()
+      .conv::<i64>()
+      .pipe(SignedDuration::from_millis);
 
     Timestamp::now()
-      .as_millisecond()
-      .saturating_sub(last)
+      .duration_since(self.last_failure)
       .le(&timeout)
   }
 
-  pub(super) fn record_failure(&mut self) {
-    self.failure_count += 1;
+  pub(crate) fn record_failure(&mut self) {
     self.last_failure = Timestamp::now();
+    if self.state == CircuitState::HalfOpen {
+      self.enter(CircuitState::Open);
+    } else {
+      self.failure_count += 1;
+    }
   }
 
-  pub(super) fn record_success(&mut self) {
+  pub(crate) fn record_success(&mut self) {
     if let CircuitState::HalfOpen = self.state {
       self.success_count += 1;
     }

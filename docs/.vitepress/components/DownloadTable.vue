@@ -4,7 +4,9 @@
 <script setup lang="ts">
 import type { Latest } from '../data/latest.data';
 
-const props = defineProps<{ latest: Latest; }>();
+const props = defineProps<{
+  latest: Latest;
+}>();
 
 function url(platform: keyof typeof props.latest.platforms) {
   return props.latest.platforms[platform].url;

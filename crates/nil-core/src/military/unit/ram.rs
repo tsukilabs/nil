@@ -32,7 +32,7 @@ impl Ram {
 
   pub const CHUNK: UnitChunk = UnitChunk {
     size: UnitChunkSize::new(3),
-    cost: Cost::new(2100),
+    cost: Cost::new(2_100),
     wood_ratio: ResourceRatio::new(0.4),
     stone_ratio: ResourceRatio::new(0.3),
     iron_ratio: ResourceRatio::new(0.3),

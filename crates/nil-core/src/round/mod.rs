@@ -11,6 +11,7 @@ use jiff::Zoned;
 use nil_util::iter::IterExt;
 use serde::{Deserialize, Serialize};
 use std::collections::HashSet;
+use std::fmt;
 use std::num::NonZeroU32;
 use strum::EnumIs;
 
@@ -65,7 +66,7 @@ impl Round {
   {
     let pending = players.into_iter().collect_set();
     if pending.is_empty() {
-      self.state = RoundState::Done;
+      self.dangerously_set_done();
     } else {
       let ready = HashSet::with_capacity(pending.len());
       self.state = RoundState::Waiting { pending, ready };
@@ -83,14 +84,24 @@ impl Round {
       }
 
       if pending.is_empty() {
-        self.state = RoundState::Done;
+        self.dangerously_set_done();
       }
     }
+  }
+
+  pub(crate) fn dangerously_set_done(&mut self) {
+    debug_assert!(!self.state.is_idle());
+    self.state = RoundState::Done;
   }
 
   #[inline]
   pub fn id(&self) -> RoundId {
     self.id
+  }
+
+  #[inline]
+  pub fn state(&self) -> &RoundState {
+    &self.state
   }
 
   #[inline]
@@ -152,7 +163,7 @@ impl Round {
   }
 }
 
-#[derive(Clone, Copy, Debug, Deref, Deserialize, Serialize)]
+#[derive(Clone, Copy, Debug, Deref, PartialEq, Eq, PartialOrd, Ord, Deserialize, Serialize)]
 pub struct RoundId(NonZeroU32);
 
 impl RoundId {
@@ -174,9 +185,9 @@ impl PartialEq<u32> for RoundId {
   }
 }
 
-#[derive(Clone, Debug, Default, Deserialize, Serialize, EnumIs)]
+#[derive(Clone, Default, Deserialize, Serialize, EnumIs)]
 #[serde(tag = "kind", rename_all = "kebab-case")]
-enum RoundState {
+pub enum RoundState {
   /// The game hasn't started yet.
   #[default]
   Idle,
@@ -189,4 +200,19 @@ enum RoundState {
 
   /// The round is finished.
   Done,
+}
+
+impl fmt::Debug for RoundState {
+  fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+    match self {
+      Self::Idle => write!(f, "Idle"),
+      Self::Waiting { pending, ready } => {
+        f.debug_struct("Waiting")
+          .field("pending", &pending.len())
+          .field("ready", &ready.len())
+          .finish()
+      }
+      Self::Done => write!(f, "Done"),
+    }
+  }
 }

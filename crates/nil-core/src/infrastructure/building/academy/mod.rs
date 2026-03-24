@@ -42,7 +42,7 @@ impl Academy {
   pub const MAX_WORKFORCE: Workforce = Workforce::new(100);
 
   pub const MIN_SCORE: Score = Score::new(16);
-  pub const MAX_SCORE: Score = Score::new(1272);
+  pub const MAX_SCORE: Score = Score::new(1_272);
 
   pub const INFRASTRUCTURE_REQUIREMENTS: InfrastructureRequirements =
     InfrastructureRequirements::none();

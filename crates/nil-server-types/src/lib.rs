@@ -5,15 +5,13 @@
 #![doc(html_favicon_url = "https://nil.dev.br/favicon.png")]
 #![feature(str_as_str)]
 
-use derive_more::From;
-use jiff::Zoned;
-use nil_core::continent::ContinentSize;
-use nil_core::player::PlayerId;
-use nil_core::round::RoundId;
-use nil_core::world::config::{WorldConfig, WorldId};
+pub mod auth;
+pub mod round;
+pub mod time;
+pub mod world;
+
+use nil_core::world::config::WorldId;
 use serde::{Deserialize, Serialize};
-use std::borrow::Cow;
-use std::ops::Deref;
 use strum::EnumIs;
 
 #[derive(Clone, Copy, Debug, EnumIs, Deserialize, Serialize)]
@@ -21,49 +19,4 @@ use strum::EnumIs;
 pub enum ServerKind {
   Local { id: WorldId },
   Remote,
-}
-
-#[derive(Clone, Debug, Deserialize, Serialize)]
-#[serde(rename_all = "camelCase")]
-pub struct RemoteWorld {
-  pub config: WorldConfig,
-  pub description: Option<String>,
-  pub created_by: PlayerId,
-  pub created_at: Zoned,
-  pub updated_at: Zoned,
-  pub has_password: bool,
-  pub current_round: RoundId,
-  pub active_players: usize,
-  pub total_players: usize,
-  pub continent_size: ContinentSize,
-}
-
-#[derive(Clone, Debug, From, Deserialize, Serialize)]
-#[from(String, &str, Box<str>, Cow<'_, str>)]
-pub struct Token(Box<str>);
-
-impl Token {
-  pub fn new(token: impl AsRef<str>) -> Self {
-    Self(Box::from(token.as_ref()))
-  }
-}
-
-impl AsRef<str> for Token {
-  fn as_ref(&self) -> &str {
-    self.0.as_str()
-  }
-}
-
-impl AsRef<[u8]> for Token {
-  fn as_ref(&self) -> &[u8] {
-    self.0.as_bytes()
-  }
-}
-
-impl Deref for Token {
-  type Target = str;
-
-  fn deref(&self) -> &Self::Target {
-    self.0.as_str()
-  }
 }

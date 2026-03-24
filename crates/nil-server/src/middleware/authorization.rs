@@ -17,7 +17,7 @@ use jsonwebtoken::{DecodingKey, EncodingKey, Header, TokenData, Validation, deco
 use nil_core::player::PlayerId;
 use nil_core::ruler::Ruler;
 use nil_server_database::sql_types::player_id::SqlPlayerId;
-use nil_server_types::Token;
+use nil_server_types::auth::Token;
 use serde::{Deserialize, Serialize};
 use std::env;
 use std::sync::LazyLock;
@@ -58,7 +58,7 @@ pub(crate) fn encode_jwt(player: PlayerId) -> Result<Token> {
     let now = Zoned::now();
     let iat = now.timestamp().as_millisecond().try_into()?;
     let exp = now
-      .saturating_add(SignedDuration::from_hours(24))
+      .saturating_add(SignedDuration::from_hours(24 * 7))
       .timestamp()
       .as_millisecond()
       .try_into()?;

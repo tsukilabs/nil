@@ -16,17 +16,11 @@ pub type AnyResult<T> = anyhow::Result<T>;
 
 #[derive(Debug, thiserror::Error)]
 pub enum Error {
-  #[error("Failed to start server")]
-  FailedToStart,
-
   #[error("Incorrect username or password")]
   IncorrectUserCredentials,
 
   #[error("Incorrect world password")]
   IncorrectWorldCredentials(WorldId),
-
-  #[error("Invalid world")]
-  InvalidWorld(WorldId),
 
   #[error("Missing password")]
   MissingPassword,
@@ -34,14 +28,15 @@ pub enum Error {
   #[error("World limit reached")]
   WorldLimitReached,
 
+  #[error("World not found")]
+  WorldNotFound(WorldId),
+
   #[error(transparent)]
   Core(#[from] CoreError),
   #[error(transparent)]
   Database(#[from] DatabaseError),
   #[error(transparent)]
   Io(#[from] io::Error),
-  #[error(transparent)]
-  Semver(#[from] semver::Error),
   #[error(transparent)]
   Unknown(#[from] anyhow::Error),
 }

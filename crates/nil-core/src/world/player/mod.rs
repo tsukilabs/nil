@@ -32,6 +32,13 @@ impl World {
     self.player_manager.has(id)
   }
 
+  pub fn has_any_active_player(&self) -> bool {
+    self
+      .player_manager
+      .players()
+      .any(Player::is_active)
+  }
+
   pub fn set_player_status(&mut self, id: &PlayerId, status: PlayerStatus) -> Result<()> {
     *self
       .player_manager

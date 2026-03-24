@@ -21,12 +21,6 @@ pub enum Error {
   #[error("Player name contains invalid characters: {0}")]
   InvalidPlayerId(PlayerId),
 
-  #[error("{}", display_max_retries_exceeded(*.attempts, .message.as_deref()))]
-  MaxRetriesExceeded {
-    attempts: u8,
-    message: Option<String>,
-  },
-
   #[error("Missing world id")]
   MissingWorldId,
 
@@ -38,6 +32,8 @@ pub enum Error {
 
   #[error(transparent)]
   Reqwest(#[from] reqwest::Error),
+  #[error(transparent)]
+  Tungstenite(#[from] tokio_tungstenite::tungstenite::Error),
   #[error(transparent)]
   Unknown(#[from] anyhow::Error),
   #[error(transparent)]
@@ -64,10 +60,4 @@ fn display_failed_to_connect_websocket(message: Option<&str>) -> String {
   message
     .map(ToOwned::to_owned)
     .unwrap_or_else(|| String::from("Failed to connect websocket"))
-}
-
-fn display_max_retries_exceeded(attempts: u8, message: Option<&str>) -> String {
-  message
-    .map(ToOwned::to_owned)
-    .unwrap_or_else(|| format!("Request failed after {attempts} attempts"))
 }

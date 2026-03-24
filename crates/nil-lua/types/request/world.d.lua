@@ -7,6 +7,7 @@
 ---@field options WorldOptions
 ---@field description string|nil
 ---@field password string|nil
+---@field roundDuration RoundDuration|nil
 
 ---@class DeleteRemoteWorldRequest
 ---@field world WorldId

@@ -11,7 +11,7 @@ use axum::response::Response;
 use either::Either;
 use nil_core::world::config::WorldId;
 use nil_payload::world::*;
-use nil_server_types::RemoteWorld;
+use nil_server_types::world::RemoteWorld;
 use semver::Version;
 use tokio::task::spawn_blocking;
 
@@ -31,6 +31,7 @@ pub async fn create(
         .player_id(player)
         .maybe_world_description(req.description)
         .maybe_world_password(req.password.as_ref())
+        .maybe_round_duration(req.round_duration)
         .server_version(version)
         .call()
     })
@@ -53,17 +54,20 @@ pub async fn delete(
   Json(req): Json<DeleteRemoteWorldRequest>,
 ) -> Response {
   if app.server_kind().is_remote() {
-    let Ok(either) = spawn_blocking(move || {
-      let result = try {
-        let database = app.database();
-        if database.was_game_created_by(req.world, player.0)? {
-          database.delete_game(req.world)?
-        } else {
-          return Either::Right(res!(FORBIDDEN));
-        }
-      };
+    let Ok(either) = spawn_blocking({
+      let app = app.clone();
+      move || {
+        let result = try {
+          let database = app.database();
+          if database.was_game_created_by(req.world, player.0)? {
+            database.delete_game(req.world)?
+          } else {
+            return Either::Right(res!(FORBIDDEN));
+          }
+        };
 
-      Either::Left(result)
+        Either::Left(result)
+      }
     })
     .await
     else {
@@ -72,6 +76,10 @@ pub async fn delete(
 
     match either {
       Either::Left(result) => {
+        if result.as_ref().is_ok_and(|it| *it > 0) {
+          drop(app.remove(req.world));
+        }
+
         result
           .map(|_| res!(NO_CONTENT))
           .unwrap_or_else(from_database_err)
@@ -150,6 +158,7 @@ fn make_remote_world(app: &App, id: WorldId) -> Result<RemoteWorld> {
     updated_at: game.updated_at.into(),
     has_password: game.password.is_some(),
     current_round: world.round().id(),
+    round_duration: game.round_duration.map(Into::into),
     active_players,
     total_players,
     continent_size: world.continent().size(),

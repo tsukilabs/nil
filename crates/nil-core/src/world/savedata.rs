@@ -3,6 +3,7 @@
 
 use crate::error::{Error, Result};
 use crate::event::Emitter;
+use crate::player::PlayerStatus;
 use crate::savedata::Savedata;
 use crate::world::World;
 
@@ -18,6 +19,11 @@ impl World {
   pub fn to_bytes(&self) -> Result<Vec<u8>> {
     let mut buffer = Vec::new();
     let mut data = Savedata::from(self);
+
+    for player in data.player_manager.players_mut() {
+      *player.status_mut() = PlayerStatus::Inactive;
+    }
+
     data.write(&mut buffer)?;
 
     Ok(buffer)

@@ -32,7 +32,7 @@ impl Axeman {
 
   pub const CHUNK: UnitChunk = UnitChunk {
     size: UnitChunkSize::new(10),
-    cost: Cost::new(1300),
+    cost: Cost::new(1_300),
     wood_ratio: ResourceRatio::new(0.45),
     stone_ratio: ResourceRatio::new(0.25),
     iron_ratio: ResourceRatio::new(0.3),

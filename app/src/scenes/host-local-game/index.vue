@@ -18,7 +18,7 @@ import InputPlayerName from '@/components/form/InputPlayerName.vue';
 import SliderBotDensity from '@/components/form/SliderBotDensity.vue';
 import type { WithPartialNullish, WritablePartial } from '@tb-dev/utils';
 import SliderBotAdvancedStartRatio from '@/components/form/SliderBotAdvancedStartRatio.vue';
-import { Button, Card, CardContent, CardFooter, CardHeader, CardTitle, Checkbox, Label } from '@tb-dev/vue-components';
+import { Button, Card, CardContent, CardFooter, CardHeader, CardTitle, Label, Switch } from '@tb-dev/vue-components';
 
 const { t } = useI18n({
   messages: {
@@ -33,7 +33,7 @@ const settings = useSettings();
 const { md } = useBreakpoints();
 
 const worldOptions = localRef<WritablePartial<WorldOptions>>(
-  'host-local-game:world',
+  key('world'),
   {
     name: null,
     size: __CONSTS__.continentSizeDefault,
@@ -45,7 +45,7 @@ const worldOptions = localRef<WritablePartial<WorldOptions>>(
 );
 
 const playerOptions = localRef<WritablePartial<PlayerOptions>>(
-  'host-local-game:player',
+  key('player'),
   {
     id: null,
   } satisfies WithPartialNullish<PlayerOptions, 'id'>,
@@ -67,16 +67,20 @@ async function host() {
     }
   });
 }
+
+function key(name: string) {
+  return `host-local-game:${name}`;
+}
 </script>
 
 <template>
   <div :class="md ? 'card-layout' : 'game-layout'">
-    <Card class="max-md:size-full">
+    <Card class="max-md:size-full overflow-hidden">
       <CardHeader>
         <CardTitle>{{ t('host-game') }}</CardTitle>
       </CardHeader>
 
-      <CardContent class="flex flex-col gap-2 max-md:px-2">
+      <CardContent class="size-full flex flex-col gap-2 max-md:px-2 overflow-x-hidden overflow-y-auto">
         <InputWorldName v-model="worldOptions.name" :disabled="locked" />
         <InputWorldSize v-model="worldOptions.size" :disabled="locked" />
         <InputPlayerName v-model="playerOptions.id" :disabled="locked" />
@@ -85,7 +89,7 @@ async function host() {
 
         <div class="flex items-center justify-center py-1">
           <Label>
-            <Checkbox v-model="worldOptions.allowCheats" :disabled="locked" />
+            <Switch v-model="worldOptions.allowCheats" :disabled="locked" />
             <span>{{ t('allow-cheats') }}</span>
           </Label>
         </div>

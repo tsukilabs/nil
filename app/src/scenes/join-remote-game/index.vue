@@ -15,6 +15,7 @@ import { useRouteQuery } from '@vueuse/router';
 import { useSettings } from '@/stores/settings';
 import enUS from '@/locale/en-US/scenes/online.json';
 import ptBR from '@/locale/pt-BR/scenes/online.json';
+import { useToken } from '@/composables/auth/useToken';
 import { useBreakpoints, useMutex } from '@tb-dev/vue';
 import ButtonIcon from '@/components/button/ButtonIcon.vue';
 import { go, QUERY_JOIN_REMOTE_GAME_WORLD_ID } from '@/router';
@@ -50,6 +51,8 @@ const settings = useSettings();
 const { md } = useBreakpoints();
 
 const { remoteWorld, loading } = useRemoteWorld(worldId);
+
+const { playerId } = useToken();
 
 const worldPassword = ref<Option<string>>();
 
@@ -87,13 +90,14 @@ async function deleteGame() {
 <template>
   <div :class="md ? 'card-layout' : 'game-layout'">
     <Loading v-if="loading" />
-    <Card v-else-if="remoteWorld" class="max-md:size-full md:min-w-150! md:max-w-1/2">
+    <Card v-else-if="remoteWorld" class="max-md:size-full md:min-w-150! md:max-w-1/2 overflow-hidden">
       <CardHeader>
         <CardTitle>
           <div class="flex items-center justify-between">
             <span class="w-full">{{ t('join-game') }}</span>
             <div class="flex items-center justify-center">
               <ButtonIcon
+                v-if="remoteWorld.createdBy === playerId"
                 variant="outline"
                 :size="md ? 'icon' : 'icon-sm'"
                 :icon="Trash2Icon"

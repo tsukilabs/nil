@@ -1,8 +1,8 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { clamp } from 'es-toolkit';
 import { toU8 } from '@/lib/number';
+import { clamp } from 'es-toolkit/math';
 import { invoke } from '@tauri-apps/api/core';
 import { SquadImpl } from '@/core/model/military/squad';
 import type { SimulateBattleRequest } from '@/lib/request';

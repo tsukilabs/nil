@@ -21,7 +21,7 @@ members = [
 
 [workspace.package]
 description = "Multiplayer strategy game"
-version = "0.4.1"
+version = "0.4.7"
 edition = "2024"
 rust-version = "1.96"
 license = "AGPL-3.0-only"
@@ -29,6 +29,8 @@ readme = "./README.md"
 homepage = "https://nil.dev.br"
 repository = "https://github.com/tsukilabs/nil"
 authors = ["Andrew Ferreira <andrew.shien2@gmail.com>", "Danilo Soares <danilofs18@gmail.com>"]
+keywords = ["call-of-nil", "strategy-game"]
+categories = ["games"]
 
 [profile.release]
 codegen-units = 1
@@ -57,6 +59,7 @@ anyhow = "1.0"
 bitflags = "2.11"
 bon = "3.9"
 bytes = "1.11"
+bytesize = "=2.3.1"
 dashmap = "6.1"
 either = "1.15"
 futures = "0.3"
@@ -73,6 +76,7 @@ rand = "0.10"
 remain = "0.2"
 serde_json = "1.0"
 subenum = "=1.1.3"
+sysinfo = "0.38"
 tap = "=1.0.1"
 tar = "0.4"
 tauri-plugin-clipboard-manager = "2.3"
@@ -232,7 +236,7 @@ version = "1.50"
 features = ["full"]
 
 [workspace.dependencies.tokio-tungstenite]
-version = "0.28"
+version = "0.29"
 features = ["rustls-tls-webpki-roots", "url"]
 
 [workspace.dependencies.toml]

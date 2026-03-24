@@ -15,7 +15,7 @@ use nil_core::player::PlayerId;
 use nil_core::world::config::WorldId;
 use nil_crypto::password::Password;
 use nil_lua::Lua;
-use nil_server_types::Token;
+use nil_server_types::auth::Token;
 use std::fs;
 use std::path::PathBuf;
 use std::sync::Arc;

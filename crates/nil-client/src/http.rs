@@ -1,20 +1,15 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-pub(crate) mod authorization;
-pub(crate) mod circuit_breaker;
-pub(crate) mod retry;
-
+use crate::authorization::Authorization;
+use crate::circuit_breaker::{CircuitBreaker, CircuitState};
 use crate::error::{Error, Result};
-use crate::http::authorization::Authorization;
-use crate::http::circuit_breaker::CircuitState;
+use crate::retry::{Retry, is_retryable_error, is_retryable_status};
 use crate::server::ServerAddr;
 use anyhow::anyhow;
-use circuit_breaker::CircuitBreaker;
 use futures::TryFutureExt;
-use http::{HeaderMap, Method, header};
+use http::{HeaderMap, Method, StatusCode, header};
 use reqwest::{Client as HttpClient, Response};
-use retry::{Retry, is_retryable_err, is_retryable_status};
 use serde::Serialize;
 use serde::de::DeserializeOwned;
 use std::sync::nonpoison::Mutex;
@@ -105,7 +100,6 @@ pub async fn post(
   body: impl Serialize,
   authorization: Option<&Authorization>,
   circuit_breaker: Weak<Mutex<CircuitBreaker>>,
-  retry: Option<&Retry>,
   user_agent: &str,
 ) -> Result<()> {
   let url = server.url(route)?;
@@ -113,7 +107,6 @@ pub async fn post(
     .body(body)
     .maybe_authorization(authorization)
     .circuit_breaker(circuit_breaker)
-    .maybe_retry(retry)
     .user_agent(user_agent)
     .send()
     .await
@@ -127,7 +120,6 @@ pub async fn json_post<R>(
   body: impl Serialize,
   authorization: Option<&Authorization>,
   circuit_breaker: Weak<Mutex<CircuitBreaker>>,
-  retry: Option<&Retry>,
   user_agent: &str,
 ) -> Result<R>
 where
@@ -138,7 +130,6 @@ where
     .body(body)
     .maybe_authorization(authorization)
     .circuit_breaker(circuit_breaker)
-    .maybe_retry(retry)
     .user_agent(user_agent)
     .send()
     .and_then(async |res| json::<R>(res).await)
@@ -255,29 +246,30 @@ async fn send_request<F>(
 where
   F: AsyncFn(reqwest::RequestBuilder) -> Result<Response>,
 {
-  let mut last_err = None::<String>;
   let attempts = retry.map(Retry::attempts).unwrap_or(1);
 
-  if let Some(circuit_breaker) = Weak::upgrade(&circuit_breaker)
-    && let CircuitState::Open = circuit_breaker.lock().update()
-  {
-    return Err(Error::ServiceUnavailable);
-  }
-
   for attempt in 1..=attempts {
+    if let Some(circuit_breaker) = Weak::upgrade(&circuit_breaker)
+      && let CircuitState::Open = circuit_breaker.lock().update()
+    {
+      return Err(Error::ServiceUnavailable);
+    }
+
     let request = create_request(method.clone(), url)
       .maybe_authorization(authorization)
       .user_agent(user_agent)
       .create();
 
-    let retry_fn = async |retry: &Retry| {
+    let wait_delay = async |retry: &Retry, status: Option<StatusCode>| {
       debug_assert!(
         method == Method::GET || method == Method::PUT,
         "Should only retry idempotent requests"
       );
 
-      let delay = retry.delay(attempt);
-      tracing::warn!(%method, url, attempt, max_attempts = attempts, retrying_in = ?delay);
+      let mut delay = retry.delay(attempt);
+      if matches!(status, Some(StatusCode::TOO_MANY_REQUESTS)) {
+        delay = delay.mul_f64(rand::random_range(1.0..=2.0));
+      }
 
       sleep(delay).await;
     };
@@ -301,7 +293,7 @@ where
             circuit_breaker.lock().record_failure();
           }
 
-          retry_fn(retry).await;
+          wait_delay(retry, Some(status)).await;
           continue;
         }
 
@@ -315,10 +307,9 @@ where
 
         if attempt < attempts
           && let Some(retry) = retry
-          && is_retryable_err(&err)
+          && is_retryable_error(&err)
         {
-          last_err = Some(err.to_string());
-          retry_fn(retry).await;
+          wait_delay(retry, None).await;
           continue;
         }
 
@@ -327,7 +318,7 @@ where
     }
   }
 
-  Err(Error::MaxRetriesExceeded { attempts, message: last_err })
+  unreachable!();
 }
 
 async fn json<R>(response: Response) -> Result<R>
@@ -361,7 +352,8 @@ pub(crate) fn has_html_content_type(headers: &HeaderMap) -> bool {
   headers
     .get(header::CONTENT_TYPE)
     .and_then(|it| it.to_str().ok())
-    .is_some_and(|it| it.eq_ignore_ascii_case("text/html"))
+    .and_then(|it| it.split(';').next())
+    .is_some_and(|it| it.trim().eq_ignore_ascii_case("text/html"))
 }
 
 fn log_err(err: &reqwest::Error) {

@@ -10,9 +10,12 @@
   sync_nonpoison
 )]
 
+mod authorization;
+mod circuit_breaker;
 mod client;
 mod error;
 mod http;
+mod retry;
 mod server;
 mod websocket;
 

@@ -38,6 +38,13 @@ impl World {
     Ok(())
   }
 
+  /// Forcefully ends the current round.
+  pub fn dangerously_end_round(&mut self, emit: bool) -> Result<()> {
+    self.round.dangerously_set_done();
+    self.next_round(emit)?;
+    Ok(())
+  }
+
   pub(super) fn next_round(&mut self, emit: bool) -> Result<()> {
     let ids = self
       .player_manager

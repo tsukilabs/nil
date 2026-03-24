@@ -7,7 +7,8 @@ use futures::stream::{SplitSink, SplitStream, StreamExt};
 use nil_core::event::{EventTarget, Listener};
 use nil_core::player::PlayerId;
 use tokio::select;
-use tokio::task::JoinHandle;
+use tokio::sync::broadcast::error::RecvError;
+use tokio::task::{JoinHandle, spawn};
 
 type Sender = SplitSink<WebSocket, Message>;
 type Receiver = SplitStream<WebSocket>;
@@ -24,27 +25,31 @@ pub(crate) async fn handle_socket(socket: WebSocket, listener: Listener, player:
 }
 
 fn spawn_tx(mut tx: Sender, mut listener: Listener, player: PlayerId) -> JoinHandle<()> {
-  tokio::spawn(async move {
+  spawn(async move {
     loop {
-      if let Ok((bytes, target)) = listener.recv().await {
-        match target {
-          EventTarget::Broadcast => {
+      match listener.recv().await {
+        Ok((bytes, target)) => {
+          let send = match target {
+            EventTarget::Broadcast => true,
+            EventTarget::Player(id) if id == player => true,
+            _ => false,
+          };
+
+          if send {
             let _ = tx.send(Message::Binary(bytes)).await;
           }
-          EventTarget::Player(id) if id == player => {
-            let _ = tx.send(Message::Binary(bytes)).await;
-          }
-          _ => {}
         }
+        Err(RecvError::Closed) => break,
+        Err(..) => {}
       }
     }
   })
 }
 
 fn spawn_rx(mut rx: Receiver) -> JoinHandle<()> {
-  tokio::spawn(async move {
+  spawn(async move {
     while let Some(Ok(message)) = rx.next().await {
-      if let Message::Close(_) = message {
+      if let Message::Close(..) = message {
         break;
       }
     }

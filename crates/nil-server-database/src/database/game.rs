@@ -4,6 +4,7 @@
 use super::Database;
 use crate::error::{Error, Result};
 use crate::model::game::{Game, GameWithBlob, NewGame};
+use crate::sql_types::duration::SqlDuration;
 use crate::sql_types::game_id::GameId;
 use crate::sql_types::hashed_password::HashedPassword;
 use crate::sql_types::id::UserId;
@@ -54,21 +55,25 @@ impl Database {
   decl_get_all!(get_games_with_blob, GameWithBlob);
 
   pub fn count_games(&self) -> Result<i64> {
-    use crate::schema::game::dsl::*;
-    game
+    use crate::schema::game;
+
+    game::table
       .count()
       .get_result(&mut *self.conn())
       .map_err(Into::into)
   }
 
   pub fn create_game(&self, new: &NewGame) -> Result<usize> {
-    use crate::schema::game::dsl::*;
+    use crate::schema::game;
 
-    diesel::insert_into(game)
+    diesel::insert_into(game::table)
       .values(new)
-      .on_conflict(id)
+      .on_conflict(game::id)
       .do_update()
-      .set((world_blob.eq(new.blob()), updated_at.eq(SqlZoned::now())))
+      .set((
+        game::world_blob.eq(new.blob()),
+        game::updated_at.eq(SqlZoned::now()),
+      ))
       .execute(&mut *self.conn())
       .map_err(Into::into)
   }
@@ -83,15 +88,25 @@ impl Database {
   }
 
   pub fn delete_games(&self, games: &[GameId]) -> Result<usize> {
-    use crate::schema::game::dsl::*;
+    use crate::schema::game;
 
     if games.is_empty() {
       Ok(0)
     } else {
-      diesel::delete(game.filter(id.eq_any(games)))
+      diesel::delete(game::table.filter(game::id.eq_any(games)))
         .execute(&mut *self.conn())
         .map_err(Into::into)
     }
+  }
+
+  pub fn game_exists(&self, game_id: impl Into<GameId>) -> Result<bool> {
+    use crate::schema::game;
+    use diesel::dsl::{exists, select};
+
+    let game_id: GameId = game_id.into();
+    select(exists(game::table.find(game_id)))
+      .get_result(&mut *self.conn())
+      .map_err(Into::into)
   }
 
   pub fn get_game_creator(&self, game_id: impl Into<GameId>) -> Result<PlayerId> {
@@ -106,13 +121,33 @@ impl Database {
     self.get_user_player_id(user_id)
   }
 
+  pub fn get_game_ids(&self) -> Result<Vec<GameId>> {
+    use crate::schema::game;
+
+    game::table
+      .select(game::id)
+      .load(&mut *self.conn())
+      .map_err(Into::into)
+  }
+
   pub fn get_game_password(&self, game_id: impl Into<GameId>) -> Result<Option<HashedPassword>> {
-    use crate::schema::game::dsl::*;
+    use crate::schema::game;
 
     let game_id: GameId = game_id.into();
-    game
+    game::table
       .find(&game_id)
-      .select(password)
+      .select(game::password)
+      .first(&mut *self.conn())
+      .map_err(Into::into)
+  }
+
+  pub fn get_game_round_duration(&self, game_id: impl Into<GameId>) -> Result<Option<SqlDuration>> {
+    use crate::schema::game;
+
+    let game_id: GameId = game_id.into();
+    game::table
+      .find(&game_id)
+      .select(game::round_duration)
       .first(&mut *self.conn())
       .map_err(Into::into)
   }

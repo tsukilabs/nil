@@ -134,6 +134,7 @@ pub(crate) fn from_database_err(err: DatabaseError) -> Response {
     GameNotFound(..) => res!(NOT_FOUND, err.to_string()),
     InvalidPassword => res!(BAD_REQUEST, err.to_string()),
     InvalidUsername(..) => res!(BAD_REQUEST, err.to_string()),
+    Jiff(..) => res!(INTERNAL_SERVER_ERROR),
     UserAlreadyExists(..) => res!(CONFLICT, err.to_string()),
     UserNotFound(..) => res!(NOT_FOUND, err.to_string()),
     Unknown(..) => res!(INTERNAL_SERVER_ERROR),
@@ -155,15 +156,13 @@ pub(crate) fn from_server_err(err: Error) -> Response {
   match err {
     Core(err) => from_core_err(err),
     Database(err) => from_database_err(err),
-    FailedToStart => res!(INTERNAL_SERVER_ERROR, err.to_string()),
     IncorrectUserCredentials => res!(UNAUTHORIZED, err.to_string()),
     IncorrectWorldCredentials(..) => res!(UNAUTHORIZED, err.to_string()),
-    InvalidWorld(..) => res!(INTERNAL_SERVER_ERROR, err.to_string()),
     Io(..) => res!(INTERNAL_SERVER_ERROR),
     MissingPassword => res!(BAD_REQUEST, err.to_string()),
-    Semver(..) => res!(INTERNAL_SERVER_ERROR),
     Unknown(..) => res!(INTERNAL_SERVER_ERROR),
     WorldLimitReached => res!(INTERNAL_SERVER_ERROR),
+    WorldNotFound(..) => res!(NOT_FOUND, err.to_string()),
   }
 }
 

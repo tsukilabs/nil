@@ -2,21 +2,24 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
 import type { ManeuverImpl } from '@/core/model/military/maneuver';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@tb-dev/vue-components';
 
 defineProps<{
   maneuvers: ManeuverImpl[];
 }>();
+
+const { t } = useI18n();
 </script>
 
 <template>
   <Table>
     <TableHeader>
       <TableRow>
-        <TableHead>Kind</TableHead>
-        <TableHead>Destination</TableHead>
-        <TableHead>Distance</TableHead>
+        <TableHead>{{ t('kind') }}</TableHead>
+        <TableHead>{{ t('destination') }}</TableHead>
+        <TableHead>{{ t('distance') }}</TableHead>
       </TableRow>
     </TableHeader>
 

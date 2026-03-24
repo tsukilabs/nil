@@ -4,6 +4,7 @@
 use nil_core::world::WorldOptions;
 use nil_core::world::config::WorldId;
 use nil_crypto::password::Password;
+use nil_server_types::round::RoundDuration;
 use serde::{Deserialize, Serialize};
 use std::path::PathBuf;
 
@@ -15,6 +16,8 @@ pub struct CreateRemoteWorldRequest {
   pub description: Option<String>,
   #[serde(default)]
   pub password: Option<Password>,
+  #[serde(default)]
+  pub round_duration: Option<RoundDuration>,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]

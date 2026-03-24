@@ -7,7 +7,7 @@ use crate::error::{AnyResult, Error, Result};
 use crate::military::Military;
 use crate::npc::bot::BotManager;
 use crate::npc::precursor::PrecursorManager;
-use crate::player::{Player, PlayerManager, PlayerStatus};
+use crate::player::{Player, PlayerManager};
 use crate::ranking::Ranking;
 use crate::report::ReportManager;
 use crate::round::{Round, RoundId};
@@ -56,12 +56,8 @@ impl Savedata {
       .map_err(|_| Error::FailedToReadSavedata)
   }
 
-  pub(crate) fn write(&mut self, buffer: &mut Vec<u8>) -> Result<()> {
-    for player in self.player_manager.players_mut() {
-      *player.status_mut() = PlayerStatus::Inactive;
-    }
-
-    write_tar(buffer, self)
+  pub(crate) fn write(self, buffer: &mut Vec<u8>) -> Result<()> {
+    write_tar(buffer, &self)
       .inspect_err(|err| tracing::error!(message = %err, error = ?err))
       .map_err(|_| Error::FailedToWriteSavedata)
   }
@@ -145,7 +141,6 @@ where
 
   let mut header = tar::Header::new_gnu();
   header.set_size(bytes.len().try_into()?);
-  header.set_cksum();
 
   builder.append_data(&mut header, path, bytes.as_slice())?;
 
