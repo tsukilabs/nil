@@ -226,9 +226,9 @@ fn perform_battle(world: &World, maneuver: &Maneuver) -> Result<BattleResult> {
     .defender(&defender)
     .luck(Luck::random())
     .maybe_wall(wall_stats)
+    .infrastructure_stats(&world.stats.infrastructure)
     .build()
     .result()
-    .pipe(Ok)
 }
 
 fn calculate_hauled_resources(world: &World, target: Coord, base: Haul) -> Result<Resources> {

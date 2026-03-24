@@ -25,8 +25,9 @@ impl World {
       .defender(defender)
       .luck(luck)
       .maybe_wall(wall_stats)
+      .infrastructure_stats(&self.stats.infrastructure)
       .build()
-      .result();
+      .result()?;
 
     Ok(result)
   }
