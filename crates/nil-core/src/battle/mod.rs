@@ -6,6 +6,7 @@ pub mod luck;
 #[cfg(test)]
 mod tests;
 
+use crate::error::Result;
 use crate::infrastructure::building::wall::WallStats;
 use crate::infrastructure::prelude::{BuildingLevel, Wall};
 use crate::infrastructure::stats::InfrastructureStats;
@@ -17,9 +18,6 @@ use bon::Builder;
 use luck::Luck;
 use nil_num::growth::growth;
 use serde::{Deserialize, Serialize};
-
-use std::sync::LazyLock;
-static STATS: LazyLock<InfrastructureStats> = LazyLock::new(InfrastructureStats::default);
 
 #[derive(Builder)]
 pub struct Battle<'a> {
@@ -33,12 +31,19 @@ pub struct Battle<'a> {
   luck: Luck,
 
   wall: Option<&'a WallStats>,
+  infrastructure_stats: &'a InfrastructureStats,
 }
 
 impl Battle<'_> {
   #[inline]
-  pub fn result(self) -> BattleResult {
-    BattleResult::new(self.attacker, self.defender, self.luck, self.wall)
+  pub fn result(self) -> Result<BattleResult> {
+    BattleResult::new(
+      self.attacker,
+      self.defender,
+      self.luck,
+      self.wall,
+      self.infrastructure_stats,
+    )
   }
 }
 
@@ -60,10 +65,11 @@ impl BattleResult {
     attacking_squads: &[Squad],
     defending_squads: &[Squad],
     luck: Luck,
-    wall: Option<&WallStats>
-  ) -> Self {
+    wall: Option<&WallStats>,
+    infrastructure_stats: &InfrastructureStats,
+  ) -> Result<Self> {
     let attacker_power = OffensivePower::new(attacking_squads, luck);
-    let defender_power = DefensivePower::new(defending_squads, &attacker_power, wall);
+    let defender_power = DefensivePower::new(defending_squads, &attacker_power, wall, infrastructure_stats)?;
 
     let winner = BattleWinner::determine(&attacker_power, &defender_power);
 
@@ -100,7 +106,7 @@ impl BattleResult {
       .map(|stats| stats.level)
       .unwrap_or_default();
 
-    BattleResult {
+    Ok(BattleResult {
       attacker_personnel,
       attacker_surviving_personnel,
       defender_personnel,
@@ -108,7 +114,7 @@ impl BattleResult {
       wall_level,
       winner,
       luck,
-    }
+    })
   }
 
   #[inline]
@@ -228,7 +234,8 @@ impl DefensivePower {
     squads: &[Squad],
     offensive_power: &OffensivePower,
     defending_wall: Option<&WallStats>,
-  ) -> Self {
+    infrastructure_stats: &InfrastructureStats,
+  ) -> Result<Self> {
     let mut infantry = 0.0;
     let mut cavalry = 0.0;
     let mut ranged = 0.0;
@@ -292,16 +299,16 @@ impl DefensivePower {
         }
       }
 
-      let wall = STATS
+      let wall_during_battle = infrastructure_stats
         .wall()
         .get(BuildingLevel::new(
           u8::from(wall.level) - wall_levels_to_decrease,
-        ))
-        .unwrap();
+        ))?;
 
-      total += f64::from(wall.defense) + ((f64::from(wall.defense_percent) / 100.0) * total);
+      total += f64::from(wall_during_battle.defense)
+        + ((f64::from(wall_during_battle.defense_percent) / 100.0) * total);
     }
 
-    DefensivePower { total }
+    Ok(DefensivePower { total })
   }
 }

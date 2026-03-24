@@ -3,6 +3,7 @@
 
 use crate::battle::luck::Luck;
 use crate::battle::{Battle, BattleWinner, DefensivePower, OffensivePower};
+use crate::error::Result;
 use crate::infrastructure::building::BuildingLevel;
 use crate::infrastructure::stats::InfrastructureStats;
 use crate::military::army::personnel::ArmyPersonnel;
@@ -21,6 +22,7 @@ fn offensive_power() {
   let battle = Battle::builder()
     .attacker(&attacker)
     .luck(Luck::new(0))
+    .infrastructure_stats(&STATS)
     .build();
 
   let power = offensive(&battle);
@@ -33,6 +35,7 @@ fn offensive_power_max_luck() {
   let battle = Battle::builder()
     .attacker(&attacker)
     .luck(Luck::MAX)
+    .infrastructure_stats(&STATS)
     .build();
 
   let power = offensive(&battle);
@@ -45,6 +48,7 @@ fn offensive_power_min_luck() {
   let battle = Battle::builder()
     .attacker(&attacker)
     .luck(Luck::MIN)
+    .infrastructure_stats(&STATS)
     .build();
 
   let power = offensive(&battle);
@@ -57,6 +61,7 @@ fn offensive_power_cavalry() {
   let battle = Battle::builder()
     .attacker(&attacker)
     .luck(Luck::new(0))
+    .infrastructure_stats(&STATS)
     .build();
 
   let power = offensive(&battle);
@@ -69,6 +74,7 @@ fn offensive_power_mixed() {
   let battle = Battle::builder()
     .attacker(&attacker)
     .luck(Luck::new(0))
+    .infrastructure_stats(&STATS)
     .build();
 
   let power = offensive(&battle);
@@ -76,55 +82,56 @@ fn offensive_power_mixed() {
 }
 
 #[test]
-fn defensive_power() {
+fn defensive_power() -> Result<()> {
   let attacker = [s(Axeman, 100), s(Swordsman, 50)];
   let defender = [s(Pikeman, 100), s(Swordsman, 50)];
   let battle = Battle::builder()
     .attacker(&attacker)
     .defender(&defender)
     .luck(Luck::new(0))
+    .infrastructure_stats(&STATS)
     .build();
 
-  let power = defensive(&battle);
+  let power = defensive(&battle)?;
   assert_eq!(power.total, 4000.0);
+
+  Ok(())
 }
 
 #[test]
-fn defensive_power_with_wall() {
+fn defensive_power_with_wall() -> Result<()> {
   let attacker = [s(Axeman, 100), s(Swordsman, 50)];
   let defender = [s(Pikeman, 100), s(Swordsman, 50)];
-  let wall = STATS
-    .wall()
-    .get(BuildingLevel::new(20))
-    .unwrap();
+  let wall = STATS.wall().get(BuildingLevel::new(20))?;
 
   let battle = Battle::builder()
     .attacker(&attacker)
     .defender(&defender)
     .luck(Luck::new(0))
     .wall(wall)
+    .infrastructure_stats(&STATS)
     .build();
 
-  let power = defensive(&battle);
+  let power = defensive(&battle)?;
   let attacking_power = offensive(&battle);
   assert_eq!(power.total, 18280.0);
   assert_eq!(attacking_power.total, 5250.0);
+
+  Ok(())
 }
 
 #[test]
-fn battle_result() {
+fn battle_result() -> Result<()> {
   let attacker = [s(Axeman, 100), s(Swordsman, 50)];
   let defender = [s(Pikeman, 100), s(Swordsman, 50)];
-  let wall = STATS
-    .wall()
-    .get(BuildingLevel::new(20))
-    .unwrap();
+  let wall = STATS.wall().get(BuildingLevel::new(20))?;
 
   let battle = Battle::builder()
     .attacker(&attacker)
     .defender(&defender)
     .luck(Luck::new(0))
     .wall(wall)
+    .infrastructure_stats(&STATS)
     .build();
 
   let attacker: ArmyPersonnel = attacker.iter().cloned().collect();
@@ -132,7 +139,7 @@ fn battle_result() {
     .into_iter()
     .collect();
 
-  let result = battle.result();
+  let result = battle.result()?;
   assert_eq!(result.winner, BattleWinner::Defender);
   assert_eq!(result.attacker_personnel, attacker);
   assert_eq!(
@@ -140,6 +147,8 @@ fn battle_result() {
     ArmyPersonnel::default()
   );
   assert_eq!(result.defender_surviving_personnel, defender_survivors);
+
+  Ok(())
 }
 
 #[test]
@@ -150,6 +159,7 @@ fn ranged_attack_no_debuff() {
     .attacker(&attacker)
     .defender(&defender)
     .luck(Luck::new(0))
+    .infrastructure_stats(&STATS)
     .build();
 
   let attack_power = offensive(&battle);
@@ -157,20 +167,23 @@ fn ranged_attack_no_debuff() {
 }
 
 #[test]
-fn no_defenders() {
+fn no_defenders() -> Result<()> {
   let attacker = [s(Axeman, 8000), s(LightCavalry, 5000)];
   let result = Battle::builder()
     .attacker(&attacker)
     .luck(Luck::new(0))
+    .infrastructure_stats(&STATS)
     .build()
-    .result();
+    .result()?;
 
   assert_matches!(result.winner, BattleWinner::Attacker);
   assert!(
     !result
       .attacker_surviving_personnel
       .is_empty()
-  )
+  );
+
+  Ok(())
 }
 
 fn s(id: UnitId, amount: u32) -> Squad {
@@ -181,6 +194,6 @@ fn offensive(battle: &Battle<'_>) -> OffensivePower {
   OffensivePower::new(battle.attacker, battle.luck)
 }
 
-fn defensive(battle: &Battle<'_>) -> DefensivePower {
-  DefensivePower::new(battle.defender, &offensive(battle), battle.wall)
+fn defensive(battle: &Battle<'_>) -> Result<DefensivePower> {
+  DefensivePower::new(battle.defender, &offensive(battle), battle.wall, &STATS)
 }
