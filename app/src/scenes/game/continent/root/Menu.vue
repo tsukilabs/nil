@@ -3,7 +3,7 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import { MenuIcon } from 'lucide-vue-next';
+import { MenuIcon } from '@lucide/vue';
 import { useBreakpoints } from '@tb-dev/vue';
 import {
   Button,

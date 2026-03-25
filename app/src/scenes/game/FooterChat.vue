@@ -7,9 +7,9 @@ import Unread from '@/components/Unread.vue';
 import { useBreakpoints } from '@tb-dev/vue';
 import Chat from '@/components/chat/Chat.vue';
 import { ListenerSet } from '@/lib/listener-set';
+import { MessagesSquareIcon } from '@lucide/vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useToggle, whenever } from '@vueuse/core';
-import { MessagesSquareIcon } from 'lucide-vue-next';
 import ChatInput from '@/components/chat/ChatInput.vue';
 import { Popover, PopoverContent, PopoverTrigger } from '@tb-dev/vue-components';
 

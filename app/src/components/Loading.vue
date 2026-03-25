@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { cn } from '@tb-dev/vue-components';
-import { LoaderCircleIcon } from 'lucide-vue-next';
+import { LoaderCircleIcon } from '@lucide/vue';
 import type { Component, HTMLAttributes } from 'vue';
 
 const props = defineProps<{
