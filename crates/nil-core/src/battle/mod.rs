@@ -31,6 +31,7 @@ pub struct Battle<'a> {
   luck: Luck,
 
   wall: Option<&'a WallStats>,
+
   infrastructure_stats: &'a InfrastructureStats,
 }
 
@@ -287,7 +288,6 @@ impl DefensivePower {
       for _ in 1..=usize::from(wall.level) {
         rams_per_wall_level += rams_per_wall_level * rams_growth_per_wall_level;
         rams_vec.push(rams_per_wall_level * rams_growth_per_wall_level);
-        //tracing::debug!(rams_vec = ?rams_vec[i-1]);
       }
 
       let mut attacker_rams = offensive_power.rams_amount;

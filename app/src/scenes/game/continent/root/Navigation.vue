@@ -6,7 +6,7 @@ import { computed } from 'vue';
 import { toPixel } from '@tb-dev/utils';
 import { Button } from '@tb-dev/vue-components';
 import type { Direction } from '@/composables/continent/onKeyboardMovement';
-import { ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon, ChevronUpIcon } from 'lucide-vue-next';
+import { ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon, ChevronUpIcon } from '@lucide/vue';
 
 const props = defineProps<{
   cellSize: number;
