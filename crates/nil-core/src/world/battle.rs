@@ -20,14 +20,13 @@ impl World {
       .then(|| self.stats.infrastructure.wall().get(wall))
       .transpose()?;
 
-    let result = Battle::builder()
+    Battle::builder()
       .attacker(attacker)
       .defender(defender)
       .luck(luck)
       .maybe_wall(wall_stats)
+      .infrastructure_stats(&self.stats.infrastructure)
       .build()
-      .result();
-
-    Ok(result)
+      .result()
   }
 }

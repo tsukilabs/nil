@@ -6,14 +6,17 @@ pub mod luck;
 #[cfg(test)]
 mod tests;
 
+use crate::error::Result;
 use crate::infrastructure::building::wall::WallStats;
-use crate::infrastructure::prelude::BuildingLevel;
+use crate::infrastructure::prelude::{BuildingLevel, Wall};
+use crate::infrastructure::stats::InfrastructureStats;
 use crate::military::army::personnel::ArmyPersonnel;
 use crate::military::squad::Squad;
 use crate::military::squad::size::SquadSize;
-use crate::military::unit::UnitKind;
+use crate::military::unit::{UnitId, UnitKind};
 use bon::Builder;
 use luck::Luck;
+use nil_num::growth::growth;
 use serde::{Deserialize, Serialize};
 
 #[derive(Builder)]
@@ -28,12 +31,20 @@ pub struct Battle<'a> {
   luck: Luck,
 
   wall: Option<&'a WallStats>,
+
+  infrastructure_stats: &'a InfrastructureStats,
 }
 
 impl Battle<'_> {
   #[inline]
-  pub fn result(self) -> BattleResult {
-    BattleResult::new(self.attacker, self.defender, self.luck, self.wall)
+  pub fn result(self) -> Result<BattleResult> {
+    BattleResult::new(
+      self.attacker,
+      self.defender,
+      self.luck,
+      self.wall,
+      self.infrastructure_stats,
+    )
   }
 }
 
@@ -55,10 +66,11 @@ impl BattleResult {
     attacking_squads: &[Squad],
     defending_squads: &[Squad],
     luck: Luck,
-    wall: Option<&WallStats>
-  ) -> Self {
+    wall: Option<&WallStats>,
+    infrastructure_stats: &InfrastructureStats,
+  ) -> Result<Self> {
     let attacker_power = OffensivePower::new(attacking_squads, luck);
-    let defender_power = DefensivePower::new(defending_squads, &attacker_power, wall);
+    let defender_power = DefensivePower::new(defending_squads, &attacker_power, wall, infrastructure_stats)?;
 
     let winner = BattleWinner::determine(&attacker_power, &defender_power);
 
@@ -95,7 +107,7 @@ impl BattleResult {
       .map(|stats| stats.level)
       .unwrap_or_default();
 
-    BattleResult {
+    Ok(BattleResult {
       attacker_personnel,
       attacker_surviving_personnel,
       defender_personnel,
@@ -103,7 +115,7 @@ impl BattleResult {
       wall_level,
       winner,
       luck,
-    }
+    })
   }
 
   #[inline]
@@ -161,6 +173,7 @@ struct OffensivePower {
   infantry: f64,
   cavalry: f64,
   ranged: f64,
+  rams_amount: f64,
 }
 
 impl OffensivePower {
@@ -168,6 +181,8 @@ impl OffensivePower {
     let mut infantry = 0.0;
     let mut cavalry = 0.0;
     let mut ranged = 0.0;
+    let mut rams_amount = 0.0;
+    let mut ranged_with_debuff = 0.0;
 
     let mut army_size = 0.0;
     let mut ranged_size = 0.0;
@@ -177,19 +192,23 @@ impl OffensivePower {
       match squad.kind() {
         UnitKind::Infantry => {
           infantry += *squad.attack();
+          if squad.id() == UnitId::Ram {
+            rams_amount = f64::from(squad.size());
+          }
         }
         UnitKind::Cavalry => {
           cavalry += *squad.attack();
         }
         UnitKind::Ranged => {
           ranged += *squad.attack();
+          ranged_with_debuff += *squad.attack() * f64::from(squad.unit().stats().ranged_debuff());
           ranged_size += f64::from(squad.size());
         }
       }
     }
 
     if ranged_size / army_size > 0.3 {
-      ranged *= sum_ranged_debuff(squads);
+      ranged = ranged_with_debuff;
     }
     infantry += infantry * luck;
     cavalry += cavalry * luck;
@@ -197,7 +216,13 @@ impl OffensivePower {
 
     let total = infantry + cavalry + ranged;
 
-    OffensivePower { total, infantry, cavalry, ranged }
+    OffensivePower {
+      total,
+      infantry,
+      cavalry,
+      ranged,
+      rams_amount,
+    }
   }
 }
 
@@ -210,82 +235,80 @@ impl DefensivePower {
     squads: &[Squad],
     offensive_power: &OffensivePower,
     defending_wall: Option<&WallStats>,
-  ) -> Self {
-    let mut infantry_power = 0.0;
-    let mut cavalry_power = 0.0;
-    let mut ranged_power = 0.0;
+    infrastructure_stats: &InfrastructureStats,
+  ) -> Result<Self> {
+    let mut infantry = 0.0;
+    let mut cavalry = 0.0;
+    let mut ranged = 0.0;
 
     let mut army_size = 0.0;
-    let mut ranged_squad_size = 0.0;
 
     for squad in squads {
-      if squad.kind() == UnitKind::Ranged {
-        ranged_squad_size += f64::from(squad.size());
-      }
+      infantry += squad.defense().infantry;
+      cavalry += squad.defense().cavalry;
+      ranged += squad.defense().ranged;
+
       army_size += f64::from(squad.size());
-    }
-
-    for squad in squads {
-      if squad.kind() == UnitKind::Ranged && ranged_squad_size / army_size > 0.5 {
-        infantry_power += squad.defense().infantry * sum_ranged_debuff(squads);
-        cavalry_power += squad.defense().cavalry * sum_ranged_debuff(squads);
-        ranged_power += squad.defense().ranged * sum_ranged_debuff(squads);
-      } else {
-        infantry_power += squad.defense().infantry;
-        cavalry_power += squad.defense().cavalry;
-        ranged_power += squad.defense().ranged;
-      }
     }
 
     let mut total = 0.0;
 
     if army_size > 0.0 {
-      let infantry_power_per_unit = infantry_power / army_size;
-      let cavalry_power_per_unit = cavalry_power / army_size;
-      let ranged_power_per_unit = ranged_power / army_size;
+      let infantry_power_per_unit = infantry / army_size;
+      let cavalry_power_per_unit = cavalry / army_size;
+      let ranged_power_per_unit = ranged / army_size;
 
-      let mut infantry_necessary_units = offensive_power.infantry / infantry_power_per_unit;
-      let mut cavalry_necessary_units = offensive_power.cavalry / cavalry_power_per_unit;
-      let mut ranged_necessary_units = offensive_power.ranged / ranged_power_per_unit;
+      let infantry_necessary_units = offensive_power.infantry / infantry_power_per_unit;
+      let cavalry_necessary_units = offensive_power.cavalry / cavalry_power_per_unit;
+      let ranged_necessary_units = offensive_power.ranged / ranged_power_per_unit;
 
       let necessary_units =
         infantry_necessary_units + cavalry_necessary_units + ranged_necessary_units;
 
-      infantry_necessary_units /= necessary_units;
-      cavalry_necessary_units /= necessary_units;
-      ranged_necessary_units /= necessary_units;
+      let infantry_proportion = infantry_necessary_units / necessary_units;
+      let cavalry_proportion = cavalry_necessary_units / necessary_units;
+      let ranged_proportion = ranged_necessary_units / necessary_units;
 
-      infantry_power = infantry_necessary_units * army_size * infantry_power_per_unit;
-      cavalry_power = cavalry_necessary_units * army_size * cavalry_power_per_unit;
-      ranged_power = ranged_necessary_units * army_size * ranged_power_per_unit;
+      infantry = infantry_proportion * army_size * infantry_power_per_unit;
+      cavalry = cavalry_proportion * army_size * cavalry_power_per_unit;
+      ranged = ranged_proportion * army_size * ranged_power_per_unit;
 
-      total = infantry_power + cavalry_power + ranged_power;
+      total = infantry + cavalry + ranged;
     }
 
-    if let Some(wall_power) = defending_wall {
-      total = add_wall_power(wall_power, total);
+    if let Some(wall) = defending_wall {
+      let rams_growth_per_wall_level: f64 = growth()
+        .floor(wall.level)
+        .ceil(200)
+        .max_level(Wall::MAX_LEVEL)
+        .call();
+
+      let mut rams_vec: Vec<f64> = Vec::new();
+      let mut rams_per_wall_level: f64 = f64::from(wall.level);
+      for _ in 1..=usize::from(wall.level) {
+        rams_per_wall_level += rams_per_wall_level * rams_growth_per_wall_level;
+        rams_vec.push(rams_per_wall_level * rams_growth_per_wall_level);
+      }
+
+      let mut attacker_rams = offensive_power.rams_amount;
+      let mut wall_levels_to_decrease = 0;
+      for value in rams_vec.iter().rev() {
+        if attacker_rams >= *value && wall_levels_to_decrease < u8::from(wall.level) {
+          attacker_rams -= value;
+          wall_levels_to_decrease += 1;
+        }
+      }
+
+      let wall_during_battle = infrastructure_stats
+        .wall()
+        .get(BuildingLevel::new(
+          u8::from(wall.level) - wall_levels_to_decrease,
+        ))?;
+
+      total += f64::from(wall_during_battle.defense)
+        + ((f64::from(wall_during_battle.defense_percent) / 100.0) * total);
     }
 
-    DefensivePower { total }
+    Ok(DefensivePower { total })
   }
-}
-
-fn sum_ranged_debuff(squads: &[Squad]) -> f64 {
-  let mut ranged_debuff = 0.0;
-  let mut ranged_amount = 0;
-  for squad in squads {
-    if squad.kind() == UnitKind::Ranged {
-      let size = *squad.size();
-      let stats = squad.unit().stats();
-      ranged_debuff += stats.ranged_debuff() * size;
-      ranged_amount += size;
-    }
-  }
-  ranged_debuff / f64::from(ranged_amount)
-}
-
-fn add_wall_power(wall: &WallStats, current_power: f64) -> f64 {
-  current_power
-    + f64::from(wall.defense)
-    + ((f64::from(wall.defense_percent) / 100.0) * current_power)
 }
