@@ -7,7 +7,7 @@ import FooterChat from './FooterChat.vue';
 import Unread from '@/components/Unread.vue';
 import { useBreakpoints } from '@tb-dev/vue';
 import ButtonIcon from '@/components/button/ButtonIcon.vue';
-import { EarthIcon, ScrollTextIcon, SwordsIcon } from 'lucide-vue-next';
+import { EarthIcon, ScrollTextIcon, SwordsIcon } from '@lucide/vue';
 
 const { unread: unreadReports } = NIL.report.refs();
 

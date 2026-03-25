@@ -5,7 +5,7 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { formatDate } from 'date-fns';
-import { LockIcon } from 'lucide-vue-next';
+import { LockIcon } from '@lucide/vue';
 import Loading from '@/components/Loading.vue';
 import { throttle } from 'es-toolkit/function';
 import enUS from '@/locale/en-US/scenes/online.json';
