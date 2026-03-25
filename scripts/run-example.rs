@@ -27,6 +27,9 @@ struct Args {
   release: bool,
 
   #[arg(long)]
+  remote: bool,
+
+  #[arg(long)]
   server: Option<String>,
 
   #[arg(long)]
@@ -47,6 +50,8 @@ struct Args {
 
 fn main() -> Result<()> {
   let args = Args::parse();
+  let mut env = Vec::new();
+
   let mut command = if args.release {
     String::from("nls ")
   } else {
@@ -55,6 +60,10 @@ fn main() -> Result<()> {
 
   let script = args.script.trim_end_matches(".lua");
   write!(command, " crates/nil-lua/examples/{script}.lua")?;
+
+  if args.server.is_none() && args.remote {
+    env.push(("NIL_REMOTE_SERVER_ADDR", "https://tsukilabs.dev.br/nil/"));
+  }
 
   macro_rules! set {
     ($flag:literal, $value:ident) => {
@@ -72,5 +81,5 @@ fn main() -> Result<()> {
   set!("world-password", world_password);
   set!("token", token);
 
-  spawn!(command)
+  spawn!(command, env)
 }
