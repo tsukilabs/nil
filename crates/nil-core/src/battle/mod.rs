@@ -81,8 +81,8 @@ impl BattleResult {
     let mut defender_surviving_personnel = ArmyPersonnel::default();
 
     let losses_ratio = match winner {
-      BattleWinner::Attacker => defender_power.total / attacker_power.total,
-      BattleWinner::Defender => attacker_power.total / defender_power.total,
+      BattleWinner::Attacker => (defender_power.total / attacker_power.total).powf(1.5),
+      BattleWinner::Defender => (attacker_power.total / defender_power.total).powf(1.5),
     };
 
     let mut squad_survivors: f64;
@@ -185,7 +185,7 @@ impl OffensivePower {
     let mut ranged_with_debuff = 0.0;
 
     let mut army_size = 0.0;
-    let mut ranged_size = 0.0;
+    let mut ranged_amount = 0.0;
 
     for squad in squads {
       army_size += f64::from(squad.size());
@@ -202,12 +202,12 @@ impl OffensivePower {
         UnitKind::Ranged => {
           ranged += *squad.attack();
           ranged_with_debuff += *squad.attack() * f64::from(squad.unit().stats().ranged_debuff());
-          ranged_size += f64::from(squad.size());
+          ranged_amount += f64::from(squad.size());
         }
       }
     }
 
-    if ranged_size / army_size > 0.3 {
+    if ranged_amount / army_size > 0.3 {
       ranged = ranged_with_debuff;
     }
     infantry += infantry * luck;
@@ -277,36 +277,42 @@ impl DefensivePower {
     }
 
     if let Some(wall) = defending_wall {
-      let rams_growth_per_wall_level: f64 = growth()
-        .floor(wall.level)
-        .ceil(200)
-        .max_level(Wall::MAX_LEVEL)
-        .call();
+      let mut attacking_rams = offensive_power.rams_amount;
 
-      let mut rams_vec: Vec<f64> = Vec::new();
-      let mut rams_per_wall_level: f64 = f64::from(wall.level);
-      for _ in 1..=usize::from(wall.level) {
-        rams_per_wall_level += rams_per_wall_level * rams_growth_per_wall_level;
-        rams_vec.push(rams_per_wall_level * rams_growth_per_wall_level);
-      }
+      if attacking_rams > 0.0 {
+        let rams_growth_per_wall_level: f64 = growth()
+          .floor(wall.level)
+          .ceil(200)
+          .max_level(Wall::MAX_LEVEL)
+          .call();
 
-      let mut attacker_rams = offensive_power.rams_amount;
-      let mut wall_levels_to_decrease = 0;
-      for value in rams_vec.iter().rev() {
-        if attacker_rams >= *value && wall_levels_to_decrease < u8::from(wall.level) {
-          attacker_rams -= value;
-          wall_levels_to_decrease += 1;
+        let mut rams_vec: Vec<f64> = Vec::new();
+        let mut rams_per_wall_level: f64 = f64::from(wall.level);
+
+        for _ in 1..=usize::from(wall.level) {
+          rams_per_wall_level += rams_per_wall_level * rams_growth_per_wall_level;
+          rams_vec.push(rams_per_wall_level * rams_growth_per_wall_level);
         }
+
+        let mut wall_levels_to_decrease = 0;
+        for value in rams_vec.iter().rev() {
+          if attacking_rams >= *value && wall_levels_to_decrease < u8::from(wall.level) {
+            attacking_rams -= value;
+            wall_levels_to_decrease += 1;
+          }
+        }
+
+        let new_wall = infrastructure_stats
+          .wall()
+          .get(BuildingLevel::new(
+            u8::from(wall.level) - wall_levels_to_decrease,
+          ))?;
+
+        total +=
+          f64::from(new_wall.defense) + ((f64::from(new_wall.defense_percent) / 100.0) * total);
+      } else {
+        total += f64::from(wall.defense) + ((f64::from(wall.defense_percent) / 100.0) * total);
       }
-
-      let wall_during_battle = infrastructure_stats
-        .wall()
-        .get(BuildingLevel::new(
-          u8::from(wall.level) - wall_levels_to_decrease,
-        ))?;
-
-      total += f64::from(wall_during_battle.defense)
-        + ((f64::from(wall_during_battle.defense_percent) / 100.0) * total);
     }
 
     Ok(DefensivePower { total })
