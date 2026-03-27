@@ -21,7 +21,7 @@ use derive_more::{Deref, Into};
 use nil_num::growth::growth;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
-use std::ops::{Add, AddAssign, Sub, SubAssign};
+use std::ops::{Add, AddAssign, Mul, Sub, SubAssign};
 use std::{cmp, fmt};
 use strum::{Display, EnumIs, EnumIter};
 use subenum::subenum;
@@ -435,6 +435,14 @@ impl SubAssign<u8> for BuildingLevel {
 impl SubAssign<i8> for BuildingLevel {
   fn sub_assign(&mut self, rhs: i8) {
     *self = *self - rhs;
+  }
+}
+
+impl Mul<f64> for BuildingLevel {
+  type Output = f64;
+
+  fn mul(self, rhs: f64) -> f64 {
+    f64::from(self.0) * rhs
   }
 }
 
