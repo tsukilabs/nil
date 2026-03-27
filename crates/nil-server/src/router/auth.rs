@@ -5,7 +5,7 @@ use crate::app::App;
 use crate::error::Error;
 use crate::middleware::authorization::{decode_jwt, encode_jwt};
 use crate::res;
-use crate::response::from_database_err;
+use crate::response::from_err;
 use axum::extract::{Json, State};
 use axum::response::Response;
 use nil_core::player::PlayerId;
@@ -65,7 +65,7 @@ pub async fn validate_token(
     match app.database().user_exists(player) {
       Ok(true) => {}
       Ok(false) => return res!(OK, Json(None::<PlayerId>)),
-      Err(err) => return from_database_err(err),
+      Err(err) => return from_err(err),
     }
   }
 

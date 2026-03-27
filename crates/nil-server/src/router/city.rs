@@ -4,7 +4,7 @@
 use crate::app::App;
 use crate::error::{CoreError, Error};
 use crate::middleware::authorization::CurrentPlayer;
-use crate::response::{EitherExt, from_core_err};
+use crate::response::{EitherExt, from_err};
 use crate::{bail_if_city_is_not_owned_by, res};
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
@@ -28,7 +28,7 @@ pub async fn get_city(
 
       result
         .map(|city| res!(OK, Json(city)))
-        .unwrap_or_else(from_core_err)
+        .unwrap_or_else(from_err)
     }
     Err(err) => Response::from(err),
   }
@@ -109,7 +109,7 @@ pub async fn rename_city(
 
       result
         .map(|city| res!(OK, Json(city)))
-        .unwrap_or_else(from_core_err)
+        .unwrap_or_else(from_err)
     }
     Err(err) => Response::from(err),
   }

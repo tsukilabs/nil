@@ -70,16 +70,18 @@ macro_rules! res {
 
 impl From<Error> for Response {
   fn from(err: Error) -> Self {
-    from_server_err(err)
+    from_err(err)
   }
 }
 
 pub(crate) fn from_err(err: impl Into<Error>) -> Response {
-  Response::from(Into::<Error>::into(err))
+  let err: Error = err.into();
+  tracing::error!(message = %err, error = ?err);
+  from_server_err(err)
 }
 
 #[expect(clippy::match_same_arms, clippy::needless_pass_by_value)]
-pub(crate) fn from_core_err(err: CoreError) -> Response {
+fn from_core_err(err: CoreError) -> Response {
   use CoreError::*;
 
   let text = err.to_string();
@@ -125,7 +127,7 @@ pub(crate) fn from_core_err(err: CoreError) -> Response {
 }
 
 #[expect(clippy::match_same_arms)]
-pub(crate) fn from_database_err(err: DatabaseError) -> Response {
+fn from_database_err(err: DatabaseError) -> Response {
   use DatabaseError::*;
 
   match err {
@@ -150,7 +152,7 @@ fn from_diesel_err(err: &DieselError) -> Response {
 }
 
 #[expect(clippy::match_same_arms)]
-pub(crate) fn from_server_err(err: Error) -> Response {
+fn from_server_err(err: Error) -> Response {
   use Error::*;
 
   match err {
@@ -173,7 +175,7 @@ macro_rules! bail_if_player_is_not_pending {
     if !$world.round().is_waiting_player($player) {
       use nil_core::error::Error;
       let err = Error::NotWaitingPlayer($player.clone());
-      return $crate::response::from_core_err(err);
+      return $crate::response::from_err(err);
     }
   };
 }

@@ -3,7 +3,7 @@
 
 use crate::app::App;
 use crate::res;
-use crate::response::{EitherExt, from_core_err};
+use crate::response::{EitherExt, from_err};
 use axum::extract::{Json, State};
 use axum::response::Response;
 use nil_core::continent::{Continent, PublicField};
@@ -45,9 +45,9 @@ pub async fn get_public_fields(
 
       result
         .map(|fields| res!(OK, Json(fields)))
-        .unwrap_or_else(from_core_err)
+        .unwrap_or_else(from_err)
     }
-    Err(err) => Response::from(err),
+    Err(err) => from_err(err),
   }
 }
 

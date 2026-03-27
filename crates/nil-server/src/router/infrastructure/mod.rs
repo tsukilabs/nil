@@ -8,7 +8,7 @@ pub mod workshop;
 
 use crate::app::App;
 use crate::middleware::authorization::CurrentPlayer;
-use crate::response::from_core_err;
+use crate::response::from_err;
 use crate::{bail_if_city_is_not_owned_by, bail_if_player_is_not_pending, res};
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
@@ -30,7 +30,7 @@ pub async fn toggle(
 
       result
         .map(|()| res!(OK))
-        .unwrap_or_else(from_core_err)
+        .unwrap_or_else(from_err)
     }
     Err(err) => Response::from(err),
   }

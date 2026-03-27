@@ -5,7 +5,7 @@ use crate::app::App;
 use crate::error::Error;
 use crate::middleware::authorization::CurrentPlayer;
 use crate::res;
-use crate::response::{EitherExt, from_database_err};
+use crate::response::{EitherExt, from_err};
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
 use either::Either;
@@ -169,7 +169,7 @@ pub async fn spawn(State(app): State<App>, Json(req): Json<SpawnPlayerRequest>) 
     {
       Ok(true) => {}
       Ok(false) => return Error::IncorrectWorldCredentials(req.world).into(),
-      Err(err) => return from_database_err(err),
+      Err(err) => return from_err(err),
     }
   }
 
