@@ -260,7 +260,7 @@ version = "2.5"
 features = ["serde"]
 
 [workspace.dependencies.uuid]
-version = "1.22"
+version = "1.23"
 features = ["serde", "v4", "v7"]
 
 [workspace.lints.rust]
