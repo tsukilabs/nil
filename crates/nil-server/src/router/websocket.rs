@@ -4,7 +4,7 @@
 use crate::app::App;
 use crate::error::Error;
 use crate::middleware::authorization::CurrentPlayer;
-use crate::response::from_database_err;
+use crate::response::from_err;
 use crate::websocket::handle_socket;
 use axum::extract::ws::WebSocketUpgrade;
 use axum::extract::{Extension, Query, State};
@@ -25,7 +25,7 @@ pub async fn websocket(
     {
       Ok(true) => {}
       Ok(false) => return Error::IncorrectWorldCredentials(query.world_id).into(),
-      Err(err) => return from_database_err(err),
+      Err(err) => return from_err(err),
     }
   }
 

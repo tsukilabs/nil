@@ -5,7 +5,7 @@ use crate::app::App;
 use crate::error::CoreError;
 use crate::middleware::authorization::CurrentPlayer;
 use crate::res;
-use crate::response::{EitherExt, from_database_err};
+use crate::response::{EitherExt, from_err};
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
 use nil_payload::round::*;
@@ -45,7 +45,7 @@ pub async fn start(
     {
       Ok(true) => {}
       Ok(false) => return res!(FORBIDDEN),
-      Err(err) => return from_database_err(err),
+      Err(err) => return from_err(err),
     }
   }
 

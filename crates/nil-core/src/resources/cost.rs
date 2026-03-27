@@ -67,6 +67,7 @@ impl ResourceRatio {
 }
 
 /// Checks, at compile time, if the sum of the resource ratios equals 1.
+#[doc(hidden)]
 #[macro_export]
 macro_rules! check_total_resource_ratio {
   ($first:expr, $($other:expr),+ $(,)?) => {

@@ -4,7 +4,7 @@
 use crate::app::App;
 use crate::error::Result;
 use crate::middleware::authorization::CurrentPlayer;
-use crate::response::from_database_err;
+use crate::response::from_err;
 use crate::{VERSION, res};
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
@@ -82,7 +82,7 @@ pub async fn delete(
 
         result
           .map(|_| res!(NO_CONTENT))
-          .unwrap_or_else(from_database_err)
+          .unwrap_or_else(from_err)
       }
       Either::Right(response) => response,
     }
