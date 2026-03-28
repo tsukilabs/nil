@@ -14,6 +14,7 @@
           "./scripts/build-wasm.rs",
           "./scripts/bump.rs",
           "./scripts/clean.rs",
+          "./scripts/publish.rs",
           "./scripts/run-clippy.rs",
           "./scripts/run-example.rs",
           "./scripts/sort-namegen.rs",
