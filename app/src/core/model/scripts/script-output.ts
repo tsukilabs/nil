@@ -13,6 +13,7 @@ export class ScriptOutputImpl implements ScriptOutput {
   }
 
   public *[Symbol.iterator]() {
+    // eslint-disable-next-line unicorn/no-useless-iterator-to-array
     yield* this.toArray();
   }
 

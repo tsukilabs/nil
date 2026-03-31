@@ -30,19 +30,26 @@ static JWT_SECRET: LazyLock<Box<str>> = LazyLock::new(|| {
 });
 
 pub async fn authorization(mut request: Request, next: Next) -> Response {
-  if let Ok(token) = request
+  let Ok(token) = request
     .extract_parts::<TypedHeader<Authorization<Bearer>>>()
     .map_ok(|header| Token::new(header.token()))
     .await
-    && let Ok(data) = decode_jwt(&token)
-  {
-    request
-      .extensions_mut()
-      .insert(CurrentPlayer(data.claims.sub));
+  else {
+    return res!(BAD_REQUEST);
+  };
 
-    next.run(request).await
-  } else {
-    res!(UNAUTHORIZED)
+  match decode_jwt(&token) {
+    Ok(data) => {
+      request
+        .extensions_mut()
+        .insert(CurrentPlayer(data.claims.sub));
+
+      next.run(request).await
+    }
+    Err(err) => {
+      tracing::warn!("Failed to decode token: {err}");
+      res!(UNAUTHORIZED)
+    }
   }
 }
 
