@@ -15,7 +15,7 @@ importers:
   .:
     dependencies:
       '@lucide/vue':
-        specifier: ^1.7.0
+        specifier: '=1.7.0'
         version: 1.7.0(vue@3.5.31(typescript@6.0.2))
       '@tauri-apps/api':
         specifier: '=2.10.1'
