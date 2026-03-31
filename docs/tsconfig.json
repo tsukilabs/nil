@@ -1,8 +1,6 @@
 {
   "include": [".vitepress/**/*.ts", ".vitepress/**/*.vue", "src/**/*.ts"],
   "compilerOptions": {
-    "baseUrl": ".",
-    "target": "esnext",
     "lib": ["esnext", "dom"],
     "module": "esnext",
     "moduleResolution": "bundler",
@@ -29,6 +27,8 @@
     "exactOptionalPropertyTypes": false,
     "noFallthroughCasesInSwitch": true,
     "forceConsistentCasingInFileNames": true,
-    "noEmitOnError": true
+    "noEmitOnError": true,
+
+    "types": ["node"]
   }
 }

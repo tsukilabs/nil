@@ -1,8 +1,6 @@
 {
   "include": ["**/*.config.ts", "**/*.mts"],
   "compilerOptions": {
-    "baseUrl": ".",
-    "target": "esnext",
     "lib": ["esnext"],
     "module": "esnext",
     "moduleResolution": "bundler",
@@ -29,6 +27,7 @@
     "noFallthroughCasesInSwitch": true,
     "forceConsistentCasingInFileNames": true,
     "noEmitOnError": true,
+
     "types": ["node", "vite/client"]
   }
 }
