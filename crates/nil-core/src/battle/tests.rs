@@ -136,7 +136,7 @@ fn battle_result() -> Result<()> {
     .build();
 
   let attacker: ArmyPersonnel = attacker.iter().cloned().collect();
-  let defender_survivors: ArmyPersonnel = [s(Pikeman, 71), s(Swordsman, 35)]
+  let defender_survivors: ArmyPersonnel = [s(Pikeman, 84), s(Swordsman, 42)]
     .into_iter()
     .collect();
 
