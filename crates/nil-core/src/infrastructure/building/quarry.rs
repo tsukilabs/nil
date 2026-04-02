@@ -37,7 +37,7 @@ impl Quarry {
   pub const MIN_WORKFORCE: Workforce = Workforce::new(1);
   pub const MAX_WORKFORCE: Workforce = Workforce::new(150);
 
-  pub const MIN_PRODUCTION: MineProduction = MineProduction::new(30);
+  pub const MIN_PRODUCTION: MineProduction = MineProduction::new(250);
   pub const MAX_PRODUCTION: MineProduction = MineProduction::new(2_400);
 
   pub const MIN_SCORE: Score = Score::new(6);
