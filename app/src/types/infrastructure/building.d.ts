@@ -15,6 +15,7 @@ type BuildingId =
   | 'workshop';
 
 type BuildingLevel = number;
+type BuildingLevelDiff = number;
 
 interface Building {
   readonly enabled: boolean;

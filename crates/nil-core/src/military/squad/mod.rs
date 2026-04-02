@@ -23,8 +23,11 @@ pub struct Squad {
 }
 
 impl Squad {
-  pub fn new(id: UnitId, size: SquadSize) -> Self {
-    Self { unit: UnitBox::from(id), size }
+  pub fn new(id: UnitId, size: impl Into<SquadSize>) -> Self {
+    Self {
+      unit: UnitBox::from(id),
+      size: size.into(),
+    }
   }
 
   #[inline]

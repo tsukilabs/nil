@@ -7,12 +7,11 @@ pub mod luck;
 mod tests;
 
 use crate::error::Result;
-use crate::infrastructure::building::wall::WallStats;
-use crate::infrastructure::prelude::{BuildingLevel, Wall};
+use crate::infrastructure::building::wall::{Wall, WallStats};
+use crate::infrastructure::building::{BuildingLevel, BuildingLevelDiff};
 use crate::infrastructure::stats::InfrastructureStats;
 use crate::military::army::personnel::ArmyPersonnel;
 use crate::military::squad::Squad;
-use crate::military::squad::size::SquadSize;
 use crate::military::unit::{UnitId, UnitKind};
 use bon::Builder;
 use luck::Luck;
@@ -56,13 +55,12 @@ pub struct BattleResult {
   defender_personnel: ArmyPersonnel,
   defender_surviving_personnel: ArmyPersonnel,
   wall_level: BuildingLevel,
-  downgraded_wall_level: i8,
+  downgraded_wall_level: BuildingLevelDiff,
   winner: BattleWinner,
   luck: Luck,
 }
 
 impl BattleResult {
-  #[rustfmt::skip]
   fn new(
     attacking_squads: &[Squad],
     defending_squads: &[Squad],
@@ -70,13 +68,13 @@ impl BattleResult {
     wall: Option<&WallStats>,
     infrastructure_stats: &InfrastructureStats,
   ) -> Result<Self> {
-    let wall_level = wall
-      .map(|stats| stats.level)
-      .unwrap_or_default();
-    let mut downgraded_wall_level = 0;
-
     let attacker_power = OffensivePower::new(attacking_squads, luck);
-    let defender_power = DefensivePower::new(defending_squads, &attacker_power, wall, infrastructure_stats)?;
+    let defender_power = DefensivePower::new(
+      defending_squads,
+      &attacker_power,
+      wall,
+      infrastructure_stats,
+    )?;
 
     let winner = BattleWinner::determine(&attacker_power, &defender_power);
 
@@ -85,6 +83,12 @@ impl BattleResult {
 
     let mut attacker_surviving_personnel = ArmyPersonnel::default();
     let mut defender_surviving_personnel = ArmyPersonnel::default();
+
+    let wall_level = wall
+      .map(|stats| stats.level)
+      .unwrap_or_default();
+
+    let mut downgraded_wall_level = BuildingLevelDiff::new(0);
 
     let losses_ratio = match winner {
       BattleWinner::Attacker => (defender_power.total / attacker_power.total).powf(1.5),
@@ -96,25 +100,32 @@ impl BattleResult {
         for squad in attacking_squads {
           let squad_size = f64::from(squad.size());
           squad_survivors = squad_size - (squad_size * losses_ratio);
-          attacker_surviving_personnel += Squad::new(squad.id(), SquadSize::from(squad_survivors));
+          attacker_surviving_personnel += Squad::new(squad.id(), squad_survivors);
         }
 
         if wall_level > 0 && attacker_power.rams_amount > 0.0 {
-          let remaining_rams = attacker_power.rams_amount - (attacker_power.rams_amount * losses_ratio);
-          let wall_levels_to_decrease = (wall_level * ((remaining_rams / 250.0) + 1.0 - losses_ratio)).round() as i8;
-          let wall_max_level = u8::from(Wall::MAX_LEVEL) as i8;
-          downgraded_wall_level = if wall_levels_to_decrease  > wall_max_level { -wall_max_level  } else { -wall_levels_to_decrease };
+          let remaining_rams =
+            attacker_power.rams_amount - (attacker_power.rams_amount * losses_ratio);
+          let wall_levels_to_decrease =
+            wall_level * ((remaining_rams / 250.0) + 1.0 - losses_ratio);
+
+          downgraded_wall_level = if wall_levels_to_decrease > Wall::MAX_LEVEL {
+            -Wall::MAX_LEVEL
+          } else {
+            BuildingLevelDiff::from(-wall_levels_to_decrease)
+          };
         }
       }
       BattleWinner::Defender => {
         for squad in defending_squads {
           let squad_size = f64::from(squad.size());
           squad_survivors = squad_size - (squad_size * losses_ratio);
-          defender_surviving_personnel += Squad::new(squad.id(), SquadSize::from(squad_survivors));
+          defender_surviving_personnel += Squad::new(squad.id(), squad_survivors);
         }
 
         if wall_level > 0 && attacker_power.rams_amount > 0.0 {
-          downgraded_wall_level = -(wall_level * (losses_ratio * 0.9)).round() as i8;
+          let diff = -(wall_level * (losses_ratio * 0.9));
+          downgraded_wall_level = BuildingLevelDiff::from(diff);
         }
       }
     }
@@ -309,9 +320,9 @@ impl DefensivePower {
           rams_per_wall_level += rams_per_wall_level * rams_growth_per_wall_level;
         }
 
-        let mut wall_levels_to_decrease = 0;
+        let mut wall_levels_to_decrease: u8 = 0;
         for value in rams_vec.iter().rev() {
-          if attacking_rams >= *value && wall_levels_to_decrease < u8::from(wall.level) {
+          if attacking_rams >= *value && wall_levels_to_decrease < wall.level {
             attacking_rams -= value;
             wall_levels_to_decrease += 1;
           }
@@ -320,17 +331,12 @@ impl DefensivePower {
         if wall.level - wall_levels_to_decrease > 0 {
           let new_wall = infrastructure_stats
             .wall()
-            .get(BuildingLevel::new(
-              u8::from(wall.level) - wall_levels_to_decrease,
-            ))?;
+            .get(wall.level - wall_levels_to_decrease)?;
 
-          total +=
-            f64::from(new_wall.defense) + ((f64::from(new_wall.defense_percent) / 100.0) * total);
+          total += new_wall.defense + ((new_wall.defense_percent / 100.0) * total);
         }
-      } else {
-        if wall.level > 0 {
-          total += f64::from(wall.defense) + ((f64::from(wall.defense_percent) / 100.0) * total);
-        }
+      } else if wall.level > 0 {
+        total += wall.defense + ((wall.defense_percent / 100.0) * total);
       }
     }
 

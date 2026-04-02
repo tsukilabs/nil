@@ -12,7 +12,7 @@ export class BattleResultImpl implements BattleResult {
   public readonly defenderPersonnel: ArmyPersonnelImpl;
   public readonly defenderSurvivingPersonnel: ArmyPersonnelImpl;
   public readonly wallLevel: BuildingLevel;
-  public readonly downgradedWallLevel: BuildingLevel;
+  public readonly downgradedWallLevel: BuildingLevelDiff;
   public readonly luck: Luck;
 
   private constructor(result: BattleResult) {
