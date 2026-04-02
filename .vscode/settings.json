@@ -28,6 +28,7 @@
   "git.branchProtection": ["main"],
   "git.branchProtectionPrompt": "alwaysPrompt",
   "githubPullRequests.defaultMergeMethod": "squash",
+  "js/ts.tsdk.path": "node_modules/typescript/lib",
   "Lua.workspace.library": ["crates/nil-lua/types"],
   "rust-analyzer.cargo.targetDir": true,
   "rust-analyzer.linkedProjects": [
