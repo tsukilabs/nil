@@ -33,7 +33,7 @@ impl Password {
 
   pub fn verify(&self, hash: &str) -> bool {
     verify(self.0.as_bytes(), hash)
-      .tap_err_dbg(|err| tracing::debug!(error = %err))
+      .tap_err_dbg(|err| tracing::trace!(error = %err))
       .is_ok()
   }
 }

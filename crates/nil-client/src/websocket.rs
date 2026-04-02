@@ -137,14 +137,14 @@ async fn make_stream(
     headers.insert(header::USER_AGENT, user_agent.parse()?);
 
     #[cfg(debug_assertions)]
-    tracing::debug!(?request);
+    tracing::trace!(?request);
 
     Ok(request)
   };
 
   connect_async(make_request()?)
     .await
-    .tap_ok_dbg(|(_, response)| tracing::debug!(?response))
+    .tap_ok_dbg(|(_, response)| tracing::trace!(?response))
     .map(|(stream, _)| stream)
     .map_err(Into::into)
 }
