@@ -23,8 +23,8 @@ impl HashedPassword {
   }
 
   #[inline]
-  pub fn verify(&self, password: &Password) -> bool {
-    password.verify(&self.0)
+  pub fn verify(&self, password: &Password) -> Result<bool> {
+    Ok(password.verify(&self.0)?)
   }
 }
 

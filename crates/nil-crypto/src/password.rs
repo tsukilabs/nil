@@ -1,8 +1,9 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use anyhow::{Result, anyhow};
-use argon2::password_hash::PasswordHasher;
+use crate::error::Result;
+use anyhow::anyhow;
+use argon2::password_hash::{Error as PasswordHashError, PasswordHasher};
 use argon2::{Argon2, PasswordHash, PasswordVerifier};
 use derive_more::{From, Into};
 use serde::{Deserialize, Serialize};
@@ -10,7 +11,7 @@ use std::borrow::Cow;
 use std::fmt;
 use std::ops::Deref;
 use std::sync::Arc;
-use tap::{Pipe, TapFallible};
+use tap::Pipe;
 
 #[derive(Clone, Default, From, Into, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[from(String, &str, Arc<str>, Box<str>, Cow<'_, str>)]
@@ -23,7 +24,7 @@ impl Password {
   }
 
   pub fn hash(&self) -> Result<Box<str>> {
-    Argon2::default()
+    argon2()
       .hash_password(self.0.as_bytes())
       .map_err(|err| anyhow!("Failed to hash password").context(err))?
       .to_string()
@@ -31,10 +32,17 @@ impl Password {
       .pipe(Ok)
   }
 
-  pub fn verify(&self, hash: &str) -> bool {
-    verify(self.0.as_bytes(), hash)
-      .tap_err_dbg(|err| tracing::trace!(error = %err))
-      .is_ok()
+  pub fn verify(&self, hash: &str) -> Result<bool> {
+    match verify(self.0.as_bytes(), hash) {
+      Ok(()) => Ok(true),
+      Err(PasswordHashError::PasswordInvalid) => Ok(false),
+      Err(err) => {
+        #[cfg(debug_assertions)]
+        tracing::trace!(error = %err);
+
+        Err(err.into())
+      }
+    }
   }
 }
 
@@ -54,24 +62,29 @@ impl fmt::Debug for Password {
   }
 }
 
-fn verify(password: &[u8], hash: &str) -> Result<()> {
-  let hash = PasswordHash::new(hash)?;
+fn argon2() -> Argon2<'static> {
   Argon2::default()
-    .verify_password(password, &hash)
-    .map_err(Into::into)
+}
+
+fn verify(password: &[u8], hash: &str) -> Result<(), PasswordHashError> {
+  let hash = PasswordHash::new(hash)?;
+  argon2().verify_password(password, &hash)
 }
 
 #[cfg(test)]
 mod tests {
   use super::Password;
+  use anyhow::Result;
 
   #[test]
-  fn verify_password() {
+  fn verify_password() -> Result<()> {
     let password = Password::new("foo123");
     let hash = password.hash().unwrap();
-    assert!(password.verify(&hash));
+    assert!(password.verify(&hash)?);
 
     let other_password = Password::new("bar456");
-    assert!(!other_password.verify(&hash));
+    assert!(!other_password.verify(&hash)?);
+
+    Ok(())
   }
 }

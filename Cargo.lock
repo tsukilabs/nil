@@ -3537,6 +3537,7 @@ dependencies = [
  "derive_more 2.1.1",
  "serde",
  "tap",
+ "thiserror 2.0.18",
  "tracing",
 ]
 

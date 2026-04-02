@@ -23,8 +23,8 @@ pub struct User {
 
 impl User {
   #[inline]
-  pub fn verify_password(&self, password: &Password) -> bool {
-    self.password.verify(password)
+  pub fn verify_password(&self, password: &Password) -> Result<bool> {
+    Ok(self.password.verify(password)?)
   }
 }
 
