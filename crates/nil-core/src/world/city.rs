@@ -1,6 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+use crate::city::City;
 use crate::continent::ContinentKey;
 use crate::error::Result;
 use crate::ranking::score::Score;
@@ -8,6 +9,16 @@ use crate::ruler::Ruler;
 use crate::world::World;
 
 impl World {
+  #[inline]
+  pub fn city(&self, key: impl ContinentKey) -> Result<&City> {
+    self.continent.city(key)
+  }
+
+  #[inline]
+  pub(crate) fn city_mut(&mut self, key: impl ContinentKey) -> Result<&mut City> {
+    self.continent.city_mut(key)
+  }
+
   pub fn count_cities<R>(&self, owner: R) -> u32
   where
     R: Into<Ruler>,

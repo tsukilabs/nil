@@ -2,12 +2,17 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::error::{Error, Result};
-use crate::ranking::RankingEntry;
 use crate::ranking::score::Score;
+use crate::ranking::{Ranking, RankingEntry};
 use crate::ruler::Ruler;
 use crate::world::World;
 
 impl World {
+  #[inline]
+  pub fn ranking(&self) -> &Ranking {
+    &self.ranking
+  }
+
   pub fn get_score<R>(&self, ruler: R) -> Result<Score>
   where
     R: Into<Ruler>,

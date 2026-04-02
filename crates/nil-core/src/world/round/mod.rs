@@ -7,11 +7,17 @@ mod maneuver;
 use crate::error::Result;
 use crate::player::{Player, PlayerId};
 use crate::resources::prelude::*;
+use crate::round::Round;
 use crate::ruler::Ruler;
 use crate::world::World;
 use std::collections::HashMap;
 
 impl World {
+  #[inline]
+  pub fn round(&self) -> &Round {
+    &self.round
+  }
+
   pub fn start_round(&mut self) -> Result<()> {
     if self.round.is_idle() {
       let ids = self

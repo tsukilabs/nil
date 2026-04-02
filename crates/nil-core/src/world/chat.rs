@@ -1,11 +1,16 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use crate::chat::{ChatMessage, ChatMessageId, ChatMessageKind};
+use crate::chat::{Chat, ChatMessage, ChatMessageId, ChatMessageKind};
 use crate::player::PlayerId;
 use crate::world::World;
 
 impl World {
+  #[inline]
+  pub fn chat(&self) -> &Chat {
+    &self.chat
+  }
+
   pub fn push_chat_message(&mut self, author: PlayerId, message: &str) -> ChatMessageId {
     let message = ChatMessage::builder(message)
       .author(author)

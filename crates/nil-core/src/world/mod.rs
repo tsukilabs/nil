@@ -19,16 +19,14 @@ mod savedata;
 pub mod stats;
 
 use crate::chat::Chat;
-use crate::city::City;
-use crate::continent::{Continent, ContinentSize, Coord};
+use crate::continent::{Continent, ContinentSize};
 use crate::error::{Error, Result};
 use crate::event::Emitter;
 use crate::hooks::OnNextRound;
-use crate::infrastructure::Infrastructure;
 use crate::military::Military;
-use crate::npc::bot::{Bot, BotId, BotManager};
-use crate::npc::precursor::{Precursor, PrecursorId, PrecursorManager};
-use crate::player::{Player, PlayerId, PlayerManager};
+use crate::npc::bot::BotManager;
+use crate::npc::precursor::PrecursorManager;
+use crate::player::PlayerManager;
 use crate::ranking::Ranking;
 use crate::report::ReportManager;
 use crate::round::Round;
@@ -117,100 +115,8 @@ impl World {
   }
 
   #[inline]
-  pub fn continent(&self) -> &Continent {
-    &self.continent
-  }
-
-  #[inline]
-  pub fn city(&self, coord: Coord) -> Result<&City> {
-    self.continent.city(coord)
-  }
-
-  #[inline]
-  pub(crate) fn city_mut(&mut self, coord: Coord) -> Result<&mut City> {
-    self.continent.city_mut(coord)
-  }
-
-  #[inline]
-  pub fn infrastructure(&self, coord: Coord) -> Result<&Infrastructure> {
-    self.city(coord).map(City::infrastructure)
-  }
-
-  #[inline]
-  pub fn round(&self) -> &Round {
-    &self.round
-  }
-
-  #[inline]
-  pub fn chat(&self) -> &Chat {
-    &self.chat
-  }
-
-  #[inline]
-  pub fn ranking(&self) -> &Ranking {
-    &self.ranking
-  }
-
-  #[inline]
   pub fn report(&self) -> &ReportManager {
     &self.report
-  }
-
-  #[inline]
-  pub fn player_manager(&self) -> &PlayerManager {
-    &self.player_manager
-  }
-
-  #[inline]
-  pub fn player(&self, id: &PlayerId) -> Result<&Player> {
-    self.player_manager.player(id)
-  }
-
-  #[inline]
-  fn player_mut(&mut self, id: &PlayerId) -> Result<&mut Player> {
-    self.player_manager.player_mut(id)
-  }
-
-  pub fn players(&self) -> impl Iterator<Item = &Player> {
-    self.player_manager.players()
-  }
-
-  #[inline]
-  pub fn bot_manager(&self) -> &BotManager {
-    &self.bot_manager
-  }
-
-  #[inline]
-  pub fn bot(&self, id: &BotId) -> Result<&Bot> {
-    self.bot_manager.bot(id)
-  }
-
-  #[inline]
-  fn bot_mut(&mut self, id: &BotId) -> Result<&mut Bot> {
-    self.bot_manager.bot_mut(id)
-  }
-
-  pub fn bots(&self) -> impl Iterator<Item = &Bot> {
-    self.bot_manager.bots()
-  }
-
-  #[inline]
-  pub fn precursor_manager(&self) -> &PrecursorManager {
-    &self.precursor_manager
-  }
-
-  #[inline]
-  pub fn precursor(&self, id: PrecursorId) -> &dyn Precursor {
-    self.precursor_manager.precursor(id)
-  }
-
-  #[inline]
-  fn precursor_mut(&mut self, id: PrecursorId) -> &mut dyn Precursor {
-    self.precursor_manager.precursor_mut(id)
-  }
-
-  pub fn precursors(&self) -> impl Iterator<Item = &dyn Precursor> {
-    self.precursor_manager.precursors()
   }
 
   pub fn ruler(&self, ruler: &Ruler) -> Result<RulerRef<'_>> {
