@@ -32,7 +32,11 @@ const { t } = useI18n({
   },
 });
 
-const continentKey = useRouteParams('ckey', null, { transform: Number.parseInt });
+const ckeyParam = useRouteParams<Option<string>>('ckey', null);
+const continentKey = computed(() => {
+  return ckeyParam.value ? Number.parseInt(ckeyParam.value, 10) : null;
+});
+
 const { city, loading, load } = usePublicCity(continentKey);
 
 const owner = computed(() => city.value?.owner);

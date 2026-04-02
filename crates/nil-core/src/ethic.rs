@@ -103,6 +103,12 @@ impl EthicPowerAxis {
   }
 }
 
+impl Default for EthicPowerAxis {
+  fn default() -> Self {
+    Self::random()
+  }
+}
+
 #[derive(Clone, Copy, Debug, EnumIs, PartialEq, Eq, Deserialize, Serialize, VariantArray)]
 #[serde(rename_all = "kebab-case")]
 pub enum EthicTruthAxis {
@@ -123,5 +129,11 @@ impl EthicTruthAxis {
       })
       .copied()
       .expect("`Self::VARIANTS` should never be empty")
+  }
+}
+
+impl Default for EthicTruthAxis {
+  fn default() -> Self {
+    Self::random()
   }
 }

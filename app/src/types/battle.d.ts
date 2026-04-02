@@ -7,6 +7,7 @@ interface BattleResult {
   readonly defenderPersonnel: ArmyPersonnel;
   readonly defenderSurvivingPersonnel: ArmyPersonnel;
   readonly wallLevel: BuildingLevel;
+  readonly downgradedWallLevel: BuildingLevel;
   readonly winner: BattleWinner;
   readonly luck: Luck;
 }

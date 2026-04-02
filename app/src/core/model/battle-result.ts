@@ -12,6 +12,7 @@ export class BattleResultImpl implements BattleResult {
   public readonly defenderPersonnel: ArmyPersonnelImpl;
   public readonly defenderSurvivingPersonnel: ArmyPersonnelImpl;
   public readonly wallLevel: BuildingLevel;
+  public readonly downgradedWallLevel: BuildingLevel;
   public readonly luck: Luck;
 
   private constructor(result: BattleResult) {
@@ -21,6 +22,7 @@ export class BattleResultImpl implements BattleResult {
     this.defenderPersonnel = ArmyPersonnelImpl.create(result.defenderPersonnel);
     this.defenderSurvivingPersonnel = ArmyPersonnelImpl.create(result.defenderSurvivingPersonnel);
     this.wallLevel = result.wallLevel;
+    this.downgradedWallLevel = result.downgradedWallLevel;
     this.luck = result.luck;
   }
 
