@@ -56,7 +56,7 @@ pub struct BattleResult {
   defender_personnel: ArmyPersonnel,
   defender_surviving_personnel: ArmyPersonnel,
   wall_level: BuildingLevel,
-  downgraded_wall_level: BuildingLevel,
+  downgraded_wall_level: i8,
   winner: BattleWinner,
   luck: Luck,
 }
@@ -73,8 +73,7 @@ impl BattleResult {
     let wall_level = wall
       .map(|stats| stats.level)
       .unwrap_or_default();
-    tracing::debug!(?wall_level);
-    let mut downgraded_wall_level = wall_level;
+    let mut downgraded_wall_level = 0;
 
     let attacker_power = OffensivePower::new(attacking_squads, luck);
     let defender_power = DefensivePower::new(defending_squads, &attacker_power, wall, infrastructure_stats)?;
@@ -102,10 +101,9 @@ impl BattleResult {
 
         if wall_level > 0 && attacker_power.rams_amount > 0.0 {
           let remaining_rams = attacker_power.rams_amount - (attacker_power.rams_amount * losses_ratio);
-          let wall_levels_to_decrease = (wall_level * ((remaining_rams / 250.0) + 1.0 - losses_ratio)).round() as u8;
-          let wall_max_level = u8::from(Wall::MAX_LEVEL);
-          downgraded_wall_level = if wall_levels_to_decrease > wall_max_level { wall_level - wall_max_level } else { wall_level - wall_levels_to_decrease };
-          tracing::debug!(?downgraded_wall_level);
+          let wall_levels_to_decrease = (wall_level * ((remaining_rams / 250.0) + 1.0 - losses_ratio)).round() as i8;
+          let wall_max_level = u8::from(Wall::MAX_LEVEL) as i8;
+          downgraded_wall_level = if wall_levels_to_decrease  > wall_max_level { -wall_max_level  } else { -wall_levels_to_decrease };
         }
       }
       BattleWinner::Defender => {
@@ -116,8 +114,7 @@ impl BattleResult {
         }
 
         if wall_level > 0 && attacker_power.rams_amount > 0.0 {
-          downgraded_wall_level = wall_level - (wall_level * (losses_ratio * 0.9)).round() as u8;
-          tracing::debug!(?downgraded_wall_level);
+          downgraded_wall_level = -(wall_level * (losses_ratio * 0.9)).round() as i8;
         }
       }
     }
