@@ -53,6 +53,7 @@ Here’s a simplified list of the steps you’ll need to take. In some cases, yo
 - [`NIL_DATABASE_URL`](/crates/nil-server/src/main.rs)
 - [`NIL_JWT_SECRET`](/crates/nil-server/src/middleware/authorization.rs)
 - [`NIL_LOG_DIR`](/crates/nil-log/src/lib.rs)
+- [`NIL_LOG_LEVEL`](/crates/nil-log/src/lib.rs)
 - [`NIL_LOG_TOWER_HTTP`](/crates/nil-log/src/lib.rs)
 - [`NIL_MINIFY_SOURCE`](/app/vite.config.ts)
 - [`NIL_REMOTE_SERVER_ADDR`](/crates/nil-client/src/server.rs)

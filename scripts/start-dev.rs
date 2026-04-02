@@ -42,8 +42,14 @@ fn main() -> Result<()> {
     env.push(("NIL_REMOTE_SERVER_ADDR", "https://tsukilabs.dev.br/nil/"));
   }
 
-  if args.verbose && !args.android {
-    env.push(("NIL_LOG_TOWER_HTTP", "true"));
+  if args.verbose {
+    env.push(("NIL_LOG_LEVEL", "trace"));
+
+    if !args.android {
+      env.push(("NIL_LOG_TOWER_HTTP", "true"));
+    }
+  } else {
+    env.push(("NIL_LOG_LEVEL", "debug"));
   }
 
   if args.android {

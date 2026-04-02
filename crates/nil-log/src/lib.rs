@@ -27,30 +27,33 @@ pub fn setup(
   let mut filter = EnvFilter::builder().from_env()?;
 
   let layers = if cfg!(debug_assertions) { debug_layers } else { release_layers };
+  let level = env::var("NIL_LOG_LEVEL").unwrap_or_else(|_| String::from("trace"));
 
   macro_rules! add_directive {
-    ($flag:ident, $directive:literal) => {
+    ($flag:ident, $krate:literal) => {
       if directives.contains(Directives::$flag) {
-        filter = filter.add_directive($directive.parse()?);
+        let directive = format!("{}={}", $krate, level);
+        filter = filter.add_directive(directive.parse()?);
       }
     };
-    ($flag:ident, $directive:literal, $env_var:literal) => {
+    ($flag:ident, $krate:literal, $env_var:literal) => {
       if directives.contains(Directives::$flag) || env::var($env_var).is_ok_and(|it| it == "true") {
-        filter = filter.add_directive($directive.parse()?);
+        let directive = format!("{}={}", $krate, level);
+        filter = filter.add_directive(directive.parse()?);
       }
     };
   }
 
-  add_directive!(NIL, "nil=trace");
-  add_directive!(NIL_CLIENT, "nil_client=trace");
-  add_directive!(NIL_CORE, "nil_core=trace");
-  add_directive!(NIL_CRYPTO, "nil_crypto=trace");
-  add_directive!(NIL_LUA, "nil_lua=trace");
-  add_directive!(NIL_LUA_CLI, "nil_lua_cli=trace");
-  add_directive!(NIL_SERVER, "nil_server=trace");
-  add_directive!(NIL_SERVER_DATABASE, "nil_server_database=trace");
+  add_directive!(NIL, "nil");
+  add_directive!(NIL_CLIENT, "nil_client");
+  add_directive!(NIL_CORE, "nil_core");
+  add_directive!(NIL_CRYPTO, "nil_crypto");
+  add_directive!(NIL_LUA, "nil_lua");
+  add_directive!(NIL_LUA_CLI, "nil_lua_cli");
+  add_directive!(NIL_SERVER, "nil_server");
+  add_directive!(NIL_SERVER_DATABASE, "nil_server_database");
 
-  add_directive!(TOWER_HTTP, "tower_http=trace", "NIL_LOG_TOWER_HTTP");
+  add_directive!(TOWER_HTTP, "tower_http", "NIL_LOG_TOWER_HTTP");
 
   let mut chosen_layers = Vec::new();
 
