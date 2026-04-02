@@ -26,6 +26,10 @@ export class BattleResultImpl implements BattleResult {
     this.luck = result.luck;
   }
 
+  public formatLuck() {
+    return BattleResultImpl.formatLuck(this.luck);
+  }
+
   public getAttackerLosses() {
     return BattleResultImpl.getLosses(
       this.attackerPersonnel,
@@ -40,8 +44,8 @@ export class BattleResultImpl implements BattleResult {
     );
   }
 
-  public formatLuck() {
-    return BattleResultImpl.formatLuck(this.luck);
+  public resolveWallLevel() {
+    return this.wallLevel + this.downgradedWallLevel;
   }
 
   public static create(result: BattleResult) {
