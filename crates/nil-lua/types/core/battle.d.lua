@@ -9,7 +9,7 @@
 ---@field defenderPersonnel ArmyPersonnel
 ---@field defenderSurvivingPersonnel ArmyPersonnel
 ---@field wallLevel BuildingLevel
----@field downgradedWallLevel BuildingLevel
+---@field downgradedWallLevel BuildingLevelDiff
 ---@field winner BattleWinner
 ---@field luck Luck
 

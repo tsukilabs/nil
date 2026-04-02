@@ -20,10 +20,10 @@ use crate::resources::prelude::*;
 use derive_more::{Deref, Into};
 use nil_num::growth::growth;
 use serde::{Deserialize, Serialize};
+use std::cmp;
 use std::collections::HashMap;
-use std::ops::{Add, AddAssign, Mul, Sub, SubAssign};
-use std::{cmp, fmt};
-use strum::{Display, EnumIs, EnumIter};
+use std::ops::{Add, AddAssign, Mul, Neg, Sub, SubAssign};
+use strum::{EnumIs, EnumIter};
 use subenum::subenum;
 
 pub trait Building: Send + Sync {
@@ -129,7 +129,7 @@ pub trait Building: Send + Sync {
 
 #[subenum(CivilBuildingId, MilitaryBuildingId, MineId, StorageId)]
 #[derive(
-  Clone, Copy, Debug, Display, EnumIs, EnumIter, PartialEq, Eq, Hash, Deserialize, Serialize,
+  Clone, Copy, Debug, strum::Display, EnumIs, EnumIter, PartialEq, Eq, Hash, Deserialize, Serialize,
 )]
 #[serde(rename_all = "kebab-case")]
 #[strum(serialize_all = "kebab-case")]
@@ -321,6 +321,7 @@ impl BuildingStatsTable {
   Debug,
   Default,
   Deref,
+  derive_more::Display,
   Into,
   PartialEq,
   Eq,
@@ -330,7 +331,7 @@ impl BuildingStatsTable {
   Deserialize,
   Serialize,
 )]
-#[into(u8, u16, u32, u64, usize, f64)]
+#[into(i16, i32, u8, u16, u32, u64, usize, f64)]
 pub struct BuildingLevel(u8);
 
 impl BuildingLevel {
@@ -342,15 +343,58 @@ impl BuildingLevel {
   }
 }
 
+impl From<BuildingLevel> for i8 {
+  fn from(level: BuildingLevel) -> Self {
+    debug_assert!(i8::try_from(level.0).is_ok());
+    i8::try_from(level.0).unwrap_or(i8::MAX)
+  }
+}
+
 impl PartialEq<u8> for BuildingLevel {
   fn eq(&self, other: &u8) -> bool {
     self.0.eq(other)
   }
 }
 
+impl PartialEq<BuildingLevel> for u8 {
+  fn eq(&self, other: &BuildingLevel) -> bool {
+    self.eq(&other.0)
+  }
+}
+
+impl PartialEq<f64> for BuildingLevel {
+  fn eq(&self, other: &f64) -> bool {
+    f64::from(self.0).eq(other)
+  }
+}
+
+impl PartialEq<BuildingLevel> for f64 {
+  fn eq(&self, other: &BuildingLevel) -> bool {
+    self.eq(&f64::from(other.0))
+  }
+}
+
 impl PartialOrd<u8> for BuildingLevel {
   fn partial_cmp(&self, other: &u8) -> Option<cmp::Ordering> {
     self.0.partial_cmp(other)
+  }
+}
+
+impl PartialOrd<BuildingLevel> for u8 {
+  fn partial_cmp(&self, other: &BuildingLevel) -> Option<cmp::Ordering> {
+    self.partial_cmp(&other.0)
+  }
+}
+
+impl PartialOrd<f64> for BuildingLevel {
+  fn partial_cmp(&self, other: &f64) -> Option<cmp::Ordering> {
+    f64::from(self.0).partial_cmp(other)
+  }
+}
+
+impl PartialOrd<BuildingLevel> for f64 {
+  fn partial_cmp(&self, other: &BuildingLevel) -> Option<cmp::Ordering> {
+    self.partial_cmp(&f64::from(other.0))
   }
 }
 
@@ -378,6 +422,14 @@ impl Add<i8> for BuildingLevel {
   }
 }
 
+impl Add<BuildingLevelDiff> for BuildingLevel {
+  type Output = Self;
+
+  fn add(self, rhs: BuildingLevelDiff) -> Self {
+    self + rhs.0
+  }
+}
+
 impl AddAssign for BuildingLevel {
   fn add_assign(&mut self, rhs: Self) {
     *self = *self + rhs;
@@ -392,6 +444,12 @@ impl AddAssign<u8> for BuildingLevel {
 
 impl AddAssign<i8> for BuildingLevel {
   fn add_assign(&mut self, rhs: i8) {
+    *self = *self + rhs;
+  }
+}
+
+impl AddAssign<BuildingLevelDiff> for BuildingLevel {
+  fn add_assign(&mut self, rhs: BuildingLevelDiff) {
     *self = *self + rhs;
   }
 }
@@ -420,6 +478,14 @@ impl Sub<i8> for BuildingLevel {
   }
 }
 
+impl Sub<BuildingLevelDiff> for BuildingLevel {
+  type Output = Self;
+
+  fn sub(self, rhs: BuildingLevelDiff) -> Self {
+    self - rhs.0
+  }
+}
+
 impl SubAssign for BuildingLevel {
   fn sub_assign(&mut self, rhs: Self) {
     *self = *self - rhs;
@@ -438,6 +504,12 @@ impl SubAssign<i8> for BuildingLevel {
   }
 }
 
+impl SubAssign<BuildingLevelDiff> for BuildingLevel {
+  fn sub_assign(&mut self, rhs: BuildingLevelDiff) {
+    *self = *self - rhs;
+  }
+}
+
 impl Mul<f64> for BuildingLevel {
   type Output = f64;
 
@@ -446,9 +518,58 @@ impl Mul<f64> for BuildingLevel {
   }
 }
 
-impl fmt::Display for BuildingLevel {
-  fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-    write!(f, "{}", self.0)
+impl Neg for BuildingLevel {
+  type Output = BuildingLevelDiff;
+
+  fn neg(self) -> BuildingLevelDiff {
+    BuildingLevelDiff::new(i8::from(self).neg())
+  }
+}
+
+#[derive(
+  Clone,
+  Copy,
+  Debug,
+  Default,
+  Deref,
+  derive_more::Display,
+  Into,
+  PartialEq,
+  Eq,
+  PartialOrd,
+  Ord,
+  Hash,
+  Deserialize,
+  Serialize,
+)]
+pub struct BuildingLevelDiff(i8);
+
+impl BuildingLevelDiff {
+  #[inline]
+  pub const fn new(level_diff: i8) -> Self {
+    Self(level_diff)
+  }
+}
+
+impl From<f64> for BuildingLevelDiff {
+  fn from(mut value: f64) -> Self {
+    value = value.round();
+    debug_assert!(value.is_finite());
+    debug_assert!(value >= f64::from(i8::MIN));
+    debug_assert!(value <= f64::from(i8::MAX));
+    Self::new(value as i8)
+  }
+}
+
+impl PartialEq<i8> for BuildingLevelDiff {
+  fn eq(&self, other: &i8) -> bool {
+    self.0.eq(other)
+  }
+}
+
+impl PartialOrd<i8> for BuildingLevelDiff {
+  fn partial_cmp(&self, other: &i8) -> Option<cmp::Ordering> {
+    self.0.partial_cmp(other)
   }
 }
 

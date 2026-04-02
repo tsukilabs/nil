@@ -18,6 +18,8 @@
 
 ---@alias BuildingLevel number
 
+---@alias BuildingLevelDiff number
+
 ---@class Building
 ---@field level BuildingLevel
 ---@field enabled boolean

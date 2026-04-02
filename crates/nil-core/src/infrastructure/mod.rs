@@ -110,7 +110,7 @@ impl Infrastructure {
     let mut score = Score::default();
     for id in BuildingId::iter() {
       let level = self.building(id).level();
-      if level > 0 {
+      if level > 0u8 {
         let stats = stats.building(id)?;
         score += stats.get(level)?.score;
       }
