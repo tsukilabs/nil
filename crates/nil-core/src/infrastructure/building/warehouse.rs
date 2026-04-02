@@ -37,7 +37,7 @@ impl Warehouse {
   pub const MIN_WORKFORCE: Workforce = Workforce::new(2);
   pub const MAX_WORKFORCE: Workforce = Workforce::new(250);
 
-  pub const MIN_CAPACITY: StorageCapacity = StorageCapacity::new(1_000);
+  pub const MIN_CAPACITY: StorageCapacity = StorageCapacity::new(2_500);
   pub const MAX_CAPACITY: StorageCapacity = StorageCapacity::new(400_000);
 
   pub const MIN_SCORE: Score = Score::new(6);
