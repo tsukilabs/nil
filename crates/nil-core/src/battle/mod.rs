@@ -107,13 +107,13 @@ impl BattleResult {
           let remaining_rams =
             attacker_power.rams_amount - (attacker_power.rams_amount * losses_ratio);
           let wall_levels_to_decrease =
-            wall_level * ((remaining_rams / 250.0) + 1.0 - losses_ratio);
+            wall_level * ((remaining_rams / 200.0) - (losses_ratio * 1.2));
 
-          downgraded_wall_level = if wall_levels_to_decrease > Wall::MAX_LEVEL {
-            -Wall::MAX_LEVEL
-          } else {
-            BuildingLevelDiff::from(-wall_levels_to_decrease)
-          };
+          if wall_levels_to_decrease > Wall::MAX_LEVEL {
+            downgraded_wall_level = -Wall::MAX_LEVEL;
+          } else if wall_levels_to_decrease > 0.0 {
+            downgraded_wall_level = BuildingLevelDiff::from(-wall_levels_to_decrease);
+          }
         }
       }
       BattleWinner::Defender => {
@@ -124,7 +124,7 @@ impl BattleResult {
         }
 
         if wall_level > 0 && attacker_power.rams_amount > 0.0 {
-          let diff = -(wall_level * (losses_ratio * 0.9));
+          let diff = -(wall_level * (losses_ratio * 0.7));
           downgraded_wall_level = BuildingLevelDiff::from(diff);
         }
       }
