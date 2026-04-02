@@ -4,13 +4,32 @@
 use crate::city::City;
 use crate::error::Result;
 use crate::infrastructure::Infrastructure;
-use crate::npc::bot::BotId;
+use crate::npc::bot::{Bot, BotId, BotManager};
 use crate::with_random_level;
 use crate::world::World;
 use num_traits::ToPrimitive;
 use tap::Conv;
 
 impl World {
+  #[inline]
+  pub fn bot_manager(&self) -> &BotManager {
+    &self.bot_manager
+  }
+
+  #[inline]
+  pub fn bot(&self, id: &BotId) -> Result<&Bot> {
+    self.bot_manager.bot(id)
+  }
+
+  #[inline]
+  pub(crate) fn bot_mut(&mut self, id: &BotId) -> Result<&mut Bot> {
+    self.bot_manager.bot_mut(id)
+  }
+
+  pub fn bots(&self) -> impl Iterator<Item = &Bot> {
+    self.bot_manager.bots()
+  }
+
   pub(crate) fn spawn_bots(&mut self) -> Result<()> {
     let size = self.continent.size();
     let density = self.config().bot_density();

@@ -7,12 +7,31 @@ mod tests;
 use crate::city::City;
 use crate::error::{Error, Result};
 use crate::military::Military;
-use crate::player::{Player, PlayerId, PlayerStatus};
+use crate::player::{Player, PlayerId, PlayerManager, PlayerStatus};
 use crate::report::ReportId;
 use crate::resources::maintenance::Maintenance;
 use crate::world::World;
 
 impl World {
+  #[inline]
+  pub fn player_manager(&self) -> &PlayerManager {
+    &self.player_manager
+  }
+
+  #[inline]
+  pub fn player(&self, id: &PlayerId) -> Result<&Player> {
+    self.player_manager.player(id)
+  }
+
+  #[inline]
+  pub(crate) fn player_mut(&mut self, id: &PlayerId) -> Result<&mut Player> {
+    self.player_manager.player_mut(id)
+  }
+
+  pub fn players(&self) -> impl Iterator<Item = &Player> {
+    self.player_manager.players()
+  }
+
   #[inline]
   pub fn get_player_maintenance(&self, player: &PlayerId) -> Result<Maintenance> {
     self.get_maintenance(player)

@@ -4,12 +4,19 @@
 mod building;
 mod storage;
 
-use crate::continent::Coord;
+use crate::city::City;
+use crate::continent::{ContinentKey, Coord};
 use crate::error::Result;
+use crate::infrastructure::Infrastructure;
 use crate::infrastructure::building::BuildingId;
 use crate::world::World;
 
 impl World {
+  #[inline]
+  pub fn infrastructure(&self, key: impl ContinentKey) -> Result<&Infrastructure> {
+    self.city(key).map(City::infrastructure)
+  }
+
   pub fn toggle_building(&mut self, coord: Coord, id: BuildingId, enabled: bool) -> Result<()> {
     self
       .continent

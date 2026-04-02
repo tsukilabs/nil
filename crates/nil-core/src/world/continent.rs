@@ -1,12 +1,17 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use crate::continent::{Coord, Field};
+use crate::continent::{Continent, Coord, Field};
 use crate::error::{Error, Result};
 use crate::world::World;
 use rand::seq::IteratorRandom;
 
 impl World {
+  #[inline]
+  pub fn continent(&self) -> &Continent {
+    &self.continent
+  }
+
   pub(super) fn find_spawn_point(&mut self) -> Result<(Coord, &mut Field)> {
     let size = self.continent.size();
     let pm = &self.precursor_manager;

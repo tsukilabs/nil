@@ -4,12 +4,31 @@
 use crate::city::City;
 use crate::error::Result;
 use crate::infrastructure::Infrastructure;
-use crate::npc::precursor::{self, PrecursorId};
+use crate::npc::precursor::{self, Precursor, PrecursorId, PrecursorManager};
 use crate::world::World;
 use nil_num::roman::ToRoman;
 use rand::seq::IndexedRandom;
 
 impl World {
+  #[inline]
+  pub fn precursor_manager(&self) -> &PrecursorManager {
+    &self.precursor_manager
+  }
+
+  #[inline]
+  pub fn precursor(&self, id: PrecursorId) -> &dyn Precursor {
+    self.precursor_manager.precursor(id)
+  }
+
+  #[inline]
+  pub(crate) fn precursor_mut(&mut self, id: PrecursorId) -> &mut dyn Precursor {
+    self.precursor_manager.precursor_mut(id)
+  }
+
+  pub fn precursors(&self) -> impl Iterator<Item = &dyn Precursor> {
+    self.precursor_manager.precursors()
+  }
+
   pub(crate) fn spawn_precursors(&mut self) -> Result<()> {
     self.spawn_precursor_cities(PrecursorId::A)?;
     self.spawn_precursor_cities(PrecursorId::B)?;
