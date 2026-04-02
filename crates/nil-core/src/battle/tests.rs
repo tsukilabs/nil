@@ -121,7 +121,6 @@ fn defensive_power_with_wall() -> Result<()> {
 }
 
 #[test]
-#[ignore = "working on implementing the rams"]
 fn battle_result() -> Result<()> {
   let attacker = [s(Axeman, 100), s(Swordsman, 50)];
   let defender = [s(Pikeman, 100), s(Swordsman, 50)];

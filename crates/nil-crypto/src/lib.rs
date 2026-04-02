@@ -5,4 +5,5 @@
 #![doc(html_favicon_url = "https://nil.dev.br/favicon.png")]
 #![feature(str_as_str)]
 
+pub mod error;
 pub mod password;

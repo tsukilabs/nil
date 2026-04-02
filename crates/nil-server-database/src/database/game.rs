@@ -173,7 +173,7 @@ impl Database {
     if let Some(hash) = self.get_game_password(game_id)? {
       password
         .filter(|it| !it.trim().is_empty())
-        .is_some_and(|it| hash.verify(it))
+        .is_some_and(|it| matches!(hash.verify(it), Ok(true)))
         .pipe(Ok)
     } else {
       Ok(true)

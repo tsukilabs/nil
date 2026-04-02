@@ -26,7 +26,7 @@ pub async fn authorize(State(app): State<App>, Json(req): Json<AuthorizeRequest>
           .database()
           .get_user(&req.player)
           .map_err(Into::<Error>::into)?
-          .verify_password(&password)
+          .verify_password(&password)?
         {
           encode_jwt(req.player)
         } else {

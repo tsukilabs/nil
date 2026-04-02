@@ -361,10 +361,10 @@ fn log_err(err: &reqwest::Error) {
 }
 
 fn log_request(request: &reqwest::RequestBuilder) {
-  tracing::debug!(?request);
+  tracing::trace!(?request);
 }
 
 fn log_response(response: &Response) {
   let status = response.status();
-  tracing::debug!(?status, ?response);
+  tracing::trace!(?status, ?response);
 }
