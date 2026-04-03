@@ -87,7 +87,7 @@ function clear() {
 
 <template>
   <div :class="md ? 'card-layout' : 'game-layout'">
-    <Card class="max-md:size-full overflow-hidden">
+    <Card class="max-md:size-full overflow-hidden md:max-h-9/10">
       <CardHeader>
         <CardTitle>
           <span>{{ t('forward') }}</span>
