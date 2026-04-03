@@ -39,10 +39,6 @@ impl PlayerManager {
     self.0.values()
   }
 
-  pub(crate) fn players_mut(&mut self) -> impl Iterator<Item = &mut Player> {
-    self.0.values_mut()
-  }
-
   pub fn player_ids(&self) -> impl Iterator<Item = &PlayerId> {
     self.0.keys()
   }
