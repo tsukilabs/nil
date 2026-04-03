@@ -177,6 +177,16 @@ impl BattleResult {
 
     if total > 0.0 { surviving / total } else { 0.0 }
   }
+
+  #[inline]
+  pub fn wall_level(&self) -> BuildingLevel {
+    self.wall_level
+  }
+
+  #[inline]
+  pub fn downgraded_wall_level(&self) -> BuildingLevelDiff {
+    self.downgraded_wall_level
+  }
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Deserialize, Serialize)]

@@ -26,7 +26,9 @@ const { t } = useI18n();
     <TableBody>
       <TableRow v-for="maneuver of maneuvers" :key="maneuver.id">
         <TableCell>
-          <span>{{ maneuver.kind }}</span>
+          <span v-if="maneuver.kind === 'attack'">{{ t('attack-noun') }}</span>
+          <span v-else-if="maneuver.kind === 'support'">{{ t('support-noun') }}</span>
+          <span v-else>{{ t(maneuver.kind) }}</span>
         </TableCell>
 
         <TableCell

@@ -5,7 +5,7 @@ use crate::battle::luck::Luck;
 use crate::battle::{Battle, BattleResult};
 use crate::continent::Coord;
 use crate::error::Result;
-use crate::infrastructure::building::{Building, BuildingLevel};
+use crate::infrastructure::building::{Building, BuildingId, BuildingLevel, BuildingLevelDiff};
 use crate::military::army::{Army, ArmyState};
 use crate::military::maneuver::{Maneuver, ManeuverDirection, ManeuverHaul, ManeuverKind};
 use crate::military::unit::stats::haul::Haul;
@@ -92,6 +92,8 @@ impl World {
 
       self.military.insert_maneuver(maneuver);
     }
+
+    update_wall_level(self, &battle_result, destination)?;
 
     let players = rulers.players();
     let report = BattleReport::builder()
@@ -273,4 +275,14 @@ fn calculate_hauled_resources(world: &World, target: Coord, base: Haul) -> Resul
   set!(warehouse_resources, wood, warehouse_haul);
 
   Ok(hauled)
+}
+
+fn update_wall_level(world: &mut World, result: &BattleResult, coord: Coord) -> Result<()> {
+  let diff = result.downgraded_wall_level();
+  if diff < BuildingLevelDiff::ZERO {
+    let level = result.wall_level() + diff;
+    world.set_building_level(coord, BuildingId::Wall, level)?;
+  }
+
+  Ok(())
 }

@@ -2,7 +2,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { toMerged } from 'es-toolkit/object';
 import BattleResultTableRow from './BattleResultTableRow.vue';
@@ -11,6 +10,7 @@ import ptBR_report from '@/locale/pt-BR/scenes/game/report.json';
 import type { BattleResultImpl } from '@/core/model/battle-result';
 import enUS_warRoom from '@/locale/en-US/scenes/game/war-room.json';
 import ptBR_warRoom from '@/locale/pt-BR/scenes/game/war-room.json';
+import { useBattleWallLevel } from '@/composables/battle/useBattleWallLevel';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@tb-dev/vue-components';
 
 const props = defineProps<{ result: BattleResultImpl; }>();
@@ -22,15 +22,7 @@ const { t } = useI18n({
   },
 });
 
-const wallLevel = computed(() => {
-  const original = props.result.wallLevel;
-  const current = props.result.resolveWallLevel();
-  return {
-    original,
-    current,
-    didChange: current !== original,
-  };
-});
+const wallLevel = useBattleWallLevel(() => props.result);
 </script>
 
 <template>

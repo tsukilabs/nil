@@ -186,6 +186,28 @@ fn no_defenders() -> Result<()> {
   Ok(())
 }
 
+#[test]
+fn downgrade_wall() -> Result<()> {
+  let attacker = [s(Axeman, 2000), s(Ram, 500)];
+  let defender = [s(Pikeman, 100), s(Swordsman, 100)];
+  let wall = STATS.wall().get(BuildingLevel::new(20))?;
+
+  let battle = Battle::builder()
+    .attacker(&attacker)
+    .defender(&defender)
+    .luck(Luck::new(0))
+    .wall(wall)
+    .infrastructure_stats(&STATS)
+    .build();
+
+  let result = battle.result()?;
+  assert_eq!(result.winner, BattleWinner::Attacker);
+  assert_eq!(result.wall_level, BuildingLevel::new(20));
+  assert!(result.downgraded_wall_level < 0i8);
+
+  Ok(())
+}
+
 fn s(id: UnitId, amount: u32) -> Squad {
   Squad::new(id, SquadSize::new(amount))
 }

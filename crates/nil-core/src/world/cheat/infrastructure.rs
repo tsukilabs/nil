@@ -162,14 +162,8 @@ impl World {
     level: BuildingLevel,
   ) -> Result<()> {
     bail_if_cheats_are_not_allowed!(self);
-    self
-      .city_mut(coord)?
-      .infrastructure_mut()
-      .building_mut(id)
-      .set_level(level);
-
+    self.set_building_level(coord, id, level)?;
     self.emit_city_updated(coord);
-
     Ok(())
   }
 }
