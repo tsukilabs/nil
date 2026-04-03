@@ -77,11 +77,11 @@ function create() {
   function send(options?: EnqueueOptions) {
     if (draft.value) {
       queue.enqueue(draft.value, options);
+      draft.value = null;
     }
   }
 
   function commit(value: string) {
-    draft.value = null;
     currentId.value = null;
     history.value.push(markRaw(new Message(value)));
     history.value.sort((a, b) => a.id - b.id);
