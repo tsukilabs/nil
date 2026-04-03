@@ -7,7 +7,7 @@ use itertools::Itertools;
 use nil_core::continent::Coord;
 use nil_core::infrastructure::storage::OverallStorageCapacity;
 use nil_core::military::Military;
-use nil_core::player::{Player, PlayerStatus, PublicPlayer};
+use nil_core::player::{Player, PlayerId, PlayerStatus, PublicPlayer};
 use nil_core::report::ReportId;
 use nil_core::resources::maintenance::Maintenance;
 use nil_core::world::config::WorldId;
@@ -27,6 +27,14 @@ pub async fn get_player(app: AppHandle, req: GetPlayerRequest) -> Result<Player>
 pub async fn get_player_coords(app: AppHandle, req: GetPlayerCoordsRequest) -> Result<Vec<Coord>> {
   app
     .client(async |cl| cl.get_player_coords(req).await)
+    .await
+    .map_err(Into::into)
+}
+
+#[tauri::command]
+pub async fn get_player_ids(app: AppHandle, req: GetPlayerIdsRequest) -> Result<Vec<PlayerId>> {
+  app
+    .client(async |cl| cl.get_player_ids(req).await)
     .await
     .map_err(Into::into)
 }

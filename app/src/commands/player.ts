@@ -5,6 +5,7 @@ import { invoke } from '@tauri-apps/api/core';
 import type { RawMilitary } from '@/core/model/military/military';
 import type {
   GetPlayerCoordsRequest,
+  GetPlayerIdsRequest,
   GetPlayerMaintenanceRequest,
   GetPlayerMilitaryRequest,
   GetPlayerReportsRequest,
@@ -34,6 +35,14 @@ export async function getPlayerCoords(id: PlayerId) {
   };
 
   return invoke<readonly Coord[]>('get_player_coords', { req });
+}
+
+export async function getPlayerIds() {
+  const req: GetPlayerIdsRequest = {
+    world: NIL.world.getIdStrict(),
+  };
+
+  return invoke<readonly PlayerId[]>('get_player_ids', { req });
 }
 
 export async function getPlayerMaintenance() {

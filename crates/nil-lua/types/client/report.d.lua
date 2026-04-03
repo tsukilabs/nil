@@ -3,6 +3,9 @@
 
 ---@meta
 
+---@param req ForwardReportRequest
+function client:forwardReport(req) end
+
 ---@param req GetReportRequest
 ---@return ReportKind
 function client:getReport(req) end

@@ -3,7 +3,7 @@
 
 use crate::Lua;
 use crate::error::Result;
-use crate::stdio::StdioMessage;
+use crate::io::StdioMessage;
 use serde::{Deserialize, Serialize};
 use std::ffi::OsStr;
 use std::path::PathBuf;

@@ -6,6 +6,14 @@ use mlua::{LuaSerdeExt, UserDataMethods, Value};
 use nil_payload::report::*;
 
 pub(super) fn add_methods<M: UserDataMethods<ClientUserData>>(methods: &mut M) {
+  methods.add_async_method("forwardReport", async |lua, this, req: Value| {
+    let req: ForwardReportRequest = lua.from_value(req)?;
+    this
+      .client(async |it| it.forward_report(req).await)
+      .await
+      .map(|it| lua.to_value(&it))?
+  });
+
   methods.add_async_method("getReport", async |lua, this, req: Value| {
     let req: GetReportRequest = lua.from_value(req)?;
     this

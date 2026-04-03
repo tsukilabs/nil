@@ -3,6 +3,7 @@
 
 use crate::error::Result;
 use crate::event::on_core_event;
+use mlua::StdLib;
 use nil_client::{Client, ServerAddr};
 use nil_core::player::PlayerId;
 use nil_core::world::WorldOptions;
@@ -28,7 +29,9 @@ pub struct Nil {
 impl Nil {
   pub fn new(app: &AppHandle) -> Result<Self> {
     let client = Arc::default();
-    let lua = Lua::new(&client)?;
+    let lua = Lua::builder(&client)
+      .libs(StdLib::MATH | StdLib::STRING | StdLib::TABLE)
+      .build()?;
 
     Ok(Self {
       app: app.clone(),

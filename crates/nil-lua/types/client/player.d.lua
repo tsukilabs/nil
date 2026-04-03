@@ -11,6 +11,10 @@ function client:getPlayer(req) end
 ---@return Coord[]
 function client:getPlayerCoords(req) end
 
+----@param req GetPlayerIdsRequest
+---@return PlayerId[]
+function client:getPlayerIds(req) end
+
 ---@param req GetPlayerMaintenanceRequest
 ---@return number
 function client:getPlayerMaintenance(req) end

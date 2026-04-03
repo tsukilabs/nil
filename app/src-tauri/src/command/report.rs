@@ -9,6 +9,14 @@ use nil_payload::report::*;
 use tauri::AppHandle;
 
 #[tauri::command]
+pub async fn forward_report(app: AppHandle, req: ForwardReportRequest) -> Result<()> {
+  app
+    .client(async |cl| cl.forward_report(req).await)
+    .await
+    .map_err(Into::into)
+}
+
+#[tauri::command]
 pub async fn get_report(app: AppHandle, req: GetReportRequest) -> Result<ReportKind> {
   app
     .client(async |cl| cl.get_report(req).await)

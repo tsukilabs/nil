@@ -21,6 +21,12 @@ pub struct GetPlayerCoordsRequest {
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+pub struct GetPlayerIdsRequest {
+  pub world: WorldId,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct GetPlayerMaintenanceRequest {
   pub world: WorldId,
 }

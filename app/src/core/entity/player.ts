@@ -4,7 +4,7 @@
 import { Entity } from './abstract';
 import { ref, type Ref } from 'vue';
 import { asyncRef } from '@tb-dev/vue';
-import type { Option } from '@tb-dev/utils';
+import { type Option, panic } from '@tb-dev/utils';
 import { PlayerImpl } from '@/core/model/player/player';
 
 export class PlayerEntity extends Entity {
@@ -57,6 +57,10 @@ export class PlayerEntity extends Entity {
     return this.use().id.value;
   }
 
+  public static getIdStrict() {
+    return this.getId() ?? panic('Missing player id');
+  }
+
   public static async setId(id?: Option<PlayerId>) {
     const player = this.use();
     player.id.value = id;
@@ -80,6 +84,7 @@ export class PlayerEntity extends Entity {
       const player: (typeof globalThis.NIL)['player'] = {
         getCoords: PlayerEntity.getCoords.bind(PlayerEntity),
         getId: PlayerEntity.getId.bind(PlayerEntity),
+        getIdStrict: PlayerEntity.getIdStrict.bind(PlayerEntity),
         getPlayer: PlayerEntity.getPlayer.bind(PlayerEntity),
         getRuler: PlayerEntity.getRuler.bind(PlayerEntity),
         refs: PlayerEntity.refs.bind(PlayerEntity),

@@ -7,17 +7,17 @@
 
 pub mod client;
 pub mod error;
+pub mod io;
 pub mod script;
-pub mod stdio;
 
-use crate::client::ClientUserData;
-use crate::error::Result;
-use crate::script::ScriptOutput;
+use client::ClientUserData;
+use error::Result;
+use io::{Stdio, StdioMessage};
 use mlua::{LuaOptions, StdLib, Value, Variadic};
 use nil_client::Client;
+use script::ScriptOutput;
 use std::mem;
 use std::sync::Arc;
-use stdio::{Stdio, StdioMessage};
 use tokio::sync::RwLock;
 use tokio::sync::mpsc::{self, UnboundedReceiver};
 
@@ -27,20 +27,21 @@ pub struct Lua {
   stderr: Stdio,
 }
 
+#[bon::bon]
 impl Lua {
-  pub fn new(client: &Arc<RwLock<Client>>) -> Result<Self> {
-    Self::with_libs(client, StdLib::MATH | StdLib::STRING | StdLib::TABLE)
-  }
-
-  pub fn with_libs(client: &Arc<RwLock<Client>>, libs: StdLib) -> Result<Self> {
+  #[builder]
+  pub fn new(
+    #[builder(start_fn)] client: &Arc<RwLock<Client>>,
+    #[builder(default = StdLib::ALL_SAFE)] libs: StdLib,
+  ) -> Result<Self> {
     let lua = mlua::Lua::new_with(libs, LuaOptions::default())?;
 
     let globals = lua.globals();
     let client_data = ClientUserData::new(Arc::clone(client));
     globals.set("client", lua.create_userdata(client_data)?)?;
 
-    let stdout_rx = pipe_stdio(&lua, "print", "println")?;
-    let stderr_rx = pipe_stdio(&lua, "eprint", "eprintln")?;
+    let stdout_rx = pipe(&lua, "print", "println")?;
+    let stderr_rx = pipe(&lua, "eprint", "eprintln")?;
 
     Ok(Self {
       inner: lua,
@@ -80,11 +81,7 @@ impl Lua {
   }
 }
 
-fn pipe_stdio(
-  lua: &mlua::Lua,
-  name: &str,
-  name_ln: &str,
-) -> Result<UnboundedReceiver<StdioMessage>> {
+fn pipe(lua: &mlua::Lua, name: &str, name_ln: &str) -> Result<UnboundedReceiver<StdioMessage>> {
   let (tx, rx) = mpsc::unbounded_channel();
   let create_fn = |line_break: bool| {
     let tx = tx.clone();

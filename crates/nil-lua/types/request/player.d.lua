@@ -10,6 +10,9 @@
 ---@field world WorldId
 ---@field id PlayerId
 
+---@class GetPlayerIdsRequest
+---@field world WorldId
+
 ---@class GetPlayerMaintenanceRequest
 ---@field world WorldId
 

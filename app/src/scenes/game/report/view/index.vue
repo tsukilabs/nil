@@ -2,6 +2,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
+import { go } from '@/router';
 import { useI18n } from 'vue-i18n';
 import { whenever } from '@vueuse/core';
 import SupportReport from './SupportReport.vue';
@@ -12,7 +13,7 @@ import { useReport } from '@/composables/report/useReport';
 import { BattleReportImpl } from '@/core/model/report/battle-report';
 import BattleReport from '@/scenes/game/report/view/BattleReport.vue';
 import { SupportReportImpl } from '@/core/model/report/support-report';
-import { Card, CardContent, CardHeader, CardTitle } from '@tb-dev/vue-components';
+import { Button, Card, CardContent, CardHeader, CardTitle } from '@tb-dev/vue-components';
 
 const { t } = useI18n({
   messages: {
@@ -25,6 +26,12 @@ const reportId = useRouteParams<Option<ReportId>>('id', null);
 const { report } = useReport(reportId);
 
 whenever(report, ({ id }) => NIL.report.markRead(id));
+
+async function goToReportForwardScene() {
+  if (reportId.value) {
+    await go('report-forward', { params: { id: reportId.value } });
+  }
+}
 </script>
 
 <template>
@@ -36,9 +43,20 @@ whenever(report, ({ id }) => NIL.report.markRead(id));
         </CardTitle>
       </CardHeader>
 
-      <CardContent class="size-full overflow-auto px-2 py-0">
+      <CardContent class="size-full flex flex-col gap-6 overflow-auto px-2 py-0">
         <BattleReport v-if="report && (report instanceof BattleReportImpl)" :report />
         <SupportReport v-else-if="report && (report instanceof SupportReportImpl)" :report />
+
+        <div class="grid grid-cols-1 items-center justify-start gap-4 max-w-max">
+          <Button
+            :disabled="!reportId"
+            role="link"
+            tabindex="0"
+            @click="goToReportForwardScene"
+          >
+            <span>{{ t('forward') }}</span>
+          </Button>
+        </div>
       </CardContent>
     </Card>
   </div>

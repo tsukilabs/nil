@@ -84,7 +84,9 @@ async fn main() -> Result<()> {
     .await?;
 
   let client = Arc::new(RwLock::new(client));
-  let mut lua = Lua::with_libs(&client, StdLib::ALL_SAFE)?;
+  let mut lua = Lua::builder(&client)
+    .libs(StdLib::ALL_SAFE)
+    .build()?;
 
   let chunk = fs::read_to_string(cli.script)?;
   let output = lua.execute(&chunk).await?;
