@@ -13,6 +13,7 @@ mod military;
 mod npc;
 mod player;
 mod ranking;
+mod report;
 mod resources;
 mod round;
 mod savedata;

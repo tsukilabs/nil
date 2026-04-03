@@ -1,10 +1,19 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+use nil_core::player::PlayerId;
 use nil_core::report::ReportId;
 use nil_core::world::config::WorldId;
 use serde::{Deserialize, Serialize};
 use std::collections::HashSet;
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct ForwardReportRequest {
+  pub world: WorldId,
+  pub id: ReportId,
+  pub recipient: PlayerId,
+}
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]

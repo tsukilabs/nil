@@ -140,6 +140,7 @@ pub fn run() {
       command::player::spawn_player,
       command::ranking::get_rank,
       command::ranking::get_ranking,
+      command::report::forward_report,
       command::report::get_report,
       command::report::get_reports,
       command::round::get_round,

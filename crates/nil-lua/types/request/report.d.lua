@@ -3,6 +3,11 @@
 
 ---@meta
 
+---@class ForwardReportRequest
+---@field world WorldId
+---@field id ReportId
+---@field recipient PlayerId
+
 ---@class GetReportRequest
 ---@field world WorldId
 ---@field id ReportId

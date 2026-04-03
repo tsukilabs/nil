@@ -12,7 +12,7 @@ pub mod script;
 
 use client::ClientUserData;
 use error::Result;
-use io::{Stdio, StdioMessage, Writer};
+use io::{Stdio, StdioMessage};
 use mlua::{LuaOptions, StdLib, Value, Variadic};
 use nil_client::Client;
 use script::ScriptOutput;
@@ -25,7 +25,6 @@ pub struct Lua {
   inner: mlua::Lua,
   stdout: Stdio,
   stderr: Stdio,
-  // stdout2: Writer,
 }
 
 #[bon::bon]

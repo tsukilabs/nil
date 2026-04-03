@@ -89,6 +89,7 @@ pub(crate) fn create() -> Router<App> {
     .route("/cheat-spawn-personnel", post(cheat::military::spawn_personnel))
     .route("/create-remote-world", post(world::remote::create))
     .route("/delete-remote-world", post(world::remote::delete))
+    .route("/forward-report", post(report::forward))
     .route("/get-academy-recruit-catalog", put(infrastructure::academy::get_recruit_catalog))
     .route("/get-chat-history", put(chat::get))
     .route("/get-city", put(city::get_city))

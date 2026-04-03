@@ -10,6 +10,7 @@ use crate::round::RoundId;
 use battle::BattleReport;
 use itertools::Itertools;
 use jiff::Zoned;
+use nil_util::vec::VecExt;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::sync::Arc;
@@ -76,6 +77,16 @@ impl ReportManager {
       .unwrap_or_default()
       .iter()
       .copied()
+  }
+
+  pub(crate) fn forward(&mut self, id: ReportId, recipient: PlayerId) -> bool {
+    self.reports.contains_key(&id)
+      && self
+        .players
+        .entry(recipient)
+        .or_default()
+        .push_unique(id)
+        .is_none()
   }
 }
 

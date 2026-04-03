@@ -2,12 +2,31 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::app::App;
+use crate::middleware::authorization::CurrentPlayer;
 use crate::res;
 use crate::response::EitherExt;
-use axum::extract::{Json, State};
+use axum::extract::{Extension, Json, State};
 use axum::response::Response;
 use itertools::Itertools;
 use nil_payload::report::*;
+
+pub async fn forward(
+  State(app): State<App>,
+  Extension(player): Extension<CurrentPlayer>,
+  Json(req): Json<ForwardReportRequest>,
+) -> Response {
+  if player != req.recipient {
+    app
+      .world_mut(req.world, |world| {
+        world.forward_report(req.id, req.recipient)
+      })
+      .await
+      .map_left(|()| res!(OK))
+      .into_inner()
+  } else {
+    res!(FORBIDDEN)
+  }
+}
 
 pub async fn get(State(app): State<App>, Json(req): Json<GetReportRequest>) -> Response {
   app

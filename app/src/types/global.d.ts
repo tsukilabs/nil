@@ -81,6 +81,7 @@ declare global {
     readonly player: {
       readonly getCoords: (typeof PlayerEntity)['getCoords'];
       readonly getId: (typeof PlayerEntity)['getId'];
+      readonly getIdStrict: (typeof PlayerEntity)['getIdStrict'];
       readonly getPlayer: (typeof PlayerEntity)['getPlayer'];
       readonly getRuler: (typeof PlayerEntity)['getRuler'];
       readonly refs: (typeof PlayerEntity)['refs'];

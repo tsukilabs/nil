@@ -5,15 +5,11 @@ use jiff::Zoned;
 use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
 use std::fmt;
-use std::io::Write;
-use std::sync::Arc;
 use std::sync::atomic::AtomicU32;
 use std::sync::atomic::Ordering::Relaxed;
 use tokio::sync::mpsc::UnboundedReceiver;
 
 static ID: AtomicU32 = AtomicU32::new(1);
-
-pub struct Writer(Arc<dyn Write + Send>);
 
 pub struct Stdio {
   pub(crate) buffer: Vec<StdioMessage>,
