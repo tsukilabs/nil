@@ -17,7 +17,19 @@ use std::ops::{Add, AddAssign, Mul, MulAssign, Sub, SubAssign};
 /// Unlike other resources, workforce should never accumulate for the next round.
 /// Anything that is not used should be discarded.
 #[derive(
-  Clone, Copy, Debug, Deref, From, Into, PartialEq, Eq, PartialOrd, Ord, Deserialize, Serialize,
+  Clone,
+  Copy,
+  Debug,
+  Deref,
+  From,
+  Into,
+  PartialEq,
+  Eq,
+  PartialOrd,
+  Ord,
+  Deserialize,
+  Serialize,
+  nil_num::F64Ops,
 )]
 #[into(u32, f64)]
 pub struct Workforce(u32);
@@ -95,14 +107,6 @@ impl Mul<u32> for Workforce {
 
   fn mul(self, rhs: u32) -> Self::Output {
     Self(self.0.saturating_mul(rhs))
-  }
-}
-
-impl Mul<f64> for Workforce {
-  type Output = f64;
-
-  fn mul(self, rhs: f64) -> Self::Output {
-    f64::from(self.0) * rhs
   }
 }
 

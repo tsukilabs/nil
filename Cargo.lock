@@ -3614,6 +3614,7 @@ dependencies = [
 name = "nil-num-macros"
 version = "0.4.14"
 dependencies = [
+ "paste",
  "proc-macro2",
  "quote",
  "syn 2.0.117",

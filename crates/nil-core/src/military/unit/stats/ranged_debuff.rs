@@ -5,7 +5,7 @@ use derive_more::{Deref, Into};
 use serde::{Deserialize, Serialize};
 use std::ops::Mul;
 
-#[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize)]
+#[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize, nil_num::F64Ops)]
 pub struct RangedDebuff(f64);
 
 impl RangedDebuff {
@@ -15,14 +15,6 @@ impl RangedDebuff {
   pub const fn new(value: f64) -> Self {
     debug_assert!(value.is_finite());
     Self(value.max(Self::MIN.0))
-  }
-}
-
-impl Mul<f64> for RangedDebuff {
-  type Output = f64;
-
-  fn mul(self, rhs: f64) -> Self::Output {
-    self.0 * rhs
   }
 }
 

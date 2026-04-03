@@ -7,7 +7,7 @@ use serde::{Deserialize, Serialize};
 use std::ops::Mul;
 
 /// Base cost of an entity, such as buildings or units.
-#[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize)]
+#[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize, nil_num::F64Ops)]
 #[into(u32, f64)]
 pub struct Cost(u32);
 
@@ -22,14 +22,6 @@ impl From<f64> for Cost {
   fn from(value: f64) -> Self {
     debug_assert!(value.is_finite());
     Self::new(value as u32)
-  }
-}
-
-impl Mul<f64> for Cost {
-  type Output = f64;
-
-  fn mul(self, rhs: f64) -> Self::Output {
-    f64::from(self) * rhs
   }
 }
 
@@ -50,7 +42,7 @@ impl Mul<MaintenanceRatio> for Cost {
 }
 
 /// Proportion between the total cost and a given resource.
-#[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize)]
+#[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize, nil_num::F64Ops)]
 pub struct ResourceRatio(f64);
 
 impl ResourceRatio {

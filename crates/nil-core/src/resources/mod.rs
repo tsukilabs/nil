@@ -312,6 +312,7 @@ macro_rules! decl_resource {
           Ord,
           Deserialize,
           Serialize,
+          nil_num::F64Ops,
         )]
         #[into(u32, f64)]
         pub struct $resource(u32);
@@ -434,14 +435,6 @@ macro_rules! decl_resource {
 
           fn mul(self, rhs: NonZeroU32) -> Self::Output {
             self * rhs.get()
-          }
-        }
-
-        impl Mul<f64> for $resource {
-          type Output = f64;
-
-          fn mul(self, rhs: f64) -> Self::Output {
-            f64::from(self.0) * rhs
           }
         }
 
