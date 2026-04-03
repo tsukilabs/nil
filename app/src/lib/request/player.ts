@@ -10,6 +10,10 @@ export interface GetPlayerCoordsRequest {
   readonly id: PlayerId;
 }
 
+export interface GetPlayerIdsRequest {
+  readonly world: WorldId;
+}
+
 export interface GetPlayerMaintenanceRequest {
   readonly world: WorldId;
 }

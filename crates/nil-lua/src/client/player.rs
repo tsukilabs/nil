@@ -22,6 +22,14 @@ pub(super) fn add_methods<M: UserDataMethods<ClientUserData>>(methods: &mut M) {
       .map(|it| lua.to_value(&it))?
   });
 
+  methods.add_async_method("getPlayerIds", async |lua, this, req: Value| {
+    let req: GetPlayerIdsRequest = lua.from_value(req)?;
+    this
+      .client(async |it| it.get_player_ids(req).await)
+      .await
+      .map(|it| lua.to_value(&it))?
+  });
+
   methods.add_async_method("getPlayerMaintenance", async |lua, this, req: Value| {
     let req: GetPlayerMaintenanceRequest = lua.from_value(req)?;
     this

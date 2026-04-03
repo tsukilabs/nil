@@ -6,7 +6,7 @@ import { useI18n } from 'vue-i18n';
 import { Input, Label } from '@tb-dev/vue-components';
 
 defineProps<{
-  disabled: boolean;
+  disabled?: boolean;
 }>();
 
 const name = defineModel<Option<string>>({ required: true });

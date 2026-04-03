@@ -7,7 +7,7 @@ use crate::http;
 use nil_core::continent::Coord;
 use nil_core::infrastructure::storage::OverallStorageCapacity;
 use nil_core::military::Military;
-use nil_core::player::{Player, PlayerStatus, PublicPlayer};
+use nil_core::player::{Player, PlayerId, PlayerStatus, PublicPlayer};
 use nil_core::report::ReportId;
 use nil_core::resources::maintenance::Maintenance;
 use nil_core::world::config::WorldId;
@@ -28,6 +28,18 @@ impl Client {
 
   pub async fn get_player_coords(&self, req: GetPlayerCoordsRequest) -> Result<Vec<Coord>> {
     http::json_put("get-player-coords")
+      .body(req)
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_ref())
+      .circuit_breaker(self.circuit_breaker())
+      .retry(&self.retry)
+      .user_agent(&self.user_agent)
+      .send()
+      .await
+  }
+
+  pub async fn get_player_ids(&self, req: GetPlayerIdsRequest) -> Result<Vec<PlayerId>> {
+    http::json_put("get-player-ids")
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())

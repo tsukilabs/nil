@@ -10,6 +10,11 @@ export const reportRoutes: RouteRecordRaw[] = [
     name: 'report' satisfies ReportScene,
   },
   {
+    component: () => import('@/scenes/game/report/forward/index.vue'),
+    path: 'forward/:id',
+    name: 'report-forward' satisfies ReportScene,
+  },
+  {
     component: () => import('@/scenes/game/report/view/index.vue'),
     path: 'view/:id',
     name: 'report-view' satisfies ReportScene,

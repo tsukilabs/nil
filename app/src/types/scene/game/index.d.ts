@@ -17,6 +17,6 @@ type ContinentScene = 'continent' | 'continent-cities';
 
 type ProfileScene = 'profile-bot' | 'profile-city' | 'profile-player' | 'profile-precursor';
 
-type ReportScene = 'report' | 'report-view';
+type ReportScene = 'report' | 'report-forward' | 'report-view';
 
 type WarRoomScene = 'war-room' | 'war-room-simulator';

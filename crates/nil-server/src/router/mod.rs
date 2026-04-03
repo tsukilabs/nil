@@ -124,6 +124,7 @@ pub(crate) fn create() -> Router<App> {
     .route("/get-city-score", put(city::get_city_score))
     .route("/get-continent-size", put(continent::size))
     .route("/get-player-coords", put(player::get_coords))
+    .route("/get-player-ids", put(player::get_ids))
     .route("/get-player-status", put(player::get_status))
     .route("/get-player-worlds", put(player::get_worlds))
     .route("/get-precursor-coords", put(npc::precursor::get_coords))

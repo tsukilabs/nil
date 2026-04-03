@@ -15,16 +15,16 @@ pub async fn forward(
   Extension(player): Extension<CurrentPlayer>,
   Json(req): Json<ForwardReportRequest>,
 ) -> Response {
-  if player != req.recipient {
+  if player == req.recipient {
+    res!(FORBIDDEN)
+  } else {
     app
       .world_mut(req.world, |world| {
-        world.forward_report(req.id, req.recipient)
+        world.forward_report(req.id, req.recipient);
       })
       .await
       .map_left(|()| res!(OK))
       .into_inner()
-  } else {
-    res!(FORBIDDEN)
   }
 }
 

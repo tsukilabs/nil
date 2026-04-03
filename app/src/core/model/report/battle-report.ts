@@ -33,6 +33,19 @@ export class BattleReportImpl extends ReportImpl implements BattleReport {
     this.destinationCity = args.destinationCity;
   }
 
+  public override getPlayerIds(): readonly PlayerId[] {
+    const ids: PlayerId[] = [];
+    if (this.attacker.kind === 'player') {
+      ids.push(this.attacker.id);
+    }
+
+    if (this.defender.kind === 'player') {
+      ids.push(this.defender.id);
+    }
+
+    return ids;
+  }
+
   public override getTitle(t: ComposerTranslation<typeof enUS>) {
     return t('battle-report-title', {
       attacker: this.attacker.id,

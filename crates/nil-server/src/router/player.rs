@@ -21,6 +21,25 @@ pub async fn exists(State(app): State<App>, Json(req): Json<PlayerExistsRequest>
     .into_inner()
 }
 
+pub async fn get_coords(
+  State(app): State<App>,
+  Json(req): Json<GetPlayerCoordsRequest>,
+) -> Response {
+  app
+    .continent(req.world, |k| k.coords_of(req.id).collect_vec())
+    .await
+    .map_left(|coords| res!(OK, Json(coords)))
+    .into_inner()
+}
+
+pub async fn get_ids(State(app): State<App>, Json(req): Json<GetPlayerIdsRequest>) -> Response {
+  app
+    .player_manager(req.world, |pm| pm.player_ids().cloned().collect_vec())
+    .await
+    .map_left(|ids| res!(OK, Json(ids)))
+    .into_inner()
+}
+
 pub async fn get_player(
   State(app): State<App>,
   Extension(player): Extension<CurrentPlayer>,
@@ -56,17 +75,6 @@ pub async fn get_public_players(
     })
     .await
     .map_left(|players| res!(OK, Json(players)))
-    .into_inner()
-}
-
-pub async fn get_coords(
-  State(app): State<App>,
-  Json(req): Json<GetPlayerCoordsRequest>,
-) -> Response {
-  app
-    .continent(req.world, |k| k.coords_of(req.id).collect_vec())
-    .await
-    .map_left(|coords| res!(OK, Json(coords)))
     .into_inner()
 }
 

@@ -19,6 +19,7 @@ export abstract class ReportImpl implements Report_ {
     this.date = fromZoned(report.time);
   }
 
+  public abstract getPlayerIds(): readonly PlayerId[];
   public abstract getTitle(t: ComposerTranslation<typeof enUS>): string;
 
   public isUnread() {

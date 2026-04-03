@@ -30,6 +30,19 @@ export class SupportReportImpl extends ReportImpl implements SupportReport {
     this.destinationCity = args.destinationCity;
   }
 
+  public override getPlayerIds(): readonly PlayerId[] {
+    const ids: PlayerId[] = [];
+    if (this.sender.kind === 'player') {
+      ids.push(this.sender.id);
+    }
+
+    if (this.receiver.kind === 'player') {
+      ids.push(this.receiver.id);
+    }
+
+    return ids;
+  }
+
   public override getTitle(t: ComposerTranslation<typeof enUS>) {
     return t('support-report-title', {
       sender: this.sender.id,

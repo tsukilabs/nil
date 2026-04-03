@@ -127,6 +127,7 @@ pub fn run() {
       command::npc::precursor::get_public_precursors,
       command::player::get_player,
       command::player::get_player_coords,
+      command::player::get_player_ids,
       command::player::get_player_maintenance,
       command::player::get_player_military,
       command::player::get_player_reports,
