@@ -2,11 +2,13 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import enUS from '@/locale/en-US/scenes/game/report.json';
 import ptBR from '@/locale/pt-BR/scenes/game/report.json';
 import { useBattleLosses } from '@/composables/battle/useBattleLosses';
 import type { BattleReportImpl } from '@/core/model/report/battle-report';
+import { useBattleWallLevel } from '@/composables/battle/useBattleWallLevel';
 import BattleReportTable from '@/scenes/game/report/view/BattleReportTable.vue';
 import { Table, TableBody, TableCell, TableHead, TableRow } from '@tb-dev/vue-components';
 
@@ -21,7 +23,9 @@ const { t } = useI18n({
   },
 });
 
-const losses = useBattleLosses(() => props.report.result);
+const result = computed(() => props.report.result);
+const losses = useBattleLosses(result);
+const wallLevel = useBattleWallLevel(result);
 </script>
 
 <template>
@@ -53,7 +57,12 @@ const losses = useBattleLosses(() => props.report.result);
 
         <TableRow v-if="report.result.wallLevel > 0" class="hover:bg-card">
           <TableHead>{{ t('wall-level') }}</TableHead>
-          <TableCell>{{ report.result.wallLevel }}</TableCell>
+          <TableCell v-if="wallLevel.didChange">
+            {{ wallLevel.original }} → {{ wallLevel.current }}
+          </TableCell>
+          <TableCell v-else>
+            {{ wallLevel.current }}
+          </TableCell>
         </TableRow>
 
         <TableRow v-if="!report.hauledResources.isEmpty()" class="hover:bg-card">

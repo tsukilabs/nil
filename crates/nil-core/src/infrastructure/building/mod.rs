@@ -545,6 +545,8 @@ impl Neg for BuildingLevel {
 pub struct BuildingLevelDiff(i8);
 
 impl BuildingLevelDiff {
+  pub const ZERO: BuildingLevelDiff = BuildingLevelDiff(0);
+
   #[inline]
   pub const fn new(level_diff: i8) -> Self {
     Self(level_diff)

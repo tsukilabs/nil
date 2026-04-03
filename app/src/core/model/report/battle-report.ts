@@ -41,6 +41,10 @@ export class BattleReportImpl extends ReportImpl implements BattleReport {
     });
   }
 
+  public resolveWallLevel() {
+    return this.result.resolveWallLevel();
+  }
+
   public static create(args: BattleReportImplConstructorArgs) {
     if (args.report instanceof BattleReportImpl) {
       return args.report;

@@ -6,6 +6,31 @@ mod prefecture;
 mod stable;
 mod workshop;
 
+use crate::continent::ContinentKey;
+use crate::error::Result;
+use crate::infrastructure::prelude::{BuildingId, BuildingLevel};
+use crate::world::World;
+
+impl World {
+  /// Sets the level of a building.
+  ///
+  /// Does **NOT** emit any events.
+  pub(crate) fn set_building_level(
+    &mut self,
+    key: impl ContinentKey,
+    id: BuildingId,
+    level: BuildingLevel,
+  ) -> Result<()> {
+    self
+      .city_mut(key)?
+      .infrastructure_mut()
+      .building_mut(id)
+      .set_level(level);
+
+    Ok(())
+  }
+}
+
 #[doc(hidden)]
 #[macro_export]
 macro_rules! decl_world_recruit_order_fn {
