@@ -165,6 +165,7 @@ macro_rules! decl_resource_diff {
           Ord,
           Deserialize,
           Serialize,
+          nil_num::F64Ops,
         )]
         #[into(i32, f64)]
         pub struct [<$resource Diff>](i32);

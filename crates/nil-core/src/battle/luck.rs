@@ -3,9 +3,11 @@
 
 use derive_more::Deref;
 use serde::{Deserialize, Serialize};
-use std::ops::{Mul, MulAssign};
+use std::ops::MulAssign;
 
-#[derive(Clone, Copy, Debug, Deref, PartialEq, Eq, PartialOrd, Ord, Deserialize, Serialize)]
+#[derive(
+  Clone, Copy, Debug, Deref, PartialEq, Eq, PartialOrd, Ord, Deserialize, Serialize, nil_num::F64Ops,
+)]
 pub struct Luck(i8);
 
 impl Luck {
@@ -31,14 +33,6 @@ impl Default for Luck {
 impl From<Luck> for f64 {
   fn from(luck: Luck) -> Self {
     f64::from(luck.0) / 100.0
-  }
-}
-
-impl Mul<Luck> for f64 {
-  type Output = f64;
-
-  fn mul(self, rhs: Luck) -> Self::Output {
-    self * f64::from(rhs)
   }
 }
 

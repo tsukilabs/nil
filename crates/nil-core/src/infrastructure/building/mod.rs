@@ -22,7 +22,7 @@ use nil_num::growth::growth;
 use serde::{Deserialize, Serialize};
 use std::cmp;
 use std::collections::HashMap;
-use std::ops::{Add, AddAssign, Mul, Neg, Sub, SubAssign};
+use std::ops::{Add, AddAssign, Neg, Sub, SubAssign};
 use strum::{EnumIs, EnumIter};
 use subenum::subenum;
 
@@ -330,6 +330,7 @@ impl BuildingStatsTable {
   Hash,
   Deserialize,
   Serialize,
+  nil_num::F64Ops,
 )]
 #[into(i16, i32, u8, u16, u32, u64, usize, f64)]
 pub struct BuildingLevel(u8);
@@ -507,14 +508,6 @@ impl SubAssign<i8> for BuildingLevel {
 impl SubAssign<BuildingLevelDiff> for BuildingLevel {
   fn sub_assign(&mut self, rhs: BuildingLevelDiff) {
     *self = *self - rhs;
-  }
-}
-
-impl Mul<f64> for BuildingLevel {
-  type Output = f64;
-
-  fn mul(self, rhs: f64) -> f64 {
-    f64::from(self.0) * rhs
   }
 }
 

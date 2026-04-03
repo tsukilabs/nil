@@ -14,7 +14,6 @@ use nil_core_macros::Building;
 use nil_num::growth::growth;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
-use std::ops::{Add, Div, Mul, Sub};
 
 #[derive(Building, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
@@ -67,7 +66,7 @@ impl Default for Wall {
 
 check_total_resource_ratio!(Wall::WOOD_RATIO, Wall::STONE_RATIO, Wall::IRON_RATIO);
 
-#[derive(Clone, Copy, Debug, Deref, Deserialize, Serialize)]
+#[derive(Clone, Copy, Debug, Deref, Deserialize, Serialize, nil_num::F64Ops)]
 pub struct WallDefense(u32);
 
 impl WallDefense {
@@ -85,43 +84,13 @@ impl From<WallDefense> for f64 {
 
 impl From<f64> for WallDefense {
   fn from(value: f64) -> Self {
+    debug_assert!(value >= 0.0);
+    debug_assert!(value.is_finite());
     Self::new(value as u32)
   }
 }
 
-impl Add<f64> for WallDefense {
-  type Output = f64;
-
-  fn add(self, rhs: f64) -> Self::Output {
-    f64::from(self.0) + rhs
-  }
-}
-
-impl Sub<f64> for WallDefense {
-  type Output = f64;
-
-  fn sub(self, rhs: f64) -> Self::Output {
-    f64::from(self.0) - rhs
-  }
-}
-
-impl Mul<f64> for WallDefense {
-  type Output = f64;
-
-  fn mul(self, rhs: f64) -> Self::Output {
-    f64::from(self.0) * rhs
-  }
-}
-
-impl Div<f64> for WallDefense {
-  type Output = f64;
-
-  fn div(self, rhs: f64) -> Self::Output {
-    f64::from(self.0) / rhs
-  }
-}
-
-#[derive(Clone, Copy, Debug, Deref, Deserialize, Serialize)]
+#[derive(Clone, Copy, Debug, Deref, Deserialize, Serialize, nil_num::F64Ops)]
 pub struct WallDefenseBonus(f64);
 
 impl WallDefenseBonus {
@@ -141,22 +110,6 @@ impl From<WallDefenseBonus> for f64 {
 impl From<f64> for WallDefenseBonus {
   fn from(value: f64) -> Self {
     Self::new(value)
-  }
-}
-
-impl Mul<f64> for WallDefenseBonus {
-  type Output = f64;
-
-  fn mul(self, rhs: f64) -> Self::Output {
-    self.0 * rhs
-  }
-}
-
-impl Div<f64> for WallDefenseBonus {
-  type Output = f64;
-
-  fn div(self, rhs: f64) -> Self::Output {
-    self.0 / rhs
   }
 }
 

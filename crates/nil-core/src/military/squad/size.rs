@@ -87,6 +87,8 @@ impl AddAssign<u32> for SquadSize {
 
 impl From<f64> for SquadSize {
   fn from(value: f64) -> Self {
+    debug_assert!(value >= 0.0);
+    debug_assert!(value.is_finite());
     Self::new(value as u32)
   }
 }

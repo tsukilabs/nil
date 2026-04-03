@@ -70,7 +70,7 @@ fn watch_process(pid: Pid) {
         let disk_usage = process.disk_usage();
         tracing::info!(
           name = %process.name().to_string_lossy(),
-          cpu_usage = process.cpu_usage(),
+          cpu_usage = format!("{:.2}%", process.cpu_usage()),
           memory = %b!(process.memory()),
           virtual_memory = %b!(process.virtual_memory()),
           read_bytes = %b!(disk_usage.read_bytes),

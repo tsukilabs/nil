@@ -6,13 +6,16 @@ use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
 
 /// Represents how many fields a unit can travel in one round.
-#[derive(Clone, Copy, Debug, Deref, Into, PartialEq, PartialOrd, Deserialize, Serialize)]
+#[derive(
+  Clone, Copy, Debug, Deref, Into, PartialEq, PartialOrd, Deserialize, Serialize, nil_num::F64Ops,
+)]
 pub struct Speed(f64);
 
 impl Speed {
   #[inline]
   pub const fn new(value: f64) -> Self {
-    debug_assert!(value.is_finite() && value >= 0.0);
+    debug_assert!(value >= 0.0);
+    debug_assert!(value.is_finite());
     Self(value.max(0.0))
   }
 }
