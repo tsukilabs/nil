@@ -26,7 +26,7 @@ impl Axeman {
     .cavalry_defense(Power::new(5))
     .ranged_defense(Power::new(10))
     .ranged_debuff(RangedDebuff::MIN)
-    .speed(Speed::new(2.0))
+    .base_speed(Speed::new(2.0))
     .haul(Haul::new(10))
     .build();
 

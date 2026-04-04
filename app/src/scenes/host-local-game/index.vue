@@ -21,6 +21,7 @@ import InputPlayerName from '@/components/form/InputPlayerName.vue';
 import SliderBotDensity from '@/components/form/SliderBotDensity.vue';
 import SliderWorldSpeed from '@/components/form/SliderWorldSpeed.vue';
 import type { WithPartialNullish, WritablePartial } from '@tb-dev/utils';
+import SliderWorldUnitSpeed from '@/components/form/SliderWorldUnitSpeed.vue';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@ui/card';
 import SliderBotAdvancedStartRatio from '@/components/form/SliderBotAdvancedStartRatio.vue';
 
@@ -44,6 +45,7 @@ const worldOptions = localRef<WritablePartial<WorldOptions>>(
     locale: settings.general.locale,
     allowCheats: false,
     speed: __CONSTS__.worldSpeedDefault,
+    unitSpeed: __CONSTS__.worldUnitSpeedDefault,
     botDensity: __CONSTS__.botDensityDefault,
     botAdvancedStartRatio: __CONSTS__.botAdvancedStartRatioDefault,
   } satisfies WithPartialNullish<WorldOptions, 'name'>,
@@ -90,6 +92,7 @@ function key(name: string) {
         <InputWorldSize v-model="worldOptions.size" :disabled="locked" />
         <InputPlayerName v-model="playerOptions.id" :disabled="locked" />
         <SliderWorldSpeed v-model="worldOptions" :disabled="locked" />
+        <SliderWorldUnitSpeed v-model="worldOptions" :disabled="locked" />
         <SliderBotDensity v-model="worldOptions" :disabled="locked" />
         <SliderBotAdvancedStartRatio v-model="worldOptions" :disabled="locked" />
 

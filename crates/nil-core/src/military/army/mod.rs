@@ -13,6 +13,7 @@ use crate::military::unit::stats::speed::Speed;
 use crate::ranking::score::Score;
 use crate::resources::maintenance::Maintenance;
 use crate::ruler::Ruler;
+use crate::world::config::WorldConfig;
 use bon::Builder;
 use derive_more::Display;
 use personnel::ArmyPersonnel;
@@ -78,13 +79,13 @@ impl Army {
   }
 
   #[inline]
-  pub fn slowest_squad(&self) -> Option<&Squad> {
-    self.personnel.slowest_squad()
+  pub fn slowest_squad(&self, config: &WorldConfig) -> Option<&Squad> {
+    self.personnel.slowest_squad(config)
   }
 
   #[inline]
-  pub fn speed(&self) -> Speed {
-    self.personnel.speed()
+  pub fn speed(&self, config: &WorldConfig) -> Speed {
+    self.personnel.speed(config)
   }
 
   #[inline]

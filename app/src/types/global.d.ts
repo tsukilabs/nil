@@ -52,6 +52,10 @@ declare global {
     readonly worldSpeedMin: WorldSpeed;
     readonly worldSpeedMax: WorldSpeed;
     readonly worldSpeedDefault: WorldSpeed;
+
+    readonly worldUnitSpeedMin: WorldUnitSpeed;
+    readonly worldUnitSpeedMax: WorldUnitSpeed;
+    readonly worldUnitSpeedDefault: WorldUnitSpeed;
   };
 
   var NIL: {

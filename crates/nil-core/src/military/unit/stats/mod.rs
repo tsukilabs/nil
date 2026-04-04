@@ -20,7 +20,7 @@ pub struct UnitStats {
   cavalry_defense: Power,
   ranged_defense: Power,
   ranged_debuff: RangedDebuff,
-  speed: Speed,
+  base_speed: Speed,
   haul: Haul,
 }
 
@@ -51,8 +51,8 @@ impl UnitStats {
   }
 
   #[inline]
-  pub fn speed(&self) -> Speed {
-    self.speed
+  pub fn base_speed(&self) -> Speed {
+    self.base_speed
   }
 
   #[inline]

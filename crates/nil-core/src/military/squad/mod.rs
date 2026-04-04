@@ -9,6 +9,7 @@ use crate::military::unit::stats::speed::Speed;
 use crate::military::unit::{Unit, UnitBox, UnitId, UnitKind};
 use crate::ranking::score::Score;
 use crate::resources::maintenance::Maintenance;
+use crate::world::config::WorldConfig;
 use derive_more::{Deref, Into};
 use serde::{Deserialize, Serialize};
 use size::SquadSize;
@@ -82,8 +83,8 @@ impl Squad {
   }
 
   #[inline]
-  pub fn speed(&self) -> Speed {
-    self.unit.speed()
+  pub fn speed(&self, config: &WorldConfig) -> Speed {
+    self.unit.speed(config)
   }
 
   #[inline]

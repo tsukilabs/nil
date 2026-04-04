@@ -26,7 +26,7 @@ impl LightCavalry {
     .cavalry_defense(Power::new(40))
     .ranged_defense(Power::new(30))
     .ranged_debuff(RangedDebuff::MIN)
-    .speed(Speed::new(4.0))
+    .base_speed(Speed::new(4.0))
     .haul(Haul::new(80))
     .build();
 

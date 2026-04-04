@@ -14,23 +14,28 @@ export const worldSize = z.int()
   .min(__CONSTS__.continentSizeMin)
   .max(__CONSTS__.continentSizeMax);
 
-export const speed = z.number()
-  .min(__CONSTS__.worldSpeedMin)
-  .max(__CONSTS__.worldSpeedMax);
+export const botAdvancedStartRatio = z.number()
+  .min(__CONSTS__.botAdvancedStartRatioMin)
+  .max(__CONSTS__.botAdvancedStartRatioMax);
 
 export const botDensity = z.number()
   .min(__CONSTS__.botDensityMin)
   .max(__CONSTS__.botDensityMax);
 
-export const botAdvancedStartRatio = z.number()
-  .min(__CONSTS__.botAdvancedStartRatioMin)
-  .max(__CONSTS__.botAdvancedStartRatioMax);
+export const speed = z.number()
+  .min(__CONSTS__.worldSpeedMin)
+  .max(__CONSTS__.worldSpeedMax);
+
+export const unitSpeed = z.number()
+  .min(__CONSTS__.worldUnitSpeedMin)
+  .max(__CONSTS__.worldUnitSpeedMax);
 
 export const worldOptions = z.object({
   name: worldName,
   size: worldSize,
   allowCheats: z.boolean(),
-  speed,
-  botDensity,
   botAdvancedStartRatio,
+  botDensity,
+  speed,
+  unitSpeed,
 });

@@ -45,7 +45,7 @@ export class BattleResultImpl implements BattleResult {
   }
 
   public resolveWallLevel() {
-    return this.wallLevel + this.downgradedWallLevel;
+    return Math.max(0, this.wallLevel + this.downgradedWallLevel);
   }
 
   public static create(result: BattleResult) {

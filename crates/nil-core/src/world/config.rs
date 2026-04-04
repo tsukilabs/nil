@@ -31,6 +31,10 @@ pub struct WorldConfig {
 
   #[serde(default)]
   #[builder(default)]
+  unit_speed: WorldUnitSpeed,
+
+  #[serde(default)]
+  #[builder(default)]
   bot_density: BotDensity,
 
   #[serde(default)]
@@ -46,6 +50,7 @@ impl WorldConfig {
       locale: options.locale,
       allow_cheats: options.allow_cheats,
       speed: options.speed,
+      unit_speed: options.unit_speed,
       bot_density: options.bot_density,
       bot_advanced_start_ratio: options.bot_advanced_start_ratio,
     }
@@ -74,6 +79,11 @@ impl WorldConfig {
   #[inline]
   pub fn speed(&self) -> WorldSpeed {
     self.speed
+  }
+
+  #[inline]
+  pub fn unit_speed(&self) -> WorldUnitSpeed {
+    self.unit_speed
   }
 
   #[inline]
@@ -161,6 +171,11 @@ macro_rules! impl_f64_newtype {
 pub struct WorldSpeed(f64);
 
 impl_f64_newtype!(WorldSpeed, min = 0.1, max = 10.0, default = 1.0);
+
+#[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize, nil_num::F64Ops)]
+pub struct WorldUnitSpeed(f64);
+
+impl_f64_newtype!(WorldUnitSpeed, min = 0.1, max = 10.0, default = 1.0);
 
 #[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize, nil_num::F64Ops)]
 pub struct BotDensity(f64);

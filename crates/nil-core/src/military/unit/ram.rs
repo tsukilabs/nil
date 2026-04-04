@@ -26,7 +26,7 @@ impl Ram {
     .cavalry_defense(Power::new(50))
     .ranged_defense(Power::new(20))
     .ranged_debuff(RangedDebuff::MIN)
-    .speed(Speed::new(0.5))
+    .base_speed(Speed::new(0.5))
     .haul(Haul::new(0))
     .build();
 

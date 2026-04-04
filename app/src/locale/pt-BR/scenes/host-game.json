@@ -5,5 +5,6 @@
   "round-duration": "Duração do round",
   "world-name": "Nome do mundo",
   "world-size": "Tamanho do mundo",
-  "world-speed": "Velocidade do mundo"
+  "world-speed": "Velocidade do mundo",
+  "world-unit-speed": "Velocidade das unidades"
 }

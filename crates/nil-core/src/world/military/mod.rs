@@ -40,7 +40,7 @@ impl World {
     // We must take the speed of the army only after updating its personnel,
     // because the slowest unit in it may not have been sent as part of the maneuver.
     // Related issue: https://github.com/tsukilabs/nil/issues/267
-    let army_speed = army.speed();
+    let army_speed = army.speed(&self.config);
 
     let (id, maneuver) = Maneuver::builder()
       .army(army_id)

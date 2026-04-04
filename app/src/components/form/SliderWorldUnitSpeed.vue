@@ -19,9 +19,9 @@ const worldOptions = defineModel<WritablePartial<WorldOptions>>({ required: true
 const consts = __CONSTS__;
 
 const sliderValue = computed({
-  get: () => [worldOptions.value.speed ?? consts.worldSpeedDefault],
+  get: () => [worldOptions.value.unitSpeed ?? consts.worldUnitSpeedDefault],
   set: (value) => {
-    worldOptions.value.speed = value.at(0) ?? consts.worldSpeedDefault;
+    worldOptions.value.unitSpeed = value.at(0) ?? consts.worldUnitSpeedDefault;
   },
 });
 
@@ -42,13 +42,13 @@ const intl = new Intl.NumberFormat(undefined, {
 
 <template>
   <Label>
-    <span>{{ t('world-speed') }}</span>
+    <span>{{ t('world-unit-speed') }}</span>
     <div>
       <Slider
         v-model:model-value="sliderValue"
         :disabled
-        :min="consts.worldSpeedMin"
-        :max="consts.worldSpeedMax"
+        :min="consts.worldUnitSpeedMin"
+        :max="consts.worldUnitSpeedMax"
         :step="0.1"
       />
       <span>{{ `${intl.format(sliderValue[0])}x` }}</span>

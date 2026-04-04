@@ -9,6 +9,7 @@
 ---@field locale Locale
 ---@field allowCheats boolean
 ---@field speed WorldSpeed
+---@field unitSpeed WorldUnitSpeed
 ---@field botDensity BotDensity
 ---@field botAdvancedStartRatio BotAdvancedStartRatio
 
@@ -18,6 +19,7 @@
 ---@field locale Locale
 ---@field allowCheats boolean
 ---@field speed WorldSpeed
+---@field unitSpeed WorldUnitSpeed
 ---@field botDensity BotDensity
 ---@field botAdvancedStartRatio BotAdvancedStartRatio
 
@@ -26,6 +28,8 @@
 ---@alias Locale 'en-US' | 'pt-BR'
 
 ---@alias WorldSpeed number
+
+---@alias WorldUnitSpeed number
 
 ---@alias BotDensity number
 
