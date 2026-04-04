@@ -33,10 +33,12 @@ use crate::report::ReportManager;
 use crate::round::Round;
 use crate::ruler::{Ruler, RulerRef, RulerRefMut};
 use crate::savedata::{SaveHandle, Savedata};
+use crate::world::config::WorldSpeed;
 use bon::Builder;
 use config::{BotAdvancedStartRatio, BotDensity, Locale, WorldConfig, WorldId, WorldName};
 use serde::{Deserialize, Serialize};
 use stats::WorldStats;
+use std::sync::Arc;
 
 #[derive(Debug)]
 pub struct World {
@@ -48,9 +50,10 @@ pub struct World {
   military: Military,
   ranking: Ranking,
   report: ReportManager,
-  config: WorldConfig,
-  stats: WorldStats,
   chat: Chat,
+
+  config: Arc<WorldConfig>,
+  stats: WorldStats,
 
   // These are not included in the savedata.
   emitter: Emitter,
@@ -61,6 +64,7 @@ pub struct World {
 impl World {
   pub fn new(options: &WorldOptions) -> Result<Self> {
     let config = WorldConfig::new(options);
+    let stats = WorldStats::new(&config);
     let continent = Continent::new(options.size.get());
     let precursor_manager = PrecursorManager::new(continent.size());
     let military = Military::new(continent.size());
@@ -74,8 +78,8 @@ impl World {
       military,
       ranking: Ranking::default(),
       report: ReportManager::default(),
-      config,
-      stats: WorldStats::new(),
+      config: Arc::new(config),
+      stats,
       chat: Chat::default(),
 
       emitter: Emitter::default(),
@@ -106,8 +110,8 @@ impl World {
   }
 
   #[inline]
-  pub fn config(&self) -> &WorldConfig {
-    &self.config
+  pub fn config(&self) -> Arc<WorldConfig> {
+    Arc::clone(&self.config)
   }
 
   #[inline]
@@ -191,6 +195,10 @@ pub struct WorldOptions {
   #[serde(default)]
   #[builder(default)]
   pub allow_cheats: bool,
+
+  #[serde(default)]
+  #[builder(default)]
+  pub speed: WorldSpeed,
 
   #[serde(default)]
   #[builder(default)]

@@ -2,7 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::city::Stability;
-use crate::infrastructure::building::BuildingLevel;
+use crate::infrastructure::building::{Building, BuildingLevel};
+use crate::world::config::WorldConfig;
 use derive_more::{Deref, From, Into};
 use nil_num::impl_mul_ceil;
 use nil_num::ops::MulCeil;
@@ -12,7 +13,8 @@ use std::num::NonZeroU32;
 use std::ops::{Add, AddAssign, Mul, MulAssign, Sub, SubAssign};
 
 /// Workforce is a special resource used to construct buildings and recruit troops.
-/// The amount generated per round will always be equal to the level of the relevant building.
+/// The amount generated per round will always be equal to the level of the relevant
+/// building multiplied by the world speed.
 ///
 /// Unlike other resources, workforce should never accumulate for the next round.
 /// Anything that is not used should be discarded.
@@ -49,8 +51,9 @@ impl From<BuildingLevel> for Workforce {
 
 impl From<f64> for Workforce {
   fn from(value: f64) -> Self {
+    debug_assert!(value >= 0.0);
     debug_assert!(value.is_finite());
-    Self::new(value as u32)
+    Self::new(value.ceil() as u32)
   }
 }
 
@@ -139,3 +142,10 @@ impl MulAssign<Stability> for Workforce {
 }
 
 impl_mul_ceil!(Workforce);
+
+/// A building that generates workforce, such as the prefecture.
+pub trait WorkforceSource: Building {
+  fn workforce(&self, config: &WorldConfig) -> Workforce {
+    Workforce::from(f64::from(self.level()) * config.speed())
+  }
+}

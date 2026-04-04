@@ -7,6 +7,7 @@ use super::building::{BuildingId, BuildingStatsTable, MineId, StorageId};
 use super::mine::MineStatsTable;
 use super::storage::StorageStatsTable;
 use crate::error::{Error, Result};
+use crate::world::config::WorldConfig;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use strum::IntoEnumIterator;
@@ -21,14 +22,14 @@ pub struct InfrastructureStats {
 }
 
 impl InfrastructureStats {
-  pub fn new() -> Self {
+  pub fn new(config: &WorldConfig) -> Self {
     let infrastructure = Infrastructure::default();
     let building = BuildingId::iter()
       .map(|id| (id, BuildingStatsTable::new(infrastructure.building(id))))
       .collect();
 
     let mine = MineId::iter()
-      .map(|id| (id, MineStatsTable::new(infrastructure.mine(id))))
+      .map(|id| (id, MineStatsTable::new(config, infrastructure.mine(id))))
       .collect();
 
     let storage = StorageId::iter()
@@ -67,11 +68,5 @@ impl InfrastructureStats {
   #[inline]
   pub fn wall(&self) -> &WallStatsTable {
     &self.wall
-  }
-}
-
-impl Default for InfrastructureStats {
-  fn default() -> Self {
-    Self::new()
   }
 }

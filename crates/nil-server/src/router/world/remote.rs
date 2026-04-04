@@ -13,6 +13,7 @@ use nil_core::world::config::WorldId;
 use nil_payload::world::*;
 use nil_server_types::world::RemoteWorld;
 use semver::Version;
+use std::sync::Arc;
 use tokio::task::spawn_blocking;
 
 pub async fn create(
@@ -151,7 +152,7 @@ fn make_remote_world(app: &App, id: WorldId) -> Result<RemoteWorld> {
   }
 
   Ok(RemoteWorld {
-    config: world.config().clone(),
+    config: Arc::unwrap_or_clone(world.config()),
     description: game.description,
     created_by: user.player_id.into(),
     created_at: game.created_at.into(),

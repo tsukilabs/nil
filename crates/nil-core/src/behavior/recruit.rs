@@ -32,6 +32,7 @@ impl RecruitBehavior {
 
 impl Behavior for RecruitBehavior {
   fn score(&self, world: &World) -> Result<BehaviorScore> {
+    let config = world.config();
     let infrastructure = world.infrastructure(self.coord)?;
     let max_in_queue = f64::from(Self::MAX_IN_QUEUE);
 
@@ -39,7 +40,7 @@ impl Behavior for RecruitBehavior {
       ($building:ident) => {{
         if let Some(in_queue) = infrastructure
           .$building()
-          .turns_in_recruit_queue()
+          .turns_in_recruit_queue(&config)
         {
           BehaviorScore::new(1.0 - (in_queue / max_in_queue))
         } else {

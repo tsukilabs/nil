@@ -44,9 +44,10 @@ pub struct Savedata {
   pub(crate) military: Military,
   pub(crate) ranking: Ranking,
   pub(crate) report: ReportManager,
+  pub(crate) chat: Chat,
+
   pub(crate) config: WorldConfig,
   pub(crate) stats: WorldStats,
-  pub(crate) chat: Chat,
 }
 
 impl Savedata {

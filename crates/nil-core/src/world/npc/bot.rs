@@ -33,7 +33,7 @@ impl World {
   pub(crate) fn spawn_bots(&mut self) -> Result<()> {
     let size = self.continent.size();
     let density = self.config().bot_density();
-    let amount = (f64::from(size) * f64::from(density))
+    let amount = (f64::from(size) * density)
       .floor()
       .max(0.0)
       .to_usize()
