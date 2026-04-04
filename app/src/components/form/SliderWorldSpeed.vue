@@ -34,8 +34,8 @@ const { t } = useI18n({
 
 const intl = new Intl.NumberFormat(undefined, {
   style: 'decimal',
-  minimumFractionDigits: 2,
-  maximumFractionDigits: 2,
+  minimumFractionDigits: 1,
+  maximumFractionDigits: 1,
   useGrouping: false,
 });
 </script>
@@ -51,7 +51,7 @@ const intl = new Intl.NumberFormat(undefined, {
         :max="consts.worldSpeedMax"
         :step="0.1"
       />
-      <span>{{ intl.format(sliderValue[0]) }}</span>
+      <span>{{ `${intl.format(sliderValue[0])}x` }}</span>
     </div>
   </Label>
 </template>
