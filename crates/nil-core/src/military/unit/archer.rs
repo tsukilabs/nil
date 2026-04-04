@@ -26,7 +26,7 @@ impl Archer {
     .cavalry_defense(Power::new(35))
     .ranged_defense(Power::new(5))
     .ranged_debuff(RangedDebuff::new(0.5))
-    .speed(Speed::new(2.0))
+    .base_speed(Speed::new(2.0))
     .haul(Haul::new(10))
     .build();
 

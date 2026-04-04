@@ -33,7 +33,7 @@ use crate::report::ReportManager;
 use crate::round::Round;
 use crate::ruler::{Ruler, RulerRef, RulerRefMut};
 use crate::savedata::{SaveHandle, Savedata};
-use crate::world::config::WorldSpeed;
+use crate::world::config::{WorldSpeed, WorldUnitSpeed};
 use bon::Builder;
 use config::{BotAdvancedStartRatio, BotDensity, Locale, WorldConfig, WorldId, WorldName};
 use serde::{Deserialize, Serialize};
@@ -199,6 +199,10 @@ pub struct WorldOptions {
   #[serde(default)]
   #[builder(default)]
   pub speed: WorldSpeed,
+
+  #[serde(default)]
+  #[builder(default)]
+  pub unit_speed: WorldUnitSpeed,
 
   #[serde(default)]
   #[builder(default)]

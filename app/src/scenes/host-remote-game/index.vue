@@ -25,6 +25,7 @@ import { isValidNullishPassword, isWorldOptions } from '@/lib/schema';
 import type { WithPartialNullish, WritablePartial } from '@tb-dev/utils';
 import InputWorldPassword from '@/components/form/InputWorldPassword.vue';
 import SliderRoundDuration from '@/components/form/SliderRoundDuration.vue';
+import SliderWorldUnitSpeed from '@/components/form/SliderWorldUnitSpeed.vue';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@ui/card';
 import TextareaWorldDescription from '@/components/form/TextareaWorldDescription.vue';
 import SliderBotAdvancedStartRatio from '@/components/form/SliderBotAdvancedStartRatio.vue';
@@ -49,6 +50,7 @@ const worldOptions = localRef<WritablePartial<WorldOptions>>(
     locale: settings.general.locale,
     allowCheats: false,
     speed: __CONSTS__.worldSpeedDefault,
+    unitSpeed: __CONSTS__.worldUnitSpeedDefault,
     botDensity: __CONSTS__.botDensityDefault,
     botAdvancedStartRatio: __CONSTS__.botAdvancedStartRatioDefault,
   } satisfies WithPartialNullish<WorldOptions, 'name'>,
@@ -103,6 +105,7 @@ function key(name: string) {
         <InputWorldPassword v-model="worldPassword" :disabled="locked" />
         <TextareaWorldDescription v-model="description" :disabled="locked" />
         <SliderWorldSpeed v-model="worldOptions" :disabled="locked" />
+        <SliderWorldUnitSpeed v-model="worldOptions" :disabled="locked" />
         <SliderBotDensity v-model="worldOptions" :disabled="locked" />
         <SliderBotAdvancedStartRatio v-model="worldOptions" :disabled="locked" />
         <SliderRoundDuration

@@ -16,6 +16,7 @@ use crate::infrastructure::prelude::BuildingId;
 use crate::infrastructure::requirements::InfrastructureRequirements;
 use crate::ranking::score::Score;
 use crate::resources::prelude::*;
+use crate::world::config::WorldConfig;
 use derive_more::{Deref, Display, From, Into};
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
 use stats::prelude::*;
@@ -40,7 +41,7 @@ pub trait Unit: Send + Sync {
   fn cavalry_defense(&self) -> Power;
   fn ranged_defense(&self) -> Power;
   fn ranged_debuff(&self) -> RangedDebuff;
-  fn speed(&self) -> Speed;
+  fn speed(&self, config: &WorldConfig) -> Speed;
   fn haul(&self) -> Haul;
 
   fn chunk(&self) -> &UnitChunk;

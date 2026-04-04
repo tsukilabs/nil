@@ -8,6 +8,7 @@ use crate::military::unit::stats::speed::Speed;
 use crate::military::unit::{UnitId, UnitIdIter};
 use crate::ranking::score::Score;
 use crate::resources::maintenance::Maintenance;
+use crate::world::config::WorldConfig;
 use serde::{Deserialize, Serialize};
 use std::ops::{Add, AddAssign, Mul, MulAssign, Sub, SubAssign};
 use strum::IntoEnumIterator;
@@ -58,17 +59,17 @@ impl ArmyPersonnel {
     ArmyPersonnelIter::new(self)
   }
 
-  pub fn slowest_squad(&self) -> Option<&Squad> {
+  pub fn slowest_squad(&self, config: &WorldConfig) -> Option<&Squad> {
     self
       .iter()
       .filter(|squad| squad.size() > 0u32)
-      .min_by(|a, b| a.speed().total_cmp(&b.speed()))
+      .min_by(|a, b| a.speed(config).total_cmp(&b.speed(config)))
   }
 
-  pub fn speed(&self) -> Speed {
+  pub fn speed(&self, config: &WorldConfig) -> Speed {
     self
-      .slowest_squad()
-      .map(Squad::speed)
+      .slowest_squad(config)
+      .map(|squad| squad.speed(config))
       .unwrap_or_default()
   }
 

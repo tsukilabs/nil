@@ -15,6 +15,7 @@ pub fn impl_unit(ast: &DeriveInput) -> TokenStream {
       use crate::military::unit::{Unit, UnitBox, UnitChunk, UnitId, UnitKind};
       use crate::military::unit::stats::prelude::*;
       use crate::ranking::score::Score;
+      use crate::world::config::WorldConfig;
 
       impl #name {
         pub fn new_boxed() -> UnitBox {
@@ -63,8 +64,9 @@ pub fn impl_unit(ast: &DeriveInput) -> TokenStream {
           Self::STATS.ranged_debuff()
         }
 
-        fn speed(&self) -> Speed {
-          Self::STATS.speed()
+        fn speed(&self, config: &WorldConfig) -> Speed {
+          let base_speed = f64::from(Self::STATS.base_speed());
+          Speed::new((base_speed * config.unit_speed()).max(0.1))
         }
 
         fn haul(&self) -> Haul {

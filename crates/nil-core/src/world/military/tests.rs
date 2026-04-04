@@ -7,8 +7,12 @@ use crate::military::army::personnel::ArmyPersonnel;
 use crate::military::maneuver::{ManeuverKind, ManeuverRequest};
 use crate::military::unit::heavy_cavalry::HeavyCavalry;
 use crate::player::{PlayerId, PlayerOptions};
+use crate::world::config::WorldConfig;
 use crate::world::{World, WorldOptions};
 use std::assert_matches;
+use std::sync::LazyLock;
+
+static CONFIG: LazyLock<WorldConfig> = LazyLock::new(|| WorldConfig::builder("World").build());
 
 #[test]
 fn has_enough_personnel_to_maneuver() -> Result<()> {
@@ -77,11 +81,11 @@ fn slowest_maneuver_squad() -> Result<()> {
   let maneuver_id = world.request_maneuver(request)?;
   let maneuver = world.military.maneuver(maneuver_id)?;
   let army = world.military.army(maneuver.army())?;
-  let slowest = army.slowest_squad().unwrap();
+  let slowest = army.slowest_squad(&CONFIG).unwrap();
 
-  assert_eq!(slowest, sent.slowest_squad().unwrap());
-  assert_eq!(slowest.speed(), HeavyCavalry::STATS.speed());
-  assert_ne!(slowest, spawned.slowest_squad().unwrap());
+  assert_eq!(slowest, sent.slowest_squad(&CONFIG).unwrap());
+  assert_eq!(slowest.speed(&CONFIG), HeavyCavalry::STATS.base_speed());
+  assert_ne!(slowest, spawned.slowest_squad(&CONFIG).unwrap());
 
   Ok(())
 }
