@@ -6,6 +6,7 @@ export default defineConfig({
     'app/tsconfig.json',
     'docs/tsconfig.json',
   ],
+  ignores: ['**/components/ui/*'],
   features: {
     perfectionist: true,
     unicorn: true,

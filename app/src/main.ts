@@ -4,6 +4,7 @@
 import '@tb-dev/vue-sonner/style.css';
 import '@/assets/style/base.css';
 import '@/assets/style/vars.css';
+import '@/assets/style/theme.css';
 import '@/assets/style/fonts.css';
 import '@/assets/style/main.css';
 import '@/assets/style/layout.css';
