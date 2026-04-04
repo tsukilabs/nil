@@ -3,16 +3,16 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
+import { Button } from '@ui/button';
 import { MenuIcon } from '@lucide/vue';
 import { useBreakpoints } from '@tb-dev/vue';
 import {
-  Button,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@tb-dev/vue-components';
+} from '@ui/dropdown-menu';
 
 const { t } = useI18n();
 

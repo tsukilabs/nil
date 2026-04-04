@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { cn } from '@tb-dev/vue-components';
+import { cn } from '@ui/utils';
 import { LoaderCircleIcon } from '@lucide/vue';
 import type { Component, HTMLAttributes } from 'vue';
 

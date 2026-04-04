@@ -5,10 +5,10 @@
 import { useI18n } from 'vue-i18n';
 import HeaderMenu from './HeaderMenu.vue';
 import Loading from '@/components/Loading.vue';
+import { Card, CardContent, CardHeader, CardTitle } from '@ui/card';
 import { usePrefecture } from '@/composables/infrastructure/useBuilding';
 import enUS from '@/locale/en-US/scenes/game/infrastructure/prefecture.json';
 import ptBR from '@/locale/pt-BR/scenes/game/infrastructure/prefecture.json';
-import { Card, CardContent, CardHeader, CardTitle } from '@tb-dev/vue-components';
 
 const { t } = useI18n({
   messages: {

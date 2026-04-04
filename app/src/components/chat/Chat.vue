@@ -4,8 +4,8 @@
 <script setup lang="ts">
 import { sleep } from '@tb-dev/utils';
 import ChatMessage from './ChatMessage.vue';
+import { ScrollArea } from '@ui/scroll-area';
 import { ListenerSet } from '@/lib/listener-set';
-import { ScrollArea } from '@tb-dev/vue-components';
 import { onMounted, useTemplateRef, type VNode } from 'vue';
 
 interface Props {

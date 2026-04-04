@@ -2,7 +2,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { Button } from '@tb-dev/vue-components';
+import { Button } from '@ui/button';
 import type { ScriptImpl } from '@/core/model/scripts/script';
 
 defineProps<{

@@ -3,10 +3,12 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
+import { Label } from '@ui/label';
 import { useI18n } from 'vue-i18n';
+import { Slider } from '@ui/slider';
+import { Switch } from '@ui/switch';
 import enUS from '@/locale/en-US/scenes/host-game.json';
 import ptBR from '@/locale/pt-BR/scenes/host-game.json';
-import { Label, Slider, Switch } from '@tb-dev/vue-components';
 
 defineProps<{
   disabled: boolean;

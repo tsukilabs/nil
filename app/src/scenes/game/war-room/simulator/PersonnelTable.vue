@@ -4,17 +4,8 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import PersonnelTableRow from './PersonnelTableRow.vue';
-import {
-  NumberField,
-  NumberFieldContent,
-  NumberFieldInput,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@tb-dev/vue-components';
+import { NumberField, NumberFieldContent, NumberFieldInput } from '@ui/number-field';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@ui/table';
 
 const attacker = defineModel<ArmyPersonnel>('attacker', { required: true });
 const defender = defineModel<ArmyPersonnel>('defender', { required: true });

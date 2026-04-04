@@ -3,10 +3,10 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
+import { Button } from '@ui/button';
 import { computed, ref } from 'vue';
 import { handleError } from '@/lib/error';
 import { toI8, toU8 } from '@/lib/number';
-import { Button } from '@tb-dev/vue-components';
 import PersonnelTable from './PersonnelTable.vue';
 import BattleResultTable from './BattleResultTable.vue';
 import enUS from '@/locale/en-US/scenes/game/war-room.json';

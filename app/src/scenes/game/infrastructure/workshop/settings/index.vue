@@ -2,9 +2,10 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
+import { Label } from '@ui/label';
 import { useI18n } from 'vue-i18n';
+import { Checkbox } from '@ui/checkbox';
 import { useSettings } from '@/stores/settings';
-import { Checkbox, Label } from '@tb-dev/vue-components';
 import enUS from '@/locale/en-US/scenes/game/infrastructure/infrastructure.json';
 import ptBR from '@/locale/pt-BR/scenes/game/infrastructure/infrastructure.json';
 

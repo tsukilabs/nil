@@ -4,9 +4,11 @@
 <script setup lang="ts">
 import { go } from '@/router';
 import Round from './Round.vue';
+import { Button } from '@ui/button';
 import Resources from './Resources.vue';
+import { Separator } from '@ui/separator';
 import { useBreakpoints } from '@tb-dev/vue';
-import { Button, Separator, SidebarTrigger } from '@tb-dev/vue-components';
+import { SidebarTrigger } from '@ui/sidebar';
 
 defineProps<{
   isHost: boolean;

@@ -3,6 +3,7 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
+import { Button } from '@ui/button';
 import * as commands from '@/commands';
 import Maneuvers from './Maneuvers.vue';
 import SquadGrid from './SquadGrid.vue';
@@ -10,7 +11,6 @@ import { handleError } from '@/lib/error';
 import Destination from './Destination.vue';
 import { asyncComputed } from '@tb-dev/vue';
 import { computed, nextTick, ref } from 'vue';
-import { Button } from '@tb-dev/vue-components';
 import { useManeuvers } from '@/composables/military/useManeuvers';
 import { usePlayerTurn } from '@/composables/player/usePlayerTurn';
 import { ArmyPersonnelImpl } from '@/core/model/military/army-personnel';

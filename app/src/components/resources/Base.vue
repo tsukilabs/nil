@@ -2,9 +2,10 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
+import { cn } from '@ui/utils';
 import { formatInt } from '@/lib/intl';
+import type { ClassValue } from 'clsx';
 import { useBreakpoints } from '@tb-dev/vue';
-import { type ClassValue, cn } from '@tb-dev/vue-components';
 
 const props = defineProps<{
   amount?: Option<number>;

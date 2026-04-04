@@ -2,7 +2,8 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { Label, NumberField, NumberFieldContent, NumberFieldInput } from '@tb-dev/vue-components';
+import { Label } from '@ui/label';
+import { NumberField, NumberFieldContent, NumberFieldInput } from '@ui/number-field';
 
 defineProps<{
   destinationCity: Option<PublicCity>;

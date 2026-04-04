@@ -8,5 +8,8 @@
     "build": "vite build",
     "dev": "vite",
     "type-check": "vue-tsc --noEmit"
+  },
+  "devDependencies": {
+    "tailwindcss": "=4.2.2"
   }
 }

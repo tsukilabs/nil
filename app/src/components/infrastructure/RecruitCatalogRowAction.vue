@@ -3,15 +3,15 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
+import { Button } from '@ui/button';
 import { useBreakpoints } from '@tb-dev/vue';
 import {
-  Button,
   NumberField,
   NumberFieldContent,
   NumberFieldDecrement,
   NumberFieldIncrement,
   NumberFieldInput,
-} from '@tb-dev/vue-components';
+} from '@ui/number-field';
 
 defineProps<{
   canRecruit: boolean;

@@ -3,18 +3,18 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
+import { Button } from '@ui/button';
 import { MenuIcon } from '@lucide/vue';
 import { useBreakpoints } from '@tb-dev/vue';
 import type { ScriptImpl } from '@/core/model/scripts/script';
 import {
-  Button,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@tb-dev/vue-components';
+} from '@ui/dropdown-menu';
 
 defineProps<{
   currentScript: Option<ScriptImpl>;

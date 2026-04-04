@@ -2,10 +2,11 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
+import { Label } from '@ui/label';
 import { useI18n } from 'vue-i18n';
+import { Textarea } from '@ui/textarea';
 import enUS from '@/locale/en-US/scenes/online.json';
 import ptBR from '@/locale/pt-BR/scenes/online.json';
-import { Label, Textarea } from '@tb-dev/vue-components';
 
 defineProps<{
   disabled: boolean;

@@ -4,16 +4,8 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import type { CityImpl } from '@/core/model/city/city';
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  Table,
-  TableBody,
-  TableCell,
-  TableRow,
-} from '@tb-dev/vue-components';
+import { Table, TableBody, TableCell, TableRow } from '@ui/table';
+import { Card, CardContent, CardHeader, CardTitle } from '@ui/card';
 
 defineProps<{ city: CityImpl; }>();
 

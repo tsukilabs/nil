@@ -3,7 +3,7 @@
 
 <script setup lang="ts">
 import Base from './Base.vue';
-import type { ClassValue } from '@tb-dev/vue-components';
+import type { ClassValue } from 'clsx';
 
 defineProps<{
   amount?: Option<number>;

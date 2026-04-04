@@ -3,18 +3,10 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
+import { Button } from '@ui/button';
+import { VisuallyHidden } from 'reka-ui';
 import type { ScriptImpl } from '@/core/model/scripts/script';
-import {
-  Button,
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-  VisuallyHidden,
-} from '@tb-dev/vue-components';
+import { Sheet, SheetClose, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@ui/sheet';
 
 const props = defineProps<{
   scripts: readonly ScriptImpl[];

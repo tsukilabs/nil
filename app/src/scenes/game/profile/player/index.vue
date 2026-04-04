@@ -7,19 +7,10 @@ import { onKeyDown } from '@tb-dev/vue';
 import { throttle } from 'es-toolkit/function';
 import { useRouteParams } from '@vueuse/router';
 import CityTable from '@/components/CityTable.vue';
+import { Card, CardContent, CardHeader, CardTitle } from '@ui/card';
 import { usePublicCities } from '@/composables/city/usePublicCities';
 import { usePublicPlayer } from '@/composables/player/usePublicPlayer';
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-} from '@tb-dev/vue-components';
+import { Table, TableBody, TableCell, TableHead, TableRow } from '@ui/table';
 
 const { t } = useI18n();
 

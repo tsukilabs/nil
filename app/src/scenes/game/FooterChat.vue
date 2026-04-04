@@ -11,7 +11,7 @@ import { MessagesSquareIcon } from '@lucide/vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useToggle, whenever } from '@vueuse/core';
 import ChatInput from '@/components/chat/ChatInput.vue';
-import { Popover, PopoverContent, PopoverTrigger } from '@tb-dev/vue-components';
+import { Popover, PopoverContent, PopoverTrigger } from '@ui/popover';
 
 const { player } = NIL.player.refs();
 

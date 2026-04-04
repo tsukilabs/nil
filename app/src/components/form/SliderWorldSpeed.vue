@@ -3,9 +3,10 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
+import { Label } from '@ui/label';
 import { useI18n } from 'vue-i18n';
+import { Slider } from '@ui/slider';
 import type { WritablePartial } from '@tb-dev/utils';
-import { Label, Slider } from '@tb-dev/vue-components';
 import enUS from '@/locale/en-US/scenes/host-game.json';
 import ptBR from '@/locale/pt-BR/scenes/host-game.json';
 

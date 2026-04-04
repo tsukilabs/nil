@@ -2,9 +2,10 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
+import { Label } from '@ui/label';
 import { useI18n } from 'vue-i18n';
 import { formatInt } from '@/lib/intl';
-import { Label, NumberField, NumberFieldContent, NumberFieldInput } from '@tb-dev/vue-components';
+import { NumberField, NumberFieldContent, NumberFieldInput } from '@ui/number-field';
 
 const props = defineProps<{
   available: Squad['size'];

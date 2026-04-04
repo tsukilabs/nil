@@ -1,0 +1,22 @@
+{
+  "style": "lyra",
+  "base": "reka",
+  "font": "geist",
+  "typescript": true,
+  "iconLibrary": "lucide",
+  "tailwind": {
+    "config": "",
+    "css": "src/assets/style/base.css",
+    "baseColor": "zinc",
+    "cssVariables": true,
+    "prefix": ""
+  },
+  "aliases": {
+    "components": "@/components",
+    "composables": "@/composables",
+    "lib": "@/lib",
+    "ui": "@/components/ui",
+    "utils": "@/components/ui/utils"
+  },
+  "registries": {}
+}

@@ -3,10 +3,13 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import { Input } from '@ui/input';
+import { Label } from '@ui/label';
 import { useI18n } from 'vue-i18n';
+import { Button } from '@ui/button';
 import { renameCity } from '@/commands';
+import { Checkbox } from '@ui/checkbox';
 import { useSettings } from '@/stores/settings';
-import { Button, Checkbox, Input, Label } from '@tb-dev/vue-components';
 import enUS from '@/locale/en-US/scenes/game/infrastructure/prefecture.json';
 import ptBR from '@/locale/pt-BR/scenes/game/infrastructure/prefecture.json';
 

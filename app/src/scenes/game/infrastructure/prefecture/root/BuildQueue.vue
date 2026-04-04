@@ -2,14 +2,16 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
+import { cn } from '@ui/utils';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { Button } from '@ui/button';
 import { useBreakpoints } from '@tb-dev/vue';
 import { ChevronDownIcon, ChevronUpIcon } from '@lucide/vue';
+import { Table, TableBody, TableCell, TableRow } from '@ui/table';
 import BuildingTitle from '@/components/infrastructure/BuildingTitle.vue';
 import enUS from '@/locale/en-US/scenes/game/infrastructure/prefecture.json';
 import ptBR from '@/locale/pt-BR/scenes/game/infrastructure/prefecture.json';
-import { Button, cn, Table, TableBody, TableCell, TableRow } from '@tb-dev/vue-components';
 import type { PrefectureImpl } from '@/core/model/infrastructure/building/prefecture/prefecture';
 
 const props = defineProps<{

@@ -6,8 +6,8 @@ import Food from './Food.vue';
 import Iron from './Iron.vue';
 import Wood from './Wood.vue';
 import Stone from './Stone.vue';
+import type { ClassValue } from 'clsx';
 import Workforce from './Workforce.vue';
-import type { ClassValue } from '@tb-dev/vue-components';
 
 defineProps<{
   resources: Resources;

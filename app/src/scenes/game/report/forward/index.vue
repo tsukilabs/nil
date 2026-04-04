@@ -2,26 +2,20 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
+import { Label } from '@ui/label';
 import { useI18n } from 'vue-i18n';
+import { Button } from '@ui/button';
 import { computed, ref } from 'vue';
+import { Checkbox } from '@ui/checkbox';
 import { useRouteParams } from '@vueuse/router';
 import { useRoute, useRouter } from 'vue-router';
 import { forwardReport } from '@/commands/report';
+import { toBooleanCheckboxValue } from '@ui/utils';
 import { useBreakpoints, useMutex } from '@tb-dev/vue';
 import { useReport } from '@/composables/report/useReport';
 import { usePlayerIds } from '@/composables/player/usePlayerIds';
 import InputPlayerName from '@/components/form/InputPlayerName.vue';
-import {
-  Button,
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-  Checkbox,
-  Label,
-  toBooleanCheckboxValue,
-} from '@tb-dev/vue-components';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@ui/card';
 
 const { t } = useI18n();
 

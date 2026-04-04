@@ -4,16 +4,8 @@
 <script setup lang="ts">
 import { go } from '@/router';
 import { useI18n } from 'vue-i18n';
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  Table,
-  TableBody,
-  TableCell,
-  TableRow,
-} from '@tb-dev/vue-components';
+import { Table, TableBody, TableCell, TableRow } from '@ui/table';
+import { Card, CardContent, CardHeader, CardTitle } from '@ui/card';
 
 const { t } = useI18n();
 

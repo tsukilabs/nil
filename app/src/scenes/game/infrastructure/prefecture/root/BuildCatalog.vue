@@ -11,8 +11,8 @@ import { usePlayerTurn } from '@/composables/player/usePlayerTurn';
 import { usePlayerResources } from '@/composables/player/usePlayerResources';
 import enUS from '@/locale/en-US/scenes/game/infrastructure/prefecture.json';
 import ptBR from '@/locale/pt-BR/scenes/game/infrastructure/prefecture.json';
+import { Table, TableBody, TableHead, TableHeader, TableRow } from '@ui/table';
 import type { InfrastructureImpl } from '@/core/model/infrastructure/infrastructure';
-import { Table, TableBody, TableHead, TableHeader, TableRow } from '@tb-dev/vue-components';
 
 const props = defineProps<{
   catalog: PrefectureBuildCatalog;

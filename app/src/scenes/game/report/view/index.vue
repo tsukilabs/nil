@@ -4,16 +4,17 @@
 <script setup lang="ts">
 import { go } from '@/router';
 import { useI18n } from 'vue-i18n';
+import { Button } from '@ui/button';
 import { whenever } from '@vueuse/core';
 import SupportReport from './SupportReport.vue';
 import { useRouteParams } from '@vueuse/router';
 import enUS from '@/locale/en-US/scenes/game/report.json';
 import ptBR from '@/locale/pt-BR/scenes/game/report.json';
 import { useReport } from '@/composables/report/useReport';
+import { Card, CardContent, CardHeader, CardTitle } from '@ui/card';
 import { BattleReportImpl } from '@/core/model/report/battle-report';
 import BattleReport from '@/scenes/game/report/view/BattleReport.vue';
 import { SupportReportImpl } from '@/core/model/report/support-report';
-import { Button, Card, CardContent, CardHeader, CardTitle } from '@tb-dev/vue-components';
 
 const { t } = useI18n({
   messages: {

@@ -2,7 +2,10 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
+import { Label } from '@ui/label';
 import { useI18n } from 'vue-i18n';
+import { Button } from '@ui/button';
+import { Switch } from '@ui/switch';
 import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { hostRemoteGame } from '@/core/game';
@@ -22,9 +25,9 @@ import { isValidNullishPassword, isWorldOptions } from '@/lib/schema';
 import type { WithPartialNullish, WritablePartial } from '@tb-dev/utils';
 import InputWorldPassword from '@/components/form/InputWorldPassword.vue';
 import SliderRoundDuration from '@/components/form/SliderRoundDuration.vue';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@ui/card';
 import TextareaWorldDescription from '@/components/form/TextareaWorldDescription.vue';
 import SliderBotAdvancedStartRatio from '@/components/form/SliderBotAdvancedStartRatio.vue';
-import { Button, Card, CardContent, CardFooter, CardHeader, CardTitle, Label, Switch } from '@tb-dev/vue-components';
 
 const { t } = useI18n({
   messages: {

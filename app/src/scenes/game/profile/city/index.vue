@@ -4,26 +4,16 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { Button } from '@ui/button';
 import { onKeyDown } from '@tb-dev/vue';
 import { throttle } from 'es-toolkit/function';
 import { useRouteParams } from '@vueuse/router';
 import enUS from '@/locale/en-US/scenes/game/profile.json';
 import ptBR from '@/locale/pt-BR/scenes/game/profile.json';
 import { usePublicCity } from '@/composables/city/usePublicCity';
+import { Card, CardContent, CardHeader, CardTitle } from '@ui/card';
 import { useCityOwnerSceneLink } from '@/composables/city/useCityOwnerSceneLink';
-import {
-  Button,
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  Table,
-  TableBody,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TableRow,
-} from '@tb-dev/vue-components';
+import { Table, TableBody, TableCell, TableFooter, TableHead, TableRow } from '@ui/table';
 
 const { t } = useI18n({
   messages: {
