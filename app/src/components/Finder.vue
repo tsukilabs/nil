@@ -5,14 +5,7 @@
 import { useI18n } from 'vue-i18n';
 import { compare } from '@/lib/intl';
 import { computed, nextTick } from 'vue';
-import {
-  CommandDialog,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from '@tb-dev/vue-components';
+import { CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@ui/command';
 
 const open = defineModel<boolean>('open', { required: true });
 

@@ -2,7 +2,8 @@
   "include": ["src/**/*.ts", "src/**/*.vue"],
   "compilerOptions": {
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@ui/*": ["./src/components/ui/*"]
     },
     "lib": ["esnext", "dom"],
     "module": "esnext",

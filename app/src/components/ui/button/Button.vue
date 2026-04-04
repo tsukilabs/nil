@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { cn } from '@/lib/utils';
+import { cn } from '@/components/ui/utils';
 import { buttonVariants } from '.';
 import { Primitive } from 'reka-ui';
 import type { ButtonVariants } from '.';

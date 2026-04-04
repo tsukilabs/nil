@@ -8,5 +8,13 @@
     "build": "vite build",
     "dev": "vite",
     "type-check": "vue-tsc --noEmit"
+  },
+  "dependencies": {
+    "@tanstack/vue-table": "=8.21.3",
+    "@vueuse/core": "=14.2.1",
+    "reka-ui": "=2.9.3"
+  },
+  "devDependencies": {
+    "tailwindcss": "=4.2.2"
   }
 }

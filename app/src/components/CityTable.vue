@@ -7,7 +7,7 @@ import { computed, ref } from 'vue';
 import { PLACEHOLDER } from '@/lib/string';
 import { compare, formatInt } from '@/lib/intl';
 import type { PublicCityImpl } from '@/core/model/city/public-city';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@tb-dev/vue-components';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@ui/table';
 
 type SortMode = 'coord' | 'distance' | 'name' | 'owner' | 'score';
 type SortOrder = 'asc' | 'desc';

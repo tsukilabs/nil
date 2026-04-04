@@ -149,7 +149,21 @@ importers:
         specifier: '=3.2.6'
         version: 3.2.6(typescript@6.0.2)
 
-  app: {}
+  app:
+    dependencies:
+      '@tanstack/vue-table':
+        specifier: '=8.21.3'
+        version: 8.21.3(vue@3.5.32(typescript@6.0.2))
+      '@vueuse/core':
+        specifier: '=14.2.1'
+        version: 14.2.1(vue@3.5.32(typescript@6.0.2))
+      reka-ui:
+        specifier: '=2.9.3'
+        version: 2.9.3(vue@3.5.32(typescript@6.0.2))
+    devDependencies:
+      tailwindcss:
+        specifier: '=4.2.2'
+        version: 4.2.2
 
   docs: {}
 
