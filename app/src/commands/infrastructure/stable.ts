@@ -6,7 +6,7 @@ import type {
   AddStableRecruitOrderRequest,
   CancelStableRecruitOrderRequest,
   GetStableRecruitCatalogRequest,
-} from '@/lib/request';
+} from '@/types/request';
 
 export async function addStableRecruitOrder(request: StableRecruitOrderRequest) {
   const req: AddStableRecruitOrderRequest = {

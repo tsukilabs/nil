@@ -18,7 +18,7 @@ import type {
   PlayerExistsRequest,
   SetPlayerStatusRequest,
   SpawnPlayerRequest,
-} from '@/lib/request';
+} from '@/types/request';
 
 export async function getPlayer() {
   const req: GetPlayerRequest = {

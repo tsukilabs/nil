@@ -6,7 +6,7 @@ import type {
   AddWorkshopRecruitOrderRequest,
   CancelWorkshopRecruitOrderRequest,
   GetWorkshopRecruitCatalogRequest,
-} from '@/lib/request';
+} from '@/types/request';
 
 export async function addWorkshopRecruitOrder(request: WorkshopRecruitOrderRequest) {
   const req: AddWorkshopRecruitOrderRequest = {

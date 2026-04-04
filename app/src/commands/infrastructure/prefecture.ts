@@ -6,7 +6,7 @@ import type {
   AddPrefectureBuildOrderRequest,
   CancelPrefectureBuildOrderRequest,
   GetPrefectureBuildCatalogRequest,
-} from '@/lib/request';
+} from '@/types/request';
 
 export async function addPrefectureBuildOrder(request: PrefectureBuildOrderRequest) {
   const req: AddPrefectureBuildOrderRequest = {

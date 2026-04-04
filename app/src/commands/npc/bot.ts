@@ -2,7 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { invoke } from '@tauri-apps/api/core';
-import type { GetBotCoordsRequest, GetPublicBotRequest, GetPublicBotsRequest } from '@/lib/request';
+import type {
+  GetBotCoordsRequest,
+  GetPublicBotRequest,
+  GetPublicBotsRequest,
+} from '@/types/request';
 
 export async function getBotCoords(id: BotId) {
   const req: GetBotCoordsRequest = {

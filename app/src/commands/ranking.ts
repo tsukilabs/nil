@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { invoke } from '@tauri-apps/api/core';
-import type { GetRankingRequest, GetRankRequest } from '@/lib/request';
+import type { GetRankingRequest, GetRankRequest } from '@/types/request';
 
 export async function getBotRank(id: BotId) {
   return getRank({ kind: 'bot', id });

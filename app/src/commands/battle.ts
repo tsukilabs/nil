@@ -5,7 +5,7 @@ import { toU8 } from '@/lib/number';
 import { clamp } from 'es-toolkit/math';
 import { invoke } from '@tauri-apps/api/core';
 import { SquadImpl } from '@/core/model/military/squad';
-import type { SimulateBattleRequest } from '@/lib/request';
+import type { SimulateBattleRequest } from '@/types/request';
 
 export async function simulateBattle(args: {
   attacker?: Option<readonly Squad[]>;

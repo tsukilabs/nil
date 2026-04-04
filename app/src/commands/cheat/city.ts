@@ -4,7 +4,7 @@
 import { clamp } from 'es-toolkit/math';
 import { invoke } from '@tauri-apps/api/core';
 import { CoordImpl } from '@/core/model/continent/coord';
-import type { CheatSetStabilityRequest } from '@/lib/request';
+import type { CheatSetStabilityRequest } from '@/types/request';
 
 export async function cheatSetStability(coord: ContinentKey, stability: number) {
   coord = CoordImpl.fromContinentKey(coord);

@@ -6,7 +6,7 @@ import type {
   GetPrecursorCoordsRequest,
   GetPublicPrecursorRequest,
   GetPublicPrecursorsRequest,
-} from '@/lib/request';
+} from '@/types/request';
 
 export async function getPrecursorCoords(id: PrecursorId) {
   const req: GetPrecursorCoordsRequest = {

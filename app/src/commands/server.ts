@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { invoke } from '@tauri-apps/api/core';
-import type { AuthorizeRequest, ValidateTokenRequest } from '@/lib/request';
+import type { AuthorizeRequest, ValidateTokenRequest } from '@/types/request';
 
 export async function authorize(player: PlayerId, password: Option<string>) {
   const req: AuthorizeRequest = { player, password };
