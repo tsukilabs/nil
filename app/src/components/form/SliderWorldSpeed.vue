@@ -30,6 +30,13 @@ const { t } = useI18n({
     'pt-BR': ptBR,
   },
 });
+
+const intl = new Intl.NumberFormat(undefined, {
+  style: 'decimal',
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2,
+  useGrouping: false,
+});
 </script>
 
 <template>
@@ -43,7 +50,7 @@ const { t } = useI18n({
         :max="consts.worldSpeedMax"
         :step="0.1"
       />
-      <span>{{ sliderValue[0] }}</span>
+      <span>{{ intl.format(sliderValue[0]) }}</span>
     </div>
   </Label>
 </template>

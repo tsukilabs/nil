@@ -14,7 +14,7 @@ export const worldSize = z.int()
   .min(__CONSTS__.continentSizeMin)
   .max(__CONSTS__.continentSizeMax);
 
-export const worldSpeed = z.number()
+export const speed = z.number()
   .min(__CONSTS__.worldSpeedMin)
   .max(__CONSTS__.worldSpeedMax);
 
@@ -30,7 +30,7 @@ export const worldOptions = z.object({
   name: worldName,
   size: worldSize,
   allowCheats: z.boolean(),
-  worldSpeed,
+  speed,
   botDensity,
   botAdvancedStartRatio,
 });

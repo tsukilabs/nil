@@ -160,7 +160,7 @@ macro_rules! impl_f64_newtype {
 #[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize, nil_num::F64Ops)]
 pub struct WorldSpeed(f64);
 
-impl_f64_newtype!(WorldSpeed, min = 0.5, max = 5.0, default = 1.0);
+impl_f64_newtype!(WorldSpeed, min = 0.1, max = 10.0, default = 1.0);
 
 #[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize, nil_num::F64Ops)]
 pub struct BotDensity(f64);
