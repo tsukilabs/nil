@@ -8,12 +8,13 @@ import { useI18n } from 'vue-i18n';
 import Sidebar from './Sidebar.vue';
 import { useToggle } from '@vueuse/core';
 import HeaderMenu from './HeaderMenu.vue';
+import { Separator } from '@ui/separator';
 import { onUnmounted, shallowRef, watch } from 'vue';
 import { ScriptImpl } from '@/core/model/scripts/script';
 import { useScripts } from '@/composables/scripts/useScripts';
 import { handleError, useBreakpoints, useMutex } from '@tb-dev/vue';
+import { Card, CardContent, CardHeader, CardTitle } from '@ui/card';
 import { createHighlighter, disposeHighlighter } from '@/lib/highlighter';
-import { Card, CardContent, CardHeader, CardTitle, Separator } from '@tb-dev/vue-components';
 
 const { t } = useI18n();
 

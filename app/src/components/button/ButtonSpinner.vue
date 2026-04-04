@@ -2,8 +2,9 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
+import { Spinner } from '@ui/spinner';
 import type { HTMLAttributes, VNode } from 'vue';
-import { Button, type ButtonSize, type ButtonVariant, Spinner } from '@tb-dev/vue-components';
+import { Button, type ButtonSize, type ButtonVariant } from '@ui/button';
 
 defineProps<{
   variant?: ButtonVariant;

@@ -9,8 +9,8 @@ import ptBR from '@/locale/pt-BR/scenes/game/report.json';
 import { useBattleLosses } from '@/composables/battle/useBattleLosses';
 import type { BattleReportImpl } from '@/core/model/report/battle-report';
 import { useBattleWallLevel } from '@/composables/battle/useBattleWallLevel';
+import { Table, TableBody, TableCell, TableHead, TableRow } from '@ui/table';
 import BattleReportTable from '@/scenes/game/report/view/BattleReportTable.vue';
-import { Table, TableBody, TableCell, TableHead, TableRow } from '@tb-dev/vue-components';
 
 const props = defineProps<{
   report: BattleReportImpl;

@@ -2,29 +2,19 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
+import { Label } from '@ui/label';
 import { useI18n } from 'vue-i18n';
 import Section from './Section.vue';
+import { Button } from '@ui/button';
 import { DESKTOP } from '@/lib/global';
 import { useRouter } from 'vue-router';
+import { Checkbox } from '@ui/checkbox';
 import { useBreakpoints } from '@tb-dev/vue';
 import { useSettings } from '@/stores/settings';
 import enUS from '@/locale/en-US/scenes/settings.json';
 import ptBR from '@/locale/pt-BR/scenes/settings.json';
-import {
-  Button,
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-  Checkbox,
-  Label,
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@tb-dev/vue-components';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@ui/card';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ui/select';
 
 const { t } = useI18n({
   messages: {

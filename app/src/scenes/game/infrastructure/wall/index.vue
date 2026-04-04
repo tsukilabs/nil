@@ -5,22 +5,11 @@
 import { useI18n } from 'vue-i18n';
 import { formatInt, formatPercent } from '@/lib/intl';
 import { useWall } from '@/composables/infrastructure/useBuilding';
+import { Card, CardContent, CardHeader, CardTitle } from '@ui/card';
 import enUS from '@/locale/en-US/scenes/game/infrastructure/wall.json';
 import ptBR from '@/locale/pt-BR/scenes/game/infrastructure/wall.json';
 import { useWallStats } from '@/composables/infrastructure/useWallStats';
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  Table,
-  TableBody,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@tb-dev/vue-components';
+import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from '@ui/table';
 
 const { t } = useI18n({
   messages: {

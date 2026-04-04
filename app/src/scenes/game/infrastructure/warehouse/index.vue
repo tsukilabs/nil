@@ -4,23 +4,12 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import { formatInt } from '@/lib/intl';
+import { Card, CardContent, CardHeader, CardTitle } from '@ui/card';
 import { useWarehouse } from '@/composables/infrastructure/useBuilding';
 import enUS from '@/locale/en-US/scenes/game/infrastructure/storage.json';
 import ptBR from '@/locale/pt-BR/scenes/game/infrastructure/storage.json';
 import { useStorageStats } from '@/composables/infrastructure/useStorageStats';
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  Table,
-  TableBody,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@tb-dev/vue-components';
+import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from '@ui/table';
 
 const { t } = useI18n({
   messages: {

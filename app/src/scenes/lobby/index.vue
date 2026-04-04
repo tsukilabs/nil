@@ -4,6 +4,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { Button } from '@ui/button';
 import { formatDate } from 'date-fns';
 import { LockIcon } from '@lucide/vue';
 import Loading from '@/components/Loading.vue';
@@ -13,21 +14,10 @@ import ptBR from '@/locale/pt-BR/scenes/online.json';
 import { useToken } from '@/composables/auth/useToken';
 import { onKeyDown, useBreakpoints } from '@tb-dev/vue';
 import { go, QUERY_JOIN_REMOTE_GAME_WORLD_ID } from '@/router';
+import { Card, CardContent, CardHeader, CardTitle } from '@ui/card';
 import { useRemoteWorlds } from '@/composables/world/useRemoteWorlds';
 import { useRemoteWorldLimit } from '@/composables/world/useRemoteWorldLimit';
-import {
-  Button,
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@tb-dev/vue-components';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@ui/table';
 
 const { t } = useI18n({
   messages: {

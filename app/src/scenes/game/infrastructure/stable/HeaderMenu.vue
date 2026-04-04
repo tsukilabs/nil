@@ -7,15 +7,14 @@ import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import { MenuIcon } from '@lucide/vue';
 import { useBreakpoints } from '@tb-dev/vue';
+import { Button, type ButtonVariant } from '@ui/button';
 import {
-  Button,
-  type ButtonVariant,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@tb-dev/vue-components';
+} from '@ui/dropdown-menu';
 
 const { t } = useI18n();
 

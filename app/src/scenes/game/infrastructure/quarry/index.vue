@@ -3,23 +3,12 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
+import { Card, CardContent, CardHeader, CardTitle } from '@ui/card';
 import { useQuarry } from '@/composables/infrastructure/useBuilding';
 import enUS from '@/locale/en-US/scenes/game/infrastructure/mine.json';
 import ptBR from '@/locale/pt-BR/scenes/game/infrastructure/mine.json';
 import { useMineStats } from '@/composables/infrastructure/useMineStats';
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  Table,
-  TableBody,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@tb-dev/vue-components';
+import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from '@ui/table';
 
 const { t } = useI18n({
   messages: {

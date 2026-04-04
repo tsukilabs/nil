@@ -4,6 +4,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { Button } from '@ui/button';
 import { useRouter } from 'vue-router';
 import { joinLocalGame } from '@/core/game';
 import { isPlayerOptions } from '@/lib/schema';
@@ -12,7 +13,7 @@ import { localRef, useBreakpoints, useMutex } from '@tb-dev/vue';
 import InputPlayerName from '@/components/form/InputPlayerName.vue';
 import type { WithPartialNullish, WritablePartial } from '@tb-dev/utils';
 import InputServerAddress from '@/components/form/InputServerAddress.vue';
-import { Button, Card, CardContent, CardFooter, CardHeader, CardTitle } from '@tb-dev/vue-components';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@ui/card';
 
 const { t } = useI18n();
 

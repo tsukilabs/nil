@@ -8,9 +8,9 @@ import enUS from '@/locale/en-US/scenes/game/report.json';
 import ptBR from '@/locale/pt-BR/scenes/game/report.json';
 import SupportReportPersonnel from './SupportReportPersonnel.vue';
 import type { SupportReportImpl } from '@/core/model/report/support-report';
+import { Table, TableBody, TableCell, TableHead, TableRow } from '@ui/table';
 import { useCityOwnerSceneLink } from '@/composables/city/useCityOwnerSceneLink';
 import { useCityProfileSceneLink } from '@/composables/city/useCityProfileSceneLink';
-import { Table, TableBody, TableCell, TableHead, TableRow } from '@tb-dev/vue-components';
 
 const props = defineProps<{
   report: SupportReportImpl;

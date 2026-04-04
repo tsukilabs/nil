@@ -7,18 +7,8 @@ import { onKeyDown } from '@vueuse/core';
 import Loading from '@/components/Loading.vue';
 import { throttle } from 'es-toolkit/function';
 import { useRanking } from '@/composables/ranking/useRanking';
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@tb-dev/vue-components';
+import { Card, CardContent, CardHeader, CardTitle } from '@ui/card';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@ui/table';
 
 const { t } = useI18n();
 

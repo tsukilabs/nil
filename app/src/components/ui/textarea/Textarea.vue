@@ -5,8 +5,8 @@ import { cn } from '@/components/ui/utils';
 
 const props = defineProps<{
   class?: HTMLAttributes['class'];
-  defaultValue?: string | number;
-  modelValue?: string | number;
+  defaultValue?: Option<string | number>;
+  modelValue?: Option<string | number>;
 }>();
 
 const emits = defineEmits<{

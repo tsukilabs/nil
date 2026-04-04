@@ -4,7 +4,10 @@
 <script setup lang="ts">
 import { go } from '@/router';
 import { computed } from 'vue';
+import { Label } from '@ui/label';
 import { useI18n } from 'vue-i18n';
+import { Button } from '@ui/button';
+import { Switch } from '@ui/switch';
 import { useRouter } from 'vue-router';
 import { hostLocalGame } from '@/core/game';
 import { useSettings } from '@/stores/settings';
@@ -18,8 +21,8 @@ import InputPlayerName from '@/components/form/InputPlayerName.vue';
 import SliderBotDensity from '@/components/form/SliderBotDensity.vue';
 import SliderWorldSpeed from '@/components/form/SliderWorldSpeed.vue';
 import type { WithPartialNullish, WritablePartial } from '@tb-dev/utils';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@ui/card';
 import SliderBotAdvancedStartRatio from '@/components/form/SliderBotAdvancedStartRatio.vue';
-import { Button, Card, CardContent, CardFooter, CardHeader, CardTitle, Label, Switch } from '@tb-dev/vue-components';
 
 const { t } = useI18n({
   messages: {

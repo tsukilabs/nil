@@ -2,8 +2,9 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
+import { Input } from '@ui/input';
 import { useI18n } from 'vue-i18n';
-import { Button, Input } from '@tb-dev/vue-components';
+import { Button } from '@ui/button';
 import { useChatInput } from '@/composables/chat/useChatInput';
 
 const props = defineProps<{

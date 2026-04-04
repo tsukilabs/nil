@@ -3,13 +3,13 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
+import { Sonner } from '@ui/sonner';
 import * as commands from '@/commands';
 import { handleError } from '@/lib/error';
 import { nextTick, onMounted } from 'vue';
 import { handleProcessArgs } from '@/lib/env';
 import Loading from '@/components/Loading.vue';
 import { useSettings } from '@/stores/settings';
-import { Sonner } from '@tb-dev/vue-components';
 import { ListenerSet } from '@/lib/listener-set';
 import { setDragDropEventListener } from '@/lib/event';
 import { type as osType } from '@tauri-apps/plugin-os';

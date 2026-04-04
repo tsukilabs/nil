@@ -2,9 +2,10 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
+import { cn } from '@ui/utils';
 import { useI18n } from 'vue-i18n';
+import { Button } from '@ui/button';
 import { useBreakpoints } from '@tb-dev/vue';
-import { Button, cn } from '@tb-dev/vue-components';
 import enUS from '@/locale/en-US/scenes/game/infrastructure/prefecture.json';
 import ptBR from '@/locale/pt-BR/scenes/game/infrastructure/prefecture.json';
 import type { BuildingImpl } from '@/core/model/infrastructure/building/abstract';

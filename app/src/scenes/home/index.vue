@@ -4,6 +4,7 @@
 <script setup lang="ts">
 import { go } from '@/router';
 import { useI18n } from 'vue-i18n';
+import { Button } from '@ui/button';
 import { computed, ref } from 'vue';
 import { exitGame } from '@/core/game';
 import { handleError } from '@/lib/error';
@@ -12,8 +13,8 @@ import { useSettings } from '@/stores/settings';
 import enUS from '@/locale/en-US/scenes/home.json';
 import ptBR from '@/locale/pt-BR/scenes/home.json';
 import { useUpdate } from '@/composables/useUpdate';
+import { Alert, AlertDescription, AlertTitle } from '@ui/alert';
 import ButtonSpinner from '@/components/button/ButtonSpinner.vue';
-import { Alert, AlertDescription, AlertTitle, Button } from '@tb-dev/vue-components';
 
 const { t } = useI18n({
   messages: {

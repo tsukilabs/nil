@@ -2,12 +2,14 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
+import { cn } from '@ui/utils';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { Button } from '@ui/button';
 import { formatInt } from '@/lib/intl';
 import { useBreakpoints } from '@tb-dev/vue';
+import { Table, TableBody, TableCell, TableRow } from '@ui/table';
 import type { WorkshopImpl } from '@/core/model/infrastructure/building/workshop/workshop';
-import { Button, cn, Table, TableBody, TableCell, TableRow } from '@tb-dev/vue-components';
 
 const props = defineProps<{
   workshop: WorkshopImpl;

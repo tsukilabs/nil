@@ -11,7 +11,7 @@ import type { BattleResultImpl } from '@/core/model/battle-result';
 import enUS_warRoom from '@/locale/en-US/scenes/game/war-room.json';
 import ptBR_warRoom from '@/locale/pt-BR/scenes/game/war-room.json';
 import { useBattleWallLevel } from '@/composables/battle/useBattleWallLevel';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@tb-dev/vue-components';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@ui/table';
 
 const props = defineProps<{ result: BattleResultImpl; }>();
 

@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "@lucide/vue": "=1.7.0",
+    "@tanstack/vue-table": "=8.21.3",
     "@tauri-apps/api": "=2.10.1",
     "@tauri-apps/plugin-clipboard-manager": "=2.3.2",
     "@tauri-apps/plugin-dialog": "=2.6.0",
@@ -37,7 +38,6 @@
     "@tb-dev/prototype-dom": "=7.0.41",
     "@tb-dev/utils": "=7.3.15",
     "@tb-dev/vue": "=4.0.17",
-    "@tb-dev/vue-components": "=7.1.13",
     "@tb-dev/vue-sonner": "=0.1.7",
     "@vueuse/components": "=14.2.1",
     "@vueuse/core": "=14.2.1",

@@ -7,18 +7,8 @@ import { useBreakpoints } from '@tb-dev/vue';
 import enUS from '@/locale/en-US/scenes/game/report.json';
 import ptBR from '@/locale/pt-BR/scenes/game/report.json';
 import { useReports } from '@/composables/report/useReports';
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@tb-dev/vue-components';
+import { Card, CardContent, CardHeader, CardTitle } from '@ui/card';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@ui/table';
 
 const { t } = useI18n({
   messages: {

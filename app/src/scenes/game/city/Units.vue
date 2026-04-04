@@ -3,18 +3,10 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
+import { Table, TableBody, TableCell, TableRow } from '@ui/table';
+import { Card, CardContent, CardHeader, CardTitle } from '@ui/card';
 import type { ArmyPersonnelImpl } from '@/core/model/military/army-personnel';
 import { useArmyPersonnelSize } from '@/composables/military/useArmyPersonnelSize';
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  Table,
-  TableBody,
-  TableCell,
-  TableRow,
-} from '@tb-dev/vue-components';
 
 const props = defineProps<{ personnel: ArmyPersonnelImpl; }>();
 

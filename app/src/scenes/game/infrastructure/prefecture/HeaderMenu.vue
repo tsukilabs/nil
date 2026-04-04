@@ -7,17 +7,16 @@ import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import { MenuIcon } from '@lucide/vue';
 import { useBreakpoints } from '@tb-dev/vue';
+import { Button, type ButtonVariant } from '@ui/button';
 import enUS from '@/locale/en-US/scenes/game/infrastructure/prefecture.json';
 import ptBR from '@/locale/pt-BR/scenes/game/infrastructure/prefecture.json';
 import {
-  Button,
-  type ButtonVariant,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@tb-dev/vue-components';
+} from '@ui/dropdown-menu';
 
 const { t } = useI18n({
   messages: {

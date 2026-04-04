@@ -5,8 +5,8 @@
 import { useI18n } from 'vue-i18n';
 import HeaderMenu from './HeaderMenu.vue';
 import Loading from '@/components/Loading.vue';
+import { Card, CardContent, CardHeader, CardTitle } from '@ui/card';
 import { useWorkshop } from '@/composables/infrastructure/useBuilding';
-import { Card, CardContent, CardHeader, CardTitle } from '@tb-dev/vue-components';
 
 const { t } = useI18n();
 

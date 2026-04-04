@@ -3,6 +3,7 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
+import { Button } from '@ui/button';
 import { formatDate } from 'date-fns';
 import { computed, ref, watch } from 'vue';
 import { useRouteQuery } from '@vueuse/router';
@@ -10,20 +11,9 @@ import { hostLocalGameWithSavedata } from '@/core/game';
 import { asyncComputed, asyncRef, useMutex } from '@tb-dev/vue';
 import { getSavedataFiles, SavedataFile } from '@/core/savedata';
 import { useSavedataPlayers } from '@/composables/world/useSavedataPlayers';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@ui/card';
 import { goBackIfPreviousIsNotGame, QUERY_LOAD_LOCAL_GAME_PATH } from '@/router';
-import {
-  Button,
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@tb-dev/vue-components';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ui/select';
 
 const { t } = useI18n();
 

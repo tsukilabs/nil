@@ -2,17 +2,17 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
+import { Label } from '@ui/label';
 import { useI18n } from 'vue-i18n';
 import enUS from '@/locale/en-US/scenes/host-game.json';
 import ptBR from '@/locale/pt-BR/scenes/host-game.json';
 import {
-  Label,
   NumberField,
   NumberFieldContent,
   NumberFieldDecrement,
   NumberFieldIncrement,
   NumberFieldInput,
-} from '@tb-dev/vue-components';
+} from '@ui/number-field';
 
 defineProps<{
   disabled: boolean;

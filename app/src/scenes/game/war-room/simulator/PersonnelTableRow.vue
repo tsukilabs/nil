@@ -3,7 +3,8 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import { NumberField, NumberFieldContent, NumberFieldInput, TableCell, TableRow } from '@tb-dev/vue-components';
+import { TableCell, TableRow } from '@ui/table';
+import { NumberField, NumberFieldContent, NumberFieldInput } from '@ui/number-field';
 
 const attacker = defineModel<Squad>('attacker', { required: true });
 const defender = defineModel<Squad>('defender', { required: true });

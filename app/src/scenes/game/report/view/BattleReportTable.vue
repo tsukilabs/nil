@@ -2,14 +2,15 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
+import { Badge } from '@ui/badge';
 import { useI18n } from 'vue-i18n';
 import { CoordImpl } from '@/core/model/continent/coord';
 import enUS from '@/locale/en-US/scenes/game/report.json';
 import ptBR from '@/locale/pt-BR/scenes/game/report.json';
+import { Table, TableBody, TableCell, TableHead, TableRow } from '@ui/table';
 import { useCityOwnerSceneLink } from '@/composables/city/useCityOwnerSceneLink';
 import { useCityProfileSceneLink } from '@/composables/city/useCityProfileSceneLink';
 import BattleReportPersonnel from '@/scenes/game/report/view/BattleReportPersonnel.vue';
-import { Badge, Table, TableBody, TableCell, TableHead, TableRow } from '@tb-dev/vue-components';
 
 const props = defineProps<{
   kind: BattleWinner;

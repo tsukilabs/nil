@@ -8,8 +8,8 @@ import { useBreakpoints } from '@tb-dev/vue';
 import RecruitCatalogRow from './RecruitCatalogRow.vue';
 import { usePlayerTurn } from '@/composables/player/usePlayerTurn';
 import { usePlayerResources } from '@/composables/player/usePlayerResources';
+import { Table, TableBody, TableHead, TableHeader, TableRow } from '@ui/table';
 import type { AcademyImpl } from '@/core/model/infrastructure/building/academy/academy';
-import { Table, TableBody, TableHead, TableHeader, TableRow } from '@tb-dev/vue-components';
 
 const props = defineProps<{
   academy: AcademyImpl;

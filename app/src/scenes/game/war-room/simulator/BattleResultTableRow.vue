@@ -3,7 +3,7 @@
 
 <script setup lang="ts">
 import { formatInt } from '@/lib/intl';
-import { TableCell, TableHead, TableRow } from '@tb-dev/vue-components';
+import { TableCell, TableHead, TableRow } from '@ui/table';
 
 defineProps<{
   head: string;

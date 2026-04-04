@@ -3,7 +3,7 @@
 
 <script setup lang="ts">
 import type { Component, HTMLAttributes, VNode } from 'vue';
-import { Button, type ButtonSize, type ButtonVariant } from '@tb-dev/vue-components';
+import { Button, type ButtonSize, type ButtonVariant } from '@ui/button';
 
 interface Props {
   disabled?: boolean;

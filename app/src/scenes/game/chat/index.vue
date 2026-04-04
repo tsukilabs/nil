@@ -7,8 +7,8 @@ import { useHeight } from '@tb-dev/vue';
 import Chat from '@/components/chat/Chat.vue';
 import type { MaybeElement } from '@vueuse/core';
 import ChatInput from '@/components/chat/ChatInput.vue';
+import { Card, CardContent, CardFooter } from '@ui/card';
 import { computed, onMounted, shallowRef, useTemplateRef } from 'vue';
-import { Card, CardContent, CardFooter } from '@tb-dev/vue-components';
 
 const chat = useTemplateRef('chatEl');
 

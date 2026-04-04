@@ -1,8 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { sonner } from '@tb-dev/vue-components';
-import type { ExternalToast } from '@tb-dev/vue-sonner';
+import { type ExternalToast, toast as sonner } from '@tb-dev/vue-sonner';
 
 type ToastOptions = Partial<ExternalToast>;
 

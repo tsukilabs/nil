@@ -2,7 +2,10 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
+import { Input } from '@ui/input';
+import { Label } from '@ui/label';
 import { useI18n } from 'vue-i18n';
+import { Button } from '@ui/button';
 import * as commands from '@/commands';
 import { useMutex } from '@tb-dev/vue';
 import { useRouter } from 'vue-router';
@@ -12,7 +15,7 @@ import { computed, onBeforeMount, reactive } from 'vue';
 import { isValidPassword, isValidPlayerId } from '@/lib/schema';
 import ButtonSpinner from '@/components/button/ButtonSpinner.vue';
 import { go, QUERY_SIGN_IN_USER, QUERY_SIGN_UP_USER } from '@/router';
-import { Button, Card, CardContent, CardFooter, CardHeader, CardTitle, Input, Label } from '@tb-dev/vue-components';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@ui/card';
 
 const { t } = useI18n({
   messages: {

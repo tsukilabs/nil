@@ -2,7 +2,9 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
+import { Input } from '@ui/input';
 import { useI18n } from 'vue-i18n';
+import { Button } from '@ui/button';
 import { computed, ref } from 'vue';
 import { formatDate } from 'date-fns';
 import * as commands from '@/commands';
@@ -21,20 +23,8 @@ import ButtonIcon from '@/components/button/ButtonIcon.vue';
 import { go, QUERY_JOIN_REMOTE_GAME_WORLD_ID } from '@/router';
 import ButtonSpinner from '@/components/button/ButtonSpinner.vue';
 import { useRemoteWorld } from '@/composables/world/useRemoteWorld';
-import {
-  Button,
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-  Input,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-} from '@tb-dev/vue-components';
+import { Table, TableBody, TableCell, TableHead, TableRow } from '@ui/table';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@ui/card';
 
 const { t } = useI18n({
   messages: {

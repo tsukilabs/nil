@@ -5,7 +5,7 @@
 import { useI18n } from 'vue-i18n';
 import enUS from '@/locale/en-US/scenes/game/report.json';
 import ptBR from '@/locale/pt-BR/scenes/game/report.json';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@tb-dev/vue-components';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@ui/table';
 
 const props = defineProps<{
   personnel: ArmyPersonnel;
