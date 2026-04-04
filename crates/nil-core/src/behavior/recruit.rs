@@ -51,8 +51,9 @@ impl Behavior for RecruitBehavior {
 
     let academy = score!(academy);
     let stable = score!(stable);
+    let workshop = score!(workshop);
 
-    Ok(academy.max(stable))
+    Ok(academy.max(stable).max(workshop))
   }
 
   fn behave(&self, world: &mut World) -> Result<ControlFlow<()>> {
@@ -141,15 +142,21 @@ where
     let mut score = BehaviorScore::new(random_range(0.8..=1.0));
 
     if let Some(ethics) = ruler_ref.ethics() {
+      let power_ethics = ethics.power();
+
       if unit_box.is_defensive() {
-        score *= match ethics.power() {
+        score *= match power_ethics {
           EthicPowerAxis::Militarist => 0.75,
           EthicPowerAxis::FanaticMilitarist => 0.5,
           EthicPowerAxis::Pacifist => 1.25,
           EthicPowerAxis::FanaticPacifist => 1.5,
         }
       } else {
-        score *= match ethics.power() {
+        if unit_box.is_workshop_unit() && power_ethics.is_pacifist_variant() {
+          return Ok(BehaviorScore::MIN);
+        }
+
+        score *= match power_ethics {
           EthicPowerAxis::Militarist => 1.25,
           EthicPowerAxis::FanaticMilitarist => 1.5,
           EthicPowerAxis::Pacifist => 0.75,

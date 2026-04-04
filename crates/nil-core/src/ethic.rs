@@ -101,6 +101,16 @@ impl EthicPowerAxis {
       .copied()
       .expect("`Self::VARIANTS` should never be empty")
   }
+
+  /// Whether this ethic is [`EthicPowerAxis::Militarist`] or [`EthicPowerAxis::FanaticMilitarist`].
+  pub fn is_militarist_variant(&self) -> bool {
+    matches!(self, Self::Militarist | Self::FanaticMilitarist)
+  }
+
+  /// Whether this ethic is [`EthicPowerAxis::Pacifist`] or [`EthicPowerAxis::FanaticPacifist`].
+  pub fn is_pacifist_variant(&self) -> bool {
+    matches!(self, Self::Pacifist | Self::FanaticPacifist)
+  }
 }
 
 impl Default for EthicPowerAxis {
@@ -129,6 +139,16 @@ impl EthicTruthAxis {
       })
       .copied()
       .expect("`Self::VARIANTS` should never be empty")
+  }
+
+  /// Whether this ethic is [`EthicTruthAxis::Materialist`] or [`EthicTruthAxis::FanaticMaterialist`].
+  pub fn is_materialist_variant(&self) -> bool {
+    matches!(self, Self::Materialist | Self::FanaticMaterialist)
+  }
+
+  /// Whether this ethic is [`EthicTruthAxis::Spiritualist`] or [`EthicTruthAxis::FanaticSpiritualist`].
+  pub fn is_spiritualist_variant(&self) -> bool {
+    matches!(self, Self::Spiritualist | Self::FanaticSpiritualist)
   }
 }
 

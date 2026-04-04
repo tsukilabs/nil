@@ -16,6 +16,7 @@ use nil_core::npc::precursor::Precursor;
 use nil_core::player::{Player, PlayerStatus};
 use nil_core::world::World;
 use nil_payload::world::*;
+use std::sync::Arc;
 
 pub async fn get_bots(State(app): State<App>, Json(req): Json<GetWorldBotsRequest>) -> Response {
   app
@@ -30,7 +31,7 @@ pub async fn get_config(
   Json(req): Json<GetWorldConfigRequest>,
 ) -> Response {
   app
-    .world(req.world, |world| world.config().clone())
+    .world(req.world, |world| Arc::unwrap_or_clone(world.config()))
     .await
     .map_left(|world| res!(OK, Json(world)))
     .into_inner()
