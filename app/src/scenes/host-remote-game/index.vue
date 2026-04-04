@@ -17,6 +17,7 @@ import ButtonSpinner from '@/components/button/ButtonSpinner.vue';
 import InputWorldName from '@/components/form/InputWorldName.vue';
 import InputWorldSize from '@/components/form/InputWorldSize.vue';
 import SliderBotDensity from '@/components/form/SliderBotDensity.vue';
+import SliderWorldSpeed from '@/components/form/SliderWorldSpeed.vue';
 import { isValidNullishPassword, isWorldOptions } from '@/lib/schema';
 import type { WithPartialNullish, WritablePartial } from '@tb-dev/utils';
 import InputWorldPassword from '@/components/form/InputWorldPassword.vue';
@@ -44,6 +45,7 @@ const worldOptions = localRef<WritablePartial<WorldOptions>>(
     size: __CONSTS__.continentSizeDefault,
     locale: settings.general.locale,
     allowCheats: false,
+    speed: __CONSTS__.worldSpeedDefault,
     botDensity: __CONSTS__.botDensityDefault,
     botAdvancedStartRatio: __CONSTS__.botAdvancedStartRatioDefault,
   } satisfies WithPartialNullish<WorldOptions, 'name'>,
@@ -97,6 +99,7 @@ function key(name: string) {
         <InputWorldSize v-model="worldOptions.size" :disabled="locked" />
         <InputWorldPassword v-model="worldPassword" :disabled="locked" />
         <TextareaWorldDescription v-model="description" :disabled="locked" />
+        <SliderWorldSpeed v-model="worldOptions" :disabled="locked" />
         <SliderBotDensity v-model="worldOptions" :disabled="locked" />
         <SliderBotAdvancedStartRatio v-model="worldOptions" :disabled="locked" />
         <SliderRoundDuration

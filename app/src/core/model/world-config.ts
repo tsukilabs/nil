@@ -6,6 +6,7 @@ export class WorldConfigImpl implements WorldConfig {
   public readonly name: string;
   public readonly locale: Locale;
   public readonly allowCheats: boolean;
+  public readonly speed: WorldSpeed;
   public readonly botDensity: BotDensity;
   public readonly botAdvancedStartRatio: BotAdvancedStartRatio;
 
@@ -14,6 +15,7 @@ export class WorldConfigImpl implements WorldConfig {
     this.name = config.name;
     this.locale = config.locale;
     this.allowCheats = config.allowCheats;
+    this.speed = config.speed;
     this.botDensity = config.botDensity;
     this.botAdvancedStartRatio = config.botAdvancedStartRatio;
   }

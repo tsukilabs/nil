@@ -48,6 +48,10 @@ declare global {
     readonly roundDurationMin: RoundDuration;
     readonly roundDurationMax: RoundDuration;
     readonly roundDurationDefault: RoundDuration;
+
+    readonly worldSpeedMin: WorldSpeed;
+    readonly worldSpeedMax: WorldSpeed;
+    readonly worldSpeedDefault: WorldSpeed;
   };
 
   var NIL: {

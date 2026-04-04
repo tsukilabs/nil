@@ -4,5 +4,6 @@
   "bot-density": "Bot density",
   "round-duration": "Round duration",
   "world-name": "World name",
-  "world-size": "World size"
+  "world-size": "World size",
+  "world-speed": "World speed"
 }

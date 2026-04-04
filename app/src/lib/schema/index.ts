@@ -18,7 +18,10 @@ export function isValidPassword(value: unknown): value is string {
 }
 
 export function isValidNullishPassword(value: unknown): value is Option<string> {
-  return password.nullish().safeParse(value).success;
+  return (
+    (typeof value === 'string' && value.trim().length === 0) ||
+    password.nullish().safeParse(value).success
+  );
 }
 
 export function isWorldOptions(value: unknown): value is WorldOptions {

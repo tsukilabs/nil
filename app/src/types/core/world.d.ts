@@ -6,6 +6,7 @@ interface WorldOptions {
   readonly size: number;
   readonly locale: Locale;
   readonly allowCheats: boolean;
+  readonly speed: WorldSpeed;
   readonly botDensity: BotDensity;
   readonly botAdvancedStartRatio: BotAdvancedStartRatio;
 }
@@ -15,6 +16,7 @@ interface WorldConfig {
   readonly name: string;
   readonly locale: Locale;
   readonly allowCheats: boolean;
+  readonly speed: WorldSpeed;
   readonly botDensity: BotDensity;
   readonly botAdvancedStartRatio: BotAdvancedStartRatio;
 }
@@ -22,6 +24,8 @@ interface WorldConfig {
 type WorldId = string;
 
 type Locale = 'en-US' | 'pt-BR';
+
+type WorldSpeed = number;
 
 type BotDensity = number;
 

@@ -137,7 +137,9 @@ fn hash_password(password: Option<&Password>) -> Result<Option<HashedPassword>> 
   let Some(password) = password else { return Ok(None) };
   let pass_len = password.trim().chars().count();
 
-  if !(3..=50).contains(&pass_len) {
+  if pass_len == 0 {
+    return Ok(None);
+  } else if !(3..=50).contains(&pass_len) {
     return Err(Error::InvalidPassword);
   }
 
