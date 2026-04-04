@@ -9,7 +9,7 @@ import type {
   CheatGetIdleArmiesAtRequest,
   CheatGetIdlePersonnelAtRequest,
   CheatSpawnPersonnelRequest,
-} from '@/lib/request';
+} from '@/types/request';
 
 export async function cheatGetIdleArmiesAt(coord?: Option<ContinentKey>) {
   coord = CoordImpl.fromContinentKeyOrCurrentStrict(coord);

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { invoke } from '@tauri-apps/api/core';
-import type { ToggleBuildingRequest } from '@/lib/request';
+import type { ToggleBuildingRequest } from '@/types/request';
 
 export * from './stable';
 export * from './academy';

@@ -10,6 +10,7 @@ export interface World {
   readonly config: {
     readonly id: string;
     readonly name: string;
+    readonly speed: number;
   };
 }
 

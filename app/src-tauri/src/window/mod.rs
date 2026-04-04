@@ -8,7 +8,7 @@ pub mod mobile;
 
 use crate::settings::Settings;
 use nil_core::continent::ContinentSize;
-use nil_core::world::config::{BotAdvancedStartRatio, BotDensity};
+use nil_core::world::config::{BotAdvancedStartRatio, BotDensity, WorldSpeed};
 use nil_server_types::round::RoundDuration;
 use serde::Serialize;
 use serde_json::json;
@@ -76,6 +76,10 @@ struct Constants {
   round_duration_min: RoundDuration,
   round_duration_max: RoundDuration,
   round_duration_default: RoundDuration,
+
+  world_speed_min: WorldSpeed,
+  world_speed_max: WorldSpeed,
+  world_speed_default: WorldSpeed,
 }
 
 impl Default for Constants {
@@ -108,6 +112,10 @@ impl Default for Constants {
       round_duration_min: RoundDuration::MIN,
       round_duration_max: RoundDuration::MAX,
       round_duration_default: RoundDuration::default(),
+
+      world_speed_min: WorldSpeed::MIN,
+      world_speed_max: WorldSpeed::MAX,
+      world_speed_default: WorldSpeed::default(),
     }
   }
 }

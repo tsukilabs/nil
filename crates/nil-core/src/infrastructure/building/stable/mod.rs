@@ -11,7 +11,8 @@ use crate::infrastructure::requirements::InfrastructureRequirements;
 use crate::ranking::score::Score;
 use crate::resources::cost::{Cost, ResourceRatio};
 use crate::resources::maintenance::MaintenanceRatio;
-use crate::resources::workforce::Workforce;
+use crate::resources::workforce::{Workforce, WorkforceSource};
+use crate::world::config::WorldConfig;
 use nil_core_macros::Building;
 use recruit_queue::{StableRecruitOrder, StableRecruitQueue};
 use serde::{Deserialize, Serialize};
@@ -59,23 +60,19 @@ impl Stable {
   }
 
   #[must_use]
-  pub(crate) fn process_queue(&mut self) -> Option<Vec<StableRecruitOrder>> {
+  pub(crate) fn process_queue(&mut self, config: &WorldConfig) -> Option<Vec<StableRecruitOrder>> {
     if self.enabled {
-      let orders = self.recruit_queue.process(self.level.into());
+      let workforce = self.workforce(config);
+      let orders = self.recruit_queue.process(workforce);
       (!orders.is_empty()).then_some(orders)
     } else {
       None
     }
   }
 
-  #[inline]
-  pub fn workforce(&self) -> Workforce {
-    Workforce::from(self.level)
-  }
-
-  pub fn turns_in_recruit_queue(&self) -> Option<f64> {
+  pub(crate) fn turns_in_recruit_queue(&self, config: &WorldConfig) -> Option<f64> {
     if self.level > 0u8 {
-      let turn = self.workforce();
+      let turn = self.workforce(config);
       let in_queue = self.recruit_queue.sum_pending_workforce();
       Some(f64::from(in_queue) / f64::from(turn))
     } else {
@@ -83,6 +80,8 @@ impl Stable {
     }
   }
 }
+
+impl WorkforceSource for Stable {}
 
 impl Default for Stable {
   fn default() -> Self {

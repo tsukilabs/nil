@@ -6,7 +6,7 @@ import type {
   AddAcademyRecruitOrderRequest,
   CancelAcademyRecruitOrderRequest,
   GetAcademyRecruitCatalogRequest,
-} from '@/lib/request';
+} from '@/types/request';
 
 export async function addAcademyRecruitOrder(request: AcademyRecruitOrderRequest) {
   const req: AddAcademyRecruitOrderRequest = {

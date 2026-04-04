@@ -7,7 +7,7 @@ import type {
   GetContinentSizeRequest,
   GetPublicFieldRequest,
   GetPublicFieldsRequest,
-} from '@/lib/request';
+} from '@/types/request';
 
 export async function getBulkDistance(origin: ContinentKey, destinations: ContinentKey[]) {
   origin = CoordImpl.fromContinentKey(origin);

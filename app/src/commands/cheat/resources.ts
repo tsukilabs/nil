@@ -19,7 +19,7 @@ import type {
   CheatSetResourcesRequest,
   CheatSetStoneRequest,
   CheatSetWoodRequest,
-} from '@/lib/request';
+} from '@/types/request';
 
 export async function cheatGetResources(ruler?: Option<Ruler>) {
   const req: CheatGetResourcesRequest = {

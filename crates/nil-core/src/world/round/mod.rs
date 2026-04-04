@@ -109,17 +109,18 @@ impl World {
 
   /// Processes the build and recruitment queues for all cities.
   fn process_city_queues(&mut self) {
+    let config = self.config();
     for city in self.continent.cities_mut() {
       let coord = city.coord();
       let owner = city.owner().clone();
       let infrastructure = city.infrastructure_mut();
 
-      infrastructure.process_prefecture_build_queue();
+      infrastructure.process_prefecture_build_queue(&config);
 
       macro_rules! process_recruit_queue {
         ($building:ident) => {
           paste::paste! {
-            if let Some(personnel) = infrastructure.[<process_ $building:snake _recruit_queue>]() {
+            if let Some(personnel) = infrastructure.[<process_ $building:snake _recruit_queue>](&config) {
               self.military.spawn(coord, owner.clone(), personnel);
             }
           }

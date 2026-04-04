@@ -6,6 +6,7 @@ settings:
 
 overrides:
   brace-expansion@>=4.0.0 <5.0.5: '>=5.0.5'
+  defu@<=6.1.4: '>=6.1.5'
   flatted@<=3.4.1: '>=3.4.2'
   picomatch@>=4.0.0 <4.0.4: '>=4.0.4'
   yaml@>=2.0.0 <2.8.3: '>=2.8.3'
@@ -45,17 +46,17 @@ importers:
         specifier: '=4.2.0'
         version: 4.2.0(typescript@6.0.2)
       '@tb-dev/prototype-dom':
-        specifier: '=7.0.40'
-        version: 7.0.40
+        specifier: '=7.0.41'
+        version: 7.0.41
       '@tb-dev/utils':
-        specifier: '=7.3.13'
-        version: 7.3.13
+        specifier: '=7.3.15'
+        version: 7.3.15
       '@tb-dev/vue':
-        specifier: '=4.0.15'
-        version: 4.0.15(typescript@6.0.2)
+        specifier: '=4.0.17'
+        version: 4.0.17(typescript@6.0.2)
       '@tb-dev/vue-components':
-        specifier: '=7.1.11'
-        version: 7.1.11(@vue/compiler-sfc@3.5.32)(pinia@3.0.4(typescript@6.0.2)(vue@3.5.32(typescript@6.0.2)))(typescript@6.0.2)
+        specifier: '=7.1.13'
+        version: 7.1.13(@vue/compiler-sfc@3.5.32)(pinia@3.0.4(typescript@6.0.2)(vue@3.5.32(typescript@6.0.2)))(typescript@6.0.2)
       '@tb-dev/vue-sonner':
         specifier: '=0.1.7'
         version: 0.1.7(typescript@6.0.2)
@@ -1077,20 +1078,20 @@ packages:
   '@tb-dev/eslint-config@9.1.4':
     resolution: {integrity: sha512-Qo4HRhNS9XtOLnWxnR1Y1EMB4z1bX45MOFkyWmRFmE9577RPXCCvqBJ77dVAeam5SycE9BP2x+j1E/XAMqw3UQ==}
 
-  '@tb-dev/prototype-dom@7.0.40':
-    resolution: {integrity: sha512-CtrPEDQc9f3CRZRQUEgoOG2sWJhotCbCGxYEgiQLFE7zB2XW40hZSmKcr23uuB/MjdK7FvcMyYttLglWq/ofSQ==}
+  '@tb-dev/prototype-dom@7.0.41':
+    resolution: {integrity: sha512-hQQ8M+oM2xVtHZf+Bu4qCPKDOavlozCCOafMoQv8TVNZPWg4+5EDba0v1FoqzfCY6dn7mVlZZfbZrHc7qWaeew==}
 
-  '@tb-dev/utils@7.3.13':
-    resolution: {integrity: sha512-0Qp9lkSKHIl+FmTzDzOUuiGku/DD69ZPR8+kOJ3wLF+i+E+wiZWwK03KyoKyZz8rKosYxAK9RItGmZEcYnFUjQ==}
+  '@tb-dev/utils@7.3.15':
+    resolution: {integrity: sha512-DRrJ7mm8NKLzQpLHhiDdhU8STcQPJ2JgQYXoq9Q43pFxozd5naF+3PBu3YWxbY9h6lqREAzVntL5EMJVtusoLw==}
 
-  '@tb-dev/vue-components@7.1.11':
-    resolution: {integrity: sha512-3WZDYcYbRaoOPnoTmlDjIS6Gj5blnBz403JmSXDA74mBN8yGsOo/AgrMGLczXxG+VcUUURFXLPhJjH/3nSOamg==}
+  '@tb-dev/vue-components@7.1.13':
+    resolution: {integrity: sha512-9sGO5MYKRDCK0HYrVR9DkbTbLUFpyOnrKVWiFHjC1IydI/aW/C1Dq2j0Jndn4IMfjDztgOm/1H7txzVieFLHzg==}
 
   '@tb-dev/vue-sonner@0.1.7':
     resolution: {integrity: sha512-TDMaMTmKU9Tc+lZx+0RSZEpaCI05Anxe5fD5KlveHlXFDgha3r7rHPH60N51YqpLStn73jiO86eykFlaLNqbWA==}
 
-  '@tb-dev/vue@4.0.15':
-    resolution: {integrity: sha512-nCQFNAmvrXNQuB+gXHbWSO/wl25NJXNMwP9T0M/oMil2fF9X7pM2hm5yOaMS9cz4tXjomi/z9sotKDlRUWMsNA==}
+  '@tb-dev/vue@4.0.17':
+    resolution: {integrity: sha512-iffgVPHKeFnhfl3k+TtaN1I+nNBQMOdowk1XLWC+H4X2U1cLwXoDs8wEHSoFRG+W5XWosJHM3QQXeGQ5GTMZxw==}
 
   '@tybys/wasm-util@0.10.1':
     resolution: {integrity: sha512-9tTaPJLSiejZKx+Bmog4uSubteqTvFrVrURwkmHixBo0G4seD0zUxp98E1DzUBJxLQ3NPwXrGKDiVjwx/DpPsg==}
@@ -1505,8 +1506,8 @@ packages:
   deep-is@0.1.4:
     resolution: {integrity: sha512-oIPzksmTg4/MriiaYGO+okXDT7ztn/w3Eptv/+gSIdMdKsJo0u4CfYNFJPy+4SKMuCqGw2wxnA+URMg3t8a/bQ==}
 
-  defu@6.1.4:
-    resolution: {integrity: sha512-mEQCMmwJu317oSz8CwdIOdwf3xMif1ttiM8LTufzc3g6kR+9Pe236twL8j3IYT1F7GfRgGcW6MWxzZjLIkuHIg==}
+  defu@6.1.6:
+    resolution: {integrity: sha512-f8mefEW4WIVg4LckePx3mALjQSPQgFlg9U8yaPdlsbdYcHQyj9n2zL2LJEA52smeYxOvmd/nB7TpMtHGMTHcug==}
 
   dequal@2.0.3:
     resolution: {integrity: sha512-0je+qPKHEMohvfRTCEo3CrPG6cAzAYgmzKyxRiYSSDkS6eGJdyVJm7WaYA5ECaAD9wLB2T4EEeymA5aFVcYXCA==}
@@ -3086,16 +3087,16 @@ snapshots:
       - supports-color
       - typescript
 
-  '@tb-dev/prototype-dom@7.0.40': {}
+  '@tb-dev/prototype-dom@7.0.41': {}
 
-  '@tb-dev/utils@7.3.13': {}
+  '@tb-dev/utils@7.3.15': {}
 
-  '@tb-dev/vue-components@7.1.11(@vue/compiler-sfc@3.5.32)(pinia@3.0.4(typescript@6.0.2)(vue@3.5.32(typescript@6.0.2)))(typescript@6.0.2)':
+  '@tb-dev/vue-components@7.1.13(@vue/compiler-sfc@3.5.32)(pinia@3.0.4(typescript@6.0.2)(vue@3.5.32(typescript@6.0.2)))(typescript@6.0.2)':
     dependencies:
       '@lucide/vue': 1.7.0(vue@3.5.32(typescript@6.0.2))
       '@tanstack/vue-table': 8.21.3(vue@3.5.32(typescript@6.0.2))
-      '@tb-dev/utils': 7.3.13
-      '@tb-dev/vue': 4.0.15(typescript@6.0.2)
+      '@tb-dev/utils': 7.3.15
+      '@tb-dev/vue': 4.0.17(typescript@6.0.2)
       '@tb-dev/vue-sonner': 0.1.7(typescript@6.0.2)
       '@vueuse/core': 14.2.1(vue@3.5.32(typescript@6.0.2))
       class-variance-authority: 0.7.1
@@ -3119,9 +3120,9 @@ snapshots:
     transitivePeerDependencies:
       - typescript
 
-  '@tb-dev/vue@4.0.15(typescript@6.0.2)':
+  '@tb-dev/vue@4.0.17(typescript@6.0.2)':
     dependencies:
-      '@tb-dev/utils': 7.3.13
+      '@tb-dev/utils': 7.3.15
       '@vueuse/core': 14.2.1(vue@3.5.32(typescript@6.0.2))
       es-toolkit: 1.45.1
       vue: 3.5.32(typescript@6.0.2)
@@ -3601,7 +3602,7 @@ snapshots:
 
   deep-is@0.1.4: {}
 
-  defu@6.1.4: {}
+  defu@6.1.6: {}
 
   dequal@2.0.3: {}
 
@@ -4139,7 +4140,7 @@ snapshots:
       '@vueuse/core': 14.2.1(vue@3.5.32(typescript@6.0.2))
       '@vueuse/shared': 14.2.1(vue@3.5.32(typescript@6.0.2))
       aria-hidden: 1.2.6
-      defu: 6.1.4
+      defu: 6.1.6
       ohash: 2.0.11
       vue: 3.5.32(typescript@6.0.2)
     transitivePeerDependencies:

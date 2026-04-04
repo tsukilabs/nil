@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { invoke } from '@tauri-apps/api/core';
-import type { GetRoundRequest, SetPlayerReadyRequest, StartRoundRequest } from '@/lib/request';
+import type { GetRoundRequest, SetPlayerReadyRequest, StartRoundRequest } from '@/types/request';
 
 export async function getRound() {
   const req: GetRoundRequest = {

@@ -9,9 +9,13 @@ use crate::infrastructure::building::{BuildingId, BuildingStatsTable};
 use crate::infrastructure::queue::InfrastructureQueue;
 use crate::infrastructure::{Infrastructure, InfrastructureStats};
 use crate::resources::Resources;
+use crate::world::config::WorldConfig;
 use std::sync::LazyLock;
 
-static STATS: LazyLock<InfrastructureStats> = LazyLock::new(InfrastructureStats::default);
+static STATS: LazyLock<InfrastructureStats> = LazyLock::new(|| {
+  let config = WorldConfig::builder("World").build();
+  InfrastructureStats::new(&config)
+});
 
 #[test]
 fn cannot_decrease() {

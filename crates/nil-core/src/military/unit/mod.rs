@@ -78,6 +78,18 @@ pub trait Unit: Send + Sync {
       _ => !self.is_offensive(),
     }
   }
+
+  fn is_academy_unit(&self) -> bool {
+    matches!(self.building(), BuildingId::Academy)
+  }
+
+  fn is_stable_unit(&self) -> bool {
+    matches!(self.building(), BuildingId::Stable)
+  }
+
+  fn is_workshop_unit(&self) -> bool {
+    matches!(self.building(), BuildingId::Workshop)
+  }
 }
 
 #[subenum(AcademyUnitId, StableUnitId, WorkshopUnitId)]
@@ -88,16 +100,22 @@ pub trait Unit: Send + Sync {
 pub enum UnitId {
   #[subenum(AcademyUnitId)]
   Archer,
+
   #[subenum(AcademyUnitId)]
   Axeman,
+
   #[subenum(StableUnitId)]
   HeavyCavalry,
+
   #[subenum(StableUnitId)]
   LightCavalry,
+
   #[subenum(AcademyUnitId)]
   Pikeman,
+
   #[subenum(WorkshopUnitId)]
   Ram,
+
   #[subenum(AcademyUnitId)]
   Swordsman,
 }

@@ -7,7 +7,7 @@ import type {
   CheatGetEthicsRequest,
   CheatSetBotEthicsRequest,
   CheatSpawnBotRequest,
-} from '@/lib/request';
+} from '@/types/request';
 
 export async function cheatGetEthics(ruler: Ruler) {
   const req: CheatGetEthicsRequest = {

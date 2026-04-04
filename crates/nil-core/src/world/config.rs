@@ -3,19 +3,38 @@
 
 use crate::error::AnyResult;
 use crate::world::WorldOptions;
+use bon::Builder;
 use derive_more::{Deref, Display, Into};
 use serde::{Deserialize, Serialize};
-use std::sync::Arc;
 use uuid::Uuid;
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Builder, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct WorldConfig {
-  id: WorldId,
+  #[builder(start_fn, into)]
   name: WorldName,
+
+  #[builder(skip)]
+  id: WorldId,
+
+  #[serde(default)]
+  #[builder(default)]
   locale: Locale,
+
+  #[serde(default)]
+  #[builder(default)]
   allow_cheats: bool,
+
+  #[serde(default)]
+  #[builder(default)]
+  speed: WorldSpeed,
+
+  #[serde(default)]
+  #[builder(default)]
   bot_density: BotDensity,
+
+  #[serde(default)]
+  #[builder(default)]
   bot_advanced_start_ratio: BotAdvancedStartRatio,
 }
 
@@ -26,6 +45,7 @@ impl WorldConfig {
       name: options.name.clone(),
       locale: options.locale,
       allow_cheats: options.allow_cheats,
+      speed: options.speed,
       bot_density: options.bot_density,
       bot_advanced_start_ratio: options.bot_advanced_start_ratio,
     }
@@ -49,6 +69,11 @@ impl WorldConfig {
   #[inline]
   pub fn are_cheats_allowed(&self) -> bool {
     self.allow_cheats
+  }
+
+  #[inline]
+  pub fn speed(&self) -> WorldSpeed {
+    self.speed
   }
 
   #[inline]
@@ -89,11 +114,11 @@ impl TryFrom<&str> for WorldId {
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct WorldName(Arc<str>);
+pub struct WorldName(Box<str>);
 
 impl<T: AsRef<str>> From<T> for WorldName {
   fn from(value: T) -> Self {
-    Self(Arc::from(value.as_ref()))
+    Self(Box::from(value.as_ref()))
   }
 }
 
@@ -107,45 +132,48 @@ pub enum Locale {
   Portuguese,
 }
 
-#[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize)]
+macro_rules! impl_f64_newtype {
+  ($name:ident, min = $min:expr, max = $max:expr) => {
+    impl $name {
+      pub const MIN: Self = $name($min);
+      pub const MAX: Self = $name($max);
+
+      #[inline]
+      pub const fn new(value: f64) -> Self {
+        debug_assert!(value.is_finite());
+        debug_assert!(!value.is_subnormal());
+        Self(value.clamp(Self::MIN.0, Self::MAX.0))
+      }
+    }
+  };
+  ($name:ident, min = $min:expr, max = $max:expr, default = $default:expr) => {
+    impl_f64_newtype!($name, min = $min, max = $max);
+
+    impl Default for $name {
+      fn default() -> Self {
+        Self::new($default)
+      }
+    }
+  };
+}
+
+#[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize, nil_num::F64Ops)]
+pub struct WorldSpeed(f64);
+
+impl_f64_newtype!(WorldSpeed, min = 0.1, max = 10.0, default = 1.0);
+
+#[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize, nil_num::F64Ops)]
 pub struct BotDensity(f64);
 
-impl BotDensity {
-  pub const MIN: Self = BotDensity(0.0);
-  pub const MAX: Self = BotDensity(3.0);
-
-  #[inline]
-  pub const fn new(density: f64) -> Self {
-    debug_assert!(density.is_finite());
-    debug_assert!(!density.is_subnormal());
-    Self(density.clamp(Self::MIN.0, Self::MAX.0))
-  }
-}
-
-impl Default for BotDensity {
-  fn default() -> Self {
-    if cfg!(target_os = "android") { Self::new(1.0) } else { Self::new(2.0) }
-  }
-}
+impl_f64_newtype!(
+  BotDensity,
+  min = 0.0,
+  max = 3.0,
+  default = if cfg!(target_os = "android") { 1.0 } else { 2.0 }
+);
 
 /// Proportion of bots that will have an advanced start with higher level infrastructure.
-#[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize)]
+#[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize, nil_num::F64Ops)]
 pub struct BotAdvancedStartRatio(f64);
 
-impl BotAdvancedStartRatio {
-  pub const MIN: Self = BotAdvancedStartRatio(0.0);
-  pub const MAX: Self = BotAdvancedStartRatio(1.0);
-
-  #[inline]
-  pub const fn new(ratio: f64) -> Self {
-    debug_assert!(ratio.is_finite());
-    debug_assert!(!ratio.is_subnormal());
-    Self(ratio.clamp(Self::MIN.0, Self::MAX.0))
-  }
-}
-
-impl Default for BotAdvancedStartRatio {
-  fn default() -> Self {
-    Self::new(0.2)
-  }
-}
+impl_f64_newtype!(BotAdvancedStartRatio, min = 0.0, max = 1.0, default = 0.2);

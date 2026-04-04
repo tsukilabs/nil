@@ -16,6 +16,7 @@ use crate::military::squad::Squad;
 use crate::ranking::score::Score;
 use crate::resources::Resources;
 use crate::resources::maintenance::Maintenance;
+use crate::world::config::WorldConfig;
 use bon::Builder;
 use building::academy::recruit_queue::{
   AcademyRecruitOrder,
@@ -162,8 +163,8 @@ impl Infrastructure {
     self.prefecture.build_queue_mut().cancel()
   }
 
-  pub(crate) fn process_prefecture_build_queue(&mut self) {
-    if let Some(orders) = self.prefecture.process_queue() {
+  pub(crate) fn process_prefecture_build_queue(&mut self, config: &WorldConfig) {
+    if let Some(orders) = self.prefecture.process_queue(config) {
       for order in orders {
         let building = self.building_mut(order.building());
         match order.kind() {
@@ -256,10 +257,13 @@ macro_rules! impl_recruitment {
         }
 
         #[must_use]
-        pub(crate) fn [<process_ $building:snake _recruit_queue>](&mut self) -> Option<ArmyPersonnel> {
+        pub(crate) fn [<process_ $building:snake _recruit_queue>](
+          &mut self,
+          config: &WorldConfig
+        ) -> Option<ArmyPersonnel> {
           self
             .[<$building:snake>]
-            .process_queue()?
+            .process_queue(config)?
             .into_iter()
             .map(Squad::from)
             .collect::<ArmyPersonnel>()

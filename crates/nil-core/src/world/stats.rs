@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::infrastructure::stats::InfrastructureStats;
+use crate::world::config::WorldConfig;
 use serde::{Deserialize, Serialize};
 use std::sync::Arc;
 
@@ -11,11 +12,10 @@ pub struct WorldStats {
   pub(super) infrastructure: Arc<InfrastructureStats>,
 }
 
-#[expect(clippy::new_without_default)]
 impl WorldStats {
-  pub fn new() -> Self {
+  pub fn new(config: &WorldConfig) -> Self {
     Self {
-      infrastructure: Arc::new(InfrastructureStats::new()),
+      infrastructure: Arc::new(InfrastructureStats::new(config)),
     }
   }
 

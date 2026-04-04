@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { invoke } from '@tauri-apps/api/core';
-import type { CheatGetPlayerRequest, CheatGetPlayersRequest } from '@/lib/request/cheat/player';
+import type { CheatGetPlayerRequest, CheatGetPlayersRequest } from '@/types/request/cheat/player';
 
 export async function cheatGetPlayer(player?: Option<PlayerId>) {
   const req: CheatGetPlayerRequest = {

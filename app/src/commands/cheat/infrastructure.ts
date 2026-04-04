@@ -23,7 +23,7 @@ import type {
   CheatGetStorageCapacityRequest,
   CheatSetBuildingLevelRequest,
   CheatSetMaxInfrastructureRequest,
-} from '@/lib/request';
+} from '@/types/request';
 
 export async function cheatGetAcademyRecruitQueue(coord?: Option<ContinentKey>) {
   coord = CoordImpl.fromContinentKeyOrCurrentStrict(coord);

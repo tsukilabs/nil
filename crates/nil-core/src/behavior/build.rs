@@ -38,12 +38,13 @@ impl BuildBehavior {
 
 impl Behavior for BuildBehavior {
   fn score(&self, world: &World) -> Result<BehaviorScore> {
+    let config = world.config();
     let infrastructure = world.infrastructure(self.coord)?;
     let max_in_queue = f64::from(Self::MAX_IN_QUEUE);
 
     if let Some(in_queue) = infrastructure
       .prefecture()
-      .turns_in_build_queue()
+      .turns_in_build_queue(&config)
     {
       Ok(BehaviorScore::new(1.0 - (in_queue / max_in_queue)))
     } else {

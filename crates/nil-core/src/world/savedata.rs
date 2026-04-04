@@ -1,6 +1,8 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+use std::sync::Arc;
+
 use crate::error::{Error, Result};
 use crate::event::Emitter;
 use crate::savedata::Savedata;
@@ -25,6 +27,7 @@ impl World {
 
 impl From<&World> for Savedata {
   fn from(world: &World) -> Self {
+    let config = Arc::clone(&world.config);
     Self {
       round: world.round.to_idle(),
       continent: world.continent.clone(),
@@ -34,7 +37,7 @@ impl From<&World> for Savedata {
       military: world.military.clone(),
       ranking: world.ranking.clone(),
       report: world.report.clone(),
-      config: world.config.clone(),
+      config: Arc::unwrap_or_clone(config),
       stats: world.stats.clone(),
       chat: world.chat.clone(),
     }
@@ -52,7 +55,7 @@ impl From<Savedata> for World {
       military: savedata.military,
       ranking: savedata.ranking,
       report: savedata.report,
-      config: savedata.config,
+      config: Arc::new(savedata.config),
       stats: savedata.stats,
       chat: savedata.chat,
 

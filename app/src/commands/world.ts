@@ -16,7 +16,7 @@ import type {
   GetWorldPrecursorsRequest,
   GetWorldStatsRequest,
   SaveLocalWorldRequest,
-} from '@/lib/request';
+} from '@/types/request';
 
 export async function createRemoteWorld(req: Writable<CreateRemoteWorldRequest>) {
   req.description &&= req.description.slice(0, 300);

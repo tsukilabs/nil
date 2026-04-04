@@ -3,7 +3,7 @@
 
 import { toArray } from '@tb-dev/utils';
 import { invoke } from '@tauri-apps/api/core';
-import type { ForwardReportRequest, GetReportRequest, GetReportsRequest } from '@/lib/request';
+import type { ForwardReportRequest, GetReportRequest, GetReportsRequest } from '@/types/request';
 
 export async function forwardReport(id: ReportId, recipient: PlayerId) {
   const req: ForwardReportRequest = {

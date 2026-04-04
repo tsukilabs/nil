@@ -14,11 +14,11 @@ use crate::infrastructure::requirements::InfrastructureRequirements;
 use crate::ranking::score::Score;
 use crate::resources::cost::{Cost, ResourceRatio};
 use crate::resources::maintenance::MaintenanceRatio;
-use crate::resources::workforce::Workforce;
+use crate::resources::workforce::{Workforce, WorkforceSource};
+use crate::world::config::WorldConfig;
 use build_queue::{PrefectureBuildOrder, PrefectureBuildQueue};
 use nil_core_macros::Building;
 use serde::{Deserialize, Serialize};
-use std::ops::Not;
 
 #[derive(Building, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
@@ -60,18 +60,17 @@ impl Prefecture {
   }
 
   #[must_use]
-  pub(crate) fn process_queue(&mut self) -> Option<Vec<PrefectureBuildOrder>> {
+  pub(crate) fn process_queue(
+    &mut self,
+    config: &WorldConfig,
+  ) -> Option<Vec<PrefectureBuildOrder>> {
     if self.enabled {
-      let orders = self.build_queue.process(self.workforce());
-      orders.is_empty().not().then_some(orders)
+      let workforce = self.workforce(config);
+      let orders = self.build_queue.process(workforce);
+      (!orders.is_empty()).then_some(orders)
     } else {
       None
     }
-  }
-
-  #[inline]
-  pub fn workforce(&self) -> Workforce {
-    Workforce::from(self.level)
   }
 
   pub fn resolve_level(&self, building: BuildingId, current_level: BuildingLevel) -> BuildingLevel {
@@ -80,9 +79,9 @@ impl Prefecture {
       .resolve_level(building, current_level)
   }
 
-  pub fn turns_in_build_queue(&self) -> Option<f64> {
+  pub(crate) fn turns_in_build_queue(&self, config: &WorldConfig) -> Option<f64> {
     if self.level > 0u8 {
-      let turn = self.workforce();
+      let turn = self.workforce(config);
       let in_queue = self.build_queue.sum_pending_workforce();
       Some(f64::from(in_queue) / f64::from(turn))
     } else {
@@ -90,6 +89,8 @@ impl Prefecture {
     }
   }
 }
+
+impl WorkforceSource for Prefecture {}
 
 impl Default for Prefecture {
   fn default() -> Self {
