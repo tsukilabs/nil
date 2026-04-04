@@ -29,7 +29,6 @@ const listeners = new ListenerSet();
 listeners.on(setDragDropEventListener());
 
 watchImmediate(() => settings.appearance.colorMode, setColorMode);
-watchImmediate(() => settings.appearance.theme, setTheme);
 watchImmediate(() => settings.general.locale, setLocale);
 
 if (__DESKTOP__) {
@@ -61,10 +60,6 @@ function setColorMode(mode: BasicColorSchema) {
 
 function setLocale(value: Locale) {
   i18n.locale.value = value;
-}
-
-function setTheme() {
-  settings.appearance.setTheme();
 }
 </script>
 

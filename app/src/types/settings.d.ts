@@ -17,7 +17,6 @@ interface AcademySettings {
 
 interface AppearanceSettings {
   colorMode: import('@vueuse/core').BasicColorSchema;
-  theme: Theme;
 }
 
 interface AuthSettings {
@@ -42,16 +41,3 @@ interface StableSettings {
 interface WorkshopSettings {
   hideUnmet: boolean;
 }
-
-type Theme =
-  | 'blue'
-  | 'gray'
-  | 'green'
-  | 'neutral'
-  | 'orange'
-  | 'rose'
-  | 'slate'
-  | 'stone'
-  | 'violet'
-  | 'yellow'
-  | 'zinc';

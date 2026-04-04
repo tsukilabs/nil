@@ -1,23 +1,10 @@
 {
   "appearance": "Aparência",
   "auto-update": "Atualizar automaticamente",
-  "blue": "Azul",
   "dark": "Escuro",
   "general": "Geral",
-  "gray": "Cinza",
-  "green": "Verde",
   "hide-on-close": "Ocultar ao fechar",
   "language": "Idioma",
   "light": "Claro",
-  "mode": "Modo",
-  "neutral": "Neutro",
-  "orange": "Laranja",
-  "red": "Vermelho",
-  "rose": "Rosa",
-  "slate": "Ardósia",
-  "stone": "Rocha",
-  "theme": "Tema",
-  "violet": "Violeta",
-  "yellow": "Amarelo",
-  "zinc": "Zinco"
+  "mode": "Modo"
 }

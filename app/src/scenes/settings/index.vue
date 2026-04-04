@@ -89,29 +89,6 @@ const { sm, md } = useBreakpoints();
                 </SelectContent>
               </Select>
             </Label>
-
-            <Label>
-              <span>{{ t('theme') }}</span>
-              <Select v-model="settings.appearance.theme">
-                <SelectTrigger class="w-full">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="blue">{{ t('blue') }}</SelectItem>
-                  <SelectItem value="gray">{{ t('gray') }}</SelectItem>
-                  <SelectItem value="green">{{ t('green') }}</SelectItem>
-                  <SelectItem value="neutral">{{ t('neutral') }}</SelectItem>
-                  <SelectItem value="red">{{ t('red') }}</SelectItem>
-                  <SelectItem value="rose">{{ t('rose') }}</SelectItem>
-                  <SelectItem value="slate">{{ t('slate') }}</SelectItem>
-                  <SelectItem value="stone">{{ t('stone') }}</SelectItem>
-                  <SelectItem value="orange">{{ t('orange') }}</SelectItem>
-                  <SelectItem value="violet">{{ t('violet') }}</SelectItem>
-                  <SelectItem value="yellow">{{ t('yellow') }}</SelectItem>
-                  <SelectItem value="zinc">{{ t('zinc') }}</SelectItem>
-                </SelectContent>
-              </Select>
-            </Label>
           </div>
         </Section>
       </CardContent>

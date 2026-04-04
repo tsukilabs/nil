@@ -1,23 +1,10 @@
 {
   "appearance": "Appearance",
   "auto-update": "Enable auto update",
-  "blue": "Blue",
   "dark": "Dark",
   "general": "General",
-  "gray": "Gray",
-  "green": "Green",
   "hide-on-close": "Hide on close",
   "language": "Language",
   "light": "Light",
-  "mode": "Mode",
-  "neutral": "Neutral",
-  "orange": "Orange",
-  "red": "Red",
-  "rose": "Rose",
-  "slate": "Slate",
-  "stone": "Stone",
-  "theme": "Theme",
-  "violet": "Violet",
-  "yellow": "Yellow",
-  "zinc": "Zinc"
+  "mode": "Mode"
 }
