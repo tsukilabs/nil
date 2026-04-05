@@ -2,9 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { go } from '@/router';
+import type { RoundId } from '@/types/core/round';
 import { formatToday, fromZoned } from '@/lib/date';
+import type { PlayerId } from '@/types/core/player';
 import type { ComposerTranslation } from 'vue-i18n';
 import enUS from '@/locale/en-US/scenes/game/report.json';
+import type { Report_, ReportId } from '@/types/core/report';
 
 export abstract class ReportImpl implements Report_ {
   public readonly id: ReportId;

@@ -11,6 +11,7 @@ import { handleProcessArgs } from '@/lib/env';
 import Loading from '@/components/Loading.vue';
 import { useSettings } from '@/stores/settings';
 import { ListenerSet } from '@/lib/listener-set';
+import type { Locale } from '@/types/core/world';
 import { setDragDropEventListener } from '@/lib/event';
 import { type as osType } from '@tauri-apps/plugin-os';
 import { createTrayIcon, showWindow } from '@/commands';

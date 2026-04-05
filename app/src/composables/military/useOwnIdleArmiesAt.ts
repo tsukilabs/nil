@@ -5,6 +5,7 @@ import { computed } from 'vue';
 import type { MaybeNilRef } from '@tb-dev/vue';
 import { toContinentKeyRef } from '@/composables/toRef';
 import type { ArmyImpl } from '@/core/model/military/army';
+import type { ContinentKey } from '@/types/core/continent';
 
 export function useOwnIdleArmiesAt(key?: MaybeNilRef<ContinentKey>) {
   const keyRef = toContinentKeyRef(key);

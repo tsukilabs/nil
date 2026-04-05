@@ -1,6 +1,10 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { MineId } from '@/types/core/infrastructure/mine';
+import type { StorageId } from '@/types/core/infrastructure/storage';
+import type { InfrastructureStats } from '@/types/core/infrastructure';
+import type { BuildingId } from '@/types/core/infrastructure/building';
 import { MineStatsTableImpl, type RawMineStatsTable } from './mine-stats-table';
 import { type RawStorageStatsTable, StorageStatsTableImpl } from './storage-stats-table';
 import { BuildingStatsTableImpl, type RawBuildingStatsTable } from './building-stats-table';

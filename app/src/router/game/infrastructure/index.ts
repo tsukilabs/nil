@@ -6,6 +6,7 @@ import { academyRoutes } from './academy';
 import { workshopRoutes } from './workshop';
 import { prefectureRoutes } from './prefecture';
 import type { RouteRecordRaw } from 'vue-router';
+import type { InfrastructureScene } from '@/types/scene/game/infrastructure';
 
 export const infrastructureRoutes: RouteRecordRaw[] = [
   {

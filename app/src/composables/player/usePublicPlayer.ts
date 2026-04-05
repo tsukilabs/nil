@@ -3,6 +3,7 @@
 
 import { asyncRef } from '@tb-dev/vue';
 import { computed, toRef, watch } from 'vue';
+import type { PlayerId } from '@/types/core/player';
 import { PublicPlayerImpl } from '@/core/model/player/public-player';
 
 export function usePublicPlayer(id: MaybeNilRef<PlayerId>) {

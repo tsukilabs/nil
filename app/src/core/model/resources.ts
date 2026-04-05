@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { toU32 } from '@/lib/number';
+import type { Resources } from '@/types/core/resources';
 
 export class ResourcesImpl implements Resources {
   public readonly food: number;

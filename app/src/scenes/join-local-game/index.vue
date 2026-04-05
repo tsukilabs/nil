@@ -9,6 +9,8 @@ import { useRouter } from 'vue-router';
 import { joinLocalGame } from '@/core/game';
 import { isPlayerOptions } from '@/lib/schema';
 import { SocketAddrV4 } from '@/lib/net/addr-v4';
+import type { ServerAddr } from '@/types/server';
+import type { PlayerOptions } from '@/types/core/player';
 import { localRef, useBreakpoints, useMutex } from '@tb-dev/vue';
 import InputPlayerName from '@/components/form/InputPlayerName.vue';
 import type { WithPartialNullish, WritablePartial } from '@tb-dev/utils';
@@ -62,12 +64,12 @@ function key(name: string) {
 
 <template>
   <div :class="md ? 'card-layout' : 'game-layout'">
-    <Card class="max-md:size-full md:max-h-9/10 overflow-hidden">
+    <Card class="max-md:size-full md:max-h-[95%] overflow-hidden">
       <CardHeader>
         <CardTitle>{{ t('join-game') }}</CardTitle>
       </CardHeader>
 
-      <CardContent class="size-full flex flex-col gap-2 max-md:px-2 overflow-x-hidden overflow-y-auto">
+      <CardContent class="card-form">
         <InputPlayerName v-model="playerOptions.id" :disabled="locked" />
         <InputServerAddress v-model="server" :disabled="locked" />
       </CardContent>

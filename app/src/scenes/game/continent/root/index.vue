@@ -8,6 +8,7 @@ import { until } from '@vueuse/core';
 import { useRoute } from 'vue-router';
 import Navigation from './Navigation.vue';
 import { Card, CardContent } from '@ui/card';
+import type { GameScene } from '@/types/scene/game';
 import { CoordImpl } from '@/core/model/continent/coord';
 import { useBreakpoints, useElementSize } from '@tb-dev/vue';
 import { useContinent } from '@/composables/continent/useContinent';

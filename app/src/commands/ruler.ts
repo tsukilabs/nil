@@ -1,6 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { Ruler } from '@/types/core/ruler';
 import { getBotCoords } from '@/commands/npc/bot';
 import { getPlayerCoords } from '@/commands/player';
 import { getPrecursorCoords } from '@/commands/npc/precursor';

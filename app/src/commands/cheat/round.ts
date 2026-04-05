@@ -3,7 +3,7 @@
 
 import { toNonZeroU8 } from '@/lib/number';
 import { invoke } from '@tauri-apps/api/core';
-import type { CheatSkipRoundRequest } from '@/types/request';
+import type { CheatSkipRoundRequest } from '@/types/request/cheat/round';
 
 export async function cheatSkipRound(amount?: Option<number>) {
   amount = toNonZeroU8(amount ?? 1);

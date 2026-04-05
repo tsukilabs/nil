@@ -4,6 +4,8 @@
 import { go } from '@/router';
 import { getRank } from '@/commands';
 import { formatInt } from '@/lib/intl';
+import type { Ruler } from '@/types/core/ruler';
+import type { RankingEntry } from '@/types/core/ranking';
 
 export class RankingEntryImpl implements RankingEntry {
   public readonly rank: number;

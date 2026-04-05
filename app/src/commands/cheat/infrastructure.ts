@@ -4,11 +4,22 @@
 import { toU8 } from '@/lib/number';
 import { invoke } from '@tauri-apps/api/core';
 import { getCityOwner } from '@/commands/city';
+import type { Ruler } from '@/types/core/ruler';
 import { getBotCoords } from '@/commands/npc/bot';
 import { getRulerCoords } from '@/commands/ruler';
+import type { BotId } from '@/types/core/npc/bot';
 import { getPlayerCoords } from '@/commands/player';
+import type { PlayerId } from '@/types/core/player';
 import { CoordImpl } from '@/core/model/continent/coord';
 import { getPrecursorCoords } from '@/commands/npc/precursor';
+import type { PrecursorId } from '@/types/core/npc/precursor';
+import type { ContinentKey, Coord } from '@/types/core/continent';
+import type { Infrastructure } from '@/types/core/infrastructure';
+import type { StableRecruitQueue } from '@/types/core/infrastructure/stable';
+import type { AcademyRecruitQueue } from '@/types/core/infrastructure/academy';
+import type { OverallStorageCapacity } from '@/types/core/infrastructure/storage';
+import type { PrefectureBuildQueue } from '@/types/core/infrastructure/prefecture';
+import type { BuildingId, BuildingLevel } from '@/types/core/infrastructure/building';
 import type {
   CheatGetAcademyRecruitQueueRequest,
   CheatGetAcademyRecruitQueuesRequest,
@@ -23,7 +34,7 @@ import type {
   CheatGetStorageCapacityRequest,
   CheatSetBuildingLevelRequest,
   CheatSetMaxInfrastructureRequest,
-} from '@/types/request';
+} from '@/types/request/cheat/infrastructure';
 
 export async function cheatGetAcademyRecruitQueue(coord?: Option<ContinentKey>) {
   coord = CoordImpl.fromContinentKeyOrCurrentStrict(coord);

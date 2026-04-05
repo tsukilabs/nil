@@ -5,6 +5,7 @@
 import { Label } from '@ui/label';
 import { useI18n } from 'vue-i18n';
 import { formatInt } from '@/lib/intl';
+import type { Squad } from '@/types/core/military/squad';
 import { NumberField, NumberFieldContent, NumberFieldInput } from '@ui/number-field';
 
 const props = defineProps<{

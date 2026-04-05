@@ -3,7 +3,9 @@
 
 import { invoke } from '@tauri-apps/api/core';
 import { CoordImpl } from '@/core/model/continent/coord';
-import type { GetPublicCityResponse } from '@/types/response';
+import type { City, PublicCity } from '@/types/core/city';
+import type { GetPublicCityResponse } from '@/types/response/city';
+import type { CitySearch, ContinentKey } from '@/types/core/continent';
 import type {
   GetCityRequest,
   GetCityScoreRequest,
@@ -12,7 +14,7 @@ import type {
   RenameCityRequest,
   SearchCityRequest,
   SearchPublicCityRequest,
-} from '@/types/request';
+} from '@/types/request/city';
 
 export async function getCity(coord: ContinentKey) {
   coord = CoordImpl.fromContinentKey(coord);

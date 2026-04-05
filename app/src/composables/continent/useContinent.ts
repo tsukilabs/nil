@@ -4,6 +4,7 @@
 import { nextMultipleOf } from '@/lib/math';
 import { ListenerSet } from '@/lib/listener-set';
 import { tryOnScopeDispose } from '@vueuse/core';
+import type { Coord } from '@/types/core/continent';
 import { CoordImpl } from '@/core/model/continent/coord';
 import { PublicFieldImpl } from '@/core/model/continent/public-field';
 import { computed, ref, type Ref, shallowRef, triggerRef } from 'vue';

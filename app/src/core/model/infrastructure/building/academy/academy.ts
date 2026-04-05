@@ -3,6 +3,9 @@
 
 import { BuildingImpl } from '../abstract';
 import { AcademyRecruitQueueImpl } from './recruit-queue';
+import type { Academy } from '@/types/core/infrastructure/academy';
+import type { BuildingId } from '@/types/core/infrastructure/building';
+import type { InfrastructureQueueOrderId } from '@/types/core/infrastructure/queue';
 
 export class AcademyImpl extends BuildingImpl implements Academy {
   public readonly id: BuildingId = 'academy';

@@ -5,6 +5,7 @@ import { computed } from 'vue';
 import * as commands from '@/commands';
 import { asyncComputed } from '@tb-dev/vue';
 import { useSettings } from '@/stores/settings';
+import type { PlayerId } from '@/types/core/player';
 
 export function useToken() {
   const settings = useSettings();

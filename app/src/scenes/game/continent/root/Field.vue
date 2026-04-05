@@ -4,6 +4,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import FieldCity from './FieldCity.vue';
+import type { Coord } from '@/types/core/continent';
 import type { PublicFieldImpl } from '@/core/model/continent/public-field';
 
 const props = defineProps<{

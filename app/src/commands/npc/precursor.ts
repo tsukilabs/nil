@@ -2,11 +2,13 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { invoke } from '@tauri-apps/api/core';
+import type { Coord } from '@/types/core/continent';
+import type { PrecursorId, PublicPrecursor } from '@/types/core/npc/precursor';
 import type {
   GetPrecursorCoordsRequest,
   GetPublicPrecursorRequest,
   GetPublicPrecursorsRequest,
-} from '@/types/request';
+} from '@/types/request/npc/precursor';
 
 export async function getPrecursorCoords(id: PrecursorId) {
   const req: GetPrecursorCoordsRequest = {

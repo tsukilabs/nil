@@ -3,6 +3,7 @@
 
 import { shallowRef, toRef } from 'vue';
 import { watchImmediate } from '@vueuse/core';
+import type { Ruler, RulerKind } from '@/types/core/ruler';
 import { PublicBotImpl } from '@/core/model/npc/public-bot';
 import { PublicPlayerImpl } from '@/core/model/player/public-player';
 import { PublicPrecursorImpl } from '@/core/model/npc/public-precursor';

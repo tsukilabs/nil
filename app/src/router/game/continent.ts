@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { RouteRecordRaw } from 'vue-router';
+import type { ContinentScene } from '@/types/scene/game';
 
 export const continentRoutes: RouteRecordRaw[] = [
   {

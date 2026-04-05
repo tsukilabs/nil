@@ -5,9 +5,10 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { Button } from '@ui/button';
-import { formatInt } from '@/lib/intl';
+import type { Coord } from '@/types/core/continent';
 import enUS from '@/locale/en-US/scenes/game/continent.json';
 import ptBR from '@/locale/pt-BR/scenes/game/continent.json';
+import type { PrecursorId } from '@/types/core/npc/precursor';
 import { usePublicCity } from '@/composables/city/usePublicCity';
 import type { PublicFieldImpl } from '@/core/model/continent/public-field';
 import { Table, TableBody, TableCell, TableHead, TableRow } from '@ui/table';
@@ -94,7 +95,7 @@ function getPrecursorColor(id: PrecursorId) {
 
               <TableRow>
                 <TableHead>{{ t('point', 2) }}</TableHead>
-                <TableCell>{{ formatInt(city.score) }}</TableCell>
+                <TableCell>{{ city.score }}</TableCell>
               </TableRow>
 
               <TableRow>

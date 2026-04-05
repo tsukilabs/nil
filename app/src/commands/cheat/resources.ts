@@ -4,7 +4,13 @@
 import { toU32 } from '@/lib/number';
 import { invoke } from '@tauri-apps/api/core';
 import { getCityOwner } from '@/commands/city';
+import type { Ruler } from '@/types/core/ruler';
+import type { BotId } from '@/types/core/npc/bot';
+import type { PlayerId } from '@/types/core/player';
 import { ResourcesImpl } from '@/core/model/resources';
+import type { Resources } from '@/types/core/resources';
+import type { ContinentKey } from '@/types/core/continent';
+import type { PrecursorId } from '@/types/core/npc/precursor';
 import type {
   CheatGetResourcesRequest,
   CheatSetFoodRequest,
@@ -19,7 +25,7 @@ import type {
   CheatSetResourcesRequest,
   CheatSetStoneRequest,
   CheatSetWoodRequest,
-} from '@/types/request';
+} from '@/types/request/cheat/resources';
 
 export async function cheatGetResources(ruler?: Option<Ruler>) {
   const req: CheatGetResourcesRequest = {

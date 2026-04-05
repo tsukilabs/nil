@@ -4,6 +4,7 @@
 <script setup lang="ts">
 import { formatInt } from '@/lib/intl';
 import { TableCell, TableHead, TableRow } from '@ui/table';
+import type { ArmyPersonnel } from '@/types/core/military/army';
 
 defineProps<{
   head: string;

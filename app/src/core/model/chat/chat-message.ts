@@ -3,6 +3,13 @@
 
 import { formatToday, fromZoned } from '@/lib/date';
 import { compareAsc as compareDateAsc } from 'date-fns';
+import type {
+  ChatMessage,
+  ChatMessageAuthor,
+  ChatMessageContent,
+  ChatMessageId,
+  ChatMessageKind,
+} from '@/types/core/chat';
 
 export class ChatMessageImpl implements ChatMessage {
   public readonly id: ChatMessageId;

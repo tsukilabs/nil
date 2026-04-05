@@ -15,6 +15,7 @@ import Loading from '@/components/Loading.vue';
 import { isValidPassword } from '@/lib/schema';
 import { useRouteQuery } from '@vueuse/router';
 import { useSettings } from '@/stores/settings';
+import type { WorldId } from '@/types/core/world';
 import enUS from '@/locale/en-US/scenes/online.json';
 import ptBR from '@/locale/pt-BR/scenes/online.json';
 import { useToken } from '@/composables/auth/useToken';
@@ -80,7 +81,7 @@ async function deleteGame() {
 <template>
   <div :class="md ? 'card-layout' : 'game-layout'">
     <Loading v-if="loading" />
-    <Card v-else-if="remoteWorld" class="max-md:size-full md:min-w-150! md:max-w-1/2 md:max-h-9/10 overflow-hidden">
+    <Card v-else-if="remoteWorld" class="max-md:size-full md:min-w-150! md:max-w-1/2 md:max-h-[95%] overflow-hidden">
       <CardHeader>
         <CardTitle>
           <div class="flex items-center justify-between">

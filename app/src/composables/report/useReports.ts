@@ -4,8 +4,11 @@
 import type { Ref } from 'vue';
 import * as commands from '@/commands';
 import { asyncRef } from '@tb-dev/vue';
+import type { PublicCity } from '@/types/core/city';
 import { CoordImpl } from '@/core/model/continent/coord';
 import type { ReportImpl } from '@/core/model/report/abstract';
+import type { ReportId, ReportKind } from '@/types/core/report';
+import type { ContinentIndex, Coord } from '@/types/core/continent';
 import { BattleReportImpl } from '@/core/model/report/battle-report';
 import { SupportReportImpl } from '@/core/model/report/support-report';
 

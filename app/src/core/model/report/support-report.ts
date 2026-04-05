@@ -1,9 +1,14 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { Ruler } from '@/types/core/ruler';
 import { getPublicCities } from '@/commands/city';
+import type { PublicCity } from '@/types/core/city';
+import type { Coord } from '@/types/core/continent';
+import type { PlayerId } from '@/types/core/player';
 import type { ComposerTranslation } from 'vue-i18n';
 import { CoordImpl } from '@/core/model/continent/coord';
+import type { SupportReport } from '@/types/core/report';
 import { ReportImpl } from '@/core/model/report/abstract';
 import enUS from '@/locale/en-US/scenes/game/report.json';
 import { ArmyPersonnelImpl } from '@/core/model/military/army-personnel';

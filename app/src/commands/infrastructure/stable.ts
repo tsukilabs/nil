@@ -2,11 +2,17 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { invoke } from '@tauri-apps/api/core';
+import type { Coord } from '@/types/core/continent';
+import type { InfrastructureQueueOrderId } from '@/types/core/infrastructure/queue';
+import type {
+  StableRecruitCatalog,
+  StableRecruitOrderRequest,
+} from '@/types/core/infrastructure/stable';
 import type {
   AddStableRecruitOrderRequest,
   CancelStableRecruitOrderRequest,
   GetStableRecruitCatalogRequest,
-} from '@/types/request';
+} from '@/types/request/infrastructure/stable';
 
 export async function addStableRecruitOrder(request: StableRecruitOrderRequest) {
   const req: AddStableRecruitOrderRequest = {

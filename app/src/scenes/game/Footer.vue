@@ -6,6 +6,7 @@ import Resources from './Resources.vue';
 import FooterChat from './FooterChat.vue';
 import Unread from '@/components/Unread.vue';
 import { useBreakpoints } from '@tb-dev/vue';
+import type { GameScene } from '@/types/scene/game';
 import ButtonIcon from '@/components/button/ButtonIcon.vue';
 import { EarthIcon, ScrollTextIcon, SwordsIcon } from '@lucide/vue';
 

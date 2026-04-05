@@ -3,6 +3,9 @@
 
 import { BuildingImpl } from '../abstract';
 import { StableRecruitQueueImpl } from './recruit-queue';
+import type { Stable } from '@/types/core/infrastructure/stable';
+import type { BuildingId } from '@/types/core/infrastructure/building';
+import type { InfrastructureQueueOrderId } from '@/types/core/infrastructure/queue';
 
 export class StableImpl extends BuildingImpl implements Stable {
   public readonly id: BuildingId = 'stable';

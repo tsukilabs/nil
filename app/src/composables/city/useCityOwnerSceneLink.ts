@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { computed, toRef } from 'vue';
+import type { Ruler } from '@/types/core/ruler';
+import type { ProfileScene } from '@/types/scene/game';
 import type { RouteLocationAsRelative } from 'vue-router';
 
 export function useCityOwnerSceneLink(owner: MaybeNilRef<Ruler>) {

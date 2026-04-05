@@ -1,10 +1,9 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-export type * from './stable';
-export type * from './academy';
-export type * from './workshop';
-export type * from './prefecture';
+import type { WorldId } from '@/types/core/world';
+import type { Coord } from '@/types/core/continent';
+import type { BuildingId } from '@/types/core/infrastructure/building';
 
 export interface ToggleBuildingRequest {
   readonly world: WorldId;

@@ -5,6 +5,9 @@ import { shallowRef } from 'vue';
 import { useMutex } from '@tb-dev/vue';
 import { toCoordRef } from '@/composables/toRef';
 import type { CoordImpl } from '@/core/model/continent/coord';
+import type { AcademyUnitId } from '@/types/core/military/unit';
+import type { AcademyRecruitCatalog } from '@/types/core/infrastructure/academy';
+import type { InfrastructureQueueOrderId } from '@/types/core/infrastructure/queue';
 import {
   addAcademyRecruitOrder,
   cancelAcademyRecruitOrder,

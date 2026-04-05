@@ -12,6 +12,7 @@ import { StableImpl } from './building/stable/stable';
 import { AcademyImpl } from './building/academy/academy';
 import { WorkshopImpl } from './building/workshop/workshop';
 import { PrefectureImpl } from './building/prefecture/prefecture';
+import type { Infrastructure } from '@/types/core/infrastructure';
 
 export class InfrastructureImpl implements Infrastructure {
   public readonly academy: AcademyImpl;

@@ -4,9 +4,13 @@
 <script setup lang="ts">
 import { Badge } from '@ui/badge';
 import { useI18n } from 'vue-i18n';
+import type { Ruler } from '@/types/core/ruler';
+import type { PublicCity } from '@/types/core/city';
+import type { BattleWinner } from '@/types/core/battle';
 import { CoordImpl } from '@/core/model/continent/coord';
 import enUS from '@/locale/en-US/scenes/game/report.json';
 import ptBR from '@/locale/pt-BR/scenes/game/report.json';
+import type { ArmyPersonnel } from '@/types/core/military/army';
 import { Table, TableBody, TableCell, TableHead, TableRow } from '@ui/table';
 import { useCityOwnerSceneLink } from '@/composables/city/useCityOwnerSceneLink';
 import { useCityProfileSceneLink } from '@/composables/city/useCityProfileSceneLink';

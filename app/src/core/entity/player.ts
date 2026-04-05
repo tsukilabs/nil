@@ -5,7 +5,9 @@ import { Entity } from './abstract';
 import { ref, type Ref } from 'vue';
 import { asyncRef } from '@tb-dev/vue';
 import { type Option, panic } from '@tb-dev/utils';
+import type { PlayerId } from '@/types/core/player';
 import { PlayerImpl } from '@/core/model/player/player';
+import type { PlayerUpdatedPayload } from '@/types/core/event';
 
 export class PlayerEntity extends Entity {
   private readonly id = ref<Option<PlayerId>>();

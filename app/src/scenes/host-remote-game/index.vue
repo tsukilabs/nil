@@ -11,6 +11,7 @@ import { useRouter } from 'vue-router';
 import { hostRemoteGame } from '@/core/game';
 import { toMerged } from 'es-toolkit/object';
 import { useSettings } from '@/stores/settings';
+import type { WorldOptions } from '@/types/core/world';
 import enUS_online from '@/locale/en-US/scenes/online.json';
 import ptBR_online from '@/locale/pt-BR/scenes/online.json';
 import enUS_hostGame from '@/locale/en-US/scenes/host-game.json';
@@ -94,12 +95,12 @@ function key(name: string) {
 
 <template>
   <div :class="md ? 'card-layout' : 'game-layout'">
-    <Card class="max-md:size-full md:min-w-150! md:max-w-1/2 md:max-h-9/10 overflow-hidden">
+    <Card class="max-md:size-full md:min-w-150! md:max-w-1/2 md:max-h-[95%] overflow-hidden">
       <CardHeader>
         <CardTitle>{{ t('host-game') }}</CardTitle>
       </CardHeader>
 
-      <CardContent class="size-full overflow-x-hidden overflow-y-auto">
+      <CardContent class="card-form">
         <InputWorldName v-model="worldOptions.name" :disabled="locked" />
         <InputWorldSize v-model="worldOptions.size" :disabled="locked" />
         <InputWorldPassword v-model="worldPassword" :disabled="locked" />

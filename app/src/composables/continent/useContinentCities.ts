@@ -6,6 +6,7 @@ import { compare } from '@/lib/intl';
 import { asyncRef } from '@tb-dev/vue';
 import { getBulkDistance } from '@/commands/continent';
 import { CoordImpl } from '@/core/model/continent/coord';
+import type { ContinentKey } from '@/types/core/continent';
 import { PublicCityImpl, type PublicCityImplConstructorArgs } from '@/core/model/city/public-city';
 
 class ContinentCity extends PublicCityImpl {

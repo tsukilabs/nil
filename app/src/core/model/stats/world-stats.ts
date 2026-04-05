@@ -1,6 +1,8 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { WorldStats } from '@/types/core/world';
+import type { BuildingId } from '@/types/core/infrastructure/building';
 import { InfrastructureStatsImpl, type RawInfrastructureStats } from './infrastructure-stats';
 
 export class WorldStatsImpl implements WorldStats {

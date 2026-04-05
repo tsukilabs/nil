@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { MineStatsImpl } from '@/core/model/stats/mine-stats';
+import type { BuildingLevel } from '@/types/core/infrastructure/building';
+import type { MineId, MineStats, MineStatsTable } from '@/types/core/infrastructure/mine';
 
 export class MineStatsTableImpl implements MineStatsTable {
   public readonly id: MineId;

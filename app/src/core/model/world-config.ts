@@ -1,6 +1,16 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type {
+  BotAdvancedStartRatio,
+  BotDensity,
+  Locale,
+  WorldConfig,
+  WorldId,
+  WorldSpeed,
+  WorldUnitSpeed,
+} from '@/types/core/world';
+
 export class WorldConfigImpl implements WorldConfig {
   public readonly id: WorldId;
   public readonly name: string;

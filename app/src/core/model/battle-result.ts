@@ -3,7 +3,10 @@
 
 import { toI8 } from '@/lib/number';
 import { simulateBattle } from '@/commands/battle';
+import type { ArmyPersonnel } from '@/types/core/military/army';
 import { ArmyPersonnelImpl } from '@/core/model/military/army-personnel';
+import type { BattleResult, BattleWinner, Luck } from '@/types/core/battle';
+import type { BuildingLevel, BuildingLevelDiff } from '@/types/core/infrastructure/building';
 
 export class BattleResultImpl implements BattleResult {
   public readonly winner: BattleWinner;

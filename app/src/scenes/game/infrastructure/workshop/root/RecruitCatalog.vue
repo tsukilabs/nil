@@ -6,9 +6,11 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useBreakpoints } from '@tb-dev/vue';
 import RecruitCatalogRow from './RecruitCatalogRow.vue';
+import type { WorkshopUnitId } from '@/types/core/military/unit';
 import { usePlayerTurn } from '@/composables/player/usePlayerTurn';
 import { usePlayerResources } from '@/composables/player/usePlayerResources';
 import { Table, TableBody, TableHead, TableHeader, TableRow } from '@ui/table';
+import type { WorkshopRecruitCatalog } from '@/types/core/infrastructure/workshop';
 import type { WorkshopImpl } from '@/core/model/infrastructure/building/workshop/workshop';
 
 const props = defineProps<{

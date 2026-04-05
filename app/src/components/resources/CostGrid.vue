@@ -8,6 +8,7 @@ import Wood from './Wood.vue';
 import Stone from './Stone.vue';
 import type { ClassValue } from 'clsx';
 import Workforce from './Workforce.vue';
+import type { Resources } from '@/types/core/resources';
 
 defineProps<{
   resources: Resources;

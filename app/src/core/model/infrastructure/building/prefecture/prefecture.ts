@@ -3,6 +3,9 @@
 
 import { BuildingImpl } from '../abstract';
 import { PrefectureBuildQueueImpl } from './build-queue';
+import type { BuildingId } from '@/types/core/infrastructure/building';
+import type { Prefecture } from '@/types/core/infrastructure/prefecture';
+import type { InfrastructureQueueOrderId } from '@/types/core/infrastructure/queue';
 
 export class PrefectureImpl extends BuildingImpl implements Prefecture {
   public readonly id: BuildingId = 'prefecture';

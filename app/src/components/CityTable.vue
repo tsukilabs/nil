@@ -6,6 +6,7 @@ import { useI18n } from 'vue-i18n';
 import { computed, ref } from 'vue';
 import { PLACEHOLDER } from '@/lib/string';
 import { compare, formatInt } from '@/lib/intl';
+import type { Coord } from '@/types/core/continent';
 import type { PublicCityImpl } from '@/core/model/city/public-city';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@ui/table';
 

@@ -3,6 +3,9 @@
 
 import { BuildingImpl } from '../abstract';
 import { WorkshopRecruitQueueImpl } from './recruit-queue';
+import type { Workshop } from '@/types/core/infrastructure/workshop';
+import type { BuildingId } from '@/types/core/infrastructure/building';
+import type { InfrastructureQueueOrderId } from '@/types/core/infrastructure/queue';
 
 export class WorkshopImpl extends BuildingImpl implements Workshop {
   public readonly id: BuildingId = 'workshop';

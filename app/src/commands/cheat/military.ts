@@ -2,14 +2,19 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { invoke } from '@tauri-apps/api/core';
+import type { Ruler } from '@/types/core/ruler';
 import { SquadImpl } from '@/core/model/military/squad';
 import { CoordImpl } from '@/core/model/continent/coord';
+import type { UnitId } from '@/types/core/military/unit';
+import type { ContinentKey } from '@/types/core/continent';
+import type { Squad, SquadTuple } from '@/types/core/military/squad';
+import type { Army, ArmyPersonnel } from '@/types/core/military/army';
 import { ArmyPersonnelImpl } from '@/core/model/military/army-personnel';
 import type {
   CheatGetIdleArmiesAtRequest,
   CheatGetIdlePersonnelAtRequest,
   CheatSpawnPersonnelRequest,
-} from '@/types/request';
+} from '@/types/request/cheat/military';
 
 export async function cheatGetIdleArmiesAt(coord?: Option<ContinentKey>) {
   coord = CoordImpl.fromContinentKeyOrCurrentStrict(coord);

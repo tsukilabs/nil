@@ -3,6 +3,12 @@
 
 import { SquadImpl } from './squad';
 import { toU32 } from '@/lib/number';
+import type { Squad, SquadTuple } from '@/types/core/military/squad';
+import type {
+  ArmyPersonnel,
+  ArmyPersonnelSize,
+  WritableArmyPersonnel,
+} from '@/types/core/military/army';
 
 export class ArmyPersonnelImpl implements ArmyPersonnel {
   public readonly archer: SquadImpl;

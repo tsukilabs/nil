@@ -11,8 +11,10 @@ import { Switch } from '@ui/switch';
 import { useRouter } from 'vue-router';
 import { hostLocalGame } from '@/core/game';
 import { useSettings } from '@/stores/settings';
+import type { WorldOptions } from '@/types/core/world';
 import enUS from '@/locale/en-US/scenes/host-game.json';
 import ptBR from '@/locale/pt-BR/scenes/host-game.json';
+import type { PlayerOptions } from '@/types/core/player';
 import { isPlayerOptions, isWorldOptions } from '@/lib/schema';
 import { localRef, useBreakpoints, useMutex } from '@tb-dev/vue';
 import InputWorldName from '@/components/form/InputWorldName.vue';
@@ -82,12 +84,12 @@ function key(name: string) {
 
 <template>
   <div :class="md ? 'card-layout' : 'game-layout'">
-    <Card class="max-md:size-full md:max-h-9/10 overflow-hidden">
+    <Card class="max-md:size-full md:max-h-[95%] overflow-hidden">
       <CardHeader>
         <CardTitle>{{ t('host-game') }}</CardTitle>
       </CardHeader>
 
-      <CardContent class="size-full flex flex-col gap-2 max-md:px-2 overflow-x-hidden overflow-y-auto">
+      <CardContent class="card-form">
         <InputWorldName v-model="worldOptions.name" :disabled="locked" />
         <InputWorldSize v-model="worldOptions.size" :disabled="locked" />
         <InputPlayerName v-model="playerOptions.id" :disabled="locked" />

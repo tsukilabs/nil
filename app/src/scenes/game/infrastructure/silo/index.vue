@@ -4,6 +4,7 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import { formatInt } from '@/lib/intl';
+import Food from '@/components/resources/Food.vue';
 import { useSilo } from '@/composables/infrastructure/useBuilding';
 import { Card, CardContent, CardHeader, CardTitle } from '@ui/card';
 import enUS from '@/locale/en-US/scenes/game/infrastructure/storage.json';

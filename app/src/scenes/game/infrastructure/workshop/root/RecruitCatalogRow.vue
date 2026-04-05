@@ -9,6 +9,8 @@ import { useSettings } from '@/stores/settings';
 import { TableCell, TableRow } from '@ui/table';
 import { ResourcesImpl } from '@/core/model/resources';
 import CostGrid from '@/components/resources/CostGrid.vue';
+import type { WorkshopUnitId } from '@/types/core/military/unit';
+import type { WorkshopRecruitCatalogEntry } from '@/types/core/infrastructure/workshop';
 import type { WorkshopImpl } from '@/core/model/infrastructure/building/workshop/workshop';
 import { useRecruitCatalogEntry } from '@/composables/infrastructure/useRecruitCatalogEntry';
 import RecruitCatalogRowAction from '@/components/infrastructure/RecruitCatalogRowAction.vue';

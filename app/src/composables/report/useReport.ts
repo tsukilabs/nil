@@ -5,6 +5,7 @@ import { toRef, watch } from 'vue';
 import { asyncRef } from '@tb-dev/vue';
 import { getReport } from '@/commands/report';
 import type { ReportImpl } from '@/core/model/report/abstract';
+import type { ReportId, ReportKind } from '@/types/core/report';
 import { BattleReportImpl } from '@/core/model/report/battle-report';
 import { SupportReportImpl } from '@/core/model/report/support-report';
 

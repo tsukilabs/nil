@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { RouteRecordRaw } from 'vue-router';
+import type { WarRoomScene } from '@/types/scene/game';
 
 export const QUERY_WAR_ROOM_ORIGIN_X = 'originX';
 export const QUERY_WAR_ROOM_ORIGIN_Y = 'originY';

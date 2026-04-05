@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { WallStatsImpl } from '@/core/model/stats/wall-stats';
+import type { BuildingLevel } from '@/types/core/infrastructure/building';
+import type { WallStats, WallStatsTable } from '@/types/core/infrastructure/wall';
 
 export class WallStatsTableImpl implements WallStatsTable {
   public readonly table: ReadonlyMap<BuildingLevel, WallStatsImpl>;

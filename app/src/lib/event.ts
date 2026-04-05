@@ -6,6 +6,17 @@ import { handleError } from '@/lib/error';
 import { SavedataFile } from '@/core/savedata';
 import type { Fn, MaybePromise, Option } from '@tb-dev/utils';
 import { getCurrentWebviewWindow, type WebviewWindow } from '@tauri-apps/api/webviewWindow';
+import type {
+  ChatUpdatedPayload,
+  CityUpdatedPayload,
+  DropPayload,
+  EventPayload,
+  MilitaryUpdatedPayload,
+  PlayerUpdatedPayload,
+  PublicCityUpdatedPayload,
+  ReportPayload,
+  RoundUpdatedPayload,
+} from '@/types/core/event';
 
 export type ListenerFn<T> = (payload: T) => MaybePromise<unknown>;
 

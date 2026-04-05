@@ -3,6 +3,7 @@
 
 import { asyncRef } from '@tb-dev/vue';
 import { computed, toRef, watch } from 'vue';
+import type { PrecursorId } from '@/types/core/npc/precursor';
 import { PublicPrecursorImpl } from '@/core/model/npc/public-precursor';
 
 export function usePublicPrecursor(id: MaybeNilRef<PrecursorId>) {

@@ -3,7 +3,10 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
+import type { Luck } from '@/types/core/battle';
 import PersonnelTableRow from './PersonnelTableRow.vue';
+import type { ArmyPersonnel } from '@/types/core/military/army';
+import type { BuildingLevel } from '@/types/core/infrastructure/building';
 import { NumberField, NumberFieldContent, NumberFieldInput } from '@ui/number-field';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@ui/table';
 

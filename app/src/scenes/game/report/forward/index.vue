@@ -11,6 +11,9 @@ import { useRouteParams } from '@vueuse/router';
 import { useRoute, useRouter } from 'vue-router';
 import { forwardReport } from '@/commands/report';
 import { toBooleanCheckboxValue } from '@ui/utils';
+import type { PlayerId } from '@/types/core/player';
+import type { ReportId } from '@/types/core/report';
+import type { ReportScene } from '@/types/scene/game';
 import { useBreakpoints, useMutex } from '@tb-dev/vue';
 import { useReport } from '@/composables/report/useReport';
 import { usePlayerIds } from '@/composables/player/usePlayerIds';
@@ -81,7 +84,7 @@ function clear() {
 
 <template>
   <div :class="md ? 'card-layout' : 'game-layout'">
-    <Card class="max-md:size-full md:max-h-9/10 overflow-hidden">
+    <Card class="max-md:size-full md:max-h-[95%] overflow-hidden">
       <CardHeader>
         <CardTitle>
           <span>{{ t('forward') }}</span>

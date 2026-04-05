@@ -18,7 +18,6 @@ import { createPinia } from 'pinia';
 import { handleError } from '@/lib/error';
 import { initEntities } from '@/core/entity';
 import { TauriPluginPinia } from '@tauri-store/pinia';
-import { registerGlobalComponents } from '@/lib/global';
 import { setCurrentApp, setErrorHandler } from '@tb-dev/vue';
 
 const app = createApp(App);
@@ -26,7 +25,6 @@ const pinia = createPinia();
 
 setCurrentApp(app);
 setErrorHandler(handleError, app);
-registerGlobalComponents(app);
 
 pinia.use(TauriPluginPinia({
   autoStart: true,

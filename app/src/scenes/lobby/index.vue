@@ -9,6 +9,7 @@ import { formatDate } from 'date-fns';
 import { LockIcon } from '@lucide/vue';
 import Loading from '@/components/Loading.vue';
 import { throttle } from 'es-toolkit/function';
+import type { WorldId } from '@/types/core/world';
 import enUS from '@/locale/en-US/scenes/online.json';
 import ptBR from '@/locale/pt-BR/scenes/online.json';
 import { useToken } from '@/composables/auth/useToken';
@@ -72,7 +73,7 @@ function countCurrentPlayerWorlds() {
             <div class="grid grid-cols-2 gap-2">
               <Button
                 variant="default"
-                :size="sm ? 'default' : 'sm'"
+                :size="sm ? 'default' : 'xs'"
                 :disabled="!canHost"
                 class="md:px-4 xl:px-6 2xl:px-8"
                 @click="() => go('host-remote-game')"
@@ -81,7 +82,7 @@ function countCurrentPlayerWorlds() {
               </Button>
               <Button
                 variant="secondary"
-                :size="sm ? 'default' : 'sm'"
+                :size="sm ? 'default' : 'xs'"
                 class="md:px-4 xl:px-6 2xl:px-8"
                 @click="() => go('home')"
               >

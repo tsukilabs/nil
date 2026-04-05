@@ -2,11 +2,17 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { invoke } from '@tauri-apps/api/core';
+import type { Coord } from '@/types/core/continent';
+import type { InfrastructureQueueOrderId } from '@/types/core/infrastructure/queue';
+import type {
+  AcademyRecruitCatalog,
+  AcademyRecruitOrderRequest,
+} from '@/types/core/infrastructure/academy';
 import type {
   AddAcademyRecruitOrderRequest,
   CancelAcademyRecruitOrderRequest,
   GetAcademyRecruitCatalogRequest,
-} from '@/types/request';
+} from '@/types/request/infrastructure/academy';
 
 export async function addAcademyRecruitOrder(request: AcademyRecruitOrderRequest) {
   const req: AddAcademyRecruitOrderRequest = {

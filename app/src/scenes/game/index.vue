@@ -17,6 +17,7 @@ import { SidebarProvider } from '@ui/sidebar';
 import Loading from '@/components/Loading.vue';
 import { saveLocalGame } from '@/core/savedata';
 import { ListenerSet } from '@/lib/listener-set';
+import type { RoundId } from '@/types/core/round';
 import { RemoteWorldImpl } from '@/core/model/remote-world';
 import { usePlayerReady } from '@/composables/player/usePlayerReady';
 import { asyncComputed, asyncRef, onCtrlKeyDown } from '@tb-dev/vue';

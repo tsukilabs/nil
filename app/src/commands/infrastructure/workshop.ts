@@ -2,11 +2,17 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { invoke } from '@tauri-apps/api/core';
+import type { Coord } from '@/types/core/continent';
+import type { InfrastructureQueueOrderId } from '@/types/core/infrastructure/queue';
+import type {
+  WorkshopRecruitCatalog,
+  WorkshopRecruitOrderRequest,
+} from '@/types/core/infrastructure/workshop';
 import type {
   AddWorkshopRecruitOrderRequest,
   CancelWorkshopRecruitOrderRequest,
   GetWorkshopRecruitCatalogRequest,
-} from '@/types/request';
+} from '@/types/request/infrastructure/workshop';
 
 export async function addWorkshopRecruitOrder(request: WorkshopRecruitOrderRequest) {
   const req: AddWorkshopRecruitOrderRequest = {

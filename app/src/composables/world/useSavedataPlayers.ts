@@ -5,6 +5,7 @@ import { toRef } from 'vue';
 import { asyncRef } from '@tb-dev/vue';
 import { tryOnScopeDispose } from '@vueuse/core';
 import type { SavedataFile } from '@/core/savedata';
+import type { PlayerId } from '@/types/core/player';
 import { getSavedataPlayers } from '@/commands/world';
 
 export function useSavedataPlayers(savedata: MaybeNilRef<SavedataFile>) {

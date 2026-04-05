@@ -3,6 +3,7 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
+import Food from '@/components/resources/Food.vue';
 import { formatInt, formatPercent } from '@/lib/intl';
 import { useWall } from '@/composables/infrastructure/useBuilding';
 import { Card, CardContent, CardHeader, CardTitle } from '@ui/card';

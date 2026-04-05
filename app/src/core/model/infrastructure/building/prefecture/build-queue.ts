@@ -3,6 +3,7 @@
 
 import { PrefectureBuildOrderImpl } from './build-order';
 import { InfrastructureQueueImpl } from '@/core/model/infrastructure/queue/queue';
+import type { PrefectureBuildQueue } from '@/types/core/infrastructure/prefecture';
 
 export class PrefectureBuildQueueImpl extends InfrastructureQueueImpl<PrefectureBuildOrderImpl>
   implements PrefectureBuildQueue

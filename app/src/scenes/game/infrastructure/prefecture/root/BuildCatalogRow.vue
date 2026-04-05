@@ -13,9 +13,11 @@ import BuildCatalogRowAction from './BuildCatalogRowAction.vue';
 import BuildingTitle from '@/components/infrastructure/BuildingTitle.vue';
 import enUS from '@/locale/en-US/scenes/game/infrastructure/prefecture.json';
 import ptBR from '@/locale/pt-BR/scenes/game/infrastructure/prefecture.json';
+import type { InfrastructureScene } from '@/types/scene/game/infrastructure';
 import type { BuildingImpl } from '@/core/model/infrastructure/building/abstract';
 import { useResolvedBuildingLevel } from '@/composables/infrastructure/useResolvedBuildingLevel';
 import type { PrefectureImpl } from '@/core/model/infrastructure/building/prefecture/prefecture';
+import type { PrefectureBuildCatalogEntry, PrefectureBuildOrderKind } from '@/types/core/infrastructure/prefecture';
 
 const props = defineProps<{
   entry: PrefectureBuildCatalogEntry;
