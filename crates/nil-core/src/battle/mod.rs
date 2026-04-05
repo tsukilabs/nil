@@ -107,7 +107,7 @@ impl BattleResult {
           let remaining_rams =
             attacker_power.rams_amount - (attacker_power.rams_amount * losses_ratio);
           let wall_levels_to_decrease =
-            wall_level * ((remaining_rams / 200.0) - (losses_ratio * 1.2));
+            wall_level * (remaining_rams / 200.0 - losses_ratio) * 0.5;
 
           if wall_levels_to_decrease > Wall::MAX_LEVEL {
             downgraded_wall_level = -Wall::MAX_LEVEL;
@@ -124,7 +124,7 @@ impl BattleResult {
         }
 
         if wall_level > 0 && attacker_power.rams_amount > 0.0 {
-          let diff = -(wall_level * (losses_ratio * 0.7));
+          let diff = -(wall_level * losses_ratio * 0.3);
           downgraded_wall_level = BuildingLevelDiff::from(diff);
         }
       }
@@ -303,10 +303,14 @@ impl DefensivePower {
     if let Some(wall) = defending_wall {
       let mut attacking_rams = offensive_power.rams_amount;
 
+      let surviving_rams_no_wall = offensive_power.rams_amount
+        - (offensive_power.rams_amount * (total / offensive_power.total));
+      attacking_rams = attacking_rams + (surviving_rams_no_wall * 2.0);
+
       if attacking_rams > 0.0 {
         let rams_growth_per_wall_level: f64 = growth()
           .floor(wall.level)
-          .ceil(200)
+          .ceil(650)
           .max_level(Wall::MAX_LEVEL)
           .call();
 
@@ -325,6 +329,8 @@ impl DefensivePower {
           if attacking_rams >= *value && wall_levels_to_decrease < wall.level {
             attacking_rams -= value;
             wall_levels_to_decrease += 1;
+          } else {
+            break;
           }
         }
 

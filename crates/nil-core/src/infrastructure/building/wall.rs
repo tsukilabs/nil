@@ -44,7 +44,7 @@ impl Wall {
   pub const MAX_DEFENSE: WallDefense = WallDefense::new(10_000);
 
   pub const MIN_DEFENSE_BONUS: WallDefenseBonus = WallDefenseBonus::new(5.0);
-  pub const MAX_DEFENSE_BONUS: WallDefenseBonus = WallDefenseBonus::new(107.0);
+  pub const MAX_DEFENSE_BONUS: WallDefenseBonus = WallDefenseBonus::new(110.0);
 
   pub const MIN_SCORE: Score = Score::new(8);
   pub const MAX_SCORE: Score = Score::new(256);
