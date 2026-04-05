@@ -153,14 +153,6 @@ impl Round {
       .as_ref()
       .ok_or(Error::RoundNotStarted)
   }
-
-  /// Clones the round, setting its state to [`RoundState::Idle`].
-  /// This is useful for saving the game.
-  pub(crate) fn to_idle(&self) -> Self {
-    let mut round = self.clone();
-    round.state = RoundState::Idle;
-    round
-  }
 }
 
 #[derive(Clone, Copy, Debug, Deref, PartialEq, Eq, PartialOrd, Ord, Deserialize, Serialize)]

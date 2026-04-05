@@ -1,12 +1,11 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use std::sync::Arc;
-
 use crate::error::{Error, Result};
 use crate::event::Emitter;
 use crate::savedata::Savedata;
 use crate::world::World;
+use std::sync::Arc;
 
 impl World {
   pub(super) fn consume_pending_save(&mut self) -> Result<()> {
@@ -27,9 +26,8 @@ impl World {
 
 impl From<&World> for Savedata {
   fn from(world: &World) -> Self {
-    let config = Arc::clone(&world.config);
     Self {
-      round: world.round.to_idle(),
+      round: world.round.clone(),
       continent: world.continent.clone(),
       player_manager: world.player_manager.clone(),
       bot_manager: world.bot_manager.clone(),
@@ -37,7 +35,7 @@ impl From<&World> for Savedata {
       military: world.military.clone(),
       ranking: world.ranking.clone(),
       report: world.report.clone(),
-      config: Arc::unwrap_or_clone(config),
+      config: Arc::unwrap_or_clone(world.config()),
       stats: world.stats.clone(),
       chat: world.chat.clone(),
     }
