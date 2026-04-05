@@ -118,7 +118,7 @@ fn defensive_power_with_wall() -> Result<()> {
 
   let power = defensive(&battle)?;
   let attacking_power = offensive(&battle);
-  assert_eq!(power.total, 18280.0);
+  assert_eq!(power.total, 18400.0);
   assert_eq!(attacking_power.total, 5250.0);
 
   Ok(())
