@@ -35,7 +35,7 @@ pub async fn authorization(mut request: Request, next: Next) -> Response {
     .map_ok(|header| Token::new(header.token()))
     .await
   else {
-    tracing::warn!("No authorization header found");
+    tracing::warn!("Missing authorization header");
     return res!(BAD_REQUEST);
   };
 
