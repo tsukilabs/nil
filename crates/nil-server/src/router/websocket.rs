@@ -24,7 +24,7 @@ pub async fn websocket(
       .verify_game_password(query.world_id, query.world_password.as_ref())
     {
       Ok(true) => {}
-      Ok(false) => return Error::IncorrectWorldCredentials(query.world_id).into(),
+      Ok(false) => return from_err(Error::IncorrectWorldCredentials(query.world_id)),
       Err(err) => return from_err(err),
     }
   }

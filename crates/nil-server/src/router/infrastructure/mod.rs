@@ -32,6 +32,6 @@ pub async fn toggle(
         .map(|()| res!(OK))
         .unwrap_or_else(from_err)
     }
-    Err(err) => Response::from(err),
+    Err(err) => from_err(err),
   }
 }

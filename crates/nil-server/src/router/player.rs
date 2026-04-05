@@ -176,7 +176,7 @@ pub async fn spawn(State(app): State<App>, Json(req): Json<SpawnPlayerRequest>) 
       .verify_game_password(req.world, req.world_password.as_ref())
     {
       Ok(true) => {}
-      Ok(false) => return Error::IncorrectWorldCredentials(req.world).into(),
+      Ok(false) => return from_err(Error::IncorrectWorldCredentials(req.world)),
       Err(err) => return from_err(err),
     }
   }

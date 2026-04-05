@@ -28,7 +28,7 @@ pub async fn add_build_order(
         .map(|()| res!(OK))
         .unwrap_or_else(from_err)
     }
-    Err(err) => Response::from(err),
+    Err(err) => from_err(err),
   }
 }
 
@@ -50,7 +50,7 @@ pub async fn cancel_build_order(
         .map(|()| res!(OK))
         .unwrap_or_else(from_err)
     }
-    Err(err) => Response::from(err),
+    Err(err) => from_err(err),
   }
 }
 
@@ -73,6 +73,6 @@ pub async fn get_build_catalog(
         .map(|catalog| res!(OK, Json(catalog)))
         .unwrap_or_else(from_err)
     }
-    Err(err) => Response::from(err),
+    Err(err) => from_err(err),
   }
 }

@@ -42,7 +42,7 @@ pub async fn authorize(State(app): State<App>, Json(req): Json<AuthorizeRequest>
 
   result
     .map(|token| res!(OK, Json(token)))
-    .unwrap_or_else(Response::from)
+    .unwrap_or_else(from_err)
 }
 
 pub async fn validate_token(

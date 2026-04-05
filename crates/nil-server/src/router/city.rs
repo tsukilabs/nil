@@ -30,7 +30,7 @@ pub async fn get_city(
         .map(|city| res!(OK, Json(city)))
         .unwrap_or_else(from_err)
     }
-    Err(err) => Response::from(err),
+    Err(err) => from_err(err),
   }
 }
 
@@ -111,7 +111,7 @@ pub async fn rename_city(
         .map(|city| res!(OK, Json(city)))
         .unwrap_or_else(from_err)
     }
-    Err(err) => Response::from(err),
+    Err(err) => from_err(err),
   }
 }
 

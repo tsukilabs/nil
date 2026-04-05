@@ -43,7 +43,7 @@ pub async fn create(
 
     result
       .map(|world_id| res!(CREATED, Json(world_id)))
-      .unwrap_or_else(Response::from)
+      .unwrap_or_else(from_err)
   } else {
     res!(FORBIDDEN)
   }
@@ -100,7 +100,7 @@ pub async fn get(State(app): State<App>, Json(req): Json<GetRemoteWorldRequest>)
 
     result
       .map(|world| res!(OK, Json(world)))
-      .unwrap_or_else(Response::from)
+      .unwrap_or_else(from_err)
   } else {
     res!(FORBIDDEN)
   }
