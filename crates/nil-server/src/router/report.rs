@@ -4,7 +4,7 @@
 use crate::app::App;
 use crate::middleware::authorization::CurrentPlayer;
 use crate::res;
-use crate::response::EitherExt;
+use crate::response::{EitherExt, from_err};
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
 use itertools::Itertools;
@@ -55,6 +55,6 @@ pub async fn get_by(State(app): State<App>, Json(req): Json<GetReportsRequest>) 
 
       res!(OK, Json(reports))
     }
-    Err(err) => Response::from(err),
+    Err(err) => from_err(err),
   }
 }

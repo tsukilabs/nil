@@ -33,9 +33,10 @@ export const unitSpeed = z.number()
 export const worldOptions = z.object({
   name: worldName,
   size: worldSize,
+  locale: z.string().nonempty(),
   allowCheats: z.boolean(),
-  botAdvancedStartRatio,
-  botDensity,
   speed,
   unitSpeed,
+  botDensity,
+  botAdvancedStartRatio,
 });

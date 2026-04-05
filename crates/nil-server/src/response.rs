@@ -9,35 +9,6 @@ use std::ops::{ControlFlow, Try};
 
 pub type MaybeResponse<L> = Either<L, Response>;
 
-pub trait EitherExt<L, R> {
-  fn try_map_left<T, E, F>(self, f: F) -> Either<Response, R>
-  where
-    Self: Sized,
-    L: Try<Output = T, Residual = E>,
-    E: Into<Error>,
-    F: FnOnce(T) -> Response;
-}
-
-impl<L, R> EitherExt<L, R> for Either<L, R> {
-  fn try_map_left<T, E, F>(self, f: F) -> Either<Response, R>
-  where
-    Self: Sized,
-    L: Try<Output = T, Residual = E>,
-    E: Into<Error>,
-    F: FnOnce(T) -> Response,
-  {
-    match self {
-      Self::Left(left) => {
-        match left.branch() {
-          ControlFlow::Continue(value) => Either::Left(f(value)),
-          ControlFlow::Break(err) => Either::Left(from_err(err)),
-        }
-      }
-      Self::Right(right) => Either::Right(right),
-    }
-  }
-}
-
 #[doc(hidden)]
 #[macro_export]
 macro_rules! res {
@@ -66,12 +37,6 @@ macro_rules! res {
 
     (StatusCode::$status, $data).into_response()
   }};
-}
-
-impl From<Error> for Response {
-  fn from(err: Error) -> Self {
-    from_err(err)
-  }
 }
 
 pub(crate) fn from_err(err: impl Into<Error>) -> Response {
@@ -165,6 +130,35 @@ fn from_server_err(err: Error) -> Response {
     Unknown(..) => res!(INTERNAL_SERVER_ERROR),
     WorldLimitReached => res!(INTERNAL_SERVER_ERROR),
     WorldNotFound(..) => res!(NOT_FOUND, err.to_string()),
+  }
+}
+
+pub trait EitherExt<L, R> {
+  fn try_map_left<T, E, F>(self, f: F) -> Either<Response, R>
+  where
+    Self: Sized,
+    L: Try<Output = T, Residual = E>,
+    E: Into<Error>,
+    F: FnOnce(T) -> Response;
+}
+
+impl<L, R> EitherExt<L, R> for Either<L, R> {
+  fn try_map_left<T, E, F>(self, f: F) -> Either<Response, R>
+  where
+    Self: Sized,
+    L: Try<Output = T, Residual = E>,
+    E: Into<Error>,
+    F: FnOnce(T) -> Response,
+  {
+    match self {
+      Self::Left(left) => {
+        match left.branch() {
+          ControlFlow::Continue(value) => Either::Left(f(value)),
+          ControlFlow::Break(err) => Either::Left(from_err(err)),
+        }
+      }
+      Self::Right(right) => Either::Right(right),
+    }
   }
 }
 
