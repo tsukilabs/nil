@@ -5,6 +5,11 @@ import { shallowRef } from 'vue';
 import { useMutex } from '@tb-dev/vue';
 import { toCoordRef } from '@/composables/toRef';
 import type { CoordImpl } from '@/core/model/continent/coord';
+import type { BuildingId } from '@/types/core/infrastructure/building';
+import type {
+  PrefectureBuildCatalog,
+  PrefectureBuildOrderKind,
+} from '@/types/core/infrastructure/prefecture';
 import {
   addPrefectureBuildOrder,
   cancelPrefectureBuildOrder,

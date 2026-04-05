@@ -6,6 +6,7 @@ import type { RoundId } from '@/types/core/round';
 import type { Coord } from '@/types/core/continent';
 import type { BattleResult } from '@/types/core/battle';
 import type { Resources } from '@/types/core/resources';
+import type { ArmyPersonnel } from '@/types/core/military/army';
 
 export interface Report_ {
   readonly id: ReportId;

@@ -3,6 +3,7 @@
 
 import { computed, toRef } from 'vue';
 import type { PublicCity } from '@/types/core/city';
+import type { ProfileScene } from '@/types/scene/game';
 import { CoordImpl } from '@/core/model/continent/coord';
 import type { RouteLocationAsRelative } from 'vue-router';
 

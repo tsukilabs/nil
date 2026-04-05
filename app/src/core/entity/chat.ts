@@ -5,6 +5,7 @@ import { Entity } from './abstract';
 import { asyncRef } from '@tb-dev/vue';
 import { ChatImpl } from '@/core/model/chat/chat';
 import { type ShallowRef, triggerRef } from 'vue';
+import type { ChatUpdatedPayload } from '@/types/core/event';
 
 export class ChatEntity extends Entity {
   private readonly chat: ShallowRef<Option<ChatImpl>>;

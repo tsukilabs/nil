@@ -2,7 +2,15 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { CoordImpl } from '@/core/model/continent/coord';
+import type { ArmyId } from '@/types/core/military/army';
 import { ManeuverHaulImpl } from '@/core/model/military/maneuver-haul';
+import type {
+  Maneuver,
+  ManeuverDirection,
+  ManeuverId,
+  ManeuverKind,
+  ManeuverState,
+} from '@/types/core/military/maneuver';
 
 export class ManeuverImpl implements Maneuver {
   public readonly id: ManeuverId;

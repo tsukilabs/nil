@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { MineImpl } from './abstract';
+import type { MineId } from '@/types/core/infrastructure/mine';
+import type { IronMine } from '@/types/core/infrastructure/building';
 
 export class IronMineImpl extends MineImpl implements IronMine {
   public readonly id: MineId = 'iron-mine';

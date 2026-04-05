@@ -3,6 +3,8 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
+import type { InfrastructureScene } from '@/types/scene/game/infrastructure';
+import type { BuildingId, BuildingLevel } from '@/types/core/infrastructure/building';
 
 defineProps<{
   building: BuildingId;

@@ -5,8 +5,10 @@ import { toU8 } from '@/lib/number';
 import { clamp } from 'es-toolkit/math';
 import { invoke } from '@tauri-apps/api/core';
 import { SquadImpl } from '@/core/model/military/squad';
-import type { SimulateBattleRequest } from '@/types/request';
+import type { Squad } from '@/types/core/military/squad';
 import type { BattleResult, Luck } from '@/types/core/battle';
+import type { SimulateBattleRequest } from '@/types/request/battle';
+import type { BuildingLevel } from '@/types/core/infrastructure/building';
 
 export async function simulateBattle(args: {
   attacker?: Option<readonly Squad[]>;

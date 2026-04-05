@@ -5,6 +5,7 @@ import type { Ref } from 'vue';
 import { Entity } from './abstract';
 import { asyncRef } from '@tb-dev/vue';
 import { RoundImpl } from '@/core/model/round';
+import type { RoundUpdatedPayload } from '@/types/core/event';
 
 export class RoundEntity extends Entity {
   private readonly round: Ref<Option<RoundImpl>>;

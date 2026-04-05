@@ -3,6 +3,7 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
+import Food from '@/components/resources/Food.vue';
 import { Card, CardContent, CardHeader, CardTitle } from '@ui/card';
 import { useWarehouse } from '@/composables/infrastructure/useBuilding';
 import enUS from '@/locale/en-US/scenes/game/infrastructure/storage.json';

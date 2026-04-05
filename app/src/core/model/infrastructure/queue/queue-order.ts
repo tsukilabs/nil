@@ -2,6 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { ResourcesImpl } from '@/core/model/resources';
+import type {
+  InfrastructureQueueOrder,
+  InfrastructureQueueOrderState,
+} from '@/types/core/infrastructure/queue';
 
 export abstract class InfrastructureQueueOrderImpl implements InfrastructureQueueOrder {
   public readonly id: string;

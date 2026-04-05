@@ -4,7 +4,10 @@
 import { Entity } from './abstract';
 import { asyncRef, maybe } from '@tb-dev/vue';
 import { CityImpl } from '@/core/model/city/city';
+import type { Coord } from '@/types/core/continent';
+import type { Resources } from '@/types/core/resources';
 import { CoordImpl } from '@/core/model/continent/coord';
+import type { CityUpdatedPayload } from '@/types/core/event';
 import { computed, nextTick, type Ref, shallowRef } from 'vue';
 
 export class CityEntity extends Entity {

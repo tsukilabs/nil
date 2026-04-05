@@ -4,6 +4,7 @@
 import { toRef, watch } from 'vue';
 import * as commands from '@/commands';
 import { asyncRef } from '@tb-dev/vue';
+import type { WorldId } from '@/types/core/world';
 import { RemoteWorldImpl } from '@/core/model/remote-world';
 
 export function useRemoteWorld(id: MaybeNilRef<WorldId>) {

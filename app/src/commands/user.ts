@@ -3,7 +3,7 @@
 
 import { invoke } from '@tauri-apps/api/core';
 import type { PlayerId } from '@/types/core/player';
-import type { CreateUserRequest, UserExistsRequest } from '@/types/request';
+import type { CreateUserRequest, UserExistsRequest } from '@/types/request/user';
 
 export async function createUser(player: PlayerId, password: string) {
   const req: CreateUserRequest = { player, password };

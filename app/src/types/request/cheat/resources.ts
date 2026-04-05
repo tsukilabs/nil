@@ -1,6 +1,10 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { Ruler } from '@/types/core/ruler';
+import type { WorldId } from '@/types/core/world';
+import type { Resources } from '@/types/core/resources';
+
 export interface CheatGetResourcesRequest {
   readonly world: WorldId;
   readonly ruler: Option<Ruler>;

@@ -7,6 +7,7 @@ import type { Squad } from '@/types/core/military/squad';
 import type { WorkshopUnitId } from '@/types/core/military/unit';
 import type { Building } from '@/types/core/infrastructure/building';
 import type { ArmyWorkshopPersonnel } from '@/types/core/military/army';
+import type { InfrastructureRequirements } from '@/types/core/infrastructure';
 import type { InfrastructureQueueOrder } from '@/types/core/infrastructure/queue';
 
 export interface Workshop extends Building {

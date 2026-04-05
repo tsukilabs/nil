@@ -5,6 +5,7 @@ import { compare } from '@/lib/intl';
 import { asyncRef } from '@tb-dev/vue';
 import { computed, toRef, watch } from 'vue';
 import { CoordImpl } from '@/core/model/continent/coord';
+import type { ContinentKey } from '@/types/core/continent';
 import { PublicCityImpl } from '@/core/model/city/public-city';
 
 export function usePublicCities(keys: MaybeNilRef<readonly ContinentKey[]>) {

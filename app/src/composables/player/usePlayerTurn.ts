@@ -3,6 +3,7 @@
 
 import { computed } from 'vue';
 import { toPlayerRef } from '@/composables/toRef';
+import type { Player } from '@/types/core/player';
 import type { RoundImpl } from '@/core/model/round';
 import type { PlayerImpl } from '@/core/model/player/player';
 

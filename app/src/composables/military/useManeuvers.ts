@@ -3,6 +3,7 @@
 
 import { computed } from 'vue';
 import { toContinentKeyRef } from '@/composables/toRef';
+import type { ContinentKey } from '@/types/core/continent';
 
 export function useManeuvers(key?: MaybeNilRef<ContinentKey>) {
   const keyRef = toContinentKeyRef(key);

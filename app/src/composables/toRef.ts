@@ -3,6 +3,7 @@
 
 import { type Ref, toRef } from 'vue';
 import type { CityImpl } from '@/core/model/city/city';
+import type { ContinentKey } from '@/types/core/continent';
 import type { PlayerImpl } from '@/core/model/player/player';
 import type { CoordImpl } from '@/core/model/continent/coord';
 

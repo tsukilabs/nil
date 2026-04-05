@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { MineImpl } from './abstract';
+import type { MineId } from '@/types/core/infrastructure/mine';
+import type { Sawmill } from '@/types/core/infrastructure/building';
 
 export class SawmillImpl extends MineImpl implements Sawmill {
   public readonly id: MineId = 'sawmill';

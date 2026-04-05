@@ -3,7 +3,9 @@
 
 import * as commands from '@/commands';
 import type { City } from '@/types/core/city';
+import type { Resources } from '@/types/core/resources';
 import { CoordImpl } from '@/core/model/continent/coord';
+import type { ContinentKey } from '@/types/core/continent';
 import { InfrastructureImpl } from '@/core/model/infrastructure/infrastructure';
 import { PublicCityImpl, type PublicCityImplConstructorArgs } from './public-city';
 

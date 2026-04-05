@@ -4,10 +4,14 @@
 import { Entity } from './abstract';
 import { panic } from '@tb-dev/utils';
 import { asyncRef, maybe } from '@tb-dev/vue';
+import type { WorldId } from '@/types/core/world';
+import type { MineId } from '@/types/core/infrastructure/mine';
 import { readonly, ref, type Ref, type ShallowRef } from 'vue';
 import type { WorldConfigImpl } from '@/core/model/world-config';
 import type { WorldStatsImpl } from '@/core/model/stats/world-stats';
+import type { StorageId } from '@/types/core/infrastructure/storage';
 import { getContinentSize, getWorldConfig, getWorldStats } from '@/commands';
+import type { BuildingId, BuildingLevel } from '@/types/core/infrastructure/building';
 
 export class WorldEntity extends Entity {
   private readonly id = ref<Option<WorldId>>();

@@ -3,7 +3,7 @@
 
 import { invoke } from '@tauri-apps/api/core';
 import type { Round } from '@/types/core/round';
-import type { GetRoundRequest, SetPlayerReadyRequest, StartRoundRequest } from '@/types/request';
+import type { GetRoundRequest, SetPlayerReadyRequest, StartRoundRequest } from '@/types/request/round';
 
 export async function getRound() {
   const req: GetRoundRequest = {

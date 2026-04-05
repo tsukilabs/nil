@@ -1,7 +1,9 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { Ruler } from '@/types/core/ruler';
 import { ArmyPersonnelImpl } from './army-personnel';
+import type { Army, ArmyId, ArmyState } from '@/types/core/military/army';
 
 export class ArmyImpl implements Army {
   public readonly id: ArmyId;

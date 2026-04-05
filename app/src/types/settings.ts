@@ -1,6 +1,9 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { Locale } from '@/types/core/world';
+import type { BasicColorSchema } from '@vueuse/core';
+
 export interface Settings {
   readonly academy: AcademySettings;
   readonly appearance: AppearanceSettings;
@@ -16,7 +19,7 @@ export interface AcademySettings {
 }
 
 export interface AppearanceSettings {
-  colorMode: import('@vueuse/core').BasicColorSchema;
+  colorMode: BasicColorSchema;
 }
 
 export interface AuthSettings {

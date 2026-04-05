@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { WorkshopRecruitOrderImpl } from './recruit-order';
+import type { WorkshopRecruitQueue } from '@/types/core/infrastructure/workshop';
 import { InfrastructureQueueImpl } from '@/core/model/infrastructure/queue/queue';
 
 export class WorkshopRecruitQueueImpl extends InfrastructureQueueImpl<WorkshopRecruitOrderImpl>

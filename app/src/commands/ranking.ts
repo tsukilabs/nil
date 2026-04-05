@@ -3,9 +3,11 @@
 
 import { invoke } from '@tauri-apps/api/core';
 import type { Ruler } from '@/types/core/ruler';
+import type { BotId } from '@/types/core/npc/bot';
 import type { PlayerId } from '@/types/core/player';
+import type { PrecursorId } from '@/types/core/npc/precursor';
 import type { Ranking, RankingEntry } from '@/types/core/ranking';
-import type { GetRankingRequest, GetRankRequest } from '@/types/request';
+import type { GetRankingRequest, GetRankRequest } from '@/types/request/ranking';
 
 export async function getBotRank(id: BotId) {
   return getRank({ kind: 'bot', id });

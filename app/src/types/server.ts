@@ -1,6 +1,11 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { RoundId } from '@/types/core/round';
+import type { PlayerId } from '@/types/core/player';
+import type { ContinentSize } from '@/types/core/continent';
+import type { WorldConfig, WorldId } from '@/types/core/world';
+
 export interface LocalServer {
   readonly worldId: WorldId;
   readonly addr: string;
