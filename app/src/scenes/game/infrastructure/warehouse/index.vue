@@ -3,6 +3,7 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
+import { formatInt } from '@/lib/intl';
 import Food from '@/components/resources/Food.vue';
 import { Card, CardContent, CardHeader, CardTitle } from '@ui/card';
 import { useWarehouse } from '@/composables/infrastructure/useBuilding';
@@ -46,7 +47,7 @@ const { level, stats } = useStorageStats(warehouse);
                 <span>{{ t('current-capacity') }}</span>
               </TableCell>
               <TableCell>
-                <span>{{ stats.current.capacity }}</span>
+                <span>{{ formatInt(stats.current.capacity) }}</span>
               </TableCell>
             </TableRow>
 
@@ -55,7 +56,7 @@ const { level, stats } = useStorageStats(warehouse);
                 <span>{{ t('capacity-on-level-x', [level.next]) }}</span>
               </TableCell>
               <TableCell>
-                <span>{{ stats.next.capacity }}</span>
+                <span>{{ formatInt(stats.next.capacity) }}</span>
               </TableCell>
             </TableRow>
           </TableBody>

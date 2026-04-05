@@ -73,7 +73,7 @@ function countCurrentPlayerWorlds() {
             <div class="grid grid-cols-2 gap-2">
               <Button
                 variant="default"
-                :size="sm ? 'default' : 'sm'"
+                :size="sm ? 'default' : 'xs'"
                 :disabled="!canHost"
                 class="md:px-4 xl:px-6 2xl:px-8"
                 @click="() => go('host-remote-game')"
@@ -82,7 +82,7 @@ function countCurrentPlayerWorlds() {
               </Button>
               <Button
                 variant="secondary"
-                :size="sm ? 'default' : 'sm'"
+                :size="sm ? 'default' : 'xs'"
                 class="md:px-4 xl:px-6 2xl:px-8"
                 @click="() => go('home')"
               >

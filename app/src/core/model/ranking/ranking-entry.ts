@@ -3,6 +3,7 @@
 
 import { go } from '@/router';
 import { getRank } from '@/commands';
+import { formatInt } from '@/lib/intl';
 import type { Ruler } from '@/types/core/ruler';
 import type { RankingEntry } from '@/types/core/ranking';
 
@@ -22,6 +23,18 @@ export class RankingEntryImpl implements RankingEntry {
   public async goToProfile() {
     const id = this.ruler.id;
     await go(`profile-${this.ruler.kind}`, { params: { id } });
+  }
+
+  public formatRank() {
+    return formatInt(this.rank);
+  }
+
+  public formatScore() {
+    return formatInt(this.score);
+  }
+
+  public formatCities() {
+    return formatInt(this.cities);
   }
 
   get uniqueId() {

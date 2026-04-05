@@ -3,8 +3,8 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import { formatPercent } from '@/lib/intl';
 import Food from '@/components/resources/Food.vue';
+import { formatInt, formatPercent } from '@/lib/intl';
 import { useWall } from '@/composables/infrastructure/useBuilding';
 import { Card, CardContent, CardHeader, CardTitle } from '@ui/card';
 import enUS from '@/locale/en-US/scenes/game/infrastructure/wall.json';
@@ -48,10 +48,10 @@ const { level, stats } = useWallStats(wall);
             <TableRow>
               <TableCell>{{ t('basic-defense') }}</TableCell>
               <TableCell>
-                <span>{{ stats.current.defense }}</span>
+                <span>{{ formatInt(stats.current.defense) }}</span>
               </TableCell>
               <TableCell v-if="stats.next && !level.isMax">
-                <span>{{ stats.next.defense }}</span>
+                <span>{{ formatInt(stats.next.defense) }}</span>
               </TableCell>
             </TableRow>
 

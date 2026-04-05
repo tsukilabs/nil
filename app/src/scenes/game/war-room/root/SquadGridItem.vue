@@ -4,6 +4,7 @@
 <script setup lang="ts">
 import { Label } from '@ui/label';
 import { useI18n } from 'vue-i18n';
+import { formatInt } from '@/lib/intl';
 import type { Squad } from '@/types/core/military/squad';
 import { NumberField, NumberFieldContent, NumberFieldInput } from '@ui/number-field';
 
@@ -31,7 +32,7 @@ function toggleMax() {
       <div class="text-xs 2xl:text-sm text-muted-foreground">
         <span>{{ t(squad.unit) }}</span>
         <span class="cursor-pointer" @click="toggleMax">
-          {{ ` (${available})` }}
+          {{ ` (${formatInt(available)})` }}
         </span>
       </div>
       <NumberField

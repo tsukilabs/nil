@@ -58,16 +58,16 @@ function getIdClass(ruler: Ruler) {
               @keydown.enter="() => entry.goToProfile()"
             >
               <TableCell>
-                {{ entry.rank }}
+                {{ entry.formatRank() }}
               </TableCell>
               <TableCell :class="getIdClass(entry.ruler)">
                 {{ entry.ruler.id }}
               </TableCell>
               <TableCell>
-                {{ entry.score }}
+                {{ entry.formatScore() }}
               </TableCell>
               <TableCell>
-                {{ entry.cities }}
+                {{ entry.formatCities() }}
               </TableCell>
             </TableRow>
           </TableBody>

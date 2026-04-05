@@ -6,6 +6,7 @@ import { cn } from '@ui/utils';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { Button } from '@ui/button';
+import { formatInt } from '@/lib/intl';
 import { useBreakpoints } from '@tb-dev/vue';
 import type { Squad } from '@/types/core/military/squad';
 import Workforce from '@/components/resources/Workforce.vue';
@@ -28,7 +29,7 @@ const tableClass = computed(() => {
 const { sm } = useBreakpoints();
 
 function formatSquad(squad: Squad) {
-  return `${squad.size} ${t(squad.unit, squad.size)}`;
+  return `${formatInt(squad.size)} ${t(squad.unit, squad.size)}`;
 }
 </script>
 

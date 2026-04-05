@@ -57,7 +57,7 @@ if (__DESKTOP__) {
 
               <TableRow>
                 <TableHead>{{ t('point', 2) }}</TableHead>
-                <TableCell>{{ city.score }}</TableCell>
+                <TableCell>{{ city.formatScore() }}</TableCell>
               </TableRow>
 
               <TableRow>

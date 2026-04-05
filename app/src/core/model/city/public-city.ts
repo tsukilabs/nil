@@ -3,6 +3,7 @@
 
 import { go } from '@/router';
 import * as commands from '@/commands';
+import { formatInt } from '@/lib/intl';
 import type { Ruler } from '@/types/core/ruler';
 import type { PublicCity } from '@/types/core/city';
 import type { ProfileScene } from '@/types/scene/game';
@@ -37,6 +38,10 @@ export class PublicCityImpl implements PublicCity {
 
   public async goToWarRoom(kind: 'origin' | 'destination') {
     await this.coord.goToWarRoom(kind);
+  }
+
+  public formatScore() {
+    return formatInt(this.score);
   }
 
   get index() {

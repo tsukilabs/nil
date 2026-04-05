@@ -2,6 +2,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
+import { formatInt } from '@/lib/intl';
 import { TableCell, TableHead, TableRow } from '@ui/table';
 import type { ArmyPersonnel } from '@/types/core/military/army';
 
@@ -14,12 +15,12 @@ defineProps<{
 <template>
   <TableRow>
     <TableHead>{{ head }}</TableHead>
-    <TableCell>{{ personnel.pikeman.size }}</TableCell>
-    <TableCell>{{ personnel.swordsman.size }}</TableCell>
-    <TableCell>{{ personnel.axeman.size }}</TableCell>
-    <TableCell>{{ personnel.archer.size }}</TableCell>
-    <TableCell>{{ personnel.lightCavalry.size }}</TableCell>
-    <TableCell>{{ personnel.heavyCavalry.size }}</TableCell>
-    <TableCell>{{ personnel.ram.size }}</TableCell>
+    <TableCell>{{ formatInt(personnel.pikeman.size) }}</TableCell>
+    <TableCell>{{ formatInt(personnel.swordsman.size) }}</TableCell>
+    <TableCell>{{ formatInt(personnel.axeman.size) }}</TableCell>
+    <TableCell>{{ formatInt(personnel.archer.size) }}</TableCell>
+    <TableCell>{{ formatInt(personnel.lightCavalry.size) }}</TableCell>
+    <TableCell>{{ formatInt(personnel.heavyCavalry.size) }}</TableCell>
+    <TableCell>{{ formatInt(personnel.ram.size) }}</TableCell>
   </TableRow>
 </template>
