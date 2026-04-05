@@ -5,6 +5,7 @@ import { leaveGame } from './game';
 import * as commands from '@/commands';
 import { fromZoned } from '@/lib/date';
 import { Semaphore } from 'es-toolkit/promise';
+import type { RoundId } from '@/types/core/round';
 import { go, QUERY_LOAD_LOCAL_GAME_PATH } from '@/router';
 import { compareDesc as compareDateDesc } from 'date-fns';
 import { basename, extname, join } from '@tauri-apps/api/path';

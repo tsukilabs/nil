@@ -4,6 +4,7 @@
 import type { Coord } from '@/types/core/continent';
 import type { Resources } from '@/types/core/resources';
 import type { InfrastructureQueueOrder } from '@/types/core/infrastructure/queue';
+import type { Infrastructure, InfrastructureRequirements } from '@/types/core/infrastructure';
 import type { Building, BuildingId, BuildingLevel } from '@/types/core/infrastructure/building';
 
 export interface Prefecture extends Building {

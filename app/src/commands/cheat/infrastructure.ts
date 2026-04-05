@@ -14,6 +14,7 @@ import { CoordImpl } from '@/core/model/continent/coord';
 import { getPrecursorCoords } from '@/commands/npc/precursor';
 import type { PrecursorId } from '@/types/core/npc/precursor';
 import type { ContinentKey, Coord } from '@/types/core/continent';
+import type { Infrastructure } from '@/types/core/infrastructure';
 import type { StableRecruitQueue } from '@/types/core/infrastructure/stable';
 import type { AcademyRecruitQueue } from '@/types/core/infrastructure/academy';
 import type { OverallStorageCapacity } from '@/types/core/infrastructure/storage';

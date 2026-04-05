@@ -1,6 +1,9 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { StorageStats } from '@/types/core/infrastructure/storage';
+import type { BuildingLevel } from '@/types/core/infrastructure/building';
+
 export class StorageStatsImpl implements StorageStats {
   public readonly level: BuildingLevel;
   public readonly capacity: number;

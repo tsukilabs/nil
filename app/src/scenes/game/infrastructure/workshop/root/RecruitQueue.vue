@@ -8,6 +8,7 @@ import { useI18n } from 'vue-i18n';
 import { Button } from '@ui/button';
 import { useBreakpoints } from '@tb-dev/vue';
 import type { Squad } from '@/types/core/military/squad';
+import Workforce from '@/components/resources/Workforce.vue';
 import { Table, TableBody, TableCell, TableRow } from '@ui/table';
 import type { InfrastructureQueueOrderId } from '@/types/core/infrastructure/queue';
 import type { WorkshopImpl } from '@/core/model/infrastructure/building/workshop/workshop';

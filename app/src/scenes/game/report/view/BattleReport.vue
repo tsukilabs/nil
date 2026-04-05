@@ -4,6 +4,10 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import Food from '@/components/resources/Food.vue';
+import Iron from '@/components/resources/Iron.vue';
+import Wood from '@/components/resources/Wood.vue';
+import Stone from '@/components/resources/Stone.vue';
 import enUS from '@/locale/en-US/scenes/game/report.json';
 import ptBR from '@/locale/pt-BR/scenes/game/report.json';
 import { useBattleLosses } from '@/composables/battle/useBattleLosses';

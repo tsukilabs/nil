@@ -3,6 +3,9 @@
 
 import * as commands from '@/commands';
 import { ResourcesImpl } from '@/core/model/resources';
+import type { Resources } from '@/types/core/resources';
+import type { Player, PlayerId } from '@/types/core/player';
+import type { OverallStorageCapacity } from '@/types/core/infrastructure/storage';
 import { PublicPlayerImpl, type PublicPlayerImplConstructorArgs } from './public-player';
 import { OverallStorageCapacityImpl } from '@/core/model/infrastructure/storage-capacity';
 

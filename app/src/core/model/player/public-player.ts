@@ -6,6 +6,10 @@ import * as commands from '@/commands';
 import { formatInt } from '@/lib/intl';
 import { PLACEHOLDER } from '@/lib/string';
 import { RulerImpl } from '@/core/model/ruler';
+import type { Ruler } from '@/types/core/ruler';
+import type { RankingEntry } from '@/types/core/ranking';
+import type { ContinentKey, Coord } from '@/types/core/continent';
+import type { PlayerId, PlayerStatus, PublicPlayer } from '@/types/core/player';
 
 export class PublicPlayerImpl extends RulerImpl implements PublicPlayer {
   public readonly id: PlayerId;

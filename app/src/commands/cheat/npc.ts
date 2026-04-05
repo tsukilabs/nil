@@ -7,6 +7,7 @@ import type { Ruler } from '@/types/core/ruler';
 import type { BotId } from '@/types/core/npc/bot';
 import type { ContinentKey } from '@/types/core/continent';
 import type { PrecursorId } from '@/types/core/npc/precursor';
+import type { Infrastructure } from '@/types/core/infrastructure';
 import type { EthicPowerAxis, Ethics, EthicTruthAxis } from '@/types/core/ethic';
 import type {
   CheatGetEthicsRequest,

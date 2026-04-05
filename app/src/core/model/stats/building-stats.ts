@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { ResourcesImpl } from '@/core/model/resources';
+import type { BuildingLevel, BuildingStats } from '@/types/core/infrastructure/building';
 
 export class BuildingStatsImpl implements BuildingStats {
   public readonly level: BuildingLevel;

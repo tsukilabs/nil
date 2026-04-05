@@ -3,6 +3,7 @@
 
 import type { Ruler } from '@/types/core/ruler';
 import type { Coord } from '@/types/core/continent';
+import type { Infrastructure } from '@/types/core/infrastructure';
 
 export interface PublicCity {
   readonly coord: Coord;
