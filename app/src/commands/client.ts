@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { invoke } from '@tauri-apps/api/core';
+import type { ClientOptions } from '@/types/client';
 
 export async function getClientVersion() {
   return invoke<string>('get_client_version');

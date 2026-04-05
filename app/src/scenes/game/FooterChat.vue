@@ -10,6 +10,7 @@ import { ListenerSet } from '@/lib/listener-set';
 import { MessagesSquareIcon } from '@lucide/vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useToggle, whenever } from '@vueuse/core';
+import type { GameScene } from '@/types/scene/game';
 import ChatInput from '@/components/chat/ChatInput.vue';
 import { Popover, PopoverContent, PopoverTrigger } from '@ui/popover';
 

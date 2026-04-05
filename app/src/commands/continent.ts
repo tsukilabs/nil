@@ -2,7 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { invoke } from '@tauri-apps/api/core';
+import type { WorldId } from '@/types/core/world';
 import { CoordImpl } from '@/core/model/continent/coord';
+import type { ContinentKey, ContinentSize, Coord, PublicField } from '@/types/core/continent';
 import type {
   GetContinentSizeRequest,
   GetPublicFieldRequest,

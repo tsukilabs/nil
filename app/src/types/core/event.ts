@@ -1,7 +1,14 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-type EventPayload =
+import type { Round } from '@/types/core/round';
+import type { WorldId } from '@/types/core/world';
+import type { Coord } from '@/types/core/continent';
+import type { PlayerId } from '@/types/core/player';
+import type { ReportId } from '@/types/core/report';
+import type { ChatMessage } from '@/types/core/chat';
+
+export type EventPayload =
   | ChatUpdatedPayload
   | CityUpdatedPayload
   | DropPayload
@@ -11,50 +18,50 @@ type EventPayload =
   | ReportPayload
   | RoundUpdatedPayload;
 
-type EventPayloadKind = EventPayload['kind'];
+export type EventPayloadKind = EventPayload['kind'];
 
-interface ChatUpdatedPayload {
+export interface ChatUpdatedPayload {
   readonly kind: 'chat-updated';
   readonly world: WorldId;
   readonly message: ChatMessage;
 }
 
-interface CityUpdatedPayload {
+export interface CityUpdatedPayload {
   readonly kind: 'city-updated';
   readonly world: WorldId;
   readonly coord: Coord;
 }
 
-interface DropPayload {
+export interface DropPayload {
   readonly kind: 'drop';
   readonly world: WorldId;
 }
 
-interface MilitaryUpdatedPayload {
+export interface MilitaryUpdatedPayload {
   readonly kind: 'military-updated';
   readonly world: WorldId;
   readonly player: PlayerId;
 }
 
-interface PlayerUpdatedPayload {
+export interface PlayerUpdatedPayload {
   readonly kind: 'player-updated';
   readonly world: WorldId;
   readonly player: PlayerId;
 }
 
-interface PublicCityUpdatedPayload {
+export interface PublicCityUpdatedPayload {
   readonly kind: 'public-city-updated';
   readonly world: WorldId;
   readonly coord: Coord;
 }
 
-interface ReportPayload {
+export interface ReportPayload {
   readonly kind: 'report';
   readonly world: WorldId;
   readonly report: ReportId;
 }
 
-interface RoundUpdatedPayload {
+export interface RoundUpdatedPayload {
   readonly kind: 'round-updated';
   readonly world: WorldId;
   readonly round: Round;

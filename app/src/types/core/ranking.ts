@@ -1,9 +1,11 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-type Ranking = readonly RankingEntry[];
+import type { Ruler } from '@/types/core/ruler';
 
-interface RankingEntry {
+export type Ranking = readonly RankingEntry[];
+
+export interface RankingEntry {
   readonly rank: number;
   readonly ruler: Ruler;
   readonly score: number;

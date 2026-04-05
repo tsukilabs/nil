@@ -2,6 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { invoke } from '@tauri-apps/api/core';
+import type { Ruler } from '@/types/core/ruler';
+import type { PlayerId } from '@/types/core/player';
+import type { Ranking, RankingEntry } from '@/types/core/ranking';
 import type { GetRankingRequest, GetRankRequest } from '@/types/request';
 
 export async function getBotRank(id: BotId) {

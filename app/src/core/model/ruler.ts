@@ -1,7 +1,9 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { Ruler } from '@/types/core/ruler';
 import { CoordImpl } from '@/core/model/continent/coord';
+import type { RankingEntry } from '@/types/core/ranking';
 import { RankingEntryImpl } from '@/core/model/ranking/ranking-entry';
 
 export abstract class RulerImpl {

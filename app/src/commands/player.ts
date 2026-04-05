@@ -2,7 +2,17 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { invoke } from '@tauri-apps/api/core';
+import type { WorldId } from '@/types/core/world';
+import type { Coord } from '@/types/core/continent';
+import type { ReportId } from '@/types/core/report';
 import type { RawMilitary } from '@/core/model/military/military';
+import type {
+  Player,
+  PlayerId,
+  PlayerOptions,
+  PlayerStatus,
+  PublicPlayer,
+} from '@/types/core/player';
 import type {
   GetPlayerCoordsRequest,
   GetPlayerIdsRequest,

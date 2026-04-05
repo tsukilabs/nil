@@ -5,7 +5,6 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { Button } from '@ui/button';
-import { formatInt } from '@/lib/intl';
 import enUS from '@/locale/en-US/scenes/game/continent.json';
 import ptBR from '@/locale/pt-BR/scenes/game/continent.json';
 import { usePublicCity } from '@/composables/city/usePublicCity';
@@ -94,7 +93,7 @@ function getPrecursorColor(id: PrecursorId) {
 
               <TableRow>
                 <TableHead>{{ t('point', 2) }}</TableHead>
-                <TableCell>{{ formatInt(city.score) }}</TableCell>
+                <TableCell>{{ city.score }}</TableCell>
               </TableRow>
 
               <TableRow>

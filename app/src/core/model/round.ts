@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as commands from '@/commands';
+import type { PlayerId } from '@/types/core/player';
+import type { Round, RoundState } from '@/types/core/round';
 
 export class RoundImpl implements Round {
   public readonly id: number;

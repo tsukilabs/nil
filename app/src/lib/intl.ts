@@ -11,19 +11,6 @@ export function compare(a: string, b: string): number {
   return sortCollator.compare(a, b);
 }
 
-export const integerIntl = new Intl.NumberFormat(undefined, {
-  style: 'decimal',
-  maximumFractionDigits: 0,
-  roundingMode: 'trunc',
-  notation: 'standard',
-  useGrouping: 'auto',
-  localeMatcher: 'best fit',
-});
-
-export function formatInt(value: number) {
-  return integerIntl.format(value);
-}
-
 export const percentIntl = new Intl.NumberFormat(undefined, {
   maximumFractionDigits: 0,
   minimumFractionDigits: 0,

@@ -1,34 +1,34 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-interface LocalServer {
+export interface LocalServer {
   readonly worldId: WorldId;
   readonly addr: string;
 }
 
-type ServerAddr = ServerAddrLocal | ServerAddrRemote;
+export type ServerAddr = ServerAddrLocal | ServerAddrRemote;
 
-interface ServerAddrLocal {
+export interface ServerAddrLocal {
   readonly kind: 'local';
   readonly addr: string;
 }
 
-interface ServerAddrRemote {
+export interface ServerAddrRemote {
   readonly kind: 'remote';
 }
 
-type ServerKind = ServerKindLocal | ServerKindRemote;
+export type ServerKind = ServerKindLocal | ServerKindRemote;
 
-interface ServerKindLocal {
+export interface ServerKindLocal {
   readonly kind: 'local';
   readonly id: WorldId;
 }
 
-interface ServerKindRemote {
+export interface ServerKindRemote {
   readonly kind: 'remote';
 }
 
-interface RemoteWorld {
+export interface RemoteWorld {
   readonly config: WorldConfig;
   readonly description: Option<string>;
   readonly createdBy: PlayerId;
@@ -42,4 +42,4 @@ interface RemoteWorld {
   readonly continentSize: ContinentSize;
 }
 
-type RoundDuration = number;
+export type RoundDuration = number;

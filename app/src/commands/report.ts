@@ -3,6 +3,8 @@
 
 import { toArray } from '@tb-dev/utils';
 import { invoke } from '@tauri-apps/api/core';
+import type { PlayerId } from '@/types/core/player';
+import type { ReportId, ReportKind } from '@/types/core/report';
 import type { ForwardReportRequest, GetReportRequest, GetReportsRequest } from '@/types/request';
 
 export async function forwardReport(id: ReportId, recipient: PlayerId) {

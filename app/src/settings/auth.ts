@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as commands from '@/commands';
+import type { ClientOptions } from '@/types/client';
+import type { AuthSettings } from '@/types/settings';
 
 export class AuthSettingsImpl implements AuthSettings {
   public token: Option<string> = null;

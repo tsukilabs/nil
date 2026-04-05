@@ -1,26 +1,28 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-interface Round {
+import type { PlayerId } from '@/types/core/player';
+
+export interface Round {
   readonly id: RoundId;
   readonly state: RoundState;
   readonly startedAt: string;
 }
 
-type RoundId = number;
+export type RoundId = number;
 
-type RoundState = RoundStateIdle | RoundStateWaiting | RoundStateDone;
+export type RoundState = RoundStateIdle | RoundStateWaiting | RoundStateDone;
 
-interface RoundStateIdle {
+export interface RoundStateIdle {
   readonly kind: 'idle';
 }
 
-interface RoundStateWaiting {
+export interface RoundStateWaiting {
   readonly kind: 'waiting';
   readonly pending: readonly PlayerId[];
   readonly ready: readonly PlayerId[];
 }
 
-interface RoundStateDone {
+export interface RoundStateDone {
   readonly kind: 'done';
 }

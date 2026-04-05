@@ -1,7 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-interface WorldOptions {
+export interface WorldOptions {
   readonly name: string;
   readonly size: number;
   readonly locale: Locale;
@@ -12,7 +12,7 @@ interface WorldOptions {
   readonly botAdvancedStartRatio: BotAdvancedStartRatio;
 }
 
-interface WorldConfig {
+export interface WorldConfig {
   readonly id: WorldId;
   readonly name: string;
   readonly locale: Locale;
@@ -23,18 +23,18 @@ interface WorldConfig {
   readonly botAdvancedStartRatio: BotAdvancedStartRatio;
 }
 
-type WorldId = string;
+export type WorldId = string;
 
-type Locale = 'en-US' | 'pt-BR';
+export type Locale = 'en-US' | 'pt-BR';
 
-type WorldSpeed = number;
+export type WorldSpeed = number;
 
-type WorldUnitSpeed = number;
+export type WorldUnitSpeed = number;
 
-type BotDensity = number;
+export type BotDensity = number;
 
-type BotAdvancedStartRatio = number;
+export type BotAdvancedStartRatio = number;
 
-interface WorldStats {
+export interface WorldStats {
   readonly infrastructure: InfrastructureStats;
 }

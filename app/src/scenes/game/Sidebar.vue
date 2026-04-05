@@ -8,6 +8,7 @@ import RoundState from './RoundState.vue';
 import type { Scene } from '@/types/scene';
 import { useBreakpoints } from '@tb-dev/vue';
 import { onBeforeRouteUpdate } from 'vue-router';
+import type { GameScene } from '@/types/scene/game';
 import { computed, nextTick, useTemplateRef } from 'vue';
 import { writeText } from '@tauri-apps/plugin-clipboard-manager';
 import { useLocalServerAddr } from '@/composables/useLocalServerAddr';

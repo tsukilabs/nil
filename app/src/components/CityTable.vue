@@ -4,8 +4,8 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import { computed, ref } from 'vue';
+import { compare } from '@/lib/intl';
 import { PLACEHOLDER } from '@/lib/string';
-import { compare, formatInt } from '@/lib/intl';
 import type { PublicCityImpl } from '@/core/model/city/public-city';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@ui/table';
 
@@ -166,7 +166,7 @@ function sort(mode: SortMode, ascending: boolean) {
         </TableCell>
 
         <TableCell>
-          {{ formatInt(city.score) }}
+          {{ city.score }}
         </TableCell>
 
         <TableCell v-if="getDistance">

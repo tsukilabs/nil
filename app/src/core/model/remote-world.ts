@@ -4,6 +4,7 @@
 import * as commands from '@/commands';
 import { fromZoned } from '@/lib/date';
 import { WorldConfigImpl } from './world-config';
+import type { RemoteWorld, RoundDuration } from '@/types/server';
 
 export class RemoteWorldImpl implements RemoteWorld {
   public readonly config: WorldConfigImpl;

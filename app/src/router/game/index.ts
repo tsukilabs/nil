@@ -6,6 +6,7 @@ import { profileRoutes } from './profile';
 import { warRoomRoutes } from './war-room';
 import { continentRoutes } from './continent';
 import type { RouteRecordRaw } from 'vue-router';
+import type { GameScene } from '@/types/scene/game';
 import { infrastructureRoutes } from './infrastructure';
 
 export const gameRoutes: RouteRecordRaw[] = [

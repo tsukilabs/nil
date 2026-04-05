@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { RouteRecordRaw } from 'vue-router';
+import type { WorkshopScene } from '@/types/scene/game/infrastructure';
 
 export const workshopRoutes: RouteRecordRaw[] = [
   {

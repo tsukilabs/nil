@@ -3,8 +3,11 @@
 
 import { invoke } from '@tauri-apps/api/core';
 import { isValidPassword } from '@/lib/schema';
+import type { RemoteWorld } from '@/types/server';
 import type { SavedataInfo } from '@/core/savedata';
+import type { PlayerId } from '@/types/core/player';
 import { WorldConfigImpl } from '@/core/model/world-config';
+import type { WorldConfig, WorldId } from '@/types/core/world';
 import { type RawWorldStats, WorldStatsImpl } from '@/core/model/stats/world-stats';
 import type {
   CreateRemoteWorldRequest,

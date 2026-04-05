@@ -5,6 +5,7 @@
 import { useI18n } from 'vue-i18n';
 import { compare } from '@/lib/intl';
 import { computed, nextTick } from 'vue';
+import type { GameScene } from '@/types/scene/game';
 import { CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@ui/command';
 
 const open = defineModel<boolean>('open', { required: true });

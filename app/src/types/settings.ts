@@ -1,7 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-interface Settings {
+export interface Settings {
   readonly academy: AcademySettings;
   readonly appearance: AppearanceSettings;
   readonly auth: AuthSettings;
@@ -11,33 +11,33 @@ interface Settings {
   readonly workshop: WorkshopSettings;
 }
 
-interface AcademySettings {
+export interface AcademySettings {
   hideUnmet: boolean;
 }
 
-interface AppearanceSettings {
+export interface AppearanceSettings {
   colorMode: import('@vueuse/core').BasicColorSchema;
 }
 
-interface AuthSettings {
+export interface AuthSettings {
   token: Option<string>;
 }
 
-interface GeneralSettings {
+export interface GeneralSettings {
   autoUpdate: boolean;
   hideOnClose: boolean;
   locale: Locale;
 }
 
-interface PrefectureSettings {
+export interface PrefectureSettings {
   hideMaxed: boolean;
   hideUnmet: boolean;
 }
 
-interface StableSettings {
+export interface StableSettings {
   hideUnmet: boolean;
 }
 
-interface WorkshopSettings {
+export interface WorkshopSettings {
   hideUnmet: boolean;
 }

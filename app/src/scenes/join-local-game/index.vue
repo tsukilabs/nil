@@ -9,6 +9,7 @@ import { useRouter } from 'vue-router';
 import { joinLocalGame } from '@/core/game';
 import { isPlayerOptions } from '@/lib/schema';
 import { SocketAddrV4 } from '@/lib/net/addr-v4';
+import type { ServerAddr } from '@/types/server';
 import { localRef, useBreakpoints, useMutex } from '@tb-dev/vue';
 import InputPlayerName from '@/components/form/InputPlayerName.vue';
 import type { WithPartialNullish, WritablePartial } from '@tb-dev/utils';

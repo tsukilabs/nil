@@ -1,6 +1,8 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { RoundDuration } from '@/types/server';
+
 export interface CreateRemoteWorldRequest {
   readonly options: WorldOptions;
   readonly description: Option<string>;
