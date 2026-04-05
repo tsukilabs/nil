@@ -82,7 +82,7 @@ function key(name: string) {
 
 <template>
   <div :class="md ? 'card-layout' : 'game-layout'">
-    <Card class="max-md:size-full overflow-hidden">
+    <Card class="max-md:size-full md:max-h-9/10 overflow-hidden">
       <CardHeader>
         <CardTitle>{{ t('host-game') }}</CardTitle>
       </CardHeader>

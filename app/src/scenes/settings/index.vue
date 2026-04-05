@@ -31,7 +31,7 @@ const { sm, md } = useBreakpoints();
 
 <template>
   <div :class="md ? 'card-layout' : 'game-layout'">
-    <Card :key="settings.general.locale" class="max-md:size-full overflow-hidden">
+    <Card :key="settings.general.locale" class="max-md:size-full md:max-h-9/10 overflow-hidden">
       <CardHeader>
         <CardTitle>{{ t('settings') }}</CardTitle>
       </CardHeader>

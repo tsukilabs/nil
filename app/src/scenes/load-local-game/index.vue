@@ -103,7 +103,7 @@ async function remove() {
 
 <template>
   <div class="card-layout">
-    <Card class="sm:max-w-4/5 h-full max-h-[95%] sm:max-h-3/5">
+    <Card class="sm:max-w-4/5 h-full max-h-9/10 sm:max-h-3/5">
       <CardHeader>
         <CardTitle>{{ t('load-game') }}</CardTitle>
       </CardHeader>

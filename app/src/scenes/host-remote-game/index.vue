@@ -94,7 +94,7 @@ function key(name: string) {
 
 <template>
   <div :class="md ? 'card-layout' : 'game-layout'">
-    <Card class="max-md:size-full md:min-w-150! md:max-w-1/2 overflow-hidden">
+    <Card class="max-md:size-full md:min-w-150! md:max-w-1/2 md:max-h-9/10 overflow-hidden">
       <CardHeader>
         <CardTitle>{{ t('host-game') }}</CardTitle>
       </CardHeader>

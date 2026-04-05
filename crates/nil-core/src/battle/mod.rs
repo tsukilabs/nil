@@ -106,8 +106,7 @@ impl BattleResult {
         if wall_level > 0 && attacker_power.rams_amount > 0.0 {
           let remaining_rams =
             attacker_power.rams_amount - (attacker_power.rams_amount * losses_ratio);
-          let wall_levels_to_decrease =
-            wall_level * (remaining_rams / 200.0 - losses_ratio) * 0.5;
+          let wall_levels_to_decrease = wall_level * (remaining_rams / 200.0 - losses_ratio) * 0.5;
 
           if wall_levels_to_decrease > Wall::MAX_LEVEL {
             downgraded_wall_level = -Wall::MAX_LEVEL;
