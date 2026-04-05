@@ -3,7 +3,7 @@
 
 use crate::error::{Error, Result};
 use crate::response::{MaybeResponse, from_err};
-use crate::server::remote;
+use crate::server::{remote, spawn_round_duration_task};
 use crate::{VERSION, env, res};
 use dashmap::DashMap;
 use either::Either;
@@ -26,11 +26,11 @@ use nil_server_types::ServerKind;
 use nil_server_types::round::RoundDuration;
 use semver::{Prerelease, Version};
 use std::num::NonZeroU16;
-use std::sync::Arc;
+use std::sync::{Arc, Weak};
 use std::time::Duration;
 use tap::TryConv;
 use tokio::sync::RwLock;
-use tokio::task::spawn_blocking;
+use tokio::task::{spawn, spawn_blocking};
 
 #[derive(Clone)]
 pub(crate) struct App {
@@ -73,13 +73,27 @@ impl App {
         && let Ok(world) = game.to_world()
       {
         let world_id = world.config().id();
+        let round_id = world.round().id();
+        let is_round_idle = world.round().is_idle();
+
         let database = database.clone();
         let world = Arc::new(RwLock::new(world));
+        let weak_world = Arc::downgrade(&world);
+
+        if let Some(round_duration) = game.round_duration
+          && !is_round_idle
+        {
+          spawn(spawn_round_duration_task(
+            round_id,
+            Weak::clone(&weak_world),
+            round_duration.into(),
+          ));
+        }
 
         world.blocking_write().on_next_round(
           remote::on_next_round()
             .database(database)
-            .weak_world(Arc::downgrade(&world))
+            .weak_world(weak_world)
             .maybe_round_duration(game.round_duration)
             .call(),
         );

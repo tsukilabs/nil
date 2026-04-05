@@ -29,7 +29,7 @@ async fn bind(port: u16) -> Result<(TcpListener, SocketAddrV4)> {
   Ok((listener, addr))
 }
 
-async fn spawn_round_duration_task(
+pub(crate) async fn spawn_round_duration_task(
   current_round: RoundId,
   weak_world: Weak<RwLock<World>>,
   duration: RoundDuration,
