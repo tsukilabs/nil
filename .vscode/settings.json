@@ -27,6 +27,7 @@
   "files.eol": "\n",
   "git.branchProtection": ["main"],
   "git.branchProtectionPrompt": "alwaysPrompt",
+  "githubPullRequests.assignCreated": "${user}",
   "githubPullRequests.defaultMergeMethod": "squash",
   "js/ts.tsdk.path": "node_modules/typescript/lib",
   "Lua.workspace.library": ["crates/nil-lua/types"],

@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { ChatMessageImpl } from './chat-message';
+import type { ChatHistory, ChatMessage } from '@/types/core/chat';
 
 export class ChatHistoryImpl implements ChatHistory {
   public readonly queue: ChatMessageImpl[];

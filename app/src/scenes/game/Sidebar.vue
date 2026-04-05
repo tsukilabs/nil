@@ -5,6 +5,7 @@
 import { useI18n } from 'vue-i18n';
 import { Button } from '@ui/button';
 import RoundState from './RoundState.vue';
+import type { Scene } from '@/types/scene';
 import { useBreakpoints } from '@tb-dev/vue';
 import { onBeforeRouteUpdate } from 'vue-router';
 import { computed, nextTick, useTemplateRef } from 'vue';

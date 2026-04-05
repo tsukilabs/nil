@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { getPublicCities } from '@/commands/city';
+import type { PublicCity } from '@/types/core/city';
 import type { ComposerTranslation } from 'vue-i18n';
 import { CoordImpl } from '@/core/model/continent/coord';
 import { ReportImpl } from '@/core/model/report/abstract';

@@ -3,6 +3,7 @@
 
 import { invoke } from '@tauri-apps/api/core';
 import { CoordImpl } from '@/core/model/continent/coord';
+import type { City, PublicCity } from '@/types/core/city';
 import type { GetPublicCityResponse } from '@/types/response';
 import type {
   GetCityRequest,

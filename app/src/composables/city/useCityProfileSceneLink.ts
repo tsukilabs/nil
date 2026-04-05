@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { computed, toRef } from 'vue';
+import type { PublicCity } from '@/types/core/city';
 import { CoordImpl } from '@/core/model/continent/coord';
 import type { RouteLocationAsRelative } from 'vue-router';
 

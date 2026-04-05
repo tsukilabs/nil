@@ -4,6 +4,7 @@
 import { go } from '@/router';
 import * as commands from '@/commands';
 import { formatInt } from '@/lib/intl';
+import type { PublicCity } from '@/types/core/city';
 import { CoordImpl } from '@/core/model/continent/coord';
 
 export class PublicCityImpl implements PublicCity {

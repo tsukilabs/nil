@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { go } from '@/router';
+import type { Scene } from '@/types/scene';
 import { isNil, type Option, panic } from '@tb-dev/utils';
 import {
   QUERY_WAR_ROOM_DEST_X,

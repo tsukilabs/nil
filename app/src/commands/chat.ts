@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { invoke } from '@tauri-apps/api/core';
+import type { ChatHistory, ChatMessageId } from '@/types/core/chat';
 import type { GetChatHistoryRequest, PushChatMessageRequest } from '@/types/request';
 
 export async function getChatHistory() {

@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as commands from '@/commands';
+import type { City } from '@/types/core/city';
 import { CoordImpl } from '@/core/model/continent/coord';
 import { InfrastructureImpl } from '@/core/model/infrastructure/infrastructure';
 import { PublicCityImpl, type PublicCityImplConstructorArgs } from './public-city';
