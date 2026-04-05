@@ -73,3 +73,7 @@ label:has(input[type="radio"]):not(:has(span[data-slot="slider"])) {
 [data-sonner-toast] [data-description] {
   @apply text-foreground!;
 }
+
+[data-slot="card-content"].card-form {
+  @apply size-full flex flex-col gap-4 md:gap-2 max-md:px-2 overflow-x-hidden overflow-y-auto;
+}

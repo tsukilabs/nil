@@ -84,12 +84,12 @@ function key(name: string) {
 
 <template>
   <div :class="md ? 'card-layout' : 'game-layout'">
-    <Card class="max-md:size-full md:max-h-9/10 overflow-hidden">
+    <Card class="max-md:size-full md:max-h-[95%] overflow-hidden">
       <CardHeader>
         <CardTitle>{{ t('host-game') }}</CardTitle>
       </CardHeader>
 
-      <CardContent class="size-full flex flex-col gap-2 max-md:px-2 overflow-x-hidden overflow-y-auto">
+      <CardContent class="card-form">
         <InputWorldName v-model="worldOptions.name" :disabled="locked" />
         <InputWorldSize v-model="worldOptions.size" :disabled="locked" />
         <InputPlayerName v-model="playerOptions.id" :disabled="locked" />
