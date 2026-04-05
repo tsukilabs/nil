@@ -4,6 +4,7 @@
 <script setup lang="ts">
 import { Badge } from '@ui/badge';
 import { useI18n } from 'vue-i18n';
+import type { BattleWinner } from '@/types/core/battle';
 import { CoordImpl } from '@/core/model/continent/coord';
 import enUS from '@/locale/en-US/scenes/game/report.json';
 import ptBR from '@/locale/pt-BR/scenes/game/report.json';

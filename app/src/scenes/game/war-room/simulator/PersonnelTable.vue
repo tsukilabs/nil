@@ -3,6 +3,7 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
+import type { Luck } from '@/types/core/battle';
 import PersonnelTableRow from './PersonnelTableRow.vue';
 import { NumberField, NumberFieldContent, NumberFieldInput } from '@ui/number-field';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@ui/table';

@@ -4,6 +4,7 @@
 import { toI8 } from '@/lib/number';
 import { simulateBattle } from '@/commands/battle';
 import { ArmyPersonnelImpl } from '@/core/model/military/army-personnel';
+import type { BattleResult, BattleWinner, Luck } from '@/types/core/battle';
 
 export class BattleResultImpl implements BattleResult {
   public readonly winner: BattleWinner;
