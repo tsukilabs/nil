@@ -118,6 +118,11 @@ export async function hostRemoteGame(options: {
   authorizationToken: NonNullable<ClientOptions['authorizationToken']>;
   roundDuration: Option<RoundDuration>;
 }) {
+  await commands.updateClient({
+    serverAddr: { kind: 'remote' },
+    authorizationToken: options.authorizationToken,
+  });
+
   const worldId = await commands.createRemoteWorld({
     options: options.worldOptions,
     password: options.worldPassword,

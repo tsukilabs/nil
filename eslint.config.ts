@@ -14,17 +14,17 @@ export default defineConfig({
   },
   overrides: {
     typescript: {
-      '@typescript-eslint/consistent-type-definitions': 'off',
-      '@typescript-eslint/naming-convention': 'off',
-      '@typescript-eslint/no-explicit-any': 'off',
-      '@typescript-eslint/no-non-null-assertion': 'off',
-      '@typescript-eslint/no-unnecessary-type-arguments': 'off',
-      '@typescript-eslint/no-unsafe-call': 'off',
-      '@typescript-eslint/no-unsafe-member-access': 'off',
-      '@typescript-eslint/no-unused-private-class-members': 'off',
+      'consistent-type-definitions': 'off',
+      'naming-convention': 'off',
+      'no-explicit-any': 'off',
+      'no-non-null-assertion': 'off',
+      'no-unnecessary-type-arguments': 'off',
+      'no-unsafe-call': 'off',
+      'no-unsafe-member-access': 'off',
+      'no-unused-private-class-members': 'off',
     },
     vue: {
-      'vue/enforce-style-attribute': ['error', { allow: ['module', 'scoped'] }],
+      'enforce-style-attribute': ['error', { allow: ['module', 'scoped'] }],
     },
   },
 });
