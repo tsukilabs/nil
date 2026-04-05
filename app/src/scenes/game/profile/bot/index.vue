@@ -6,6 +6,7 @@ import { useI18n } from 'vue-i18n';
 import { onKeyDown } from '@tb-dev/vue';
 import { throttle } from 'es-toolkit/function';
 import { useRouteParams } from '@vueuse/router';
+import type { BotId } from '@/types/core/npc/bot';
 import CityTable from '@/components/CityTable.vue';
 import { usePublicBot } from '@/composables/npc/usePublicBot';
 import { Card, CardContent, CardHeader, CardTitle } from '@ui/card';

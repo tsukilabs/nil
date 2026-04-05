@@ -12,6 +12,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { useToggle, whenever } from '@vueuse/core';
 import type { GameScene } from '@/types/scene/game';
 import ChatInput from '@/components/chat/ChatInput.vue';
+import type { ChatUpdatedPayload } from '@/types/core/event';
 import { Popover, PopoverContent, PopoverTrigger } from '@ui/popover';
 
 const { player } = NIL.player.refs();

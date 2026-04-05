@@ -1,19 +1,21 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-type StorageId = 'silo' | 'warehouse';
+import type { BuildingLevel } from '@/types/core/infrastructure/building';
 
-interface StorageStats {
+export type StorageId = 'silo' | 'warehouse';
+
+export interface StorageStats {
   readonly capacity: number;
   readonly level: BuildingLevel;
 }
 
-interface StorageStatsTable {
+export interface StorageStatsTable {
   readonly id: StorageId;
   readonly table: ReadonlyMap<BuildingLevel, StorageStats>;
 }
 
-interface OverallStorageCapacity {
+export interface OverallStorageCapacity {
   readonly silo: number;
   readonly warehouse: number;
 }

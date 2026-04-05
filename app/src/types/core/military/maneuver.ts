@@ -1,7 +1,12 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-interface Maneuver {
+import type { Ruler } from '@/types/core/ruler';
+import type { Coord } from '@/types/core/continent';
+import type { Resources } from '@/types/core/resources';
+import type { ArmyId, ArmyPersonnel } from '@/types/core/military/army';
+
+export interface Maneuver {
   readonly id: ManeuverId;
   readonly origin: Coord;
   readonly destination: Coord;
@@ -13,31 +18,31 @@ interface Maneuver {
   readonly hauledResources: Option<ManeuverHaul>;
 }
 
-type ManeuverId = string;
+export type ManeuverId = string;
 
-type ManeuverKind = 'attack' | 'support';
+export type ManeuverKind = 'attack' | 'support';
 
-type ManeuverDirection = 'going' | 'returning';
+export type ManeuverDirection = 'going' | 'returning';
 
-type ManeuverDistance = number;
+export type ManeuverDistance = number;
 
-type ManeuverState = ManeuverStateDone | ManeuverStatePending;
+export type ManeuverState = ManeuverStateDone | ManeuverStatePending;
 
-interface ManeuverStateDone {
+export interface ManeuverStateDone {
   readonly kind: 'done';
 }
 
-interface ManeuverStatePending {
+export interface ManeuverStatePending {
   readonly kind: 'pending';
   readonly distance: ManeuverDistance;
 }
 
-interface ManeuverHaul {
+export interface ManeuverHaul {
   readonly ruler: Ruler;
   readonly resources: Resources;
 }
 
-interface ManeuverRequest {
+export interface ManeuverRequest {
   readonly kind: ManeuverKind;
   readonly origin: Coord;
   readonly destination: Coord;

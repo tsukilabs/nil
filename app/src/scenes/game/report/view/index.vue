@@ -8,6 +8,7 @@ import { Button } from '@ui/button';
 import { whenever } from '@vueuse/core';
 import SupportReport from './SupportReport.vue';
 import { useRouteParams } from '@vueuse/router';
+import type { ReportId } from '@/types/core/report';
 import enUS from '@/locale/en-US/scenes/game/report.json';
 import ptBR from '@/locale/pt-BR/scenes/game/report.json';
 import { useReport } from '@/composables/report/useReport';

@@ -17,6 +17,7 @@ import type { InfrastructureScene } from '@/types/scene/game/infrastructure';
 import type { BuildingImpl } from '@/core/model/infrastructure/building/abstract';
 import { useResolvedBuildingLevel } from '@/composables/infrastructure/useResolvedBuildingLevel';
 import type { PrefectureImpl } from '@/core/model/infrastructure/building/prefecture/prefecture';
+import type { PrefectureBuildCatalogEntry, PrefectureBuildOrderKind } from '@/types/core/infrastructure/prefecture';
 
 const props = defineProps<{
   entry: PrefectureBuildCatalogEntry;

@@ -3,6 +3,7 @@
 
 <script setup lang="ts">
 import SquadGridItem from './SquadGridItem.vue';
+import type { WritableArmyPersonnel } from '@/types/core/military/army';
 
 defineProps<{
   available: WritableArmyPersonnel;

@@ -7,6 +7,7 @@ import { onKeyDown } from '@tb-dev/vue';
 import { throttle } from 'es-toolkit/function';
 import { useRouteParams } from '@vueuse/router';
 import CityTable from '@/components/CityTable.vue';
+import type { PrecursorId } from '@/types/core/npc/precursor';
 import { Card, CardContent, CardHeader, CardTitle } from '@ui/card';
 import { usePublicCities } from '@/composables/city/usePublicCities';
 import { usePublicPrecursor } from '@/composables/npc/usePublicPrecursor';

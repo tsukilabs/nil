@@ -1,52 +1,57 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-interface Prefecture extends Building {
+import type { Coord } from '@/types/core/continent';
+import type { Resources } from '@/types/core/resources';
+import type { InfrastructureQueueOrder } from '@/types/core/infrastructure/queue';
+import type { Building, BuildingId, BuildingLevel } from '@/types/core/infrastructure/building';
+
+export interface Prefecture extends Building {
   readonly buildQueue: PrefectureBuildQueue;
 }
 
-interface PrefectureBuildQueue {
+export interface PrefectureBuildQueue {
   readonly orders: readonly PrefectureBuildOrder[];
 }
 
-interface PrefectureBuildOrder extends InfrastructureQueueOrder {
+export interface PrefectureBuildOrder extends InfrastructureQueueOrder {
   readonly kind: PrefectureBuildOrderKind;
   readonly building: BuildingId;
   readonly level: BuildingLevel;
 }
 
-type PrefectureBuildOrderKind = 'construction' | 'demolition';
+export type PrefectureBuildOrderKind = 'construction' | 'demolition';
 
-interface PrefectureBuildOrderRequest {
+export interface PrefectureBuildOrderRequest {
   readonly coord: Coord;
   readonly building: BuildingId;
   readonly kind: PrefectureBuildOrderKind;
 }
 
-type PrefectureBuildCatalog = {
+export type PrefectureBuildCatalog = {
   readonly [B in keyof Infrastructure]: PrefectureBuildCatalogEntry;
 };
 
-type PrefectureBuildCatalogEntry =
+export type PrefectureBuildCatalogEntry =
   | PrefectureBuildCatalogEntryAvailable
   | PrefectureBuildCatalogEntryMaxed
   | PrefectureBuildCatalogEntryUnmet;
 
-interface PrefectureBuildCatalogEntryAvailable {
+export interface PrefectureBuildCatalogEntryAvailable {
   readonly kind: 'available';
   readonly recipe: PrefectureBuildCatalogRecipe;
 }
 
-interface PrefectureBuildCatalogEntryMaxed {
+export interface PrefectureBuildCatalogEntryMaxed {
   readonly kind: 'maxed';
 }
 
-interface PrefectureBuildCatalogEntryUnmet {
+export interface PrefectureBuildCatalogEntryUnmet {
   readonly kind: 'unmet';
   readonly requirements: InfrastructureRequirements;
 }
 
-interface PrefectureBuildCatalogRecipe {
+export interface PrefectureBuildCatalogRecipe {
   readonly level: BuildingLevel;
   readonly resources: Resources;
   readonly maintenance: number;

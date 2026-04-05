@@ -4,6 +4,7 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import { TableCell, TableRow } from '@ui/table';
+import type { Squad } from '@/types/core/military/squad';
 import { NumberField, NumberFieldContent, NumberFieldInput } from '@ui/number-field';
 
 const attacker = defineModel<Squad>('attacker', { required: true });

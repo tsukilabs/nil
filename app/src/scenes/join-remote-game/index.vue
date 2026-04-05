@@ -15,6 +15,7 @@ import Loading from '@/components/Loading.vue';
 import { isValidPassword } from '@/lib/schema';
 import { useRouteQuery } from '@vueuse/router';
 import { useSettings } from '@/stores/settings';
+import type { WorldId } from '@/types/core/world';
 import enUS from '@/locale/en-US/scenes/online.json';
 import ptBR from '@/locale/pt-BR/scenes/online.json';
 import { useToken } from '@/composables/auth/useToken';

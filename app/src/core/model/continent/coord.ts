@@ -4,6 +4,7 @@
 import { go } from '@/router';
 import type { Scene } from '@/types/scene';
 import { isNil, type Option, panic } from '@tb-dev/utils';
+import type { ContinentIndex, ContinentKey, Coord, CoordTuple } from '@/types/core/continent';
 import {
   QUERY_WAR_ROOM_DEST_X,
   QUERY_WAR_ROOM_DEST_Y,

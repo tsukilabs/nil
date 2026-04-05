@@ -4,6 +4,10 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useBreakpoints } from '@tb-dev/vue';
+import Food from '@/components/resources/Food.vue';
+import Iron from '@/components/resources/Iron.vue';
+import Wood from '@/components/resources/Wood.vue';
+import Stone from '@/components/resources/Stone.vue';
 import { usePlayerResources } from '@/composables/player/usePlayerResources';
 import { usePlayerStorageCapacity } from '@/composables/player/usePlayerStorageCapacity';
 

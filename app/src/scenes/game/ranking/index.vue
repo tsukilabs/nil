@@ -6,6 +6,7 @@ import { useI18n } from 'vue-i18n';
 import { onKeyDown } from '@vueuse/core';
 import Loading from '@/components/Loading.vue';
 import { throttle } from 'es-toolkit/function';
+import type { Ruler } from '@/types/core/ruler';
 import { useRanking } from '@/composables/ranking/useRanking';
 import { Card, CardContent, CardHeader, CardTitle } from '@ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@ui/table';
@@ -57,16 +58,16 @@ function getIdClass(ruler: Ruler) {
               @keydown.enter="() => entry.goToProfile()"
             >
               <TableCell>
-                {{ entry.formatRank() }}
+                {{ entry.rank }}
               </TableCell>
               <TableCell :class="getIdClass(entry.ruler)">
                 {{ entry.ruler.id }}
               </TableCell>
               <TableCell>
-                {{ entry.formatScore() }}
+                {{ entry.score }}
               </TableCell>
               <TableCell>
-                {{ entry.formatCities() }}
+                {{ entry.cities }}
               </TableCell>
             </TableRow>
           </TableBody>

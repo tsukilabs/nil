@@ -4,6 +4,7 @@
 import type { Ruler } from '@/types/core/ruler';
 import { CoordImpl } from '@/core/model/continent/coord';
 import type { RankingEntry } from '@/types/core/ranking';
+import type { ContinentKey, Coord } from '@/types/core/continent';
 import { RankingEntryImpl } from '@/core/model/ranking/ranking-entry';
 
 export abstract class RulerImpl {

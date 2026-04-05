@@ -13,6 +13,7 @@ import { asyncComputed } from '@tb-dev/vue';
 import { computed, nextTick, ref } from 'vue';
 import { useManeuvers } from '@/composables/military/useManeuvers';
 import { usePlayerTurn } from '@/composables/player/usePlayerTurn';
+import type { ManeuverKind } from '@/types/core/military/maneuver';
 import { ArmyPersonnelImpl } from '@/core/model/military/army-personnel';
 import { useWarRoomCoords } from '@/composables/military/useWarRoomCoords';
 import { foldArmyPersonnel } from '@/composables/military/foldArmyPersonnel';

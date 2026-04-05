@@ -5,6 +5,7 @@ import { getField, getFields } from '@/commands';
 import { tryOnScopeDispose } from '@vueuse/core';
 import type { MaybePromise } from '@tb-dev/utils';
 import type { CoordImpl } from '@/core/model/continent/coord';
+import type { ContinentIndex, Coord, PublicFieldKind } from '@/types/core/continent';
 
 const enum Flags {
   Uninit = 1 << 0,

@@ -9,6 +9,7 @@ import { Button } from '@ui/button';
 import * as commands from '@/commands';
 import { useMutex } from '@tb-dev/vue';
 import { useRouter } from 'vue-router';
+import type { PlayerId } from '@/types/core/player';
 import enUS from '@/locale/en-US/scenes/online.json';
 import ptBR from '@/locale/pt-BR/scenes/online.json';
 import { computed, onBeforeMount, reactive } from 'vue';

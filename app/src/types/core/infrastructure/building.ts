@@ -1,7 +1,9 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-type BuildingId =
+import type { Resources } from '@/types/core/resources';
+
+export type BuildingId =
   | 'academy'
   | 'farm'
   | 'iron-mine'
@@ -14,22 +16,22 @@ type BuildingId =
   | 'warehouse'
   | 'workshop';
 
-type BuildingLevel = number;
-type BuildingLevelDiff = number;
+export type BuildingLevel = number;
+export type BuildingLevelDiff = number;
 
-interface Building {
+export interface Building {
   readonly enabled: boolean;
   readonly level: BuildingLevel;
 }
 
-type Sawmill = Building;
-type Quarry = Building;
-type IronMine = Building;
-type Farm = Building;
-type Warehouse = Building;
-type Silo = Building;
+export type Sawmill = Building;
+export type Quarry = Building;
+export type IronMine = Building;
+export type Farm = Building;
+export type Warehouse = Building;
+export type Silo = Building;
 
-interface BuildingStats {
+export interface BuildingStats {
   readonly level: BuildingLevel;
   readonly cost: number;
   readonly resources: Resources;
@@ -37,7 +39,7 @@ interface BuildingStats {
   readonly workforce: number;
 }
 
-interface BuildingStatsTable {
+export interface BuildingStatsTable {
   readonly id: BuildingId;
   readonly minLevel: BuildingLevel;
   readonly maxLevel: BuildingLevel;

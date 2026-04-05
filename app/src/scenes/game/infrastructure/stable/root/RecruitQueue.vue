@@ -6,9 +6,10 @@ import { cn } from '@ui/utils';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { Button } from '@ui/button';
-import { formatInt } from '@/lib/intl';
 import { useBreakpoints } from '@tb-dev/vue';
+import type { Squad } from '@/types/core/military/squad';
 import { Table, TableBody, TableCell, TableRow } from '@ui/table';
+import type { InfrastructureQueueOrderId } from '@/types/core/infrastructure/queue';
 import type { StableImpl } from '@/core/model/infrastructure/building/stable/stable';
 
 const props = defineProps<{
@@ -26,7 +27,7 @@ const tableClass = computed(() => {
 const { sm } = useBreakpoints();
 
 function formatSquad(squad: Squad) {
-  return `${formatInt(squad.size)} ${t(squad.unit, squad.size)}`;
+  return `${squad.size} ${t(squad.unit, squad.size)}`;
 }
 </script>
 

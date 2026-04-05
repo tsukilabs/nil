@@ -4,6 +4,7 @@
 import type { Ruler } from '@/types/core/ruler';
 import { getPublicCities } from '@/commands/city';
 import type { PublicCity } from '@/types/core/city';
+import type { Coord } from '@/types/core/continent';
 import type { PlayerId } from '@/types/core/player';
 import type { ComposerTranslation } from 'vue-i18n';
 import { CoordImpl } from '@/core/model/continent/coord';

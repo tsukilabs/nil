@@ -4,6 +4,7 @@
 <script setup lang="ts">
 import { Label } from '@ui/label';
 import type { PublicCity } from '@/types/core/city';
+import type { Coord } from '@/types/core/continent';
 import { NumberField, NumberFieldContent, NumberFieldInput } from '@ui/number-field';
 
 defineProps<{

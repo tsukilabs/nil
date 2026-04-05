@@ -3,7 +3,6 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import { formatInt } from '@/lib/intl';
 import { useSilo } from '@/composables/infrastructure/useBuilding';
 import { Card, CardContent, CardHeader, CardTitle } from '@ui/card';
 import enUS from '@/locale/en-US/scenes/game/infrastructure/storage.json';
@@ -46,7 +45,7 @@ const { level, stats } = useStorageStats(silo);
                 <span>{{ t('current-capacity') }}</span>
               </TableCell>
               <TableCell>
-                <span>{{ formatInt(stats.current.capacity) }}</span>
+                <span>{{ stats.current.capacity }}</span>
               </TableCell>
             </TableRow>
 
@@ -55,7 +54,7 @@ const { level, stats } = useStorageStats(silo);
                 <span>{{ t('capacity-on-level-x', [level.next]) }}</span>
               </TableCell>
               <TableCell>
-                <span>{{ formatInt(stats.next.capacity) }}</span>
+                <span>{{ stats.next.capacity }}</span>
               </TableCell>
             </TableRow>
           </TableBody>

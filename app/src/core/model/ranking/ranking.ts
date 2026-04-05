@@ -3,6 +3,7 @@
 
 import { getRanking } from '@/commands';
 import { RankingEntryImpl } from './ranking-entry';
+import type { Ranking } from '@/types/core/ranking';
 
 export class RankingImpl {
   public readonly ranking: readonly RankingEntryImpl[];
