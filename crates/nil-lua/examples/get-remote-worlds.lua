@@ -4,13 +4,13 @@
 local worlds = client:getRemoteWorlds();
 
 for _, world in ipairs(worlds) do
-  println(world.config.name)
-  println("  id: ", world.config.id)
-  println("  created by: ", world.createdBy)
-  println("  round: ", world.currentRound)
-  println("  size: ", world.continentSize)
-  println("  active players: ", world.activePlayers)
-  println("  total players: ", world.totalPlayers)
-  println("  world speed: ", world.config.speed)
-  println("  unit speed: ", world.config.unitSpeed)
+  print(world.config.name)
+  print("  id: ", world.config.id)
+  print("  created by: ", world.createdBy)
+  print("  round: ", world.currentRound)
+  print("  size: ", world.continentSize)
+  print("  active players: ", world.activePlayers)
+  print("  total players: ", world.totalPlayers)
+  print("  world speed: ", world.config.speed)
+  print("  unit speed: ", world.config.unitSpeed)
 end

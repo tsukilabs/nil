@@ -25,7 +25,6 @@ workspace = true
 [dependencies]
 anyhow.workspace = true
 bon.workspace = true
-jiff.workspace = true
 mlua.workspace = true
 nil-payload.workspace = true
 serde.workspace = true

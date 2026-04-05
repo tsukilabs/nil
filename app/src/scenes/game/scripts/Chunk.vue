@@ -2,7 +2,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import type { ScriptImpl } from '@/core/model/scripts/script';
+import type { ScriptImpl } from '@/core/model/lua/script';
 
 defineProps<{
   script: ScriptImpl;

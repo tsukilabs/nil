@@ -3,7 +3,6 @@
 
 use crate::Lua;
 use crate::error::Result;
-use crate::io::StdioMessage;
 use serde::{Deserialize, Serialize};
 use std::ffi::OsStr;
 use std::path::PathBuf;
@@ -29,14 +28,7 @@ impl Script {
     Ok(Self { name, chunk, path })
   }
 
-  pub async fn execute(&self, lua: &mut Lua) -> Result<ScriptOutput> {
+  pub async fn execute(&self, lua: &mut Lua) -> Result<()> {
     lua.execute(&self.chunk).await
   }
-}
-
-#[derive(Clone, Debug, Deserialize, Serialize)]
-#[serde(rename_all = "camelCase")]
-pub struct ScriptOutput {
-  pub stdout: Vec<StdioMessage>,
-  pub stderr: Vec<StdioMessage>,
 }

@@ -5,7 +5,7 @@
 import { useI18n } from 'vue-i18n';
 import { Button } from '@ui/button';
 import { VisuallyHidden } from 'reka-ui';
-import type { ScriptImpl } from '@/core/model/scripts/script';
+import type { ScriptImpl } from '@/core/model/lua/script';
 import { Sheet, SheetClose, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@ui/sheet';
 
 const props = defineProps<{
