@@ -39,15 +39,15 @@ if (__DESKTOP__) {
 
 <template>
   <div class="game-layout">
-    <Card v-if="city && owner" class="size-full overflow-x-hidden overflow-y-auto">
+    <Card v-if="city && owner" class="size-full overflow-hidden">
       <CardHeader>
         <CardTitle>
           <span>{{ city.name }}</span>
         </CardTitle>
       </CardHeader>
 
-      <CardContent class="px-2 py-0 relative size-full">
-        <div>
+      <CardContent class="size-full relative px-2 py-0 overflow-auto">
+        <div class="w-full min-w-max">
           <Table class="sm:max-w-max">
             <TableBody>
               <TableRow>

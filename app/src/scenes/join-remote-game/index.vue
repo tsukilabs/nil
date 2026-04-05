@@ -99,8 +99,8 @@ async function deleteGame() {
         </CardTitle>
       </CardHeader>
 
-      <CardContent class="size-full overflow-x-hidden overflow-y-auto">
-        <Table>
+      <CardContent class="size-full overflow-auto">
+        <Table class="w-full min-w-max">
           <TableBody>
             <TableRow class="hover:bg-card">
               <TableHead class="max-w-max pr-4">{{ t('name') }}</TableHead>
