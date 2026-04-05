@@ -3,7 +3,7 @@
 
 import * as commands from '@/commands';
 import { asyncRef } from '@tb-dev/vue';
-import { ScriptImpl } from '@/core/model/scripts/script';
+import { ScriptImpl } from '@/core/model/lua/script';
 
 export function useScripts() {
   // TODO: I don’t think it makes any sense to eagerly load all scripts like this.

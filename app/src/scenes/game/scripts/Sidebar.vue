@@ -3,7 +3,7 @@
 
 <script setup lang="ts">
 import { Button } from '@ui/button';
-import type { ScriptImpl } from '@/core/model/scripts/script';
+import type { ScriptImpl } from '@/core/model/lua/script';
 
 defineProps<{
   scripts: readonly ScriptImpl[];

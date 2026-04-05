@@ -7,14 +7,11 @@ use anyhow::{Result, anyhow};
 use clap::Parser;
 use config::Config;
 use futures::future::BoxFuture;
-use itertools::Itertools;
-use mlua::StdLib;
 use nil_client::{Client, ServerAddr};
 use nil_core::event::Event;
 use nil_core::player::PlayerId;
 use nil_core::world::config::WorldId;
 use nil_crypto::password::Password;
-use nil_lua::Lua;
 use nil_server_types::auth::Token;
 use std::fs;
 use std::path::PathBuf;
@@ -84,21 +81,8 @@ async fn main() -> Result<()> {
     .await?;
 
   let client = Arc::new(RwLock::new(client));
-  let mut lua = Lua::builder(&client)
-    .libs(StdLib::ALL_SAFE)
-    .build()?;
-
   let chunk = fs::read_to_string(cli.script)?;
-  let output = lua.execute(&chunk).await?;
-
-  for message in output
-    .stdout
-    .into_iter()
-    .chain(output.stderr)
-    .sorted()
-  {
-    print!("{message}");
-  }
+  nil_lua::execute(&client, &chunk).await?;
 
   Ok(())
 }

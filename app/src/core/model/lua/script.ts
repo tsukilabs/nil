@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as commands from '@/commands';
+import type { Script } from '@/types/lua';
 import { toHtml } from '@/lib/highlighter';
 import { remove } from '@tauri-apps/plugin-fs';
 

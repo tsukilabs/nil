@@ -1,14 +1,15 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { Script } from '@/types/lua';
 import { invoke } from '@tauri-apps/api/core';
 
 export async function executeScript(chunk: string) {
-  return invoke<ScriptOutput>('execute_script', { chunk });
+  await invoke('execute_script', { chunk });
 }
 
 export async function executeScriptAt(path: string) {
-  return invoke<ScriptOutput>('execute_script_at', { path });
+  await invoke('execute_script_at', { path });
 }
 
 export async function importScript(path: string) {

@@ -5,13 +5,13 @@ use crate::error::{Error, Result};
 use crate::manager::ManagerExt;
 use futures::TryFutureExt;
 use natord::compare_ignore_case;
-use nil_lua::script::{Script, ScriptOutput};
+use nil_lua::script::Script;
 use std::path::{Path, PathBuf};
 use tauri::AppHandle;
 use tokio::fs;
 
 #[tauri::command]
-pub async fn execute_script(app: AppHandle, chunk: String) -> Result<ScriptOutput> {
+pub async fn execute_script(app: AppHandle, chunk: String) -> Result<()> {
   app
     .lua(async |lua| lua.execute(&chunk).await)
     .await
@@ -19,7 +19,7 @@ pub async fn execute_script(app: AppHandle, chunk: String) -> Result<ScriptOutpu
 }
 
 #[tauri::command]
-pub async fn execute_script_at(app: AppHandle, path: PathBuf) -> Result<ScriptOutput> {
+pub async fn execute_script_at(app: AppHandle, path: PathBuf) -> Result<()> {
   fs::read_to_string(path)
     .map_err(Into::<Error>::into)
     .and_then(|chunk| execute_script(app, chunk))
