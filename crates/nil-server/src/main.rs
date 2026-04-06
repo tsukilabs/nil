@@ -11,6 +11,7 @@ use nil_server::remote;
 use std::env;
 use std::time::Duration;
 use sysinfo::{Pid, ProcessRefreshKind, ProcessesToUpdate, RefreshKind, System};
+use tokio::runtime::Handle;
 use tokio::task::spawn;
 use tokio::time::sleep;
 
@@ -41,21 +42,21 @@ async fn main() -> Result<()> {
   result
 }
 
+macro_rules! b {
+  ($bytes:expr) => {{ ByteSize::b($bytes).display().si() }};
+}
+
 fn watch_process(pid: Pid) {
+  let mut sys = System::new_with_specifics(
+    RefreshKind::nothing().with_processes(
+      ProcessRefreshKind::nothing()
+        .with_cpu()
+        .with_disk_usage()
+        .with_memory(),
+    ),
+  );
+
   spawn(async move {
-    let mut sys = System::new_with_specifics(
-      RefreshKind::nothing().with_processes(
-        ProcessRefreshKind::nothing()
-          .with_cpu()
-          .with_disk_usage()
-          .with_memory(),
-      ),
-    );
-
-    macro_rules! b {
-      ($bytes:expr) => {{ ByteSize::b($bytes).display().si() }};
-    }
-
     loop {
       sys.refresh_processes_specifics(
         ProcessesToUpdate::Some(&[pid]),
@@ -67,7 +68,10 @@ fn watch_process(pid: Pid) {
       );
 
       if let Some(process) = sys.process(pid) {
+        let runtime = Handle::current();
+        let metrics = runtime.metrics();
         let disk_usage = process.disk_usage();
+
         tracing::info!(
           name = %process.name().to_string_lossy(),
           cpu_usage = format!("{:.2}%", process.cpu_usage()),
@@ -78,6 +82,9 @@ fn watch_process(pid: Pid) {
           written_bytes = %b!(disk_usage.written_bytes),
           total_written_bytes = %b!(disk_usage.total_written_bytes),
           run_time = ?Duration::from_secs(process.run_time()),
+          tokio_global_queue_depth = metrics.global_queue_depth(),
+          tokio_num_alive_tasks = metrics.num_alive_tasks(),
+          tokio_num_workers = metrics.num_workers(),
         );
       }
 

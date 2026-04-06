@@ -24,7 +24,7 @@ version = "3.3"
 features = ["json"]
 ---
 
-use anyhow::Result;
+use anyhow::{Result, bail};
 use clap::Parser;
 use nil_util::{output_fmt, spawn, spawn_fmt};
 use regex::Regex;
@@ -32,6 +32,8 @@ use serde::Deserialize;
 use serde_json::json;
 use std::fmt::Write;
 use std::path::PathBuf;
+use std::thread::sleep;
+use std::time::Duration;
 use std::{env, fs};
 
 #[derive(Parser)]
@@ -68,9 +70,7 @@ fn main() -> Result<()> {
     upload_asset(&tag_name, &asset_path)?;
 
     if let Ok(token) = env::var("TSUKILABS_TOKEN") {
-      ureq::get("https://tsukilabs.dev.br/release/nil")
-        .header("Authorization", format!("Bearer {token}"))
-        .call()?;
+      update_server(&token)?;
 
       let release = view_release(Some(&tag_name))?;
 
@@ -122,6 +122,30 @@ fn main() -> Result<()> {
   }
 
   Ok(())
+}
+
+fn update_server(token: &str) -> Result<()> {
+  let mut tries = 1;
+  loop {
+    let status = ureq::get("https://tsukilabs.dev.br/release/nil")
+      .header("Authorization", format!("Bearer {token}"))
+      .call()?
+      .status();
+
+    if status.is_success() {
+      return Ok(());
+    } else if status.is_server_error() && tries < 3 {
+      tries += 1;
+      sleep(Duration::from_secs(5 * tries));
+      continue;
+    }
+
+    let reason = status
+      .canonical_reason()
+      .unwrap_or("Unknown");
+
+    bail!("Failed to update server: {status} {reason}");
+  }
 }
 
 fn view_release(tag_name: Option<&str>) -> Result<Release> {
