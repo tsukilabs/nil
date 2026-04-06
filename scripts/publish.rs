@@ -41,6 +41,11 @@ use toml::Value as Toml;
 const REGISTRY: &str = "https://crates.io/api/v1/crates";
 
 fn main() -> Result<()> {
+  publish()?;
+  Ok(())
+}
+
+fn publish() -> Result<()> {
   let mut command = String::from("cargo publish --workspace");
   let version = fs::read("Cargo.toml")?
     .pipe(|bytes| toml::from_slice::<Toml>(&bytes))?
