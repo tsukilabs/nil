@@ -3,14 +3,14 @@
 
 use std::ops::{ControlFlow, Try};
 
-pub trait TryElse<T> {
+pub trait TryExt<T> {
   fn unwrap_or_try_else<F, R>(self, f: F) -> R
   where
     F: FnOnce() -> R,
     R: Try<Output = T>;
 }
 
-impl<T, U> TryElse<T> for U
+impl<T, U> TryExt<T> for U
 where
   U: Try<Output = T>,
 {

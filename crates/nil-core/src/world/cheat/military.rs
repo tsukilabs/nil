@@ -9,7 +9,7 @@ use crate::military::army::personnel::ArmyPersonnel;
 use crate::ruler::Ruler;
 use crate::world::World;
 use itertools::Itertools;
-use nil_util::ops::TryElse;
+use nil_util::ops::TryExt;
 use tap::Pipe;
 
 impl World {
