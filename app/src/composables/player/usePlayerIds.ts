@@ -9,7 +9,6 @@ import { computed, type MaybeRefOrGetter, toRef } from 'vue';
 interface UsePlayerIdsOptions {
   exclude?: MaybeRefOrGetter<readonly PlayerId[]>;
   filter?: (playerId: PlayerId) => boolean;
-  search?: MaybeRefOrGetter<Option<string>>;
 }
 
 export function usePlayerIds(options?: UsePlayerIdsOptions) {
@@ -19,26 +18,14 @@ export function usePlayerIds(options?: UsePlayerIdsOptions) {
   });
 
   const exclude = options?.exclude ? toRef(options.exclude) : null;
-  const search = options?.search ? toRef(options.search) : null;
 
   const playerIds = computed(() => {
-    let ids = state.value;
-
     if (Array.isArray(exclude?.value) && exclude.value.length > 0) {
-      ids = ids.filter((id) => {
-        return !exclude.value.includes(id);
-      });
+      return state.value.filter((id) => !exclude.value.includes(id));
     }
-
-    let searchValue = search?.value?.trim();
-    if (searchValue) {
-      searchValue = searchValue.toLocaleLowerCase();
-      ids = state.value.filter((id) => {
-        return id.toLocaleLowerCase().includes(searchValue!);
-      });
+    else {
+      return state.value;
     }
-
-    return ids;
   });
 
   return {

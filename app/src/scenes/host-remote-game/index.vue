@@ -64,6 +64,7 @@ const roundDuration = localRef(key('round-duration'), __CONSTS__.roundDurationDe
 const isRoundDurationEnabled = localRef(key('round-duration-enabled'), false);
 
 const { locked, lock } = useMutex();
+
 const isValidWorld = computed(() => isWorldOptions(worldOptions.value));
 const canHost = computed(() => {
   return (

@@ -30,8 +30,8 @@ const { report } = useReport(reportId);
 whenever(report, ({ id }) => NIL.report.markRead(id));
 
 async function goToReportForwardScene() {
-  if (reportId.value) {
-    await go('report-forward', { params: { id: reportId.value } });
+  if (report.value) {
+    await go('report-forward', { params: { id: report.value.id } });
   }
 }
 </script>
@@ -49,13 +49,8 @@ async function goToReportForwardScene() {
         <BattleReport v-if="report && (report instanceof BattleReportImpl)" :report />
         <SupportReport v-else-if="report && (report instanceof SupportReportImpl)" :report />
 
-        <div class="grid grid-cols-1 items-center justify-start gap-4 max-w-max">
-          <Button
-            :disabled="!reportId"
-            role="link"
-            tabindex="0"
-            @click="goToReportForwardScene"
-          >
+        <div v-if="report" class="grid grid-cols-1 items-center justify-start gap-4 max-w-max">
+          <Button role="link" tabindex="0" @click="goToReportForwardScene">
             <span>{{ t('forward') }}</span>
           </Button>
         </div>
