@@ -129,6 +129,9 @@ fn update_server(token: &str) -> Result<()> {
   loop {
     let status = ureq::get("https://tsukilabs.dev.br/release/nil")
       .header("Authorization", format!("Bearer {token}"))
+      .config()
+      .http_status_as_error(false)
+      .build()
       .call()?
       .status();
 
