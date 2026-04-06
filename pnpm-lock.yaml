@@ -88,8 +88,8 @@ importers:
         specifier: '=3.0.4'
         version: 3.0.4(typescript@6.0.2)(vue@3.5.32(typescript@6.0.2))
       reka-ui:
-        specifier: '=2.9.3'
-        version: 2.9.3(vue@3.5.32(typescript@6.0.2))
+        specifier: '=2.9.4'
+        version: 2.9.4(vue@3.5.32(typescript@6.0.2))
       shiki:
         specifier: '=4.0.2'
         version: 4.0.2
@@ -103,8 +103,8 @@ importers:
         specifier: '=3.5.32'
         version: 3.5.32(typescript@6.0.2)
       vue-i18n:
-        specifier: '=11.3.0'
-        version: 11.3.0(vue@3.5.32(typescript@6.0.2))
+        specifier: '=11.3.1'
+        version: 11.3.1(vue@3.5.32(typescript@6.0.2))
       vue-router:
         specifier: '=5.0.4'
         version: 5.0.4(@vue/compiler-sfc@3.5.32)(pinia@3.0.4(typescript@6.0.2)(vue@3.5.32(typescript@6.0.2)))(vue@3.5.32(typescript@6.0.2))
@@ -114,7 +114,7 @@ importers:
     devDependencies:
       '@tailwindcss/vite':
         specifier: '=4.2.2'
-        version: 4.2.2(vite@8.0.3(@types/node@25.5.2)(esbuild@0.27.1)(jiti@2.6.1)(terser@5.44.0)(yaml@2.8.3))
+        version: 4.2.2(vite@8.0.5(@types/node@25.5.2)(esbuild@0.27.1)(jiti@2.6.1)(terser@5.44.0)(yaml@2.8.3))
       '@tauri-apps/cli':
         specifier: '=2.10.1'
         version: 2.10.1
@@ -126,7 +126,7 @@ importers:
         version: 25.5.2
       '@vitejs/plugin-vue':
         specifier: '=6.0.5'
-        version: 6.0.5(vite@8.0.3(@types/node@25.5.2)(esbuild@0.27.1)(jiti@2.6.1)(terser@5.44.0)(yaml@2.8.3))(vue@3.5.32(typescript@6.0.2))
+        version: 6.0.5(vite@8.0.5(@types/node@25.5.2)(esbuild@0.27.1)(jiti@2.6.1)(terser@5.44.0)(yaml@2.8.3))(vue@3.5.32(typescript@6.0.2))
       eslint:
         specifier: '=10.2.0'
         version: 10.2.0(jiti@2.6.1)
@@ -140,8 +140,8 @@ importers:
         specifier: '=6.0.2'
         version: 6.0.2
       vite:
-        specifier: '=8.0.3'
-        version: 8.0.3(@types/node@25.5.2)(esbuild@0.27.1)(jiti@2.6.1)(terser@5.44.0)(yaml@2.8.3)
+        specifier: '=8.0.5'
+        version: 8.0.5(@types/node@25.5.2)(esbuild@0.27.1)(jiti@2.6.1)(terser@5.44.0)(yaml@2.8.3)
       vitepress:
         specifier: '=2.0.0-alpha.17'
         version: 2.0.0-alpha.17(@types/node@25.5.2)(change-case@5.4.4)(fuse.js@7.1.0)(jiti@2.6.1)(lightningcss@1.32.0)(oxc-minify@0.86.0)(postcss@8.5.8)(terser@5.44.0)(typescript@6.0.2)(yaml@2.8.3)
@@ -429,20 +429,20 @@ packages:
   '@internationalized/number@3.6.5':
     resolution: {integrity: sha512-6hY4Kl4HPBvtfS62asS/R22JzNNy8vi/Ssev7x6EobfCp+9QIB2hKvI2EtbdJ0VSQacxVNtqhE/NmF/NZ0gm6g==}
 
-  '@intlify/core-base@11.3.0':
-    resolution: {integrity: sha512-NNX5jIwF4TJBe7RtSKDMOA6JD9mp2mRcBHAwt2X+Q8PvnZub0yj5YYXlFu2AcESdgQpEv/5Yx2uOCV/yh7YkZg==}
+  '@intlify/core-base@11.3.1':
+    resolution: {integrity: sha512-9nG3ItSD5ApZHmTbv2UFqvJSy3m+u6C/orMohukNKoT/Yuwiz8tPtlNw6ylLuPqSP2kP7ZF4Cdqwp6V1m3BQgw==}
     engines: {node: '>= 16'}
 
-  '@intlify/devtools-types@11.3.0':
-    resolution: {integrity: sha512-G9CNL4WpANWVdUjubOIIS7/D2j/0j+1KJmhBJxHilWNKr9mmt3IjFV3Hq4JoBP23uOoC5ynxz/FHZ42M+YxfGw==}
+  '@intlify/devtools-types@11.3.1':
+    resolution: {integrity: sha512-qrOknIx294W4YYVYBgldDOeOnv2NlpabW+aYGjMuXMSrY36f7GCAPlEBE2G+qTC5x0oAWDBSY5BmvLlPUx1exg==}
     engines: {node: '>= 16'}
 
-  '@intlify/message-compiler@11.3.0':
-    resolution: {integrity: sha512-RAJp3TMsqohg/Wa7bVF3cChRhecSYBLrTCQSj7j0UtWVFLP+6iEJoE2zb7GU5fp+fmG5kCbUdzhmlAUCWXiUJw==}
+  '@intlify/message-compiler@11.3.1':
+    resolution: {integrity: sha512-uIa4YurbphU+4Cl5CoL6nq/c7uQhVNRowEelgboNmXNs+UEcyFLQBESwaUjMvdtYxzA2qh+vGim080KZ84ruDA==}
     engines: {node: '>= 16'}
 
-  '@intlify/shared@11.3.0':
-    resolution: {integrity: sha512-LC6P/uay7rXL5zZ5+5iRJfLs/iUN8apu9tm8YqQVmW3Uq3X4A0dOFUIDuAmB7gAC29wTHOS3EiN/IosNSz0eNQ==}
+  '@intlify/shared@11.3.1':
+    resolution: {integrity: sha512-9GWc5PKuRdeWkT7FJN43c/+rD6xpSB3WtizewkfFCK/0XzYqCk4gQBWWcTdfKo8ylEcHwqYsR2Z3HRE3XhEHrQ==}
     engines: {node: '>= 16'}
 
   '@jridgewell/gen-mapping@0.3.13':
@@ -2021,8 +2021,8 @@ packages:
     resolution: {integrity: sha512-NZQZdC5wOE/H3UT28fVGL+ikOZcEzfMGk/c3iN9UGxzWHMa1op7274oyiUVrAG4B2EuFhus8SvkaYnhvW92p9Q==}
     hasBin: true
 
-  reka-ui@2.9.3:
-    resolution: {integrity: sha512-C9lCVxsSC7uYD0Nbgik1+14FNndHNprZmf0zGQt0ZDYIt5KxXV3zD0hEqNcfRUsEEJvVmoRsUkJnASBVBeaaUw==}
+  reka-ui@2.9.4:
+    resolution: {integrity: sha512-Xz8yKl+5SwhzZU6lxTX9uCWydsv9+4zyYFv/LL+paa+sqnYZohdFqgkFxtroEy75fdoyFIlCXZK1VtSF9YVESA==}
     peerDependencies:
       vue: '>= 3.4.0'
 
@@ -2224,14 +2224,14 @@ packages:
       yaml:
         optional: true
 
-  vite@8.0.3:
-    resolution: {integrity: sha512-B9ifbFudT1TFhfltfaIPgjo9Z3mDynBTJSUYxTjOQruf/zHH+ezCQKcoqO+h7a9Pw9Nm/OtlXAiGT1axBgwqrQ==}
+  vite@8.0.5:
+    resolution: {integrity: sha512-nmu43Qvq9UopTRfMx2jOYW5l16pb3iDC1JH6yMuPkpVbzK0k+L7dfsEDH4jRgYFmsg0sTAqkojoZgzLMlwHsCQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
     hasBin: true
     peerDependencies:
       '@types/node': ^20.19.0 || >=22.12.0
       '@vitejs/devtools': ^0.1.0
-      esbuild: ^0.27.0
+      esbuild: ^0.27.0 || ^0.28.0
       jiti: '>=1.21.0'
       less: ^4.0.0
       sass: ^1.70.0
@@ -2302,8 +2302,8 @@ packages:
     peerDependencies:
       eslint: ^8.57.0 || ^9.0.0 || ^10.0.0
 
-  vue-i18n@11.3.0:
-    resolution: {integrity: sha512-1J+xDfDJTLhDxElkd3+XUhT7FYSZd2b8pa7IRKGxhWH/8yt6PTvi3xmWhGwhYT5EaXdatui11pF2R6tL73/zPA==}
+  vue-i18n@11.3.1:
+    resolution: {integrity: sha512-azq8fhVnCwJAw0iXW7i44h9P+Bj+snNuevBAaJ9bxn0I3YVsRU3deVFPNnTfZ2uxVJefGp83JUmL68ddCPw5Pw==}
     engines: {node: '>= 16'}
     peerDependencies:
       vue: ^3.0.0
@@ -2570,23 +2570,23 @@ snapshots:
     dependencies:
       '@swc/helpers': 0.5.17
 
-  '@intlify/core-base@11.3.0':
+  '@intlify/core-base@11.3.1':
     dependencies:
-      '@intlify/devtools-types': 11.3.0
-      '@intlify/message-compiler': 11.3.0
-      '@intlify/shared': 11.3.0
+      '@intlify/devtools-types': 11.3.1
+      '@intlify/message-compiler': 11.3.1
+      '@intlify/shared': 11.3.1
 
-  '@intlify/devtools-types@11.3.0':
+  '@intlify/devtools-types@11.3.1':
     dependencies:
-      '@intlify/core-base': 11.3.0
-      '@intlify/shared': 11.3.0
+      '@intlify/core-base': 11.3.1
+      '@intlify/shared': 11.3.1
 
-  '@intlify/message-compiler@11.3.0':
+  '@intlify/message-compiler@11.3.1':
     dependencies:
-      '@intlify/shared': 11.3.0
+      '@intlify/shared': 11.3.1
       source-map-js: 1.2.1
 
-  '@intlify/shared@11.3.0': {}
+  '@intlify/shared@11.3.1': {}
 
   '@jridgewell/gen-mapping@0.3.13':
     dependencies:
@@ -2952,12 +2952,12 @@ snapshots:
       '@tailwindcss/oxide-win32-arm64-msvc': 4.2.2
       '@tailwindcss/oxide-win32-x64-msvc': 4.2.2
 
-  '@tailwindcss/vite@4.2.2(vite@8.0.3(@types/node@25.5.2)(esbuild@0.27.1)(jiti@2.6.1)(terser@5.44.0)(yaml@2.8.3))':
+  '@tailwindcss/vite@4.2.2(vite@8.0.5(@types/node@25.5.2)(esbuild@0.27.1)(jiti@2.6.1)(terser@5.44.0)(yaml@2.8.3))':
     dependencies:
       '@tailwindcss/node': 4.2.2
       '@tailwindcss/oxide': 4.2.2
       tailwindcss: 4.2.2
-      vite: 8.0.3(@types/node@25.5.2)(esbuild@0.27.1)(jiti@2.6.1)(terser@5.44.0)(yaml@2.8.3)
+      vite: 8.0.5(@types/node@25.5.2)(esbuild@0.27.1)(jiti@2.6.1)(terser@5.44.0)(yaml@2.8.3)
 
   '@tanstack/table-core@8.21.3': {}
 
@@ -3233,10 +3233,10 @@ snapshots:
       vite: 7.3.1(@types/node@25.5.2)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.44.0)(yaml@2.8.3)
       vue: 3.5.32(typescript@6.0.2)
 
-  '@vitejs/plugin-vue@6.0.5(vite@8.0.3(@types/node@25.5.2)(esbuild@0.27.1)(jiti@2.6.1)(terser@5.44.0)(yaml@2.8.3))(vue@3.5.32(typescript@6.0.2))':
+  '@vitejs/plugin-vue@6.0.5(vite@8.0.5(@types/node@25.5.2)(esbuild@0.27.1)(jiti@2.6.1)(terser@5.44.0)(yaml@2.8.3))(vue@3.5.32(typescript@6.0.2))':
     dependencies:
       '@rolldown/pluginutils': 1.0.0-rc.2
-      vite: 8.0.3(@types/node@25.5.2)(esbuild@0.27.1)(jiti@2.6.1)(terser@5.44.0)(yaml@2.8.3)
+      vite: 8.0.5(@types/node@25.5.2)(esbuild@0.27.1)(jiti@2.6.1)(terser@5.44.0)(yaml@2.8.3)
       vue: 3.5.32(typescript@6.0.2)
 
   '@volar/language-core@2.4.28':
@@ -4078,7 +4078,7 @@ snapshots:
     dependencies:
       jsesc: 3.1.0
 
-  reka-ui@2.9.3(vue@3.5.32(typescript@6.0.2)):
+  reka-ui@2.9.4(vue@3.5.32(typescript@6.0.2)):
     dependencies:
       '@floating-ui/dom': 1.7.4
       '@floating-ui/vue': 1.1.9(vue@3.5.32(typescript@6.0.2))
@@ -4319,7 +4319,7 @@ snapshots:
       terser: 5.44.0
       yaml: 2.8.3
 
-  vite@8.0.3(@types/node@25.5.2)(esbuild@0.27.1)(jiti@2.6.1)(terser@5.44.0)(yaml@2.8.3):
+  vite@8.0.5(@types/node@25.5.2)(esbuild@0.27.1)(jiti@2.6.1)(terser@5.44.0)(yaml@2.8.3):
     dependencies:
       lightningcss: 1.32.0
       picomatch: 4.0.4
@@ -4401,11 +4401,11 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  vue-i18n@11.3.0(vue@3.5.32(typescript@6.0.2)):
+  vue-i18n@11.3.1(vue@3.5.32(typescript@6.0.2)):
     dependencies:
-      '@intlify/core-base': 11.3.0
-      '@intlify/devtools-types': 11.3.0
-      '@intlify/shared': 11.3.0
+      '@intlify/core-base': 11.3.1
+      '@intlify/devtools-types': 11.3.1
+      '@intlify/shared': 11.3.1
       '@vue/devtools-api': 6.6.4
       vue: 3.5.32(typescript@6.0.2)
 

@@ -2,21 +2,17 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { Label } from '@ui/label';
 import { useI18n } from 'vue-i18n';
 import { Button } from '@ui/button';
 import { computed, ref } from 'vue';
-import { Checkbox } from '@ui/checkbox';
 import { useRouteParams } from '@vueuse/router';
 import { useRoute, useRouter } from 'vue-router';
 import { forwardReport } from '@/commands/report';
-import { toBooleanCheckboxValue } from '@ui/utils';
 import type { PlayerId } from '@/types/core/player';
 import type { ReportId } from '@/types/core/report';
 import type { ReportScene } from '@/types/scene/game';
 import { useBreakpoints, useMutex } from '@tb-dev/vue';
 import { useReport } from '@/composables/report/useReport';
-import { usePlayerIds } from '@/composables/player/usePlayerIds';
 import InputPlayerName from '@/components/form/InputPlayerName.vue';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@ui/card';
 
@@ -34,31 +30,22 @@ const reportPlayers = computed(() => {
 
 const { md } = useBreakpoints();
 
-const search = ref('');
-const { player } = NIL.player.refs();
-
-const { playerIds } = usePlayerIds({
-  exclude: reportPlayers,
-  filter: (id) => id !== player.value?.id,
-  search,
-});
-
-const selected = ref<PlayerId[]>([]);
+const player = ref<Option<PlayerId>>();
 
 const { locked, lock } = useMutex();
 
+const canForward = computed(() => {
+  return Boolean(
+    report.value &&
+      player.value &&
+      !reportPlayers.value.includes(player.value),
+  );
+});
+
 async function forward() {
   await lock(async () => {
-    const ids = selected.value.filter((id) => {
-      return !reportPlayers.value.includes(id);
-    });
-
-    if (reportId.value && ids.length > 0) {
-      await Promise.all(
-        ids.map((playerId) => {
-          return forwardReport(reportId.value!, playerId);
-        }),
-      );
+    if (canForward.value && reportId.value && player.value) {
+      await forwardReport(reportId.value, player.value);
 
       if (route.name === ('report-forward' satisfies ReportScene)) {
         router.back();
@@ -67,18 +54,8 @@ async function forward() {
   });
 }
 
-function onChecked(playerId: PlayerId, checked: boolean) {
-  if (checked) {
-    selected.value.push(playerId);
-  }
-  else {
-    selected.value = selected.value.filter((id) => id !== playerId);
-  }
-}
-
 function clear() {
-  search.value = '';
-  selected.value = [];
+  player.value = null;
 }
 </script>
 
@@ -92,27 +69,15 @@ function clear() {
       </CardHeader>
 
       <CardContent class="size-full overflow-hidden px-2 py-0">
-        <div class="w-full">
-          <InputPlayerName v-model="search" />
-        </div>
-        <div class="h-full overflow-x-hidden overflow-y-auto md:px-2">
-          <Label v-for="playerId of playerIds" :key="playerId">
-            <Checkbox
-              :model-value="selected.includes(playerId)"
-              :disabled="locked"
-              @update:model-value="(checked) => onChecked(playerId, toBooleanCheckboxValue(checked))"
-            />
-            <span>{{ playerId }}</span>
-          </Label>
-        </div>
+        <InputPlayerName v-model="player" />
       </CardContent>
 
       <CardFooter class="w-full grid grid-cols-3 gap-2">
-        <Button :disabled="locked || selected.length === 0" @click="forward">
+        <Button :disabled="locked || !canForward" @click="forward">
           <span>{{ t('forward') }}</span>
         </Button>
 
-        <Button variant="secondary" :disabled="locked" @click="clear">
+        <Button variant="secondary" :disabled="locked || !player" @click="clear">
           <span>{{ t('clear') }}</span>
         </Button>
 

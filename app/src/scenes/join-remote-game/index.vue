@@ -48,6 +48,7 @@ const { playerId } = useToken();
 const worldPassword = ref<Option<string>>();
 
 const { locked, lock } = useMutex();
+
 const canJoin = computed(() => {
   return (
     Boolean(remoteWorld.value) &&
@@ -100,7 +101,7 @@ async function deleteGame() {
         </CardTitle>
       </CardHeader>
 
-      <CardContent class="size-full overflow-auto">
+      <CardContent class="size-full overflow-auto max-md:px-2">
         <Table class="w-full min-w-max">
           <TableBody>
             <TableRow class="hover:bg-card">

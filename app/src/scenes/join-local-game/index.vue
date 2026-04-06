@@ -42,6 +42,7 @@ const serverAddr = computed<Option<ServerAddr>>(() => {
 });
 
 const { locked, lock } = useMutex();
+
 const canJoin = computed(() => {
   return isPlayerOptions(playerOptions.value) && serverAddr.value;
 });

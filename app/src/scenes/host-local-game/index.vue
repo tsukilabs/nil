@@ -61,6 +61,7 @@ const playerOptions = localRef<WritablePartial<PlayerOptions>>(
 );
 
 const { locked, lock } = useMutex();
+
 const isValidPlayer = computed(() => isPlayerOptions(playerOptions.value));
 const isValidWorld = computed(() => isWorldOptions(worldOptions.value));
 const canHost = computed(() => isValidPlayer.value && isValidWorld.value);
