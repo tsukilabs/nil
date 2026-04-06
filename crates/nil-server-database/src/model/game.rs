@@ -47,6 +47,7 @@ impl fmt::Debug for Game {
   fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
     f.debug_struct("Game")
       .field("id", &self.id.to_string())
+      .field("round_duration", &self.round_duration)
       .field("created_by", &self.created_by)
       .field("created_at", &self.created_at.to_string())
       .field("updated_at", &self.updated_at.to_string())

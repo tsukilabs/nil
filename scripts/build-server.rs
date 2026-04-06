@@ -30,6 +30,7 @@ use nil_util::{output_fmt, spawn, spawn_fmt};
 use regex::Regex;
 use serde::Deserialize;
 use serde_json::json;
+use std::borrow::Cow;
 use std::fmt::Write;
 use std::path::PathBuf;
 use std::thread::sleep;
@@ -77,8 +78,8 @@ fn main() -> Result<()> {
       if let Ok(webhook_url) = env::var("NIL_DISCORD_WEBHOOK_URL_PRIVATE") {
         let asset_url = release
           .assets
-          .into_iter()
-          .find_map(|asset| (asset.name == asset_name).then_some(asset.url))
+          .iter()
+          .find_map(|asset| (asset.name == asset_name).then(|| asset.url.clone()))
           .expect("Release asset not found");
 
         #[rustfmt::skip]
@@ -96,27 +97,7 @@ fn main() -> Result<()> {
       }
 
       if let Ok(webhook_url) = env::var("NIL_DISCORD_WEBHOOK_URL_RELEASE") {
-        let mut message = String::new();
-        let regex = Regex::new(r"\*\s+(.+?by\s+)@(\S+)\s+in\s+https.+?pull/(\d+)")?;
-
-        for line in release.body.trim().split_inclusive('\n') {
-          if let Some(captures) = regex.captures(line)
-            && let Some(title) = captures.get(1).map(|it| it.as_str())
-            && let Some(user) = captures.get(2).map(|it| it.as_str())
-            && let Some(pr) = captures.get(3).map(|it| it.as_str())
-          {
-            let profile = format!("https://github.com/{user}");
-            let pr_url = format!("https://github.com/tsukilabs/nil/pull/{pr}");
-            writeln!(
-              message,
-              "- {title}[@{user}]({profile}) in [#{pr}]({pr_url})"
-            )?;
-          } else {
-            message.push_str(line);
-          }
-        }
-
-        execute_webhook(&webhook_url, &message)?;
+        execute_release_webhook(&webhook_url, &release)?;
       }
     }
   }
@@ -137,17 +118,13 @@ fn update_server(token: &str) -> Result<()> {
 
     if status.is_success() {
       return Ok(());
-    } else if status.is_server_error() && tries < 3 {
+    } else if status.is_server_error() && tries < 4 {
       tries += 1;
       sleep(Duration::from_secs(5 * tries));
       continue;
     }
 
-    let reason = status
-      .canonical_reason()
-      .unwrap_or("Unknown");
-
-    bail!("Failed to update server: {status} {reason}");
+    bail!("Failed to update server: {status}");
   }
 }
 
@@ -169,6 +146,43 @@ fn upload_asset(tag_name: &str, path: &str) -> Result<()> {
 
 fn execute_webhook(url: &str, content: &str) -> Result<()> {
   ureq::post(url).send_json(json!({ "content": content }))?;
+  Ok(())
+}
+
+fn execute_release_webhook(url: &str, release: &Release) -> Result<()> {
+  let mut message = format!("# {}\n\n", release.name);
+
+  let pr_re = Regex::new(r"\*\s+(.+?by\s+)@(\S+)\s+in\s+https.+?pull/(\d+)")?;
+  let changelog_re = Regex::new(r".+?Full\sChangelog.+?(https\S+)")?;
+
+  for line in release.body.trim().split_inclusive('\n') {
+    let mut current_line = Cow::Borrowed(line);
+
+    if let Some(captures) = pr_re.captures(line)
+      && let Some(title) = captures.get(1).map(|it| it.as_str())
+      && let Some(user) = captures.get(2).map(|it| it.as_str())
+      && let Some(pr) = captures.get(3).map(|it| it.as_str())
+    {
+      let profile = format!("<https://github.com/{user}>");
+      let pr_url = format!("<https://github.com/tsukilabs/nil/pull/{pr}>");
+      let line = format!("- {title}[@{user}]({profile}) in [#{pr}]({pr_url})\n");
+      current_line = Cow::Owned(line);
+    }
+
+    if let Some(captures) = changelog_re.captures(line)
+      && let Some(url) = captures.get(1).map(|it| it.as_str())
+    {
+      let line = format!("**Full Changelog**: <{url}>\n");
+      current_line = Cow::Owned(line);
+    };
+
+    message.push_str(&current_line);
+  }
+
+  message = message.replace("\n\n\n", "\n\n");
+
+  execute_webhook(url, message.trim())?;
+
   Ok(())
 }
 
