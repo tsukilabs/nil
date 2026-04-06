@@ -5,6 +5,7 @@ edition = "2024"
 
 [dependencies]
 anyhow = "1.0"
+regex = "1.12"
 serde_json = "1.0"
 
 [dependencies.clap]
@@ -25,7 +26,8 @@ features = ["json"]
 
 use anyhow::Result;
 use clap::Parser;
-use nil_util::{output, output_fmt, spawn, spawn_fmt};
+use nil_util::{output_fmt, spawn, spawn_fmt};
+use regex::Regex;
 use serde::Deserialize;
 use serde_json::json;
 use std::fmt::Write;
@@ -62,19 +64,18 @@ fn main() -> Result<()> {
 
     fs::rename(path, &asset_path)?;
 
-    let bytes = output!("gh release view --json tagName -R tsukilabs/nil")?;
-    let tag_name = serde_json::from_slice::<Release>(&bytes)?.tag_name;
-
-    spawn_fmt!("gh release upload --clobber {tag_name} {asset_path} -R tsukilabs/nil")?;
+    let tag_name = view_release(None)?.tag_name;
+    upload_asset(&tag_name, &asset_path)?;
 
     if let Ok(token) = env::var("TSUKILABS_TOKEN") {
       ureq::get("https://tsukilabs.dev.br/release/nil")
         .header("Authorization", format!("Bearer {token}"))
         .call()?;
 
-      if let Ok(webhook_url) = env::var("NIL_DISCORD_WEBHOOK_URL") {
-        let bytes = output_fmt!("gh release view {tag_name} --json assets -R tsukilabs/nil")?;
-        let asset_url = serde_json::from_slice::<Release>(&bytes)?
+      let release = view_release(Some(&tag_name))?;
+
+      if let Ok(webhook_url) = env::var("NIL_DISCORD_WEBHOOK_URL_PRIVATE") {
+        let asset_url = release
           .assets
           .into_iter()
           .find_map(|asset| (asset.name == asset_name).then_some(asset.url))
@@ -91,11 +92,56 @@ fn main() -> Result<()> {
         let mut message = String::new();
         write_webhook_content(&mut message)?;
 
-        ureq::post(webhook_url).send_json(json!({ "content": message }))?;
+        execute_webhook(&webhook_url, &message)?;
+      }
+
+      if let Ok(webhook_url) = env::var("NIL_DISCORD_WEBHOOK_URL_RELEASE") {
+        let mut message = String::new();
+        let regex = Regex::new(r"\*\s+(.+?by\s+)@(\S+)\s+in\s+https.+?pull/(\d+)")?;
+
+        for line in release.body.trim().split_inclusive('\n') {
+          if let Some(captures) = regex.captures(line)
+            && let Some(title) = captures.get(1).map(|it| it.as_str())
+            && let Some(user) = captures.get(2).map(|it| it.as_str())
+            && let Some(pr) = captures.get(3).map(|it| it.as_str())
+          {
+            let profile = format!("https://github.com/{user}");
+            let pr_url = format!("https://github.com/tsukilabs/nil/pull/{pr}");
+            writeln!(
+              message,
+              "- {title}[@{user}]({profile}) in [#{pr}]({pr_url})"
+            )?;
+          } else {
+            message.push_str(line);
+          }
+        }
+
+        execute_webhook(&webhook_url, &message)?;
       }
     }
   }
 
+  Ok(())
+}
+
+fn view_release(tag_name: Option<&str>) -> Result<Release> {
+  let fields = "assets,body,name,tagName,url";
+  let bytes = if let Some(tag_name) = tag_name {
+    output_fmt!("gh release view {tag_name} --json {fields} -R tsukilabs/nil")?
+  } else {
+    output_fmt!("gh release view --json {fields} -R tsukilabs/nil")?
+  };
+
+  Ok(serde_json::from_slice(&bytes)?)
+}
+
+fn upload_asset(tag_name: &str, path: &str) -> Result<()> {
+  spawn_fmt!("gh release upload --clobber {tag_name} {path} -R tsukilabs/nil")?;
+  Ok(())
+}
+
+fn execute_webhook(url: &str, content: &str) -> Result<()> {
+  ureq::post(url).send_json(json!({ "content": content }))?;
   Ok(())
 }
 
@@ -107,7 +153,10 @@ struct Package {
 #[derive(Default, Deserialize)]
 #[serde(default, rename_all = "camelCase")]
 struct Release {
+  name: String,
   tag_name: String,
+  body: String,
+  url: String,
   assets: Vec<Asset>,
 }
 
