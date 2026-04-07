@@ -3610,6 +3610,7 @@ version = "0.5.0"
 dependencies = [
  "bon",
  "nil-num-macros",
+ "num-traits",
  "serde",
  "strum 0.28.0",
 ]
