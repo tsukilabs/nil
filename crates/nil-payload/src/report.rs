@@ -30,3 +30,10 @@ pub struct GetReportsRequest {
   #[serde(default)]
   pub limit: Option<usize>,
 }
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct RemoveReportRequest {
+  pub world: WorldId,
+  pub id: ReportId,
+}

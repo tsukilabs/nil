@@ -21,3 +21,8 @@ export interface GetReportsRequest {
   readonly ids: readonly ReportId[];
   readonly limit: Option<number>;
 }
+
+export interface RemoveReportRequest {
+  readonly world: WorldId;
+  readonly id: ReportId;
+}

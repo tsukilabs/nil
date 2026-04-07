@@ -37,3 +37,11 @@ pub async fn get_reports(app: AppHandle, mut req: GetReportsRequest) -> Result<V
     .await
     .map_err(Into::into)
 }
+
+#[tauri::command]
+pub async fn remove_report(app: AppHandle, req: RemoveReportRequest) -> Result<()> {
+  app
+    .client(async |cl| cl.remove_report(req).await)
+    .await
+    .map_err(Into::into)
+}

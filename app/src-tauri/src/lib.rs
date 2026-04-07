@@ -144,6 +144,7 @@ pub fn run() {
       command::report::forward_report,
       command::report::get_report,
       command::report::get_reports,
+      command::report::remove_report,
       command::round::get_round,
       command::round::is_round_idle,
       command::round::is_round_waiting,

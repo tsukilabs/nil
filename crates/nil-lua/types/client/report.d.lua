@@ -13,3 +13,6 @@ function client:getReport(req) end
 ---@param req GetReportsRequest
 ---@return ReportKind[]
 function client:getReports(req) end
+
+--- @param req RemoveReportRequest
+function client:removeReport(req) end

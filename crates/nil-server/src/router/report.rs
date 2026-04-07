@@ -58,3 +58,17 @@ pub async fn get_by(State(app): State<App>, Json(req): Json<GetReportsRequest>) 
     Err(err) => from_err(err),
   }
 }
+
+pub async fn remove(
+  State(app): State<App>,
+  Extension(player): Extension<CurrentPlayer>,
+  Json(req): Json<RemoveReportRequest>,
+) -> Response {
+  app
+    .world_mut(req.world, |world| {
+      world.remove_report_of(req.id, &player.0);
+    })
+    .await
+    .map_left(|()| res!(OK))
+    .into_inner()
+}

@@ -11,6 +11,7 @@ impl World {
     &self.report_manager
   }
 
+  /// Forwards a report to a player.
   pub fn forward_report(&mut self, id: ReportId, recipient: PlayerId) {
     if self
       .report_manager
@@ -18,5 +19,10 @@ impl World {
     {
       self.emit_report(recipient, id);
     }
+  }
+
+  /// Removes a report from a player's list of reports.
+  pub fn remove_report_of(&mut self, id: ReportId, player: &PlayerId) {
+    self.report_manager.remove_of(id, player);
   }
 }

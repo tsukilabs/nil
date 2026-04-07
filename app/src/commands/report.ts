@@ -9,6 +9,7 @@ import type {
   ForwardReportRequest,
   GetReportRequest,
   GetReportsRequest,
+  RemoveReportRequest,
 } from '@/types/request/report';
 
 export async function forwardReport(id: ReportId, recipient: PlayerId) {
@@ -41,4 +42,13 @@ export async function getReports(ids: MaybeReadonlyArray<ReportId>, limit?: Opti
   };
 
   return invoke<readonly ReportKind[]>('get_reports', { req });
+}
+
+export async function removeReport(id: ReportId) {
+  const req: RemoveReportRequest = {
+    world: NIL.world.getIdStrict(),
+    id,
+  };
+
+  await invoke('remove_report', { req });
 }

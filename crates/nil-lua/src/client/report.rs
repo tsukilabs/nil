@@ -29,4 +29,12 @@ pub(super) fn add_methods<M: UserDataMethods<ClientUserData>>(methods: &mut M) {
       .await
       .map(|it| lua.to_value(&it))?
   });
+
+  methods.add_async_method("removeReport", async |lua, this, req: Value| {
+    let req: RemoveReportRequest = lua.from_value(req)?;
+    this
+      .client(async |it| it.remove_report(req).await)
+      .await
+      .map(|it| lua.to_value(&it))?
+  });
 }
