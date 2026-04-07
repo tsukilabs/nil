@@ -349,7 +349,7 @@ impl App {
     F: FnOnce(&ReportManager) -> T,
   {
     self
-      .world(id, |world| f(world.report()))
+      .world(id, |world| f(world.report_manager()))
       .await
   }
 

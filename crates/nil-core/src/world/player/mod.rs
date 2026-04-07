@@ -43,7 +43,10 @@ impl World {
   }
 
   pub fn get_player_reports(&self, player: &PlayerId) -> Vec<ReportId> {
-    self.report.reports_of(player).collect()
+    self
+      .report_manager
+      .reports_of(player)
+      .collect()
   }
 
   #[inline]

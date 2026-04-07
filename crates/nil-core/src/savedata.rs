@@ -43,7 +43,7 @@ pub struct Savedata {
   pub(crate) precursor_manager: PrecursorManager,
   pub(crate) military: Military,
   pub(crate) ranking: Ranking,
-  pub(crate) report: ReportManager,
+  pub(crate) report_manager: ReportManager,
   pub(crate) chat: Chat,
 
   pub(crate) config: WorldConfig,

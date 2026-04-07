@@ -107,7 +107,9 @@ impl World {
       .build();
 
     self.emit_battle_report(&report);
-    self.report.manage(report.into(), players);
+    self
+      .report_manager
+      .manage(report.into(), players);
 
     Ok(())
   }
@@ -134,7 +136,9 @@ impl World {
       .build();
 
     self.emit_support_report(&report);
-    self.report.manage(report.into(), players);
+    self
+      .report_manager
+      .manage(report.into(), players);
 
     self
       .military

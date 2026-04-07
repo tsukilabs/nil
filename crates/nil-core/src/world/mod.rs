@@ -49,7 +49,7 @@ pub struct World {
   precursor_manager: PrecursorManager,
   military: Military,
   ranking: Ranking,
-  report: ReportManager,
+  report_manager: ReportManager,
   chat: Chat,
 
   config: Arc<WorldConfig>,
@@ -77,7 +77,7 @@ impl World {
       precursor_manager,
       military,
       ranking: Ranking::default(),
-      report: ReportManager::default(),
+      report_manager: ReportManager::default(),
       config: Arc::new(config),
       stats,
       chat: Chat::default(),
@@ -117,11 +117,6 @@ impl World {
   #[inline]
   pub fn stats(&self) -> WorldStats {
     self.stats.clone()
-  }
-
-  #[inline]
-  pub fn report(&self) -> &ReportManager {
-    &self.report
   }
 
   pub fn ruler(&self, ruler: &Ruler) -> Result<RulerRef<'_>> {

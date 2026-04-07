@@ -10,6 +10,7 @@ use crate::round::RoundId;
 use battle::BattleReport;
 use itertools::Itertools;
 use jiff::Zoned;
+use nil_util::iter::IterExt;
 use nil_util::vec::VecExt;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
@@ -87,6 +88,19 @@ impl ReportManager {
         .or_default()
         .push_unique(id)
         .is_none()
+  }
+
+  /// Removes reports that are not associated with any player.
+  pub(crate) fn prune(&mut self) {
+    let reports = self
+      .players
+      .values()
+      .flat_map(|ids| ids.iter().copied())
+      .collect_set();
+
+    self
+      .reports
+      .retain(|id, _| reports.contains(id));
   }
 }
 
