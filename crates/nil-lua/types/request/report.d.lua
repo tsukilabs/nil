@@ -16,3 +16,7 @@
 ---@field world WorldId
 ---@field ids ReportId[]
 ---@field limit number|nil
+
+---@class RemoveReportRequest
+---@field world WorldId
+---@field id ReportId

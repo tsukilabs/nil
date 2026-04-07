@@ -33,7 +33,7 @@ use tokio::sync::RwLock;
 use tokio::task::{spawn, spawn_blocking};
 
 #[derive(Clone)]
-pub(crate) struct App {
+pub struct App {
   server_kind: ServerKind,
   database: Option<Database>,
   worlds: Arc<DashMap<WorldId, Arc<RwLock<World>>>>,

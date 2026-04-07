@@ -4,11 +4,12 @@
 use crate::app::App;
 use crate::middleware::authorization::CurrentPlayer;
 use crate::res;
-use crate::response::{EitherExt, from_err};
+use crate::response::from_err;
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
 use itertools::Itertools;
 use nil_payload::report::*;
+use nil_util::iter::IterExt;
 
 pub async fn forward(
   State(app): State<App>,
@@ -28,15 +29,36 @@ pub async fn forward(
   }
 }
 
-pub async fn get(State(app): State<App>, Json(req): Json<GetReportRequest>) -> Response {
-  app
-    .report_manager(req.world, |rm| rm.report(req.id).cloned())
-    .await
-    .try_map_left(|report| res!(OK, Json(report)))
-    .into_inner()
+pub async fn get(
+  State(app): State<App>,
+  Extension(player): Extension<CurrentPlayer>,
+  Json(req): Json<GetReportRequest>,
+) -> Response {
+  match app.get(req.world) {
+    Ok(world) => {
+      let world = world.read().await;
+      let manager = world.report_manager();
+      if manager
+        .reports_of(&player.0)
+        .any(|id| id == req.id)
+      {
+        manager
+          .report(req.id)
+          .map(|report| res!(OK, Json(report.clone())))
+          .unwrap_or_else(from_err)
+      } else {
+        res!(FORBIDDEN)
+      }
+    }
+    Err(err) => from_err(err),
+  }
 }
 
-pub async fn get_by(State(app): State<App>, Json(req): Json<GetReportsRequest>) -> Response {
+pub async fn get_by(
+  State(app): State<App>,
+  Extension(player): Extension<CurrentPlayer>,
+  Json(req): Json<GetReportsRequest>,
+) -> Response {
   if req.ids.is_empty() {
     return res!(OK, Json(Vec::<()>::new()));
   }
@@ -44,11 +66,14 @@ pub async fn get_by(State(app): State<App>, Json(req): Json<GetReportsRequest>) 
   match app.get(req.world) {
     Ok(world) => {
       let world = world.read().await;
-      let reports = world
-        .report_manager()
+      let manager = world.report_manager();
+      let player_reports = manager.reports_of(&player.0).collect_set();
+
+      let reports = manager
         .reports_by(|(id, _)| req.ids.contains(&id))
+        .filter(|report| player_reports.contains(&report.id()))
         .take(req.limit.unwrap_or(1_000))
-        .sorted_unstable_by_key(|report| report.as_dyn().id())
+        .sorted_unstable_by_key(|report| report.id())
         .rev()
         .cloned()
         .collect_vec();
@@ -57,4 +82,18 @@ pub async fn get_by(State(app): State<App>, Json(req): Json<GetReportsRequest>) 
     }
     Err(err) => from_err(err),
   }
+}
+
+pub async fn remove(
+  State(app): State<App>,
+  Extension(player): Extension<CurrentPlayer>,
+  Json(req): Json<RemoveReportRequest>,
+) -> Response {
+  app
+    .world_mut(req.world, |world| {
+      world.remove_report_of(req.id, &player.0);
+    })
+    .await
+    .map_left(|()| res!(OK))
+    .into_inner()
 }

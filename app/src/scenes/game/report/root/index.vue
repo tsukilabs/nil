@@ -3,7 +3,8 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import { useBreakpoints } from '@tb-dev/vue';
+import { throttle } from 'es-toolkit/function';
+import { onKeyDown, useBreakpoints } from '@tb-dev/vue';
 import enUS from '@/locale/en-US/scenes/game/report.json';
 import ptBR from '@/locale/pt-BR/scenes/game/report.json';
 import { useReports } from '@/composables/report/useReports';
@@ -18,9 +19,18 @@ const { t } = useI18n({
 });
 
 const { reports: reportIds } = NIL.report.refs();
-const { reports } = useReports(reportIds);
+const { reports, load: loadReports } = useReports(reportIds);
 
 const { md } = useBreakpoints();
+
+if (__DESKTOP__) {
+  onKeyDown('F5', throttle(reload, 1000));
+}
+
+async function reload() {
+  await NIL.report.update();
+  await loadReports();
+}
 </script>
 
 <template>

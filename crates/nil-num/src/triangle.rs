@@ -15,9 +15,11 @@ pub fn nearest_triangle(value: impl Into<f64>) -> u32 {
     return 0;
   }
 
-  let x = (-1.0 + delta.sqrt()) / 2.0;
-  let x = x.floor().max(0.0);
-  x.to_u32().unwrap_or(0)
+  f64::midpoint(-1.0, delta.sqrt())
+    .floor()
+    .max(0.0)
+    .to_u32()
+    .unwrap_or(0)
 }
 
 #[cfg(test)]

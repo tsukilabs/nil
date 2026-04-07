@@ -19,6 +19,7 @@ mod router;
 mod server;
 mod websocket;
 
+pub use app::App;
 pub use error::{Error, Result};
 pub use server::{local, remote};
 

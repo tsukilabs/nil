@@ -80,6 +80,7 @@ impl ReportManager {
       .copied()
   }
 
+  /// Forwards a report to a player.
   pub(crate) fn forward(&mut self, id: ReportId, recipient: PlayerId) -> bool {
     self.reports.contains_key(&id)
       && self
@@ -88,6 +89,13 @@ impl ReportManager {
         .or_default()
         .push_unique(id)
         .is_none()
+  }
+
+  /// Removes a report from a player's list of reports.
+  pub(crate) fn remove_of(&mut self, id: ReportId, player: &PlayerId) {
+    if let Some(reports) = self.players.get_mut(player) {
+      reports.retain(|report| *report != id);
+    }
   }
 
   /// Removes reports that are not associated with any player.
@@ -118,6 +126,11 @@ impl ReportKind {
       Self::Battle { report } => report.as_ref(),
       Self::Support { report } => report.as_ref(),
     }
+  }
+
+  #[inline]
+  pub fn id(&self) -> ReportId {
+    self.as_dyn().id()
   }
 }
 

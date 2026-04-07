@@ -17,6 +17,10 @@ use std::sync::{LazyLock, Weak};
 use tap::{Pipe, Tap, TapFallible};
 use tokio::time::{Duration, sleep};
 
+#[cfg(debug_assertions)]
+pub const USER_AGENT: &str = concat!("nil/", env!("CARGO_PKG_VERSION"), " (dev)");
+
+#[cfg(not(debug_assertions))]
 pub const USER_AGENT: &str = concat!("nil/", env!("CARGO_PKG_VERSION"));
 
 static HTTP: LazyLock<HttpClient> = LazyLock::new(|| {
