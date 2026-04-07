@@ -127,6 +127,11 @@ impl ReportKind {
       Self::Support { report } => report.as_ref(),
     }
   }
+
+  #[inline]
+  pub fn id(&self) -> ReportId {
+    self.as_dyn().id()
+  }
 }
 
 #[must_use]
