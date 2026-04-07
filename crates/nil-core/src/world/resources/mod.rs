@@ -11,7 +11,7 @@ use crate::resources::prelude::Maintenance;
 use crate::resources::{Food, Resources};
 use crate::ruler::Ruler;
 use crate::world::World;
-use nil_num::ops::MulCeil;
+use nil_num::mul_ceil::MulCeil;
 
 impl World {
   pub(crate) fn get_maintenance<R>(&self, ruler: R) -> Result<Maintenance>

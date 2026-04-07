@@ -7,7 +7,7 @@ use crate::infrastructure::building::{BuildingId, BuildingLevel, BuildingStatsTa
 use crate::infrastructure::queue::{InfrastructureQueue, InfrastructureQueueOrder};
 use crate::resources::Resources;
 use crate::resources::workforce::Workforce;
-use nil_num::ops::MulCeil;
+use nil_num::mul_ceil::MulCeil;
 use serde::{Deserialize, Serialize};
 use std::collections::VecDeque;
 use strum::EnumIs;

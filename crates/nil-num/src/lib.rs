@@ -5,7 +5,8 @@
 #![doc(html_favicon_url = "https://nil.dev.br/favicon.png")]
 
 pub mod growth;
-pub mod ops;
+pub mod mul_ceil;
 pub mod roman;
+pub mod triangle;
 
 pub use nil_num_macros::{BigIntU64, BigIntUsize, F64Add, F64Div, F64Mul, F64Ops, F64Sub};

@@ -6,7 +6,7 @@ use crate::infrastructure::building::{Building, BuildingLevel};
 use crate::world::config::WorldConfig;
 use derive_more::{Deref, From, Into};
 use nil_num::impl_mul_ceil;
-use nil_num::ops::MulCeil;
+use nil_num::mul_ceil::MulCeil;
 use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
 use std::num::NonZeroU32;

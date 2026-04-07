@@ -19,7 +19,7 @@ impl MulCeil for f64 {
 macro_rules! impl_mul_ceil {
   ($($name:ident),+ $(,)?) => {
     $(
-      impl $crate::ops::MulCeil<f64> for $name {
+      impl $crate::mul_ceil::MulCeil<f64> for $name {
         type Output = f64;
 
         fn mul_ceil(self, rhs: f64) -> Self::Output {
@@ -27,7 +27,7 @@ macro_rules! impl_mul_ceil {
         }
       }
 
-      impl $crate::ops::MulCeil<$name> for f64 {
+      impl $crate::mul_ceil::MulCeil<$name> for f64 {
         type Output = f64;
 
         fn mul_ceil(self, rhs: $name) -> Self::Output {
