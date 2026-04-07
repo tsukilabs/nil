@@ -1,7 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use crate::error::{AnyResult, Result};
+use crate::error::Result;
 use crate::res;
 use axum::RequestExt;
 use axum::extract::Request;
@@ -16,11 +16,12 @@ use jiff::{SignedDuration, Zoned};
 use jsonwebtoken::{DecodingKey, EncodingKey, Header, TokenData, Validation, decode, encode};
 use nil_core::player::PlayerId;
 use nil_core::ruler::Ruler;
-use nil_server_database::sql_types::player_id::SqlPlayerId;
+use nil_server_database::sql_types::player_id::PlayerId as DbPlayerId;
 use nil_server_types::auth::Token;
 use serde::{Deserialize, Serialize};
 use std::env;
 use std::sync::LazyLock;
+use tokio::task::spawn_blocking;
 
 // Using a known secret is not a problem for local servers.
 static JWT_SECRET: LazyLock<Box<str>> = LazyLock::new(|| {
@@ -39,7 +40,7 @@ pub async fn authorization(mut request: Request, next: Next) -> Response {
     return res!(BAD_REQUEST);
   };
 
-  match decode_jwt(&token) {
+  match decode_jwt(token).await {
     Ok(data) => {
       request
         .extensions_mut()
@@ -61,8 +62,8 @@ pub(crate) struct Claims {
   pub iat: usize,
 }
 
-pub(crate) fn encode_jwt(player: PlayerId) -> Result<Token> {
-  let result = try bikeshed AnyResult<Token> {
+pub(crate) async fn encode_jwt(player: PlayerId) -> Result<Token> {
+  let token = spawn_blocking(move || {
     let now = Zoned::now();
     let iat = now.timestamp().as_millisecond().try_into()?;
     let exp = now
@@ -77,20 +78,23 @@ pub(crate) fn encode_jwt(player: PlayerId) -> Result<Token> {
       &EncodingKey::from_secret(JWT_SECRET.as_bytes()),
     )?;
 
-    Token::new(token)
-  };
+    Ok::<_, anyhow::Error>(Token::new(token))
+  })
+  .await??;
 
-  Ok(result?)
+  Ok(token)
 }
 
-pub(crate) fn decode_jwt(token: &Token) -> Result<TokenData<Claims>> {
-  let claims = try bikeshed AnyResult<TokenData<Claims>> {
+pub(crate) async fn decode_jwt(token: Token) -> Result<TokenData<Claims>> {
+  let claims = spawn_blocking(move || {
     decode(
-      token,
+      &token,
       &DecodingKey::from_secret(JWT_SECRET.as_bytes()),
       &Validation::default(),
-    )?
-  }?;
+    )
+    .map_err(Into::<anyhow::Error>::into)
+  })
+  .await??;
 
   Ok(claims)
 }
@@ -104,9 +108,9 @@ impl From<CurrentPlayer> for Ruler {
   }
 }
 
-impl From<CurrentPlayer> for SqlPlayerId {
+impl From<CurrentPlayer> for DbPlayerId {
   fn from(player: CurrentPlayer) -> Self {
-    SqlPlayerId::from(player.0)
+    DbPlayerId::from(player.0)
   }
 }
 

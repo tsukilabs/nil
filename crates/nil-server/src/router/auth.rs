@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::app::App;
-use crate::error::Error;
+use crate::error::{Error, Result};
 use crate::middleware::authorization::{decode_jwt, encode_jwt};
 use crate::res;
 use crate::response::from_err;
@@ -11,33 +11,30 @@ use axum::response::Response;
 use nil_core::player::PlayerId;
 use nil_payload::{AuthorizeRequest, ValidateTokenRequest};
 use nil_server_types::ServerKind;
-use tokio::task::spawn_blocking;
+use nil_server_types::auth::Token;
 
 pub async fn authorize(State(app): State<App>, Json(req): Json<AuthorizeRequest>) -> Response {
-  let Ok(result) = spawn_blocking(move || {
+  let result = try bikeshed Result<Token> {
     match app.server_kind() {
-      ServerKind::Local { .. } => encode_jwt(req.player),
+      ServerKind::Local { .. } => encode_jwt(req.player).await?,
       ServerKind::Remote => {
         let Some(password) = req.password else {
-          return Err(Error::MissingPassword);
+          return from_err(Error::MissingPassword);
         };
 
         if app
           .database()
           .get_user(&req.player)
-          .map_err(Into::<Error>::into)?
-          .verify_password(&password)?
+          .await?
+          .verify_password(password)
+          .await?
         {
-          encode_jwt(req.player)
+          encode_jwt(req.player).await?
         } else {
-          Err(Error::IncorrectUserCredentials)
+          return from_err(Error::IncorrectUserCredentials);
         }
       }
     }
-  })
-  .await
-  else {
-    return res!(INTERNAL_SERVER_ERROR);
   };
 
   result
@@ -49,20 +46,15 @@ pub async fn validate_token(
   State(app): State<App>,
   Json(req): Json<ValidateTokenRequest>,
 ) -> Response {
-  let Ok(player) = spawn_blocking(move || {
-    decode_jwt(&req.token)
-      .map(|token| token.claims.sub)
-      .ok()
-  })
-  .await
-  else {
-    return res!(INTERNAL_SERVER_ERROR);
-  };
+  let player = decode_jwt(req.token)
+    .await
+    .map(|token| token.claims.sub)
+    .ok();
 
   if app.server_kind().is_remote()
     && let Some(player) = player.clone()
   {
-    match app.database().user_exists(player) {
+    match app.database().user_exists(player).await {
       Ok(true) => {}
       Ok(false) => return res!(OK, Json(None::<PlayerId>)),
       Err(err) => return from_err(err),

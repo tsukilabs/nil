@@ -7,17 +7,15 @@ use crate::router;
 use crate::server::spawn_round_duration_task;
 use nil_core::world::World;
 use nil_server_database::Database;
+use nil_server_database::sql_types::game_id::GameId;
 use nil_server_types::round::RoundDuration;
 use std::net::SocketAddr;
 use std::sync::Weak;
 use tokio::sync::RwLock;
-use tokio::task::{spawn, spawn_blocking};
+use tokio::task::spawn;
 
 pub async fn start(database_url: String) -> Result<()> {
-  let app = spawn_blocking(move || App::new_remote(&database_url))
-    .await
-    .unwrap()?;
-
+  let app = App::new_remote(&database_url).await?;
   let router = router::create()
     .with_state(app)
     .into_make_service_with_connect_info::<SocketAddr>();
@@ -39,7 +37,11 @@ pub(crate) fn on_next_round(
     let database = database.clone();
 
     world.save(move |bytes| {
-      if let Err(err) = database.update_game_blob(id, &bytes) {
+      let id = GameId::from(id);
+      if let Err(err) = database
+        .blocking()
+        .update_game_blob(id, &bytes)
+      {
         tracing::error!(message = %err, error = ?err);
       }
     });

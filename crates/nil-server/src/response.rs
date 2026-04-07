@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::error::{CoreError, DatabaseError, Error};
-use axum::response::Response;
+use axum::response::{IntoResponse, Response};
 use either::Either;
 use nil_server_database::error::DieselError;
 use std::ops::{ControlFlow, Try};
@@ -37,6 +37,18 @@ macro_rules! res {
 
     (StatusCode::$status, $data).into_response()
   }};
+}
+
+impl From<Error> for Response {
+  fn from(err: Error) -> Self {
+    from_err(err)
+  }
+}
+
+impl IntoResponse for Error {
+  fn into_response(self) -> Response {
+    from_err(self)
+  }
 }
 
 pub(crate) fn from_err(err: impl Into<Error>) -> Response {
@@ -98,9 +110,11 @@ fn from_database_err(err: DatabaseError) -> Response {
   match err {
     Core(err) => from_core_err(err),
     Diesel(err) => from_diesel_err(&err),
+    DieselConnection(..) => res!(INTERNAL_SERVER_ERROR),
     GameNotFound(..) => res!(NOT_FOUND, err.to_string()),
     InvalidPassword => res!(BAD_REQUEST, err.to_string()),
     InvalidUsername(..) => res!(BAD_REQUEST, err.to_string()),
+    Io(..) => res!(INTERNAL_SERVER_ERROR),
     Jiff(..) => res!(INTERNAL_SERVER_ERROR),
     UserAlreadyExists(..) => res!(CONFLICT, err.to_string()),
     UserNotFound(..) => res!(NOT_FOUND, err.to_string()),

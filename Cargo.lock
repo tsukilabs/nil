@@ -2466,6 +2466,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "df3b46402a9d5adb4c86a0cf463f42e19994e3ee891101b1841f30a545cb49a9"
 
 [[package]]
+name = "humantime"
+version = "2.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "135b12329e5e3ce057a9f972339ea52bc954fe1e9358ef27f95e89716fbc5424"
+
+[[package]]
 name = "hybrid-array"
 version = "0.4.10"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3411,7 +3417,7 @@ checksum = "650eef8c711430f1a879fdd01d4745a7deea475becfb90269c06775983bbf086"
 
 [[package]]
 name = "nil"
-version = "0.4.21"
+version = "0.4.22"
 dependencies = [
  "anyhow",
  "bon",
@@ -3454,7 +3460,7 @@ dependencies = [
 
 [[package]]
 name = "nil-client"
-version = "0.4.21"
+version = "0.4.22"
 dependencies = [
  "anyhow",
  "bon",
@@ -3487,7 +3493,7 @@ dependencies = [
 
 [[package]]
 name = "nil-core"
-version = "0.4.21"
+version = "0.4.22"
 dependencies = [
  "anyhow",
  "bon",
@@ -3521,7 +3527,7 @@ dependencies = [
 
 [[package]]
 name = "nil-core-macros"
-version = "0.4.21"
+version = "0.4.22"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -3530,7 +3536,7 @@ dependencies = [
 
 [[package]]
 name = "nil-crypto"
-version = "0.4.21"
+version = "0.4.22"
 dependencies = [
  "anyhow",
  "argon2",
@@ -3543,7 +3549,7 @@ dependencies = [
 
 [[package]]
 name = "nil-log"
-version = "0.4.21"
+version = "0.4.22"
 dependencies = [
  "anyhow",
  "bitflags 2.11.0",
@@ -3556,7 +3562,7 @@ dependencies = [
 
 [[package]]
 name = "nil-lua"
-version = "0.4.21"
+version = "0.4.22"
 dependencies = [
  "anyhow",
  "bon",
@@ -3571,7 +3577,7 @@ dependencies = [
 
 [[package]]
 name = "nil-lua-cli"
-version = "0.4.21"
+version = "0.4.22"
 dependencies = [
  "anyhow",
  "clap",
@@ -3591,7 +3597,7 @@ dependencies = [
 
 [[package]]
 name = "nil-namegen"
-version = "0.4.21"
+version = "0.4.22"
 dependencies = [
  "itertools",
  "rand 0.10.0",
@@ -3600,7 +3606,7 @@ dependencies = [
 
 [[package]]
 name = "nil-num"
-version = "0.4.21"
+version = "0.4.22"
 dependencies = [
  "bon",
  "nil-num-macros",
@@ -3610,7 +3616,7 @@ dependencies = [
 
 [[package]]
 name = "nil-num-macros"
-version = "0.4.21"
+version = "0.4.22"
 dependencies = [
  "paste",
  "proc-macro2",
@@ -3620,7 +3626,7 @@ dependencies = [
 
 [[package]]
 name = "nil-payload"
-version = "0.4.21"
+version = "0.4.22"
 dependencies = [
  "bon",
  "nil-core",
@@ -3631,7 +3637,7 @@ dependencies = [
 
 [[package]]
 name = "nil-server"
-version = "0.4.21"
+version = "0.4.22"
 dependencies = [
  "anyhow",
  "axum",
@@ -3643,6 +3649,7 @@ dependencies = [
  "either",
  "futures",
  "headers",
+ "humantime",
  "itertools",
  "jiff",
  "jsonwebtoken",
@@ -3669,7 +3676,7 @@ dependencies = [
 
 [[package]]
 name = "nil-server-database"
-version = "0.4.21"
+version = "0.4.22"
 dependencies = [
  "anyhow",
  "bon",
@@ -3677,6 +3684,7 @@ dependencies = [
  "diesel",
  "diesel_migrations",
  "either",
+ "itertools",
  "jiff",
  "libsqlite3-sys",
  "nil-core",
@@ -3687,12 +3695,13 @@ dependencies = [
  "serde",
  "tap",
  "thiserror 2.0.18",
+ "tokio",
  "tracing",
 ]
 
 [[package]]
 name = "nil-server-types"
-version = "0.4.21"
+version = "0.4.22"
 dependencies = [
  "derive_more 2.1.1",
  "jiff",
@@ -3703,7 +3712,7 @@ dependencies = [
 
 [[package]]
 name = "nil-util"
-version = "0.4.21"
+version = "0.4.22"
 dependencies = [
  "anyhow",
 ]

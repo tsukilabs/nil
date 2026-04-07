@@ -1,6 +1,6 @@
 [package]
 name = "nil-server"
-publish = false
+publish = true
 readme = "../../README.md"
 
 description.workspace = true
@@ -28,6 +28,7 @@ derive_more.workspace = true
 either.workspace = true
 futures.workspace = true
 headers.workspace = true
+humantime.workspace = true
 itertools.workspace = true
 jiff.workspace = true
 jsonwebtoken.workspace = true

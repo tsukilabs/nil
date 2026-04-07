@@ -8,13 +8,12 @@ use crate::response::from_err;
 use crate::{VERSION, res};
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
-use either::Either;
 use nil_core::world::config::WorldId;
 use nil_payload::world::*;
 use nil_server_types::world::RemoteWorld;
 use semver::Version;
+use std::cmp::Reverse;
 use std::sync::Arc;
-use tokio::task::spawn_blocking;
 
 pub async fn create(
   State(app): State<App>,
@@ -26,22 +25,15 @@ pub async fn create(
       return res!(INTERNAL_SERVER_ERROR);
     };
 
-    let Ok(result) = spawn_blocking(move || {
-      app
-        .create_remote(&req.options)
-        .player_id(player)
-        .maybe_world_description(req.description)
-        .maybe_world_password(req.password.as_ref())
-        .maybe_round_duration(req.round_duration)
-        .server_version(version)
-        .call()
-    })
-    .await
-    else {
-      return res!(INTERNAL_SERVER_ERROR);
-    };
-
-    result
+    app
+      .create_remote(&req.options)
+      .player_id(player)
+      .maybe_world_description(req.description)
+      .maybe_world_password(req.password)
+      .maybe_round_duration(req.round_duration)
+      .server_version(version)
+      .call()
+      .await
       .map(|world_id| res!(CREATED, Json(world_id)))
       .unwrap_or_else(from_err)
   } else {
@@ -55,38 +47,25 @@ pub async fn delete(
   Json(req): Json<DeleteRemoteWorldRequest>,
 ) -> Response {
   if app.server_kind().is_remote() {
-    let Ok(either) = spawn_blocking({
-      let app = app.clone();
-      move || {
-        let result = try {
-          let database = app.database();
-          if database.was_game_created_by(req.world, player.0)? {
-            database.delete_game(req.world)?
-          } else {
-            return Either::Right(res!(FORBIDDEN));
-          }
-        };
-
-        Either::Left(result)
+    let result = try {
+      let database = app.database();
+      if database
+        .was_game_created_by(req.world, player.0)
+        .await?
+      {
+        database.delete_game(req.world).await?
+      } else {
+        return res!(FORBIDDEN);
       }
-    })
-    .await
-    else {
-      return res!(INTERNAL_SERVER_ERROR);
     };
 
-    match either {
-      Either::Left(result) => {
-        if result.as_ref().is_ok_and(|it| *it > 0) {
-          drop(app.remove(req.world));
-        }
-
-        result
-          .map(|_| res!(NO_CONTENT))
-          .unwrap_or_else(from_err)
-      }
-      Either::Right(response) => response,
+    if result.as_ref().is_ok_and(|it| *it > 0) {
+      drop(app.remove(req.world));
     }
+
+    result
+      .map(|_| res!(NO_CONTENT))
+      .unwrap_or_else(from_err)
   } else {
     res!(FORBIDDEN)
   }
@@ -94,11 +73,8 @@ pub async fn delete(
 
 pub async fn get(State(app): State<App>, Json(req): Json<GetRemoteWorldRequest>) -> Response {
   if app.server_kind().is_remote() {
-    let Ok(result) = spawn_blocking(move || make_remote_world(&app, req.world)).await else {
-      return res!(INTERNAL_SERVER_ERROR);
-    };
-
-    result
+    make_remote_world(&app, req.world)
+      .await
       .map(|world| res!(OK, Json(world)))
       .unwrap_or_else(from_err)
   } else {
@@ -108,23 +84,16 @@ pub async fn get(State(app): State<App>, Json(req): Json<GetRemoteWorldRequest>)
 
 pub async fn get_all(State(app): State<App>) -> Response {
   if app.server_kind().is_remote() {
-    let Ok(worlds) = spawn_blocking(move || {
-      let ids = app.world_ids();
-      let mut worlds = Vec::with_capacity(ids.len());
+    let ids = app.world_ids();
+    let mut worlds = Vec::with_capacity(ids.len());
 
-      for id in ids {
-        if let Ok(world) = make_remote_world(&app, id) {
-          worlds.push(world);
-        }
+    for id in ids {
+      if let Ok(world) = make_remote_world(&app, id).await {
+        worlds.push(world);
       }
+    }
 
-      worlds.sort_by_key(|b| std::cmp::Reverse(b.config.id()));
-      worlds
-    })
-    .await
-    else {
-      return res!(INTERNAL_SERVER_ERROR);
-    };
+    worlds.sort_by_key(|b| Reverse(b.config.id()));
 
     res!(OK, Json(worlds))
   } else {
@@ -132,13 +101,15 @@ pub async fn get_all(State(app): State<App>) -> Response {
   }
 }
 
-fn make_remote_world(app: &App, id: WorldId) -> Result<RemoteWorld> {
+async fn make_remote_world(app: &App, id: WorldId) -> Result<RemoteWorld> {
   let database = app.database();
-  let game = database.get_game(id)?;
-  let user = database.get_user_by_id(game.created_by)?;
+  let game = database.get_game(id).await?;
+  let user = database
+    .get_user_by_id(game.created_by)
+    .await?;
 
   let world = app.get(id)?;
-  let world = world.blocking_read();
+  let world = world.read().await;
 
   let mut active_players: usize = 0;
   let mut total_players: usize = 0;

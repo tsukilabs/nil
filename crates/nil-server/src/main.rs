@@ -5,6 +5,7 @@
 
 use anyhow::Result;
 use bytesize::ByteSize;
+use humantime::format_duration;
 use mimalloc::MiMalloc;
 use nil_log::{Directives, Layers};
 use nil_server::remote;
@@ -70,7 +71,9 @@ fn watch_process(pid: Pid) {
       if let Some(process) = sys.process(pid) {
         let runtime = Handle::current();
         let metrics = runtime.metrics();
+
         let disk_usage = process.disk_usage();
+        let run_time = Duration::from_secs(process.run_time());
 
         tracing::info!(
           name = %process.name().to_string_lossy(),
@@ -81,7 +84,7 @@ fn watch_process(pid: Pid) {
           total_read_bytes = %b!(disk_usage.total_read_bytes),
           written_bytes = %b!(disk_usage.written_bytes),
           total_written_bytes = %b!(disk_usage.total_written_bytes),
-          run_time = ?Duration::from_secs(process.run_time()),
+          run_time = %format_duration(run_time),
           tokio_global_queue_depth = metrics.global_queue_depth(),
           tokio_num_alive_tasks = metrics.num_alive_tasks(),
           tokio_num_workers = metrics.num_workers(),

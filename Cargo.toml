@@ -21,7 +21,7 @@ members = [
 
 [workspace.package]
 description = "Multiplayer strategy game"
-version = "0.4.21"
+version = "0.4.22"
 edition = "2024"
 rust-version = "1.96"
 license = "AGPL-3.0-only"
@@ -65,6 +65,7 @@ either = "1.15"
 futures = "0.3"
 headers = "0.4"
 http = "1.4"
+humantime = "2.3"
 itertools = "0.14"
 local-ip-address = "=0.6.11"
 num-traits = "=0.2.19"

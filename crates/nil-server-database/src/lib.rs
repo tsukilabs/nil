@@ -11,4 +11,4 @@ pub mod model;
 mod schema;
 pub mod sql_types;
 
-pub use database::Database;
+pub use database::{BlockingDatabase, Database};

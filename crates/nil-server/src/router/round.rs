@@ -42,6 +42,7 @@ pub async fn start(
     match app
       .database()
       .was_game_created_by(req.world, player)
+      .await
     {
       Ok(true) => {}
       Ok(false) => return res!(FORBIDDEN),

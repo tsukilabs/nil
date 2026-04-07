@@ -21,7 +21,8 @@ pub async fn websocket(
   if app.server_kind().is_remote() {
     match app
       .database()
-      .verify_game_password(query.world_id, query.world_password.as_ref())
+      .verify_game_password(query.world_id, query.world_password)
+      .await
     {
       Ok(true) => {}
       Ok(false) => return from_err(Error::IncorrectWorldCredentials(query.world_id)),
