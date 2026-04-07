@@ -11,15 +11,16 @@ use diesel::sql_types::Text;
 use diesel::sqlite::Sqlite;
 use nil_crypto::password::Password;
 use std::fmt;
+use std::sync::Arc;
 
 #[derive(FromSqlRow, AsExpression, Clone, From, Into, PartialEq, Eq, Hash)]
 #[diesel(sql_type = Text)]
-pub struct HashedPassword(Box<str>);
+pub struct HashedPassword(Arc<str>);
 
 impl HashedPassword {
   #[inline]
   pub fn new(password: &Password) -> Result<Self> {
-    Ok(Self(password.hash()?))
+    Ok(Self(Arc::from(password.hash()?)))
   }
 
   #[inline]
@@ -31,7 +32,7 @@ impl HashedPassword {
 impl FromSql<Text, Sqlite> for HashedPassword {
   fn from_sql(bytes: <Sqlite as Backend>::RawValue<'_>) -> de::Result<Self> {
     let value = <String as FromSql<Text, Sqlite>>::from_sql(bytes)?;
-    Ok(HashedPassword(Box::from(value)))
+    Ok(HashedPassword(Arc::from(value)))
   }
 }
 

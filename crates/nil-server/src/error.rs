@@ -7,6 +7,7 @@ use serde::ser::Serializer;
 use std::convert::Infallible;
 use std::io;
 use std::result::Result as StdResult;
+use tokio::task::JoinError;
 
 pub use nil_core::error::Error as CoreError;
 pub use nil_server_database::error::Error as DatabaseError;
@@ -62,5 +63,11 @@ where
 impl From<io::ErrorKind> for Error {
   fn from(value: io::ErrorKind) -> Self {
     Self::Io(io::Error::from(value))
+  }
+}
+
+impl From<JoinError> for Error {
+  fn from(err: JoinError) -> Self {
+    Self::Io(io::Error::from(err))
   }
 }

@@ -1,19 +1,18 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use super::Database;
+use super::BlockingDatabase;
 use crate::error::{Error, Result};
 use crate::model::user::{NewUser, User};
 use crate::sql_types::id::UserId;
-use crate::sql_types::player_id::SqlPlayerId;
+use crate::sql_types::player_id::PlayerId;
 use diesel::prelude::*;
 use diesel::result::{DatabaseErrorKind, Error as DieselError};
 use either::Either;
-use nil_core::player::PlayerId;
 
-impl Database {
-  pub fn count_games_by_user(&self, player_id: impl Into<SqlPlayerId>) -> Result<i64> {
-    self.count_games_by_user_id(self.get_user_id(player_id)?)
+impl BlockingDatabase {
+  pub fn count_games_by_user(&self, id: PlayerId) -> Result<i64> {
+    self.count_games_by_user_id(self.get_user_id(id)?)
   }
 
   pub fn count_games_by_user_id(&self, id: UserId) -> Result<i64> {
@@ -42,17 +41,16 @@ impl Database {
     }
   }
 
-  pub fn get_user(&self, player_id: impl Into<SqlPlayerId>) -> Result<User> {
+  pub fn get_user(&self, id: PlayerId) -> Result<User> {
     use crate::schema::user;
 
-    let player_id: SqlPlayerId = player_id.into();
     let result = user::table
-      .filter(user::player_id.eq(&player_id))
+      .filter(user::player_id.eq(&id))
       .select(User::as_select())
       .first(&mut *self.conn());
 
     if let Err(DieselError::NotFound) = &result {
-      Err(Error::UserNotFound(Either::Left(player_id)))
+      Err(Error::UserNotFound(Either::Left(id)))
     } else {
       Ok(result?)
     }
@@ -73,17 +71,16 @@ impl Database {
     }
   }
 
-  pub fn get_user_id(&self, player_id: impl Into<SqlPlayerId>) -> Result<UserId> {
+  pub fn get_user_id(&self, id: PlayerId) -> Result<UserId> {
     use crate::schema::user;
 
-    let player_id: SqlPlayerId = player_id.into();
     let result = user::table
-      .filter(user::player_id.eq(&player_id))
+      .filter(user::player_id.eq(&id))
       .select(user::id)
       .first(&mut *self.conn());
 
     if let Err(DieselError::NotFound) = &result {
-      Err(Error::UserNotFound(Either::Left(player_id)))
+      Err(Error::UserNotFound(Either::Left(id)))
     } else {
       Ok(result?)
     }
@@ -95,21 +92,20 @@ impl Database {
     let result = user::table
       .find(id)
       .select(user::player_id)
-      .first::<SqlPlayerId>(&mut *self.conn());
+      .first::<PlayerId>(&mut *self.conn());
 
     if let Err(DieselError::NotFound) = &result {
       Err(Error::UserNotFound(Either::Right(id)))
     } else {
-      Ok(PlayerId::from(result?))
+      Ok(result?)
     }
   }
 
-  pub fn user_exists(&self, player_id: impl Into<SqlPlayerId>) -> Result<bool> {
+  pub fn user_exists(&self, id: &PlayerId) -> Result<bool> {
     use crate::schema::user;
     use diesel::dsl::{exists, select};
 
-    let player_id: SqlPlayerId = player_id.into();
-    select(exists(user::table.filter(user::player_id.eq(&player_id))))
+    select(exists(user::table.filter(user::player_id.eq(id))))
       .get_result(&mut *self.conn())
       .map_err(Into::into)
   }

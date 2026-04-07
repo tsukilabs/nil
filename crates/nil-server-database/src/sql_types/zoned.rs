@@ -8,7 +8,6 @@ use diesel::expression::AsExpression;
 use diesel::serialize::{self as ser, IsNull, Output, ToSql};
 use diesel::sql_types::Text;
 use diesel::sqlite::Sqlite;
-use jiff::Zoned;
 use serde::{Deserialize, Serialize};
 use std::str::FromStr;
 
@@ -16,28 +15,28 @@ use std::str::FromStr;
   FromSqlRow, AsExpression, Clone, Debug, Deref, Display, From, Into, Deserialize, Serialize,
 )]
 #[diesel(sql_type = Text)]
-pub struct SqlZoned(Zoned);
+pub struct Zoned(jiff::Zoned);
 
-impl SqlZoned {
+impl Zoned {
   pub fn now() -> Self {
-    Self(Zoned::now())
+    Self(jiff::Zoned::now())
   }
 }
 
-impl Default for SqlZoned {
+impl Default for Zoned {
   fn default() -> Self {
     Self::now()
   }
 }
 
-impl FromSql<Text, Sqlite> for SqlZoned {
+impl FromSql<Text, Sqlite> for Zoned {
   fn from_sql(bytes: <Sqlite as Backend>::RawValue<'_>) -> de::Result<Self> {
     let value = <String as FromSql<Text, Sqlite>>::from_sql(bytes)?;
-    Ok(SqlZoned(Zoned::from_str(value.as_str())?))
+    Ok(Zoned(jiff::Zoned::from_str(value.as_str())?))
   }
 }
 
-impl ToSql<Text, Sqlite> for SqlZoned
+impl ToSql<Text, Sqlite> for Zoned
 where
   String: ToSql<Text, Sqlite>,
 {

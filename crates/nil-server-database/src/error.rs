@@ -3,12 +3,14 @@
 
 use crate::sql_types::game_id::GameId;
 use crate::sql_types::id::UserId;
-use crate::sql_types::player_id::SqlPlayerId;
+use crate::sql_types::player_id::PlayerId;
 use either::Either;
 use serde::Serialize;
 use serde::ser::Serializer;
 use std::convert::Infallible;
+use std::io;
 use std::result::Result as StdResult;
+use tokio::task::JoinError;
 
 pub use diesel::result::Error as DieselError;
 pub use nil_core::error::Error as CoreError;
@@ -25,18 +27,22 @@ pub enum Error {
   InvalidPassword,
 
   #[error("Invalid username: \"{0}\"")]
-  InvalidUsername(SqlPlayerId),
+  InvalidUsername(PlayerId),
 
   #[error("User already exists: \"{0}\"")]
-  UserAlreadyExists(SqlPlayerId),
+  UserAlreadyExists(PlayerId),
 
   #[error("User not found")]
-  UserNotFound(Either<SqlPlayerId, UserId>),
+  UserNotFound(Either<PlayerId, UserId>),
 
   #[error(transparent)]
   Core(#[from] CoreError),
   #[error(transparent)]
   Diesel(#[from] diesel::result::Error),
+  #[error(transparent)]
+  DieselConnection(#[from] diesel::ConnectionError),
+  #[error(transparent)]
+  Io(#[from] io::Error),
   #[error(transparent)]
   Jiff(#[from] jiff::Error),
   #[error(transparent)]
@@ -58,5 +64,11 @@ where
 {
   fn from(value: Result<Infallible, E>) -> Self {
     value.unwrap_err().into()
+  }
+}
+
+impl From<JoinError> for Error {
+  fn from(err: JoinError) -> Self {
+    Self::Io(io::Error::from(err))
   }
 }

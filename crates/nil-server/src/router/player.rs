@@ -173,7 +173,8 @@ pub async fn spawn(State(app): State<App>, Json(req): Json<SpawnPlayerRequest>) 
   if app.server_kind().is_remote() {
     match app
       .database()
-      .verify_game_password(req.world, req.world_password.as_ref())
+      .verify_game_password(req.world, req.world_password)
+      .await
     {
       Ok(true) => {}
       Ok(false) => return from_err(Error::IncorrectWorldCredentials(req.world)),

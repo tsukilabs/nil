@@ -21,7 +21,7 @@ use nil_core::world::{World, WorldOptions};
 use nil_crypto::password::Password;
 use nil_server_database::Database;
 use nil_server_database::model::game::{GameWithBlob, NewGame};
-use nil_server_database::sql_types::player_id::SqlPlayerId;
+use nil_server_database::sql_types::player_id::PlayerId;
 use nil_server_types::ServerKind;
 use nil_server_types::round::RoundDuration;
 use semver::{Prerelease, Version};
@@ -60,14 +60,14 @@ impl App {
     app
   }
 
-  pub fn new_remote(database_url: &str) -> Result<Self> {
+  pub async fn new_remote(database_url: &str) -> Result<Self> {
     let worlds = Arc::new(DashMap::new());
-    let database = Database::new(database_url)?;
+    let database = Database::new(database_url).await?;
 
     let mut invalid_games = Vec::new();
 
-    for game_id in database.get_game_ids()? {
-      if let Ok(game) = database.get_game_with_blob(game_id)
+    for game_id in database.get_game_ids().await? {
+      if let Ok(game) = database.get_game_with_blob(game_id).await
         && has_valid_version(&game)
         && has_valid_age(&game)
         && let Ok(world) = game.to_world()
@@ -90,7 +90,7 @@ impl App {
           ));
         }
 
-        world.blocking_write().on_next_round(
+        world.write().await.on_next_round(
           remote::on_next_round()
             .database(database)
             .weak_world(weak_world)
@@ -105,7 +105,7 @@ impl App {
       }
     }
 
-    database.delete_games(&invalid_games)?;
+    database.delete_games(invalid_games).await?;
 
     Ok(Self {
       server_kind: ServerKind::Remote,
@@ -152,23 +152,27 @@ impl App {
     self.world_limit_per_user.get()
   }
 
+  /// Creates a new remote world with the given options.
+  ///
   /// # Panics
   ///
   /// Panics if the server is not remote.
   #[builder]
-  pub(crate) fn create_remote(
+  pub(crate) async fn create_remote(
     &self,
     #[builder(start_fn)] options: &WorldOptions,
-    #[builder(into)] player_id: SqlPlayerId,
+    #[builder(into)] player_id: PlayerId,
     #[builder(into)] world_description: Option<String>,
-    world_password: Option<&Password>,
+    world_password: Option<Password>,
     round_duration: Option<RoundDuration>,
     server_version: Version,
   ) -> Result<WorldId> {
-    self.check_remote_world_limit(player_id.clone())?;
+    self
+      .check_remote_world_limit(player_id.clone())
+      .await?;
 
     let database = self.database();
-    let user = database.get_user(player_id)?;
+    let user = database.get_user(player_id).await?;
 
     let world = World::try_from(options)?;
     let world_id = world.config().id();
@@ -180,13 +184,15 @@ impl App {
       .maybe_password(world_password)
       .maybe_round_duration(round_duration)
       .server_version(server_version)
-      .build()?
-      .create(&database)?;
+      .build()
+      .await?
+      .create(&database)
+      .await?;
 
     let database = database.clone();
     let world = Arc::new(RwLock::new(world));
 
-    world.blocking_write().on_next_round(
+    world.write().await.on_next_round(
       remote::on_next_round()
         .database(database)
         .weak_world(Arc::downgrade(&world))
@@ -200,16 +206,16 @@ impl App {
   }
 
   /// Checks if the player can create a new remote world.
-  fn check_remote_world_limit(&self, player: SqlPlayerId) -> Result<()> {
+  async fn check_remote_world_limit(&self, player: PlayerId) -> Result<()> {
     let database = self.database();
 
     let limit = i64::from(self.world_limit.get());
-    if database.count_games()? >= limit {
+    if database.count_games().await? >= limit {
       return Err(Error::WorldLimitReached);
     }
 
     let limit_per_user = i64::from(self.world_limit_per_user.get());
-    if database.count_games_by_user(player)? >= limit_per_user {
+    if database.count_games_by_user(player).await? >= limit_per_user {
       return Err(Error::WorldLimitReached);
     }
 

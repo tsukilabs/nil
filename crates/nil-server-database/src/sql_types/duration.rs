@@ -12,22 +12,22 @@ use jiff::SignedDuration;
 use nil_server_types::round::RoundDuration;
 use nil_server_types::time::Minutes;
 use serde::{Deserialize, Serialize};
-use std::time::Duration;
+use std::time::Duration as StdDuration;
 
 #[derive(
   FromSqlRow, AsExpression, Clone, Copy, Debug, Deref, From, Into, Deserialize, Serialize,
 )]
 #[diesel(sql_type = Text)]
-pub struct SqlDuration(Duration);
+pub struct Duration(StdDuration);
 
-impl FromSql<Text, Sqlite> for SqlDuration {
+impl FromSql<Text, Sqlite> for Duration {
   fn from_sql(bytes: <Sqlite as Backend>::RawValue<'_>) -> de::Result<Self> {
     let value = <String as FromSql<Text, Sqlite>>::from_sql(bytes)?;
-    Ok(SqlDuration(Duration::from_millis(value.parse()?)))
+    Ok(Duration(StdDuration::from_millis(value.parse()?)))
   }
 }
 
-impl ToSql<Text, Sqlite> for SqlDuration
+impl ToSql<Text, Sqlite> for Duration
 where
   String: ToSql<Text, Sqlite>,
 {
@@ -37,36 +37,36 @@ where
   }
 }
 
-impl From<Minutes> for SqlDuration {
+impl From<Minutes> for Duration {
   fn from(mins: Minutes) -> Self {
-    Self(Duration::from(mins))
+    Self(StdDuration::from(mins))
   }
 }
 
-impl From<RoundDuration> for SqlDuration {
+impl From<RoundDuration> for Duration {
   fn from(duration: RoundDuration) -> Self {
-    Self(Duration::from(duration))
+    Self(StdDuration::from(duration))
   }
 }
 
-impl From<SqlDuration> for RoundDuration {
-  fn from(duration: SqlDuration) -> Self {
+impl From<Duration> for RoundDuration {
+  fn from(duration: Duration) -> Self {
     RoundDuration::from(duration.0)
   }
 }
 
-impl TryFrom<SignedDuration> for SqlDuration {
+impl TryFrom<SignedDuration> for Duration {
   type Error = crate::error::Error;
 
   fn try_from(duration: SignedDuration) -> Result<Self, Self::Error> {
-    Ok(SqlDuration(Duration::try_from(duration)?))
+    Ok(Duration(StdDuration::try_from(duration)?))
   }
 }
 
-impl TryFrom<SqlDuration> for SignedDuration {
+impl TryFrom<Duration> for SignedDuration {
   type Error = crate::error::Error;
 
-  fn try_from(duration: SqlDuration) -> Result<Self, Self::Error> {
+  fn try_from(duration: Duration) -> Result<Self, Self::Error> {
     Ok(SignedDuration::try_from(duration.0)?)
   }
 }

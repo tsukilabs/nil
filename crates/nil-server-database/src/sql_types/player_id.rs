@@ -8,22 +8,22 @@ use diesel::expression::AsExpression;
 use diesel::serialize::{self as ser, IsNull, Output, ToSql};
 use diesel::sql_types::Text;
 use diesel::sqlite::Sqlite;
-use nil_core::player::PlayerId;
+use nil_core::player::PlayerId as CorePlayerId;
 
 #[derive(
   FromSqlRow, AsExpression, Clone, Debug, Deref, Display, From, Into, PartialEq, Eq, Hash,
 )]
 #[diesel(sql_type = Text)]
-pub struct SqlPlayerId(PlayerId);
+pub struct PlayerId(CorePlayerId);
 
-impl FromSql<Text, Sqlite> for SqlPlayerId {
+impl FromSql<Text, Sqlite> for PlayerId {
   fn from_sql(bytes: <Sqlite as Backend>::RawValue<'_>) -> de::Result<Self> {
     let value = <String as FromSql<Text, Sqlite>>::from_sql(bytes)?;
-    Ok(SqlPlayerId(PlayerId::from(value)))
+    Ok(PlayerId(CorePlayerId::from(value)))
   }
 }
 
-impl ToSql<Text, Sqlite> for SqlPlayerId
+impl ToSql<Text, Sqlite> for PlayerId
 where
   String: ToSql<Text, Sqlite>,
 {
@@ -33,8 +33,8 @@ where
   }
 }
 
-impl From<&PlayerId> for SqlPlayerId {
-  fn from(id: &PlayerId) -> Self {
+impl From<&CorePlayerId> for PlayerId {
+  fn from(id: &CorePlayerId) -> Self {
     Self(id.clone())
   }
 }

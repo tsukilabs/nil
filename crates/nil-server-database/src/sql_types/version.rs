@@ -8,23 +8,22 @@ use diesel::expression::AsExpression;
 use diesel::serialize::{self as ser, IsNull, Output, ToSql};
 use diesel::sql_types::Text;
 use diesel::sqlite::Sqlite;
-use semver::Version;
 use serde::{Deserialize, Serialize};
 
 #[derive(
   FromSqlRow, AsExpression, Clone, Debug, Deref, Display, From, Into, Deserialize, Serialize,
 )]
 #[diesel(sql_type = Text)]
-pub struct SqlVersion(Version);
+pub struct Version(semver::Version);
 
-impl FromSql<Text, Sqlite> for SqlVersion {
+impl FromSql<Text, Sqlite> for Version {
   fn from_sql(bytes: <Sqlite as Backend>::RawValue<'_>) -> de::Result<Self> {
     let value = <String as FromSql<Text, Sqlite>>::from_sql(bytes)?;
-    Ok(SqlVersion(Version::parse(value.as_str())?))
+    Ok(Version(semver::Version::parse(value.as_str())?))
   }
 }
 
-impl ToSql<Text, Sqlite> for SqlVersion
+impl ToSql<Text, Sqlite> for Version
 where
   String: ToSql<Text, Sqlite>,
 {
