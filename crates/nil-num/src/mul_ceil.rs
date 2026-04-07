@@ -39,3 +39,16 @@ macro_rules! impl_mul_ceil {
 }
 
 impl_mul_ceil!(i8, u8, i16, u16, i32, u32, f32);
+
+#[cfg(test)]
+mod tests {
+  use super::MulCeil;
+
+  #[test]
+  fn mul_ceil() {
+    assert_eq!(3.0.mul_ceil(2.0), 6.0);
+    assert_eq!(3.0.mul_ceil(2.1), 7.0);
+    assert_eq!(3.0.mul_ceil(2.5), 8.0);
+    assert_eq!(3.0.mul_ceil(2.9), 9.0);
+  }
+}
