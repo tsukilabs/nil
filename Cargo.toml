@@ -21,7 +21,7 @@ members = [
 
 [workspace.package]
 description = "Multiplayer strategy game"
-version = "0.4.22"
+version = "0.5.0"
 edition = "2024"
 rust-version = "1.96"
 license = "AGPL-3.0-only"
@@ -65,7 +65,7 @@ either = "1.15"
 futures = "0.3"
 headers = "0.4"
 http = "1.4"
-humantime = "2.3"
+humantime = "=2.3.0"
 itertools = "0.14"
 local-ip-address = "=0.6.11"
 num-traits = "=0.2.19"
@@ -148,59 +148,59 @@ version = "0.11"
 features = ["anyhow", "async", "error-send", "lua55", "send", "serde", "vendored"]
 
 [workspace.dependencies.nil-client]
-version = "0.4"
+version = "0.5"
 path = "./crates/nil-client"
 
 [workspace.dependencies.nil-core]
-version = "0.4"
+version = "0.5"
 path = "./crates/nil-core"
 
 [workspace.dependencies.nil-core-macros]
-version = "0.4"
+version = "0.5"
 path = "./crates/nil-core-macros"
 
 [workspace.dependencies.nil-crypto]
-version = "0.4"
+version = "0.5"
 path = "./crates/nil-crypto"
 
 [workspace.dependencies.nil-log]
-version = "0.4"
+version = "0.5"
 path = "./crates/nil-log"
 
 [workspace.dependencies.nil-lua]
-version = "0.4"
+version = "0.5"
 path = "./crates/nil-lua"
 
 [workspace.dependencies.nil-namegen]
-version = "0.4"
+version = "0.5"
 path = "./crates/nil-namegen"
 
 [workspace.dependencies.nil-num]
-version = "0.4"
+version = "0.5"
 path = "./crates/nil-num"
 
 [workspace.dependencies.nil-num-macros]
-version = "0.4"
+version = "0.5"
 path = "./crates/nil-num-macros"
 
 [workspace.dependencies.nil-server]
-version = "0.4"
+version = "0.5"
 path = "./crates/nil-server"
 
 [workspace.dependencies.nil-server-database]
-version = "0.4"
+version = "0.5"
 path = "./crates/nil-server-database"
 
 [workspace.dependencies.nil-server-types]
-version = "0.4"
+version = "0.5"
 path = "./crates/nil-server-types"
 
 [workspace.dependencies.nil-payload]
-version = "0.4"
+version = "0.5"
 path = "./crates/nil-payload"
 
 [workspace.dependencies.nil-util]
-version = "0.4"
+version = "0.5"
 path = "./crates/nil-util"
 
 [workspace.dependencies.reqwest]

@@ -79,6 +79,7 @@ impl World {
     self.process_maneuvers()?;
     self.update_ranking()?;
     self.process_npc_behavior()?;
+    self.report_manager.prune();
     Ok(())
   }
 
