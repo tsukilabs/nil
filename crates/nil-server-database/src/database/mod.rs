@@ -22,6 +22,22 @@ use tokio::task::spawn_blocking;
 
 #[must_use]
 #[derive(Clone)]
+pub struct BlockingDatabase(Arc<Mutex<SqliteConnection>>);
+
+impl BlockingDatabase {
+  fn new(url: &str) -> Result<Self> {
+    let mut conn = SqliteConnection::establish(url)?;
+    run_pending_migrations(&mut conn);
+    Ok(Self(Arc::new(Mutex::new(conn))))
+  }
+
+  fn conn(&self) -> MutexGuard<'_, SqliteConnection> {
+    self.0.lock()
+  }
+}
+
+#[must_use]
+#[derive(Clone)]
 pub struct Database(BlockingDatabase);
 
 impl Database {
@@ -213,21 +229,5 @@ impl Database {
     self
       .with_blocking(move |db| db.was_game_created_by(game_id, &player_id))
       .await
-  }
-}
-
-#[must_use]
-#[derive(Clone)]
-pub struct BlockingDatabase(Arc<Mutex<SqliteConnection>>);
-
-impl BlockingDatabase {
-  fn new(url: &str) -> Result<Self> {
-    let mut conn = SqliteConnection::establish(url)?;
-    run_pending_migrations(&mut conn);
-    Ok(Self(Arc::new(Mutex::new(conn))))
-  }
-
-  fn conn(&self) -> MutexGuard<'_, SqliteConnection> {
-    self.0.lock()
   }
 }

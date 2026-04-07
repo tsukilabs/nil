@@ -5,7 +5,7 @@ use crate::infrastructure::storage::StorageCapacity;
 use crate::military::squad::size::SquadSize;
 use crate::resources::prelude::*;
 use derive_more::{Deref, From, Into};
-use nil_num::ops::MulCeil;
+use nil_num::mul_ceil::MulCeil;
 use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
 use std::ops::{Add, AddAssign, Mul, MulAssign};
