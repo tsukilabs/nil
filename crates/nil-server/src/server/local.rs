@@ -77,11 +77,11 @@ pub async fn load(path: impl AsRef<Path>) -> Result<LocalServer> {
   LocalServer::serve(world).await
 }
 
-pub(crate) async fn save(mut path: PathBuf, bytes: Vec<u8>) {
+pub(crate) async fn save(mut dir: PathBuf, bytes: Vec<u8>) {
   let result = try {
-    fs::create_dir_all(&path).await?;
-    path.push(format!("{}.nil", Uuid::now_v7()));
-    fs::write(&path, bytes).await?;
+    fs::create_dir_all(&dir).await?;
+    dir.push(format!("{}.nil", Uuid::now_v7()));
+    fs::write(&dir, bytes).await?;
   };
 
   if let Err(err) = result {

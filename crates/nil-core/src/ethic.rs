@@ -74,12 +74,6 @@ impl Ethics {
   }
 }
 
-impl Default for Ethics {
-  fn default() -> Self {
-    Self::random()
-  }
-}
-
 #[derive(Clone, Copy, Debug, EnumIs, PartialEq, Eq, Deserialize, Serialize, VariantArray)]
 #[serde(rename_all = "kebab-case")]
 pub enum EthicPowerAxis {
@@ -113,12 +107,6 @@ impl EthicPowerAxis {
   }
 }
 
-impl Default for EthicPowerAxis {
-  fn default() -> Self {
-    Self::random()
-  }
-}
-
 #[derive(Clone, Copy, Debug, EnumIs, PartialEq, Eq, Deserialize, Serialize, VariantArray)]
 #[serde(rename_all = "kebab-case")]
 pub enum EthicTruthAxis {
@@ -149,11 +137,5 @@ impl EthicTruthAxis {
   /// Whether this ethic is [`EthicTruthAxis::Spiritualist`] or [`EthicTruthAxis::FanaticSpiritualist`].
   pub fn is_spiritualist_variant(&self) -> bool {
     matches!(self, Self::Spiritualist | Self::FanaticSpiritualist)
-  }
-}
-
-impl Default for EthicTruthAxis {
-  fn default() -> Self {
-    Self::random()
   }
 }

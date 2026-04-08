@@ -41,8 +41,8 @@ impl World {
     let city = self.continent.city_mut(coord)?;
     name.clone_into(city.name_mut());
 
-    self.emit_public_city_updated(coord);
-    self.emit_city_updated(coord);
+    self.emit_public_city_updated(coord)?;
+    self.emit_city_updated(coord)?;
 
     Ok(())
   }

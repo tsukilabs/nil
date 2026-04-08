@@ -67,7 +67,7 @@ impl World {
       .player_mut(id)?
       .status_mut() = status;
 
-    self.emit_player_updated(id.clone());
+    self.emit_player_updated(id.clone())?;
 
     Ok(())
   }
@@ -87,7 +87,7 @@ impl World {
       *player.status_mut() = PlayerStatus::Active;
       self.player_manager.manage(player);
 
-      self.emit_public_city_updated(coord);
+      self.emit_public_city_updated(coord)?;
 
       Ok(())
     }

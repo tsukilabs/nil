@@ -62,11 +62,13 @@ impl NewUser {
       return Err(Error::InvalidUsername(player_id));
     }
 
+    let now = Zoned::now();
+
     Ok(Self {
       player_id,
       password: hash_password(password).await?,
-      created_at: Zoned::now(),
-      updated_at: Zoned::now(),
+      created_at: now.clone(),
+      updated_at: now,
     })
   }
 

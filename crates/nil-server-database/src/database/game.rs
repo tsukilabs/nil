@@ -37,8 +37,9 @@ macro_rules! decl_get {
 macro_rules! decl_get_all {
   ($fn_name:ident, $model:ident) => {
     pub fn $fn_name(&self) -> Result<Vec<$model>> {
-      use crate::schema::game::dsl::*;
-      game
+      use $crate::schema::game;
+
+      game::table
         .select($model::as_select())
         .load(&mut *self.conn())
         .map_err(Into::into)
@@ -129,30 +130,41 @@ impl BlockingDatabase {
   pub fn get_game_password(&self, id: GameId) -> Result<Option<HashedPassword>> {
     use crate::schema::game;
 
-    game::table
+    let result = game::table
       .find(&id)
       .select(game::password)
-      .first(&mut *self.conn())
-      .map_err(Into::into)
+      .first(&mut *self.conn());
+
+    if let Err(DieselError::NotFound) = &result {
+      Err(Error::GameNotFound(id))
+    } else {
+      Ok(result?)
+    }
   }
 
   pub fn get_game_round_duration(&self, id: GameId) -> Result<Option<Duration>> {
     use crate::schema::game;
 
-    game::table
+    let result = game::table
       .find(&id)
       .select(game::round_duration)
-      .first(&mut *self.conn())
-      .map_err(Into::into)
+      .first(&mut *self.conn());
+
+    if let Err(DieselError::NotFound) = &result {
+      Err(Error::GameNotFound(id))
+    } else {
+      Ok(result?)
+    }
   }
 
   pub fn update_game_blob(&self, id: GameId, blob: &[u8]) -> Result<usize> {
     use crate::schema::game;
 
-    diesel::update(game::table.find(&id))
+    let n = diesel::update(game::table.find(&id))
       .set((game::world_blob.eq(blob), game::updated_at.eq(Zoned::now())))
-      .execute(&mut *self.conn())
-      .map_err(Into::into)
+      .execute(&mut *self.conn())?;
+
+    if n == 0 { Err(Error::GameNotFound(id)) } else { Ok(n) }
   }
 
   pub fn verify_game_password(&self, id: GameId, password: Option<&Password>) -> Result<bool> {

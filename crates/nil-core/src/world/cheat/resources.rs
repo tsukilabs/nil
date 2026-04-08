@@ -24,7 +24,7 @@ impl World {
     *ruler_ref.resources_mut() = resources;
 
     if let Some(player) = ruler.player().cloned() {
-      self.emit_player_updated(player);
+      self.emit_player_updated(player)?;
     }
 
     Ok(())

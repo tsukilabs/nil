@@ -40,7 +40,9 @@ fn spawn_tx(mut tx: Sender, mut listener: Listener, player: PlayerId) -> JoinHan
           }
         }
         Err(RecvError::Closed) => break,
-        Err(..) => {}
+        Err(RecvError::Lagged(n)) => {
+          tracing::warn!("Websocket listener for player {player} lagged by {n} messages");
+        }
       }
     }
   })

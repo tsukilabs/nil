@@ -1,6 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+use crate::error::Result;
 use crate::player::PlayerId;
 use crate::report::{ReportId, ReportManager};
 use crate::world::World;
@@ -12,13 +13,15 @@ impl World {
   }
 
   /// Forwards a report to a player.
-  pub fn forward_report(&mut self, id: ReportId, recipient: PlayerId) {
+  pub fn forward_report(&mut self, id: ReportId, recipient: PlayerId) -> Result<()> {
     if self
       .report_manager
       .forward(id, recipient.clone())
     {
-      self.emit_report(recipient, id);
+      self.emit_report(recipient, id)?;
     }
+
+    Ok(())
   }
 
   /// Removes a report from a player's list of reports.

@@ -5,6 +5,7 @@ use crate::Lua;
 use crate::error::Result;
 use serde::{Deserialize, Serialize};
 use std::ffi::OsStr;
+use std::io;
 use std::path::PathBuf;
 use tokio::fs;
 
@@ -23,12 +24,12 @@ impl Script {
       .file_stem()
       .and_then(OsStr::to_str)
       .map(ToOwned::to_owned)
-      .unwrap_or_else(|| String::from("Script"));
+      .ok_or(io::ErrorKind::InvalidInput)?;
 
     Ok(Self { name, chunk, path })
   }
 
-  pub async fn execute(&self, lua: &mut Lua) -> Result<()> {
+  pub async fn execute(self, lua: &mut Lua) -> Result<()> {
     lua.execute(&self.chunk).await
   }
 }

@@ -118,10 +118,16 @@ impl NewGame {
     created_by: UserId,
   ) -> Result<Self> {
     if let Some(description) = &mut description {
-      while description.len() > 1000 {
-        description.pop();
+      let chars = description.chars().count();
+      let excess = chars.saturating_sub(1000);
+      if excess > 0 {
+        for _ in 0..excess {
+          description.pop();
+        }
       }
     }
+
+    let now = Zoned::now();
 
     Ok(Self {
       id,
@@ -130,8 +136,8 @@ impl NewGame {
       round_duration: round_duration.map(Into::into),
       server_version,
       created_by,
-      created_at: Zoned::now(),
-      updated_at: Zoned::now(),
+      created_at: now.clone(),
+      updated_at: now,
       world_blob: blob,
     })
   }

@@ -190,8 +190,15 @@ impl Sender {
     });
 
     let keep_alive_task = spawn(async move {
-      while let Ok(()) = tx.send(SenderMessage::KeepAlive).await {
+      loop {
         sleep(Duration::from_secs(30)).await;
+        if tx
+          .send(SenderMessage::KeepAlive)
+          .await
+          .is_err()
+        {
+          break;
+        }
       }
     });
 
@@ -255,7 +262,12 @@ impl Receiver {
     let ws_receiver_task = spawn(async move {
       while let Some(result) = ws_receiver.next().await {
         match result {
-          Ok(Message::Binary(bytes)) => on_event(Event::from(bytes)).await,
+          Ok(Message::Binary(bytes)) => {
+            // `Event::try_from` will already log any errors.
+            if let Ok(event) = Event::try_from(bytes) {
+              on_event(event).await;
+            }
+          }
           Ok(Message::Close(_)) => break,
           Err(err) => {
             tracing::error!(message = %err, error = ?err);

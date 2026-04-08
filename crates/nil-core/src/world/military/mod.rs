@@ -69,13 +69,13 @@ impl World {
     let target_player = self.city(request.destination)?.player();
 
     if let Some(sender_player) = sender_player {
-      self.emit_military_updated(sender_player.clone());
+      self.emit_military_updated(sender_player.clone())?;
     }
 
     if let Some(target_player) = target_player
       && sender_player.is_none_or(|it| it != &target_player)
     {
-      self.emit_military_updated(target_player);
+      self.emit_military_updated(target_player)?;
     }
 
     Ok(id)

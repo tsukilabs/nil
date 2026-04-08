@@ -106,7 +106,7 @@ impl World {
       .round(self.round.id())
       .build();
 
-    self.emit_battle_report(&report);
+    self.emit_battle_report(&report)?;
     self
       .report_manager
       .manage(report.into(), players);
@@ -135,7 +135,7 @@ impl World {
       .round(self.round.id())
       .build();
 
-    self.emit_support_report(&report);
+    self.emit_support_report(&report)?;
     self
       .report_manager
       .manage(report.into(), players);

@@ -25,7 +25,7 @@ impl World {
       .building_mut(id)
       .toggle(enabled);
 
-    self.emit_city_updated(coord);
+    self.emit_city_updated(coord)?;
 
     Ok(())
   }

@@ -37,7 +37,7 @@ pub async fn authorization(mut request: Request, next: Next) -> Response {
     .await
   else {
     tracing::warn!("Missing authorization header");
-    return res!(BAD_REQUEST);
+    return res!(UNAUTHORIZED);
   };
 
   match decode_jwt(token).await {
@@ -65,11 +65,11 @@ pub(crate) struct Claims {
 pub(crate) async fn encode_jwt(player: PlayerId) -> Result<Token> {
   let token = spawn_blocking(move || {
     let now = Zoned::now();
-    let iat = now.timestamp().as_millisecond().try_into()?;
+    let iat = now.timestamp().as_second().try_into()?;
     let exp = now
       .saturating_add(SignedDuration::from_hours(24 * 7))
       .timestamp()
-      .as_millisecond()
+      .as_second()
       .try_into()?;
 
     let token = encode(

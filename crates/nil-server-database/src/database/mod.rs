@@ -27,7 +27,7 @@ pub struct BlockingDatabase(Arc<Mutex<SqliteConnection>>);
 impl BlockingDatabase {
   fn new(url: &str) -> Result<Self> {
     let mut conn = SqliteConnection::establish(url)?;
-    run_pending_migrations(&mut conn);
+    run_pending_migrations(&mut conn)?;
     Ok(Self(Arc::new(Mutex::new(conn))))
   }
 

@@ -9,8 +9,8 @@ import Maneuvers from './Maneuvers.vue';
 import SquadGrid from './SquadGrid.vue';
 import { handleError } from '@/lib/error';
 import Destination from './Destination.vue';
-import { asyncComputed } from '@tb-dev/vue';
 import { computed, nextTick, ref } from 'vue';
+import { asyncComputed, useBreakpoints } from '@tb-dev/vue';
 import { useManeuvers } from '@/composables/military/useManeuvers';
 import { usePlayerTurn } from '@/composables/player/usePlayerTurn';
 import type { ManeuverKind } from '@/types/core/military/maneuver';
@@ -35,6 +35,8 @@ const available = foldArmyPersonnel(armies);
 const personnel = ref(ArmyPersonnelImpl.createEmpty());
 
 const maneuvers = useManeuvers(origin);
+
+const { sm } = useBreakpoints();
 
 const canSend = computed(() => {
   return (
@@ -76,14 +78,28 @@ function clear() {
 
       <Destination v-model="destination" :destination-city />
 
-      <div class="grid grid-cols-3 items-center justify-start gap-4 max-w-max">
-        <Button variant="default" :disabled="!canSend" @click="() => send('attack')">
+      <div class="max-sm:w-full sm:max-w-max grid grid-cols-3 items-center justify-center sm:justify-start gap-4">
+        <Button
+          variant="default"
+          :size="sm ? 'default' : 'sm'"
+          :disabled="!canSend"
+          @click="() => send('attack')"
+        >
           <span>{{ t('attack') }}</span>
         </Button>
-        <Button variant="default" :disabled="!canSend" @click="() => send('support')">
+        <Button
+          variant="default"
+          :size="sm ? 'default' : 'sm'"
+          :disabled="!canSend"
+          @click="() => send('support')"
+        >
           <span>{{ t('support') }}</span>
         </Button>
-        <Button variant="secondary" @click="clear">
+        <Button
+          variant="secondary"
+          :size="sm ? 'default' : 'sm'"
+          @click="clear"
+        >
           <span>{{ t('clear') }}</span>
         </Button>
       </div>
