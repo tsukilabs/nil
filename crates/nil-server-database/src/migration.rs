@@ -10,7 +10,7 @@ const MIGRATIONS: EmbeddedMigrations = embed_migrations!();
 pub(super) fn run_pending_migrations(conn: &mut SqliteConnection) -> Result<()> {
   conn
     .run_pending_migrations(MIGRATIONS)
-    .map_err(|err| Error::MigrationFailed(err.to_string()))?;
+    .map_err(Error::MigrationFailed)?;
 
   Ok(())
 }

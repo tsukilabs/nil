@@ -150,7 +150,7 @@ impl World {
       building.set_level(building.max_level());
     }
 
-    self.emit_city_updated(coord);
+    self.emit_city_updated(coord)?;
 
     Ok(())
   }
@@ -163,7 +163,7 @@ impl World {
   ) -> Result<()> {
     bail_if_cheats_are_not_allowed!(self);
     self.set_building_level(coord, id, level)?;
-    self.emit_city_updated(coord);
+    self.emit_city_updated(coord)?;
     Ok(())
   }
 }

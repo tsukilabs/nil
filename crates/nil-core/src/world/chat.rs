@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::chat::{Chat, ChatMessage, ChatMessageId, ChatMessageKind};
+use crate::error::Result;
 use crate::player::PlayerId;
 use crate::world::World;
 
@@ -11,7 +12,7 @@ impl World {
     &self.chat
   }
 
-  pub fn push_chat_message(&mut self, author: PlayerId, message: &str) -> ChatMessageId {
+  pub fn push_chat_message(&mut self, author: PlayerId, message: &str) -> Result<ChatMessageId> {
     let message = ChatMessage::builder(message)
       .author(author)
       .kind(ChatMessageKind::Default)
@@ -19,8 +20,8 @@ impl World {
 
     let id = message.id();
     self.chat.push(message.clone());
-    self.emit_chat_updated(message);
+    self.emit_chat_updated(message)?;
 
-    id
+    Ok(id)
   }
 }

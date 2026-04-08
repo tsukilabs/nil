@@ -8,6 +8,7 @@ use either::Either;
 use serde::Serialize;
 use serde::ser::Serializer;
 use std::convert::Infallible;
+use std::error::Error as StdError;
 use std::io;
 use std::result::Result as StdResult;
 use tokio::task::JoinError;
@@ -30,7 +31,7 @@ pub enum Error {
   InvalidUsername(PlayerId),
 
   #[error("Migration failed: {0}")]
-  MigrationFailed(String),
+  MigrationFailed(Box<dyn StdError + Send + Sync>),
 
   #[error("User already exists: \"{0}\"")]
   UserAlreadyExists(PlayerId),

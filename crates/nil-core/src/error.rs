@@ -51,8 +51,14 @@ pub enum Error {
   #[error("City not found: {0}")]
   CityNotFound(Coord),
 
+  #[error("Failed to deserialize event")]
+  FailedToDeserializeEvent,
+
   #[error("Failed to read savedata file")]
   FailedToReadSavedata,
+
+  #[error("Failed to serialize event")]
+  FailedToSerializeEvent,
 
   #[error("Failed to write savedata file")]
   FailedToWriteSavedata,

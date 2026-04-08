@@ -3,6 +3,7 @@
 
 use crate::chat::ChatMessage;
 use crate::continent::Coord;
+use crate::error::{Error, Result};
 use crate::player::PlayerId;
 use crate::report::ReportId;
 use crate::round::Round;
@@ -21,23 +22,24 @@ pub(crate) struct Emitter {
 }
 
 impl Emitter {
-  fn new(capacity: usize) -> Self {
+  pub fn new(capacity: usize) -> Self {
     let (sender, _) = channel(capacity);
     Self { sender }
   }
 
-  pub(crate) fn emit(&self, event: Event, target: EventTarget) {
+  pub(crate) fn emit(&self, event: Event, target: EventTarget) -> Result<()> {
     tracing::info!(?target, ?event);
-    let bytes = Bytes::from(event);
+    let bytes = Bytes::try_from(event)?;
     let _ = self.sender.send((bytes, target));
+    Ok(())
   }
 
-  pub(crate) fn emit_to(&self, target: PlayerId, event: Event) {
-    self.emit(event, EventTarget::Player(target));
+  pub(crate) fn emit_to(&self, target: PlayerId, event: Event) -> Result<()> {
+    self.emit(event, EventTarget::Player(target))
   }
 
-  pub(crate) fn broadcast(&self, event: Event) {
-    self.emit(event, EventTarget::Broadcast);
+  pub(crate) fn broadcast(&self, event: Event) -> Result<()> {
+    self.emit(event, EventTarget::Broadcast)
   }
 
   pub(crate) fn subscribe(&self) -> Listener {
@@ -111,17 +113,27 @@ pub enum Event {
   RoundUpdated { world: WorldId, round: Round },
 }
 
-impl From<Event> for Bytes {
-  fn from(event: Event) -> Self {
+impl TryFrom<Event> for Bytes {
+  type Error = Error;
+
+  fn try_from(event: Event) -> Result<Self> {
     serde_json::to_vec(&event)
       .map(Bytes::from)
-      .unwrap()
+      .map_err(|err| {
+        tracing::error!("Failed to serialize event: {err}");
+        Error::FailedToSerializeEvent
+      })
   }
 }
 
-impl From<Bytes> for Event {
-  fn from(bytes: Bytes) -> Self {
-    serde_json::from_slice(&bytes).unwrap()
+impl TryFrom<Bytes> for Event {
+  type Error = Error;
+
+  fn try_from(bytes: Bytes) -> Result<Self> {
+    serde_json::from_slice(&bytes).map_err(|err| {
+      tracing::error!("Failed to deserialize event: {err}");
+      Error::FailedToDeserializeEvent
+    })
   }
 }
 

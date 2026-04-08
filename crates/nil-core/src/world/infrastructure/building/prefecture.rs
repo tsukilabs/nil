@@ -34,10 +34,10 @@ impl World {
           .checked_sub(order.resources())
           .ok_or(Error::InsufficientResources)?;
 
-        self.emit_player_updated(id);
+        self.emit_player_updated(id)?;
       }
 
-      self.emit_city_updated(req.coord);
+      self.emit_city_updated(req.coord)?;
     }
 
     Ok(())
@@ -56,10 +56,10 @@ impl World {
         let resources = player.resources_mut();
         *resources += order.resources();
 
-        self.emit_player_updated(id);
+        self.emit_player_updated(id)?;
       }
 
-      self.emit_city_updated(coord);
+      self.emit_city_updated(coord)?;
     }
 
     Ok(())

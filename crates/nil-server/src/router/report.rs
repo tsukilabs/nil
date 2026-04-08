@@ -4,7 +4,7 @@
 use crate::app::App;
 use crate::middleware::authorization::CurrentPlayer;
 use crate::res;
-use crate::response::from_err;
+use crate::response::{EitherExt, from_err};
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
 use itertools::Itertools;
@@ -17,16 +17,16 @@ pub async fn forward(
   Json(req): Json<ForwardReportRequest>,
 ) -> Response {
   if player == req.recipient {
-    res!(FORBIDDEN)
-  } else {
-    app
-      .world_mut(req.world, |world| {
-        world.forward_report(req.id, req.recipient);
-      })
-      .await
-      .map_left(|()| res!(OK))
-      .into_inner()
+    return res!(FORBIDDEN);
   }
+
+  app
+    .world_mut(req.world, |world| {
+      world.forward_report(req.id, req.recipient)
+    })
+    .await
+    .try_map_left(|()| res!(OK))
+    .into_inner()
 }
 
 pub async fn get(

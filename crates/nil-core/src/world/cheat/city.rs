@@ -12,7 +12,7 @@ impl World {
     bail_if_cheats_are_not_allowed!(self);
     let city = self.city_mut(coord)?;
     *city.stability_mut() = stability;
-    self.emit_city_updated(coord);
+    self.emit_city_updated(coord)?;
     Ok(())
   }
 }

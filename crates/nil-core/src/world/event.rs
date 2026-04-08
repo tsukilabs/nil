@@ -3,6 +3,7 @@
 
 use crate::chat::ChatMessage;
 use crate::continent::Coord;
+use crate::error::Result;
 use crate::event::{Event, Listener};
 use crate::player::PlayerId;
 use crate::report::battle::BattleReport;
@@ -17,93 +18,99 @@ impl World {
   }
 
   /// Emits the event to all players.
-  fn broadcast(&self, event: Event) {
-    self.emitter.broadcast(event);
+  fn broadcast(&self, event: Event) -> Result<()> {
+    self.emitter.broadcast(event)
   }
 
   /// Emits the event for a specific player.
-  fn emit_to(&self, target: PlayerId, event: Event) {
-    self.emitter.emit_to(target, event);
+  fn emit_to(&self, target: PlayerId, event: Event) -> Result<()> {
+    self.emitter.emit_to(target, event)
   }
 
   /// Emits the event to the owner of the city at the specified coordinate, if any.
-  fn emit_to_owner(&self, coord: Coord, event: Event) {
+  fn emit_to_owner(&self, coord: Coord, event: Event) -> Result<()> {
     if let Ok(city) = self.city(coord)
       && let Some(player) = city.player()
     {
-      self.emitter.emit_to(player, event);
+      self.emitter.emit_to(player, event)?;
     }
+
+    Ok(())
   }
 
-  pub(super) fn emit_battle_report(&self, report: &BattleReport) {
+  pub(super) fn emit_battle_report(&self, report: &BattleReport) -> Result<()> {
     if let Some(attacker) = report.attacker().player().cloned() {
-      self.emit_report(attacker, report.id());
+      self.emit_report(attacker, report.id())?;
     }
 
     if let Some(defender) = report.defender().player().cloned() {
       debug_assert_ne!(report.attacker().player(), Some(&defender));
-      self.emit_report(defender, report.id());
+      self.emit_report(defender, report.id())?;
     }
+
+    Ok(())
   }
 
   /// Emits [`Event::ChatUpdated`].
-  pub(super) fn emit_chat_updated(&self, message: ChatMessage) {
+  pub(super) fn emit_chat_updated(&self, message: ChatMessage) -> Result<()> {
     let world = self.config.id();
-    self.broadcast(Event::ChatUpdated { world, message });
+    self.broadcast(Event::ChatUpdated { world, message })
   }
 
   /// Emits [`Event::CityUpdated`].
-  pub(super) fn emit_city_updated(&self, coord: Coord) {
+  pub(super) fn emit_city_updated(&self, coord: Coord) -> Result<()> {
     let world = self.config.id();
-    self.emit_to_owner(coord, Event::CityUpdated { world, coord });
+    self.emit_to_owner(coord, Event::CityUpdated { world, coord })
   }
 
   /// Emits [`Event::Drop`].
   /// This should never be called manually.
-  pub(super) fn emit_drop(&self) {
+  pub(super) fn emit_drop(&self) -> Result<()> {
     let world = self.config.id();
-    self.broadcast(Event::Drop { world });
+    self.broadcast(Event::Drop { world })
   }
 
   /// Emits [`Event::MilitaryUpdated`].
-  pub(super) fn emit_military_updated(&self, player: PlayerId) {
+  pub(super) fn emit_military_updated(&self, player: PlayerId) -> Result<()> {
     let world = self.config.id();
-    self.emit_to(player.clone(), Event::MilitaryUpdated { world, player });
+    self.emit_to(player.clone(), Event::MilitaryUpdated { world, player })
   }
 
   /// Emits [`Event::PlayerUpdated`].
-  pub(super) fn emit_player_updated(&self, player: PlayerId) {
+  pub(super) fn emit_player_updated(&self, player: PlayerId) -> Result<()> {
     let world = self.config.id();
-    self.emit_to(player.clone(), Event::PlayerUpdated { world, player });
+    self.emit_to(player.clone(), Event::PlayerUpdated { world, player })
   }
 
   /// Emits [`Event::PublicCityUpdated`].
-  pub(super) fn emit_public_city_updated(&self, coord: Coord) {
+  pub(super) fn emit_public_city_updated(&self, coord: Coord) -> Result<()> {
     let world = self.config.id();
-    self.broadcast(Event::PublicCityUpdated { world, coord });
+    self.broadcast(Event::PublicCityUpdated { world, coord })
   }
 
   /// Emits [`Event::Report`].
-  pub(super) fn emit_report(&self, player: PlayerId, report: ReportId) {
+  pub(super) fn emit_report(&self, player: PlayerId, report: ReportId) -> Result<()> {
     let world = self.config.id();
-    self.emit_to(player, Event::Report { world, report });
+    self.emit_to(player, Event::Report { world, report })
   }
 
   /// Emits [`Event::RoundUpdated`].
-  pub(super) fn emit_round_updated(&self) {
+  pub(super) fn emit_round_updated(&self) -> Result<()> {
     let world = self.config.id();
     let round = self.round.clone();
-    self.broadcast(Event::RoundUpdated { world, round });
+    self.broadcast(Event::RoundUpdated { world, round })
   }
 
-  pub(super) fn emit_support_report(&self, report: &SupportReport) {
+  pub(super) fn emit_support_report(&self, report: &SupportReport) -> Result<()> {
     if let Some(sender) = report.sender().player().cloned() {
-      self.emit_report(sender, report.id());
+      self.emit_report(sender, report.id())?;
     }
 
     if let Some(receiver) = report.receiver().player().cloned() {
       debug_assert_ne!(report.sender().player(), Some(&receiver));
-      self.emit_report(receiver, report.id());
+      self.emit_report(receiver, report.id())?;
     }
+
+    Ok(())
   }
 }

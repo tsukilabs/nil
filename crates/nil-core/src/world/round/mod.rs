@@ -25,7 +25,7 @@ impl World {
       .map(Player::id);
 
     self.round.start(ids)?;
-    self.emit_round_updated();
+    self.emit_round_updated()?;
 
     Ok(())
   }
@@ -36,7 +36,7 @@ impl World {
     if self.round.is_done() {
       self.next_round(true)?;
     } else {
-      self.emit_round_updated();
+      self.emit_round_updated()?;
     }
 
     Ok(())
@@ -60,7 +60,7 @@ impl World {
     self.consume_pending_save()?;
 
     if emit {
-      self.emit_round_updated();
+      self.emit_round_updated()?;
     }
 
     if let Some(on_next_round) = self.on_next_round.clone() {

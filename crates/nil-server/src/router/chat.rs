@@ -4,6 +4,7 @@
 use crate::app::App;
 use crate::middleware::authorization::CurrentPlayer;
 use crate::res;
+use crate::response::EitherExt;
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
 use nil_core::chat::Chat;
@@ -27,6 +28,6 @@ pub async fn push(
       world.push_chat_message(player.0, &req.message)
     })
     .await
-    .map_left(|id| res!(OK, Json(id)))
+    .try_map_left(|id| res!(OK, Json(id)))
     .into_inner()
 }

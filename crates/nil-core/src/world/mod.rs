@@ -169,7 +169,7 @@ impl World {
 
 impl Drop for World {
   fn drop(&mut self) {
-    self.emit_drop();
+    let _ = self.emit_drop();
   }
 }
 
