@@ -31,3 +31,9 @@ impl Serialize for Error {
     serializer.serialize_str(self.to_string().as_str())
   }
 }
+
+impl From<io::ErrorKind> for Error {
+  fn from(value: io::ErrorKind) -> Self {
+    Self::Io(io::Error::from(value))
+  }
+}

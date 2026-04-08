@@ -46,7 +46,6 @@ impl Lua {
 /// Executes a Lua chunk with the given client.
 pub async fn execute(client: &Arc<RwLock<Client>>, chunk: &str) -> Result<()> {
   Lua::builder(client)
-    .libs(StdLib::ALL_SAFE)
     .build()?
     .execute(chunk)
     .await
