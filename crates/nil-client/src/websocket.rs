@@ -190,8 +190,15 @@ impl Sender {
     });
 
     let keep_alive_task = spawn(async move {
-      while let Ok(()) = tx.send(SenderMessage::KeepAlive).await {
+      loop {
         sleep(Duration::from_secs(30)).await;
+        if tx
+          .send(SenderMessage::KeepAlive)
+          .await
+          .is_err()
+        {
+          break;
+        }
       }
     });
 

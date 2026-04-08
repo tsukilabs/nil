@@ -48,15 +48,15 @@ impl ChatHistory {
   }
 
   fn push(&mut self, message: ChatMessage) {
-    self.trim();
+    self.prune();
     self.queue.push_back(message);
   }
 
-  fn trim(&mut self) {
+  fn prune(&mut self) {
     let size = self.size.get();
     loop {
       let len = self.queue.len();
-      if len.saturating_sub(1) >= size {
+      if len >= size {
         self.queue.pop_front();
       } else {
         break;
