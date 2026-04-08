@@ -56,7 +56,7 @@ impl ChatHistory {
     let size = self.size.get();
     let len = self.queue.len();
     if len >= size {
-      self.queue.drain(..len - size + 1);
+      self.queue.drain(..=(len - size));
     }
   }
 }

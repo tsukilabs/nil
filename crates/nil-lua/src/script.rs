@@ -24,7 +24,7 @@ impl Script {
       .file_stem()
       .and_then(OsStr::to_str)
       .map(ToOwned::to_owned)
-      .ok_or_else(|| io::ErrorKind::InvalidInput)?;
+      .ok_or(io::ErrorKind::InvalidInput)?;
 
     Ok(Self { name, chunk, path })
   }
