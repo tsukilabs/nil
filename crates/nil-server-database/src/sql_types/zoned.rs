@@ -23,12 +23,6 @@ impl Zoned {
   }
 }
 
-impl Default for Zoned {
-  fn default() -> Self {
-    Self::now()
-  }
-}
-
 impl FromSql<Text, Sqlite> for Zoned {
   fn from_sql(bytes: <Sqlite as Backend>::RawValue<'_>) -> de::Result<Self> {
     let value = <String as FromSql<Text, Sqlite>>::from_sql(bytes)?;

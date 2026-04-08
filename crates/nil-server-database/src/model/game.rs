@@ -127,6 +127,8 @@ impl NewGame {
       }
     }
 
+    let now = Zoned::now();
+
     Ok(Self {
       id,
       password: hash_password(password).await?,
@@ -134,8 +136,8 @@ impl NewGame {
       round_duration: round_duration.map(Into::into),
       server_version,
       created_by,
-      created_at: Zoned::now(),
-      updated_at: Zoned::now(),
+      created_at: now.clone(),
+      updated_at: now,
       world_blob: blob,
     })
   }

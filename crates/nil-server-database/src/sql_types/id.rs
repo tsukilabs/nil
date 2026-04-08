@@ -44,7 +44,7 @@ macro_rules! impl_u32 {
         i32: FromSql<Integer, Sqlite>,
       {
         fn from_sql(bytes: <Sqlite as Backend>::RawValue<'_>) -> de::Result<Self> {
-          let value: u32 = i32::from_sql(bytes)?.try_into()?;
+          let value: u32 = i64::from_sql(bytes)?.try_into()?;
           NonZeroU32::try_from(value)
             .map($name)
             .map_err(Into::into)
