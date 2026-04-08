@@ -34,9 +34,11 @@ impl Workshop {
   pub const MIN_COST: Cost = Cost::new(800);
   pub const MAX_COST: Cost = Cost::new(25_000);
 
-  pub const WOOD_RATIO: ResourceRatio = ResourceRatio::new(0.4);
-  pub const STONE_RATIO: ResourceRatio = ResourceRatio::new(0.3);
+  pub const FOOD_RATIO: ResourceRatio = ResourceRatio::new(0.0);
   pub const IRON_RATIO: ResourceRatio = ResourceRatio::new(0.3);
+  pub const STONE_RATIO: ResourceRatio = ResourceRatio::new(0.3);
+  pub const WOOD_RATIO: ResourceRatio = ResourceRatio::new(0.4);
+
   pub const MAINTENANCE_RATIO: MaintenanceRatio = MaintenanceRatio::new(0.005);
 
   pub const MIN_WORKFORCE: Workforce = Workforce::new(5);
@@ -97,7 +99,8 @@ impl Default for Workshop {
 }
 
 check_total_resource_ratio!(
-  Workshop::WOOD_RATIO,
+  Workshop::FOOD_RATIO,
+  Workshop::IRON_RATIO,
   Workshop::STONE_RATIO,
-  Workshop::IRON_RATIO
+  Workshop::WOOD_RATIO
 );

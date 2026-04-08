@@ -29,9 +29,11 @@ impl IronMine {
   pub const MIN_COST: Cost = Cost::new(100);
   pub const MAX_COST: Cost = Cost::new(72_000);
 
-  pub const WOOD_RATIO: ResourceRatio = ResourceRatio::new(0.35);
-  pub const STONE_RATIO: ResourceRatio = ResourceRatio::new(0.45);
+  pub const FOOD_RATIO: ResourceRatio = ResourceRatio::new(0.0);
   pub const IRON_RATIO: ResourceRatio = ResourceRatio::new(0.2);
+  pub const STONE_RATIO: ResourceRatio = ResourceRatio::new(0.45);
+  pub const WOOD_RATIO: ResourceRatio = ResourceRatio::new(0.35);
+
   pub const MAINTENANCE_RATIO: MaintenanceRatio = MaintenanceRatio::new(0.005);
 
   pub const MIN_WORKFORCE: Workforce = Workforce::new(1);
@@ -57,7 +59,8 @@ impl Default for IronMine {
 }
 
 check_total_resource_ratio!(
-  IronMine::WOOD_RATIO,
-  IronMine::STONE_RATIO,
+  IronMine::FOOD_RATIO,
   IronMine::IRON_RATIO,
+  IronMine::STONE_RATIO,
+  IronMine::WOOD_RATIO
 );

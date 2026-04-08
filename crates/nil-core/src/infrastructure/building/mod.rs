@@ -83,12 +83,15 @@ pub trait Building: Send + Sync {
   fn min_cost(&self) -> Cost;
   /// Total cost for the **maximum** level of the building.
   fn max_cost(&self) -> Cost;
-  /// Percentage of the total cost related to wood.
-  fn wood_ratio(&self) -> ResourceRatio;
-  /// Percentage of the total cost related to stone.
-  fn stone_ratio(&self) -> ResourceRatio;
+
+  /// Percentage of the total cost related to food.
+  fn food_ratio(&self) -> ResourceRatio;
   /// Percentage of the total cost related to iron.
   fn iron_ratio(&self) -> ResourceRatio;
+  /// Percentage of the total cost related to stone.
+  fn stone_ratio(&self) -> ResourceRatio;
+  /// Percentage of the total cost related to wood.
+  fn wood_ratio(&self) -> ResourceRatio;
 
   /// Building maintenance tax at its current level.
   fn maintenance(&self, stats: &BuildingStatsTable) -> Result<Maintenance>;
@@ -237,9 +240,10 @@ impl BuildingStatsTable {
       .max_level(max_level)
       .call();
 
-    let wood_ratio = *building.wood_ratio();
-    let stone_ratio = *building.stone_ratio();
+    let food_ratio = *building.food_ratio();
     let iron_ratio = *building.iron_ratio();
+    let stone_ratio = *building.stone_ratio();
+    let wood_ratio = *building.wood_ratio();
 
     let maintenance_ratio = *building.maintenance_ratio();
     let mut maintenance = cost * maintenance_ratio;
@@ -247,7 +251,7 @@ impl BuildingStatsTable {
     for level in 1..=max_level.0 {
       let level = BuildingLevel::new(level);
       let resources = Resources {
-        food: Food::MIN,
+        food: Food::from((cost * food_ratio).round()),
         iron: Iron::from((cost * iron_ratio).round()),
         stone: Stone::from((cost * stone_ratio).round()),
         wood: Wood::from((cost * wood_ratio).round()),

@@ -3,6 +3,7 @@
 
 use crate::error::{Error, Result};
 use crate::resources::Resources;
+use crate::resources::influence::Influence;
 use crate::world::World;
 use bon::Builder;
 use derive_more::{Display, From, Into};
@@ -66,6 +67,7 @@ pub struct Player {
   id: PlayerId,
   status: PlayerStatus,
   resources: Resources,
+  influence: Influence,
 }
 
 impl Player {
@@ -74,6 +76,7 @@ impl Player {
       id: options.id,
       status: PlayerStatus::Active,
       resources: Resources::PLAYER.clone(),
+      influence: Influence::MIN,
     }
   }
 
@@ -102,6 +105,11 @@ impl Player {
 
   pub(crate) fn resources_mut(&mut self) -> &mut Resources {
     &mut self.resources
+  }
+
+  #[inline]
+  pub fn influence(&self) -> Influence {
+    self.influence
   }
 
   #[inline]

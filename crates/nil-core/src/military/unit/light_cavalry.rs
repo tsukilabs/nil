@@ -33,9 +33,10 @@ impl LightCavalry {
   pub const CHUNK: UnitChunk = UnitChunk {
     size: UnitChunkSize::new(5),
     cost: Cost::new(2_375),
-    wood_ratio: ResourceRatio::new(0.3),
+    food_ratio: ResourceRatio::new(0.0),
     stone_ratio: ResourceRatio::new(0.2),
     iron_ratio: ResourceRatio::new(0.5),
+    wood_ratio: ResourceRatio::new(0.3),
     maintenance_ratio: MaintenanceRatio::new(0.005),
     workforce: Workforce::new(2),
   };
@@ -47,7 +48,8 @@ impl LightCavalry {
 }
 
 check_total_resource_ratio!(
-  LightCavalry::CHUNK.wood_ratio,
+  LightCavalry::CHUNK.food_ratio,
+  LightCavalry::CHUNK.iron_ratio,
   LightCavalry::CHUNK.stone_ratio,
-  LightCavalry::CHUNK.iron_ratio
+  LightCavalry::CHUNK.wood_ratio
 );

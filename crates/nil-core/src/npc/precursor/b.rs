@@ -5,6 +5,7 @@ use crate::continent::{ContinentSize, Coord};
 use crate::ethic::{EthicPowerAxis, EthicTruthAxis, Ethics};
 use crate::npc::precursor::PrecursorId;
 use crate::resources::Resources;
+use crate::resources::influence::Influence;
 use nil_core_macros::Precursor;
 use serde::{Deserialize, Serialize};
 
@@ -13,6 +14,7 @@ use serde::{Deserialize, Serialize};
 pub struct B {
   origin: Coord,
   resources: Resources,
+  influence: Influence,
 }
 
 impl B {
@@ -26,6 +28,7 @@ impl B {
     Self {
       origin: origin(size),
       resources: Resources::PRECURSOR.clone(),
+      influence: Influence::MAX,
     }
   }
 }
