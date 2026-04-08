@@ -19,15 +19,13 @@ impl World {
   }
 
   pub fn start_round(&mut self) -> Result<()> {
-    if self.round.is_idle() {
-      let ids = self
-        .player_manager
-        .active_players()
-        .map(Player::id);
+    let ids = self
+      .player_manager
+      .active_players()
+      .map(Player::id);
 
-      self.round.start(ids)?;
-      self.emit_round_updated();
-    }
+    self.round.start(ids)?;
+    self.emit_round_updated();
 
     Ok(())
   }
