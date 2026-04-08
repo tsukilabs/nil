@@ -8,6 +8,7 @@ use crate::continent::{ContinentSize, Coord, Distance};
 use crate::ethic::Ethics;
 use crate::military::army::personnel::ArmyPersonnel;
 use crate::resources::Resources;
+use crate::resources::influence::Influence;
 use derive_more::Deref;
 use serde::{Deserialize, Serialize};
 use strum::{Display, EnumIter, IntoEnumIterator};
@@ -21,6 +22,7 @@ pub trait Precursor: Send + Sync {
   fn origin(&self) -> Coord;
   fn resources(&self) -> &Resources;
   fn resources_mut(&mut self) -> &mut Resources;
+  fn influence(&self) -> Influence;
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]

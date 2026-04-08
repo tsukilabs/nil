@@ -33,9 +33,10 @@ impl Swordsman {
   pub const CHUNK: UnitChunk = UnitChunk {
     size: UnitChunkSize::new(10),
     cost: Cost::new(1_300),
-    wood_ratio: ResourceRatio::new(0.25),
-    stone_ratio: ResourceRatio::new(0.25),
+    food_ratio: ResourceRatio::new(0.0),
     iron_ratio: ResourceRatio::new(0.5),
+    stone_ratio: ResourceRatio::new(0.25),
+    wood_ratio: ResourceRatio::new(0.25),
     maintenance_ratio: MaintenanceRatio::new(0.005),
     workforce: Workforce::new(1),
   };
@@ -47,7 +48,8 @@ impl Swordsman {
 }
 
 check_total_resource_ratio!(
-  Swordsman::CHUNK.wood_ratio,
+  Swordsman::CHUNK.food_ratio,
+  Swordsman::CHUNK.iron_ratio,
   Swordsman::CHUNK.stone_ratio,
-  Swordsman::CHUNK.iron_ratio
+  Swordsman::CHUNK.wood_ratio
 );

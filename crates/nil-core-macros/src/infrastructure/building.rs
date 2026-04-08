@@ -99,16 +99,20 @@ pub fn impl_building(ast: &DeriveInput) -> TokenStream {
           Self::MAX_COST
         }
 
-        fn wood_ratio(&self) -> ResourceRatio {
-          Self::WOOD_RATIO
+        fn food_ratio(&self) -> ResourceRatio {
+          Self::FOOD_RATIO
+        }
+
+        fn iron_ratio(&self) -> ResourceRatio {
+          Self::IRON_RATIO
         }
 
         fn stone_ratio(&self) -> ResourceRatio {
           Self::STONE_RATIO
         }
 
-        fn iron_ratio(&self) -> ResourceRatio {
-          Self::IRON_RATIO
+        fn wood_ratio(&self) -> ResourceRatio {
+          Self::WOOD_RATIO
         }
 
         fn maintenance(&self, stats: &BuildingStatsTable) -> Result<Maintenance> {

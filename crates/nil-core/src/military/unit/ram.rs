@@ -33,9 +33,10 @@ impl Ram {
   pub const CHUNK: UnitChunk = UnitChunk {
     size: UnitChunkSize::new(3),
     cost: Cost::new(2_100),
-    wood_ratio: ResourceRatio::new(0.4),
-    stone_ratio: ResourceRatio::new(0.3),
+    food_ratio: ResourceRatio::new(0.0),
     iron_ratio: ResourceRatio::new(0.3),
+    stone_ratio: ResourceRatio::new(0.3),
+    wood_ratio: ResourceRatio::new(0.4),
     maintenance_ratio: MaintenanceRatio::new(0.005),
     workforce: Workforce::new(8),
   };
@@ -47,7 +48,8 @@ impl Ram {
 }
 
 check_total_resource_ratio!(
-  Ram::CHUNK.wood_ratio,
+  Ram::CHUNK.food_ratio,
+  Ram::CHUNK.iron_ratio,
   Ram::CHUNK.stone_ratio,
-  Ram::CHUNK.iron_ratio
+  Ram::CHUNK.wood_ratio
 );
