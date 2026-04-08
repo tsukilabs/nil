@@ -116,6 +116,7 @@ fn from_database_err(err: DatabaseError) -> Response {
     InvalidUsername(..) => res!(BAD_REQUEST, err.to_string()),
     Io(..) => res!(INTERNAL_SERVER_ERROR),
     Jiff(..) => res!(INTERNAL_SERVER_ERROR),
+    MigrationFailed(..) => res!(INTERNAL_SERVER_ERROR),
     UserAlreadyExists(..) => res!(CONFLICT, err.to_string()),
     UserNotFound(..) => res!(NOT_FOUND, err.to_string()),
     Unknown(..) => res!(INTERNAL_SERVER_ERROR),

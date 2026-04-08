@@ -29,6 +29,9 @@ pub enum Error {
   #[error("Invalid username: \"{0}\"")]
   InvalidUsername(PlayerId),
 
+  #[error("Migration failed: {0}")]
+  MigrationFailed(String),
+
   #[error("User already exists: \"{0}\"")]
   UserAlreadyExists(PlayerId),
 
