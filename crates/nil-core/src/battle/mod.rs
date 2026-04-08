@@ -88,12 +88,13 @@ impl BattleResult {
       .map(|stats| stats.level)
       .unwrap_or_default();
 
-    let mut downgraded_wall_level = BuildingLevelDiff::new(0);
-
     let losses_ratio = match winner {
       BattleWinner::Attacker => (defender_power.total / attacker_power.total).powf(1.5),
       BattleWinner::Defender => (attacker_power.total / defender_power.total).powf(1.5),
     };
+
+    let mut downgraded_wall_level = BuildingLevelDiff::new(0);
+    let mut diff = 0.0;
     let mut squad_survivors: f64;
     match winner {
       BattleWinner::Attacker => {
@@ -106,13 +107,12 @@ impl BattleResult {
         if wall_level > 0 && attacker_power.rams_amount > 0.0 {
           let remaining_rams =
             attacker_power.rams_amount - (attacker_power.rams_amount * losses_ratio);
-          let wall_levels_to_decrease = wall_level * (remaining_rams / 200.0 - losses_ratio) * 0.5;
 
-          if wall_levels_to_decrease > Wall::MAX_LEVEL {
-            downgraded_wall_level = -Wall::MAX_LEVEL;
-          } else if wall_levels_to_decrease > 0.0 {
-            downgraded_wall_level = BuildingLevelDiff::from(-wall_levels_to_decrease);
-          }
+          diff = wall_level
+            * ((attacker_power.rams_amount / 700.0)
+              + ((remaining_rams + 100.0) / 400.0)
+              + ((1.0 - losses_ratio) * 0.3))
+            * 0.4;
         }
       }
       BattleWinner::Defender => {
@@ -123,10 +123,15 @@ impl BattleResult {
         }
 
         if wall_level > 0 && attacker_power.rams_amount > 0.0 {
-          let diff = -(wall_level * losses_ratio * 0.3);
-          downgraded_wall_level = BuildingLevelDiff::from(diff);
+          diff = wall_level * (((attacker_power.rams_amount - 150.0) / 320.0) + losses_ratio) * 0.3;
         }
       }
+    }
+
+    if diff > Wall::MAX_LEVEL {
+      downgraded_wall_level = -Wall::MAX_LEVEL;
+    } else if diff > 0.0 {
+      downgraded_wall_level = BuildingLevelDiff::from(-diff);
     }
 
     Ok(BattleResult {
@@ -314,7 +319,7 @@ impl DefensivePower {
 
       let surviving_rams_no_wall = offensive_power.rams_amount
         - (offensive_power.rams_amount * (total / offensive_power.total));
-      attacking_rams = attacking_rams + (surviving_rams_no_wall * 2.0);
+      attacking_rams = (attacking_rams * 0.87) + (surviving_rams_no_wall * 1.5);
 
       if attacking_rams > 0.0 {
         let rams_growth_per_wall_level: f64 = growth()
@@ -346,7 +351,7 @@ impl DefensivePower {
         if wall.level - wall_levels_to_decrease > 0 {
           let new_wall = infrastructure_stats
             .wall()
-            .get(wall.level - wall_levels_to_decrease)?;
+            .get(wall.level - (wall_levels_to_decrease))?;
 
           total += new_wall.defense + ((new_wall.defense_percent / 100.0) * total);
         }
