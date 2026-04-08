@@ -30,7 +30,10 @@ impl Emitter {
   pub(crate) fn emit(&self, event: Event, target: EventTarget) -> Result<()> {
     tracing::info!(?target, ?event);
     let bytes = Bytes::try_from(event)?;
-    let _ = self.sender.send((bytes, target));
+    if self.sender.send((bytes, target)).is_err() {
+      tracing::warn!("Failed to emit event: no active listeners");
+    }
+
     Ok(())
   }
 
