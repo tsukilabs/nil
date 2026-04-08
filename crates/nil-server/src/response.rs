@@ -79,9 +79,9 @@ fn from_core_err(err: CoreError) -> Response {
     IndexOutOfBounds(..) => res!(BAD_REQUEST, text),
     InsufficientResources => res!(BAD_REQUEST, text),
     InsufficientUnits => res!(BAD_REQUEST, text),
-    ManeuverIsDone(..) => res!(INTERNAL_SERVER_ERROR, text),
-    ManeuverIsPending(..) => res!(INTERNAL_SERVER_ERROR, text),
-    ManeuverIsReturning(..) => res!(INTERNAL_SERVER_ERROR, text),
+    ManeuverIsDone(..) => res!(BAD_REQUEST, text),
+    ManeuverIsPending(..) => res!(BAD_REQUEST, text),
+    ManeuverIsReturning(..) => res!(BAD_REQUEST, text),
     ManeuverNotFound(..) => res!(NOT_FOUND, text),
     MineStatsNotFound(..) => res!(NOT_FOUND, text),
     MineStatsNotFoundForLevel(..) => res!(NOT_FOUND, text),
@@ -97,9 +97,9 @@ fn from_core_err(err: CoreError) -> Response {
     RoundNotStarted => res!(BAD_REQUEST, text),
     StorageStatsNotFound(..) => res!(NOT_FOUND, text),
     StorageStatsNotFoundForLevel(..) => res!(NOT_FOUND, text),
-    UnexpectedUnit(..) => res!(INTERNAL_SERVER_ERROR, text),
+    UnexpectedUnit(..) => res!(BAD_REQUEST, text),
     WallStatsNotFoundForLevel(..) => res!(NOT_FOUND, text),
-    WorldIsFull => res!(INTERNAL_SERVER_ERROR, text),
+    WorldIsFull => res!(FORBIDDEN, text),
   }
 }
 
@@ -142,7 +142,7 @@ fn from_server_err(err: Error) -> Response {
     Io(..) => res!(INTERNAL_SERVER_ERROR),
     MissingPassword => res!(BAD_REQUEST, err.to_string()),
     Unknown(..) => res!(INTERNAL_SERVER_ERROR),
-    WorldLimitReached => res!(INTERNAL_SERVER_ERROR),
+    WorldLimitReached => res!(FORBIDDEN, err.to_string()),
     WorldNotFound(..) => res!(NOT_FOUND, err.to_string()),
   }
 }
