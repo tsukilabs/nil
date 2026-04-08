@@ -6,6 +6,7 @@ use crate::res;
 use crate::response::EitherExt;
 use axum::extract::{Json, State};
 use axum::response::Response;
+use nil_core::ethic::Ethics;
 use nil_payload::cheat::npc::*;
 
 pub async fn get_ethics(
@@ -25,7 +26,7 @@ pub async fn set_bot_ethics(
 ) -> Response {
   app
     .world_mut(req.world, |world| {
-      let ethics = req.ethics.unwrap_or_default();
+      let ethics = req.ethics.unwrap_or_else(Ethics::random);
       world.cheat_set_bot_ethics(&req.id, ethics)
     })
     .await
