@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::Lua;
-use crate::error::{Error, Result};
+use crate::error::Result;
 use serde::{Deserialize, Serialize};
 use std::ffi::OsStr;
 use std::io;
@@ -24,7 +24,7 @@ impl Script {
       .file_stem()
       .and_then(OsStr::to_str)
       .map(ToOwned::to_owned)
-      .ok_or_else(|| Error::from(io::ErrorKind::InvalidInput))?;
+      .ok_or_else(|| io::ErrorKind::InvalidInput)?;
 
     Ok(Self { name, chunk, path })
   }
