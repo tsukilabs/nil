@@ -37,7 +37,7 @@ pub async fn authorization(mut request: Request, next: Next) -> Response {
     .await
   else {
     tracing::warn!("Missing authorization header");
-    return res!(BAD_REQUEST);
+    return res!(UNAUTHORIZED);
   };
 
   match decode_jwt(token).await {
