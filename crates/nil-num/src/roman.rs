@@ -1,6 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+use num_traits::ToPrimitive;
 use serde::{Deserialize, Serialize};
 use std::fmt;
 use std::iter::repeat_n;
@@ -126,28 +127,18 @@ impl ToRoman for usize {
 }
 
 macro_rules! impl_to_roman {
-  (signed @ $($num:ident),+ $(,)?) => {
+  ($($num:ident),+ $(,)?) => {
     $(
       impl ToRoman for $num {
         fn to_roman(self) -> Option<Roman> {
-          (self as usize).to_roman()
-        }
-      }
-    )+
-  };
-  (unsigned @ $($num:ident),+ $(,)?) => {
-    $(
-      impl ToRoman for $num {
-        fn to_roman(self) -> Option<Roman> {
-          self.unsigned_abs().to_roman()
+          self.to_usize().and_then(ToRoman::to_roman)
         }
       }
     )+
   };
 }
 
-impl_to_roman!(signed @ u8, u16, u32, u64, u128);
-impl_to_roman!(unsigned @ i8, i16, i32, i64, i128);
+impl_to_roman!(i8, i16, i32, i64, u8, u16, u32, u64, f32, f64);
 
 #[cfg(test)]
 mod tests {
