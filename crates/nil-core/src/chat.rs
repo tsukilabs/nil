@@ -54,13 +54,9 @@ impl ChatHistory {
 
   fn prune(&mut self) {
     let size = self.size.get();
-    loop {
-      let len = self.queue.len();
-      if len >= size {
-        self.queue.pop_front();
-      } else {
-        break;
-      }
+    let len = self.queue.len();
+    if len >= size {
+      self.queue.drain(..len - size + 1);
     }
   }
 }
