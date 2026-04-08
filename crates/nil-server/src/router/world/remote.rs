@@ -53,18 +53,15 @@ pub async fn delete(
         .was_game_created_by(req.world, player.0)
         .await?
       {
-        database.delete_game(req.world).await?
+        database.delete_game(req.world).await?;
+        drop(app.remove(req.world));
       } else {
         return res!(FORBIDDEN);
       }
     };
 
-    if result.as_ref().is_ok_and(|it| *it > 0) {
-      drop(app.remove(req.world));
-    }
-
     result
-      .map(|_| res!(NO_CONTENT))
+      .map(|()| res!(NO_CONTENT))
       .unwrap_or_else(from_err)
   } else {
     res!(FORBIDDEN)
