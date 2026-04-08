@@ -17,8 +17,9 @@ pub struct PlayerManager(HashMap<PlayerId, Player>);
 
 impl PlayerManager {
   pub(crate) fn manage(&mut self, player: Player) {
-    debug_assert!(!self.0.contains_key(&player.id));
-    self.0.insert(player.id(), player);
+    if !self.0.contains_key(&player.id) {
+      self.0.insert(player.id(), player);
+    }
   }
 
   pub fn player(&self, id: &PlayerId) -> Result<&Player> {
