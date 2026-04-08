@@ -75,12 +75,15 @@ impl Round {
 
   pub(crate) fn set_ready(&mut self, player: &PlayerId, is_ready: bool) {
     if let RoundState::Waiting { pending, ready } = &mut self.state {
+      #[expect(clippy::collapsible_else_if)]
       if is_ready {
-        pending.remove(player);
-        ready.insert(player.clone());
+        if pending.remove(player) {
+          ready.insert(player.clone());
+        }
       } else {
-        ready.remove(player);
-        pending.insert(player.clone());
+        if ready.remove(player) {
+          pending.insert(player.clone());
+        }
       }
 
       if pending.is_empty() {
