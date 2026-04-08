@@ -16,10 +16,14 @@ use std::sync::Arc;
 pub struct PlayerManager(HashMap<PlayerId, Player>);
 
 impl PlayerManager {
-  pub(crate) fn manage(&mut self, player: Player) {
-    if !self.0.contains_key(&player.id) {
+  pub(crate) fn manage(&mut self, player: Player) -> Result<()> {
+    if self.0.contains_key(&player.id) {
+      return Err(Error::PlayerAlreadySpawned(player.id));
+    } else {
       self.0.insert(player.id(), player);
     }
+
+    Ok(())
   }
 
   pub fn player(&self, id: &PlayerId) -> Result<&Player> {
