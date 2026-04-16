@@ -233,7 +233,7 @@ version = "4.0"
 features = ["platform-windows"]
 
 [workspace.dependencies.tokio]
-version = "1.51"
+version = "1.52"
 features = ["full"]
 
 [workspace.dependencies.tokio-tungstenite]
