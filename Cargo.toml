@@ -229,7 +229,9 @@ version = "4.2"
 features = ["marshaler-toml", "preserve-order"]
 
 [workspace.dependencies.tauri-plugin-prevent-default]
-version = "4.0"
+# version = "5.0"
+git = "https://github.com/ferreira-tb/tauri-plugin-prevent-default"
+branch = "main"
 features = ["platform-windows"]
 
 [workspace.dependencies.tokio]
