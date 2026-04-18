@@ -129,7 +129,7 @@ impl Client {
       && let Some(on_event) = on_event
       && let Some(authorization) = self.authorization.clone()
     {
-      let websocket = WebSocketClient::connect(server)
+      let websocket = WebSocketClient::connect(self.server)
         .world_id(world_id)
         .maybe_world_password(world_password)
         .authorization(authorization)
@@ -155,7 +155,6 @@ impl Client {
       }
     }
 
-    self.server = ServerAddr::Remote;
     self.world_id = None;
     self.authorization = None;
     self.websocket = None;
@@ -236,7 +235,10 @@ impl Client {
       .send()
       .await
       .map(|()| true)
-      .unwrap_or(false)
+      .unwrap_or_else(|err| {
+        tracing::error!(message = %err, error = ?err);
+        false
+      })
   }
 }
 

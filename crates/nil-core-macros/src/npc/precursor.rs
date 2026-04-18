@@ -14,6 +14,7 @@ pub fn impl_precursor(ast: &DeriveInput) -> TokenStream {
       use crate::ethic::Ethics;
       use crate::npc::precursor::{Precursor, PrecursorBox, PrecursorId};
       use crate::resources::Resources;
+      use crate::resources::influence::Influence;
 
       impl #name {
         pub fn boxed(&self) -> PrecursorBox {
@@ -40,6 +41,10 @@ pub fn impl_precursor(ast: &DeriveInput) -> TokenStream {
 
         fn resources_mut(&mut self) -> &mut Resources {
           &mut self.resources
+        }
+
+        fn influence(&self) -> Influence {
+          self.influence
         }
       }
     }

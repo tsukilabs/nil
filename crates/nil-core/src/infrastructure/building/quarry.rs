@@ -29,9 +29,11 @@ impl Quarry {
   pub const MIN_COST: Cost = Cost::new(100);
   pub const MAX_COST: Cost = Cost::new(72_000);
 
-  pub const WOOD_RATIO: ResourceRatio = ResourceRatio::new(0.45);
-  pub const STONE_RATIO: ResourceRatio = ResourceRatio::new(0.2);
+  pub const FOOD_RATIO: ResourceRatio = ResourceRatio::new(0.0);
   pub const IRON_RATIO: ResourceRatio = ResourceRatio::new(0.35);
+  pub const STONE_RATIO: ResourceRatio = ResourceRatio::new(0.2);
+  pub const WOOD_RATIO: ResourceRatio = ResourceRatio::new(0.45);
+
   pub const MAINTENANCE_RATIO: MaintenanceRatio = MaintenanceRatio::new(0.005);
 
   pub const MIN_WORKFORCE: Workforce = Workforce::new(1);
@@ -56,4 +58,9 @@ impl Default for Quarry {
   }
 }
 
-check_total_resource_ratio!(Quarry::WOOD_RATIO, Quarry::STONE_RATIO, Quarry::IRON_RATIO);
+check_total_resource_ratio!(
+  Quarry::FOOD_RATIO,
+  Quarry::IRON_RATIO,
+  Quarry::STONE_RATIO,
+  Quarry::WOOD_RATIO
+);

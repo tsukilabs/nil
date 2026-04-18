@@ -33,9 +33,10 @@ impl Archer {
   pub const CHUNK: UnitChunk = UnitChunk {
     size: UnitChunkSize::new(10),
     cost: Cost::new(1_900),
-    wood_ratio: ResourceRatio::new(0.5),
-    stone_ratio: ResourceRatio::new(0.15),
+    food_ratio: ResourceRatio::new(0.0),
     iron_ratio: ResourceRatio::new(0.35),
+    stone_ratio: ResourceRatio::new(0.15),
+    wood_ratio: ResourceRatio::new(0.5),
     maintenance_ratio: MaintenanceRatio::new(0.005),
     workforce: Workforce::new(1),
   };
@@ -47,7 +48,8 @@ impl Archer {
 }
 
 check_total_resource_ratio!(
-  Archer::CHUNK.wood_ratio,
+  Archer::CHUNK.food_ratio,
+  Archer::CHUNK.iron_ratio,
   Archer::CHUNK.stone_ratio,
-  Archer::CHUNK.iron_ratio
+  Archer::CHUNK.wood_ratio
 );
