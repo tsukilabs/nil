@@ -74,6 +74,24 @@ impl Ethics {
   }
 }
 
+impl From<EthicPowerAxis> for Ethics {
+  fn from(power: EthicPowerAxis) -> Self {
+    Self {
+      power,
+      truth: EthicTruthAxis::random(),
+    }
+  }
+}
+
+impl From<EthicTruthAxis> for Ethics {
+  fn from(truth: EthicTruthAxis) -> Self {
+    Self {
+      power: EthicPowerAxis::random(),
+      truth,
+    }
+  }
+}
+
 #[derive(Clone, Copy, Debug, EnumIs, PartialEq, Eq, Deserialize, Serialize, VariantArray)]
 #[serde(rename_all = "kebab-case")]
 pub enum EthicPowerAxis {

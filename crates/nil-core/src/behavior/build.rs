@@ -33,7 +33,7 @@ pub struct BuildBehavior {
 }
 
 impl BuildBehavior {
-  const MAX_IN_QUEUE: u8 = 3;
+  const MAX_IN_QUEUE: u8 = 5;
 }
 
 impl Behavior for BuildBehavior {
