@@ -29,11 +29,12 @@ impl Silo {
   pub const MIN_COST: Cost = Cost::new(500);
   pub const MAX_COST: Cost = Cost::new(100_000);
 
-  pub const MAINTENANCE_RATIO: MaintenanceRatio = MaintenanceRatio::new(0.0025);
-
-  pub const WOOD_RATIO: ResourceRatio = ResourceRatio::new(0.45);
-  pub const STONE_RATIO: ResourceRatio = ResourceRatio::new(0.25);
+  pub const FOOD_RATIO: ResourceRatio = ResourceRatio::new(0.0);
   pub const IRON_RATIO: ResourceRatio = ResourceRatio::new(0.3);
+  pub const STONE_RATIO: ResourceRatio = ResourceRatio::new(0.25);
+  pub const WOOD_RATIO: ResourceRatio = ResourceRatio::new(0.45);
+
+  pub const MAINTENANCE_RATIO: MaintenanceRatio = MaintenanceRatio::new(0.0025);
 
   pub const MIN_WORKFORCE: Workforce = Workforce::new(2);
   pub const MAX_WORKFORCE: Workforce = Workforce::new(250);
@@ -57,4 +58,9 @@ impl Default for Silo {
   }
 }
 
-check_total_resource_ratio!(Silo::WOOD_RATIO, Silo::STONE_RATIO, Silo::IRON_RATIO);
+check_total_resource_ratio!(
+  Silo::FOOD_RATIO,
+  Silo::IRON_RATIO,
+  Silo::STONE_RATIO,
+  Silo::WOOD_RATIO
+);

@@ -37,9 +37,11 @@ impl Prefecture {
   pub const MIN_COST: Cost = Cost::new(1_000);
   pub const MAX_COST: Cost = Cost::new(150_000);
 
-  pub const WOOD_RATIO: ResourceRatio = ResourceRatio::new(0.3);
-  pub const STONE_RATIO: ResourceRatio = ResourceRatio::new(0.5);
+  pub const FOOD_RATIO: ResourceRatio = ResourceRatio::new(0.0);
   pub const IRON_RATIO: ResourceRatio = ResourceRatio::new(0.2);
+  pub const STONE_RATIO: ResourceRatio = ResourceRatio::new(0.5);
+  pub const WOOD_RATIO: ResourceRatio = ResourceRatio::new(0.3);
+
   pub const MAINTENANCE_RATIO: MaintenanceRatio = MaintenanceRatio::new(0.005);
 
   pub const MIN_WORKFORCE: Workforce = Workforce::new(1);
@@ -103,7 +105,8 @@ impl Default for Prefecture {
 }
 
 check_total_resource_ratio!(
-  Prefecture::WOOD_RATIO,
-  Prefecture::STONE_RATIO,
+  Prefecture::FOOD_RATIO,
   Prefecture::IRON_RATIO,
+  Prefecture::STONE_RATIO,
+  Prefecture::WOOD_RATIO
 );

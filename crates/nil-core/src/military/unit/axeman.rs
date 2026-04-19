@@ -33,9 +33,10 @@ impl Axeman {
   pub const CHUNK: UnitChunk = UnitChunk {
     size: UnitChunkSize::new(10),
     cost: Cost::new(1_300),
-    wood_ratio: ResourceRatio::new(0.45),
-    stone_ratio: ResourceRatio::new(0.25),
+    food_ratio: ResourceRatio::new(0.0),
     iron_ratio: ResourceRatio::new(0.3),
+    stone_ratio: ResourceRatio::new(0.25),
+    wood_ratio: ResourceRatio::new(0.45),
     maintenance_ratio: MaintenanceRatio::new(0.005),
     workforce: Workforce::new(1),
   };
@@ -47,7 +48,8 @@ impl Axeman {
 }
 
 check_total_resource_ratio!(
-  Axeman::CHUNK.wood_ratio,
+  Axeman::CHUNK.food_ratio,
+  Axeman::CHUNK.iron_ratio,
   Axeman::CHUNK.stone_ratio,
-  Axeman::CHUNK.iron_ratio
+  Axeman::CHUNK.wood_ratio
 );

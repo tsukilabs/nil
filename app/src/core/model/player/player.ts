@@ -3,19 +3,21 @@
 
 import * as commands from '@/commands';
 import { ResourcesImpl } from '@/core/model/resources';
-import type { Resources } from '@/types/core/resources';
 import type { Player, PlayerId } from '@/types/core/player';
+import type { Influence, Resources } from '@/types/core/resources';
 import type { OverallStorageCapacity } from '@/types/core/infrastructure/storage';
 import { PublicPlayerImpl, type PublicPlayerImplConstructorArgs } from './public-player';
 import { OverallStorageCapacityImpl } from '@/core/model/infrastructure/storage-capacity';
 
 export class PlayerImpl extends PublicPlayerImpl implements Player {
   public readonly resources: ResourcesImpl;
+  public readonly influence: Influence;
   public readonly capacity: OverallStorageCapacityImpl;
 
   private constructor(args: PlayerImplConstructorArgs) {
     super(args);
     this.resources = ResourcesImpl.create(args.player.resources);
+    this.influence = args.player.influence;
     this.capacity = OverallStorageCapacityImpl.create(args.capacity);
   }
 

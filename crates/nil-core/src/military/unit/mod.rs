@@ -228,9 +228,10 @@ pub enum UnitKind {
 pub struct UnitChunk {
   size: UnitChunkSize,
   cost: Cost,
-  wood_ratio: ResourceRatio,
-  stone_ratio: ResourceRatio,
+  food_ratio: ResourceRatio,
   iron_ratio: ResourceRatio,
+  stone_ratio: ResourceRatio,
+  wood_ratio: ResourceRatio,
   maintenance_ratio: MaintenanceRatio,
   workforce: Workforce,
 }
@@ -243,7 +244,7 @@ impl UnitChunk {
 
   pub fn resources(&self) -> Resources {
     Resources {
-      food: Food::MIN,
+      food: Food::from((self.cost * self.food_ratio).round()),
       iron: Iron::from((self.cost * self.iron_ratio).round()),
       stone: Stone::from((self.cost * self.stone_ratio).round()),
       wood: Wood::from((self.cost * self.wood_ratio).round()),

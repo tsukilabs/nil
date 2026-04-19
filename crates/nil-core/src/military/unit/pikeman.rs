@@ -33,9 +33,10 @@ impl Pikeman {
   pub const CHUNK: UnitChunk = UnitChunk {
     size: UnitChunkSize::new(10),
     cost: Cost::new(900),
-    wood_ratio: ResourceRatio::new(0.55),
-    stone_ratio: ResourceRatio::new(0.35),
+    food_ratio: ResourceRatio::new(0.0),
     iron_ratio: ResourceRatio::new(0.10),
+    stone_ratio: ResourceRatio::new(0.35),
+    wood_ratio: ResourceRatio::new(0.55),
     maintenance_ratio: MaintenanceRatio::new(0.005),
     workforce: Workforce::new(1),
   };
@@ -47,7 +48,8 @@ impl Pikeman {
 }
 
 check_total_resource_ratio!(
-  Pikeman::CHUNK.wood_ratio,
+  Pikeman::CHUNK.food_ratio,
+  Pikeman::CHUNK.iron_ratio,
   Pikeman::CHUNK.stone_ratio,
-  Pikeman::CHUNK.iron_ratio
+  Pikeman::CHUNK.wood_ratio
 );

@@ -4,6 +4,7 @@
 use crate::error::{Error, Result};
 use crate::ethic::Ethics;
 use crate::resources::Resources;
+use crate::resources::influence::Influence;
 use derive_more::{Display, From, Into};
 use serde::{Deserialize, Serialize};
 use std::borrow::{Borrow, Cow};
@@ -51,6 +52,7 @@ pub struct Bot {
   id: BotId,
   ethics: Ethics,
   resources: Resources,
+  influence: Influence,
 }
 
 impl Bot {
@@ -59,6 +61,7 @@ impl Bot {
       id,
       ethics: Ethics::random(),
       resources: Resources::BOT.clone(),
+      influence: Influence::MIN,
     }
   }
 
@@ -84,6 +87,11 @@ impl Bot {
 
   pub(crate) fn resources_mut(&mut self) -> &mut Resources {
     &mut self.resources
+  }
+
+  #[inline]
+  pub fn influence(&self) -> Influence {
+    self.influence
   }
 }
 

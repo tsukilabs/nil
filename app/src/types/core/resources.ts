@@ -9,3 +9,5 @@ export interface Resources {
   readonly stone: number;
   readonly wood: number;
 }
+
+export type Influence = number;

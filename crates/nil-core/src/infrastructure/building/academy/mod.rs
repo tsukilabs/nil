@@ -34,9 +34,11 @@ impl Academy {
   pub const MIN_COST: Cost = Cost::new(500);
   pub const MAX_COST: Cost = Cost::new(50_000);
 
-  pub const WOOD_RATIO: ResourceRatio = ResourceRatio::new(0.3);
-  pub const STONE_RATIO: ResourceRatio = ResourceRatio::new(0.4);
+  pub const FOOD_RATIO: ResourceRatio = ResourceRatio::new(0.0);
   pub const IRON_RATIO: ResourceRatio = ResourceRatio::new(0.3);
+  pub const STONE_RATIO: ResourceRatio = ResourceRatio::new(0.4);
+  pub const WOOD_RATIO: ResourceRatio = ResourceRatio::new(0.3);
+
   pub const MAINTENANCE_RATIO: MaintenanceRatio = MaintenanceRatio::new(0.005);
 
   pub const MIN_WORKFORCE: Workforce = Workforce::new(1);
@@ -91,7 +93,8 @@ impl Default for Academy {
 }
 
 check_total_resource_ratio!(
-  Academy::WOOD_RATIO,
-  Academy::STONE_RATIO,
+  Academy::FOOD_RATIO,
   Academy::IRON_RATIO,
+  Academy::STONE_RATIO,
+  Academy::WOOD_RATIO
 );

@@ -3,6 +3,7 @@
 
 pub mod cost;
 pub mod diff;
+pub mod influence;
 pub mod maintenance;
 pub mod prelude;
 pub mod workforce;
@@ -11,7 +12,7 @@ use crate::city::Stability;
 use crate::infrastructure::mine::MineProduction;
 use crate::infrastructure::storage::{OverallStorageCapacity, StorageCapacity};
 use bon::Builder;
-use derive_more::{Deref, Display, Into};
+use derive_more::{Deref, Display, From, Into};
 use diff::{FoodDiff, IronDiff, ResourcesDiff, StoneDiff, WoodDiff};
 use nil_num::impl_mul_ceil;
 use nil_num::mul_ceil::MulCeil;
@@ -305,6 +306,7 @@ macro_rules! decl_resource {
           Default,
           Deref,
           Display,
+          From,
           Into,
           PartialEq,
           Eq,
@@ -338,12 +340,6 @@ macro_rules! decl_resource {
               let capacity = $resource::from(capacity);
               *self = (*self + diff).min(capacity);
             }
-          }
-        }
-
-        impl From<u32> for $resource {
-          fn from(value: u32) -> Self {
-            Self(value)
           }
         }
 

@@ -29,9 +29,11 @@ impl Farm {
   pub const MIN_COST: Cost = Cost::new(500);
   pub const MAX_COST: Cost = Cost::new(100_000);
 
-  pub const WOOD_RATIO: ResourceRatio = ResourceRatio::new(0.35);
-  pub const STONE_RATIO: ResourceRatio = ResourceRatio::new(0.5);
+  pub const FOOD_RATIO: ResourceRatio = ResourceRatio::new(0.0);
   pub const IRON_RATIO: ResourceRatio = ResourceRatio::new(0.15);
+  pub const STONE_RATIO: ResourceRatio = ResourceRatio::new(0.5);
+  pub const WOOD_RATIO: ResourceRatio = ResourceRatio::new(0.35);
+
   pub const MAINTENANCE_RATIO: MaintenanceRatio = MaintenanceRatio::new(0.0);
 
   pub const MIN_WORKFORCE: Workforce = Workforce::new(5);
@@ -56,4 +58,9 @@ impl Default for Farm {
   }
 }
 
-check_total_resource_ratio!(Farm::WOOD_RATIO, Farm::STONE_RATIO, Farm::IRON_RATIO);
+check_total_resource_ratio!(
+  Farm::FOOD_RATIO,
+  Farm::IRON_RATIO,
+  Farm::STONE_RATIO,
+  Farm::WOOD_RATIO
+);

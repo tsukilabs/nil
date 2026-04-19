@@ -9,5 +9,6 @@
 ---@class Bot: PublicBot
 ---@field ethics Ethics
 ---@field resources Resources
+---@field influence Influence
 
 ---@alias BotId string

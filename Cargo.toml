@@ -75,7 +75,6 @@ proc-macro2 = "1.0"
 quote = "1.0"
 rand = "0.10"
 remain = "0.2"
-serde_json = "1.0"
 subenum = "=1.1.3"
 sysinfo = "0.38"
 tap = "=1.0.1"
@@ -216,6 +215,10 @@ features = ["serde"]
 version = "1.0"
 features = ["derive", "rc"]
 
+[workspace.dependencies.serde_json]
+version = "1.0"
+features = ["preserve_order"]
+
 [workspace.dependencies.strum]
 version = "0.28"
 features = ["derive"]
@@ -229,11 +232,11 @@ version = "4.2"
 features = ["marshaler-toml", "preserve-order"]
 
 [workspace.dependencies.tauri-plugin-prevent-default]
-version = "4.0"
+version = "5.0"
 features = ["platform-windows"]
 
 [workspace.dependencies.tokio]
-version = "1.51"
+version = "1.52"
 features = ["full"]
 
 [workspace.dependencies.tokio-tungstenite]

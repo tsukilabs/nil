@@ -6,6 +6,7 @@ use crate::npc::bot::{Bot, BotId};
 use crate::npc::precursor::{Precursor, PrecursorId};
 use crate::player::{Player, PlayerId};
 use crate::resources::Resources;
+use crate::resources::influence::Influence;
 use serde::{Deserialize, Serialize};
 use std::mem;
 use strum::EnumIs;
@@ -138,6 +139,14 @@ pub enum RulerRef<'a> {
 }
 
 impl<'a> RulerRef<'a> {
+  pub fn ethics(&self) -> Option<&'a Ethics> {
+    match self {
+      Self::Bot(bot) => Some(bot.ethics()),
+      Self::Player(..) => None,
+      Self::Precursor(precursor) => Some(precursor.ethics()),
+    }
+  }
+
   pub fn resources(&'a self) -> &'a Resources {
     match self {
       Self::Bot(bot) => bot.resources(),
@@ -154,11 +163,11 @@ impl<'a> RulerRef<'a> {
       .is_some()
   }
 
-  pub fn ethics(&self) -> Option<&'a Ethics> {
+  pub fn influence(&self) -> Influence {
     match self {
-      Self::Bot(bot) => Some(bot.ethics()),
-      Self::Player(..) => None,
-      Self::Precursor(precursor) => Some(precursor.ethics()),
+      Self::Bot(bot) => bot.influence(),
+      Self::Player(player) => player.influence(),
+      Self::Precursor(precursor) => precursor.influence(),
     }
   }
 }

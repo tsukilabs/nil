@@ -85,7 +85,7 @@ impl World {
         .into();
 
       *player.status_mut() = PlayerStatus::Active;
-      self.player_manager.manage(player);
+      self.player_manager.manage(player)?;
 
       self.emit_public_city_updated(coord)?;
 
