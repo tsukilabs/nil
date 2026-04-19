@@ -152,6 +152,8 @@ impl World {
     &self.military
   }
 
+  /// Schedules a save to be performed at the end of the current round.
+  /// If a save is already scheduled, it will be overwritten.
   pub fn save<F>(&mut self, f: F)
   where
     F: FnOnce(Vec<u8>) + Send + Sync + 'static,
@@ -159,6 +161,7 @@ impl World {
     self.save_handle = Some(SaveHandle::new(f));
   }
 
+  /// Registers a hook to be called once a new round is about to start.
   pub fn on_next_round<F>(&mut self, f: F)
   where
     F: Fn(&mut World) + Send + Sync + 'static,
