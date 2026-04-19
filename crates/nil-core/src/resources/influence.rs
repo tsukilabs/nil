@@ -11,6 +11,9 @@ use std::num::NonZeroU32;
 
 /// Influence is a special resource which represents the political power of a ruler
 /// and is used to determine how many cities they can simultaneously control.
+///
+/// The amount of influence needed to control a number `n` of cities is given by
+/// the formula `n * (n + 1) / 2`, meaning it increases as a triangular number.
 #[derive(
   Clone, Copy, Debug, Display, From, Into, PartialEq, Eq, PartialOrd, Ord, Deserialize, Serialize,
 )]

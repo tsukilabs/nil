@@ -1,7 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Resources } from '@/types/core/resources';
+import type { Influence, Resources } from '@/types/core/resources';
 
 export interface PublicPlayer {
   readonly id: PlayerId;
@@ -10,6 +10,7 @@ export interface PublicPlayer {
 
 export interface Player extends PublicPlayer {
   readonly resources: Resources;
+  readonly influence: Influence;
 }
 
 export type PlayerId = string;

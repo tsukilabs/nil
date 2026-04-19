@@ -9,6 +9,7 @@
 
 ---@class Player: PublicPlayer
 ---@field resources Resources
+---@field influence Influence
 
 ---@alias PlayerId string
 

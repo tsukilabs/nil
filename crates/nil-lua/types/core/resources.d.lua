@@ -10,3 +10,5 @@
 ---@field iron number
 ---@field stone number
 ---@field wood number
+
+---@alias Influence number
