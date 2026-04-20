@@ -26,7 +26,7 @@ defineProps<{
 
 const { t } = useI18n();
 
-const { md } = useBreakpoints();
+const { sm, md } = useBreakpoints();
 </script>
 
 <template>
@@ -34,7 +34,7 @@ const { md } = useBreakpoints();
     <div>
       <Button
         variant="default"
-        size="sm"
+        :size="sm ? 'default' : 'xs'"
         :disabled="!currentScript || disabled"
         @click="onExecute"
       >
