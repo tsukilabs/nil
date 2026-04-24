@@ -67,7 +67,7 @@ headers = "0.4"
 http = "1.4"
 humantime = "=2.3.0"
 itertools = "0.14"
-local-ip-address = "=0.6.11"
+local-ip-address = "=0.6.12"
 num-traits = "=0.2.19"
 natord = "=1.0.9"
 paste = "=1.0.15"
@@ -135,12 +135,12 @@ version = "10.3"
 features = ["rust_crypto"]
 
 [workspace.dependencies.libsqlite3-sys]
-version = "0.36"
+version = "0.37"
 features = ["bundled"]
 
 [workspace.dependencies.mimalloc]
 version = "0.1"
-features = ["secure", "v3"]
+features = ["secure"]
 
 [workspace.dependencies.mlua]
 version = "0.11"
