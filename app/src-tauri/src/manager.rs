@@ -21,17 +21,14 @@ pub trait ManagerExt: Manager<Wry> {
   }
 
   fn nil_dir(&self) -> Result<PathBuf> {
-    let mut dir = if let Some(home) = env::home_dir() {
-      home.join(".tsukilabs/nil")
+    if let Some(home) = env::home_dir() {
+      Ok(home.join(".tsukilabs/nil"))
     } else {
-      self.path().app_local_data_dir()?
-    };
-
-    if cfg!(debug_assertions) {
-      dir.push(".dev");
+      self
+        .path()
+        .app_local_data_dir()
+        .map_err(Into::into)
     }
-
-    Ok(dir)
   }
 
   fn savedata_dir(&self) -> Result<PathBuf> {
