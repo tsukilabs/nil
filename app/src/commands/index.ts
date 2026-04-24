@@ -3,7 +3,6 @@
 
 import { invoke } from '@tauri-apps/api/core';
 
-export * from './lua';
 export * from './npc';
 export * from './chat';
 export * from './city';

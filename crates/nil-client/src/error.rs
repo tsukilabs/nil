@@ -49,13 +49,6 @@ impl Serialize for Error {
   }
 }
 
-#[cfg(feature = "lua")]
-impl From<Error> for mlua::Error {
-  fn from(err: Error) -> Self {
-    mlua::ExternalError::into_lua_err(err)
-  }
-}
-
 fn display_failed_to_connect_websocket(message: Option<&str>) -> String {
   message
     .map(ToOwned::to_owned)

@@ -13,7 +13,7 @@ use std::borrow::Cow;
 use std::fmt;
 use std::ops::{Add, AddAssign, Sub, SubAssign};
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash)]
 pub struct Coord(U8Vec2);
 
 impl Coord {
@@ -114,6 +114,15 @@ impl Sub for Coord {
 impl From<(u8, u8)> for Coord {
   fn from((x, y): (u8, u8)) -> Self {
     Self::new(x, y)
+  }
+}
+
+impl fmt::Debug for Coord {
+  fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+    f.debug_tuple("Coord")
+      .field(&self.0.x)
+      .field(&self.0.y)
+      .finish()
   }
 }
 

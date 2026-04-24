@@ -13,7 +13,6 @@ const enum ChatCommandKind {
   About = 'about',
   Academy = 'academy',
   EndTurn = 'end-turn',
-  Eval = 'eval',
   Farm = 'farm',
   Food = 'food',
   Iron = 'iron',
@@ -44,7 +43,6 @@ const regex: RegexMap = {
   [ChatCommandKind.About]: /^\$about$/i,
   [ChatCommandKind.Academy]: /^\$academy$/i,
   [ChatCommandKind.EndTurn]: /^\$end$/i,
-  [ChatCommandKind.Eval]: /^\$eval\s([\s\S]+)/i,
   [ChatCommandKind.Farm]: /^\$farm$/i,
   [ChatCommandKind.Food]: /^\$food(?:\s(\d+))?/i,
   [ChatCommandKind.Iron]: /^\$iron(?:\s(\d+))?/i,
@@ -111,10 +109,6 @@ export class ChatCommand {
         if (isPlayerTurn()) {
           await commands.setPlayerReady(true);
         }
-        break;
-      }
-      case ChatCommandKind.Eval: {
-        await commands.executeScript(this.text);
         break;
       }
       case ChatCommandKind.Farm: {

@@ -139,14 +139,6 @@ function copyServerAddr() {
 
               <SidebarMenuItem>
                 <SidebarMenuButton as-child>
-                  <RouterLink :to="{ name: 'scripts' satisfies GameScene }">
-                    {{ t('script', 2) }}
-                  </RouterLink>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-
-              <SidebarMenuItem>
-                <SidebarMenuButton as-child>
                   <RouterLink :to="{ name: 'settings' satisfies Scene }">
                     {{ t('settings') }}
                   </RouterLink>

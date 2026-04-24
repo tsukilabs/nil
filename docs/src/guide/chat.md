@@ -8,10 +8,6 @@
 
 ### `$end`
 
-### `$eval`
-
-Executes a Lua snippet.
-
 ### `$farm`
 
 ### `$food` <Badge type="tip" text="cheat" />

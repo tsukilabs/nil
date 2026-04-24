@@ -1,7 +1,4 @@
 {
-  "[lua]": {
-    "editor.defaultFormatter": "sumneko.lua"
-  },
   "[rust]": {
     "editor.defaultFormatter": "rust-lang.rust-analyzer"
   },
@@ -30,7 +27,6 @@
   "githubPullRequests.assignCreated": "${user}",
   "githubPullRequests.defaultMergeMethod": "squash",
   "js/ts.tsdk.path": "node_modules/typescript/lib",
-  "Lua.workspace.library": ["crates/nil-lua/types"],
   "rust-analyzer.cargo.targetDir": true,
   "rust-analyzer.linkedProjects": [
     "./Cargo.toml",
@@ -41,7 +37,6 @@
     "./scripts/clean.rs",
     "./scripts/publish.rs",
     "./scripts/run-clippy.rs",
-    "./scripts/run-example.rs",
     "./scripts/sort-namegen.rs",
     "./scripts/start-dev.rs",
     "./scripts/start-server.rs",

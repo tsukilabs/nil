@@ -41,13 +41,6 @@ Here’s a simplified list of the steps you’ll need to take. In some cases, yo
   - [Declare an interface for the request struct](/app/src/lib/request)
   - [Declare an interface for the response struct](/app/src/lib/response)
 
-- [`nil-lua`](/crates/nil-lua)
-  - [Expose it to Lua](/crates/nil-lua/src/client/mod.rs)
-  - [Declare Lua types](/crates/nil-lua/types)
-    - [Client](/crates/nil-lua/types/script/client/index.d.lua)
-    - [Request](/crates/nil-lua/types/request)
-    - [Response](/crates/nil-lua/types/response)
-
 ## Environment variables
 
 - [`NIL_DATABASE_URL`](/crates/nil-server/src/main.rs)

@@ -3,41 +3,32 @@
 
 use crate::error::Result;
 use crate::event::on_core_event;
-use mlua::StdLib;
 use nil_client::{Client, ServerAddr};
 use nil_core::player::PlayerId;
 use nil_core::world::WorldOptions;
 use nil_core::world::config::WorldId;
 use nil_crypto::password::Password;
-use nil_lua::Lua;
 use nil_server::local::{self, LocalServer};
 use nil_server_types::auth::Token;
 use std::path::PathBuf;
 use std::sync::Arc;
 use tauri::AppHandle;
-use tokio::sync::{Mutex, RwLock};
+use tokio::sync::RwLock;
 
 #[derive(Clone)]
 pub struct Nil {
   app: AppHandle,
   client: Arc<RwLock<Client>>,
   server: Arc<RwLock<Option<LocalServer>>>,
-  lua: Arc<Mutex<Lua>>,
 }
 
 #[bon::bon]
 impl Nil {
   pub fn new(app: &AppHandle) -> Result<Self> {
-    let client = Arc::default();
-    let lua = Lua::builder(&client)
-      .libs(StdLib::MATH | StdLib::STRING | StdLib::TABLE)
-      .build()?;
-
     Ok(Self {
       app: app.clone(),
-      client,
+      client: Arc::default(),
       server: Arc::default(),
-      lua: Arc::new(Mutex::new(lua)),
     })
   }
 
@@ -46,13 +37,6 @@ impl Nil {
     F: AsyncFnOnce(&Client) -> T,
   {
     f(&*self.client.read().await).await
-  }
-
-  pub async fn lua<F, T>(&self, f: F) -> T
-  where
-    F: AsyncFnOnce(&mut Lua) -> T,
-  {
-    f(&mut *self.lua.lock().await).await
   }
 
   #[builder]

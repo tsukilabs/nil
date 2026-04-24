@@ -10,7 +10,6 @@ pub mod city;
 pub mod client;
 pub mod continent;
 pub mod infrastructure;
-pub mod lua;
 pub mod military;
 pub mod npc;
 pub mod player;

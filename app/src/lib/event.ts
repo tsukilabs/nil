@@ -87,21 +87,11 @@ export async function setDragDropEventListener() {
 }
 
 async function onDragDropEvent(paths: readonly string[]) {
-  const scripts: string[] = [];
-  let foundSavedata = false;
-
   for (const path of paths) {
-    if (!foundSavedata && await commands.isSavedata(path)) {
-      foundSavedata = true;
+    if (await commands.isSavedata(path)) {
       const savedata = await SavedataFile.read(path);
       await savedata.load();
+      break;
     }
-    else if (await commands.isScript(path)) {
-      scripts.push(path);
-    }
-  }
-
-  if (scripts.length > 0) {
-    await commands.importScripts(scripts);
   }
 }

@@ -12,9 +12,6 @@ export async function handleProcessArgs() {
         const savedata = await SavedataFile.read(args[1]);
         await savedata.load();
       }
-      else if (await commands.isScript(args[1])) {
-        await commands.importScript(args[1]);
-      }
     }
   }
 }
