@@ -50,10 +50,3 @@ tokio.workspace = true
 tracing.workspace = true
 tokio-tungstenite.workspace = true
 url.workspace = true
-
-[dependencies.mlua]
-workspace = true
-optional = true
-
-[features]
-lua = ["dep:mlua", "nil-core/lua"]

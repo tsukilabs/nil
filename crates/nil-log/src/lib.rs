@@ -48,8 +48,6 @@ pub fn setup(
   add_directive!(NIL_CLIENT, "nil_client");
   add_directive!(NIL_CORE, "nil_core");
   add_directive!(NIL_CRYPTO, "nil_crypto");
-  add_directive!(NIL_LUA, "nil_lua");
-  add_directive!(NIL_LUA_CLI, "nil_lua_cli");
   add_directive!(NIL_SERVER, "nil_server");
   add_directive!(NIL_SERVER_DATABASE, "nil_server_database");
 
@@ -109,11 +107,9 @@ bitflags! {
     const NIL_CLIENT            = 1 << 1;
     const NIL_CORE              = 1 << 2;
     const NIL_CRYPTO            = 1 << 3;
-    const NIL_LUA               = 1 << 4;
-    const NIL_LUA_CLI           = 1 << 5;
-    const NIL_SERVER            = 1 << 6;
-    const NIL_SERVER_DATABASE   = 1 << 7;
-    const TOWER_HTTP            = 1 << 8;
+    const NIL_SERVER            = 1 << 4;
+    const NIL_SERVER_DATABASE   = 1 << 5;
+    const TOWER_HTTP            = 1 << 6;
   }
 }
 

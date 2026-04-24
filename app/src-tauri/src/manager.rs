@@ -4,7 +4,6 @@
 use crate::error::Result;
 use crate::state::Nil;
 use nil_client::Client;
-use nil_lua::Lua;
 use std::env;
 use std::path::PathBuf;
 use tauri::{Manager, State, Wry};
@@ -21,18 +20,11 @@ pub trait ManagerExt: Manager<Wry> {
     self.nil().client(f).await
   }
 
-  async fn lua<F, T>(&self, f: F) -> T
-  where
-    F: AsyncFnOnce(&mut Lua) -> T,
-  {
-    self.nil().lua(f).await
-  }
-
   fn nil_dir(&self) -> Result<PathBuf> {
     let mut dir = if let Some(home) = env::home_dir() {
       home.join(".tsukilabs/nil")
     } else {
-      self.path().app_cache_dir()?
+      self.path().app_local_data_dir()?
     };
 
     if cfg!(debug_assertions) {
@@ -44,10 +36,6 @@ pub trait ManagerExt: Manager<Wry> {
 
   fn savedata_dir(&self) -> Result<PathBuf> {
     Ok(self.nil_dir()?.join("savedata"))
-  }
-
-  fn script_dir(&self) -> Result<PathBuf> {
-    Ok(self.nil_dir()?.join("scripts"))
   }
 }
 

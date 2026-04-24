@@ -7,8 +7,6 @@ members = [
   "crates/nil-core-macros",
   "crates/nil-crypto",
   "crates/nil-log",
-  "crates/nil-lua",
-  "crates/nil-lua-cli",
   "crates/nil-namegen",
   "crates/nil-num",
   "crates/nil-num-macros",
@@ -142,10 +140,6 @@ features = ["bundled"]
 version = "0.1"
 features = ["secure"]
 
-[workspace.dependencies.mlua]
-version = "0.11"
-features = ["anyhow", "async", "error-send", "lua55", "send", "serde", "vendored"]
-
 [workspace.dependencies.nil-client]
 version = "0.5"
 path = "./crates/nil-client"
@@ -165,10 +159,6 @@ path = "./crates/nil-crypto"
 [workspace.dependencies.nil-log]
 version = "0.5"
 path = "./crates/nil-log"
-
-[workspace.dependencies.nil-lua]
-version = "0.5"
-path = "./crates/nil-lua"
 
 [workspace.dependencies.nil-namegen]
 version = "0.5"

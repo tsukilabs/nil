@@ -40,10 +40,6 @@
       "ext": ["nil"],
       "rank": "Owner",
       "role": "Viewer"
-    }, {
-      "ext": ["lua"],
-      "rank": "Alternate",
-      "role": "Viewer"
     }],
     "icon": [
       "icons/32x32.png",
