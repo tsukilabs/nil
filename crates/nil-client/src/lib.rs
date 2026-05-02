@@ -21,6 +21,9 @@ mod websocket;
 
 pub use client::Client;
 pub use error::{AnyResult, Error, Result};
+pub use nil_crypto as crypto;
+pub use nil_payload as payload;
+pub use nil_server_types as server_types;
 pub use server::ServerAddr;
 
 pub const VERSION: &str = env!("CARGO_PKG_VERSION");
