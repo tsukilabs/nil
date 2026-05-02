@@ -36,6 +36,8 @@ lto = "fat"
 opt-level = 3
 panic = "abort"
 strip = "symbols"
+debug = false
+debug-assertions = false
 
 [profile.release-server]
 inherits = "release"
@@ -67,7 +69,6 @@ humantime = "=2.3.0"
 itertools = "0.14"
 local-ip-address = "=0.6.12"
 num-traits = "=0.2.19"
-natord = "=1.0.9"
 paste = "=1.0.15"
 proc-macro2 = "1.0"
 quote = "1.0"

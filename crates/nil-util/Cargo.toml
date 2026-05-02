@@ -22,5 +22,13 @@ targets = []
 [lints]
 workspace = true
 
-[dependencies]
-anyhow.workspace = true
+[dependencies.anyhow]
+workspace = true
+optional = true
+
+[features]
+default = ["iter", "ops", "process", "vec"]
+iter = []
+ops = []
+process = ["dep:anyhow"]
+vec = []
