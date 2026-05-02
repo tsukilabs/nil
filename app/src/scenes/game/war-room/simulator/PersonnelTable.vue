@@ -3,6 +3,7 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
+import type { Option } from '@tb-dev/utils';
 import type { Luck } from '@/types/core/battle';
 import PersonnelTableRow from './PersonnelTableRow.vue';
 import type { ArmyPersonnel } from '@/types/core/military/army';

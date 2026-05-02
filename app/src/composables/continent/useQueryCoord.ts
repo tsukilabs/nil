@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { readonly, shallowRef } from 'vue';
+import type { Option } from '@tb-dev/utils';
 import { useRouteQuery } from '@vueuse/router';
 import { debounce } from 'es-toolkit/function';
 import { CoordImpl, isOutside } from '@/core/model/continent/coord';

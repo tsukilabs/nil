@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { Entity } from './abstract';
-import { panic } from '@tb-dev/utils';
 import { asyncRef, maybe } from '@tb-dev/vue';
 import type { WorldId } from '@/types/core/world';
+import { type Option, panic } from '@tb-dev/utils';
 import type { MineId } from '@/types/core/infrastructure/mine';
 import { readonly, ref, type Ref, type ShallowRef } from 'vue';
 import type { WorldConfigImpl } from '@/core/model/world-config';

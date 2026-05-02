@@ -5,7 +5,14 @@
 #![doc(html_favicon_url = "https://nil.dev.br/favicon.png")]
 #![feature(exit_status_error, try_trait_v2)]
 
+#[cfg(feature = "iter")]
 pub mod iter;
+
+#[cfg(feature = "ops")]
 pub mod ops;
+
+#[cfg(feature = "process")]
 pub mod process;
+
+#[cfg(feature = "vec")]
 pub mod vec;

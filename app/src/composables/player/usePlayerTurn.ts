@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { computed } from 'vue';
+import type { Option } from '@tb-dev/utils';
+import type { MaybeNilRef } from '@tb-dev/vue';
 import { toPlayerRef } from '@/composables/toRef';
 import type { Player } from '@/types/core/player';
 import type { RoundImpl } from '@/core/model/round';

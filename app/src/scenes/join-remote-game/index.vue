@@ -10,6 +10,7 @@ import { formatDate } from 'date-fns';
 import * as commands from '@/commands';
 import { useRouter } from 'vue-router';
 import { Trash2Icon } from '@lucide/vue';
+import type { Option } from '@tb-dev/utils';
 import { joinRemoteGame } from '@/core/game';
 import Loading from '@/components/Loading.vue';
 import { isValidPassword } from '@/lib/schema';

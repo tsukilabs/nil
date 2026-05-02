@@ -5,6 +5,7 @@
 import { cn } from '@ui/utils';
 import { formatInt } from '@/lib/intl';
 import type { ClassValue } from 'clsx';
+import type { Option } from '@tb-dev/utils';
 import { useBreakpoints } from '@tb-dev/vue';
 
 const props = defineProps<{

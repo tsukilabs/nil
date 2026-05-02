@@ -2,8 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { shallowRef } from 'vue';
-import { useMutex } from '@tb-dev/vue';
+import type { Option } from '@tb-dev/utils';
 import { toCoordRef } from '@/composables/toRef';
+import { type MaybeNilRef, useMutex } from '@tb-dev/vue';
 import type { CoordImpl } from '@/core/model/continent/coord';
 import type { StableUnitId } from '@/types/core/military/unit';
 import type { StableRecruitCatalog } from '@/types/core/infrastructure/stable';

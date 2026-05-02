@@ -3,6 +3,7 @@
 
 import { gameRoutes } from './game';
 import type { Scene } from '@/types/scene';
+import type { Option } from '@tb-dev/utils';
 import {
   createRouter,
   createWebHistory,

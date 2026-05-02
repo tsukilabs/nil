@@ -4,7 +4,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { Button } from '@ui/button';
-import { toPixel } from '@tb-dev/utils';
+import { type Option, toPixel } from '@tb-dev/utils';
 import type { Direction } from '@/composables/continent/onKeyboardMovement';
 import { ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon, ChevronUpIcon } from '@lucide/vue';
 

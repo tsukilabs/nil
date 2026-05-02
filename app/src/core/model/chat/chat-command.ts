@@ -4,6 +4,7 @@
 import { go } from '@/router';
 import * as commands from '@/commands';
 import { leaveGame } from '@/core/game';
+import type { Option } from '@tb-dev/utils';
 import { ResourcesImpl } from '../resources';
 import { saveLocalGame } from '@/core/savedata';
 import { isPlayerTurn } from '@/composables/player/usePlayerTurn';

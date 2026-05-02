@@ -1,10 +1,10 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { toArray } from '@tb-dev/utils';
 import { invoke } from '@tauri-apps/api/core';
 import type { PlayerId } from '@/types/core/player';
 import type { ReportId, ReportKind } from '@/types/core/report';
+import { type MaybeReadonlyArray, type Option, toArray } from '@tb-dev/utils';
 import type {
   ForwardReportRequest,
   GetReportRequest,

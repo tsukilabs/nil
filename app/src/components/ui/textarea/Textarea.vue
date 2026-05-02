@@ -2,6 +2,7 @@
 import type { HTMLAttributes } from 'vue';
 import { useVModel } from '@vueuse/core';
 import { cn } from '@/components/ui/utils';
+import type { Option } from '@tb-dev/utils';
 
 const props = defineProps<{
   class?: HTMLAttributes['class'];

@@ -8,6 +8,7 @@ import { useI18n } from 'vue-i18n';
 import { Button } from '@ui/button';
 import { formatInt } from '@/lib/intl';
 import { useBreakpoints } from '@tb-dev/vue';
+import type { MaybePromise } from '@tb-dev/utils';
 import type { Squad } from '@/types/core/military/squad';
 import Workforce from '@/components/resources/Workforce.vue';
 import { Table, TableBody, TableCell, TableRow } from '@ui/table';

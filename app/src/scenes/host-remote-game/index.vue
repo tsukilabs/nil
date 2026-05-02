@@ -23,11 +23,11 @@ import InputWorldSize from '@/components/form/InputWorldSize.vue';
 import SliderBotDensity from '@/components/form/SliderBotDensity.vue';
 import SliderWorldSpeed from '@/components/form/SliderWorldSpeed.vue';
 import { isValidNullishPassword, isWorldOptions } from '@/lib/schema';
-import type { WithPartialNullish, WritablePartial } from '@tb-dev/utils';
 import InputWorldPassword from '@/components/form/InputWorldPassword.vue';
 import SliderRoundDuration from '@/components/form/SliderRoundDuration.vue';
 import SliderWorldUnitSpeed from '@/components/form/SliderWorldUnitSpeed.vue';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@ui/card';
+import type { Option, WithPartialNullish, WritablePartial } from '@tb-dev/utils';
 import TextareaWorldDescription from '@/components/form/TextareaWorldDescription.vue';
 import SliderBotAdvancedStartRatio from '@/components/form/SliderBotAdvancedStartRatio.vue';
 

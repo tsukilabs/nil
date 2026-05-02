@@ -5,6 +5,7 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useBreakpoints } from '@tb-dev/vue';
+import type { MaybePromise } from '@tb-dev/utils';
 import RecruitCatalogRow from './RecruitCatalogRow.vue';
 import type { WorkshopUnitId } from '@/types/core/military/unit';
 import { usePlayerTurn } from '@/composables/player/usePlayerTurn';

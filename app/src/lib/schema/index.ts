@@ -3,6 +3,7 @@
 
 import { password } from './utils';
 import { worldOptions } from './world';
+import type { Option } from '@tb-dev/utils';
 import { playerId, playerOptions } from './player';
 import type { WorldOptions } from '@/types/core/world';
 import type { PlayerOptions } from '@/types/core/player';

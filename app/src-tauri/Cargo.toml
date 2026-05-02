@@ -23,7 +23,6 @@ bon.workspace = true
 futures.workspace = true
 itertools.workspace = true
 jiff.workspace = true
-natord.workspace = true
 nil-client.workspace = true
 nil-core.workspace = true
 nil-crypto.workspace = true
@@ -49,7 +48,7 @@ thiserror.workspace = true
 tokio.workspace = true
 
 [dependencies.tauri]
-version = "2.10"
+version = "2.11"
 features = ["image-png", "protocol-asset", "rustls-tls", "tray-icon"]
 
 [dependencies.tracing]
@@ -62,5 +61,5 @@ tauri-plugin-single-instance.workspace = true
 tauri-plugin-updater.workspace = true
 
 [build-dependencies.tauri-build]
-version = "2.5"
+version = "2.6"
 features = []

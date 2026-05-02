@@ -6,6 +6,7 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { Button } from '@ui/button';
 import { onKeyDown } from '@tb-dev/vue';
+import type { Option } from '@tb-dev/utils';
 import { throttle } from 'es-toolkit/function';
 import { useRouteParams } from '@vueuse/router';
 import enUS from '@/locale/en-US/scenes/game/profile.json';

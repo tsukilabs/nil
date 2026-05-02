@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { Entity } from './abstract';
+import type { Option } from '@tb-dev/utils';
 import { asyncRef, maybe } from '@tb-dev/vue';
 import { CityImpl } from '@/core/model/city/city';
 import type { Coord } from '@/types/core/continent';

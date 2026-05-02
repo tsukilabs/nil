@@ -13,9 +13,9 @@ import type { ServerAddr } from '@/types/server';
 import type { PlayerOptions } from '@/types/core/player';
 import { localRef, useBreakpoints, useMutex } from '@tb-dev/vue';
 import InputPlayerName from '@/components/form/InputPlayerName.vue';
-import type { WithPartialNullish, WritablePartial } from '@tb-dev/utils';
 import InputServerAddress from '@/components/form/InputServerAddress.vue';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@ui/card';
+import type { Option, WithPartialNullish, WritablePartial } from '@tb-dev/utils';
 
 const { t } = useI18n();
 

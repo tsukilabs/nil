@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { type Ref, toRef } from 'vue';
+import type { Option } from '@tb-dev/utils';
+import type { MaybeNilRef } from '@tb-dev/vue';
 import type { CityImpl } from '@/core/model/city/city';
 import type { ContinentKey } from '@/types/core/continent';
 import type { PlayerImpl } from '@/core/model/player/player';

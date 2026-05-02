@@ -1,6 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { Option } from '@tb-dev/utils';
 import type { Ruler } from '@/types/core/ruler';
 import type { Ethics } from '@/types/core/ethic';
 import type { BotId } from '@/types/core/npc/bot';

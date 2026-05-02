@@ -5,6 +5,7 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { Button } from '@ui/button';
+import type { Option } from '@tb-dev/utils';
 import type { Coord } from '@/types/core/continent';
 import enUS from '@/locale/en-US/scenes/game/continent.json';
 import ptBR from '@/locale/pt-BR/scenes/game/continent.json';

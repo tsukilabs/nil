@@ -10,6 +10,7 @@ import type { PlayerId } from '@/types/core/player';
 import { ResourcesImpl } from '@/core/model/resources';
 import type { Resources } from '@/types/core/resources';
 import type { ContinentKey } from '@/types/core/continent';
+import type { Option, PartialNullish } from '@tb-dev/utils';
 import type { PrecursorId } from '@/types/core/npc/precursor';
 import type {
   CheatGetResourcesRequest,

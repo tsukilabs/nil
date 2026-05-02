@@ -4,6 +4,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import type { Option } from '@tb-dev/utils';
 import { useBreakpoints } from '@tb-dev/vue';
 import { useSettings } from '@/stores/settings';
 import { TableCell, TableRow } from '@ui/table';

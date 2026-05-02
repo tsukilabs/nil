@@ -2,6 +2,9 @@ packages:
   - "app"
   - "docs"
 
+allowBuilds:
+  vue-demi: false
+
 ignoreWorkspaceRootCheck: true
 
 overrides:

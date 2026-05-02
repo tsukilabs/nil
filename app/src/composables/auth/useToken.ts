@@ -3,6 +3,7 @@
 
 import { computed } from 'vue';
 import * as commands from '@/commands';
+import type { Option } from '@tb-dev/utils';
 import { asyncComputed } from '@tb-dev/vue';
 import { useSettings } from '@/stores/settings';
 import type { PlayerId } from '@/types/core/player';

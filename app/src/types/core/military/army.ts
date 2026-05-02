@@ -1,6 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { Writable } from '@tb-dev/utils';
 import type { Ruler } from '@/types/core/ruler';
 import type { Squad } from '@/types/core/military/squad';
 import type { ManeuverId } from '@/types/core/military/maneuver';

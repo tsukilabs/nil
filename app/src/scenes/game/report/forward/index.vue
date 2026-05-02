@@ -5,6 +5,7 @@
 import { useI18n } from 'vue-i18n';
 import { Button } from '@ui/button';
 import { computed, ref } from 'vue';
+import type { Option } from '@tb-dev/utils';
 import { useRouteParams } from '@vueuse/router';
 import { useRoute, useRouter } from 'vue-router';
 import { forwardReport } from '@/commands/report';

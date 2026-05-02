@@ -4,6 +4,7 @@
 import * as commands from '@/commands';
 import { localRef } from '@tb-dev/vue';
 import { handleError } from '@/lib/error';
+import type { Option } from '@tb-dev/utils';
 import type { DeepReadonly, Ref } from 'vue';
 
 interface Limit {

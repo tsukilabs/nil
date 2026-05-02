@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { toRef } from 'vue';
-import { asyncRef } from '@tb-dev/vue';
 import { tryOnScopeDispose } from '@vueuse/core';
 import type { SavedataFile } from '@/core/savedata';
 import type { PlayerId } from '@/types/core/player';
 import { getSavedataPlayers } from '@/commands/world';
+import { asyncRef, type MaybeNilRef } from '@tb-dev/vue';
 
 export function useSavedataPlayers(savedata: MaybeNilRef<SavedataFile>) {
   const savedataRef = toRef(savedata);

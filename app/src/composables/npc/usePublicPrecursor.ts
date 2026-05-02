@@ -1,8 +1,8 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { asyncRef } from '@tb-dev/vue';
 import { computed, toRef, watch } from 'vue';
+import { asyncRef, type MaybeNilRef } from '@tb-dev/vue';
 import type { PrecursorId } from '@/types/core/npc/precursor';
 import { PublicPrecursorImpl } from '@/core/model/npc/public-precursor';
 

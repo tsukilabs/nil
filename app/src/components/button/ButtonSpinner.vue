@@ -4,6 +4,7 @@
 <script setup lang="ts">
 import { Spinner } from '@ui/spinner';
 import type { HTMLAttributes, VNode } from 'vue';
+import type { MaybePromise } from '@tb-dev/utils';
 import { Button, type ButtonSize, type ButtonVariant } from '@ui/button';
 
 defineProps<{
