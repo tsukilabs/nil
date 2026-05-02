@@ -7,6 +7,7 @@ import { Button } from '@ui/button';
 import { computed, ref } from 'vue';
 import { handleError } from '@/lib/error';
 import { toI8, toU8 } from '@/lib/number';
+import type { Option } from '@tb-dev/utils';
 import PersonnelTable from './PersonnelTable.vue';
 import BattleResultTable from './BattleResultTable.vue';
 import enUS from '@/locale/en-US/scenes/game/war-room.json';

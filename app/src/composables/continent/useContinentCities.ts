@@ -4,6 +4,7 @@
 import { watch } from 'vue';
 import { compare } from '@/lib/intl';
 import { asyncRef } from '@tb-dev/vue';
+import type { Option } from '@tb-dev/utils';
 import { getBulkDistance } from '@/commands/continent';
 import { CoordImpl } from '@/core/model/continent/coord';
 import type { ContinentKey } from '@/types/core/continent';

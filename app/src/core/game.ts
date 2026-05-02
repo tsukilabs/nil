@@ -4,6 +4,7 @@
 import * as commands from '@/commands';
 import { handleError } from '@/lib/error';
 import { go, isGameRoute } from '@/router';
+import type { Option } from '@tb-dev/utils';
 import { Entity } from '@/core/entity/abstract';
 import { useSettings } from '@/stores/settings';
 import { exit } from '@tauri-apps/plugin-process';

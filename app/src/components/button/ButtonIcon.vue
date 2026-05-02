@@ -2,6 +2,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
+import type { MaybePromise } from '@tb-dev/utils';
 import type { Component, HTMLAttributes, VNode } from 'vue';
 import { Button, type ButtonSize, type ButtonVariant } from '@ui/button';
 

@@ -7,6 +7,7 @@ import type { BotId } from '@/types/core/npc/bot';
 import type { RemoteWorld } from '@/types/server';
 import type { SavedataInfo } from '@/core/savedata';
 import type { PlayerId } from '@/types/core/player';
+import type { Option, Writable } from '@tb-dev/utils';
 import { WorldConfigImpl } from '@/core/model/world-config';
 import type { PrecursorId } from '@/types/core/npc/precursor';
 import type { WorldConfig, WorldId } from '@/types/core/world';

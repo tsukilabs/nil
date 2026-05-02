@@ -8,6 +8,7 @@ import { Button } from '@ui/button';
 import { useRoute } from 'vue-router';
 import * as commands from '@/commands';
 import { whenever } from '@vueuse/core';
+import type { Option } from '@tb-dev/utils';
 import SupportReport from './SupportReport.vue';
 import { useRouteParams } from '@vueuse/router';
 import type { ReportId } from '@/types/core/report';

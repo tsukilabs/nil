@@ -5,6 +5,7 @@
 import { Input } from '@ui/input';
 import { Label } from '@ui/label';
 import { useI18n } from 'vue-i18n';
+import type { Option } from '@tb-dev/utils';
 
 defineProps<{
   disabled?: boolean;

@@ -4,6 +4,7 @@
 import type { Ref } from 'vue';
 import { Entity } from './abstract';
 import { asyncRef } from '@tb-dev/vue';
+import type { Option } from '@tb-dev/utils';
 import { RoundImpl } from '@/core/model/round';
 import type { RoundUpdatedPayload } from '@/types/core/event';
 

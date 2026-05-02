@@ -1,6 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { Option } from '@tb-dev/utils';
 import type { MineId } from '@/types/core/infrastructure/mine';
 import type { StorageId } from '@/types/core/infrastructure/storage';
 import type { InfrastructureStats } from '@/types/core/infrastructure';

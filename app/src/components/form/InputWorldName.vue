@@ -5,6 +5,7 @@
 import { Input } from '@ui/input';
 import { Label } from '@ui/label';
 import { useI18n } from 'vue-i18n';
+import type { Option } from '@tb-dev/utils';
 import enUS from '@/locale/en-US/scenes/host-game.json';
 import ptBR from '@/locale/pt-BR/scenes/host-game.json';
 

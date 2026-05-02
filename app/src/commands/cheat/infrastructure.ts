@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { toU8 } from '@/lib/number';
+import type { Option } from '@tb-dev/utils';
 import { invoke } from '@tauri-apps/api/core';
 import { getCityOwner } from '@/commands/city';
 import type { Ruler } from '@/types/core/ruler';

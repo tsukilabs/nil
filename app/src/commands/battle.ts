@@ -3,6 +3,7 @@
 
 import { toU8 } from '@/lib/number';
 import { clamp } from 'es-toolkit/math';
+import type { Option } from '@tb-dev/utils';
 import { invoke } from '@tauri-apps/api/core';
 import { SquadImpl } from '@/core/model/military/squad';
 import type { Squad } from '@/types/core/military/squad';

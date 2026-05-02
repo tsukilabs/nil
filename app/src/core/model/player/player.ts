@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as commands from '@/commands';
+import type { PartialNullish } from '@tb-dev/utils';
 import { ResourcesImpl } from '@/core/model/resources';
 import type { Player, PlayerId } from '@/types/core/player';
 import type { Influence, Resources } from '@/types/core/resources';

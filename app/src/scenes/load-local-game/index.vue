@@ -6,6 +6,7 @@ import { useI18n } from 'vue-i18n';
 import { Button } from '@ui/button';
 import { formatDate } from 'date-fns';
 import { computed, ref, watch } from 'vue';
+import type { Option } from '@tb-dev/utils';
 import { useRouteQuery } from '@vueuse/router';
 import type { PlayerId } from '@/types/core/player';
 import { hostLocalGameWithSavedata } from '@/core/game';

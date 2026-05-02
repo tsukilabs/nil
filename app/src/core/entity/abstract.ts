@@ -5,6 +5,7 @@
 
 import { handleError } from '@/lib/error';
 import { Mutex } from 'es-toolkit/promise';
+import type { Option } from '@tb-dev/utils';
 import { ListenerSet } from '@/lib/listener-set';
 import { type EffectScope, effectScope } from 'vue';
 import { asyncNoop, noop, throttle } from 'es-toolkit/function';

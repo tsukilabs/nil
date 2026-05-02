@@ -1,9 +1,9 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { asyncRef } from '@tb-dev/vue';
 import { computed, toRef, watch } from 'vue';
 import type { PlayerId } from '@/types/core/player';
+import { asyncRef, type MaybeNilRef } from '@tb-dev/vue';
 import { PublicPlayerImpl } from '@/core/model/player/public-player';
 
 export function usePublicPlayer(id: MaybeNilRef<PlayerId>) {

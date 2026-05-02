@@ -3,6 +3,7 @@
 
 import { handleError } from '@/lib/error';
 import { type InjectionKey, markRaw, ref } from 'vue';
+import type { MaybePromise, Option } from '@tb-dev/utils';
 import { ChatCommand } from '@/core/model/chat/chat-command';
 import { sessionRef, tryInjectOrElse, useMutex } from '@tb-dev/vue';
 

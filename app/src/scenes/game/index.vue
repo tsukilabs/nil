@@ -12,6 +12,7 @@ import { DESKTOP } from '@/lib/global';
 import { leaveGame } from '@/core/game';
 import { useToggle } from '@vueuse/core';
 import { handleError } from '@/lib/error';
+import type { Option } from '@tb-dev/utils';
 import Finder from '@/components/Finder.vue';
 import { SidebarProvider } from '@ui/sidebar';
 import Loading from '@/components/Loading.vue';

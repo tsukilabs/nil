@@ -1,6 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { Option } from '@tb-dev/utils';
 import type { RoundId } from '@/types/core/round';
 import type { PlayerId } from '@/types/core/player';
 import type { ContinentSize } from '@/types/core/continent';

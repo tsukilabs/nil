@@ -2,7 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { shallowRef, toRef } from 'vue';
+import type { Option } from '@tb-dev/utils';
 import { watchImmediate } from '@vueuse/core';
+import type { MaybeNilRef } from '@tb-dev/vue';
 import type { Ruler, RulerKind } from '@/types/core/ruler';
 import { PublicBotImpl } from '@/core/model/npc/public-bot';
 import { PublicPlayerImpl } from '@/core/model/player/public-player';

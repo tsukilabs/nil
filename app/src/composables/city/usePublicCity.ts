@@ -4,8 +4,8 @@
 import { watch } from 'vue';
 import { toContinentKeyRef } from '@/composables/toRef';
 import type { ContinentKey } from '@/types/core/continent';
-import { asyncRef, type AsyncRefOptions } from '@tb-dev/vue';
 import { PublicCityImpl } from '@/core/model/city/public-city';
+import { asyncRef, type AsyncRefOptions, type MaybeNilRef } from '@tb-dev/vue';
 
 export function usePublicCity(key?: MaybeNilRef<ContinentKey>, options?: AsyncRefOptions) {
   const keyRef = toContinentKeyRef(key);

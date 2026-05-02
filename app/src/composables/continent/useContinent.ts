@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { nextMultipleOf } from '@/lib/math';
+import type { Option } from '@tb-dev/utils';
 import { ListenerSet } from '@/lib/listener-set';
 import { tryOnScopeDispose } from '@vueuse/core';
 import type { Coord } from '@/types/core/continent';

@@ -1,6 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { Option } from '@tb-dev/utils';
 import type { WorldId } from '@/types/core/world';
 import type { PlayerId, PlayerOptions, PlayerStatus } from '@/types/core/player';
 

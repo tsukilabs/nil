@@ -5,6 +5,7 @@ import { go } from '@/router';
 import * as commands from '@/commands';
 import { formatInt } from '@/lib/intl';
 import { PLACEHOLDER } from '@/lib/string';
+import type { Option } from '@tb-dev/utils';
 import { RulerImpl } from '@/core/model/ruler';
 import type { Ruler } from '@/types/core/ruler';
 import type { RankingEntry } from '@/types/core/ranking';
