@@ -3,12 +3,14 @@
 
 use crate::error::Result;
 use crate::manager::ManagerExt;
-use nil_core::battle::BattleResult;
 use nil_payload::battle::*;
 use tauri::AppHandle;
 
 #[tauri::command]
-pub async fn simulate_battle(app: AppHandle, req: SimulateBattleRequest) -> Result<BattleResult> {
+pub async fn simulate_battle(
+  app: AppHandle,
+  req: SimulateBattleRequest,
+) -> Result<SimulateBattleResponse> {
   app
     .client(async |cl| cl.simulate_battle(req).await)
     .await

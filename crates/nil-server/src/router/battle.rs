@@ -14,6 +14,6 @@ pub async fn simulate(State(app): State<App>, Json(req): Json<SimulateBattleRequ
       world.simulate_battle(&req.attacker, &req.defender, req.luck, req.wall)
     })
     .await
-    .try_map_left(|result| res!(OK, Json(result)))
+    .try_map_left(|result| res!(OK, SimulateBattleResponse(result)))
     .into_inner()
 }

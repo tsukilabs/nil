@@ -5,10 +5,11 @@ import { toU8 } from '@/lib/number';
 import { clamp } from 'es-toolkit/math';
 import type { Option } from '@tb-dev/utils';
 import { invoke } from '@tauri-apps/api/core';
+import type { Luck } from '@/types/core/battle';
 import { SquadImpl } from '@/core/model/military/squad';
 import type { Squad } from '@/types/core/military/squad';
-import type { BattleResult, Luck } from '@/types/core/battle';
 import type { SimulateBattleRequest } from '@/types/request/battle';
+import type { SimulateBattleResponse } from '@/types/response/battle';
 import type { BuildingLevel } from '@/types/core/infrastructure/building';
 
 export async function simulateBattle(args: {
@@ -47,5 +48,5 @@ export async function simulateBattle(args: {
     wall: args.wall,
   };
 
-  return invoke<BattleResult>('simulate_battle', { req });
+  return invoke<SimulateBattleResponse>('simulate_battle', { req });
 }

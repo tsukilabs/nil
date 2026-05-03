@@ -3345,11 +3345,22 @@ dependencies = [
 name = "nil-payload"
 version = "0.5.0"
 dependencies = [
+ "axum",
  "bon",
  "nil-core",
  "nil-crypto",
+ "nil-payload-macros",
  "nil-server-types",
  "serde",
+]
+
+[[package]]
+name = "nil-payload-macros"
+version = "0.5.0"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 2.0.117",
 ]
 
 [[package]]

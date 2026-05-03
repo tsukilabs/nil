@@ -1,5 +1,5 @@
 [package]
-name = "nil-payload"
+name = "nil-payload-macros"
 publish = true
 readme = "../../README.md"
 
@@ -19,14 +19,13 @@ no-default-features = true
 default-target = "x86_64-unknown-linux-gnu"
 targets = []
 
+[lib]
+proc-macro = true
+
 [lints]
 workspace = true
 
 [dependencies]
-axum.workspace = true
-bon.workspace = true
-nil-core.workspace = true
-nil-crypto.workspace = true
-nil-payload-macros.workspace = true
-nil-server-types.workspace = true
-serde.workspace = true
+proc-macro2.workspace = true
+quote.workspace = true
+syn.workspace = true

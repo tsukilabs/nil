@@ -11,6 +11,7 @@ members = [
   "crates/nil-num",
   "crates/nil-num-macros",
   "crates/nil-payload",
+  "crates/nil-payload-macros",
   "crates/nil-server",
   "crates/nil-server-database",
   "crates/nil-server-types",
@@ -188,6 +189,10 @@ path = "./crates/nil-server-types"
 [workspace.dependencies.nil-payload]
 version = "0.5"
 path = "./crates/nil-payload"
+
+[workspace.dependencies.nil-payload-macros]
+version = "0.5"
+path = "./crates/nil-payload-macros"
 
 [workspace.dependencies.nil-util]
 version = "0.5"
