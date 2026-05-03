@@ -8,7 +8,7 @@ use crate::response::EitherExt;
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
 use nil_core::ruler::Ruler;
-use nil_payload::cheat::infrastructure::*;
+use nil_payload::request::cheat::infrastructure::*;
 
 pub async fn get_academy_recruit_queue(
   State(app): State<App>,

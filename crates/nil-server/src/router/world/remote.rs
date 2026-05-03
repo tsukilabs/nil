@@ -9,7 +9,7 @@ use crate::{VERSION, res};
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
 use nil_core::world::config::WorldId;
-use nil_payload::world::*;
+use nil_payload::request::world::*;
 use nil_server_types::world::RemoteWorld;
 use semver::Version;
 use std::cmp::Reverse;

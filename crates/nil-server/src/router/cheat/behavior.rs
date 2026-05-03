@@ -6,7 +6,7 @@ use crate::res;
 use crate::response::EitherExt;
 use axum::extract::{Json, State};
 use axum::response::Response;
-use nil_payload::cheat::behavior::*;
+use nil_payload::request::cheat::behavior::*;
 
 pub async fn get_build_steps(
   State(app): State<App>,

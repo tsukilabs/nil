@@ -5,7 +5,7 @@ use crate::error::Result;
 use crate::manager::ManagerExt;
 use itertools::Itertools;
 use nil_core::continent::{ContinentSize, Coord, Distance, PublicField};
-use nil_payload::continent::*;
+use nil_payload::request::continent::*;
 use tauri::AppHandle;
 
 #[tauri::command]

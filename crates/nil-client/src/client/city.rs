@@ -6,7 +6,8 @@ use crate::error::Result;
 use crate::http;
 use nil_core::city::{City, PublicCity};
 use nil_core::ranking::score::Score;
-use nil_payload::city::*;
+use nil_payload::request::city::*;
+use nil_payload::response::city::*;
 
 impl Client {
   pub async fn get_city(&self, req: GetCityRequest) -> Result<City> {

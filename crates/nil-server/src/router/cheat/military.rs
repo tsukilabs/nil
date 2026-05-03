@@ -6,7 +6,7 @@ use crate::res;
 use crate::response::EitherExt;
 use axum::extract::{Json, State};
 use axum::response::Response;
-use nil_payload::cheat::military::*;
+use nil_payload::request::cheat::military::*;
 
 pub async fn get_idle_armies_at(
   State(app): State<App>,

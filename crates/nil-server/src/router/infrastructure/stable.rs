@@ -8,7 +8,7 @@ use crate::{bail_if_city_is_not_owned_by, bail_if_player_is_not_pending, res};
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
 use nil_core::infrastructure::building::stable::recruit_catalog::StableRecruitCatalog;
-use nil_payload::infrastructure::stable::*;
+use nil_payload::request::infrastructure::stable::*;
 
 pub async fn add_recruit_order(
   State(app): State<App>,

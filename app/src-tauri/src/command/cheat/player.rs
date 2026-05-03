@@ -4,7 +4,7 @@
 use crate::error::Result;
 use crate::manager::ManagerExt;
 use nil_core::player::Player;
-use nil_payload::cheat::player::*;
+use nil_payload::request::cheat::player::*;
 use tauri::AppHandle;
 
 #[tauri::command]

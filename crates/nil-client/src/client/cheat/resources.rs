@@ -5,7 +5,7 @@ use crate::client::Client;
 use crate::error::Result;
 use crate::http;
 use nil_core::resources::Resources;
-use nil_payload::cheat::resources::*;
+use nil_payload::request::cheat::resources::*;
 
 impl Client {
   pub async fn cheat_get_resources(&self, req: CheatGetResourcesRequest) -> Result<Resources> {

@@ -5,7 +5,7 @@ use super::Client;
 use crate::error::Result;
 use crate::http;
 use nil_core::chat::{ChatHistory, ChatMessageId};
-use nil_payload::chat::*;
+use nil_payload::request::chat::*;
 
 impl Client {
   pub async fn get_chat_history(&self, req: GetChatHistoryRequest) -> Result<ChatHistory> {

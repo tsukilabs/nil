@@ -6,7 +6,7 @@ use crate::error::Result;
 use crate::http;
 use nil_core::ethic::Ethics;
 use nil_core::npc::bot::BotId;
-use nil_payload::cheat::npc::*;
+use nil_payload::request::cheat::npc::*;
 
 impl Client {
   pub async fn cheat_get_ethics(&self, req: CheatGetEthicsRequest) -> Result<Option<Ethics>> {

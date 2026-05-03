@@ -8,7 +8,7 @@ use crate::response::EitherExt;
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
 use nil_core::world::World;
-use nil_payload::cheat::player::*;
+use nil_payload::request::cheat::player::*;
 
 pub async fn get_player(
   State(app): State<App>,

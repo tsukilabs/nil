@@ -8,7 +8,7 @@ use crate::res;
 use crate::response::EitherExt;
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
-use nil_payload::military::*;
+use nil_payload::request::military::*;
 
 pub async fn request_maneuver(
   State(app): State<App>,

@@ -10,7 +10,7 @@ use nil_core::player::{Player, PlayerId};
 use nil_core::savedata::{Savedata, SavedataInfo};
 use nil_core::world::config::{WorldConfig, WorldId};
 use nil_core::world::stats::WorldStats;
-use nil_payload::world::*;
+use nil_payload::request::world::*;
 use nil_server_types::world::RemoteWorld;
 use std::path::PathBuf;
 use tap::Pipe;

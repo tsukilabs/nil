@@ -10,7 +10,7 @@ use axum::extract::ws::WebSocketUpgrade;
 use axum::extract::{Extension, Query, State};
 use axum::response::Response;
 use nil_core::world::World;
-use nil_payload::WebsocketQuery;
+use nil_payload::query::WebsocketQuery;
 
 pub async fn websocket(
   ws: WebSocketUpgrade,

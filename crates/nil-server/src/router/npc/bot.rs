@@ -8,7 +8,7 @@ use axum::extract::{Json, State};
 use axum::response::Response;
 use itertools::Itertools;
 use nil_core::npc::bot::PublicBot;
-use nil_payload::npc::bot::*;
+use nil_payload::request::npc::bot::*;
 
 pub async fn get_coords(State(app): State<App>, Json(req): Json<GetBotCoordsRequest>) -> Response {
   app

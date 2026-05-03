@@ -5,7 +5,7 @@ use crate::client::Client;
 use crate::error::Result;
 use crate::http;
 use nil_core::player::Player;
-use nil_payload::cheat::player::*;
+use nil_payload::request::cheat::player::*;
 
 impl Client {
   pub async fn cheat_get_player(&self, req: CheatGetPlayerRequest) -> Result<Player> {

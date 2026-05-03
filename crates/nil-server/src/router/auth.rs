@@ -9,7 +9,7 @@ use crate::response::from_err;
 use axum::extract::{Json, State};
 use axum::response::Response;
 use nil_core::player::PlayerId;
-use nil_payload::{AuthorizeRequest, ValidateTokenRequest};
+use nil_payload::request::{AuthorizeRequest, ValidateTokenRequest};
 use nil_server_types::ServerKind;
 use nil_server_types::auth::Token;
 

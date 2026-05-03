@@ -8,7 +8,7 @@ use crate::response::{EitherExt, from_err};
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
 use itertools::Itertools;
-use nil_payload::report::*;
+use nil_payload::request::report::*;
 use nil_util::iter::IterExt;
 
 pub async fn forward(

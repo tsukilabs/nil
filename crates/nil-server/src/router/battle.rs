@@ -6,7 +6,8 @@ use crate::res;
 use crate::response::EitherExt;
 use axum::extract::{Json, State};
 use axum::response::Response;
-use nil_payload::battle::*;
+use nil_payload::request::battle::*;
+use nil_payload::response::battle::*;
 
 pub async fn simulate(State(app): State<App>, Json(req): Json<SimulateBattleRequest>) -> Response {
   app

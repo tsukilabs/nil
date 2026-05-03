@@ -15,7 +15,7 @@ use nil_core::npc::bot::Bot;
 use nil_core::npc::precursor::Precursor;
 use nil_core::player::{Player, PlayerStatus};
 use nil_core::world::World;
-use nil_payload::world::*;
+use nil_payload::request::world::*;
 use std::sync::Arc;
 
 pub async fn get_bots(State(app): State<App>, Json(req): Json<GetWorldBotsRequest>) -> Response {

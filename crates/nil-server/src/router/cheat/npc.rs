@@ -7,7 +7,7 @@ use crate::response::EitherExt;
 use axum::extract::{Json, State};
 use axum::response::Response;
 use nil_core::ethic::Ethics;
-use nil_payload::cheat::npc::*;
+use nil_payload::request::cheat::npc::*;
 
 pub async fn get_ethics(
   State(app): State<App>,

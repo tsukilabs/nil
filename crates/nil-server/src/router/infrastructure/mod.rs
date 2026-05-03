@@ -12,7 +12,7 @@ use crate::response::from_err;
 use crate::{bail_if_city_is_not_owned_by, bail_if_player_is_not_pending, res};
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
-use nil_payload::infrastructure::*;
+use nil_payload::request::infrastructure::*;
 
 pub async fn toggle(
   State(app): State<App>,

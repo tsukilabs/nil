@@ -4,7 +4,7 @@
 use crate::error::Result;
 use crate::manager::ManagerExt;
 use nil_core::ranking::{Ranking, RankingEntry};
-use nil_payload::ranking::*;
+use nil_payload::request::ranking::*;
 use tauri::AppHandle;
 
 #[tauri::command]

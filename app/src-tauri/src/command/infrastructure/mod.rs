@@ -8,7 +8,7 @@ pub mod workshop;
 
 use crate::error::Result;
 use crate::manager::ManagerExt;
-use nil_payload::infrastructure::ToggleBuildingRequest;
+use nil_payload::request::infrastructure::ToggleBuildingRequest;
 use tauri::AppHandle;
 
 #[tauri::command]

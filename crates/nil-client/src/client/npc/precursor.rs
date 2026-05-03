@@ -6,7 +6,7 @@ use crate::error::Result;
 use crate::http;
 use nil_core::continent::Coord;
 use nil_core::npc::precursor::PublicPrecursor;
-use nil_payload::npc::precursor::*;
+use nil_payload::request::npc::precursor::*;
 
 impl Client {
   pub async fn get_precursor_coords(&self, req: GetPrecursorCoordsRequest) -> Result<Vec<Coord>> {

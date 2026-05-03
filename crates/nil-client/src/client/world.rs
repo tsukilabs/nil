@@ -9,7 +9,7 @@ use nil_core::npc::precursor::PrecursorId;
 use nil_core::player::PlayerId;
 use nil_core::world::config::{WorldConfig, WorldId};
 use nil_core::world::stats::WorldStats;
-use nil_payload::world::*;
+use nil_payload::request::world::*;
 use nil_server_types::world::RemoteWorld;
 
 impl Client {

@@ -4,7 +4,7 @@
 use super::Client;
 use crate::error::Result;
 use crate::http;
-use nil_payload::user::*;
+use nil_payload::request::user::*;
 
 impl Client {
   pub async fn create_user(&self, req: CreateUserRequest) -> Result<()> {

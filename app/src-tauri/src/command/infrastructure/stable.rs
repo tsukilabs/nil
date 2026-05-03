@@ -4,7 +4,7 @@
 use crate::error::Result;
 use crate::manager::ManagerExt;
 use nil_core::infrastructure::building::stable::recruit_catalog::StableRecruitCatalog;
-use nil_payload::infrastructure::stable::*;
+use nil_payload::request::infrastructure::stable::*;
 use tauri::AppHandle;
 
 #[tauri::command]

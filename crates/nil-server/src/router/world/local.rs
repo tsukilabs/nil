@@ -6,7 +6,7 @@ use crate::res;
 use crate::server::local;
 use axum::extract::{Json, State};
 use axum::response::Response;
-use nil_payload::world::*;
+use nil_payload::request::world::*;
 use tokio::task::spawn;
 
 pub async fn save(State(app): State<App>, Json(req): Json<SaveLocalWorldRequest>) -> Response {

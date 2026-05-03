@@ -4,7 +4,7 @@
 use crate::error::Result;
 use crate::manager::ManagerExt;
 use nil_core::infrastructure::building::prefecture::build_catalog::PrefectureBuildCatalog;
-use nil_payload::infrastructure::prefecture::*;
+use nil_payload::request::infrastructure::prefecture::*;
 use tauri::AppHandle;
 
 #[tauri::command]

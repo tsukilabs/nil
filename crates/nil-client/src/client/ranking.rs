@@ -5,7 +5,7 @@ use super::Client;
 use crate::error::Result;
 use crate::http;
 use nil_core::ranking::{Ranking, RankingEntry};
-use nil_payload::ranking::*;
+use nil_payload::request::ranking::*;
 
 impl Client {
   pub async fn get_rank(&self, req: GetRankRequest) -> Result<Option<RankingEntry>> {

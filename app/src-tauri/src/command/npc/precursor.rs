@@ -5,7 +5,7 @@ use crate::error::Result;
 use crate::manager::ManagerExt;
 use nil_core::continent::Coord;
 use nil_core::npc::precursor::PublicPrecursor;
-use nil_payload::npc::precursor::*;
+use nil_payload::request::npc::precursor::*;
 use tauri::AppHandle;
 
 #[tauri::command]

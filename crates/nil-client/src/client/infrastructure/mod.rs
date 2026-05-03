@@ -9,7 +9,7 @@ mod workshop;
 use crate::client::Client;
 use crate::error::Result;
 use crate::http;
-use nil_payload::infrastructure::*;
+use nil_payload::request::infrastructure::*;
 
 impl Client {
   pub async fn toggle_building(&self, req: ToggleBuildingRequest) -> Result<()> {

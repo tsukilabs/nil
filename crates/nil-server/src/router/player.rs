@@ -11,7 +11,7 @@ use axum::response::Response;
 use either::Either;
 use itertools::Itertools;
 use nil_core::player::{Player, PublicPlayer};
-use nil_payload::player::*;
+use nil_payload::request::player::*;
 
 pub async fn exists(State(app): State<App>, Json(req): Json<PlayerExistsRequest>) -> Response {
   app

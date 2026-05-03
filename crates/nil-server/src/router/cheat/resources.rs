@@ -8,7 +8,7 @@ use crate::response::EitherExt;
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
 use nil_core::ruler::Ruler;
-use nil_payload::cheat::resources::*;
+use nil_payload::request::cheat::resources::*;
 
 pub async fn get_resources(
   State(app): State<App>,

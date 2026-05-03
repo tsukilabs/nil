@@ -10,7 +10,8 @@ use axum::extract::{Extension, Json, State};
 use axum::response::Response;
 use itertools::Itertools;
 use nil_core::city::{City, PublicCity};
-use nil_payload::city::*;
+use nil_payload::request::city::*;
+use nil_payload::response::city::*;
 use tap::Pipe;
 
 pub async fn get_city(

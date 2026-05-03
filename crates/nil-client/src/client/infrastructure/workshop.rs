@@ -5,7 +5,7 @@ use crate::client::Client;
 use crate::error::Result;
 use crate::http;
 use nil_core::infrastructure::building::workshop::recruit_catalog::WorkshopRecruitCatalog;
-use nil_payload::infrastructure::workshop::*;
+use nil_payload::request::infrastructure::workshop::*;
 
 impl Client {
   pub async fn add_workshop_recruit_order(

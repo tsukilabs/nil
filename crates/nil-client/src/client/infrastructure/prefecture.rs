@@ -5,7 +5,7 @@ use crate::client::Client;
 use crate::error::Result;
 use crate::http;
 use nil_core::infrastructure::building::prefecture::build_catalog::PrefectureBuildCatalog;
-use nil_payload::infrastructure::prefecture::*;
+use nil_payload::request::infrastructure::prefecture::*;
 
 impl Client {
   pub async fn add_prefecture_build_order(

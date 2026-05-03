@@ -4,7 +4,8 @@
 use super::Client;
 use crate::error::Result;
 use crate::http;
-use nil_payload::battle::*;
+use nil_payload::request::battle::*;
+use nil_payload::response::battle::*;
 
 impl Client {
   pub async fn simulate_battle(

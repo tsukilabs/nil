@@ -6,7 +6,7 @@ use crate::manager::ManagerExt;
 use nil_client::ServerAddr;
 use nil_core::player::PlayerId;
 use nil_core::world::WorldOptions;
-use nil_payload::{AuthorizeRequest, ValidateTokenRequest};
+use nil_payload::request::{AuthorizeRequest, ValidateTokenRequest};
 use nil_server::local::LocalServer;
 use nil_server_types::ServerKind;
 use nil_server_types::auth::Token;

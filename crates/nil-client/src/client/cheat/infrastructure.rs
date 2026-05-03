@@ -10,7 +10,7 @@ use nil_core::infrastructure::building::academy::recruit_queue::AcademyRecruitQu
 use nil_core::infrastructure::building::prefecture::build_queue::PrefectureBuildQueue;
 use nil_core::infrastructure::building::stable::recruit_queue::StableRecruitQueue;
 use nil_core::infrastructure::storage::OverallStorageCapacity;
-use nil_payload::cheat::infrastructure::*;
+use nil_payload::request::cheat::infrastructure::*;
 
 impl Client {
   pub async fn cheat_get_academy_recruit_queue(

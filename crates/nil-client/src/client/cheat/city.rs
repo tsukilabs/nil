@@ -4,7 +4,7 @@
 use crate::client::Client;
 use crate::error::Result;
 use crate::http;
-use nil_payload::cheat::city::*;
+use nil_payload::request::cheat::city::*;
 
 impl Client {
   pub async fn cheat_set_stability(&self, req: CheatSetStabilityRequest) -> Result<()> {

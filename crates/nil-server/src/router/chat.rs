@@ -8,7 +8,7 @@ use crate::response::EitherExt;
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
 use nil_core::chat::Chat;
-use nil_payload::chat::*;
+use nil_payload::request::chat::*;
 
 pub async fn get(State(app): State<App>, Json(req): Json<GetChatHistoryRequest>) -> Response {
   app

@@ -6,7 +6,7 @@ use crate::res;
 use crate::response::from_err;
 use axum::extract::{Json, State};
 use axum::response::Response;
-use nil_payload::user::*;
+use nil_payload::request::user::*;
 use nil_server_database::model::user::NewUser;
 
 pub async fn create(State(app): State<App>, Json(req): Json<CreateUserRequest>) -> Response {

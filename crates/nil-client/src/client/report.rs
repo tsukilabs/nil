@@ -5,7 +5,7 @@ use super::Client;
 use crate::error::Result;
 use crate::http;
 use nil_core::report::ReportKind;
-use nil_payload::report::*;
+use nil_payload::request::report::*;
 
 impl Client {
   pub async fn forward_report(&self, req: ForwardReportRequest) -> Result<()> {

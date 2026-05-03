@@ -11,7 +11,7 @@ use nil_core::player::{Player, PlayerId, PlayerStatus, PublicPlayer};
 use nil_core::report::ReportId;
 use nil_core::resources::maintenance::Maintenance;
 use nil_core::world::config::WorldId;
-use nil_payload::player::*;
+use nil_payload::request::player::*;
 
 impl Client {
   pub async fn get_player(&self, req: GetPlayerRequest) -> Result<Player> {

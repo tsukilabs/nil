@@ -5,7 +5,7 @@ use crate::error::Result;
 use crate::manager::ManagerExt;
 use nil_core::military::army::Army;
 use nil_core::military::army::personnel::ArmyPersonnel;
-use nil_payload::cheat::military::*;
+use nil_payload::request::cheat::military::*;
 use tauri::AppHandle;
 
 #[tauri::command]

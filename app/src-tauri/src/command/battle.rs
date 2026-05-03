@@ -3,7 +3,8 @@
 
 use crate::error::Result;
 use crate::manager::ManagerExt;
-use nil_payload::battle::*;
+use nil_payload::request::battle::*;
+use nil_payload::response::battle::*;
 use tauri::AppHandle;
 
 #[tauri::command]

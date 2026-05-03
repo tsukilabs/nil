@@ -4,7 +4,7 @@
 use crate::error::Result;
 use crate::manager::ManagerExt;
 use nil_core::chat::{ChatHistory, ChatMessageId};
-use nil_payload::chat::*;
+use nil_payload::request::chat::*;
 use tauri::AppHandle;
 
 #[tauri::command]

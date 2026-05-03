@@ -5,7 +5,7 @@ use super::Client;
 use crate::error::Result;
 use crate::http;
 use nil_core::round::Round;
-use nil_payload::round::*;
+use nil_payload::request::round::*;
 
 impl Client {
   pub async fn get_round(&self, req: GetRoundRequest) -> Result<Round> {

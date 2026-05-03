@@ -3,7 +3,7 @@
 
 use crate::error::Result;
 use crate::manager::ManagerExt;
-use nil_payload::user::*;
+use nil_payload::request::user::*;
 use tauri::AppHandle;
 
 #[tauri::command]

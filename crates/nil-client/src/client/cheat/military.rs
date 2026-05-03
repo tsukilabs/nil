@@ -6,7 +6,7 @@ use crate::error::Result;
 use crate::http;
 use nil_core::military::army::Army;
 use nil_core::military::army::personnel::ArmyPersonnel;
-use nil_payload::cheat::military::*;
+use nil_payload::request::cheat::military::*;
 
 impl Client {
   pub async fn cheat_get_idle_armies_at(

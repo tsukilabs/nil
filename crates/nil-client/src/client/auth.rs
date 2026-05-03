@@ -6,7 +6,7 @@ use crate::error::Result;
 use crate::http;
 use crate::retry::Retry;
 use nil_core::player::PlayerId;
-use nil_payload::{AuthorizeRequest, ValidateTokenRequest};
+use nil_payload::request::{AuthorizeRequest, ValidateTokenRequest};
 use nil_server_types::auth::Token;
 use std::num::NonZeroU8;
 

@@ -7,7 +7,7 @@ use crate::response::{EitherExt, from_err};
 use axum::extract::{Json, State};
 use axum::response::Response;
 use nil_core::continent::{Continent, PublicField};
-use nil_payload::continent::*;
+use nil_payload::request::continent::*;
 
 pub async fn get_public_field(
   State(app): State<App>,

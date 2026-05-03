@@ -5,7 +5,7 @@ use crate::client::Client;
 use crate::error::Result;
 use crate::http;
 use nil_core::infrastructure::building::academy::recruit_catalog::AcademyRecruitCatalog;
-use nil_payload::infrastructure::academy::*;
+use nil_payload::request::infrastructure::academy::*;
 
 impl Client {
   pub async fn add_academy_recruit_order(&self, req: AddAcademyRecruitOrderRequest) -> Result<()> {
