@@ -7,8 +7,8 @@ use nil_client::ServerAddr;
 use nil_core::player::PlayerId;
 use nil_core::world::WorldOptions;
 use nil_payload::request::{AuthorizeRequest, ValidateTokenRequest};
+use nil_payload::response::GetServerKindResponse;
 use nil_server::local::LocalServer;
-use nil_server_types::ServerKind;
 use nil_server_types::auth::Token;
 use std::path::PathBuf;
 use tauri::AppHandle;
@@ -27,7 +27,7 @@ pub async fn get_server_addr(app: AppHandle) -> ServerAddr {
 }
 
 #[tauri::command]
-pub async fn get_server_kind(app: AppHandle) -> Result<ServerKind> {
+pub async fn get_server_kind(app: AppHandle) -> Result<GetServerKindResponse> {
   app
     .client(async |cl| cl.get_server_kind().await)
     .await

@@ -34,6 +34,7 @@ use nil_core::world::config::WorldId;
 use nil_crypto::password::Password;
 use nil_payload::request::AuthorizeRequest;
 use nil_payload::request::world::LeaveRequest;
+use nil_payload::response::GetServerKindResponse;
 use nil_server_types::ServerKind;
 use nil_server_types::auth::Token;
 use std::borrow::Cow;
@@ -120,7 +121,7 @@ impl Client {
 
     if self.world_id.is_none()
       && self.server.is_local()
-      && let ServerKind::Local { id } = self.get_server_kind().await?
+      && let ServerKind::Local { id } = self.get_server_kind().await?.0
     {
       self.world_id = Some(id);
     }
@@ -206,7 +207,7 @@ impl Client {
     Arc::downgrade(&self.circuit_breaker)
   }
 
-  pub async fn get_server_kind(&self) -> Result<ServerKind> {
+  pub async fn get_server_kind(&self) -> Result<GetServerKindResponse> {
     http::json_get("get-server-kind")
       .server(self.server)
       .retry(&self.retry)

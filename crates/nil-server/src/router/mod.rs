@@ -23,11 +23,12 @@ mod world;
 use crate::app::App;
 use crate::middleware::authorization::authorization;
 use crate::res;
-use axum::extract::{Json, State};
+use axum::extract::State;
 use axum::http::{Method, StatusCode};
 use axum::response::{Redirect, Response};
 use axum::routing::{any, get, post, put};
 use axum::{Router, middleware};
+use nil_payload::response::GetServerKindResponse;
 use tower_http::cors::{Any, CorsLayer};
 use tower_http::trace::{
   DefaultMakeSpan,
@@ -200,7 +201,7 @@ async fn robots_txt() -> &'static str {
 }
 
 async fn server_kind(State(app): State<App>) -> Response {
-  res!(OK, Json(app.server_kind()))
+  res!(OK, GetServerKindResponse(app.server_kind()))
 }
 
 async fn version() -> &'static str {

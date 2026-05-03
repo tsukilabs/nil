@@ -5,7 +5,8 @@ import type { Option } from '@tb-dev/utils';
 import { invoke } from '@tauri-apps/api/core';
 import type { PlayerId } from '@/types/core/player';
 import type { WorldOptions } from '@/types/core/world';
-import type { LocalServer, ServerAddr, ServerKind } from '@/types/server';
+import type { GetServerKindResponse } from '@/types/response';
+import type { LocalServer, ServerAddr } from '@/types/server';
 import type { AuthorizeRequest, ValidateTokenRequest } from '@/types/request';
 
 export async function authorize(player: PlayerId, password: Option<string>) {
@@ -23,7 +24,7 @@ export async function getServerAddr() {
 }
 
 export async function getServerKind() {
-  return invoke<ServerKind>('get_server_kind');
+  return invoke<GetServerKindResponse>('get_server_kind');
 }
 
 export async function getServerVersion() {
