@@ -23,10 +23,17 @@ targets = []
 workspace = true
 
 [dependencies]
-axum.workspace = true
 bon.workspace = true
 nil-core.workspace = true
 nil-crypto.workspace = true
 nil-payload-macros.workspace = true
 nil-server-types.workspace = true
 serde.workspace = true
+
+[dependencies.axum]
+workspace = true
+optional = true
+
+[features]
+default = []
+axum = ["dep:axum"]

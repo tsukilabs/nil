@@ -42,7 +42,6 @@ mimalloc.workspace = true
 nil-core.workspace = true
 nil-crypto.workspace = true
 nil-log.workspace = true
-nil-payload.workspace = true
 nil-server-database.workspace = true
 nil-server-types.workspace = true
 nil-util.workspace = true
@@ -57,3 +56,7 @@ tower.workspace = true
 tower-http.workspace = true
 tracing.workspace = true
 uuid.workspace = true
+
+[dependencies.nil-payload]
+workspace = true
+features = ["axum"]
