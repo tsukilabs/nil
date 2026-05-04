@@ -99,7 +99,7 @@ pub async fn get_military(
   app
     .world(req.world, |world| world.get_player_military(&player))
     .await
-    .try_map_left(|military| res!(OK, Json(military)))
+    .try_map_left(|military| res!(OK, GetPlayerMilitaryResponse(military)))
     .into_inner()
 }
 
@@ -111,7 +111,7 @@ pub async fn get_reports(
   app
     .world(req.world, |world| world.get_player_reports(&player))
     .await
-    .map_left(|reports| res!(OK, Json(reports)))
+    .map_left(|reports| res!(OK, GetPlayerReportsResponse(reports)))
     .into_inner()
 }
 
@@ -122,7 +122,7 @@ pub async fn get_status(
   app
     .player_manager(req.world, |pm| pm.player(&req.id).map(Player::status))
     .await
-    .try_map_left(|status| res!(OK, Json(status)))
+    .try_map_left(|status| res!(OK, GetPlayerStatusResponse(status)))
     .into_inner()
 }
 
@@ -134,7 +134,7 @@ pub async fn get_storage_capacity(
   app
     .world(req.world, |world| world.get_storage_capacity(player.0))
     .await
-    .try_map_left(|capacity| res!(OK, Json(capacity)))
+    .try_map_left(|capacity| res!(OK, GetPlayerStorageCapacityResponse(capacity)))
     .into_inner()
 }
 
@@ -153,7 +153,7 @@ pub async fn get_worlds(
     }
   }
 
-  res!(OK, Json(worlds))
+  res!(OK, GetPlayerWorldsResponse(worlds))
 }
 
 pub async fn set_status(
