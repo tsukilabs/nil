@@ -9,6 +9,7 @@ use axum::extract::{Extension, Json, State};
 use axum::response::Response;
 use nil_core::ruler::Ruler;
 use nil_payload::request::cheat::resources::*;
+use nil_payload::response::cheat::resources::*;
 
 pub async fn get_resources(
   State(app): State<App>,
@@ -22,7 +23,7 @@ pub async fn get_resources(
   app
     .world(req.world, |world| world.cheat_get_resources(&ruler))
     .await
-    .try_map_left(|resources| res!(OK, Json(resources)))
+    .try_map_left(|resources| res!(OK, CheatGetResourcesResponse(resources)))
     .into_inner()
 }
 

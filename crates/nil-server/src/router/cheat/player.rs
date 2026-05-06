@@ -9,6 +9,7 @@ use axum::extract::{Extension, Json, State};
 use axum::response::Response;
 use nil_core::world::World;
 use nil_payload::request::cheat::player::*;
+use nil_payload::response::cheat::player::*;
 
 pub async fn get_player(
   State(app): State<App>,
@@ -19,7 +20,7 @@ pub async fn get_player(
   app
     .world(req.world, |world| world.cheat_get_player(&player))
     .await
-    .try_map_left(|player| res!(OK, Json(player)))
+    .try_map_left(|player| res!(OK, CheatGetPlayerResponse(player)))
     .into_inner()
 }
 
@@ -30,6 +31,6 @@ pub async fn get_players(
   app
     .world(req.world, World::cheat_get_players)
     .await
-    .try_map_left(|players| res!(OK, Json(players)))
+    .try_map_left(|players| res!(OK, CheatGetPlayersResponse(players)))
     .into_inner()
 }

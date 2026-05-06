@@ -42,7 +42,7 @@ fn main() -> Result<()> {
   let mut index = String::new();
 
   for file in files {
-    writeln!(index, "export type {{ {file} }} from './{file}'")?;
+    writeln!(index, "export type {{ {file} }} from './{file}';")?;
   }
 
   let path = Path::new(&dir).join("index.ts");
