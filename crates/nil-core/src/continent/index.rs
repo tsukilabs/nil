@@ -6,10 +6,25 @@ use crate::error::{Error, Result};
 use derive_more::{Deref, Display, From, Into};
 use nil_num::BigIntUsize;
 use std::ops::{Div, Rem};
+use ts_rs::TS;
 
 #[derive(
-  Clone, Copy, Debug, Deref, Display, From, Into, PartialEq, Eq, PartialOrd, Ord, Hash, BigIntUsize,
+  Clone,
+  Copy,
+  Debug,
+  Deref,
+  Display,
+  From,
+  Into,
+  PartialEq,
+  Eq,
+  PartialOrd,
+  Ord,
+  Hash,
+  BigIntUsize,
+  TS,
 )]
+#[ts(as = "String")]
 pub struct ContinentIndex(usize);
 
 impl ContinentIndex {

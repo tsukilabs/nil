@@ -14,50 +14,62 @@ use ts_rs::TS;
 #[cfg(feature = "axum")]
 use nil_payload_macros::IntoJsonResponse;
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, TS)]
 #[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
+#[ts(export)]
 pub struct GetPlayerCoordsResponse(pub Vec<Coord>);
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, TS)]
 #[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
+#[ts(export)]
 pub struct GetPlayerIdsResponse(pub Vec<PlayerId>);
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, TS)]
 #[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
+#[ts(export)]
 pub struct GetPlayerMaintenanceResponse(pub Maintenance);
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, TS)]
 #[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
+#[ts(export)]
 pub struct GetPlayerMilitaryResponse(pub Military);
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, TS)]
 #[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
+#[ts(export)]
 pub struct GetPlayerReportsResponse(pub Vec<ReportId>);
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, TS)]
 #[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
+#[ts(export)]
 pub struct GetPlayerResponse(pub Player);
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, TS)]
 #[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
+#[ts(export)]
 pub struct GetPlayerStatusResponse(pub PlayerStatus);
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, TS)]
 #[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
+#[ts(export)]
 pub struct GetPlayerStorageCapacityResponse(pub OverallStorageCapacity);
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, TS)]
 #[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
+#[ts(export)]
 pub struct GetPlayerWorldsResponse(pub Vec<WorldId>);
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, TS)]
 #[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
+#[ts(export)]
 pub struct GetPublicPlayerResponse(pub PublicPlayer);
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, TS)]
 #[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
+#[ts(export)]
 pub struct GetPublicPlayersResponse(pub Vec<PublicPlayer>);
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, TS)]
 #[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
+#[ts(export)]
 pub struct PlayerExistsResponse(pub bool);

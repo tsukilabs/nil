@@ -8,14 +8,17 @@ use ts_rs::TS;
 #[cfg(feature = "axum")]
 use nil_payload_macros::IntoJsonResponse;
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, TS)]
 #[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
+#[ts(export)]
 pub struct GetContinentSizeResponse(pub ContinentSize);
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, TS)]
 #[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
+#[ts(export)]
 pub struct GetPublicFieldResponse(pub PublicField);
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, TS)]
 #[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
+#[ts(export)]
 pub struct GetPublicFieldsResponse(pub Vec<(Coord, PublicField)>);

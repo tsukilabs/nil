@@ -8,10 +8,12 @@ use ts_rs::TS;
 #[cfg(feature = "axum")]
 use nil_payload_macros::IntoJsonResponse;
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, TS)]
 #[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
+#[ts(export)]
 pub struct GetChatHistoryResponse(pub ChatHistory);
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, TS)]
 #[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
+#[ts(export)]
 pub struct PushChatMessageResponse(pub ChatMessageId);

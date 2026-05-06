@@ -22,8 +22,9 @@ use serde::{Deserialize, Serialize};
 use squad::Squad;
 use std::collections::HashMap;
 use tap::Pipe;
+use ts_rs::TS;
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, TS)]
 #[serde(rename_all = "camelCase")]
 pub struct Military {
   continent: HashMap<ContinentIndex, Vec<Army>>,

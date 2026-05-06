@@ -13,8 +13,9 @@ pub mod world;
 use nil_core::world::config::WorldId;
 use serde::{Deserialize, Serialize};
 use strum::EnumIs;
+use ts_rs::TS;
 
-#[derive(Clone, Copy, Debug, EnumIs, Deserialize, Serialize)]
+#[derive(Clone, Copy, Debug, EnumIs, Deserialize, Serialize, TS)]
 #[serde(tag = "kind", rename_all = "kebab-case")]
 pub enum ServerKind {
   Local { id: WorldId },

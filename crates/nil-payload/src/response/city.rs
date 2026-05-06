@@ -12,21 +12,25 @@ use ts_rs::TS;
 #[cfg(feature = "axum")]
 use nil_payload_macros::IntoJsonResponse;
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, TS)]
 #[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
+#[ts(export)]
 pub struct GetCityResponse(pub City);
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, TS)]
 #[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
+#[ts(export)]
 pub struct GetCityScoreResponse(pub Score);
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, TS)]
 #[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
+#[ts(export)]
 pub struct GetPublicCitiesResponse(pub Vec<GetPublicCityResponse>);
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, TS)]
 #[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
 #[serde(rename_all = "camelCase")]
+#[ts(export)]
 pub struct GetPublicCityResponse {
   pub city: PublicCity,
   pub score: Option<Score>,
@@ -49,10 +53,12 @@ impl GetPublicCityResponse {
   }
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, TS)]
 #[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
+#[ts(export)]
 pub struct SearchCityResponse(pub Vec<City>);
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, TS)]
 #[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
+#[ts(export)]
 pub struct SearchPublicCityResponse(pub Vec<PublicCity>);
