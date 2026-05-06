@@ -35,7 +35,7 @@ import type {
   CheatGetStorageCapacityRequest,
   CheatSetBuildingLevelRequest,
   CheatSetMaxInfrastructureRequest,
-} from '@/types/request/cheat/infrastructure';
+} from '@/types/bindings';
 
 export async function cheatGetAcademyRecruitQueue(coord?: Option<ContinentKey>) {
   coord = CoordImpl.fromContinentKeyOrCurrentStrict(coord);

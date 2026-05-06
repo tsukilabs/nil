@@ -3,16 +3,14 @@
 
 import { invoke } from '@tauri-apps/api/core';
 import { isValidPassword } from '@/lib/schema';
-import type { BotId } from '@/types/core/npc/bot';
 import type { RemoteWorld } from '@/types/server';
 import type { SavedataInfo } from '@/core/savedata';
 import type { PlayerId } from '@/types/core/player';
 import type { Option, Writable } from '@tb-dev/utils';
 import { WorldConfigImpl } from '@/core/model/world-config';
-import type { PrecursorId } from '@/types/core/npc/precursor';
-import type { WorldConfig, WorldId } from '@/types/core/world';
 import { type RawWorldStats, WorldStatsImpl } from '@/core/model/stats/world-stats';
 import type {
+  BotId,
   CreateRemoteWorldRequest,
   DeleteRemoteWorldRequest,
   GetRemoteWorldRequest,
@@ -21,8 +19,11 @@ import type {
   GetWorldPlayersRequest,
   GetWorldPrecursorsRequest,
   GetWorldStatsRequest,
+  PrecursorId,
   SaveLocalWorldRequest,
-} from '@/types/request/world';
+  WorldConfig,
+  WorldId,
+} from '@/types/bindings';
 
 export async function createRemoteWorld(req: Writable<CreateRemoteWorldRequest>) {
   req.description &&= req.description.slice(0, 300);

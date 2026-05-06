@@ -25,7 +25,7 @@ const isPlayerTurn = usePlayerTurn();
 
 const { origin, destination } = useWarRoomCoords();
 const destinationCity = asyncComputed(null, async () => {
-  const search = { coord: [destination.value] };
+  const search = { coord: [destination.value.toJSON()] };
   const city = await commands.searchPublicCity(search);
   return city.at(0) ?? null;
 });

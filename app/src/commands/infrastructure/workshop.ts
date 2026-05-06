@@ -12,7 +12,7 @@ import type {
   AddWorkshopRecruitOrderRequest,
   CancelWorkshopRecruitOrderRequest,
   GetWorkshopRecruitCatalogRequest,
-} from '@/types/request/infrastructure/workshop';
+} from '@/types/bindings';
 
 export async function addWorkshopRecruitOrder(request: WorkshopRecruitOrderRequest) {
   const req: AddWorkshopRecruitOrderRequest = {

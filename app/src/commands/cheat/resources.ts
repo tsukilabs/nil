@@ -26,7 +26,7 @@ import type {
   CheatSetResourcesRequest,
   CheatSetStoneRequest,
   CheatSetWoodRequest,
-} from '@/types/request/cheat/resources';
+} from '@/types/bindings';
 
 export async function cheatGetResources(ruler?: Option<Ruler>) {
   const req: CheatGetResourcesRequest = {

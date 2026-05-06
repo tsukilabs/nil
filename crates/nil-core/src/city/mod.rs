@@ -205,10 +205,14 @@ impl From<&City> for PublicCity {
 
 #[derive(Builder, Clone, Debug, Default, Deserialize, Serialize, TS)]
 #[serde(default, rename_all = "camelCase")]
+#[ts(optional_fields)]
 pub struct CitySearch {
   #[builder(default, with = FromIterator::from_iter)]
+  #[ts(as = "Option<Vec<Coord>>")]
   pub coord: Vec<Coord>,
+
   #[builder(default, with = FromIterator::from_iter)]
+  #[ts(as = "Option<Vec<CityName>>")]
   pub name: Vec<CityName>,
 }
 

@@ -8,7 +8,7 @@ import type {
   GetPrecursorCoordsRequest,
   GetPublicPrecursorRequest,
   GetPublicPrecursorsRequest,
-} from '@/types/request/npc/precursor';
+} from '@/types/bindings';
 
 export async function getPrecursorCoords(id: PrecursorId) {
   const req: GetPrecursorCoordsRequest = {

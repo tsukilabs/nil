@@ -7,6 +7,7 @@ use nil_core::error::Error as CoreError;
 use nil_core::ranking::score::Score;
 use nil_core::world::World;
 use serde::{Deserialize, Serialize};
+use ts_rs::TS;
 
 #[cfg(feature = "axum")]
 use nil_payload_macros::IntoJsonResponse;

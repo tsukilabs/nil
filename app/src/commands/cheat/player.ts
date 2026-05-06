@@ -4,7 +4,7 @@
 import type { Option } from '@tb-dev/utils';
 import { invoke } from '@tauri-apps/api/core';
 import type { Player, PlayerId } from '@/types/core/player';
-import type { CheatGetPlayerRequest, CheatGetPlayersRequest } from '@/types/request/cheat/player';
+import type { CheatGetPlayerRequest, CheatGetPlayersRequest } from '@/types/bindings';
 
 export async function cheatGetPlayer(player?: Option<PlayerId>) {
   const req: CheatGetPlayerRequest = {

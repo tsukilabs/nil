@@ -15,7 +15,7 @@ import type {
   CheatGetIdleArmiesAtRequest,
   CheatGetIdlePersonnelAtRequest,
   CheatSpawnPersonnelRequest,
-} from '@/types/request/cheat/military';
+} from '@/types/bindings';
 
 export async function cheatGetIdleArmiesAt(coord?: Option<ContinentKey>) {
   coord = CoordImpl.fromContinentKeyOrCurrentStrict(coord);

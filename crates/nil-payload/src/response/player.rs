@@ -9,6 +9,7 @@ use nil_core::report::ReportId;
 use nil_core::resources::maintenance::Maintenance;
 use nil_core::world::config::WorldId;
 use serde::{Deserialize, Serialize};
+use ts_rs::TS;
 
 #[cfg(feature = "axum")]
 use nil_payload_macros::IntoJsonResponse;

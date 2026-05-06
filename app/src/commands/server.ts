@@ -7,7 +7,7 @@ import type { PlayerId } from '@/types/core/player';
 import type { WorldOptions } from '@/types/core/world';
 import type { GetServerKindResponse } from '@/types/response';
 import type { LocalServer, ServerAddr } from '@/types/server';
-import type { AuthorizeRequest, ValidateTokenRequest } from '@/types/request';
+import type { AuthorizeRequest, ValidateTokenRequest } from '@/types/bindings';
 
 export async function authorize(player: PlayerId, password: Option<string>) {
   const req: AuthorizeRequest = { player, password };

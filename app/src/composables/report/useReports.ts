@@ -18,7 +18,7 @@ type CityCache = Map<ContinentIndex, MaybePromise<PublicCity>>;
 export function useReports(ids: Ref<readonly ReportId[]>) {
   const { state, loading, load } = asyncRef<ReportImpl[]>([], async () => {
     if (ids.value.length > 0) {
-      const reports = await commands.getReports(ids.value);
+      const reports = await commands.getReports(ids.value as ReportId[]);
       const cityCache: CityCache = new Map();
       return Promise.all(reports.map((report) => {
         return toReportImpl(report, cityCache);

@@ -20,6 +20,7 @@ use nil_core::player::PlayerId;
 use nil_server_types::ServerKind;
 use nil_server_types::auth::Token;
 use serde::{Deserialize, Serialize};
+use ts_rs::TS;
 
 #[cfg(feature = "axum")]
 use nil_payload_macros::IntoJsonResponse;

@@ -11,7 +11,7 @@ import type {
   AddPrefectureBuildOrderRequest,
   CancelPrefectureBuildOrderRequest,
   GetPrefectureBuildCatalogRequest,
-} from '@/types/request/infrastructure/prefecture';
+} from '@/types/bindings';
 
 export async function addPrefectureBuildOrder(request: PrefectureBuildOrderRequest) {
   const req: AddPrefectureBuildOrderRequest = {

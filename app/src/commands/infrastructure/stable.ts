@@ -12,7 +12,7 @@ import type {
   AddStableRecruitOrderRequest,
   CancelStableRecruitOrderRequest,
   GetStableRecruitCatalogRequest,
-} from '@/types/request/infrastructure/stable';
+} from '@/types/bindings';
 
 export async function addStableRecruitOrder(request: StableRecruitOrderRequest) {
   const req: AddStableRecruitOrderRequest = {

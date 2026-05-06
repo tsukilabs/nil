@@ -2,15 +2,16 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { invoke } from '@tauri-apps/api/core';
-import type { PlayerId } from '@/types/core/player';
-import type { ReportId, ReportKind } from '@/types/core/report';
-import { type MaybeReadonlyArray, type Option, toArray } from '@tb-dev/utils';
+import type { ReportKind } from '@/types/core/report';
+import { type MaybeArray, type Option, toArray } from '@tb-dev/utils';
 import type {
   ForwardReportRequest,
   GetReportRequest,
   GetReportsRequest,
+  PlayerId,
   RemoveReportRequest,
-} from '@/types/request/report';
+  ReportId,
+} from '@/types/bindings';
 
 export async function forwardReport(id: ReportId, recipient: PlayerId) {
   const req: ForwardReportRequest = {
@@ -31,7 +32,7 @@ export async function getReport(id: ReportId) {
   return invoke<ReportKind>('get_report', { req });
 }
 
-export async function getReports(ids: MaybeReadonlyArray<ReportId>, limit?: Option<number>) {
+export async function getReports(ids: MaybeArray<ReportId>, limit?: Option<number>) {
   ids = toArray(ids as ReportId[]);
   limit ??= null;
 
@@ -41,7 +42,7 @@ export async function getReports(ids: MaybeReadonlyArray<ReportId>, limit?: Opti
     limit,
   };
 
-  return invoke<readonly ReportKind[]>('get_reports', { req });
+  return invoke<ReportKind[]>('get_reports', { req });
 }
 
 export async function removeReport(id: ReportId) {

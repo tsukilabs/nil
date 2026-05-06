@@ -2,4 +2,4 @@
 import type { CityName } from "./CityName";
 import type { Coord } from "./Coord";
 
-export type CitySearch = { coord: Array<Coord>, name: Array<CityName>, };
+export type CitySearch = { coord?: Array<Coord>, name?: Array<CityName>, };

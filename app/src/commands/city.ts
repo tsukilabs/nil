@@ -5,9 +5,10 @@ import type { Option } from '@tb-dev/utils';
 import { invoke } from '@tauri-apps/api/core';
 import { CoordImpl } from '@/core/model/continent/coord';
 import type { City, PublicCity } from '@/types/core/city';
+import type { ContinentKey } from '@/types/core/continent';
 import type { GetPublicCityResponse } from '@/types/response/city';
-import type { CitySearch, ContinentKey } from '@/types/core/continent';
 import type {
+  CitySearch,
   GetCityRequest,
   GetCityScoreRequest,
   GetPublicCitiesRequest,
@@ -15,7 +16,7 @@ import type {
   RenameCityRequest,
   SearchCityRequest,
   SearchPublicCityRequest,
-} from '@/types/request/city';
+} from '@/types/bindings';
 
 export async function getCity(coord: ContinentKey) {
   coord = CoordImpl.fromContinentKey(coord);

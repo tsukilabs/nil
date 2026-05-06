@@ -8,7 +8,7 @@ import type {
   GetBotCoordsRequest,
   GetPublicBotRequest,
   GetPublicBotsRequest,
-} from '@/types/request/npc/bot';
+} from '@/types/bindings';
 
 export async function getBotCoords(id: BotId) {
   const req: GetBotCoordsRequest = {

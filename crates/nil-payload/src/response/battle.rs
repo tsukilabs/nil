@@ -3,6 +3,7 @@
 
 use nil_core::battle::BattleResult;
 use serde::{Deserialize, Serialize};
+use ts_rs::TS;
 
 #[cfg(feature = "axum")]
 use nil_payload_macros::IntoJsonResponse;

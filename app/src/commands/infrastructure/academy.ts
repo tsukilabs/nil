@@ -12,7 +12,7 @@ import type {
   AddAcademyRecruitOrderRequest,
   CancelAcademyRecruitOrderRequest,
   GetAcademyRecruitCatalogRequest,
-} from '@/types/request/infrastructure/academy';
+} from '@/types/bindings';
 
 export async function addAcademyRecruitOrder(request: AcademyRecruitOrderRequest) {
   const req: AddAcademyRecruitOrderRequest = {

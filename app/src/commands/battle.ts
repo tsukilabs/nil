@@ -8,13 +8,13 @@ import { invoke } from '@tauri-apps/api/core';
 import type { Luck } from '@/types/core/battle';
 import { SquadImpl } from '@/core/model/military/squad';
 import type { Squad } from '@/types/core/military/squad';
-import type { SimulateBattleRequest } from '@/types/request/battle';
+import type { SimulateBattleRequest } from '@/types/bindings';
 import type { SimulateBattleResponse } from '@/types/response/battle';
 import type { BuildingLevel } from '@/types/core/infrastructure/building';
 
 export async function simulateBattle(args: {
-  attacker?: Option<readonly Squad[]>;
-  defender?: Option<readonly Squad[]>;
+  attacker?: Option<Squad[]>;
+  defender?: Option<Squad[]>;
   luck?: Option<Luck>;
   wall?: Option<BuildingLevel>;
 }) {

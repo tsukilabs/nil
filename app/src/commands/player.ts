@@ -30,7 +30,7 @@ import type {
   PlayerExistsRequest,
   SetPlayerStatusRequest,
   SpawnPlayerRequest,
-} from '@/types/request/player';
+} from '@/types/bindings';
 
 export async function getPlayer() {
   const req: GetPlayerRequest = {

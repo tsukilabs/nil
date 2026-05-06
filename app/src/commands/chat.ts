@@ -3,7 +3,7 @@
 
 import { invoke } from '@tauri-apps/api/core';
 import type { ChatHistory, ChatMessageId } from '@/types/core/chat';
-import type { GetChatHistoryRequest, PushChatMessageRequest } from '@/types/request/chat';
+import type { GetChatHistoryRequest, PushChatMessageRequest } from '@/types/bindings';
 
 export async function getChatHistory() {
   const req: GetChatHistoryRequest = {
