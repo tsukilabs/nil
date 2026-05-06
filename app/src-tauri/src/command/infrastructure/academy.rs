@@ -3,8 +3,8 @@
 
 use crate::error::Result;
 use crate::manager::ManagerExt;
-use nil_core::infrastructure::building::academy::recruit_catalog::AcademyRecruitCatalog;
 use nil_payload::request::infrastructure::academy::*;
+use nil_payload::response::infrastructure::academy::*;
 use tauri::AppHandle;
 
 #[tauri::command]
@@ -33,7 +33,7 @@ pub async fn cancel_academy_recruit_order(
 pub async fn get_academy_recruit_catalog(
   app: AppHandle,
   req: GetAcademyRecruitCatalogRequest,
-) -> Result<AcademyRecruitCatalog> {
+) -> Result<GetAcademyRecruitCatalogResponse> {
   app
     .client(async |cl| cl.get_academy_recruit_catalog(req).await)
     .await

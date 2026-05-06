@@ -4,8 +4,8 @@
 use crate::client::Client;
 use crate::error::Result;
 use crate::http;
-use nil_core::infrastructure::building::workshop::recruit_catalog::WorkshopRecruitCatalog;
 use nil_payload::request::infrastructure::workshop::*;
+use nil_payload::response::infrastructure::workshop::*;
 
 impl Client {
   pub async fn add_workshop_recruit_order(
@@ -39,7 +39,7 @@ impl Client {
   pub async fn get_workshop_recruit_catalog(
     &self,
     req: GetWorkshopRecruitCatalogRequest,
-  ) -> Result<WorkshopRecruitCatalog> {
+  ) -> Result<GetWorkshopRecruitCatalogResponse> {
     http::json_put("get-workshop-recruit-catalog")
       .body(req)
       .server(self.server)

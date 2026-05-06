@@ -4,8 +4,9 @@
 use crate::error::Result;
 use crate::manager::ManagerExt;
 use itertools::Itertools;
-use nil_core::continent::{ContinentSize, Coord, Distance, PublicField};
+use nil_core::continent::{Coord, Distance};
 use nil_payload::request::continent::*;
+use nil_payload::response::continent::*;
 use tauri::AppHandle;
 
 #[tauri::command]
@@ -20,7 +21,7 @@ pub async fn get_bulk_distance(origin: Coord, destinations: Vec<Coord>) -> Vec<(
 pub async fn get_continent_size(
   app: AppHandle,
   req: GetContinentSizeRequest,
-) -> Result<ContinentSize> {
+) -> Result<GetContinentSizeResponse> {
   app
     .client(async |cl| cl.get_continent_size(req).await)
     .await
@@ -33,7 +34,10 @@ pub async fn get_distance(origin: Coord, destination: Coord) -> Distance {
 }
 
 #[tauri::command]
-pub async fn get_public_field(app: AppHandle, req: GetPublicFieldRequest) -> Result<PublicField> {
+pub async fn get_public_field(
+  app: AppHandle,
+  req: GetPublicFieldRequest,
+) -> Result<GetPublicFieldResponse> {
   app
     .client(async |cl| cl.get_public_field(req).await)
     .await
@@ -44,9 +48,9 @@ pub async fn get_public_field(app: AppHandle, req: GetPublicFieldRequest) -> Res
 pub async fn get_public_fields(
   app: AppHandle,
   mut req: GetPublicFieldsRequest,
-) -> Result<Vec<(Coord, PublicField)>> {
+) -> Result<GetPublicFieldsResponse> {
   if req.coords.is_empty() {
-    return Ok(Vec::new());
+    return Ok(GetPublicFieldsResponse(Vec::new()));
   }
 
   req.coords = req.coords.into_iter().unique().collect();

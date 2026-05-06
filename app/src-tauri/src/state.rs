@@ -24,12 +24,12 @@ pub struct Nil {
 
 #[bon::bon]
 impl Nil {
-  pub fn new(app: &AppHandle) -> Result<Self> {
-    Ok(Self {
+  pub fn new(app: &AppHandle) -> Self {
+    Self {
       app: app.clone(),
       client: Arc::default(),
       server: Arc::default(),
-    })
+    }
   }
 
   pub async fn client<F, T>(&self, f: F) -> T

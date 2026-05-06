@@ -4,11 +4,14 @@
 use super::Client;
 use crate::error::Result;
 use crate::http;
-use nil_core::chat::{ChatHistory, ChatMessageId};
 use nil_payload::request::chat::*;
+use nil_payload::response::chat::*;
 
 impl Client {
-  pub async fn get_chat_history(&self, req: GetChatHistoryRequest) -> Result<ChatHistory> {
+  pub async fn get_chat_history(
+    &self,
+    req: GetChatHistoryRequest,
+  ) -> Result<GetChatHistoryResponse> {
     http::json_put("get-chat-history")
       .body(req)
       .server(self.server)
@@ -20,7 +23,10 @@ impl Client {
       .await
   }
 
-  pub async fn push_chat_message(&self, req: PushChatMessageRequest) -> Result<ChatMessageId> {
+  pub async fn push_chat_message(
+    &self,
+    req: PushChatMessageRequest,
+  ) -> Result<PushChatMessageResponse> {
     http::json_post("push-chat-message")
       .body(req)
       .server(self.server)

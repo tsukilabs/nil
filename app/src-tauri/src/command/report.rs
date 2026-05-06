@@ -4,8 +4,8 @@
 use crate::error::Result;
 use crate::manager::ManagerExt;
 use itertools::Itertools;
-use nil_core::report::ReportKind;
 use nil_payload::request::report::*;
+use nil_payload::response::report::*;
 use tauri::AppHandle;
 
 #[tauri::command]
@@ -17,7 +17,7 @@ pub async fn forward_report(app: AppHandle, req: ForwardReportRequest) -> Result
 }
 
 #[tauri::command]
-pub async fn get_report(app: AppHandle, req: GetReportRequest) -> Result<ReportKind> {
+pub async fn get_report(app: AppHandle, req: GetReportRequest) -> Result<GetReportResponse> {
   app
     .client(async |cl| cl.get_report(req).await)
     .await
@@ -25,9 +25,9 @@ pub async fn get_report(app: AppHandle, req: GetReportRequest) -> Result<ReportK
 }
 
 #[tauri::command]
-pub async fn get_reports(app: AppHandle, mut req: GetReportsRequest) -> Result<Vec<ReportKind>> {
+pub async fn get_reports(app: AppHandle, mut req: GetReportsRequest) -> Result<GetReportsResponse> {
   if req.ids.is_empty() {
-    return Ok(Vec::new());
+    return Ok(GetReportsResponse(Vec::new()));
   }
 
   req.ids = req.ids.into_iter().unique().collect();

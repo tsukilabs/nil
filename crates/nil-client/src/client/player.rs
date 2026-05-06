@@ -4,17 +4,11 @@
 use super::Client;
 use crate::error::Result;
 use crate::http;
-use nil_core::continent::Coord;
-use nil_core::infrastructure::storage::OverallStorageCapacity;
-use nil_core::military::Military;
-use nil_core::player::{Player, PlayerId, PlayerStatus, PublicPlayer};
-use nil_core::report::ReportId;
-use nil_core::resources::maintenance::Maintenance;
-use nil_core::world::config::WorldId;
 use nil_payload::request::player::*;
+use nil_payload::response::player::*;
 
 impl Client {
-  pub async fn get_player(&self, req: GetPlayerRequest) -> Result<Player> {
+  pub async fn get_player(&self, req: GetPlayerRequest) -> Result<GetPlayerResponse> {
     http::json_put("get-player")
       .body(req)
       .server(self.server)
@@ -26,7 +20,10 @@ impl Client {
       .await
   }
 
-  pub async fn get_player_coords(&self, req: GetPlayerCoordsRequest) -> Result<Vec<Coord>> {
+  pub async fn get_player_coords(
+    &self,
+    req: GetPlayerCoordsRequest,
+  ) -> Result<GetPlayerCoordsResponse> {
     http::json_put("get-player-coords")
       .body(req)
       .server(self.server)
@@ -38,7 +35,7 @@ impl Client {
       .await
   }
 
-  pub async fn get_player_ids(&self, req: GetPlayerIdsRequest) -> Result<Vec<PlayerId>> {
+  pub async fn get_player_ids(&self, req: GetPlayerIdsRequest) -> Result<GetPlayerIdsResponse> {
     http::json_put("get-player-ids")
       .body(req)
       .server(self.server)
@@ -53,7 +50,7 @@ impl Client {
   pub async fn get_player_maintenance(
     &self,
     req: GetPlayerMaintenanceRequest,
-  ) -> Result<Maintenance> {
+  ) -> Result<GetPlayerMaintenanceResponse> {
     http::json_put("get-player-maintenance")
       .body(req)
       .server(self.server)
@@ -65,7 +62,10 @@ impl Client {
       .await
   }
 
-  pub async fn get_player_military(&self, req: GetPlayerMilitaryRequest) -> Result<Military> {
+  pub async fn get_player_military(
+    &self,
+    req: GetPlayerMilitaryRequest,
+  ) -> Result<GetPlayerMilitaryResponse> {
     http::json_put("get-player-military")
       .body(req)
       .server(self.server)
@@ -77,7 +77,10 @@ impl Client {
       .await
   }
 
-  pub async fn get_player_reports(&self, req: GetPlayerReportsRequest) -> Result<Vec<ReportId>> {
+  pub async fn get_player_reports(
+    &self,
+    req: GetPlayerReportsRequest,
+  ) -> Result<GetPlayerReportsResponse> {
     http::json_put("get-player-reports")
       .body(req)
       .server(self.server)
@@ -89,7 +92,10 @@ impl Client {
       .await
   }
 
-  pub async fn get_player_status(&self, req: GetPlayerStatusRequest) -> Result<PlayerStatus> {
+  pub async fn get_player_status(
+    &self,
+    req: GetPlayerStatusRequest,
+  ) -> Result<GetPlayerStatusResponse> {
     http::json_put("get-player-status")
       .body(req)
       .server(self.server)
@@ -103,7 +109,7 @@ impl Client {
   pub async fn get_player_storage_capacity(
     &self,
     req: GetPlayerStorageCapacityRequest,
-  ) -> Result<OverallStorageCapacity> {
+  ) -> Result<GetPlayerStorageCapacityResponse> {
     http::json_put("get-player-storage-capacity")
       .body(req)
       .server(self.server)
@@ -115,7 +121,10 @@ impl Client {
       .await
   }
 
-  pub async fn get_player_worlds(&self, req: GetPlayerWorldsRequest) -> Result<Vec<WorldId>> {
+  pub async fn get_player_worlds(
+    &self,
+    req: GetPlayerWorldsRequest,
+  ) -> Result<GetPlayerWorldsResponse> {
     http::json_put("get-player-worlds")
       .body(req)
       .server(self.server)
@@ -126,7 +135,10 @@ impl Client {
       .await
   }
 
-  pub async fn get_public_player(&self, req: GetPublicPlayerRequest) -> Result<PublicPlayer> {
+  pub async fn get_public_player(
+    &self,
+    req: GetPublicPlayerRequest,
+  ) -> Result<GetPublicPlayerResponse> {
     http::json_put("get-public-player")
       .body(req)
       .server(self.server)
@@ -140,7 +152,7 @@ impl Client {
   pub async fn get_public_players(
     &self,
     req: GetPublicPlayersRequest,
-  ) -> Result<Vec<PublicPlayer>> {
+  ) -> Result<GetPublicPlayersResponse> {
     http::json_put("get-public-players")
       .body(req)
       .server(self.server)
@@ -151,7 +163,7 @@ impl Client {
       .await
   }
 
-  pub async fn player_exists(&self, req: PlayerExistsRequest) -> Result<bool> {
+  pub async fn player_exists(&self, req: PlayerExistsRequest) -> Result<PlayerExistsResponse> {
     http::json_put("player-exists")
       .body(req)
       .server(self.server)

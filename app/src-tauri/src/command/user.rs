@@ -4,6 +4,7 @@
 use crate::error::Result;
 use crate::manager::ManagerExt;
 use nil_payload::request::user::*;
+use nil_payload::response::user::*;
 use tauri::AppHandle;
 
 #[tauri::command]
@@ -15,7 +16,7 @@ pub async fn create_user(app: AppHandle, req: CreateUserRequest) -> Result<()> {
 }
 
 #[tauri::command]
-pub async fn user_exists(app: AppHandle, req: UserExistsRequest) -> Result<bool> {
+pub async fn user_exists(app: AppHandle, req: UserExistsRequest) -> Result<UserExistsResponse> {
   app
     .client(async |cl| cl.user_exists(req).await)
     .await

@@ -4,8 +4,8 @@
 use crate::client::Client;
 use crate::error::Result;
 use crate::http;
-use nil_core::infrastructure::building::stable::recruit_catalog::StableRecruitCatalog;
 use nil_payload::request::infrastructure::stable::*;
+use nil_payload::response::infrastructure::stable::*;
 
 impl Client {
   pub async fn add_stable_recruit_order(&self, req: AddStableRecruitOrderRequest) -> Result<()> {
@@ -36,7 +36,7 @@ impl Client {
   pub async fn get_stable_recruit_catalog(
     &self,
     req: GetStableRecruitCatalogRequest,
-  ) -> Result<StableRecruitCatalog> {
+  ) -> Result<GetStableRecruitCatalogResponse> {
     http::json_put("get-stable-recruit-catalog")
       .body(req)
       .server(self.server)

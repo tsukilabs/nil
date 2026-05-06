@@ -3,15 +3,15 @@
 
 use crate::error::Result;
 use crate::manager::ManagerExt;
-use nil_core::resources::Resources;
 use nil_payload::request::cheat::resources::*;
+use nil_payload::response::cheat::resources::*;
 use tauri::AppHandle;
 
 #[tauri::command]
 pub async fn cheat_get_resources(
   app: AppHandle,
   req: CheatGetResourcesRequest,
-) -> Result<Resources> {
+) -> Result<CheatGetResourcesResponse> {
   app
     .client(async |cl| cl.cheat_get_resources(req).await)
     .await

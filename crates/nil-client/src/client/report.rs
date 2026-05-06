@@ -4,8 +4,8 @@
 use super::Client;
 use crate::error::Result;
 use crate::http;
-use nil_core::report::ReportKind;
 use nil_payload::request::report::*;
+use nil_payload::response::report::*;
 
 impl Client {
   pub async fn forward_report(&self, req: ForwardReportRequest) -> Result<()> {
@@ -19,7 +19,7 @@ impl Client {
       .await
   }
 
-  pub async fn get_report(&self, req: GetReportRequest) -> Result<ReportKind> {
+  pub async fn get_report(&self, req: GetReportRequest) -> Result<GetReportResponse> {
     http::json_put("get-report")
       .body(req)
       .server(self.server)
@@ -31,7 +31,7 @@ impl Client {
       .await
   }
 
-  pub async fn get_reports(&self, req: GetReportsRequest) -> Result<Vec<ReportKind>> {
+  pub async fn get_reports(&self, req: GetReportsRequest) -> Result<GetReportsResponse> {
     http::json_put("get-reports")
       .body(req)
       .server(self.server)

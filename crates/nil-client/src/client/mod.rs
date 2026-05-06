@@ -32,7 +32,7 @@ use nil_core::event::Event;
 use nil_core::player::PlayerId;
 use nil_core::world::config::WorldId;
 use nil_crypto::password::Password;
-use nil_payload::request::AuthorizeRequest;
+use nil_payload::request::auth::AuthorizeRequest;
 use nil_payload::request::world::LeaveRequest;
 use nil_payload::response::GetServerKindResponse;
 use nil_server_types::ServerKind;
@@ -103,7 +103,7 @@ impl Client {
 
     if self.server.is_remote()
       && let Some(token) = authorization_token
-      && let Some(id) = self.validate_token(&token).await?
+      && let Some(id) = self.validate_token(&token).await?.0
       && player_id.as_ref().is_none_or(|it| it == &id)
       && let Ok(authorization) = Authorization::new(token)
     {
@@ -113,7 +113,7 @@ impl Client {
       self.authorization = self
         .authorize(req)
         .await
-        .map(|token| Some(Authorization::new(&token)))?
+        .map(|token| Some(Authorization::new(&token.0)))?
         .transpose()
         .inspect_err(|err| tracing::error!(message = %err, error = ?err))
         .map_err(|_| Error::FailedToAuthenticate)?;

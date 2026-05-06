@@ -5,6 +5,7 @@ use super::Client;
 use crate::error::Result;
 use crate::http;
 use nil_payload::request::user::*;
+use nil_payload::response::user::*;
 
 impl Client {
   pub async fn create_user(&self, req: CreateUserRequest) -> Result<()> {
@@ -17,7 +18,7 @@ impl Client {
       .await
   }
 
-  pub async fn user_exists(&self, req: UserExistsRequest) -> Result<bool> {
+  pub async fn user_exists(&self, req: UserExistsRequest) -> Result<UserExistsResponse> {
     http::json_put("user-exists")
       .body(req)
       .server(self.server)

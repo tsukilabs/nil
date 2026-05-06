@@ -4,12 +4,14 @@
 use crate::client::Client;
 use crate::error::Result;
 use crate::http;
-use nil_core::continent::Coord;
-use nil_core::npc::precursor::PublicPrecursor;
 use nil_payload::request::npc::precursor::*;
+use nil_payload::response::npc::precursor::*;
 
 impl Client {
-  pub async fn get_precursor_coords(&self, req: GetPrecursorCoordsRequest) -> Result<Vec<Coord>> {
+  pub async fn get_precursor_coords(
+    &self,
+    req: GetPrecursorCoordsRequest,
+  ) -> Result<GetPrecursorCoordsResponse> {
     http::json_put("get-precursor-coords")
       .body(req)
       .server(self.server)
@@ -23,7 +25,7 @@ impl Client {
   pub async fn get_public_precursor(
     &self,
     req: GetPublicPrecursorRequest,
-  ) -> Result<PublicPrecursor> {
+  ) -> Result<GetPublicPrecursorResponse> {
     http::json_put("get-public-precursor")
       .body(req)
       .server(self.server)
@@ -37,7 +39,7 @@ impl Client {
   pub async fn get_public_precursors(
     &self,
     req: GetPublicPrecursorsRequest,
-  ) -> Result<Vec<PublicPrecursor>> {
+  ) -> Result<GetPublicPrecursorsResponse> {
     http::json_put("get-public-precursors")
       .body(req)
       .server(self.server)

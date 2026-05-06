@@ -4,11 +4,14 @@
 use super::Client;
 use crate::error::Result;
 use crate::http;
-use nil_core::continent::{ContinentSize, Coord, PublicField};
 use nil_payload::request::continent::*;
+use nil_payload::response::continent::*;
 
 impl Client {
-  pub async fn get_continent_size(&self, req: GetContinentSizeRequest) -> Result<ContinentSize> {
+  pub async fn get_continent_size(
+    &self,
+    req: GetContinentSizeRequest,
+  ) -> Result<GetContinentSizeResponse> {
     http::json_put("get-continent-size")
       .body(req)
       .server(self.server)
@@ -19,7 +22,10 @@ impl Client {
       .await
   }
 
-  pub async fn get_public_field(&self, req: GetPublicFieldRequest) -> Result<PublicField> {
+  pub async fn get_public_field(
+    &self,
+    req: GetPublicFieldRequest,
+  ) -> Result<GetPublicFieldResponse> {
     http::json_put("get-public-field")
       .body(req)
       .server(self.server)
@@ -33,7 +39,7 @@ impl Client {
   pub async fn get_public_fields(
     &self,
     req: GetPublicFieldsRequest,
-  ) -> Result<Vec<(Coord, PublicField)>> {
+  ) -> Result<GetPublicFieldsResponse> {
     http::json_put("get-public-fields")
       .body(req)
       .server(self.server)

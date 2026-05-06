@@ -8,8 +8,8 @@ use crate::res;
 use crate::response::from_err;
 use axum::extract::{Json, State};
 use axum::response::Response;
-use nil_payload::request::{AuthorizeRequest, ValidateTokenRequest};
-use nil_payload::response::{AuthorizeResponse, ValidateTokenResponse};
+use nil_payload::request::auth::*;
+use nil_payload::response::auth::*;
 use nil_server_types::ServerKind;
 use nil_server_types::auth::Token;
 

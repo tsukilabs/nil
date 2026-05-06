@@ -4,19 +4,14 @@
 use crate::client::Client;
 use crate::error::Result;
 use crate::http;
-use nil_core::continent::Coord;
-use nil_core::infrastructure::Infrastructure;
-use nil_core::infrastructure::building::academy::recruit_queue::AcademyRecruitQueue;
-use nil_core::infrastructure::building::prefecture::build_queue::PrefectureBuildQueue;
-use nil_core::infrastructure::building::stable::recruit_queue::StableRecruitQueue;
-use nil_core::infrastructure::storage::OverallStorageCapacity;
 use nil_payload::request::cheat::infrastructure::*;
+use nil_payload::response::cheat::infrastructure::*;
 
 impl Client {
   pub async fn cheat_get_academy_recruit_queue(
     &self,
     req: CheatGetAcademyRecruitQueueRequest,
-  ) -> Result<AcademyRecruitQueue> {
+  ) -> Result<CheatGetAcademyRecruitQueueResponse> {
     http::json_put("cheat-get-academy-recruit-queue")
       .body(req)
       .server(self.server)
@@ -31,7 +26,7 @@ impl Client {
   pub async fn cheat_get_academy_recruit_queues(
     &self,
     req: CheatGetAcademyRecruitQueuesRequest,
-  ) -> Result<Vec<(Coord, AcademyRecruitQueue)>> {
+  ) -> Result<CheatGetAcademyRecruitQueuesResponse> {
     http::json_put("cheat-get-academy-recruit-queues")
       .body(req)
       .server(self.server)
@@ -46,7 +41,7 @@ impl Client {
   pub async fn cheat_get_all_academy_recruit_queues(
     &self,
     req: CheatGetAllAcademyRecruitQueuesRequest,
-  ) -> Result<Vec<(Coord, AcademyRecruitQueue)>> {
+  ) -> Result<CheatGetAllAcademyRecruitQueuesResponse> {
     http::json_put("cheat-get-all-academy-recruit-queues")
       .body(req)
       .server(self.server)
@@ -61,7 +56,7 @@ impl Client {
   pub async fn cheat_get_all_prefecture_build_queues(
     &self,
     req: CheatGetAllPrefectureBuildQueuesRequest,
-  ) -> Result<Vec<(Coord, PrefectureBuildQueue)>> {
+  ) -> Result<CheatGetAllPrefectureBuildQueuesResponse> {
     http::json_put("cheat-get-all-prefecture-build-queues")
       .body(req)
       .server(self.server)
@@ -76,7 +71,7 @@ impl Client {
   pub async fn cheat_get_all_stable_recruit_queues(
     &self,
     req: CheatGetAllStableRecruitQueuesRequest,
-  ) -> Result<Vec<(Coord, StableRecruitQueue)>> {
+  ) -> Result<CheatGetAllStableRecruitQueuesResponse> {
     http::json_put("cheat-get-all-stable-recruit-queues")
       .body(req)
       .server(self.server)
@@ -91,7 +86,7 @@ impl Client {
   pub async fn cheat_get_infrastructure(
     &self,
     req: CheatGetInfrastructureRequest,
-  ) -> Result<Infrastructure> {
+  ) -> Result<CheatGetInfrastructureResponse> {
     http::json_put("cheat-get-infrastructure")
       .body(req)
       .server(self.server)
@@ -106,7 +101,7 @@ impl Client {
   pub async fn cheat_get_prefecture_build_queue(
     &self,
     req: CheatGetPrefectureBuildQueueRequest,
-  ) -> Result<PrefectureBuildQueue> {
+  ) -> Result<CheatGetPrefectureBuildQueueResponse> {
     http::json_put("cheat-get-prefecture-build-queue")
       .body(req)
       .server(self.server)
@@ -121,7 +116,7 @@ impl Client {
   pub async fn cheat_get_prefecture_build_queues(
     &self,
     req: CheatGetPrefectureBuildQueuesRequest,
-  ) -> Result<Vec<(Coord, PrefectureBuildQueue)>> {
+  ) -> Result<CheatGetPrefectureBuildQueuesResponse> {
     http::json_put("cheat-get-prefecture-build-queues")
       .body(req)
       .server(self.server)
@@ -136,7 +131,7 @@ impl Client {
   pub async fn cheat_get_stable_recruit_queue(
     &self,
     req: CheatGetStableRecruitQueueRequest,
-  ) -> Result<StableRecruitQueue> {
+  ) -> Result<CheatGetStableRecruitQueueResponse> {
     http::json_put("cheat-get-stable-recruit-queue")
       .body(req)
       .server(self.server)
@@ -151,7 +146,7 @@ impl Client {
   pub async fn cheat_get_stable_recruit_queues(
     &self,
     req: CheatGetStableRecruitQueuesRequest,
-  ) -> Result<Vec<(Coord, StableRecruitQueue)>> {
+  ) -> Result<CheatGetStableRecruitQueuesResponse> {
     http::json_put("cheat-get-stable-recruit-queues")
       .body(req)
       .server(self.server)
@@ -166,7 +161,7 @@ impl Client {
   pub async fn cheat_get_storage_capacity(
     &self,
     req: CheatGetStorageCapacityRequest,
-  ) -> Result<OverallStorageCapacity> {
+  ) -> Result<CheatGetStorageCapacityResponse> {
     http::json_put("cheat-get-storage-capacity")
       .body(req)
       .server(self.server)

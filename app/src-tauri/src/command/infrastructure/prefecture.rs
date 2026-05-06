@@ -3,8 +3,8 @@
 
 use crate::error::Result;
 use crate::manager::ManagerExt;
-use nil_core::infrastructure::building::prefecture::build_catalog::PrefectureBuildCatalog;
 use nil_payload::request::infrastructure::prefecture::*;
+use nil_payload::response::infrastructure::prefecture::*;
 use tauri::AppHandle;
 
 #[tauri::command]
@@ -33,7 +33,7 @@ pub async fn cancel_prefecture_build_order(
 pub async fn get_prefecture_build_catalog(
   app: AppHandle,
   req: GetPrefectureBuildCatalogRequest,
-) -> Result<PrefectureBuildCatalog> {
+) -> Result<GetPrefectureBuildCatalogResponse> {
   app
     .client(async |cl| cl.get_prefecture_build_catalog(req).await)
     .await

@@ -4,8 +4,8 @@
 use crate::client::Client;
 use crate::error::Result;
 use crate::http;
-use nil_core::infrastructure::building::academy::recruit_catalog::AcademyRecruitCatalog;
 use nil_payload::request::infrastructure::academy::*;
+use nil_payload::response::infrastructure::academy::*;
 
 impl Client {
   pub async fn add_academy_recruit_order(&self, req: AddAcademyRecruitOrderRequest) -> Result<()> {
@@ -36,7 +36,7 @@ impl Client {
   pub async fn get_academy_recruit_catalog(
     &self,
     req: GetAcademyRecruitCatalogRequest,
-  ) -> Result<AcademyRecruitCatalog> {
+  ) -> Result<GetAcademyRecruitCatalogResponse> {
     http::json_put("get-academy-recruit-catalog")
       .body(req)
       .server(self.server)

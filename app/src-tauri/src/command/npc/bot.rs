@@ -3,13 +3,15 @@
 
 use crate::error::Result;
 use crate::manager::ManagerExt;
-use nil_core::continent::Coord;
-use nil_core::npc::bot::PublicBot;
 use nil_payload::request::npc::bot::*;
+use nil_payload::response::npc::bot::*;
 use tauri::AppHandle;
 
 #[tauri::command]
-pub async fn get_bot_coords(app: AppHandle, req: GetBotCoordsRequest) -> Result<Vec<Coord>> {
+pub async fn get_bot_coords(
+  app: AppHandle,
+  req: GetBotCoordsRequest,
+) -> Result<GetBotCoordsResponse> {
   app
     .client(async |cl| cl.get_bot_coords(req).await)
     .await
@@ -17,7 +19,10 @@ pub async fn get_bot_coords(app: AppHandle, req: GetBotCoordsRequest) -> Result<
 }
 
 #[tauri::command]
-pub async fn get_public_bot(app: AppHandle, req: GetPublicBotRequest) -> Result<PublicBot> {
+pub async fn get_public_bot(
+  app: AppHandle,
+  req: GetPublicBotRequest,
+) -> Result<GetPublicBotResponse> {
   app
     .client(async |cl| cl.get_public_bot(req).await)
     .await
@@ -25,7 +30,10 @@ pub async fn get_public_bot(app: AppHandle, req: GetPublicBotRequest) -> Result<
 }
 
 #[tauri::command]
-pub async fn get_public_bots(app: AppHandle, req: GetPublicBotsRequest) -> Result<Vec<PublicBot>> {
+pub async fn get_public_bots(
+  app: AppHandle,
+  req: GetPublicBotsRequest,
+) -> Result<GetPublicBotsResponse> {
   app
     .client(async |cl| cl.get_public_bots(req).await)
     .await

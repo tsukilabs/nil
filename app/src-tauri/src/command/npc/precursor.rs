@@ -3,16 +3,15 @@
 
 use crate::error::Result;
 use crate::manager::ManagerExt;
-use nil_core::continent::Coord;
-use nil_core::npc::precursor::PublicPrecursor;
 use nil_payload::request::npc::precursor::*;
+use nil_payload::response::npc::precursor::*;
 use tauri::AppHandle;
 
 #[tauri::command]
 pub async fn get_precursor_coords(
   app: AppHandle,
   req: GetPrecursorCoordsRequest,
-) -> Result<Vec<Coord>> {
+) -> Result<GetPrecursorCoordsResponse> {
   app
     .client(async |cl| cl.get_precursor_coords(req).await)
     .await
@@ -23,7 +22,7 @@ pub async fn get_precursor_coords(
 pub async fn get_public_precursor(
   app: AppHandle,
   req: GetPublicPrecursorRequest,
-) -> Result<PublicPrecursor> {
+) -> Result<GetPublicPrecursorResponse> {
   app
     .client(async |cl| cl.get_public_precursor(req).await)
     .await
@@ -34,7 +33,7 @@ pub async fn get_public_precursor(
 pub async fn get_public_precursors(
   app: AppHandle,
   req: GetPublicPrecursorsRequest,
-) -> Result<Vec<PublicPrecursor>> {
+) -> Result<GetPublicPrecursorsResponse> {
   app
     .client(async |cl| cl.get_public_precursors(req).await)
     .await

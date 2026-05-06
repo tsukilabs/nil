@@ -3,8 +3,8 @@
 
 use crate::error::Result;
 use crate::manager::ManagerExt;
-use nil_core::infrastructure::building::stable::recruit_catalog::StableRecruitCatalog;
 use nil_payload::request::infrastructure::stable::*;
+use nil_payload::response::infrastructure::stable::*;
 use tauri::AppHandle;
 
 #[tauri::command]
@@ -33,7 +33,7 @@ pub async fn cancel_stable_recruit_order(
 pub async fn get_stable_recruit_catalog(
   app: AppHandle,
   req: GetStableRecruitCatalogRequest,
-) -> Result<StableRecruitCatalog> {
+) -> Result<GetStableRecruitCatalogResponse> {
   app
     .client(async |cl| cl.get_stable_recruit_catalog(req).await)
     .await
