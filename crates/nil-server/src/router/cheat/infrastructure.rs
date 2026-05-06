@@ -9,6 +9,7 @@ use axum::extract::{Extension, Json, State};
 use axum::response::Response;
 use nil_core::ruler::Ruler;
 use nil_payload::request::cheat::infrastructure::*;
+use nil_payload::response::cheat::infrastructure::*;
 
 pub async fn get_academy_recruit_queue(
   State(app): State<App>,
@@ -19,7 +20,7 @@ pub async fn get_academy_recruit_queue(
       world.cheat_get_academy_recruit_queue(req.coord)
     })
     .await
-    .try_map_left(|queue| res!(OK, Json(queue)))
+    .try_map_left(|queue| res!(OK, CheatGetAcademyRecruitQueueResponse(queue)))
     .into_inner()
 }
 
@@ -28,7 +29,7 @@ pub async fn get_academy_recruit_queues(
   Json(req): Json<CheatGetAcademyRecruitQueuesRequest>,
 ) -> Response {
   if req.coords.is_empty() {
-    return res!(OK, Json(Vec::<()>::new()));
+    return res!(OK, CheatGetAcademyRecruitQueuesResponse(Vec::new()));
   }
 
   app
@@ -36,7 +37,7 @@ pub async fn get_academy_recruit_queues(
       world.cheat_get_academy_recruit_queues(&req.coords, req.filter_empty)
     })
     .await
-    .try_map_left(|queues| res!(OK, Json(queues)))
+    .try_map_left(|queues| res!(OK, CheatGetAcademyRecruitQueuesResponse(queues)))
     .into_inner()
 }
 

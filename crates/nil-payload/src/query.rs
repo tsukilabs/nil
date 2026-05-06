@@ -8,7 +8,7 @@ use ts_rs::TS;
 
 #[derive(Clone, Debug, Deserialize, TS)]
 #[serde(rename_all = "camelCase")]
-#[ts(export, optional_fields = nullable)]
+#[ts(optional_fields = nullable)]
 pub struct WebsocketQuery {
   pub world_id: WorldId,
   #[serde(default)]

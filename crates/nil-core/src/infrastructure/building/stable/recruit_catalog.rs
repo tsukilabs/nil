@@ -9,8 +9,9 @@ use crate::resources::Resources;
 use crate::resources::maintenance::Maintenance;
 use crate::resources::workforce::Workforce;
 use serde::{Deserialize, Serialize};
+use ts_rs::TS;
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, TS)]
 #[serde(rename_all = "camelCase")]
 pub struct StableRecruitCatalog {
   heavy_cavalry: StableRecruitCatalogEntry,

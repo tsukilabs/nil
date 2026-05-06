@@ -7,6 +7,7 @@ use crate::response::from_err;
 use axum::extract::{Json, State};
 use axum::response::Response;
 use nil_payload::request::user::*;
+use nil_payload::response::user::*;
 use nil_server_database::model::user::NewUser;
 
 pub async fn create(State(app): State<App>, Json(req): Json<CreateUserRequest>) -> Response {
@@ -30,7 +31,7 @@ pub async fn exists(State(app): State<App>, Json(req): Json<UserExistsRequest>) 
       .database()
       .user_exists(req.user)
       .await
-      .map(|exists| res!(OK, Json(exists)))
+      .map(|yes| res!(OK, UserExistsResponse(yes)))
       .unwrap_or_else(from_err)
   } else {
     res!(FORBIDDEN)

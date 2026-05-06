@@ -9,6 +9,7 @@ use axum::extract::{Extension, Json, State};
 use axum::response::Response;
 use nil_core::infrastructure::building::stable::recruit_catalog::StableRecruitCatalog;
 use nil_payload::request::infrastructure::stable::*;
+use nil_payload::response::infrastructure::stable::*;
 
 pub async fn add_recruit_order(
   State(app): State<App>,
@@ -69,7 +70,7 @@ pub async fn get_recruit_catalog(
       };
 
       result
-        .map(|catalog| res!(OK, Json(catalog)))
+        .map(|catalog| res!(OK, GetStableRecruitCatalogResponse(catalog)))
         .unwrap_or_else(from_err)
     }
     Err(err) => from_err(err),

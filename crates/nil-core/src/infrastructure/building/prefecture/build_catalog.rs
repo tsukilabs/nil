@@ -11,8 +11,9 @@ use crate::resources::Resources;
 use crate::resources::maintenance::Maintenance;
 use crate::resources::workforce::Workforce;
 use serde::{Deserialize, Serialize};
+use ts_rs::TS;
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, TS)]
 #[serde(rename_all = "camelCase")]
 pub struct PrefectureBuildCatalog {
   academy: PrefectureBuildCatalogEntry,
@@ -53,7 +54,7 @@ impl PrefectureBuildCatalog {
   }
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, TS)]
 #[serde(tag = "kind", rename_all = "kebab-case")]
 pub enum PrefectureBuildCatalogEntry {
   /// Building is available to be built.
@@ -107,7 +108,7 @@ impl PrefectureBuildCatalogEntry {
   }
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, TS)]
 #[serde(rename_all = "camelCase")]
 pub struct PrefectureBuildCatalogRecipe {
   level: BuildingLevel,

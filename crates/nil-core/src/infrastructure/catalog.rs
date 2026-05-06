@@ -6,7 +6,7 @@
 macro_rules! decl_recruit_catalog_entry {
   ($building:ident) => {
     paste::paste! {
-      #[derive(Clone, Debug, Deserialize, Serialize)]
+      #[derive(Clone, Debug, Deserialize, Serialize, TS)]
       #[serde(tag = "kind", rename_all = "kebab-case")]
       pub enum [<$building RecruitCatalogEntry>] {
         /// Unit is available for recruitment.
@@ -36,7 +36,7 @@ macro_rules! decl_recruit_catalog_entry {
         }
       }
 
-      #[derive(Clone, Debug, Deserialize, Serialize)]
+      #[derive(Clone, Debug, Deserialize, Serialize, TS)]
       #[serde(rename_all = "camelCase")]
       pub struct [<$building RecruitCatalogRecipe>] {
         resources: Resources,

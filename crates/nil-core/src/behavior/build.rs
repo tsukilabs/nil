@@ -24,6 +24,7 @@ use std::marker::PhantomData;
 use std::ops::ControlFlow;
 use std::sync::LazyLock;
 use strum::IntoEnumIterator;
+use ts_rs::TS;
 
 pub(crate) static BUILD_TEMPLATE: LazyLock<Vec<BuildStep>> = LazyLock::new(generate_template);
 
@@ -248,7 +249,7 @@ where
   }
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, TS)]
 #[serde(rename_all = "camelCase")]
 pub struct BuildStep {
   id: BuildingId,

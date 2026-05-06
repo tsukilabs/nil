@@ -10,6 +10,7 @@ use axum::extract::{Extension, Json, State};
 use axum::response::Response;
 use nil_core::world::config::WorldId;
 use nil_payload::request::world::*;
+use nil_payload::response::world::*;
 use nil_server_types::world::RemoteWorld;
 use semver::Version;
 use std::cmp::Reverse;
@@ -34,7 +35,7 @@ pub async fn create(
       .server_version(version)
       .call()
       .await
-      .map(|world_id| res!(CREATED, Json(world_id)))
+      .map(|world_id| res!(CREATED, CreateRemoteWorldResponse(world_id)))
       .unwrap_or_else(from_err)
   } else {
     res!(FORBIDDEN)
@@ -72,7 +73,7 @@ pub async fn get(State(app): State<App>, Json(req): Json<GetRemoteWorldRequest>)
   if app.server_kind().is_remote() {
     make_remote_world(&app, req.world)
       .await
-      .map(|world| res!(OK, Json(world)))
+      .map(|world| res!(OK, GetRemoteWorldResponse(world)))
       .unwrap_or_else(from_err)
   } else {
     res!(FORBIDDEN)
@@ -92,7 +93,7 @@ pub async fn get_all(State(app): State<App>) -> Response {
 
     worlds.sort_by_key(|b| Reverse(b.config.id()));
 
-    res!(OK, Json(worlds))
+    res!(OK, GetRemoteWorldsResponse(worlds))
   } else {
     res!(FORBIDDEN)
   }
@@ -135,9 +136,12 @@ async fn make_remote_world(app: &App, id: WorldId) -> Result<RemoteWorld> {
 }
 
 pub async fn get_limit(State(app): State<App>) -> Response {
-  res!(OK, Json(app.world_limit()))
+  res!(OK, GetRemoteWorldLimitResponse(app.world_limit()))
 }
 
 pub async fn get_limit_per_user(State(app): State<App>) -> Response {
-  res!(OK, Json(app.world_limit_per_user()))
+  res!(
+    OK,
+    GetRemoteWorldLimitPerUserResponse(app.world_limit_per_user())
+  )
 }
