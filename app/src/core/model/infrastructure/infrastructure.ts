@@ -9,10 +9,10 @@ import { SawmillImpl } from './building/sawmill';
 import { IronMineImpl } from './building/iron-mine';
 import { WarehouseImpl } from './building/warehouse';
 import { StableImpl } from './building/stable/stable';
+import type { Infrastructure } from '@/types/bindings';
 import { AcademyImpl } from './building/academy/academy';
 import { WorkshopImpl } from './building/workshop/workshop';
 import { PrefectureImpl } from './building/prefecture/prefecture';
-import type { Infrastructure } from '@/types/core/infrastructure';
 
 export class InfrastructureImpl implements Infrastructure {
   public readonly academy: AcademyImpl;

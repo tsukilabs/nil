@@ -3,14 +3,19 @@
 
 import { ArmyImpl } from './army';
 import { getPlayerMilitary } from '@/commands/player';
-import type { Military } from '@/types/core/military';
-import type { Army } from '@/types/core/military/army';
 import { CoordImpl } from '@/core/model/continent/coord';
+import type { ContinentKey } from '@/types/core/continent';
 import { ManeuverImpl } from '@/core/model/military/maneuver';
-import type { Maneuver, ManeuverId } from '@/types/core/military/maneuver';
-import type { ContinentIndex, ContinentKey, ContinentSize } from '@/types/core/continent';
+import type {
+  Army,
+  ContinentIndex,
+  ContinentSize,
+  Maneuver,
+  ManeuverId,
+  Military,
+} from '@/types/bindings';
 
-export class MilitaryImpl implements Military {
+export class MilitaryImpl implements Readonly<Military> {
   public readonly continent: ReadonlyMap<ContinentIndex, readonly ArmyImpl[]>;
   public readonly continentSize: ContinentSize;
   public readonly maneuvers: ReadonlyMap<ManeuverId, ManeuverImpl>;

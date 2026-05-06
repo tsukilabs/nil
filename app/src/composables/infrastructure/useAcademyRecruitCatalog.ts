@@ -6,8 +6,7 @@ import type { Option } from '@tb-dev/utils';
 import { toCoordRef } from '@/composables/toRef';
 import { type MaybeNilRef, useMutex } from '@tb-dev/vue';
 import type { CoordImpl } from '@/core/model/continent/coord';
-import type { AcademyUnitId } from '@/types/core/military/unit';
-import type { AcademyRecruitCatalog } from '@/types/core/infrastructure/academy';
+import type { AcademyRecruitCatalog, AcademyUnitId } from '@/types/bindings';
 import type { InfrastructureQueueOrderId } from '@/types/core/infrastructure/queue';
 import {
   addAcademyRecruitOrder,

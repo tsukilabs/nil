@@ -11,9 +11,10 @@ import { useRouter } from 'vue-router';
 import { hostRemoteGame } from '@/core/game';
 import { toMerged } from 'es-toolkit/object';
 import { useSettings } from '@/stores/settings';
-import type { WorldOptions } from '@/types/core/world';
+import type { WorldOptions } from '@/types/bindings';
 import enUS_online from '@/locale/en-US/scenes/online.json';
 import ptBR_online from '@/locale/pt-BR/scenes/online.json';
+import type { Option, WithPartialNullish } from '@tb-dev/utils';
 import enUS_hostGame from '@/locale/en-US/scenes/host-game.json';
 import ptBR_hostGame from '@/locale/pt-BR/scenes/host-game.json';
 import { localRef, useBreakpoints, useMutex } from '@tb-dev/vue';
@@ -27,7 +28,6 @@ import InputWorldPassword from '@/components/form/InputWorldPassword.vue';
 import SliderRoundDuration from '@/components/form/SliderRoundDuration.vue';
 import SliderWorldUnitSpeed from '@/components/form/SliderWorldUnitSpeed.vue';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@ui/card';
-import type { Option, WithPartialNullish, WritablePartial } from '@tb-dev/utils';
 import TextareaWorldDescription from '@/components/form/TextareaWorldDescription.vue';
 import SliderBotAdvancedStartRatio from '@/components/form/SliderBotAdvancedStartRatio.vue';
 
@@ -43,7 +43,7 @@ const settings = useSettings();
 
 const { md } = useBreakpoints();
 
-const worldOptions = localRef<WritablePartial<WorldOptions>>(
+const worldOptions = localRef<Partial<WorldOptions>>(
   key('world'),
   {
     name: null,

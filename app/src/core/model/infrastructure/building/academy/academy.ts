@@ -3,11 +3,9 @@
 
 import { BuildingImpl } from '../abstract';
 import { AcademyRecruitQueueImpl } from './recruit-queue';
-import type { Academy } from '@/types/core/infrastructure/academy';
-import type { BuildingId } from '@/types/core/infrastructure/building';
-import type { InfrastructureQueueOrderId } from '@/types/core/infrastructure/queue';
+import type { Academy, AcademyRecruitOrderId, BuildingId } from '@/types/bindings';
 
-export class AcademyImpl extends BuildingImpl implements Academy {
+export class AcademyImpl extends BuildingImpl implements Readonly<Academy> {
   public readonly id: BuildingId = 'academy';
   public readonly recruitQueue: AcademyRecruitQueueImpl;
 
@@ -17,7 +15,7 @@ export class AcademyImpl extends BuildingImpl implements Academy {
     this.recruitQueue = AcademyRecruitQueueImpl.create(academy.recruitQueue);
   }
 
-  public hasRecruitOrder(id: InfrastructureQueueOrderId) {
+  public hasRecruitOrder(id: AcademyRecruitOrderId) {
     return this.recruitQueue.orders.some((order) => order.id === id);
   }
 

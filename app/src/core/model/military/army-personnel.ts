@@ -3,14 +3,11 @@
 
 import { SquadImpl } from './squad';
 import { toU32 } from '@/lib/number';
-import type { Squad, SquadTuple } from '@/types/core/military/squad';
-import type {
-  ArmyPersonnel,
-  ArmyPersonnelSize,
-  WritableArmyPersonnel,
-} from '@/types/core/military/army';
+import type { ArmyPersonnel, Squad } from '@/types/bindings';
+import type { SquadTuple } from '@/types/core/military/squad';
+import type { ArmyPersonnelSize, WritableArmyPersonnel } from '@/types/core/military/army';
 
-export class ArmyPersonnelImpl implements ArmyPersonnel {
+export class ArmyPersonnelImpl implements Readonly<ArmyPersonnel> {
   public readonly archer: SquadImpl;
   public readonly axeman: SquadImpl;
   public readonly heavyCavalry: SquadImpl;

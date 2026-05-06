@@ -2,13 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as commands from '@/commands';
-import type { PlayerId } from '@/types/core/player';
-import type { Round, RoundState } from '@/types/core/round';
+import type { PlayerId, Round, RoundState } from '@/types/bindings';
 
-export class RoundImpl implements Round {
+export class RoundImpl implements Readonly<Round> {
   public readonly id: number;
   public readonly state: RoundState;
-  public readonly startedAt: string;
+  public readonly startedAt: string | null;
 
   private constructor(round: Round) {
     this.id = round.id;

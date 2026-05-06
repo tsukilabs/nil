@@ -2,12 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { BuildingStatsImpl } from '@/core/model/stats/building-stats';
-import type {
-  BuildingId,
-  BuildingLevel,
-  BuildingStats,
-  BuildingStatsTable,
-} from '@/types/core/infrastructure/building';
+import type { BuildingStatsTable } from '@/types/core/infrastructure/building';
+import type { BuildingId, BuildingLevel, BuildingStats } from '@/types/bindings';
 
 export class BuildingStatsTableImpl implements BuildingStatsTable {
   public readonly id: BuildingId;

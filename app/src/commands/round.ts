@@ -2,15 +2,21 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { invoke } from '@tauri-apps/api/core';
-import type { Round } from '@/types/core/round';
-import type { GetRoundRequest, SetPlayerReadyRequest, StartRoundRequest } from '@/types/bindings';
+import type {
+  GetRoundRequest,
+  GetRoundResponse,
+  SetPlayerReadyRequest,
+  SetPlayerReadyResponse,
+  StartRoundRequest,
+  StartRoundResponse,
+} from '@/types/bindings';
 
 export async function getRound() {
   const req: GetRoundRequest = {
     world: NIL.world.getIdStrict(),
   };
 
-  return invoke<Round>('get_round', { req });
+  return invoke<GetRoundResponse>('get_round', { req });
 }
 
 export async function isRoundIdle() {
@@ -35,7 +41,7 @@ export async function setPlayerReady(isReady: boolean) {
     isReady,
   };
 
-  return invoke<Round>('set_player_ready', { req });
+  return invoke<SetPlayerReadyResponse>('set_player_ready', { req });
 }
 
 export async function startRound() {
@@ -43,5 +49,5 @@ export async function startRound() {
     world: NIL.world.getIdStrict(),
   };
 
-  return invoke<Round>('start_round', { req });
+  return invoke<StartRoundResponse>('start_round', { req });
 }

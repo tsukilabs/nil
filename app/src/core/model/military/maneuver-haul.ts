@@ -1,11 +1,10 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Ruler } from '@/types/core/ruler';
 import { ResourcesImpl } from '@/core/model/resources';
-import type { ManeuverHaul } from '@/types/core/military/maneuver';
+import type { ManeuverHaul, Ruler } from '@/types/bindings';
 
-export class ManeuverHaulImpl implements ManeuverHaul {
+export class ManeuverHaulImpl implements Readonly<ManeuverHaul> {
   public readonly ruler: Ruler;
   public readonly resources: ResourcesImpl;
 

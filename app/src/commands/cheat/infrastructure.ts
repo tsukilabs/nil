@@ -5,36 +5,42 @@ import { toU8 } from '@/lib/number';
 import type { Option } from '@tb-dev/utils';
 import { invoke } from '@tauri-apps/api/core';
 import { getCityOwner } from '@/commands/city';
-import type { Ruler } from '@/types/core/ruler';
 import { getBotCoords } from '@/commands/npc/bot';
 import { getRulerCoords } from '@/commands/ruler';
-import type { BotId } from '@/types/core/npc/bot';
 import { getPlayerCoords } from '@/commands/player';
-import type { PlayerId } from '@/types/core/player';
 import { CoordImpl } from '@/core/model/continent/coord';
+import type { ContinentKey } from '@/types/core/continent';
 import { getPrecursorCoords } from '@/commands/npc/precursor';
-import type { PrecursorId } from '@/types/core/npc/precursor';
-import type { ContinentKey, Coord } from '@/types/core/continent';
-import type { Infrastructure } from '@/types/core/infrastructure';
-import type { StableRecruitQueue } from '@/types/core/infrastructure/stable';
-import type { AcademyRecruitQueue } from '@/types/core/infrastructure/academy';
-import type { OverallStorageCapacity } from '@/types/core/infrastructure/storage';
-import type { PrefectureBuildQueue } from '@/types/core/infrastructure/prefecture';
 import type { BuildingId, BuildingLevel } from '@/types/core/infrastructure/building';
 import type {
+  BotId,
   CheatGetAcademyRecruitQueueRequest,
+  CheatGetAcademyRecruitQueueResponse,
   CheatGetAcademyRecruitQueuesRequest,
+  CheatGetAcademyRecruitQueuesResponse,
   CheatGetAllAcademyRecruitQueuesRequest,
+  CheatGetAllAcademyRecruitQueuesResponse,
   CheatGetAllPrefectureBuildQueuesRequest,
+  CheatGetAllPrefectureBuildQueuesResponse,
   CheatGetAllStableRecruitQueuesRequest,
+  CheatGetAllStableRecruitQueuesResponse,
   CheatGetInfrastructureRequest,
+  CheatGetInfrastructureResponse,
   CheatGetPrefectureBuildQueueRequest,
+  CheatGetPrefectureBuildQueueResponse,
   CheatGetPrefectureBuildQueuesRequest,
+  CheatGetPrefectureBuildQueuesResponse,
   CheatGetStableRecruitQueueRequest,
+  CheatGetStableRecruitQueueResponse,
   CheatGetStableRecruitQueuesRequest,
+  CheatGetStableRecruitQueuesResponse,
   CheatGetStorageCapacityRequest,
+  CheatGetStorageCapacityResponse,
   CheatSetBuildingLevelRequest,
   CheatSetMaxInfrastructureRequest,
+  PlayerId,
+  PrecursorId,
+  Ruler,
 } from '@/types/bindings';
 
 export async function cheatGetAcademyRecruitQueue(coord?: Option<ContinentKey>) {
@@ -44,7 +50,10 @@ export async function cheatGetAcademyRecruitQueue(coord?: Option<ContinentKey>) 
     coord,
   };
 
-  return invoke<AcademyRecruitQueue>('cheat_get_academy_recruit_queue', { req });
+  return invoke<CheatGetAcademyRecruitQueueResponse>(
+    'cheat_get_academy_recruit_queue',
+    { req },
+  );
 }
 
 export async function cheatGetAcademyRecruitQueues(
@@ -57,8 +66,10 @@ export async function cheatGetAcademyRecruitQueues(
     filterEmpty: filterEmpty ?? false,
   };
 
-  type Queues = readonly (readonly [Coord, AcademyRecruitQueue])[];
-  return invoke<Queues>('cheat_get_academy_recruit_queues', { req });
+  return invoke<CheatGetAcademyRecruitQueuesResponse>(
+    'cheat_get_academy_recruit_queues',
+    { req },
+  );
 }
 
 export async function cheatGetAllAcademyRecruitQueues(filterEmpty?: Option<boolean>) {
@@ -67,8 +78,10 @@ export async function cheatGetAllAcademyRecruitQueues(filterEmpty?: Option<boole
     filterEmpty: filterEmpty ?? false,
   };
 
-  type Queues = readonly (readonly [Coord, AcademyRecruitQueue])[];
-  return invoke<Queues>('cheat_get_all_academy_recruit_queues', { req });
+  return invoke<CheatGetAllAcademyRecruitQueuesResponse>(
+    'cheat_get_all_academy_recruit_queues',
+    { req },
+  );
 }
 
 export async function cheatGetAllPrefectureBuildQueues(filterEmpty?: Option<boolean>) {
@@ -77,8 +90,10 @@ export async function cheatGetAllPrefectureBuildQueues(filterEmpty?: Option<bool
     filterEmpty: filterEmpty ?? false,
   };
 
-  type Queues = readonly (readonly [Coord, PrefectureBuildQueue])[];
-  return invoke<Queues>('cheat_get_all_prefecture_build_queues', { req });
+  return invoke<CheatGetAllPrefectureBuildQueuesResponse>(
+    'cheat_get_all_prefecture_build_queues',
+    { req },
+  );
 }
 
 export async function cheatGetAllStableRecruitQueues(filterEmpty?: Option<boolean>) {
@@ -87,8 +102,10 @@ export async function cheatGetAllStableRecruitQueues(filterEmpty?: Option<boolea
     filterEmpty: filterEmpty ?? false,
   };
 
-  type Queues = readonly (readonly [Coord, StableRecruitQueue])[];
-  return invoke<Queues>('cheat_get_all_stable_recruit_queues', { req });
+  return invoke<CheatGetAllStableRecruitQueuesResponse>(
+    'cheat_get_all_stable_recruit_queues',
+    { req },
+  );
 }
 
 export async function cheatGetInfrastructure(coord?: Option<ContinentKey>) {
@@ -98,7 +115,7 @@ export async function cheatGetInfrastructure(coord?: Option<ContinentKey>) {
     coord,
   };
 
-  return invoke<Infrastructure>('cheat_get_infrastructure', { req });
+  return invoke<CheatGetInfrastructureResponse>('cheat_get_infrastructure', { req });
 }
 
 export async function cheatGetPrefectureBuildQueue(coord?: Option<ContinentKey>) {
@@ -108,7 +125,10 @@ export async function cheatGetPrefectureBuildQueue(coord?: Option<ContinentKey>)
     coord,
   };
 
-  return invoke<PrefectureBuildQueue>('cheat_get_prefecture_build_queue', { req });
+  return invoke<CheatGetPrefectureBuildQueueResponse>(
+    'cheat_get_prefecture_build_queue',
+    { req },
+  );
 }
 
 export async function cheatGetPrefectureBuildQueues(
@@ -121,8 +141,10 @@ export async function cheatGetPrefectureBuildQueues(
     filterEmpty: filterEmpty ?? false,
   };
 
-  type Queues = readonly (readonly [Coord, PrefectureBuildQueue])[];
-  return invoke<Queues>('cheat_get_prefecture_build_queues', { req });
+  return invoke<CheatGetPrefectureBuildQueuesResponse>(
+    'cheat_get_prefecture_build_queues',
+    { req },
+  );
 }
 
 export async function cheatGetBotAcademyRecruitQueues(
@@ -252,7 +274,10 @@ export async function cheatGetStableRecruitQueue(coord?: Option<ContinentKey>) {
     coord,
   };
 
-  return invoke<StableRecruitQueue>('cheat_get_stable_recruit_queue', { req });
+  return invoke<CheatGetStableRecruitQueueResponse>(
+    'cheat_get_stable_recruit_queue',
+    { req },
+  );
 }
 
 export async function cheatGetStableRecruitQueues(
@@ -265,8 +290,10 @@ export async function cheatGetStableRecruitQueues(
     filterEmpty: filterEmpty ?? false,
   };
 
-  type Queues = readonly (readonly [Coord, StableRecruitQueue])[];
-  return invoke<Queues>('cheat_get_stable_recruit_queues', { req });
+  return invoke<CheatGetStableRecruitQueuesResponse>(
+    'cheat_get_stable_recruit_queues',
+    { req },
+  );
 }
 
 export async function cheatGetStorageCapacity(ruler?: Option<Ruler>) {
@@ -275,7 +302,7 @@ export async function cheatGetStorageCapacity(ruler?: Option<Ruler>) {
     ruler: ruler ?? null,
   };
 
-  return invoke<OverallStorageCapacity>('cheat_get_storage_capacity', { req });
+  return invoke<CheatGetStorageCapacityResponse>('cheat_get_storage_capacity', { req });
 }
 
 export async function cheatGetOwnerStorageCapacity(coord: ContinentKey) {

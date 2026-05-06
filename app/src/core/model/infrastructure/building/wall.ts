@@ -2,10 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { BuildingImpl } from './abstract';
-import type { Wall } from '@/types/core/infrastructure/wall';
-import type { BuildingId, BuildingLevel } from '@/types/core/infrastructure/building';
+import type { BuildingId, BuildingLevel, Wall } from '@/types/bindings';
 
-export class WallImpl extends BuildingImpl implements Wall {
+export class WallImpl extends BuildingImpl implements Readonly<Wall> {
   public readonly id: BuildingId = 'wall';
 
   private constructor(wall: Wall) {

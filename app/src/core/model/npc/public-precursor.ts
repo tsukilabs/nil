@@ -7,12 +7,10 @@ import { formatInt } from '@/lib/intl';
 import { PLACEHOLDER } from '@/lib/string';
 import type { Option } from '@tb-dev/utils';
 import { RulerImpl } from '@/core/model/ruler';
-import type { Ruler } from '@/types/core/ruler';
-import type { RankingEntry } from '@/types/core/ranking';
-import type { ContinentKey, Coord } from '@/types/core/continent';
-import type { PrecursorId, PublicPrecursor } from '@/types/core/npc/precursor';
+import type { ContinentKey } from '@/types/core/continent';
+import type { Coord, PrecursorId, PublicPrecursor, RankingEntry, Ruler } from '@/types/bindings';
 
-export class PublicPrecursorImpl extends RulerImpl implements PublicPrecursor {
+export class PublicPrecursorImpl extends RulerImpl implements Readonly<PublicPrecursor> {
   public readonly id: PrecursorId;
   public readonly origin: Coord;
 

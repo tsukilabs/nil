@@ -34,7 +34,7 @@ use nil_core::world::config::WorldId;
 use nil_crypto::password::Password;
 use nil_payload::request::auth::AuthorizeRequest;
 use nil_payload::request::world::LeaveRequest;
-use nil_payload::response::GetServerKindResponse;
+use nil_payload::response::server::*;
 use nil_server_types::ServerKind;
 use nil_server_types::auth::Token;
 use std::borrow::Cow;
@@ -217,8 +217,8 @@ impl Client {
       .await
   }
 
-  pub async fn get_server_version(&self) -> Result<String> {
-    http::get_text("version")
+  pub async fn get_server_version(&self) -> Result<GetServerVersionResponse> {
+    http::json_get("version")
       .server(self.server)
       .retry(&self.retry)
       .circuit_breaker(self.circuit_breaker())

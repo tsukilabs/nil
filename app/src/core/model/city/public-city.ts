@@ -4,13 +4,12 @@
 import { go } from '@/router';
 import * as commands from '@/commands';
 import { formatInt } from '@/lib/intl';
-import type { Ruler } from '@/types/core/ruler';
-import type { PublicCity } from '@/types/core/city';
 import type { ProfileScene } from '@/types/scene/game';
 import { CoordImpl } from '@/core/model/continent/coord';
+import type { PublicCity, Ruler } from '@/types/bindings';
 import type { ContinentKey } from '@/types/core/continent';
 
-export class PublicCityImpl implements PublicCity {
+export class PublicCityImpl implements Readonly<PublicCity> {
   public readonly coord: CoordImpl;
   public readonly name: string;
   public readonly owner: Ruler;

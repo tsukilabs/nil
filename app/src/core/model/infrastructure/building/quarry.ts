@@ -2,10 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { MineImpl } from './abstract';
-import type { MineId } from '@/types/core/infrastructure/mine';
-import type { Quarry } from '@/types/core/infrastructure/building';
+import type { MineId, Quarry } from '@/types/bindings';
 
-export class QuarryImpl extends MineImpl implements Quarry {
+export class QuarryImpl extends MineImpl implements Readonly<Quarry> {
   public readonly id: MineId = 'quarry';
 
   private constructor(quarry: Quarry) {

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { Option } from '@tb-dev/utils';
-import type { Locale } from '@/types/core/world';
+import type { Locale } from '@/types/bindings';
 import type { BasicColorSchema } from '@vueuse/core';
 
 export interface Settings {

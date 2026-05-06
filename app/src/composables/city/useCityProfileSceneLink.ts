@@ -4,7 +4,7 @@
 import { computed, toRef } from 'vue';
 import type { Option } from '@tb-dev/utils';
 import type { MaybeNilRef } from '@tb-dev/vue';
-import type { PublicCity } from '@/types/core/city';
+import type { PublicCity } from '@/types/bindings';
 import type { ProfileScene } from '@/types/scene/game';
 import { CoordImpl } from '@/core/model/continent/coord';
 import type { RouteLocationAsRelative } from 'vue-router';

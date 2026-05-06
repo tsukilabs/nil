@@ -3,19 +3,21 @@
 
 import { shallowRef, toRef } from 'vue';
 import type { Option } from '@tb-dev/utils';
+import type { Ruler } from '@/types/bindings';
 import { watchImmediate } from '@vueuse/core';
 import type { MaybeNilRef } from '@tb-dev/vue';
-import type { Ruler, RulerKind } from '@/types/core/ruler';
+import type { RulerKind } from '@/types/core/ruler';
 import { PublicBotImpl } from '@/core/model/npc/public-bot';
 import { PublicPlayerImpl } from '@/core/model/player/public-player';
 import { PublicPrecursorImpl } from '@/core/model/npc/public-precursor';
 
 export function usePublicCityOwner(owner: MaybeNilRef<Ruler>) {
+  const ownerRef = toRef(owner);
   const bot = shallowRef<Option<PublicBotImpl>>();
   const player = shallowRef<Option<PublicPlayerImpl>>();
   const precursor = shallowRef<Option<PublicPrecursorImpl>>();
 
-  watchImmediate(toRef(owner), load);
+  watchImmediate(ownerRef, load);
 
   async function load(value?: Option<Ruler>) {
     reset(value?.kind);

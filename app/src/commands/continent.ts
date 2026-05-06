@@ -3,13 +3,17 @@
 
 import type { Option } from '@tb-dev/utils';
 import { invoke } from '@tauri-apps/api/core';
-import type { WorldId } from '@/types/core/world';
 import { CoordImpl } from '@/core/model/continent/coord';
-import type { ContinentKey, ContinentSize, Coord, PublicField } from '@/types/core/continent';
+import type { ContinentKey } from '@/types/core/continent';
 import type {
+  Coord,
   GetContinentSizeRequest,
+  GetContinentSizeResponse,
   GetPublicFieldRequest,
+  GetPublicFieldResponse,
   GetPublicFieldsRequest,
+  GetPublicFieldsResponse,
+  WorldId,
 } from '@/types/bindings';
 
 export async function getBulkDistance(origin: ContinentKey, destinations: ContinentKey[]) {
@@ -25,7 +29,7 @@ export async function getContinentSize() {
     world: NIL.world.getIdStrict(),
   };
 
-  return invoke<ContinentSize>('get_continent_size', { req });
+  return invoke<GetContinentSizeResponse>('get_continent_size', { req });
 }
 
 export async function getDistance(origin: ContinentKey, destination: ContinentKey) {
@@ -34,21 +38,20 @@ export async function getDistance(origin: ContinentKey, destination: ContinentKe
   return invoke<number>('get_distance', { origin, destination });
 }
 
-export async function getField(coord: ContinentKey) {
+export async function getPublicField(coord: ContinentKey) {
   const req: GetPublicFieldRequest = {
     world: NIL.world.getIdStrict(),
     coord: CoordImpl.fromContinentKey(coord),
   };
 
-  return invoke<PublicField>('get_public_field', { req });
+  return invoke<GetPublicFieldResponse>('get_public_field', { req });
 }
 
-export async function getFields(coords: Coord[], world?: Option<WorldId>) {
+export async function getPublicFields(coords: Coord[], world?: Option<WorldId>) {
   const req: GetPublicFieldsRequest = {
     world: world ?? NIL.world.getIdStrict(),
     coords,
   };
 
-  type Fields = readonly (readonly [Coord, PublicField])[];
-  return invoke<Fields>('get_public_fields', { req });
+  return invoke<GetPublicFieldsResponse>('get_public_fields', { req });
 }

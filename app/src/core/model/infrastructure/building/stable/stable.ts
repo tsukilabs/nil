@@ -3,9 +3,7 @@
 
 import { BuildingImpl } from '../abstract';
 import { StableRecruitQueueImpl } from './recruit-queue';
-import type { Stable } from '@/types/core/infrastructure/stable';
-import type { BuildingId } from '@/types/core/infrastructure/building';
-import type { InfrastructureQueueOrderId } from '@/types/core/infrastructure/queue';
+import type { BuildingId, Stable, StableRecruitOrderId } from '@/types/bindings';
 
 export class StableImpl extends BuildingImpl implements Stable {
   public readonly id: BuildingId = 'stable';
@@ -17,7 +15,7 @@ export class StableImpl extends BuildingImpl implements Stable {
     this.recruitQueue = StableRecruitQueueImpl.create(stable.recruitQueue);
   }
 
-  public hasRecruitOrder(id: InfrastructureQueueOrderId) {
+  public hasRecruitOrder(id: StableRecruitOrderId) {
     return this.recruitQueue.orders.some((order) => order.id === id);
   }
 

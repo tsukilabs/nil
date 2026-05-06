@@ -2,10 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { Option } from '@tb-dev/utils';
-import type { MineId } from '@/types/core/infrastructure/mine';
-import type { StorageId } from '@/types/core/infrastructure/storage';
+import type { BuildingId, MineId, StorageId } from '@/types/bindings';
 import type { InfrastructureStats } from '@/types/core/infrastructure';
-import type { BuildingId } from '@/types/core/infrastructure/building';
 import { MineStatsTableImpl, type RawMineStatsTable } from './mine-stats-table';
 import { type RawStorageStatsTable, StorageStatsTableImpl } from './storage-stats-table';
 import { BuildingStatsTableImpl, type RawBuildingStatsTable } from './building-stats-table';

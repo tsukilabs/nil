@@ -7,10 +7,9 @@ import { useI18n } from 'vue-i18n';
 import { useBreakpoints } from '@tb-dev/vue';
 import type { MaybePromise } from '@tb-dev/utils';
 import RecruitCatalogRow from './RecruitCatalogRow.vue';
-import type { StableUnitId } from '@/types/core/military/unit';
 import { usePlayerTurn } from '@/composables/player/usePlayerTurn';
+import type { StableRecruitCatalog, StableUnitId } from '@/types/bindings';
 import { usePlayerResources } from '@/composables/player/usePlayerResources';
-import type { StableRecruitCatalog } from '@/types/core/infrastructure/stable';
 import { Table, TableBody, TableHead, TableHeader, TableRow } from '@ui/table';
 import type { StableImpl } from '@/core/model/infrastructure/building/stable/stable';
 

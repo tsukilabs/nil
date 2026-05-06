@@ -2,10 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { invoke } from '@tauri-apps/api/core';
-import type { BuildStep } from '@/types/core/behavior';
 import { CoordImpl } from '@/core/model/continent/coord';
 import type { ContinentKey } from '@/types/core/continent';
-import type { CheatGetBuildStepsRequest } from '@/types/bindings';
+import type { CheatGetBuildStepsRequest, CheatGetBuildStepsResponse } from '@/types/bindings';
 
 export async function cheatGetBuildSteps(
   coord: ContinentKey,
@@ -17,7 +16,7 @@ export async function cheatGetBuildSteps(
     coord,
   };
 
-  const steps = await invoke<BuildStep[]>('cheat_get_build_steps', { req });
+  const steps = await invoke<CheatGetBuildStepsResponse>('cheat_get_build_steps', { req });
   while (steps.length > limit) steps.pop();
-  return steps as readonly BuildStep[];
+  return steps;
 }

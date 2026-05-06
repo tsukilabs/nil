@@ -9,9 +9,9 @@ import type {
   ChatMessageContent,
   ChatMessageId,
   ChatMessageKind,
-} from '@/types/core/chat';
+} from '@/types/bindings';
 
-export class ChatMessageImpl implements ChatMessage {
+export class ChatMessageImpl implements Readonly<ChatMessage> {
   public readonly id: ChatMessageId;
   public readonly kind: ChatMessageKind;
   public readonly author: ChatMessageAuthor;

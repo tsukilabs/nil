@@ -2,12 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { invoke } from '@tauri-apps/api/core';
-import type { Coord } from '@/types/core/continent';
-import type { PrecursorId, PublicPrecursor } from '@/types/core/npc/precursor';
 import type {
   GetPrecursorCoordsRequest,
+  GetPrecursorCoordsResponse,
   GetPublicPrecursorRequest,
+  GetPublicPrecursorResponse,
   GetPublicPrecursorsRequest,
+  GetPublicPrecursorsResponse,
+  PrecursorId,
 } from '@/types/bindings';
 
 export async function getPrecursorCoords(id: PrecursorId) {
@@ -16,7 +18,7 @@ export async function getPrecursorCoords(id: PrecursorId) {
     id,
   };
 
-  return invoke<readonly Coord[]>('get_precursor_coords', { req });
+  return invoke<GetPrecursorCoordsResponse>('get_precursor_coords', { req });
 }
 
 export async function getPublicPrecursor(id: PrecursorId) {
@@ -25,7 +27,7 @@ export async function getPublicPrecursor(id: PrecursorId) {
     id,
   };
 
-  return invoke<PublicPrecursor>('get_public_precursor', { req });
+  return invoke<GetPublicPrecursorResponse>('get_public_precursor', { req });
 }
 
 export async function getPublicPrecursors() {
@@ -33,5 +35,5 @@ export async function getPublicPrecursors() {
     world: NIL.world.getIdStrict(),
   };
 
-  return invoke<readonly PublicPrecursor[]>('get_public_precursors', { req });
+  return invoke<GetPublicPrecursorsResponse>('get_public_precursors', { req });
 }

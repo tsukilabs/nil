@@ -4,13 +4,17 @@
 import * as commands from '@/commands';
 import type { PartialNullish } from '@tb-dev/utils';
 import { ResourcesImpl } from '@/core/model/resources';
-import type { Player, PlayerId } from '@/types/core/player';
-import type { Influence, Resources } from '@/types/core/resources';
-import type { OverallStorageCapacity } from '@/types/core/infrastructure/storage';
 import { PublicPlayerImpl, type PublicPlayerImplConstructorArgs } from './public-player';
 import { OverallStorageCapacityImpl } from '@/core/model/infrastructure/storage-capacity';
+import type {
+  Influence,
+  OverallStorageCapacity,
+  Player,
+  PlayerId,
+  Resources,
+} from '@/types/bindings';
 
-export class PlayerImpl extends PublicPlayerImpl implements Player {
+export class PlayerImpl extends PublicPlayerImpl implements Readonly<Player> {
   public readonly resources: ResourcesImpl;
   public readonly influence: Influence;
   public readonly capacity: OverallStorageCapacityImpl;

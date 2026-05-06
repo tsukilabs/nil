@@ -11,7 +11,7 @@ import { whenever } from '@vueuse/core';
 import type { Option } from '@tb-dev/utils';
 import SupportReport from './SupportReport.vue';
 import { useRouteParams } from '@vueuse/router';
-import type { ReportId } from '@/types/core/report';
+import type { ReportId } from '@/types/bindings';
 import type { ReportScene } from '@/types/scene/game';
 import { useBreakpoints, useMutex } from '@tb-dev/vue';
 import enUS from '@/locale/en-US/scenes/game/report.json';

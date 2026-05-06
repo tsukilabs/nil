@@ -3,9 +3,9 @@
 
 import { go } from '@/router';
 import type { Scene } from '@/types/scene';
-import type { Coord } from '@/types/bindings';
 import { isNil, type Option, panic } from '@tb-dev/utils';
-import type { ContinentIndex, ContinentKey, CoordTuple } from '@/types/core/continent';
+import type { ContinentIndex, Coord } from '@/types/bindings';
+import type { ContinentKey, CoordTuple } from '@/types/core/continent';
 import {
   QUERY_WAR_ROOM_DEST_X,
   QUERY_WAR_ROOM_DEST_Y,
@@ -13,7 +13,7 @@ import {
   QUERY_WAR_ROOM_ORIGIN_Y,
 } from '@/router/game/war-room';
 
-export class CoordImpl implements Coord {
+export class CoordImpl implements Readonly<Coord> {
   public readonly x: number;
   public readonly y: number;
 

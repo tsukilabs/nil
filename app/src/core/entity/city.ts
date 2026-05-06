@@ -5,9 +5,8 @@ import { Entity } from './abstract';
 import type { Option } from '@tb-dev/utils';
 import { asyncRef, maybe } from '@tb-dev/vue';
 import { CityImpl } from '@/core/model/city/city';
-import type { Coord } from '@/types/core/continent';
-import type { Resources } from '@/types/core/resources';
 import { CoordImpl } from '@/core/model/continent/coord';
+import type { Coord, Resources } from '@/types/bindings';
 import type { CityUpdatedPayload } from '@/types/core/event';
 import { computed, nextTick, type Ref, shallowRef } from 'vue';
 

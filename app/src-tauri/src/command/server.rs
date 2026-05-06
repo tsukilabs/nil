@@ -6,8 +6,8 @@ use crate::manager::ManagerExt;
 use nil_client::ServerAddr;
 use nil_core::world::WorldOptions;
 use nil_payload::request::auth::*;
-use nil_payload::response::GetServerKindResponse;
 use nil_payload::response::auth::*;
+use nil_payload::response::server::*;
 use nil_server::local::LocalServer;
 use std::path::PathBuf;
 use tauri::AppHandle;
@@ -34,7 +34,7 @@ pub async fn get_server_kind(app: AppHandle) -> Result<GetServerKindResponse> {
 }
 
 #[tauri::command]
-pub async fn get_server_version(app: AppHandle) -> Result<String> {
+pub async fn get_server_version(app: AppHandle) -> Result<GetServerVersionResponse> {
   app
     .client(async |cl| cl.get_server_version().await)
     .await

@@ -3,18 +3,18 @@
 
 import type { Option } from '@tb-dev/utils';
 import { invoke } from '@tauri-apps/api/core';
-import type { Ruler } from '@/types/core/ruler';
 import { SquadImpl } from '@/core/model/military/squad';
 import { CoordImpl } from '@/core/model/continent/coord';
-import type { UnitId } from '@/types/core/military/unit';
 import type { ContinentKey } from '@/types/core/continent';
-import type { Squad, SquadTuple } from '@/types/core/military/squad';
+import type { SquadTuple } from '@/types/core/military/squad';
 import type { Army, ArmyPersonnel } from '@/types/core/military/army';
 import { ArmyPersonnelImpl } from '@/core/model/military/army-personnel';
 import type {
   CheatGetIdleArmiesAtRequest,
   CheatGetIdlePersonnelAtRequest,
   CheatSpawnPersonnelRequest,
+  Ruler,
+  Squad,
 } from '@/types/bindings';
 
 export async function cheatGetIdleArmiesAt(coord?: Option<ContinentKey>) {

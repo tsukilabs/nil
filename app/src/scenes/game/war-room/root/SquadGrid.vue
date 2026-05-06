@@ -3,13 +3,13 @@
 
 <script setup lang="ts">
 import SquadGridItem from './SquadGridItem.vue';
-import type { WritableArmyPersonnel } from '@/types/core/military/army';
+import type { ArmyPersonnel } from '@/types/bindings';
 
 defineProps<{
-  available: WritableArmyPersonnel;
+  available: ArmyPersonnel;
 }>();
 
-const personnel = defineModel<WritableArmyPersonnel>({ required: true });
+const personnel = defineModel<ArmyPersonnel>({ required: true });
 </script>
 
 <template>

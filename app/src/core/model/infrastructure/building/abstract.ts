@@ -2,9 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { Option } from '@tb-dev/utils';
-import type { MineId } from '@/types/core/infrastructure/mine';
-import type { StorageId } from '@/types/core/infrastructure/storage';
-import type { Building, BuildingId, BuildingLevel } from '@/types/core/infrastructure/building';
+import type { Building } from '@/types/core/infrastructure/building';
+import type { BuildingId, BuildingLevel, MineId, StorageId } from '@/types/bindings';
 
 export abstract class BuildingImpl implements Building {
   public abstract readonly id: BuildingId;

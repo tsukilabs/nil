@@ -9,7 +9,7 @@ import type {
 export abstract class InfrastructureQueueImpl<Order extends InfrastructureQueueOrder>
   implements InfrastructureQueue<Order>
 {
-  public readonly orders: readonly Order[];
+  public readonly orders: Order[];
 
   protected constructor(queue: InfrastructureQueue<Order>) {
     this.orders = queue.orders;

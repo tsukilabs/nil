@@ -1,19 +1,18 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Option } from '@tb-dev/utils';
 import { CoordImpl } from '@/core/model/continent/coord';
-import type { ArmyId } from '@/types/core/military/army';
 import { ManeuverHaulImpl } from '@/core/model/military/maneuver-haul';
 import type {
+  ArmyId,
   Maneuver,
   ManeuverDirection,
   ManeuverId,
   ManeuverKind,
   ManeuverState,
-} from '@/types/core/military/maneuver';
+} from '@/types/bindings';
 
-export class ManeuverImpl implements Maneuver {
+export class ManeuverImpl implements Readonly<Maneuver> {
   public readonly id: ManeuverId;
   public readonly origin: CoordImpl;
   public readonly destination: CoordImpl;
@@ -22,7 +21,7 @@ export class ManeuverImpl implements Maneuver {
   public readonly direction: ManeuverDirection;
   public readonly state: ManeuverState;
   public readonly speed: number;
-  public readonly hauledResources: Option<ManeuverHaulImpl>;
+  public readonly hauledResources: ManeuverHaulImpl | null;
 
   private constructor(maneuver: Maneuver) {
     this.id = maneuver.id;

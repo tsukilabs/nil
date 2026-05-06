@@ -9,9 +9,9 @@ import type {
   WorldId,
   WorldSpeed,
   WorldUnitSpeed,
-} from '@/types/core/world';
+} from '@/types/bindings';
 
-export class WorldConfigImpl implements WorldConfig {
+export class WorldConfigImpl implements Readonly<WorldConfig> {
   public readonly id: WorldId;
   public readonly name: string;
   public readonly locale: Locale;

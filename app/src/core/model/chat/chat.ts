@@ -3,7 +3,7 @@
 
 import { ChatHistoryImpl } from './chat-history';
 import { getChatHistory } from '@/commands/chat';
-import type { ChatHistory, ChatMessage } from '@/types/core/chat';
+import type { ChatHistory, ChatMessage } from '@/types/bindings';
 
 export class ChatImpl {
   public readonly history: ChatHistoryImpl;

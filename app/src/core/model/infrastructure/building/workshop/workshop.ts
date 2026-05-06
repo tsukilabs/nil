@@ -3,11 +3,9 @@
 
 import { BuildingImpl } from '../abstract';
 import { WorkshopRecruitQueueImpl } from './recruit-queue';
-import type { Workshop } from '@/types/core/infrastructure/workshop';
-import type { BuildingId } from '@/types/core/infrastructure/building';
-import type { InfrastructureQueueOrderId } from '@/types/core/infrastructure/queue';
+import type { BuildingId, Workshop, WorkshopRecruitOrderId } from '@/types/bindings';
 
-export class WorkshopImpl extends BuildingImpl implements Workshop {
+export class WorkshopImpl extends BuildingImpl implements Readonly<Workshop> {
   public readonly id: BuildingId = 'workshop';
   public readonly recruitQueue: WorkshopRecruitQueueImpl;
 
@@ -17,7 +15,7 @@ export class WorkshopImpl extends BuildingImpl implements Workshop {
     this.recruitQueue = WorkshopRecruitQueueImpl.create(workshop.recruitQueue);
   }
 
-  public hasRecruitOrder(id: InfrastructureQueueOrderId) {
+  public hasRecruitOrder(id: WorkshopRecruitOrderId) {
     return this.recruitQueue.orders.some((order) => order.id === id);
   }
 

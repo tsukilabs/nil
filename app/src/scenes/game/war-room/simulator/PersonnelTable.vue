@@ -4,10 +4,8 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import type { Option } from '@tb-dev/utils';
-import type { Luck } from '@/types/core/battle';
 import PersonnelTableRow from './PersonnelTableRow.vue';
-import type { ArmyPersonnel } from '@/types/core/military/army';
-import type { BuildingLevel } from '@/types/core/infrastructure/building';
+import type { ArmyPersonnel, BuildingLevel, Luck } from '@/types/bindings';
 import { NumberField, NumberFieldContent, NumberFieldInput } from '@ui/number-field';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@ui/table';
 

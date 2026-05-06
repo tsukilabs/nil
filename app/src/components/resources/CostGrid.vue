@@ -9,7 +9,7 @@ import Stone from './Stone.vue';
 import type { ClassValue } from 'clsx';
 import Workforce from './Workforce.vue';
 import type { Option } from '@tb-dev/utils';
-import type { Resources } from '@/types/core/resources';
+import type { Resources } from '@/types/bindings';
 
 defineProps<{
   resources: Resources;

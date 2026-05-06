@@ -14,17 +14,6 @@ pub mod player;
 pub mod ranking;
 pub mod report;
 pub mod round;
+pub mod server;
 pub mod user;
 pub mod world;
-
-use nil_server_types::ServerKind;
-use serde::{Deserialize, Serialize};
-use ts_rs::TS;
-
-#[cfg(feature = "axum")]
-use nil_payload_macros::IntoJsonResponse;
-
-#[derive(Clone, Copy, Debug, Deserialize, Serialize, TS)]
-#[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
-#[ts(export)]
-pub struct GetServerKindResponse(pub ServerKind);

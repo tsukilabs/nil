@@ -100,6 +100,7 @@ pub trait Unit: Send + Sync {
 )]
 #[serde(rename_all = "kebab-case")]
 #[strum(serialize_all = "kebab-case")]
+#[ts(export)]
 #[remain::sorted]
 pub enum UnitId {
   #[subenum(AcademyUnitId)]

@@ -2,12 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { StorageStatsImpl } from '@/core/model/stats/storage-stats';
-import type { BuildingLevel } from '@/types/core/infrastructure/building';
-import type {
-  StorageId,
-  StorageStats,
-  StorageStatsTable,
-} from '@/types/core/infrastructure/storage';
+import type { StorageStatsTable } from '@/types/core/infrastructure/storage';
+import type { BuildingLevel, StorageId, StorageStats } from '@/types/bindings';
 
 export class StorageStatsTableImpl implements StorageStatsTable {
   public readonly id: StorageId;

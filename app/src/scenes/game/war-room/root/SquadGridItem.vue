@@ -5,15 +5,14 @@
 import { Label } from '@ui/label';
 import { useI18n } from 'vue-i18n';
 import { formatInt } from '@/lib/intl';
-import type { Writable } from '@tb-dev/utils';
-import type { Squad } from '@/types/core/military/squad';
+import type { Squad } from '@/types/bindings';
 import { NumberField, NumberFieldContent, NumberFieldInput } from '@ui/number-field';
 
 const props = defineProps<{
   available: Squad['size'];
 }>();
 
-const squad = defineModel<Writable<Squad>>({ required: true });
+const squad = defineModel<Squad>({ required: true });
 
 const { t } = useI18n();
 

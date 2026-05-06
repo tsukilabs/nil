@@ -7,11 +7,10 @@ import { go, isGameRoute } from '@/router';
 import type { Option } from '@tb-dev/utils';
 import { Entity } from '@/core/entity/abstract';
 import { useSettings } from '@/stores/settings';
+import type { ServerAddr } from '@/types/server';
 import { exit } from '@tauri-apps/plugin-process';
 import type { ClientOptions } from '@/types/client';
-import type { WorldOptions } from '@/types/core/world';
-import type { PlayerOptions } from '@/types/core/player';
-import type { RoundDuration, ServerAddr } from '@/types/server';
+import type { PlayerOptions, RoundDuration, WorldOptions } from '@/types/bindings';
 
 async function joinGame(options: {
   worldId: NonNullable<ClientOptions['worldId']>;

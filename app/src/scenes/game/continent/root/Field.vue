@@ -5,7 +5,7 @@
 import { computed } from 'vue';
 import FieldCity from './FieldCity.vue';
 import type { Option } from '@tb-dev/utils';
-import type { Coord } from '@/types/core/continent';
+import type { Coord } from '@/types/bindings';
 import type { PublicFieldImpl } from '@/core/model/continent/public-field';
 
 const props = defineProps<{

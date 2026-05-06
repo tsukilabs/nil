@@ -4,7 +4,7 @@
 import { Entity } from './abstract';
 import { asyncRef } from '@tb-dev/vue';
 import { getPlayerReports } from '@/commands';
-import type { ReportId } from '@/types/core/report';
+import type { ReportId } from '@/types/bindings';
 import type { ReportPayload } from '@/types/core/event';
 import { shallowRef, type ShallowRef, triggerRef } from 'vue';
 

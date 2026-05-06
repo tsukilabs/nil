@@ -4,10 +4,10 @@
 import type { Option } from '@tb-dev/utils';
 import { invoke } from '@tauri-apps/api/core';
 import { CoordImpl } from '@/core/model/continent/coord';
+import type { ContinentKey } from '@/types/core/continent';
 import type {
   City,
   CitySearch,
-  ContinentKey,
   GetCityRequest,
   GetCityResponse,
   GetCityScoreRequest,
