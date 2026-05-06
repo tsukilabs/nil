@@ -4,7 +4,7 @@
 import type { Ruler } from '@/types/core/ruler';
 import type { RoundId } from '@/types/core/round';
 import type { Coord } from '@/types/core/continent';
-import type { BattleResult } from '@/types/core/battle';
+import type { BattleResult } from '@/types/bindings';
 import type { Resources } from '@/types/core/resources';
 import type { ArmyPersonnel } from '@/types/core/military/army';
 

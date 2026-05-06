@@ -5,12 +5,14 @@ import { toU8 } from '@/lib/number';
 import { clamp } from 'es-toolkit/math';
 import type { Option } from '@tb-dev/utils';
 import { invoke } from '@tauri-apps/api/core';
-import type { Luck } from '@/types/core/battle';
 import { SquadImpl } from '@/core/model/military/squad';
-import type { Squad } from '@/types/core/military/squad';
-import type { SimulateBattleRequest } from '@/types/bindings';
-import type { SimulateBattleResponse } from '@/types/response/battle';
-import type { BuildingLevel } from '@/types/core/infrastructure/building';
+import type {
+  BuildingLevel,
+  Luck,
+  SimulateBattleRequest,
+  SimulateBattleResponse,
+  Squad,
+} from '@/types/bindings';
 
 export async function simulateBattle(args: {
   attacker?: Option<Squad[]>;

@@ -2,15 +2,19 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { invoke } from '@tauri-apps/api/core';
-import type { ChatHistory, ChatMessageId } from '@/types/core/chat';
-import type { GetChatHistoryRequest, PushChatMessageRequest } from '@/types/bindings';
+import type {
+  GetChatHistoryRequest,
+  GetChatHistoryResponse,
+  PushChatMessageRequest,
+  PushChatMessageResponse,
+} from '@/types/bindings';
 
 export async function getChatHistory() {
   const req: GetChatHistoryRequest = {
     world: NIL.world.getIdStrict(),
   };
 
-  return invoke<ChatHistory>('get_chat_history', { req });
+  return invoke<GetChatHistoryResponse>('get_chat_history', { req });
 }
 
 export async function pushChatMessage(message: string) {
@@ -19,5 +23,5 @@ export async function pushChatMessage(message: string) {
     message,
   };
 
-  return invoke<ChatMessageId>('push_chat_message', { req });
+  return invoke<PushChatMessageResponse>('push_chat_message', { req });
 }
