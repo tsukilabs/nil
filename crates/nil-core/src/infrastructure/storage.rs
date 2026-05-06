@@ -9,6 +9,7 @@ use nil_num::growth::growth;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::ops::{Add, AddAssign, Sub, SubAssign};
+use ts_rs::TS;
 
 /// A building that stores resources.
 pub trait Storage: Building {
@@ -21,14 +22,14 @@ pub trait Storage: Building {
   fn max_capacity(&self) -> StorageCapacity;
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, TS)]
 #[serde(rename_all = "camelCase")]
 pub struct StorageStats {
   pub level: BuildingLevel,
   pub capacity: StorageCapacity,
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, TS)]
 #[serde(rename_all = "camelCase")]
 pub struct StorageStatsTable {
   id: StorageId,
@@ -96,6 +97,7 @@ impl StorageStatsTable {
   Ord,
   Deserialize,
   Serialize,
+  TS,
 )]
 #[into(u32, f64)]
 pub struct StorageCapacity(u32);
@@ -175,7 +177,7 @@ impl From<f64> for StorageCapacity {
   }
 }
 
-#[derive(Clone, Debug, Default, Deserialize, Serialize)]
+#[derive(Clone, Debug, Default, Deserialize, Serialize, TS)]
 #[serde(rename_all = "camelCase")]
 pub struct OverallStorageCapacity {
   pub silo: StorageCapacity,

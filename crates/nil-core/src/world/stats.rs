@@ -5,8 +5,9 @@ use crate::infrastructure::stats::InfrastructureStats;
 use crate::world::config::WorldConfig;
 use serde::{Deserialize, Serialize};
 use std::sync::Arc;
+use ts_rs::TS;
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, TS)]
 #[serde(rename_all = "camelCase")]
 pub struct WorldStats {
   pub(super) infrastructure: Arc<InfrastructureStats>,

@@ -14,8 +14,9 @@ use nil_core_macros::Building;
 use nil_num::growth::growth;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
+use ts_rs::TS;
 
-#[derive(Building, Clone, Debug, Deserialize, Serialize)]
+#[derive(Building, Clone, Debug, Deserialize, Serialize, TS)]
 #[serde(rename_all = "camelCase")]
 pub struct Wall {
   level: BuildingLevel,
@@ -73,7 +74,7 @@ check_total_resource_ratio!(
   Wall::WOOD_RATIO
 );
 
-#[derive(Clone, Copy, Debug, Deref, Deserialize, Serialize, nil_num::F64Ops)]
+#[derive(Clone, Copy, Debug, Deref, Deserialize, Serialize, TS, nil_num::F64Ops)]
 pub struct WallDefense(u32);
 
 impl WallDefense {
@@ -97,7 +98,7 @@ impl From<f64> for WallDefense {
   }
 }
 
-#[derive(Clone, Copy, Debug, Deref, Deserialize, Serialize, nil_num::F64Ops)]
+#[derive(Clone, Copy, Debug, Deref, Deserialize, Serialize, TS, nil_num::F64Ops)]
 pub struct WallDefenseBonus(f64);
 
 impl WallDefenseBonus {
@@ -120,7 +121,7 @@ impl From<f64> for WallDefenseBonus {
   }
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, TS)]
 #[serde(rename_all = "camelCase")]
 pub struct WallStats {
   pub level: BuildingLevel,
@@ -128,7 +129,7 @@ pub struct WallStats {
   pub defense_percent: WallDefenseBonus,
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, TS)]
 pub struct WallStatsTable(HashMap<BuildingLevel, WallStats>);
 
 impl WallStatsTable {

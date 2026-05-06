@@ -11,9 +11,10 @@ use std::collections::VecDeque;
 use std::num::NonZeroUsize;
 use std::sync::Arc;
 use strum::EnumIs;
+use ts_rs::TS;
 use uuid::Uuid;
 
-#[derive(Clone, Debug, Default, Deserialize, Serialize)]
+#[derive(Clone, Debug, Default, Deserialize, Serialize, TS)]
 #[serde(rename_all = "camelCase")]
 pub struct Chat {
   history: ChatHistory,
@@ -30,9 +31,10 @@ impl Chat {
   }
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, TS)]
 #[serde(rename_all = "camelCase")]
 pub struct ChatHistory {
+  #[ts(as = "Vec<ChatMessage>")]
   queue: VecDeque<ChatMessage>,
   size: NonZeroUsize,
 }
@@ -67,7 +69,7 @@ impl Default for ChatHistory {
   }
 }
 
-#[derive(Builder, Clone, Debug, Deserialize, Serialize)]
+#[derive(Builder, Clone, Debug, Deserialize, Serialize, TS)]
 #[serde(rename_all = "camelCase")]
 pub struct ChatMessage {
   #[builder(start_fn, into)]
@@ -104,7 +106,7 @@ impl From<ChatMessage> for ChatMessageAuthor {
   }
 }
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Deserialize, Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Deserialize, Serialize, TS)]
 pub struct ChatMessageId(Uuid);
 
 impl ChatMessageId {
@@ -120,14 +122,14 @@ impl Default for ChatMessageId {
   }
 }
 
-#[derive(Clone, Copy, Debug, Default, EnumIs, Deserialize, Serialize)]
+#[derive(Clone, Copy, Debug, Default, EnumIs, Deserialize, Serialize, TS)]
 #[serde(rename_all = "kebab-case")]
 pub enum ChatMessageKind {
   #[default]
   Default,
 }
 
-#[derive(Clone, Debug, Default, Deserialize, Serialize)]
+#[derive(Clone, Debug, Default, Deserialize, Serialize, TS)]
 #[serde(tag = "kind", rename_all = "kebab-case")]
 pub enum ChatMessageAuthor {
   #[default]
@@ -149,7 +151,7 @@ impl From<&PlayerId> for ChatMessageAuthor {
   }
 }
 
-#[derive(Debug, From, Deserialize, Serialize)]
+#[derive(Debug, From, Deserialize, Serialize, TS)]
 #[from(String, &str, Arc<str>, Box<str>, Cow<'_, str>)]
 pub struct ChatMessageContent(Arc<str>);
 

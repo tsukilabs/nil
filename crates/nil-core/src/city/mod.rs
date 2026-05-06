@@ -20,10 +20,11 @@ use bon::Builder;
 use derive_more::{Deref, DerefMut, From};
 use serde::{Deserialize, Serialize};
 use std::sync::Arc;
+use ts_rs::TS;
 
 pub use stability::Stability;
 
-#[derive(Builder, Clone, Debug, Deserialize, Serialize)]
+#[derive(Builder, Clone, Debug, Deserialize, Serialize, TS)]
 #[serde(rename_all = "camelCase")]
 pub struct City {
   #[builder(start_fn, into)]
@@ -173,7 +174,7 @@ impl From<&City> for Ruler {
   }
 }
 
-#[derive(Clone, Debug, Deref, DerefMut, From, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deref, DerefMut, From, Deserialize, Serialize, TS)]
 #[from(String, &str)]
 pub struct CityName(String);
 
@@ -184,7 +185,7 @@ impl CityName {
 }
 
 /// Public data about a city, to which any player can have access.
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, TS)]
 #[serde(rename_all = "camelCase")]
 pub struct PublicCity {
   coord: Coord,
@@ -202,7 +203,7 @@ impl From<&City> for PublicCity {
   }
 }
 
-#[derive(Builder, Clone, Debug, Default, Deserialize, Serialize)]
+#[derive(Builder, Clone, Debug, Default, Deserialize, Serialize, TS)]
 #[serde(default, rename_all = "camelCase")]
 pub struct CitySearch {
   #[builder(default, with = FromIterator::from_iter)]

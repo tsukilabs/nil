@@ -47,8 +47,9 @@ use stats::InfrastructureStats;
 use storage::Storage;
 use strum::IntoEnumIterator;
 use tap::Pipe;
+use ts_rs::TS;
 
-#[derive(Builder, Clone, Debug, Default, Deserialize, Serialize)]
+#[derive(Builder, Clone, Debug, Default, Deserialize, Serialize, TS)]
 #[serde(default, rename_all = "camelCase")]
 pub struct Infrastructure {
   #[builder(default)]

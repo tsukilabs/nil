@@ -4,9 +4,21 @@
 use derive_more::Deref;
 use serde::{Deserialize, Serialize};
 use std::ops::MulAssign;
+use ts_rs::TS;
 
 #[derive(
-  Clone, Copy, Debug, Deref, PartialEq, Eq, PartialOrd, Ord, Deserialize, Serialize, nil_num::F64Ops,
+  Clone,
+  Copy,
+  Debug,
+  Deref,
+  PartialEq,
+  Eq,
+  PartialOrd,
+  Ord,
+  Deserialize,
+  Serialize,
+  TS,
+  nil_num::F64Ops,
 )]
 pub struct Luck(i8);
 

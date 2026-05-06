@@ -9,6 +9,7 @@ use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
 use std::num::NonZeroU32;
 use std::ops::{Add, AddAssign, Div, Mul, Sub, SubAssign};
+use ts_rs::TS;
 
 /// Maintenance tax of an entity.
 ///
@@ -29,6 +30,7 @@ use std::ops::{Add, AddAssign, Div, Mul, Sub, SubAssign};
   Eq,
   PartialOrd,
   Ord,
+  TS,
 )]
 #[into(u32, f64, Food)]
 pub struct Maintenance(Food);
@@ -188,7 +190,7 @@ impl PartialOrd<Maintenance> for Food {
 }
 
 /// Proportion of the base cost that should be used as a maintenance tax.
-#[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize)]
+#[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize, TS)]
 pub struct MaintenanceRatio(f64);
 
 impl MaintenanceRatio {
@@ -200,7 +202,7 @@ impl MaintenanceRatio {
   }
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, TS)]
 #[serde(rename_all = "camelCase")]
 pub struct MaintenanceBalance {
   pub maintenance: Maintenance,

@@ -10,9 +10,10 @@ use crate::resources::influence::Influence;
 use serde::{Deserialize, Serialize};
 use std::mem;
 use strum::EnumIs;
+use ts_rs::TS;
 
 #[allow(variant_size_differences)]
-#[derive(Clone, Debug, PartialEq, Eq, Hash, Deserialize, Serialize, EnumIs)]
+#[derive(Clone, Debug, PartialEq, Eq, Hash, Deserialize, Serialize, TS, EnumIs)]
 #[serde(tag = "kind", rename_all = "kebab-case")]
 pub enum Ruler {
   Bot { id: BotId },

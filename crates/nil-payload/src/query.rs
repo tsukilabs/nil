@@ -4,9 +4,11 @@
 use nil_core::world::config::WorldId;
 use nil_crypto::password::Password;
 use serde::Deserialize;
+use ts_rs::TS;
 
-#[derive(Clone, Debug, Deserialize)]
+#[derive(Clone, Debug, Deserialize, TS)]
 #[serde(rename_all = "camelCase")]
+#[ts(export, optional_fields = nullable)]
 pub struct WebsocketQuery {
   pub world_id: WorldId,
   #[serde(default)]

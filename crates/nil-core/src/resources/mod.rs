@@ -20,8 +20,9 @@ use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
 use std::num::NonZeroU32;
 use std::ops::{Add, AddAssign, Mul, MulAssign, Sub, SubAssign};
+use ts_rs::TS;
 
-#[derive(Builder, Clone, Debug, PartialEq, Eq, Deserialize, Serialize)]
+#[derive(Builder, Clone, Debug, PartialEq, Eq, Deserialize, Serialize, TS)]
 #[serde(default, rename_all = "camelCase")]
 pub struct Resources {
   #[builder(default)]
@@ -314,6 +315,7 @@ macro_rules! decl_resource {
           Ord,
           Deserialize,
           Serialize,
+          TS,
           nil_num::F64Ops,
         )]
         #[into(u32, f64)]

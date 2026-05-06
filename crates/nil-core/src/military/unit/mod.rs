@@ -25,6 +25,7 @@ use std::num::NonZeroU32;
 use std::ops::Mul;
 use strum::EnumIter;
 use subenum::subenum;
+use ts_rs::TS;
 
 pub trait Unit: Send + Sync {
   fn id(&self) -> UnitId;
@@ -94,7 +95,9 @@ pub trait Unit: Send + Sync {
 }
 
 #[subenum(AcademyUnitId, StableUnitId, WorkshopUnitId)]
-#[derive(Clone, Copy, Debug, Display, PartialEq, Eq, Hash, Deserialize, Serialize, EnumIter)]
+#[derive(
+  Clone, Copy, Debug, Display, PartialEq, Eq, Hash, Deserialize, Serialize, EnumIter, TS,
+)]
 #[serde(rename_all = "kebab-case")]
 #[strum(serialize_all = "kebab-case")]
 #[remain::sorted]
@@ -127,7 +130,8 @@ impl From<UnitId> for BuildingId {
   }
 }
 
-#[derive(Deref)]
+#[derive(Deref, TS)]
+#[ts(as = "UnitId")]
 pub struct UnitBox(Box<dyn Unit>);
 
 impl UnitBox {

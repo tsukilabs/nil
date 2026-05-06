@@ -4,10 +4,24 @@
 use derive_more::{From, Into};
 use serde::{Deserialize, Serialize};
 use std::time::Duration;
+use ts_rs::TS;
 
 #[derive(
-  Clone, Copy, Debug, Default, From, Into, PartialEq, Eq, PartialOrd, Ord, Deserialize, Serialize,
+  Clone,
+  Copy,
+  Debug,
+  Default,
+  From,
+  Into,
+  PartialEq,
+  Eq,
+  PartialOrd,
+  Ord,
+  Deserialize,
+  Serialize,
+  TS,
 )]
+#[ts(as = "u32")]
 pub struct Minutes(u64);
 
 impl Minutes {

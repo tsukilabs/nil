@@ -30,3 +30,4 @@ serde.workspace = true
 tap.workspace = true
 thiserror.workspace = true
 tracing.workspace = true
+ts-rs.workspace = true

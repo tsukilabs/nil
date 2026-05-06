@@ -6,8 +6,9 @@ use rand::seq::IndexedRandom;
 use serde::{Deserialize, Serialize};
 use std::fmt::Debug;
 use strum::{EnumIs, VariantArray};
+use ts_rs::TS;
 
-#[derive(Builder, Clone, Debug, Deserialize, Serialize)]
+#[derive(Builder, Clone, Debug, Deserialize, Serialize, TS)]
 #[serde(rename_all = "camelCase")]
 #[builder(const)]
 pub struct Ethics {
@@ -92,7 +93,7 @@ impl From<EthicTruthAxis> for Ethics {
   }
 }
 
-#[derive(Clone, Copy, Debug, EnumIs, PartialEq, Eq, Deserialize, Serialize, VariantArray)]
+#[derive(Clone, Copy, Debug, EnumIs, PartialEq, Eq, Deserialize, Serialize, TS, VariantArray)]
 #[serde(rename_all = "kebab-case")]
 pub enum EthicPowerAxis {
   Militarist,
@@ -125,7 +126,7 @@ impl EthicPowerAxis {
   }
 }
 
-#[derive(Clone, Copy, Debug, EnumIs, PartialEq, Eq, Deserialize, Serialize, VariantArray)]
+#[derive(Clone, Copy, Debug, EnumIs, PartialEq, Eq, Deserialize, Serialize, TS, VariantArray)]
 #[serde(rename_all = "kebab-case")]
 pub enum EthicTruthAxis {
   Materialist,

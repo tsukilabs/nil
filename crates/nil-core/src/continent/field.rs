@@ -4,8 +4,9 @@
 use crate::city::{City, PublicCity};
 use serde::{Deserialize, Serialize};
 use strum::EnumIs;
+use ts_rs::TS;
 
-#[derive(Clone, Debug, Default, Deserialize, Serialize, EnumIs)]
+#[derive(Clone, Debug, Default, Deserialize, Serialize, TS, EnumIs)]
 #[serde(tag = "kind", rename_all = "kebab-case")]
 pub enum Field {
   #[default]

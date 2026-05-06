@@ -9,6 +9,7 @@ use nil_num::mul_ceil::MulCeil;
 use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
 use std::ops::{Add, AddAssign, Mul, MulAssign};
+use ts_rs::TS;
 
 #[derive(
   Clone,
@@ -24,6 +25,7 @@ use std::ops::{Add, AddAssign, Mul, MulAssign};
   Ord,
   Deserialize,
   Serialize,
+  TS,
 )]
 #[from(u32, Food, Iron, Stone, Wood)]
 #[into(u32, f64, Food, Iron, Stone, Wood)]

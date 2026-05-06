@@ -13,12 +13,13 @@ use crate::ruler::Ruler;
 use bon::Builder;
 use serde::{Deserialize, Serialize};
 use strum::EnumIs;
+use ts_rs::TS;
 use uuid::Uuid;
 
 pub use distance::ManeuverDistance;
 
 #[must_use]
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, TS)]
 #[serde(rename_all = "camelCase")]
 pub struct Maneuver {
   id: ManeuverId,
@@ -193,7 +194,7 @@ impl Maneuver {
 }
 
 #[must_use]
-#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Hash, Deserialize, Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Hash, Deserialize, Serialize, TS)]
 pub struct ManeuverId(Uuid);
 
 impl ManeuverId {
@@ -208,21 +209,21 @@ impl Default for ManeuverId {
   }
 }
 
-#[derive(Clone, Copy, Debug, Deserialize, Serialize, EnumIs)]
+#[derive(Clone, Copy, Debug, Deserialize, Serialize, TS, EnumIs)]
 #[serde(rename_all = "kebab-case")]
 pub enum ManeuverKind {
   Attack,
   Support,
 }
 
-#[derive(Clone, Copy, Debug, Deserialize, Serialize, EnumIs)]
+#[derive(Clone, Copy, Debug, Deserialize, Serialize, TS, EnumIs)]
 #[serde(rename_all = "kebab-case")]
 pub enum ManeuverDirection {
   Going,
   Returning,
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize, EnumIs)]
+#[derive(Clone, Debug, Deserialize, Serialize, TS, EnumIs)]
 #[serde(tag = "kind", rename_all = "kebab-case")]
 pub enum ManeuverState {
   Done,
@@ -235,7 +236,7 @@ impl ManeuverState {
   }
 }
 
-#[derive(Builder, Clone, Debug, Deserialize, Serialize)]
+#[derive(Builder, Clone, Debug, Deserialize, Serialize, TS)]
 #[serde(rename_all = "camelCase")]
 pub struct ManeuverHaul {
   ruler: Ruler,
@@ -260,7 +261,7 @@ impl From<ManeuverHaul> for Resources {
   }
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, TS)]
 #[serde(rename_all = "camelCase")]
 pub struct ManeuverRequest {
   pub kind: ManeuverKind,

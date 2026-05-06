@@ -6,6 +6,7 @@ use nil_num::impl_mul_ceil;
 use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
 use std::ops::{Add, AddAssign, Mul, MulAssign, Sub, SubAssign};
+use ts_rs::TS;
 
 #[derive(
   Clone,
@@ -21,6 +22,7 @@ use std::ops::{Add, AddAssign, Mul, MulAssign, Sub, SubAssign};
   Ord,
   Deserialize,
   Serialize,
+  TS,
   nil_num::F64Ops,
 )]
 #[into(u32, f64)]

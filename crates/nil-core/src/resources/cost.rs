@@ -5,9 +5,10 @@ use super::maintenance::MaintenanceRatio;
 use derive_more::{Deref, Into};
 use serde::{Deserialize, Serialize};
 use std::ops::Mul;
+use ts_rs::TS;
 
 /// Base cost of an entity, such as buildings or units.
-#[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize, nil_num::F64Ops)]
+#[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize, TS, nil_num::F64Ops)]
 #[into(u32, f64)]
 pub struct Cost(u32);
 
@@ -42,7 +43,7 @@ impl Mul<MaintenanceRatio> for Cost {
 }
 
 /// Proportion between the total cost and a given resource.
-#[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize, nil_num::F64Ops)]
+#[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize, TS, nil_num::F64Ops)]
 pub struct ResourceRatio(f64);
 
 impl ResourceRatio {

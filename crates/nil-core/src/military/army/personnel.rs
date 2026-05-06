@@ -13,8 +13,9 @@ use serde::{Deserialize, Serialize};
 use std::ops::{Add, AddAssign, Mul, MulAssign, Sub, SubAssign};
 use strum::IntoEnumIterator;
 use tap::Pipe;
+use ts_rs::TS;
 
-#[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
+#[derive(Clone, Debug, Deserialize, Serialize, TS, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
 pub struct ArmyPersonnel {
   archer: Squad,

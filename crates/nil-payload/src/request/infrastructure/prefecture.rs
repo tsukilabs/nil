@@ -5,23 +5,27 @@ use nil_core::continent::Coord;
 use nil_core::infrastructure::building::prefecture::build_queue::PrefectureBuildOrderRequest;
 use nil_core::world::config::WorldId;
 use serde::{Deserialize, Serialize};
+use ts_rs::TS;
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, TS)]
 #[serde(rename_all = "camelCase")]
+#[ts(export)]
 pub struct AddPrefectureBuildOrderRequest {
   pub world: WorldId,
   pub request: PrefectureBuildOrderRequest,
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, TS)]
 #[serde(rename_all = "camelCase")]
+#[ts(export)]
 pub struct CancelPrefectureBuildOrderRequest {
   pub world: WorldId,
   pub coord: Coord,
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, TS)]
 #[serde(rename_all = "camelCase")]
+#[ts(export)]
 pub struct GetPrefectureBuildCatalogRequest {
   pub world: WorldId,
   pub coord: Coord,

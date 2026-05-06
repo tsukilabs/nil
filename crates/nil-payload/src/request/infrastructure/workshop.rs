@@ -8,24 +8,28 @@ use nil_core::infrastructure::building::workshop::recruit_queue::{
 };
 use nil_core::world::config::WorldId;
 use serde::{Deserialize, Serialize};
+use ts_rs::TS;
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, TS)]
 #[serde(rename_all = "camelCase")]
+#[ts(export)]
 pub struct AddWorkshopRecruitOrderRequest {
   pub world: WorldId,
   pub request: WorkshopRecruitOrderRequest,
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, TS)]
 #[serde(rename_all = "camelCase")]
+#[ts(export)]
 pub struct CancelWorkshopRecruitOrderRequest {
   pub world: WorldId,
   pub coord: Coord,
   pub id: WorkshopRecruitOrderId,
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, TS)]
 #[serde(rename_all = "camelCase")]
+#[ts(export)]
 pub struct GetWorkshopRecruitCatalogRequest {
   pub world: WorldId,
   pub coord: Coord,

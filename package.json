@@ -14,6 +14,7 @@
     "docs": "cargo +nightly doc -p nil-* --open --no-deps --lib --document-private-items",
     "example": "cargo +nightly -Zscript scripts/run-example.rs",
     "format": "dprint fmt && cargo fmt --all",
+    "generate-bindings": "cargo test export_bindings",
     "lint": "eslint . --config eslint.config.ts",
     "miri": "cargo +nightly -Zscript scripts/test.rs --miri",
     "preview": "cargo +nightly -Zscript scripts/build-client.rs --preview",

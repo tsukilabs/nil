@@ -11,8 +11,9 @@ use bon::Builder;
 use jiff::Zoned;
 use nil_core_macros::Report;
 use serde::{Deserialize, Serialize};
+use ts_rs::TS;
 
-#[derive(Report, Builder, Clone, Debug, Deserialize, Serialize)]
+#[derive(Report, Builder, Clone, Debug, Deserialize, Serialize, TS)]
 #[serde(rename_all = "camelCase")]
 pub struct BattleReport {
   #[builder(skip = ReportId::new())]

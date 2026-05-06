@@ -4,9 +4,11 @@
 use nil_core::world::config::WorldId;
 use serde::{Deserialize, Serialize};
 use std::num::NonZeroU8;
+use ts_rs::TS;
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, TS)]
 #[serde(rename_all = "camelCase")]
+#[ts(export)]
 pub struct CheatSkipRoundRequest {
   pub world: WorldId,
   pub amount: NonZeroU8,

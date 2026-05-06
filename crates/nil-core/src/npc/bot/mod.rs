@@ -11,6 +11,7 @@ use std::borrow::{Borrow, Cow};
 use std::collections::HashMap;
 use std::ops::Deref;
 use std::sync::Arc;
+use ts_rs::TS;
 
 #[derive(Clone, Debug, Default, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
@@ -46,7 +47,7 @@ impl BotManager {
   }
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, TS)]
 #[serde(rename_all = "camelCase")]
 pub struct Bot {
   id: BotId,
@@ -95,7 +96,7 @@ impl Bot {
   }
 }
 
-#[derive(Debug, Display, PartialEq, Eq, Hash, From, Into, Deserialize, Serialize)]
+#[derive(Debug, Display, PartialEq, Eq, Hash, From, Into, Deserialize, Serialize, TS)]
 #[from(String, &str, Arc<str>, Box<str>, Cow<'_, str>)]
 pub struct BotId(Arc<str>);
 
@@ -131,7 +132,7 @@ impl From<BotId> for String {
   }
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, TS)]
 #[serde(rename_all = "camelCase")]
 pub struct PublicBot {
   id: BotId,

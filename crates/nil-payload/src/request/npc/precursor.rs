@@ -4,23 +4,27 @@
 use nil_core::npc::precursor::PrecursorId;
 use nil_core::world::config::WorldId;
 use serde::{Deserialize, Serialize};
+use ts_rs::TS;
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, TS)]
 #[serde(rename_all = "camelCase")]
+#[ts(export)]
 pub struct GetPrecursorCoordsRequest {
   pub world: WorldId,
   pub id: PrecursorId,
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, TS)]
 #[serde(rename_all = "camelCase")]
+#[ts(export)]
 pub struct GetPublicPrecursorRequest {
   pub world: WorldId,
   pub id: PrecursorId,
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, TS)]
 #[serde(rename_all = "camelCase")]
+#[ts(export)]
 pub struct GetPublicPrecursorsRequest {
   pub world: WorldId,
 }

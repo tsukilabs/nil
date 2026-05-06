@@ -4,9 +4,10 @@
 use derive_more::{Deref, From, Into};
 use serde::{Deserialize, Serialize};
 use std::ops::{Div, Mul};
+use ts_rs::TS;
 
 #[derive(
-  Clone, Copy, Debug, Deref, From, Into, PartialEq, Eq, PartialOrd, Ord, Deserialize, Serialize,
+  Clone, Copy, Debug, Deref, From, Into, PartialEq, Eq, PartialOrd, Ord, Deserialize, Serialize, TS,
 )]
 #[into(u32, f64)]
 pub struct Power(u32);

@@ -13,13 +13,14 @@ use crate::city::{City, CitySearch};
 use crate::error::{Error, Result};
 use crate::ruler::Ruler;
 use serde::{Deserialize, Serialize};
+use ts_rs::TS;
 
 pub use coord::{Coord, Distance};
 pub use field::{Field, PublicField};
 pub use index::{ContinentIndex, ContinentKey};
 pub use size::ContinentSize;
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, TS)]
 #[serde(rename_all = "camelCase")]
 pub struct Continent {
   fields: Box<[Field]>,

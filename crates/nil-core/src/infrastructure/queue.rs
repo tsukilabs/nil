@@ -91,12 +91,6 @@ pub trait InfrastructureQueueOrder {
 macro_rules! decl_recruit_queue {
   ($building:ident) => {
     paste::paste! {
-      #[derive(Clone, Debug, Default, Deserialize, Serialize)]
-      #[serde(rename_all = "camelCase")]
-      pub struct [<$building RecruitQueue>] {
-        orders: VecDeque<[<$building RecruitOrder>]>,
-      }
-
       impl [<$building RecruitQueue>] {
         pub(crate) fn recruit(
           &mut self,
@@ -157,7 +151,7 @@ macro_rules! decl_recruit_queue {
       }
 
       #[must_use]
-      #[derive(Clone, Debug, Deserialize, Serialize)]
+      #[derive(Clone, Debug, Deserialize, Serialize, TS)]
       #[serde(rename_all = "camelCase")]
       pub struct [<$building RecruitOrder>] {
         id: [<$building RecruitOrderId>],
@@ -208,7 +202,7 @@ macro_rules! decl_recruit_queue {
         }
       }
 
-      #[derive(Clone, Copy, Debug, PartialEq, Eq, Deserialize, Serialize)]
+      #[derive(Clone, Copy, Debug, PartialEq, Eq, Deserialize, Serialize, TS)]
       pub struct [<$building RecruitOrderId>](Uuid);
 
       impl [<$building RecruitOrderId>] {
@@ -224,7 +218,7 @@ macro_rules! decl_recruit_queue {
         }
       }
 
-      #[derive(Clone, Debug, EnumIs, Deserialize, Serialize)]
+      #[derive(Clone, Debug, EnumIs, Deserialize, Serialize, TS)]
       #[serde(tag = "kind", rename_all = "kebab-case")]
       pub enum [<$building RecruitOrderState>] {
         Pending { workforce: Workforce },
@@ -247,7 +241,7 @@ macro_rules! decl_recruit_queue {
         }
       }
 
-      #[derive(Clone, Debug, Deserialize, Serialize)]
+      #[derive(Clone, Debug, Deserialize, Serialize, TS)]
       #[serde(rename_all = "camelCase")]
       pub struct [<$building RecruitOrderRequest>] {
         pub coord: Coord,

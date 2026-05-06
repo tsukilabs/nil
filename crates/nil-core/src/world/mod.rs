@@ -39,6 +39,7 @@ use config::{BotAdvancedStartRatio, BotDensity, Locale, WorldConfig, WorldId, Wo
 use serde::{Deserialize, Serialize};
 use stats::WorldStats;
 use std::sync::Arc;
+use ts_rs::TS;
 
 #[derive(Debug)]
 pub struct World {
@@ -176,7 +177,7 @@ impl Drop for World {
   }
 }
 
-#[derive(Builder, Clone, Debug, Deserialize, Serialize)]
+#[derive(Builder, Clone, Debug, Deserialize, Serialize, TS)]
 #[serde(rename_all = "camelCase")]
 pub struct WorldOptions {
   #[builder(start_fn, into)]

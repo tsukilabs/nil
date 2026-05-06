@@ -3,9 +3,10 @@
 
 use derive_more::{Deref, Into};
 use serde::{Deserialize, Serialize};
+use ts_rs::TS;
 
 /// Political stability of the city.
-#[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize)]
+#[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize, TS)]
 pub struct Stability(f64);
 
 impl Stability {

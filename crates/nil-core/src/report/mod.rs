@@ -16,6 +16,7 @@ use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::sync::Arc;
 use support::SupportReport;
+use ts_rs::TS;
 use uuid::Uuid;
 
 pub trait Report {
@@ -112,7 +113,7 @@ impl ReportManager {
   }
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, TS)]
 #[serde(tag = "kind", rename_all = "kebab-case")]
 #[remain::sorted]
 pub enum ReportKind {
@@ -147,6 +148,7 @@ impl ReportKind {
   Hash,
   Deserialize,
   Serialize,
+  TS,
 )]
 pub struct ReportId(Uuid);
 

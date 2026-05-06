@@ -6,8 +6,9 @@ use derive_more::{Deref, Display, Into};
 use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
 use std::ops::{Add, AddAssign, Sub, SubAssign};
+use ts_rs::TS;
 
-#[derive(Clone, Debug, Default, Deserialize, Serialize)]
+#[derive(Clone, Debug, Default, Deserialize, Serialize, TS)]
 #[serde(default, rename_all = "camelCase")]
 pub struct ResourcesDiff {
   pub food: FoodDiff,
@@ -165,6 +166,7 @@ macro_rules! decl_resource_diff {
           Ord,
           Deserialize,
           Serialize,
+          TS,
           nil_num::F64Ops,
         )]
         #[into(i32, f64)]

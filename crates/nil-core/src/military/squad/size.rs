@@ -8,6 +8,7 @@ use derive_more::{Deref, Display, From, Into};
 use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
 use std::ops::{Add, AddAssign, Mul, MulAssign, Sub, SubAssign};
+use ts_rs::TS;
 
 #[derive(
   Clone,
@@ -24,8 +25,10 @@ use std::ops::{Add, AddAssign, Mul, MulAssign, Sub, SubAssign};
   Ord,
   Deserialize,
   Serialize,
+  TS,
 )]
 #[into(u32, f64)]
+#[ts(export)]
 pub struct SquadSize(u32);
 
 impl SquadSize {

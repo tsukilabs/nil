@@ -11,6 +11,7 @@ use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
 use std::num::NonZeroU32;
 use std::ops::{Add, AddAssign, Mul, MulAssign, Sub, SubAssign};
+use ts_rs::TS;
 
 /// Workforce is a special resource used to construct buildings and recruit troops.
 /// The amount generated per round will always be equal to the level of the relevant
@@ -31,6 +32,7 @@ use std::ops::{Add, AddAssign, Mul, MulAssign, Sub, SubAssign};
   Ord,
   Deserialize,
   Serialize,
+  TS,
   nil_num::F64Ops,
 )]
 #[into(u32, f64)]

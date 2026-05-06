@@ -2,10 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use derive_more::{Deref, Into};
+use nil_num::F64Ops;
 use serde::{Deserialize, Serialize};
 use std::ops::Mul;
+use ts_rs::TS;
 
-#[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize, nil_num::F64Ops)]
+#[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize, TS, F64Ops)]
 pub struct RangedDebuff(f64);
 
 impl RangedDebuff {

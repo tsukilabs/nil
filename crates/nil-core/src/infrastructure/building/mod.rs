@@ -25,6 +25,7 @@ use std::collections::HashMap;
 use std::ops::{Add, AddAssign, Neg, Sub, SubAssign};
 use strum::{EnumIs, EnumIter};
 use subenum::subenum;
+use ts_rs::TS;
 
 pub trait Building: Send + Sync {
   fn id(&self) -> BuildingId;
@@ -132,7 +133,18 @@ pub trait Building: Send + Sync {
 
 #[subenum(CivilBuildingId, MilitaryBuildingId, MineId, StorageId)]
 #[derive(
-  Clone, Copy, Debug, strum::Display, EnumIs, EnumIter, PartialEq, Eq, Hash, Deserialize, Serialize,
+  Clone,
+  Copy,
+  Debug,
+  strum::Display,
+  EnumIs,
+  EnumIter,
+  PartialEq,
+  Eq,
+  Hash,
+  Deserialize,
+  Serialize,
+  TS,
 )]
 #[serde(rename_all = "kebab-case")]
 #[strum(serialize_all = "kebab-case")]
@@ -193,7 +205,7 @@ impl BuildingId {
 }
 
 /// Information about a building at a given level.
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, TS)]
 #[serde(rename_all = "camelCase")]
 pub struct BuildingStats {
   pub level: BuildingLevel,
@@ -204,7 +216,7 @@ pub struct BuildingStats {
   pub score: Score,
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, TS)]
 #[serde(rename_all = "camelCase")]
 pub struct BuildingStatsTable {
   id: BuildingId,
@@ -334,6 +346,7 @@ impl BuildingStatsTable {
   Hash,
   Deserialize,
   Serialize,
+  TS,
   nil_num::F64Ops,
 )]
 #[into(i16, i32, u8, u16, u32, u64, usize, f64)]
@@ -538,6 +551,7 @@ impl Neg for BuildingLevel {
   Hash,
   Deserialize,
   Serialize,
+  TS,
 )]
 pub struct BuildingLevelDiff(i8);
 

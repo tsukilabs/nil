@@ -11,8 +11,9 @@ use crate::world::config::WorldConfig;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use strum::IntoEnumIterator;
+use ts_rs::TS;
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, TS)]
 #[serde(rename_all = "camelCase")]
 pub struct InfrastructureStats {
   building: HashMap<BuildingId, BuildingStatsTable>,

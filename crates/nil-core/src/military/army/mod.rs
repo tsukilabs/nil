@@ -21,9 +21,10 @@ use serde::{Deserialize, Serialize};
 use std::mem;
 use std::ops::{Mul, MulAssign};
 use strum::{EnumIs, IntoEnumIterator};
+use ts_rs::TS;
 use uuid::Uuid;
 
-#[derive(Builder, Clone, Debug, Deserialize, Serialize)]
+#[derive(Builder, Clone, Debug, Deserialize, Serialize, TS)]
 #[builder(builder_type(vis = "pub(crate)"))]
 #[serde(rename_all = "camelCase")]
 pub struct Army {
@@ -190,7 +191,7 @@ impl_army!(
 );
 
 #[must_use]
-#[derive(Clone, Copy, Debug, Display, PartialEq, Eq, Deserialize, Serialize)]
+#[derive(Clone, Copy, Debug, Display, PartialEq, Eq, Deserialize, Serialize, TS)]
 pub struct ArmyId(Uuid);
 
 impl ArmyId {
@@ -206,7 +207,7 @@ impl Default for ArmyId {
   }
 }
 
-#[derive(Clone, Debug, Default, Deserialize, Serialize, EnumIs)]
+#[derive(Clone, Debug, Default, Deserialize, Serialize, TS, EnumIs)]
 #[serde(tag = "kind", rename_all = "kebab-case")]
 pub enum ArmyState {
   #[default]

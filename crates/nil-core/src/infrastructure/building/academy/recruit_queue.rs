@@ -14,6 +14,14 @@ use serde::{Deserialize, Serialize};
 use std::collections::VecDeque;
 use std::num::NonZeroU32;
 use strum::EnumIs;
+use ts_rs::TS;
 use uuid::Uuid;
+
+#[derive(Clone, Debug, Default, Deserialize, Serialize, TS)]
+#[serde(rename_all = "camelCase")]
+pub struct AcademyRecruitQueue {
+  #[ts(as = "Vec<AcademyRecruitOrder>")]
+  orders: VecDeque<AcademyRecruitOrder>,
+}
 
 decl_recruit_queue!(Academy);

@@ -12,6 +12,7 @@ use crate::resources::influence::Influence;
 use derive_more::Deref;
 use serde::{Deserialize, Serialize};
 use strum::{Display, EnumIter, IntoEnumIterator};
+use ts_rs::TS;
 
 pub use crate::npc::precursor::a::A;
 pub use crate::npc::precursor::b::B;
@@ -97,7 +98,9 @@ where
   }
 }
 
-#[derive(Clone, Copy, Debug, Display, PartialEq, Eq, Hash, EnumIter, Deserialize, Serialize)]
+#[derive(
+  Clone, Copy, Debug, Display, PartialEq, Eq, Hash, EnumIter, Deserialize, Serialize, TS,
+)]
 pub enum PrecursorId {
   #[serde(rename = "A")]
   #[strum(serialize = "A")]
@@ -108,7 +111,7 @@ pub enum PrecursorId {
   B,
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, TS)]
 #[serde(rename_all = "camelCase")]
 pub struct PublicPrecursor {
   id: PrecursorId,

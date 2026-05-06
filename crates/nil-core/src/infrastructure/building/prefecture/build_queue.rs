@@ -11,11 +11,13 @@ use nil_num::mul_ceil::MulCeil;
 use serde::{Deserialize, Serialize};
 use std::collections::VecDeque;
 use strum::EnumIs;
+use ts_rs::TS;
 use uuid::Uuid;
 
-#[derive(Clone, Debug, Default, Deserialize, Serialize)]
+#[derive(Clone, Debug, Default, Deserialize, Serialize, TS)]
 #[serde(rename_all = "camelCase")]
 pub struct PrefectureBuildQueue {
+  #[ts(as = "Vec<PrefectureBuildOrder>")]
   orders: VecDeque<PrefectureBuildOrder>,
 }
 
@@ -104,7 +106,7 @@ impl InfrastructureQueue<PrefectureBuildOrder> for PrefectureBuildQueue {
 }
 
 #[must_use]
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, TS)]
 #[serde(rename_all = "camelCase")]
 pub struct PrefectureBuildOrder {
   id: PrefectureBuildOrderId,
@@ -156,7 +158,7 @@ impl InfrastructureQueueOrder for PrefectureBuildOrder {
   }
 }
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Deserialize, Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Deserialize, Serialize, TS)]
 pub struct PrefectureBuildOrderId(Uuid);
 
 impl PrefectureBuildOrderId {
@@ -172,7 +174,7 @@ impl Default for PrefectureBuildOrderId {
   }
 }
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Deserialize, Serialize, EnumIs)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Deserialize, Serialize, TS, EnumIs)]
 #[serde(rename_all = "kebab-case")]
 pub enum PrefectureBuildOrderKind {
   Construction,
@@ -187,7 +189,7 @@ impl PrefectureBuildOrderKind {
   }
 }
 
-#[derive(Clone, Debug, EnumIs, Deserialize, Serialize)]
+#[derive(Clone, Debug, EnumIs, Deserialize, Serialize, TS)]
 #[serde(tag = "kind", rename_all = "kebab-case")]
 pub enum PrefectureBuildOrderState {
   Pending { workforce: Workforce },
@@ -210,7 +212,7 @@ impl PrefectureBuildOrderState {
   }
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, TS)]
 #[serde(rename_all = "camelCase")]
 pub struct PrefectureBuildOrderRequest {
   pub coord: Coord,

@@ -17,6 +17,7 @@ use bon::Builder;
 use luck::Luck;
 use nil_num::growth::growth;
 use serde::{Deserialize, Serialize};
+use ts_rs::TS;
 
 #[derive(Builder)]
 pub struct Battle<'a> {
@@ -47,7 +48,7 @@ impl Battle<'_> {
   }
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, TS)]
 #[serde(rename_all = "camelCase")]
 pub struct BattleResult {
   attacker_personnel: ArmyPersonnel,
@@ -193,7 +194,7 @@ impl BattleResult {
   }
 }
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Deserialize, Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Deserialize, Serialize, TS)]
 #[serde(rename_all = "kebab-case")]
 pub enum BattleWinner {
   Attacker,

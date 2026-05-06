@@ -20,17 +20,20 @@ use nil_core::player::PlayerId;
 use nil_crypto::password::Password;
 use nil_server_types::auth::Token;
 use serde::{Deserialize, Serialize};
+use ts_rs::TS;
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, TS)]
 #[serde(rename_all = "camelCase")]
+#[ts(export, optional_fields = nullable)]
 pub struct AuthorizeRequest {
   pub player: PlayerId,
   #[serde(default)]
   pub password: Option<Password>,
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, TS)]
 #[serde(rename_all = "camelCase")]
+#[ts(export)]
 pub struct ValidateTokenRequest {
   pub token: Token,
 }

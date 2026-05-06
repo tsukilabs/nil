@@ -16,8 +16,9 @@ use crate::world::config::WorldConfig;
 use nil_core_macros::Building;
 use recruit_queue::{StableRecruitOrder, StableRecruitQueue};
 use serde::{Deserialize, Serialize};
+use ts_rs::TS;
 
-#[derive(Building, Clone, Debug, Deserialize, Serialize)]
+#[derive(Building, Clone, Debug, Deserialize, Serialize, TS)]
 #[serde(rename_all = "camelCase")]
 pub struct Stable {
   level: BuildingLevel,

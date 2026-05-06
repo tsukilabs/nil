@@ -12,6 +12,7 @@ use std::borrow::{Borrow, Cow};
 use std::collections::HashMap;
 use std::ops::Deref;
 use std::sync::Arc;
+use ts_rs::TS;
 
 #[derive(Clone, Debug, Default, Deserialize, Serialize)]
 pub struct PlayerManager(HashMap<PlayerId, Player>);
@@ -61,7 +62,7 @@ impl PlayerManager {
   }
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, TS)]
 #[serde(rename_all = "camelCase")]
 pub struct Player {
   id: PlayerId,
@@ -123,7 +124,7 @@ impl Player {
   }
 }
 
-#[derive(Debug, Display, From, Into, PartialEq, Eq, Hash, Deserialize, Serialize)]
+#[derive(Debug, Display, From, Into, PartialEq, Eq, Hash, Deserialize, Serialize, TS)]
 #[from(String, &str, Arc<str>, Box<str>, Cow<'_, str>)]
 pub struct PlayerId(Arc<str>);
 
@@ -153,14 +154,14 @@ impl Borrow<str> for PlayerId {
   }
 }
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Deserialize, Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Deserialize, Serialize, TS)]
 #[serde(rename_all = "kebab-case")]
 pub enum PlayerStatus {
   Active,
   Inactive,
 }
 
-#[derive(Builder, Clone, Debug, Deserialize, Serialize)]
+#[derive(Builder, Clone, Debug, Deserialize, Serialize, TS)]
 #[serde(rename_all = "camelCase")]
 pub struct PlayerOptions {
   #[builder(start_fn, into)]
@@ -174,7 +175,7 @@ impl PlayerOptions {
   }
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, TS)]
 #[serde(rename_all = "camelCase")]
 pub struct PublicPlayer {
   id: PlayerId,

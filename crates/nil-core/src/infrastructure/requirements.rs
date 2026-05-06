@@ -5,8 +5,9 @@ use super::Infrastructure;
 use super::building::BuildingLevel;
 use bon::Builder;
 use serde::{Deserialize, Serialize};
+use ts_rs::TS;
 
-#[derive(Builder, Clone, Debug, Default, Deserialize, Serialize)]
+#[derive(Builder, Clone, Debug, Default, Deserialize, Serialize, TS)]
 #[serde(rename_all = "camelCase")]
 #[builder(const)]
 pub struct InfrastructureRequirements {

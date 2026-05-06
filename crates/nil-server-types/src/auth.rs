@@ -5,8 +5,9 @@ use derive_more::From;
 use serde::{Deserialize, Serialize};
 use std::borrow::Cow;
 use std::ops::Deref;
+use ts_rs::TS;
 
-#[derive(Clone, Debug, From, PartialEq, Eq, Hash, Deserialize, Serialize)]
+#[derive(Clone, Debug, From, PartialEq, Eq, Hash, Deserialize, Serialize, TS)]
 #[from(String, &str, Box<str>, Cow<'_, str>)]
 pub struct Token(Box<str>);
 

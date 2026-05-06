@@ -11,8 +11,9 @@ use crate::resources::maintenance::MaintenanceRatio;
 use crate::resources::workforce::Workforce;
 use nil_core_macros::{Building, Mine};
 use serde::{Deserialize, Serialize};
+use ts_rs::TS;
 
-#[derive(Building, Mine, Clone, Debug, Deserialize, Serialize)]
+#[derive(Building, Mine, Clone, Debug, Deserialize, Serialize, TS)]
 #[serde(rename_all = "camelCase")]
 pub struct IronMine {
   level: BuildingLevel,

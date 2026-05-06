@@ -11,8 +11,9 @@ use crate::resources::maintenance::MaintenanceRatio;
 use crate::resources::workforce::Workforce;
 use nil_core_macros::{Building, Storage};
 use serde::{Deserialize, Serialize};
+use ts_rs::TS;
 
-#[derive(Building, Storage, Clone, Debug, Deserialize, Serialize)]
+#[derive(Building, Storage, Clone, Debug, Deserialize, Serialize, TS)]
 #[serde(rename_all = "camelCase")]
 pub struct Warehouse {
   level: BuildingLevel,

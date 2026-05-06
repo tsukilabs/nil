@@ -19,8 +19,9 @@ use crate::world::config::WorldConfig;
 use build_queue::{PrefectureBuildOrder, PrefectureBuildQueue};
 use nil_core_macros::Building;
 use serde::{Deserialize, Serialize};
+use ts_rs::TS;
 
-#[derive(Building, Clone, Debug, Deserialize, Serialize)]
+#[derive(Building, Clone, Debug, Deserialize, Serialize, TS)]
 #[serde(rename_all = "camelCase")]
 pub struct Prefecture {
   level: BuildingLevel,

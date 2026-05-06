@@ -6,9 +6,10 @@ use crate::world::WorldOptions;
 use bon::Builder;
 use derive_more::{Deref, Display, Into};
 use serde::{Deserialize, Serialize};
+use ts_rs::TS;
 use uuid::Uuid;
 
-#[derive(Builder, Clone, Debug, Deserialize, Serialize)]
+#[derive(Builder, Clone, Debug, Deserialize, Serialize, TS)]
 #[serde(rename_all = "camelCase")]
 pub struct WorldConfig {
   #[builder(start_fn, into)]
@@ -98,7 +99,19 @@ impl WorldConfig {
 }
 
 #[derive(
-  Clone, Copy, Debug, Deref, Display, PartialEq, Eq, PartialOrd, Ord, Hash, Deserialize, Serialize,
+  Clone,
+  Copy,
+  Debug,
+  Deref,
+  Display,
+  PartialEq,
+  Eq,
+  PartialOrd,
+  Ord,
+  Hash,
+  Deserialize,
+  Serialize,
+  TS,
 )]
 pub struct WorldId(Uuid);
 
@@ -123,7 +136,7 @@ impl TryFrom<&str> for WorldId {
   }
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, TS)]
 pub struct WorldName(Box<str>);
 
 impl<T: AsRef<str>> From<T> for WorldName {
@@ -132,7 +145,7 @@ impl<T: AsRef<str>> From<T> for WorldName {
   }
 }
 
-#[derive(Clone, Copy, Debug, Default, Deserialize, Serialize)]
+#[derive(Clone, Copy, Debug, Default, Deserialize, Serialize, TS)]
 pub enum Locale {
   #[default]
   #[serde(rename = "en-US")]
@@ -167,17 +180,17 @@ macro_rules! impl_f64_newtype {
   };
 }
 
-#[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize, nil_num::F64Ops)]
+#[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize, TS, nil_num::F64Ops)]
 pub struct WorldSpeed(f64);
 
 impl_f64_newtype!(WorldSpeed, min = 0.1, max = 10.0, default = 1.0);
 
-#[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize, nil_num::F64Ops)]
+#[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize, TS, nil_num::F64Ops)]
 pub struct WorldUnitSpeed(f64);
 
 impl_f64_newtype!(WorldUnitSpeed, min = 0.1, max = 10.0, default = 1.0);
 
-#[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize, nil_num::F64Ops)]
+#[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize, TS, nil_num::F64Ops)]
 pub struct BotDensity(f64);
 
 impl_f64_newtype!(
@@ -188,7 +201,7 @@ impl_f64_newtype!(
 );
 
 /// Proportion of bots that will have an advanced start with higher level infrastructure.
-#[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize, nil_num::F64Ops)]
+#[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize, TS, nil_num::F64Ops)]
 pub struct BotAdvancedStartRatio(f64);
 
 impl_f64_newtype!(BotAdvancedStartRatio, min = 0.0, max = 1.0, default = 0.2);
