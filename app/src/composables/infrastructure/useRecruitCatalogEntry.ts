@@ -3,8 +3,7 @@
 
 import { ResourcesImpl } from '@/core/model/resources';
 import { computed, type MaybeRefOrGetter, ref, toRef } from 'vue';
-import type { StableRecruitCatalogEntry } from '@/types/core/infrastructure/stable';
-import type { AcademyRecruitCatalogEntry } from '@/types/core/infrastructure/academy';
+import type { AcademyRecruitCatalogEntry, StableRecruitCatalogEntry } from '@/types/bindings';
 
 type RecruitCatalogEntry = AcademyRecruitCatalogEntry | StableRecruitCatalogEntry;
 

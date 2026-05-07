@@ -1,10 +1,15 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Resources } from '@/types/core/resources';
+import type { BuildingLevel, Resources } from '@/types/bindings';
+
+export interface Building {
+  readonly enabled: boolean;
+  readonly level: BuildingLevel;
+}
 
 export interface InfrastructureQueue<Order extends InfrastructureQueueOrder> {
-  readonly orders: readonly Order[];
+  readonly orders: Order[];
 }
 
 export interface InfrastructureQueueOrder {

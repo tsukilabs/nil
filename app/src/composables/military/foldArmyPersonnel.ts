@@ -8,7 +8,7 @@ import { ArmyPersonnelImpl } from '@/core/model/military/army-personnel';
 export function foldArmyPersonnel(armies: MaybeRefOrGetter<readonly Army[]>) {
   const armiesRef = toRef(armies);
   return computed(() => {
-    const initial = ArmyPersonnelImpl.createWritable();
+    const initial = ArmyPersonnelImpl.createEmptyRaw();
     const personnel = armiesRef.value.reduce((acc, curr) => {
       acc.archer.size += curr.personnel.archer.size;
       acc.axeman.size += curr.personnel.axeman.size;

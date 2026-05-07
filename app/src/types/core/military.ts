@@ -1,7 +1,21 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ArmyPersonnel, Squad } from '@/types/bindings';
+import type {
+  Army,
+  ArmyPersonnel,
+  ContinentIndex,
+  ContinentSize,
+  Maneuver,
+  ManeuverId,
+  Squad,
+} from '@/types/bindings';
+
+export interface Military {
+  readonly continent: ReadonlyMap<ContinentIndex, readonly Army[]>;
+  readonly continentSize: ContinentSize;
+  readonly maneuvers: ReadonlyMap<ManeuverId, Maneuver>;
+}
 
 export interface ArmyAcademyPersonnel {
   readonly archer: Squad;
@@ -22,3 +36,5 @@ export interface ArmyWorkshopPersonnel {
 export type ArmyPersonnelSize = {
   [unit in keyof ArmyPersonnel]: number;
 };
+
+export type SquadTuple = [Squad['unit'], Squad['size']];

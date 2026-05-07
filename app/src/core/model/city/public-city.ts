@@ -93,6 +93,6 @@ export class PublicCityImpl implements Readonly<PublicCity> {
 }
 
 export interface PublicCityImplConstructorArgs {
-  city: PublicCity;
+  city: Readonly<PublicCity>;
   score: number;
 }

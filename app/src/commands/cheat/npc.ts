@@ -8,8 +8,10 @@ import type { ContinentKey } from '@/types/core/continent';
 import type {
   BotId,
   CheatGetEthicsRequest,
+  CheatGetEthicsResponse,
   CheatSetBotEthicsRequest,
   CheatSpawnBotRequest,
+  CheatSpawnBotResponse,
   EthicPowerAxis,
   Ethics,
   EthicTruthAxis,
@@ -24,7 +26,7 @@ export async function cheatGetEthics(ruler: Ruler) {
     ruler,
   };
 
-  return invoke<Option<Ethics>>('cheat_get_ethics', { req });
+  return invoke<CheatGetEthicsResponse>('cheat_get_ethics', { req });
 }
 
 export async function cheatGetBotEthics(id: BotId) {
@@ -116,5 +118,5 @@ export async function cheatSpawnBot(name?: Option<string>, infrastructure?: Infr
     infrastructure: infrastructure ?? null,
   };
 
-  return invoke<BotId>('cheat_spawn_bot', { req });
+  return invoke<CheatSpawnBotResponse>('cheat_spawn_bot', { req });
 }

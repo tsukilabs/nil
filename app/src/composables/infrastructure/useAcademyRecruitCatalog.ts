@@ -6,8 +6,7 @@ import type { Option } from '@tb-dev/utils';
 import { toCoordRef } from '@/composables/toRef';
 import { type MaybeNilRef, useMutex } from '@tb-dev/vue';
 import type { CoordImpl } from '@/core/model/continent/coord';
-import type { AcademyRecruitCatalog, AcademyUnitId } from '@/types/bindings';
-import type { InfrastructureQueueOrderId } from '@/types/core/infrastructure/queue';
+import type { AcademyRecruitCatalog, AcademyRecruitOrderId, AcademyUnitId } from '@/types/bindings';
 import {
   addAcademyRecruitOrder,
   cancelAcademyRecruitOrder,
@@ -37,7 +36,7 @@ export function useAcademyRecruitCatalog(coord?: MaybeNilRef<CoordImpl>) {
     await load();
   }
 
-  async function cancel(id: InfrastructureQueueOrderId) {
+  async function cancel(id: AcademyRecruitOrderId) {
     await lock(async () => {
       if (coordRef.value) {
         await cancelAcademyRecruitOrder(coordRef.value, id);

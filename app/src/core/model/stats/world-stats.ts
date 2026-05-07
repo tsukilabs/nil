@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { BuildingId, WorldStats } from '@/types/bindings';
-import { InfrastructureStatsImpl, type RawInfrastructureStats } from './infrastructure-stats';
+import { InfrastructureStatsImpl } from './infrastructure-stats';
 
-export class WorldStatsImpl implements WorldStats {
+export class WorldStatsImpl {
   public readonly infrastructure: InfrastructureStatsImpl;
 
   private constructor(stats: { infrastructure: InfrastructureStatsImpl; }) {
@@ -19,12 +19,8 @@ export class WorldStatsImpl implements WorldStats {
     return this.infrastructure.getMaxLevel(building);
   }
 
-  public static fromRaw(raw: RawWorldStats) {
+  public static fromRaw(raw: WorldStats) {
     const infrastructure = InfrastructureStatsImpl.fromRaw(raw.infrastructure);
     return new WorldStatsImpl({ infrastructure });
   }
-}
-
-export interface RawWorldStats {
-  readonly infrastructure: RawInfrastructureStats;
 }

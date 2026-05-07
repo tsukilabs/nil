@@ -6,7 +6,7 @@ import type { StableRecruitQueue } from '@/types/bindings';
 import { InfrastructureQueueImpl } from '@/core/model/infrastructure/queue/queue';
 
 export class StableRecruitQueueImpl extends InfrastructureQueueImpl<StableRecruitOrderImpl>
-  implements StableRecruitQueue
+  implements Readonly<StableRecruitQueue>
 {
   private constructor(queue: StableRecruitQueue) {
     const orders = queue.orders.map((it) => StableRecruitOrderImpl.create(it));

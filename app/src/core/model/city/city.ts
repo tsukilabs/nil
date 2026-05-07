@@ -92,5 +92,5 @@ export class CityImpl extends PublicCityImpl implements Readonly<City> {
 }
 
 export interface CityImplConstructorArgs extends PublicCityImplConstructorArgs {
-  city: City;
+  city: Readonly<City>;
 }

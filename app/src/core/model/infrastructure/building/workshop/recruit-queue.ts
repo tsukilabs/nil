@@ -6,7 +6,7 @@ import type { WorkshopRecruitQueue } from '@/types/bindings';
 import { InfrastructureQueueImpl } from '@/core/model/infrastructure/queue/queue';
 
 export class WorkshopRecruitQueueImpl extends InfrastructureQueueImpl<WorkshopRecruitOrderImpl>
-  implements WorkshopRecruitQueue
+  implements Readonly<WorkshopRecruitQueue>
 {
   private constructor(queue: WorkshopRecruitQueue) {
     const orders = queue.orders.map((it) => WorkshopRecruitOrderImpl.create(it));

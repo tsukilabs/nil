@@ -4,7 +4,7 @@
 use crate::continent::{ContinentSize, Coord};
 use crate::error::{Error, Result};
 use derive_more::{Deref, Display, From, Into};
-use nil_num::BigIntUsize;
+use serde::{Deserialize, Serialize, Serializer, ser};
 use std::ops::{Div, Rem};
 use ts_rs::TS;
 
@@ -21,10 +21,10 @@ use ts_rs::TS;
   PartialOrd,
   Ord,
   Hash,
-  BigIntUsize,
+  Deserialize,
   TS,
 )]
-#[ts(as = "String")]
+#[ts(as = "u32")]
 pub struct ContinentIndex(usize);
 
 impl ContinentIndex {
@@ -61,6 +61,17 @@ impl ContinentIndex {
       u8::try_from(x).map_err(|_| Error::IndexOutOfBounds(self))?,
       u8::try_from(y).map_err(|_| Error::IndexOutOfBounds(self))?,
     ))
+  }
+}
+
+impl Serialize for ContinentIndex {
+  fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+  where
+    S: Serializer,
+  {
+    u32::try_from(self.0)
+      .map_err(|_| ser::Error::custom("index out of bounds"))?
+      .serialize(serializer)
   }
 }
 

@@ -2,10 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { StorageStatsImpl } from '@/core/model/stats/storage-stats';
-import type { StorageStatsTable } from '@/types/core/infrastructure/storage';
-import type { BuildingLevel, StorageId, StorageStats } from '@/types/bindings';
+import type { BuildingLevel, StorageId, StorageStatsTable } from '@/types/bindings';
 
-export class StorageStatsTableImpl implements StorageStatsTable {
+type Stats = Omit<Readonly<StorageStatsTable>, 'table'>;
+
+export class StorageStatsTableImpl implements Stats {
   public readonly id: StorageId;
   public readonly table: ReadonlyMap<BuildingLevel, StorageStatsImpl>;
 
@@ -18,7 +19,7 @@ export class StorageStatsTableImpl implements StorageStatsTable {
     return this.table.get(level);
   }
 
-  public static fromRaw(raw: RawStorageStatsTable) {
+  public static fromRaw(raw: StorageStatsTable) {
     const table = new Map<number, StorageStatsImpl>();
     for (const [level, stats] of Object.entries(raw.table)) {
       table.set(Number.parseInt(level), StorageStatsImpl.create(stats));
@@ -28,11 +29,6 @@ export class StorageStatsTableImpl implements StorageStatsTable {
   }
 }
 
-export interface RawStorageStatsTable {
-  readonly id: StorageId;
-  readonly table: Record<string, StorageStats>;
-}
-
-interface StorageStatsTableImplConstructorArgs extends StorageStatsTable {
+interface StorageStatsTableImplConstructorArgs extends Stats {
   readonly table: ReadonlyMap<number, StorageStatsImpl>;
 }

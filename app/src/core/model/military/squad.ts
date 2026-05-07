@@ -3,7 +3,7 @@
 
 import { toU32 } from '@/lib/number';
 import type { Squad, UnitId } from '@/types/bindings';
-import type { SquadTuple } from '@/types/core/military/squad';
+import type { SquadTuple } from '@/types/core/military';
 
 export class SquadImpl implements Readonly<Squad> {
   public readonly unit: UnitId;

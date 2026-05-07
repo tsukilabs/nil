@@ -1,15 +1,22 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Option } from '@tb-dev/utils';
-import type { BuildingId, MineId, StorageId } from '@/types/bindings';
-import type { InfrastructureStats } from '@/types/core/infrastructure';
-import { MineStatsTableImpl, type RawMineStatsTable } from './mine-stats-table';
-import { type RawStorageStatsTable, StorageStatsTableImpl } from './storage-stats-table';
-import { BuildingStatsTableImpl, type RawBuildingStatsTable } from './building-stats-table';
-import { type RawWallStatsTable, WallStatsTableImpl } from '@/core/model/stats/wall-stats-table';
+import { type Option, unwrap } from '@tb-dev/utils';
+import { MineStatsTableImpl } from './mine-stats-table';
+import { StorageStatsTableImpl } from './storage-stats-table';
+import { BuildingStatsTableImpl } from './building-stats-table';
+import { WallStatsTableImpl } from '@/core/model/stats/wall-stats-table';
+import type {
+  BuildingId,
+  BuildingStatsTable,
+  InfrastructureStats,
+  MineId,
+  MineStatsTable,
+  StorageId,
+  StorageStatsTable,
+} from '@/types/bindings';
 
-export class InfrastructureStatsImpl implements InfrastructureStats {
+export class InfrastructureStatsImpl {
   public readonly building: ReadonlyMap<BuildingId, BuildingStatsTableImpl>;
   public readonly mine: ReadonlyMap<MineId, MineStatsTableImpl>;
   public readonly storage: ReadonlyMap<StorageId, StorageStatsTableImpl>;
@@ -42,7 +49,7 @@ export class InfrastructureStatsImpl implements InfrastructureStats {
     return this.getBuilding(building)?.maxLevel;
   }
 
-  public static fromRaw(raw: RawInfrastructureStats) {
+  public static fromRaw(raw: InfrastructureStats) {
     interface UninitInfrastructureStats {
       building: Map<BuildingId, BuildingStatsTableImpl>;
       mine: Map<MineId, MineStatsTableImpl>;
@@ -58,9 +65,9 @@ export class InfrastructureStatsImpl implements InfrastructureStats {
     };
 
     for (const [key, value] of Object.entries(raw)) {
-      switch (key as keyof RawInfrastructureStats) {
+      switch (key as keyof InfrastructureStats) {
         case 'building': {
-          type Entries = [BuildingId, RawBuildingStatsTable][];
+          type Entries = [BuildingId, BuildingStatsTable][];
           for (const [id, record] of Object.entries(value) as Entries) {
             const impl = BuildingStatsTableImpl.fromRaw(record);
             infrastructure.building.set(id, impl);
@@ -69,7 +76,7 @@ export class InfrastructureStatsImpl implements InfrastructureStats {
           break;
         }
         case 'mine': {
-          type Entries = [MineId, RawMineStatsTable][];
+          type Entries = [MineId, MineStatsTable][];
           for (const [id, record] of Object.entries(value) as Entries) {
             const impl = MineStatsTableImpl.fromRaw(record);
             infrastructure.mine.set(id, impl);
@@ -78,7 +85,7 @@ export class InfrastructureStatsImpl implements InfrastructureStats {
           break;
         }
         case 'storage': {
-          type Entries = [StorageId, RawStorageStatsTable][];
+          type Entries = [StorageId, StorageStatsTable][];
           for (const [id, record] of Object.entries(value) as Entries) {
             const impl = StorageStatsTableImpl.fromRaw(record);
             infrastructure.storage.set(id, impl);
@@ -97,16 +104,9 @@ export class InfrastructureStatsImpl implements InfrastructureStats {
       building: infrastructure.building,
       mine: infrastructure.mine,
       storage: infrastructure.storage,
-      wall: infrastructure.wall!,
+      wall: unwrap(infrastructure.wall),
     });
   }
-}
-
-export interface RawInfrastructureStats {
-  readonly building: Record<BuildingId, RawBuildingStatsTable>;
-  readonly mine: Record<MineId, RawMineStatsTable>;
-  readonly storage: Record<StorageId, RawStorageStatsTable>;
-  readonly wall: RawWallStatsTable;
 }
 
 interface InfrastructureStatsImplConstructorArgs {

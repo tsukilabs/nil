@@ -11,9 +11,10 @@ import { getPlayerCoords } from '@/commands/player';
 import { CoordImpl } from '@/core/model/continent/coord';
 import type { ContinentKey } from '@/types/core/continent';
 import { getPrecursorCoords } from '@/commands/npc/precursor';
-import type { BuildingId, BuildingLevel } from '@/types/core/infrastructure/building';
 import type {
   BotId,
+  BuildingId,
+  BuildingLevel,
   CheatGetAcademyRecruitQueueRequest,
   CheatGetAcademyRecruitQueueResponse,
   CheatGetAcademyRecruitQueuesRequest,

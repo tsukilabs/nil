@@ -2,10 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { MineStatsImpl } from '@/core/model/stats/mine-stats';
-import type { MineStatsTable } from '@/types/core/infrastructure/mine';
-import type { BuildingLevel, MineId, MineStats } from '@/types/bindings';
+import type { BuildingLevel, MineId, MineStatsTable } from '@/types/bindings';
 
-export class MineStatsTableImpl implements MineStatsTable {
+type Stats = Omit<Readonly<MineStatsTable>, 'table'>;
+
+export class MineStatsTableImpl implements Stats {
   public readonly id: MineId;
   public readonly table: ReadonlyMap<BuildingLevel, MineStatsImpl>;
 
@@ -18,7 +19,7 @@ export class MineStatsTableImpl implements MineStatsTable {
     return this.table.get(level);
   }
 
-  public static fromRaw(raw: RawMineStatsTable) {
+  public static fromRaw(raw: MineStatsTable) {
     const table = new Map<number, MineStatsImpl>();
     for (const [level, stats] of Object.entries(raw.table)) {
       table.set(Number.parseInt(level), MineStatsImpl.create(stats));
@@ -28,11 +29,6 @@ export class MineStatsTableImpl implements MineStatsTable {
   }
 }
 
-export interface RawMineStatsTable {
-  readonly id: MineId;
-  readonly table: Record<string, MineStats>;
-}
-
-interface MineStatsTableImplConstructorArgs extends MineStatsTable {
+interface MineStatsTableImplConstructorArgs extends Stats {
   readonly table: ReadonlyMap<number, MineStatsImpl>;
 }
