@@ -6,7 +6,7 @@ import type { AcademyRecruitOrder } from '@/types/bindings';
 import { InfrastructureQueueOrderImpl } from '@/core/model/infrastructure/queue/queue-order';
 
 export class AcademyRecruitOrderImpl extends InfrastructureQueueOrderImpl
-  implements AcademyRecruitOrder
+  implements Readonly<AcademyRecruitOrder>
 {
   public readonly squad: SquadImpl;
 

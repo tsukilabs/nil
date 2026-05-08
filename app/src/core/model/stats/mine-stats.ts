@@ -3,7 +3,7 @@
 
 import type { BuildingLevel, MineStats } from '@/types/bindings';
 
-export class MineStatsImpl implements MineStats {
+export class MineStatsImpl implements Readonly<MineStats> {
   public readonly level: BuildingLevel;
   public readonly production: number;
 

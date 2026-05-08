@@ -4,7 +4,7 @@
 import { ResourcesImpl } from '@/core/model/resources';
 import type { BuildingLevel, BuildingStats } from '@/types/bindings';
 
-export class BuildingStatsImpl implements BuildingStats {
+export class BuildingStatsImpl implements Readonly<BuildingStats> {
   public readonly level: BuildingLevel;
   public readonly cost: number;
   public readonly resources: ResourcesImpl;

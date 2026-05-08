@@ -14,7 +14,7 @@ import { AcademyImpl } from './building/academy/academy';
 import { WorkshopImpl } from './building/workshop/workshop';
 import { PrefectureImpl } from './building/prefecture/prefecture';
 
-export class InfrastructureImpl implements Infrastructure {
+export class InfrastructureImpl implements Readonly<Infrastructure> {
   public readonly academy: AcademyImpl;
   public readonly farm: FarmImpl;
   public readonly ironMine: IronMineImpl;

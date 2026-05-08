@@ -3,7 +3,7 @@
 
 import type { OverallStorageCapacity } from '@/types/bindings';
 
-export class OverallStorageCapacityImpl implements OverallStorageCapacity {
+export class OverallStorageCapacityImpl implements Readonly<OverallStorageCapacity> {
   public readonly silo: number;
   public readonly warehouse: number;
 

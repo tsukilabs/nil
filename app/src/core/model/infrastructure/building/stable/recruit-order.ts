@@ -6,7 +6,7 @@ import type { StableRecruitOrder } from '@/types/bindings';
 import { InfrastructureQueueOrderImpl } from '@/core/model/infrastructure/queue/queue-order';
 
 export class StableRecruitOrderImpl extends InfrastructureQueueOrderImpl
-  implements StableRecruitOrder
+  implements Readonly<StableRecruitOrder>
 {
   public readonly squad: SquadImpl;
 

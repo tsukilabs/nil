@@ -3,7 +3,7 @@
 
 import type { BuildingLevel, StorageStats } from '@/types/bindings';
 
-export class StorageStatsImpl implements StorageStats {
+export class StorageStatsImpl implements Readonly<StorageStats> {
   public readonly level: BuildingLevel;
   public readonly capacity: number;
 

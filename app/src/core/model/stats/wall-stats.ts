@@ -3,7 +3,7 @@
 
 import type { BuildingLevel, WallStats } from '@/types/bindings';
 
-export class WallStatsImpl implements WallStats {
+export class WallStatsImpl implements Readonly<WallStats> {
   public readonly level: BuildingLevel;
   public readonly defense: number;
   public readonly defensePercent: number;
