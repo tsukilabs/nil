@@ -14,6 +14,10 @@ import type {
   CheatGetIdleArmiesAtResponse,
   CheatGetIdlePersonnelAtRequest,
   CheatGetIdlePersonnelAtResponse,
+  CheatGetManeuversOfRequest,
+  CheatGetManeuversOfResponse,
+  CheatGetManeuversRequest,
+  CheatGetManeuversResponse,
   CheatSpawnPersonnelRequest,
   Ruler,
   Squad,
@@ -56,6 +60,23 @@ export async function cheatGetIdleSquadsAt(coord?: Option<ContinentKey>) {
 export async function cheatGetIdleUnitAmountAt(coord?: Option<ContinentKey>) {
   const size = await cheatGetIdlePersonnelSizeAt(coord);
   return Object.values(size).reduce((acc, curr) => acc + curr, 0);
+}
+
+export async function cheatGetManeuvers() {
+  const req: CheatGetManeuversRequest = {
+    world: NIL.world.getIdStrict(),
+  };
+
+  return invoke<CheatGetManeuversResponse>('cheat_get_maneuvers', { req });
+}
+
+export async function cheatGetManeuversOf(ruler: Ruler) {
+  const req: CheatGetManeuversOfRequest = {
+    world: NIL.world.getIdStrict(),
+    ruler,
+  };
+
+  return invoke<CheatGetManeuversOfResponse>('cheat_get_maneuvers_of', { req });
 }
 
 export async function cheatSpawnPersonnel(

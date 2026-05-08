@@ -38,6 +38,36 @@ impl Client {
       .await
   }
 
+  pub async fn cheat_get_maneuvers(
+    &self,
+    req: CheatGetManeuversRequest,
+  ) -> Result<CheatGetManeuversResponse> {
+    http::json_put("cheat-get-maneuvers")
+      .body(req)
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_ref())
+      .circuit_breaker(self.circuit_breaker())
+      .retry(&self.retry)
+      .user_agent(&self.user_agent)
+      .send()
+      .await
+  }
+
+  pub async fn cheat_get_maneuvers_of(
+    &self,
+    req: CheatGetManeuversOfRequest,
+  ) -> Result<CheatGetManeuversOfResponse> {
+    http::json_put("cheat-get-maneuvers-of")
+      .body(req)
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_ref())
+      .circuit_breaker(self.circuit_breaker())
+      .retry(&self.retry)
+      .user_agent(&self.user_agent)
+      .send()
+      .await
+  }
+
   pub async fn cheat_spawn_personnel(&self, req: CheatSpawnPersonnelRequest) -> Result<()> {
     http::post("cheat-spawn-personnel")
       .body(req)

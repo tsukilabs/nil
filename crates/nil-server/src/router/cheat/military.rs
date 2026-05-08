@@ -2,10 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::app::App;
+use crate::middleware::authorization::CurrentPlayer;
 use crate::res;
 use crate::response::EitherExt;
-use axum::extract::{Json, State};
+use axum::extract::{Extension, Json, State};
 use axum::response::Response;
+use nil_core::ruler::Ruler;
 use nil_payload::request::cheat::military::*;
 use nil_payload::response::cheat::military::*;
 
@@ -30,6 +32,33 @@ pub async fn get_idle_personnel_at(
     })
     .await
     .try_map_left(|personnel| res!(OK, CheatGetIdlePersonnelAtResponse(personnel)))
+    .into_inner()
+}
+
+pub async fn get_maneuvers(
+  State(app): State<App>,
+  Json(req): Json<CheatGetManeuversRequest>,
+) -> Response {
+  app
+    .world(req.world, |world| world.cheat_get_maneuvers())
+    .await
+    .try_map_left(|maneuvers| res!(OK, CheatGetManeuversResponse(maneuvers)))
+    .into_inner()
+}
+
+pub async fn get_maneuvers_of(
+  State(app): State<App>,
+  Extension(player): Extension<CurrentPlayer>,
+  Json(req): Json<CheatGetManeuversOfRequest>,
+) -> Response {
+  let ruler = req
+    .ruler
+    .unwrap_or_else(|| Ruler::from(player.0));
+
+  app
+    .world(req.world, |world| world.cheat_get_maneuvers_of(ruler))
+    .await
+    .try_map_left(|maneuvers| res!(OK, CheatGetManeuversOfResponse(maneuvers)))
     .into_inner()
 }
 

@@ -59,6 +59,8 @@ pub(crate) fn create() -> Router<App> {
     .route("/cheat-get-idle-armies-at", put(cheat::military::get_idle_armies_at))
     .route("/cheat-get-idle-personnel-at", put(cheat::military::get_idle_personnel_at))
     .route("/cheat-get-infrastructure", put(cheat::infrastructure::get_infrastructure))
+    .route("/cheat-get-maneuvers", put(cheat::military::get_maneuvers))
+    .route("/cheat-get-maneuvers-of", put(cheat::military::get_maneuvers_of))
     .route("/cheat-get-player", put(cheat::player::get_player))
     .route("/cheat-get-players", put(cheat::player::get_players))
     .route("/cheat-get-prefecture-build-queue", put(cheat::infrastructure::get_prefecture_build_queue))

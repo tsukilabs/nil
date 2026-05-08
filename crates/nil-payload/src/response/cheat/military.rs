@@ -3,6 +3,7 @@
 
 use nil_core::military::army::Army;
 use nil_core::military::army::personnel::ArmyPersonnel;
+use nil_core::military::maneuver::Maneuver;
 use serde::{Deserialize, Serialize};
 
 #[cfg(feature = "axum")]
@@ -22,3 +23,15 @@ pub struct CheatGetIdleArmiesAtResponse(pub Vec<Army>);
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct CheatGetIdlePersonnelAtResponse(pub ArmyPersonnel);
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
+pub struct CheatGetManeuversResponse(pub Vec<Maneuver>);
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
+pub struct CheatGetManeuversOfResponse(pub Vec<Maneuver>);

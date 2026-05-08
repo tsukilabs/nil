@@ -6,6 +6,7 @@ use crate::continent::Coord;
 use crate::error::Result;
 use crate::military::army::Army;
 use crate::military::army::personnel::ArmyPersonnel;
+use crate::military::maneuver::Maneuver;
 use crate::ruler::Ruler;
 use crate::world::World;
 use itertools::Itertools;
@@ -28,6 +29,33 @@ impl World {
     self
       .military
       .fold_idle_personnel_at(coord)
+      .pipe(Ok)
+  }
+
+  pub fn cheat_get_maneuvers(&self) -> Result<Vec<Maneuver>> {
+    bail_if_cheats_are_not_allowed!(self);
+    self
+      .military
+      .maneuvers()
+      .cloned()
+      .collect_vec()
+      .pipe(Ok)
+  }
+
+  pub fn cheat_get_maneuvers_of(&self, ruler: Ruler) -> Result<Vec<Maneuver>> {
+    bail_if_cheats_are_not_allowed!(self);
+
+    let mut maneuvers = Vec::new();
+    for coord in self.continent.coords_of(ruler) {
+      maneuvers.extend(self.military.maneuvers_at(coord));
+    }
+
+    maneuvers
+      .into_iter()
+      .unique_by(|it| it.id())
+      .sorted_by_key(|it| it.id())
+      .cloned()
+      .collect_vec()
       .pipe(Ok)
   }
 
