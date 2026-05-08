@@ -33,8 +33,8 @@ pub struct GetCityScoreResponse(pub Score);
 pub struct GetPublicCitiesResponse(pub Vec<GetPublicCityResponse>);
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
-#[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
 #[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct GetPublicCityResponse {
