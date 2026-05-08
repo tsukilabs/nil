@@ -3,19 +3,10 @@
 
 import { get } from '../lib/api';
 import { asyncRef } from '@tb-dev/vue';
-
-export interface World {
-  readonly currentRound: number;
-  readonly totalPlayers: number;
-  readonly config: {
-    readonly id: string;
-    readonly name: string;
-    readonly speed: number;
-  };
-}
+import type { RemoteWorld } from '@tsukilabs/nil-bindings';
 
 export function useWorlds() {
-  const { state, loading } = asyncRef<readonly World[]>([], async () => {
+  const { state, loading } = asyncRef<readonly RemoteWorld[]>([], async () => {
     return get('get-remote-worlds').then((it) => it.json());
   });
 

@@ -40,8 +40,7 @@ fn main() -> Result<()> {
   files.sort_by(|a, b| compare_ignore_case(a, b));
 
   let mut index = String::new();
-  writeln!(index, "// Copyright (C) Call of Nil contributors")?;
-  writeln!(index, "// SPDX-License-Identifier: AGPL-3.0-only\n")?;
+  write_header(&mut index)?;
 
   for file in files {
     writeln!(index, "export type {{ {file} }} from './{file}';")?;
@@ -51,6 +50,16 @@ fn main() -> Result<()> {
   fs::write(path, index)?;
 
   spawn!("pnpm run -F @tsukilabs/nil-bindings build")?;
+
+  Ok(())
+}
+
+#[rustfmt::skip]
+fn write_header(index: &mut String) -> Result<()> {
+  writeln!(index, "//! Copyright (C) Call of Nil contributors")?;
+  writeln!(index, "//! SPDX-License-Identifier: AGPL-3.0-only\n")?;
+  writeln!(index, "import {{ version }} from '../package.json' with {{ type: 'json' }};\n")?;
+  writeln!(index, "export const VERSION = version;\n")?;
 
   Ok(())
 }

@@ -1,5 +1,9 @@
-// Copyright (C) Call of Nil contributors
-// SPDX-License-Identifier: AGPL-3.0-only
+//! Copyright (C) Call of Nil contributors
+//! SPDX-License-Identifier: AGPL-3.0-only
+
+import { version } from '../package.json' with { type: 'json' };
+
+export const VERSION = version;
 
 export type { Academy } from './Academy';
 export type { AcademyRecruitCatalog } from './AcademyRecruitCatalog';
@@ -187,7 +191,6 @@ export type { GetReportsResponse } from './GetReportsResponse';
 export type { GetRoundRequest } from './GetRoundRequest';
 export type { GetRoundResponse } from './GetRoundResponse';
 export type { GetServerKindResponse } from './GetServerKindResponse';
-export type { GetServerVersionResponse } from './GetServerVersionResponse';
 export type { GetStableRecruitCatalogRequest } from './GetStableRecruitCatalogRequest';
 export type { GetStableRecruitCatalogResponse } from './GetStableRecruitCatalogResponse';
 export type { GetWorkshopRecruitCatalogRequest } from './GetWorkshopRecruitCatalogRequest';
@@ -314,6 +317,7 @@ export type { UserExistsRequest } from './UserExistsRequest';
 export type { UserExistsResponse } from './UserExistsResponse';
 export type { ValidateTokenRequest } from './ValidateTokenRequest';
 export type { ValidateTokenResponse } from './ValidateTokenResponse';
+export type { VersionResponse } from './VersionResponse';
 export type { Wall } from './Wall';
 export type { WallDefense } from './WallDefense';
 export type { WallDefenseBonus } from './WallDefenseBonus';

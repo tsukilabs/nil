@@ -6,7 +6,9 @@ import { asyncRef } from '@tb-dev/vue';
 
 export function useServerVersion() {
   const { state, loading } = asyncRef(null, async () => {
-    return get('version').then((it) => it.text());
+    const response = await get('version');
+    const version = await response.text();
+    return version;
   });
 
   return {
