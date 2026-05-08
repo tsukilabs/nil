@@ -7,10 +7,10 @@ import { useI18n } from 'vue-i18n';
 import { Button } from '@ui/button';
 import { useBreakpoints } from '@tb-dev/vue';
 import type { MaybePromise } from '@tb-dev/utils';
+import type { PrefectureBuildOrderKind } from '@/types/bindings';
 import enUS from '@/locale/en-US/scenes/game/infrastructure/prefecture.json';
 import ptBR from '@/locale/pt-BR/scenes/game/infrastructure/prefecture.json';
 import type { BuildingImpl } from '@/core/model/infrastructure/building/abstract';
-import type { PrefectureBuildOrderKind } from '@/types/core/infrastructure/prefecture';
 
 const props = defineProps<{
   building: BuildingImpl;

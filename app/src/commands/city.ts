@@ -4,18 +4,21 @@
 import type { Option } from '@tb-dev/utils';
 import { invoke } from '@tauri-apps/api/core';
 import { CoordImpl } from '@/core/model/continent/coord';
-import type { City, PublicCity } from '@/types/core/city';
-import type { GetPublicCityResponse } from '@/types/response/city';
-import type { CitySearch, ContinentKey } from '@/types/core/continent';
+import type { ContinentKey } from '@/types/core/continent';
 import type {
+  City,
+  CitySearch,
   GetCityRequest,
+  GetCityResponse,
   GetCityScoreRequest,
   GetPublicCitiesRequest,
   GetPublicCityRequest,
+  GetPublicCityResponse,
+  PublicCity,
   RenameCityRequest,
   SearchCityRequest,
   SearchPublicCityRequest,
-} from '@/types/request/city';
+} from '@/types/bindings';
 
 export async function getCity(coord: ContinentKey) {
   coord = CoordImpl.fromContinentKey(coord);
@@ -24,7 +27,7 @@ export async function getCity(coord: ContinentKey) {
     coord,
   };
 
-  return invoke<City>('get_city', { req });
+  return invoke<GetCityResponse>('get_city', { req });
 }
 
 export async function getCityOwner(coord: ContinentKey) {

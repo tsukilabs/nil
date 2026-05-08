@@ -11,13 +11,14 @@ use axum::response::Response;
 use either::Either;
 use itertools::Itertools;
 use nil_core::player::{Player, PublicPlayer};
-use nil_payload::player::*;
+use nil_payload::request::player::*;
+use nil_payload::response::player::*;
 
 pub async fn exists(State(app): State<App>, Json(req): Json<PlayerExistsRequest>) -> Response {
   app
     .world(req.world, |world| world.has_player(&req.id))
     .await
-    .map_left(|yes| res!(OK, Json(yes)))
+    .map_left(|yes| res!(OK, PlayerExistsResponse(yes)))
     .into_inner()
 }
 
@@ -28,7 +29,7 @@ pub async fn get_coords(
   app
     .continent(req.world, |k| k.coords_of(req.id).collect_vec())
     .await
-    .map_left(|coords| res!(OK, Json(coords)))
+    .map_left(|coords| res!(OK, GetPlayerCoordsResponse(coords)))
     .into_inner()
 }
 
@@ -36,7 +37,7 @@ pub async fn get_ids(State(app): State<App>, Json(req): Json<GetPlayerIdsRequest
   app
     .player_manager(req.world, |pm| pm.player_ids().cloned().collect_vec())
     .await
-    .map_left(|ids| res!(OK, Json(ids)))
+    .map_left(|ids| res!(OK, GetPlayerIdsResponse(ids)))
     .into_inner()
 }
 
@@ -48,7 +49,7 @@ pub async fn get_player(
   app
     .player_manager(req.world, |pm| pm.player(&player).cloned())
     .await
-    .try_map_left(|player| res!(OK, Json(player)))
+    .try_map_left(|player| res!(OK, GetPlayerResponse(player)))
     .into_inner()
 }
 
@@ -59,7 +60,7 @@ pub async fn get_public_player(
   app
     .player_manager(req.world, |pm| pm.player(&req.id).map(PublicPlayer::from))
     .await
-    .try_map_left(|player| res!(OK, Json(player)))
+    .try_map_left(|player| res!(OK, GetPublicPlayerResponse(player)))
     .into_inner()
 }
 
@@ -74,7 +75,7 @@ pub async fn get_public_players(
         .collect_vec()
     })
     .await
-    .map_left(|players| res!(OK, Json(players)))
+    .map_left(|players| res!(OK, GetPublicPlayersResponse(players)))
     .into_inner()
 }
 
@@ -86,7 +87,7 @@ pub async fn get_maintenance(
   app
     .world(req.world, |world| world.get_player_maintenance(&player))
     .await
-    .try_map_left(|maintenance| res!(OK, Json(maintenance)))
+    .try_map_left(|maintenance| res!(OK, GetPlayerMaintenanceResponse(maintenance)))
     .into_inner()
 }
 
@@ -98,7 +99,7 @@ pub async fn get_military(
   app
     .world(req.world, |world| world.get_player_military(&player))
     .await
-    .try_map_left(|military| res!(OK, Json(military)))
+    .try_map_left(|military| res!(OK, GetPlayerMilitaryResponse(military)))
     .into_inner()
 }
 
@@ -110,7 +111,7 @@ pub async fn get_reports(
   app
     .world(req.world, |world| world.get_player_reports(&player))
     .await
-    .map_left(|reports| res!(OK, Json(reports)))
+    .map_left(|reports| res!(OK, GetPlayerReportsResponse(reports)))
     .into_inner()
 }
 
@@ -121,7 +122,7 @@ pub async fn get_status(
   app
     .player_manager(req.world, |pm| pm.player(&req.id).map(Player::status))
     .await
-    .try_map_left(|status| res!(OK, Json(status)))
+    .try_map_left(|status| res!(OK, GetPlayerStatusResponse(status)))
     .into_inner()
 }
 
@@ -133,7 +134,7 @@ pub async fn get_storage_capacity(
   app
     .world(req.world, |world| world.get_storage_capacity(player.0))
     .await
-    .try_map_left(|capacity| res!(OK, Json(capacity)))
+    .try_map_left(|capacity| res!(OK, GetPlayerStorageCapacityResponse(capacity)))
     .into_inner()
 }
 
@@ -152,7 +153,7 @@ pub async fn get_worlds(
     }
   }
 
-  res!(OK, Json(worlds))
+  res!(OK, GetPlayerWorldsResponse(worlds))
 }
 
 pub async fn set_status(

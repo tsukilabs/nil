@@ -22,6 +22,7 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Building, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Prefecture {
   level: BuildingLevel,
   enabled: bool,

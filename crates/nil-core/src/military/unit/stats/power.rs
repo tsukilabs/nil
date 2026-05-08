@@ -9,6 +9,7 @@ use std::ops::{Div, Mul};
   Clone, Copy, Debug, Deref, From, Into, PartialEq, Eq, PartialOrd, Ord, Deserialize, Serialize,
 )]
 #[into(u32, f64)]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Power(u32);
 
 impl Power {

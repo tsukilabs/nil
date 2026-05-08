@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { AcademyRecruitOrderImpl } from './recruit-order';
-import type { AcademyRecruitQueue } from '@/types/core/infrastructure/academy';
+import type { AcademyRecruitQueue } from '@/types/bindings';
 import { InfrastructureQueueImpl } from '@/core/model/infrastructure/queue/queue';
 
 export class AcademyRecruitQueueImpl extends InfrastructureQueueImpl<AcademyRecruitOrderImpl>
-  implements AcademyRecruitQueue
+  implements Readonly<AcademyRecruitQueue>
 {
   private constructor(queue: AcademyRecruitQueue) {
     const orders = queue.orders.map((it) => AcademyRecruitOrderImpl.create(it));

@@ -8,7 +8,8 @@ use crate::{bail_if_city_is_not_owned_by, bail_if_player_is_not_pending, res};
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
 use nil_core::infrastructure::building::workshop::recruit_catalog::WorkshopRecruitCatalog;
-use nil_payload::infrastructure::workshop::*;
+use nil_payload::request::infrastructure::workshop::*;
+use nil_payload::response::infrastructure::workshop::*;
 
 pub async fn add_recruit_order(
   State(app): State<App>,
@@ -69,7 +70,7 @@ pub async fn get_recruit_catalog(
       };
 
       result
-        .map(|catalog| res!(OK, Json(catalog)))
+        .map(|catalog| res!(OK, GetWorkshopRecruitCatalogResponse(catalog)))
         .unwrap_or_else(from_err)
     }
     Err(err) => from_err(err),

@@ -4,11 +4,14 @@
 use crate::client::Client;
 use crate::error::Result;
 use crate::http;
-use nil_core::resources::Resources;
-use nil_payload::cheat::resources::*;
+use nil_payload::request::cheat::resources::*;
+use nil_payload::response::cheat::resources::*;
 
 impl Client {
-  pub async fn cheat_get_resources(&self, req: CheatGetResourcesRequest) -> Result<Resources> {
+  pub async fn cheat_get_resources(
+    &self,
+    req: CheatGetResourcesRequest,
+  ) -> Result<CheatGetResourcesResponse> {
     http::json_put("cheat-get-resources")
       .body(req)
       .server(self.server)

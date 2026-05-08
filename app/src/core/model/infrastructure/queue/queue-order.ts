@@ -5,7 +5,7 @@ import { ResourcesImpl } from '@/core/model/resources';
 import type {
   InfrastructureQueueOrder,
   InfrastructureQueueOrderState,
-} from '@/types/core/infrastructure/queue';
+} from '@/types/core/infrastructure';
 
 export abstract class InfrastructureQueueOrderImpl implements InfrastructureQueueOrder {
   public readonly id: string;

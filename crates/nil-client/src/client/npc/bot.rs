@@ -4,12 +4,11 @@
 use crate::client::Client;
 use crate::error::Result;
 use crate::http;
-use nil_core::continent::Coord;
-use nil_core::npc::bot::PublicBot;
-use nil_payload::npc::bot::*;
+use nil_payload::request::npc::bot::*;
+use nil_payload::response::npc::bot::*;
 
 impl Client {
-  pub async fn get_bot_coords(&self, req: GetBotCoordsRequest) -> Result<Vec<Coord>> {
+  pub async fn get_bot_coords(&self, req: GetBotCoordsRequest) -> Result<GetBotCoordsResponse> {
     http::json_put("get-bot-coords")
       .body(req)
       .server(self.server)
@@ -20,7 +19,7 @@ impl Client {
       .await
   }
 
-  pub async fn get_public_bot(&self, req: GetPublicBotRequest) -> Result<PublicBot> {
+  pub async fn get_public_bot(&self, req: GetPublicBotRequest) -> Result<GetPublicBotResponse> {
     http::json_put("get-public-bot")
       .body(req)
       .server(self.server)
@@ -31,7 +30,7 @@ impl Client {
       .await
   }
 
-  pub async fn get_public_bots(&self, req: GetPublicBotsRequest) -> Result<Vec<PublicBot>> {
+  pub async fn get_public_bots(&self, req: GetPublicBotsRequest) -> Result<GetPublicBotsResponse> {
     http::json_put("get-public-bots")
       .body(req)
       .server(self.server)

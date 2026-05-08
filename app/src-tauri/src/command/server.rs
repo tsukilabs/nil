@@ -4,17 +4,16 @@
 use crate::error::Result;
 use crate::manager::ManagerExt;
 use nil_client::ServerAddr;
-use nil_core::player::PlayerId;
 use nil_core::world::WorldOptions;
-use nil_payload::{AuthorizeRequest, ValidateTokenRequest};
+use nil_payload::request::auth::*;
+use nil_payload::response::auth::*;
+use nil_payload::response::server::*;
 use nil_server::local::LocalServer;
-use nil_server_types::ServerKind;
-use nil_server_types::auth::Token;
 use std::path::PathBuf;
 use tauri::AppHandle;
 
 #[tauri::command]
-pub async fn authorize(app: AppHandle, req: AuthorizeRequest) -> Result<Token> {
+pub async fn authorize(app: AppHandle, req: AuthorizeRequest) -> Result<AuthorizeResponse> {
   app
     .client(async |cl| cl.authorize(req).await)
     .await
@@ -27,7 +26,7 @@ pub async fn get_server_addr(app: AppHandle) -> ServerAddr {
 }
 
 #[tauri::command]
-pub async fn get_server_kind(app: AppHandle) -> Result<ServerKind> {
+pub async fn get_server_kind(app: AppHandle) -> Result<GetServerKindResponse> {
   app
     .client(async |cl| cl.get_server_kind().await)
     .await
@@ -35,7 +34,7 @@ pub async fn get_server_kind(app: AppHandle) -> Result<ServerKind> {
 }
 
 #[tauri::command]
-pub async fn get_server_version(app: AppHandle) -> Result<String> {
+pub async fn get_server_version(app: AppHandle) -> Result<GetServerVersionResponse> {
   app
     .client(async |cl| cl.get_server_version().await)
     .await
@@ -74,7 +73,10 @@ pub async fn stop_server(app: AppHandle) {
 }
 
 #[tauri::command]
-pub async fn validate_token(app: AppHandle, req: ValidateTokenRequest) -> Result<Option<PlayerId>> {
+pub async fn validate_token(
+  app: AppHandle,
+  req: ValidateTokenRequest,
+) -> Result<ValidateTokenResponse> {
   app
     .client(async |cl| cl.validate_token(req).await)
     .await

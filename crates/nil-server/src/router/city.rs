@@ -10,7 +10,8 @@ use axum::extract::{Extension, Json, State};
 use axum::response::Response;
 use itertools::Itertools;
 use nil_core::city::{City, PublicCity};
-use nil_payload::city::*;
+use nil_payload::request::city::*;
+use nil_payload::response::city::*;
 use tap::Pipe;
 
 pub async fn get_city(
@@ -27,7 +28,7 @@ pub async fn get_city(
       };
 
       result
-        .map(|city| res!(OK, Json(city)))
+        .map(|city| res!(OK, GetCityResponse(city)))
         .unwrap_or_else(from_err)
     }
     Err(err) => from_err(err),
@@ -39,7 +40,7 @@ pub async fn get_public_cities(
   Json(req): Json<GetPublicCitiesRequest>,
 ) -> Response {
   if req.coords.is_empty() && !req.all {
-    return res!(OK, Json(Vec::<()>::new()));
+    return res!(OK, GetPublicCitiesResponse(Vec::new()));
   }
 
   app
@@ -64,7 +65,7 @@ pub async fn get_public_cities(
       Ok::<_, Error>(responses)
     })
     .await
-    .try_map_left(|responses| res!(OK, Json(responses)))
+    .try_map_left(|responses| res!(OK, GetPublicCitiesResponse(responses)))
     .into_inner()
 }
 
@@ -79,7 +80,7 @@ pub async fn get_public_city(
         .build()
     })
     .await
-    .try_map_left(|response| res!(OK, Json(response)))
+    .try_map_left(|response| res!(OK, response))
     .into_inner()
 }
 
@@ -90,7 +91,7 @@ pub async fn get_city_score(
   app
     .world(req.world, |world| world.get_city_score(req.coord))
     .await
-    .try_map_left(|score| res!(OK, Json(score)))
+    .try_map_left(|score| res!(OK, GetCityScoreResponse(score)))
     .into_inner()
 }
 
@@ -108,7 +109,7 @@ pub async fn rename_city(
       };
 
       result
-        .map(|city| res!(OK, Json(city)))
+        .map(|()| res!(OK))
         .unwrap_or_else(from_err)
     }
     Err(err) => from_err(err),
@@ -132,7 +133,7 @@ pub async fn search_city(
         .pipe(Ok::<_, CoreError>)
     })
     .await
-    .try_map_left(|cities| res!(OK, Json(cities)))
+    .try_map_left(|cities| res!(OK, SearchCityResponse(cities)))
     .into_inner()
 }
 
@@ -151,6 +152,6 @@ pub async fn search_public_city(
         .pipe(Ok::<_, CoreError>)
     })
     .await
-    .try_map_left(|cities| res!(OK, Json(cities)))
+    .try_map_left(|cities| res!(OK, SearchPublicCityResponse(cities)))
     .into_inner()
 }

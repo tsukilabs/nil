@@ -6,7 +6,8 @@ use crate::res;
 use crate::response::EitherExt;
 use axum::extract::{Json, State};
 use axum::response::Response;
-use nil_payload::cheat::behavior::*;
+use nil_payload::request::cheat::behavior::*;
+use nil_payload::response::cheat::behavior::*;
 
 pub async fn get_build_steps(
   State(app): State<App>,
@@ -15,6 +16,6 @@ pub async fn get_build_steps(
   app
     .world(req.world, |world| world.cheat_get_build_steps(req.coord))
     .await
-    .try_map_left(|steps| res!(OK, Json(steps)))
+    .try_map_left(|steps| res!(OK, CheatGetBuildStepsResponse(steps)))
     .into_inner()
 }

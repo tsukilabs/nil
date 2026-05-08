@@ -5,13 +5,12 @@ use super::Client;
 use crate::error::Result;
 use crate::http;
 use crate::retry::Retry;
-use nil_core::player::PlayerId;
-use nil_payload::{AuthorizeRequest, ValidateTokenRequest};
-use nil_server_types::auth::Token;
+use nil_payload::request::auth::*;
+use nil_payload::response::auth::*;
 use std::num::NonZeroU8;
 
 impl Client {
-  pub async fn authorize(&self, req: AuthorizeRequest) -> Result<Token> {
+  pub async fn authorize(&self, req: AuthorizeRequest) -> Result<AuthorizeResponse> {
     http::json_post("authorize")
       .body(req)
       .server(self.server)
@@ -21,7 +20,7 @@ impl Client {
       .await
   }
 
-  pub async fn validate_token<T>(&self, req: T) -> Result<Option<PlayerId>>
+  pub async fn validate_token<T>(&self, req: T) -> Result<ValidateTokenResponse>
   where
     T: Into<ValidateTokenRequest>,
   {

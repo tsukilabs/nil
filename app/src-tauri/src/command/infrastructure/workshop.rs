@@ -3,8 +3,8 @@
 
 use crate::error::Result;
 use crate::manager::ManagerExt;
-use nil_core::infrastructure::building::workshop::recruit_catalog::WorkshopRecruitCatalog;
-use nil_payload::infrastructure::workshop::*;
+use nil_payload::request::infrastructure::workshop::*;
+use nil_payload::response::infrastructure::workshop::*;
 use tauri::AppHandle;
 
 #[tauri::command]
@@ -33,7 +33,7 @@ pub async fn cancel_workshop_recruit_order(
 pub async fn get_workshop_recruit_catalog(
   app: AppHandle,
   req: GetWorkshopRecruitCatalogRequest,
-) -> Result<WorkshopRecruitCatalog> {
+) -> Result<GetWorkshopRecruitCatalogResponse> {
   app
     .client(async |cl| cl.get_workshop_recruit_catalog(req).await)
     .await

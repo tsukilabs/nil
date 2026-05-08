@@ -3,12 +3,12 @@
 
 use crate::error::{Error, Result};
 use crate::manager::ManagerExt;
-use nil_core::round::Round;
-use nil_payload::round::*;
+use nil_payload::request::round::*;
+use nil_payload::response::round::*;
 use tauri::AppHandle;
 
 #[tauri::command]
-pub async fn get_round(app: AppHandle, req: GetRoundRequest) -> Result<Round> {
+pub async fn get_round(app: AppHandle, req: GetRoundRequest) -> Result<GetRoundResponse> {
   app
     .client(async |cl| cl.get_round(req).await)
     .await
@@ -20,7 +20,7 @@ pub async fn is_round_idle(app: AppHandle, req: GetRoundRequest) -> Result<bool>
   app
     .client(async |cl| cl.get_round(req).await)
     .await
-    .map(|round| round.is_idle())
+    .map(|round| round.0.is_idle())
     .map_err(Into::into)
 }
 
@@ -29,12 +29,15 @@ pub async fn is_round_waiting(app: AppHandle, req: GetRoundRequest) -> Result<bo
   app
     .client(async |cl| cl.get_round(req).await)
     .await
-    .map(|round| round.is_waiting())
+    .map(|round| round.0.is_waiting())
     .map_err(Into::into)
 }
 
 #[tauri::command]
-pub async fn set_player_ready(app: AppHandle, req: SetPlayerReadyRequest) -> Result<Round> {
+pub async fn set_player_ready(
+  app: AppHandle,
+  req: SetPlayerReadyRequest,
+) -> Result<SetPlayerReadyResponse> {
   app
     .client(async |cl| cl.set_player_ready(req).await)
     .await
@@ -42,7 +45,7 @@ pub async fn set_player_ready(app: AppHandle, req: SetPlayerReadyRequest) -> Res
 }
 
 #[tauri::command]
-pub async fn start_round(app: AppHandle, req: StartRoundRequest) -> Result<Round> {
+pub async fn start_round(app: AppHandle, req: StartRoundRequest) -> Result<StartRoundResponse> {
   if app.nil().is_remote_or_host().await {
     app
       .client(async |cl| cl.start_round(req).await)

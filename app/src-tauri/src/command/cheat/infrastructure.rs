@@ -4,20 +4,15 @@
 use crate::error::Result;
 use crate::manager::ManagerExt;
 use itertools::Itertools;
-use nil_core::continent::Coord;
-use nil_core::infrastructure::Infrastructure;
-use nil_core::infrastructure::building::academy::recruit_queue::AcademyRecruitQueue;
-use nil_core::infrastructure::building::prefecture::build_queue::PrefectureBuildQueue;
-use nil_core::infrastructure::building::stable::recruit_queue::StableRecruitQueue;
-use nil_core::infrastructure::storage::OverallStorageCapacity;
-use nil_payload::cheat::infrastructure::*;
+use nil_payload::request::cheat::infrastructure::*;
+use nil_payload::response::cheat::infrastructure::*;
 use tauri::AppHandle;
 
 #[tauri::command]
 pub async fn cheat_get_academy_recruit_queue(
   app: AppHandle,
   req: CheatGetAcademyRecruitQueueRequest,
-) -> Result<AcademyRecruitQueue> {
+) -> Result<CheatGetAcademyRecruitQueueResponse> {
   app
     .client(async |cl| cl.cheat_get_academy_recruit_queue(req).await)
     .await
@@ -28,7 +23,7 @@ pub async fn cheat_get_academy_recruit_queue(
 pub async fn cheat_get_academy_recruit_queues(
   app: AppHandle,
   mut req: CheatGetAcademyRecruitQueuesRequest,
-) -> Result<Vec<(Coord, AcademyRecruitQueue)>> {
+) -> Result<CheatGetAcademyRecruitQueuesResponse> {
   req.coords = req.coords.into_iter().unique().collect();
   app
     .client(async |cl| {
@@ -43,7 +38,7 @@ pub async fn cheat_get_academy_recruit_queues(
 pub async fn cheat_get_all_academy_recruit_queues(
   app: AppHandle,
   req: CheatGetAllAcademyRecruitQueuesRequest,
-) -> Result<Vec<(Coord, AcademyRecruitQueue)>> {
+) -> Result<CheatGetAllAcademyRecruitQueuesResponse> {
   app
     .client(async |cl| {
       cl.cheat_get_all_academy_recruit_queues(req)
@@ -57,7 +52,7 @@ pub async fn cheat_get_all_academy_recruit_queues(
 pub async fn cheat_get_all_prefecture_build_queues(
   app: AppHandle,
   req: CheatGetAllPrefectureBuildQueuesRequest,
-) -> Result<Vec<(Coord, PrefectureBuildQueue)>> {
+) -> Result<CheatGetAllPrefectureBuildQueuesResponse> {
   app
     .client(async |cl| {
       cl.cheat_get_all_prefecture_build_queues(req)
@@ -71,7 +66,7 @@ pub async fn cheat_get_all_prefecture_build_queues(
 pub async fn cheat_get_all_stable_recruit_queues(
   app: AppHandle,
   req: CheatGetAllStableRecruitQueuesRequest,
-) -> Result<Vec<(Coord, StableRecruitQueue)>> {
+) -> Result<CheatGetAllStableRecruitQueuesResponse> {
   app
     .client(async |cl| {
       cl.cheat_get_all_stable_recruit_queues(req)
@@ -85,7 +80,7 @@ pub async fn cheat_get_all_stable_recruit_queues(
 pub async fn cheat_get_infrastructure(
   app: AppHandle,
   req: CheatGetInfrastructureRequest,
-) -> Result<Infrastructure> {
+) -> Result<CheatGetInfrastructureResponse> {
   app
     .client(async |cl| cl.cheat_get_infrastructure(req).await)
     .await
@@ -96,7 +91,7 @@ pub async fn cheat_get_infrastructure(
 pub async fn cheat_get_prefecture_build_queue(
   app: AppHandle,
   req: CheatGetPrefectureBuildQueueRequest,
-) -> Result<PrefectureBuildQueue> {
+) -> Result<CheatGetPrefectureBuildQueueResponse> {
   app
     .client(async |cl| {
       cl.cheat_get_prefecture_build_queue(req)
@@ -110,7 +105,7 @@ pub async fn cheat_get_prefecture_build_queue(
 pub async fn cheat_get_prefecture_build_queues(
   app: AppHandle,
   mut req: CheatGetPrefectureBuildQueuesRequest,
-) -> Result<Vec<(Coord, PrefectureBuildQueue)>> {
+) -> Result<CheatGetPrefectureBuildQueuesResponse> {
   req.coords = req.coords.into_iter().unique().collect();
   app
     .client(async |cl| {
@@ -125,7 +120,7 @@ pub async fn cheat_get_prefecture_build_queues(
 pub async fn cheat_get_stable_recruit_queue(
   app: AppHandle,
   req: CheatGetStableRecruitQueueRequest,
-) -> Result<StableRecruitQueue> {
+) -> Result<CheatGetStableRecruitQueueResponse> {
   app
     .client(async |cl| cl.cheat_get_stable_recruit_queue(req).await)
     .await
@@ -136,7 +131,7 @@ pub async fn cheat_get_stable_recruit_queue(
 pub async fn cheat_get_stable_recruit_queues(
   app: AppHandle,
   mut req: CheatGetStableRecruitQueuesRequest,
-) -> Result<Vec<(Coord, StableRecruitQueue)>> {
+) -> Result<CheatGetStableRecruitQueuesResponse> {
   req.coords = req.coords.into_iter().unique().collect();
   app
     .client(async |cl| cl.cheat_get_stable_recruit_queues(req).await)
@@ -148,7 +143,7 @@ pub async fn cheat_get_stable_recruit_queues(
 pub async fn cheat_get_storage_capacity(
   app: AppHandle,
   req: CheatGetStorageCapacityRequest,
-) -> Result<OverallStorageCapacity> {
+) -> Result<CheatGetStorageCapacityResponse> {
   app
     .client(async |cl| cl.cheat_get_storage_capacity(req).await)
     .await

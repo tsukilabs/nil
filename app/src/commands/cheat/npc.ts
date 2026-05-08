@@ -4,17 +4,21 @@
 import type { Option } from '@tb-dev/utils';
 import { invoke } from '@tauri-apps/api/core';
 import { getCityOwner } from '@/commands/city';
-import type { Ruler } from '@/types/core/ruler';
-import type { BotId } from '@/types/core/npc/bot';
 import type { ContinentKey } from '@/types/core/continent';
-import type { PrecursorId } from '@/types/core/npc/precursor';
-import type { Infrastructure } from '@/types/core/infrastructure';
-import type { EthicPowerAxis, Ethics, EthicTruthAxis } from '@/types/core/ethic';
 import type {
+  BotId,
   CheatGetEthicsRequest,
+  CheatGetEthicsResponse,
   CheatSetBotEthicsRequest,
   CheatSpawnBotRequest,
-} from '@/types/request/cheat/npc';
+  CheatSpawnBotResponse,
+  EthicPowerAxis,
+  Ethics,
+  EthicTruthAxis,
+  Infrastructure,
+  PrecursorId,
+  Ruler,
+} from '@/types/bindings';
 
 export async function cheatGetEthics(ruler: Ruler) {
   const req: CheatGetEthicsRequest = {
@@ -22,7 +26,7 @@ export async function cheatGetEthics(ruler: Ruler) {
     ruler,
   };
 
-  return invoke<Option<Ethics>>('cheat_get_ethics', { req });
+  return invoke<CheatGetEthicsResponse>('cheat_get_ethics', { req });
 }
 
 export async function cheatGetBotEthics(id: BotId) {
@@ -114,5 +118,5 @@ export async function cheatSpawnBot(name?: Option<string>, infrastructure?: Infr
     infrastructure: infrastructure ?? null,
   };
 
-  return invoke<BotId>('cheat_spawn_bot', { req });
+  return invoke<CheatSpawnBotResponse>('cheat_spawn_bot', { req });
 }

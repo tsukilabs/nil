@@ -202,7 +202,7 @@ fn builder() -> tauri::Builder<Wry> {
 
 fn setup(app: &AppHandle) -> BoxResult<()> {
   app.plugin(plugin::pinia(app)?)?;
-  app.manage(Nil::new(app)?);
+  app.manage(Nil::new(app));
 
   #[cfg(desktop)]
   window::desktop::open(app)?;

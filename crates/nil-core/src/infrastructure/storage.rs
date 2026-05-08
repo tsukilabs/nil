@@ -23,6 +23,7 @@ pub trait Storage: Building {
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct StorageStats {
   pub level: BuildingLevel,
   pub capacity: StorageCapacity,
@@ -30,6 +31,7 @@ pub struct StorageStats {
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct StorageStatsTable {
   id: StorageId,
   table: HashMap<BuildingLevel, StorageStats>,
@@ -98,6 +100,7 @@ impl StorageStatsTable {
   Serialize,
 )]
 #[into(u32, f64)]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct StorageCapacity(u32);
 
 impl StorageCapacity {
@@ -177,6 +180,7 @@ impl From<f64> for StorageCapacity {
 
 #[derive(Clone, Debug, Default, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct OverallStorageCapacity {
   pub silo: StorageCapacity,
   pub warehouse: StorageCapacity,

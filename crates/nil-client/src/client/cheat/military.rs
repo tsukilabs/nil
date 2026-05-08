@@ -4,15 +4,14 @@
 use crate::client::Client;
 use crate::error::Result;
 use crate::http;
-use nil_core::military::army::Army;
-use nil_core::military::army::personnel::ArmyPersonnel;
-use nil_payload::cheat::military::*;
+use nil_payload::request::cheat::military::*;
+use nil_payload::response::cheat::military::*;
 
 impl Client {
   pub async fn cheat_get_idle_armies_at(
     &self,
     req: CheatGetIdleArmiesAtRequest,
-  ) -> Result<Vec<Army>> {
+  ) -> Result<CheatGetIdleArmiesAtResponse> {
     http::json_put("cheat-get-idle-armies-at")
       .body(req)
       .server(self.server)
@@ -27,7 +26,7 @@ impl Client {
   pub async fn cheat_get_idle_personnel_at(
     &self,
     req: CheatGetIdlePersonnelAtRequest,
-  ) -> Result<ArmyPersonnel> {
+  ) -> Result<CheatGetIdlePersonnelAtResponse> {
     http::json_put("cheat-get-idle-personnel-at")
       .body(req)
       .server(self.server)

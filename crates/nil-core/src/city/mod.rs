@@ -25,6 +25,7 @@ pub use stability::Stability;
 
 #[derive(Builder, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct City {
   #[builder(start_fn, into)]
   coord: Coord,
@@ -175,6 +176,7 @@ impl From<&City> for Ruler {
 
 #[derive(Clone, Debug, Deref, DerefMut, From, Deserialize, Serialize)]
 #[from(String, &str)]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct CityName(String);
 
 impl CityName {
@@ -186,6 +188,7 @@ impl CityName {
 /// Public data about a city, to which any player can have access.
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct PublicCity {
   coord: Coord,
   name: Arc<str>,
@@ -204,10 +207,15 @@ impl From<&City> for PublicCity {
 
 #[derive(Builder, Clone, Debug, Default, Deserialize, Serialize)]
 #[serde(default, rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
+#[cfg_attr(feature = "typescript", ts(optional_fields))]
 pub struct CitySearch {
   #[builder(default, with = FromIterator::from_iter)]
+  #[cfg_attr(feature = "typescript", ts(as = "Option<Vec<Coord>>"))]
   pub coord: Vec<Coord>,
+
   #[builder(default, with = FromIterator::from_iter)]
+  #[cfg_attr(feature = "typescript", ts(as = "Option<Vec<CityName>>"))]
   pub name: Vec<CityName>,
 }
 

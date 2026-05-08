@@ -2,8 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { invoke } from '@tauri-apps/api/core';
-import type { PlayerId } from '@/types/core/player';
-import type { CreateUserRequest, UserExistsRequest } from '@/types/request/user';
+import type {
+  CreateUserRequest,
+  PlayerId,
+  UserExistsRequest,
+  UserExistsResponse,
+} from '@/types/bindings';
 
 export async function createUser(player: PlayerId, password: string) {
   const req: CreateUserRequest = { player, password };
@@ -12,5 +16,5 @@ export async function createUser(player: PlayerId, password: string) {
 
 export async function userExists(user: PlayerId) {
   const req: UserExistsRequest = { user };
-  return invoke<boolean>('user_exists', { req });
+  return invoke<UserExistsResponse>('user_exists', { req });
 }

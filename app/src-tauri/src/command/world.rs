@@ -4,14 +4,10 @@
 use crate::error::{CoreError, Error, Result};
 use crate::manager::ManagerExt;
 use itertools::Itertools;
-use nil_core::npc::bot::BotId;
-use nil_core::npc::precursor::PrecursorId;
 use nil_core::player::{Player, PlayerId};
 use nil_core::savedata::{Savedata, SavedataInfo};
-use nil_core::world::config::{WorldConfig, WorldId};
-use nil_core::world::stats::WorldStats;
-use nil_payload::world::*;
-use nil_server_types::world::RemoteWorld;
+use nil_payload::request::world::*;
+use nil_payload::response::world::*;
 use std::path::PathBuf;
 use tap::Pipe;
 use tauri::AppHandle;
@@ -19,7 +15,10 @@ use tauri::async_runtime::spawn_blocking;
 use tokio::fs;
 
 #[tauri::command]
-pub async fn create_remote_world(app: AppHandle, req: CreateRemoteWorldRequest) -> Result<WorldId> {
+pub async fn create_remote_world(
+  app: AppHandle,
+  req: CreateRemoteWorldRequest,
+) -> Result<CreateRemoteWorldResponse> {
   app
     .client(async |cl| cl.create_remote_world(req).await)
     .await
@@ -35,7 +34,10 @@ pub async fn delete_remote_world(app: AppHandle, req: DeleteRemoteWorldRequest) 
 }
 
 #[tauri::command]
-pub async fn get_remote_world(app: AppHandle, req: GetRemoteWorldRequest) -> Result<RemoteWorld> {
+pub async fn get_remote_world(
+  app: AppHandle,
+  req: GetRemoteWorldRequest,
+) -> Result<GetRemoteWorldResponse> {
   app
     .client(async |cl| cl.get_remote_world(req).await)
     .await
@@ -43,7 +45,7 @@ pub async fn get_remote_world(app: AppHandle, req: GetRemoteWorldRequest) -> Res
 }
 
 #[tauri::command]
-pub async fn get_remote_world_limit(app: AppHandle) -> Result<u16> {
+pub async fn get_remote_world_limit(app: AppHandle) -> Result<GetRemoteWorldLimitResponse> {
   app
     .client(async |cl| cl.get_remote_world_limit().await)
     .await
@@ -51,7 +53,9 @@ pub async fn get_remote_world_limit(app: AppHandle) -> Result<u16> {
 }
 
 #[tauri::command]
-pub async fn get_remote_world_limit_per_user(app: AppHandle) -> Result<u16> {
+pub async fn get_remote_world_limit_per_user(
+  app: AppHandle,
+) -> Result<GetRemoteWorldLimitPerUserResponse> {
   app
     .client(async |cl| cl.get_remote_world_limit_per_user().await)
     .await
@@ -59,7 +63,7 @@ pub async fn get_remote_world_limit_per_user(app: AppHandle) -> Result<u16> {
 }
 
 #[tauri::command]
-pub async fn get_remote_worlds(app: AppHandle) -> Result<Vec<RemoteWorld>> {
+pub async fn get_remote_worlds(app: AppHandle) -> Result<GetRemoteWorldsResponse> {
   app
     .client(async |cl| cl.get_remote_worlds().await)
     .await
@@ -81,7 +85,10 @@ pub async fn get_savedata_players(path: PathBuf) -> Result<Vec<PlayerId>> {
 }
 
 #[tauri::command]
-pub async fn get_world_bots(app: AppHandle, req: GetWorldBotsRequest) -> Result<Vec<BotId>> {
+pub async fn get_world_bots(
+  app: AppHandle,
+  req: GetWorldBotsRequest,
+) -> Result<GetWorldBotsResponse> {
   app
     .client(async |cl| cl.get_world_bots(req).await)
     .await
@@ -89,7 +96,10 @@ pub async fn get_world_bots(app: AppHandle, req: GetWorldBotsRequest) -> Result<
 }
 
 #[tauri::command]
-pub async fn get_world_config(app: AppHandle, req: GetWorldConfigRequest) -> Result<WorldConfig> {
+pub async fn get_world_config(
+  app: AppHandle,
+  req: GetWorldConfigRequest,
+) -> Result<GetWorldConfigResponse> {
   app
     .client(async |cl| cl.get_world_config(req).await)
     .await
@@ -100,7 +110,7 @@ pub async fn get_world_config(app: AppHandle, req: GetWorldConfigRequest) -> Res
 pub async fn get_world_players(
   app: AppHandle,
   req: GetWorldPlayersRequest,
-) -> Result<Vec<PlayerId>> {
+) -> Result<GetWorldPlayersResponse> {
   app
     .client(async |cl| cl.get_world_players(req).await)
     .await
@@ -111,7 +121,7 @@ pub async fn get_world_players(
 pub async fn get_world_precursors(
   app: AppHandle,
   req: GetWorldPrecursorsRequest,
-) -> Result<Vec<PrecursorId>> {
+) -> Result<GetWorldPrecursorsResponse> {
   app
     .client(async |cl| cl.get_world_precursors(req).await)
     .await
@@ -119,7 +129,10 @@ pub async fn get_world_precursors(
 }
 
 #[tauri::command]
-pub async fn get_world_stats(app: AppHandle, req: GetWorldStatsRequest) -> Result<WorldStats> {
+pub async fn get_world_stats(
+  app: AppHandle,
+  req: GetWorldStatsRequest,
+) -> Result<GetWorldStatsResponse> {
   app
     .client(async |cl| cl.get_world_stats(req).await)
     .await

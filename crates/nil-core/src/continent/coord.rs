@@ -14,6 +14,8 @@ use std::fmt;
 use std::ops::{Add, AddAssign, Sub, SubAssign};
 
 #[derive(Clone, Copy, PartialEq, Eq, Hash)]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
+#[cfg_attr(feature = "typescript", ts(type = "{ x: number, y: number }"))]
 pub struct Coord(U8Vec2);
 
 impl Coord {

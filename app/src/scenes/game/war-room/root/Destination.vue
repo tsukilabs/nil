@@ -4,12 +4,11 @@
 <script setup lang="ts">
 import { Label } from '@ui/label';
 import type { Option } from '@tb-dev/utils';
-import type { PublicCity } from '@/types/core/city';
-import type { Coord } from '@/types/core/continent';
+import type { Coord, PublicCity } from '@/types/bindings';
 import { NumberField, NumberFieldContent, NumberFieldInput } from '@ui/number-field';
 
 defineProps<{
-  destinationCity: Option<PublicCity>;
+  destinationCity: Option<Readonly<PublicCity>>;
 }>();
 
 const destination = defineModel<Coord>({ required: true });

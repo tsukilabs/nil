@@ -50,6 +50,7 @@ use tap::Pipe;
 
 #[derive(Builder, Clone, Debug, Default, Deserialize, Serialize)]
 #[serde(default, rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Infrastructure {
   #[builder(default)]
   academy: Academy,

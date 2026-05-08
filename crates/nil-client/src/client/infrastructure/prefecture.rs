@@ -4,8 +4,8 @@
 use crate::client::Client;
 use crate::error::Result;
 use crate::http;
-use nil_core::infrastructure::building::prefecture::build_catalog::PrefectureBuildCatalog;
-use nil_payload::infrastructure::prefecture::*;
+use nil_payload::request::infrastructure::prefecture::*;
+use nil_payload::response::infrastructure::prefecture::*;
 
 impl Client {
   pub async fn add_prefecture_build_order(
@@ -39,7 +39,7 @@ impl Client {
   pub async fn get_prefecture_build_catalog(
     &self,
     req: GetPrefectureBuildCatalogRequest,
-  ) -> Result<PrefectureBuildCatalog> {
+  ) -> Result<GetPrefectureBuildCatalogResponse> {
     http::json_put("get-prefecture-build-catalog")
       .body(req)
       .server(self.server)

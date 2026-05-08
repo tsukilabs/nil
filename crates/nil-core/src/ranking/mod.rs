@@ -11,6 +11,7 @@ use score::Score;
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, Default, Deref, Deserialize, Serialize)]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Ranking(Vec<RankingEntry>);
 
 impl Ranking {
@@ -43,6 +44,7 @@ impl Ranking {
 
 #[derive(Builder, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct RankingEntry {
   #[builder(skip)]
   rank: Rank,
@@ -58,4 +60,5 @@ pub struct RankingEntry {
 }
 
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq, PartialOrd, Ord, Deserialize, Serialize)]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Rank(u32);

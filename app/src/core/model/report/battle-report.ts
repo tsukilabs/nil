@@ -1,20 +1,16 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Ruler } from '@/types/core/ruler';
 import { getPublicCities } from '@/commands/city';
-import type { PublicCity } from '@/types/core/city';
-import type { Coord } from '@/types/core/continent';
-import type { PlayerId } from '@/types/core/player';
 import type { ComposerTranslation } from 'vue-i18n';
 import { ResourcesImpl } from '@/core/model/resources';
-import type { BattleReport } from '@/types/core/report';
 import { CoordImpl } from '@/core/model/continent/coord';
 import { ReportImpl } from '@/core/model/report/abstract';
 import enUS from '@/locale/en-US/scenes/game/report.json';
 import { BattleResultImpl } from '@/core/model/battle-result';
+import type { BattleReport, Coord, PlayerId, PublicCity, Ruler } from '@/types/bindings';
 
-export class BattleReportImpl extends ReportImpl implements BattleReport {
+export class BattleReportImpl extends ReportImpl implements Readonly<BattleReport> {
   public readonly attacker: Ruler;
   public readonly defender: Ruler;
   public readonly origin: CoordImpl;

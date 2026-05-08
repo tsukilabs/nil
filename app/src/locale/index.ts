@@ -4,7 +4,7 @@
 import { createI18n } from 'vue-i18n';
 import enUS from './en-US/global.json';
 import ptBR from './pt-BR/global.json';
-import type { Locale } from '@/types/core/world';
+import type { Locale } from '@/types/bindings';
 
 export function i18n() {
   return createI18n<[typeof enUS], Locale>({

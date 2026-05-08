@@ -97,6 +97,8 @@ pub trait Unit: Send + Sync {
 #[derive(Clone, Copy, Debug, Display, PartialEq, Eq, Hash, Deserialize, Serialize, EnumIter)]
 #[serde(rename_all = "kebab-case")]
 #[strum(serialize_all = "kebab-case")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 #[remain::sorted]
 pub enum UnitId {
   #[subenum(AcademyUnitId)]
@@ -128,6 +130,8 @@ impl From<UnitId> for BuildingId {
 }
 
 #[derive(Deref)]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
+#[cfg_attr(feature = "typescript", ts(as = "UnitId"))]
 pub struct UnitBox(Box<dyn Unit>);
 
 impl UnitBox {
@@ -217,6 +221,7 @@ impl<'de> Deserialize<'de> for UnitBox {
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Deserialize, Serialize)]
 #[serde(rename_all = "kebab-case")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub enum UnitKind {
   Infantry,
   Cavalry,
@@ -225,6 +230,7 @@ pub enum UnitKind {
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct UnitChunk {
   size: UnitChunkSize,
   cost: Cost,
@@ -264,6 +270,7 @@ impl UnitChunk {
 
 #[derive(Clone, Copy, Debug, Deref, From, Into, Deserialize, Serialize)]
 #[into(u8, u32, f64)]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct UnitChunkSize(u8);
 
 impl UnitChunkSize {

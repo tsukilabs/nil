@@ -16,4 +16,12 @@ use std::num::NonZeroU32;
 use strum::EnumIs;
 use uuid::Uuid;
 
+#[derive(Clone, Debug, Default, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
+pub struct AcademyRecruitQueue {
+  #[cfg_attr(feature = "typescript", ts(as = "Vec<AcademyRecruitOrder>"))]
+  orders: VecDeque<AcademyRecruitOrder>,
+}
+
 decl_recruit_queue!(Academy);

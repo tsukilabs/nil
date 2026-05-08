@@ -3,9 +3,7 @@
 
 import { BuildingImpl } from '../abstract';
 import { PrefectureBuildQueueImpl } from './build-queue';
-import type { BuildingId } from '@/types/core/infrastructure/building';
-import type { Prefecture } from '@/types/core/infrastructure/prefecture';
-import type { InfrastructureQueueOrderId } from '@/types/core/infrastructure/queue';
+import type { BuildingId, Prefecture, PrefectureBuildOrderId } from '@/types/bindings';
 
 export class PrefectureImpl extends BuildingImpl implements Prefecture {
   public readonly id: BuildingId = 'prefecture';
@@ -17,7 +15,7 @@ export class PrefectureImpl extends BuildingImpl implements Prefecture {
     this.buildQueue = PrefectureBuildQueueImpl.create(prefecture.buildQueue);
   }
 
-  public hasBuildOrder(id: InfrastructureQueueOrderId) {
+  public hasBuildOrder(id: PrefectureBuildOrderId) {
     return this.buildQueue.orders.some((order) => order.id === id);
   }
 

@@ -3,20 +3,12 @@
 
 use crate::error::Result;
 use crate::manager::ManagerExt;
-use itertools::Itertools;
-use nil_core::continent::Coord;
-use nil_core::infrastructure::storage::OverallStorageCapacity;
-use nil_core::military::Military;
-use nil_core::player::{Player, PlayerId, PlayerStatus, PublicPlayer};
-use nil_core::report::ReportId;
-use nil_core::resources::maintenance::Maintenance;
-use nil_core::world::config::WorldId;
-use nil_payload::player::*;
-use tap::Pipe;
+use nil_payload::request::player::*;
+use nil_payload::response::player::*;
 use tauri::AppHandle;
 
 #[tauri::command]
-pub async fn get_player(app: AppHandle, req: GetPlayerRequest) -> Result<Player> {
+pub async fn get_player(app: AppHandle, req: GetPlayerRequest) -> Result<GetPlayerResponse> {
   app
     .client(async |cl| cl.get_player(req).await)
     .await
@@ -24,7 +16,10 @@ pub async fn get_player(app: AppHandle, req: GetPlayerRequest) -> Result<Player>
 }
 
 #[tauri::command]
-pub async fn get_player_coords(app: AppHandle, req: GetPlayerCoordsRequest) -> Result<Vec<Coord>> {
+pub async fn get_player_coords(
+  app: AppHandle,
+  req: GetPlayerCoordsRequest,
+) -> Result<GetPlayerCoordsResponse> {
   app
     .client(async |cl| cl.get_player_coords(req).await)
     .await
@@ -32,7 +27,10 @@ pub async fn get_player_coords(app: AppHandle, req: GetPlayerCoordsRequest) -> R
 }
 
 #[tauri::command]
-pub async fn get_player_ids(app: AppHandle, req: GetPlayerIdsRequest) -> Result<Vec<PlayerId>> {
+pub async fn get_player_ids(
+  app: AppHandle,
+  req: GetPlayerIdsRequest,
+) -> Result<GetPlayerIdsResponse> {
   app
     .client(async |cl| cl.get_player_ids(req).await)
     .await
@@ -43,7 +41,7 @@ pub async fn get_player_ids(app: AppHandle, req: GetPlayerIdsRequest) -> Result<
 pub async fn get_player_maintenance(
   app: AppHandle,
   req: GetPlayerMaintenanceRequest,
-) -> Result<Maintenance> {
+) -> Result<GetPlayerMaintenanceResponse> {
   app
     .client(async |cl| cl.get_player_maintenance(req).await)
     .await
@@ -54,7 +52,7 @@ pub async fn get_player_maintenance(
 pub async fn get_player_military(
   app: AppHandle,
   req: GetPlayerMilitaryRequest,
-) -> Result<Military> {
+) -> Result<GetPlayerMilitaryResponse> {
   app
     .client(async |cl| cl.get_player_military(req).await)
     .await
@@ -65,22 +63,22 @@ pub async fn get_player_military(
 pub async fn get_player_reports(
   app: AppHandle,
   req: GetPlayerReportsRequest,
-) -> Result<Vec<ReportId>> {
-  app
+) -> Result<GetPlayerReportsResponse> {
+  let mut response = app
     .client(async |cl| cl.get_player_reports(req).await)
-    .await?
-    .into_iter()
-    .unique()
-    .sorted_unstable()
-    .collect_vec()
-    .pipe(Ok)
+    .await?;
+
+  response.0.sort();
+  response.0.dedup();
+
+  Ok(response)
 }
 
 #[tauri::command]
 pub async fn get_player_status(
   app: AppHandle,
   req: GetPlayerStatusRequest,
-) -> Result<PlayerStatus> {
+) -> Result<GetPlayerStatusResponse> {
   app
     .client(async |cl| cl.get_player_status(req).await)
     .await
@@ -91,7 +89,7 @@ pub async fn get_player_status(
 pub async fn get_player_storage_capacity(
   app: AppHandle,
   req: GetPlayerStorageCapacityRequest,
-) -> Result<OverallStorageCapacity> {
+) -> Result<GetPlayerStorageCapacityResponse> {
   app
     .client(async |cl| cl.get_player_storage_capacity(req).await)
     .await
@@ -102,7 +100,7 @@ pub async fn get_player_storage_capacity(
 pub async fn get_player_worlds(
   app: AppHandle,
   req: GetPlayerWorldsRequest,
-) -> Result<Vec<WorldId>> {
+) -> Result<GetPlayerWorldsResponse> {
   app
     .client(async |cl| cl.get_player_worlds(req).await)
     .await
@@ -113,7 +111,7 @@ pub async fn get_player_worlds(
 pub async fn get_public_player(
   app: AppHandle,
   req: GetPublicPlayerRequest,
-) -> Result<PublicPlayer> {
+) -> Result<GetPublicPlayerResponse> {
   app
     .client(async |cl| cl.get_public_player(req).await)
     .await
@@ -124,7 +122,7 @@ pub async fn get_public_player(
 pub async fn get_public_players(
   app: AppHandle,
   req: GetPublicPlayersRequest,
-) -> Result<Vec<PublicPlayer>> {
+) -> Result<GetPublicPlayersResponse> {
   app
     .client(async |cl| cl.get_public_players(req).await)
     .await
@@ -132,7 +130,10 @@ pub async fn get_public_players(
 }
 
 #[tauri::command]
-pub async fn player_exists(app: AppHandle, req: PlayerExistsRequest) -> Result<bool> {
+pub async fn player_exists(
+  app: AppHandle,
+  req: PlayerExistsRequest,
+) -> Result<PlayerExistsResponse> {
   app
     .client(async |cl| cl.player_exists(req).await)
     .await

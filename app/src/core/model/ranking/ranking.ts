@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { getRanking } from '@/commands';
+import type { Ranking } from '@/types/bindings';
 import { RankingEntryImpl } from './ranking-entry';
-import type { Ranking } from '@/types/core/ranking';
 
 export class RankingImpl {
   public readonly ranking: readonly RankingEntryImpl[];

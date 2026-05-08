@@ -6,14 +6,17 @@ import { clamp } from 'es-toolkit/math';
 import type { Option } from '@tb-dev/utils';
 import { invoke } from '@tauri-apps/api/core';
 import { SquadImpl } from '@/core/model/military/squad';
-import type { Squad } from '@/types/core/military/squad';
-import type { BattleResult, Luck } from '@/types/core/battle';
-import type { SimulateBattleRequest } from '@/types/request/battle';
-import type { BuildingLevel } from '@/types/core/infrastructure/building';
+import type {
+  BuildingLevel,
+  Luck,
+  SimulateBattleRequest,
+  SimulateBattleResponse,
+  Squad,
+} from '@/types/bindings';
 
 export async function simulateBattle(args: {
-  attacker?: Option<readonly Squad[]>;
-  defender?: Option<readonly Squad[]>;
+  attacker?: Option<Squad[]>;
+  defender?: Option<Squad[]>;
   luck?: Option<Luck>;
   wall?: Option<BuildingLevel>;
 }) {
@@ -47,5 +50,5 @@ export async function simulateBattle(args: {
     wall: args.wall,
   };
 
-  return invoke<BattleResult>('simulate_battle', { req });
+  return invoke<SimulateBattleResponse>('simulate_battle', { req });
 }

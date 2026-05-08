@@ -32,8 +32,9 @@ use nil_core::event::Event;
 use nil_core::player::PlayerId;
 use nil_core::world::config::WorldId;
 use nil_crypto::password::Password;
-use nil_payload::AuthorizeRequest;
-use nil_payload::world::LeaveRequest;
+use nil_payload::request::auth::AuthorizeRequest;
+use nil_payload::request::world::LeaveRequest;
+use nil_payload::response::server::*;
 use nil_server_types::ServerKind;
 use nil_server_types::auth::Token;
 use std::borrow::Cow;
@@ -102,7 +103,7 @@ impl Client {
 
     if self.server.is_remote()
       && let Some(token) = authorization_token
-      && let Some(id) = self.validate_token(&token).await?
+      && let Some(id) = self.validate_token(&token).await?.0
       && player_id.as_ref().is_none_or(|it| it == &id)
       && let Ok(authorization) = Authorization::new(token)
     {
@@ -112,7 +113,7 @@ impl Client {
       self.authorization = self
         .authorize(req)
         .await
-        .map(|token| Some(Authorization::new(&token)))?
+        .map(|token| Some(Authorization::new(&token.0)))?
         .transpose()
         .inspect_err(|err| tracing::error!(message = %err, error = ?err))
         .map_err(|_| Error::FailedToAuthenticate)?;
@@ -120,7 +121,7 @@ impl Client {
 
     if self.world_id.is_none()
       && self.server.is_local()
-      && let ServerKind::Local { id } = self.get_server_kind().await?
+      && let ServerKind::Local { id } = self.get_server_kind().await?.0
     {
       self.world_id = Some(id);
     }
@@ -206,7 +207,7 @@ impl Client {
     Arc::downgrade(&self.circuit_breaker)
   }
 
-  pub async fn get_server_kind(&self) -> Result<ServerKind> {
+  pub async fn get_server_kind(&self) -> Result<GetServerKindResponse> {
     http::json_get("get-server-kind")
       .server(self.server)
       .retry(&self.retry)
@@ -216,8 +217,8 @@ impl Client {
       .await
   }
 
-  pub async fn get_server_version(&self) -> Result<String> {
-    http::get_text("version")
+  pub async fn get_server_version(&self) -> Result<GetServerVersionResponse> {
+    http::json_get("version")
       .server(self.server)
       .retry(&self.retry)
       .circuit_breaker(self.circuit_breaker())

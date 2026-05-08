@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { SquadImpl } from '@/core/model/military/squad';
-import type { AcademyRecruitOrder } from '@/types/core/infrastructure/academy';
+import type { AcademyRecruitOrder } from '@/types/bindings';
 import { InfrastructureQueueOrderImpl } from '@/core/model/infrastructure/queue/queue-order';
 
 export class AcademyRecruitOrderImpl extends InfrastructureQueueOrderImpl
-  implements AcademyRecruitOrder
+  implements Readonly<AcademyRecruitOrder>
 {
   public readonly squad: SquadImpl;
 

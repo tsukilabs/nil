@@ -2,17 +2,15 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { invoke } from '@tauri-apps/api/core';
-import type { Coord } from '@/types/core/continent';
-import type { InfrastructureQueueOrderId } from '@/types/core/infrastructure/queue';
 import type {
-  AcademyRecruitCatalog,
+  AcademyRecruitOrderId,
   AcademyRecruitOrderRequest,
-} from '@/types/core/infrastructure/academy';
-import type {
   AddAcademyRecruitOrderRequest,
   CancelAcademyRecruitOrderRequest,
+  Coord,
   GetAcademyRecruitCatalogRequest,
-} from '@/types/request/infrastructure/academy';
+  GetAcademyRecruitCatalogResponse,
+} from '@/types/bindings';
 
 export async function addAcademyRecruitOrder(request: AcademyRecruitOrderRequest) {
   const req: AddAcademyRecruitOrderRequest = {
@@ -23,7 +21,7 @@ export async function addAcademyRecruitOrder(request: AcademyRecruitOrderRequest
   await invoke('add_academy_recruit_order', { req });
 }
 
-export async function cancelAcademyRecruitOrder(coord: Coord, id: InfrastructureQueueOrderId) {
+export async function cancelAcademyRecruitOrder(coord: Coord, id: AcademyRecruitOrderId) {
   const req: CancelAcademyRecruitOrderRequest = {
     world: NIL.world.getIdStrict(),
     coord,
@@ -39,5 +37,5 @@ export async function getAcademyRecruitCatalog(coord: Coord) {
     coord,
   };
 
-  return invoke<AcademyRecruitCatalog>('get_academy_recruit_catalog', { req });
+  return invoke<GetAcademyRecruitCatalogResponse>('get_academy_recruit_catalog', { req });
 }

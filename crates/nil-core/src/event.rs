@@ -64,6 +64,8 @@ impl fmt::Debug for Emitter {
 #[derive(Clone, Debug, Display, Deserialize, Serialize)]
 #[serde(tag = "kind", rename_all = "kebab-case")]
 #[strum(serialize_all = "kebab-case")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 #[remain::sorted]
 pub enum Event {
   /// A new message has been sent in the chat.

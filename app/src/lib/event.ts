@@ -16,7 +16,7 @@ import type {
   PublicCityUpdatedPayload,
   ReportPayload,
   RoundUpdatedPayload,
-} from '@/types/core/event';
+} from '@/types/event';
 
 export type ListenerFn<T> = (payload: T) => MaybePromise<unknown>;
 

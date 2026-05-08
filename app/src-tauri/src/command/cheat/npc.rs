@@ -3,16 +3,15 @@
 
 use crate::error::Result;
 use crate::manager::ManagerExt;
-use nil_core::ethic::Ethics;
-use nil_core::npc::bot::BotId;
-use nil_payload::cheat::npc::*;
+use nil_payload::request::cheat::npc::*;
+use nil_payload::response::cheat::npc::*;
 use tauri::AppHandle;
 
 #[tauri::command]
 pub async fn cheat_get_ethics(
   app: AppHandle,
   req: CheatGetEthicsRequest,
-) -> Result<Option<Ethics>> {
+) -> Result<CheatGetEthicsResponse> {
   app
     .client(async |cl| cl.cheat_get_ethics(req).await)
     .await
@@ -28,7 +27,10 @@ pub async fn cheat_set_bot_ethics(app: AppHandle, req: CheatSetBotEthicsRequest)
 }
 
 #[tauri::command]
-pub async fn cheat_spawn_bot(app: AppHandle, req: CheatSpawnBotRequest) -> Result<BotId> {
+pub async fn cheat_spawn_bot(
+  app: AppHandle,
+  req: CheatSpawnBotRequest,
+) -> Result<CheatSpawnBotResponse> {
   app
     .client(async |cl| cl.cheat_spawn_bot(req).await)
     .await

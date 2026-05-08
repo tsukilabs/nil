@@ -2,17 +2,15 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { invoke } from '@tauri-apps/api/core';
-import type { Coord } from '@/types/core/continent';
-import type { InfrastructureQueueOrderId } from '@/types/core/infrastructure/queue';
-import type {
-  StableRecruitCatalog,
-  StableRecruitOrderRequest,
-} from '@/types/core/infrastructure/stable';
 import type {
   AddStableRecruitOrderRequest,
   CancelStableRecruitOrderRequest,
+  Coord,
   GetStableRecruitCatalogRequest,
-} from '@/types/request/infrastructure/stable';
+  GetStableRecruitCatalogResponse,
+  StableRecruitOrderId,
+  StableRecruitOrderRequest,
+} from '@/types/bindings';
 
 export async function addStableRecruitOrder(request: StableRecruitOrderRequest) {
   const req: AddStableRecruitOrderRequest = {
@@ -23,7 +21,7 @@ export async function addStableRecruitOrder(request: StableRecruitOrderRequest) 
   await invoke('add_stable_recruit_order', { req });
 }
 
-export async function cancelStableRecruitOrder(coord: Coord, id: InfrastructureQueueOrderId) {
+export async function cancelStableRecruitOrder(coord: Coord, id: StableRecruitOrderId) {
   const req: CancelStableRecruitOrderRequest = {
     world: NIL.world.getIdStrict(),
     coord,
@@ -39,5 +37,5 @@ export async function getStableRecruitCatalog(coord: Coord) {
     coord,
   };
 
-  return invoke<StableRecruitCatalog>('get_stable_recruit_catalog', { req });
+  return invoke<GetStableRecruitCatalogResponse>('get_stable_recruit_catalog', { req });
 }

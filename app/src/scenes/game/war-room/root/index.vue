@@ -10,10 +10,10 @@ import SquadGrid from './SquadGrid.vue';
 import { handleError } from '@/lib/error';
 import Destination from './Destination.vue';
 import { computed, nextTick, ref } from 'vue';
+import type { ManeuverKind } from '@/types/bindings';
 import { asyncComputed, useBreakpoints } from '@tb-dev/vue';
 import { useManeuvers } from '@/composables/military/useManeuvers';
 import { usePlayerTurn } from '@/composables/player/usePlayerTurn';
-import type { ManeuverKind } from '@/types/core/military/maneuver';
 import { ArmyPersonnelImpl } from '@/core/model/military/army-personnel';
 import { useWarRoomCoords } from '@/composables/military/useWarRoomCoords';
 import { foldArmyPersonnel } from '@/composables/military/foldArmyPersonnel';
@@ -25,7 +25,7 @@ const isPlayerTurn = usePlayerTurn();
 
 const { origin, destination } = useWarRoomCoords();
 const destinationCity = asyncComputed(null, async () => {
-  const search = { coord: [destination.value] };
+  const search = { coord: [destination.value.toJSON()] };
   const city = await commands.searchPublicCity(search);
   return city.at(0) ?? null;
 });

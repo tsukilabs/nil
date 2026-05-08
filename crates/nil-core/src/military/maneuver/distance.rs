@@ -4,11 +4,13 @@
 use crate::continent::Distance;
 use crate::military::unit::stats::speed::Speed;
 use derive_more::{Deref, Into};
+use nil_num::F64Ops;
 use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
 use std::ops::{Sub, SubAssign};
 
-#[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize, nil_num::F64Ops)]
+#[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize, F64Ops)]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct ManeuverDistance(f64);
 
 impl PartialEq for ManeuverDistance {

@@ -8,13 +8,14 @@ use axum::extract::{Json, State};
 use axum::response::Response;
 use itertools::Itertools;
 use nil_core::npc::bot::PublicBot;
-use nil_payload::npc::bot::*;
+use nil_payload::request::npc::bot::*;
+use nil_payload::response::npc::bot::*;
 
 pub async fn get_coords(State(app): State<App>, Json(req): Json<GetBotCoordsRequest>) -> Response {
   app
     .continent(req.world, |k| k.coords_of(req.id).collect_vec())
     .await
-    .map_left(|coords| res!(OK, Json(coords)))
+    .map_left(|coords| res!(OK, GetBotCoordsResponse(coords)))
     .into_inner()
 }
 
@@ -25,7 +26,7 @@ pub async fn get_public_bot(
   app
     .bot_manager(req.world, |bm| bm.bot(&req.id).map(PublicBot::from))
     .await
-    .try_map_left(|bot| res!(OK, Json(bot)))
+    .try_map_left(|bot| res!(OK, GetPublicBotResponse(bot)))
     .into_inner()
 }
 
@@ -36,6 +37,6 @@ pub async fn get_public_bots(
   app
     .bot_manager(req.world, |bm| bm.bots().map(PublicBot::from).collect_vec())
     .await
-    .map_left(|bots| res!(OK, Json(bots)))
+    .map_left(|bots| res!(OK, GetPublicBotsResponse(bots)))
     .into_inner()
 }

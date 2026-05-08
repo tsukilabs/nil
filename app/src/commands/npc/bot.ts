@@ -2,13 +2,15 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { invoke } from '@tauri-apps/api/core';
-import type { Coord } from '@/types/core/continent';
-import type { BotId, PublicBot } from '@/types/core/npc/bot';
 import type {
+  BotId,
   GetBotCoordsRequest,
+  GetBotCoordsResponse,
   GetPublicBotRequest,
+  GetPublicBotResponse,
   GetPublicBotsRequest,
-} from '@/types/request/npc/bot';
+  GetPublicBotsResponse,
+} from '@/types/bindings';
 
 export async function getBotCoords(id: BotId) {
   const req: GetBotCoordsRequest = {
@@ -16,7 +18,7 @@ export async function getBotCoords(id: BotId) {
     id,
   };
 
-  return invoke<readonly Coord[]>('get_bot_coords', { req });
+  return invoke<GetBotCoordsResponse>('get_bot_coords', { req });
 }
 
 export async function getPublicBot(id: BotId) {
@@ -25,7 +27,7 @@ export async function getPublicBot(id: BotId) {
     id,
   };
 
-  return invoke<PublicBot>('get_public_bot', { req });
+  return invoke<GetPublicBotResponse>('get_public_bot', { req });
 }
 
 export async function getPublicBots() {
@@ -33,5 +35,5 @@ export async function getPublicBots() {
     world: NIL.world.getIdStrict(),
   };
 
-  return invoke<readonly PublicBot[]>('get_public_bots', { req });
+  return invoke<GetPublicBotsResponse>('get_public_bots', { req });
 }

@@ -3,8 +3,8 @@
 
 <script setup lang="ts">
 import { formatInt } from '@/lib/intl';
+import type { ArmyPersonnel } from '@/types/bindings';
 import { TableCell, TableHead, TableRow } from '@ui/table';
-import type { ArmyPersonnel } from '@/types/core/military/army';
 
 defineProps<{
   head: string;

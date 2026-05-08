@@ -14,6 +14,7 @@ use strum::EnumIs;
 #[allow(variant_size_differences)]
 #[derive(Clone, Debug, PartialEq, Eq, Hash, Deserialize, Serialize, EnumIs)]
 #[serde(tag = "kind", rename_all = "kebab-case")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub enum Ruler {
   Bot { id: BotId },
   Player { id: PlayerId },

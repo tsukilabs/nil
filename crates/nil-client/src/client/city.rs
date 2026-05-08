@@ -4,12 +4,11 @@
 use super::Client;
 use crate::error::Result;
 use crate::http;
-use nil_core::city::{City, PublicCity};
-use nil_core::ranking::score::Score;
-use nil_payload::city::*;
+use nil_payload::request::city::*;
+use nil_payload::response::city::*;
 
 impl Client {
-  pub async fn get_city(&self, req: GetCityRequest) -> Result<City> {
+  pub async fn get_city(&self, req: GetCityRequest) -> Result<GetCityResponse> {
     http::json_put("get-city")
       .body(req)
       .server(self.server)
@@ -21,7 +20,7 @@ impl Client {
       .await
   }
 
-  pub async fn get_city_score(&self, req: GetCityScoreRequest) -> Result<Score> {
+  pub async fn get_city_score(&self, req: GetCityScoreRequest) -> Result<GetCityScoreResponse> {
     http::json_put("get-city-score")
       .body(req)
       .server(self.server)
@@ -35,7 +34,7 @@ impl Client {
   pub async fn get_public_cities(
     &self,
     req: GetPublicCitiesRequest,
-  ) -> Result<Vec<GetPublicCityResponse>> {
+  ) -> Result<GetPublicCitiesResponse> {
     http::json_put("get-public-cities")
       .body(req)
       .server(self.server)
@@ -68,7 +67,7 @@ impl Client {
       .await
   }
 
-  pub async fn search_city(&self, req: SearchCityRequest) -> Result<Vec<City>> {
+  pub async fn search_city(&self, req: SearchCityRequest) -> Result<SearchCityResponse> {
     http::json_put("search-city")
       .body(req)
       .server(self.server)
@@ -80,7 +79,10 @@ impl Client {
       .await
   }
 
-  pub async fn search_public_city(&self, req: SearchPublicCityRequest) -> Result<Vec<PublicCity>> {
+  pub async fn search_public_city(
+    &self,
+    req: SearchPublicCityRequest,
+  ) -> Result<SearchPublicCityResponse> {
     http::json_put("search-public-city")
       .body(req)
       .server(self.server)

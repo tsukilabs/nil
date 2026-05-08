@@ -16,6 +16,7 @@ use tap::Pipe;
 
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct ArmyPersonnel {
   archer: Squad,
   axeman: Squad,

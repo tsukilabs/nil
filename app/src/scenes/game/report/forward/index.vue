@@ -9,11 +9,10 @@ import type { Option } from '@tb-dev/utils';
 import { useRouteParams } from '@vueuse/router';
 import { useRoute, useRouter } from 'vue-router';
 import { forwardReport } from '@/commands/report';
-import type { PlayerId } from '@/types/core/player';
-import type { ReportId } from '@/types/core/report';
 import type { ReportScene } from '@/types/scene/game';
 import { useBreakpoints, useMutex } from '@tb-dev/vue';
 import { useReport } from '@/composables/report/useReport';
+import type { PlayerId, ReportId } from '@/types/bindings';
 import InputPlayerName from '@/components/form/InputPlayerName.vue';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@ui/card';
 

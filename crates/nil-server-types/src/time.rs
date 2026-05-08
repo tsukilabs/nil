@@ -8,6 +8,8 @@ use std::time::Duration;
 #[derive(
   Clone, Copy, Debug, Default, From, Into, PartialEq, Eq, PartialOrd, Ord, Deserialize, Serialize,
 )]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
+#[cfg_attr(feature = "typescript", ts(as = "u32"))]
 pub struct Minutes(u64);
 
 impl Minutes {

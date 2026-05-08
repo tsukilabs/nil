@@ -18,6 +18,7 @@ use crate::infrastructure::requirements::InfrastructureRequirements;
 use crate::ranking::score::Score;
 use crate::resources::prelude::*;
 use derive_more::{Deref, Into};
+use nil_num::F64Ops;
 use nil_num::growth::growth;
 use serde::{Deserialize, Serialize};
 use std::cmp;
@@ -136,6 +137,7 @@ pub trait Building: Send + Sync {
 )]
 #[serde(rename_all = "kebab-case")]
 #[strum(serialize_all = "kebab-case")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub enum BuildingId {
   #[subenum(MilitaryBuildingId)]
   Academy,
@@ -195,6 +197,7 @@ impl BuildingId {
 /// Information about a building at a given level.
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct BuildingStats {
   pub level: BuildingLevel,
   pub cost: Cost,
@@ -206,6 +209,7 @@ pub struct BuildingStats {
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct BuildingStatsTable {
   id: BuildingId,
   min_level: BuildingLevel,
@@ -334,9 +338,10 @@ impl BuildingStatsTable {
   Hash,
   Deserialize,
   Serialize,
-  nil_num::F64Ops,
+  F64Ops,
 )]
 #[into(i16, i32, u8, u16, u32, u64, usize, f64)]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct BuildingLevel(u8);
 
 impl BuildingLevel {
@@ -539,6 +544,7 @@ impl Neg for BuildingLevel {
   Deserialize,
   Serialize,
 )]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct BuildingLevelDiff(i8);
 
 impl BuildingLevelDiff {

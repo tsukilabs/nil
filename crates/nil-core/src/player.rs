@@ -63,6 +63,7 @@ impl PlayerManager {
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Player {
   id: PlayerId,
   status: PlayerStatus,
@@ -125,6 +126,7 @@ impl Player {
 
 #[derive(Debug, Display, From, Into, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[from(String, &str, Arc<str>, Box<str>, Cow<'_, str>)]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct PlayerId(Arc<str>);
 
 impl Clone for PlayerId {
@@ -155,6 +157,7 @@ impl Borrow<str> for PlayerId {
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Deserialize, Serialize)]
 #[serde(rename_all = "kebab-case")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub enum PlayerStatus {
   Active,
   Inactive,
@@ -162,6 +165,7 @@ pub enum PlayerStatus {
 
 #[derive(Builder, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct PlayerOptions {
   #[builder(start_fn, into)]
   pub id: PlayerId,
@@ -176,6 +180,7 @@ impl PlayerOptions {
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct PublicPlayer {
   id: PlayerId,
   status: PlayerStatus,

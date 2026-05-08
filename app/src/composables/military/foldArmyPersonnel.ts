@@ -1,14 +1,14 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Army } from '@/types/core/military/army';
+import type { Army } from '@/types/bindings';
 import { computed, type MaybeRefOrGetter, toRef } from 'vue';
 import { ArmyPersonnelImpl } from '@/core/model/military/army-personnel';
 
 export function foldArmyPersonnel(armies: MaybeRefOrGetter<readonly Army[]>) {
   const armiesRef = toRef(armies);
   return computed(() => {
-    const initial = ArmyPersonnelImpl.createWritable();
+    const initial = ArmyPersonnelImpl.createEmptyRaw();
     const personnel = armiesRef.value.reduce((acc, curr) => {
       acc.archer.size += curr.personnel.archer.size;
       acc.axeman.size += curr.personnel.axeman.size;

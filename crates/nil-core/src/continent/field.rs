@@ -7,6 +7,7 @@ use strum::EnumIs;
 
 #[derive(Clone, Debug, Default, Deserialize, Serialize, EnumIs)]
 #[serde(tag = "kind", rename_all = "kebab-case")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub enum Field {
   #[default]
   Empty,
@@ -35,6 +36,7 @@ impl From<City> for Field {
 /// Public data about a field, to which any player can have access.
 #[derive(Clone, Debug, Default, Deserialize, Serialize, EnumIs)]
 #[serde(tag = "kind", rename_all = "kebab-case")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub enum PublicField {
   #[default]
   Empty,

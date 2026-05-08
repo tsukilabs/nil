@@ -3,26 +3,33 @@
 
 import { invoke } from '@tauri-apps/api/core';
 import { isValidPassword } from '@/lib/schema';
-import type { BotId } from '@/types/core/npc/bot';
-import type { RemoteWorld } from '@/types/server';
 import type { SavedataInfo } from '@/core/savedata';
-import type { PlayerId } from '@/types/core/player';
 import type { Option, Writable } from '@tb-dev/utils';
 import { WorldConfigImpl } from '@/core/model/world-config';
-import type { PrecursorId } from '@/types/core/npc/precursor';
-import type { WorldConfig, WorldId } from '@/types/core/world';
-import { type RawWorldStats, WorldStatsImpl } from '@/core/model/stats/world-stats';
+import { WorldStatsImpl } from '@/core/model/stats/world-stats';
 import type {
   CreateRemoteWorldRequest,
+  CreateRemoteWorldResponse,
   DeleteRemoteWorldRequest,
+  GetRemoteWorldLimitPerUserResponse,
+  GetRemoteWorldLimitResponse,
   GetRemoteWorldRequest,
+  GetRemoteWorldResponse,
+  GetRemoteWorldsResponse,
   GetWorldBotsRequest,
+  GetWorldBotsResponse,
   GetWorldConfigRequest,
+  GetWorldConfigResponse,
   GetWorldPlayersRequest,
+  GetWorldPlayersResponse,
   GetWorldPrecursorsRequest,
+  GetWorldPrecursorsResponse,
   GetWorldStatsRequest,
+  GetWorldStatsResponse,
+  PlayerId,
   SaveLocalWorldRequest,
-} from '@/types/request/world';
+  WorldId,
+} from '@/types/bindings';
 
 export async function createRemoteWorld(req: Writable<CreateRemoteWorldRequest>) {
   req.description &&= req.description.slice(0, 300);
@@ -32,7 +39,7 @@ export async function createRemoteWorld(req: Writable<CreateRemoteWorldRequest>)
     req.password = null;
   }
 
-  return invoke<WorldId>('create_remote_world', { req });
+  return invoke<CreateRemoteWorldResponse>('create_remote_world', { req });
 }
 
 export async function deleteRemoteWorld(world?: Option<WorldId>) {
@@ -48,19 +55,19 @@ export async function getRemoteWorld(world?: Option<WorldId>) {
     world: world ?? NIL.world.getIdStrict(),
   };
 
-  return invoke<RemoteWorld>('get_remote_world', { req });
+  return invoke<GetRemoteWorldResponse>('get_remote_world', { req });
 }
 
 export async function getRemoteWorldLimit() {
-  return invoke<number>('get_remote_world_limit');
+  return invoke<GetRemoteWorldLimitResponse>('get_remote_world_limit');
 }
 
 export async function getRemoteWorldLimitPerUser() {
-  return invoke<number>('get_remote_world_limit_per_user');
+  return invoke<GetRemoteWorldLimitPerUserResponse>('get_remote_world_limit_per_user');
 }
 
 export async function getRemoteWorlds() {
-  return invoke<readonly RemoteWorld[]>('get_remote_worlds');
+  return invoke<GetRemoteWorldsResponse>('get_remote_worlds');
 }
 
 export async function getSavedataPlayers(path: string) {
@@ -72,7 +79,7 @@ export async function getWorldBots(world?: Option<WorldId>) {
     world: world ?? NIL.world.getIdStrict(),
   };
 
-  return invoke<readonly BotId[]>('get_world_bots', { req });
+  return invoke<GetWorldBotsResponse>('get_world_bots', { req });
 }
 
 export async function getWorldConfig(world?: Option<WorldId>): Promise<WorldConfigImpl> {
@@ -80,7 +87,7 @@ export async function getWorldConfig(world?: Option<WorldId>): Promise<WorldConf
     world: world ?? NIL.world.getIdStrict(),
   };
 
-  const config = await invoke<WorldConfig>('get_world_config', { req });
+  const config = await invoke<GetWorldConfigResponse>('get_world_config', { req });
   return WorldConfigImpl.create(config);
 }
 
@@ -89,7 +96,7 @@ export async function getWorldPlayers(world?: Option<WorldId>) {
     world: world ?? NIL.world.getIdStrict(),
   };
 
-  return invoke<readonly PlayerId[]>('get_world_players', { req });
+  return invoke<GetWorldPlayersResponse>('get_world_players', { req });
 }
 
 export async function getWorldPrecursors(world?: Option<WorldId>) {
@@ -97,7 +104,7 @@ export async function getWorldPrecursors(world?: Option<WorldId>) {
     world: world ?? NIL.world.getIdStrict(),
   };
 
-  return invoke<readonly PrecursorId[]>('get_world_precursors', { req });
+  return invoke<GetWorldPrecursorsResponse>('get_world_precursors', { req });
 }
 
 export async function getWorldStats(world?: Option<WorldId>): Promise<WorldStatsImpl> {
@@ -105,7 +112,7 @@ export async function getWorldStats(world?: Option<WorldId>): Promise<WorldStats
     world: world ?? NIL.world.getIdStrict(),
   };
 
-  const stats = await invoke<RawWorldStats>('get_world_stats', { req });
+  const stats = await invoke<GetWorldStatsResponse>('get_world_stats', { req });
   return WorldStatsImpl.fromRaw(stats);
 }
 

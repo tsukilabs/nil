@@ -15,6 +15,7 @@ use tap::Pipe;
 
 #[derive(Clone, Default, From, Into, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[from(String, &str, Arc<str>, Box<str>, Cow<'_, str>)]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Password(Arc<str>);
 
 impl Password {

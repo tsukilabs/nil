@@ -3,12 +3,14 @@
 
 use super::{Food, Iron, Resources, Stone, Wood};
 use derive_more::{Deref, Display, Into};
+use nil_num::F64Ops;
 use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
 use std::ops::{Add, AddAssign, Sub, SubAssign};
 
 #[derive(Clone, Debug, Default, Deserialize, Serialize)]
 #[serde(default, rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct ResourcesDiff {
   pub food: FoodDiff,
   pub iron: IronDiff,
@@ -165,9 +167,10 @@ macro_rules! decl_resource_diff {
           Ord,
           Deserialize,
           Serialize,
-          nil_num::F64Ops,
+          F64Ops,
         )]
         #[into(i32, f64)]
+        #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
         pub struct [<$resource Diff>](i32);
 
         impl [<$resource Diff>] {

@@ -4,11 +4,14 @@
 use crate::client::Client;
 use crate::error::Result;
 use crate::http;
-use nil_core::player::Player;
-use nil_payload::cheat::player::*;
+use nil_payload::request::cheat::player::*;
+use nil_payload::response::cheat::player::*;
 
 impl Client {
-  pub async fn cheat_get_player(&self, req: CheatGetPlayerRequest) -> Result<Player> {
+  pub async fn cheat_get_player(
+    &self,
+    req: CheatGetPlayerRequest,
+  ) -> Result<CheatGetPlayerResponse> {
     http::json_put("cheat-get-player")
       .body(req)
       .server(self.server)
@@ -20,7 +23,10 @@ impl Client {
       .await
   }
 
-  pub async fn cheat_get_players(&self, req: CheatGetPlayersRequest) -> Result<Vec<Player>> {
+  pub async fn cheat_get_players(
+    &self,
+    req: CheatGetPlayersRequest,
+  ) -> Result<CheatGetPlayersResponse> {
     http::json_put("cheat-get-players")
       .body(req)
       .server(self.server)

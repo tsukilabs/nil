@@ -14,6 +14,7 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Building, Mine, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Sawmill {
   level: BuildingLevel,
   enabled: bool,

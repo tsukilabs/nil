@@ -25,6 +25,7 @@ use tap::Pipe;
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Military {
   continent: HashMap<ContinentIndex, Vec<Army>>,
   continent_size: ContinentSize,

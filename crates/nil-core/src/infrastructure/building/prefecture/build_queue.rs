@@ -15,7 +15,9 @@ use uuid::Uuid;
 
 #[derive(Clone, Debug, Default, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct PrefectureBuildQueue {
+  #[cfg_attr(feature = "typescript", ts(as = "Vec<PrefectureBuildOrder>"))]
   orders: VecDeque<PrefectureBuildOrder>,
 }
 
@@ -106,6 +108,7 @@ impl InfrastructureQueue<PrefectureBuildOrder> for PrefectureBuildQueue {
 #[must_use]
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct PrefectureBuildOrder {
   id: PrefectureBuildOrderId,
   kind: PrefectureBuildOrderKind,
@@ -157,6 +160,7 @@ impl InfrastructureQueueOrder for PrefectureBuildOrder {
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Deserialize, Serialize)]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct PrefectureBuildOrderId(Uuid);
 
 impl PrefectureBuildOrderId {
@@ -174,6 +178,7 @@ impl Default for PrefectureBuildOrderId {
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Deserialize, Serialize, EnumIs)]
 #[serde(rename_all = "kebab-case")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub enum PrefectureBuildOrderKind {
   Construction,
   Demolition,
@@ -189,6 +194,7 @@ impl PrefectureBuildOrderKind {
 
 #[derive(Clone, Debug, EnumIs, Deserialize, Serialize)]
 #[serde(tag = "kind", rename_all = "kebab-case")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub enum PrefectureBuildOrderState {
   Pending { workforce: Workforce },
   Done,
@@ -212,6 +218,7 @@ impl PrefectureBuildOrderState {
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct PrefectureBuildOrderRequest {
   pub coord: Coord,
   pub building: BuildingId,

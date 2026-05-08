@@ -1,9 +1,9 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { OverallStorageCapacity } from '@/types/core/infrastructure/storage';
+import type { OverallStorageCapacity } from '@/types/bindings';
 
-export class OverallStorageCapacityImpl implements OverallStorageCapacity {
+export class OverallStorageCapacityImpl implements Readonly<OverallStorageCapacity> {
   public readonly silo: number;
   public readonly warehouse: number;
 

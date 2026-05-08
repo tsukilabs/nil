@@ -49,6 +49,7 @@ impl Battle<'_> {
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct BattleResult {
   attacker_personnel: ArmyPersonnel,
   attacker_surviving_personnel: ArmyPersonnel,
@@ -195,6 +196,7 @@ impl BattleResult {
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Deserialize, Serialize)]
 #[serde(rename_all = "kebab-case")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub enum BattleWinner {
   Attacker,
   Defender,

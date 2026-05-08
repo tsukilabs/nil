@@ -11,18 +11,16 @@ import { Switch } from '@ui/switch';
 import { useRouter } from 'vue-router';
 import { hostLocalGame } from '@/core/game';
 import { useSettings } from '@/stores/settings';
-import type { WorldOptions } from '@/types/core/world';
 import enUS from '@/locale/en-US/scenes/host-game.json';
 import ptBR from '@/locale/pt-BR/scenes/host-game.json';
-import type { PlayerOptions } from '@/types/core/player';
 import { isPlayerOptions, isWorldOptions } from '@/lib/schema';
 import { localRef, useBreakpoints, useMutex } from '@tb-dev/vue';
 import InputWorldName from '@/components/form/InputWorldName.vue';
 import InputWorldSize from '@/components/form/InputWorldSize.vue';
 import InputPlayerName from '@/components/form/InputPlayerName.vue';
+import type { PlayerOptions, WorldOptions } from '@/types/bindings';
 import SliderBotDensity from '@/components/form/SliderBotDensity.vue';
 import SliderWorldSpeed from '@/components/form/SliderWorldSpeed.vue';
-import type { WithPartialNullish, WritablePartial } from '@tb-dev/utils';
 import SliderWorldUnitSpeed from '@/components/form/SliderWorldUnitSpeed.vue';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@ui/card';
 import SliderBotAdvancedStartRatio from '@/components/form/SliderBotAdvancedStartRatio.vue';
@@ -39,10 +37,10 @@ const settings = useSettings();
 
 const { md } = useBreakpoints();
 
-const worldOptions = localRef<WritablePartial<WorldOptions>>(
+const worldOptions = localRef<Partial<WorldOptions>>(
   key('world'),
   {
-    name: null,
+    name: undefined,
     size: __CONSTS__.continentSizeDefault,
     locale: settings.general.locale,
     allowCheats: false,
@@ -50,14 +48,14 @@ const worldOptions = localRef<WritablePartial<WorldOptions>>(
     unitSpeed: __CONSTS__.worldUnitSpeedDefault,
     botDensity: __CONSTS__.botDensityDefault,
     botAdvancedStartRatio: __CONSTS__.botAdvancedStartRatioDefault,
-  } satisfies WithPartialNullish<WorldOptions, 'name'>,
+  },
 );
 
-const playerOptions = localRef<WritablePartial<PlayerOptions>>(
+const playerOptions = localRef<Partial<PlayerOptions>>(
   key('player'),
   {
-    id: null,
-  } satisfies WithPartialNullish<PlayerOptions, 'id'>,
+    id: undefined,
+  },
 );
 
 const { locked, lock } = useMutex();

@@ -7,15 +7,15 @@ import { useI18n } from 'vue-i18n';
 import { Button } from '@ui/button';
 import { useRouter } from 'vue-router';
 import { joinLocalGame } from '@/core/game';
+import type { Option } from '@tb-dev/utils';
 import { isPlayerOptions } from '@/lib/schema';
 import { SocketAddrV4 } from '@/lib/net/addr-v4';
 import type { ServerAddr } from '@/types/server';
-import type { PlayerOptions } from '@/types/core/player';
+import type { PlayerOptions } from '@/types/bindings';
 import { localRef, useBreakpoints, useMutex } from '@tb-dev/vue';
 import InputPlayerName from '@/components/form/InputPlayerName.vue';
 import InputServerAddress from '@/components/form/InputServerAddress.vue';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@ui/card';
-import type { Option, WithPartialNullish, WritablePartial } from '@tb-dev/utils';
 
 const { t } = useI18n();
 
@@ -23,11 +23,11 @@ const router = useRouter();
 
 const { md } = useBreakpoints();
 
-const playerOptions = localRef<WritablePartial<PlayerOptions>>(
+const playerOptions = localRef<Partial<PlayerOptions>>(
   key('player'),
   {
-    id: null,
-  } satisfies WithPartialNullish<PlayerOptions, 'id'>,
+    id: undefined,
+  },
 );
 
 const server = localRef<string>(key('server'), '');

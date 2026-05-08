@@ -2,10 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { Option } from '@tb-dev/utils';
-import type { Ruler } from '@/types/core/ruler';
 import { CoordImpl } from '@/core/model/continent/coord';
-import type { RankingEntry } from '@/types/core/ranking';
-import type { ContinentKey, Coord } from '@/types/core/continent';
+import type { ContinentKey } from '@/types/core/continent';
+import type { Coord, RankingEntry, Ruler } from '@/types/bindings';
 import { RankingEntryImpl } from '@/core/model/ranking/ranking-entry';
 
 export abstract class RulerImpl {

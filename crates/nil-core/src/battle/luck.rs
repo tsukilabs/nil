@@ -2,12 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use derive_more::Deref;
+use nil_num::F64Ops;
 use serde::{Deserialize, Serialize};
 use std::ops::MulAssign;
 
 #[derive(
-  Clone, Copy, Debug, Deref, PartialEq, Eq, PartialOrd, Ord, Deserialize, Serialize, nil_num::F64Ops,
+  Clone, Copy, Debug, Deref, PartialEq, Eq, PartialOrd, Ord, Deserialize, Serialize, F64Ops,
 )]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Luck(i8);
 
 impl Luck {

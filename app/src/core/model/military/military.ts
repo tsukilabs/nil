@@ -3,14 +3,12 @@
 
 import { ArmyImpl } from './army';
 import { getPlayerMilitary } from '@/commands/player';
-import type { Military } from '@/types/core/military';
-import type { Army } from '@/types/core/military/army';
 import { CoordImpl } from '@/core/model/continent/coord';
+import type { ContinentKey } from '@/types/core/continent';
 import { ManeuverImpl } from '@/core/model/military/maneuver';
-import type { Maneuver, ManeuverId } from '@/types/core/military/maneuver';
-import type { ContinentIndex, ContinentKey, ContinentSize } from '@/types/core/continent';
+import type { ContinentIndex, ContinentSize, ManeuverId, Military } from '@/types/bindings';
 
-export class MilitaryImpl implements Military {
+export class MilitaryImpl {
   public readonly continent: ReadonlyMap<ContinentIndex, readonly ArmyImpl[]>;
   public readonly continentSize: ContinentSize;
   public readonly maneuvers: ReadonlyMap<ManeuverId, ManeuverImpl>;
@@ -65,7 +63,7 @@ export class MilitaryImpl implements Military {
     });
   }
 
-  public static fromRaw(raw: RawMilitary) {
+  public static fromRaw(raw: Military) {
     const continent = new Map<number, readonly ArmyImpl[]>();
     for (const [index, armies] of Object.entries(raw.continent)) {
       const impl = armies.map((army) => ArmyImpl.create(army));
@@ -94,10 +92,4 @@ interface Args {
   continent: ReadonlyMap<number, readonly ArmyImpl[]>;
   continentSize: ContinentSize;
   maneuvers: ReadonlyMap<ManeuverId, ManeuverImpl>;
-}
-
-export interface RawMilitary {
-  readonly continent: Readonly<Record<string, readonly Army[]>>;
-  readonly continentSize: ContinentSize;
-  readonly maneuvers: Readonly<Record<ManeuverId, Maneuver>>;
 }

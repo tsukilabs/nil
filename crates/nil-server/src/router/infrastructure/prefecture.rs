@@ -8,7 +8,8 @@ use crate::{bail_if_city_is_not_owned_by, bail_if_player_is_not_pending, res};
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
 use nil_core::infrastructure::building::prefecture::build_catalog::PrefectureBuildCatalog;
-use nil_payload::infrastructure::prefecture::*;
+use nil_payload::request::infrastructure::prefecture::*;
+use nil_payload::response::infrastructure::prefecture::*;
 
 pub async fn add_build_order(
   State(app): State<App>,
@@ -70,7 +71,7 @@ pub async fn get_build_catalog(
       };
 
       result
-        .map(|catalog| res!(OK, Json(catalog)))
+        .map(|catalog| res!(OK, GetPrefectureBuildCatalogResponse(catalog)))
         .unwrap_or_else(from_err)
     }
     Err(err) => from_err(err),

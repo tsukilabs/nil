@@ -8,13 +8,14 @@ use crate::res;
 use crate::response::{EitherExt, from_err};
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
-use nil_payload::round::*;
+use nil_payload::request::round::*;
+use nil_payload::response::round::*;
 
 pub async fn get(State(app): State<App>, Json(req): Json<GetRoundRequest>) -> Response {
   app
     .round(req.world, Clone::clone)
     .await
-    .map_left(|round| res!(OK, Json(round)))
+    .map_left(|round| res!(OK, GetRoundResponse(round)))
     .into_inner()
 }
 
@@ -29,7 +30,7 @@ pub async fn set_ready(
       Ok::<_, CoreError>(world.round().clone())
     })
     .await
-    .try_map_left(|round| res!(OK, Json(round)))
+    .try_map_left(|round| res!(OK, SetPlayerReadyResponse(round)))
     .into_inner()
 }
 
@@ -56,6 +57,6 @@ pub async fn start(
       Ok::<_, CoreError>(world.round().clone())
     })
     .await
-    .try_map_left(|round| res!(OK, Json(round)))
+    .try_map_left(|round| res!(OK, StartRoundResponse(round)))
     .into_inner()
 }

@@ -14,8 +14,8 @@ use crate::infrastructure::storage::{OverallStorageCapacity, StorageCapacity};
 use bon::Builder;
 use derive_more::{Deref, Display, From, Into};
 use diff::{FoodDiff, IronDiff, ResourcesDiff, StoneDiff, WoodDiff};
-use nil_num::impl_mul_ceil;
 use nil_num::mul_ceil::MulCeil;
+use nil_num::{F64Ops, impl_mul_ceil};
 use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
 use std::num::NonZeroU32;
@@ -23,6 +23,7 @@ use std::ops::{Add, AddAssign, Mul, MulAssign, Sub, SubAssign};
 
 #[derive(Builder, Clone, Debug, PartialEq, Eq, Deserialize, Serialize)]
 #[serde(default, rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Resources {
   #[builder(default)]
   pub food: Food,
@@ -314,9 +315,10 @@ macro_rules! decl_resource {
           Ord,
           Deserialize,
           Serialize,
-          nil_num::F64Ops,
+          F64Ops,
         )]
         #[into(u32, f64)]
+        #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
         pub struct $resource(u32);
 
         impl $resource {

@@ -4,7 +4,7 @@
 use crate::client::Client;
 use crate::error::Result;
 use crate::http;
-use nil_payload::cheat::round::*;
+use nil_payload::request::cheat::round::*;
 
 impl Client {
   pub async fn cheat_skip_round(&self, req: CheatSkipRoundRequest) -> Result<()> {

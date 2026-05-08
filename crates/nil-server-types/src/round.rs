@@ -6,6 +6,7 @@ use serde::{Deserialize, Serialize};
 use std::time::Duration;
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Deserialize, Serialize)]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct RoundDuration(Minutes);
 
 impl RoundDuration {

@@ -5,21 +5,24 @@ import * as commands from '@/commands';
 import { fromZoned } from '@/lib/date';
 import type { Option } from '@tb-dev/utils';
 import { WorldConfigImpl } from './world-config';
-import type { RoundId } from '@/types/core/round';
-import type { WorldId } from '@/types/core/world';
-import type { PlayerId } from '@/types/core/player';
-import type { ContinentSize } from '@/types/core/continent';
-import type { RemoteWorld, RoundDuration } from '@/types/server';
+import type {
+  ContinentSize,
+  PlayerId,
+  RemoteWorld,
+  RoundDuration,
+  RoundId,
+  WorldId,
+} from '@/types/bindings';
 
-export class RemoteWorldImpl implements RemoteWorld {
+export class RemoteWorldImpl implements Readonly<RemoteWorld> {
   public readonly config: WorldConfigImpl;
-  public readonly description: Option<string>;
+  public readonly description: string | null;
   public readonly createdBy: PlayerId;
   public readonly createdAt: string;
   public readonly updatedAt: string;
   public readonly hasPassword: boolean;
   public readonly currentRound: RoundId;
-  public readonly roundDuration: Option<RoundDuration>;
+  public readonly roundDuration: RoundDuration | null;
   public readonly activePlayers: number;
   public readonly totalPlayers: number;
   public readonly continentSize: ContinentSize;
@@ -29,7 +32,7 @@ export class RemoteWorldImpl implements RemoteWorld {
 
   private constructor(world: RemoteWorld) {
     this.config = WorldConfigImpl.create(world.config);
-    this.description = world.description?.trim();
+    this.description = world.description?.trim() ?? null;
     this.createdBy = world.createdBy;
     this.createdAt = world.createdAt;
     this.updatedAt = world.updatedAt;

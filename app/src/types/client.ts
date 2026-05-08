@@ -3,8 +3,7 @@
 
 import type { Option } from '@tb-dev/utils';
 import type { ServerAddr } from '@/types/server';
-import type { WorldId } from '@/types/core/world';
-import type { PlayerId } from '@/types/core/player';
+import type { PlayerId, WorldId } from '@/types/bindings';
 
 export interface ClientOptions {
   serverAddr: ServerAddr;

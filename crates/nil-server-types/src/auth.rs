@@ -8,6 +8,7 @@ use std::ops::Deref;
 
 #[derive(Clone, Debug, From, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[from(String, &str, Box<str>, Cow<'_, str>)]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Token(Box<str>);
 
 impl Token {

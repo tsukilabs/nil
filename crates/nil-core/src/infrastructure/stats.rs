@@ -14,6 +14,7 @@ use strum::IntoEnumIterator;
 
 #[derive(Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct InfrastructureStats {
   building: HashMap<BuildingId, BuildingStatsTable>,
   mine: HashMap<MineId, MineStatsTable>,

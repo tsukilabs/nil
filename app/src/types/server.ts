@@ -1,11 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Option } from '@tb-dev/utils';
-import type { RoundId } from '@/types/core/round';
-import type { PlayerId } from '@/types/core/player';
-import type { ContinentSize } from '@/types/core/continent';
-import type { WorldConfig, WorldId } from '@/types/core/world';
+import type { WorldId } from '@/types/bindings';
 
 export interface LocalServer {
   readonly worldId: WorldId;
@@ -22,30 +18,3 @@ export interface ServerAddrLocal {
 export interface ServerAddrRemote {
   readonly kind: 'remote';
 }
-
-export type ServerKind = ServerKindLocal | ServerKindRemote;
-
-export interface ServerKindLocal {
-  readonly kind: 'local';
-  readonly id: WorldId;
-}
-
-export interface ServerKindRemote {
-  readonly kind: 'remote';
-}
-
-export interface RemoteWorld {
-  readonly config: WorldConfig;
-  readonly description: Option<string>;
-  readonly createdBy: PlayerId;
-  readonly createdAt: string;
-  readonly updatedAt: string;
-  readonly hasPassword: boolean;
-  readonly currentRound: RoundId;
-  readonly roundDuration: Option<RoundDuration>;
-  readonly activePlayers: number;
-  readonly totalPlayers: number;
-  readonly continentSize: ContinentSize;
-}
-
-export type RoundDuration = number;

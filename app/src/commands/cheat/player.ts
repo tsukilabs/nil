@@ -3,8 +3,13 @@
 
 import type { Option } from '@tb-dev/utils';
 import { invoke } from '@tauri-apps/api/core';
-import type { Player, PlayerId } from '@/types/core/player';
-import type { CheatGetPlayerRequest, CheatGetPlayersRequest } from '@/types/request/cheat/player';
+import type {
+  CheatGetPlayerRequest,
+  CheatGetPlayerResponse,
+  CheatGetPlayersRequest,
+  CheatGetPlayersResponse,
+  PlayerId,
+} from '@/types/bindings';
 
 export async function cheatGetPlayer(player?: Option<PlayerId>) {
   const req: CheatGetPlayerRequest = {
@@ -12,7 +17,7 @@ export async function cheatGetPlayer(player?: Option<PlayerId>) {
     player: player ?? null,
   };
 
-  return invoke<Player>('cheat_get_player', { req });
+  return invoke<CheatGetPlayerResponse>('cheat_get_player', { req });
 }
 
 export async function cheatGetPlayers() {
@@ -20,5 +25,5 @@ export async function cheatGetPlayers() {
     world: NIL.world.getIdStrict(),
   };
 
-  return invoke<readonly Player[]>('cheat_get_players', { req });
+  return invoke<CheatGetPlayersResponse>('cheat_get_players', { req });
 }

@@ -8,7 +8,8 @@ use crate::res;
 use crate::response::EitherExt;
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
-use nil_payload::military::*;
+use nil_payload::request::military::*;
+use nil_payload::response::military::*;
 
 pub async fn request_maneuver(
   State(app): State<App>,
@@ -24,6 +25,6 @@ pub async fn request_maneuver(
       }
     })
     .await
-    .try_map_left(|result| res!(OK, Json(result)))
+    .try_map_left(|id| res!(OK, RequestManeuverResponse(id)))
     .into_inner()
 }

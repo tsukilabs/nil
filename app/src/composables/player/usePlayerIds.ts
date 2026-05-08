@@ -3,7 +3,7 @@
 
 import * as commands from '@/commands';
 import { asyncRef } from '@tb-dev/vue';
-import type { PlayerId } from '@/types/core/player';
+import type { PlayerId } from '@/types/bindings';
 import { computed, type MaybeRefOrGetter, toRef } from 'vue';
 
 interface UsePlayerIdsOptions {

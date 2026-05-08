@@ -6,7 +6,8 @@ use crate::res;
 use crate::response::EitherExt;
 use axum::extract::{Json, State};
 use axum::response::Response;
-use nil_payload::cheat::military::*;
+use nil_payload::request::cheat::military::*;
+use nil_payload::response::cheat::military::*;
 
 pub async fn get_idle_armies_at(
   State(app): State<App>,
@@ -15,7 +16,7 @@ pub async fn get_idle_armies_at(
   app
     .world(req.world, |world| world.cheat_get_idle_armies_at(req.coord))
     .await
-    .try_map_left(|armies| res!(OK, Json(armies)))
+    .try_map_left(|armies| res!(OK, CheatGetIdleArmiesAtResponse(armies)))
     .into_inner()
 }
 
@@ -28,7 +29,7 @@ pub async fn get_idle_personnel_at(
       world.cheat_get_idle_personnel_at(req.coord)
     })
     .await
-    .try_map_left(|personnel| res!(OK, Json(personnel)))
+    .try_map_left(|personnel| res!(OK, CheatGetIdlePersonnelAtResponse(personnel)))
     .into_inner()
 }
 

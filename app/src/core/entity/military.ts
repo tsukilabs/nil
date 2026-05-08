@@ -5,8 +5,8 @@ import type { Ref } from 'vue';
 import { Entity } from './abstract';
 import { asyncRef } from '@tb-dev/vue';
 import type { Option } from '@tb-dev/utils';
+import type { MilitaryUpdatedPayload } from '@/types/event';
 import { MilitaryImpl } from '@/core/model/military/military';
-import type { MilitaryUpdatedPayload } from '@/types/core/event';
 
 export class MilitaryEntity extends Entity {
   private readonly military: Ref<Option<MilitaryImpl>>;

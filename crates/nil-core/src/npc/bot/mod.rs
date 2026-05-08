@@ -48,6 +48,7 @@ impl BotManager {
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Bot {
   id: BotId,
   ethics: Ethics,
@@ -97,6 +98,7 @@ impl Bot {
 
 #[derive(Debug, Display, PartialEq, Eq, Hash, From, Into, Deserialize, Serialize)]
 #[from(String, &str, Arc<str>, Box<str>, Cow<'_, str>)]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct BotId(Arc<str>);
 
 impl Clone for BotId {
@@ -133,6 +135,7 @@ impl From<BotId> for String {
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct PublicBot {
   id: BotId,
 }

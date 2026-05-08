@@ -11,6 +11,7 @@ members = [
   "crates/nil-num",
   "crates/nil-num-macros",
   "crates/nil-payload",
+  "crates/nil-payload-macros",
   "crates/nil-server",
   "crates/nil-server-database",
   "crates/nil-server-types",
@@ -75,7 +76,7 @@ quote = "1.0"
 rand = "0.10"
 remain = "0.2"
 subenum = "=1.2.0"
-sysinfo = "0.38"
+sysinfo = "0.39"
 tap = "=1.0.1"
 tar = "0.4"
 tauri-plugin-clipboard-manager = "2.3"
@@ -91,6 +92,7 @@ thiserror = "2.0"
 tracing = "0.1"
 tracing-appender = "0.2"
 
+## External dependencies
 [workspace.dependencies.axum]
 version = "0.8"
 features = ["macros", "ws"]
@@ -140,58 +142,6 @@ features = ["bundled"]
 [workspace.dependencies.mimalloc]
 version = "0.1"
 features = ["secure"]
-
-[workspace.dependencies.nil-client]
-version = "0.5"
-path = "./crates/nil-client"
-
-[workspace.dependencies.nil-core]
-version = "0.5"
-path = "./crates/nil-core"
-
-[workspace.dependencies.nil-core-macros]
-version = "0.5"
-path = "./crates/nil-core-macros"
-
-[workspace.dependencies.nil-crypto]
-version = "0.5"
-path = "./crates/nil-crypto"
-
-[workspace.dependencies.nil-log]
-version = "0.5"
-path = "./crates/nil-log"
-
-[workspace.dependencies.nil-namegen]
-version = "0.5"
-path = "./crates/nil-namegen"
-
-[workspace.dependencies.nil-num]
-version = "0.5"
-path = "./crates/nil-num"
-
-[workspace.dependencies.nil-num-macros]
-version = "0.5"
-path = "./crates/nil-num-macros"
-
-[workspace.dependencies.nil-server]
-version = "0.5"
-path = "./crates/nil-server"
-
-[workspace.dependencies.nil-server-database]
-version = "0.5"
-path = "./crates/nil-server-database"
-
-[workspace.dependencies.nil-server-types]
-version = "0.5"
-path = "./crates/nil-server-types"
-
-[workspace.dependencies.nil-payload]
-version = "0.5"
-path = "./crates/nil-payload"
-
-[workspace.dependencies.nil-util]
-version = "0.5"
-path = "./crates/nil-util"
 
 [workspace.dependencies.reqwest]
 version = "0.12"
@@ -250,6 +200,21 @@ features = ["cors", "trace"]
 version = "0.3"
 features = ["env-filter"]
 
+[workspace.dependencies.ts-rs]
+version = "12.0"
+default-features = false
+features = [
+  "format",
+  "indexmap-impl",
+  "jiff-impl",
+  "semver-impl",
+  "serde-compat",
+  "serde-json-impl",
+  "tokio-impl",
+  "url-impl",
+  "uuid-impl",
+]
+
 [workspace.dependencies.url]
 version = "2.5"
 features = ["serde"]
@@ -257,6 +222,63 @@ features = ["serde"]
 [workspace.dependencies.uuid]
 version = "1.23"
 features = ["serde", "v4", "v7"]
+
+## Internal dependencies
+[workspace.dependencies.nil-client]
+version = "0.5"
+path = "./crates/nil-client"
+
+[workspace.dependencies.nil-core]
+version = "0.5"
+path = "./crates/nil-core"
+
+[workspace.dependencies.nil-core-macros]
+version = "0.5"
+path = "./crates/nil-core-macros"
+
+[workspace.dependencies.nil-crypto]
+version = "0.5"
+path = "./crates/nil-crypto"
+
+[workspace.dependencies.nil-log]
+version = "0.5"
+path = "./crates/nil-log"
+
+[workspace.dependencies.nil-namegen]
+version = "0.5"
+path = "./crates/nil-namegen"
+
+[workspace.dependencies.nil-num]
+version = "0.5"
+path = "./crates/nil-num"
+
+[workspace.dependencies.nil-num-macros]
+version = "0.5"
+path = "./crates/nil-num-macros"
+
+[workspace.dependencies.nil-server]
+version = "0.5"
+path = "./crates/nil-server"
+
+[workspace.dependencies.nil-server-database]
+version = "0.5"
+path = "./crates/nil-server-database"
+
+[workspace.dependencies.nil-server-types]
+version = "0.5"
+path = "./crates/nil-server-types"
+
+[workspace.dependencies.nil-payload]
+version = "0.5"
+path = "./crates/nil-payload"
+
+[workspace.dependencies.nil-payload-macros]
+version = "0.5"
+path = "./crates/nil-payload-macros"
+
+[workspace.dependencies.nil-util]
+version = "0.5"
+path = "./crates/nil-util"
 
 [workspace.lints.rust]
 async_fn_in_trait = "allow"

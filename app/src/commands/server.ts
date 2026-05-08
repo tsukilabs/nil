@@ -3,14 +3,21 @@
 
 import type { Option } from '@tb-dev/utils';
 import { invoke } from '@tauri-apps/api/core';
-import type { PlayerId } from '@/types/core/player';
-import type { WorldOptions } from '@/types/core/world';
-import type { LocalServer, ServerAddr, ServerKind } from '@/types/server';
-import type { AuthorizeRequest, ValidateTokenRequest } from '@/types/request';
+import type { LocalServer, ServerAddr } from '@/types/server';
+import type {
+  AuthorizeRequest,
+  AuthorizeResponse,
+  GetServerKindResponse,
+  GetServerVersionResponse,
+  PlayerId,
+  ValidateTokenRequest,
+  ValidateTokenResponse,
+  WorldOptions,
+} from '@/types/bindings';
 
 export async function authorize(player: PlayerId, password: Option<string>) {
   const req: AuthorizeRequest = { player, password };
-  return invoke<string>('authorize', { req });
+  return invoke<AuthorizeResponse>('authorize', { req });
 }
 
 export async function getLocalServerWorldId() {
@@ -23,11 +30,11 @@ export async function getServerAddr() {
 }
 
 export async function getServerKind() {
-  return invoke<ServerKind>('get_server_kind');
+  return invoke<GetServerKindResponse>('get_server_kind');
 }
 
 export async function getServerVersion() {
-  return invoke<string>('get_server_version');
+  return invoke<GetServerVersionResponse>('get_server_version');
 }
 
 export async function isServerReady() {
@@ -49,7 +56,7 @@ export async function stopServer() {
 export async function validateToken(token: Option<string>) {
   if (token) {
     const req: ValidateTokenRequest = { token };
-    return invoke<Option<PlayerId>>('validate_token', { req });
+    return invoke<ValidateTokenResponse>('validate_token', { req });
   }
   else {
     return null;

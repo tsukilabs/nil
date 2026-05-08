@@ -3,7 +3,7 @@
 
 import { toRef, watch } from 'vue';
 import * as commands from '@/commands';
-import type { WorldId } from '@/types/core/world';
+import type { WorldId } from '@/types/bindings';
 import { asyncRef, type MaybeNilRef } from '@tb-dev/vue';
 import { RemoteWorldImpl } from '@/core/model/remote-world';
 

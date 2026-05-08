@@ -2,8 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { invoke } from '@tauri-apps/api/core';
-import type { RequestManeuverRequest } from '@/types/request/military';
-import type { ManeuverId, ManeuverRequest } from '@/types/core/military/maneuver';
+import type {
+  ManeuverRequest,
+  RequestManeuverRequest,
+  RequestManeuverResponse,
+} from '@/types/bindings';
 
 export async function requestManeuver(request: ManeuverRequest) {
   const req: RequestManeuverRequest = {
@@ -11,5 +14,5 @@ export async function requestManeuver(request: ManeuverRequest) {
     request,
   };
 
-  return invoke<ManeuverId>('request_maneuver', { req });
+  return invoke<RequestManeuverResponse>('request_maneuver', { req });
 }

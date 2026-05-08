@@ -30,3 +30,11 @@ serde.workspace = true
 tap.workspace = true
 thiserror.workspace = true
 tracing.workspace = true
+
+[dependencies.ts-rs]
+workspace = true
+optional = true
+
+[features]
+default = []
+typescript = ["dep:ts-rs"]

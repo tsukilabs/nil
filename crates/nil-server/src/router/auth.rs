@@ -8,8 +8,8 @@ use crate::res;
 use crate::response::from_err;
 use axum::extract::{Json, State};
 use axum::response::Response;
-use nil_core::player::PlayerId;
-use nil_payload::{AuthorizeRequest, ValidateTokenRequest};
+use nil_payload::request::auth::*;
+use nil_payload::response::auth::*;
 use nil_server_types::ServerKind;
 use nil_server_types::auth::Token;
 
@@ -38,7 +38,7 @@ pub async fn authorize(State(app): State<App>, Json(req): Json<AuthorizeRequest>
   };
 
   result
-    .map(|token| res!(OK, Json(token)))
+    .map(|token| res!(OK, AuthorizeResponse(token)))
     .unwrap_or_else(from_err)
 }
 
@@ -56,10 +56,10 @@ pub async fn validate_token(
   {
     match app.database().user_exists(player).await {
       Ok(true) => {}
-      Ok(false) => return res!(OK, Json(None::<PlayerId>)),
+      Ok(false) => return res!(OK, ValidateTokenResponse(None)),
       Err(err) => return from_err(err),
     }
   }
 
-  res!(OK, Json(player))
+  res!(OK, ValidateTokenResponse(player))
 }

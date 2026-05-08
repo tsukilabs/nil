@@ -28,3 +28,11 @@ jiff.workspace = true
 nil-core.workspace = true
 serde.workspace = true
 strum.workspace = true
+
+[dependencies.ts-rs]
+workspace = true
+optional = true
+
+[features]
+default = []
+typescript = ["dep:ts-rs", "nil-core/typescript"]

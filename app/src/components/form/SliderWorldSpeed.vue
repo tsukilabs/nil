@@ -6,8 +6,7 @@ import { computed } from 'vue';
 import { Label } from '@ui/label';
 import { useI18n } from 'vue-i18n';
 import { Slider } from '@ui/slider';
-import type { WritablePartial } from '@tb-dev/utils';
-import type { WorldOptions } from '@/types/core/world';
+import type { WorldOptions } from '@/types/bindings';
 import enUS from '@/locale/en-US/scenes/host-game.json';
 import ptBR from '@/locale/pt-BR/scenes/host-game.json';
 
@@ -15,7 +14,7 @@ defineProps<{
   disabled: boolean;
 }>();
 
-const worldOptions = defineModel<WritablePartial<WorldOptions>>({ required: true });
+const worldOptions = defineModel<Partial<WorldOptions>>({ required: true });
 
 const consts = __CONSTS__;
 

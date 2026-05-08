@@ -31,6 +31,7 @@ use std::ops::{Add, AddAssign, Div, Mul, Sub, SubAssign};
   Ord,
 )]
 #[into(u32, f64, Food)]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Maintenance(Food);
 
 impl Maintenance {
@@ -189,6 +190,7 @@ impl PartialOrd<Maintenance> for Food {
 
 /// Proportion of the base cost that should be used as a maintenance tax.
 #[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize)]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct MaintenanceRatio(f64);
 
 impl MaintenanceRatio {
@@ -202,6 +204,7 @@ impl MaintenanceRatio {
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct MaintenanceBalance {
   pub maintenance: Maintenance,
   pub production: Food,

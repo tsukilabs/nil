@@ -2,8 +2,8 @@
 
 ## Requirements
 
-- [Rust 1.95 (nightly)](https://www.rust-lang.org/tools/install)
-- [Node 24](https://nodejs.org/en/download/current)
+- [Rust (nightly)](https://www.rust-lang.org/tools/install)
+- [Node.js](https://nodejs.org/en/download/current)
 - [pnpm](https://pnpm.io/installation)
 - [Diesel](https://diesel.rs/guides/getting-started#installing-diesel-cli)
 
@@ -38,8 +38,6 @@ Here’s a simplified list of the steps you’ll need to take. In some cases, yo
   - [Create a new Rust command](/app/src-tauri/src/command/mod.rs)
   - [Expose it to the frontend](/app/src-tauri/src/lib.rs)
   - [Create a new TypeScript command](/app/src/commands/index.ts)
-  - [Declare an interface for the request struct](/app/src/lib/request)
-  - [Declare an interface for the response struct](/app/src/lib/response)
 
 ## Environment variables
 

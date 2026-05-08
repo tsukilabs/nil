@@ -16,16 +16,15 @@ mod player;
 mod ranking;
 mod report;
 mod round;
+mod server;
 mod user;
 mod websocket;
 mod world;
 
 use crate::app::App;
 use crate::middleware::authorization::authorization;
-use crate::res;
-use axum::extract::{Json, State};
 use axum::http::{Method, StatusCode};
-use axum::response::{Redirect, Response};
+use axum::response::Redirect;
 use axum::routing::{any, get, post, put};
 use axum::{Router, middleware};
 use tower_http::cors::{Any, CorsLayer};
@@ -145,7 +144,7 @@ pub(crate) fn create() -> Router<App> {
     .route("/get-remote-world-limit", get(world::remote::get_limit))
     .route("/get-remote-world-limit-per-user", get(world::remote::get_limit_per_user))
     .route("/get-round", put(round::get))
-    .route("/get-server-kind", get(server_kind))
+    .route("/get-server-kind", get(server::kind))
     .route("/get-world-bots", put(world::get_bots))
     .route("/get-world-config", put(world::get_config))
     .route("/get-world-players", put(world::get_players))
@@ -181,7 +180,7 @@ fn with_cors() -> Router<App> {
   let router = Router::new()
     .route("/", get(ok))
     .route("/get-remote-worlds", get(world::remote::get_all))
-    .route("/version", get(version))
+    .route("/version", get(server::version))
     .route_layer(cors);
 
   router
@@ -197,12 +196,4 @@ async fn license() -> Redirect {
 
 async fn robots_txt() -> &'static str {
   "User-agent: *\nDisallow: /"
-}
-
-async fn server_kind(State(app): State<App>) -> Response {
-  res!(OK, Json(app.server_kind()))
-}
-
-async fn version() -> &'static str {
-  env!("CARGO_PKG_VERSION")
 }

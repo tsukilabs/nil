@@ -2,16 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { invoke } from '@tauri-apps/api/core';
-import type { Coord } from '@/types/core/continent';
-import type {
-  PrefectureBuildCatalog,
-  PrefectureBuildOrderRequest,
-} from '@/types/core/infrastructure/prefecture';
 import type {
   AddPrefectureBuildOrderRequest,
   CancelPrefectureBuildOrderRequest,
+  Coord,
   GetPrefectureBuildCatalogRequest,
-} from '@/types/request/infrastructure/prefecture';
+  GetPrefectureBuildCatalogResponse,
+  PrefectureBuildOrderRequest,
+} from '@/types/bindings';
 
 export async function addPrefectureBuildOrder(request: PrefectureBuildOrderRequest) {
   const req: AddPrefectureBuildOrderRequest = {
@@ -37,5 +35,5 @@ export async function getPrefectureBuildCatalog(coord: Coord) {
     coord,
   };
 
-  return invoke<PrefectureBuildCatalog>('get_prefecture_build_catalog', { req });
+  return invoke<GetPrefectureBuildCatalogResponse>('get_prefecture_build_catalog', { req });
 }

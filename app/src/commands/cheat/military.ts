@@ -3,19 +3,22 @@
 
 import type { Option } from '@tb-dev/utils';
 import { invoke } from '@tauri-apps/api/core';
-import type { Ruler } from '@/types/core/ruler';
 import { SquadImpl } from '@/core/model/military/squad';
+import type { SquadTuple } from '@/types/core/military';
 import { CoordImpl } from '@/core/model/continent/coord';
-import type { UnitId } from '@/types/core/military/unit';
 import type { ContinentKey } from '@/types/core/continent';
-import type { Squad, SquadTuple } from '@/types/core/military/squad';
-import type { Army, ArmyPersonnel } from '@/types/core/military/army';
 import { ArmyPersonnelImpl } from '@/core/model/military/army-personnel';
 import type {
+  ArmyPersonnel,
   CheatGetIdleArmiesAtRequest,
+  CheatGetIdleArmiesAtResponse,
   CheatGetIdlePersonnelAtRequest,
+  CheatGetIdlePersonnelAtResponse,
   CheatSpawnPersonnelRequest,
-} from '@/types/request/cheat/military';
+  Ruler,
+  Squad,
+  UnitId,
+} from '@/types/bindings';
 
 export async function cheatGetIdleArmiesAt(coord?: Option<ContinentKey>) {
   coord = CoordImpl.fromContinentKeyOrCurrentStrict(coord);
@@ -24,7 +27,7 @@ export async function cheatGetIdleArmiesAt(coord?: Option<ContinentKey>) {
     coord,
   };
 
-  return invoke<readonly Army[]>('cheat_get_idle_armies_at', { req });
+  return invoke<CheatGetIdleArmiesAtResponse>('cheat_get_idle_armies_at', { req });
 }
 
 export async function cheatGetIdlePersonnelAt(coord?: Option<ContinentKey>) {
@@ -34,7 +37,7 @@ export async function cheatGetIdlePersonnelAt(coord?: Option<ContinentKey>) {
     coord,
   };
 
-  return invoke<ArmyPersonnel>('cheat_get_idle_personnel_at', { req });
+  return invoke<CheatGetIdlePersonnelAtResponse>('cheat_get_idle_personnel_at', { req });
 }
 
 export async function cheatGetIdlePersonnelSizeAt(coord?: Option<ContinentKey>) {

@@ -8,13 +8,14 @@ use crate::response::EitherExt;
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
 use nil_core::chat::Chat;
-use nil_payload::chat::*;
+use nil_payload::request::chat::*;
+use nil_payload::response::chat::*;
 
 pub async fn get(State(app): State<App>, Json(req): Json<GetChatHistoryRequest>) -> Response {
   app
     .chat(req.world, Chat::history)
     .await
-    .map_left(|chat| res!(OK, Json(chat)))
+    .map_left(|chat| res!(OK, GetChatHistoryResponse(chat)))
     .into_inner()
 }
 
@@ -28,6 +29,6 @@ pub async fn push(
       world.push_chat_message(player.0, &req.message)
     })
     .await
-    .try_map_left(|id| res!(OK, Json(id)))
+    .try_map_left(|id| res!(OK, PushChatMessageResponse(id)))
     .into_inner()
 }

@@ -4,16 +4,13 @@
 import { toU32 } from '@/lib/number';
 import { invoke } from '@tauri-apps/api/core';
 import { getCityOwner } from '@/commands/city';
-import type { Ruler } from '@/types/core/ruler';
-import type { BotId } from '@/types/core/npc/bot';
-import type { PlayerId } from '@/types/core/player';
 import { ResourcesImpl } from '@/core/model/resources';
-import type { Resources } from '@/types/core/resources';
 import type { ContinentKey } from '@/types/core/continent';
 import type { Option, PartialNullish } from '@tb-dev/utils';
-import type { PrecursorId } from '@/types/core/npc/precursor';
 import type {
+  BotId,
   CheatGetResourcesRequest,
+  CheatGetResourcesResponse,
   CheatSetFoodRequest,
   CheatSetIronRequest,
   CheatSetMaxFoodRequest,
@@ -26,7 +23,11 @@ import type {
   CheatSetResourcesRequest,
   CheatSetStoneRequest,
   CheatSetWoodRequest,
-} from '@/types/request/cheat/resources';
+  PlayerId,
+  PrecursorId,
+  Resources,
+  Ruler,
+} from '@/types/bindings';
 
 export async function cheatGetResources(ruler?: Option<Ruler>) {
   const req: CheatGetResourcesRequest = {
@@ -34,7 +35,7 @@ export async function cheatGetResources(ruler?: Option<Ruler>) {
     ruler: ruler ?? null,
   };
 
-  return invoke<Resources>('cheat_get_resources', { req });
+  return invoke<CheatGetResourcesResponse>('cheat_get_resources', { req });
 }
 
 export async function cheatGetBotResources(bot: BotId) {

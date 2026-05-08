@@ -2,14 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { BuildingStatsImpl } from '@/core/model/stats/building-stats';
-import type {
-  BuildingId,
-  BuildingLevel,
-  BuildingStats,
-  BuildingStatsTable,
-} from '@/types/core/infrastructure/building';
+import type { BuildingId, BuildingLevel, BuildingStatsTable } from '@/types/bindings';
 
-export class BuildingStatsTableImpl implements BuildingStatsTable {
+type Stats = Omit<Readonly<BuildingStatsTable>, 'table'>;
+
+export class BuildingStatsTableImpl implements Stats {
   public readonly id: BuildingId;
   public readonly minLevel: BuildingLevel;
   public readonly maxLevel: BuildingLevel;
@@ -26,7 +23,7 @@ export class BuildingStatsTableImpl implements BuildingStatsTable {
     return this.table.get(level);
   }
 
-  public static fromRaw(raw: RawBuildingStatsTable) {
+  public static fromRaw(raw: BuildingStatsTable) {
     const table = new Map<number, BuildingStatsImpl>();
     for (const [level, stats] of Object.entries(raw.table)) {
       table.set(Number.parseInt(level), BuildingStatsImpl.create(stats));
@@ -41,13 +38,6 @@ export class BuildingStatsTableImpl implements BuildingStatsTable {
   }
 }
 
-export interface RawBuildingStatsTable {
-  readonly id: BuildingId;
-  readonly minLevel: BuildingLevel;
-  readonly maxLevel: BuildingLevel;
-  readonly table: Record<string, BuildingStats>;
-}
-
-interface BuildingStatsTableImplConstructorArgs extends BuildingStatsTable {
+interface BuildingStatsTableImplConstructorArgs extends Stats {
   readonly table: ReadonlyMap<number, BuildingStatsImpl>;
 }

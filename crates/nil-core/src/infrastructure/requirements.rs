@@ -9,6 +9,7 @@ use serde::{Deserialize, Serialize};
 #[derive(Builder, Clone, Debug, Default, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 #[builder(const)]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct InfrastructureRequirements {
   #[builder(default = BuildingLevel::ZERO)]
   pub(super) academy: BuildingLevel,

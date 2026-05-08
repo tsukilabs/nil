@@ -3,41 +3,44 @@
 
 import type { Option } from '@tb-dev/utils';
 import { invoke } from '@tauri-apps/api/core';
-import type { WorldId } from '@/types/core/world';
-import type { Coord } from '@/types/core/continent';
-import type { ReportId } from '@/types/core/report';
-import type { RawMilitary } from '@/core/model/military/military';
-import type { OverallStorageCapacity } from '@/types/core/infrastructure/storage';
 import type {
-  Player,
+  GetPlayerCoordsRequest,
+  GetPlayerCoordsResponse,
+  GetPlayerIdsRequest,
+  GetPlayerIdsResponse,
+  GetPlayerMaintenanceRequest,
+  GetPlayerMaintenanceResponse,
+  GetPlayerMilitaryRequest,
+  GetPlayerMilitaryResponse,
+  GetPlayerReportsRequest,
+  GetPlayerReportsResponse,
+  GetPlayerRequest,
+  GetPlayerResponse,
+  GetPlayerStatusRequest,
+  GetPlayerStatusResponse,
+  GetPlayerStorageCapacityRequest,
+  GetPlayerStorageCapacityResponse,
+  GetPlayerWorldsRequest,
+  GetPlayerWorldsResponse,
+  GetPublicPlayerRequest,
+  GetPublicPlayerResponse,
+  GetPublicPlayersRequest,
+  GetPublicPlayersResponse,
+  PlayerExistsRequest,
+  PlayerExistsResponse,
   PlayerId,
   PlayerOptions,
   PlayerStatus,
-  PublicPlayer,
-} from '@/types/core/player';
-import type {
-  GetPlayerCoordsRequest,
-  GetPlayerIdsRequest,
-  GetPlayerMaintenanceRequest,
-  GetPlayerMilitaryRequest,
-  GetPlayerReportsRequest,
-  GetPlayerRequest,
-  GetPlayerStatusRequest,
-  GetPlayerStorageCapacityRequest,
-  GetPlayerWorldsRequest,
-  GetPublicPlayerRequest,
-  GetPublicPlayersRequest,
-  PlayerExistsRequest,
   SetPlayerStatusRequest,
   SpawnPlayerRequest,
-} from '@/types/request/player';
+} from '@/types/bindings';
 
 export async function getPlayer() {
   const req: GetPlayerRequest = {
     world: NIL.world.getIdStrict(),
   };
 
-  return invoke<Player>('get_player', { req });
+  return invoke<GetPlayerResponse>('get_player', { req });
 }
 
 export async function getPlayerCoords(id: PlayerId) {
@@ -46,7 +49,7 @@ export async function getPlayerCoords(id: PlayerId) {
     id,
   };
 
-  return invoke<readonly Coord[]>('get_player_coords', { req });
+  return invoke<GetPlayerCoordsResponse>('get_player_coords', { req });
 }
 
 export async function getPlayerIds() {
@@ -54,7 +57,7 @@ export async function getPlayerIds() {
     world: NIL.world.getIdStrict(),
   };
 
-  return invoke<readonly PlayerId[]>('get_player_ids', { req });
+  return invoke<GetPlayerIdsResponse>('get_player_ids', { req });
 }
 
 export async function getPlayerMaintenance() {
@@ -62,7 +65,7 @@ export async function getPlayerMaintenance() {
     world: NIL.world.getIdStrict(),
   };
 
-  return invoke<number>('get_player_maintenance', { req });
+  return invoke<GetPlayerMaintenanceResponse>('get_player_maintenance', { req });
 }
 
 export async function getPlayerMilitary() {
@@ -70,7 +73,7 @@ export async function getPlayerMilitary() {
     world: NIL.world.getIdStrict(),
   };
 
-  return invoke<RawMilitary>('get_player_military', { req });
+  return invoke<GetPlayerMilitaryResponse>('get_player_military', { req });
 }
 
 export async function getPlayerReports() {
@@ -78,7 +81,7 @@ export async function getPlayerReports() {
     world: NIL.world.getIdStrict(),
   };
 
-  return invoke<ReportId[]>('get_player_reports', { req });
+  return invoke<GetPlayerReportsResponse>('get_player_reports', { req });
 }
 
 export async function getPlayerStatus(id: PlayerId) {
@@ -87,7 +90,7 @@ export async function getPlayerStatus(id: PlayerId) {
     id,
   };
 
-  return invoke<PlayerStatus>('get_player_status', { req });
+  return invoke<GetPlayerStatusResponse>('get_player_status', { req });
 }
 
 export async function getPlayerStorageCapacity() {
@@ -95,12 +98,12 @@ export async function getPlayerStorageCapacity() {
     world: NIL.world.getIdStrict(),
   };
 
-  return invoke<OverallStorageCapacity>('get_player_storage_capacity', { req });
+  return invoke<GetPlayerStorageCapacityResponse>('get_player_storage_capacity', { req });
 }
 
 export async function getPlayerWorlds(id: PlayerId) {
   const req: GetPlayerWorldsRequest = { id };
-  return invoke<readonly WorldId[]>('get_player_worlds', { req });
+  return invoke<GetPlayerWorldsResponse>('get_player_worlds', { req });
 }
 
 export async function getPublicPlayer(id: PlayerId) {
@@ -109,7 +112,7 @@ export async function getPublicPlayer(id: PlayerId) {
     id,
   };
 
-  return invoke<PublicPlayer>('get_public_player', { req });
+  return invoke<GetPublicPlayerResponse>('get_public_player', { req });
 }
 
 export async function getPublicPlayers() {
@@ -117,7 +120,7 @@ export async function getPublicPlayers() {
     world: NIL.world.getIdStrict(),
   };
 
-  return invoke<readonly PublicPlayer[]>('get_public_players', { req });
+  return invoke<GetPublicPlayersResponse>('get_public_players', { req });
 }
 
 export async function playerExists(id: PlayerId) {
@@ -126,7 +129,7 @@ export async function playerExists(id: PlayerId) {
     id,
   };
 
-  return invoke<boolean>('player_exists', { req });
+  return invoke<PlayerExistsResponse>('player_exists', { req });
 }
 
 export async function setPlayerStatus(status: PlayerStatus) {

@@ -4,16 +4,14 @@
 use super::Client;
 use crate::error::Result;
 use crate::http;
-use nil_core::npc::bot::BotId;
-use nil_core::npc::precursor::PrecursorId;
-use nil_core::player::PlayerId;
-use nil_core::world::config::{WorldConfig, WorldId};
-use nil_core::world::stats::WorldStats;
-use nil_payload::world::*;
-use nil_server_types::world::RemoteWorld;
+use nil_payload::request::world::*;
+use nil_payload::response::world::*;
 
 impl Client {
-  pub async fn create_remote_world(&self, req: CreateRemoteWorldRequest) -> Result<WorldId> {
+  pub async fn create_remote_world(
+    &self,
+    req: CreateRemoteWorldRequest,
+  ) -> Result<CreateRemoteWorldResponse> {
     http::json_post("create-remote-world")
       .body(req)
       .server(self.server)
@@ -35,7 +33,10 @@ impl Client {
       .await
   }
 
-  pub async fn get_remote_world(&self, req: GetRemoteWorldRequest) -> Result<RemoteWorld> {
+  pub async fn get_remote_world(
+    &self,
+    req: GetRemoteWorldRequest,
+  ) -> Result<GetRemoteWorldResponse> {
     http::json_put("get-remote-world")
       .body(req)
       .server(self.server)
@@ -46,7 +47,7 @@ impl Client {
       .await
   }
 
-  pub async fn get_remote_world_limit(&self) -> Result<u16> {
+  pub async fn get_remote_world_limit(&self) -> Result<GetRemoteWorldLimitResponse> {
     http::json_get("get-remote-world-limit")
       .server(self.server)
       .circuit_breaker(self.circuit_breaker())
@@ -56,7 +57,9 @@ impl Client {
       .await
   }
 
-  pub async fn get_remote_world_limit_per_user(&self) -> Result<u16> {
+  pub async fn get_remote_world_limit_per_user(
+    &self,
+  ) -> Result<GetRemoteWorldLimitPerUserResponse> {
     http::json_get("get-remote-world-limit-per-user")
       .server(self.server)
       .circuit_breaker(self.circuit_breaker())
@@ -66,7 +69,7 @@ impl Client {
       .await
   }
 
-  pub async fn get_remote_worlds(&self) -> Result<Vec<RemoteWorld>> {
+  pub async fn get_remote_worlds(&self) -> Result<GetRemoteWorldsResponse> {
     http::json_get("get-remote-worlds")
       .server(self.server)
       .circuit_breaker(self.circuit_breaker())
@@ -76,7 +79,7 @@ impl Client {
       .await
   }
 
-  pub async fn get_world_bots(&self, req: GetWorldBotsRequest) -> Result<Vec<BotId>> {
+  pub async fn get_world_bots(&self, req: GetWorldBotsRequest) -> Result<GetWorldBotsResponse> {
     http::json_put("get-world-bots")
       .body(req)
       .server(self.server)
@@ -87,7 +90,10 @@ impl Client {
       .await
   }
 
-  pub async fn get_world_config(&self, req: GetWorldConfigRequest) -> Result<WorldConfig> {
+  pub async fn get_world_config(
+    &self,
+    req: GetWorldConfigRequest,
+  ) -> Result<GetWorldConfigResponse> {
     http::json_put("get-world-config")
       .body(req)
       .server(self.server)
@@ -98,7 +104,10 @@ impl Client {
       .await
   }
 
-  pub async fn get_world_players(&self, req: GetWorldPlayersRequest) -> Result<Vec<PlayerId>> {
+  pub async fn get_world_players(
+    &self,
+    req: GetWorldPlayersRequest,
+  ) -> Result<GetWorldPlayersResponse> {
     http::json_put("get-world-players")
       .body(req)
       .server(self.server)
@@ -112,7 +121,7 @@ impl Client {
   pub async fn get_world_precursors(
     &self,
     req: GetWorldPrecursorsRequest,
-  ) -> Result<Vec<PrecursorId>> {
+  ) -> Result<GetWorldPrecursorsResponse> {
     http::json_put("get-world-precursors")
       .body(req)
       .server(self.server)
@@ -123,7 +132,7 @@ impl Client {
       .await
   }
 
-  pub async fn get_world_stats(&self, req: GetWorldStatsRequest) -> Result<WorldStats> {
+  pub async fn get_world_stats(&self, req: GetWorldStatsRequest) -> Result<GetWorldStatsResponse> {
     http::json_put("get-world-stats")
       .body(req)
       .server(self.server)

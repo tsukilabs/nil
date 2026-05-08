@@ -7,7 +7,8 @@ use crate::response::{EitherExt, from_err};
 use axum::extract::{Json, State};
 use axum::response::Response;
 use nil_core::continent::{Continent, PublicField};
-use nil_payload::continent::*;
+use nil_payload::request::continent::*;
+use nil_payload::response::continent::*;
 
 pub async fn get_public_field(
   State(app): State<App>,
@@ -16,7 +17,7 @@ pub async fn get_public_field(
   app
     .continent(req.world, |k| k.field(req.coord).map(PublicField::from))
     .await
-    .try_map_left(|field| res!(OK, Json(field)))
+    .try_map_left(|field| res!(OK, GetPublicFieldResponse(field)))
     .into_inner()
 }
 
@@ -25,7 +26,7 @@ pub async fn get_public_fields(
   Json(req): Json<GetPublicFieldsRequest>,
 ) -> Response {
   if req.coords.is_empty() {
-    return res!(OK, Json(Vec::<()>::new()));
+    return res!(OK, GetPublicFieldsResponse(Vec::new()));
   }
 
   match app.get(req.world) {
@@ -44,7 +45,7 @@ pub async fn get_public_fields(
       };
 
       result
-        .map(|fields| res!(OK, Json(fields)))
+        .map(|fields| res!(OK, GetPublicFieldsResponse(fields)))
         .unwrap_or_else(from_err)
     }
     Err(err) => from_err(err),
@@ -55,6 +56,6 @@ pub async fn size(State(app): State<App>, Json(req): Json<GetContinentSizeReques
   app
     .continent(req.world, Continent::size)
     .await
-    .map_left(|size| res!(OK, Json(size)))
+    .map_left(|size| res!(OK, GetContinentSizeResponse(size)))
     .into_inner()
 }

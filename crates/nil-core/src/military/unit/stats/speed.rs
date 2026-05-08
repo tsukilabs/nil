@@ -2,13 +2,15 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use derive_more::{Deref, Into};
+use nil_num::F64Ops;
 use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
 
 /// Represents how many fields a unit can travel in one round.
 #[derive(
-  Clone, Copy, Debug, Deref, Into, PartialEq, PartialOrd, Deserialize, Serialize, nil_num::F64Ops,
+  Clone, Copy, Debug, Deref, Into, PartialEq, PartialOrd, Deserialize, Serialize, F64Ops,
 )]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Speed(f64);
 
 impl Speed {

@@ -15,6 +15,7 @@ use uuid::Uuid;
 
 #[derive(Clone, Debug, Default, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Chat {
   history: ChatHistory,
 }
@@ -32,7 +33,9 @@ impl Chat {
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct ChatHistory {
+  #[cfg_attr(feature = "typescript", ts(as = "Vec<ChatMessage>"))]
   queue: VecDeque<ChatMessage>,
   size: NonZeroUsize,
 }
@@ -69,6 +72,7 @@ impl Default for ChatHistory {
 
 #[derive(Builder, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct ChatMessage {
   #[builder(start_fn, into)]
   content: ChatMessageContent,
@@ -105,6 +109,7 @@ impl From<ChatMessage> for ChatMessageAuthor {
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Deserialize, Serialize)]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct ChatMessageId(Uuid);
 
 impl ChatMessageId {
@@ -122,6 +127,7 @@ impl Default for ChatMessageId {
 
 #[derive(Clone, Copy, Debug, Default, EnumIs, Deserialize, Serialize)]
 #[serde(rename_all = "kebab-case")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub enum ChatMessageKind {
   #[default]
   Default,
@@ -129,6 +135,7 @@ pub enum ChatMessageKind {
 
 #[derive(Clone, Debug, Default, Deserialize, Serialize)]
 #[serde(tag = "kind", rename_all = "kebab-case")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub enum ChatMessageAuthor {
   #[default]
   System,
@@ -151,6 +158,7 @@ impl From<&PlayerId> for ChatMessageAuthor {
 
 #[derive(Debug, From, Deserialize, Serialize)]
 #[from(String, &str, Arc<str>, Box<str>, Cow<'_, str>)]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct ChatMessageContent(Arc<str>);
 
 impl Clone for ChatMessageContent {

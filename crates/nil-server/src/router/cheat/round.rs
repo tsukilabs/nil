@@ -6,7 +6,7 @@ use crate::res;
 use crate::response::EitherExt;
 use axum::extract::{Json, State};
 use axum::response::Response;
-use nil_payload::cheat::round::*;
+use nil_payload::request::cheat::round::*;
 use std::num::NonZeroU8;
 
 pub async fn skip(State(app): State<App>, Json(mut req): Json<CheatSkipRoundRequest>) -> Response {

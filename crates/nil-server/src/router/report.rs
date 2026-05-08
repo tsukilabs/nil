@@ -8,7 +8,8 @@ use crate::response::{EitherExt, from_err};
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
 use itertools::Itertools;
-use nil_payload::report::*;
+use nil_payload::request::report::*;
+use nil_payload::response::report::*;
 use nil_util::iter::IterExt;
 
 pub async fn forward(
@@ -44,7 +45,7 @@ pub async fn get(
       {
         manager
           .report(req.id)
-          .map(|report| res!(OK, Json(report.clone())))
+          .map(|report| res!(OK, GetReportResponse(report.clone())))
           .unwrap_or_else(from_err)
       } else {
         res!(FORBIDDEN)
@@ -60,7 +61,7 @@ pub async fn get_by(
   Json(req): Json<GetReportsRequest>,
 ) -> Response {
   if req.ids.is_empty() {
-    return res!(OK, Json(Vec::<()>::new()));
+    return res!(OK, GetReportsResponse(Vec::new()));
   }
 
   match app.get(req.world) {
@@ -78,7 +79,7 @@ pub async fn get_by(
         .cloned()
         .collect_vec();
 
-      res!(OK, Json(reports))
+      res!(OK, GetReportsResponse(reports))
     }
     Err(err) => from_err(err),
   }

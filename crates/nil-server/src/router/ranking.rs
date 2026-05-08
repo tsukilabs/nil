@@ -5,13 +5,14 @@ use crate::app::App;
 use crate::res;
 use axum::extract::{Json, State};
 use axum::response::Response;
-use nil_payload::ranking::*;
+use nil_payload::request::ranking::*;
+use nil_payload::response::ranking::*;
 
 pub async fn get(State(app): State<App>, Json(req): Json<GetRankingRequest>) -> Response {
   app
     .ranking(req.world, Clone::clone)
     .await
-    .map_left(|ranking| res!(OK, Json(ranking)))
+    .map_left(|ranking| res!(OK, GetRankingResponse(ranking)))
     .into_inner()
 }
 
@@ -19,6 +20,6 @@ pub async fn get_rank(State(app): State<App>, Json(req): Json<GetRankRequest>) -
   app
     .ranking(req.world, |ranking| ranking.get(&req.ruler).cloned())
     .await
-    .map_left(|rank| res!(OK, Json(rank)))
+    .map_left(|rank| res!(OK, GetRankResponse(rank)))
     .into_inner()
 }

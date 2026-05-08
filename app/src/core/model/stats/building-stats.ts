@@ -2,14 +2,15 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { ResourcesImpl } from '@/core/model/resources';
-import type { BuildingLevel, BuildingStats } from '@/types/core/infrastructure/building';
+import type { BuildingLevel, BuildingStats } from '@/types/bindings';
 
-export class BuildingStatsImpl implements BuildingStats {
+export class BuildingStatsImpl implements Readonly<BuildingStats> {
   public readonly level: BuildingLevel;
   public readonly cost: number;
   public readonly resources: ResourcesImpl;
   public readonly maintenance: number;
   public readonly workforce: number;
+  public readonly score: number;
 
   private constructor(stats: BuildingStats) {
     this.level = stats.level;
@@ -17,6 +18,7 @@ export class BuildingStatsImpl implements BuildingStats {
     this.resources = ResourcesImpl.create(stats.resources);
     this.maintenance = stats.maintenance;
     this.workforce = stats.workforce;
+    this.score = stats.score;
   }
 
   public static create(stats: BuildingStats) {

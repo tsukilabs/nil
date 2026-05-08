@@ -6,9 +6,7 @@ import type { Option } from '@tb-dev/utils';
 import { toCoordRef } from '@/composables/toRef';
 import { type MaybeNilRef, useMutex } from '@tb-dev/vue';
 import type { CoordImpl } from '@/core/model/continent/coord';
-import type { StableUnitId } from '@/types/core/military/unit';
-import type { StableRecruitCatalog } from '@/types/core/infrastructure/stable';
-import type { InfrastructureQueueOrderId } from '@/types/core/infrastructure/queue';
+import type { StableRecruitCatalog, StableRecruitOrderId, StableUnitId } from '@/types/bindings';
 import {
   addStableRecruitOrder,
   cancelStableRecruitOrder,
@@ -38,7 +36,7 @@ export function useStableRecruitCatalog(coord?: MaybeNilRef<CoordImpl>) {
     await load();
   }
 
-  async function cancel(id: InfrastructureQueueOrderId) {
+  async function cancel(id: StableRecruitOrderId) {
     await lock(async () => {
       if (coordRef.value) {
         await cancelStableRecruitOrder(coordRef.value, id);

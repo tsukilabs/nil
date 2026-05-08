@@ -4,9 +4,9 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import { onKeyDown } from '@vueuse/core';
+import type { Ruler } from '@/types/bindings';
 import Loading from '@/components/Loading.vue';
 import { throttle } from 'es-toolkit/function';
-import type { Ruler } from '@/types/core/ruler';
 import { useRanking } from '@/composables/ranking/useRanking';
 import { Card, CardContent, CardHeader, CardTitle } from '@ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@ui/table';

@@ -98,6 +98,7 @@ where
 }
 
 #[derive(Clone, Copy, Debug, Display, PartialEq, Eq, Hash, EnumIter, Deserialize, Serialize)]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub enum PrecursorId {
   #[serde(rename = "A")]
   #[strum(serialize = "A")]
@@ -110,6 +111,7 @@ pub enum PrecursorId {
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct PublicPrecursor {
   id: PrecursorId,
   origin: Coord,

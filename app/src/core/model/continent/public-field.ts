@@ -1,11 +1,12 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { getField, getFields } from '@/commands';
 import { tryOnScopeDispose } from '@vueuse/core';
 import type { MaybePromise } from '@tb-dev/utils';
 import type { CoordImpl } from '@/core/model/continent/coord';
-import type { ContinentIndex, Coord, PublicFieldKind } from '@/types/core/continent';
+import type { ContinentIndex, Coord } from '@/types/bindings';
+import type { PublicFieldKind } from '@/types/core/continent';
+import { getPublicField, getPublicFields } from '@/commands/continent';
 
 const enum Flags {
   Uninit = 1 << 0,
@@ -30,7 +31,7 @@ export class PublicFieldImpl {
       this.#flags |= Flags.Loading;
       try {
         await options?.onBeforeLoad?.();
-        const field = await getField(this.coord);
+        const field = await getPublicField(this.coord);
         this.setKind(field.kind);
         await options?.onLoad?.();
       }
@@ -131,7 +132,7 @@ export class PublicFieldImpl {
 
       let counter = 0;
       if (coords.length > 0) {
-        for (const [coord, field] of await getFields(coords, world)) {
+        for (const [coord, field] of await getPublicFields(coords, world)) {
           const impl = fields.find((it) => it.coord.is(coord));
           if (impl) {
             impl.init(field.kind);

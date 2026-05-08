@@ -7,7 +7,8 @@ use crate::response::EitherExt;
 use axum::extract::{Json, State};
 use axum::response::Response;
 use nil_core::ethic::Ethics;
-use nil_payload::cheat::npc::*;
+use nil_payload::request::cheat::npc::*;
+use nil_payload::response::cheat::npc::*;
 
 pub async fn get_ethics(
   State(app): State<App>,
@@ -16,7 +17,7 @@ pub async fn get_ethics(
   app
     .world(req.world, |world| world.cheat_get_ethics(&req.ruler))
     .await
-    .try_map_left(|ethics| res!(OK, Json(ethics)))
+    .try_map_left(|ethics| res!(OK, CheatGetEthicsResponse(ethics)))
     .into_inner()
 }
 
@@ -41,6 +42,6 @@ pub async fn spawn_bot(State(app): State<App>, Json(req): Json<CheatSpawnBotRequ
       world.cheat_spawn_bot(&req.name, infrastructure)
     })
     .await
-    .try_map_left(|id| res!(OK, Json(id)))
+    .try_map_left(|id| res!(OK, CheatSpawnBotResponse(id)))
     .into_inner()
 }

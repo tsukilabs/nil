@@ -3,7 +3,7 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import type { Coord } from '@/types/core/continent';
+import type { Coord } from '@/types/bindings';
 import { ChevronLeftIcon, ChevronRightIcon } from '@lucide/vue';
 import type { ManeuverImpl } from '@/core/model/military/maneuver';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@ui/table';

@@ -114,6 +114,7 @@ impl ReportManager {
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(tag = "kind", rename_all = "kebab-case")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[remain::sorted]
 pub enum ReportKind {
   Battle { report: Arc<BattleReport> },
@@ -148,6 +149,7 @@ impl ReportKind {
   Deserialize,
   Serialize,
 )]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct ReportId(Uuid);
 
 impl ReportId {

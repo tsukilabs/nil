@@ -7,12 +7,10 @@ import { formatInt } from '@/lib/intl';
 import { PLACEHOLDER } from '@/lib/string';
 import type { Option } from '@tb-dev/utils';
 import { RulerImpl } from '@/core/model/ruler';
-import type { Ruler } from '@/types/core/ruler';
-import type { RankingEntry } from '@/types/core/ranking';
-import type { BotId, PublicBot } from '@/types/core/npc/bot';
-import type { ContinentKey, Coord } from '@/types/core/continent';
+import type { ContinentKey } from '@/types/core/continent';
+import type { BotId, Coord, PublicBot, RankingEntry, Ruler } from '@/types/bindings';
 
-export class PublicBotImpl extends RulerImpl implements PublicBot {
+export class PublicBotImpl extends RulerImpl implements Readonly<PublicBot> {
   public readonly id: BotId;
 
   public readonly toRuler = (): Ruler => {

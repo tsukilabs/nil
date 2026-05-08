@@ -6,6 +6,7 @@ use serde::{Deserialize, Serialize};
 
 /// Political stability of the city.
 #[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize)]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Stability(f64);
 
 impl Stability {

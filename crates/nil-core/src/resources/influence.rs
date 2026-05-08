@@ -17,6 +17,7 @@ use std::num::NonZeroU32;
 #[derive(
   Clone, Copy, Debug, Display, From, Into, PartialEq, Eq, PartialOrd, Ord, Deserialize, Serialize,
 )]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Influence(NonZeroU32);
 
 impl Influence {

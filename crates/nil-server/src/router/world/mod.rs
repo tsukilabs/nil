@@ -15,14 +15,15 @@ use nil_core::npc::bot::Bot;
 use nil_core::npc::precursor::Precursor;
 use nil_core::player::{Player, PlayerStatus};
 use nil_core::world::World;
-use nil_payload::world::*;
+use nil_payload::request::world::*;
+use nil_payload::response::world::*;
 use std::sync::Arc;
 
 pub async fn get_bots(State(app): State<App>, Json(req): Json<GetWorldBotsRequest>) -> Response {
   app
     .bot_manager(req.world, |bm| bm.bots().map(Bot::id).collect_vec())
     .await
-    .map_left(|bots| res!(OK, Json(bots)))
+    .map_left(|bots| res!(OK, GetWorldBotsResponse(bots)))
     .into_inner()
 }
 
@@ -33,7 +34,7 @@ pub async fn get_config(
   app
     .world(req.world, |world| Arc::unwrap_or_clone(world.config()))
     .await
-    .map_left(|world| res!(OK, Json(world)))
+    .map_left(|world| res!(OK, GetWorldConfigResponse(world)))
     .into_inner()
 }
 
@@ -44,7 +45,7 @@ pub async fn get_players(
   app
     .player_manager(req.world, |pm| pm.players().map(Player::id).collect_vec())
     .await
-    .map_left(|players| res!(OK, Json(players)))
+    .map_left(|players| res!(OK, GetWorldPlayersResponse(players)))
     .into_inner()
 }
 
@@ -59,7 +60,7 @@ pub async fn get_precursors(
         .collect_vec()
     })
     .await
-    .map_left(|precursors| res!(OK, Json(precursors)))
+    .map_left(|precursors| res!(OK, GetWorldPrecursorsResponse(precursors)))
     .into_inner()
 }
 
@@ -67,7 +68,7 @@ pub async fn get_stats(State(app): State<App>, Json(req): Json<GetWorldStatsRequ
   app
     .world(req.world, World::stats)
     .await
-    .map_left(|stats| res!(OK, Json(stats)))
+    .map_left(|stats| res!(OK, GetWorldStatsResponse(stats)))
     .into_inner()
 }
 

@@ -3,16 +3,15 @@
 
 use crate::error::Result;
 use crate::manager::ManagerExt;
-use nil_core::military::army::Army;
-use nil_core::military::army::personnel::ArmyPersonnel;
-use nil_payload::cheat::military::*;
+use nil_payload::request::cheat::military::*;
+use nil_payload::response::cheat::military::*;
 use tauri::AppHandle;
 
 #[tauri::command]
 pub async fn cheat_get_idle_armies_at(
   app: AppHandle,
   req: CheatGetIdleArmiesAtRequest,
-) -> Result<Vec<Army>> {
+) -> Result<CheatGetIdleArmiesAtResponse> {
   app
     .client(async |cl| cl.cheat_get_idle_armies_at(req).await)
     .await
@@ -23,7 +22,7 @@ pub async fn cheat_get_idle_armies_at(
 pub async fn cheat_get_idle_personnel_at(
   app: AppHandle,
   req: CheatGetIdlePersonnelAtRequest,
-) -> Result<ArmyPersonnel> {
+) -> Result<CheatGetIdlePersonnelAtResponse> {
   app
     .client(async |cl| cl.cheat_get_idle_personnel_at(req).await)
     .await

@@ -1,14 +1,17 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Option } from '@tb-dev/utils';
 import { invoke } from '@tauri-apps/api/core';
-import type { Ruler } from '@/types/core/ruler';
-import type { BotId } from '@/types/core/npc/bot';
-import type { PlayerId } from '@/types/core/player';
-import type { PrecursorId } from '@/types/core/npc/precursor';
-import type { Ranking, RankingEntry } from '@/types/core/ranking';
-import type { GetRankingRequest, GetRankRequest } from '@/types/request/ranking';
+import type {
+  BotId,
+  GetRankingRequest,
+  GetRankingResponse,
+  GetRankRequest,
+  GetRankResponse,
+  PlayerId,
+  PrecursorId,
+  Ruler,
+} from '@/types/bindings';
 
 export async function getBotRank(id: BotId) {
   return getRank({ kind: 'bot', id });
@@ -28,7 +31,7 @@ export async function getRank(ruler: Ruler) {
     ruler,
   };
 
-  return invoke<Option<RankingEntry>>('get_rank', { req });
+  return invoke<GetRankResponse>('get_rank', { req });
 }
 
 export async function getRanking() {
@@ -36,5 +39,5 @@ export async function getRanking() {
     world: NIL.world.getIdStrict(),
   };
 
-  return invoke<Ranking>('get_ranking', { req });
+  return invoke<GetRankingResponse>('get_ranking', { req });
 }

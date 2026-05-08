@@ -26,6 +26,8 @@ use std::ops::{Add, AddAssign, Mul, MulAssign, Sub, SubAssign};
   Serialize,
 )]
 #[into(u32, f64)]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 pub struct SquadSize(u32);
 
 impl SquadSize {

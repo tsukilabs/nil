@@ -7,7 +7,8 @@ use axum::extract::{Json, State};
 use axum::response::Response;
 use itertools::Itertools;
 use nil_core::npc::precursor::PublicPrecursor;
-use nil_payload::npc::precursor::*;
+use nil_payload::request::npc::precursor::*;
+use nil_payload::response::npc::precursor::*;
 
 pub async fn get_coords(
   State(app): State<App>,
@@ -16,7 +17,7 @@ pub async fn get_coords(
   app
     .continent(req.world, |k| k.coords_of(req.id).collect_vec())
     .await
-    .map_left(|coords| res!(OK, Json(coords)))
+    .map_left(|coords| res!(OK, GetPrecursorCoordsResponse(coords)))
     .into_inner()
 }
 
@@ -27,7 +28,7 @@ pub async fn get_public_precursor(
   app
     .precursor_manager(req.world, |pm| PublicPrecursor::new(pm.precursor(req.id)))
     .await
-    .map_left(|precursor| res!(OK, Json(precursor)))
+    .map_left(|precursor| res!(OK, GetPublicPrecursorResponse(precursor)))
     .into_inner()
 }
 
@@ -42,6 +43,6 @@ pub async fn get_public_precursors(
         .collect_vec()
     })
     .await
-    .map_left(|precursors| res!(OK, Json(precursors)))
+    .map_left(|precursors| res!(OK, GetPublicPrecursorsResponse(precursors)))
     .into_inner()
 }

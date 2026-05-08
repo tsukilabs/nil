@@ -4,11 +4,14 @@
 use super::Client;
 use crate::error::Result;
 use crate::http;
-use nil_core::battle::BattleResult;
-use nil_payload::battle::*;
+use nil_payload::request::battle::*;
+use nil_payload::response::battle::*;
 
 impl Client {
-  pub async fn simulate_battle(&self, req: SimulateBattleRequest) -> Result<BattleResult> {
+  pub async fn simulate_battle(
+    &self,
+    req: SimulateBattleRequest,
+  ) -> Result<SimulateBattleResponse> {
     http::json_put("simulate-battle")
       .body(req)
       .server(self.server)
