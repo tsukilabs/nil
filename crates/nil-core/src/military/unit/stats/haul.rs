@@ -9,7 +9,6 @@ use nil_num::mul_ceil::MulCeil;
 use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
 use std::ops::{Add, AddAssign, Mul, MulAssign};
-use ts_rs::TS;
 
 #[derive(
   Clone,
@@ -25,10 +24,10 @@ use ts_rs::TS;
   Ord,
   Deserialize,
   Serialize,
-  TS,
 )]
 #[from(u32, Food, Iron, Stone, Wood)]
 #[into(u32, f64, Food, Iron, Stone, Wood)]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Haul(u32);
 
 impl Haul {

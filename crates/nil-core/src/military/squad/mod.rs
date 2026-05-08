@@ -14,11 +14,11 @@ use derive_more::{Deref, Into};
 use serde::{Deserialize, Serialize};
 use size::SquadSize;
 use std::ops::{Add, AddAssign, Mul, MulAssign, Sub, SubAssign};
-use ts_rs::TS;
 
 /// A group of units of the same type.
-#[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq, TS)]
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Squad {
   unit: UnitBox,
   size: SquadSize,

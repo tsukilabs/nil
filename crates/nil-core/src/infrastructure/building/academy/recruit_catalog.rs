@@ -9,10 +9,10 @@ use crate::resources::Resources;
 use crate::resources::maintenance::Maintenance;
 use crate::resources::workforce::Workforce;
 use serde::{Deserialize, Serialize};
-use ts_rs::TS;
 
-#[derive(Clone, Debug, Deserialize, Serialize, TS)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct AcademyRecruitCatalog {
   pikeman: AcademyRecruitCatalogEntry,
   swordsman: AcademyRecruitCatalogEntry,

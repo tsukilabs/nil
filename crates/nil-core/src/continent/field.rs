@@ -4,10 +4,10 @@
 use crate::city::{City, PublicCity};
 use serde::{Deserialize, Serialize};
 use strum::EnumIs;
-use ts_rs::TS;
 
-#[derive(Clone, Debug, Default, Deserialize, Serialize, TS, EnumIs)]
+#[derive(Clone, Debug, Default, Deserialize, Serialize, EnumIs)]
 #[serde(tag = "kind", rename_all = "kebab-case")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub enum Field {
   #[default]
   Empty,
@@ -34,8 +34,9 @@ impl From<City> for Field {
 }
 
 /// Public data about a field, to which any player can have access.
-#[derive(Clone, Debug, Default, Deserialize, Serialize, TS, EnumIs)]
+#[derive(Clone, Debug, Default, Deserialize, Serialize, EnumIs)]
 #[serde(tag = "kind", rename_all = "kebab-case")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub enum PublicField {
   #[default]
   Empty,

@@ -12,10 +12,10 @@ use serde::{Deserialize, Deserializer, Serialize, Serializer};
 use std::borrow::Cow;
 use std::fmt;
 use std::ops::{Add, AddAssign, Sub, SubAssign};
-use ts_rs::TS;
 
-#[derive(Clone, Copy, PartialEq, Eq, Hash, TS)]
-#[ts(type = "{ x: number, y: number }")]
+#[derive(Clone, Copy, PartialEq, Eq, Hash)]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
+#[cfg_attr(feature = "typescript", ts(type = "{ x: number, y: number }"))]
 pub struct Coord(U8Vec2);
 
 impl Coord {

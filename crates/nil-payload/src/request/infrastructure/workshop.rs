@@ -8,28 +8,33 @@ use nil_core::infrastructure::building::workshop::recruit_queue::{
 };
 use nil_core::world::config::WorldId;
 use serde::{Deserialize, Serialize};
+
+#[cfg(feature = "typescript")]
 use ts_rs::TS;
 
-#[derive(Clone, Debug, Deserialize, Serialize, TS)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-#[ts(export)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 pub struct AddWorkshopRecruitOrderRequest {
   pub world: WorldId,
   pub request: WorkshopRecruitOrderRequest,
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize, TS)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-#[ts(export)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 pub struct CancelWorkshopRecruitOrderRequest {
   pub world: WorldId,
   pub coord: Coord,
   pub id: WorkshopRecruitOrderId,
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize, TS)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-#[ts(export)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 pub struct GetWorkshopRecruitCatalogRequest {
   pub world: WorldId,
   pub coord: Coord,

@@ -6,25 +6,12 @@ use crate::error::{Error, Result};
 use derive_more::{Deref, Display, From, Into};
 use serde::{Deserialize, Serialize, Serializer, ser};
 use std::ops::{Div, Rem};
-use ts_rs::TS;
 
 #[derive(
-  Clone,
-  Copy,
-  Debug,
-  Deref,
-  Display,
-  From,
-  Into,
-  PartialEq,
-  Eq,
-  PartialOrd,
-  Ord,
-  Hash,
-  Deserialize,
-  TS,
+  Clone, Copy, Debug, Deref, Display, From, Into, PartialEq, Eq, PartialOrd, Ord, Hash, Deserialize,
 )]
-#[ts(as = "u32")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
+#[cfg_attr(feature = "typescript", ts(as = "u32"))]
 pub struct ContinentIndex(usize);
 
 impl ContinentIndex {

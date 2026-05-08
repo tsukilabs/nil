@@ -11,10 +11,10 @@ use crate::resources::Resources;
 use crate::resources::maintenance::Maintenance;
 use crate::resources::workforce::Workforce;
 use serde::{Deserialize, Serialize};
-use ts_rs::TS;
 
-#[derive(Clone, Debug, Deserialize, Serialize, TS)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct PrefectureBuildCatalog {
   academy: PrefectureBuildCatalogEntry,
   farm: PrefectureBuildCatalogEntry,
@@ -54,8 +54,9 @@ impl PrefectureBuildCatalog {
   }
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize, TS)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(tag = "kind", rename_all = "kebab-case")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub enum PrefectureBuildCatalogEntry {
   /// Building is available to be built.
   Available {
@@ -108,8 +109,9 @@ impl PrefectureBuildCatalogEntry {
   }
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize, TS)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct PrefectureBuildCatalogRecipe {
   level: BuildingLevel,
   resources: Resources,

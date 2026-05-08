@@ -18,6 +18,7 @@ use crate::infrastructure::requirements::InfrastructureRequirements;
 use crate::ranking::score::Score;
 use crate::resources::prelude::*;
 use derive_more::{Deref, Into};
+use nil_num::F64Ops;
 use nil_num::growth::growth;
 use serde::{Deserialize, Serialize};
 use std::cmp;
@@ -25,7 +26,6 @@ use std::collections::HashMap;
 use std::ops::{Add, AddAssign, Neg, Sub, SubAssign};
 use strum::{EnumIs, EnumIter};
 use subenum::subenum;
-use ts_rs::TS;
 
 pub trait Building: Send + Sync {
   fn id(&self) -> BuildingId;
@@ -133,21 +133,11 @@ pub trait Building: Send + Sync {
 
 #[subenum(CivilBuildingId, MilitaryBuildingId, MineId, StorageId)]
 #[derive(
-  Clone,
-  Copy,
-  Debug,
-  strum::Display,
-  EnumIs,
-  EnumIter,
-  PartialEq,
-  Eq,
-  Hash,
-  Deserialize,
-  Serialize,
-  TS,
+  Clone, Copy, Debug, strum::Display, EnumIs, EnumIter, PartialEq, Eq, Hash, Deserialize, Serialize,
 )]
 #[serde(rename_all = "kebab-case")]
 #[strum(serialize_all = "kebab-case")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub enum BuildingId {
   #[subenum(MilitaryBuildingId)]
   Academy,
@@ -205,8 +195,9 @@ impl BuildingId {
 }
 
 /// Information about a building at a given level.
-#[derive(Clone, Debug, Deserialize, Serialize, TS)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct BuildingStats {
   pub level: BuildingLevel,
   pub cost: Cost,
@@ -216,8 +207,9 @@ pub struct BuildingStats {
   pub score: Score,
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize, TS)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct BuildingStatsTable {
   id: BuildingId,
   min_level: BuildingLevel,
@@ -346,10 +338,10 @@ impl BuildingStatsTable {
   Hash,
   Deserialize,
   Serialize,
-  TS,
-  nil_num::F64Ops,
+  F64Ops,
 )]
 #[into(i16, i32, u8, u16, u32, u64, usize, f64)]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct BuildingLevel(u8);
 
 impl BuildingLevel {
@@ -551,8 +543,8 @@ impl Neg for BuildingLevel {
   Hash,
   Deserialize,
   Serialize,
-  TS,
 )]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct BuildingLevelDiff(i8);
 
 impl BuildingLevelDiff {

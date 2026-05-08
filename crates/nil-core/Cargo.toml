@@ -50,5 +50,12 @@ tar.workspace = true
 thiserror.workspace = true
 tokio.workspace = true
 tracing.workspace = true
-ts-rs.workspace = true
 uuid.workspace = true
+
+[dependencies.ts-rs]
+workspace = true
+optional = true
+
+[features]
+default = []
+typescript = ["dep:ts-rs"]

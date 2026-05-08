@@ -12,7 +12,6 @@ use std::borrow::{Borrow, Cow};
 use std::collections::HashMap;
 use std::ops::Deref;
 use std::sync::Arc;
-use ts_rs::TS;
 
 #[derive(Clone, Debug, Default, Deserialize, Serialize)]
 pub struct PlayerManager(HashMap<PlayerId, Player>);
@@ -62,8 +61,9 @@ impl PlayerManager {
   }
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize, TS)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Player {
   id: PlayerId,
   status: PlayerStatus,
@@ -124,8 +124,9 @@ impl Player {
   }
 }
 
-#[derive(Debug, Display, From, Into, PartialEq, Eq, Hash, Deserialize, Serialize, TS)]
+#[derive(Debug, Display, From, Into, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[from(String, &str, Arc<str>, Box<str>, Cow<'_, str>)]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct PlayerId(Arc<str>);
 
 impl Clone for PlayerId {
@@ -154,15 +155,17 @@ impl Borrow<str> for PlayerId {
   }
 }
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Deserialize, Serialize, TS)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Deserialize, Serialize)]
 #[serde(rename_all = "kebab-case")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub enum PlayerStatus {
   Active,
   Inactive,
 }
 
-#[derive(Builder, Clone, Debug, Deserialize, Serialize, TS)]
+#[derive(Builder, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct PlayerOptions {
   #[builder(start_fn, into)]
   pub id: PlayerId,
@@ -175,8 +178,9 @@ impl PlayerOptions {
   }
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize, TS)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct PublicPlayer {
   id: PlayerId,
   status: PlayerStatus,

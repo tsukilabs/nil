@@ -16,10 +16,10 @@ use crate::world::config::WorldConfig;
 use nil_core_macros::Building;
 use recruit_queue::{AcademyRecruitOrder, AcademyRecruitQueue};
 use serde::{Deserialize, Serialize};
-use ts_rs::TS;
 
-#[derive(Building, Clone, Debug, Deserialize, Serialize, TS)]
+#[derive(Building, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Academy {
   level: BuildingLevel,
   enabled: bool,

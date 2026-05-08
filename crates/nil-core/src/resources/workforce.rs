@@ -5,13 +5,12 @@ use crate::city::Stability;
 use crate::infrastructure::building::{Building, BuildingLevel};
 use crate::world::config::WorldConfig;
 use derive_more::{Deref, From, Into};
-use nil_num::impl_mul_ceil;
 use nil_num::mul_ceil::MulCeil;
+use nil_num::{F64Ops, impl_mul_ceil};
 use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
 use std::num::NonZeroU32;
 use std::ops::{Add, AddAssign, Mul, MulAssign, Sub, SubAssign};
-use ts_rs::TS;
 
 /// Workforce is a special resource used to construct buildings and recruit troops.
 /// The amount generated per round will always be equal to the level of the relevant
@@ -32,10 +31,10 @@ use ts_rs::TS;
   Ord,
   Deserialize,
   Serialize,
-  TS,
-  nil_num::F64Ops,
+  F64Ops,
 )]
 #[into(u32, f64)]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Workforce(u32);
 
 impl Workforce {

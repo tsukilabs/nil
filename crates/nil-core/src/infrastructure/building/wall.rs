@@ -11,13 +11,14 @@ use crate::resources::maintenance::MaintenanceRatio;
 use crate::resources::workforce::Workforce;
 use derive_more::Deref;
 use nil_core_macros::Building;
+use nil_num::F64Ops;
 use nil_num::growth::growth;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
-use ts_rs::TS;
 
-#[derive(Building, Clone, Debug, Deserialize, Serialize, TS)]
+#[derive(Building, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Wall {
   level: BuildingLevel,
   enabled: bool,
@@ -74,7 +75,8 @@ check_total_resource_ratio!(
   Wall::WOOD_RATIO
 );
 
-#[derive(Clone, Copy, Debug, Deref, Deserialize, Serialize, TS, nil_num::F64Ops)]
+#[derive(Clone, Copy, Debug, Deref, Deserialize, Serialize, F64Ops)]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct WallDefense(u32);
 
 impl WallDefense {
@@ -98,7 +100,8 @@ impl From<f64> for WallDefense {
   }
 }
 
-#[derive(Clone, Copy, Debug, Deref, Deserialize, Serialize, TS, nil_num::F64Ops)]
+#[derive(Clone, Copy, Debug, Deref, Deserialize, Serialize, F64Ops)]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct WallDefenseBonus(f64);
 
 impl WallDefenseBonus {
@@ -121,15 +124,17 @@ impl From<f64> for WallDefenseBonus {
   }
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize, TS)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct WallStats {
   pub level: BuildingLevel,
   pub defense: WallDefense,
   pub defense_percent: WallDefenseBonus,
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize, TS)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct WallStatsTable(HashMap<BuildingLevel, WallStats>);
 
 impl WallStatsTable {

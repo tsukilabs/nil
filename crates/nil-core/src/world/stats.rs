@@ -5,10 +5,10 @@ use crate::infrastructure::stats::InfrastructureStats;
 use crate::world::config::WorldConfig;
 use serde::{Deserialize, Serialize};
 use std::sync::Arc;
-use ts_rs::TS;
 
-#[derive(Clone, Debug, Deserialize, Serialize, TS)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct WorldStats {
   pub(super) infrastructure: Arc<InfrastructureStats>,
 }

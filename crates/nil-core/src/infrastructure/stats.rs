@@ -11,10 +11,10 @@ use crate::world::config::WorldConfig;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use strum::IntoEnumIterator;
-use ts_rs::TS;
 
-#[derive(Debug, Deserialize, Serialize, TS)]
+#[derive(Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct InfrastructureStats {
   building: HashMap<BuildingId, BuildingStatsTable>,
   mine: HashMap<MineId, MineStatsTable>,

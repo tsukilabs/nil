@@ -4,9 +4,9 @@
 use crate::time::Minutes;
 use serde::{Deserialize, Serialize};
 use std::time::Duration;
-use ts_rs::TS;
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Deserialize, Serialize, TS)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Deserialize, Serialize)]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct RoundDuration(Minutes);
 
 impl RoundDuration {

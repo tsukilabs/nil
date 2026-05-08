@@ -13,14 +13,14 @@ use crate::ruler::Ruler;
 use bon::Builder;
 use serde::{Deserialize, Serialize};
 use strum::EnumIs;
-use ts_rs::TS;
 use uuid::Uuid;
 
 pub use distance::ManeuverDistance;
 
 #[must_use]
-#[derive(Clone, Debug, Deserialize, Serialize, TS)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Maneuver {
   id: ManeuverId,
   origin: Coord,
@@ -194,7 +194,8 @@ impl Maneuver {
 }
 
 #[must_use]
-#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Hash, Deserialize, Serialize, TS)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Hash, Deserialize, Serialize)]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct ManeuverId(Uuid);
 
 impl ManeuverId {
@@ -209,22 +210,25 @@ impl Default for ManeuverId {
   }
 }
 
-#[derive(Clone, Copy, Debug, Deserialize, Serialize, TS, EnumIs)]
+#[derive(Clone, Copy, Debug, Deserialize, Serialize, EnumIs)]
 #[serde(rename_all = "kebab-case")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub enum ManeuverKind {
   Attack,
   Support,
 }
 
-#[derive(Clone, Copy, Debug, Deserialize, Serialize, TS, EnumIs)]
+#[derive(Clone, Copy, Debug, Deserialize, Serialize, EnumIs)]
 #[serde(rename_all = "kebab-case")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub enum ManeuverDirection {
   Going,
   Returning,
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize, TS, EnumIs)]
+#[derive(Clone, Debug, Deserialize, Serialize, EnumIs)]
 #[serde(tag = "kind", rename_all = "kebab-case")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub enum ManeuverState {
   Done,
   Pending { distance: ManeuverDistance },
@@ -236,8 +240,9 @@ impl ManeuverState {
   }
 }
 
-#[derive(Builder, Clone, Debug, Deserialize, Serialize, TS)]
+#[derive(Builder, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct ManeuverHaul {
   ruler: Ruler,
   resources: Resources,
@@ -261,8 +266,9 @@ impl From<ManeuverHaul> for Resources {
   }
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize, TS)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct ManeuverRequest {
   pub kind: ManeuverKind,
   pub origin: Coord,

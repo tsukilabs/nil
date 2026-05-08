@@ -11,10 +11,10 @@ use crate::resources::maintenance::MaintenanceRatio;
 use crate::resources::workforce::Workforce;
 use nil_core_macros::{Building, Storage};
 use serde::{Deserialize, Serialize};
-use ts_rs::TS;
 
-#[derive(Building, Storage, Clone, Debug, Deserialize, Serialize, TS)]
+#[derive(Building, Storage, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Silo {
   level: BuildingLevel,
   enabled: bool,

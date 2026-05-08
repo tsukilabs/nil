@@ -4,11 +4,14 @@
 use nil_core::world::config::WorldId;
 use nil_crypto::password::Password;
 use serde::Deserialize;
+
+#[cfg(feature = "typescript")]
 use ts_rs::TS;
 
-#[derive(Clone, Debug, Deserialize, TS)]
+#[derive(Clone, Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
-#[ts(optional_fields = nullable)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(optional_fields = nullable))]
 pub struct WebsocketQuery {
   pub world_id: WorldId,
   #[serde(default)]

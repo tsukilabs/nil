@@ -11,10 +11,10 @@ use bon::Builder;
 use jiff::Zoned;
 use nil_core_macros::Report;
 use serde::{Deserialize, Serialize};
-use ts_rs::TS;
 
-#[derive(Report, Builder, Clone, Debug, Deserialize, Serialize, TS)]
+#[derive(Report, Builder, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct BattleReport {
   #[builder(skip = ReportId::new())]
   id: ReportId,

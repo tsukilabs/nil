@@ -13,7 +13,6 @@ use serde::{Deserialize, Serialize};
 use std::fmt;
 use strum::Display;
 use tokio::sync::broadcast::{Receiver, Sender, channel};
-use ts_rs::TS;
 
 pub type Listener = Receiver<(Bytes, EventTarget)>;
 
@@ -62,10 +61,11 @@ impl fmt::Debug for Emitter {
   }
 }
 
-#[derive(Clone, Debug, Display, Deserialize, Serialize, TS)]
+#[derive(Clone, Debug, Display, Deserialize, Serialize)]
 #[serde(tag = "kind", rename_all = "kebab-case")]
 #[strum(serialize_all = "kebab-case")]
-#[ts(export)]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 #[remain::sorted]
 pub enum Event {
   /// A new message has been sent in the chat.

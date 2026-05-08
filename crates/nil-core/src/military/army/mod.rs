@@ -21,12 +21,12 @@ use serde::{Deserialize, Serialize};
 use std::mem;
 use std::ops::{Mul, MulAssign};
 use strum::{EnumIs, IntoEnumIterator};
-use ts_rs::TS;
 use uuid::Uuid;
 
-#[derive(Builder, Clone, Debug, Deserialize, Serialize, TS)]
+#[derive(Builder, Clone, Debug, Deserialize, Serialize)]
 #[builder(builder_type(vis = "pub(crate)"))]
 #[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Army {
   #[builder(skip)]
   id: ArmyId,
@@ -191,7 +191,8 @@ impl_army!(
 );
 
 #[must_use]
-#[derive(Clone, Copy, Debug, Display, PartialEq, Eq, Deserialize, Serialize, TS)]
+#[derive(Clone, Copy, Debug, Display, PartialEq, Eq, Deserialize, Serialize)]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct ArmyId(Uuid);
 
 impl ArmyId {
@@ -207,8 +208,9 @@ impl Default for ArmyId {
   }
 }
 
-#[derive(Clone, Debug, Default, Deserialize, Serialize, TS, EnumIs)]
+#[derive(Clone, Debug, Default, Deserialize, Serialize, EnumIs)]
 #[serde(tag = "kind", rename_all = "kebab-case")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub enum ArmyState {
   #[default]
   Idle,

@@ -5,20 +5,24 @@ use nil_core::player::PlayerId;
 use nil_crypto::password::Password;
 use nil_server_types::auth::Token;
 use serde::{Deserialize, Serialize};
+
+#[cfg(feature = "typescript")]
 use ts_rs::TS;
 
-#[derive(Clone, Debug, Deserialize, Serialize, TS)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-#[ts(export, optional_fields = nullable)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export, optional_fields = nullable))]
 pub struct AuthorizeRequest {
   pub player: PlayerId,
   #[serde(default)]
   pub password: Option<Password>,
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize, TS)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-#[ts(export)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 pub struct ValidateTokenRequest {
   pub token: Token,
 }

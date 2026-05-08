@@ -8,7 +8,6 @@ use derive_more::{Display, From, Into};
 use nil_num::triangle::nearest_triangle;
 use serde::{Deserialize, Serialize};
 use std::num::NonZeroU32;
-use ts_rs::TS;
 
 /// Influence is a special resource which represents the political power of a ruler
 /// and is used to determine how many cities they can simultaneously control.
@@ -16,20 +15,9 @@ use ts_rs::TS;
 /// The amount of influence needed to control a number `n` of cities is given by
 /// the formula `n * (n + 1) / 2`, meaning it increases as a triangular number.
 #[derive(
-  Clone,
-  Copy,
-  Debug,
-  Display,
-  From,
-  Into,
-  PartialEq,
-  Eq,
-  PartialOrd,
-  Ord,
-  Deserialize,
-  Serialize,
-  TS,
+  Clone, Copy, Debug, Display, From, Into, PartialEq, Eq, PartialOrd, Ord, Deserialize, Serialize,
 )]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Influence(NonZeroU32);
 
 impl Influence {

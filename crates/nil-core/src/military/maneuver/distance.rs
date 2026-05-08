@@ -8,9 +8,9 @@ use nil_num::F64Ops;
 use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
 use std::ops::{Sub, SubAssign};
-use ts_rs::TS;
 
-#[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize, TS, F64Ops)]
+#[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize, F64Ops)]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct ManeuverDistance(f64);
 
 impl PartialEq for ManeuverDistance {

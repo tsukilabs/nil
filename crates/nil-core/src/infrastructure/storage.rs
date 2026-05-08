@@ -9,7 +9,6 @@ use nil_num::growth::growth;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::ops::{Add, AddAssign, Sub, SubAssign};
-use ts_rs::TS;
 
 /// A building that stores resources.
 pub trait Storage: Building {
@@ -22,15 +21,17 @@ pub trait Storage: Building {
   fn max_capacity(&self) -> StorageCapacity;
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize, TS)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct StorageStats {
   pub level: BuildingLevel,
   pub capacity: StorageCapacity,
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize, TS)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct StorageStatsTable {
   id: StorageId,
   table: HashMap<BuildingLevel, StorageStats>,
@@ -97,9 +98,9 @@ impl StorageStatsTable {
   Ord,
   Deserialize,
   Serialize,
-  TS,
 )]
 #[into(u32, f64)]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct StorageCapacity(u32);
 
 impl StorageCapacity {
@@ -177,8 +178,9 @@ impl From<f64> for StorageCapacity {
   }
 }
 
-#[derive(Clone, Debug, Default, Deserialize, Serialize, TS)]
+#[derive(Clone, Debug, Default, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct OverallStorageCapacity {
   pub silo: StorageCapacity,
   pub warehouse: StorageCapacity,

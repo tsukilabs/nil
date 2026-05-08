@@ -47,10 +47,10 @@ use stats::InfrastructureStats;
 use storage::Storage;
 use strum::IntoEnumIterator;
 use tap::Pipe;
-use ts_rs::TS;
 
-#[derive(Builder, Clone, Debug, Default, Deserialize, Serialize, TS)]
+#[derive(Builder, Clone, Debug, Default, Deserialize, Serialize)]
 #[serde(default, rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Infrastructure {
   #[builder(default)]
   academy: Academy,

@@ -6,8 +6,9 @@
 macro_rules! decl_recruit_catalog_entry {
   ($building:ident) => {
     paste::paste! {
-      #[derive(Clone, Debug, Deserialize, Serialize, TS)]
+      #[derive(Clone, Debug, Deserialize, Serialize)]
       #[serde(tag = "kind", rename_all = "kebab-case")]
+      #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
       pub enum [<$building RecruitCatalogEntry>] {
         /// Unit is available for recruitment.
         Available { recipe: Box<[<$building RecruitCatalogRecipe>]> },
@@ -36,8 +37,9 @@ macro_rules! decl_recruit_catalog_entry {
         }
       }
 
-      #[derive(Clone, Debug, Deserialize, Serialize, TS)]
+      #[derive(Clone, Debug, Deserialize, Serialize)]
       #[serde(rename_all = "camelCase")]
+      #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
       pub struct [<$building RecruitCatalogRecipe>] {
         resources: Resources,
         maintenance: Maintenance,

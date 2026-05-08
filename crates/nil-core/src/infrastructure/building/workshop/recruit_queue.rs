@@ -14,13 +14,13 @@ use serde::{Deserialize, Serialize};
 use std::collections::VecDeque;
 use std::num::NonZeroU32;
 use strum::EnumIs;
-use ts_rs::TS;
 use uuid::Uuid;
 
-#[derive(Clone, Debug, Default, Deserialize, Serialize, TS)]
+#[derive(Clone, Debug, Default, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct WorkshopRecruitQueue {
-  #[ts(as = "Vec<WorkshopRecruitOrder>")]
+  #[cfg_attr(feature = "typescript", ts(as = "Vec<WorkshopRecruitOrder>"))]
   orders: VecDeque<WorkshopRecruitOrder>,
 }
 

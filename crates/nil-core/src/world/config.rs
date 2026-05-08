@@ -7,11 +7,11 @@ use bon::Builder;
 use derive_more::{Deref, Display, Into};
 use nil_num::F64Ops;
 use serde::{Deserialize, Serialize};
-use ts_rs::TS;
 use uuid::Uuid;
 
-#[derive(Builder, Clone, Debug, Deserialize, Serialize, TS)]
+#[derive(Builder, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct WorldConfig {
   #[builder(start_fn, into)]
   name: WorldName,
@@ -100,20 +100,9 @@ impl WorldConfig {
 }
 
 #[derive(
-  Clone,
-  Copy,
-  Debug,
-  Deref,
-  Display,
-  PartialEq,
-  Eq,
-  PartialOrd,
-  Ord,
-  Hash,
-  Deserialize,
-  Serialize,
-  TS,
+  Clone, Copy, Debug, Deref, Display, PartialEq, Eq, PartialOrd, Ord, Hash, Deserialize, Serialize,
 )]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct WorldId(Uuid);
 
 impl WorldId {
@@ -137,7 +126,8 @@ impl TryFrom<&str> for WorldId {
   }
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize, TS)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct WorldName(Box<str>);
 
 impl<T: AsRef<str>> From<T> for WorldName {
@@ -146,7 +136,8 @@ impl<T: AsRef<str>> From<T> for WorldName {
   }
 }
 
-#[derive(Clone, Copy, Debug, Default, Deserialize, Serialize, TS)]
+#[derive(Clone, Copy, Debug, Default, Deserialize, Serialize)]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub enum Locale {
   #[default]
   #[serde(rename = "en-US")]
@@ -181,17 +172,20 @@ macro_rules! impl_f64_newtype {
   };
 }
 
-#[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize, TS, F64Ops)]
+#[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize, F64Ops)]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct WorldSpeed(f64);
 
 impl_f64_newtype!(WorldSpeed, min = 0.1, max = 10.0, default = 1.0);
 
-#[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize, TS, F64Ops)]
+#[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize, F64Ops)]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct WorldUnitSpeed(f64);
 
 impl_f64_newtype!(WorldUnitSpeed, min = 0.1, max = 10.0, default = 1.0);
 
-#[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize, TS, F64Ops)]
+#[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize, F64Ops)]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct BotDensity(f64);
 
 impl_f64_newtype!(
@@ -202,7 +196,8 @@ impl_f64_newtype!(
 );
 
 /// Proportion of bots that will have an advanced start with higher level infrastructure.
-#[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize, TS, F64Ops)]
+#[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize, F64Ops)]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct BotAdvancedStartRatio(f64);
 
 impl_f64_newtype!(BotAdvancedStartRatio, min = 0.0, max = 1.0, default = 0.2);

@@ -151,8 +151,9 @@ macro_rules! decl_recruit_queue {
       }
 
       #[must_use]
-      #[derive(Clone, Debug, Deserialize, Serialize, TS)]
+      #[derive(Clone, Debug, Deserialize, Serialize)]
       #[serde(rename_all = "camelCase")]
+      #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
       pub struct [<$building RecruitOrder>] {
         id: [<$building RecruitOrderId>],
         squad: Squad,
@@ -202,7 +203,8 @@ macro_rules! decl_recruit_queue {
         }
       }
 
-      #[derive(Clone, Copy, Debug, PartialEq, Eq, Deserialize, Serialize, TS)]
+      #[derive(Clone, Copy, Debug, PartialEq, Eq, Deserialize, Serialize)]
+      #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
       pub struct [<$building RecruitOrderId>](Uuid);
 
       impl [<$building RecruitOrderId>] {
@@ -218,8 +220,9 @@ macro_rules! decl_recruit_queue {
         }
       }
 
-      #[derive(Clone, Debug, EnumIs, Deserialize, Serialize, TS)]
+      #[derive(Clone, Debug, EnumIs, Deserialize, Serialize)]
       #[serde(tag = "kind", rename_all = "kebab-case")]
+      #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
       pub enum [<$building RecruitOrderState>] {
         Pending { workforce: Workforce },
         Done,
@@ -241,8 +244,9 @@ macro_rules! decl_recruit_queue {
         }
       }
 
-      #[derive(Clone, Debug, Deserialize, Serialize, TS)]
+      #[derive(Clone, Debug, Deserialize, Serialize)]
       #[serde(rename_all = "camelCase")]
+      #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
       pub struct [<$building RecruitOrderRequest>] {
         pub coord: Coord,
         pub unit: [<$building UnitId>],

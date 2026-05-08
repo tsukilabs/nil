@@ -14,10 +14,10 @@ use std::collections::HashSet;
 use std::fmt;
 use std::num::NonZeroU32;
 use strum::EnumIs;
-use ts_rs::TS;
 
-#[derive(Clone, Debug, Default, Deserialize, Serialize, TS)]
+#[derive(Clone, Debug, Default, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Round {
   id: RoundId,
   state: RoundState,
@@ -159,7 +159,8 @@ impl Round {
   }
 }
 
-#[derive(Clone, Copy, Debug, Deref, PartialEq, Eq, PartialOrd, Ord, Deserialize, Serialize, TS)]
+#[derive(Clone, Copy, Debug, Deref, PartialEq, Eq, PartialOrd, Ord, Deserialize, Serialize)]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct RoundId(NonZeroU32);
 
 impl RoundId {
@@ -181,8 +182,9 @@ impl PartialEq<u32> for RoundId {
   }
 }
 
-#[derive(Clone, Default, Deserialize, Serialize, TS, EnumIs)]
+#[derive(Clone, Default, Deserialize, Serialize, EnumIs)]
 #[serde(tag = "kind", rename_all = "kebab-case")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub enum RoundState {
   /// The game hasn't started yet.
   #[default]

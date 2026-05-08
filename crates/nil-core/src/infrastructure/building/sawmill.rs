@@ -11,10 +11,10 @@ use crate::resources::maintenance::MaintenanceRatio;
 use crate::resources::workforce::Workforce;
 use nil_core_macros::{Building, Mine};
 use serde::{Deserialize, Serialize};
-use ts_rs::TS;
 
-#[derive(Building, Mine, Clone, Debug, Deserialize, Serialize, TS)]
+#[derive(Building, Mine, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Sawmill {
   level: BuildingLevel,
   enabled: bool,

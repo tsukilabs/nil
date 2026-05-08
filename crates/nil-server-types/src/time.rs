@@ -4,24 +4,12 @@
 use derive_more::{From, Into};
 use serde::{Deserialize, Serialize};
 use std::time::Duration;
-use ts_rs::TS;
 
 #[derive(
-  Clone,
-  Copy,
-  Debug,
-  Default,
-  From,
-  Into,
-  PartialEq,
-  Eq,
-  PartialOrd,
-  Ord,
-  Deserialize,
-  Serialize,
-  TS,
+  Clone, Copy, Debug, Default, From, Into, PartialEq, Eq, PartialOrd, Ord, Deserialize, Serialize,
 )]
-#[ts(as = "u32")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
+#[cfg_attr(feature = "typescript", ts(as = "u32"))]
 pub struct Minutes(u64);
 
 impl Minutes {

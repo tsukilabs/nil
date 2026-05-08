@@ -8,7 +8,6 @@ use derive_more::{Deref, Display, From, Into};
 use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
 use std::ops::{Add, AddAssign, Mul, MulAssign, Sub, SubAssign};
-use ts_rs::TS;
 
 #[derive(
   Clone,
@@ -25,10 +24,10 @@ use ts_rs::TS;
   Ord,
   Deserialize,
   Serialize,
-  TS,
 )]
 #[into(u32, f64)]
-#[ts(export)]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 pub struct SquadSize(u32);
 
 impl SquadSize {

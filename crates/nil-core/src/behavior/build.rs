@@ -24,7 +24,6 @@ use std::marker::PhantomData;
 use std::ops::ControlFlow;
 use std::sync::LazyLock;
 use strum::IntoEnumIterator;
-use ts_rs::TS;
 
 pub(crate) static BUILD_TEMPLATE: LazyLock<Vec<BuildStep>> = LazyLock::new(generate_template);
 
@@ -249,8 +248,9 @@ where
   }
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize, TS)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct BuildStep {
   id: BuildingId,
   level: BuildingLevel,

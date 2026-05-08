@@ -5,10 +5,10 @@ use derive_more::From;
 use serde::{Deserialize, Serialize};
 use std::borrow::Cow;
 use std::ops::Deref;
-use ts_rs::TS;
 
-#[derive(Clone, Debug, From, PartialEq, Eq, Hash, Deserialize, Serialize, TS)]
+#[derive(Clone, Debug, From, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[from(String, &str, Box<str>, Cow<'_, str>)]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Token(Box<str>);
 
 impl Token {

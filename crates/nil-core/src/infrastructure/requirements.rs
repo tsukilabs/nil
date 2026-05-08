@@ -5,11 +5,11 @@ use super::Infrastructure;
 use super::building::BuildingLevel;
 use bon::Builder;
 use serde::{Deserialize, Serialize};
-use ts_rs::TS;
 
-#[derive(Builder, Clone, Debug, Default, Deserialize, Serialize, TS)]
+#[derive(Builder, Clone, Debug, Default, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 #[builder(const)]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct InfrastructureRequirements {
   #[builder(default = BuildingLevel::ZERO)]
   pub(super) academy: BuildingLevel,

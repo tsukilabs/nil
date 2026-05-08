@@ -8,10 +8,10 @@ use nil_core::player::PlayerId;
 use nil_core::round::RoundId;
 use nil_core::world::config::WorldConfig;
 use serde::{Deserialize, Serialize};
-use ts_rs::TS;
 
-#[derive(Clone, Debug, Deserialize, Serialize, TS)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct RemoteWorld {
   pub config: WorldConfig,
   pub description: Option<String>,

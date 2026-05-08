@@ -19,7 +19,7 @@ use std::path::Path;
 use std::{env, fs};
 
 fn main() -> Result<()> {
-  spawn!("cargo test export_bindings")?;
+  spawn!("cargo test -F typescript export_bindings")?;
 
   let dir = env::var("TS_RS_EXPORT_DIR")?;
   let mut files = Vec::new();

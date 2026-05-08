@@ -12,10 +12,10 @@ use std::fmt;
 use std::ops::Deref;
 use std::sync::Arc;
 use tap::Pipe;
-use ts_rs::TS;
 
-#[derive(Clone, Default, From, Into, PartialEq, Eq, Hash, Deserialize, Serialize, TS)]
+#[derive(Clone, Default, From, Into, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[from(String, &str, Arc<str>, Box<str>, Cow<'_, str>)]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Password(Arc<str>);
 
 impl Password {

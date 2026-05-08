@@ -9,9 +9,9 @@ use derive_more::Deref;
 use itertools::Itertools;
 use score::Score;
 use serde::{Deserialize, Serialize};
-use ts_rs::TS;
 
-#[derive(Clone, Debug, Default, Deref, Deserialize, Serialize, TS)]
+#[derive(Clone, Debug, Default, Deref, Deserialize, Serialize)]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Ranking(Vec<RankingEntry>);
 
 impl Ranking {
@@ -42,8 +42,9 @@ impl Ranking {
   }
 }
 
-#[derive(Builder, Clone, Debug, Deserialize, Serialize, TS)]
+#[derive(Builder, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct RankingEntry {
   #[builder(skip)]
   rank: Rank,
@@ -58,7 +59,6 @@ pub struct RankingEntry {
   cities: u32,
 }
 
-#[derive(
-  Clone, Copy, Debug, Default, PartialEq, Eq, PartialOrd, Ord, Deserialize, Serialize, TS,
-)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq, PartialOrd, Ord, Deserialize, Serialize)]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Rank(u32);

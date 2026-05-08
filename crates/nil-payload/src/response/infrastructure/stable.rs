@@ -3,12 +3,15 @@
 
 use nil_core::infrastructure::building::stable::recruit_catalog::StableRecruitCatalog;
 use serde::{Deserialize, Serialize};
-use ts_rs::TS;
 
 #[cfg(feature = "axum")]
 use nil_payload_macros::IntoJsonResponse;
 
-#[derive(Clone, Debug, Deserialize, Serialize, TS)]
+#[cfg(feature = "typescript")]
+use ts_rs::TS;
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
 #[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
-#[ts(export)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 pub struct GetStableRecruitCatalogResponse(pub StableRecruitCatalog);

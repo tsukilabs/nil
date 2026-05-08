@@ -6,7 +6,6 @@ use nil_num::{F64Ops, impl_mul_ceil};
 use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
 use std::ops::{Add, AddAssign, Mul, MulAssign, Sub, SubAssign};
-use ts_rs::TS;
 
 #[derive(
   Clone,
@@ -22,10 +21,10 @@ use ts_rs::TS;
   Ord,
   Deserialize,
   Serialize,
-  TS,
   F64Ops,
 )]
 #[into(u32, f64)]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Score(u32);
 
 impl Score {

@@ -6,11 +6,11 @@ use rand::seq::IndexedRandom;
 use serde::{Deserialize, Serialize};
 use std::fmt::Debug;
 use strum::{EnumIs, VariantArray};
-use ts_rs::TS;
 
-#[derive(Builder, Clone, Debug, Deserialize, Serialize, TS)]
+#[derive(Builder, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 #[builder(const)]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Ethics {
   power: EthicPowerAxis,
   truth: EthicTruthAxis,
@@ -93,8 +93,9 @@ impl From<EthicTruthAxis> for Ethics {
   }
 }
 
-#[derive(Clone, Copy, Debug, EnumIs, PartialEq, Eq, Deserialize, Serialize, TS, VariantArray)]
+#[derive(Clone, Copy, Debug, EnumIs, PartialEq, Eq, Deserialize, Serialize, VariantArray)]
 #[serde(rename_all = "kebab-case")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub enum EthicPowerAxis {
   Militarist,
   FanaticMilitarist,
@@ -126,8 +127,9 @@ impl EthicPowerAxis {
   }
 }
 
-#[derive(Clone, Copy, Debug, EnumIs, PartialEq, Eq, Deserialize, Serialize, TS, VariantArray)]
+#[derive(Clone, Copy, Debug, EnumIs, PartialEq, Eq, Deserialize, Serialize, VariantArray)]
 #[serde(rename_all = "kebab-case")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub enum EthicTruthAxis {
   Materialist,
   FanaticMaterialist,
