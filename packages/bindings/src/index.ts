@@ -67,6 +67,10 @@ export type { CheatGetIdlePersonnelAtRequest } from './CheatGetIdlePersonnelAtRe
 export type { CheatGetIdlePersonnelAtResponse } from './CheatGetIdlePersonnelAtResponse';
 export type { CheatGetInfrastructureRequest } from './CheatGetInfrastructureRequest';
 export type { CheatGetInfrastructureResponse } from './CheatGetInfrastructureResponse';
+export type { CheatGetManeuversOfRequest } from './CheatGetManeuversOfRequest';
+export type { CheatGetManeuversOfResponse } from './CheatGetManeuversOfResponse';
+export type { CheatGetManeuversRequest } from './CheatGetManeuversRequest';
+export type { CheatGetManeuversResponse } from './CheatGetManeuversResponse';
 export type { CheatGetPlayerRequest } from './CheatGetPlayerRequest';
 export type { CheatGetPlayerResponse } from './CheatGetPlayerResponse';
 export type { CheatGetPlayersRequest } from './CheatGetPlayersRequest';

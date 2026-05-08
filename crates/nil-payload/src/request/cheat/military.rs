@@ -31,10 +31,29 @@ pub struct CheatGetIdlePersonnelAtRequest {
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 #[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
+pub struct CheatGetManeuversRequest {
+  pub world: WorldId,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export, optional_fields = nullable))]
+pub struct CheatGetManeuversOfRequest {
+  pub world: WorldId,
+  #[serde(default)]
+  pub ruler: Option<Ruler>,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export, optional_fields = nullable))]
 pub struct CheatSpawnPersonnelRequest {
   pub world: WorldId,
   pub coord: Coord,
   pub personnel: ArmyPersonnel,
+  #[serde(default)]
   pub ruler: Option<Ruler>,
 }

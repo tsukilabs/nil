@@ -70,6 +70,8 @@ pub fn run() {
       command::cheat::infrastructure::cheat_set_max_infrastructure,
       command::cheat::military::cheat_get_idle_armies_at,
       command::cheat::military::cheat_get_idle_personnel_at,
+      command::cheat::military::cheat_get_maneuvers,
+      command::cheat::military::cheat_get_maneuvers_of,
       command::cheat::military::cheat_spawn_personnel,
       command::cheat::npc::cheat_get_ethics,
       command::cheat::npc::cheat_set_bot_ethics,

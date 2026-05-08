@@ -10,6 +10,11 @@ use crate::military::maneuver::{Maneuver, ManeuverId, ManeuverRequest};
 use crate::world::World;
 
 impl World {
+  #[inline]
+  pub fn collapse_armies(&mut self) {
+    self.military.collapse_armies();
+  }
+
   pub fn request_maneuver(&mut self, request: ManeuverRequest) -> Result<ManeuverId> {
     self
       .military
@@ -79,10 +84,5 @@ impl World {
     }
 
     Ok(id)
-  }
-
-  #[inline]
-  pub fn collapse_armies(&mut self) {
-    self.military.collapse_armies();
   }
 }
