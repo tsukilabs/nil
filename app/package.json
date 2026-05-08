@@ -9,8 +9,10 @@
     "dev": "vite",
     "type-check": "vue-tsc --noEmit"
   },
+  "dependencies": {
+    "@tsukilabs/nil-bindings": "workspace:*"
+  },
   "devDependencies": {
-    "@tsukilabs/nil-bindings": "workspace:*",
     "tailwindcss": "=4.2.4"
   }
 }

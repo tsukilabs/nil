@@ -34,7 +34,7 @@ pub async fn get_server_kind(app: AppHandle) -> Result<GetServerKindResponse> {
 }
 
 #[tauri::command]
-pub async fn get_server_version(app: AppHandle) -> Result<GetServerVersionResponse> {
+pub async fn get_server_version(app: AppHandle) -> Result<VersionResponse> {
   app
     .client(async |cl| cl.get_server_version().await)
     .await

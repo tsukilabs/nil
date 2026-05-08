@@ -13,5 +13,5 @@ pub async fn kind(State(app): State<App>) -> Response {
 
 pub async fn version() -> Response {
   let version = env!("CARGO_PKG_VERSION").to_string();
-  res!(OK, GetServerVersionResponse(version))
+  res!(OK, VersionResponse(version))
 }

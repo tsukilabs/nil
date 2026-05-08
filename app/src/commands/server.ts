@@ -8,10 +8,10 @@ import type {
   AuthorizeRequest,
   AuthorizeResponse,
   GetServerKindResponse,
-  GetServerVersionResponse,
   PlayerId,
   ValidateTokenRequest,
   ValidateTokenResponse,
+  VersionResponse,
   WorldOptions,
 } from '@tsukilabs/nil-bindings';
 
@@ -34,7 +34,7 @@ export async function getServerKind() {
 }
 
 export async function getServerVersion() {
-  return invoke<GetServerVersionResponse>('get_server_version');
+  return invoke<VersionResponse>('get_server_version');
 }
 
 export async function isServerReady() {

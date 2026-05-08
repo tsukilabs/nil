@@ -217,7 +217,7 @@ impl Client {
       .await
   }
 
-  pub async fn get_server_version(&self) -> Result<GetServerVersionResponse> {
+  pub async fn get_server_version(&self) -> Result<VersionResponse> {
     http::json_get("version")
       .server(self.server)
       .retry(&self.retry)

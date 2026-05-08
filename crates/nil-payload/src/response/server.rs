@@ -20,4 +20,4 @@ pub struct GetServerKindResponse(pub ServerKind);
 #[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
-pub struct GetServerVersionResponse(pub String);
+pub struct VersionResponse(pub String);
