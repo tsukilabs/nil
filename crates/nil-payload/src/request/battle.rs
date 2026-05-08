@@ -13,7 +13,7 @@ use ts_rs::TS;
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 #[cfg_attr(feature = "typescript", derive(TS))]
-#[cfg_attr(feature = "typescript", ts(export))]
+#[cfg_attr(feature = "typescript", ts(export, optional_fields = nullable))]
 pub struct SimulateBattleRequest {
   pub world: WorldId,
   #[serde(default)]
@@ -21,7 +21,7 @@ pub struct SimulateBattleRequest {
   #[serde(default)]
   pub defender: Vec<Squad>,
   #[serde(default)]
-  pub luck: Luck,
+  pub luck: Option<Luck>,
   #[serde(default)]
   pub wall: BuildingLevel,
 }

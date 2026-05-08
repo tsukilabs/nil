@@ -50,7 +50,7 @@ impl Silo {
     InfrastructureRequirements::none();
 }
 
-impl Default for Silo {
+impl const Default for Silo {
   fn default() -> Self {
     Self {
       level: BuildingLevel::new(1),

@@ -3,7 +3,7 @@
 
 #![cfg_attr(docsrs, feature(doc_cfg))]
 #![doc(html_favicon_url = "https://nil.dev.br/favicon.png")]
-#![feature(str_as_str)]
+#![feature(const_cmp, const_convert, const_default, const_trait_impl, str_as_str)]
 
 pub mod auth;
 pub mod round;

@@ -3,49 +3,62 @@
 
 use crate::continent::Distance;
 use crate::military::unit::stats::speed::Speed;
-use derive_more::{Deref, Into};
 use nil_num::F64Ops;
 use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
-use std::ops::{Sub, SubAssign};
+use std::ops::{Deref, Sub, SubAssign};
 
-#[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize, F64Ops)]
+#[derive(Clone, Copy, Debug, Deserialize, Serialize, F64Ops)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct ManeuverDistance(f64);
 
-impl PartialEq for ManeuverDistance {
+impl const Deref for ManeuverDistance {
+  type Target = f64;
+
+  fn deref(&self) -> &Self::Target {
+    &self.0
+  }
+}
+
+impl const From<ManeuverDistance> for f64 {
+  fn from(value: ManeuverDistance) -> Self {
+    value.0
+  }
+}
+
+impl const PartialEq for ManeuverDistance {
   fn eq(&self, other: &Self) -> bool {
     matches!(self.0.total_cmp(&other.0), Ordering::Equal)
   }
 }
 
-impl Eq for ManeuverDistance {}
+impl const Eq for ManeuverDistance {}
 
-impl PartialOrd for ManeuverDistance {
+impl const PartialOrd for ManeuverDistance {
   fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
     Some(self.cmp(other))
   }
 }
 
-impl Ord for ManeuverDistance {
+impl const Ord for ManeuverDistance {
   fn cmp(&self, other: &Self) -> Ordering {
     self.0.total_cmp(&other.0)
   }
 }
 
-impl PartialEq<f64> for ManeuverDistance {
+impl const PartialEq<f64> for ManeuverDistance {
   fn eq(&self, other: &f64) -> bool {
     matches!(self.0.total_cmp(other), Ordering::Equal)
   }
 }
 
-impl PartialOrd<f64> for ManeuverDistance {
+impl const PartialOrd<f64> for ManeuverDistance {
   fn partial_cmp(&self, other: &f64) -> Option<Ordering> {
     Some(self.0.total_cmp(other))
   }
 }
 
-impl Sub for ManeuverDistance {
+impl const Sub for ManeuverDistance {
   type Output = ManeuverDistance;
 
   fn sub(mut self, rhs: Self) -> Self::Output {
@@ -54,7 +67,7 @@ impl Sub for ManeuverDistance {
   }
 }
 
-impl Sub<Speed> for ManeuverDistance {
+impl const Sub<Speed> for ManeuverDistance {
   type Output = ManeuverDistance;
 
   fn sub(mut self, rhs: Speed) -> Self::Output {
@@ -63,19 +76,19 @@ impl Sub<Speed> for ManeuverDistance {
   }
 }
 
-impl SubAssign for ManeuverDistance {
+impl const SubAssign for ManeuverDistance {
   fn sub_assign(&mut self, rhs: Self) {
     *self = Self(self.0 - rhs.0);
   }
 }
 
-impl SubAssign<Speed> for ManeuverDistance {
+impl const SubAssign<Speed> for ManeuverDistance {
   fn sub_assign(&mut self, rhs: Speed) {
     *self = Self(self.0 - f64::from(rhs));
   }
 }
 
-impl From<Distance> for ManeuverDistance {
+impl const From<Distance> for ManeuverDistance {
   fn from(distance: Distance) -> Self {
     Self(f64::from(distance))
   }

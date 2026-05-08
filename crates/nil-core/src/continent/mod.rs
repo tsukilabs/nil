@@ -59,7 +59,7 @@ impl Continent {
     let index = key.into_index(self.size);
     self
       .fields
-      .get(index.as_usize())
+      .get(usize::from(index))
       .ok_or(Error::IndexOutOfBounds(index))
   }
 
@@ -67,7 +67,7 @@ impl Continent {
     let index = key.into_index(self.size);
     self
       .fields
-      .get_mut(index.as_usize())
+      .get_mut(usize::from(index))
       .ok_or(Error::IndexOutOfBounds(index))
   }
 

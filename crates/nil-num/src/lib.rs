@@ -3,6 +3,7 @@
 
 #![cfg_attr(docsrs, feature(doc_cfg))]
 #![doc(html_favicon_url = "https://nil.dev.br/favicon.png")]
+#![feature(const_convert, const_trait_impl)]
 
 pub mod growth;
 pub mod mul_ceil;

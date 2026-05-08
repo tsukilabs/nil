@@ -5,6 +5,7 @@ use crate::time::Minutes;
 use serde::{Deserialize, Serialize};
 use std::time::Duration;
 
+/// Round duration, in minutes.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Deserialize, Serialize)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct RoundDuration(Minutes);
@@ -15,36 +16,36 @@ impl RoundDuration {
 }
 
 impl RoundDuration {
-  pub fn new(mins: u64) -> Self {
+  pub const fn new(mins: u64) -> Self {
     Self::from(Minutes::new(mins))
   }
 }
 
-impl Default for RoundDuration {
+impl const Default for RoundDuration {
   fn default() -> Self {
     Self::MIN
   }
 }
 
-impl From<Minutes> for RoundDuration {
+impl const From<Minutes> for RoundDuration {
   fn from(mins: Minutes) -> Self {
-    Self(mins).clamp(Self::MIN, Self::MAX)
+    Self(mins.clamp(Self::MIN.0, Self::MAX.0))
   }
 }
 
-impl From<RoundDuration> for Minutes {
+impl const From<RoundDuration> for Minutes {
   fn from(duration: RoundDuration) -> Self {
     duration.0
   }
 }
 
-impl From<Duration> for RoundDuration {
+impl const From<Duration> for RoundDuration {
   fn from(duration: Duration) -> Self {
     Self::from(Minutes::from(duration))
   }
 }
 
-impl From<RoundDuration> for Duration {
+impl const From<RoundDuration> for Duration {
   fn from(duration: RoundDuration) -> Self {
     Duration::from(duration.0)
   }

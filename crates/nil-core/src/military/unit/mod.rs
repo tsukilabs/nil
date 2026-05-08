@@ -17,12 +17,12 @@ use crate::infrastructure::requirements::InfrastructureRequirements;
 use crate::ranking::score::Score;
 use crate::resources::prelude::*;
 use crate::world::config::WorldConfig;
-use derive_more::{Deref, Display, From, Into};
+use derive_more::{Display, From, Into};
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
 use stats::prelude::*;
 use std::fmt;
 use std::num::NonZeroU32;
-use std::ops::Mul;
+use std::ops::{Deref, Mul};
 use strum::EnumIter;
 use subenum::subenum;
 
@@ -125,11 +125,11 @@ pub enum UnitId {
 
 impl From<UnitId> for BuildingId {
   fn from(id: UnitId) -> Self {
-    UnitBox::from(id).building()
+    UnitBox::from(id).0.building()
   }
 }
 
-#[derive(Deref)]
+#[derive(derive_more::Deref)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(as = "UnitId"))]
 pub struct UnitBox(Box<dyn Unit>);
@@ -148,7 +148,7 @@ impl UnitBox {
 
 impl PartialEq for UnitBox {
   fn eq(&self, other: &Self) -> bool {
-    self.id() == other.id()
+    self.0.id() == other.0.id()
   }
 }
 
@@ -206,7 +206,7 @@ impl Serialize for UnitBox {
   where
     S: Serializer,
   {
-    self.id().serialize(serializer)
+    self.0.id().serialize(serializer)
   }
 }
 
@@ -268,8 +268,8 @@ impl UnitChunk {
   }
 }
 
-#[derive(Clone, Copy, Debug, Deref, From, Into, Deserialize, Serialize)]
-#[into(u8, u32, f64)]
+#[derive(Clone, Copy, Debug, From, Into, Deserialize, Serialize)]
+#[into(u8, u32)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct UnitChunkSize(u8);
 
@@ -280,7 +280,21 @@ impl UnitChunkSize {
   }
 }
 
-impl Mul<u32> for UnitChunkSize {
+impl const Deref for UnitChunkSize {
+  type Target = u8;
+
+  fn deref(&self) -> &Self::Target {
+    &self.0
+  }
+}
+
+impl const From<UnitChunkSize> for f64 {
+  fn from(value: UnitChunkSize) -> Self {
+    f64::from(value.0)
+  }
+}
+
+impl const Mul<u32> for UnitChunkSize {
   type Output = u32;
 
   fn mul(self, rhs: u32) -> Self::Output {
@@ -288,7 +302,7 @@ impl Mul<u32> for UnitChunkSize {
   }
 }
 
-impl Mul<NonZeroU32> for UnitChunkSize {
+impl const Mul<NonZeroU32> for UnitChunkSize {
   type Output = u32;
 
   fn mul(self, rhs: NonZeroU32) -> Self::Output {

@@ -3,13 +3,11 @@
 
 use crate::continent::{ContinentSize, Coord};
 use crate::error::{Error, Result};
-use derive_more::{Deref, Display, From, Into};
+use derive_more::{Deref, Display};
 use serde::{Deserialize, Serialize, Serializer, ser};
 use std::ops::{Div, Rem};
 
-#[derive(
-  Clone, Copy, Debug, Deref, Display, From, Into, PartialEq, Eq, PartialOrd, Ord, Hash, Deserialize,
-)]
+#[derive(Clone, Copy, Debug, Deref, Display, PartialEq, Eq, PartialOrd, Ord, Hash, Deserialize)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(as = "u32"))]
 pub struct ContinentIndex(usize);
@@ -18,11 +16,6 @@ impl ContinentIndex {
   #[inline]
   pub const fn new(index: usize) -> Self {
     Self(index)
-  }
-
-  #[inline]
-  pub const fn as_usize(self) -> usize {
-    self.0
   }
 
   pub fn from_coord(coord: Coord, size: ContinentSize) -> Self {
@@ -62,7 +55,19 @@ impl Serialize for ContinentIndex {
   }
 }
 
-impl Div<usize> for ContinentIndex {
+impl const From<usize> for ContinentIndex {
+  fn from(value: usize) -> Self {
+    Self::new(value)
+  }
+}
+
+impl const From<ContinentIndex> for usize {
+  fn from(value: ContinentIndex) -> Self {
+    value.0
+  }
+}
+
+impl const Div<usize> for ContinentIndex {
   type Output = usize;
 
   fn div(self, rhs: usize) -> Self::Output {
@@ -70,7 +75,7 @@ impl Div<usize> for ContinentIndex {
   }
 }
 
-impl Div<ContinentSize> for ContinentIndex {
+impl const Div<ContinentSize> for ContinentIndex {
   type Output = usize;
 
   fn div(self, rhs: ContinentSize) -> Self::Output {
@@ -78,7 +83,7 @@ impl Div<ContinentSize> for ContinentIndex {
   }
 }
 
-impl Rem<usize> for ContinentIndex {
+impl const Rem<usize> for ContinentIndex {
   type Output = usize;
 
   fn rem(self, rhs: usize) -> Self::Output {
@@ -86,7 +91,7 @@ impl Rem<usize> for ContinentIndex {
   }
 }
 
-impl Rem<ContinentSize> for ContinentIndex {
+impl const Rem<ContinentSize> for ContinentIndex {
   type Output = usize;
 
   fn rem(self, rhs: ContinentSize) -> Self::Output {

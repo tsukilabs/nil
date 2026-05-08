@@ -4,11 +4,11 @@
 use super::Food;
 use super::diff::FoodDiff;
 use crate::military::unit::UnitChunkSize;
-use derive_more::{Deref, Display, Into};
+use derive_more::Display;
 use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
 use std::num::NonZeroU32;
-use std::ops::{Add, AddAssign, Div, Mul, Sub, SubAssign};
+use std::ops::{Add, AddAssign, Deref, Div, Mul, Sub, SubAssign};
 
 /// Maintenance tax of an entity.
 ///
@@ -16,21 +16,8 @@ use std::ops::{Add, AddAssign, Div, Mul, Sub, SubAssign};
 ///
 /// [base cost]: crate::resources::cost::Cost
 #[derive(
-  Clone,
-  Copy,
-  Debug,
-  Default,
-  Deref,
-  Display,
-  Into,
-  Deserialize,
-  Serialize,
-  PartialEq,
-  Eq,
-  PartialOrd,
-  Ord,
+  Clone, Copy, Debug, Default, Display, Deserialize, Serialize, PartialEq, Eq, PartialOrd, Ord,
 )]
-#[into(u32, f64, Food)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Maintenance(Food);
 
@@ -41,20 +28,40 @@ impl Maintenance {
   }
 }
 
-impl From<u32> for Maintenance {
+impl const Deref for Maintenance {
+  type Target = u32;
+
+  fn deref(&self) -> &Self::Target {
+    &self.0.0
+  }
+}
+
+impl const From<u32> for Maintenance {
   fn from(value: u32) -> Self {
     Self::new(value)
   }
 }
 
-impl From<f64> for Maintenance {
+impl const From<Maintenance> for u32 {
+  fn from(value: Maintenance) -> Self {
+    u32::from(value.0)
+  }
+}
+
+impl const From<f64> for Maintenance {
   fn from(value: f64) -> Self {
     debug_assert!(value.is_finite());
     Self::new(value as u32)
   }
 }
 
-impl Add for Maintenance {
+impl const From<Maintenance> for f64 {
+  fn from(value: Maintenance) -> Self {
+    f64::from(value.0)
+  }
+}
+
+impl const Add for Maintenance {
   type Output = Self;
 
   fn add(self, rhs: Self) -> Self {
@@ -62,7 +69,7 @@ impl Add for Maintenance {
   }
 }
 
-impl Add<Food> for Maintenance {
+impl const Add<Food> for Maintenance {
   type Output = Self;
 
   fn add(self, rhs: Food) -> Self {
@@ -70,19 +77,19 @@ impl Add<Food> for Maintenance {
   }
 }
 
-impl AddAssign for Maintenance {
+impl const AddAssign for Maintenance {
   fn add_assign(&mut self, rhs: Self) {
     *self = Self(self.0 + rhs.0);
   }
 }
 
-impl AddAssign<Food> for Maintenance {
+impl const AddAssign<Food> for Maintenance {
   fn add_assign(&mut self, rhs: Food) {
     *self = Self(self.0 + rhs);
   }
 }
 
-impl Sub for Maintenance {
+impl const Sub for Maintenance {
   type Output = Self;
 
   fn sub(self, rhs: Self) -> Self {
@@ -90,7 +97,7 @@ impl Sub for Maintenance {
   }
 }
 
-impl Sub<Food> for Maintenance {
+impl const Sub<Food> for Maintenance {
   type Output = Self;
 
   fn sub(self, rhs: Food) -> Self {
@@ -98,7 +105,7 @@ impl Sub<Food> for Maintenance {
   }
 }
 
-impl Sub<Maintenance> for Food {
+impl const Sub<Maintenance> for Food {
   type Output = Self;
 
   fn sub(self, rhs: Maintenance) -> Self {
@@ -106,7 +113,7 @@ impl Sub<Maintenance> for Food {
   }
 }
 
-impl Sub<Maintenance> for FoodDiff {
+impl const Sub<Maintenance> for FoodDiff {
   type Output = Self;
 
   fn sub(self, rhs: Maintenance) -> Self {
@@ -114,31 +121,31 @@ impl Sub<Maintenance> for FoodDiff {
   }
 }
 
-impl SubAssign for Maintenance {
+impl const SubAssign for Maintenance {
   fn sub_assign(&mut self, rhs: Self) {
     *self = Self(self.0 - rhs.0);
   }
 }
 
-impl SubAssign<Food> for Maintenance {
+impl const SubAssign<Food> for Maintenance {
   fn sub_assign(&mut self, rhs: Food) {
     *self = Self(self.0 - rhs);
   }
 }
 
-impl SubAssign<Maintenance> for Food {
+impl const SubAssign<Maintenance> for Food {
   fn sub_assign(&mut self, rhs: Maintenance) {
     *self = *self - rhs.0;
   }
 }
 
-impl SubAssign<Maintenance> for FoodDiff {
+impl const SubAssign<Maintenance> for FoodDiff {
   fn sub_assign(&mut self, rhs: Maintenance) {
     *self = *self - rhs.0;
   }
 }
 
-impl Mul<u32> for Maintenance {
+impl const Mul<u32> for Maintenance {
   type Output = Maintenance;
 
   fn mul(self, rhs: u32) -> Self::Output {
@@ -146,7 +153,7 @@ impl Mul<u32> for Maintenance {
   }
 }
 
-impl Mul<NonZeroU32> for Maintenance {
+impl const Mul<NonZeroU32> for Maintenance {
   type Output = Maintenance;
 
   fn mul(self, rhs: NonZeroU32) -> Self::Output {
@@ -154,7 +161,7 @@ impl Mul<NonZeroU32> for Maintenance {
   }
 }
 
-impl Div<UnitChunkSize> for Maintenance {
+impl const Div<UnitChunkSize> for Maintenance {
   type Output = Maintenance;
 
   fn div(self, rhs: UnitChunkSize) -> Self::Output {
@@ -164,32 +171,32 @@ impl Div<UnitChunkSize> for Maintenance {
   }
 }
 
-impl PartialEq<Food> for Maintenance {
+impl const PartialEq<Food> for Maintenance {
   fn eq(&self, other: &Food) -> bool {
     self.0.eq(other)
   }
 }
 
-impl PartialEq<Maintenance> for Food {
+impl const PartialEq<Maintenance> for Food {
   fn eq(&self, other: &Maintenance) -> bool {
     self.eq(&other.0)
   }
 }
 
-impl PartialOrd<Food> for Maintenance {
+impl const PartialOrd<Food> for Maintenance {
   fn partial_cmp(&self, other: &Food) -> Option<Ordering> {
     self.0.partial_cmp(other)
   }
 }
 
-impl PartialOrd<Maintenance> for Food {
+impl const PartialOrd<Maintenance> for Food {
   fn partial_cmp(&self, other: &Maintenance) -> Option<Ordering> {
     self.partial_cmp(&other.0)
   }
 }
 
 /// Proportion of the base cost that should be used as a maintenance tax.
-#[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize)]
+#[derive(Clone, Copy, Debug, Deserialize, Serialize)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct MaintenanceRatio(f64);
 
@@ -199,6 +206,20 @@ impl MaintenanceRatio {
     debug_assert!(ratio.is_finite());
     debug_assert!(!ratio.is_subnormal());
     Self(ratio.clamp(0.0, 1.0))
+  }
+}
+
+impl const Deref for MaintenanceRatio {
+  type Target = f64;
+
+  fn deref(&self) -> &Self::Target {
+    &self.0
+  }
+}
+
+impl const From<MaintenanceRatio> for f64 {
+  fn from(value: MaintenanceRatio) -> Self {
+    value.0
   }
 }
 

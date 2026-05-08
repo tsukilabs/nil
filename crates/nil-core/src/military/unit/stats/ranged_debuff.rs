@@ -1,12 +1,11 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use derive_more::{Deref, Into};
 use nil_num::F64Ops;
 use serde::{Deserialize, Serialize};
-use std::ops::Mul;
+use std::ops::{Deref, Mul};
 
-#[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize, F64Ops)]
+#[derive(Clone, Copy, Debug, Deserialize, Serialize, F64Ops)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct RangedDebuff(f64);
 
@@ -20,7 +19,21 @@ impl RangedDebuff {
   }
 }
 
-impl Mul<u32> for RangedDebuff {
+impl const Deref for RangedDebuff {
+  type Target = f64;
+
+  fn deref(&self) -> &Self::Target {
+    &self.0
+  }
+}
+
+impl const From<RangedDebuff> for f64 {
+  fn from(value: RangedDebuff) -> Self {
+    value.0
+  }
+}
+
+impl const Mul<u32> for RangedDebuff {
   type Output = f64;
 
   fn mul(self, rhs: u32) -> Self::Output {

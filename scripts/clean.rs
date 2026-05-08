@@ -29,16 +29,12 @@ struct Args {
 fn main() -> Result<()> {
   let args = Args::parse();
 
-  spawn!("cargo clean --verbose")?;
   remove_dir("app/src-tauri/target")?;
-
   remove_dir("app/dist")?;
   remove_dir("docs/dist")?;
 
   if args.node {
-    remove_dir("node_modules")?;
-    remove_dir("app/node_modules")?;
-    remove_dir("docs/node_modules")?;
+    spawn!("pnpm purge")?;
   }
 
   Ok(())

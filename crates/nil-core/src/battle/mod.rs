@@ -26,7 +26,7 @@ pub struct Battle<'a> {
   #[builder(default)]
   defender: &'a [Squad],
 
-  #[builder(default)]
+  #[builder(default = Luck::random())]
   luck: Luck,
 
   wall: Option<&'a WallStats>,

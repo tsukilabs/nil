@@ -47,7 +47,7 @@ decl!(f64, "f64");
 fn impl_add(ast: &DeriveInput, num: &Ident) -> TokenStream {
   let name = &ast.ident;
   let stream = quote! {
-    impl std::ops::Add<#num> for #name {
+    impl const std::ops::Add<#num> for #name {
       type Output = #num;
 
       fn add(self, rhs: #num) -> Self::Output {
@@ -55,7 +55,7 @@ fn impl_add(ast: &DeriveInput, num: &Ident) -> TokenStream {
       }
     }
 
-    impl std::ops::Add<#name> for #num {
+    impl const std::ops::Add<#name> for #num {
       type Output = #num;
 
       fn add(self, rhs: #name) -> Self::Output {
@@ -70,7 +70,7 @@ fn impl_add(ast: &DeriveInput, num: &Ident) -> TokenStream {
 fn impl_sub(ast: &DeriveInput, num: &Ident) -> TokenStream {
   let name = &ast.ident;
   let stream = quote! {
-    impl std::ops::Sub<#num> for #name {
+    impl const std::ops::Sub<#num> for #name {
       type Output = #num;
 
       fn sub(self, rhs: #num) -> Self::Output {
@@ -78,7 +78,7 @@ fn impl_sub(ast: &DeriveInput, num: &Ident) -> TokenStream {
       }
     }
 
-    impl std::ops::Sub<#name> for #num {
+    impl const std::ops::Sub<#name> for #num {
       type Output = #num;
 
       fn sub(self, rhs: #name) -> Self::Output {
@@ -93,7 +93,7 @@ fn impl_sub(ast: &DeriveInput, num: &Ident) -> TokenStream {
 fn impl_mul(ast: &DeriveInput, num: &Ident) -> TokenStream {
   let name = &ast.ident;
   let stream = quote! {
-    impl std::ops::Mul<#num> for #name {
+    impl const std::ops::Mul<#num> for #name {
       type Output = #num;
 
       fn mul(self, rhs: #num) -> Self::Output {
@@ -101,7 +101,7 @@ fn impl_mul(ast: &DeriveInput, num: &Ident) -> TokenStream {
       }
     }
 
-    impl std::ops::Mul<#name> for #num {
+    impl const std::ops::Mul<#name> for #num {
       type Output = #num;
 
       fn mul(self, rhs: #name) -> Self::Output {
@@ -116,7 +116,7 @@ fn impl_mul(ast: &DeriveInput, num: &Ident) -> TokenStream {
 fn impl_div(ast: &DeriveInput, num: &Ident) -> TokenStream {
   let name = &ast.ident;
   let stream = quote! {
-    impl std::ops::Div<#num> for #name {
+    impl const std::ops::Div<#num> for #name {
       type Output = #num;
 
       fn div(self, rhs: #num) -> Self::Output {
@@ -124,7 +124,7 @@ fn impl_div(ast: &DeriveInput, num: &Ident) -> TokenStream {
       }
     }
 
-    impl std::ops::Div<#name> for #num {
+    impl const std::ops::Div<#name> for #num {
       type Output = #num;
 
       fn div(self, rhs: #name) -> Self::Output {

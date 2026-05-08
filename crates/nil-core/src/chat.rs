@@ -44,7 +44,7 @@ impl ChatHistory {
   pub const MIN: NonZeroUsize = NonZeroUsize::new(100).unwrap();
   pub const MAX: NonZeroUsize = NonZeroUsize::new(500).unwrap();
 
-  fn new(size: usize) -> Self {
+  const fn new(size: usize) -> Self {
     let size = size.clamp(Self::MIN.get(), Self::MAX.get());
     let size = unsafe { NonZeroUsize::new_unchecked(size) };
     Self { queue: VecDeque::new(), size }

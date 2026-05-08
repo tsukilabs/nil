@@ -50,7 +50,7 @@ impl Farm {
     InfrastructureRequirements::none();
 }
 
-impl Default for Farm {
+impl const Default for Farm {
   fn default() -> Self {
     Self {
       level: BuildingLevel::new(1),

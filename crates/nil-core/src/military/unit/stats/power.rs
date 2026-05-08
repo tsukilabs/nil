@@ -19,7 +19,7 @@ impl Power {
   }
 }
 
-impl Mul for Power {
+impl const Mul for Power {
   type Output = Power;
 
   fn mul(self, rhs: Self) -> Self::Output {
@@ -27,7 +27,7 @@ impl Mul for Power {
   }
 }
 
-impl Mul<u32> for Power {
+impl const Mul<u32> for Power {
   type Output = Power;
 
   fn mul(self, rhs: u32) -> Self::Output {
@@ -35,7 +35,7 @@ impl Mul<u32> for Power {
   }
 }
 
-impl Mul<Power> for u32 {
+impl const Mul<Power> for u32 {
   type Output = u32;
 
   fn mul(self, rhs: Power) -> Self::Output {
@@ -43,7 +43,7 @@ impl Mul<Power> for u32 {
   }
 }
 
-impl Div for Power {
+impl const Div for Power {
   type Output = Power;
 
   fn div(self, rhs: Self) -> Self::Output {
@@ -51,7 +51,7 @@ impl Div for Power {
   }
 }
 
-impl Div<u32> for Power {
+impl const Div<u32> for Power {
   type Output = Power;
 
   fn div(self, rhs: u32) -> Self::Output {
@@ -59,7 +59,7 @@ impl Div<u32> for Power {
   }
 }
 
-impl Div<Power> for u32 {
+impl const Div<Power> for u32 {
   type Output = u32;
 
   fn div(self, rhs: Power) -> Self::Output {

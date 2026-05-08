@@ -41,7 +41,7 @@ impl Influence {
   }
 
   /// Resources required to acquire one unit of influence.
-  pub fn resources() -> Resources {
+  pub const fn resources() -> Resources {
     Resources {
       food: Food::from((Self::COST * Self::FOOD_RATIO).round()),
       iron: Iron::from((Self::COST * Self::IRON_RATIO).round()),
@@ -56,7 +56,7 @@ impl Influence {
   }
 }
 
-impl Default for Influence {
+impl const Default for Influence {
   fn default() -> Self {
     Self::MIN
   }

@@ -50,7 +50,7 @@ impl Quarry {
     InfrastructureRequirements::none();
 }
 
-impl Default for Quarry {
+impl const Default for Quarry {
   fn default() -> Self {
     Self {
       level: BuildingLevel::new(1),

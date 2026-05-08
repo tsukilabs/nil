@@ -3,13 +3,25 @@
 
 #![cfg_attr(docsrs, feature(doc_cfg))]
 #![doc(html_favicon_url = "https://nil.dev.br/favicon.png")]
-#![feature(iter_collect_into, str_as_str, try_blocks)]
+#![feature(
+  const_cmp,
+  const_default,
+  const_convert,
+  const_ops,
+  const_option_ops,
+  const_result_trait_fn,
+  const_trait_impl,
+  iter_collect_into,
+  str_as_str,
+  try_blocks
+)]
 
 pub mod battle;
 pub mod behavior;
 pub mod chat;
 pub mod city;
 pub mod continent;
+pub mod diplomacy;
 pub mod error;
 pub mod ethic;
 pub mod event;

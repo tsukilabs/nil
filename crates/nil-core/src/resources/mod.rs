@@ -12,14 +12,14 @@ use crate::city::Stability;
 use crate::infrastructure::mine::MineProduction;
 use crate::infrastructure::storage::{OverallStorageCapacity, StorageCapacity};
 use bon::Builder;
-use derive_more::{Deref, Display, From, Into};
+use derive_more::Display;
 use diff::{FoodDiff, IronDiff, ResourcesDiff, StoneDiff, WoodDiff};
 use nil_num::mul_ceil::MulCeil;
 use nil_num::{F64Ops, impl_mul_ceil};
 use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
 use std::num::NonZeroU32;
-use std::ops::{Add, AddAssign, Mul, MulAssign, Sub, SubAssign};
+use std::ops::{Add, AddAssign, Deref, Mul, MulAssign, Sub, SubAssign};
 
 #[derive(Builder, Clone, Debug, PartialEq, Eq, Deserialize, Serialize)]
 #[serde(default, rename_all = "camelCase")]
@@ -304,20 +304,11 @@ macro_rules! decl_resource {
           Clone,
           Copy,
           Debug,
-          Default,
-          Deref,
           Display,
-          From,
-          Into,
-          PartialEq,
-          Eq,
-          PartialOrd,
-          Ord,
           Deserialize,
           Serialize,
           F64Ops,
         )]
-        #[into(u32, f64)]
         #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
         pub struct $resource(u32);
 
@@ -331,7 +322,7 @@ macro_rules! decl_resource {
           }
 
           #[inline]
-          pub fn checked_sub(self, rhs: Self) -> Option<Self> {
+          pub const fn checked_sub(self, rhs: Self) -> Option<Self> {
             self.0.checked_sub(rhs.0).map(Self::new)
           }
 
@@ -345,38 +336,90 @@ macro_rules! decl_resource {
           }
         }
 
-        impl From<f64> for $resource {
+        impl const Default for $resource {
+          fn default() -> Self {
+            Self::new(0)
+          }
+        }
+
+        impl const Deref for $resource {
+          type Target = u32;
+
+          fn deref(&self) -> &Self::Target {
+            &self.0
+          }
+        }
+
+        impl const From<u32> for $resource {
+          fn from(value: u32) -> Self {
+            Self::new(value)
+          }
+        }
+
+        impl const From<$resource> for u32 {
+          fn from(value: $resource) -> Self {
+            value.0
+          }
+        }
+
+        impl const From<f64> for $resource {
           fn from(value: f64) -> Self {
             debug_assert!(value.is_finite());
             Self(value as u32)
           }
         }
 
-        impl From<MineProduction> for $resource {
+        impl const From<$resource> for f64 {
+          fn from(value: $resource) -> Self {
+            f64::from(value.0)
+          }
+        }
+
+        impl const From<MineProduction> for $resource {
           fn from(value: MineProduction) -> Self {
             Self(*value)
           }
         }
 
-        impl From<StorageCapacity> for $resource {
+        impl const From<StorageCapacity> for $resource {
           fn from(value: StorageCapacity) -> Self {
             Self(*value)
           }
         }
 
-        impl PartialEq<u32> for $resource {
+        impl const PartialEq for $resource {
+          fn eq(&self, other: &$resource) -> bool {
+            self.0.eq(&other.0)
+          }
+        }
+
+        impl const Eq for $resource {}
+
+        impl const PartialOrd for $resource {
+          fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
+            Some(self.cmp(other))
+          }
+        }
+
+        impl const Ord for $resource {
+          fn cmp(&self, other: &Self) -> Ordering {
+            self.0.cmp(&other.0)
+          }
+        }
+
+        impl const PartialEq<u32> for $resource {
           fn eq(&self, other: &u32) -> bool {
             self.0.eq(other)
           }
         }
 
-        impl PartialOrd<u32> for $resource {
+        impl const PartialOrd<u32> for $resource {
           fn partial_cmp(&self, other: &u32) -> Option<Ordering> {
             self.0.partial_cmp(other)
           }
         }
 
-        impl Add for $resource {
+        impl const Add for $resource {
           type Output = Self;
 
           fn add(self, rhs: Self) -> Self {
@@ -384,7 +427,7 @@ macro_rules! decl_resource {
           }
         }
 
-        impl Add<u32> for $resource {
+        impl const Add<u32> for $resource {
           type Output = Self;
 
           fn add(self, rhs: u32) -> Self {
@@ -392,13 +435,13 @@ macro_rules! decl_resource {
           }
         }
 
-        impl AddAssign for $resource {
+        impl const AddAssign for $resource {
           fn add_assign(&mut self, rhs: Self) {
             *self = *self + rhs;
           }
         }
 
-        impl Sub for $resource {
+        impl const Sub for $resource {
           type Output = Self;
 
           fn sub(self, rhs: Self) -> Self {
@@ -406,7 +449,7 @@ macro_rules! decl_resource {
           }
         }
 
-        impl Sub<u32> for $resource {
+        impl const Sub<u32> for $resource {
           type Output = Self;
 
           fn sub(self, rhs: u32) -> Self {
@@ -414,13 +457,13 @@ macro_rules! decl_resource {
           }
         }
 
-        impl SubAssign for $resource {
+        impl const SubAssign for $resource {
           fn sub_assign(&mut self, rhs: Self) {
             *self = *self - rhs;
           }
         }
 
-        impl Mul<u32> for $resource {
+        impl const Mul<u32> for $resource {
           type Output = Self;
 
           fn mul(self, rhs: u32) -> Self::Output {
@@ -428,7 +471,7 @@ macro_rules! decl_resource {
           }
         }
 
-        impl Mul<NonZeroU32> for $resource {
+        impl const Mul<NonZeroU32> for $resource {
           type Output = Self;
 
           fn mul(self, rhs: NonZeroU32) -> Self::Output {
@@ -436,7 +479,7 @@ macro_rules! decl_resource {
           }
         }
 
-        impl Mul<Stability> for $resource {
+        impl const Mul<Stability> for $resource {
           type Output = $resource;
 
           fn mul(self, rhs: Stability) -> Self::Output {
@@ -444,13 +487,13 @@ macro_rules! decl_resource {
           }
         }
 
-        impl MulAssign<u32> for $resource {
+        impl const MulAssign<u32> for $resource {
           fn mul_assign(&mut self, rhs: u32) {
             *self = *self * rhs;
           }
         }
 
-        impl MulAssign<Stability> for $resource {
+        impl const MulAssign<Stability> for $resource {
           fn mul_assign(&mut self, rhs: Stability) {
             *self = *self * rhs;
           }

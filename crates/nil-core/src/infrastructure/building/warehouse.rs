@@ -50,7 +50,7 @@ impl Warehouse {
     InfrastructureRequirements::none();
 }
 
-impl Default for Warehouse {
+impl const Default for Warehouse {
   fn default() -> Self {
     Self {
       level: BuildingLevel::new(1),
