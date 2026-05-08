@@ -2,4 +2,6 @@
 import type { Coord } from "./Coord";
 import type { StableRecruitQueue } from "./StableRecruitQueue";
 
-export type CheatGetStableRecruitQueuesResponse = Array<[Coord, StableRecruitQueue]>;
+export type CheatGetStableRecruitQueuesResponse = Array<
+  [Coord, StableRecruitQueue]
+>;

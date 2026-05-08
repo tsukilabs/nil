@@ -2,4 +2,6 @@
 import type { AcademyRecruitQueue } from "./AcademyRecruitQueue";
 import type { Coord } from "./Coord";
 
-export type CheatGetAcademyRecruitQueuesResponse = Array<[Coord, AcademyRecruitQueue]>;
+export type CheatGetAcademyRecruitQueuesResponse = Array<
+  [Coord, AcademyRecruitQueue]
+>;

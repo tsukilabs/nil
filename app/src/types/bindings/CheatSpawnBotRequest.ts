@@ -2,4 +2,8 @@
 import type { Infrastructure } from "./Infrastructure";
 import type { WorldId } from "./WorldId";
 
-export type CheatSpawnBotRequest = { world: WorldId, name: string, infrastructure?: Infrastructure | null, };
+export type CheatSpawnBotRequest = {
+  world: WorldId;
+  name: string;
+  infrastructure?: Infrastructure | null;
+};

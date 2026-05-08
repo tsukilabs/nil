@@ -5,4 +5,8 @@ import type { ContinentSize } from "./ContinentSize";
 import type { Maneuver } from "./Maneuver";
 import type { ManeuverId } from "./ManeuverId";
 
-export type Military = { continent: { [key in ContinentIndex]: Array<Army> }, continentSize: ContinentSize, maneuvers: { [key in ManeuverId]: Maneuver }, };
+export type Military = {
+  continent: { [key in ContinentIndex]: Array<Army> };
+  continentSize: ContinentSize;
+  maneuvers: { [key in ManeuverId]: Maneuver };
+};

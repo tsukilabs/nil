@@ -3,4 +3,8 @@ import type { PlayerId } from "./PlayerId";
 import type { ReportId } from "./ReportId";
 import type { WorldId } from "./WorldId";
 
-export type ForwardReportRequest = { world: WorldId, id: ReportId, recipient: PlayerId, };
+export type ForwardReportRequest = {
+  world: WorldId;
+  id: ReportId;
+  recipient: PlayerId;
+};

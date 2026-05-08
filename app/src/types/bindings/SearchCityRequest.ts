@@ -2,4 +2,4 @@
 import type { CitySearch } from "./CitySearch";
 import type { WorldId } from "./WorldId";
 
-export type SearchCityRequest = { world: WorldId, search: CitySearch, };
+export type SearchCityRequest = { world: WorldId; search: CitySearch };

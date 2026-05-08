@@ -3,4 +3,9 @@ import type { BuildingId } from "./BuildingId";
 import type { Coord } from "./Coord";
 import type { WorldId } from "./WorldId";
 
-export type ToggleBuildingRequest = { world: WorldId, coord: Coord, id: BuildingId, enabled: boolean, };
+export type ToggleBuildingRequest = {
+  world: WorldId;
+  coord: Coord;
+  id: BuildingId;
+  enabled: boolean;
+};

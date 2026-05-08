@@ -5,4 +5,16 @@ import type { RoundDuration } from "./RoundDuration";
 import type { RoundId } from "./RoundId";
 import type { WorldConfig } from "./WorldConfig";
 
-export type RemoteWorld = { config: WorldConfig, description: string | null, createdBy: PlayerId, createdAt: string, updatedAt: string, hasPassword: boolean, currentRound: RoundId, roundDuration: RoundDuration | null, activePlayers: number, totalPlayers: number, continentSize: ContinentSize, };
+export type RemoteWorld = {
+  config: WorldConfig;
+  description: string | null;
+  createdBy: PlayerId;
+  createdAt: string;
+  updatedAt: string;
+  hasPassword: boolean;
+  currentRound: RoundId;
+  roundDuration: RoundDuration | null;
+  activePlayers: number;
+  totalPlayers: number;
+  continentSize: ContinentSize;
+};

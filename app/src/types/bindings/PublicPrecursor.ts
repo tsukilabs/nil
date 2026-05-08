@@ -2,4 +2,4 @@
 import type { Coord } from "./Coord";
 import type { PrecursorId } from "./PrecursorId";
 
-export type PublicPrecursor = { id: PrecursorId, origin: Coord, };
+export type PublicPrecursor = { id: PrecursorId; origin: Coord };

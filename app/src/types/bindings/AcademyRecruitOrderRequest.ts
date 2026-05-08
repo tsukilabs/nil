@@ -2,4 +2,8 @@
 import type { AcademyUnitId } from "./AcademyUnitId";
 import type { Coord } from "./Coord";
 
-export type AcademyRecruitOrderRequest = { coord: Coord, unit: AcademyUnitId, chunks: number, };
+export type AcademyRecruitOrderRequest = {
+  coord: Coord;
+  unit: AcademyUnitId;
+  chunks: number;
+};

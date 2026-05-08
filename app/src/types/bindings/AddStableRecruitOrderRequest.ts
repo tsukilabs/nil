@@ -2,4 +2,7 @@
 import type { StableRecruitOrderRequest } from "./StableRecruitOrderRequest";
 import type { WorldId } from "./WorldId";
 
-export type AddStableRecruitOrderRequest = { world: WorldId, request: StableRecruitOrderRequest, };
+export type AddStableRecruitOrderRequest = {
+  world: WorldId;
+  request: StableRecruitOrderRequest;
+};

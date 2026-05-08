@@ -3,4 +3,8 @@ import type { Password } from "./Password";
 import type { PlayerOptions } from "./PlayerOptions";
 import type { WorldId } from "./WorldId";
 
-export type SpawnPlayerRequest = { world: WorldId, worldPassword?: Password | null, options: PlayerOptions, };
+export type SpawnPlayerRequest = {
+  world: WorldId;
+  worldPassword?: Password | null;
+  options: PlayerOptions;
+};

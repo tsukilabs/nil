@@ -3,4 +3,8 @@ import type { BuildingLevel } from "./BuildingLevel";
 import type { WallDefense } from "./WallDefense";
 import type { WallDefenseBonus } from "./WallDefenseBonus";
 
-export type WallStats = { level: BuildingLevel, defense: WallDefense, defensePercent: WallDefenseBonus, };
+export type WallStats = {
+  level: BuildingLevel;
+  defense: WallDefense;
+  defensePercent: WallDefenseBonus;
+};

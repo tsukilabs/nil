@@ -7,4 +7,12 @@ import type { PrefectureBuildOrderState } from "./PrefectureBuildOrderState";
 import type { Resources } from "./Resources";
 import type { Workforce } from "./Workforce";
 
-export type PrefectureBuildOrder = { id: PrefectureBuildOrderId, kind: PrefectureBuildOrderKind, building: BuildingId, level: BuildingLevel, resources: Resources, workforce: Workforce, state: PrefectureBuildOrderState, };
+export type PrefectureBuildOrder = {
+  id: PrefectureBuildOrderId;
+  kind: PrefectureBuildOrderKind;
+  building: BuildingId;
+  level: BuildingLevel;
+  resources: Resources;
+  workforce: Workforce;
+  state: PrefectureBuildOrderState;
+};

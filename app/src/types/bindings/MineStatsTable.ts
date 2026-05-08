@@ -3,4 +3,7 @@ import type { BuildingLevel } from "./BuildingLevel";
 import type { MineId } from "./MineId";
 import type { MineStats } from "./MineStats";
 
-export type MineStatsTable = { id: MineId, table: { [key in BuildingLevel]: MineStats }, };
+export type MineStatsTable = {
+  id: MineId;
+  table: { [key in BuildingLevel]: MineStats };
+};

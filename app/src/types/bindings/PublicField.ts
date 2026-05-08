@@ -4,4 +4,7 @@ import type { PublicCity } from "./PublicCity";
 /**
  * Public data about a field, to which any player can have access.
  */
-export type PublicField = { "kind": "empty" } | { "kind": "city", city: PublicCity, };
+export type PublicField = { "kind": "empty" } | {
+  "kind": "city";
+  city: PublicCity;
+};

@@ -2,4 +2,7 @@
 import type { Coord } from "./Coord";
 import type { WorldId } from "./WorldId";
 
-export type CheatGetStableRecruitQueueRequest = { world: WorldId, coord: Coord, };
+export type CheatGetStableRecruitQueueRequest = {
+  world: WorldId;
+  coord: Coord;
+};

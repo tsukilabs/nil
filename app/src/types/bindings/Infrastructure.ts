@@ -11,4 +11,16 @@ import type { Wall } from "./Wall";
 import type { Warehouse } from "./Warehouse";
 import type { Workshop } from "./Workshop";
 
-export type Infrastructure = { academy: Academy, farm: Farm, ironMine: IronMine, prefecture: Prefecture, quarry: Quarry, sawmill: Sawmill, silo: Silo, stable: Stable, wall: Wall, warehouse: Warehouse, workshop: Workshop, };
+export type Infrastructure = {
+  academy: Academy;
+  farm: Farm;
+  ironMine: IronMine;
+  prefecture: Prefecture;
+  quarry: Quarry;
+  sawmill: Sawmill;
+  silo: Silo;
+  stable: Stable;
+  wall: Wall;
+  warehouse: Warehouse;
+  workshop: Workshop;
+};

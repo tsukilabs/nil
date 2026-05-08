@@ -4,4 +4,10 @@ import type { ChatMessageContent } from "./ChatMessageContent";
 import type { ChatMessageId } from "./ChatMessageId";
 import type { ChatMessageKind } from "./ChatMessageKind";
 
-export type ChatMessage = { content: ChatMessageContent, id: ChatMessageId, kind: ChatMessageKind, author: ChatMessageAuthor, time: string, };
+export type ChatMessage = {
+  content: ChatMessageContent;
+  id: ChatMessageId;
+  kind: ChatMessageKind;
+  author: ChatMessageAuthor;
+  time: string;
+};

@@ -2,4 +2,8 @@
 import type { BuildingLevel } from "./BuildingLevel";
 import type { PrefectureBuildQueue } from "./PrefectureBuildQueue";
 
-export type Prefecture = { level: BuildingLevel, enabled: boolean, buildQueue: PrefectureBuildQueue, };
+export type Prefecture = {
+  level: BuildingLevel;
+  enabled: boolean;
+  buildQueue: PrefectureBuildQueue;
+};

@@ -7,4 +7,13 @@ import type { WorldName } from "./WorldName";
 import type { WorldSpeed } from "./WorldSpeed";
 import type { WorldUnitSpeed } from "./WorldUnitSpeed";
 
-export type WorldOptions = { name: WorldName, size: ContinentSize, locale: Locale, allowCheats: boolean, speed: WorldSpeed, unitSpeed: WorldUnitSpeed, botDensity: BotDensity, botAdvancedStartRatio: BotAdvancedStartRatio, };
+export type WorldOptions = {
+  name: WorldName;
+  size: ContinentSize;
+  locale: Locale;
+  allowCheats: boolean;
+  speed: WorldSpeed;
+  unitSpeed: WorldUnitSpeed;
+  botDensity: BotDensity;
+  botAdvancedStartRatio: BotAdvancedStartRatio;
+};

@@ -2,4 +2,4 @@
 import type { EthicPowerAxis } from "./EthicPowerAxis";
 import type { EthicTruthAxis } from "./EthicTruthAxis";
 
-export type Ethics = { power: EthicPowerAxis, truth: EthicTruthAxis, };
+export type Ethics = { power: EthicPowerAxis; truth: EthicTruthAxis };

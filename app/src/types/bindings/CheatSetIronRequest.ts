@@ -3,4 +3,8 @@ import type { Iron } from "./Iron";
 import type { Ruler } from "./Ruler";
 import type { WorldId } from "./WorldId";
 
-export type CheatSetIronRequest = { world: WorldId, ruler?: Ruler | null, iron: Iron, };
+export type CheatSetIronRequest = {
+  world: WorldId;
+  ruler?: Ruler | null;
+  iron: Iron;
+};

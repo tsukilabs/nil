@@ -2,4 +2,8 @@
 import type { ReportId } from "./ReportId";
 import type { WorldId } from "./WorldId";
 
-export type GetReportsRequest = { world: WorldId, ids: Array<ReportId>, limit?: number | null, };
+export type GetReportsRequest = {
+  world: WorldId;
+  ids: Array<ReportId>;
+  limit?: number | null;
+};

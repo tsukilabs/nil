@@ -2,4 +2,7 @@
 import type { PrefectureBuildOrderRequest } from "./PrefectureBuildOrderRequest";
 import type { WorldId } from "./WorldId";
 
-export type AddPrefectureBuildOrderRequest = { world: WorldId, request: PrefectureBuildOrderRequest, };
+export type AddPrefectureBuildOrderRequest = {
+  world: WorldId;
+  request: PrefectureBuildOrderRequest;
+};

@@ -5,4 +5,13 @@ import type { ReportId } from "./ReportId";
 import type { RoundId } from "./RoundId";
 import type { Ruler } from "./Ruler";
 
-export type SupportReport = { id: ReportId, sender: Ruler, receiver: Ruler, origin: Coord, destination: Coord, personnel: ArmyPersonnel, round: RoundId, time: string, };
+export type SupportReport = {
+  id: ReportId;
+  sender: Ruler;
+  receiver: Ruler;
+  origin: Coord;
+  destination: Coord;
+  personnel: ArmyPersonnel;
+  round: RoundId;
+  time: string;
+};

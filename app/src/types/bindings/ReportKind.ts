@@ -2,4 +2,7 @@
 import type { BattleReport } from "./BattleReport";
 import type { SupportReport } from "./SupportReport";
 
-export type ReportKind = { "kind": "battle", report: BattleReport, } | { "kind": "support", report: SupportReport, };
+export type ReportKind = { "kind": "battle"; report: BattleReport } | {
+  "kind": "support";
+  report: SupportReport;
+};

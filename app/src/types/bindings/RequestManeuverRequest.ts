@@ -2,4 +2,7 @@
 import type { ManeuverRequest } from "./ManeuverRequest";
 import type { WorldId } from "./WorldId";
 
-export type RequestManeuverRequest = { world: WorldId, request: ManeuverRequest, };
+export type RequestManeuverRequest = {
+  world: WorldId;
+  request: ManeuverRequest;
+};

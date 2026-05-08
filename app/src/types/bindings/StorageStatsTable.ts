@@ -3,4 +3,7 @@ import type { BuildingLevel } from "./BuildingLevel";
 import type { StorageId } from "./StorageId";
 import type { StorageStats } from "./StorageStats";
 
-export type StorageStatsTable = { id: StorageId, table: { [key in BuildingLevel]: StorageStats }, };
+export type StorageStatsTable = {
+  id: StorageId;
+  table: { [key in BuildingLevel]: StorageStats };
+};

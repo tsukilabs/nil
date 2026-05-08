@@ -3,4 +3,8 @@ import type { Coord } from "./Coord";
 import type { StableRecruitOrderId } from "./StableRecruitOrderId";
 import type { WorldId } from "./WorldId";
 
-export type CancelStableRecruitOrderRequest = { world: WorldId, coord: Coord, id: StableRecruitOrderId, };
+export type CancelStableRecruitOrderRequest = {
+  world: WorldId;
+  coord: Coord;
+  id: StableRecruitOrderId;
+};

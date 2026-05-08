@@ -5,4 +5,10 @@ import type { Resources } from "./Resources";
 import type { Squad } from "./Squad";
 import type { Workforce } from "./Workforce";
 
-export type AcademyRecruitOrder = { id: AcademyRecruitOrderId, squad: Squad, resources: Resources, workforce: Workforce, state: AcademyRecruitOrderState, };
+export type AcademyRecruitOrder = {
+  id: AcademyRecruitOrderId;
+  squad: Squad;
+  resources: Resources;
+  workforce: Workforce;
+  state: AcademyRecruitOrderState;
+};

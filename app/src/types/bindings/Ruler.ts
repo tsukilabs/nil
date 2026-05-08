@@ -3,4 +3,7 @@ import type { BotId } from "./BotId";
 import type { PlayerId } from "./PlayerId";
 import type { PrecursorId } from "./PrecursorId";
 
-export type Ruler = { "kind": "bot", id: BotId, } | { "kind": "player", id: PlayerId, } | { "kind": "precursor", id: PrecursorId, };
+export type Ruler = { "kind": "bot"; id: BotId } | {
+  "kind": "player";
+  id: PlayerId;
+} | { "kind": "precursor"; id: PrecursorId };

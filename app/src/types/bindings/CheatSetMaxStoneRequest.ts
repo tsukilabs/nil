@@ -2,4 +2,4 @@
 import type { Ruler } from "./Ruler";
 import type { WorldId } from "./WorldId";
 
-export type CheatSetMaxStoneRequest = { world: WorldId, ruler?: Ruler | null, };
+export type CheatSetMaxStoneRequest = { world: WorldId; ruler?: Ruler | null };

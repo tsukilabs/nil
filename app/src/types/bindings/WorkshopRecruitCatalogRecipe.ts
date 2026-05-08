@@ -4,4 +4,9 @@ import type { Maintenance } from "./Maintenance";
 import type { Resources } from "./Resources";
 import type { Workforce } from "./Workforce";
 
-export type WorkshopRecruitCatalogRecipe = { resources: Resources, maintenance: Maintenance, workforce: Workforce, requirements: InfrastructureRequirements, };
+export type WorkshopRecruitCatalogRecipe = {
+  resources: Resources;
+  maintenance: Maintenance;
+  workforce: Workforce;
+  requirements: InfrastructureRequirements;
+};

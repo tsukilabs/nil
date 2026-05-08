@@ -2,4 +2,4 @@
 import type { Ruler } from "./Ruler";
 import type { WorldId } from "./WorldId";
 
-export type GetRankRequest = { world: WorldId, ruler: Ruler, };
+export type GetRankRequest = { world: WorldId; ruler: Ruler };

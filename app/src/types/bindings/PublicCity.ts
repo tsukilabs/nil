@@ -5,4 +5,4 @@ import type { Ruler } from "./Ruler";
 /**
  * Public data about a city, to which any player can have access.
  */
-export type PublicCity = { coord: Coord, name: string, owner: Ruler, };
+export type PublicCity = { coord: Coord; name: string; owner: Ruler };

@@ -2,4 +2,7 @@
 import type { PlayerId } from "./PlayerId";
 import type { WorldId } from "./WorldId";
 
-export type CheatGetPlayerRequest = { world: WorldId, player?: PlayerId | null, };
+export type CheatGetPlayerRequest = {
+  world: WorldId;
+  player?: PlayerId | null;
+};

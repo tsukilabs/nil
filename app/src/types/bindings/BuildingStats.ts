@@ -9,4 +9,11 @@ import type { Workforce } from "./Workforce";
 /**
  * Information about a building at a given level.
  */
-export type BuildingStats = { level: BuildingLevel, cost: Cost, resources: Resources, maintenance: Maintenance, workforce: Workforce, score: Score, };
+export type BuildingStats = {
+  level: BuildingLevel;
+  cost: Cost;
+  resources: Resources;
+  maintenance: Maintenance;
+  workforce: Workforce;
+  score: Score;
+};

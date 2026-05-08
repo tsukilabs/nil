@@ -5,4 +5,4 @@ import type { UnitBox } from "./UnitBox";
 /**
  * A group of units of the same type.
  */
-export type Squad = { unit: UnitBox, size: SquadSize, };
+export type Squad = { unit: UnitBox; size: SquadSize };

@@ -2,4 +2,9 @@
 import type { Coord } from "./Coord";
 import type { WorldId } from "./WorldId";
 
-export type GetPublicCitiesRequest = { world: WorldId, coords: Array<Coord>, score: boolean, all: boolean, };
+export type GetPublicCitiesRequest = {
+  world: WorldId;
+  coords: Array<Coord>;
+  score: boolean;
+  all: boolean;
+};

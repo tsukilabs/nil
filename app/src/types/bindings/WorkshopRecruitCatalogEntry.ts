@@ -2,4 +2,7 @@
 import type { InfrastructureRequirements } from "./InfrastructureRequirements";
 import type { WorkshopRecruitCatalogRecipe } from "./WorkshopRecruitCatalogRecipe";
 
-export type WorkshopRecruitCatalogEntry = { "kind": "available", recipe: WorkshopRecruitCatalogRecipe, } | { "kind": "unmet", requirements: InfrastructureRequirements, };
+export type WorkshopRecruitCatalogEntry = {
+  "kind": "available";
+  recipe: WorkshopRecruitCatalogRecipe;
+} | { "kind": "unmet"; requirements: InfrastructureRequirements };

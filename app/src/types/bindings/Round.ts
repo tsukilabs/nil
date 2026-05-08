@@ -2,4 +2,8 @@
 import type { RoundId } from "./RoundId";
 import type { RoundState } from "./RoundState";
 
-export type Round = { id: RoundId, state: RoundState, startedAt: string | null, };
+export type Round = {
+  id: RoundId;
+  state: RoundState;
+  startedAt: string | null;
+};

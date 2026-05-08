@@ -3,4 +3,9 @@ import type { Password } from "./Password";
 import type { RoundDuration } from "./RoundDuration";
 import type { WorldOptions } from "./WorldOptions";
 
-export type CreateRemoteWorldRequest = { options: WorldOptions, description?: string | null, password?: Password | null, roundDuration?: RoundDuration | null, };
+export type CreateRemoteWorldRequest = {
+  options: WorldOptions;
+  description?: string | null;
+  password?: Password | null;
+  roundDuration?: RoundDuration | null;
+};

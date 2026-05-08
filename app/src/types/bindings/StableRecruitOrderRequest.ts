@@ -2,4 +2,8 @@
 import type { Coord } from "./Coord";
 import type { StableUnitId } from "./StableUnitId";
 
-export type StableRecruitOrderRequest = { coord: Coord, unit: StableUnitId, chunks: number, };
+export type StableRecruitOrderRequest = {
+  coord: Coord;
+  unit: StableUnitId;
+  chunks: number;
+};

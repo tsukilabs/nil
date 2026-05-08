@@ -2,4 +2,8 @@
 import type { Coord } from "./Coord";
 import type { WorldId } from "./WorldId";
 
-export type CheatGetAcademyRecruitQueuesRequest = { world: WorldId, coords: Array<Coord>, filterEmpty: boolean, };
+export type CheatGetAcademyRecruitQueuesRequest = {
+  world: WorldId;
+  coords: Array<Coord>;
+  filterEmpty: boolean;
+};

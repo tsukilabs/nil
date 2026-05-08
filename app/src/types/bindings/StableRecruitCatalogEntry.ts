@@ -2,4 +2,7 @@
 import type { InfrastructureRequirements } from "./InfrastructureRequirements";
 import type { StableRecruitCatalogRecipe } from "./StableRecruitCatalogRecipe";
 
-export type StableRecruitCatalogEntry = { "kind": "available", recipe: StableRecruitCatalogRecipe, } | { "kind": "unmet", requirements: InfrastructureRequirements, };
+export type StableRecruitCatalogEntry = {
+  "kind": "available";
+  recipe: StableRecruitCatalogRecipe;
+} | { "kind": "unmet"; requirements: InfrastructureRequirements };

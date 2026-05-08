@@ -2,4 +2,7 @@
 import type { AcademyRecruitOrderRequest } from "./AcademyRecruitOrderRequest";
 import type { WorldId } from "./WorldId";
 
-export type AddAcademyRecruitOrderRequest = { world: WorldId, request: AcademyRecruitOrderRequest, };
+export type AddAcademyRecruitOrderRequest = {
+  world: WorldId;
+  request: AcademyRecruitOrderRequest;
+};

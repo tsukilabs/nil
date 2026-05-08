@@ -2,4 +2,8 @@
 import type { BuildingLevel } from "./BuildingLevel";
 import type { StableRecruitQueue } from "./StableRecruitQueue";
 
-export type Stable = { level: BuildingLevel, enabled: boolean, recruitQueue: StableRecruitQueue, };
+export type Stable = {
+  level: BuildingLevel;
+  enabled: boolean;
+  recruitQueue: StableRecruitQueue;
+};

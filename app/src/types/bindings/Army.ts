@@ -4,4 +4,9 @@ import type { ArmyPersonnel } from "./ArmyPersonnel";
 import type { ArmyState } from "./ArmyState";
 import type { Ruler } from "./Ruler";
 
-export type Army = { id: ArmyId, personnel: ArmyPersonnel, owner: Ruler, state: ArmyState, };
+export type Army = {
+  id: ArmyId;
+  personnel: ArmyPersonnel;
+  owner: Ruler;
+  state: ArmyState;
+};

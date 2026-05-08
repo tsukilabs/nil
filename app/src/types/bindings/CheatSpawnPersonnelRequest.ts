@@ -4,4 +4,9 @@ import type { Coord } from "./Coord";
 import type { Ruler } from "./Ruler";
 import type { WorldId } from "./WorldId";
 
-export type CheatSpawnPersonnelRequest = { world: WorldId, coord: Coord, personnel: ArmyPersonnel, ruler?: Ruler | null, };
+export type CheatSpawnPersonnelRequest = {
+  world: WorldId;
+  coord: Coord;
+  personnel: ArmyPersonnel;
+  ruler?: Ruler | null;
+};

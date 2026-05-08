@@ -2,4 +2,4 @@
 import type { BuildingLevel } from "./BuildingLevel";
 import type { StorageCapacity } from "./StorageCapacity";
 
-export type StorageStats = { level: BuildingLevel, capacity: StorageCapacity, };
+export type StorageStats = { level: BuildingLevel; capacity: StorageCapacity };

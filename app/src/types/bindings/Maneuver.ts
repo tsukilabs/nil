@@ -8,4 +8,14 @@ import type { ManeuverKind } from "./ManeuverKind";
 import type { ManeuverState } from "./ManeuverState";
 import type { Speed } from "./Speed";
 
-export type Maneuver = { id: ManeuverId, origin: Coord, destination: Coord, army: ArmyId, kind: ManeuverKind, direction: ManeuverDirection, state: ManeuverState, speed: Speed, hauledResources: ManeuverHaul | null, };
+export type Maneuver = {
+  id: ManeuverId;
+  origin: Coord;
+  destination: Coord;
+  army: ArmyId;
+  kind: ManeuverKind;
+  direction: ManeuverDirection;
+  state: ManeuverState;
+  speed: Speed;
+  hauledResources: ManeuverHaul | null;
+};

@@ -3,4 +3,9 @@ import type { BuildingId } from "./BuildingId";
 import type { BuildingLevel } from "./BuildingLevel";
 import type { BuildingStats } from "./BuildingStats";
 
-export type BuildingStatsTable = { id: BuildingId, minLevel: BuildingLevel, maxLevel: BuildingLevel, table: { [key in BuildingLevel]: BuildingStats }, };
+export type BuildingStatsTable = {
+  id: BuildingId;
+  minLevel: BuildingLevel;
+  maxLevel: BuildingLevel;
+  table: { [key in BuildingLevel]: BuildingStats };
+};

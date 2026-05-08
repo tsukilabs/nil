@@ -2,4 +2,4 @@
 import type { Coord } from "./Coord";
 import type { WorldId } from "./WorldId";
 
-export type GetPublicFieldsRequest = { world: WorldId, coords: Array<Coord>, };
+export type GetPublicFieldsRequest = { world: WorldId; coords: Array<Coord> };

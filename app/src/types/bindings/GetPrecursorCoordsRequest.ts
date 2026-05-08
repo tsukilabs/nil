@@ -2,4 +2,4 @@
 import type { PrecursorId } from "./PrecursorId";
 import type { WorldId } from "./WorldId";
 
-export type GetPrecursorCoordsRequest = { world: WorldId, id: PrecursorId, };
+export type GetPrecursorCoordsRequest = { world: WorldId; id: PrecursorId };

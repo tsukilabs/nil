@@ -2,4 +2,4 @@
 import type { BuildingId } from "./BuildingId";
 import type { BuildingLevel } from "./BuildingLevel";
 
-export type BuildStep = { id: BuildingId, level: BuildingLevel, };
+export type BuildStep = { id: BuildingId; level: BuildingLevel };

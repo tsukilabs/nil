@@ -2,4 +2,4 @@
 import type { PublicCity } from "./PublicCity";
 import type { Score } from "./Score";
 
-export type GetPublicCityResponse = { city: PublicCity, score: Score | null, };
+export type GetPublicCityResponse = { city: PublicCity; score: Score | null };

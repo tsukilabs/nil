@@ -2,4 +2,4 @@
 import type { Password } from "./Password";
 import type { PlayerId } from "./PlayerId";
 
-export type AuthorizeRequest = { player: PlayerId, password?: Password | null, };
+export type AuthorizeRequest = { player: PlayerId; password?: Password | null };

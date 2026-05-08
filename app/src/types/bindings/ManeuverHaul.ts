@@ -2,4 +2,4 @@
 import type { Resources } from "./Resources";
 import type { Ruler } from "./Ruler";
 
-export type ManeuverHaul = { ruler: Ruler, resources: Resources, };
+export type ManeuverHaul = { ruler: Ruler; resources: Resources };

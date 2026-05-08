@@ -3,4 +3,8 @@ import type { Ruler } from "./Ruler";
 import type { Stone } from "./Stone";
 import type { WorldId } from "./WorldId";
 
-export type CheatSetStoneRequest = { world: WorldId, ruler?: Ruler | null, stone: Stone, };
+export type CheatSetStoneRequest = {
+  world: WorldId;
+  ruler?: Ruler | null;
+  stone: Stone;
+};

@@ -2,4 +2,7 @@
 import type { Ruler } from "./Ruler";
 import type { WorldId } from "./WorldId";
 
-export type CheatSetMaxWarehouseResourcesRequest = { world: WorldId, ruler?: Ruler | null, };
+export type CheatSetMaxWarehouseResourcesRequest = {
+  world: WorldId;
+  ruler?: Ruler | null;
+};

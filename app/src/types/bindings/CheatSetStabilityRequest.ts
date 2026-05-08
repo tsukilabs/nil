@@ -3,4 +3,8 @@ import type { Coord } from "./Coord";
 import type { Stability } from "./Stability";
 import type { WorldId } from "./WorldId";
 
-export type CheatSetStabilityRequest = { world: WorldId, coord: Coord, stability: Stability, };
+export type CheatSetStabilityRequest = {
+  world: WorldId;
+  coord: Coord;
+  stability: Stability;
+};

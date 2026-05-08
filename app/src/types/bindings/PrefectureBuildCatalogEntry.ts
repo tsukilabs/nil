@@ -2,4 +2,7 @@
 import type { InfrastructureRequirements } from "./InfrastructureRequirements";
 import type { PrefectureBuildCatalogRecipe } from "./PrefectureBuildCatalogRecipe";
 
-export type PrefectureBuildCatalogEntry = { "kind": "available", recipe: PrefectureBuildCatalogRecipe, } | { "kind": "maxed" } | { "kind": "unmet", requirements: InfrastructureRequirements, };
+export type PrefectureBuildCatalogEntry =
+  | { "kind": "available"; recipe: PrefectureBuildCatalogRecipe }
+  | { "kind": "maxed" }
+  | { "kind": "unmet"; requirements: InfrastructureRequirements };

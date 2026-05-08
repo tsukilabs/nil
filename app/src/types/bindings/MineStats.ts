@@ -2,4 +2,4 @@
 import type { BuildingLevel } from "./BuildingLevel";
 import type { MineProduction } from "./MineProduction";
 
-export type MineStats = { level: BuildingLevel, production: MineProduction, };
+export type MineStats = { level: BuildingLevel; production: MineProduction };

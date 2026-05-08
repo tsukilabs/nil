@@ -4,4 +4,9 @@ import type { BuildingLevel } from "./BuildingLevel";
 import type { Coord } from "./Coord";
 import type { WorldId } from "./WorldId";
 
-export type CheatSetBuildingLevelRequest = { world: WorldId, coord: Coord, id: BuildingId, level: BuildingLevel, };
+export type CheatSetBuildingLevelRequest = {
+  world: WorldId;
+  coord: Coord;
+  id: BuildingId;
+  level: BuildingLevel;
+};

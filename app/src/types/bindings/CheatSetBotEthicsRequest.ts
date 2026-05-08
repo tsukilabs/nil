@@ -3,4 +3,8 @@ import type { BotId } from "./BotId";
 import type { Ethics } from "./Ethics";
 import type { WorldId } from "./WorldId";
 
-export type CheatSetBotEthicsRequest = { world: WorldId, id: BotId, ethics?: Ethics | null, };
+export type CheatSetBotEthicsRequest = {
+  world: WorldId;
+  id: BotId;
+  ethics?: Ethics | null;
+};

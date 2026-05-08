@@ -3,4 +3,8 @@ import type { BuildingId } from "./BuildingId";
 import type { Coord } from "./Coord";
 import type { PrefectureBuildOrderKind } from "./PrefectureBuildOrderKind";
 
-export type PrefectureBuildOrderRequest = { coord: Coord, building: BuildingId, kind: PrefectureBuildOrderKind, };
+export type PrefectureBuildOrderRequest = {
+  coord: Coord;
+  building: BuildingId;
+  kind: PrefectureBuildOrderKind;
+};

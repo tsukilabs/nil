@@ -2,4 +2,4 @@
 import type { Coord } from "./Coord";
 import type { WorldId } from "./WorldId";
 
-export type RenameCityRequest = { world: WorldId, coord: Coord, name: string, };
+export type RenameCityRequest = { world: WorldId; coord: Coord; name: string };

@@ -6,4 +6,12 @@ import type { ReportId } from "./ReportId";
 import type { Round } from "./Round";
 import type { WorldId } from "./WorldId";
 
-export type Event = { "kind": "chat-updated", world: WorldId, message: ChatMessage, } | { "kind": "city-updated", world: WorldId, coord: Coord, } | { "kind": "drop", world: WorldId, } | { "kind": "military-updated", world: WorldId, player: PlayerId, } | { "kind": "player-updated", world: WorldId, player: PlayerId, } | { "kind": "public-city-updated", world: WorldId, coord: Coord, } | { "kind": "report", world: WorldId, report: ReportId, } | { "kind": "round-updated", world: WorldId, round: Round, };
+export type Event =
+  | { "kind": "chat-updated"; world: WorldId; message: ChatMessage }
+  | { "kind": "city-updated"; world: WorldId; coord: Coord }
+  | { "kind": "drop"; world: WorldId }
+  | { "kind": "military-updated"; world: WorldId; player: PlayerId }
+  | { "kind": "player-updated"; world: WorldId; player: PlayerId }
+  | { "kind": "public-city-updated"; world: WorldId; coord: Coord }
+  | { "kind": "report"; world: WorldId; report: ReportId }
+  | { "kind": "round-updated"; world: WorldId; round: Round };

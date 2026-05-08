@@ -5,4 +5,10 @@ import type { Infrastructure } from "./Infrastructure";
 import type { Ruler } from "./Ruler";
 import type { Stability } from "./Stability";
 
-export type City = { coord: Coord, name: CityName, owner: Ruler, infrastructure: Infrastructure, stability: Stability, };
+export type City = {
+  coord: Coord;
+  name: CityName;
+  owner: Ruler;
+  infrastructure: Infrastructure;
+  stability: Stability;
+};

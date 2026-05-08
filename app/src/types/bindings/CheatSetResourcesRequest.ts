@@ -3,4 +3,8 @@ import type { Resources } from "./Resources";
 import type { Ruler } from "./Ruler";
 import type { WorldId } from "./WorldId";
 
-export type CheatSetResourcesRequest = { world: WorldId, ruler?: Ruler | null, resources: Resources, };
+export type CheatSetResourcesRequest = {
+  world: WorldId;
+  ruler?: Ruler | null;
+  resources: Resources;
+};

@@ -3,4 +3,9 @@ import type { Rank } from "./Rank";
 import type { Ruler } from "./Ruler";
 import type { Score } from "./Score";
 
-export type RankingEntry = { rank: Rank, ruler: Ruler, score: Score, cities: number, };
+export type RankingEntry = {
+  rank: Rank;
+  ruler: Ruler;
+  score: Score;
+  cities: number;
+};

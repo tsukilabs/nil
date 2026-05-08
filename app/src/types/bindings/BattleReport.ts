@@ -6,4 +6,14 @@ import type { Resources } from "./Resources";
 import type { RoundId } from "./RoundId";
 import type { Ruler } from "./Ruler";
 
-export type BattleReport = { id: ReportId, attacker: Ruler, defender: Ruler, origin: Coord, destination: Coord, result: BattleResult, hauledResources: Resources, round: RoundId, time: string, };
+export type BattleReport = {
+  id: ReportId;
+  attacker: Ruler;
+  defender: Ruler;
+  origin: Coord;
+  destination: Coord;
+  result: BattleResult;
+  hauledResources: Resources;
+  round: RoundId;
+  time: string;
+};

@@ -2,4 +2,4 @@
 import type { PlayerId } from "./PlayerId";
 import type { WorldId } from "./WorldId";
 
-export type GetPlayerCoordsRequest = { world: WorldId, id: PlayerId, };
+export type GetPlayerCoordsRequest = { world: WorldId; id: PlayerId };

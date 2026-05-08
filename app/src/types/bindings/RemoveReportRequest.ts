@@ -2,4 +2,4 @@
 import type { ReportId } from "./ReportId";
 import type { WorldId } from "./WorldId";
 
-export type RemoveReportRequest = { world: WorldId, id: ReportId, };
+export type RemoveReportRequest = { world: WorldId; id: ReportId };

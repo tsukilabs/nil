@@ -2,4 +2,4 @@
 import type { PlayerId } from "./PlayerId";
 import type { PlayerStatus } from "./PlayerStatus";
 
-export type PublicPlayer = { id: PlayerId, status: PlayerStatus, };
+export type PublicPlayer = { id: PlayerId; status: PlayerStatus };

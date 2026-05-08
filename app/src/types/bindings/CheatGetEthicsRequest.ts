@@ -2,4 +2,4 @@
 import type { Ruler } from "./Ruler";
 import type { WorldId } from "./WorldId";
 
-export type CheatGetEthicsRequest = { world: WorldId, ruler: Ruler, };
+export type CheatGetEthicsRequest = { world: WorldId; ruler: Ruler };

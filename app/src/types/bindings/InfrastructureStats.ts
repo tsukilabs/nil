@@ -7,4 +7,9 @@ import type { StorageId } from "./StorageId";
 import type { StorageStatsTable } from "./StorageStatsTable";
 import type { WallStatsTable } from "./WallStatsTable";
 
-export type InfrastructureStats = { building: { [key in BuildingId]?: BuildingStatsTable }, mine: { [key in MineId]?: MineStatsTable }, storage: { [key in StorageId]?: StorageStatsTable }, wall: WallStatsTable, };
+export type InfrastructureStats = {
+  building: { [key in BuildingId]?: BuildingStatsTable };
+  mine: { [key in MineId]?: MineStatsTable };
+  storage: { [key in StorageId]?: StorageStatsTable };
+  wall: WallStatsTable;
+};

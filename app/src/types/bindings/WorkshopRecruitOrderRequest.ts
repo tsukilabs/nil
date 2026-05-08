@@ -2,4 +2,8 @@
 import type { Coord } from "./Coord";
 import type { WorkshopUnitId } from "./WorkshopUnitId";
 
-export type WorkshopRecruitOrderRequest = { coord: Coord, unit: WorkshopUnitId, chunks: number, };
+export type WorkshopRecruitOrderRequest = {
+  coord: Coord;
+  unit: WorkshopUnitId;
+  chunks: number;
+};

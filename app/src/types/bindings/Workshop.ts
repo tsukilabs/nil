@@ -2,4 +2,8 @@
 import type { BuildingLevel } from "./BuildingLevel";
 import type { WorkshopRecruitQueue } from "./WorkshopRecruitQueue";
 
-export type Workshop = { level: BuildingLevel, enabled: boolean, recruitQueue: WorkshopRecruitQueue, };
+export type Workshop = {
+  level: BuildingLevel;
+  enabled: boolean;
+  recruitQueue: WorkshopRecruitQueue;
+};

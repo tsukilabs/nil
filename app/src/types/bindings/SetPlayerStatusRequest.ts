@@ -2,4 +2,4 @@
 import type { PlayerStatus } from "./PlayerStatus";
 import type { WorldId } from "./WorldId";
 
-export type SetPlayerStatusRequest = { world: WorldId, status: PlayerStatus, };
+export type SetPlayerStatusRequest = { world: WorldId; status: PlayerStatus };

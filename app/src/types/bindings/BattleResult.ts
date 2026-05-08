@@ -5,4 +5,13 @@ import type { BuildingLevel } from "./BuildingLevel";
 import type { BuildingLevelDiff } from "./BuildingLevelDiff";
 import type { Luck } from "./Luck";
 
-export type BattleResult = { attackerPersonnel: ArmyPersonnel, attackerSurvivingPersonnel: ArmyPersonnel, defenderPersonnel: ArmyPersonnel, defenderSurvivingPersonnel: ArmyPersonnel, wallLevel: BuildingLevel, downgradedWallLevel: BuildingLevelDiff, winner: BattleWinner, luck: Luck, };
+export type BattleResult = {
+  attackerPersonnel: ArmyPersonnel;
+  attackerSurvivingPersonnel: ArmyPersonnel;
+  defenderPersonnel: ArmyPersonnel;
+  defenderSurvivingPersonnel: ArmyPersonnel;
+  wallLevel: BuildingLevel;
+  downgradedWallLevel: BuildingLevelDiff;
+  winner: BattleWinner;
+  luck: Luck;
+};

@@ -2,4 +2,6 @@
 import type { Coord } from "./Coord";
 import type { PrefectureBuildQueue } from "./PrefectureBuildQueue";
 
-export type CheatGetAllPrefectureBuildQueuesResponse = Array<[Coord, PrefectureBuildQueue]>;
+export type CheatGetAllPrefectureBuildQueuesResponse = Array<
+  [Coord, PrefectureBuildQueue]
+>;

@@ -4,4 +4,9 @@ import type { PlayerId } from "./PlayerId";
 import type { PlayerStatus } from "./PlayerStatus";
 import type { Resources } from "./Resources";
 
-export type Player = { id: PlayerId, status: PlayerStatus, resources: Resources, influence: Influence, };
+export type Player = {
+  id: PlayerId;
+  status: PlayerStatus;
+  resources: Resources;
+  influence: Influence;
+};

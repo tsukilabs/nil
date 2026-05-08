@@ -3,4 +3,9 @@ import type { ArmyPersonnel } from "./ArmyPersonnel";
 import type { Coord } from "./Coord";
 import type { ManeuverKind } from "./ManeuverKind";
 
-export type ManeuverRequest = { kind: ManeuverKind, origin: Coord, destination: Coord, personnel: ArmyPersonnel, };
+export type ManeuverRequest = {
+  kind: ManeuverKind;
+  origin: Coord;
+  destination: Coord;
+  personnel: ArmyPersonnel;
+};

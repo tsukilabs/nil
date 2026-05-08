@@ -2,4 +2,8 @@
 import type { AcademyRecruitQueue } from "./AcademyRecruitQueue";
 import type { BuildingLevel } from "./BuildingLevel";
 
-export type Academy = { level: BuildingLevel, enabled: boolean, recruitQueue: AcademyRecruitQueue, };
+export type Academy = {
+  level: BuildingLevel;
+  enabled: boolean;
+  recruitQueue: AcademyRecruitQueue;
+};

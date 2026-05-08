@@ -4,4 +4,10 @@ import type { Luck } from "./Luck";
 import type { Squad } from "./Squad";
 import type { WorldId } from "./WorldId";
 
-export type SimulateBattleRequest = { world: WorldId, attacker: Array<Squad>, defender: Array<Squad>, luck: Luck, wall: BuildingLevel, };
+export type SimulateBattleRequest = {
+  world: WorldId;
+  attacker: Array<Squad>;
+  defender: Array<Squad>;
+  luck: Luck;
+  wall: BuildingLevel;
+};

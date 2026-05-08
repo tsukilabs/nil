@@ -5,4 +5,10 @@ import type { Maintenance } from "./Maintenance";
 import type { Resources } from "./Resources";
 import type { Workforce } from "./Workforce";
 
-export type PrefectureBuildCatalogRecipe = { level: BuildingLevel, resources: Resources, maintenance: Maintenance, workforce: Workforce, requirements: InfrastructureRequirements, };
+export type PrefectureBuildCatalogRecipe = {
+  level: BuildingLevel;
+  resources: Resources;
+  maintenance: Maintenance;
+  workforce: Workforce;
+  requirements: InfrastructureRequirements;
+};
