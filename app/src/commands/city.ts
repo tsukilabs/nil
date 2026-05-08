@@ -18,7 +18,7 @@ import type {
   RenameCityRequest,
   SearchCityRequest,
   SearchPublicCityRequest,
-} from '@/types/bindings';
+} from '@tsukilabs/nil-bindings';
 
 export async function getCity(coord: ContinentKey) {
   coord = CoordImpl.fromContinentKey(coord);

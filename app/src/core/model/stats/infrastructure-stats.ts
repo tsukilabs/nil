@@ -14,7 +14,7 @@ import type {
   MineStatsTable,
   StorageId,
   StorageStatsTable,
-} from '@/types/bindings';
+} from '@tsukilabs/nil-bindings';
 
 export class InfrastructureStatsImpl {
   public readonly building: ReadonlyMap<BuildingId, BuildingStatsTableImpl>;

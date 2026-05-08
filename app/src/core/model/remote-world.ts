@@ -12,7 +12,7 @@ import type {
   RoundDuration,
   RoundId,
   WorldId,
-} from '@/types/bindings';
+} from '@tsukilabs/nil-bindings';
 
 export class RemoteWorldImpl implements Readonly<RemoteWorld> {
   public readonly config: WorldConfigImpl;

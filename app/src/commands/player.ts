@@ -33,7 +33,7 @@ import type {
   PlayerStatus,
   SetPlayerStatusRequest,
   SpawnPlayerRequest,
-} from '@/types/bindings';
+} from '@tsukilabs/nil-bindings';
 
 export async function getPlayer() {
   const req: GetPlayerRequest = {

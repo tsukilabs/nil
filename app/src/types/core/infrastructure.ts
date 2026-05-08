@@ -1,7 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { BuildingLevel, Resources } from '@/types/bindings';
+import type { BuildingLevel, Resources } from '@tsukilabs/nil-bindings';
 
 export interface Building {
   readonly enabled: boolean;

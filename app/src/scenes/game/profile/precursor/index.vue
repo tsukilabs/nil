@@ -8,7 +8,7 @@ import type { Option } from '@tb-dev/utils';
 import { throttle } from 'es-toolkit/function';
 import { useRouteParams } from '@vueuse/router';
 import CityTable from '@/components/CityTable.vue';
-import type { PrecursorId } from '@/types/bindings';
+import type { PrecursorId } from '@tsukilabs/nil-bindings';
 import { Card, CardContent, CardHeader, CardTitle } from '@ui/card';
 import { usePublicCities } from '@/composables/city/usePublicCities';
 import { usePublicPrecursor } from '@/composables/npc/usePublicPrecursor';

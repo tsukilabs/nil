@@ -10,7 +10,7 @@ import type {
   ManeuverId,
   ManeuverKind,
   ManeuverState,
-} from '@/types/bindings';
+} from '@tsukilabs/nil-bindings';
 
 export class ManeuverImpl implements Readonly<Maneuver> {
   public readonly id: ManeuverId;

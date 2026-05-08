@@ -9,7 +9,7 @@ import type {
   ChatMessageContent,
   ChatMessageId,
   ChatMessageKind,
-} from '@/types/bindings';
+} from '@tsukilabs/nil-bindings';
 
 export class ChatMessageImpl implements Readonly<ChatMessage> {
   public readonly id: ChatMessageId;

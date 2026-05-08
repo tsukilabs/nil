@@ -5,7 +5,7 @@ import { password } from './utils';
 import { worldOptions } from './world';
 import type { Option } from '@tb-dev/utils';
 import { playerId, playerOptions } from './player';
-import type { PlayerOptions, WorldOptions } from '@/types/bindings';
+import type { PlayerOptions, WorldOptions } from '@tsukilabs/nil-bindings';
 
 export function isValidPlayerId(value: unknown): value is string {
   return playerId.safeParse(value).success;

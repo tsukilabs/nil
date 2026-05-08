@@ -4,4 +4,4 @@ rustflags = []
 
 [env]
 CARGO_TARGET_DIR = "target"
-TS_RS_EXPORT_DIR = { value = "app/src/types/bindings", relative = true }
+TS_RS_EXPORT_DIR = { value = "packages/bindings/src", relative = true }

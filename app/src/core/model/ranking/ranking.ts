@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { getRanking } from '@/commands';
-import type { Ranking } from '@/types/bindings';
+import type { Ranking } from '@tsukilabs/nil-bindings';
 import { RankingEntryImpl } from './ranking-entry';
 
 export class RankingImpl {

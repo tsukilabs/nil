@@ -10,7 +10,7 @@ import type {
   Coord,
   GetAcademyRecruitCatalogRequest,
   GetAcademyRecruitCatalogResponse,
-} from '@/types/bindings';
+} from '@tsukilabs/nil-bindings';
 
 export async function addAcademyRecruitOrder(request: AcademyRecruitOrderRequest) {
   const req: AddAcademyRecruitOrderRequest = {

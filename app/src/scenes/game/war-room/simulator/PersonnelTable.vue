@@ -5,7 +5,7 @@
 import { useI18n } from 'vue-i18n';
 import type { Option } from '@tb-dev/utils';
 import PersonnelTableRow from './PersonnelTableRow.vue';
-import type { ArmyPersonnel, BuildingLevel, Luck } from '@/types/bindings';
+import type { ArmyPersonnel, BuildingLevel, Luck } from '@tsukilabs/nil-bindings';
 import { NumberField, NumberFieldContent, NumberFieldInput } from '@ui/number-field';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@ui/table';
 

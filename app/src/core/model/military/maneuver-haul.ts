@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { ResourcesImpl } from '@/core/model/resources';
-import type { ManeuverHaul, Ruler } from '@/types/bindings';
+import type { ManeuverHaul, Ruler } from '@tsukilabs/nil-bindings';
 
 export class ManeuverHaulImpl implements Readonly<ManeuverHaul> {
   public readonly ruler: Ruler;

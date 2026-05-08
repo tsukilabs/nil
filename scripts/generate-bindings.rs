@@ -40,6 +40,8 @@ fn main() -> Result<()> {
   files.sort_by(|a, b| compare_ignore_case(a, b));
 
   let mut index = String::new();
+  writeln!(index, "// Copyright (C) Call of Nil contributors")?;
+  writeln!(index, "// SPDX-License-Identifier: AGPL-3.0-only\n")?;
 
   for file in files {
     writeln!(index, "export type {{ {file} }} from './{file}';")?;
@@ -47,6 +49,8 @@ fn main() -> Result<()> {
 
   let path = Path::new(&dir).join("index.ts");
   fs::write(path, index)?;
+
+  spawn!("pnpm run -F @tsukilabs/nil-bindings build")?;
 
   Ok(())
 }

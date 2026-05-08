@@ -12,7 +12,7 @@ import { forwardReport } from '@/commands/report';
 import type { ReportScene } from '@/types/scene/game';
 import { useBreakpoints, useMutex } from '@tb-dev/vue';
 import { useReport } from '@/composables/report/useReport';
-import type { PlayerId, ReportId } from '@/types/bindings';
+import type { PlayerId, ReportId } from '@tsukilabs/nil-bindings';
 import InputPlayerName from '@/components/form/InputPlayerName.vue';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@ui/card';
 

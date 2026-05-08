@@ -9,7 +9,7 @@ import type {
   GetPrefectureBuildCatalogRequest,
   GetPrefectureBuildCatalogResponse,
   PrefectureBuildOrderRequest,
-} from '@/types/bindings';
+} from '@tsukilabs/nil-bindings';
 
 export async function addPrefectureBuildOrder(request: PrefectureBuildOrderRequest) {
   const req: AddPrefectureBuildOrderRequest = {

@@ -8,7 +8,7 @@ import { useBreakpoints } from '@tb-dev/vue';
 import type { MaybePromise } from '@tb-dev/utils';
 import RecruitCatalogRow from './RecruitCatalogRow.vue';
 import { usePlayerTurn } from '@/composables/player/usePlayerTurn';
-import type { StableRecruitCatalog, StableUnitId } from '@/types/bindings';
+import type { StableRecruitCatalog, StableUnitId } from '@tsukilabs/nil-bindings';
 import { usePlayerResources } from '@/composables/player/usePlayerResources';
 import { Table, TableBody, TableHead, TableHeader, TableRow } from '@ui/table';
 import type { StableImpl } from '@/core/model/infrastructure/building/stable/stable';

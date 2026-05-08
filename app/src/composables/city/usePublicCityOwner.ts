@@ -3,7 +3,7 @@
 
 import { shallowRef, toRef } from 'vue';
 import type { Option } from '@tb-dev/utils';
-import type { Ruler } from '@/types/bindings';
+import type { Ruler } from '@tsukilabs/nil-bindings';
 import { watchImmediate } from '@vueuse/core';
 import type { MaybeNilRef } from '@tb-dev/vue';
 import type { RulerKind } from '@/types/core/ruler';

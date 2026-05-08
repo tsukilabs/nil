@@ -6,7 +6,7 @@ import type {
   ManeuverRequest,
   RequestManeuverRequest,
   RequestManeuverResponse,
-} from '@/types/bindings';
+} from '@tsukilabs/nil-bindings';
 
 export async function requestManeuver(request: ManeuverRequest) {
   const req: RequestManeuverRequest = {

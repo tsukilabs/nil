@@ -27,7 +27,7 @@ import type {
   PrecursorId,
   Resources,
   Ruler,
-} from '@/types/bindings';
+} from '@tsukilabs/nil-bindings';
 
 export async function cheatGetResources(ruler?: Option<Ruler>) {
   const req: CheatGetResourcesRequest = {

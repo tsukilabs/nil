@@ -4,7 +4,10 @@
 import { invoke } from '@tauri-apps/api/core';
 import { CoordImpl } from '@/core/model/continent/coord';
 import type { ContinentKey } from '@/types/core/continent';
-import type { CheatGetBuildStepsRequest, CheatGetBuildStepsResponse } from '@/types/bindings';
+import type {
+  CheatGetBuildStepsRequest,
+  CheatGetBuildStepsResponse,
+} from '@tsukilabs/nil-bindings';
 
 export async function cheatGetBuildSteps(
   coord: ContinentKey,

@@ -3,7 +3,7 @@
 
 import { nextMultipleOf } from '@/lib/math';
 import type { Option } from '@tb-dev/utils';
-import type { Coord } from '@/types/bindings';
+import type { Coord } from '@tsukilabs/nil-bindings';
 import { ListenerSet } from '@/lib/listener-set';
 import { tryOnScopeDispose } from '@vueuse/core';
 import { CoordImpl } from '@/core/model/continent/coord';

@@ -6,7 +6,11 @@ import type { Option } from '@tb-dev/utils';
 import { toCoordRef } from '@/composables/toRef';
 import { type MaybeNilRef, useMutex } from '@tb-dev/vue';
 import type { CoordImpl } from '@/core/model/continent/coord';
-import type { AcademyRecruitCatalog, AcademyRecruitOrderId, AcademyUnitId } from '@/types/bindings';
+import type {
+  AcademyRecruitCatalog,
+  AcademyRecruitOrderId,
+  AcademyUnitId,
+} from '@tsukilabs/nil-bindings';
 import {
   addAcademyRecruitOrder,
   cancelAcademyRecruitOrder,

@@ -7,7 +7,7 @@ import type {
   GetChatHistoryResponse,
   PushChatMessageRequest,
   PushChatMessageResponse,
-} from '@/types/bindings';
+} from '@tsukilabs/nil-bindings';
 
 export async function getChatHistory() {
   const req: GetChatHistoryRequest = {

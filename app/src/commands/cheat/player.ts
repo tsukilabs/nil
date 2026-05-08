@@ -9,7 +9,7 @@ import type {
   CheatGetPlayersRequest,
   CheatGetPlayersResponse,
   PlayerId,
-} from '@/types/bindings';
+} from '@tsukilabs/nil-bindings';
 
 export async function cheatGetPlayer(player?: Option<PlayerId>) {
   const req: CheatGetPlayerRequest = {

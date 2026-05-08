@@ -17,7 +17,7 @@ import Finder from '@/components/Finder.vue';
 import { SidebarProvider } from '@ui/sidebar';
 import Loading from '@/components/Loading.vue';
 import { saveLocalGame } from '@/core/savedata';
-import type { RoundId } from '@/types/bindings';
+import type { RoundId } from '@tsukilabs/nil-bindings';
 import { ListenerSet } from '@/lib/listener-set';
 import { RemoteWorldImpl } from '@/core/model/remote-world';
 import { usePlayerReady } from '@/composables/player/usePlayerReady';

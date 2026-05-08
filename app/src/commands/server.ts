@@ -13,7 +13,7 @@ import type {
   ValidateTokenRequest,
   ValidateTokenResponse,
   WorldOptions,
-} from '@/types/bindings';
+} from '@tsukilabs/nil-bindings';
 
 export async function authorize(player: PlayerId, password: Option<string>) {
   const req: AuthorizeRequest = { player, password };

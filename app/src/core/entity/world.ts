@@ -8,7 +8,13 @@ import { readonly, ref, type Ref, type ShallowRef } from 'vue';
 import type { WorldConfigImpl } from '@/core/model/world-config';
 import type { WorldStatsImpl } from '@/core/model/stats/world-stats';
 import { getContinentSize, getWorldConfig, getWorldStats } from '@/commands';
-import type { BuildingId, BuildingLevel, MineId, StorageId, WorldId } from '@/types/bindings';
+import type {
+  BuildingId,
+  BuildingLevel,
+  MineId,
+  StorageId,
+  WorldId,
+} from '@tsukilabs/nil-bindings';
 
 export class WorldEntity extends Entity {
   private readonly id = ref<Option<WorldId>>();

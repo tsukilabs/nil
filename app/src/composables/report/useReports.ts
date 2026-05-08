@@ -9,7 +9,13 @@ import { CoordImpl } from '@/core/model/continent/coord';
 import type { ReportImpl } from '@/core/model/report/abstract';
 import { BattleReportImpl } from '@/core/model/report/battle-report';
 import { SupportReportImpl } from '@/core/model/report/support-report';
-import type { ContinentIndex, Coord, PublicCity, ReportId, ReportKind } from '@/types/bindings';
+import type {
+  ContinentIndex,
+  Coord,
+  PublicCity,
+  ReportId,
+  ReportKind,
+} from '@tsukilabs/nil-bindings';
 
 type CityCache = Map<ContinentIndex, MaybePromise<PublicCity>>;
 

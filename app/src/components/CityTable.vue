@@ -6,7 +6,7 @@ import { useI18n } from 'vue-i18n';
 import { computed, ref } from 'vue';
 import { PLACEHOLDER } from '@/lib/string';
 import type { Option } from '@tb-dev/utils';
-import type { Coord } from '@/types/bindings';
+import type { Coord } from '@tsukilabs/nil-bindings';
 import { compare, formatInt } from '@/lib/intl';
 import type { PublicCityImpl } from '@/core/model/city/public-city';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@ui/table';

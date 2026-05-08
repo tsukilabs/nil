@@ -18,7 +18,7 @@ import { localRef, useBreakpoints, useMutex } from '@tb-dev/vue';
 import InputWorldName from '@/components/form/InputWorldName.vue';
 import InputWorldSize from '@/components/form/InputWorldSize.vue';
 import InputPlayerName from '@/components/form/InputPlayerName.vue';
-import type { PlayerOptions, WorldOptions } from '@/types/bindings';
+import type { PlayerOptions, WorldOptions } from '@tsukilabs/nil-bindings';
 import SliderBotDensity from '@/components/form/SliderBotDensity.vue';
 import SliderWorldSpeed from '@/components/form/SliderWorldSpeed.vue';
 import SliderWorldUnitSpeed from '@/components/form/SliderWorldUnitSpeed.vue';

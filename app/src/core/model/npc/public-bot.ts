@@ -8,7 +8,7 @@ import { PLACEHOLDER } from '@/lib/string';
 import type { Option } from '@tb-dev/utils';
 import { RulerImpl } from '@/core/model/ruler';
 import type { ContinentKey } from '@/types/core/continent';
-import type { BotId, Coord, PublicBot, RankingEntry, Ruler } from '@/types/bindings';
+import type { BotId, Coord, PublicBot, RankingEntry, Ruler } from '@tsukilabs/nil-bindings';
 
 export class PublicBotImpl extends RulerImpl implements Readonly<PublicBot> {
   public readonly id: BotId;

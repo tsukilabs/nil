@@ -5,7 +5,7 @@
 import { useI18n } from 'vue-i18n';
 import { onKeyDown } from '@tb-dev/vue';
 import type { Option } from '@tb-dev/utils';
-import type { BotId } from '@/types/bindings';
+import type { BotId } from '@tsukilabs/nil-bindings';
 import { throttle } from 'es-toolkit/function';
 import { useRouteParams } from '@vueuse/router';
 import CityTable from '@/components/CityTable.vue';

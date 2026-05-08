@@ -1,7 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { OverallStorageCapacity } from '@/types/bindings';
+import type { OverallStorageCapacity } from '@tsukilabs/nil-bindings';
 
 export class OverallStorageCapacityImpl implements Readonly<OverallStorageCapacity> {
   public readonly silo: number;

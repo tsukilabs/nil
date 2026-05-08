@@ -11,7 +11,7 @@ import { useBreakpoints } from '@tb-dev/vue';
 import type { MaybePromise } from '@tb-dev/utils';
 import Workforce from '@/components/resources/Workforce.vue';
 import { Table, TableBody, TableCell, TableRow } from '@ui/table';
-import type { Squad, StableRecruitOrderId } from '@/types/bindings';
+import type { Squad, StableRecruitOrderId } from '@tsukilabs/nil-bindings';
 import type { StableImpl } from '@/core/model/infrastructure/building/stable/stable';
 
 const props = defineProps<{

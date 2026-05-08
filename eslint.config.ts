@@ -5,6 +5,7 @@ export default defineConfig({
     'tsconfig.json',
     'app/tsconfig.json',
     'docs/tsconfig.json',
+    'packages/bindings/tsconfig.json',
   ],
   ignores: [
     '**/bindings',

@@ -3,7 +3,7 @@
 
 import type { Option } from '@tb-dev/utils';
 import type { ServerAddr } from '@/types/server';
-import type { PlayerId, WorldId } from '@/types/bindings';
+import type { PlayerId, WorldId } from '@tsukilabs/nil-bindings';
 
 export interface ClientOptions {
   serverAddr: ServerAddr;

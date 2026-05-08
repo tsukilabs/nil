@@ -10,7 +10,7 @@ import type {
   GetPublicPrecursorsRequest,
   GetPublicPrecursorsResponse,
   PrecursorId,
-} from '@/types/bindings';
+} from '@tsukilabs/nil-bindings';
 
 export async function getPrecursorCoords(id: PrecursorId) {
   const req: GetPrecursorCoordsRequest = {

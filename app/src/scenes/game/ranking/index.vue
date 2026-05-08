@@ -4,7 +4,7 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import { onKeyDown } from '@vueuse/core';
-import type { Ruler } from '@/types/bindings';
+import type { Ruler } from '@tsukilabs/nil-bindings';
 import Loading from '@/components/Loading.vue';
 import { throttle } from 'es-toolkit/function';
 import { useRanking } from '@/composables/ranking/useRanking';

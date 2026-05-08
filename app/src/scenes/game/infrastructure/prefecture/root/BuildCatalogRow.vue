@@ -16,7 +16,7 @@ import enUS from '@/locale/en-US/scenes/game/infrastructure/prefecture.json';
 import ptBR from '@/locale/pt-BR/scenes/game/infrastructure/prefecture.json';
 import type { InfrastructureScene } from '@/types/scene/game/infrastructure';
 import type { BuildingImpl } from '@/core/model/infrastructure/building/abstract';
-import type { PrefectureBuildCatalogEntry, PrefectureBuildOrderKind } from '@/types/bindings';
+import type { PrefectureBuildCatalogEntry, PrefectureBuildOrderKind } from '@tsukilabs/nil-bindings';
 import { useResolvedBuildingLevel } from '@/composables/infrastructure/useResolvedBuildingLevel';
 import type { PrefectureImpl } from '@/core/model/infrastructure/building/prefecture/prefecture';
 
