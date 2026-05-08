@@ -3,7 +3,7 @@
 
 import type { Option } from '@tb-dev/utils';
 import type { Building } from '@/types/core/infrastructure';
-import type { BuildingId, BuildingLevel, MineId, StorageId } from '@/types/bindings';
+import type { BuildingId, BuildingLevel, MineId, StorageId } from '@tsukilabs/nil-bindings';
 
 export abstract class BuildingImpl implements Building {
   public abstract readonly id: BuildingId;

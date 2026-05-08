@@ -1,7 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ArmyPersonnel } from '@/types/bindings';
+import type { ArmyPersonnel } from '@tsukilabs/nil-bindings';
 import { computed, type MaybeRefOrGetter, toRef } from 'vue';
 import { ArmyPersonnelImpl } from '@/core/model/military/army-personnel';
 

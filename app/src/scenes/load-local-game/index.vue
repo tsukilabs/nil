@@ -8,7 +8,7 @@ import { formatDate } from 'date-fns';
 import { computed, ref, watch } from 'vue';
 import type { Option } from '@tb-dev/utils';
 import { useRouteQuery } from '@vueuse/router';
-import type { PlayerId } from '@/types/bindings';
+import type { PlayerId } from '@tsukilabs/nil-bindings';
 import { hostLocalGameWithSavedata } from '@/core/game';
 import { asyncComputed, asyncRef, useMutex } from '@tb-dev/vue';
 import { getSavedataFiles, SavedataFile } from '@/core/savedata';

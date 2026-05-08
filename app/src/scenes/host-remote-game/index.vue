@@ -12,7 +12,7 @@ import type { Option } from '@tb-dev/utils';
 import { hostRemoteGame } from '@/core/game';
 import { toMerged } from 'es-toolkit/object';
 import { useSettings } from '@/stores/settings';
-import type { WorldOptions } from '@/types/bindings';
+import type { WorldOptions } from '@tsukilabs/nil-bindings';
 import enUS_online from '@/locale/en-US/scenes/online.json';
 import ptBR_online from '@/locale/pt-BR/scenes/online.json';
 import enUS_hostGame from '@/locale/en-US/scenes/host-game.json';

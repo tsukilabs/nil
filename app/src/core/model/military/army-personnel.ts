@@ -3,7 +3,7 @@
 
 import { SquadImpl } from './squad';
 import { toU32 } from '@/lib/number';
-import type { ArmyPersonnel, Squad } from '@/types/bindings';
+import type { ArmyPersonnel, Squad } from '@tsukilabs/nil-bindings';
 import type { ArmyPersonnelSize, SquadTuple } from '@/types/core/military';
 
 export class ArmyPersonnelImpl implements Readonly<ArmyPersonnel> {

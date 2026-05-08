@@ -10,7 +10,7 @@ import SquadGrid from './SquadGrid.vue';
 import { handleError } from '@/lib/error';
 import Destination from './Destination.vue';
 import { computed, nextTick, ref } from 'vue';
-import type { ManeuverKind } from '@/types/bindings';
+import type { ManeuverKind } from '@tsukilabs/nil-bindings';
 import { asyncComputed, useBreakpoints } from '@tb-dev/vue';
 import { useManeuvers } from '@/composables/military/useManeuvers';
 import { usePlayerTurn } from '@/composables/player/usePlayerTurn';

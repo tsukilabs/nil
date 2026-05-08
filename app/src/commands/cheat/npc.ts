@@ -18,7 +18,7 @@ import type {
   Infrastructure,
   PrecursorId,
   Ruler,
-} from '@/types/bindings';
+} from '@tsukilabs/nil-bindings';
 
 export async function cheatGetEthics(ruler: Ruler) {
   const req: CheatGetEthicsRequest = {

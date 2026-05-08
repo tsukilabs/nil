@@ -6,7 +6,7 @@ import { getPlayerMilitary } from '@/commands/player';
 import { CoordImpl } from '@/core/model/continent/coord';
 import type { ContinentKey } from '@/types/core/continent';
 import { ManeuverImpl } from '@/core/model/military/maneuver';
-import type { ContinentIndex, ContinentSize, ManeuverId, Military } from '@/types/bindings';
+import type { ContinentIndex, ContinentSize, ManeuverId, Military } from '@tsukilabs/nil-bindings';
 
 export class MilitaryImpl {
   public readonly continent: ReadonlyMap<ContinentIndex, readonly ArmyImpl[]>;

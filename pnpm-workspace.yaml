@@ -1,6 +1,7 @@
 packages:
   - "app"
   - "docs"
+  - "packages/bindings"
 
 ignoreWorkspaceRootCheck: true
 

@@ -12,7 +12,7 @@ import type {
   Player,
   PlayerId,
   Resources,
-} from '@/types/bindings';
+} from '@tsukilabs/nil-bindings';
 
 export class PlayerImpl extends PublicPlayerImpl implements Readonly<Player> {
   public readonly resources: ResourcesImpl;

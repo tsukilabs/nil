@@ -3,7 +3,7 @@
 
 import { BuildingImpl } from '../abstract';
 import { StableRecruitQueueImpl } from './recruit-queue';
-import type { BuildingId, Stable, StableRecruitOrderId } from '@/types/bindings';
+import type { BuildingId, Stable, StableRecruitOrderId } from '@tsukilabs/nil-bindings';
 
 export class StableImpl extends BuildingImpl implements Readonly<Stable> {
   public readonly id: BuildingId = 'stable';

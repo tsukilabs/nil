@@ -15,7 +15,7 @@ import type {
   PublicPlayer,
   RankingEntry,
   Ruler,
-} from '@/types/bindings';
+} from '@tsukilabs/nil-bindings';
 
 export class PublicPlayerImpl extends RulerImpl implements Readonly<PublicPlayer> {
   public readonly id: PlayerId;

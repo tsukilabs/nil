@@ -1,7 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { WorldId } from '@/types/bindings';
+import type { WorldId } from '@tsukilabs/nil-bindings';
 
 export interface LocalServer {
   readonly worldId: WorldId;

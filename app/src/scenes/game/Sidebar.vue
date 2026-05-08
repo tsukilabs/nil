@@ -8,7 +8,7 @@ import RoundState from './RoundState.vue';
 import type { Scene } from '@/types/scene';
 import type { Option } from '@tb-dev/utils';
 import { useBreakpoints } from '@tb-dev/vue';
-import type { RoundId } from '@/types/bindings';
+import type { RoundId } from '@tsukilabs/nil-bindings';
 import { onBeforeRouteUpdate } from 'vue-router';
 import type { GameScene } from '@/types/scene/game';
 import { computed, nextTick, useTemplateRef } from 'vue';

@@ -11,7 +11,7 @@ import type {
   PlayerId,
   PrecursorId,
   Ruler,
-} from '@/types/bindings';
+} from '@tsukilabs/nil-bindings';
 
 export async function getBotRank(id: BotId) {
   return getRank({ kind: 'bot', id });

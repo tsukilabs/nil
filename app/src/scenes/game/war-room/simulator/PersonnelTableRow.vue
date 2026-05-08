@@ -3,7 +3,7 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import type { Squad } from '@/types/bindings';
+import type { Squad } from '@tsukilabs/nil-bindings';
 import { TableCell, TableRow } from '@ui/table';
 import { NumberField, NumberFieldContent, NumberFieldInput } from '@ui/number-field';
 

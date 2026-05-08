@@ -9,7 +9,7 @@ import type {
   SetPlayerReadyResponse,
   StartRoundRequest,
   StartRoundResponse,
-} from '@/types/bindings';
+} from '@tsukilabs/nil-bindings';
 
 export async function getRound() {
   const req: GetRoundRequest = {

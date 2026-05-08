@@ -11,7 +11,7 @@ import { useBreakpoints } from '@tb-dev/vue';
 import type { MaybePromise } from '@tb-dev/utils';
 import Workforce from '@/components/resources/Workforce.vue';
 import { Table, TableBody, TableCell, TableRow } from '@ui/table';
-import type { AcademyRecruitOrderId, Squad } from '@/types/bindings';
+import type { AcademyRecruitOrderId, Squad } from '@tsukilabs/nil-bindings';
 import type { AcademyImpl } from '@/core/model/infrastructure/building/academy/academy';
 
 const props = defineProps<{

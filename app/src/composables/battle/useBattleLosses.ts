@@ -1,7 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { BattleResult } from '@/types/bindings';
+import type { BattleResult } from '@tsukilabs/nil-bindings';
 import { computed, type MaybeRefOrGetter, toRef } from 'vue';
 import { BattleResultImpl } from '@/core/model/battle-result';
 

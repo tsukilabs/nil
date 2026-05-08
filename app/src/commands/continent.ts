@@ -14,7 +14,7 @@ import type {
   GetPublicFieldsRequest,
   GetPublicFieldsResponse,
   WorldId,
-} from '@/types/bindings';
+} from '@tsukilabs/nil-bindings';
 
 export async function getBulkDistance(origin: ContinentKey, destinations: ContinentKey[]) {
   origin = CoordImpl.fromContinentKey(origin);

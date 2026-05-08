@@ -10,7 +10,7 @@ import type {
   GetWorkshopRecruitCatalogResponse,
   WorkshopRecruitOrderId,
   WorkshopRecruitOrderRequest,
-} from '@/types/bindings';
+} from '@tsukilabs/nil-bindings';
 
 export async function addWorkshopRecruitOrder(request: WorkshopRecruitOrderRequest) {
   const req: AddWorkshopRecruitOrderRequest = {

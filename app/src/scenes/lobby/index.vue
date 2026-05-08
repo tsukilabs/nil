@@ -9,7 +9,7 @@ import { formatDate } from 'date-fns';
 import { LockIcon } from '@lucide/vue';
 import Loading from '@/components/Loading.vue';
 import { throttle } from 'es-toolkit/function';
-import type { WorldId } from '@/types/bindings';
+import type { WorldId } from '@tsukilabs/nil-bindings';
 import enUS from '@/locale/en-US/scenes/online.json';
 import ptBR from '@/locale/pt-BR/scenes/online.json';
 import { useToken } from '@/composables/auth/useToken';

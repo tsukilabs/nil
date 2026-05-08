@@ -10,7 +10,7 @@ import * as commands from '@/commands';
 import { useMutex } from '@tb-dev/vue';
 import { useRouter } from 'vue-router';
 import type { Option } from '@tb-dev/utils';
-import type { PlayerId } from '@/types/bindings';
+import type { PlayerId } from '@tsukilabs/nil-bindings';
 import enUS from '@/locale/en-US/scenes/online.json';
 import ptBR from '@/locale/pt-BR/scenes/online.json';
 import { computed, onBeforeMount, reactive } from 'vue';

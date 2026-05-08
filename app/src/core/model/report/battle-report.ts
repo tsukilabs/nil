@@ -8,7 +8,7 @@ import { CoordImpl } from '@/core/model/continent/coord';
 import { ReportImpl } from '@/core/model/report/abstract';
 import enUS from '@/locale/en-US/scenes/game/report.json';
 import { BattleResultImpl } from '@/core/model/battle-result';
-import type { BattleReport, Coord, PlayerId, PublicCity, Ruler } from '@/types/bindings';
+import type { BattleReport, Coord, PlayerId, PublicCity, Ruler } from '@tsukilabs/nil-bindings';
 
 export class BattleReportImpl extends ReportImpl implements Readonly<BattleReport> {
   public readonly attacker: Ruler;

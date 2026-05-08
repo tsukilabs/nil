@@ -10,7 +10,7 @@ import type {
   GetStableRecruitCatalogResponse,
   StableRecruitOrderId,
   StableRecruitOrderRequest,
-} from '@/types/bindings';
+} from '@tsukilabs/nil-bindings';
 
 export async function addStableRecruitOrder(request: StableRecruitOrderRequest) {
   const req: AddStableRecruitOrderRequest = {

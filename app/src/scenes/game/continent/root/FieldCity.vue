@@ -6,7 +6,7 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { Button } from '@ui/button';
 import type { Option } from '@tb-dev/utils';
-import type { Coord, PrecursorId } from '@/types/bindings';
+import type { Coord, PrecursorId } from '@tsukilabs/nil-bindings';
 import enUS from '@/locale/en-US/scenes/game/continent.json';
 import ptBR from '@/locale/pt-BR/scenes/game/continent.json';
 import { usePublicCity } from '@/composables/city/usePublicCity';

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as commands from '@/commands';
-import type { PlayerId, Round, RoundState } from '@/types/bindings';
+import type { PlayerId, Round, RoundState } from '@tsukilabs/nil-bindings';
 
 export class RoundImpl implements Readonly<Round> {
   public readonly id: number;

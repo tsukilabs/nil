@@ -12,7 +12,7 @@ import type {
   PlayerId,
   RemoveReportRequest,
   ReportId,
-} from '@/types/bindings';
+} from '@tsukilabs/nil-bindings';
 
 export async function forwardReport(id: ReportId, recipient: PlayerId) {
   const req: ForwardReportRequest = {

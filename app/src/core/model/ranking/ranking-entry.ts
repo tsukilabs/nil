@@ -4,7 +4,7 @@
 import { go } from '@/router';
 import { getRank } from '@/commands';
 import { formatInt } from '@/lib/intl';
-import type { RankingEntry, Ruler } from '@/types/bindings';
+import type { RankingEntry, Ruler } from '@tsukilabs/nil-bindings';
 
 export class RankingEntryImpl implements Readonly<RankingEntry> {
   public readonly rank: number;

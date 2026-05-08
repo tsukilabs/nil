@@ -10,7 +10,7 @@ import type {
   GetPublicBotResponse,
   GetPublicBotsRequest,
   GetPublicBotsResponse,
-} from '@/types/bindings';
+} from '@tsukilabs/nil-bindings';
 
 export async function getBotCoords(id: BotId) {
   const req: GetBotCoordsRequest = {

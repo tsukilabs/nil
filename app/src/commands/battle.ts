@@ -12,7 +12,7 @@ import type {
   SimulateBattleRequest,
   SimulateBattleResponse,
   Squad,
-} from '@/types/bindings';
+} from '@tsukilabs/nil-bindings';
 
 export async function simulateBattle(args: {
   attacker?: Option<Squad[]>;

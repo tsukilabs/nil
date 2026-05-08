@@ -29,7 +29,7 @@ import type {
   PlayerId,
   SaveLocalWorldRequest,
   WorldId,
-} from '@/types/bindings';
+} from '@tsukilabs/nil-bindings';
 
 export async function createRemoteWorld(req: Writable<CreateRemoteWorldRequest>) {
   req.description &&= req.description.slice(0, 300);

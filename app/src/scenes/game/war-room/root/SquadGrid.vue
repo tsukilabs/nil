@@ -3,7 +3,7 @@
 
 <script setup lang="ts">
 import SquadGridItem from './SquadGridItem.vue';
-import type { ArmyPersonnel } from '@/types/bindings';
+import type { ArmyPersonnel } from '@tsukilabs/nil-bindings';
 
 defineProps<{
   available: ArmyPersonnel;

@@ -11,7 +11,7 @@ import type {
   BuildingLevel,
   BuildingLevelDiff,
   Luck,
-} from '@/types/bindings';
+} from '@tsukilabs/nil-bindings';
 
 export class BattleResultImpl implements Readonly<BattleResult> {
   public readonly winner: BattleWinner;

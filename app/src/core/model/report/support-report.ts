@@ -7,7 +7,7 @@ import { CoordImpl } from '@/core/model/continent/coord';
 import { ReportImpl } from '@/core/model/report/abstract';
 import enUS from '@/locale/en-US/scenes/game/report.json';
 import { ArmyPersonnelImpl } from '@/core/model/military/army-personnel';
-import type { Coord, PlayerId, PublicCity, Ruler, SupportReport } from '@/types/bindings';
+import type { Coord, PlayerId, PublicCity, Ruler, SupportReport } from '@tsukilabs/nil-bindings';
 
 export class SupportReportImpl extends ReportImpl implements Readonly<SupportReport> {
   public readonly sender: Ruler;

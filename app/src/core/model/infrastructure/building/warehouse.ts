@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { StorageImpl } from './abstract';
-import type { StorageId, Warehouse } from '@/types/bindings';
+import type { StorageId, Warehouse } from '@tsukilabs/nil-bindings';
 
 export class WarehouseImpl extends StorageImpl implements Readonly<Warehouse> {
   public readonly id: StorageId = 'warehouse';

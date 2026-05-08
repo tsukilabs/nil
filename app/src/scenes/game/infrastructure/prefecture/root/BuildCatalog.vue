@@ -13,7 +13,7 @@ import enUS from '@/locale/en-US/scenes/game/infrastructure/prefecture.json';
 import ptBR from '@/locale/pt-BR/scenes/game/infrastructure/prefecture.json';
 import { Table, TableBody, TableHead, TableHeader, TableRow } from '@ui/table';
 import type { InfrastructureImpl } from '@/core/model/infrastructure/infrastructure';
-import type { BuildingId, PrefectureBuildCatalog, PrefectureBuildOrderKind } from '@/types/bindings';
+import type { BuildingId, PrefectureBuildCatalog, PrefectureBuildOrderKind } from '@tsukilabs/nil-bindings';
 
 const props = defineProps<{
   catalog: PrefectureBuildCatalog;

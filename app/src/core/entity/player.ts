@@ -4,7 +4,7 @@
 import { Entity } from './abstract';
 import { ref, type Ref } from 'vue';
 import { asyncRef } from '@tb-dev/vue';
-import type { PlayerId } from '@/types/bindings';
+import type { PlayerId } from '@tsukilabs/nil-bindings';
 import { type Option, panic } from '@tb-dev/utils';
 import { PlayerImpl } from '@/core/model/player/player';
 import type { PlayerUpdatedPayload } from '@/types/event';

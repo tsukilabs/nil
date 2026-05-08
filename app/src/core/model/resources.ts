@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { toU32 } from '@/lib/number';
-import type { Resources } from '@/types/bindings';
+import type { Resources } from '@tsukilabs/nil-bindings';
 import type { PartialNullish } from '@tb-dev/utils';
 
 export class ResourcesImpl implements Readonly<Resources> {

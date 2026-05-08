@@ -4,7 +4,7 @@
 import type { Option } from '@tb-dev/utils';
 import { CoordImpl } from '@/core/model/continent/coord';
 import type { ContinentKey } from '@/types/core/continent';
-import type { Coord, RankingEntry, Ruler } from '@/types/bindings';
+import type { Coord, RankingEntry, Ruler } from '@tsukilabs/nil-bindings';
 import { RankingEntryImpl } from '@/core/model/ranking/ranking-entry';
 
 export abstract class RulerImpl {

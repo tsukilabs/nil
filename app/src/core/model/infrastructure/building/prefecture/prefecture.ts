@@ -3,7 +3,7 @@
 
 import { BuildingImpl } from '../abstract';
 import { PrefectureBuildQueueImpl } from './build-queue';
-import type { BuildingId, Prefecture, PrefectureBuildOrderId } from '@/types/bindings';
+import type { BuildingId, Prefecture, PrefectureBuildOrderId } from '@tsukilabs/nil-bindings';
 
 export class PrefectureImpl extends BuildingImpl implements Prefecture {
   public readonly id: BuildingId = 'prefecture';

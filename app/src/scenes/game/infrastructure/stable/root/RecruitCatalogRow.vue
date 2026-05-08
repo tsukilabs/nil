@@ -10,7 +10,7 @@ import { useSettings } from '@/stores/settings';
 import { TableCell, TableRow } from '@ui/table';
 import { ResourcesImpl } from '@/core/model/resources';
 import CostGrid from '@/components/resources/CostGrid.vue';
-import type { StableRecruitCatalogEntry, StableUnitId } from '@/types/bindings';
+import type { StableRecruitCatalogEntry, StableUnitId } from '@tsukilabs/nil-bindings';
 import type { StableImpl } from '@/core/model/infrastructure/building/stable/stable';
 import { useRecruitCatalogEntry } from '@/composables/infrastructure/useRecruitCatalogEntry';
 import RecruitCatalogRowAction from '@/components/infrastructure/RecruitCatalogRowAction.vue';

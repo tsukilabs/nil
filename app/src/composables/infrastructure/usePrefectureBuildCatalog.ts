@@ -10,7 +10,7 @@ import type {
   BuildingId,
   PrefectureBuildCatalog,
   PrefectureBuildOrderKind,
-} from '@/types/bindings';
+} from '@tsukilabs/nil-bindings';
 import {
   addPrefectureBuildOrder,
   cancelPrefectureBuildOrder,

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { StableRecruitOrderImpl } from './recruit-order';
-import type { StableRecruitQueue } from '@/types/bindings';
+import type { StableRecruitQueue } from '@tsukilabs/nil-bindings';
 import { InfrastructureQueueImpl } from '@/core/model/infrastructure/queue/queue';
 
 export class StableRecruitQueueImpl extends InfrastructureQueueImpl<StableRecruitOrderImpl>

@@ -3,7 +3,7 @@
 
 import { BuildingImpl } from '../abstract';
 import { AcademyRecruitQueueImpl } from './recruit-queue';
-import type { Academy, AcademyRecruitOrderId, BuildingId } from '@/types/bindings';
+import type { Academy, AcademyRecruitOrderId, BuildingId } from '@tsukilabs/nil-bindings';
 
 export class AcademyImpl extends BuildingImpl implements Readonly<Academy> {
   public readonly id: BuildingId = 'academy';

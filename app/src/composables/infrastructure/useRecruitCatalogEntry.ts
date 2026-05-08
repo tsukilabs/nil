@@ -3,7 +3,10 @@
 
 import { ResourcesImpl } from '@/core/model/resources';
 import { computed, type MaybeRefOrGetter, ref, toRef } from 'vue';
-import type { AcademyRecruitCatalogEntry, StableRecruitCatalogEntry } from '@/types/bindings';
+import type {
+  AcademyRecruitCatalogEntry,
+  StableRecruitCatalogEntry,
+} from '@tsukilabs/nil-bindings';
 
 type RecruitCatalogEntry = AcademyRecruitCatalogEntry | StableRecruitCatalogEntry;
 

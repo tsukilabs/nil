@@ -3,7 +3,7 @@
 
 import { computed } from 'vue';
 import type { Option } from '@tb-dev/utils';
-import type { Player } from '@/types/bindings';
+import type { Player } from '@tsukilabs/nil-bindings';
 import type { MaybeNilRef } from '@tb-dev/vue';
 import { toPlayerRef } from '@/composables/toRef';
 import type { RoundImpl } from '@/core/model/round';

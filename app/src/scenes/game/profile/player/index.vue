@@ -7,7 +7,7 @@ import { onKeyDown } from '@tb-dev/vue';
 import type { Option } from '@tb-dev/utils';
 import { throttle } from 'es-toolkit/function';
 import { useRouteParams } from '@vueuse/router';
-import type { PlayerId } from '@/types/bindings';
+import type { PlayerId } from '@tsukilabs/nil-bindings';
 import CityTable from '@/components/CityTable.vue';
 import { Card, CardContent, CardHeader, CardTitle } from '@ui/card';
 import { usePublicCities } from '@/composables/city/usePublicCities';

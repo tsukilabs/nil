@@ -3,7 +3,7 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import type { BuildingId, BuildingLevel } from '@/types/bindings';
+import type { BuildingId, BuildingLevel } from '@tsukilabs/nil-bindings';
 import type { InfrastructureScene } from '@/types/scene/game/infrastructure';
 
 defineProps<{

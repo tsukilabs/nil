@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { ArmyPersonnelImpl } from './army-personnel';
-import type { Army, ArmyId, ArmyState, Ruler } from '@/types/bindings';
+import type { Army, ArmyId, ArmyState, Ruler } from '@tsukilabs/nil-bindings';
 
 export class ArmyImpl implements Readonly<Army> {
   public readonly id: ArmyId;

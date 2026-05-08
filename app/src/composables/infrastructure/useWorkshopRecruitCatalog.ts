@@ -10,7 +10,7 @@ import type {
   WorkshopRecruitCatalog,
   WorkshopRecruitOrderId,
   WorkshopUnitId,
-} from '@/types/bindings';
+} from '@tsukilabs/nil-bindings';
 import {
   addWorkshopRecruitOrder,
   cancelWorkshopRecruitOrder,

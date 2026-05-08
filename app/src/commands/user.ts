@@ -7,7 +7,7 @@ import type {
   PlayerId,
   UserExistsRequest,
   UserExistsResponse,
-} from '@/types/bindings';
+} from '@tsukilabs/nil-bindings';
 
 export async function createUser(player: PlayerId, password: string) {
   const req: CreateUserRequest = { player, password };

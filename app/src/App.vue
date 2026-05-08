@@ -9,7 +9,7 @@ import { handleError } from '@/lib/error';
 import { nextTick, onMounted } from 'vue';
 import { handleProcessArgs } from '@/lib/env';
 import Loading from '@/components/Loading.vue';
-import type { Locale } from '@/types/bindings';
+import type { Locale } from '@tsukilabs/nil-bindings';
 import { useSettings } from '@/stores/settings';
 import { ListenerSet } from '@/lib/listener-set';
 import { setDragDropEventListener } from '@/lib/event';

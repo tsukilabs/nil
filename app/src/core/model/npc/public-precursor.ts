@@ -8,7 +8,13 @@ import { PLACEHOLDER } from '@/lib/string';
 import type { Option } from '@tb-dev/utils';
 import { RulerImpl } from '@/core/model/ruler';
 import type { ContinentKey } from '@/types/core/continent';
-import type { Coord, PrecursorId, PublicPrecursor, RankingEntry, Ruler } from '@/types/bindings';
+import type {
+  Coord,
+  PrecursorId,
+  PublicPrecursor,
+  RankingEntry,
+  Ruler,
+} from '@tsukilabs/nil-bindings';
 
 export class PublicPrecursorImpl extends RulerImpl implements Readonly<PublicPrecursor> {
   public readonly id: PrecursorId;

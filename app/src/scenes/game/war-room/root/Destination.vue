@@ -4,7 +4,7 @@
 <script setup lang="ts">
 import { Label } from '@ui/label';
 import type { Option } from '@tb-dev/utils';
-import type { Coord, PublicCity } from '@/types/bindings';
+import type { Coord, PublicCity } from '@tsukilabs/nil-bindings';
 import { NumberField, NumberFieldContent, NumberFieldInput } from '@ui/number-field';
 
 defineProps<{

@@ -18,7 +18,7 @@ import type {
   Ruler,
   Squad,
   UnitId,
-} from '@/types/bindings';
+} from '@tsukilabs/nil-bindings';
 
 export async function cheatGetIdleArmiesAt(coord?: Option<ContinentKey>) {
   coord = CoordImpl.fromContinentKeyOrCurrentStrict(coord);

@@ -7,7 +7,7 @@ import type {
   BuildingLevel,
   PrefectureBuildOrder,
   PrefectureBuildOrderKind,
-} from '@/types/bindings';
+} from '@tsukilabs/nil-bindings';
 
 export class PrefectureBuildOrderImpl extends InfrastructureQueueOrderImpl
   implements PrefectureBuildOrder

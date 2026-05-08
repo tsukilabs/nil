@@ -42,7 +42,7 @@ import type {
   PlayerId,
   PrecursorId,
   Ruler,
-} from '@/types/bindings';
+} from '@tsukilabs/nil-bindings';
 
 export async function cheatGetAcademyRecruitQueue(coord?: Option<ContinentKey>) {
   coord = CoordImpl.fromContinentKeyOrCurrentStrict(coord);
