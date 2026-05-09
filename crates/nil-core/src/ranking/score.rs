@@ -6,9 +6,8 @@ use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
 use std::ops::{Add, AddAssign, Deref, Mul, MulAssign, Sub, SubAssign};
 
-#[derive(
-  Clone, Copy, Debug, Default, PartialEq, Eq, PartialOrd, Ord, Deserialize, Serialize, F64Ops,
-)]
+#[derive(Clone, Copy, Debug, Deserialize, Serialize, F64Ops)]
+#[derive_const(Default, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Score(u32);
 

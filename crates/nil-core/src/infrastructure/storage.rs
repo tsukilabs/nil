@@ -84,9 +84,8 @@ impl StorageStatsTable {
 }
 
 /// Storage capacity of a building.
-#[derive(
-  Clone, Copy, Debug, Default, From, Into, PartialEq, Eq, PartialOrd, Ord, Deserialize, Serialize,
-)]
+#[derive(Clone, Copy, Debug, From, Into, Deserialize, Serialize)]
+#[derive_const(Default, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct StorageCapacity(u32);
 
@@ -179,7 +178,8 @@ impl const SubAssign<u32> for StorageCapacity {
   }
 }
 
-#[derive(Clone, Debug, Default, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive_const(Default, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct OverallStorageCapacity {
@@ -204,13 +204,8 @@ impl const AddAssign for OverallStorageCapacity {
 }
 
 #[derive(Clone, Copy, Debug, From, Into)]
+#[derive_const(Default, PartialEq, PartialOrd)]
 pub struct StorageCapacityWeight(f64);
-
-impl const Default for StorageCapacityWeight {
-  fn default() -> Self {
-    Self(0.0)
-  }
-}
 
 impl const Deref for StorageCapacityWeight {
   type Target = f64;

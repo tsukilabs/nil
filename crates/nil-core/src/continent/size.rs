@@ -6,9 +6,8 @@ use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
 use std::num::NonZeroU8;
 
-#[derive(
-  Clone, Copy, Debug, Deref, Into, PartialEq, Eq, PartialOrd, Ord, Deserialize, Serialize,
-)]
+#[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize)]
+#[derive_const(PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct ContinentSize(NonZeroU8);
 

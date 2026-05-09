@@ -8,7 +8,8 @@ use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
 use std::ops::{Add, AddAssign, Deref, Sub, SubAssign};
 
-#[derive(Clone, Debug, Default, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive_const(Default, PartialEq, Eq, PartialOrd, Ord)]
 #[serde(default, rename_all = "camelCase")]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct ResourcesDiff {
@@ -157,17 +158,13 @@ macro_rules! decl_resource_diff {
           Clone,
           Copy,
           Debug,
-          Default,
           Display,
           Into,
-          PartialEq,
-          Eq,
-          PartialOrd,
-          Ord,
           Deserialize,
           Serialize,
           F64Ops,
         )]
+        #[derive_const(Default, PartialEq, Eq, PartialOrd, Ord)]
         #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
         pub struct [<$resource Diff>](i32);
 

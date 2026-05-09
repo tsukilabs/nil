@@ -15,9 +15,8 @@ use std::ops::{Add, AddAssign, Deref, Div, Mul, Sub, SubAssign};
 /// Its value is equivalent to a percentage of the [base cost].
 ///
 /// [base cost]: crate::resources::cost::Cost
-#[derive(
-  Clone, Copy, Debug, Default, Display, Deserialize, Serialize, PartialEq, Eq, PartialOrd, Ord,
-)]
+#[derive(Clone, Copy, Debug, Display, Deserialize, Serialize)]
+#[derive_const(Default, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Maintenance(Food);
 

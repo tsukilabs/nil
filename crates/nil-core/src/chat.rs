@@ -64,7 +64,7 @@ impl ChatHistory {
   }
 }
 
-impl Default for ChatHistory {
+impl const Default for ChatHistory {
   fn default() -> Self {
     Self::new(Self::MIN.get())
   }

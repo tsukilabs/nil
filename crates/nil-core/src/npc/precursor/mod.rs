@@ -97,7 +97,8 @@ where
   }
 }
 
-#[derive(Clone, Copy, Debug, Display, PartialEq, Eq, Hash, EnumIter, Deserialize, Serialize)]
+#[derive(Clone, Copy, Debug, Display, Hash, EnumIter, Deserialize, Serialize)]
+#[derive_const(PartialEq, Eq)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub enum PrecursorId {
   #[serde(rename = "A")]

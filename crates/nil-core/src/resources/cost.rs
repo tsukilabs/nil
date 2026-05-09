@@ -9,6 +9,7 @@ use std::ops::{Deref, Mul};
 
 /// Base cost of an entity, such as buildings or units.
 #[derive(Clone, Copy, Debug, Into, Deserialize, Serialize, F64Ops)]
+#[derive_const(PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Cost(u32);
 

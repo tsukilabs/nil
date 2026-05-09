@@ -47,7 +47,8 @@ impl From<&Roman> for u16 {
   }
 }
 
-#[derive(Clone, Copy, Debug, Display, PartialEq, Eq, Deserialize, Serialize, EnumIter)]
+#[derive(Clone, Copy, Debug, Display, Deserialize, Serialize, EnumIter)]
+#[derive_const(PartialEq, Eq)]
 #[serde(rename_all = "UPPERCASE")]
 #[strum(serialize_all = "UPPERCASE")]
 pub enum Numeral {

@@ -324,22 +324,9 @@ impl BuildingStatsTable {
 }
 
 #[derive(
-  Clone,
-  Copy,
-  Debug,
-  Default,
-  Deref,
-  derive_more::Display,
-  Into,
-  PartialEq,
-  Eq,
-  PartialOrd,
-  Ord,
-  Hash,
-  Deserialize,
-  Serialize,
-  F64Ops,
+  Clone, Copy, Debug, Deref, derive_more::Display, Into, Hash, Deserialize, Serialize, F64Ops,
 )]
+#[derive_const(Default, PartialEq, Eq, PartialOrd, Ord)]
 #[into(i16, i32, u8, u16, u64, usize)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct BuildingLevel(u8);
@@ -540,22 +527,8 @@ impl const Neg for BuildingLevel {
   }
 }
 
-#[derive(
-  Clone,
-  Copy,
-  Debug,
-  Default,
-  Deref,
-  derive_more::Display,
-  Into,
-  PartialEq,
-  Eq,
-  PartialOrd,
-  Ord,
-  Hash,
-  Deserialize,
-  Serialize,
-)]
+#[derive(Clone, Copy, Debug, Deref, derive_more::Display, Into, Hash, Deserialize, Serialize)]
+#[derive_const(Default, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct BuildingLevelDiff(i8);
 

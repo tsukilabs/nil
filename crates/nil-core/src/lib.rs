@@ -11,6 +11,7 @@
   const_option_ops,
   const_result_trait_fn,
   const_trait_impl,
+  derive_const,
   iter_collect_into,
   str_as_str,
   try_blocks

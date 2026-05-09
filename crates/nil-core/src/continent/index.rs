@@ -7,7 +7,8 @@ use derive_more::{Deref, Display};
 use serde::{Deserialize, Serialize, Serializer, ser};
 use std::ops::{Div, Rem};
 
-#[derive(Clone, Copy, Debug, Deref, Display, PartialEq, Eq, PartialOrd, Ord, Hash, Deserialize)]
+#[derive(Clone, Copy, Debug, Deref, Display, Hash, Deserialize)]
+#[derive_const(PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(as = "u32"))]
 pub struct ContinentIndex(usize);

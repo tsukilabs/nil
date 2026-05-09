@@ -137,7 +137,7 @@ impl BehaviorScore {
 
 impl const Default for BehaviorScore {
   fn default() -> Self {
-    Self(0.0)
+    Self::MIN
   }
 }
 

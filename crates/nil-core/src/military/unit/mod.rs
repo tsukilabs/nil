@@ -94,7 +94,8 @@ pub trait Unit: Send + Sync {
 }
 
 #[subenum(AcademyUnitId, StableUnitId, WorkshopUnitId)]
-#[derive(Clone, Copy, Debug, Display, PartialEq, Eq, Hash, Deserialize, Serialize, EnumIter)]
+#[derive(Clone, Copy, Debug, Display, Hash, Deserialize, Serialize, EnumIter)]
+#[derive_const(PartialEq, Eq)]
 #[serde(rename_all = "kebab-case")]
 #[strum(serialize_all = "kebab-case")]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
@@ -269,6 +270,7 @@ impl UnitChunk {
 }
 
 #[derive(Clone, Copy, Debug, From, Into, Deserialize, Serialize)]
+#[derive_const(Default, PartialEq, Eq, PartialOrd, Ord)]
 #[into(u8, u32)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct UnitChunkSize(u8);

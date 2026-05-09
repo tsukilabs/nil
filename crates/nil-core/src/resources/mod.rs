@@ -309,6 +309,7 @@ macro_rules! decl_resource {
           Serialize,
           F64Ops,
         )]
+        #[derive_const(Default, PartialEq, Eq, PartialOrd, Ord)]
         #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
         pub struct $resource(u32);
 
@@ -333,12 +334,6 @@ macro_rules! decl_resource {
               let capacity = $resource::from(capacity);
               *self = (*self + diff).min(capacity);
             }
-          }
-        }
-
-        impl const Default for $resource {
-          fn default() -> Self {
-            Self::new(0)
           }
         }
 
@@ -384,26 +379,6 @@ macro_rules! decl_resource {
         impl const From<StorageCapacity> for $resource {
           fn from(value: StorageCapacity) -> Self {
             Self(*value)
-          }
-        }
-
-        impl const PartialEq for $resource {
-          fn eq(&self, other: &$resource) -> bool {
-            self.0.eq(&other.0)
-          }
-        }
-
-        impl const Eq for $resource {}
-
-        impl const PartialOrd for $resource {
-          fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
-            Some(self.cmp(other))
-          }
-        }
-
-        impl const Ord for $resource {
-          fn cmp(&self, other: &Self) -> Ordering {
-            self.0.cmp(&other.0)
           }
         }
 

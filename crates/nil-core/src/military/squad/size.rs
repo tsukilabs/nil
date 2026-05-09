@@ -9,21 +9,8 @@ use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
 use std::ops::{Add, AddAssign, Deref, Mul, MulAssign, Sub, SubAssign};
 
-#[derive(
-  Clone,
-  Copy,
-  Debug,
-  Default,
-  Display,
-  From,
-  Into,
-  PartialEq,
-  Eq,
-  PartialOrd,
-  Ord,
-  Deserialize,
-  Serialize,
-)]
+#[derive(Clone, Copy, Debug, Display, From, Into, Deserialize, Serialize)]
+#[derive_const(Default, PartialEq, Eq, PartialOrd, Ord)]
 #[into(u32, f64)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]

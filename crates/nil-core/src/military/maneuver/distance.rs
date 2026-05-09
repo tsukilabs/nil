@@ -26,6 +26,12 @@ impl const From<ManeuverDistance> for f64 {
   }
 }
 
+impl const From<Distance> for ManeuverDistance {
+  fn from(distance: Distance) -> Self {
+    Self(f64::from(distance))
+  }
+}
+
 impl const PartialEq for ManeuverDistance {
   fn eq(&self, other: &Self) -> bool {
     matches!(self.0.total_cmp(&other.0), Ordering::Equal)
@@ -85,11 +91,5 @@ impl const SubAssign for ManeuverDistance {
 impl const SubAssign<Speed> for ManeuverDistance {
   fn sub_assign(&mut self, rhs: Speed) {
     *self = Self(self.0 - f64::from(rhs));
-  }
-}
-
-impl const From<Distance> for ManeuverDistance {
-  fn from(distance: Distance) -> Self {
-    Self(f64::from(distance))
   }
 }

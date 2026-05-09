@@ -204,7 +204,8 @@ impl<'de> Visitor<'de> for CoordVisitor {
   }
 }
 
-#[derive(Clone, Copy, Debug, Default, PartialEq, Eq, PartialOrd, Ord, Deserialize, Serialize)]
+#[derive(Clone, Copy, Debug, Deserialize, Serialize)]
+#[derive_const(Default, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Distance(u8);
 
 impl Distance {

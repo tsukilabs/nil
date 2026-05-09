@@ -7,7 +7,8 @@ use std::cmp::Ordering;
 use std::ops::Deref;
 
 /// Represents how many fields a unit can travel in one round.
-#[derive(Clone, Copy, Debug, PartialEq, PartialOrd, Deserialize, Serialize, F64Ops)]
+#[derive(Clone, Copy, Debug, Deserialize, Serialize, F64Ops)]
+#[derive_const(Default, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Speed(f64);
 
@@ -17,12 +18,6 @@ impl Speed {
     debug_assert!(value >= 0.0);
     debug_assert!(value.is_finite());
     Self(value.max(0.0))
-  }
-}
-
-impl const Default for Speed {
-  fn default() -> Self {
-    Self(0.0)
   }
 }
 

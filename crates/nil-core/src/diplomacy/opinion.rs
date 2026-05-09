@@ -6,6 +6,7 @@ use serde::{Deserialize, Serialize};
 use std::ops::Deref;
 
 #[derive(Clone, Copy, Debug, Into, Deserialize, Serialize)]
+#[derive_const(Default, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Opinion(i16);
 
@@ -15,12 +16,6 @@ impl Opinion {
 
   pub const fn new(value: i16) -> Self {
     Self(value.clamp(Self::MIN.0, Self::MAX.0))
-  }
-}
-
-impl const Default for Opinion {
-  fn default() -> Self {
-    Self(0)
   }
 }
 
