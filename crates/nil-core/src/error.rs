@@ -19,6 +19,8 @@ pub type Result<T, E = Error> = StdResult<T, E>;
 pub type AnyResult<T> = anyhow::Result<T>;
 
 #[derive(Clone, Debug, EnumIs, thiserror::Error)]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
+#[cfg_attr(feature = "typescript", ts(as = "String"))]
 #[remain::sorted]
 pub enum Error {
   #[error("Army not found")]
