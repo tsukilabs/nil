@@ -8,12 +8,11 @@ use crate::infrastructure::Infrastructure;
 use crate::npc::bot::BotId;
 use crate::ruler::Ruler;
 use crate::world::World;
-use tap::Pipe;
 
 impl World {
   pub fn cheat_get_ethics(&self, ruler: &Ruler) -> Result<Option<Ethics>> {
     bail_if_cheats_are_not_allowed!(self);
-    self.ruler(ruler)?.ethics().cloned().pipe(Ok)
+    self.get_ethics(ruler)
   }
 
   pub fn cheat_set_bot_ethics(&mut self, id: &BotId, ethics: Ethics) -> Result<()> {

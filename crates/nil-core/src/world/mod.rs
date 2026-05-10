@@ -1,12 +1,15 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+pub mod config;
+pub mod stats;
+
 mod battle;
 mod chat;
 mod cheat;
 mod city;
-pub mod config;
 mod continent;
+mod diplomacy;
 mod event;
 mod infrastructure;
 mod military;
@@ -17,7 +20,6 @@ mod report;
 mod resources;
 mod round;
 mod savedata;
-pub mod stats;
 
 use crate::chat::Chat;
 use crate::continent::{Continent, ContinentSize};
