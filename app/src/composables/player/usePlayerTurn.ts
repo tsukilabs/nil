@@ -3,10 +3,10 @@
 
 import { computed } from "vue";
 import type { Option } from "@tb-dev/utils";
-import type { Player } from "@tsukilabs/nil-bindings";
 import type { MaybeNilRef } from "@tb-dev/vue";
 import { toPlayerRef } from "@/composables/toRef";
 import type { RoundImpl } from "@/core/model/round";
+import type { Player } from "@tsukilabs/nil-bindings";
 import type { PlayerImpl } from "@/core/model/player/player";
 
 export function usePlayerTurn(player?: MaybeNilRef<PlayerImpl>) {

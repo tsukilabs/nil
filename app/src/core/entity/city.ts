@@ -7,8 +7,8 @@ import { asyncRef, maybe } from "@tb-dev/vue";
 import { CityImpl } from "@/core/model/city/city";
 import type { CityUpdatedPayload } from "@/types/event";
 import { CoordImpl } from "@/core/model/continent/coord";
-import type { Coord, Resources } from "@tsukilabs/nil-bindings";
 import { computed, nextTick, type Ref, shallowRef } from "vue";
+import type { Coord, Resources } from "@tsukilabs/nil-bindings";
 
 export class CityEntity extends Entity {
   private readonly coord = shallowRef<Option<CoordImpl>>();

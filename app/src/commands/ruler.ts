@@ -1,9 +1,9 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Ruler } from "@tsukilabs/nil-bindings";
 import { getBotCoords } from "@/commands/npc/bot";
 import { getPlayerCoords } from "@/commands/player";
+import type { Ruler } from "@tsukilabs/nil-bindings";
 import { getPrecursorCoords } from "@/commands/npc/precursor";
 
 export async function getRulerCoords(ruler: Ruler) {

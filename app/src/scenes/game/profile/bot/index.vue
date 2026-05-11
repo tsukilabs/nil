@@ -5,10 +5,10 @@
 import { useI18n } from "vue-i18n";
 import { onKeyDown } from "@tb-dev/vue";
 import type { Option } from "@tb-dev/utils";
-import type { BotId } from "@tsukilabs/nil-bindings";
 import { throttle } from "es-toolkit/function";
 import { useRouteParams } from "@vueuse/router";
 import CityTable from "@/components/CityTable.vue";
+import type { BotId } from "@tsukilabs/nil-bindings";
 import { usePublicBot } from "@/composables/npc/usePublicBot";
 import { Card, CardContent, CardHeader, CardTitle } from "@ui/card";
 import { usePublicCities } from "@/composables/city/usePublicCities";

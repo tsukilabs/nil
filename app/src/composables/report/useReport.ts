@@ -5,8 +5,8 @@ import { toRef, watch } from "vue";
 import type { Option } from "@tb-dev/utils";
 import { getReport } from "@/commands/report";
 import { asyncRef, type MaybeNilRef } from "@tb-dev/vue";
-import type { ReportId, ReportKind } from "@tsukilabs/nil-bindings";
 import type { ReportImpl } from "@/core/model/report/abstract";
+import type { ReportId, ReportKind } from "@tsukilabs/nil-bindings";
 import { BattleReportImpl } from "@/core/model/report/battle-report";
 import { SupportReportImpl } from "@/core/model/report/support-report";
 

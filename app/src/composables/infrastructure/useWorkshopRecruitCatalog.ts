@@ -6,16 +6,16 @@ import type { Option } from "@tb-dev/utils";
 import { toCoordRef } from "@/composables/toRef";
 import { type MaybeNilRef, useMutex } from "@tb-dev/vue";
 import type { CoordImpl } from "@/core/model/continent/coord";
-import type {
-  WorkshopRecruitCatalog,
-  WorkshopRecruitOrderId,
-  WorkshopUnitId,
-} from "@tsukilabs/nil-bindings";
 import {
   addWorkshopRecruitOrder,
   cancelWorkshopRecruitOrder,
   getWorkshopRecruitCatalog,
 } from "@/commands";
+import type {
+  WorkshopRecruitCatalog,
+  WorkshopRecruitOrderId,
+  WorkshopUnitId,
+} from "@tsukilabs/nil-bindings";
 
 export function useWorkshopRecruitCatalog(coord?: MaybeNilRef<CoordImpl>) {
   const coordRef = toCoordRef(coord);

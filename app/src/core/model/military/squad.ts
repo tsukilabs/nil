@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { toU32 } from "@/lib/number";
-import type { Squad, UnitId } from "@tsukilabs/nil-bindings";
 import type { SquadTuple } from "@/types/core/military";
+import type { Squad, UnitId } from "@tsukilabs/nil-bindings";
 
 export class SquadImpl implements Readonly<Squad> {
   public readonly unit: UnitId;

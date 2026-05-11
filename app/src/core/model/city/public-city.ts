@@ -6,8 +6,8 @@ import * as commands from "@/commands";
 import { formatInt } from "@/lib/intl";
 import type { ProfileScene } from "@/types/scene/game";
 import { CoordImpl } from "@/core/model/continent/coord";
-import type { PublicCity, Ruler } from "@tsukilabs/nil-bindings";
 import type { ContinentKey } from "@/types/core/continent";
+import type { PublicCity, Ruler } from "@tsukilabs/nil-bindings";
 
 export class PublicCityImpl implements Readonly<PublicCity> {
   public readonly coord: CoordImpl;

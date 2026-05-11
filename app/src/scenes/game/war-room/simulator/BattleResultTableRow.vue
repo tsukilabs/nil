@@ -3,8 +3,8 @@
 
 <script setup lang="ts">
 import { formatInt } from "@/lib/intl";
-import type { ArmyPersonnel } from "@tsukilabs/nil-bindings";
 import { TableCell, TableHead, TableRow } from "@ui/table";
+import type { ArmyPersonnel } from "@tsukilabs/nil-bindings";
 
 defineProps<{
   head: string;

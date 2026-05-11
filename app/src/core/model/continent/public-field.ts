@@ -4,8 +4,8 @@
 import { tryOnScopeDispose } from "@vueuse/core";
 import type { MaybePromise } from "@tb-dev/utils";
 import type { CoordImpl } from "@/core/model/continent/coord";
-import type { ContinentIndex, Coord } from "@tsukilabs/nil-bindings";
 import type { PublicFieldKind } from "@/types/core/continent";
+import type { ContinentIndex, Coord } from "@tsukilabs/nil-bindings";
 import { getPublicField, getPublicFields } from "@/commands/continent";
 
 const enum Flags {

@@ -9,8 +9,8 @@ import type { MaybePromise } from "@tb-dev/utils";
 import RecruitCatalogRow from "./RecruitCatalogRow.vue";
 import { usePlayerTurn } from "@/composables/player/usePlayerTurn";
 import { usePlayerResources } from "@/composables/player/usePlayerResources";
-import type { AcademyRecruitCatalog, AcademyUnitId } from "@tsukilabs/nil-bindings";
 import { Table, TableBody, TableHead, TableHeader, TableRow } from "@ui/table";
+import type { AcademyRecruitCatalog, AcademyUnitId } from "@tsukilabs/nil-bindings";
 import type { AcademyImpl } from "@/core/model/infrastructure/building/academy/academy";
 
 const props = defineProps<{

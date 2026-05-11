@@ -10,8 +10,8 @@ import { useSettings } from "@/stores/settings";
 import { TableCell, TableRow } from "@ui/table";
 import { ResourcesImpl } from "@/core/model/resources";
 import CostGrid from "@/components/resources/CostGrid.vue";
-import type { WorkshopRecruitCatalogEntry, WorkshopUnitId } from "@tsukilabs/nil-bindings";
 import type { WorkshopImpl } from "@/core/model/infrastructure/building/workshop/workshop";
+import type { WorkshopRecruitCatalogEntry, WorkshopUnitId } from "@tsukilabs/nil-bindings";
 import { useRecruitCatalogEntry } from "@/composables/infrastructure/useRecruitCatalogEntry";
 import RecruitCatalogRowAction from "@/components/infrastructure/RecruitCatalogRowAction.vue";
 

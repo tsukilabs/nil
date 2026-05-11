@@ -3,10 +3,10 @@
 
 import { shallowRef, toRef } from "vue";
 import type { Option } from "@tb-dev/utils";
-import type { Ruler } from "@tsukilabs/nil-bindings";
 import { watchImmediate } from "@vueuse/core";
 import type { MaybeNilRef } from "@tb-dev/vue";
 import type { RulerKind } from "@/types/core/ruler";
+import type { Ruler } from "@tsukilabs/nil-bindings";
 import { PublicBotImpl } from "@/core/model/npc/public-bot";
 import { PublicPlayerImpl } from "@/core/model/player/public-player";
 import { PublicPrecursorImpl } from "@/core/model/npc/public-precursor";

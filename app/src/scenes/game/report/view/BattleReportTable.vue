@@ -10,8 +10,8 @@ import ptBR from "@/locale/pt-BR/scenes/game/report.json";
 import { Table, TableBody, TableCell, TableHead, TableRow } from "@ui/table";
 import { useCityOwnerSceneLink } from "@/composables/city/useCityOwnerSceneLink";
 import { useCityProfileSceneLink } from "@/composables/city/useCityProfileSceneLink";
-import type { ArmyPersonnel, BattleWinner, PublicCity, Ruler } from "@tsukilabs/nil-bindings";
 import BattleReportPersonnel from "@/scenes/game/report/view/BattleReportPersonnel.vue";
+import type { ArmyPersonnel, BattleWinner, PublicCity, Ruler } from "@tsukilabs/nil-bindings";
 
 const props = defineProps<{
   kind: BattleWinner;
