@@ -3,7 +3,7 @@
 
 use derive_more::{Deref, From, Into};
 use serde::{Deserialize, Serialize};
-use std::ops::{Div, Mul};
+use std::ops::{Add, Div, Mul, Sub};
 
 #[derive(Clone, Copy, Debug, Deref, From, Into, Deserialize, Serialize)]
 #[derive_const(PartialEq, Eq, PartialOrd, Ord)]
@@ -15,6 +15,22 @@ impl Power {
   #[inline]
   pub const fn new(value: u32) -> Self {
     Self(value)
+  }
+}
+
+impl const Add for Power {
+  type Output = Power;
+
+  fn add(self, rhs: Self) -> Self::Output {
+    Self(self.0.saturating_add(rhs.0))
+  }
+}
+
+impl const Sub for Power {
+  type Output = Power;
+
+  fn sub(self, rhs: Self) -> Self::Output {
+    Self(self.0.saturating_sub(rhs.0))
   }
 }
 

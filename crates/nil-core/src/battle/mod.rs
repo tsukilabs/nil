@@ -97,6 +97,7 @@ impl BattleResult {
     let mut downgraded_wall_level = BuildingLevelDiff::new(0);
     let mut diff = 0.0;
     let mut squad_survivors: f64;
+
     match winner {
       BattleWinner::Attacker => {
         for squad in attacking_squads {
@@ -229,6 +230,7 @@ impl OffensivePower {
 
     for squad in squads {
       army_size += f64::from(squad.size());
+
       match squad.kind() {
         UnitKind::Infantry => {
           infantry += *squad.attack();
@@ -250,6 +252,7 @@ impl OffensivePower {
     if ranged_amount / army_size > 0.3 {
       ranged = ranged_with_debuff;
     }
+
     infantry += infantry * luck;
     cavalry += cavalry * luck;
     ranged += ranged * luck;
@@ -321,6 +324,7 @@ impl DefensivePower {
 
       let surviving_rams_no_wall = offensive_power.rams_amount
         - (offensive_power.rams_amount * (total / offensive_power.total));
+
       attacking_rams = (attacking_rams * 0.87) + (surviving_rams_no_wall * 1.5);
 
       if attacking_rams > 0.0 {
@@ -341,6 +345,7 @@ impl DefensivePower {
         }
 
         let mut wall_levels_to_decrease: u8 = 0;
+
         for value in rams_vec.iter().rev() {
           if attacking_rams >= *value && wall_levels_to_decrease < wall.level {
             attacking_rams -= value;
