@@ -2,19 +2,19 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n';
-import { Button } from '@ui/button';
-import RoundState from './RoundState.vue';
-import type { Scene } from '@/types/scene';
-import type { Option } from '@tb-dev/utils';
-import { useBreakpoints } from '@tb-dev/vue';
-import type { RoundId } from '@tsukilabs/nil-bindings';
-import { onBeforeRouteUpdate } from 'vue-router';
-import type { GameScene } from '@/types/scene/game';
-import { computed, nextTick, useTemplateRef } from 'vue';
-import { writeText } from '@tauri-apps/plugin-clipboard-manager';
-import { useLocalServerAddr } from '@/composables/useLocalServerAddr';
-import { type OnClickOutsideProps, vOnClickOutside } from '@vueuse/components';
+import { useI18n } from "vue-i18n";
+import { Button } from "@ui/button";
+import RoundState from "./RoundState.vue";
+import type { Scene } from "@/types/scene";
+import type { Option } from "@tb-dev/utils";
+import { useBreakpoints } from "@tb-dev/vue";
+import type { RoundId } from "@tsukilabs/nil-bindings";
+import { onBeforeRouteUpdate } from "vue-router";
+import type { GameScene } from "@/types/scene/game";
+import { computed, nextTick, useTemplateRef } from "vue";
+import { writeText } from "@tauri-apps/plugin-clipboard-manager";
+import { useLocalServerAddr } from "@/composables/useLocalServerAddr";
+import { type OnClickOutsideProps, vOnClickOutside } from "@vueuse/components";
 import {
   Sidebar,
   SidebarContent,
@@ -26,7 +26,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from '@ui/sidebar';
+} from "@ui/sidebar";
 
 const props = defineProps<{
   isHost: boolean;
@@ -49,9 +49,9 @@ const { serverAddr } = useLocalServerAddr();
 
 const { sm } = useBreakpoints();
 
-const sidebarHeader = useTemplateRef('sidebarHeaderEl');
-const sidebarFooter = useTemplateRef('sidebarFooterEl');
-const onClickOutsideOptions: OnClickOutsideProps['options'] = {
+const sidebarHeader = useTemplateRef("sidebarHeaderEl");
+const sidebarFooter = useTemplateRef("sidebarFooterEl");
+const onClickOutsideOptions: OnClickOutsideProps["options"] = {
   ignore: [sidebarHeader, sidebarFooter],
 };
 
@@ -59,7 +59,7 @@ const canSave = computed(() => {
   return (
     props.isLocal &&
     props.isHost &&
-    round.value?.state.kind !== 'idle' &&
+    round.value?.state.kind !== "idle" &&
     round.value?.id !== props.lastSavedAt
   );
 });
@@ -117,7 +117,7 @@ function copyServerAddr() {
               <SidebarMenuItem>
                 <SidebarMenuButton as-child>
                   <RouterLink :to="{ name: 'war-room' satisfies GameScene }">
-                    {{ t('war-room') }}
+                    {{ t("war-room") }}
                   </RouterLink>
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -125,7 +125,7 @@ function copyServerAddr() {
               <SidebarMenuItem>
                 <SidebarMenuButton as-child>
                   <RouterLink :to="{ name: 'continent' satisfies GameScene }">
-                    {{ t('continent') }}
+                    {{ t("continent") }}
                   </RouterLink>
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -133,7 +133,7 @@ function copyServerAddr() {
               <SidebarMenuItem>
                 <SidebarMenuButton as-child>
                   <RouterLink :to="{ name: 'ranking' satisfies GameScene }">
-                    {{ t('ranking') }}
+                    {{ t("ranking") }}
                   </RouterLink>
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -141,7 +141,7 @@ function copyServerAddr() {
               <SidebarMenuItem>
                 <SidebarMenuButton as-child>
                   <RouterLink :to="{ name: 'settings' satisfies Scene }">
-                    {{ t('settings') }}
+                    {{ t("settings") }}
                   </RouterLink>
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -157,14 +157,14 @@ function copyServerAddr() {
         class="grid grid-cols-2 items-center justify-center gap-2 lg:gap-4"
       >
         <Button v-if="canSave" size="sm" @click="() => onSave()">
-          <span>{{ t('save') }}</span>
+          <span>{{ t("save") }}</span>
         </Button>
         <Button v-else size="sm" @click="() => update()">
-          <span>{{ t('update') }}</span>
+          <span>{{ t("update") }}</span>
         </Button>
 
         <Button variant="destructive" size="sm" @click="() => onLeave()">
-          <span>{{ t('leave') }}</span>
+          <span>{{ t("leave") }}</span>
         </Button>
       </div>
     </SidebarFooter>

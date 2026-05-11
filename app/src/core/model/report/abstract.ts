@@ -1,12 +1,12 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { go } from '@/router';
-import type { Report_ } from '@/types/core/report';
-import { formatToday, fromZoned } from '@/lib/date';
-import type { ComposerTranslation } from 'vue-i18n';
-import enUS from '@/locale/en-US/scenes/game/report.json';
-import type { PlayerId, ReportId, RoundId } from '@tsukilabs/nil-bindings';
+import { go } from "@/router";
+import type { Report_ } from "@/types/core/report";
+import { formatToday, fromZoned } from "@/lib/date";
+import type { ComposerTranslation } from "vue-i18n";
+import enUS from "@/locale/en-US/scenes/game/report.json";
+import type { PlayerId, ReportId, RoundId } from "@tsukilabs/nil-bindings";
 
 export abstract class ReportImpl implements Report_ {
   public readonly id: ReportId;
@@ -37,6 +37,6 @@ export abstract class ReportImpl implements Report_ {
   }
 
   public async goToView() {
-    await go('report-view', { params: { id: this.id } });
+    await go("report-view", { params: { id: this.id } });
   }
 }

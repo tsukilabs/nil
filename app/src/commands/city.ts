@@ -1,10 +1,10 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Option } from '@tb-dev/utils';
-import { invoke } from '@tauri-apps/api/core';
-import { CoordImpl } from '@/core/model/continent/coord';
-import type { ContinentKey } from '@/types/core/continent';
+import type { Option } from "@tb-dev/utils";
+import { invoke } from "@tauri-apps/api/core";
+import { CoordImpl } from "@/core/model/continent/coord";
+import type { ContinentKey } from "@/types/core/continent";
 import type {
   City,
   CitySearch,
@@ -18,7 +18,7 @@ import type {
   RenameCityRequest,
   SearchCityRequest,
   SearchPublicCityRequest,
-} from '@tsukilabs/nil-bindings';
+} from "@tsukilabs/nil-bindings";
 
 export async function getCity(coord: ContinentKey) {
   coord = CoordImpl.fromContinentKey(coord);
@@ -27,7 +27,7 @@ export async function getCity(coord: ContinentKey) {
     coord,
   };
 
-  return invoke<GetCityResponse>('get_city', { req });
+  return invoke<GetCityResponse>("get_city", { req });
 }
 
 export async function getCityOwner(coord: ContinentKey) {
@@ -41,7 +41,7 @@ export async function getCityScore(coord: ContinentKey) {
     coord,
   };
 
-  return invoke<number>('get_city_score', { req });
+  return invoke<number>("get_city_score", { req });
 }
 
 export async function getPublicCities(options: {
@@ -57,7 +57,7 @@ export async function getPublicCities(options: {
     all: options.all ?? false,
   };
 
-  return invoke<readonly GetPublicCityResponse[]>('get_public_cities', { req });
+  return invoke<readonly GetPublicCityResponse[]>("get_public_cities", { req });
 }
 
 export async function getPublicCity(options: {
@@ -70,7 +70,7 @@ export async function getPublicCity(options: {
     score: options.score ?? false,
   };
 
-  return invoke<GetPublicCityResponse>('get_public_city', { req });
+  return invoke<GetPublicCityResponse>("get_public_city", { req });
 }
 
 export async function renameCity(coord: ContinentKey, name: string) {
@@ -81,7 +81,7 @@ export async function renameCity(coord: ContinentKey, name: string) {
     name,
   };
 
-  await invoke('rename_city', { req });
+  await invoke("rename_city", { req });
 }
 
 export async function searchCity(search: CitySearch) {
@@ -90,7 +90,7 @@ export async function searchCity(search: CitySearch) {
     search,
   };
 
-  return invoke<readonly City[]>('search_city', { req });
+  return invoke<readonly City[]>("search_city", { req });
 }
 
 export async function searchPublicCity(search: CitySearch) {
@@ -99,5 +99,5 @@ export async function searchPublicCity(search: CitySearch) {
     search,
   };
 
-  return invoke<readonly PublicCity[]>('search_public_city', { req });
+  return invoke<readonly PublicCity[]>("search_public_city", { req });
 }

@@ -2,10 +2,10 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { go } from '@/router';
-import { useI18n } from 'vue-i18n';
-import { Table, TableBody, TableCell, TableRow } from '@ui/table';
-import { Card, CardContent, CardHeader, CardTitle } from '@ui/card';
+import { go } from "@/router";
+import { useI18n } from "vue-i18n";
+import { Table, TableBody, TableCell, TableRow } from "@ui/table";
+import { Card, CardContent, CardHeader, CardTitle } from "@ui/card";
 
 const { t } = useI18n();
 
@@ -16,7 +16,7 @@ const { production } = NIL.city.refs();
   <Card>
     <CardHeader>
       <CardTitle>
-        <span>{{ t('production') }}</span>
+        <span>{{ t("production") }}</span>
       </CardTitle>
     </CardHeader>
 
@@ -32,8 +32,8 @@ const { production } = NIL.city.refs();
             @keydown.enter="() => go('sawmill')"
             @keydown.space="() => go('sawmill')"
           >
-            <TableCell>{{ t('wood') }}</TableCell>
-            <TableCell>{{ t('x-per-turn', [production.wood]) }}</TableCell>
+            <TableCell>{{ t("wood") }}</TableCell>
+            <TableCell>{{ t("x-per-turn", [production.wood]) }}</TableCell>
           </TableRow>
 
           <TableRow
@@ -45,8 +45,8 @@ const { production } = NIL.city.refs();
             @keydown.enter="() => go('quarry')"
             @keydown.space="() => go('quarry')"
           >
-            <TableCell>{{ t('stone') }}</TableCell>
-            <TableCell>{{ t('x-per-turn', [production.stone]) }}</TableCell>
+            <TableCell>{{ t("stone") }}</TableCell>
+            <TableCell>{{ t("x-per-turn", [production.stone]) }}</TableCell>
           </TableRow>
 
           <TableRow
@@ -58,8 +58,8 @@ const { production } = NIL.city.refs();
             @keydown.enter="() => go('iron-mine')"
             @keydown.space="() => go('iron-mine')"
           >
-            <TableCell>{{ t('iron') }}</TableCell>
-            <TableCell>{{ t('x-per-turn', [production.iron]) }}</TableCell>
+            <TableCell>{{ t("iron") }}</TableCell>
+            <TableCell>{{ t("x-per-turn", [production.iron]) }}</TableCell>
           </TableRow>
 
           <TableRow
@@ -71,8 +71,8 @@ const { production } = NIL.city.refs();
             @keydown.enter="() => go('farm')"
             @keydown.space="() => go('farm')"
           >
-            <TableCell>{{ t('food') }}</TableCell>
-            <TableCell>{{ t('x-per-turn', [production.food]) }}</TableCell>
+            <TableCell>{{ t("food") }}</TableCell>
+            <TableCell>{{ t("x-per-turn", [production.food]) }}</TableCell>
           </TableRow>
         </TableBody>
       </Table>

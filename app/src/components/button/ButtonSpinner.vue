@@ -2,18 +2,18 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { Spinner } from '@ui/spinner';
-import type { HTMLAttributes, VNode } from 'vue';
-import type { MaybePromise } from '@tb-dev/utils';
-import { Button, type ButtonSize, type ButtonVariant } from '@ui/button';
+import { Spinner } from "@ui/spinner";
+import type { HTMLAttributes, VNode } from "vue";
+import type { MaybePromise } from "@tb-dev/utils";
+import { Button, type ButtonSize, type ButtonVariant } from "@ui/button";
 
 defineProps<{
   variant?: ButtonVariant;
   size?: Exclude<ButtonSize, `icon${string}`>;
   disabled?: boolean;
   loading: boolean;
-  role?: HTMLAttributes['role'];
-  tabindex?: HTMLAttributes['tabindex'];
+  role?: HTMLAttributes["role"];
+  tabindex?: HTMLAttributes["tabindex"];
   iconClass?: string;
   onClick?: () => MaybePromise<void>;
 }>();

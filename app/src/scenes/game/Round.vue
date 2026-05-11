@@ -2,10 +2,10 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n';
-import { Button } from '@ui/button';
-import RoundState from './RoundState.vue';
-import { useBreakpoints, useMutex } from '@tb-dev/vue';
+import { useI18n } from "vue-i18n";
+import { Button } from "@ui/button";
+import RoundState from "./RoundState.vue";
+import { useBreakpoints, useMutex } from "@tb-dev/vue";
 
 const props = defineProps<{
   isHost: boolean;
@@ -38,7 +38,7 @@ const toggleReady = () => lock(() => props.onTogglePlayerReady());
       :disabled="locked"
       @click="start"
     >
-      <span>{{ t('start') }}</span>
+      <span>{{ t("start") }}</span>
     </Button>
 
     <Button
@@ -47,8 +47,8 @@ const toggleReady = () => lock(() => props.onTogglePlayerReady());
       :disabled="locked || !isPlayerTurn"
       @click="toggleReady"
     >
-      <span v-if="isPlayerReady">{{ t('cancel') }}</span>
-      <span v-else>{{ sm ? t('finish-turn') : t('finish') }}</span>
+      <span v-if="isPlayerReady">{{ t("cancel") }}</span>
+      <span v-else>{{ sm ? t("finish-turn") : t("finish") }}</span>
     </Button>
   </div>
 </template>

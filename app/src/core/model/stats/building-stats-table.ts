@@ -1,10 +1,10 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { BuildingStatsImpl } from '@/core/model/stats/building-stats';
-import type { BuildingId, BuildingLevel, BuildingStatsTable } from '@tsukilabs/nil-bindings';
+import { BuildingStatsImpl } from "@/core/model/stats/building-stats";
+import type { BuildingId, BuildingLevel, BuildingStatsTable } from "@tsukilabs/nil-bindings";
 
-type Stats = Omit<Readonly<BuildingStatsTable>, 'table'>;
+type Stats = Omit<Readonly<BuildingStatsTable>, "table">;
 
 export class BuildingStatsTableImpl implements Stats {
   public readonly id: BuildingId;

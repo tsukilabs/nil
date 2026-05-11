@@ -2,16 +2,16 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n';
-import { Button } from '@ui/button';
-import { useBreakpoints } from '@tb-dev/vue';
+import { useI18n } from "vue-i18n";
+import { Button } from "@ui/button";
+import { useBreakpoints } from "@tb-dev/vue";
 import {
   NumberField,
   NumberFieldContent,
   NumberFieldDecrement,
   NumberFieldIncrement,
   NumberFieldInput,
-} from '@ui/number-field';
+} from "@ui/number-field";
 
 defineProps<{
   canRecruit: boolean;
@@ -50,7 +50,7 @@ const { sm } = useBreakpoints();
       class="max-w-24"
       @click="() => onRecruitOrder(Math.trunc(chunks))"
     >
-      <span>{{ t('recruit') }}</span>
+      <span>{{ t("recruit") }}</span>
     </Button>
   </div>
 </template>

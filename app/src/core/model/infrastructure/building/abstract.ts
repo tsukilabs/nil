@@ -1,9 +1,9 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Option } from '@tb-dev/utils';
-import type { Building } from '@/types/core/infrastructure';
-import type { BuildingId, BuildingLevel, MineId, StorageId } from '@tsukilabs/nil-bindings';
+import type { Option } from "@tb-dev/utils";
+import type { Building } from "@/types/core/infrastructure";
+import type { BuildingId, BuildingLevel, MineId, StorageId } from "@tsukilabs/nil-bindings";
 
 export abstract class BuildingImpl implements Building {
   public abstract readonly id: BuildingId;
@@ -67,7 +67,7 @@ export abstract class BuildingImpl implements Building {
   }
 
   get minLevel() {
-    if (typeof this.#minLevel !== 'number') {
+    if (typeof this.#minLevel !== "number") {
       this.#minLevel = this.getStatsTable()?.minLevel;
     }
 
@@ -75,7 +75,7 @@ export abstract class BuildingImpl implements Building {
   }
 
   get maxLevel() {
-    if (typeof this.#maxLevel !== 'number') {
+    if (typeof this.#maxLevel !== "number") {
       this.#maxLevel = this.getStatsTable()?.maxLevel;
     }
 

@@ -2,11 +2,11 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { Input } from '@ui/input';
-import { useI18n } from 'vue-i18n';
-import { Button } from '@ui/button';
-import type { MaybePromise } from '@tb-dev/utils';
-import { useChatInput } from '@/composables/chat/useChatInput';
+import { Input } from "@ui/input";
+import { useI18n } from "vue-i18n";
+import { Button } from "@ui/button";
+import type { MaybePromise } from "@tb-dev/utils";
+import { useChatInput } from "@/composables/chat/useChatInput";
 
 const props = defineProps<{
   onSend?: () => MaybePromise<void>;
@@ -33,7 +33,7 @@ function sendMessage() {
       @keydown.down.prevent="next"
     />
     <Button :disabled="!draft" @click="sendMessage">
-      {{ t('send') }}
+      {{ t("send") }}
     </Button>
   </div>
 </template>

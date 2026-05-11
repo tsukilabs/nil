@@ -2,13 +2,13 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { go } from '@/router';
-import Round from './Round.vue';
-import { Button } from '@ui/button';
-import Resources from './Resources.vue';
-import { Separator } from '@ui/separator';
-import { useBreakpoints } from '@tb-dev/vue';
-import { SidebarTrigger } from '@ui/sidebar';
+import { go } from "@/router";
+import Round from "./Round.vue";
+import { Button } from "@ui/button";
+import Resources from "./Resources.vue";
+import { Separator } from "@ui/separator";
+import { useBreakpoints } from "@tb-dev/vue";
+import { SidebarTrigger } from "@ui/sidebar";
 
 defineProps<{
   isHost: boolean;

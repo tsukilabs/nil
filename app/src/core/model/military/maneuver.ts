@@ -1,8 +1,8 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { CoordImpl } from '@/core/model/continent/coord';
-import { ManeuverHaulImpl } from '@/core/model/military/maneuver-haul';
+import { CoordImpl } from "@/core/model/continent/coord";
+import { ManeuverHaulImpl } from "@/core/model/military/maneuver-haul";
 import type {
   ArmyId,
   Maneuver,
@@ -10,7 +10,7 @@ import type {
   ManeuverId,
   ManeuverKind,
   ManeuverState,
-} from '@tsukilabs/nil-bindings';
+} from "@tsukilabs/nil-bindings";
 
 export class ManeuverImpl implements Readonly<Maneuver> {
   public readonly id: ManeuverId;
@@ -39,31 +39,31 @@ export class ManeuverImpl implements Readonly<Maneuver> {
   }
 
   public isAttack() {
-    return this.kind === 'attack';
+    return this.kind === "attack";
   }
 
   public isSupport() {
-    return this.kind === 'support';
+    return this.kind === "support";
   }
 
   public isGoing() {
-    return this.direction === 'going';
+    return this.direction === "going";
   }
 
   public isReturning() {
-    return this.direction === 'returning';
+    return this.direction === "returning";
   }
 
   public isDone() {
-    return this.state.kind === 'done';
+    return this.state.kind === "done";
   }
 
   public isPending() {
-    return this.state.kind === 'pending';
+    return this.state.kind === "pending";
   }
 
   public getPendingDistance() {
-    if (this.state.kind === 'pending') {
+    if (this.state.kind === "pending") {
       return this.state.distance;
     }
     else {

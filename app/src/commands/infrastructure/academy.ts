@@ -1,7 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { invoke } from '@tauri-apps/api/core';
+import { invoke } from "@tauri-apps/api/core";
 import type {
   AcademyRecruitOrderId,
   AcademyRecruitOrderRequest,
@@ -10,7 +10,7 @@ import type {
   Coord,
   GetAcademyRecruitCatalogRequest,
   GetAcademyRecruitCatalogResponse,
-} from '@tsukilabs/nil-bindings';
+} from "@tsukilabs/nil-bindings";
 
 export async function addAcademyRecruitOrder(request: AcademyRecruitOrderRequest) {
   const req: AddAcademyRecruitOrderRequest = {
@@ -18,7 +18,7 @@ export async function addAcademyRecruitOrder(request: AcademyRecruitOrderRequest
     request,
   };
 
-  await invoke('add_academy_recruit_order', { req });
+  await invoke("add_academy_recruit_order", { req });
 }
 
 export async function cancelAcademyRecruitOrder(coord: Coord, id: AcademyRecruitOrderId) {
@@ -28,7 +28,7 @@ export async function cancelAcademyRecruitOrder(coord: Coord, id: AcademyRecruit
     id,
   };
 
-  await invoke('cancel_academy_recruit_order', { req });
+  await invoke("cancel_academy_recruit_order", { req });
 }
 
 export async function getAcademyRecruitCatalog(coord: Coord) {
@@ -37,5 +37,5 @@ export async function getAcademyRecruitCatalog(coord: Coord) {
     coord,
   };
 
-  return invoke<GetAcademyRecruitCatalogResponse>('get_academy_recruit_catalog', { req });
+  return invoke<GetAcademyRecruitCatalogResponse>("get_academy_recruit_catalog", { req });
 }

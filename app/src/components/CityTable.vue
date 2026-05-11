@@ -2,17 +2,17 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n';
-import { computed, ref } from 'vue';
-import { PLACEHOLDER } from '@/lib/string';
-import type { Option } from '@tb-dev/utils';
-import type { Coord } from '@tsukilabs/nil-bindings';
-import { compare, formatInt } from '@/lib/intl';
-import type { PublicCityImpl } from '@/core/model/city/public-city';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@ui/table';
+import { useI18n } from "vue-i18n";
+import { computed, ref } from "vue";
+import { PLACEHOLDER } from "@/lib/string";
+import type { Option } from "@tb-dev/utils";
+import type { Coord } from "@tsukilabs/nil-bindings";
+import { compare, formatInt } from "@/lib/intl";
+import type { PublicCityImpl } from "@/core/model/city/public-city";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@ui/table";
 
-type SortMode = 'coord' | 'distance' | 'name' | 'owner' | 'score';
-type SortOrder = 'asc' | 'desc';
+type SortMode = "coord" | "distance" | "name" | "owner" | "score";
+type SortOrder = "asc" | "desc";
 
 interface Props {
   cities: readonly PublicCityImpl[];
@@ -24,8 +24,8 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  defaultSortMode: 'name',
-  defaultSortOrder: 'asc',
+  defaultSortMode: "name",
+  defaultSortOrder: "asc",
 });
 
 const { t } = useI18n();
@@ -40,23 +40,23 @@ const sorted = computed<readonly PublicCityImpl[]>(() => {
 
     return props.cities.toSorted((a, b) => {
       switch (mode) {
-        case 'coord': {
+        case "coord": {
           if (a.coord.x === b.coord.y) {
-            return order === 'asc' ?
+            return order === "asc" ?
               a.coord.y - b.coord.y :
               b.coord.y - a.coord.y;
           }
           else {
-            return order === 'asc' ?
+            return order === "asc" ?
               a.coord.x - b.coord.x :
               b.coord.x - a.coord.x;
           }
         }
-        case 'distance': {
+        case "distance": {
           if (props.getDistance) {
             const distanceA = props.getDistance(a.coord) ?? 0;
             const distanceB = props.getDistance(b.coord) ?? 0;
-            return order === 'asc' ?
+            return order === "asc" ?
               distanceA - distanceB :
               distanceB - distanceA;
           }
@@ -64,18 +64,18 @@ const sorted = computed<readonly PublicCityImpl[]>(() => {
             return 0;
           }
         }
-        case 'name': {
-          return order === 'asc' ?
+        case "name": {
+          return order === "asc" ?
             compare(a.name, b.name) :
             compare(b.name, a.name);
         }
-        case 'owner': {
-          return order === 'asc' ?
+        case "owner": {
+          return order === "asc" ?
             compare(a.owner.id, b.owner.id) :
             compare(b.owner.id, a.owner.id);
         }
-        case 'score': {
-          return order === 'asc' ?
+        case "score": {
+          return order === "asc" ?
             a.score - b.score :
             b.score - a.score;
         }
@@ -89,16 +89,16 @@ const sorted = computed<readonly PublicCityImpl[]>(() => {
 });
 
 const tableHeadClass = computed(() => {
-  return props.sortable ? 'cursor-pointer' : null;
+  return props.sortable ? "cursor-pointer" : null;
 });
 
 function sort(mode: SortMode, ascending: boolean) {
   if (props.sortable) {
     if (mode === sortMode.value) {
-      sortOrder.value = ascending ? 'asc' : 'desc';
+      sortOrder.value = ascending ? "asc" : "desc";
     }
     else {
-      sortOrder.value = 'asc';
+      sortOrder.value = "asc";
     }
 
     sortMode.value = mode;
@@ -114,21 +114,21 @@ function sort(mode: SortMode, ascending: boolean) {
           :class="tableHeadClass"
           @click="() => sort('name', sortOrder === 'asc' ? false : true)"
         >
-          {{ t('city') }}
+          {{ t("city") }}
         </TableHead>
 
         <TableHead
           :class="tableHeadClass"
           @click="() => sort('coord', sortOrder === 'asc' ? false : true)"
         >
-          {{ t('coordinate', 2) }}
+          {{ t("coordinate", 2) }}
         </TableHead>
 
         <TableHead
           :class="tableHeadClass"
           @click="() => sort('score', sortOrder === 'asc' ? false : true)"
         >
-          {{ t('point', 2) }}
+          {{ t("point", 2) }}
         </TableHead>
 
         <TableHead
@@ -136,7 +136,7 @@ function sort(mode: SortMode, ascending: boolean) {
           :class="tableHeadClass"
           @click="() => sort('distance', sortOrder === 'asc' ? false : true)"
         >
-          {{ t('distance') }}
+          {{ t("distance") }}
         </TableHead>
 
         <TableHead
@@ -144,7 +144,7 @@ function sort(mode: SortMode, ascending: boolean) {
           :class="tableHeadClass"
           @click="() => sort('owner', sortOrder === 'asc' ? false : true)"
         >
-          {{ t('owner') }}
+          {{ t("owner") }}
         </TableHead>
       </TableRow>
     </TableHeader>

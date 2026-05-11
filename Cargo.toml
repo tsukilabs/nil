@@ -132,7 +132,7 @@ version = "0.2"
 features = ["serde"]
 
 [workspace.dependencies.jsonwebtoken]
-version = "10.3"
+version = "10.4"
 features = ["rust_crypto"]
 
 [workspace.dependencies.libsqlite3-sys]

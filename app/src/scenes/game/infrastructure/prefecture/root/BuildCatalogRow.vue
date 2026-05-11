@@ -2,23 +2,23 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n';
-import { computed, nextTick } from 'vue';
-import type { Option } from '@tb-dev/utils';
-import { useBreakpoints } from '@tb-dev/vue';
-import { useSettings } from '@/stores/settings';
-import { TableCell, TableRow } from '@ui/table';
-import CostGrid from '@/components/resources/CostGrid.vue';
-import type { ResourcesImpl } from '@/core/model/resources';
-import BuildCatalogRowAction from './BuildCatalogRowAction.vue';
-import BuildingTitle from '@/components/infrastructure/BuildingTitle.vue';
-import enUS from '@/locale/en-US/scenes/game/infrastructure/prefecture.json';
-import ptBR from '@/locale/pt-BR/scenes/game/infrastructure/prefecture.json';
-import type { InfrastructureScene } from '@/types/scene/game/infrastructure';
-import type { BuildingImpl } from '@/core/model/infrastructure/building/abstract';
-import type { PrefectureBuildCatalogEntry, PrefectureBuildOrderKind } from '@tsukilabs/nil-bindings';
-import { useResolvedBuildingLevel } from '@/composables/infrastructure/useResolvedBuildingLevel';
-import type { PrefectureImpl } from '@/core/model/infrastructure/building/prefecture/prefecture';
+import { useI18n } from "vue-i18n";
+import { computed, nextTick } from "vue";
+import type { Option } from "@tb-dev/utils";
+import { useBreakpoints } from "@tb-dev/vue";
+import { useSettings } from "@/stores/settings";
+import { TableCell, TableRow } from "@ui/table";
+import CostGrid from "@/components/resources/CostGrid.vue";
+import type { ResourcesImpl } from "@/core/model/resources";
+import BuildCatalogRowAction from "./BuildCatalogRowAction.vue";
+import BuildingTitle from "@/components/infrastructure/BuildingTitle.vue";
+import enUS from "@/locale/en-US/scenes/game/infrastructure/prefecture.json";
+import ptBR from "@/locale/pt-BR/scenes/game/infrastructure/prefecture.json";
+import type { InfrastructureScene } from "@/types/scene/game/infrastructure";
+import type { BuildingImpl } from "@/core/model/infrastructure/building/abstract";
+import type { PrefectureBuildCatalogEntry, PrefectureBuildOrderKind } from "@tsukilabs/nil-bindings";
+import { useResolvedBuildingLevel } from "@/composables/infrastructure/useResolvedBuildingLevel";
+import type { PrefectureImpl } from "@/core/model/infrastructure/building/prefecture/prefecture";
 
 const props = defineProps<{
   entry: PrefectureBuildCatalogEntry;
@@ -34,8 +34,8 @@ const props = defineProps<{
 
 const { t } = useI18n({
   messages: {
-    'en-US': enUS,
-    'pt-BR': ptBR,
+    "en-US": enUS,
+    "pt-BR": ptBR,
   },
 });
 
@@ -54,7 +54,7 @@ const canBuild = computed(() => {
     props.isPlayerTurn &&
     props.prefecture.enabled &&
     level.value.next <= level.value.max &&
-    props.entry.kind === 'available'
+    props.entry.kind === "available"
   ) {
     return player.value.hasResources(props.entry.recipe.resources);
   }
@@ -77,8 +77,8 @@ const { sm } = useBreakpoints();
 async function makeOrder(kind: PrefectureBuildOrderKind) {
   await nextTick();
   if (
-    (kind === 'construction' && canBuild.value) ||
-    (kind === 'demolition' && canDemolish.value)
+    (kind === "construction" && canBuild.value) ||
+    (kind === "demolition" && canDemolish.value)
   ) {
     props.onBuildOrder(kind);
   }
@@ -141,10 +141,10 @@ async function makeOrder(kind: PrefectureBuildOrderKind) {
     <TableCell :colspan="sm ? 2 : 1">
       <div class="text-muted-foreground flex w-full items-center justify-center text-sm">
         <span v-if="entry.kind === 'maxed'">
-          {{ t('building-fully-constructed') }}
+          {{ t("building-fully-constructed") }}
         </span>
         <span v-else-if="entry.kind === 'unmet'">
-          {{ t('not-yet-available') }}
+          {{ t("not-yet-available") }}
         </span>
       </div>
     </TableCell>

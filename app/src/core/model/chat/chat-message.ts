@@ -1,15 +1,15 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { formatToday, fromZoned } from '@/lib/date';
-import { compareAsc as compareDateAsc } from 'date-fns';
+import { formatToday, fromZoned } from "@/lib/date";
+import { compareAsc as compareDateAsc } from "date-fns";
 import type {
   ChatMessage,
   ChatMessageAuthor,
   ChatMessageContent,
   ChatMessageId,
   ChatMessageKind,
-} from '@tsukilabs/nil-bindings';
+} from "@tsukilabs/nil-bindings";
 
 export class ChatMessageImpl implements Readonly<ChatMessage> {
   public readonly id: ChatMessageId;

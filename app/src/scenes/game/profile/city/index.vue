@@ -2,28 +2,28 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { computed } from 'vue';
-import { useI18n } from 'vue-i18n';
-import { Button } from '@ui/button';
-import { onKeyDown } from '@tb-dev/vue';
-import type { Option } from '@tb-dev/utils';
-import { throttle } from 'es-toolkit/function';
-import { useRouteParams } from '@vueuse/router';
-import enUS from '@/locale/en-US/scenes/game/profile.json';
-import ptBR from '@/locale/pt-BR/scenes/game/profile.json';
-import { usePublicCity } from '@/composables/city/usePublicCity';
-import { Card, CardContent, CardHeader, CardTitle } from '@ui/card';
-import { useCityOwnerSceneLink } from '@/composables/city/useCityOwnerSceneLink';
-import { Table, TableBody, TableCell, TableFooter, TableHead, TableRow } from '@ui/table';
+import { computed } from "vue";
+import { useI18n } from "vue-i18n";
+import { Button } from "@ui/button";
+import { onKeyDown } from "@tb-dev/vue";
+import type { Option } from "@tb-dev/utils";
+import { throttle } from "es-toolkit/function";
+import { useRouteParams } from "@vueuse/router";
+import enUS from "@/locale/en-US/scenes/game/profile.json";
+import ptBR from "@/locale/pt-BR/scenes/game/profile.json";
+import { usePublicCity } from "@/composables/city/usePublicCity";
+import { Card, CardContent, CardHeader, CardTitle } from "@ui/card";
+import { useCityOwnerSceneLink } from "@/composables/city/useCityOwnerSceneLink";
+import { Table, TableBody, TableCell, TableFooter, TableHead, TableRow } from "@ui/table";
 
 const { t } = useI18n({
   messages: {
-    'en-US': enUS,
-    'pt-BR': ptBR,
+    "en-US": enUS,
+    "pt-BR": ptBR,
   },
 });
 
-const ckeyParam = useRouteParams<Option<string>>('ckey', null);
+const ckeyParam = useRouteParams<Option<string>>("ckey", null);
 const continentKey = computed(() => {
   return ckeyParam.value ? Number.parseInt(ckeyParam.value, 10) : null;
 });
@@ -34,7 +34,7 @@ const owner = computed(() => city.value?.owner);
 const toOwnerScene = useCityOwnerSceneLink(owner);
 
 if (__DESKTOP__) {
-  onKeyDown('F5', throttle(load, 1000));
+  onKeyDown("F5", throttle(load, 1000));
 }
 </script>
 
@@ -52,17 +52,17 @@ if (__DESKTOP__) {
           <Table class="sm:max-w-max">
             <TableBody>
               <TableRow>
-                <TableHead>{{ t('coordinate', 2) }}</TableHead>
+                <TableHead>{{ t("coordinate", 2) }}</TableHead>
                 <TableCell>{{ city.coord.format() }}</TableCell>
               </TableRow>
 
               <TableRow>
-                <TableHead>{{ t('point', 2) }}</TableHead>
+                <TableHead>{{ t("point", 2) }}</TableHead>
                 <TableCell>{{ city.formatScore() }}</TableCell>
               </TableRow>
 
               <TableRow>
-                <TableHead>{{ t('owner') }}</TableHead>
+                <TableHead>{{ t("owner") }}</TableHead>
                 <TableCell>
                   <RouterLink v-if="toOwnerScene" :to="toOwnerScene">
                     <span>{{ owner.id }}</span>
@@ -71,7 +71,7 @@ if (__DESKTOP__) {
               </TableRow>
 
               <TableRow>
-                <TableHead>{{ t('type') }}</TableHead>
+                <TableHead>{{ t("type") }}</TableHead>
                 <TableCell>{{ t(city.owner.kind) }}</TableCell>
               </TableRow>
             </TableBody>
@@ -81,11 +81,11 @@ if (__DESKTOP__) {
                 <TableCell colspan="2" class="text-center">
                   <div class="flex items-center justify-center gap-2">
                     <Button size="sm" :disabled="loading" @click="() => city?.goToContinent()">
-                      <span>{{ t('show-on-map') }}</span>
+                      <span>{{ t("show-on-map") }}</span>
                     </Button>
 
                     <Button size="sm" :disabled="loading" @click="() => city?.goToWarRoom('destination')">
-                      <span>{{ t('send-troops') }}</span>
+                      <span>{{ t("send-troops") }}</span>
                     </Button>
                   </div>
                 </TableCell>

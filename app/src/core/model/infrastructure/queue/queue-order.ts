@@ -1,11 +1,11 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { ResourcesImpl } from '@/core/model/resources';
+import { ResourcesImpl } from "@/core/model/resources";
 import type {
   InfrastructureQueueOrder,
   InfrastructureQueueOrderState,
-} from '@/types/core/infrastructure';
+} from "@/types/core/infrastructure";
 
 export abstract class InfrastructureQueueOrderImpl implements InfrastructureQueueOrder {
   public readonly id: string;
@@ -21,16 +21,16 @@ export abstract class InfrastructureQueueOrderImpl implements InfrastructureQueu
   }
 
   public isDone() {
-    return this.state.kind === 'done';
+    return this.state.kind === "done";
   }
 
   public isPending() {
-    return this.state.kind === 'pending';
+    return this.state.kind === "pending";
   }
 
   public getPendingWorkforce() {
     switch (this.state.kind) {
-      case 'pending':
+      case "pending":
         return this.state.workforce;
       default:
         return 0;

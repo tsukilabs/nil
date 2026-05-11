@@ -1,14 +1,14 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { Entity } from './abstract';
-import type { Option } from '@tb-dev/utils';
-import { asyncRef, maybe } from '@tb-dev/vue';
-import { CityImpl } from '@/core/model/city/city';
-import type { CityUpdatedPayload } from '@/types/event';
-import { CoordImpl } from '@/core/model/continent/coord';
-import type { Coord, Resources } from '@tsukilabs/nil-bindings';
-import { computed, nextTick, type Ref, shallowRef } from 'vue';
+import { Entity } from "./abstract";
+import type { Option } from "@tb-dev/utils";
+import { asyncRef, maybe } from "@tb-dev/vue";
+import { CityImpl } from "@/core/model/city/city";
+import type { CityUpdatedPayload } from "@/types/event";
+import { CoordImpl } from "@/core/model/continent/coord";
+import type { Coord, Resources } from "@tsukilabs/nil-bindings";
+import { computed, nextTick, type Ref, shallowRef } from "vue";
 
 export class CityEntity extends Entity {
   private readonly coord = shallowRef<Option<CoordImpl>>();
@@ -132,8 +132,8 @@ export class CityEntity extends Entity {
   }
 
   public static init() {
-    if (!Object.hasOwn(globalThis.NIL, 'city')) {
-      const city: (typeof globalThis.NIL)['city'] = {
+    if (!Object.hasOwn(globalThis.NIL, "city")) {
+      const city: (typeof globalThis.NIL)["city"] = {
         getCity: CityEntity.getCity.bind(CityEntity),
         getCoord: CityEntity.getCoord.bind(CityEntity),
         getProduction: CityEntity.getProduction.bind(CityEntity),
@@ -142,7 +142,7 @@ export class CityEntity extends Entity {
         use: CityEntity.use.bind(CityEntity),
       };
 
-      Object.defineProperty(globalThis.NIL, 'city', {
+      Object.defineProperty(globalThis.NIL, "city", {
         configurable: false,
         enumerable: true,
         writable: false,

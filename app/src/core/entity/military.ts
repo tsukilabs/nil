@@ -1,12 +1,12 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Ref } from 'vue';
-import { Entity } from './abstract';
-import { asyncRef } from '@tb-dev/vue';
-import type { Option } from '@tb-dev/utils';
-import type { MilitaryUpdatedPayload } from '@/types/event';
-import { MilitaryImpl } from '@/core/model/military/military';
+import type { Ref } from "vue";
+import { Entity } from "./abstract";
+import { asyncRef } from "@tb-dev/vue";
+import type { Option } from "@tb-dev/utils";
+import type { MilitaryUpdatedPayload } from "@/types/event";
+import { MilitaryImpl } from "@/core/model/military/military";
 
 export class MilitaryEntity extends Entity {
   private readonly military: Ref<Option<MilitaryImpl>>;
@@ -53,14 +53,14 @@ export class MilitaryEntity extends Entity {
   }
 
   public static init() {
-    if (!Object.hasOwn(globalThis.NIL, 'military')) {
-      const military: (typeof globalThis.NIL)['military'] = {
+    if (!Object.hasOwn(globalThis.NIL, "military")) {
+      const military: (typeof globalThis.NIL)["military"] = {
         refs: MilitaryEntity.refs.bind(MilitaryEntity),
         update: MilitaryEntity.update.bind(MilitaryEntity),
         use: MilitaryEntity.use.bind(MilitaryEntity),
       };
 
-      Object.defineProperty(globalThis.NIL, 'military', {
+      Object.defineProperty(globalThis.NIL, "military", {
         configurable: false,
         enumerable: true,
         writable: false,

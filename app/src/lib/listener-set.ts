@@ -1,9 +1,9 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { tryOnScopeDispose } from '@vueuse/core';
-import { type EventProxy, events, type ListenerFn } from '@/lib/event';
-import { type Fn, type MaybeArray, type MaybePromise, toArray } from '@tb-dev/utils';
+import { tryOnScopeDispose } from "@vueuse/core";
+import { type EventProxy, events, type ListenerFn } from "@/lib/event";
+import { type Fn, type MaybeArray, type MaybePromise, toArray } from "@tb-dev/utils";
 import {
   watch,
   type WatchCallback,
@@ -12,7 +12,7 @@ import {
   type WatchEffectOptions,
   type WatchOptions,
   type WatchSource,
-} from 'vue';
+} from "vue";
 
 type Event = {
   [K in keyof EventProxy]: (fn: Parameters<EventProxy[K]>[0]) => Event;

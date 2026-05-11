@@ -2,20 +2,20 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n';
-import Food from '@/components/resources/Food.vue';
-import { formatInt, formatPercent } from '@/lib/intl';
-import { useWall } from '@/composables/infrastructure/useBuilding';
-import { Card, CardContent, CardHeader, CardTitle } from '@ui/card';
-import enUS from '@/locale/en-US/scenes/game/infrastructure/wall.json';
-import ptBR from '@/locale/pt-BR/scenes/game/infrastructure/wall.json';
-import { useWallStats } from '@/composables/infrastructure/useWallStats';
-import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from '@ui/table';
+import { useI18n } from "vue-i18n";
+import Food from "@/components/resources/Food.vue";
+import { formatInt, formatPercent } from "@/lib/intl";
+import { useWall } from "@/composables/infrastructure/useBuilding";
+import { Card, CardContent, CardHeader, CardTitle } from "@ui/card";
+import enUS from "@/locale/en-US/scenes/game/infrastructure/wall.json";
+import ptBR from "@/locale/pt-BR/scenes/game/infrastructure/wall.json";
+import { useWallStats } from "@/composables/infrastructure/useWallStats";
+import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from "@ui/table";
 
 const { t } = useI18n({
   messages: {
-    'en-US': enUS,
-    'pt-BR': ptBR,
+    "en-US": enUS,
+    "pt-BR": ptBR,
   },
 });
 
@@ -28,7 +28,7 @@ const { level, stats } = useWallStats(wall);
     <Card v-if="wall" class="w-full">
       <CardHeader>
         <CardTitle>
-          <span>{{ `${t('wall')} (${t('level-x', [level.current])})` }}</span>
+          <span>{{ `${t("wall")} (${t("level-x", [level.current])})` }}</span>
         </CardTitle>
       </CardHeader>
 
@@ -37,16 +37,16 @@ const { level, stats } = useWallStats(wall);
           <TableHeader>
             <TableRow class="bg-card hover:bg-card">
               <TableHead />
-              <TableHead>{{ t('current-level') }}</TableHead>
+              <TableHead>{{ t("current-level") }}</TableHead>
               <TableHead v-if="stats.next && !level.isMax">
-                {{ t('next-level') }}
+                {{ t("next-level") }}
               </TableHead>
             </TableRow>
           </TableHeader>
 
           <TableBody>
             <TableRow>
-              <TableCell>{{ t('basic-defense') }}</TableCell>
+              <TableCell>{{ t("basic-defense") }}</TableCell>
               <TableCell>
                 <span>{{ formatInt(stats.current.defense) }}</span>
               </TableCell>
@@ -56,7 +56,7 @@ const { level, stats } = useWallStats(wall);
             </TableRow>
 
             <TableRow>
-              <TableCell>{{ t('defensive-bonus') }}</TableCell>
+              <TableCell>{{ t("defensive-bonus") }}</TableCell>
               <TableCell>
                 <span>{{ formatPercent(stats.current.defensePercent / 100) }}</span>
               </TableCell>
@@ -70,7 +70,7 @@ const { level, stats } = useWallStats(wall);
             <TableRow class="bg-card hover:bg-card">
               <TableCell colspan="3">
                 <div class="flex w-full items-center justify-end gap-2 px-2 pt-4">
-                  <div>{{ `${t('maintenance')}:` }}</div>
+                  <div>{{ `${t("maintenance")}:` }}</div>
                   <Food :amount="wall.getMaintenance()" />
                 </div>
               </TableCell>

@@ -1,14 +1,14 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { getPublicCities } from '@/commands/city';
-import type { ComposerTranslation } from 'vue-i18n';
-import { ResourcesImpl } from '@/core/model/resources';
-import { CoordImpl } from '@/core/model/continent/coord';
-import { ReportImpl } from '@/core/model/report/abstract';
-import enUS from '@/locale/en-US/scenes/game/report.json';
-import { BattleResultImpl } from '@/core/model/battle-result';
-import type { BattleReport, Coord, PlayerId, PublicCity, Ruler } from '@tsukilabs/nil-bindings';
+import { getPublicCities } from "@/commands/city";
+import type { ComposerTranslation } from "vue-i18n";
+import { ResourcesImpl } from "@/core/model/resources";
+import { CoordImpl } from "@/core/model/continent/coord";
+import { ReportImpl } from "@/core/model/report/abstract";
+import enUS from "@/locale/en-US/scenes/game/report.json";
+import { BattleResultImpl } from "@/core/model/battle-result";
+import type { BattleReport, Coord, PlayerId, PublicCity, Ruler } from "@tsukilabs/nil-bindings";
 
 export class BattleReportImpl extends ReportImpl implements Readonly<BattleReport> {
   public readonly attacker: Ruler;
@@ -36,11 +36,11 @@ export class BattleReportImpl extends ReportImpl implements Readonly<BattleRepor
 
   public override getPlayerIds(): readonly PlayerId[] {
     const ids: PlayerId[] = [];
-    if (this.attacker.kind === 'player') {
+    if (this.attacker.kind === "player") {
       ids.push(this.attacker.id);
     }
 
-    if (this.defender.kind === 'player') {
+    if (this.defender.kind === "player") {
       ids.push(this.defender.id);
     }
 
@@ -48,7 +48,7 @@ export class BattleReportImpl extends ReportImpl implements Readonly<BattleRepor
   }
 
   public override getTitle(t: ComposerTranslation<typeof enUS>) {
-    return t('battle-report-title', {
+    return t("battle-report-title", {
       attacker: this.attacker.id,
       destination: this.destination.format(),
       destinationName: this.destinationCity.name,

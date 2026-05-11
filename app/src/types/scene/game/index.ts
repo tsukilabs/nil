@@ -1,7 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { InfrastructureScene } from '@/types/scene/game/infrastructure';
+import type { InfrastructureScene } from "@/types/scene/game/infrastructure";
 
 export type GameScene =
   | ContinentScene
@@ -9,15 +9,15 @@ export type GameScene =
   | ProfileScene
   | ReportScene
   | WarRoomScene
-  | 'chat'
-  | 'city'
-  | 'continent'
-  | 'ranking';
+  | "chat"
+  | "city"
+  | "continent"
+  | "ranking";
 
-export type ContinentScene = 'continent' | 'continent-cities';
+export type ContinentScene = "continent" | "continent-cities";
 
-export type ProfileScene = 'profile-bot' | 'profile-city' | 'profile-player' | 'profile-precursor';
+export type ProfileScene = "profile-bot" | "profile-city" | "profile-player" | "profile-precursor";
 
-export type ReportScene = 'report' | 'report-forward' | 'report-view';
+export type ReportScene = "report" | "report-forward" | "report-view";
 
-export type WarRoomScene = 'war-room' | 'war-room-simulator';
+export type WarRoomScene = "war-room" | "war-room-simulator";

@@ -1,7 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { BuildingLevel, StorageStats } from '@tsukilabs/nil-bindings';
+import type { BuildingLevel, StorageStats } from "@tsukilabs/nil-bindings";
 
 export class StorageStatsImpl implements Readonly<StorageStats> {
   public readonly level: BuildingLevel;

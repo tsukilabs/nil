@@ -1,16 +1,16 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as commands from '@/commands';
-import * as cheats from '@/commands/cheat';
-import { camelCase } from 'es-toolkit/string';
+import * as commands from "@/commands";
+import * as cheats from "@/commands/cheat";
+import { camelCase } from "es-toolkit/string";
 
 export const DESKTOP = globalThis.__DESKTOP__;
 export const MOBILE = globalThis.__MOBILE__;
 
 export function defineGlobalCommands() {
-  if (__DEBUG_ASSERTIONS__ && !Object.hasOwn(globalThis.NIL, 'cmd')) {
-    Object.defineProperty(globalThis.NIL, 'cmd', {
+  if (__DEBUG_ASSERTIONS__ && !Object.hasOwn(globalThis.NIL, "cmd")) {
+    Object.defineProperty(globalThis.NIL, "cmd", {
       configurable: false,
       enumerable: true,
       writable: false,
@@ -20,17 +20,17 @@ export function defineGlobalCommands() {
 }
 
 export function defineGlobalCheats() {
-  if (__DEBUG_ASSERTIONS__ && !Object.hasOwn(globalThis.NIL, 'cheat')) {
+  if (__DEBUG_ASSERTIONS__ && !Object.hasOwn(globalThis.NIL, "cheat")) {
     const regex = /^cheat/;
     const entries = Array.from(Object.entries(cheats))
-      .filter(([key, _]) => key.startsWith('cheat'))
-      .filter(([_, fn]) => typeof fn === 'function')
+      .filter(([key, _]) => key.startsWith("cheat"))
+      .filter(([_, fn]) => typeof fn === "function")
       .map(([key, fn]) => {
-        key = camelCase(key.replace(regex, ''));
+        key = camelCase(key.replace(regex, ""));
         return [key, fn];
       });
 
-    Object.defineProperty(globalThis.NIL, 'cheat', {
+    Object.defineProperty(globalThis.NIL, "cheat", {
       configurable: false,
       enumerable: true,
       writable: false,

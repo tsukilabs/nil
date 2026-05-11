@@ -2,19 +2,19 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { computed } from 'vue';
-import { useI18n } from 'vue-i18n';
-import Food from '@/components/resources/Food.vue';
-import Iron from '@/components/resources/Iron.vue';
-import Wood from '@/components/resources/Wood.vue';
-import Stone from '@/components/resources/Stone.vue';
-import enUS from '@/locale/en-US/scenes/game/report.json';
-import ptBR from '@/locale/pt-BR/scenes/game/report.json';
-import { useBattleLosses } from '@/composables/battle/useBattleLosses';
-import type { BattleReportImpl } from '@/core/model/report/battle-report';
-import { useBattleWallLevel } from '@/composables/battle/useBattleWallLevel';
-import { Table, TableBody, TableCell, TableHead, TableRow } from '@ui/table';
-import BattleReportTable from '@/scenes/game/report/view/BattleReportTable.vue';
+import { computed } from "vue";
+import { useI18n } from "vue-i18n";
+import Food from "@/components/resources/Food.vue";
+import Iron from "@/components/resources/Iron.vue";
+import Wood from "@/components/resources/Wood.vue";
+import Stone from "@/components/resources/Stone.vue";
+import enUS from "@/locale/en-US/scenes/game/report.json";
+import ptBR from "@/locale/pt-BR/scenes/game/report.json";
+import { useBattleLosses } from "@/composables/battle/useBattleLosses";
+import type { BattleReportImpl } from "@/core/model/report/battle-report";
+import { useBattleWallLevel } from "@/composables/battle/useBattleWallLevel";
+import { Table, TableBody, TableCell, TableHead, TableRow } from "@ui/table";
+import BattleReportTable from "@/scenes/game/report/view/BattleReportTable.vue";
 
 const props = defineProps<{
   report: BattleReportImpl;
@@ -22,8 +22,8 @@ const props = defineProps<{
 
 const { t } = useI18n({
   messages: {
-    'en-US': enUS,
-    'pt-BR': ptBR,
+    "en-US": enUS,
+    "pt-BR": ptBR,
   },
 });
 
@@ -55,12 +55,12 @@ const wallLevel = useBattleWallLevel(result);
     <Table class="max-w-[800px]">
       <TableBody>
         <TableRow class="hover:bg-card">
-          <TableHead>{{ t('attacker-luck') }}</TableHead>
+          <TableHead>{{ t("attacker-luck") }}</TableHead>
           <TableCell>{{ report.result.formatLuck() }}</TableCell>
         </TableRow>
 
         <TableRow v-if="report.result.wallLevel > 0" class="hover:bg-card">
-          <TableHead>{{ t('wall-level') }}</TableHead>
+          <TableHead>{{ t("wall-level") }}</TableHead>
           <TableCell v-if="wallLevel.didChange">
             {{ wallLevel.original }} → {{ wallLevel.current }}
           </TableCell>
@@ -70,7 +70,7 @@ const wallLevel = useBattleWallLevel(result);
         </TableRow>
 
         <TableRow v-if="!report.hauledResources.isEmpty()" class="hover:bg-card">
-          <TableHead>{{ t('haul') }}</TableHead>
+          <TableHead>{{ t("haul") }}</TableHead>
           <TableCell>
             <div class="w-max max-w-max flex items-center gap-4">
               <Wood :amount="report.hauledResources.wood" />

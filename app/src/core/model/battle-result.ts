@@ -1,9 +1,9 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { toI8 } from '@/lib/number';
-import { simulateBattle } from '@/commands/battle';
-import { ArmyPersonnelImpl } from '@/core/model/military/army-personnel';
+import { toI8 } from "@/lib/number";
+import { simulateBattle } from "@/commands/battle";
+import { ArmyPersonnelImpl } from "@/core/model/military/army-personnel";
 import type {
   ArmyPersonnel,
   BattleResult,
@@ -11,7 +11,7 @@ import type {
   BuildingLevel,
   BuildingLevelDiff,
   Luck,
-} from '@tsukilabs/nil-bindings';
+} from "@tsukilabs/nil-bindings";
 
 export class BattleResultImpl implements Readonly<BattleResult> {
   public readonly winner: BattleWinner;

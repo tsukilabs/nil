@@ -2,10 +2,10 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { Input } from '@ui/input';
-import { Label } from '@ui/label';
-import { useI18n } from 'vue-i18n';
-import type { Option } from '@tb-dev/utils';
+import { Input } from "@ui/input";
+import { Label } from "@ui/label";
+import { useI18n } from "vue-i18n";
+import type { Option } from "@tb-dev/utils";
 
 defineProps<{
   disabled: boolean;
@@ -18,7 +18,7 @@ const { t } = useI18n();
 
 <template>
   <Label>
-    <span>{{ t('server') }}</span>
+    <span>{{ t("server") }}</span>
     <Input
       v-model="server"
       type="text"

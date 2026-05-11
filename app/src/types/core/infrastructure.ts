@@ -1,7 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { BuildingLevel, Resources } from '@tsukilabs/nil-bindings';
+import type { BuildingLevel, Resources } from "@tsukilabs/nil-bindings";
 
 export interface Building {
   readonly enabled: boolean;
@@ -26,10 +26,10 @@ export type InfrastructureQueueOrderState =
   | InfrastructureQueueOrderStateDone;
 
 export interface InfrastructureQueueOrderStatePending {
-  readonly kind: 'pending';
+  readonly kind: "pending";
   readonly workforce: number;
 }
 
 export interface InfrastructureQueueOrderStateDone {
-  readonly kind: 'done';
+  readonly kind: "done";
 }

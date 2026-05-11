@@ -1,10 +1,10 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { go } from '@/router';
-import { getRank } from '@/commands';
-import { formatInt } from '@/lib/intl';
-import type { RankingEntry, Ruler } from '@tsukilabs/nil-bindings';
+import { go } from "@/router";
+import { getRank } from "@/commands";
+import { formatInt } from "@/lib/intl";
+import type { RankingEntry, Ruler } from "@tsukilabs/nil-bindings";
 
 export class RankingEntryImpl implements Readonly<RankingEntry> {
   public readonly rank: number;

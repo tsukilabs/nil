@@ -2,36 +2,36 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { Input } from '@ui/input';
-import { useI18n } from 'vue-i18n';
-import { Button } from '@ui/button';
-import { computed, ref } from 'vue';
-import { formatDate } from 'date-fns';
-import * as commands from '@/commands';
-import { useRouter } from 'vue-router';
-import { Trash2Icon } from '@lucide/vue';
-import type { Option } from '@tb-dev/utils';
-import { joinRemoteGame } from '@/core/game';
-import Loading from '@/components/Loading.vue';
-import { isValidPassword } from '@/lib/schema';
-import { useRouteQuery } from '@vueuse/router';
-import { useSettings } from '@/stores/settings';
-import type { WorldId } from '@tsukilabs/nil-bindings';
-import enUS from '@/locale/en-US/scenes/online.json';
-import ptBR from '@/locale/pt-BR/scenes/online.json';
-import { useToken } from '@/composables/auth/useToken';
-import { useBreakpoints, useMutex } from '@tb-dev/vue';
-import ButtonIcon from '@/components/button/ButtonIcon.vue';
-import { go, QUERY_JOIN_REMOTE_GAME_WORLD_ID } from '@/router';
-import ButtonSpinner from '@/components/button/ButtonSpinner.vue';
-import { useRemoteWorld } from '@/composables/world/useRemoteWorld';
-import { Table, TableBody, TableCell, TableHead, TableRow } from '@ui/table';
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@ui/card';
+import { Input } from "@ui/input";
+import { useI18n } from "vue-i18n";
+import { Button } from "@ui/button";
+import { computed, ref } from "vue";
+import { formatDate } from "date-fns";
+import * as commands from "@/commands";
+import { useRouter } from "vue-router";
+import { Trash2Icon } from "@lucide/vue";
+import type { Option } from "@tb-dev/utils";
+import { joinRemoteGame } from "@/core/game";
+import Loading from "@/components/Loading.vue";
+import { isValidPassword } from "@/lib/schema";
+import { useRouteQuery } from "@vueuse/router";
+import { useSettings } from "@/stores/settings";
+import type { WorldId } from "@tsukilabs/nil-bindings";
+import enUS from "@/locale/en-US/scenes/online.json";
+import ptBR from "@/locale/pt-BR/scenes/online.json";
+import { useToken } from "@/composables/auth/useToken";
+import { useBreakpoints, useMutex } from "@tb-dev/vue";
+import ButtonIcon from "@/components/button/ButtonIcon.vue";
+import { go, QUERY_JOIN_REMOTE_GAME_WORLD_ID } from "@/router";
+import ButtonSpinner from "@/components/button/ButtonSpinner.vue";
+import { useRemoteWorld } from "@/composables/world/useRemoteWorld";
+import { Table, TableBody, TableCell, TableHead, TableRow } from "@ui/table";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@ui/card";
 
 const { t } = useI18n({
   messages: {
-    'en-US': enUS,
-    'pt-BR': ptBR,
+    "en-US": enUS,
+    "pt-BR": ptBR,
   },
 });
 
@@ -74,7 +74,7 @@ async function deleteGame() {
   await lock(async () => {
     if (remoteWorld.value && settings.auth.token) {
       await commands.deleteRemoteWorld(remoteWorld.value.id);
-      await go('lobby');
+      await go("lobby");
     }
   });
 }
@@ -87,7 +87,7 @@ async function deleteGame() {
       <CardHeader>
         <CardTitle>
           <div class="flex items-center justify-between">
-            <span class="w-full">{{ t('join-game') }}</span>
+            <span class="w-full">{{ t("join-game") }}</span>
             <div class="flex items-center justify-center">
               <ButtonIcon
                 v-if="remoteWorld.createdBy === playerId"
@@ -106,50 +106,50 @@ async function deleteGame() {
         <Table class="w-full min-w-max">
           <TableBody>
             <TableRow class="hover:bg-card">
-              <TableHead class="max-w-max pr-4">{{ t('name') }}</TableHead>
+              <TableHead class="max-w-max pr-4">{{ t("name") }}</TableHead>
               <TableCell class="w-full wrap-anywhere whitespace-normal">
                 {{ remoteWorld.name }}
               </TableCell>
             </TableRow>
 
             <TableRow class="hover:bg-card">
-              <TableHead class="max-w-max pr-4">{{ t('round') }}</TableHead>
+              <TableHead class="max-w-max pr-4">{{ t("round") }}</TableHead>
               <TableCell class="w-full">{{ remoteWorld.currentRound }}</TableCell>
             </TableRow>
 
             <TableRow class="hover:bg-card">
-              <TableHead class="max-w-max pr-4">{{ t('active-players') }}</TableHead>
+              <TableHead class="max-w-max pr-4">{{ t("active-players") }}</TableHead>
               <TableCell class="w-full">{{ remoteWorld.activePlayers }}</TableCell>
             </TableRow>
 
             <TableRow class="hover:bg-card">
-              <TableHead class="max-w-max pr-4">{{ t('total-players') }}</TableHead>
+              <TableHead class="max-w-max pr-4">{{ t("total-players") }}</TableHead>
               <TableCell class="w-full">{{ remoteWorld.totalPlayers }}</TableCell>
             </TableRow>
 
             <TableRow class="hover:bg-card">
-              <TableHead class="max-w-max pr-4">{{ t('created-by') }}</TableHead>
+              <TableHead class="max-w-max pr-4">{{ t("created-by") }}</TableHead>
               <TableCell class="w-full wrap-anywhere whitespace-normal">
                 {{ remoteWorld.createdBy }}
               </TableCell>
             </TableRow>
 
             <TableRow class="hover:bg-card">
-              <TableHead class="max-w-max pr-4">{{ t('created-at') }}</TableHead>
+              <TableHead class="max-w-max pr-4">{{ t("created-at") }}</TableHead>
               <TableCell class="w-full">
-                {{ formatDate(remoteWorld.createdAtDate, 'dd/MM/yyyy HH:mm') }}
+                {{ formatDate(remoteWorld.createdAtDate, "dd/MM/yyyy HH:mm") }}
               </TableCell>
             </TableRow>
 
             <TableRow class="hover:bg-card">
-              <TableHead class="max-w-max pr-4">{{ t('updated-at') }}</TableHead>
+              <TableHead class="max-w-max pr-4">{{ t("updated-at") }}</TableHead>
               <TableCell class="w-full">
-                {{ formatDate(remoteWorld.updatedAtDate, 'dd/MM/yyyy HH:mm') }}
+                {{ formatDate(remoteWorld.updatedAtDate, "dd/MM/yyyy HH:mm") }}
               </TableCell>
             </TableRow>
 
             <TableRow v-if="remoteWorld.description" class="hover:bg-card">
-              <TableHead class="max-w-max pr-4">{{ t('world-description') }}</TableHead>
+              <TableHead class="max-w-max pr-4">{{ t("world-description") }}</TableHead>
               <TableCell class="w-full wrap-anywhere whitespace-normal">
                 {{ remoteWorld.description }}
               </TableCell>
@@ -173,10 +173,10 @@ async function deleteGame() {
 
         <div class="w-full md:max-w-1/2 grid grid-cols-2 gap-2">
           <ButtonSpinner :loading="locked" :disabled="!canJoin || locked" @click="joinGame">
-            {{ t('join') }}
+            {{ t("join") }}
           </ButtonSpinner>
           <Button variant="secondary" :disabled="locked" @click="() => router.back()">
-            <span>{{ t('cancel') }}</span>
+            <span>{{ t("cancel") }}</span>
           </Button>
         </div>
       </CardFooter>

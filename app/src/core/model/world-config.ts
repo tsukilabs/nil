@@ -9,7 +9,7 @@ import type {
   WorldId,
   WorldSpeed,
   WorldUnitSpeed,
-} from '@tsukilabs/nil-bindings';
+} from "@tsukilabs/nil-bindings";
 
 export class WorldConfigImpl implements Readonly<WorldConfig> {
   public readonly id: WorldId;

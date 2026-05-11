@@ -1,10 +1,10 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { SquadImpl } from './squad';
-import { toU32 } from '@/lib/number';
-import type { ArmyPersonnel, Squad } from '@tsukilabs/nil-bindings';
-import type { ArmyPersonnelSize, SquadTuple } from '@/types/core/military';
+import { SquadImpl } from "./squad";
+import { toU32 } from "@/lib/number";
+import type { ArmyPersonnel, Squad } from "@tsukilabs/nil-bindings";
+import type { ArmyPersonnelSize, SquadTuple } from "@/types/core/military";
 
 export class ArmyPersonnelImpl implements Readonly<ArmyPersonnel> {
   public readonly archer: SquadImpl;
@@ -75,26 +75,26 @@ export class ArmyPersonnelImpl implements Readonly<ArmyPersonnel> {
 
   public static createEmptyRaw(): ArmyPersonnel {
     return {
-      archer: SquadImpl.createEmptyRaw('archer'),
-      axeman: SquadImpl.createEmptyRaw('axeman'),
-      heavyCavalry: SquadImpl.createEmptyRaw('heavy-cavalry'),
-      lightCavalry: SquadImpl.createEmptyRaw('light-cavalry'),
-      pikeman: SquadImpl.createEmptyRaw('pikeman'),
-      ram: SquadImpl.createEmptyRaw('ram'),
-      swordsman: SquadImpl.createEmptyRaw('swordsman'),
+      archer: SquadImpl.createEmptyRaw("archer"),
+      axeman: SquadImpl.createEmptyRaw("axeman"),
+      heavyCavalry: SquadImpl.createEmptyRaw("heavy-cavalry"),
+      lightCavalry: SquadImpl.createEmptyRaw("light-cavalry"),
+      pikeman: SquadImpl.createEmptyRaw("pikeman"),
+      ram: SquadImpl.createEmptyRaw("ram"),
+      swordsman: SquadImpl.createEmptyRaw("swordsman"),
     };
   }
 
   public static splat(size: number) {
     size = toU32(size);
     return {
-      archer: SquadImpl.create({ unit: 'archer', size }),
-      axeman: SquadImpl.create({ unit: 'axeman', size }),
-      heavyCavalry: SquadImpl.create({ unit: 'heavy-cavalry', size }),
-      lightCavalry: SquadImpl.create({ unit: 'light-cavalry', size }),
-      pikeman: SquadImpl.create({ unit: 'pikeman', size }),
-      ram: SquadImpl.create({ unit: 'ram', size }),
-      swordsman: SquadImpl.create({ unit: 'swordsman', size }),
+      archer: SquadImpl.create({ unit: "archer", size }),
+      axeman: SquadImpl.create({ unit: "axeman", size }),
+      heavyCavalry: SquadImpl.create({ unit: "heavy-cavalry", size }),
+      lightCavalry: SquadImpl.create({ unit: "light-cavalry", size }),
+      pikeman: SquadImpl.create({ unit: "pikeman", size }),
+      ram: SquadImpl.create({ unit: "ram", size }),
+      swordsman: SquadImpl.create({ unit: "swordsman", size }),
     };
   }
 

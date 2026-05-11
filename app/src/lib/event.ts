@@ -1,11 +1,11 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as commands from '@/commands';
-import { handleError } from '@/lib/error';
-import { SavedataFile } from '@/core/savedata';
-import type { Fn, MaybePromise, Option } from '@tb-dev/utils';
-import { getCurrentWebviewWindow, type WebviewWindow } from '@tauri-apps/api/webviewWindow';
+import * as commands from "@/commands";
+import { handleError } from "@/lib/error";
+import { SavedataFile } from "@/core/savedata";
+import type { Fn, MaybePromise, Option } from "@tb-dev/utils";
+import { getCurrentWebviewWindow, type WebviewWindow } from "@tauri-apps/api/webviewWindow";
 import type {
   ChatUpdatedPayload,
   CityUpdatedPayload,
@@ -16,14 +16,14 @@ import type {
   PublicCityUpdatedPayload,
   ReportPayload,
   RoundUpdatedPayload,
-} from '@/types/event';
+} from "@/types/event";
 
 export type ListenerFn<T> = (payload: T) => MaybePromise<unknown>;
 
 class Listener<T extends EventPayload> {
   public readonly on: (fn: ListenerFn<T>) => Promise<Fn>;
 
-  private constructor(id: T['kind']) {
+  private constructor(id: T["kind"]) {
     const name = `nil://${id}`;
     this.on = (fn: ListenerFn<T>) => {
       Listener.webview ??= getCurrentWebviewWindow();
@@ -50,26 +50,26 @@ class Listener<T extends EventPayload> {
   private static webview: Option<WebviewWindow>;
 
   public static readonly listeners = {
-    onChatUpdated: new this<ChatUpdatedPayload>('chat-updated'),
-    onCityUpdated: new this<CityUpdatedPayload>('city-updated'),
-    onDrop: new this<DropPayload>('drop'),
-    onMilitaryUpdated: new this<MilitaryUpdatedPayload>('military-updated'),
-    onPlayerUpdated: new this<PlayerUpdatedPayload>('player-updated'),
-    onPublicCityUpdated: new this<PublicCityUpdatedPayload>('public-city-updated'),
-    onReport: new this<ReportPayload>('report'),
-    onRoundUpdated: new this<RoundUpdatedPayload>('round-updated'),
+    onChatUpdated: new this<ChatUpdatedPayload>("chat-updated"),
+    onCityUpdated: new this<CityUpdatedPayload>("city-updated"),
+    onDrop: new this<DropPayload>("drop"),
+    onMilitaryUpdated: new this<MilitaryUpdatedPayload>("military-updated"),
+    onPlayerUpdated: new this<PlayerUpdatedPayload>("player-updated"),
+    onPublicCityUpdated: new this<PublicCityUpdatedPayload>("public-city-updated"),
+    onReport: new this<ReportPayload>("report"),
+    onRoundUpdated: new this<RoundUpdatedPayload>("round-updated"),
   } as const;
 }
 
 type EventObject = typeof Listener.listeners;
 
 export type EventProxy = {
-  [K in keyof EventObject]: EventObject[K]['on'];
+  [K in keyof EventObject]: EventObject[K]["on"];
 };
 
 export const events = new Proxy(Listener.listeners as unknown as EventProxy, {
   get: (target: EventProxy, key: keyof EventProxy) => {
-    return Reflect.get(Reflect.get(target, key), 'on');
+    return Reflect.get(Reflect.get(target, key), "on");
   },
 
   defineProperty: () => false,
@@ -80,7 +80,7 @@ export const events = new Proxy(Listener.listeners as unknown as EventProxy, {
 export async function setDragDropEventListener() {
   const webview = getCurrentWebviewWindow();
   return webview.onDragDropEvent((event) => {
-    if (event.payload.type === 'drop' && event.payload.paths.length > 0) {
+    if (event.payload.type === "drop" && event.payload.paths.length > 0) {
       onDragDropEvent(event.payload.paths).err();
     }
   });

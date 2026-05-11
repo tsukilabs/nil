@@ -1,12 +1,12 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { ResourcesImpl } from '@/core/model/resources';
-import { computed, type MaybeRefOrGetter, ref, toRef } from 'vue';
+import { ResourcesImpl } from "@/core/model/resources";
+import { computed, type MaybeRefOrGetter, ref, toRef } from "vue";
 import type {
   AcademyRecruitCatalogEntry,
   StableRecruitCatalogEntry,
-} from '@tsukilabs/nil-bindings';
+} from "@tsukilabs/nil-bindings";
 
 type RecruitCatalogEntry = AcademyRecruitCatalogEntry | StableRecruitCatalogEntry;
 
@@ -19,7 +19,7 @@ export function useRecruitCatalogEntry(entry: MaybeRefOrGetter<RecruitCatalogEnt
   });
 
   const resources = computed(() => {
-    if (entryRef.value.kind === 'available') {
+    if (entryRef.value.kind === "available") {
       const impl = ResourcesImpl.create(entryRef.value.recipe.resources);
       return impl.mul(minChunk.value);
     }
@@ -28,7 +28,7 @@ export function useRecruitCatalogEntry(entry: MaybeRefOrGetter<RecruitCatalogEnt
   });
 
   const maintenance = computed(() => {
-    if (entryRef.value.kind === 'available') {
+    if (entryRef.value.kind === "available") {
       return entryRef.value.recipe.maintenance * minChunk.value;
     }
 
@@ -36,7 +36,7 @@ export function useRecruitCatalogEntry(entry: MaybeRefOrGetter<RecruitCatalogEnt
   });
 
   const workforce = computed(() => {
-    if (entryRef.value.kind === 'available') {
+    if (entryRef.value.kind === "available") {
       return entryRef.value.recipe.workforce * minChunk.value;
     }
 

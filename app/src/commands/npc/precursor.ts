@@ -1,7 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { invoke } from '@tauri-apps/api/core';
+import { invoke } from "@tauri-apps/api/core";
 import type {
   GetPrecursorCoordsRequest,
   GetPrecursorCoordsResponse,
@@ -10,7 +10,7 @@ import type {
   GetPublicPrecursorsRequest,
   GetPublicPrecursorsResponse,
   PrecursorId,
-} from '@tsukilabs/nil-bindings';
+} from "@tsukilabs/nil-bindings";
 
 export async function getPrecursorCoords(id: PrecursorId) {
   const req: GetPrecursorCoordsRequest = {
@@ -18,7 +18,7 @@ export async function getPrecursorCoords(id: PrecursorId) {
     id,
   };
 
-  return invoke<GetPrecursorCoordsResponse>('get_precursor_coords', { req });
+  return invoke<GetPrecursorCoordsResponse>("get_precursor_coords", { req });
 }
 
 export async function getPublicPrecursor(id: PrecursorId) {
@@ -27,7 +27,7 @@ export async function getPublicPrecursor(id: PrecursorId) {
     id,
   };
 
-  return invoke<GetPublicPrecursorResponse>('get_public_precursor', { req });
+  return invoke<GetPublicPrecursorResponse>("get_public_precursor", { req });
 }
 
 export async function getPublicPrecursors() {
@@ -35,5 +35,5 @@ export async function getPublicPrecursors() {
     world: NIL.world.getIdStrict(),
   };
 
-  return invoke<GetPublicPrecursorsResponse>('get_public_precursors', { req });
+  return invoke<GetPublicPrecursorsResponse>("get_public_precursors", { req });
 }

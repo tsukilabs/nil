@@ -1,9 +1,9 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { ChatHistoryImpl } from './chat-history';
-import { getChatHistory } from '@/commands/chat';
-import type { ChatHistory, ChatMessage } from '@tsukilabs/nil-bindings';
+import { ChatHistoryImpl } from "./chat-history";
+import { getChatHistory } from "@/commands/chat";
+import type { ChatHistory, ChatMessage } from "@tsukilabs/nil-bindings";
 
 export class ChatImpl {
   public readonly history: ChatHistoryImpl;

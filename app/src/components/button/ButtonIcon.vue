@@ -2,23 +2,23 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import type { MaybePromise } from '@tb-dev/utils';
-import type { Component, HTMLAttributes, VNode } from 'vue';
-import { Button, type ButtonSize, type ButtonVariant } from '@ui/button';
+import type { MaybePromise } from "@tb-dev/utils";
+import type { Component, HTMLAttributes, VNode } from "vue";
+import { Button, type ButtonSize, type ButtonVariant } from "@ui/button";
 
 interface Props {
   disabled?: boolean;
   icon?: Component;
-  role?: HTMLAttributes['role'];
+  role?: HTMLAttributes["role"];
   size?: ButtonSize;
-  tabindex?: HTMLAttributes['tabindex'];
+  tabindex?: HTMLAttributes["tabindex"];
   variant?: ButtonVariant;
   onClick?: () => MaybePromise<void>;
 }
 
 withDefaults(defineProps<Props>(), {
-  size: 'icon',
-  variant: 'ghost',
+  size: "icon",
+  variant: "ghost",
 });
 
 defineSlots<{

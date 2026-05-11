@@ -2,19 +2,19 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n';
-import Food from '@/components/resources/Food.vue';
-import { useFarm } from '@/composables/infrastructure/useBuilding';
-import { Card, CardContent, CardHeader, CardTitle } from '@ui/card';
-import enUS from '@/locale/en-US/scenes/game/infrastructure/mine.json';
-import ptBR from '@/locale/pt-BR/scenes/game/infrastructure/mine.json';
-import { useMineStats } from '@/composables/infrastructure/useMineStats';
-import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from '@ui/table';
+import { useI18n } from "vue-i18n";
+import Food from "@/components/resources/Food.vue";
+import { useFarm } from "@/composables/infrastructure/useBuilding";
+import { Card, CardContent, CardHeader, CardTitle } from "@ui/card";
+import enUS from "@/locale/en-US/scenes/game/infrastructure/mine.json";
+import ptBR from "@/locale/pt-BR/scenes/game/infrastructure/mine.json";
+import { useMineStats } from "@/composables/infrastructure/useMineStats";
+import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from "@ui/table";
 
 const { t } = useI18n({
   messages: {
-    'en-US': enUS,
-    'pt-BR': ptBR,
+    "en-US": enUS,
+    "pt-BR": ptBR,
   },
 });
 
@@ -27,7 +27,7 @@ const { level, stats, actual, base, stabilityLoss } = useMineStats(farm);
     <Card v-if="farm" class="w-full">
       <CardHeader>
         <CardTitle>
-          <span>{{ `${t('farm')} (${t('level-x', [level.current])})` }}</span>
+          <span>{{ `${t("farm")} (${t("level-x", [level.current])})` }}</span>
         </CardTitle>
       </CardHeader>
 
@@ -36,16 +36,16 @@ const { level, stats, actual, base, stabilityLoss } = useMineStats(farm);
           <TableHeader>
             <TableRow class="bg-card hover:bg-card">
               <TableHead />
-              <TableHead>{{ t('current-level') }}</TableHead>
+              <TableHead>{{ t("current-level") }}</TableHead>
               <TableHead v-if="stats.next && !level.isMax">
-                {{ t('next-level') }}
+                {{ t("next-level") }}
               </TableHead>
             </TableRow>
           </TableHeader>
 
           <TableBody>
             <TableRow>
-              <TableCell>{{ t('base-production') }}</TableCell>
+              <TableCell>{{ t("base-production") }}</TableCell>
               <TableCell>
                 <Food :amount="base.current" />
               </TableCell>
@@ -55,7 +55,7 @@ const { level, stats, actual, base, stabilityLoss } = useMineStats(farm);
             </TableRow>
 
             <TableRow>
-              <TableCell>{{ t('loss-by-stability') }}</TableCell>
+              <TableCell>{{ t("loss-by-stability") }}</TableCell>
               <TableCell>
                 <Food :amount="stabilityLoss.current" />
               </TableCell>
@@ -65,7 +65,7 @@ const { level, stats, actual, base, stabilityLoss } = useMineStats(farm);
             </TableRow>
 
             <TableRow>
-              <TableCell>{{ t('current-production') }}</TableCell>
+              <TableCell>{{ t("current-production") }}</TableCell>
               <TableCell>
                 <Food :amount="actual.current" />
               </TableCell>
@@ -79,7 +79,7 @@ const { level, stats, actual, base, stabilityLoss } = useMineStats(farm);
             <TableRow class="bg-card hover:bg-card">
               <TableCell :colspan="!stats.next || level.isMax ? 2 : 3">
                 <div class="flex w-full items-center justify-end gap-2 px-2 pt-4">
-                  <div>{{ `${t('maintenance')}:` }}</div>
+                  <div>{{ `${t("maintenance")}:` }}</div>
                   <Food :amount="farm.getMaintenance()" />
                 </div>
               </TableCell>

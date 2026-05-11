@@ -1,9 +1,9 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { WorkshopRecruitOrderImpl } from './recruit-order';
-import type { WorkshopRecruitQueue } from '@tsukilabs/nil-bindings';
-import { InfrastructureQueueImpl } from '@/core/model/infrastructure/queue/queue';
+import { WorkshopRecruitOrderImpl } from "./recruit-order";
+import type { WorkshopRecruitQueue } from "@tsukilabs/nil-bindings";
+import { InfrastructureQueueImpl } from "@/core/model/infrastructure/queue/queue";
 
 export class WorkshopRecruitQueueImpl extends InfrastructureQueueImpl<WorkshopRecruitOrderImpl>
   implements Readonly<WorkshopRecruitQueue>

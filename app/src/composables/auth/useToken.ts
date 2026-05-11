@@ -1,12 +1,12 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { computed } from 'vue';
-import * as commands from '@/commands';
-import type { Option } from '@tb-dev/utils';
-import { asyncComputed } from '@tb-dev/vue';
-import { useSettings } from '@/stores/settings';
-import type { PlayerId } from '@tsukilabs/nil-bindings';
+import { computed } from "vue";
+import * as commands from "@/commands";
+import type { Option } from "@tb-dev/utils";
+import { asyncComputed } from "@tb-dev/vue";
+import { useSettings } from "@/stores/settings";
+import type { PlayerId } from "@tsukilabs/nil-bindings";
 
 export function useToken() {
   const settings = useSettings();

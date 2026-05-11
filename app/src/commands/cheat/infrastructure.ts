@@ -1,16 +1,16 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { toU8 } from '@/lib/number';
-import type { Option } from '@tb-dev/utils';
-import { invoke } from '@tauri-apps/api/core';
-import { getCityOwner } from '@/commands/city';
-import { getBotCoords } from '@/commands/npc/bot';
-import { getRulerCoords } from '@/commands/ruler';
-import { getPlayerCoords } from '@/commands/player';
-import { CoordImpl } from '@/core/model/continent/coord';
-import type { ContinentKey } from '@/types/core/continent';
-import { getPrecursorCoords } from '@/commands/npc/precursor';
+import { toU8 } from "@/lib/number";
+import type { Option } from "@tb-dev/utils";
+import { invoke } from "@tauri-apps/api/core";
+import { getCityOwner } from "@/commands/city";
+import { getBotCoords } from "@/commands/npc/bot";
+import { getRulerCoords } from "@/commands/ruler";
+import { getPlayerCoords } from "@/commands/player";
+import { CoordImpl } from "@/core/model/continent/coord";
+import type { ContinentKey } from "@/types/core/continent";
+import { getPrecursorCoords } from "@/commands/npc/precursor";
 import type {
   BotId,
   BuildingId,
@@ -42,7 +42,7 @@ import type {
   PlayerId,
   PrecursorId,
   Ruler,
-} from '@tsukilabs/nil-bindings';
+} from "@tsukilabs/nil-bindings";
 
 export async function cheatGetAcademyRecruitQueue(coord?: Option<ContinentKey>) {
   coord = CoordImpl.fromContinentKeyOrCurrentStrict(coord);
@@ -52,7 +52,7 @@ export async function cheatGetAcademyRecruitQueue(coord?: Option<ContinentKey>) 
   };
 
   return invoke<CheatGetAcademyRecruitQueueResponse>(
-    'cheat_get_academy_recruit_queue',
+    "cheat_get_academy_recruit_queue",
     { req },
   );
 }
@@ -68,7 +68,7 @@ export async function cheatGetAcademyRecruitQueues(
   };
 
   return invoke<CheatGetAcademyRecruitQueuesResponse>(
-    'cheat_get_academy_recruit_queues',
+    "cheat_get_academy_recruit_queues",
     { req },
   );
 }
@@ -80,7 +80,7 @@ export async function cheatGetAllAcademyRecruitQueues(filterEmpty?: Option<boole
   };
 
   return invoke<CheatGetAllAcademyRecruitQueuesResponse>(
-    'cheat_get_all_academy_recruit_queues',
+    "cheat_get_all_academy_recruit_queues",
     { req },
   );
 }
@@ -92,7 +92,7 @@ export async function cheatGetAllPrefectureBuildQueues(filterEmpty?: Option<bool
   };
 
   return invoke<CheatGetAllPrefectureBuildQueuesResponse>(
-    'cheat_get_all_prefecture_build_queues',
+    "cheat_get_all_prefecture_build_queues",
     { req },
   );
 }
@@ -104,7 +104,7 @@ export async function cheatGetAllStableRecruitQueues(filterEmpty?: Option<boolea
   };
 
   return invoke<CheatGetAllStableRecruitQueuesResponse>(
-    'cheat_get_all_stable_recruit_queues',
+    "cheat_get_all_stable_recruit_queues",
     { req },
   );
 }
@@ -116,7 +116,7 @@ export async function cheatGetInfrastructure(coord?: Option<ContinentKey>) {
     coord,
   };
 
-  return invoke<CheatGetInfrastructureResponse>('cheat_get_infrastructure', { req });
+  return invoke<CheatGetInfrastructureResponse>("cheat_get_infrastructure", { req });
 }
 
 export async function cheatGetPrefectureBuildQueue(coord?: Option<ContinentKey>) {
@@ -127,7 +127,7 @@ export async function cheatGetPrefectureBuildQueue(coord?: Option<ContinentKey>)
   };
 
   return invoke<CheatGetPrefectureBuildQueueResponse>(
-    'cheat_get_prefecture_build_queue',
+    "cheat_get_prefecture_build_queue",
     { req },
   );
 }
@@ -143,7 +143,7 @@ export async function cheatGetPrefectureBuildQueues(
   };
 
   return invoke<CheatGetPrefectureBuildQueuesResponse>(
-    'cheat_get_prefecture_build_queues',
+    "cheat_get_prefecture_build_queues",
     { req },
   );
 }
@@ -276,7 +276,7 @@ export async function cheatGetStableRecruitQueue(coord?: Option<ContinentKey>) {
   };
 
   return invoke<CheatGetStableRecruitQueueResponse>(
-    'cheat_get_stable_recruit_queue',
+    "cheat_get_stable_recruit_queue",
     { req },
   );
 }
@@ -292,7 +292,7 @@ export async function cheatGetStableRecruitQueues(
   };
 
   return invoke<CheatGetStableRecruitQueuesResponse>(
-    'cheat_get_stable_recruit_queues',
+    "cheat_get_stable_recruit_queues",
     { req },
   );
 }
@@ -303,7 +303,7 @@ export async function cheatGetStorageCapacity(ruler?: Option<Ruler>) {
     ruler: ruler ?? null,
   };
 
-  return invoke<CheatGetStorageCapacityResponse>('cheat_get_storage_capacity', { req });
+  return invoke<CheatGetStorageCapacityResponse>("cheat_get_storage_capacity", { req });
 }
 
 export async function cheatGetOwnerStorageCapacity(coord: ContinentKey) {
@@ -326,7 +326,7 @@ export async function cheatSetBuildingLevel(
     level,
   };
 
-  await invoke('cheat_set_building_level', { req });
+  await invoke("cheat_set_building_level", { req });
 }
 
 export async function cheatSetMaxInfrastructure(coord?: Option<ContinentKey>) {
@@ -336,5 +336,5 @@ export async function cheatSetMaxInfrastructure(coord?: Option<ContinentKey>) {
     coord,
   };
 
-  await invoke('cheat_set_max_infrastructure', { req });
+  await invoke("cheat_set_max_infrastructure", { req });
 }

@@ -15,7 +15,7 @@
     "nextControlFlowPosition": "nextLine",
     "operatorPosition": "sameLine",
     "quoteProps": "asNeeded",
-    "quoteStyle": "alwaysSingle",
+    "quoteStyle": "alwaysDouble",
     "semiColons": "always",
     "spaceAround": false,
     "spaceSurroundingProperties": true,

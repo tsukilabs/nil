@@ -2,17 +2,17 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { cn } from '@ui/utils';
-import { computed } from 'vue';
-import { useI18n } from 'vue-i18n';
-import { Button } from '@ui/button';
-import { formatInt } from '@/lib/intl';
-import { useBreakpoints } from '@tb-dev/vue';
-import type { MaybePromise } from '@tb-dev/utils';
-import Workforce from '@/components/resources/Workforce.vue';
-import { Table, TableBody, TableCell, TableRow } from '@ui/table';
-import type { AcademyRecruitOrderId, Squad } from '@tsukilabs/nil-bindings';
-import type { AcademyImpl } from '@/core/model/infrastructure/building/academy/academy';
+import { cn } from "@ui/utils";
+import { computed } from "vue";
+import { useI18n } from "vue-i18n";
+import { Button } from "@ui/button";
+import { formatInt } from "@/lib/intl";
+import { useBreakpoints } from "@tb-dev/vue";
+import type { MaybePromise } from "@tb-dev/utils";
+import Workforce from "@/components/resources/Workforce.vue";
+import { Table, TableBody, TableCell, TableRow } from "@ui/table";
+import type { AcademyRecruitOrderId, Squad } from "@tsukilabs/nil-bindings";
+import type { AcademyImpl } from "@/core/model/infrastructure/building/academy/academy";
 
 const props = defineProps<{
   academy: AcademyImpl;
@@ -23,7 +23,7 @@ const props = defineProps<{
 const { t } = useI18n();
 
 const tableClass = computed(() => {
-  return props.academy.recruitQueue.size === 0 ? 'hidden' : null;
+  return props.academy.recruitQueue.size === 0 ? "hidden" : null;
 });
 
 const { sm } = useBreakpoints();
@@ -58,7 +58,7 @@ function formatSquad(squad: Squad) {
                 :disabled="loading"
                 @click="() => onCancel(order.id)"
               >
-                <span>{{ t('cancel') }}</span>
+                <span>{{ t("cancel") }}</span>
               </Button>
             </div>
           </TableCell>

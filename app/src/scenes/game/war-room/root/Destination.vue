@@ -2,10 +2,10 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { Label } from '@ui/label';
-import type { Option } from '@tb-dev/utils';
-import type { Coord, PublicCity } from '@tsukilabs/nil-bindings';
-import { NumberField, NumberFieldContent, NumberFieldInput } from '@ui/number-field';
+import { Label } from "@ui/label";
+import type { Option } from "@tb-dev/utils";
+import type { Coord, PublicCity } from "@tsukilabs/nil-bindings";
+import { NumberField, NumberFieldContent, NumberFieldInput } from "@ui/number-field";
 
 defineProps<{
   destinationCity: Option<Readonly<PublicCity>>;

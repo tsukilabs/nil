@@ -2,24 +2,24 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { go } from '@/router';
-import { useI18n } from 'vue-i18n';
-import { Button } from '@ui/button';
-import { computed, ref } from 'vue';
-import { exitGame } from '@/core/game';
-import { handleError } from '@/lib/error';
-import { useBreakpoints } from '@tb-dev/vue';
-import { useSettings } from '@/stores/settings';
-import enUS from '@/locale/en-US/scenes/home.json';
-import ptBR from '@/locale/pt-BR/scenes/home.json';
-import { useUpdate } from '@/composables/useUpdate';
-import { Alert, AlertDescription, AlertTitle } from '@ui/alert';
-import ButtonSpinner from '@/components/button/ButtonSpinner.vue';
+import { go } from "@/router";
+import { useI18n } from "vue-i18n";
+import { Button } from "@ui/button";
+import { computed, ref } from "vue";
+import { exitGame } from "@/core/game";
+import { handleError } from "@/lib/error";
+import { useBreakpoints } from "@tb-dev/vue";
+import { useSettings } from "@/stores/settings";
+import enUS from "@/locale/en-US/scenes/home.json";
+import ptBR from "@/locale/pt-BR/scenes/home.json";
+import { useUpdate } from "@/composables/useUpdate";
+import { Alert, AlertDescription, AlertTitle } from "@ui/alert";
+import ButtonSpinner from "@/components/button/ButtonSpinner.vue";
 
 const { t } = useI18n({
   messages: {
-    'en-US': enUS,
-    'pt-BR': ptBR,
+    "en-US": enUS,
+    "pt-BR": ptBR,
   },
 });
 
@@ -36,10 +36,10 @@ async function goToOnlineScene() {
     isLoadingOnlineScene.value = true;
     await settings.auth.updateClient();
     if (await settings.auth.isTokenValid()) {
-      await go('lobby');
+      await go("lobby");
     }
     else {
-      await go('sign-in');
+      await go("sign-in");
     }
   }
   catch (err) {
@@ -66,7 +66,7 @@ async function goToOnlineScene() {
         tabindex="0"
         @click="() => go('host-local-game')"
       >
-        <span>{{ t('host-game') }}</span>
+        <span>{{ t("host-game") }}</span>
       </Button>
 
       <Button
@@ -77,7 +77,7 @@ async function goToOnlineScene() {
         tabindex="0"
         @click="() => go('join-local-game')"
       >
-        <span>{{ t('join-game') }}</span>
+        <span>{{ t("join-game") }}</span>
       </Button>
 
       <ButtonSpinner
@@ -89,7 +89,7 @@ async function goToOnlineScene() {
         tabindex="0"
         @click="goToOnlineScene"
       >
-        <span>{{ t('online') }}</span>
+        <span>{{ t("online") }}</span>
       </ButtonSpinner>
 
       <Button
@@ -100,7 +100,7 @@ async function goToOnlineScene() {
         tabindex="0"
         @click="() => go('settings')"
       >
-        <span>{{ t('settings') }}</span>
+        <span>{{ t("settings") }}</span>
       </Button>
 
       <Button
@@ -109,21 +109,21 @@ async function goToOnlineScene() {
         :disabled
         @click="() => exitGame()"
       >
-        <span>{{ t('exit') }}</span>
+        <span>{{ t("exit") }}</span>
       </Button>
     </div>
 
     <Alert v-if="update && md" class="w-max fixed bottom-safe-4 right-safe-4 py-4">
-      <AlertTitle>{{ t('update-available') }}</AlertTitle>
+      <AlertTitle>{{ t("update-available") }}</AlertTitle>
       <AlertDescription class="gap-2">
-        <span>{{ t('version-ready', [update.version]) }}</span>
+        <span>{{ t("version-ready", [update.version]) }}</span>
         <div class="grid grid-cols-2 items-center gap-2 justify-self-end">
           <Button variant="default" size="sm" @click="() => update?.install()">
-            <span>{{ t('update') }}</span>
+            <span>{{ t("update") }}</span>
           </Button>
 
           <Button variant="secondary" size="sm" @click="() => update?.openChangelog()">
-            <span>{{ t('whats-new') }}</span>
+            <span>{{ t("whats-new") }}</span>
           </Button>
         </div>
       </AlertDescription>

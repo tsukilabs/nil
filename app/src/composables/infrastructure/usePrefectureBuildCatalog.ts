@@ -1,22 +1,22 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { shallowRef } from 'vue';
-import type { Option } from '@tb-dev/utils';
-import { toCoordRef } from '@/composables/toRef';
-import { type MaybeNilRef, useMutex } from '@tb-dev/vue';
-import type { CoordImpl } from '@/core/model/continent/coord';
+import { shallowRef } from "vue";
+import type { Option } from "@tb-dev/utils";
+import { toCoordRef } from "@/composables/toRef";
+import { type MaybeNilRef, useMutex } from "@tb-dev/vue";
+import type { CoordImpl } from "@/core/model/continent/coord";
 import type {
   BuildingId,
   PrefectureBuildCatalog,
   PrefectureBuildOrderKind,
-} from '@tsukilabs/nil-bindings';
+} from "@tsukilabs/nil-bindings";
 import {
   addPrefectureBuildOrder,
   cancelPrefectureBuildOrder,
   getPrefectureBuildCatalog,
   toggleBuilding,
-} from '@/commands';
+} from "@/commands";
 
 export function usePrefectureBuildCatalog(coord?: MaybeNilRef<CoordImpl>) {
   const coordRef = toCoordRef(coord);

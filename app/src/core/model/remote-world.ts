@@ -1,10 +1,10 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as commands from '@/commands';
-import { fromZoned } from '@/lib/date';
-import type { Option } from '@tb-dev/utils';
-import { WorldConfigImpl } from './world-config';
+import * as commands from "@/commands";
+import { fromZoned } from "@/lib/date";
+import type { Option } from "@tb-dev/utils";
+import { WorldConfigImpl } from "./world-config";
 import type {
   ContinentSize,
   PlayerId,
@@ -12,7 +12,7 @@ import type {
   RoundDuration,
   RoundId,
   WorldId,
-} from '@tsukilabs/nil-bindings';
+} from "@tsukilabs/nil-bindings";
 
 export class RemoteWorldImpl implements Readonly<RemoteWorld> {
   public readonly config: WorldConfigImpl;

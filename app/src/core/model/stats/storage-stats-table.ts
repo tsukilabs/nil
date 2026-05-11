@@ -1,10 +1,10 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { StorageStatsImpl } from '@/core/model/stats/storage-stats';
-import type { BuildingLevel, StorageId, StorageStatsTable } from '@tsukilabs/nil-bindings';
+import { StorageStatsImpl } from "@/core/model/stats/storage-stats";
+import type { BuildingLevel, StorageId, StorageStatsTable } from "@tsukilabs/nil-bindings";
 
-type Stats = Omit<Readonly<StorageStatsTable>, 'table'>;
+type Stats = Omit<Readonly<StorageStatsTable>, "table">;
 
 export class StorageStatsTableImpl implements Stats {
   public readonly id: StorageId;

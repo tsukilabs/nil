@@ -2,15 +2,15 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { cn } from '@ui/utils';
-import { useI18n } from 'vue-i18n';
-import { Button } from '@ui/button';
-import { useBreakpoints } from '@tb-dev/vue';
-import type { MaybePromise } from '@tb-dev/utils';
-import type { PrefectureBuildOrderKind } from '@tsukilabs/nil-bindings';
-import enUS from '@/locale/en-US/scenes/game/infrastructure/prefecture.json';
-import ptBR from '@/locale/pt-BR/scenes/game/infrastructure/prefecture.json';
-import type { BuildingImpl } from '@/core/model/infrastructure/building/abstract';
+import { cn } from "@ui/utils";
+import { useI18n } from "vue-i18n";
+import { Button } from "@ui/button";
+import { useBreakpoints } from "@tb-dev/vue";
+import type { MaybePromise } from "@tb-dev/utils";
+import type { PrefectureBuildOrderKind } from "@tsukilabs/nil-bindings";
+import enUS from "@/locale/en-US/scenes/game/infrastructure/prefecture.json";
+import ptBR from "@/locale/pt-BR/scenes/game/infrastructure/prefecture.json";
+import type { BuildingImpl } from "@/core/model/infrastructure/building/abstract";
 
 const props = defineProps<{
   building: BuildingImpl;
@@ -25,8 +25,8 @@ const props = defineProps<{
 
 const { t } = useI18n({
   messages: {
-    'en-US': enUS,
-    'pt-BR': ptBR,
+    "en-US": enUS,
+    "pt-BR": ptBR,
   },
 });
 
@@ -42,7 +42,7 @@ const { sm } = useBreakpoints();
       class="max-w-32"
       @click="() => onOrder('construction')"
     >
-      <span>{{ t('build') }}</span>
+      <span>{{ t("build") }}</span>
     </Button>
     <Button
       variant="secondary"
@@ -51,7 +51,7 @@ const { sm } = useBreakpoints();
       class="max-w-32"
       @click="() => onToggle()"
     >
-      <span>{{ building.enabled ? t('disable') : t('enable') }}</span>
+      <span>{{ building.enabled ? t("disable") : t("enable") }}</span>
     </Button>
     <Button
       variant="destructive"
@@ -60,7 +60,7 @@ const { sm } = useBreakpoints();
       class="max-w-32"
       @click="() => onOrder('demolition')"
     >
-      <span>{{ t('demolish') }}</span>
+      <span>{{ t("demolish") }}</span>
     </Button>
   </div>
 </template>

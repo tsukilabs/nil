@@ -2,18 +2,18 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { sleep } from '@tb-dev/utils';
-import ChatMessage from './ChatMessage.vue';
-import { ScrollArea } from '@ui/scroll-area';
-import { ListenerSet } from '@/lib/listener-set';
-import { onMounted, useTemplateRef, type VNode } from 'vue';
+import { sleep } from "@tb-dev/utils";
+import ChatMessage from "./ChatMessage.vue";
+import { ScrollArea } from "@ui/scroll-area";
+import { ListenerSet } from "@/lib/listener-set";
+import { onMounted, useTemplateRef, type VNode } from "vue";
 
 interface Props {
   scrollHeight?: string;
 }
 
 withDefaults(defineProps<Props>(), {
-  scrollHeight: 'calc(100% - 60px) !important',
+  scrollHeight: "calc(100% - 60px) !important",
 });
 
 defineSlots<{
@@ -22,7 +22,7 @@ defineSlots<{
 
 const { chat } = NIL.chat.refs();
 
-const content = useTemplateRef('contentEl');
+const content = useTemplateRef("contentEl");
 
 const listener = new ListenerSet();
 listener.event.onChatUpdated(scroll);
@@ -31,7 +31,7 @@ async function scroll() {
   await sleep(10);
   content.value?.parentElement?.parentElement?.scrollTo({
     top: Number.MAX_SAFE_INTEGER,
-    behavior: 'instant',
+    behavior: "instant",
   });
 }
 

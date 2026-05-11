@@ -2,9 +2,9 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { formatInt } from '@/lib/intl';
-import type { ArmyPersonnel } from '@tsukilabs/nil-bindings';
-import { TableCell, TableHead, TableRow } from '@ui/table';
+import { formatInt } from "@/lib/intl";
+import type { ArmyPersonnel } from "@tsukilabs/nil-bindings";
+import { TableCell, TableHead, TableRow } from "@ui/table";
 
 defineProps<{
   head: string;

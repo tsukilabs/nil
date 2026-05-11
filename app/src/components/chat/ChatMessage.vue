@@ -2,8 +2,8 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { computed } from 'vue';
-import type { ChatMessageImpl } from '@/core/model/chat/chat-message';
+import { computed } from "vue";
+import type { ChatMessageImpl } from "@/core/model/chat/chat-message";
 
 const props = defineProps<{
   message: ChatMessageImpl;

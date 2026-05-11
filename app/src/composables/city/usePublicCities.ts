@@ -1,12 +1,12 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { compare } from '@/lib/intl';
-import { computed, toRef, watch } from 'vue';
-import { CoordImpl } from '@/core/model/continent/coord';
-import { asyncRef, type MaybeNilRef } from '@tb-dev/vue';
-import type { ContinentKey } from '@/types/core/continent';
-import { PublicCityImpl } from '@/core/model/city/public-city';
+import { compare } from "@/lib/intl";
+import { computed, toRef, watch } from "vue";
+import { CoordImpl } from "@/core/model/continent/coord";
+import { asyncRef, type MaybeNilRef } from "@tb-dev/vue";
+import type { ContinentKey } from "@/types/core/continent";
+import { PublicCityImpl } from "@/core/model/city/public-city";
 
 export function usePublicCities(keys: MaybeNilRef<readonly ContinentKey[]>) {
   const keysRef = toRef(keys);

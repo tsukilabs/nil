@@ -1,8 +1,8 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { ArmyPersonnelImpl } from './army-personnel';
-import type { Army, ArmyId, ArmyState, Ruler } from '@tsukilabs/nil-bindings';
+import { ArmyPersonnelImpl } from "./army-personnel";
+import type { Army, ArmyId, ArmyState, Ruler } from "@tsukilabs/nil-bindings";
 
 export class ArmyImpl implements Readonly<Army> {
   public readonly id: ArmyId;
@@ -26,11 +26,11 @@ export class ArmyImpl implements Readonly<Army> {
   }
 
   public isIdle() {
-    return this.state.kind === 'idle';
+    return this.state.kind === "idle";
   }
 
   public isManeuvering() {
-    return this.state.kind === 'maneuvering';
+    return this.state.kind === "maneuvering";
   }
 
   public static create(army: Army) {

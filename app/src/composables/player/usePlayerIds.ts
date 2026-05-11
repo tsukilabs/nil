@@ -1,10 +1,10 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as commands from '@/commands';
-import { asyncRef } from '@tb-dev/vue';
-import type { PlayerId } from '@tsukilabs/nil-bindings';
-import { computed, type MaybeRefOrGetter, toRef } from 'vue';
+import * as commands from "@/commands";
+import { asyncRef } from "@tb-dev/vue";
+import type { PlayerId } from "@tsukilabs/nil-bindings";
+import { computed, type MaybeRefOrGetter, toRef } from "vue";
 
 interface UsePlayerIdsOptions {
   exclude?: MaybeRefOrGetter<readonly PlayerId[]>;

@@ -2,20 +2,20 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n';
-import { onKeyDown } from '@tb-dev/vue';
-import Loading from '@/components/Loading.vue';
-import { throttle } from 'es-toolkit/function';
-import CityTable from '@/components/CityTable.vue';
-import { Card, CardContent, CardHeader, CardTitle } from '@ui/card';
-import { useContinentCities } from '@/composables/continent/useContinentCities';
+import { useI18n } from "vue-i18n";
+import { onKeyDown } from "@tb-dev/vue";
+import Loading from "@/components/Loading.vue";
+import { throttle } from "es-toolkit/function";
+import CityTable from "@/components/CityTable.vue";
+import { Card, CardContent, CardHeader, CardTitle } from "@ui/card";
+import { useContinentCities } from "@/composables/continent/useContinentCities";
 
 const { t } = useI18n();
 
 const { cities, loading, load, getDistance } = useContinentCities();
 
 if (__DESKTOP__) {
-  onKeyDown('F5', throttle(load, 1000));
+  onKeyDown("F5", throttle(load, 1000));
 }
 </script>
 
@@ -24,7 +24,7 @@ if (__DESKTOP__) {
     <Card class="size-full">
       <CardHeader>
         <CardTitle>
-          <span>{{ t('continent-cities') }}</span>
+          <span>{{ t("continent-cities") }}</span>
         </CardTitle>
       </CardHeader>
 

@@ -1,13 +1,13 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { InfrastructureQueueOrderImpl } from '@/core/model/infrastructure/queue/queue-order';
+import { InfrastructureQueueOrderImpl } from "@/core/model/infrastructure/queue/queue-order";
 import type {
   BuildingId,
   BuildingLevel,
   PrefectureBuildOrder,
   PrefectureBuildOrderKind,
-} from '@tsukilabs/nil-bindings';
+} from "@tsukilabs/nil-bindings";
 
 export class PrefectureBuildOrderImpl extends InfrastructureQueueOrderImpl
   implements PrefectureBuildOrder

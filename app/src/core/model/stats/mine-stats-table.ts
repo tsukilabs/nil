@@ -1,10 +1,10 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { MineStatsImpl } from '@/core/model/stats/mine-stats';
-import type { BuildingLevel, MineId, MineStatsTable } from '@tsukilabs/nil-bindings';
+import { MineStatsImpl } from "@/core/model/stats/mine-stats";
+import type { BuildingLevel, MineId, MineStatsTable } from "@tsukilabs/nil-bindings";
 
-type Stats = Omit<Readonly<MineStatsTable>, 'table'>;
+type Stats = Omit<Readonly<MineStatsTable>, "table">;
 
 export class MineStatsTableImpl implements Stats {
   public readonly id: MineId;

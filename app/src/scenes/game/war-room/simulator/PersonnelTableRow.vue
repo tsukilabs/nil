@@ -2,13 +2,13 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n';
-import type { Squad } from '@tsukilabs/nil-bindings';
-import { TableCell, TableRow } from '@ui/table';
-import { NumberField, NumberFieldContent, NumberFieldInput } from '@ui/number-field';
+import { useI18n } from "vue-i18n";
+import type { Squad } from "@tsukilabs/nil-bindings";
+import { TableCell, TableRow } from "@ui/table";
+import { NumberField, NumberFieldContent, NumberFieldInput } from "@ui/number-field";
 
-const attacker = defineModel<Squad>('attacker', { required: true });
-const defender = defineModel<Squad>('defender', { required: true });
+const attacker = defineModel<Squad>("attacker", { required: true });
+const defender = defineModel<Squad>("defender", { required: true });
 
 const { t } = useI18n();
 </script>

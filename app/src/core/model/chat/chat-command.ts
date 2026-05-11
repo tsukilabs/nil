@@ -1,44 +1,44 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { go } from '@/router';
-import * as commands from '@/commands';
-import { leaveGame } from '@/core/game';
-import type { Option } from '@tb-dev/utils';
-import { ResourcesImpl } from '../resources';
-import { saveLocalGame } from '@/core/savedata';
-import { isPlayerTurn } from '@/composables/player/usePlayerTurn';
+import { go } from "@/router";
+import * as commands from "@/commands";
+import { leaveGame } from "@/core/game";
+import type { Option } from "@tb-dev/utils";
+import { ResourcesImpl } from "../resources";
+import { saveLocalGame } from "@/core/savedata";
+import { isPlayerTurn } from "@/composables/player/usePlayerTurn";
 
 const enum ChatCommandKind {
-  Default = 'default',
-  About = 'about',
-  Academy = 'academy',
-  EndTurn = 'end-turn',
-  Farm = 'farm',
-  Food = 'food',
-  Iron = 'iron',
-  IronMine = 'iron-mine',
-  LeaveGame = 'leave-game',
-  Map = 'map',
-  Max = 'max',
-  Prefecture = 'prefecture',
-  Quarry = 'quarry',
-  Ranking = 'ranking',
-  Resources = 'resources',
-  SaveGame = 'save-game',
-  Sawmill = 'sawmill',
-  Silo = 'silo',
-  SkipRound = 'skip',
-  SpawnBot = 'spawn-bot',
-  Stable = 'stable',
-  Stone = 'stone',
-  Wall = 'wall',
-  Warehouse = 'warehouse',
-  Wood = 'wood',
-  Workshop = 'workshop',
+  Default = "default",
+  About = "about",
+  Academy = "academy",
+  EndTurn = "end-turn",
+  Farm = "farm",
+  Food = "food",
+  Iron = "iron",
+  IronMine = "iron-mine",
+  LeaveGame = "leave-game",
+  Map = "map",
+  Max = "max",
+  Prefecture = "prefecture",
+  Quarry = "quarry",
+  Ranking = "ranking",
+  Resources = "resources",
+  SaveGame = "save-game",
+  Sawmill = "sawmill",
+  Silo = "silo",
+  SkipRound = "skip",
+  SpawnBot = "spawn-bot",
+  Stable = "stable",
+  Stone = "stone",
+  Wall = "wall",
+  Warehouse = "warehouse",
+  Wood = "wood",
+  Workshop = "workshop",
 }
 
-type RegexMap = Readonly<Omit<Record<ChatCommandKind, RegExp>, 'default'>>;
+type RegexMap = Readonly<Omit<Record<ChatCommandKind, RegExp>, "default">>;
 
 const regex: RegexMap = {
   [ChatCommandKind.About]: /^\$about$/i,
@@ -73,7 +73,7 @@ export class ChatCommand {
   public readonly kind: ChatCommandKind;
 
   constructor(draft: Option<string>) {
-    this.text = draft?.trim() ?? '';
+    this.text = draft?.trim() ?? "";
     this.kind = ChatCommandKind.Default;
 
     if (this.text.length > 0) {
@@ -87,7 +87,7 @@ export class ChatCommand {
       }
 
       if (result) {
-        this.text = result.at(1) ?? '';
+        this.text = result.at(1) ?? "";
       }
     }
   }
@@ -99,11 +99,11 @@ export class ChatCommand {
         break;
       }
       case ChatCommandKind.About: {
-        await go('about');
+        await go("about");
         break;
       }
       case ChatCommandKind.Academy: {
-        await go('academy');
+        await go("academy");
         break;
       }
       case ChatCommandKind.EndTurn: {
@@ -113,7 +113,7 @@ export class ChatCommand {
         break;
       }
       case ChatCommandKind.Farm: {
-        await go('farm');
+        await go("farm");
         break;
       }
       case ChatCommandKind.Food: {
@@ -125,7 +125,7 @@ export class ChatCommand {
         break;
       }
       case ChatCommandKind.IronMine: {
-        await go('iron-mine');
+        await go("iron-mine");
         break;
       }
       case ChatCommandKind.LeaveGame: {
@@ -133,7 +133,7 @@ export class ChatCommand {
         break;
       }
       case ChatCommandKind.Map: {
-        await go('continent');
+        await go("continent");
         break;
       }
       case ChatCommandKind.Max: {
@@ -141,15 +141,15 @@ export class ChatCommand {
         break;
       }
       case ChatCommandKind.Prefecture: {
-        await go('prefecture');
+        await go("prefecture");
         break;
       }
       case ChatCommandKind.Quarry: {
-        await go('quarry');
+        await go("quarry");
         break;
       }
       case ChatCommandKind.Ranking: {
-        await go('ranking');
+        await go("ranking");
         break;
       }
       case ChatCommandKind.Resources: {
@@ -164,11 +164,11 @@ export class ChatCommand {
         break;
       }
       case ChatCommandKind.Sawmill: {
-        await go('sawmill');
+        await go("sawmill");
         break;
       }
       case ChatCommandKind.Silo: {
-        await go('silo');
+        await go("silo");
         break;
       }
       case ChatCommandKind.SkipRound: {
@@ -180,7 +180,7 @@ export class ChatCommand {
         break;
       }
       case ChatCommandKind.Stable: {
-        await go('stable');
+        await go("stable");
         break;
       }
       case ChatCommandKind.Stone: {
@@ -188,11 +188,11 @@ export class ChatCommand {
         break;
       }
       case ChatCommandKind.Wall: {
-        await go('wall');
+        await go("wall");
         break;
       }
       case ChatCommandKind.Warehouse: {
-        await go('warehouse');
+        await go("warehouse");
         break;
       }
       case ChatCommandKind.Wood: {
@@ -200,7 +200,7 @@ export class ChatCommand {
         break;
       }
       case ChatCommandKind.Workshop: {
-        await go('workshop');
+        await go("workshop");
         break;
       }
     }

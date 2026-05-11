@@ -2,11 +2,11 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n';
-import HeaderMenu from './HeaderMenu.vue';
-import Loading from '@/components/Loading.vue';
-import { Card, CardContent, CardHeader, CardTitle } from '@ui/card';
-import { useStable } from '@/composables/infrastructure/useBuilding';
+import { useI18n } from "vue-i18n";
+import HeaderMenu from "./HeaderMenu.vue";
+import Loading from "@/components/Loading.vue";
+import { Card, CardContent, CardHeader, CardTitle } from "@ui/card";
+import { useStable } from "@/composables/infrastructure/useBuilding";
 
 const { t } = useI18n();
 
@@ -19,7 +19,7 @@ const stable = useStable();
       <CardHeader>
         <CardTitle>
           <div class="flex items-center justify-between">
-            <span>{{ `${t('stable')} (${t('level-x', [stable.level])})` }}</span>
+            <span>{{ `${t("stable")} (${t("level-x", [stable.level])})` }}</span>
             <HeaderMenu />
           </div>
         </CardTitle>

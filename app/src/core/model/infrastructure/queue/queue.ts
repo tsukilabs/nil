@@ -1,7 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { InfrastructureQueue, InfrastructureQueueOrder } from '@/types/core/infrastructure';
+import type { InfrastructureQueue, InfrastructureQueueOrder } from "@/types/core/infrastructure";
 
 export abstract class InfrastructureQueueImpl<Order extends InfrastructureQueueOrder>
   implements InfrastructureQueue<Order>

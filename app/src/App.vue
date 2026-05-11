@@ -2,22 +2,22 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n';
-import { Sonner } from '@ui/sonner';
-import * as commands from '@/commands';
-import { handleError } from '@/lib/error';
-import { nextTick, onMounted } from 'vue';
-import { handleProcessArgs } from '@/lib/env';
-import Loading from '@/components/Loading.vue';
-import type { Locale } from '@tsukilabs/nil-bindings';
-import { useSettings } from '@/stores/settings';
-import { ListenerSet } from '@/lib/listener-set';
-import { setDragDropEventListener } from '@/lib/event';
-import { type as osType } from '@tauri-apps/plugin-os';
-import { createTrayIcon, showWindow } from '@/commands';
-import { onKeyDown, useBreakpoints } from '@tb-dev/vue';
-import { defineGlobalCheats, defineGlobalCommands } from '@/lib/global';
-import { type BasicColorSchema, useColorMode, watchImmediate } from '@vueuse/core';
+import { useI18n } from "vue-i18n";
+import { Sonner } from "@ui/sonner";
+import * as commands from "@/commands";
+import { handleError } from "@/lib/error";
+import { nextTick, onMounted } from "vue";
+import { handleProcessArgs } from "@/lib/env";
+import Loading from "@/components/Loading.vue";
+import { useSettings } from "@/stores/settings";
+import { ListenerSet } from "@/lib/listener-set";
+import type { Locale } from "@tsukilabs/nil-bindings";
+import { setDragDropEventListener } from "@/lib/event";
+import { type as osType } from "@tauri-apps/plugin-os";
+import { createTrayIcon, showWindow } from "@/commands";
+import { onKeyDown, useBreakpoints } from "@tb-dev/vue";
+import { defineGlobalCheats, defineGlobalCommands } from "@/lib/global";
+import { type BasicColorSchema, useColorMode, watchImmediate } from "@vueuse/core";
 
 const i18n = useI18n();
 
@@ -33,10 +33,10 @@ watchImmediate(() => settings.appearance.colorMode, setColorMode);
 watchImmediate(() => settings.general.locale, setLocale);
 
 if (__DESKTOP__) {
-  onKeyDown('F5', NIL.throttledUpdate);
+  onKeyDown("F5", NIL.throttledUpdate);
 
-  if (__DEBUG_ASSERTIONS__ && osType() === 'linux') {
-    onKeyDown('F12', commands.openDevtools);
+  if (__DEBUG_ASSERTIONS__ && osType() === "linux") {
+    onKeyDown("F12", commands.openDevtools);
   }
 }
 

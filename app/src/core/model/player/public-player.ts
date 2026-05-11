@@ -1,13 +1,13 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { go } from '@/router';
-import * as commands from '@/commands';
-import { formatInt } from '@/lib/intl';
-import { PLACEHOLDER } from '@/lib/string';
-import type { Option } from '@tb-dev/utils';
-import { RulerImpl } from '@/core/model/ruler';
-import type { ContinentKey } from '@/types/core/continent';
+import { go } from "@/router";
+import * as commands from "@/commands";
+import { formatInt } from "@/lib/intl";
+import { PLACEHOLDER } from "@/lib/string";
+import type { Option } from "@tb-dev/utils";
+import { RulerImpl } from "@/core/model/ruler";
+import type { ContinentKey } from "@/types/core/continent";
 import type {
   Coord,
   PlayerId,
@@ -15,14 +15,14 @@ import type {
   PublicPlayer,
   RankingEntry,
   Ruler,
-} from '@tsukilabs/nil-bindings';
+} from "@tsukilabs/nil-bindings";
 
 export class PublicPlayerImpl extends RulerImpl implements Readonly<PublicPlayer> {
   public readonly id: PlayerId;
   public readonly status: PlayerStatus;
 
   public readonly toRuler = (): Ruler => {
-    return { kind: 'player', id: this.id };
+    return { kind: "player", id: this.id };
   };
 
   protected constructor(args: PublicPlayerImplConstructorArgs) {
@@ -40,15 +40,15 @@ export class PublicPlayerImpl extends RulerImpl implements Readonly<PublicPlayer
   }
 
   public isActive() {
-    return this.status === 'active';
+    return this.status === "active";
   }
 
   public isInactive() {
-    return this.status === 'inactive';
+    return this.status === "inactive";
   }
 
   public async goToProfile() {
-    await go('profile-player', { params: { id: this.id } });
+    await go("profile-player", { params: { id: this.id } });
   }
 
   public formatRank() {

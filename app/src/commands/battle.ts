@@ -1,18 +1,18 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { toU8 } from '@/lib/number';
-import { clamp } from 'es-toolkit/math';
-import type { Option } from '@tb-dev/utils';
-import { invoke } from '@tauri-apps/api/core';
-import { SquadImpl } from '@/core/model/military/squad';
+import { toU8 } from "@/lib/number";
+import { clamp } from "es-toolkit/math";
+import type { Option } from "@tb-dev/utils";
+import { invoke } from "@tauri-apps/api/core";
+import { SquadImpl } from "@/core/model/military/squad";
 import type {
   BuildingLevel,
   Luck,
   SimulateBattleRequest,
   SimulateBattleResponse,
   Squad,
-} from '@tsukilabs/nil-bindings';
+} from "@tsukilabs/nil-bindings";
 
 export async function simulateBattle(args: {
   attacker?: Option<Squad[]>;
@@ -35,9 +35,9 @@ export async function simulateBattle(args: {
 
   const stats = NIL.world.getStats();
   if (stats) {
-    const minWall = stats.getBuildingMinLevel('wall');
-    const maxWall = stats.getBuildingMaxLevel('wall');
-    if (typeof minWall === 'number' && typeof maxWall === 'number') {
+    const minWall = stats.getBuildingMinLevel("wall");
+    const maxWall = stats.getBuildingMaxLevel("wall");
+    if (typeof minWall === "number" && typeof maxWall === "number") {
       args.wall = clamp(toU8(args.wall), minWall, maxWall);
     }
   }
@@ -50,5 +50,5 @@ export async function simulateBattle(args: {
     wall: args.wall,
   };
 
-  return invoke<SimulateBattleResponse>('simulate_battle', { req });
+  return invoke<SimulateBattleResponse>("simulate_battle", { req });
 }

@@ -1,14 +1,14 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as commands from '@/commands';
-import { asyncRef } from '@tb-dev/vue';
-import { SocketAddrV4 } from '@/lib/net/addr-v4';
+import * as commands from "@/commands";
+import { asyncRef } from "@tb-dev/vue";
+import { SocketAddrV4 } from "@/lib/net/addr-v4";
 
 export function useLocalServerAddr() {
   const { state, load, loading } = asyncRef(null, async () => {
     const serverAddr = await commands.getServerAddr();
-    if (serverAddr.kind === 'local') {
+    if (serverAddr.kind === "local") {
       return SocketAddrV4.parse(serverAddr.addr);
     }
     else {

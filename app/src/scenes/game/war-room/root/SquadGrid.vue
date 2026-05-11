@@ -2,8 +2,8 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import SquadGridItem from './SquadGridItem.vue';
-import type { ArmyPersonnel } from '@tsukilabs/nil-bindings';
+import SquadGridItem from "./SquadGridItem.vue";
+import type { ArmyPersonnel } from "@tsukilabs/nil-bindings";
 
 defineProps<{
   available: ArmyPersonnel;

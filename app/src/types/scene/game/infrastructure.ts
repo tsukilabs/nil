@@ -6,18 +6,18 @@ export type InfrastructureScene =
   | PrefectureScene
   | StableScene
   | WorkshopScene
-  | 'farm'
-  | 'iron-mine'
-  | 'quarry'
-  | 'sawmill'
-  | 'silo'
-  | 'wall'
-  | 'warehouse';
+  | "farm"
+  | "iron-mine"
+  | "quarry"
+  | "sawmill"
+  | "silo"
+  | "wall"
+  | "warehouse";
 
-export type AcademyScene = 'academy' | 'academy-settings';
+export type AcademyScene = "academy" | "academy-settings";
 
-export type PrefectureScene = 'prefecture' | 'prefecture-settings';
+export type PrefectureScene = "prefecture" | "prefecture-settings";
 
-export type StableScene = 'stable' | 'stable-settings';
+export type StableScene = "stable" | "stable-settings";
 
-export type WorkshopScene = 'workshop' | 'workshop-settings';
+export type WorkshopScene = "workshop" | "workshop-settings";

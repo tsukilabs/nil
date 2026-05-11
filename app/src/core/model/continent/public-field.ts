@@ -1,12 +1,12 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { tryOnScopeDispose } from '@vueuse/core';
-import type { MaybePromise } from '@tb-dev/utils';
-import type { CoordImpl } from '@/core/model/continent/coord';
-import type { ContinentIndex, Coord } from '@tsukilabs/nil-bindings';
-import type { PublicFieldKind } from '@/types/core/continent';
-import { getPublicField, getPublicFields } from '@/commands/continent';
+import { tryOnScopeDispose } from "@vueuse/core";
+import type { MaybePromise } from "@tb-dev/utils";
+import type { CoordImpl } from "@/core/model/continent/coord";
+import type { ContinentIndex, Coord } from "@tsukilabs/nil-bindings";
+import type { PublicFieldKind } from "@/types/core/continent";
+import { getPublicField, getPublicFields } from "@/commands/continent";
 
 const enum Flags {
   Uninit = 1 << 0,
@@ -53,11 +53,11 @@ export class PublicFieldImpl {
 
   private setKind(kind: PublicFieldKind) {
     switch (kind) {
-      case 'empty': {
+      case "empty": {
         this.#flags = Flags.Empty;
         break;
       }
-      case 'city': {
+      case "city": {
         this.#flags = Flags.City;
         break;
       }

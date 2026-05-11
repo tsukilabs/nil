@@ -3,16 +3,16 @@
 
 /* eslint-disable no-inner-declarations */
 
-import type { go } from '@/router';
-import type { commands } from '@/lib/api';
-import type { App, DeepReadonly } from 'vue';
-import type { ChatEntity } from '@/core/entity/chat';
-import type { CityEntity } from '@/core/entity/city';
-import type { RoundEntity } from '@/core/entity/round';
-import type { WorldEntity } from '@/core/entity/world';
-import type { PlayerEntity } from '@/core/entity/player';
-import type { ReportEntity } from '@/core/entity/report';
-import type { MilitaryEntity } from '@/core/entity/military';
+import type { go } from "@/router";
+import type { commands } from "@/lib/api";
+import type { App, DeepReadonly } from "vue";
+import type { ChatEntity } from "@/core/entity/chat";
+import type { CityEntity } from "@/core/entity/city";
+import type { RoundEntity } from "@/core/entity/round";
+import type { WorldEntity } from "@/core/entity/world";
+import type { PlayerEntity } from "@/core/entity/player";
+import type { ReportEntity } from "@/core/entity/report";
+import type { MilitaryEntity } from "@/core/entity/military";
 
 declare global {
   var __DEBUG_ASSERTIONS__: boolean;
@@ -64,75 +64,75 @@ declare global {
     readonly throttledUpdate: () => Promise<void>;
 
     readonly chat: {
-      readonly refs: (typeof ChatEntity)['refs'];
-      readonly update: (typeof ChatEntity)['update'];
-      readonly use: (typeof ChatEntity)['use'];
+      readonly refs: (typeof ChatEntity)["refs"];
+      readonly update: (typeof ChatEntity)["update"];
+      readonly use: (typeof ChatEntity)["use"];
     };
 
     /** Current city. */
     readonly city: {
-      readonly getCity: (typeof CityEntity)['getCity'];
-      readonly getCoord: (typeof CityEntity)['getCoord'];
-      readonly getProduction: (typeof CityEntity)['getProduction'];
-      readonly refs: (typeof CityEntity)['refs'];
-      readonly setCoord: (typeof CityEntity)['setCoord'];
-      readonly use: (typeof CityEntity)['use'];
+      readonly getCity: (typeof CityEntity)["getCity"];
+      readonly getCoord: (typeof CityEntity)["getCoord"];
+      readonly getProduction: (typeof CityEntity)["getProduction"];
+      readonly refs: (typeof CityEntity)["refs"];
+      readonly setCoord: (typeof CityEntity)["setCoord"];
+      readonly use: (typeof CityEntity)["use"];
     };
 
     readonly military: {
-      readonly refs: (typeof MilitaryEntity)['refs'];
-      readonly update: (typeof MilitaryEntity)['update'];
-      readonly use: (typeof MilitaryEntity)['use'];
+      readonly refs: (typeof MilitaryEntity)["refs"];
+      readonly update: (typeof MilitaryEntity)["update"];
+      readonly use: (typeof MilitaryEntity)["use"];
     };
 
     /** Current player. */
     readonly player: {
-      readonly getCoords: (typeof PlayerEntity)['getCoords'];
-      readonly getId: (typeof PlayerEntity)['getId'];
-      readonly getIdStrict: (typeof PlayerEntity)['getIdStrict'];
-      readonly getPlayer: (typeof PlayerEntity)['getPlayer'];
-      readonly getRuler: (typeof PlayerEntity)['getRuler'];
-      readonly refs: (typeof PlayerEntity)['refs'];
-      readonly setId: (typeof PlayerEntity)['setId'];
-      readonly update: (typeof PlayerEntity)['update'];
-      readonly use: (typeof PlayerEntity)['use'];
+      readonly getCoords: (typeof PlayerEntity)["getCoords"];
+      readonly getId: (typeof PlayerEntity)["getId"];
+      readonly getIdStrict: (typeof PlayerEntity)["getIdStrict"];
+      readonly getPlayer: (typeof PlayerEntity)["getPlayer"];
+      readonly getRuler: (typeof PlayerEntity)["getRuler"];
+      readonly refs: (typeof PlayerEntity)["refs"];
+      readonly setId: (typeof PlayerEntity)["setId"];
+      readonly update: (typeof PlayerEntity)["update"];
+      readonly use: (typeof PlayerEntity)["use"];
     };
 
     readonly report: {
-      readonly getReports: (typeof ReportEntity)['getReports'];
-      readonly getUnread: (typeof ReportEntity)['getUnread'];
-      readonly isUnread: (typeof ReportEntity)['isUnread'];
-      readonly markRead: (typeof ReportEntity)['markRead'];
-      readonly refs: (typeof ReportEntity)['refs'];
-      readonly update: (typeof ReportEntity)['update'];
-      readonly use: (typeof ReportEntity)['use'];
+      readonly getReports: (typeof ReportEntity)["getReports"];
+      readonly getUnread: (typeof ReportEntity)["getUnread"];
+      readonly isUnread: (typeof ReportEntity)["isUnread"];
+      readonly markRead: (typeof ReportEntity)["markRead"];
+      readonly refs: (typeof ReportEntity)["refs"];
+      readonly update: (typeof ReportEntity)["update"];
+      readonly use: (typeof ReportEntity)["use"];
     };
 
     readonly round: {
-      readonly getRound: (typeof RoundEntity)['getRound'];
-      readonly refs: (typeof RoundEntity)['refs'];
-      readonly update: (typeof RoundEntity)['update'];
-      readonly use: (typeof RoundEntity)['use'];
+      readonly getRound: (typeof RoundEntity)["getRound"];
+      readonly refs: (typeof RoundEntity)["refs"];
+      readonly update: (typeof RoundEntity)["update"];
+      readonly use: (typeof RoundEntity)["use"];
     };
 
     readonly world: {
-      readonly getBuildingStats: (typeof WorldEntity)['getBuildingStats'];
-      readonly getBuildingStatsWithLevel: (typeof WorldEntity)['getBuildingStatsWithLevel'];
-      readonly getConfig: (typeof WorldEntity)['getConfig'];
-      readonly getContinentSize: (typeof WorldEntity)['getContinentSize'];
-      readonly getId: (typeof WorldEntity)['getId'];
-      readonly getIdStrict: (typeof WorldEntity)['getIdStrict'];
-      readonly getInfrastructureStats: (typeof WorldEntity)['getInfrastructureStats'];
-      readonly getMineStats: (typeof WorldEntity)['getMineStats'];
-      readonly getMineStatsWithLevel: (typeof WorldEntity)['getMineStatsWithLevel'];
-      readonly getStats: (typeof WorldEntity)['getStats'];
-      readonly getStorageStats: (typeof WorldEntity)['getStorageStats'];
-      readonly getStorageStatsWithLevel: (typeof WorldEntity)['getStorageStatsWithLevel'];
-      readonly getWallStats: (typeof WorldEntity)['getWallStats'];
-      readonly getWallStatsWithLevel: (typeof WorldEntity)['getWallStatsWithLevel'];
-      readonly refs: (typeof WorldEntity)['refs'];
-      readonly setId: (typeof WorldEntity)['setId'];
-      readonly use: (typeof WorldEntity)['use'];
+      readonly getBuildingStats: (typeof WorldEntity)["getBuildingStats"];
+      readonly getBuildingStatsWithLevel: (typeof WorldEntity)["getBuildingStatsWithLevel"];
+      readonly getConfig: (typeof WorldEntity)["getConfig"];
+      readonly getContinentSize: (typeof WorldEntity)["getContinentSize"];
+      readonly getId: (typeof WorldEntity)["getId"];
+      readonly getIdStrict: (typeof WorldEntity)["getIdStrict"];
+      readonly getInfrastructureStats: (typeof WorldEntity)["getInfrastructureStats"];
+      readonly getMineStats: (typeof WorldEntity)["getMineStats"];
+      readonly getMineStatsWithLevel: (typeof WorldEntity)["getMineStatsWithLevel"];
+      readonly getStats: (typeof WorldEntity)["getStats"];
+      readonly getStorageStats: (typeof WorldEntity)["getStorageStats"];
+      readonly getStorageStatsWithLevel: (typeof WorldEntity)["getStorageStatsWithLevel"];
+      readonly getWallStats: (typeof WorldEntity)["getWallStats"];
+      readonly getWallStatsWithLevel: (typeof WorldEntity)["getWallStatsWithLevel"];
+      readonly refs: (typeof WorldEntity)["refs"];
+      readonly setId: (typeof WorldEntity)["setId"];
+      readonly use: (typeof WorldEntity)["use"];
     };
   };
 

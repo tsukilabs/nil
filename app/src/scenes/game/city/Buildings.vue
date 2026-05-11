@@ -2,11 +2,11 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n';
-import type { CityImpl } from '@/core/model/city/city';
-import { Table, TableBody, TableCell, TableRow } from '@ui/table';
-import { Card, CardContent, CardHeader, CardTitle } from '@ui/card';
-import type { InfrastructureScene } from '@/types/scene/game/infrastructure';
+import { useI18n } from "vue-i18n";
+import type { CityImpl } from "@/core/model/city/city";
+import { Table, TableBody, TableCell, TableRow } from "@ui/table";
+import { Card, CardContent, CardHeader, CardTitle } from "@ui/card";
+import type { InfrastructureScene } from "@/types/scene/game/infrastructure";
 
 defineProps<{ city: CityImpl; }>();
 
@@ -17,7 +17,7 @@ const { t } = useI18n();
   <Card>
     <CardHeader>
       <CardTitle>
-        <span>{{ t('building', 2) }}</span>
+        <span>{{ t("building", 2) }}</span>
       </CardTitle>
     </CardHeader>
 
@@ -30,9 +30,9 @@ const { t } = useI18n();
                 :to="{ name: 'prefecture' satisfies InfrastructureScene }"
                 class="flex w-full gap-2 p-1"
               >
-                <span>{{ t('prefecture') }}</span>
+                <span>{{ t("prefecture") }}</span>
                 <span class="text-muted-foreground">
-                  {{ `(${t('level')} ${city.prefecture.level})` }}
+                  {{ `(${t("level")} ${city.prefecture.level})` }}
                 </span>
               </RouterLink>
             </TableCell>
@@ -44,9 +44,9 @@ const { t } = useI18n();
                 :to="{ name: 'academy' satisfies InfrastructureScene }"
                 class="flex w-full gap-2 p-1"
               >
-                <span>{{ t('academy') }}</span>
+                <span>{{ t("academy") }}</span>
                 <span class="text-muted-foreground">
-                  {{ `(${t('level')} ${city.academy.level})` }}
+                  {{ `(${t("level")} ${city.academy.level})` }}
                 </span>
               </RouterLink>
             </TableCell>
@@ -58,9 +58,9 @@ const { t } = useI18n();
                 :to="{ name: 'stable' satisfies InfrastructureScene }"
                 class="flex w-full gap-2 p-1"
               >
-                <span>{{ t('stable') }}</span>
+                <span>{{ t("stable") }}</span>
                 <span class="text-muted-foreground">
-                  {{ `(${t('level')} ${city.stable.level})` }}
+                  {{ `(${t("level")} ${city.stable.level})` }}
                 </span>
               </RouterLink>
             </TableCell>
@@ -72,9 +72,9 @@ const { t } = useI18n();
                 :to="{ name: 'workshop' satisfies InfrastructureScene }"
                 class="flex w-full gap-2 p-1"
               >
-                <span>{{ t('workshop') }}</span>
+                <span>{{ t("workshop") }}</span>
                 <span class="text-muted-foreground">
-                  {{ `(${t('level')} ${city.workshop.level})` }}
+                  {{ `(${t("level")} ${city.workshop.level})` }}
                 </span>
               </RouterLink>
             </TableCell>
@@ -86,9 +86,9 @@ const { t } = useI18n();
                 :to="{ name: 'sawmill' satisfies InfrastructureScene }"
                 class="flex w-full gap-2 p-1"
               >
-                <span>{{ t('sawmill') }}</span>
+                <span>{{ t("sawmill") }}</span>
                 <span class="text-muted-foreground">
-                  {{ `(${t('level')} ${city.sawmill.level})` }}
+                  {{ `(${t("level")} ${city.sawmill.level})` }}
                 </span>
               </RouterLink>
             </TableCell>
@@ -100,9 +100,9 @@ const { t } = useI18n();
                 :to="{ name: 'quarry' satisfies InfrastructureScene }"
                 class="flex w-full gap-2 p-1"
               >
-                <span>{{ t('quarry') }}</span>
+                <span>{{ t("quarry") }}</span>
                 <span class="text-muted-foreground">
-                  {{ `(${t('level')} ${city.quarry.level})` }}
+                  {{ `(${t("level")} ${city.quarry.level})` }}
                 </span>
               </RouterLink>
             </TableCell>
@@ -114,9 +114,9 @@ const { t } = useI18n();
                 :to="{ name: 'iron-mine' satisfies InfrastructureScene }"
                 class="flex w-full gap-2 p-1"
               >
-                <span>{{ t('iron-mine') }}</span>
+                <span>{{ t("iron-mine") }}</span>
                 <span class="text-muted-foreground">
-                  {{ `(${t('level')} ${city.ironMine.level})` }}
+                  {{ `(${t("level")} ${city.ironMine.level})` }}
                 </span>
               </RouterLink>
             </TableCell>
@@ -128,9 +128,9 @@ const { t } = useI18n();
                 :to="{ name: 'farm' satisfies InfrastructureScene }"
                 class="flex w-full gap-2 p-1"
               >
-                <span>{{ t('farm') }}</span>
+                <span>{{ t("farm") }}</span>
                 <span class="text-muted-foreground">
-                  {{ `(${t('level')} ${city.farm.level})` }}
+                  {{ `(${t("level")} ${city.farm.level})` }}
                 </span>
               </RouterLink>
             </TableCell>
@@ -142,9 +142,9 @@ const { t } = useI18n();
                 :to="{ name: 'warehouse' satisfies InfrastructureScene }"
                 class="flex w-full gap-2 p-1"
               >
-                <span>{{ t('warehouse') }}</span>
+                <span>{{ t("warehouse") }}</span>
                 <span class="text-muted-foreground">
-                  {{ `(${t('level')} ${city.warehouse.level})` }}
+                  {{ `(${t("level")} ${city.warehouse.level})` }}
                 </span>
               </RouterLink>
             </TableCell>
@@ -156,9 +156,9 @@ const { t } = useI18n();
                 :to="{ name: 'silo' satisfies InfrastructureScene }"
                 class="flex w-full gap-2 p-1"
               >
-                <span>{{ t('silo') }}</span>
+                <span>{{ t("silo") }}</span>
                 <span class="text-muted-foreground">
-                  {{ `(${t('level')} ${city.silo.level})` }}
+                  {{ `(${t("level")} ${city.silo.level})` }}
                 </span>
               </RouterLink>
             </TableCell>
@@ -170,9 +170,9 @@ const { t } = useI18n();
                 :to="{ name: 'wall' satisfies InfrastructureScene }"
                 class="flex w-full gap-2 p-1"
               >
-                <span>{{ t('wall') }}</span>
+                <span>{{ t("wall") }}</span>
                 <span class="text-muted-foreground">
-                  {{ `(${t('level')} ${city.wall.level})` }}
+                  {{ `(${t("level")} ${city.wall.level})` }}
                 </span>
               </RouterLink>
             </TableCell>

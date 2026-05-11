@@ -1,25 +1,25 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { invoke } from '@tauri-apps/api/core';
-import type { ClientOptions } from '@/types/client';
+import { invoke } from "@tauri-apps/api/core";
+import type { ClientOptions } from "@/types/client";
 
 export async function getClientVersion() {
-  return invoke<string>('get_client_version');
+  return invoke<string>("get_client_version");
 }
 
 export async function stopClient() {
-  await invoke('stop_client');
+  await invoke("stop_client");
 }
 
 export async function updateClient(options: ClientOptions) {
-  if (options.serverAddr.kind !== 'remote') {
+  if (options.serverAddr.kind !== "remote") {
     options.worldPassword = null;
     options.playerPassword = null;
     options.authorizationToken = null;
   }
 
-  await invoke('update_client', {
+  await invoke("update_client", {
     serverAddr: options.serverAddr,
     worldId: options.worldId ?? null,
     worldPassword: options.worldPassword ?? null,

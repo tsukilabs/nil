@@ -1,13 +1,13 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { Entity } from './abstract';
-import { ref, type Ref } from 'vue';
-import { asyncRef } from '@tb-dev/vue';
-import type { PlayerId } from '@tsukilabs/nil-bindings';
-import { type Option, panic } from '@tb-dev/utils';
-import { PlayerImpl } from '@/core/model/player/player';
-import type { PlayerUpdatedPayload } from '@/types/event';
+import { Entity } from "./abstract";
+import { ref, type Ref } from "vue";
+import { asyncRef } from "@tb-dev/vue";
+import type { PlayerId } from "@tsukilabs/nil-bindings";
+import { type Option, panic } from "@tb-dev/utils";
+import { PlayerImpl } from "@/core/model/player/player";
+import type { PlayerUpdatedPayload } from "@/types/event";
 
 export class PlayerEntity extends Entity {
   private readonly id = ref<Option<PlayerId>>();
@@ -60,7 +60,7 @@ export class PlayerEntity extends Entity {
   }
 
   public static getIdStrict() {
-    return this.getId() ?? panic('Missing player id');
+    return this.getId() ?? panic("Missing player id");
   }
 
   public static async setId(id?: Option<PlayerId>) {
@@ -82,8 +82,8 @@ export class PlayerEntity extends Entity {
   }
 
   public static init() {
-    if (!Object.hasOwn(globalThis.NIL, 'player')) {
-      const player: (typeof globalThis.NIL)['player'] = {
+    if (!Object.hasOwn(globalThis.NIL, "player")) {
+      const player: (typeof globalThis.NIL)["player"] = {
         getCoords: PlayerEntity.getCoords.bind(PlayerEntity),
         getId: PlayerEntity.getId.bind(PlayerEntity),
         getIdStrict: PlayerEntity.getIdStrict.bind(PlayerEntity),
@@ -95,7 +95,7 @@ export class PlayerEntity extends Entity {
         use: PlayerEntity.use.bind(PlayerEntity),
       };
 
-      Object.defineProperty(globalThis.NIL, 'player', {
+      Object.defineProperty(globalThis.NIL, "player", {
         configurable: false,
         enumerable: true,
         writable: false,

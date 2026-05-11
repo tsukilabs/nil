@@ -2,14 +2,14 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import Food from './Food.vue';
-import Iron from './Iron.vue';
-import Wood from './Wood.vue';
-import Stone from './Stone.vue';
-import type { ClassValue } from 'clsx';
-import Workforce from './Workforce.vue';
-import type { Option } from '@tb-dev/utils';
-import type { Resources } from '@tsukilabs/nil-bindings';
+import Food from "./Food.vue";
+import Iron from "./Iron.vue";
+import Wood from "./Wood.vue";
+import Stone from "./Stone.vue";
+import type { ClassValue } from "clsx";
+import Workforce from "./Workforce.vue";
+import type { Option } from "@tb-dev/utils";
+import type { Resources } from "@tsukilabs/nil-bindings";
 
 defineProps<{
   resources: Resources;

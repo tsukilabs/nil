@@ -1,7 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Option } from '@tb-dev/utils';
+import type { Option } from "@tb-dev/utils";
 
 type IpV4 = readonly [number, number, number, number];
 
@@ -9,7 +9,7 @@ export class IpAddrV4 {
   private constructor(public readonly ip: IpV4) {}
 
   public format() {
-    return this.ip.join('.');
+    return this.ip.join(".");
   }
 
   public static loopback() {
@@ -17,7 +17,7 @@ export class IpAddrV4 {
   }
 
   public static parse(ip: string) {
-    const value = ip.split('.').map((n) => Number.parseInt(n));
+    const value = ip.split(".").map((n) => Number.parseInt(n));
     if (value.length === 4 && value.every((n) => Number.isInteger(n) && n >= 0 && n <= 255)) {
       return new this(value as [number, number, number, number]);
     }
@@ -50,8 +50,8 @@ export class SocketAddrV4 {
   }
 
   public static parse(addr: string) {
-    const array = addr.split(':');
-    const ip = IpAddrV4.parse(array.at(0) ?? '');
+    const array = addr.split(":");
+    const ip = IpAddrV4.parse(array.at(0) ?? "");
     const port = parsePort(array.at(1));
     return new SocketAddrV4(ip, port);
   }

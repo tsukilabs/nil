@@ -2,17 +2,17 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { Label } from '@ui/label';
-import { useI18n } from 'vue-i18n';
-import { Checkbox } from '@ui/checkbox';
-import { useSettings } from '@/stores/settings';
-import enUS from '@/locale/en-US/scenes/game/infrastructure/infrastructure.json';
-import ptBR from '@/locale/pt-BR/scenes/game/infrastructure/infrastructure.json';
+import { Label } from "@ui/label";
+import { useI18n } from "vue-i18n";
+import { Checkbox } from "@ui/checkbox";
+import { useSettings } from "@/stores/settings";
+import enUS from "@/locale/en-US/scenes/game/infrastructure/infrastructure.json";
+import ptBR from "@/locale/pt-BR/scenes/game/infrastructure/infrastructure.json";
 
 const { t } = useI18n({
   messages: {
-    'en-US': enUS,
-    'pt-BR': ptBR,
+    "en-US": enUS,
+    "pt-BR": ptBR,
   },
 });
 
@@ -24,7 +24,7 @@ const settings = useSettings();
     <div class="flex flex-col gap-4">
       <Label>
         <Checkbox v-model="settings.stable.hideUnmet" />
-        <span>{{ t('hide-unavailable-units') }}</span>
+        <span>{{ t("hide-unavailable-units") }}</span>
       </Label>
     </div>
   </div>

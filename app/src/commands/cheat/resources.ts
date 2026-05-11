@@ -1,12 +1,12 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { toU32 } from '@/lib/number';
-import { invoke } from '@tauri-apps/api/core';
-import { getCityOwner } from '@/commands/city';
-import { ResourcesImpl } from '@/core/model/resources';
-import type { ContinentKey } from '@/types/core/continent';
-import type { Option, PartialNullish } from '@tb-dev/utils';
+import { toU32 } from "@/lib/number";
+import { invoke } from "@tauri-apps/api/core";
+import { getCityOwner } from "@/commands/city";
+import { ResourcesImpl } from "@/core/model/resources";
+import type { ContinentKey } from "@/types/core/continent";
+import type { Option, PartialNullish } from "@tb-dev/utils";
 import type {
   BotId,
   CheatGetResourcesRequest,
@@ -27,7 +27,7 @@ import type {
   PrecursorId,
   Resources,
   Ruler,
-} from '@tsukilabs/nil-bindings';
+} from "@tsukilabs/nil-bindings";
 
 export async function cheatGetResources(ruler?: Option<Ruler>) {
   const req: CheatGetResourcesRequest = {
@@ -35,11 +35,11 @@ export async function cheatGetResources(ruler?: Option<Ruler>) {
     ruler: ruler ?? null,
   };
 
-  return invoke<CheatGetResourcesResponse>('cheat_get_resources', { req });
+  return invoke<CheatGetResourcesResponse>("cheat_get_resources", { req });
 }
 
 export async function cheatGetBotResources(bot: BotId) {
-  return cheatGetResources({ kind: 'bot', id: bot });
+  return cheatGetResources({ kind: "bot", id: bot });
 }
 
 export async function cheatGetOwnerResources(coord: ContinentKey) {
@@ -48,11 +48,11 @@ export async function cheatGetOwnerResources(coord: ContinentKey) {
 }
 
 export async function cheatGetPlayerResources(player: PlayerId) {
-  return cheatGetResources({ kind: 'player', id: player });
+  return cheatGetResources({ kind: "player", id: player });
 }
 
 export async function cheatGetPrecursorResources(precursor: PrecursorId) {
-  return cheatGetResources({ kind: 'precursor', id: precursor });
+  return cheatGetResources({ kind: "precursor", id: precursor });
 }
 
 export async function cheatSetFood(food: number, ruler?: Option<Ruler>) {
@@ -63,7 +63,7 @@ export async function cheatSetFood(food: number, ruler?: Option<Ruler>) {
     ruler: ruler ?? null,
   };
 
-  await invoke('cheat_set_food', { req });
+  await invoke("cheat_set_food", { req });
 }
 
 export async function cheatSetIron(iron: number, ruler?: Option<Ruler>) {
@@ -74,7 +74,7 @@ export async function cheatSetIron(iron: number, ruler?: Option<Ruler>) {
     ruler: ruler ?? null,
   };
 
-  await invoke('cheat_set_iron', { req });
+  await invoke("cheat_set_iron", { req });
 }
 
 export async function cheatSetMaxFood(ruler?: Option<Ruler>) {
@@ -83,7 +83,7 @@ export async function cheatSetMaxFood(ruler?: Option<Ruler>) {
     ruler: ruler ?? null,
   };
 
-  await invoke('cheat_set_max_food', { req });
+  await invoke("cheat_set_max_food", { req });
 }
 
 export async function cheatSetMaxIron(ruler?: Option<Ruler>) {
@@ -92,7 +92,7 @@ export async function cheatSetMaxIron(ruler?: Option<Ruler>) {
     ruler: ruler ?? null,
   };
 
-  await invoke('cheat_set_max_iron', { req });
+  await invoke("cheat_set_max_iron", { req });
 }
 
 export async function cheatSetMaxResources(ruler?: Option<Ruler>) {
@@ -101,7 +101,7 @@ export async function cheatSetMaxResources(ruler?: Option<Ruler>) {
     ruler: ruler ?? null,
   };
 
-  await invoke('cheat_set_max_resources', { req });
+  await invoke("cheat_set_max_resources", { req });
 }
 
 export async function cheatSetMaxSiloResources(ruler?: Option<Ruler>) {
@@ -110,7 +110,7 @@ export async function cheatSetMaxSiloResources(ruler?: Option<Ruler>) {
     ruler: ruler ?? null,
   };
 
-  await invoke('cheat_set_max_silo_resources', { req });
+  await invoke("cheat_set_max_silo_resources", { req });
 }
 
 export async function cheatSetMaxStone(ruler?: Option<Ruler>) {
@@ -119,7 +119,7 @@ export async function cheatSetMaxStone(ruler?: Option<Ruler>) {
     ruler: ruler ?? null,
   };
 
-  await invoke('cheat_set_max_stone', { req });
+  await invoke("cheat_set_max_stone", { req });
 }
 
 export async function cheatSetMaxWarehouseResources(ruler?: Option<Ruler>) {
@@ -128,7 +128,7 @@ export async function cheatSetMaxWarehouseResources(ruler?: Option<Ruler>) {
     ruler: ruler ?? null,
   };
 
-  await invoke('cheat_set_max_warehouse_resources', { req });
+  await invoke("cheat_set_max_warehouse_resources", { req });
 }
 
 export async function cheatSetMaxWood(ruler?: Option<Ruler>) {
@@ -137,7 +137,7 @@ export async function cheatSetMaxWood(ruler?: Option<Ruler>) {
     ruler: ruler ?? null,
   };
 
-  await invoke('cheat_set_max_wood', { req });
+  await invoke("cheat_set_max_wood", { req });
 }
 
 export async function cheatSetOwnerFood(coord: ContinentKey, food: number) {
@@ -210,7 +210,7 @@ export async function cheatSetResources(
     ruler: ruler ?? null,
   };
 
-  await invoke('cheat_set_resources', { req });
+  await invoke("cheat_set_resources", { req });
 }
 
 export async function cheatSetStone(stone: number, ruler?: Option<Ruler>) {
@@ -221,7 +221,7 @@ export async function cheatSetStone(stone: number, ruler?: Option<Ruler>) {
     ruler: ruler ?? null,
   };
 
-  await invoke('cheat_set_stone', { req });
+  await invoke("cheat_set_stone", { req });
 }
 
 export async function cheatSetWood(wood: number, ruler?: Option<Ruler>) {
@@ -232,5 +232,5 @@ export async function cheatSetWood(wood: number, ruler?: Option<Ruler>) {
     ruler: ruler ?? null,
   };
 
-  await invoke('cheat_set_wood', { req });
+  await invoke("cheat_set_wood", { req });
 }

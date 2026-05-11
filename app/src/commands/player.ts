@@ -1,8 +1,8 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Option } from '@tb-dev/utils';
-import { invoke } from '@tauri-apps/api/core';
+import type { Option } from "@tb-dev/utils";
+import { invoke } from "@tauri-apps/api/core";
 import type {
   GetPlayerCoordsRequest,
   GetPlayerCoordsResponse,
@@ -33,14 +33,14 @@ import type {
   PlayerStatus,
   SetPlayerStatusRequest,
   SpawnPlayerRequest,
-} from '@tsukilabs/nil-bindings';
+} from "@tsukilabs/nil-bindings";
 
 export async function getPlayer() {
   const req: GetPlayerRequest = {
     world: NIL.world.getIdStrict(),
   };
 
-  return invoke<GetPlayerResponse>('get_player', { req });
+  return invoke<GetPlayerResponse>("get_player", { req });
 }
 
 export async function getPlayerCoords(id: PlayerId) {
@@ -49,7 +49,7 @@ export async function getPlayerCoords(id: PlayerId) {
     id,
   };
 
-  return invoke<GetPlayerCoordsResponse>('get_player_coords', { req });
+  return invoke<GetPlayerCoordsResponse>("get_player_coords", { req });
 }
 
 export async function getPlayerIds() {
@@ -57,7 +57,7 @@ export async function getPlayerIds() {
     world: NIL.world.getIdStrict(),
   };
 
-  return invoke<GetPlayerIdsResponse>('get_player_ids', { req });
+  return invoke<GetPlayerIdsResponse>("get_player_ids", { req });
 }
 
 export async function getPlayerMaintenance() {
@@ -65,7 +65,7 @@ export async function getPlayerMaintenance() {
     world: NIL.world.getIdStrict(),
   };
 
-  return invoke<GetPlayerMaintenanceResponse>('get_player_maintenance', { req });
+  return invoke<GetPlayerMaintenanceResponse>("get_player_maintenance", { req });
 }
 
 export async function getPlayerMilitary() {
@@ -73,7 +73,7 @@ export async function getPlayerMilitary() {
     world: NIL.world.getIdStrict(),
   };
 
-  return invoke<GetPlayerMilitaryResponse>('get_player_military', { req });
+  return invoke<GetPlayerMilitaryResponse>("get_player_military", { req });
 }
 
 export async function getPlayerReports() {
@@ -81,7 +81,7 @@ export async function getPlayerReports() {
     world: NIL.world.getIdStrict(),
   };
 
-  return invoke<GetPlayerReportsResponse>('get_player_reports', { req });
+  return invoke<GetPlayerReportsResponse>("get_player_reports", { req });
 }
 
 export async function getPlayerStatus(id: PlayerId) {
@@ -90,7 +90,7 @@ export async function getPlayerStatus(id: PlayerId) {
     id,
   };
 
-  return invoke<GetPlayerStatusResponse>('get_player_status', { req });
+  return invoke<GetPlayerStatusResponse>("get_player_status", { req });
 }
 
 export async function getPlayerStorageCapacity() {
@@ -98,12 +98,12 @@ export async function getPlayerStorageCapacity() {
     world: NIL.world.getIdStrict(),
   };
 
-  return invoke<GetPlayerStorageCapacityResponse>('get_player_storage_capacity', { req });
+  return invoke<GetPlayerStorageCapacityResponse>("get_player_storage_capacity", { req });
 }
 
 export async function getPlayerWorlds(id: PlayerId) {
   const req: GetPlayerWorldsRequest = { id };
-  return invoke<GetPlayerWorldsResponse>('get_player_worlds', { req });
+  return invoke<GetPlayerWorldsResponse>("get_player_worlds", { req });
 }
 
 export async function getPublicPlayer(id: PlayerId) {
@@ -112,7 +112,7 @@ export async function getPublicPlayer(id: PlayerId) {
     id,
   };
 
-  return invoke<GetPublicPlayerResponse>('get_public_player', { req });
+  return invoke<GetPublicPlayerResponse>("get_public_player", { req });
 }
 
 export async function getPublicPlayers() {
@@ -120,7 +120,7 @@ export async function getPublicPlayers() {
     world: NIL.world.getIdStrict(),
   };
 
-  return invoke<GetPublicPlayersResponse>('get_public_players', { req });
+  return invoke<GetPublicPlayersResponse>("get_public_players", { req });
 }
 
 export async function playerExists(id: PlayerId) {
@@ -129,7 +129,7 @@ export async function playerExists(id: PlayerId) {
     id,
   };
 
-  return invoke<PlayerExistsResponse>('player_exists', { req });
+  return invoke<PlayerExistsResponse>("player_exists", { req });
 }
 
 export async function setPlayerStatus(status: PlayerStatus) {
@@ -138,7 +138,7 @@ export async function setPlayerStatus(status: PlayerStatus) {
     status,
   };
 
-  await invoke('set_player_status', { req });
+  await invoke("set_player_status", { req });
 }
 
 export async function spawnPlayer(options: PlayerOptions, worldPassword: Option<string>) {
@@ -148,5 +148,5 @@ export async function spawnPlayer(options: PlayerOptions, worldPassword: Option<
     options,
   };
 
-  await invoke('spawn_player', { req });
+  await invoke("spawn_player", { req });
 }

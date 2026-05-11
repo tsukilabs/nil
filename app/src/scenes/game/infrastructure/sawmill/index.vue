@@ -2,20 +2,20 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n';
-import Food from '@/components/resources/Food.vue';
-import Wood from '@/components/resources/Wood.vue';
-import { Card, CardContent, CardHeader, CardTitle } from '@ui/card';
-import { useSawmill } from '@/composables/infrastructure/useBuilding';
-import enUS from '@/locale/en-US/scenes/game/infrastructure/mine.json';
-import ptBR from '@/locale/pt-BR/scenes/game/infrastructure/mine.json';
-import { useMineStats } from '@/composables/infrastructure/useMineStats';
-import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from '@ui/table';
+import { useI18n } from "vue-i18n";
+import Food from "@/components/resources/Food.vue";
+import Wood from "@/components/resources/Wood.vue";
+import { Card, CardContent, CardHeader, CardTitle } from "@ui/card";
+import { useSawmill } from "@/composables/infrastructure/useBuilding";
+import enUS from "@/locale/en-US/scenes/game/infrastructure/mine.json";
+import ptBR from "@/locale/pt-BR/scenes/game/infrastructure/mine.json";
+import { useMineStats } from "@/composables/infrastructure/useMineStats";
+import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from "@ui/table";
 
 const { t } = useI18n({
   messages: {
-    'en-US': enUS,
-    'pt-BR': ptBR,
+    "en-US": enUS,
+    "pt-BR": ptBR,
   },
 });
 
@@ -28,7 +28,7 @@ const { level, stats, actual, base, stabilityLoss } = useMineStats(sawmill);
     <Card v-if="sawmill" class="w-full">
       <CardHeader>
         <CardTitle>
-          <span>{{ `${t('sawmill')} (${t('level-x', [level.current])})` }}</span>
+          <span>{{ `${t("sawmill")} (${t("level-x", [level.current])})` }}</span>
         </CardTitle>
       </CardHeader>
 
@@ -37,16 +37,16 @@ const { level, stats, actual, base, stabilityLoss } = useMineStats(sawmill);
           <TableHeader>
             <TableRow class="bg-card hover:bg-card">
               <TableHead />
-              <TableHead>{{ t('current-level') }}</TableHead>
+              <TableHead>{{ t("current-level") }}</TableHead>
               <TableHead v-if="stats.next && !level.isMax">
-                {{ t('next-level') }}
+                {{ t("next-level") }}
               </TableHead>
             </TableRow>
           </TableHeader>
 
           <TableBody>
             <TableRow>
-              <TableCell>{{ t('base-production') }}</TableCell>
+              <TableCell>{{ t("base-production") }}</TableCell>
               <TableCell>
                 <Wood :amount="base.current" />
               </TableCell>
@@ -56,7 +56,7 @@ const { level, stats, actual, base, stabilityLoss } = useMineStats(sawmill);
             </TableRow>
 
             <TableRow>
-              <TableCell>{{ t('loss-by-stability') }}</TableCell>
+              <TableCell>{{ t("loss-by-stability") }}</TableCell>
               <TableCell>
                 <Wood :amount="stabilityLoss.current" />
               </TableCell>
@@ -66,7 +66,7 @@ const { level, stats, actual, base, stabilityLoss } = useMineStats(sawmill);
             </TableRow>
 
             <TableRow>
-              <TableCell>{{ t('current-production') }}</TableCell>
+              <TableCell>{{ t("current-production") }}</TableCell>
               <TableCell>
                 <Wood :amount="actual.current" />
               </TableCell>
@@ -80,7 +80,7 @@ const { level, stats, actual, base, stabilityLoss } = useMineStats(sawmill);
             <TableRow class="bg-card hover:bg-card">
               <TableCell :colspan="!stats.next || level.isMax ? 2 : 3">
                 <div class="flex w-full items-center justify-end gap-2 px-2 pt-4">
-                  <div>{{ `${t('maintenance')}:` }}</div>
+                  <div>{{ `${t("maintenance")}:` }}</div>
                   <Food :amount="sawmill.getMaintenance()" />
                 </div>
               </TableCell>

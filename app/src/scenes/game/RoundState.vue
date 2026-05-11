@@ -2,7 +2,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n';
+import { useI18n } from "vue-i18n";
 
 defineProps<{
   isPlayerReady: boolean;
@@ -16,10 +16,10 @@ const { round } = NIL.round.refs();
 <template>
   <div class="flex flex-col items-center justify-center">
     <span v-if="round" class="text-sm font-semibold">
-      {{ t('round-x', [round.id]) }}
+      {{ t("round-x", [round.id]) }}
     </span>
     <span class="text-muted-foreground text-sm">
-      {{ isPlayerReady ? t('your-turn') : t('waiting-players') }}
+      {{ isPlayerReady ? t("your-turn") : t("waiting-players") }}
     </span>
   </div>
 </template>

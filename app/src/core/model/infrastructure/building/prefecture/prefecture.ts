@@ -1,12 +1,12 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { BuildingImpl } from '../abstract';
-import { PrefectureBuildQueueImpl } from './build-queue';
-import type { BuildingId, Prefecture, PrefectureBuildOrderId } from '@tsukilabs/nil-bindings';
+import { BuildingImpl } from "../abstract";
+import { PrefectureBuildQueueImpl } from "./build-queue";
+import type { BuildingId, Prefecture, PrefectureBuildOrderId } from "@tsukilabs/nil-bindings";
 
 export class PrefectureImpl extends BuildingImpl implements Prefecture {
-  public readonly id: BuildingId = 'prefecture';
+  public readonly id: BuildingId = "prefecture";
   public readonly buildQueue: PrefectureBuildQueueImpl;
 
   private constructor(prefecture: Prefecture) {
@@ -27,11 +27,11 @@ export class PrefectureImpl extends BuildingImpl implements Prefecture {
     for (const order of this.buildQueue) {
       if (order.building === building.id) {
         switch (order.kind) {
-          case 'construction': {
+          case "construction": {
             level = Math.min(level + 1, max);
             break;
           }
-          case 'demolition': {
+          case "demolition": {
             level = Math.max(level - 1, min);
             break;
           }

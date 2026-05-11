@@ -1,7 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { type DateArg, formatDate, type FormatOptions, isToday } from 'date-fns';
+import { type DateArg, formatDate, type FormatOptions, isToday } from "date-fns";
 
 const ZONE_REGEX = /\[.+?\]/;
 
@@ -11,7 +11,7 @@ const ZONE_REGEX = /\[.+?\]/;
  * 2025-06-02T22:08:36.6360753-03:00[America/Sao_Paulo]
  */
 export function fromZoned(zoned: string) {
-  return new Date(zoned.replace(ZONE_REGEX, ''));
+  return new Date(zoned.replace(ZONE_REGEX, ""));
 }
 
 export function formatZoned(zoned: string, formatStr: string, options?: FormatOptions) {
@@ -19,6 +19,6 @@ export function formatZoned(zoned: string, formatStr: string, options?: FormatOp
 }
 
 export function formatToday(date: DateArg<Date>) {
-  const format = isToday(date) ? 'HH:mm' : 'dd/MM HH:mm';
+  const format = isToday(date) ? "HH:mm" : "dd/MM HH:mm";
   return formatDate(date, format);
 }

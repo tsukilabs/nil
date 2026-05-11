@@ -1,12 +1,12 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { ArmyImpl } from './army';
-import { getPlayerMilitary } from '@/commands/player';
-import { CoordImpl } from '@/core/model/continent/coord';
-import type { ContinentKey } from '@/types/core/continent';
-import { ManeuverImpl } from '@/core/model/military/maneuver';
-import type { ContinentIndex, ContinentSize, ManeuverId, Military } from '@tsukilabs/nil-bindings';
+import { ArmyImpl } from "./army";
+import { getPlayerMilitary } from "@/commands/player";
+import { CoordImpl } from "@/core/model/continent/coord";
+import type { ContinentKey } from "@/types/core/continent";
+import { ManeuverImpl } from "@/core/model/military/maneuver";
+import type { ContinentIndex, ContinentSize, ManeuverId, Military } from "@tsukilabs/nil-bindings";
 
 export class MilitaryImpl {
   public readonly continent: ReadonlyMap<ContinentIndex, readonly ArmyImpl[]>;
@@ -20,7 +20,7 @@ export class MilitaryImpl {
   }
 
   public getArmiesAt(key: ContinentKey): readonly ArmyImpl[] {
-    if (typeof key !== 'number') {
+    if (typeof key !== "number") {
       key = CoordImpl.toContinentIndex(key);
     }
 
@@ -34,7 +34,7 @@ export class MilitaryImpl {
   public getOwnIdleArmiesAt(key: ContinentKey): readonly ArmyImpl[] {
     const player = NIL.player.getId();
     return this.getIdleArmiesAt(key).filter(({ owner }) => {
-      return owner.kind === 'player' && owner.id === player;
+      return owner.kind === "player" && owner.id === player;
     });
   }
 
@@ -47,13 +47,13 @@ export class MilitaryImpl {
 
   public getGoingManeuversBy(f: (maneuver: ManeuverImpl) => boolean) {
     return this.getManeuversBy((maneuver) => {
-      return maneuver.direction === 'going' && f(maneuver);
+      return maneuver.direction === "going" && f(maneuver);
     });
   }
 
   public getReturningManeuversBy(f: (maneuver: ManeuverImpl) => boolean) {
     return this.getManeuversBy((maneuver) => {
-      return maneuver.direction === 'returning' && f(maneuver);
+      return maneuver.direction === "returning" && f(maneuver);
     });
   }
 

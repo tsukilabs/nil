@@ -2,18 +2,18 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { computed } from 'vue';
-import { useI18n } from 'vue-i18n';
-import { useBreakpoints } from '@tb-dev/vue';
-import type { MaybePromise } from '@tb-dev/utils';
-import BuildCatalogRow from './BuildCatalogRow.vue';
-import { usePlayerTurn } from '@/composables/player/usePlayerTurn';
-import { usePlayerResources } from '@/composables/player/usePlayerResources';
-import enUS from '@/locale/en-US/scenes/game/infrastructure/prefecture.json';
-import ptBR from '@/locale/pt-BR/scenes/game/infrastructure/prefecture.json';
-import { Table, TableBody, TableHead, TableHeader, TableRow } from '@ui/table';
-import type { InfrastructureImpl } from '@/core/model/infrastructure/infrastructure';
-import type { BuildingId, PrefectureBuildCatalog, PrefectureBuildOrderKind } from '@tsukilabs/nil-bindings';
+import { computed } from "vue";
+import { useI18n } from "vue-i18n";
+import { useBreakpoints } from "@tb-dev/vue";
+import type { MaybePromise } from "@tb-dev/utils";
+import BuildCatalogRow from "./BuildCatalogRow.vue";
+import { usePlayerTurn } from "@/composables/player/usePlayerTurn";
+import { usePlayerResources } from "@/composables/player/usePlayerResources";
+import enUS from "@/locale/en-US/scenes/game/infrastructure/prefecture.json";
+import ptBR from "@/locale/pt-BR/scenes/game/infrastructure/prefecture.json";
+import { Table, TableBody, TableHead, TableHeader, TableRow } from "@ui/table";
+import type { InfrastructureImpl } from "@/core/model/infrastructure/infrastructure";
+import type { BuildingId, PrefectureBuildCatalog, PrefectureBuildOrderKind } from "@tsukilabs/nil-bindings";
 
 const props = defineProps<{
   catalog: PrefectureBuildCatalog;
@@ -25,8 +25,8 @@ const props = defineProps<{
 
 const { t } = useI18n({
   messages: {
-    'en-US': enUS,
-    'pt-BR': ptBR,
+    "en-US": enUS,
+    "pt-BR": ptBR,
   },
 });
 
@@ -34,7 +34,7 @@ const isPlayerTurn = usePlayerTurn();
 const playerResources = usePlayerResources();
 
 const hasSomeAvailable = computed(() => {
-  return Object.values(props.catalog).some((it) => it.kind === 'available');
+  return Object.values(props.catalog).some((it) => it.kind === "available");
 });
 
 const { sm } = useBreakpoints();
@@ -45,10 +45,10 @@ const { sm } = useBreakpoints();
     <TableHeader>
       <TableRow class="hover:bg-card">
         <TableHead>
-          <span>{{ t('building') }}</span>
+          <span>{{ t("building") }}</span>
         </TableHead>
         <TableHead v-if="hasSomeAvailable">
-          <span>{{ t('cost') }}</span>
+          <span>{{ t("cost") }}</span>
         </TableHead>
         <TableHead v-if="sm" :colspan="hasSomeAvailable ? 1 : 2">
           <span></span>

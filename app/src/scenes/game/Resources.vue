@@ -2,22 +2,22 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { computed } from 'vue';
-import { useBreakpoints } from '@tb-dev/vue';
-import Food from '@/components/resources/Food.vue';
-import Iron from '@/components/resources/Iron.vue';
-import Wood from '@/components/resources/Wood.vue';
-import Stone from '@/components/resources/Stone.vue';
-import { usePlayerResources } from '@/composables/player/usePlayerResources';
-import { usePlayerStorageCapacity } from '@/composables/player/usePlayerStorageCapacity';
+import { computed } from "vue";
+import { useBreakpoints } from "@tb-dev/vue";
+import Food from "@/components/resources/Food.vue";
+import Iron from "@/components/resources/Iron.vue";
+import Wood from "@/components/resources/Wood.vue";
+import Stone from "@/components/resources/Stone.vue";
+import { usePlayerResources } from "@/composables/player/usePlayerResources";
+import { usePlayerStorageCapacity } from "@/composables/player/usePlayerStorageCapacity";
 
 const resources = usePlayerResources();
 const capacity = usePlayerStorageCapacity();
 
 const { sm } = useBreakpoints();
 
-const iconClass = computed(() => !sm.value ? 'size-2 min-h-2 min-w-2' : null);
-const textClass = computed(() => !sm.value ? 'text-sm' : null);
+const iconClass = computed(() => !sm.value ? "size-2 min-h-2 min-w-2" : null);
+const textClass = computed(() => !sm.value ? "text-sm" : null);
 </script>
 
 <template>

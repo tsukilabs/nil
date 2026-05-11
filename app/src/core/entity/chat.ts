@@ -1,12 +1,12 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { Entity } from './abstract';
-import { asyncRef } from '@tb-dev/vue';
-import type { Option } from '@tb-dev/utils';
-import { ChatImpl } from '@/core/model/chat/chat';
-import { type ShallowRef, triggerRef } from 'vue';
-import type { ChatUpdatedPayload } from '@/types/event';
+import { Entity } from "./abstract";
+import { asyncRef } from "@tb-dev/vue";
+import type { Option } from "@tb-dev/utils";
+import { ChatImpl } from "@/core/model/chat/chat";
+import { type ShallowRef, triggerRef } from "vue";
+import type { ChatUpdatedPayload } from "@/types/event";
 
 export class ChatEntity extends Entity {
   private readonly chat: ShallowRef<Option<ChatImpl>>;
@@ -54,14 +54,14 @@ export class ChatEntity extends Entity {
   }
 
   public static init() {
-    if (!Object.hasOwn(globalThis.NIL, 'chat')) {
-      const chat: (typeof globalThis.NIL)['chat'] = {
+    if (!Object.hasOwn(globalThis.NIL, "chat")) {
+      const chat: (typeof globalThis.NIL)["chat"] = {
         refs: ChatEntity.refs.bind(ChatEntity),
         update: ChatEntity.update.bind(ChatEntity),
         use: ChatEntity.use.bind(ChatEntity),
       };
 
-      Object.defineProperty(globalThis.NIL, 'chat', {
+      Object.defineProperty(globalThis.NIL, "chat", {
         configurable: false,
         enumerable: true,
         writable: false,

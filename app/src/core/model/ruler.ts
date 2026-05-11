@@ -1,11 +1,11 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Option } from '@tb-dev/utils';
-import { CoordImpl } from '@/core/model/continent/coord';
-import type { ContinentKey } from '@/types/core/continent';
-import type { Coord, RankingEntry, Ruler } from '@tsukilabs/nil-bindings';
-import { RankingEntryImpl } from '@/core/model/ranking/ranking-entry';
+import type { Option } from "@tb-dev/utils";
+import { CoordImpl } from "@/core/model/continent/coord";
+import type { ContinentKey } from "@/types/core/continent";
+import { RankingEntryImpl } from "@/core/model/ranking/ranking-entry";
+import type { Coord, RankingEntry, Ruler } from "@tsukilabs/nil-bindings";
 
 export abstract class RulerImpl {
   public readonly coords: readonly CoordImpl[];

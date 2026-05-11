@@ -1,9 +1,9 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Option } from '@tb-dev/utils';
-import type { BasicColorSchema } from '@vueuse/core';
-import type { Locale } from '@tsukilabs/nil-bindings';
+import type { Option } from "@tb-dev/utils";
+import type { BasicColorSchema } from "@vueuse/core";
+import type { Locale } from "@tsukilabs/nil-bindings";
 
 export interface Settings {
   readonly academy: AcademySettings;

@@ -1,7 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { invoke } from '@tauri-apps/api/core';
+import { invoke } from "@tauri-apps/api/core";
 import type {
   BotId,
   GetBotCoordsRequest,
@@ -10,7 +10,7 @@ import type {
   GetPublicBotResponse,
   GetPublicBotsRequest,
   GetPublicBotsResponse,
-} from '@tsukilabs/nil-bindings';
+} from "@tsukilabs/nil-bindings";
 
 export async function getBotCoords(id: BotId) {
   const req: GetBotCoordsRequest = {
@@ -18,7 +18,7 @@ export async function getBotCoords(id: BotId) {
     id,
   };
 
-  return invoke<GetBotCoordsResponse>('get_bot_coords', { req });
+  return invoke<GetBotCoordsResponse>("get_bot_coords", { req });
 }
 
 export async function getPublicBot(id: BotId) {
@@ -27,7 +27,7 @@ export async function getPublicBot(id: BotId) {
     id,
   };
 
-  return invoke<GetPublicBotResponse>('get_public_bot', { req });
+  return invoke<GetPublicBotResponse>("get_public_bot", { req });
 }
 
 export async function getPublicBots() {
@@ -35,5 +35,5 @@ export async function getPublicBots() {
     world: NIL.world.getIdStrict(),
   };
 
-  return invoke<GetPublicBotsResponse>('get_public_bots', { req });
+  return invoke<GetPublicBotsResponse>("get_public_bots", { req });
 }

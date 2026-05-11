@@ -2,12 +2,12 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import Units from './Units.vue';
-import Buildings from './Buildings.vue';
-import Production from './Production.vue';
-import { useBreakpoints } from '@tb-dev/vue';
-import { useIdleArmiesAt } from '@/composables/military/useIdleArmiesAt';
-import { foldArmyPersonnel } from '@/composables/military/foldArmyPersonnel';
+import Units from "./Units.vue";
+import Buildings from "./Buildings.vue";
+import Production from "./Production.vue";
+import { useBreakpoints } from "@tb-dev/vue";
+import { useIdleArmiesAt } from "@/composables/military/useIdleArmiesAt";
+import { foldArmyPersonnel } from "@/composables/military/foldArmyPersonnel";
 
 const { coord, city } = NIL.city.refs();
 

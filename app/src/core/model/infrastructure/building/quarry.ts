@@ -1,11 +1,11 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { MineImpl } from './abstract';
-import type { MineId, Quarry } from '@tsukilabs/nil-bindings';
+import { MineImpl } from "./abstract";
+import type { MineId, Quarry } from "@tsukilabs/nil-bindings";
 
 export class QuarryImpl extends MineImpl implements Readonly<Quarry> {
-  public readonly id: MineId = 'quarry';
+  public readonly id: MineId = "quarry";
 
   private constructor(quarry: Quarry) {
     super(quarry);

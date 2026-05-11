@@ -2,27 +2,27 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { Input } from '@ui/input';
-import { Label } from '@ui/label';
-import { useI18n } from 'vue-i18n';
-import { Button } from '@ui/button';
-import * as commands from '@/commands';
-import { useMutex } from '@tb-dev/vue';
-import { useRouter } from 'vue-router';
-import type { Option } from '@tb-dev/utils';
-import type { PlayerId } from '@tsukilabs/nil-bindings';
-import enUS from '@/locale/en-US/scenes/online.json';
-import ptBR from '@/locale/pt-BR/scenes/online.json';
-import { computed, onBeforeMount, reactive } from 'vue';
-import { isValidPassword, isValidPlayerId } from '@/lib/schema';
-import ButtonSpinner from '@/components/button/ButtonSpinner.vue';
-import { go, QUERY_SIGN_IN_USER, QUERY_SIGN_UP_USER } from '@/router';
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@ui/card';
+import { Input } from "@ui/input";
+import { Label } from "@ui/label";
+import { useI18n } from "vue-i18n";
+import { Button } from "@ui/button";
+import * as commands from "@/commands";
+import { useMutex } from "@tb-dev/vue";
+import { useRouter } from "vue-router";
+import type { Option } from "@tb-dev/utils";
+import type { PlayerId } from "@tsukilabs/nil-bindings";
+import enUS from "@/locale/en-US/scenes/online.json";
+import ptBR from "@/locale/pt-BR/scenes/online.json";
+import { computed, onBeforeMount, reactive } from "vue";
+import { isValidPassword, isValidPlayerId } from "@/lib/schema";
+import ButtonSpinner from "@/components/button/ButtonSpinner.vue";
+import { go, QUERY_SIGN_IN_USER, QUERY_SIGN_UP_USER } from "@/router";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@ui/card";
 
 const { t } = useI18n({
   messages: {
-    'en-US': enUS,
-    'pt-BR': ptBR,
+    "en-US": enUS,
+    "pt-BR": ptBR,
   },
 });
 
@@ -62,7 +62,7 @@ async function signUp() {
       newUser.password === newUser.password2
     ) {
       await commands.createUser(newUser.name, newUser.password);
-      await go('sign-in', { query: { [QUERY_SIGN_IN_USER]: newUser.name } });
+      await go("sign-in", { query: { [QUERY_SIGN_IN_USER]: newUser.name } });
     }
   });
 }
@@ -72,12 +72,12 @@ async function signUp() {
   <div class="card-layout">
     <Card>
       <CardHeader>
-        <CardTitle>{{ t('sign-up') }}</CardTitle>
+        <CardTitle>{{ t("sign-up") }}</CardTitle>
       </CardHeader>
 
       <CardContent class="max-md:px-2">
         <Label>
-          <span>{{ t('user') }}</span>
+          <span>{{ t("user") }}</span>
           <Input
             v-model.trim="newUser.name"
             type="text"
@@ -88,7 +88,7 @@ async function signUp() {
           />
         </Label>
         <Label>
-          <span>{{ t('password') }}</span>
+          <span>{{ t("password") }}</span>
           <Input
             v-model="newUser.password"
             type="password"
@@ -99,7 +99,7 @@ async function signUp() {
           />
         </Label>
         <Label>
-          <span>{{ t('confirm-password') }}</span>
+          <span>{{ t("confirm-password") }}</span>
           <Input
             v-model="newUser.password2"
             type="password"
@@ -113,10 +113,10 @@ async function signUp() {
 
       <CardFooter class="grid grid-cols-2">
         <ButtonSpinner :loading="locked" :disabled="locked || !canCreate" @click="signUp">
-          {{ t('create') }}
+          {{ t("create") }}
         </ButtonSpinner>
         <Button variant="secondary" :disabled="locked" @click="() => router.back()">
-          <span>{{ t('cancel') }}</span>
+          <span>{{ t("cancel") }}</span>
         </Button>
       </CardFooter>
     </Card>

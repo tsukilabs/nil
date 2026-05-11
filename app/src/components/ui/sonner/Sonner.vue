@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { Toaster as Sonner, type ToasterProps } from '@tb-dev/vue-sonner';
-import { CircleCheckIcon, InfoIcon, Loader2Icon, OctagonXIcon, TriangleAlertIcon, XIcon } from '@lucide/vue';
-import { cn } from '@/components/ui/utils';
+import { Toaster as Sonner, type ToasterProps } from "@tb-dev/vue-sonner";
+import { CircleCheckIcon, InfoIcon, Loader2Icon, OctagonXIcon, TriangleAlertIcon, XIcon } from "@lucide/vue";
+import { cn } from "@/components/ui/utils";
 
 const props = defineProps<ToasterProps>();
 </script>

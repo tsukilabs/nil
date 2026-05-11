@@ -1,13 +1,13 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { type Ref, toRef } from 'vue';
-import type { Option } from '@tb-dev/utils';
-import type { MaybeNilRef } from '@tb-dev/vue';
-import type { CityImpl } from '@/core/model/city/city';
-import type { ContinentKey } from '@/types/core/continent';
-import type { PlayerImpl } from '@/core/model/player/player';
-import type { CoordImpl } from '@/core/model/continent/coord';
+import { type Ref, toRef } from "vue";
+import type { Option } from "@tb-dev/utils";
+import type { MaybeNilRef } from "@tb-dev/vue";
+import type { CityImpl } from "@/core/model/city/city";
+import type { ContinentKey } from "@/types/core/continent";
+import type { PlayerImpl } from "@/core/model/player/player";
+import type { CoordImpl } from "@/core/model/continent/coord";
 
 export function toCoordRef(coord?: MaybeNilRef<CoordImpl>) {
   return (coord ? toRef(coord) : NIL.city.refs().coord) as Ref<Option<CoordImpl>>;

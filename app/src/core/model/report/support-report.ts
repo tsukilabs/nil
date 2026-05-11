@@ -1,13 +1,13 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { getPublicCities } from '@/commands/city';
-import type { ComposerTranslation } from 'vue-i18n';
-import { CoordImpl } from '@/core/model/continent/coord';
-import { ReportImpl } from '@/core/model/report/abstract';
-import enUS from '@/locale/en-US/scenes/game/report.json';
-import { ArmyPersonnelImpl } from '@/core/model/military/army-personnel';
-import type { Coord, PlayerId, PublicCity, Ruler, SupportReport } from '@tsukilabs/nil-bindings';
+import { getPublicCities } from "@/commands/city";
+import type { ComposerTranslation } from "vue-i18n";
+import { CoordImpl } from "@/core/model/continent/coord";
+import { ReportImpl } from "@/core/model/report/abstract";
+import enUS from "@/locale/en-US/scenes/game/report.json";
+import { ArmyPersonnelImpl } from "@/core/model/military/army-personnel";
+import type { Coord, PlayerId, PublicCity, Ruler, SupportReport } from "@tsukilabs/nil-bindings";
 
 export class SupportReportImpl extends ReportImpl implements Readonly<SupportReport> {
   public readonly sender: Ruler;
@@ -33,11 +33,11 @@ export class SupportReportImpl extends ReportImpl implements Readonly<SupportRep
 
   public override getPlayerIds(): readonly PlayerId[] {
     const ids: PlayerId[] = [];
-    if (this.sender.kind === 'player') {
+    if (this.sender.kind === "player") {
       ids.push(this.sender.id);
     }
 
-    if (this.receiver.kind === 'player') {
+    if (this.receiver.kind === "player") {
       ids.push(this.receiver.id);
     }
 
@@ -45,7 +45,7 @@ export class SupportReportImpl extends ReportImpl implements Readonly<SupportRep
   }
 
   public override getTitle(t: ComposerTranslation<typeof enUS>) {
-    return t('support-report-title', {
+    return t("support-report-title", {
       sender: this.sender.id,
       destination: this.destination.format(),
       destinationName: this.destinationCity.name,

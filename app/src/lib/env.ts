@@ -1,8 +1,8 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as commands from '@/commands';
-import { SavedataFile } from '@/core/savedata';
+import * as commands from "@/commands";
+import { SavedataFile } from "@/core/savedata";
 
 export async function handleProcessArgs() {
   if (__DESKTOP__ && !__DEBUG_ASSERTIONS__) {

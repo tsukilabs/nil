@@ -1,8 +1,8 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { ResourcesImpl } from '@/core/model/resources';
-import type { ManeuverHaul, Ruler } from '@tsukilabs/nil-bindings';
+import { ResourcesImpl } from "@/core/model/resources";
+import type { ManeuverHaul, Ruler } from "@tsukilabs/nil-bindings";
 
 export class ManeuverHaulImpl implements Readonly<ManeuverHaul> {
   public readonly ruler: Ruler;

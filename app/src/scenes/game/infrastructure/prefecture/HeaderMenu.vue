@@ -2,27 +2,27 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { go } from '@/router';
-import { useI18n } from 'vue-i18n';
-import { useRoute } from 'vue-router';
-import { MenuIcon } from '@lucide/vue';
-import { useBreakpoints } from '@tb-dev/vue';
-import { Button, type ButtonVariant } from '@ui/button';
-import type { PrefectureScene } from '@/types/scene/game/infrastructure';
-import enUS from '@/locale/en-US/scenes/game/infrastructure/prefecture.json';
-import ptBR from '@/locale/pt-BR/scenes/game/infrastructure/prefecture.json';
+import { go } from "@/router";
+import { useI18n } from "vue-i18n";
+import { useRoute } from "vue-router";
+import { MenuIcon } from "@lucide/vue";
+import { useBreakpoints } from "@tb-dev/vue";
+import { Button, type ButtonVariant } from "@ui/button";
+import type { PrefectureScene } from "@/types/scene/game/infrastructure";
+import enUS from "@/locale/en-US/scenes/game/infrastructure/prefecture.json";
+import ptBR from "@/locale/pt-BR/scenes/game/infrastructure/prefecture.json";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@ui/dropdown-menu';
+} from "@ui/dropdown-menu";
 
 const { t } = useI18n({
   messages: {
-    'en-US': enUS,
-    'pt-BR': ptBR,
+    "en-US": enUS,
+    "pt-BR": ptBR,
   },
 });
 
@@ -30,7 +30,7 @@ const route = useRoute();
 const { md } = useBreakpoints();
 
 function getButtonVariant(scene: PrefectureScene): ButtonVariant {
-  return route.name === scene ? 'secondary' : 'ghost';
+  return route.name === scene ? "secondary" : "ghost";
 }
 </script>
 
@@ -43,7 +43,7 @@ function getButtonVariant(scene: PrefectureScene): ButtonVariant {
       tabindex="0"
       @click="() => go('prefecture')"
     >
-      <span>{{ t('construction') }}</span>
+      <span>{{ t("construction") }}</span>
     </Button>
 
     <Button
@@ -53,7 +53,7 @@ function getButtonVariant(scene: PrefectureScene): ButtonVariant {
       tabindex="0"
       @click="() => go('prefecture-settings')"
     >
-      <span>{{ t('settings') }}</span>
+      <span>{{ t("settings") }}</span>
     </Button>
   </div>
 
@@ -74,12 +74,12 @@ function getButtonVariant(scene: PrefectureScene): ButtonVariant {
       <DropdownMenuGroup>
         <DropdownMenuItem>
           <RouterLink :to="{ name: 'prefecture' satisfies PrefectureScene }" class="w-full">
-            {{ t('construction') }}
+            {{ t("construction") }}
           </RouterLink>
         </DropdownMenuItem>
         <DropdownMenuItem>
           <RouterLink :to="{ name: 'prefecture-settings' satisfies PrefectureScene }" class="w-full">
-            {{ t('settings') }}
+            {{ t("settings") }}
           </RouterLink>
         </DropdownMenuItem>
       </DropdownMenuGroup>

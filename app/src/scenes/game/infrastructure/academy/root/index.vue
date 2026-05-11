@@ -2,12 +2,12 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { watch } from 'vue';
-import RecruitQueue from './RecruitQueue.vue';
-import { useSettings } from '@/stores/settings';
-import RecruitCatalog from './RecruitCatalog.vue';
-import { useAcademy } from '@/composables/infrastructure/useBuilding';
-import { useAcademyRecruitCatalog } from '@/composables/infrastructure/useAcademyRecruitCatalog';
+import { watch } from "vue";
+import RecruitQueue from "./RecruitQueue.vue";
+import { useSettings } from "@/stores/settings";
+import RecruitCatalog from "./RecruitCatalog.vue";
+import { useAcademy } from "@/composables/infrastructure/useBuilding";
+import { useAcademyRecruitCatalog } from "@/composables/infrastructure/useAcademyRecruitCatalog";
 
 const { coord, city } = NIL.city.refs();
 

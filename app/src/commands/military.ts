@@ -1,12 +1,12 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { invoke } from '@tauri-apps/api/core';
+import { invoke } from "@tauri-apps/api/core";
 import type {
   ManeuverRequest,
   RequestManeuverRequest,
   RequestManeuverResponse,
-} from '@tsukilabs/nil-bindings';
+} from "@tsukilabs/nil-bindings";
 
 export async function requestManeuver(request: ManeuverRequest) {
   const req: RequestManeuverRequest = {
@@ -14,5 +14,5 @@ export async function requestManeuver(request: ManeuverRequest) {
     request,
   };
 
-  return invoke<RequestManeuverResponse>('request_maneuver', { req });
+  return invoke<RequestManeuverResponse>("request_maneuver", { req });
 }
