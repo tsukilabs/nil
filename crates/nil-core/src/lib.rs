@@ -22,7 +22,6 @@ pub mod behavior;
 pub mod chat;
 pub mod city;
 pub mod continent;
-pub mod diplomacy;
 pub mod error;
 pub mod ethic;
 pub mod event;

@@ -9,7 +9,6 @@ mod chat;
 mod cheat;
 mod city;
 mod continent;
-mod diplomacy;
 mod event;
 mod infrastructure;
 mod military;
