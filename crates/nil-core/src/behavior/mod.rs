@@ -3,13 +3,13 @@
 
 pub mod build;
 pub mod idle;
+pub mod plunder;
 pub mod recruit;
 
 use crate::error::Result;
 use crate::world::World;
 use derive_more::Into;
 use idle::IdleBehavior;
-use rand::rngs::ThreadRng;
 use rand::seq::{IndexedRandom, SliceRandom};
 use std::any::Any;
 use std::cmp::Ordering;
@@ -36,7 +36,6 @@ pub struct BehaviorProcessor<'a> {
   buffer: Vec<(usize, BehaviorScore)>,
   candidates: Vec<(usize, f64)>,
   broken: HashSet<usize>,
-  rng: ThreadRng,
 }
 
 impl<'a> BehaviorProcessor<'a> {
@@ -45,8 +44,7 @@ impl<'a> BehaviorProcessor<'a> {
     let candidates = Vec::new();
     let broken = HashSet::new();
 
-    let mut rng = rand::rng();
-    behaviors.shuffle(&mut rng);
+    behaviors.shuffle(&mut rand::rng());
 
     Self {
       world,
@@ -54,7 +52,6 @@ impl<'a> BehaviorProcessor<'a> {
       buffer,
       candidates,
       broken,
-      rng,
     }
   }
 
@@ -97,7 +94,7 @@ impl Iterator for BehaviorProcessor<'_> {
 
     let idx = self
       .candidates
-      .choose(&mut self.rng)
+      .choose(&mut rand::rng())
       .map(|(idx, _)| *idx)
       .filter(|idx| !self.is_idle(*idx))?;
 
@@ -130,7 +127,7 @@ impl BehaviorScore {
   }
 
   #[inline]
-  pub(crate) const fn is_within_range(self, other: BehaviorScore, range: f64) -> bool {
+  pub const fn is_within_range(self, other: BehaviorScore, range: f64) -> bool {
     (self.0 - other.0).abs() < range
   }
 }
