@@ -125,7 +125,8 @@ impl Default for ChatMessageId {
   }
 }
 
-#[derive(Clone, Copy, Debug, Default, EnumIs, Deserialize, Serialize)]
+#[derive(Clone, Copy, Debug, EnumIs, Deserialize, Serialize)]
+#[derive_const(Default)]
 #[serde(rename_all = "kebab-case")]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub enum ChatMessageKind {
