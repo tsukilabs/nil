@@ -5,7 +5,6 @@
     "rust-lang.rust-analyzer",
     "bradlc.vscode-tailwindcss",
     "tamasfe.even-better-toml",
-    "vivaxy.vscode-conventional-commits",
     "github.vscode-pull-request-github",
     "dprint.dprint"
   ]

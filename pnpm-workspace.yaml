@@ -5,6 +5,11 @@ packages:
 
 ignoreWorkspaceRootCheck: true
 
+minimumReleaseAge: 4320
+minimumReleaseAgeIgnoreMissingTime: false
+minimumReleaseAgeExclude:
+  - "@tb-dev/*"
+
 allowBuilds:
   vue-demi: false
 
