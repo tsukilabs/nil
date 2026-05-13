@@ -21,7 +21,8 @@ use std::cmp::Ordering;
 use std::num::NonZeroU32;
 use std::ops::{Add, AddAssign, Deref, Mul, MulAssign, Sub, SubAssign};
 
-#[derive(Builder, Clone, Debug, PartialEq, Eq, Deserialize, Serialize)]
+#[derive(Builder, Debug, Deserialize, Serialize)]
+#[derive_const(Clone, PartialEq, Eq)]
 #[serde(default, rename_all = "camelCase")]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Resources {
@@ -66,7 +67,7 @@ impl Resources {
 
   #[inline]
   #[must_use]
-  pub fn new() -> Self {
+  pub const fn new() -> Self {
     Self::MIN.clone()
   }
 
@@ -82,30 +83,30 @@ impl Resources {
 
   #[inline]
   #[must_use]
-  pub fn with_food(&self, food: Food) -> Self {
+  pub const fn with_food(&self, food: Food) -> Self {
     Self { food, ..self.clone() }
   }
 
   #[inline]
   #[must_use]
-  pub fn with_iron(&self, iron: Iron) -> Self {
+  pub const fn with_iron(&self, iron: Iron) -> Self {
     Self { iron, ..self.clone() }
   }
 
   #[inline]
   #[must_use]
-  pub fn with_stone(&self, stone: Stone) -> Self {
+  pub const fn with_stone(&self, stone: Stone) -> Self {
     Self { stone, ..self.clone() }
   }
 
   #[inline]
   #[must_use]
-  pub fn with_wood(&self, wood: Wood) -> Self {
+  pub const fn with_wood(&self, wood: Wood) -> Self {
     Self { wood, ..self.clone() }
   }
 
   #[must_use]
-  pub fn silo(&self) -> Self {
+  pub const fn silo(&self) -> Self {
     Self {
       food: self.food,
       iron: Iron::MIN,
@@ -115,7 +116,7 @@ impl Resources {
   }
 
   #[must_use]
-  pub fn warehouse(&self) -> Self {
+  pub const fn warehouse(&self) -> Self {
     Self {
       food: Food::MIN,
       iron: self.iron,
@@ -124,7 +125,11 @@ impl Resources {
     }
   }
 
-  pub fn add_within_capacity(&mut self, diff: &ResourcesDiff, capacity: &OverallStorageCapacity) {
+  pub const fn add_within_capacity(
+    &mut self,
+    diff: &ResourcesDiff,
+    capacity: &OverallStorageCapacity,
+  ) {
     macro_rules! add {
       ($($resource:ident => $storage:ident),+ $(,)?) => {
         $(
@@ -140,7 +145,7 @@ impl Resources {
 
   /// Checked resource subtraction.
   /// Returns `None` if there are not enough resources available.
-  pub fn checked_sub(&self, rhs: &Self) -> Option<Self> {
+  pub const fn checked_sub(&self, rhs: &Self) -> Option<Self> {
     Some(Self {
       food: self.food.checked_sub(rhs.food)?,
       iron: self.iron.checked_sub(rhs.iron)?,
@@ -149,7 +154,7 @@ impl Resources {
     })
   }
 
-  pub fn sum(&self) -> u32 {
+  pub const fn sum(&self) -> u32 {
     0u32
       .saturating_add(self.food.0)
       .saturating_add(self.iron.0)
@@ -158,28 +163,28 @@ impl Resources {
   }
 
   #[inline]
-  pub fn sum_silo(&self) -> u32 {
+  pub const fn sum_silo(&self) -> u32 {
     self.silo().sum()
   }
 
   #[inline]
-  pub fn sum_warehouse(&self) -> u32 {
+  pub const fn sum_warehouse(&self) -> u32 {
     self.warehouse().sum()
   }
 
   #[inline]
-  pub fn is_empty(&self) -> bool {
+  pub const fn is_empty(&self) -> bool {
     self.sum() == 0
   }
 }
 
-impl Default for Resources {
+impl const Default for Resources {
   fn default() -> Self {
     Self::new()
   }
 }
 
-impl Add for Resources {
+impl const Add for Resources {
   type Output = Self;
 
   fn add(self, rhs: Self) -> Self {
@@ -192,7 +197,7 @@ impl Add for Resources {
   }
 }
 
-impl Add<&Resources> for Resources {
+impl const Add<&Resources> for Resources {
   type Output = Self;
 
   fn add(self, rhs: &Resources) -> Self {
@@ -205,7 +210,7 @@ impl Add<&Resources> for Resources {
   }
 }
 
-impl AddAssign for Resources {
+impl const AddAssign for Resources {
   fn add_assign(&mut self, rhs: Self) {
     *self = Self {
       food: self.food + rhs.food,
@@ -216,7 +221,7 @@ impl AddAssign for Resources {
   }
 }
 
-impl AddAssign<&Resources> for Resources {
+impl const AddAssign<&Resources> for Resources {
   fn add_assign(&mut self, rhs: &Resources) {
     *self = Self {
       food: self.food + rhs.food,
@@ -227,7 +232,7 @@ impl AddAssign<&Resources> for Resources {
   }
 }
 
-impl Sub for Resources {
+impl const Sub for Resources {
   type Output = Self;
 
   fn sub(self, rhs: Self) -> Self {
@@ -240,7 +245,7 @@ impl Sub for Resources {
   }
 }
 
-impl Sub<&Resources> for Resources {
+impl const Sub<&Resources> for Resources {
   type Output = Self;
 
   fn sub(self, rhs: &Resources) -> Self {
@@ -253,7 +258,7 @@ impl Sub<&Resources> for Resources {
   }
 }
 
-impl SubAssign for Resources {
+impl const SubAssign for Resources {
   fn sub_assign(&mut self, rhs: Self) {
     *self = Self {
       food: self.food - rhs.food,
@@ -264,7 +269,7 @@ impl SubAssign for Resources {
   }
 }
 
-impl SubAssign<&Resources> for Resources {
+impl const SubAssign<&Resources> for Resources {
   fn sub_assign(&mut self, rhs: &Resources) {
     *self = Self {
       food: self.food - rhs.food,
@@ -275,7 +280,7 @@ impl SubAssign<&Resources> for Resources {
   }
 }
 
-impl Mul<u32> for &Resources {
+impl const Mul<u32> for &Resources {
   type Output = Resources;
 
   fn mul(self, rhs: u32) -> Self::Output {
@@ -288,7 +293,7 @@ impl Mul<u32> for &Resources {
   }
 }
 
-impl Mul<NonZeroU32> for &Resources {
+impl const Mul<NonZeroU32> for &Resources {
   type Output = Resources;
 
   fn mul(self, rhs: NonZeroU32) -> Self::Output {
@@ -300,16 +305,8 @@ macro_rules! decl_resource {
   ($($resource:ident),+ $(,)?) => {
     paste::paste! {
       $(
-        #[derive(
-          Clone,
-          Copy,
-          Debug,
-          Display,
-          Deserialize,
-          Serialize,
-          F64Ops,
-        )]
-        #[derive_const(Default, PartialEq, Eq, PartialOrd, Ord)]
+        #[derive(Copy, Debug, Display, Deserialize, Serialize, F64Ops)]
+        #[derive_const(Clone, Default, PartialEq, Eq, PartialOrd, Ord)]
         #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
         pub struct $resource(u32);
 
@@ -327,7 +324,11 @@ macro_rules! decl_resource {
             self.0.checked_sub(rhs.0).map(Self::new)
           }
 
-          pub fn add_within_capacity(&mut self, diff: [<$resource Diff>], capacity: StorageCapacity) {
+          pub const fn add_within_capacity(
+            &mut self,
+            diff: [<$resource Diff>],
+            capacity: StorageCapacity
+          ) {
             if diff < 0i32 {
               *self += diff;
             } else if self.0 < *capacity {

@@ -233,12 +233,12 @@ pub struct MaintenanceBalance {
 impl MaintenanceBalance {
   /// Checks if the food production is enough to cover the maintenance costs.
   #[inline]
-  pub fn is_sustainable(&self) -> bool {
+  pub const fn is_sustainable(&self) -> bool {
     self.production >= self.maintenance
   }
 }
 
-impl Add<Maintenance> for MaintenanceBalance {
+impl const Add<Maintenance> for MaintenanceBalance {
   type Output = Self;
 
   fn add(self, rhs: Maintenance) -> Self::Output {

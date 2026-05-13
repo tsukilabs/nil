@@ -15,7 +15,8 @@ use std::fmt;
 use std::num::NonZeroU32;
 use strum::EnumIs;
 
-#[derive(Clone, Debug, Default, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive_const(Default)]
 #[serde(rename_all = "camelCase")]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Round {
@@ -183,7 +184,8 @@ impl const PartialEq<u32> for RoundId {
   }
 }
 
-#[derive(Clone, Default, Deserialize, Serialize, EnumIs)]
+#[derive(Clone, Deserialize, Serialize, EnumIs)]
+#[derive_const(Default)]
 #[serde(tag = "kind", rename_all = "kebab-case")]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub enum RoundState {
