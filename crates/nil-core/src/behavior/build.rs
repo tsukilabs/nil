@@ -257,7 +257,7 @@ pub struct BuildStep {
 }
 
 impl BuildStep {
-  fn new(id: BuildingId, level: BuildingLevel) -> Self {
+  const fn new(id: BuildingId, level: BuildingLevel) -> Self {
     Self { id, level }
   }
 
