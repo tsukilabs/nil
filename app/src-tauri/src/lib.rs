@@ -1,7 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-#![feature(try_blocks)]
+#![feature(const_default, const_trait_impl, derive_const, try_blocks)]
 
 mod command;
 mod error;

@@ -5,7 +5,8 @@ use nil_core::world::config::Locale;
 use nil_server_types::auth::Token;
 use serde::{Deserialize, Serialize};
 
-#[derive(Clone, Debug, Default, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive_const(Default)]
 #[serde(default, rename_all = "camelCase")]
 pub struct Settings {
   pub academy: AcademySettings,
@@ -23,20 +24,22 @@ pub struct AcademySettings {
   pub hide_unmet: bool,
 }
 
-impl Default for AcademySettings {
+impl const Default for AcademySettings {
   fn default() -> Self {
     Self { hide_unmet: true }
   }
 }
 
-#[derive(Clone, Debug, Default, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive_const(Default)]
 #[serde(rename_all = "camelCase")]
 pub struct AppearanceSettings {
   pub color_mode: String,
   pub theme: String,
 }
 
-#[derive(Clone, Debug, Default, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive_const(Default)]
 #[serde(default, rename_all = "camelCase")]
 pub struct AuthSettings {
   pub token: Option<Token>,
@@ -50,7 +53,7 @@ pub struct GeneralSettings {
   pub locale: Locale,
 }
 
-impl Default for GeneralSettings {
+impl const Default for GeneralSettings {
   #[cfg_attr(not(windows), allow(clippy::derivable_impls))]
   fn default() -> Self {
     Self {
@@ -68,7 +71,7 @@ pub struct PrefectureSettings {
   pub hide_unmet: bool,
 }
 
-impl Default for PrefectureSettings {
+impl const Default for PrefectureSettings {
   fn default() -> Self {
     Self { hide_maxed: false, hide_unmet: true }
   }
@@ -80,7 +83,7 @@ pub struct StableSettings {
   pub hide_unmet: bool,
 }
 
-impl Default for StableSettings {
+impl const Default for StableSettings {
   fn default() -> Self {
     Self { hide_unmet: true }
   }
@@ -92,7 +95,7 @@ pub struct WorkshopSettings {
   pub hide_unmet: bool,
 }
 
-impl Default for WorkshopSettings {
+impl const Default for WorkshopSettings {
   fn default() -> Self {
     Self { hide_unmet: true }
   }

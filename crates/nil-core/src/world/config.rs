@@ -136,7 +136,8 @@ impl<T: AsRef<str>> From<T> for WorldName {
   }
 }
 
-#[derive(Clone, Copy, Debug, Default, Deserialize, Serialize)]
+#[derive(Clone, Copy, Debug, Deserialize, Serialize)]
+#[derive_const(Default)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub enum Locale {
   #[default]
