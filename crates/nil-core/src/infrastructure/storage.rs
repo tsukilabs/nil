@@ -203,8 +203,8 @@ impl const AddAssign for OverallStorageCapacity {
   }
 }
 
-#[derive(Clone, Copy, Debug, From, Into)]
-#[derive_const(Default, PartialEq, PartialOrd)]
+#[derive(Copy, Debug, From, Into)]
+#[derive_const(Clone, Default, PartialEq, PartialOrd)]
 pub struct StorageCapacityWeight(f64);
 
 impl const Deref for StorageCapacityWeight {

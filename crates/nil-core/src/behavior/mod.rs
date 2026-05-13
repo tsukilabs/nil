@@ -112,7 +112,8 @@ impl Iterator for BehaviorProcessor<'_> {
   }
 }
 
-#[derive(Clone, Copy, Debug, Into)]
+#[derive(Copy, Debug, Into)]
+#[derive_const(Clone)]
 pub struct BehaviorScore(f64);
 
 impl BehaviorScore {

@@ -8,8 +8,8 @@ use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
 use std::ops::{Add, AddAssign, Deref, Sub, SubAssign};
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
-#[derive_const(Default, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Debug, Deserialize, Serialize)]
+#[derive_const(Clone, Default, PartialEq, Eq, PartialOrd, Ord)]
 #[serde(default, rename_all = "camelCase")]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct ResourcesDiff {

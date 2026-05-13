@@ -160,8 +160,8 @@ impl Round {
   }
 }
 
-#[derive(Clone, Copy, Debug, Deref, Deserialize, Serialize)]
-#[derive_const(PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Copy, Debug, Deref, Deserialize, Serialize)]
+#[derive_const(Clone, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct RoundId(NonZeroU32);
 

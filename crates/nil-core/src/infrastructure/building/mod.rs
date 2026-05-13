@@ -323,10 +323,8 @@ impl BuildingStatsTable {
   }
 }
 
-#[derive(
-  Clone, Copy, Debug, Deref, derive_more::Display, Into, Hash, Deserialize, Serialize, F64Ops,
-)]
-#[derive_const(Default, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Copy, Debug, Deref, derive_more::Display, Into, Hash, Deserialize, Serialize, F64Ops)]
+#[derive_const(Clone, Default, PartialEq, Eq, PartialOrd, Ord)]
 #[into(i16, i32, u8, u16, u64, usize)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct BuildingLevel(u8);

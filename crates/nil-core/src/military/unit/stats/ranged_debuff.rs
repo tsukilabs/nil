@@ -5,8 +5,8 @@ use nil_num::F64Ops;
 use serde::{Deserialize, Serialize};
 use std::ops::{Deref, Mul};
 
-#[derive(Clone, Copy, Debug, Deserialize, Serialize, F64Ops)]
-#[derive_const(PartialEq, PartialOrd)]
+#[derive(Copy, Debug, Deserialize, Serialize, F64Ops)]
+#[derive_const(Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct RangedDebuff(f64);
 

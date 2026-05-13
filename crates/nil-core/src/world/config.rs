@@ -179,19 +179,22 @@ macro_rules! impl_f64_newtype {
   };
 }
 
-#[derive(Clone, Copy, Debug, Deref, Deserialize, Serialize, F64Ops)]
+#[derive(Copy, Debug, Deref, Deserialize, Serialize, F64Ops)]
+#[derive_const(Clone)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct WorldSpeed(f64);
 
 impl_f64_newtype!(WorldSpeed, min = 0.1, max = 10.0, default = 1.0);
 
-#[derive(Clone, Copy, Debug, Deref, Deserialize, Serialize, F64Ops)]
+#[derive(Copy, Debug, Deref, Deserialize, Serialize, F64Ops)]
+#[derive_const(Clone)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct WorldUnitSpeed(f64);
 
 impl_f64_newtype!(WorldUnitSpeed, min = 0.1, max = 10.0, default = 1.0);
 
-#[derive(Clone, Copy, Debug, Deref, Deserialize, Serialize, F64Ops)]
+#[derive(Copy, Debug, Deref, Deserialize, Serialize, F64Ops)]
+#[derive_const(Clone)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct BotDensity(f64);
 
@@ -203,7 +206,8 @@ impl_f64_newtype!(
 );
 
 /// Proportion of bots that will have an advanced start with higher level infrastructure.
-#[derive(Clone, Copy, Debug, Deref, Deserialize, Serialize, F64Ops)]
+#[derive(Copy, Debug, Deref, Deserialize, Serialize, F64Ops)]
+#[derive_const(Clone)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct BotAdvancedStartRatio(f64);
 

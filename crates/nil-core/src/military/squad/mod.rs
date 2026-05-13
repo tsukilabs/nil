@@ -187,7 +187,8 @@ impl From<UnitId> for Squad {
   }
 }
 
-#[derive(Clone, Copy, Debug, Deref, Into)]
+#[derive(Copy, Debug, Deref, Into)]
+#[derive_const(Clone, PartialEq, PartialOrd)]
 pub struct SquadAttack(f64);
 
 impl SquadAttack {
@@ -203,7 +204,8 @@ impl From<f64> for SquadAttack {
   }
 }
 
-#[derive(Clone, Debug)]
+#[derive(Debug)]
+#[derive_const(Clone)]
 pub struct SquadDefense {
   pub(crate) infantry: f64,
   pub(crate) cavalry: f64,

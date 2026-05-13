@@ -10,8 +10,8 @@ use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
 use std::ops::{Add, AddAssign, Mul, MulAssign};
 
-#[derive(Clone, Copy, Debug, Deref, From, Into, Deserialize, Serialize)]
-#[derive_const(Default, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Copy, Debug, Deref, From, Into, Deserialize, Serialize)]
+#[derive_const(Clone, Default, PartialEq, Eq, PartialOrd, Ord)]
 #[from(u32, Food, Iron, Stone, Wood)]
 #[into(u32, f64, Food, Iron, Stone, Wood)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]

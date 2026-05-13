@@ -6,8 +6,8 @@ use nil_num::F64Ops;
 use serde::{Deserialize, Serialize};
 use std::ops::MulAssign;
 
-#[derive(Clone, Copy, Debug, Deref, Deserialize, Serialize, F64Ops)]
-#[derive_const(Default, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Copy, Debug, Deref, Deserialize, Serialize, F64Ops)]
+#[derive_const(Clone, Default, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Luck(i8);
 

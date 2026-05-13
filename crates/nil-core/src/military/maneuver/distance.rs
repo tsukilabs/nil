@@ -8,7 +8,8 @@ use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
 use std::ops::{Deref, Sub, SubAssign};
 
-#[derive(Clone, Copy, Debug, Deserialize, Serialize, F64Ops)]
+#[derive(Copy, Debug, Deserialize, Serialize, F64Ops)]
+#[derive_const(Clone)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct ManeuverDistance(f64);
 

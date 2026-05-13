@@ -5,8 +5,8 @@ use serde::{Deserialize, Serialize};
 use std::ops::Deref;
 
 /// Political stability of the city.
-#[derive(Clone, Copy, Debug, Deserialize, Serialize)]
-#[derive_const(PartialEq, PartialOrd)]
+#[derive(Copy, Debug, Deserialize, Serialize)]
+#[derive_const(Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Stability(f64);
 

@@ -24,7 +24,7 @@ impl A {
     .truth(EthicTruthAxis::FanaticMaterialist)
     .build();
 
-  pub fn new(size: ContinentSize) -> Self {
+  pub const fn new(size: ContinentSize) -> Self {
     Self {
       origin: origin(size),
       resources: Resources::PRECURSOR.clone(),
@@ -33,7 +33,7 @@ impl A {
   }
 }
 
-fn origin(size: ContinentSize) -> Coord {
+const fn origin(size: ContinentSize) -> Coord {
   let size = u8::from(size);
   let radius = size.div_ceil(20).next_multiple_of(2);
   Coord::splat(0) + Coord::splat(radius)

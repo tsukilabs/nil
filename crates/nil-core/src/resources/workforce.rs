@@ -17,8 +17,8 @@ use std::ops::{Add, AddAssign, Deref, Mul, MulAssign, Sub, SubAssign};
 ///
 /// Unlike other resources, workforce should never accumulate for the next round.
 /// Anything that is not used should be discarded.
-#[derive(Clone, Copy, Debug, Deserialize, Serialize, F64Ops)]
-#[derive_const(PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Copy, Debug, Deserialize, Serialize, F64Ops)]
+#[derive_const(Clone, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Workforce(u32);
 

@@ -6,8 +6,8 @@ use super::building::BuildingLevel;
 use bon::Builder;
 use serde::{Deserialize, Serialize};
 
-#[derive(Builder, Clone, Debug, Deserialize, Serialize)]
-#[derive_const(Default, PartialEq, Eq)]
+#[derive(Builder, Debug, Deserialize, Serialize)]
+#[derive_const(Clone, Default, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
 #[builder(const)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]

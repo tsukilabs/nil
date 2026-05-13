@@ -5,8 +5,8 @@ use derive_more::{Deref, From, Into};
 use serde::{Deserialize, Serialize};
 use std::ops::{Add, Div, Mul, Sub};
 
-#[derive(Clone, Copy, Debug, Deref, From, Into, Deserialize, Serialize)]
-#[derive_const(PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Copy, Debug, Deref, From, Into, Deserialize, Serialize)]
+#[derive_const(Clone, PartialEq, Eq, PartialOrd, Ord)]
 #[into(u32, f64)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Power(u32);

@@ -60,7 +60,7 @@ pub struct RankingEntry {
   cities: u32,
 }
 
-#[derive(Clone, Copy, Debug, Deserialize, Serialize)]
-#[derive_const(Default, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Copy, Debug, Deserialize, Serialize)]
+#[derive_const(Clone, Default, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Rank(u32);

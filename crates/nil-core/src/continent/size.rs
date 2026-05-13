@@ -1,12 +1,13 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use derive_more::{Deref, Into};
+use derive_more::Into;
 use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
 use std::num::NonZeroU8;
+use std::ops::Deref;
 
-#[derive(Clone, Copy, Debug, Deref, Into, Deserialize, Serialize)]
+#[derive(Clone, Copy, Debug, Into, Deserialize, Serialize)]
 #[derive_const(PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct ContinentSize(NonZeroU8);
@@ -35,6 +36,14 @@ impl ContinentSize {
 impl const Default for ContinentSize {
   fn default() -> Self {
     Self::MIN
+  }
+}
+
+impl const Deref for ContinentSize {
+  type Target = NonZeroU8;
+
+  fn deref(&self) -> &Self::Target {
+    &self.0
   }
 }
 

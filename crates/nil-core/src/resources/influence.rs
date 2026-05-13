@@ -14,8 +14,8 @@ use std::num::NonZeroU32;
 ///
 /// The amount of influence needed to control a number `n` of cities is given by
 /// the formula `n * (n + 1) / 2`, meaning it increases as a triangular number.
-#[derive(Clone, Copy, Debug, Display, Deserialize, Serialize)]
-#[derive_const(PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Copy, Debug, Display, Deserialize, Serialize)]
+#[derive_const(Clone, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Influence(NonZeroU32);
 
