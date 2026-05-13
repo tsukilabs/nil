@@ -244,12 +244,30 @@ impl Military {
     self.army(id).map(Army::personnel)
   }
 
-  #[inline]
-  pub fn squads(&self, id: ArmyId) -> Result<Vec<Squad>> {
+  pub fn personnel_of<R>(&self, owner: R) -> impl Iterator<Item = &ArmyPersonnel>
+  where
+    R: Into<Ruler>,
+  {
+    self.armies_of(owner).map(Army::personnel)
+  }
+
+  pub fn fold_personnel_of<R>(&self, owner: R) -> ArmyPersonnel
+  where
+    R: Into<Ruler>,
+  {
     self
-      .personnel(id)
-      .cloned()
-      .map(ArmyPersonnel::to_vec)
+      .personnel_of(owner)
+      .fold(ArmyPersonnel::default(), |mut acc, personnel| {
+        acc += personnel;
+        acc
+      })
+  }
+
+  pub fn idle_personnel_at<K>(&self, key: K) -> impl Iterator<Item = &ArmyPersonnel>
+  where
+    K: ContinentKey,
+  {
+    self.idle_armies_at(key).map(Army::personnel)
   }
 
   pub fn fold_idle_personnel_at<K>(&self, key: K) -> ArmyPersonnel
@@ -257,12 +275,19 @@ impl Military {
     K: ContinentKey,
   {
     self
-      .idle_armies_at(key)
-      .map(Army::personnel)
+      .idle_personnel_at(key)
       .fold(ArmyPersonnel::default(), |mut acc, personnel| {
         acc += personnel;
         acc
       })
+  }
+
+  #[inline]
+  pub fn squads(&self, id: ArmyId) -> Result<Vec<Squad>> {
+    self
+      .personnel(id)
+      .cloned()
+      .map(ArmyPersonnel::to_vec)
   }
 
   pub fn idle_squads_at<K>(&self, key: K) -> Vec<Squad>
