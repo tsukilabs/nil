@@ -4,6 +4,7 @@
 #![cfg_attr(docsrs, feature(doc_cfg))]
 #![doc(html_favicon_url = "https://nil.dev.br/favicon.png")]
 #![feature(
+  const_clone,
   const_cmp,
   const_convert,
   const_default,

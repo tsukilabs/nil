@@ -5,8 +5,8 @@ use derive_more::{From, Into};
 use serde::{Deserialize, Serialize};
 use std::time::Duration;
 
-#[derive(Clone, Copy, Debug, From, Into, Deserialize, Serialize)]
-#[derive_const(Default, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Copy, Debug, From, Into, Deserialize, Serialize)]
+#[derive_const(Clone, Default, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(as = "u32"))]
 pub struct Minutes(u64);
