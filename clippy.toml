@@ -1,1 +1,1 @@
-allowed-wildcard-imports = ["dsl"]
+allowed-wildcard-imports = []

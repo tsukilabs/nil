@@ -1,10 +1,16 @@
+// Copyright (C) Call of Nil contributors
+// SPDX-License-Identifier: AGPL-3.0-only
+
 use crate::behavior::{Behavior, BehaviorScore};
+use crate::continent::Coord;
 use crate::error::Result;
 use crate::world::World;
 use std::ops::ControlFlow;
 
 #[derive(Debug)]
-pub struct PlunderBehavior;
+pub struct PlunderBehavior {
+  coord: Coord,
+}
 
 impl PlunderBehavior {
   const SCORE: BehaviorScore = BehaviorScore::new(0.1);

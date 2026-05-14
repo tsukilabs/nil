@@ -26,9 +26,9 @@ impl BlockingDatabase {
   }
 
   pub fn create_user(&self, new: &NewUser) -> Result<usize> {
-    use crate::schema::user::dsl::*;
+    use crate::schema::user;
 
-    let result = diesel::insert_into(user)
+    let result = diesel::insert_into(user::table)
       .values(new)
       .execute(&mut *self.conn());
 

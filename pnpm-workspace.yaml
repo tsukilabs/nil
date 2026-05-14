@@ -3,13 +3,9 @@ packages:
   - "docs"
   - "packages/bindings"
 
+dedupePeers: true
 ignoreWorkspaceRootCheck: true
-
-minimumReleaseAge: 4320
-minimumReleaseAgeIgnoreMissingTime: false
-# minimumReleaseAgeStrict: false
-minimumReleaseAgeExclude:
-  - "@tb-dev/*"
+trustPolicy: no-downgrade
 
 allowBuilds:
   vue-demi: false
