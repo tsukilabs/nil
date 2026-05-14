@@ -1,11 +1,11 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use nil_util::ConstDeref;
+use nil_util::{ConstDeref, F64Math};
 use serde::{Deserialize, Serialize};
 
 /// Political stability of the city.
-#[derive(Copy, Debug, Deserialize, Serialize, ConstDeref)]
+#[derive(Copy, Debug, Deserialize, Serialize, ConstDeref, F64Math)]
 #[derive_const(Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Stability(f64);

@@ -1,9 +1,10 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use crate::behavior::build::BuildBehavior;
-use crate::behavior::idle::IdleBehavior;
-use crate::behavior::recruit::RecruitBehavior;
+use crate::behavior::r#impl::build::BuildBehavior;
+use crate::behavior::r#impl::idle::IdleBehavior;
+use crate::behavior::r#impl::plunder::PlunderBehavior;
+use crate::behavior::r#impl::recruit::RecruitBehavior;
 use crate::behavior::{Behavior, BehaviorProcessor};
 use crate::error::Result;
 use crate::ruler::Ruler;
@@ -56,6 +57,10 @@ fn with_coords(world: &World, ruler: &Ruler) -> impl Iterator<Item = Box<dyn Beh
     .flat_map(|coord| {
       [
         BuildBehavior::builder()
+          .coord(coord)
+          .build()
+          .boxed(),
+        PlunderBehavior::builder()
           .coord(coord)
           .build()
           .boxed(),
