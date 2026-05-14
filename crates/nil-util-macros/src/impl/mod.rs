@@ -3,12 +3,12 @@
 
 pub mod big_int;
 pub mod deref;
-pub mod math;
+pub mod f64;
 
 use syn::{Data, DeriveInput, Fields, Ident, Type};
 
-fn get_tuple_struct_inner_ident(input: &DeriveInput) -> &Ident {
-  if let Data::Struct(r#struct) = &input.data
+fn get_tuple_struct_inner_ident(ast: &DeriveInput) -> &Ident {
+  if let Data::Struct(r#struct) = &ast.data
     && let Fields::Unnamed(fields) = &r#struct.fields
     && let Some(field) = fields.unnamed.first()
     && let Type::Path(ty_path) = &field.ty
@@ -16,6 +16,6 @@ fn get_tuple_struct_inner_ident(input: &DeriveInput) -> &Ident {
   {
     ident
   } else {
-    panic!("");
+    panic!("inner ident not found");
   }
 }

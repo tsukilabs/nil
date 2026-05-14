@@ -23,17 +23,3 @@ pub fn impl_const_deref(ast: &DeriveInput) -> TokenStream {
 
   stream.into()
 }
-
-pub fn impl_const_deref_mut(ast: &DeriveInput) -> TokenStream {
-  let name = &ast.ident;
-  let stream = quote! {
-    #[automatically_derived]
-    impl const ::core::ops::DerefMut for #name {
-      fn deref_mut(&mut self) -> &mut Self::Target {
-        &mut self.0
-      }
-    }
-  };
-
-  stream.into()
-}
