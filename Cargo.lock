@@ -3577,20 +3577,9 @@ name = "nil-num"
 version = "0.5.0"
 dependencies = [
  "bon",
- "nil-num-macros",
  "num-traits",
  "serde",
  "strum",
-]
-
-[[package]]
-name = "nil-num-macros"
-version = "0.5.0"
-dependencies = [
- "paste",
- "proc-macro2",
- "quote",
- "syn 2.0.117",
 ]
 
 [[package]]
@@ -3697,6 +3686,17 @@ name = "nil-util"
 version = "0.5.0"
 dependencies = [
  "anyhow",
+ "nil-util-macros",
+]
+
+[[package]]
+name = "nil-util-macros"
+version = "0.5.0"
+dependencies = [
+ "paste",
+ "proc-macro2",
+ "quote",
+ "syn 2.0.117",
 ]
 
 [[package]]

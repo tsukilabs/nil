@@ -11,8 +11,8 @@ use crate::resources::maintenance::MaintenanceRatio;
 use crate::resources::workforce::Workforce;
 use derive_more::Deref;
 use nil_core_macros::Building;
-use nil_num::F64Math;
 use nil_num::growth::growth;
+use nil_util::F64Math;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 

@@ -3,23 +3,15 @@
 
 use crate::continent::Distance;
 use crate::military::unit::stats::speed::Speed;
-use nil_num::F64Math;
+use nil_util::{ConstDeref, F64Math};
 use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
-use std::ops::{Deref, Sub, SubAssign};
+use std::ops::{Sub, SubAssign};
 
-#[derive(Copy, Debug, Deserialize, Serialize, F64Math)]
+#[derive(Copy, Debug, Deserialize, Serialize, ConstDeref, F64Math)]
 #[derive_const(Clone)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct ManeuverDistance(f64);
-
-impl const Deref for ManeuverDistance {
-  type Target = f64;
-
-  fn deref(&self) -> &Self::Target {
-    &self.0
-  }
-}
 
 impl const From<ManeuverDistance> for f64 {
   fn from(value: ManeuverDistance) -> Self {

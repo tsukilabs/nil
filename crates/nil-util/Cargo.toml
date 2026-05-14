@@ -26,9 +26,15 @@ workspace = true
 workspace = true
 optional = true
 
+[dependencies.nil-util-macros]
+workspace = true
+optional = true
+
 [features]
-default = ["iter", "ops", "process", "vec"]
+default = ["iter", "macros", "ops", "process", "vec"]
+
 iter = []
+macros = ["dep:nil-util-macros"]
 ops = []
 process = ["dep:anyhow"]
 vec = []

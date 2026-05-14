@@ -18,11 +18,12 @@ use crate::ranking::score::Score;
 use crate::resources::prelude::*;
 use crate::world::config::WorldConfig;
 use derive_more::{Display, From, Into};
+use nil_util::ConstDeref;
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
 use stats::prelude::*;
 use std::fmt;
 use std::num::NonZeroU32;
-use std::ops::{Deref, Mul};
+use std::ops::Mul;
 use strum::EnumIter;
 use subenum::subenum;
 
@@ -269,7 +270,7 @@ impl UnitChunk {
   }
 }
 
-#[derive(Clone, Copy, Debug, From, Into, Deserialize, Serialize)]
+#[derive(Clone, Copy, Debug, From, Into, Deserialize, Serialize, ConstDeref)]
 #[derive_const(Default, PartialEq, Eq, PartialOrd, Ord)]
 #[into(u8, u32)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
@@ -279,14 +280,6 @@ impl UnitChunkSize {
   #[inline]
   pub const fn new(size: u8) -> UnitChunkSize {
     UnitChunkSize(size)
-  }
-}
-
-impl const Deref for UnitChunkSize {
-  type Target = u8;
-
-  fn deref(&self) -> &Self::Target {
-    &self.0
   }
 }
 

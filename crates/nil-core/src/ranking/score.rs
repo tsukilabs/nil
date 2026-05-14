@@ -1,12 +1,13 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use nil_num::{F64Math, impl_mul_ceil};
+use nil_num::impl_mul_ceil;
+use nil_util::{ConstDeref, F64Math};
 use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
-use std::ops::{Add, AddAssign, Deref, Mul, MulAssign, Sub, SubAssign};
+use std::ops::{Add, AddAssign, Mul, MulAssign, Sub, SubAssign};
 
-#[derive(Copy, Debug, Deserialize, Serialize, F64Math)]
+#[derive(Copy, Debug, Deserialize, Serialize, ConstDeref, F64Math)]
 #[derive_const(Clone, Default, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Score(u32);
@@ -17,14 +18,6 @@ impl Score {
   #[inline]
   pub const fn new(value: u32) -> Self {
     Self(value)
-  }
-}
-
-impl const Deref for Score {
-  type Target = u32;
-
-  fn deref(&self) -> &Self::Target {
-    &self.0
   }
 }
 

@@ -1,13 +1,12 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use nil_num::F64Math;
+use nil_util::{ConstDeref, F64Math};
 use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
-use std::ops::Deref;
 
 /// Represents how many fields a unit can travel in one round.
-#[derive(Copy, Debug, Deserialize, Serialize, F64Math)]
+#[derive(Copy, Debug, Deserialize, Serialize, ConstDeref, F64Math)]
 #[derive_const(Clone, Default, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Speed(f64);
@@ -18,14 +17,6 @@ impl Speed {
     debug_assert!(value >= 0.0);
     debug_assert!(value.is_finite());
     Self(value.max(0.0))
-  }
-}
-
-impl const Deref for Speed {
-  type Target = f64;
-
-  fn deref(&self) -> &Self::Target {
-    &self.0
   }
 }
 

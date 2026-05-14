@@ -4,12 +4,13 @@
 use crate::city::Stability;
 use crate::infrastructure::building::{Building, BuildingLevel};
 use crate::world::config::WorldConfig;
+use nil_num::impl_mul_ceil;
 use nil_num::mul_ceil::MulCeil;
-use nil_num::{F64Math, impl_mul_ceil};
+use nil_util::{ConstDeref, F64Math};
 use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
 use std::num::NonZeroU32;
-use std::ops::{Add, AddAssign, Deref, Mul, MulAssign, Sub, SubAssign};
+use std::ops::{Add, AddAssign, Mul, MulAssign, Sub, SubAssign};
 
 /// Workforce is a special resource used to construct buildings and recruit troops.
 /// The amount generated per round will always be equal to the level of the relevant
@@ -17,7 +18,7 @@ use std::ops::{Add, AddAssign, Deref, Mul, MulAssign, Sub, SubAssign};
 ///
 /// Unlike other resources, workforce should never accumulate for the next round.
 /// Anything that is not used should be discarded.
-#[derive(Copy, Debug, Deserialize, Serialize, F64Math)]
+#[derive(Copy, Debug, Deserialize, Serialize, ConstDeref, F64Math)]
 #[derive_const(Clone, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Workforce(u32);
@@ -26,14 +27,6 @@ impl Workforce {
   #[inline]
   pub const fn new(value: u32) -> Self {
     Self(value)
-  }
-}
-
-impl const Deref for Workforce {
-  type Target = u32;
-
-  fn deref(&self) -> &Self::Target {
-    &self.0
   }
 }
 

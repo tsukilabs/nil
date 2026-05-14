@@ -1,11 +1,11 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+use nil_util::ConstDeref;
 use serde::{Deserialize, Serialize};
-use std::ops::Deref;
 
 /// Political stability of the city.
-#[derive(Copy, Debug, Deserialize, Serialize)]
+#[derive(Copy, Debug, Deserialize, Serialize, ConstDeref)]
 #[derive_const(Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Stability(f64);
@@ -23,14 +23,6 @@ impl Stability {
 impl const Default for Stability {
   fn default() -> Self {
     Self::MAX
-  }
-}
-
-impl const Deref for Stability {
-  type Target = f64;
-
-  fn deref(&self) -> &Self::Target {
-    &self.0
   }
 }
 

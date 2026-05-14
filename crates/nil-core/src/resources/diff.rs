@@ -3,10 +3,10 @@
 
 use super::{Food, Iron, Resources, Stone, Wood};
 use derive_more::Display;
-use nil_num::F64Math;
+use nil_util::{ConstDeref, F64Math};
 use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
-use std::ops::{Add, AddAssign, Deref, Sub, SubAssign};
+use std::ops::{Add, AddAssign, Sub, SubAssign};
 
 #[derive(Debug, Deserialize, Serialize)]
 #[derive_const(Clone, Default, PartialEq, Eq, PartialOrd, Ord)]
@@ -154,7 +154,7 @@ macro_rules! decl_resource_diff {
   ($($resource:ident),+ $(,)?) => {
     paste::paste! {
       $(
-        #[derive(Copy, Debug, Display, Deserialize, Serialize, F64Math)]
+        #[derive(Copy, Debug, Display, Deserialize, Serialize, ConstDeref, F64Math)]
         #[derive_const(Clone, Default, PartialEq, Eq, PartialOrd, Ord)]
         #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
         pub struct [<$resource Diff>](i32);
@@ -168,14 +168,6 @@ macro_rules! decl_resource_diff {
           #[inline]
           pub const fn zero() -> Self {
             Self(0)
-          }
-        }
-
-        impl const Deref for [<$resource Diff>] {
-          type Target = i32;
-
-          fn deref(&self) -> &Self::Target {
-            &self.0
           }
         }
 

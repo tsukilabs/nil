@@ -5,11 +5,12 @@ use crate::military::unit::stats::power::Power;
 use crate::ranking::score::Score;
 use crate::resources::maintenance::Maintenance;
 use derive_more::{Display, From, Into};
+use nil_util::ConstDeref;
 use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
-use std::ops::{Add, AddAssign, Deref, Mul, MulAssign, Sub, SubAssign};
+use std::ops::{Add, AddAssign, Mul, MulAssign, Sub, SubAssign};
 
-#[derive(Copy, Debug, Display, From, Into, Deserialize, Serialize)]
+#[derive(Copy, Debug, Display, From, Into, Deserialize, Serialize, ConstDeref)]
 #[derive_const(Clone, Default, PartialEq, Eq, PartialOrd, Ord)]
 #[into(u32, f64)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
@@ -30,14 +31,6 @@ impl SquadSize {
   #[inline]
   pub const fn checked_sub(self, rhs: Self) -> Option<Self> {
     self.0.checked_sub(rhs.0).map(Self::new)
-  }
-}
-
-impl const Deref for SquadSize {
-  type Target = u32;
-
-  fn deref(&self) -> &Self::Target {
-    &self.0
   }
 }
 

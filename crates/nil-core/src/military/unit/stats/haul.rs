@@ -4,13 +4,14 @@
 use crate::infrastructure::storage::StorageCapacity;
 use crate::military::squad::size::SquadSize;
 use crate::resources::prelude::*;
-use derive_more::{Deref, From, Into};
+use derive_more::{From, Into};
 use nil_num::mul_ceil::MulCeil;
+use nil_util::ConstDeref;
 use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
 use std::ops::{Add, AddAssign, Mul, MulAssign};
 
-#[derive(Copy, Debug, Deref, From, Into, Deserialize, Serialize)]
+#[derive(Copy, Debug, From, Into, Deserialize, Serialize, ConstDeref)]
 #[derive_const(Clone, Default, PartialEq, Eq, PartialOrd, Ord)]
 #[from(u32, Food, Iron, Stone, Wood)]
 #[into(u32, f64, Food, Iron, Stone, Wood)]

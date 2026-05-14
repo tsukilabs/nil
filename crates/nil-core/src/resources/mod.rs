@@ -14,12 +14,13 @@ use crate::infrastructure::storage::{OverallStorageCapacity, StorageCapacity};
 use bon::Builder;
 use derive_more::Display;
 use diff::{FoodDiff, IronDiff, ResourcesDiff, StoneDiff, WoodDiff};
+use nil_num::impl_mul_ceil;
 use nil_num::mul_ceil::MulCeil;
-use nil_num::{F64Math, impl_mul_ceil};
+use nil_util::{ConstDeref, F64Math};
 use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
 use std::num::NonZeroU32;
-use std::ops::{Add, AddAssign, Deref, Mul, MulAssign, Sub, SubAssign};
+use std::ops::{Add, AddAssign, Mul, MulAssign, Sub, SubAssign};
 
 #[derive(Builder, Debug, Deserialize, Serialize)]
 #[derive_const(Clone, PartialEq, Eq)]
@@ -305,7 +306,7 @@ macro_rules! decl_resource {
   ($($resource:ident),+ $(,)?) => {
     paste::paste! {
       $(
-        #[derive(Copy, Debug, Display, Deserialize, Serialize, F64Math)]
+        #[derive(Copy, Debug, Display, Deserialize, Serialize, ConstDeref, F64Math)]
         #[derive_const(Clone, Default, PartialEq, Eq, PartialOrd, Ord)]
         #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
         pub struct $resource(u32);
@@ -335,14 +336,6 @@ macro_rules! decl_resource {
               let capacity = $resource::from(capacity);
               *self = (*self + diff).min(capacity);
             }
-          }
-        }
-
-        impl const Deref for $resource {
-          type Target = u32;
-
-          fn deref(&self) -> &Self::Target {
-            &self.0
           }
         }
 

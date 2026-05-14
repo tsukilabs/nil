@@ -3,12 +3,12 @@
 
 use super::maintenance::MaintenanceRatio;
 use derive_more::Into;
-use nil_num::F64Math;
+use nil_util::{ConstDeref, F64Math};
 use serde::{Deserialize, Serialize};
-use std::ops::{Deref, Mul};
+use std::ops::Mul;
 
 /// Base cost of an entity, such as buildings or units.
-#[derive(Copy, Debug, Into, Deserialize, Serialize, F64Math)]
+#[derive(Copy, Debug, Into, Deserialize, Serialize, ConstDeref, F64Math)]
 #[derive_const(Clone, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Cost(u32);
@@ -20,17 +20,10 @@ impl Cost {
   }
 }
 
-impl const Deref for Cost {
-  type Target = u32;
-
-  fn deref(&self) -> &Self::Target {
-    &self.0
-  }
-}
-
 impl const From<f64> for Cost {
   fn from(value: f64) -> Self {
     debug_assert!(value.is_finite());
+    debug_assert!(value >= 0.0);
     Self::new(value as u32)
   }
 }
@@ -58,7 +51,7 @@ impl const Mul<MaintenanceRatio> for Cost {
 }
 
 /// Proportion between the total cost and a given resource.
-#[derive(Copy, Debug, Deserialize, Serialize, F64Math)]
+#[derive(Copy, Debug, Deserialize, Serialize, ConstDeref, F64Math)]
 #[derive_const(Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct ResourceRatio(f64);
@@ -68,14 +61,6 @@ impl ResourceRatio {
   pub const fn new(value: f64) -> Self {
     debug_assert!(value.is_finite());
     Self(value.clamp(0.0, 1.0))
-  }
-}
-
-impl const Deref for ResourceRatio {
-  type Target = f64;
-
-  fn deref(&self) -> &Self::Target {
-    &self.0
   }
 }
 

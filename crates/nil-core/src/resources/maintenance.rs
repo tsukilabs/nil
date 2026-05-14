@@ -5,17 +5,18 @@ use super::Food;
 use super::diff::FoodDiff;
 use crate::military::unit::UnitChunkSize;
 use derive_more::Display;
+use nil_util::ConstDeref;
 use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
 use std::num::NonZeroU32;
-use std::ops::{Add, AddAssign, Deref, Div, Mul, Sub, SubAssign};
+use std::ops::{Add, AddAssign, Div, Mul, Sub, SubAssign};
 
 /// Maintenance tax of an entity.
 ///
 /// Its value is equivalent to a percentage of the [base cost].
 ///
 /// [base cost]: crate::resources::cost::Cost
-#[derive(Copy, Debug, Display, Deserialize, Serialize)]
+#[derive(Copy, Debug, Display, Deserialize, Serialize, ConstDeref)]
 #[derive_const(Clone, Default, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Maintenance(Food);
@@ -24,14 +25,6 @@ impl Maintenance {
   #[inline]
   pub const fn new(value: u32) -> Self {
     Self(Food::new(value))
-  }
-}
-
-impl const Deref for Maintenance {
-  type Target = u32;
-
-  fn deref(&self) -> &Self::Target {
-    &self.0.0
   }
 }
 
@@ -195,7 +188,7 @@ impl const PartialOrd<Maintenance> for Food {
 }
 
 /// Proportion of the base cost that should be used as a maintenance tax.
-#[derive(Clone, Copy, Debug, Deserialize, Serialize)]
+#[derive(Clone, Copy, Debug, Deserialize, Serialize, ConstDeref)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct MaintenanceRatio(f64);
 
@@ -205,14 +198,6 @@ impl MaintenanceRatio {
     debug_assert!(ratio.is_finite());
     debug_assert!(!ratio.is_subnormal());
     Self(ratio.clamp(0.0, 1.0))
-  }
-}
-
-impl const Deref for MaintenanceRatio {
-  type Target = f64;
-
-  fn deref(&self) -> &Self::Target {
-    &self.0
   }
 }
 

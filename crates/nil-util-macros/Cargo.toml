@@ -1,5 +1,5 @@
 [package]
-name = "nil-num-macros"
+name = "nil-util-macros"
 publish = true
 readme = "../../README.md"
 

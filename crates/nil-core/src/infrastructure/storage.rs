@@ -6,9 +6,10 @@ use crate::error::{Error, Result};
 use crate::infrastructure::building::{Building, BuildingLevel, StorageId};
 use derive_more::{From, Into};
 use nil_num::growth::growth;
+use nil_util::ConstDeref;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
-use std::ops::{Add, AddAssign, Deref, Sub, SubAssign};
+use std::ops::{Add, AddAssign, Sub, SubAssign};
 
 /// A building that stores resources.
 pub trait Storage: Building {
@@ -84,7 +85,7 @@ impl StorageStatsTable {
 }
 
 /// Storage capacity of a building.
-#[derive(Clone, Copy, Debug, From, Into, Deserialize, Serialize)]
+#[derive(Clone, Copy, Debug, From, Into, Deserialize, Serialize, ConstDeref)]
 #[derive_const(Default, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct StorageCapacity(u32);
@@ -93,14 +94,6 @@ impl StorageCapacity {
   #[inline]
   pub const fn new(value: u32) -> Self {
     Self(value)
-  }
-}
-
-impl const Deref for StorageCapacity {
-  type Target = u32;
-
-  fn deref(&self) -> &Self::Target {
-    &self.0
   }
 }
 
@@ -203,17 +196,9 @@ impl const AddAssign for OverallStorageCapacity {
   }
 }
 
-#[derive(Copy, Debug, From, Into)]
+#[derive(Copy, Debug, From, Into, ConstDeref)]
 #[derive_const(Clone, Default, PartialEq, PartialOrd)]
 pub struct StorageCapacityWeight(f64);
-
-impl const Deref for StorageCapacityWeight {
-  type Target = f64;
-
-  fn deref(&self) -> &Self::Target {
-    &self.0
-  }
-}
 
 #[derive(Clone, Debug)]
 pub struct OverallStorageCapacityWeight {

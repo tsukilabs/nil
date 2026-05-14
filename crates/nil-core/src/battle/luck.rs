@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use derive_more::Deref;
-use nil_num::F64Math;
+use nil_util::F64Math;
 use serde::{Deserialize, Serialize};
 
 #[derive(Copy, Debug, Deref, Deserialize, Serialize, F64Math)]

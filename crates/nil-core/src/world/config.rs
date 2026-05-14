@@ -5,7 +5,7 @@ use crate::error::AnyResult;
 use crate::world::WorldOptions;
 use bon::Builder;
 use derive_more::{Deref, Display};
-use nil_num::F64Math;
+use nil_util::F64Math;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
