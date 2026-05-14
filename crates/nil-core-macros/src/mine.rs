@@ -14,6 +14,7 @@ pub fn impl_mine(ast: &DeriveInput) -> TokenStream {
       use crate::infrastructure::building::MineId;
       use crate::infrastructure::mine::{Mine, MineProduction, MineStatsTable};
 
+      #[automatically_derived]
       impl Mine for #name {
         fn mine_id(&self) -> MineId {
           Self::MINE_ID

@@ -2,11 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use derive_more::Deref;
-use nil_num::F64Ops;
+use nil_num::F64Math;
 use serde::{Deserialize, Serialize};
-use std::ops::MulAssign;
 
-#[derive(Copy, Debug, Deref, Deserialize, Serialize, F64Ops)]
+#[derive(Copy, Debug, Deref, Deserialize, Serialize, F64Math)]
 #[derive_const(Clone, Default, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Luck(i8);
@@ -28,11 +27,5 @@ impl Luck {
 impl const From<Luck> for f64 {
   fn from(luck: Luck) -> Self {
     f64::from(luck.0) / 100.0
-  }
-}
-
-impl const MulAssign<Luck> for f64 {
-  fn mul_assign(&mut self, rhs: Luck) {
-    *self = *self * rhs;
   }
 }

@@ -11,7 +11,7 @@ use crate::resources::maintenance::MaintenanceRatio;
 use crate::resources::workforce::Workforce;
 use derive_more::Deref;
 use nil_core_macros::Building;
-use nil_num::F64Ops;
+use nil_num::F64Math;
 use nil_num::growth::growth;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
@@ -75,7 +75,7 @@ check_total_resource_ratio!(
   Wall::WOOD_RATIO
 );
 
-#[derive(Clone, Copy, Debug, Deref, Deserialize, Serialize, F64Ops)]
+#[derive(Clone, Copy, Debug, Deref, Deserialize, Serialize, F64Math)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct WallDefense(u32);
 
@@ -100,7 +100,7 @@ impl const From<f64> for WallDefense {
   }
 }
 
-#[derive(Clone, Copy, Debug, Deref, Deserialize, Serialize, F64Ops)]
+#[derive(Clone, Copy, Debug, Deref, Deserialize, Serialize, F64Math)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct WallDefenseBonus(f64);
 

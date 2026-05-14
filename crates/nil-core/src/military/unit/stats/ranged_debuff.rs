@@ -1,11 +1,11 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use nil_num::F64Ops;
+use nil_num::F64Math;
 use serde::{Deserialize, Serialize};
 use std::ops::{Deref, Mul};
 
-#[derive(Copy, Debug, Deserialize, Serialize, F64Ops)]
+#[derive(Copy, Debug, Deserialize, Serialize, F64Math)]
 #[derive_const(Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct RangedDebuff(f64);

@@ -18,7 +18,7 @@ use crate::infrastructure::requirements::InfrastructureRequirements;
 use crate::ranking::score::Score;
 use crate::resources::prelude::*;
 use derive_more::{Deref, Into};
-use nil_num::F64Ops;
+use nil_num::F64Math;
 use nil_num::growth::growth;
 use serde::{Deserialize, Serialize};
 use std::cmp;
@@ -323,7 +323,7 @@ impl BuildingStatsTable {
   }
 }
 
-#[derive(Copy, Debug, Deref, derive_more::Display, Into, Hash, Deserialize, Serialize, F64Ops)]
+#[derive(Copy, Debug, Deref, derive_more::Display, Into, Hash, Deserialize, Serialize, F64Math)]
 #[derive_const(Clone, Default, PartialEq, Eq, PartialOrd, Ord)]
 #[into(i16, i32, u8, u16, u64, usize)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]

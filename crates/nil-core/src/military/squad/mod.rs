@@ -5,6 +5,7 @@ pub mod size;
 
 use crate::error::{Error, Result};
 use crate::military::unit::stats::haul::Haul;
+use crate::military::unit::stats::power::Power;
 use crate::military::unit::stats::speed::Speed;
 use crate::military::unit::{Unit, UnitBox, UnitId, UnitKind};
 use crate::ranking::score::Score;
@@ -71,15 +72,14 @@ impl Squad {
 
   pub fn attack(&self) -> SquadAttack {
     let attack = self.unit.stats().attack();
-    let total = f64::from(attack * self.size);
-    SquadAttack::new(total)
+    SquadAttack(attack * self.size)
   }
 
   pub fn defense(&self) -> SquadDefense {
     let stats = self.unit.stats();
-    let infantry = f64::from(stats.infantry_defense() * self.size);
-    let cavalry = f64::from(stats.cavalry_defense() * self.size);
-    let ranged = f64::from(stats.ranged_defense() * self.size);
+    let infantry = stats.infantry_defense() * self.size;
+    let cavalry = stats.cavalry_defense() * self.size;
+    let ranged = stats.ranged_defense() * self.size;
     SquadDefense { infantry, cavalry, ranged }
   }
 
@@ -189,25 +189,18 @@ impl From<UnitId> for Squad {
 
 #[derive(Copy, Debug, Deref, Into)]
 #[derive_const(Clone, PartialEq, PartialOrd)]
-pub struct SquadAttack(f64);
+pub struct SquadAttack(Power);
 
-impl SquadAttack {
-  #[inline]
-  pub const fn new(value: f64) -> Self {
-    Self(value.max(0.0))
-  }
-}
-
-impl const From<f64> for SquadAttack {
-  fn from(value: f64) -> Self {
-    Self::new(value)
+impl const From<SquadAttack> for f64 {
+  fn from(value: SquadAttack) -> Self {
+    f64::from(value.0)
   }
 }
 
 #[derive(Debug)]
 #[derive_const(Clone)]
 pub struct SquadDefense {
-  pub(crate) infantry: f64,
-  pub(crate) cavalry: f64,
-  pub(crate) ranged: f64,
+  pub(crate) infantry: Power,
+  pub(crate) cavalry: Power,
+  pub(crate) ranged: Power,
 }

@@ -15,7 +15,7 @@ use bon::Builder;
 use derive_more::Display;
 use diff::{FoodDiff, IronDiff, ResourcesDiff, StoneDiff, WoodDiff};
 use nil_num::mul_ceil::MulCeil;
-use nil_num::{F64Ops, impl_mul_ceil};
+use nil_num::{F64Math, impl_mul_ceil};
 use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
 use std::num::NonZeroU32;
@@ -305,7 +305,7 @@ macro_rules! decl_resource {
   ($($resource:ident),+ $(,)?) => {
     paste::paste! {
       $(
-        #[derive(Copy, Debug, Display, Deserialize, Serialize, F64Ops)]
+        #[derive(Copy, Debug, Display, Deserialize, Serialize, F64Math)]
         #[derive_const(Clone, Default, PartialEq, Eq, PartialOrd, Ord)]
         #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
         pub struct $resource(u32);

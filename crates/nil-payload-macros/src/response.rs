@@ -8,9 +8,10 @@ use syn::DeriveInput;
 pub fn impl_into_json_response(ast: &DeriveInput) -> TokenStream {
   let name = &ast.ident;
   let stream = quote! {
-    impl axum::response::IntoResponse for #name {
-      fn into_response(self) -> axum::response::Response {
-        axum::extract::Json(self).into_response()
+    #[automatically_derived]
+    impl ::axum::response::IntoResponse for #name {
+      fn into_response(self) -> ::axum::response::Response {
+        ::axum::extract::Json(self).into_response()
       }
     }
   };

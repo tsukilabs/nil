@@ -1,13 +1,13 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use nil_num::F64Ops;
+use nil_num::F64Math;
 use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
 use std::ops::Deref;
 
 /// Represents how many fields a unit can travel in one round.
-#[derive(Copy, Debug, Deserialize, Serialize, F64Ops)]
+#[derive(Copy, Debug, Deserialize, Serialize, F64Math)]
 #[derive_const(Clone, Default, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Speed(f64);

@@ -14,6 +14,7 @@ pub fn impl_storage(ast: &DeriveInput) -> TokenStream {
       use crate::infrastructure::building::StorageId;
       use crate::infrastructure::storage::{Storage, StorageCapacity, StorageStatsTable};
 
+      #[automatically_derived]
       impl Storage for #name {
         fn storage_id(&self) -> StorageId {
           Self::STORAGE_ID

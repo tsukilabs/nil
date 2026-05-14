@@ -18,6 +18,7 @@ pub fn impl_report(ast: &DeriveInput) -> TokenStream {
       use jiff::Zoned;
       use std::sync::Arc;
 
+      #[automatically_derived]
       impl Report for #name {
         fn id(&self) -> ReportId {
           self.id

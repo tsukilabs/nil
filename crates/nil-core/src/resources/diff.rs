@@ -3,7 +3,7 @@
 
 use super::{Food, Iron, Resources, Stone, Wood};
 use derive_more::Display;
-use nil_num::F64Ops;
+use nil_num::F64Math;
 use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
 use std::ops::{Add, AddAssign, Deref, Sub, SubAssign};
@@ -154,7 +154,7 @@ macro_rules! decl_resource_diff {
   ($($resource:ident),+ $(,)?) => {
     paste::paste! {
       $(
-        #[derive(Copy, Debug, Display, Deserialize, Serialize, F64Ops)]
+        #[derive(Copy, Debug, Display, Deserialize, Serialize, F64Math)]
         #[derive_const(Clone, Default, PartialEq, Eq, PartialOrd, Ord)]
         #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
         pub struct [<$resource Diff>](i32);

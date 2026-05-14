@@ -54,6 +54,7 @@ pub fn impl_building(ast: &DeriveInput) -> TokenStream {
         }
       }
 
+      #[automatically_derived]
       impl Building for #name {
         fn id(&self) -> BuildingId {
           Self::ID

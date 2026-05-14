@@ -1,13 +1,13 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use derive_more::{Deref, From, Into};
+use derive_more::{Deref, From};
+use nil_num::F64Math;
 use serde::{Deserialize, Serialize};
 use std::ops::{Add, Div, Mul, Sub};
 
-#[derive(Copy, Debug, Deref, From, Into, Deserialize, Serialize)]
+#[derive(Copy, Debug, Deref, From, Deserialize, Serialize, F64Math)]
 #[derive_const(Clone, PartialEq, Eq, PartialOrd, Ord)]
-#[into(u32, f64)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Power(u32);
 
@@ -15,6 +15,18 @@ impl Power {
   #[inline]
   pub const fn new(value: u32) -> Self {
     Self(value)
+  }
+}
+
+impl const From<Power> for u32 {
+  fn from(value: Power) -> Self {
+    value.0
+  }
+}
+
+impl const From<Power> for f64 {
+  fn from(value: Power) -> Self {
+    f64::from(value.0)
   }
 }
 

@@ -10,4 +10,16 @@ pub mod mul_ceil;
 pub mod roman;
 pub mod triangle;
 
-pub use nil_num_macros::{BigIntU64, BigIntUsize, F64Add, F64Div, F64Mul, F64Ops, F64Sub};
+pub use nil_num_macros::{
+  BigIntU64,
+  BigIntUsize,
+  F64Add,
+  F64AddAssign,
+  F64Div,
+  F64DivAssign,
+  F64Math,
+  F64Mul,
+  F64MulAssign,
+  F64Sub,
+  F64SubAssign,
+};

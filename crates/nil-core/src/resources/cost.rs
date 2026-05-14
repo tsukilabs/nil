@@ -3,12 +3,12 @@
 
 use super::maintenance::MaintenanceRatio;
 use derive_more::Into;
-use nil_num::F64Ops;
+use nil_num::F64Math;
 use serde::{Deserialize, Serialize};
 use std::ops::{Deref, Mul};
 
 /// Base cost of an entity, such as buildings or units.
-#[derive(Copy, Debug, Into, Deserialize, Serialize, F64Ops)]
+#[derive(Copy, Debug, Into, Deserialize, Serialize, F64Math)]
 #[derive_const(Clone, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Cost(u32);
@@ -58,7 +58,7 @@ impl const Mul<MaintenanceRatio> for Cost {
 }
 
 /// Proportion between the total cost and a given resource.
-#[derive(Copy, Debug, Deserialize, Serialize, F64Ops)]
+#[derive(Copy, Debug, Deserialize, Serialize, F64Math)]
 #[derive_const(Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct ResourceRatio(f64);

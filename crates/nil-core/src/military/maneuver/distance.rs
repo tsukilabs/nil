@@ -3,12 +3,12 @@
 
 use crate::continent::Distance;
 use crate::military::unit::stats::speed::Speed;
-use nil_num::F64Ops;
+use nil_num::F64Math;
 use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
 use std::ops::{Deref, Sub, SubAssign};
 
-#[derive(Copy, Debug, Deserialize, Serialize, F64Ops)]
+#[derive(Copy, Debug, Deserialize, Serialize, F64Math)]
 #[derive_const(Clone)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct ManeuverDistance(f64);

@@ -10,44 +10,79 @@ mod ops;
 use proc_macro::TokenStream;
 use syn::DeriveInput;
 
-#[proc_macro_derive(BigIntU64)]
-pub fn derive_big_int_u64(input: TokenStream) -> TokenStream {
-  let ast = syn::parse::<DeriveInput>(input).unwrap();
-  big_int::impl_big_int_u64(&ast)
+macro_rules! create_big_int_derive {
+  ($target:ident) => {
+    paste::paste! {
+      #[proc_macro_derive([<BigInt $target:camel>])]
+      pub fn [<derive_big_int_ $target:snake>](input: TokenStream) -> TokenStream {
+        let ast = syn::parse::<DeriveInput>(input).unwrap();
+        big_int::[<impl_big_int_ $target:snake>](&ast)
+      }
+    }
+  };
 }
 
-#[proc_macro_derive(BigIntUsize)]
-pub fn derive_big_int_usize(input: TokenStream) -> TokenStream {
-  let ast = syn::parse::<DeriveInput>(input).unwrap();
-  big_int::impl_big_int_usize(&ast)
+create_big_int_derive!(u64);
+create_big_int_derive!(usize);
+
+macro_rules! create_ops_derive {
+  ($target:ident) => {
+    paste::paste! {
+      #[proc_macro_derive([<$target:camel Math>])]
+      pub fn [<derive_ $target:snake _math>](input: TokenStream) -> TokenStream {
+        let ast = syn::parse::<DeriveInput>(input).unwrap();
+        ops::[<impl_ $target:snake _math>](&ast)
+      }
+
+      #[proc_macro_derive([<$target:camel Add>])]
+      pub fn [<derive_ $target:snake _add>](input: TokenStream) -> TokenStream {
+        let ast = syn::parse::<DeriveInput>(input).unwrap();
+        ops::[<impl_ $target:snake _add>](&ast)
+      }
+
+      #[proc_macro_derive([<$target:camel AddAssign>])]
+      pub fn [<derive_ $target:snake _add_assign>](input: TokenStream) -> TokenStream {
+        let ast = syn::parse::<DeriveInput>(input).unwrap();
+        ops::[<impl_ $target:snake _add_assign>](&ast)
+      }
+
+      #[proc_macro_derive([<$target:camel Sub>])]
+      pub fn [<derive_ $target:snake _sub>](input: TokenStream) -> TokenStream {
+        let ast = syn::parse::<DeriveInput>(input).unwrap();
+        ops::[<impl_ $target:snake _sub>](&ast)
+      }
+
+      #[proc_macro_derive([<$target:camel SubAssign>])]
+      pub fn [<derive_ $target:snake _sub_assign>](input: TokenStream) -> TokenStream {
+        let ast = syn::parse::<DeriveInput>(input).unwrap();
+        ops::[<impl_ $target:snake _sub_assign>](&ast)
+      }
+
+      #[proc_macro_derive([<$target:camel Mul>])]
+      pub fn [<derive_ $target:snake _mul>](input: TokenStream) -> TokenStream {
+        let ast = syn::parse::<DeriveInput>(input).unwrap();
+        ops::[<impl_ $target:snake _mul>](&ast)
+      }
+
+      #[proc_macro_derive([<$target:camel MulAssign>])]
+      pub fn [<derive_ $target:snake _mul_assign>](input: TokenStream) -> TokenStream {
+        let ast = syn::parse::<DeriveInput>(input).unwrap();
+        ops::[<impl_ $target:snake _mul_assign>](&ast)
+      }
+
+      #[proc_macro_derive([<$target:camel Div>])]
+      pub fn [<derive_ $target:snake _div>](input: TokenStream) -> TokenStream {
+        let ast = syn::parse::<DeriveInput>(input).unwrap();
+        ops::[<impl_ $target:snake _div>](&ast)
+      }
+
+      #[proc_macro_derive([<$target:camel DivAssign>])]
+      pub fn [<derive_ $target:snake _div_assign>](input: TokenStream) -> TokenStream {
+        let ast = syn::parse::<DeriveInput>(input).unwrap();
+        ops::[<impl_ $target:snake _div_assign>](&ast)
+      }
+    }
+  };
 }
 
-#[proc_macro_derive(F64Ops)]
-pub fn derive_f64_ops(input: TokenStream) -> TokenStream {
-  let ast = syn::parse::<DeriveInput>(input).unwrap();
-  ops::impl_f64_ops(&ast)
-}
-
-#[proc_macro_derive(F64Add)]
-pub fn derive_f64_add(input: TokenStream) -> TokenStream {
-  let ast = syn::parse::<DeriveInput>(input).unwrap();
-  ops::impl_f64_add(&ast)
-}
-
-#[proc_macro_derive(F64Sub)]
-pub fn derive_f64_sub(input: TokenStream) -> TokenStream {
-  let ast = syn::parse::<DeriveInput>(input).unwrap();
-  ops::impl_f64_sub(&ast)
-}
-
-#[proc_macro_derive(F64Mul)]
-pub fn derive_f64_mul(input: TokenStream) -> TokenStream {
-  let ast = syn::parse::<DeriveInput>(input).unwrap();
-  ops::impl_f64_mul(&ast)
-}
-
-#[proc_macro_derive(F64Div)]
-pub fn derive_f64_div(input: TokenStream) -> TokenStream {
-  let ast = syn::parse::<DeriveInput>(input).unwrap();
-  ops::impl_f64_div(&ast)
-}
+create_ops_derive!(f64);
