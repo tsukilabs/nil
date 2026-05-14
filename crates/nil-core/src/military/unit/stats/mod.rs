@@ -11,7 +11,8 @@ use bon::Builder;
 use prelude::*;
 use serde::{Deserialize, Serialize};
 
-#[derive(Builder, Clone, Debug, Deserialize, Serialize)]
+#[derive(Builder, Debug, Deserialize, Serialize)]
+#[derive_const(Clone)]
 #[serde(rename_all = "camelCase")]
 #[builder(const)]
 pub struct UnitStats {
@@ -26,37 +27,37 @@ pub struct UnitStats {
 
 impl UnitStats {
   #[inline]
-  pub fn attack(&self) -> Power {
+  pub const fn attack(&self) -> Power {
     self.attack
   }
 
   #[inline]
-  pub fn infantry_defense(&self) -> Power {
+  pub const fn infantry_defense(&self) -> Power {
     self.infantry_defense
   }
 
   #[inline]
-  pub fn cavalry_defense(&self) -> Power {
+  pub const fn cavalry_defense(&self) -> Power {
     self.cavalry_defense
   }
 
   #[inline]
-  pub fn ranged_defense(&self) -> Power {
+  pub const fn ranged_defense(&self) -> Power {
     self.ranged_defense
   }
 
   #[inline]
-  pub fn ranged_debuff(&self) -> RangedDebuff {
+  pub const fn ranged_debuff(&self) -> RangedDebuff {
     self.ranged_debuff
   }
 
   #[inline]
-  pub fn base_speed(&self) -> Speed {
+  pub const fn base_speed(&self) -> Speed {
     self.base_speed
   }
 
   #[inline]
-  pub fn haul(&self) -> Haul {
+  pub const fn haul(&self) -> Haul {
     self.haul
   }
 }

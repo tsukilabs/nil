@@ -5,26 +5,28 @@
 #![doc(html_favicon_url = "https://nil.dev.br/favicon.png")]
 #![feature(trim_prefix_suffix)]
 
-mod infrastructure;
-mod npc;
+mod building;
+mod mine;
+mod precursor;
 mod report;
+mod storage;
 mod unit;
 
 use proc_macro::TokenStream;
 
 #[proc_macro_derive(Building)]
 pub fn derive_building(input: TokenStream) -> TokenStream {
-  infrastructure::impl_building(&syn::parse(input).unwrap())
+  building::impl_building(&syn::parse(input).unwrap())
 }
 
 #[proc_macro_derive(Mine)]
 pub fn derive_mine(input: TokenStream) -> TokenStream {
-  infrastructure::impl_mine(&syn::parse(input).unwrap())
+  mine::impl_mine(&syn::parse(input).unwrap())
 }
 
 #[proc_macro_derive(Precursor)]
 pub fn derive_precursor(input: TokenStream) -> TokenStream {
-  npc::impl_precursor(&syn::parse(input).unwrap())
+  precursor::impl_precursor(&syn::parse(input).unwrap())
 }
 
 #[proc_macro_derive(Report)]
@@ -34,7 +36,7 @@ pub fn derive_report(input: TokenStream) -> TokenStream {
 
 #[proc_macro_derive(Storage)]
 pub fn derive_storage(input: TokenStream) -> TokenStream {
-  infrastructure::impl_storage(&syn::parse(input).unwrap())
+  storage::impl_storage(&syn::parse(input).unwrap())
 }
 
 #[proc_macro_derive(Unit)]

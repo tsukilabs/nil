@@ -198,7 +198,7 @@ impl SquadAttack {
   }
 }
 
-impl From<f64> for SquadAttack {
+impl const From<f64> for SquadAttack {
   fn from(value: f64) -> Self {
     Self::new(value)
   }
