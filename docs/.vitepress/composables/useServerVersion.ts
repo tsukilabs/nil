@@ -7,7 +7,7 @@ import { asyncRef } from "@tb-dev/vue";
 export function useServerVersion() {
   const { state, loading } = asyncRef(null, async () => {
     const response = await get("version");
-    const version = await response.text();
+    const version: string = await response.json();
     return version;
   });
 

@@ -24,7 +24,9 @@ version = "3.3"
 features = ["json"]
 ---
 
-use anyhow::Result;
+#![feature(try_blocks_heterogeneous)]
+
+use anyhow::{Context, Result, bail};
 use clap::Parser;
 use nil_util::{output_fmt, spawn, spawn_fmt};
 use regex::Regex;
@@ -33,6 +35,8 @@ use serde_json::json;
 use std::borrow::Cow;
 use std::fmt::Write;
 use std::path::PathBuf;
+use std::thread::sleep;
+use std::time::Duration;
 use std::{env, fs};
 
 #[derive(Parser)]
@@ -71,7 +75,8 @@ fn main() -> Result<()> {
     if let Ok(token) = env::var("TSUKILABS_TOKEN") {
       ureq::get("https://tsukilabs.dev.br/release/nil")
         .header("Authorization", format!("Bearer {token}"))
-        .call()?;
+        .call()
+        .context("failed to update remote server")?;
 
       let release = view_release(Some(&tag_name))?;
 
@@ -80,7 +85,7 @@ fn main() -> Result<()> {
           .assets
           .iter()
           .find_map(|asset| (asset.name == asset_name).then(|| asset.url.clone()))
-          .expect("Release asset not found");
+          .expect("release asset not found");
 
         #[rustfmt::skip]
         let write_webhook_content = |message: &mut String| -> Result<()> {
@@ -105,25 +110,41 @@ fn main() -> Result<()> {
   Ok(())
 }
 
-fn view_release(tag_name: Option<&str>) -> Result<Release> {
-  let fields = "assets,body,name,tagName,url";
-  let bytes = if let Some(tag_name) = tag_name {
-    output_fmt!("gh release view {tag_name} --json {fields} -R tsukilabs/nil")?
-  } else {
-    output_fmt!("gh release view --json {fields} -R tsukilabs/nil")?
-  };
-
-  Ok(serde_json::from_slice(&bytes)?)
+fn upload_asset(tag_name: &str, path: &str) -> Result<()> {
+  spawn_fmt!("gh release upload --clobber {tag_name} {path} -R tsukilabs/nil")
+    .context("failed to upload asset")
 }
 
-fn upload_asset(tag_name: &str, path: &str) -> Result<()> {
-  spawn_fmt!("gh release upload --clobber {tag_name} {path} -R tsukilabs/nil")?;
-  Ok(())
+fn view_release(tag_name: Option<&str>) -> Result<Release> {
+  let result = try bikeshed Result<Release> {
+    let fields = "assets,body,name,tagName,url";
+    let bytes = if let Some(tag_name) = tag_name {
+      output_fmt!("gh release view {tag_name} --json {fields} -R tsukilabs/nil")?
+    } else {
+      output_fmt!("gh release view --json {fields} -R tsukilabs/nil")?
+    };
+
+    serde_json::from_slice(&bytes)?
+  };
+
+  result.context("failed to fetch github release")
 }
 
 fn execute_webhook(url: &str, content: &str) -> Result<()> {
-  ureq::post(url).send_json(json!({ "content": content }))?;
-  Ok(())
+  sleep(Duration::from_millis(200));
+  let result = try bikeshed Result<()> {
+    let mut response = ureq::post(url)
+      .config()
+      .http_status_as_error(false)
+      .build()
+      .send_json(json!({ "content": content }))?;
+
+    if !response.status().is_success() {
+      bail!("{}", response.body_mut().read_to_string()?);
+    }
+  };
+
+  result.context("failed to execute webhook")
 }
 
 fn execute_release_webhook(url: &str, release: &Release) -> Result<()> {
