@@ -2,20 +2,20 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { go } from '@/router';
-import { useI18n } from 'vue-i18n';
-import { useRoute } from 'vue-router';
-import { MenuIcon } from '@lucide/vue';
-import { useBreakpoints } from '@tb-dev/vue';
-import { Button, type ButtonVariant } from '@ui/button';
-import type { WorkshopScene } from '@/types/scene/game/infrastructure';
+import { go } from "@/router";
+import { useI18n } from "vue-i18n";
+import { useRoute } from "vue-router";
+import { MenuIcon } from "@lucide/vue";
+import { useBreakpoints } from "@tb-dev/vue";
+import { Button, type ButtonVariant } from "@ui/button";
+import type { WorkshopScene } from "@/types/scene/game/infrastructure";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@ui/dropdown-menu';
+} from "@ui/dropdown-menu";
 
 const { t } = useI18n();
 
@@ -23,7 +23,7 @@ const route = useRoute();
 const { md } = useBreakpoints();
 
 function getButtonVariant(scene: WorkshopScene): ButtonVariant {
-  return route.name === scene ? 'secondary' : 'ghost';
+  return route.name === scene ? "secondary" : "ghost";
 }
 </script>
 
@@ -36,7 +36,7 @@ function getButtonVariant(scene: WorkshopScene): ButtonVariant {
       tabindex="0"
       @click="() => go('workshop')"
     >
-      <span>{{ t('construction') }}</span>
+      <span>{{ t("construction") }}</span>
     </Button>
 
     <Button
@@ -46,7 +46,7 @@ function getButtonVariant(scene: WorkshopScene): ButtonVariant {
       tabindex="0"
       @click="() => go('workshop-settings')"
     >
-      <span>{{ t('settings') }}</span>
+      <span>{{ t("settings") }}</span>
     </Button>
   </div>
 
@@ -67,12 +67,12 @@ function getButtonVariant(scene: WorkshopScene): ButtonVariant {
       <DropdownMenuGroup>
         <DropdownMenuItem>
           <RouterLink :to="{ name: 'workshop' satisfies WorkshopScene }" class="w-full">
-            {{ t('construction') }}
+            {{ t("construction") }}
           </RouterLink>
         </DropdownMenuItem>
         <DropdownMenuItem>
           <RouterLink :to="{ name: 'workshop-settings' satisfies WorkshopScene }" class="w-full">
-            {{ t('settings') }}
+            {{ t("settings") }}
           </RouterLink>
         </DropdownMenuItem>
       </DropdownMenuGroup>

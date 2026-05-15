@@ -1,12 +1,12 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { Entity } from './abstract';
-import { asyncRef } from '@tb-dev/vue';
-import { getPlayerReports } from '@/commands';
-import type { ReportId } from '@tsukilabs/nil-bindings';
-import type { ReportPayload } from '@/types/event';
-import { shallowRef, type ShallowRef, triggerRef } from 'vue';
+import { Entity } from "./abstract";
+import { asyncRef } from "@tb-dev/vue";
+import { getPlayerReports } from "@/commands";
+import type { ReportPayload } from "@/types/event";
+import type { ReportId } from "@tsukilabs/nil-bindings";
+import { shallowRef, type ShallowRef, triggerRef } from "vue";
 
 export class ReportEntity extends Entity {
   private readonly reports: ShallowRef<ReportId[]>;
@@ -88,8 +88,8 @@ export class ReportEntity extends Entity {
   }
 
   public static init() {
-    if (!Object.hasOwn(globalThis.NIL, 'report')) {
-      const report: (typeof globalThis.NIL)['report'] = {
+    if (!Object.hasOwn(globalThis.NIL, "report")) {
+      const report: (typeof globalThis.NIL)["report"] = {
         getReports: ReportEntity.getReports.bind(ReportEntity),
         getUnread: ReportEntity.getUnread.bind(ReportEntity),
         isUnread: ReportEntity.isUnread.bind(ReportEntity),
@@ -99,7 +99,7 @@ export class ReportEntity extends Entity {
         use: ReportEntity.use.bind(ReportEntity),
       };
 
-      Object.defineProperty(globalThis.NIL, 'report', {
+      Object.defineProperty(globalThis.NIL, "report", {
         configurable: false,
         enumerable: true,
         writable: false,

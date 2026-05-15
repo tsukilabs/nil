@@ -1,12 +1,12 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as commands from '@/commands';
-import type { City, Resources } from '@tsukilabs/nil-bindings';
-import { CoordImpl } from '@/core/model/continent/coord';
-import type { ContinentKey } from '@/types/core/continent';
-import { InfrastructureImpl } from '@/core/model/infrastructure/infrastructure';
-import { PublicCityImpl, type PublicCityImplConstructorArgs } from './public-city';
+import * as commands from "@/commands";
+import { CoordImpl } from "@/core/model/continent/coord";
+import type { ContinentKey } from "@/types/core/continent";
+import type { City, Resources } from "@tsukilabs/nil-bindings";
+import { InfrastructureImpl } from "@/core/model/infrastructure/infrastructure";
+import { PublicCityImpl, type PublicCityImplConstructorArgs } from "./public-city";
 
 export class CityImpl extends PublicCityImpl implements Readonly<City> {
   public readonly infrastructure: InfrastructureImpl;

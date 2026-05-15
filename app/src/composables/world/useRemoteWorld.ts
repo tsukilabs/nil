@@ -1,11 +1,11 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { toRef, watch } from 'vue';
-import * as commands from '@/commands';
-import type { WorldId } from '@tsukilabs/nil-bindings';
-import { asyncRef, type MaybeNilRef } from '@tb-dev/vue';
-import { RemoteWorldImpl } from '@/core/model/remote-world';
+import { toRef, watch } from "vue";
+import * as commands from "@/commands";
+import type { WorldId } from "@tsukilabs/nil-bindings";
+import { asyncRef, type MaybeNilRef } from "@tb-dev/vue";
+import { RemoteWorldImpl } from "@/core/model/remote-world";
 
 export function useRemoteWorld(id: MaybeNilRef<WorldId>) {
   const idRef = toRef(id);

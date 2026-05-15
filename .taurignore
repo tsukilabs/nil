@@ -1,1 +1,6 @@
 **/android
+**/build
+**/dist
+**/node_modules
+**/scripts
+**/target

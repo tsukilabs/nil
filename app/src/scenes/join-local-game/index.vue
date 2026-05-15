@@ -2,20 +2,20 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { computed } from 'vue';
-import { useI18n } from 'vue-i18n';
-import { Button } from '@ui/button';
-import { useRouter } from 'vue-router';
-import { joinLocalGame } from '@/core/game';
-import type { Option } from '@tb-dev/utils';
-import { isPlayerOptions } from '@/lib/schema';
-import { SocketAddrV4 } from '@/lib/net/addr-v4';
-import type { ServerAddr } from '@/types/server';
-import type { PlayerOptions } from '@tsukilabs/nil-bindings';
-import { localRef, useBreakpoints, useMutex } from '@tb-dev/vue';
-import InputPlayerName from '@/components/form/InputPlayerName.vue';
-import InputServerAddress from '@/components/form/InputServerAddress.vue';
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@ui/card';
+import { computed } from "vue";
+import { useI18n } from "vue-i18n";
+import { Button } from "@ui/button";
+import { useRouter } from "vue-router";
+import { joinLocalGame } from "@/core/game";
+import type { Option } from "@tb-dev/utils";
+import { isPlayerOptions } from "@/lib/schema";
+import { SocketAddrV4 } from "@/lib/net/addr-v4";
+import type { ServerAddr } from "@/types/server";
+import type { PlayerOptions } from "@tsukilabs/nil-bindings";
+import { localRef, useBreakpoints, useMutex } from "@tb-dev/vue";
+import InputPlayerName from "@/components/form/InputPlayerName.vue";
+import InputServerAddress from "@/components/form/InputServerAddress.vue";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@ui/card";
 
 const { t } = useI18n();
 
@@ -24,17 +24,17 @@ const router = useRouter();
 const { md } = useBreakpoints();
 
 const playerOptions = localRef<Partial<PlayerOptions>>(
-  key('player'),
+  key("player"),
   {
     id: undefined,
   },
 );
 
-const server = localRef<string>(key('server'), '');
+const server = localRef<string>(key("server"), "");
 const serverAddr = computed<Option<ServerAddr>>(() => {
   const addr = SocketAddrV4.tryParse(server.value);
   if (addr) {
-    return { kind: 'local', addr: addr.format() };
+    return { kind: "local", addr: addr.format() };
   }
   else {
     return null;
@@ -67,7 +67,7 @@ function key(name: string) {
   <div :class="md ? 'card-layout' : 'game-layout'">
     <Card class="max-md:size-full md:max-h-[95%] overflow-hidden">
       <CardHeader>
-        <CardTitle>{{ t('join-game') }}</CardTitle>
+        <CardTitle>{{ t("join-game") }}</CardTitle>
       </CardHeader>
 
       <CardContent class="card-form">
@@ -77,10 +77,10 @@ function key(name: string) {
 
       <CardFooter class="w-full grid grid-cols-2 gap-2">
         <Button :disabled="!canJoin || locked" @click="join">
-          {{ t('join') }}
+          {{ t("join") }}
         </Button>
         <Button variant="secondary" :disabled="locked" @click="() => router.back()">
-          <span>{{ t('cancel') }}</span>
+          <span>{{ t("cancel") }}</span>
         </Button>
       </CardFooter>
     </Card>

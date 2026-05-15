@@ -2,11 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::city::Stability;
-use crate::infrastructure::building::{Building, BuildingLevel};
+use crate::infrastructure::building::Building;
+use crate::infrastructure::building::level::BuildingLevel;
 use crate::world::config::WorldConfig;
-use derive_more::{Deref, From, Into};
+use nil_num::impl_mul_ceil;
 use nil_num::mul_ceil::MulCeil;
-use nil_num::{F64Ops, impl_mul_ceil};
+use nil_util::{ConstDeref, F64Math};
 use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
 use std::num::NonZeroU32;
@@ -18,22 +19,8 @@ use std::ops::{Add, AddAssign, Mul, MulAssign, Sub, SubAssign};
 ///
 /// Unlike other resources, workforce should never accumulate for the next round.
 /// Anything that is not used should be discarded.
-#[derive(
-  Clone,
-  Copy,
-  Debug,
-  Deref,
-  From,
-  Into,
-  PartialEq,
-  Eq,
-  PartialOrd,
-  Ord,
-  Deserialize,
-  Serialize,
-  F64Ops,
-)]
-#[into(u32, f64)]
+#[derive(Copy, Debug, Deserialize, Serialize, ConstDeref, F64Math)]
+#[derive_const(Clone, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Workforce(u32);
 
@@ -44,13 +31,31 @@ impl Workforce {
   }
 }
 
-impl From<BuildingLevel> for Workforce {
+impl const From<u32> for Workforce {
+  fn from(value: u32) -> Self {
+    Workforce::new(value)
+  }
+}
+
+impl const From<Workforce> for u32 {
+  fn from(value: Workforce) -> Self {
+    value.0
+  }
+}
+
+impl const From<Workforce> for f64 {
+  fn from(value: Workforce) -> Self {
+    f64::from(value.0)
+  }
+}
+
+impl const From<BuildingLevel> for Workforce {
   fn from(value: BuildingLevel) -> Self {
     Workforce(u32::from(value))
   }
 }
 
-impl From<f64> for Workforce {
+impl const From<f64> for Workforce {
   fn from(value: f64) -> Self {
     debug_assert!(value >= 0.0);
     debug_assert!(value.is_finite());
@@ -58,19 +63,19 @@ impl From<f64> for Workforce {
   }
 }
 
-impl PartialEq<u32> for Workforce {
+impl const PartialEq<u32> for Workforce {
   fn eq(&self, other: &u32) -> bool {
     self.0.eq(other)
   }
 }
 
-impl PartialOrd<u32> for Workforce {
+impl const PartialOrd<u32> for Workforce {
   fn partial_cmp(&self, other: &u32) -> Option<Ordering> {
     self.0.partial_cmp(other)
   }
 }
 
-impl Add for Workforce {
+impl const Add for Workforce {
   type Output = Workforce;
 
   fn add(self, rhs: Self) -> Self::Output {
@@ -78,13 +83,13 @@ impl Add for Workforce {
   }
 }
 
-impl AddAssign for Workforce {
+impl const AddAssign for Workforce {
   fn add_assign(&mut self, rhs: Self) {
     *self = *self + rhs;
   }
 }
 
-impl Sub for Workforce {
+impl const Sub for Workforce {
   type Output = Workforce;
 
   fn sub(self, rhs: Self) -> Self::Output {
@@ -92,13 +97,13 @@ impl Sub for Workforce {
   }
 }
 
-impl SubAssign for Workforce {
+impl const SubAssign for Workforce {
   fn sub_assign(&mut self, rhs: Self) {
     *self = *self - rhs;
   }
 }
 
-impl Mul for Workforce {
+impl const Mul for Workforce {
   type Output = Workforce;
 
   fn mul(self, rhs: Workforce) -> Self::Output {
@@ -106,7 +111,7 @@ impl Mul for Workforce {
   }
 }
 
-impl Mul<u32> for Workforce {
+impl const Mul<u32> for Workforce {
   type Output = Workforce;
 
   fn mul(self, rhs: u32) -> Self::Output {
@@ -114,7 +119,7 @@ impl Mul<u32> for Workforce {
   }
 }
 
-impl Mul<NonZeroU32> for Workforce {
+impl const Mul<NonZeroU32> for Workforce {
   type Output = Workforce;
 
   fn mul(self, rhs: NonZeroU32) -> Self::Output {
@@ -122,7 +127,7 @@ impl Mul<NonZeroU32> for Workforce {
   }
 }
 
-impl Mul<Stability> for Workforce {
+impl const Mul<Stability> for Workforce {
   type Output = Workforce;
 
   fn mul(self, rhs: Stability) -> Self::Output {
@@ -130,13 +135,13 @@ impl Mul<Stability> for Workforce {
   }
 }
 
-impl MulAssign for Workforce {
+impl const MulAssign for Workforce {
   fn mul_assign(&mut self, rhs: Self) {
     *self = *self * rhs;
   }
 }
 
-impl MulAssign<Stability> for Workforce {
+impl const MulAssign<Stability> for Workforce {
   fn mul_assign(&mut self, rhs: Stability) {
     *self = *self * rhs;
   }

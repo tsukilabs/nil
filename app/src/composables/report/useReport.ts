@@ -1,14 +1,14 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { toRef, watch } from 'vue';
-import type { Option } from '@tb-dev/utils';
-import { getReport } from '@/commands/report';
-import { asyncRef, type MaybeNilRef } from '@tb-dev/vue';
-import type { ReportId, ReportKind } from '@tsukilabs/nil-bindings';
-import type { ReportImpl } from '@/core/model/report/abstract';
-import { BattleReportImpl } from '@/core/model/report/battle-report';
-import { SupportReportImpl } from '@/core/model/report/support-report';
+import { toRef, watch } from "vue";
+import type { Option } from "@tb-dev/utils";
+import { getReport } from "@/commands/report";
+import { asyncRef, type MaybeNilRef } from "@tb-dev/vue";
+import type { ReportImpl } from "@/core/model/report/abstract";
+import type { ReportId, ReportKind } from "@tsukilabs/nil-bindings";
+import { BattleReportImpl } from "@/core/model/report/battle-report";
+import { SupportReportImpl } from "@/core/model/report/support-report";
 
 export function useReport(id: MaybeNilRef<ReportId>) {
   const idRef = toRef(id);
@@ -27,10 +27,10 @@ export function useReport(id: MaybeNilRef<ReportId>) {
 
 async function toReportImpl({ kind, report }: ReportKind) {
   switch (kind) {
-    case 'battle': {
+    case "battle": {
       return BattleReportImpl.load(report);
     }
-    case 'support': {
+    case "support": {
       return SupportReportImpl.load(report);
     }
   }

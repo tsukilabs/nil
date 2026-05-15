@@ -2,26 +2,26 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n';
-import { Button } from '@ui/button';
-import { computed, ref } from 'vue';
-import type { Option } from '@tb-dev/utils';
-import { useRouteParams } from '@vueuse/router';
-import { useRoute, useRouter } from 'vue-router';
-import { forwardReport } from '@/commands/report';
-import type { ReportScene } from '@/types/scene/game';
-import { useBreakpoints, useMutex } from '@tb-dev/vue';
-import { useReport } from '@/composables/report/useReport';
-import type { PlayerId, ReportId } from '@tsukilabs/nil-bindings';
-import InputPlayerName from '@/components/form/InputPlayerName.vue';
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@ui/card';
+import { useI18n } from "vue-i18n";
+import { Button } from "@ui/button";
+import { computed, ref } from "vue";
+import type { Option } from "@tb-dev/utils";
+import { useRouteParams } from "@vueuse/router";
+import { useRoute, useRouter } from "vue-router";
+import { forwardReport } from "@/commands/report";
+import type { ReportScene } from "@/types/scene/game";
+import { useBreakpoints, useMutex } from "@tb-dev/vue";
+import { useReport } from "@/composables/report/useReport";
+import type { PlayerId, ReportId } from "@tsukilabs/nil-bindings";
+import InputPlayerName from "@/components/form/InputPlayerName.vue";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@ui/card";
 
 const { t } = useI18n();
 
 const route = useRoute();
 const router = useRouter();
 
-const reportId = useRouteParams<Option<ReportId>>('id', null);
+const reportId = useRouteParams<Option<ReportId>>("id", null);
 const { report } = useReport(reportId);
 
 const reportPlayers = computed(() => {
@@ -47,7 +47,7 @@ async function forward() {
     if (canForward.value && reportId.value && player.value) {
       await forwardReport(reportId.value, player.value);
 
-      if (route.name === ('report-forward' satisfies ReportScene)) {
+      if (route.name === ("report-forward" satisfies ReportScene)) {
         router.back();
       }
     }
@@ -64,7 +64,7 @@ function clear() {
     <Card class="max-md:size-full md:max-h-[95%] overflow-hidden">
       <CardHeader>
         <CardTitle>
-          <span>{{ t('forward') }}</span>
+          <span>{{ t("forward") }}</span>
         </CardTitle>
       </CardHeader>
 
@@ -74,15 +74,15 @@ function clear() {
 
       <CardFooter class="w-full grid grid-cols-3 gap-2">
         <Button :disabled="locked || !canForward" @click="forward">
-          <span>{{ t('forward') }}</span>
+          <span>{{ t("forward") }}</span>
         </Button>
 
         <Button variant="secondary" :disabled="locked || !player" @click="clear">
-          <span>{{ t('clear') }}</span>
+          <span>{{ t("clear") }}</span>
         </Button>
 
         <Button variant="secondary" :disabled="locked" @click="() => router.back()">
-          <span>{{ t('cancel') }}</span>
+          <span>{{ t("cancel") }}</span>
         </Button>
       </CardFooter>
     </Card>

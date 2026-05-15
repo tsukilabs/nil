@@ -1,15 +1,15 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { shallowRef, toRef } from 'vue';
-import type { Option } from '@tb-dev/utils';
-import type { Ruler } from '@tsukilabs/nil-bindings';
-import { watchImmediate } from '@vueuse/core';
-import type { MaybeNilRef } from '@tb-dev/vue';
-import type { RulerKind } from '@/types/core/ruler';
-import { PublicBotImpl } from '@/core/model/npc/public-bot';
-import { PublicPlayerImpl } from '@/core/model/player/public-player';
-import { PublicPrecursorImpl } from '@/core/model/npc/public-precursor';
+import { shallowRef, toRef } from "vue";
+import type { Option } from "@tb-dev/utils";
+import { watchImmediate } from "@vueuse/core";
+import type { MaybeNilRef } from "@tb-dev/vue";
+import type { RulerKind } from "@/types/core/ruler";
+import type { Ruler } from "@tsukilabs/nil-bindings";
+import { PublicBotImpl } from "@/core/model/npc/public-bot";
+import { PublicPlayerImpl } from "@/core/model/player/public-player";
+import { PublicPrecursorImpl } from "@/core/model/npc/public-precursor";
 
 export function usePublicCityOwner(owner: MaybeNilRef<Ruler>) {
   const ownerRef = toRef(owner);
@@ -24,15 +24,15 @@ export function usePublicCityOwner(owner: MaybeNilRef<Ruler>) {
 
     if (value?.kind) {
       switch (value.kind) {
-        case 'bot': {
+        case "bot": {
           bot.value = await PublicBotImpl.load(value.id);
           break;
         }
-        case 'player': {
+        case "player": {
           player.value = await PublicPlayerImpl.load(value.id);
           break;
         }
-        case 'precursor': {
+        case "precursor": {
           precursor.value = await PublicPrecursorImpl.load(value.id);
           break;
         }
@@ -42,17 +42,17 @@ export function usePublicCityOwner(owner: MaybeNilRef<Ruler>) {
 
   function reset(ignore?: Option<RulerKind>) {
     switch (ignore ?? null) {
-      case 'bot': {
+      case "bot": {
         player.value = null;
         precursor.value = null;
         break;
       }
-      case 'player': {
+      case "player": {
         bot.value = null;
         precursor.value = null;
         break;
       }
-      case 'precursor': {
+      case "precursor": {
         bot.value = null;
         player.value = null;
         break;

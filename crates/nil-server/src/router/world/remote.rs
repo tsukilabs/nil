@@ -109,8 +109,8 @@ async fn make_remote_world(app: &App, id: WorldId) -> Result<RemoteWorld> {
   let world = app.get(id)?;
   let world = world.read().await;
 
-  let mut active_players: usize = 0;
-  let mut total_players: usize = 0;
+  let mut active_players: u32 = 0;
+  let mut total_players: u32 = 0;
 
   for player in world.players() {
     if player.is_active() {

@@ -2,9 +2,9 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n';
-import type { BuildingId, BuildingLevel } from '@tsukilabs/nil-bindings';
-import type { InfrastructureScene } from '@/types/scene/game/infrastructure';
+import { useI18n } from "vue-i18n";
+import type { BuildingId, BuildingLevel } from "@tsukilabs/nil-bindings";
+import type { InfrastructureScene } from "@/types/scene/game/infrastructure";
 
 defineProps<{
   building: BuildingId;
@@ -25,7 +25,7 @@ const { t } = useI18n();
     </span>
 
     <span class="text-muted-foreground text-xs">
-      {{ t('level-x', [level]) }}
+      {{ t("level-x", [level]) }}
     </span>
   </div>
 </template>

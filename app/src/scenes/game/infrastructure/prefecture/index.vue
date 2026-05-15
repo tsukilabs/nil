@@ -2,18 +2,18 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n';
-import HeaderMenu from './HeaderMenu.vue';
-import Loading from '@/components/Loading.vue';
-import { Card, CardContent, CardHeader, CardTitle } from '@ui/card';
-import { usePrefecture } from '@/composables/infrastructure/useBuilding';
-import enUS from '@/locale/en-US/scenes/game/infrastructure/prefecture.json';
-import ptBR from '@/locale/pt-BR/scenes/game/infrastructure/prefecture.json';
+import { useI18n } from "vue-i18n";
+import HeaderMenu from "./HeaderMenu.vue";
+import Loading from "@/components/Loading.vue";
+import { Card, CardContent, CardHeader, CardTitle } from "@ui/card";
+import { usePrefecture } from "@/composables/infrastructure/useBuilding";
+import enUS from "@/locale/en-US/scenes/game/infrastructure/prefecture.json";
+import ptBR from "@/locale/pt-BR/scenes/game/infrastructure/prefecture.json";
 
 const { t } = useI18n({
   messages: {
-    'en-US': enUS,
-    'pt-BR': ptBR,
+    "en-US": enUS,
+    "pt-BR": ptBR,
   },
 });
 
@@ -26,7 +26,7 @@ const prefecture = usePrefecture();
       <CardHeader>
         <CardTitle>
           <div class="flex items-center justify-between">
-            <span>{{ `${t('prefecture')} (${t('level-x', [prefecture.level])})` }}</span>
+            <span>{{ `${t("prefecture")} (${t("level-x", [prefecture.level])})` }}</span>
             <HeaderMenu />
           </div>
         </CardTitle>

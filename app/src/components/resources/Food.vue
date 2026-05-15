@@ -2,9 +2,9 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import Base from './Base.vue';
-import type { ClassValue } from 'clsx';
-import type { Option } from '@tb-dev/utils';
+import Base from "./Base.vue";
+import type { ClassValue } from "clsx";
+import type { Option } from "@tb-dev/utils";
 
 defineProps<{
   amount?: Option<number>;

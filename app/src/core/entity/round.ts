@@ -1,12 +1,12 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Ref } from 'vue';
-import { Entity } from './abstract';
-import { asyncRef } from '@tb-dev/vue';
-import type { Option } from '@tb-dev/utils';
-import { RoundImpl } from '@/core/model/round';
-import type { RoundUpdatedPayload } from '@/types/event';
+import type { Ref } from "vue";
+import { Entity } from "./abstract";
+import { asyncRef } from "@tb-dev/vue";
+import type { Option } from "@tb-dev/utils";
+import { RoundImpl } from "@/core/model/round";
+import type { RoundUpdatedPayload } from "@/types/event";
 
 export class RoundEntity extends Entity {
   private readonly round: Ref<Option<RoundImpl>>;
@@ -69,15 +69,15 @@ export class RoundEntity extends Entity {
   }
 
   public static init() {
-    if (!Object.hasOwn(globalThis.NIL, 'round')) {
-      const round: (typeof globalThis.NIL)['round'] = {
+    if (!Object.hasOwn(globalThis.NIL, "round")) {
+      const round: (typeof globalThis.NIL)["round"] = {
         getRound: RoundEntity.getRound.bind(RoundEntity),
         refs: RoundEntity.refs.bind(RoundEntity),
         update: RoundEntity.update.bind(RoundEntity),
         use: RoundEntity.use.bind(RoundEntity),
       };
 
-      Object.defineProperty(globalThis.NIL, 'round', {
+      Object.defineProperty(globalThis.NIL, "round", {
         configurable: false,
         enumerable: true,
         writable: false,

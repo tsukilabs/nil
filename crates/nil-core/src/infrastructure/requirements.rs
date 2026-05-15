@@ -2,11 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use super::Infrastructure;
-use super::building::BuildingLevel;
+use super::building::level::BuildingLevel;
 use bon::Builder;
 use serde::{Deserialize, Serialize};
 
-#[derive(Builder, Clone, Debug, Default, Deserialize, Serialize)]
+#[derive(Builder, Debug, Deserialize, Serialize)]
+#[derive_const(Clone, Default, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
 #[builder(const)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]

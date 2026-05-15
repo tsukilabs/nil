@@ -1,10 +1,10 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { computed, toRef, watch } from 'vue';
-import type { PlayerId } from '@tsukilabs/nil-bindings';
-import { asyncRef, type MaybeNilRef } from '@tb-dev/vue';
-import { PublicPlayerImpl } from '@/core/model/player/public-player';
+import { computed, toRef, watch } from "vue";
+import type { PlayerId } from "@tsukilabs/nil-bindings";
+import { asyncRef, type MaybeNilRef } from "@tb-dev/vue";
+import { PublicPlayerImpl } from "@/core/model/player/public-player";
 
 export function usePublicPlayer(id: MaybeNilRef<PlayerId>) {
   const idRef = toRef(id);

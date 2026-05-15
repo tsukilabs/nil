@@ -2,17 +2,17 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n';
-import type { Option } from '@tb-dev/utils';
-import PersonnelTableRow from './PersonnelTableRow.vue';
-import type { ArmyPersonnel, BuildingLevel, Luck } from '@tsukilabs/nil-bindings';
-import { NumberField, NumberFieldContent, NumberFieldInput } from '@ui/number-field';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@ui/table';
+import { useI18n } from "vue-i18n";
+import type { Option } from "@tb-dev/utils";
+import PersonnelTableRow from "./PersonnelTableRow.vue";
+import type { ArmyPersonnel, BuildingLevel, Luck } from "@tsukilabs/nil-bindings";
+import { NumberField, NumberFieldContent, NumberFieldInput } from "@ui/number-field";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@ui/table";
 
-const attacker = defineModel<ArmyPersonnel>('attacker', { required: true });
-const defender = defineModel<ArmyPersonnel>('defender', { required: true });
-const luck = defineModel<Luck>('luck', { required: true });
-const wallLevel = defineModel<Option<BuildingLevel>>('wall', { required: true });
+const attacker = defineModel<ArmyPersonnel>("attacker", { required: true });
+const defender = defineModel<ArmyPersonnel>("defender", { required: true });
+const luck = defineModel<Luck>("luck", { required: true });
+const wallLevel = defineModel<Option<BuildingLevel>>("wall", { required: true });
 
 const { t } = useI18n();
 
@@ -24,8 +24,8 @@ const { stats } = NIL.world.refs();
     <TableHeader>
       <TableRow class="hover:bg-card">
         <TableHead />
-        <TableHead>{{ t('attacker') }}</TableHead>
-        <TableHead>{{ t('defender') }}</TableHead>
+        <TableHead>{{ t("attacker") }}</TableHead>
+        <TableHead>{{ t("defender") }}</TableHead>
       </TableRow>
     </TableHeader>
 
@@ -62,7 +62,7 @@ const { stats } = NIL.world.refs();
       <div class="mt-4"></div>
 
       <TableRow>
-        <TableCell>{{ t('wall') }}</TableCell>
+        <TableCell>{{ t("wall") }}</TableCell>
         <TableCell />
         <TableCell>
           <NumberField
@@ -80,7 +80,7 @@ const { stats } = NIL.world.refs();
       </TableRow>
 
       <TableRow>
-        <TableCell>{{ t('luck') }}</TableCell>
+        <TableCell>{{ t("luck") }}</TableCell>
         <TableCell />
         <TableCell>
           <NumberField

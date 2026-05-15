@@ -7,8 +7,8 @@ pub mod luck;
 mod tests;
 
 use crate::error::Result;
-use crate::infrastructure::building::wall::{Wall, WallStats};
-use crate::infrastructure::building::{BuildingLevel, BuildingLevelDiff};
+use crate::infrastructure::building::r#impl::wall::{Wall, WallStats};
+use crate::infrastructure::building::level::{BuildingLevel, BuildingLevelDiff};
 use crate::infrastructure::stats::InfrastructureStats;
 use crate::military::army::personnel::ArmyPersonnel;
 use crate::military::squad::Squad;
@@ -17,6 +17,7 @@ use bon::Builder;
 use luck::Luck;
 use nil_num::growth::growth;
 use serde::{Deserialize, Serialize};
+use strum::EnumIs;
 
 #[derive(Builder)]
 pub struct Battle<'a> {
@@ -26,7 +27,7 @@ pub struct Battle<'a> {
   #[builder(default)]
   defender: &'a [Squad],
 
-  #[builder(default)]
+  #[builder(default = Luck::random())]
   luck: Luck,
 
   wall: Option<&'a WallStats>,
@@ -97,6 +98,7 @@ impl BattleResult {
     let mut downgraded_wall_level = BuildingLevelDiff::new(0);
     let mut diff = 0.0;
     let mut squad_survivors: f64;
+
     match winner {
       BattleWinner::Attacker => {
         for squad in attacking_squads {
@@ -192,9 +194,20 @@ impl BattleResult {
   pub fn downgraded_wall_level(&self) -> BuildingLevelDiff {
     self.downgraded_wall_level
   }
+
+  #[inline]
+  pub fn winner(&self) -> BattleWinner {
+    self.winner
+  }
+
+  #[inline]
+  pub fn luck(&self) -> Luck {
+    self.luck
+  }
 }
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Deserialize, Serialize)]
+#[derive(Copy, Debug, Deserialize, Serialize, EnumIs)]
+#[derive_const(Clone, PartialEq, Eq)]
 #[serde(rename_all = "kebab-case")]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub enum BattleWinner {
@@ -229,19 +242,20 @@ impl OffensivePower {
 
     for squad in squads {
       army_size += f64::from(squad.size());
+
       match squad.kind() {
         UnitKind::Infantry => {
-          infantry += *squad.attack();
+          infantry += squad.attack();
           if squad.id() == UnitId::Ram {
             rams_amount = f64::from(squad.size());
           }
         }
         UnitKind::Cavalry => {
-          cavalry += *squad.attack();
+          cavalry += squad.attack();
         }
         UnitKind::Ranged => {
-          ranged += *squad.attack();
-          ranged_with_debuff += *squad.attack() * f64::from(squad.unit().stats().ranged_debuff());
+          ranged += squad.attack();
+          ranged_with_debuff += squad.attack() * squad.unit().stats().ranged_debuff();
           ranged_amount += f64::from(squad.size());
         }
       }
@@ -250,6 +264,7 @@ impl OffensivePower {
     if ranged_amount / army_size > 0.3 {
       ranged = ranged_with_debuff;
     }
+
     infantry += infantry * luck;
     cavalry += cavalry * luck;
     ranged += ranged * luck;
@@ -321,6 +336,7 @@ impl DefensivePower {
 
       let surviving_rams_no_wall = offensive_power.rams_amount
         - (offensive_power.rams_amount * (total / offensive_power.total));
+
       attacking_rams = (attacking_rams * 0.87) + (surviving_rams_no_wall * 1.5);
 
       if attacking_rams > 0.0 {
@@ -341,6 +357,7 @@ impl DefensivePower {
         }
 
         let mut wall_levels_to_decrease: u8 = 0;
+
         for value in rams_vec.iter().rev() {
           if attacking_rams >= *value && wall_levels_to_decrease < wall.level {
             attacking_rams -= value;

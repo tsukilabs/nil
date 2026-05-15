@@ -1,7 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-#![feature(try_blocks)]
+#![feature(const_default, const_trait_impl, derive_const, try_blocks)]
 
 mod command;
 mod error;
@@ -172,6 +172,7 @@ pub fn run() {
       command::world::get_savedata_players,
       command::world::get_world_bots,
       command::world::get_world_config,
+      command::world::get_world_personnel,
       command::world::get_world_players,
       command::world::get_world_precursors,
       command::world::get_world_stats,

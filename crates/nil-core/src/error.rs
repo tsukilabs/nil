@@ -2,7 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::continent::{ContinentIndex, Coord};
-use crate::infrastructure::building::{BuildingId, BuildingLevel, MineId, StorageId};
+use crate::infrastructure::building::level::BuildingLevel;
+use crate::infrastructure::building::{BuildingId, MineId, StorageId};
 use crate::military::army::ArmyId;
 use crate::military::maneuver::ManeuverId;
 use crate::military::unit::UnitId;
@@ -19,6 +20,8 @@ pub type Result<T, E = Error> = StdResult<T, E>;
 pub type AnyResult<T> = anyhow::Result<T>;
 
 #[derive(Clone, Debug, EnumIs, thiserror::Error)]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
+#[cfg_attr(feature = "typescript", ts(as = "String"))]
 #[remain::sorted]
 pub enum Error {
   #[error("Army not found")]

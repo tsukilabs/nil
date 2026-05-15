@@ -1,24 +1,22 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-pub mod build;
-pub mod idle;
-pub mod recruit;
+pub mod r#impl;
+pub mod score;
 
 use crate::error::Result;
 use crate::world::World;
-use derive_more::Into;
-use idle::IdleBehavior;
-use rand::rngs::ThreadRng;
+use r#impl::idle::IdleBehavior;
 use rand::seq::{IndexedRandom, SliceRandom};
+use score::BehaviorScore;
 use std::any::Any;
-use std::cmp::Ordering;
 use std::collections::HashSet;
 use std::fmt::Debug;
-use std::ops::{Add, AddAssign, ControlFlow, Div, DivAssign, Mul, MulAssign, Sub, SubAssign};
+use std::ops::ControlFlow;
 
 pub trait Behavior: Any + Debug {
   fn score(&self, world: &World) -> Result<BehaviorScore>;
+
   fn behave(&self, world: &mut World) -> Result<ControlFlow<()>>;
 
   fn boxed(self) -> Box<dyn Behavior>
@@ -34,9 +32,8 @@ pub struct BehaviorProcessor<'a> {
   world: &'a mut World,
   behaviors: Vec<Box<dyn Behavior>>,
   buffer: Vec<(usize, BehaviorScore)>,
-  candidates: Vec<(usize, f64)>,
+  candidates: Vec<usize>,
   broken: HashSet<usize>,
-  rng: ThreadRng,
 }
 
 impl<'a> BehaviorProcessor<'a> {
@@ -45,8 +42,7 @@ impl<'a> BehaviorProcessor<'a> {
     let candidates = Vec::new();
     let broken = HashSet::new();
 
-    let mut rng = rand::rng();
-    behaviors.shuffle(&mut rng);
+    behaviors.shuffle(&mut rand::rng());
 
     Self {
       world,
@@ -54,7 +50,6 @@ impl<'a> BehaviorProcessor<'a> {
       buffer,
       candidates,
       broken,
-      rng,
     }
   }
 
@@ -73,7 +68,11 @@ impl Iterator for BehaviorProcessor<'_> {
     for (idx, behavior) in self.behaviors.iter().enumerate() {
       if !self.broken.contains(&idx) {
         match behavior.score(self.world) {
-          Ok(score) => self.buffer.push((idx, score)),
+          Ok(score) => {
+            if score > BehaviorScore::MIN {
+              self.buffer.push((idx, score));
+            }
+          }
           Err(err) => return Some(Err(err)),
         }
       }
@@ -92,13 +91,13 @@ impl Iterator for BehaviorProcessor<'_> {
       .buffer
       .iter()
       .filter(|(_, score)| highest.1.is_within_range(*score, 0.2))
-      .map(|(idx, score)| (*idx, f64::from(*score)))
+      .map(|(idx, _)| *idx)
       .collect_into(&mut self.candidates);
 
     let idx = self
       .candidates
-      .choose(&mut self.rng)
-      .map(|(idx, _)| *idx)
+      .choose(&mut rand::rng())
+      .copied()
       .filter(|idx| !self.is_idle(*idx))?;
 
     let behavior = &self.behaviors[idx];
@@ -112,125 +111,5 @@ impl Iterator for BehaviorProcessor<'_> {
       }
       Err(err) => Some(Err(err)),
     }
-  }
-}
-
-#[derive(Clone, Copy, Debug, Into)]
-pub struct BehaviorScore(f64);
-
-impl BehaviorScore {
-  pub const MIN: Self = BehaviorScore(0.0);
-  pub const MAX: Self = BehaviorScore(1.0);
-
-  #[inline]
-  pub const fn new(score: f64) -> Self {
-    debug_assert!(score.is_finite());
-    debug_assert!(!score.is_subnormal());
-    Self(score.clamp(Self::MIN.0, Self::MAX.0))
-  }
-
-  #[inline]
-  pub(crate) fn is_within_range(self, other: BehaviorScore, range: f64) -> bool {
-    (self.0 - other.0).abs() < range
-  }
-}
-
-impl Default for BehaviorScore {
-  fn default() -> Self {
-    Self(0.0)
-  }
-}
-
-impl From<f64> for BehaviorScore {
-  fn from(score: f64) -> Self {
-    Self::new(score)
-  }
-}
-
-impl PartialEq for BehaviorScore {
-  fn eq(&self, other: &Self) -> bool {
-    matches!(self.0.total_cmp(&other.0), Ordering::Equal)
-  }
-}
-
-impl Eq for BehaviorScore {}
-
-impl PartialOrd for BehaviorScore {
-  fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
-    Some(self.cmp(other))
-  }
-}
-
-impl Ord for BehaviorScore {
-  fn cmp(&self, other: &Self) -> Ordering {
-    self.0.total_cmp(&other.0)
-  }
-}
-
-impl PartialEq<f64> for BehaviorScore {
-  fn eq(&self, other: &f64) -> bool {
-    self.0.eq(other)
-  }
-}
-
-impl PartialOrd<f64> for BehaviorScore {
-  fn partial_cmp(&self, other: &f64) -> Option<Ordering> {
-    self.0.partial_cmp(other)
-  }
-}
-
-impl Add<f64> for BehaviorScore {
-  type Output = BehaviorScore;
-
-  fn add(self, rhs: f64) -> Self::Output {
-    BehaviorScore::new(self.0 + rhs)
-  }
-}
-
-impl AddAssign<f64> for BehaviorScore {
-  fn add_assign(&mut self, rhs: f64) {
-    *self = *self + rhs;
-  }
-}
-
-impl Sub<f64> for BehaviorScore {
-  type Output = BehaviorScore;
-
-  fn sub(self, rhs: f64) -> Self::Output {
-    BehaviorScore::new(self.0 - rhs)
-  }
-}
-
-impl SubAssign<f64> for BehaviorScore {
-  fn sub_assign(&mut self, rhs: f64) {
-    *self = *self - rhs;
-  }
-}
-
-impl Mul<f64> for BehaviorScore {
-  type Output = BehaviorScore;
-
-  fn mul(self, rhs: f64) -> Self::Output {
-    BehaviorScore::new(self.0 * rhs)
-  }
-}
-
-impl MulAssign<f64> for BehaviorScore {
-  fn mul_assign(&mut self, rhs: f64) {
-    *self = *self * rhs;
-  }
-}
-
-impl Div<f64> for BehaviorScore {
-  type Output = BehaviorScore;
-
-  fn div(self, rhs: f64) -> Self::Output {
-    BehaviorScore::new(self.0 / rhs)
-  }
-}
-
-impl DivAssign<f64> for BehaviorScore {
-  fn div_assign(&mut self, rhs: f64) {
-    *self = *self / rhs;
   }
 }

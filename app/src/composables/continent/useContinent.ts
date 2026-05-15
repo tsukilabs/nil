@@ -1,14 +1,14 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { nextMultipleOf } from '@/lib/math';
-import type { Option } from '@tb-dev/utils';
-import type { Coord } from '@tsukilabs/nil-bindings';
-import { ListenerSet } from '@/lib/listener-set';
-import { tryOnScopeDispose } from '@vueuse/core';
-import { CoordImpl } from '@/core/model/continent/coord';
-import { PublicFieldImpl } from '@/core/model/continent/public-field';
-import { computed, ref, type Ref, shallowRef, triggerRef } from 'vue';
+import { nextMultipleOf } from "@/lib/math";
+import type { Option } from "@tb-dev/utils";
+import { ListenerSet } from "@/lib/listener-set";
+import { tryOnScopeDispose } from "@vueuse/core";
+import type { Coord } from "@tsukilabs/nil-bindings";
+import { CoordImpl } from "@/core/model/continent/coord";
+import { PublicFieldImpl } from "@/core/model/continent/public-field";
+import { computed, ref, type Ref, shallowRef, triggerRef } from "vue";
 
 export function useContinent(options: {
   width: Readonly<Ref<number>>;

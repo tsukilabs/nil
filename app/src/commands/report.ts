@@ -1,8 +1,8 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { invoke } from '@tauri-apps/api/core';
-import { type MaybeArray, type Option, toArray } from '@tb-dev/utils';
+import { invoke } from "@tauri-apps/api/core";
+import { type MaybeArray, type Option, toArray } from "@tb-dev/utils";
 import type {
   ForwardReportRequest,
   GetReportRequest,
@@ -12,7 +12,7 @@ import type {
   PlayerId,
   RemoveReportRequest,
   ReportId,
-} from '@tsukilabs/nil-bindings';
+} from "@tsukilabs/nil-bindings";
 
 export async function forwardReport(id: ReportId, recipient: PlayerId) {
   const req: ForwardReportRequest = {
@@ -21,7 +21,7 @@ export async function forwardReport(id: ReportId, recipient: PlayerId) {
     recipient,
   };
 
-  await invoke('forward_report', { req });
+  await invoke("forward_report", { req });
 }
 
 export async function getReport(id: ReportId) {
@@ -30,7 +30,7 @@ export async function getReport(id: ReportId) {
     id,
   };
 
-  return invoke<GetReportResponse>('get_report', { req });
+  return invoke<GetReportResponse>("get_report", { req });
 }
 
 export async function getReports(ids: MaybeArray<ReportId>, limit?: Option<number>) {
@@ -43,7 +43,7 @@ export async function getReports(ids: MaybeArray<ReportId>, limit?: Option<numbe
     limit,
   };
 
-  return invoke<GetReportsResponse>('get_reports', { req });
+  return invoke<GetReportsResponse>("get_reports", { req });
 }
 
 export async function removeReport(id: ReportId) {
@@ -52,5 +52,5 @@ export async function removeReport(id: ReportId) {
     id,
   };
 
-  await invoke('remove_report', { req });
+  await invoke("remove_report", { req });
 }

@@ -4,7 +4,7 @@
 use crate::continent::Coord;
 use crate::decl_world_recruit_order_fn;
 use crate::error::{Error, Result};
-use crate::infrastructure::building::stable::recruit_queue::{
+use crate::infrastructure::building::r#impl::stable::recruit_queue::{
   StableRecruitOrderId,
   StableRecruitOrderRequest,
 };

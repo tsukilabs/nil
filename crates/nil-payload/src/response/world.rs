@@ -1,6 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+use nil_core::military::army::personnel::ArmyPersonnel;
 use nil_core::npc::bot::BotId;
 use nil_core::npc::precursor::PrecursorId;
 use nil_core::player::PlayerId;
@@ -56,6 +57,12 @@ pub struct GetWorldBotsResponse(pub Vec<BotId>);
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct GetWorldConfigResponse(pub WorldConfig);
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
+pub struct GetWorldPersonnelResponse(pub ArmyPersonnel);
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[cfg_attr(feature = "axum", derive(IntoJsonResponse))]

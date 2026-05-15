@@ -2,16 +2,16 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { computed } from 'vue';
-import { useI18n } from 'vue-i18n';
-import { useBreakpoints } from '@tb-dev/vue';
-import type { MaybePromise } from '@tb-dev/utils';
-import RecruitCatalogRow from './RecruitCatalogRow.vue';
-import { usePlayerTurn } from '@/composables/player/usePlayerTurn';
-import { usePlayerResources } from '@/composables/player/usePlayerResources';
-import type { AcademyRecruitCatalog, AcademyUnitId } from '@tsukilabs/nil-bindings';
-import { Table, TableBody, TableHead, TableHeader, TableRow } from '@ui/table';
-import type { AcademyImpl } from '@/core/model/infrastructure/building/academy/academy';
+import { computed } from "vue";
+import { useI18n } from "vue-i18n";
+import { useBreakpoints } from "@tb-dev/vue";
+import type { MaybePromise } from "@tb-dev/utils";
+import RecruitCatalogRow from "./RecruitCatalogRow.vue";
+import { usePlayerTurn } from "@/composables/player/usePlayerTurn";
+import { usePlayerResources } from "@/composables/player/usePlayerResources";
+import { Table, TableBody, TableHead, TableHeader, TableRow } from "@ui/table";
+import type { AcademyRecruitCatalog, AcademyUnitId } from "@tsukilabs/nil-bindings";
+import type { AcademyImpl } from "@/core/model/infrastructure/building/academy/academy";
 
 const props = defineProps<{
   academy: AcademyImpl;
@@ -26,7 +26,7 @@ const isPlayerTurn = usePlayerTurn();
 const playerResources = usePlayerResources();
 
 const hasSomeAvailable = computed(() => {
-  return Object.values(props.catalog).some((it) => it.kind === 'available');
+  return Object.values(props.catalog).some((it) => it.kind === "available");
 });
 
 const { sm } = useBreakpoints();
@@ -37,10 +37,10 @@ const { sm } = useBreakpoints();
     <TableHeader>
       <TableRow class="hover:bg-card">
         <TableHead>
-          <span>{{ t('unit') }}</span>
+          <span>{{ t("unit") }}</span>
         </TableHead>
         <TableHead v-if="hasSomeAvailable">
-          <span>{{ t('cost') }}</span>
+          <span>{{ t("cost") }}</span>
         </TableHead>
         <TableHead v-if="sm" :colspan="hasSomeAvailable ? 1 : 2">
           <span></span>

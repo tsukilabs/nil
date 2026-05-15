@@ -16,3 +16,6 @@ pub mod process;
 
 #[cfg(feature = "vec")]
 pub mod vec;
+
+#[cfg(feature = "macros")]
+pub use nil_util_macros::{BigInt, ConstDeref, F64Math};

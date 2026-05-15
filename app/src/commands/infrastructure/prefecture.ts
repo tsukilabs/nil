@@ -1,7 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { invoke } from '@tauri-apps/api/core';
+import { invoke } from "@tauri-apps/api/core";
 import type {
   AddPrefectureBuildOrderRequest,
   CancelPrefectureBuildOrderRequest,
@@ -9,7 +9,7 @@ import type {
   GetPrefectureBuildCatalogRequest,
   GetPrefectureBuildCatalogResponse,
   PrefectureBuildOrderRequest,
-} from '@tsukilabs/nil-bindings';
+} from "@tsukilabs/nil-bindings";
 
 export async function addPrefectureBuildOrder(request: PrefectureBuildOrderRequest) {
   const req: AddPrefectureBuildOrderRequest = {
@@ -17,7 +17,7 @@ export async function addPrefectureBuildOrder(request: PrefectureBuildOrderReque
     request,
   };
 
-  await invoke('add_prefecture_build_order', { req });
+  await invoke("add_prefecture_build_order", { req });
 }
 
 export async function cancelPrefectureBuildOrder(coord: Coord) {
@@ -26,7 +26,7 @@ export async function cancelPrefectureBuildOrder(coord: Coord) {
     coord,
   };
 
-  await invoke('cancel_prefecture_build_order', { req });
+  await invoke("cancel_prefecture_build_order", { req });
 }
 
 export async function getPrefectureBuildCatalog(coord: Coord) {
@@ -35,5 +35,5 @@ export async function getPrefectureBuildCatalog(coord: Coord) {
     coord,
   };
 
-  return invoke<GetPrefectureBuildCatalogResponse>('get_prefecture_build_catalog', { req });
+  return invoke<GetPrefectureBuildCatalogResponse>("get_prefecture_build_catalog", { req });
 }

@@ -1,10 +1,10 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { computed, toRef, watch } from 'vue';
-import type { BotId } from '@tsukilabs/nil-bindings';
-import { asyncRef, type MaybeNilRef } from '@tb-dev/vue';
-import { PublicBotImpl } from '@/core/model/npc/public-bot';
+import { computed, toRef, watch } from "vue";
+import type { BotId } from "@tsukilabs/nil-bindings";
+import { asyncRef, type MaybeNilRef } from "@tb-dev/vue";
+import { PublicBotImpl } from "@/core/model/npc/public-bot";
 
 export function usePublicBot(id: MaybeNilRef<BotId>) {
   const idRef = toRef(id);

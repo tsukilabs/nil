@@ -2,18 +2,18 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { watchEffect } from 'vue';
-import Unread from '@/components/Unread.vue';
-import { useBreakpoints } from '@tb-dev/vue';
-import Chat from '@/components/chat/Chat.vue';
-import { ListenerSet } from '@/lib/listener-set';
-import { MessagesSquareIcon } from '@lucide/vue';
-import { useRoute, useRouter } from 'vue-router';
-import { useToggle, whenever } from '@vueuse/core';
-import type { GameScene } from '@/types/scene/game';
-import ChatInput from '@/components/chat/ChatInput.vue';
-import type { ChatUpdatedPayload } from '@/types/event';
-import { Popover, PopoverContent, PopoverTrigger } from '@ui/popover';
+import { watchEffect } from "vue";
+import Unread from "@/components/Unread.vue";
+import { useBreakpoints } from "@tb-dev/vue";
+import Chat from "@/components/chat/Chat.vue";
+import { ListenerSet } from "@/lib/listener-set";
+import { MessagesSquareIcon } from "@lucide/vue";
+import { useRoute, useRouter } from "vue-router";
+import { useToggle, whenever } from "@vueuse/core";
+import type { GameScene } from "@/types/scene/game";
+import ChatInput from "@/components/chat/ChatInput.vue";
+import type { ChatUpdatedPayload } from "@/types/event";
+import { Popover, PopoverContent, PopoverTrigger } from "@ui/popover";
 
 const { player } = NIL.player.refs();
 
@@ -31,7 +31,7 @@ const { sm } = useBreakpoints();
 whenever(isChatOpen, () => void toggleUnread(false));
 
 watchEffect(() => {
-  if (route.name === ('chat' satisfies GameScene)) {
+  if (route.name === ("chat" satisfies GameScene)) {
     hasUnread.value = false;
   }
 });
@@ -39,8 +39,8 @@ watchEffect(() => {
 function onChatUpdated({ message }: ChatUpdatedPayload) {
   if (
     !isChatOpen.value &&
-    route.name !== ('chat' satisfies GameScene) &&
-    message.author.kind === 'player' &&
+    route.name !== ("chat" satisfies GameScene) &&
+    message.author.kind === "player" &&
     message.author.id !== player.value?.id
   ) {
     hasUnread.value = true;

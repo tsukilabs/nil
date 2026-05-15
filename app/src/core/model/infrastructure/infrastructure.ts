@@ -1,18 +1,18 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { FarmImpl } from './building/farm';
-import { SiloImpl } from './building/silo';
-import { WallImpl } from './building/wall';
-import { QuarryImpl } from './building/quarry';
-import { SawmillImpl } from './building/sawmill';
-import { IronMineImpl } from './building/iron-mine';
-import { WarehouseImpl } from './building/warehouse';
-import { StableImpl } from './building/stable/stable';
-import type { Infrastructure } from '@tsukilabs/nil-bindings';
-import { AcademyImpl } from './building/academy/academy';
-import { WorkshopImpl } from './building/workshop/workshop';
-import { PrefectureImpl } from './building/prefecture/prefecture';
+import { FarmImpl } from "./building/farm";
+import { SiloImpl } from "./building/silo";
+import { WallImpl } from "./building/wall";
+import { QuarryImpl } from "./building/quarry";
+import { SawmillImpl } from "./building/sawmill";
+import { IronMineImpl } from "./building/iron-mine";
+import { WarehouseImpl } from "./building/warehouse";
+import { StableImpl } from "./building/stable/stable";
+import { AcademyImpl } from "./building/academy/academy";
+import { WorkshopImpl } from "./building/workshop/workshop";
+import type { Infrastructure } from "@tsukilabs/nil-bindings";
+import { PrefectureImpl } from "./building/prefecture/prefecture";
 
 export class InfrastructureImpl implements Readonly<Infrastructure> {
   public readonly academy: AcademyImpl;

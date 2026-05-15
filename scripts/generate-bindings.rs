@@ -7,21 +7,38 @@ edition = "2024"
 anyhow = "1.0"
 natord = "=1.0.9"
 
+[dependencies.clap]
+version = "4.6"
+features = ["derive"]
+
 [dependencies.nil-util]
 path = "../crates/nil-util"
 ---
 
 use anyhow::Result;
+use clap::Parser;
 use natord::compare_ignore_case;
 use nil_util::spawn;
 use std::fmt::Write as _;
 use std::path::Path;
 use std::{env, fs};
 
+#[derive(Parser)]
+struct Args {
+  #[arg(long)]
+  force: bool,
+}
+
 fn main() -> Result<()> {
+  let args = Args::parse();
+  let dir = env::var("TS_RS_EXPORT_DIR")?;
+
+  if args.force {
+    fs::remove_dir_all(&dir)?;
+  }
+
   spawn!("cargo test -F typescript export_bindings")?;
 
-  let dir = env::var("TS_RS_EXPORT_DIR")?;
   let mut files = Vec::new();
 
   for entry in fs::read_dir(&dir)? {

@@ -2,19 +2,19 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n';
-import { throttle } from 'es-toolkit/function';
-import { onKeyDown, useBreakpoints } from '@tb-dev/vue';
-import enUS from '@/locale/en-US/scenes/game/report.json';
-import ptBR from '@/locale/pt-BR/scenes/game/report.json';
-import { useReports } from '@/composables/report/useReports';
-import { Card, CardContent, CardHeader, CardTitle } from '@ui/card';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@ui/table';
+import { useI18n } from "vue-i18n";
+import { throttle } from "es-toolkit/function";
+import { onKeyDown, useBreakpoints } from "@tb-dev/vue";
+import enUS from "@/locale/en-US/scenes/game/report.json";
+import ptBR from "@/locale/pt-BR/scenes/game/report.json";
+import { useReports } from "@/composables/report/useReports";
+import { Card, CardContent, CardHeader, CardTitle } from "@ui/card";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@ui/table";
 
 const { t } = useI18n({
   messages: {
-    'en-US': enUS,
-    'pt-BR': ptBR,
+    "en-US": enUS,
+    "pt-BR": ptBR,
   },
 });
 
@@ -24,7 +24,7 @@ const { reports, load: loadReports } = useReports(reportIds);
 const { md } = useBreakpoints();
 
 if (__DESKTOP__) {
-  onKeyDown('F5', throttle(reload, 1000));
+  onKeyDown("F5", throttle(reload, 1000));
 }
 
 async function reload() {
@@ -38,7 +38,7 @@ async function reload() {
     <Card class="size-full">
       <CardHeader>
         <CardTitle>
-          <span>{{ t('report', 2) }}</span>
+          <span>{{ t("report", 2) }}</span>
         </CardTitle>
       </CardHeader>
 
@@ -46,9 +46,9 @@ async function reload() {
         <Table v-if="reports.length > 0">
           <TableHeader>
             <TableRow class="hover:bg-card">
-              <TableHead>{{ t('title') }}</TableHead>
-              <TableHead>{{ t('round') }}</TableHead>
-              <TableHead v-if="md">{{ t('date') }}</TableHead>
+              <TableHead>{{ t("title") }}</TableHead>
+              <TableHead>{{ t("round") }}</TableHead>
+              <TableHead v-if="md">{{ t("date") }}</TableHead>
             </TableRow>
           </TableHeader>
 

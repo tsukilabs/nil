@@ -1,8 +1,8 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { WallStatsImpl } from '@/core/model/stats/wall-stats';
-import type { BuildingLevel, WallStatsTable } from '@tsukilabs/nil-bindings';
+import { WallStatsImpl } from "@/core/model/stats/wall-stats";
+import type { BuildingLevel, WallStatsTable } from "@tsukilabs/nil-bindings";
 
 export class WallStatsTableImpl {
   public readonly table: ReadonlyMap<BuildingLevel, WallStatsImpl>;

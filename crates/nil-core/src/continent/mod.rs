@@ -59,7 +59,7 @@ impl Continent {
     let index = key.into_index(self.size);
     self
       .fields
-      .get(index.as_usize())
+      .get(usize::from(index))
       .ok_or(Error::IndexOutOfBounds(index))
   }
 
@@ -67,7 +67,7 @@ impl Continent {
     let index = key.into_index(self.size);
     self
       .fields
-      .get_mut(index.as_usize())
+      .get_mut(usize::from(index))
       .ok_or(Error::IndexOutOfBounds(index))
   }
 
@@ -128,6 +128,10 @@ impl Continent {
   {
     let owner: Ruler = owner.into();
     self.cities_by(move |city| city.owner() == &owner)
+  }
+
+  pub fn cities_within(&self, origin: Coord, distance: Distance) -> impl Iterator<Item = &City> {
+    self.cities_by(move |city| origin.is_within_distance(city.coord(), distance))
   }
 
   pub fn coords_by<F>(&self, f: F) -> impl Iterator<Item = Coord>

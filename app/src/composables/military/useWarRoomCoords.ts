@@ -1,15 +1,15 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { ref } from 'vue';
-import { CoordImpl } from '@/core/model/continent/coord';
-import { isValid, transform } from '@/composables/continent/useQueryCoord';
+import { ref } from "vue";
+import { CoordImpl } from "@/core/model/continent/coord";
+import { isValid, transform } from "@/composables/continent/useQueryCoord";
 import {
   QUERY_WAR_ROOM_DEST_X,
   QUERY_WAR_ROOM_DEST_Y,
   QUERY_WAR_ROOM_ORIGIN_X,
   QUERY_WAR_ROOM_ORIGIN_Y,
-} from '@/router/game/war-room';
+} from "@/router/game/war-room";
 
 export function useWarRoomCoords() {
   const url = new URL(window.location.href);

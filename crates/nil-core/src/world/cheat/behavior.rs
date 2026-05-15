@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::bail_if_cheats_are_not_allowed;
-use crate::behavior::build::{BUILD_TEMPLATE, BuildStep};
+use crate::behavior::r#impl::build::{BUILD_TEMPLATE, BuildStep};
 use crate::continent::Coord;
 use crate::error::Result;
 use crate::world::World;

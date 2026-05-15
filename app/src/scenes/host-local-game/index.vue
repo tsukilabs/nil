@@ -2,33 +2,33 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { go } from '@/router';
-import { computed } from 'vue';
-import { Label } from '@ui/label';
-import { useI18n } from 'vue-i18n';
-import { Button } from '@ui/button';
-import { Switch } from '@ui/switch';
-import { useRouter } from 'vue-router';
-import { hostLocalGame } from '@/core/game';
-import { useSettings } from '@/stores/settings';
-import enUS from '@/locale/en-US/scenes/host-game.json';
-import ptBR from '@/locale/pt-BR/scenes/host-game.json';
-import { isPlayerOptions, isWorldOptions } from '@/lib/schema';
-import { localRef, useBreakpoints, useMutex } from '@tb-dev/vue';
-import InputWorldName from '@/components/form/InputWorldName.vue';
-import InputWorldSize from '@/components/form/InputWorldSize.vue';
-import InputPlayerName from '@/components/form/InputPlayerName.vue';
-import type { PlayerOptions, WorldOptions } from '@tsukilabs/nil-bindings';
-import SliderBotDensity from '@/components/form/SliderBotDensity.vue';
-import SliderWorldSpeed from '@/components/form/SliderWorldSpeed.vue';
-import SliderWorldUnitSpeed from '@/components/form/SliderWorldUnitSpeed.vue';
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@ui/card';
-import SliderBotAdvancedStartRatio from '@/components/form/SliderBotAdvancedStartRatio.vue';
+import { go } from "@/router";
+import { computed } from "vue";
+import { Label } from "@ui/label";
+import { useI18n } from "vue-i18n";
+import { Button } from "@ui/button";
+import { Switch } from "@ui/switch";
+import { useRouter } from "vue-router";
+import { hostLocalGame } from "@/core/game";
+import { useSettings } from "@/stores/settings";
+import enUS from "@/locale/en-US/scenes/host-game.json";
+import ptBR from "@/locale/pt-BR/scenes/host-game.json";
+import { isPlayerOptions, isWorldOptions } from "@/lib/schema";
+import { localRef, useBreakpoints, useMutex } from "@tb-dev/vue";
+import InputWorldName from "@/components/form/InputWorldName.vue";
+import InputWorldSize from "@/components/form/InputWorldSize.vue";
+import InputPlayerName from "@/components/form/InputPlayerName.vue";
+import SliderBotDensity from "@/components/form/SliderBotDensity.vue";
+import SliderWorldSpeed from "@/components/form/SliderWorldSpeed.vue";
+import type { PlayerOptions, WorldOptions } from "@tsukilabs/nil-bindings";
+import SliderWorldUnitSpeed from "@/components/form/SliderWorldUnitSpeed.vue";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@ui/card";
+import SliderBotAdvancedStartRatio from "@/components/form/SliderBotAdvancedStartRatio.vue";
 
 const { t } = useI18n({
   messages: {
-    'en-US': enUS,
-    'pt-BR': ptBR,
+    "en-US": enUS,
+    "pt-BR": ptBR,
   },
 });
 
@@ -38,7 +38,7 @@ const settings = useSettings();
 const { md } = useBreakpoints();
 
 const worldOptions = localRef<Partial<WorldOptions>>(
-  key('world'),
+  key("world"),
   {
     name: undefined,
     size: __CONSTS__.continentSizeDefault,
@@ -52,7 +52,7 @@ const worldOptions = localRef<Partial<WorldOptions>>(
 );
 
 const playerOptions = localRef<Partial<PlayerOptions>>(
-  key('player'),
+  key("player"),
   {
     id: undefined,
   },
@@ -85,7 +85,7 @@ function key(name: string) {
   <div :class="md ? 'card-layout' : 'game-layout'">
     <Card class="max-md:size-full md:max-h-[95%] overflow-hidden">
       <CardHeader>
-        <CardTitle>{{ t('host-game') }}</CardTitle>
+        <CardTitle>{{ t("host-game") }}</CardTitle>
       </CardHeader>
 
       <CardContent class="card-form">
@@ -100,14 +100,14 @@ function key(name: string) {
         <div class="flex items-center justify-center py-1">
           <Label>
             <Switch v-model="worldOptions.allowCheats" :disabled="locked" />
-            <span>{{ t('allow-cheats') }}</span>
+            <span>{{ t("allow-cheats") }}</span>
           </Label>
         </div>
       </CardContent>
 
       <CardFooter class="w-full grid grid-cols-3 gap-2">
         <Button :disabled="locked || !canHost" @click="host">
-          <span>{{ t('host') }}</span>
+          <span>{{ t("host") }}</span>
         </Button>
 
         <Button
@@ -117,11 +117,11 @@ function key(name: string) {
           tabindex="0"
           @click="() => go('load-local-game')"
         >
-          <span>{{ t('load') }}</span>
+          <span>{{ t("load") }}</span>
         </Button>
 
         <Button variant="secondary" :disabled="locked" @click="() => router.back()">
-          <span>{{ t('cancel') }}</span>
+          <span>{{ t("cancel") }}</span>
         </Button>
       </CardFooter>
     </Card>

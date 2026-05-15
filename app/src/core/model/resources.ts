@@ -1,9 +1,9 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { toU32 } from '@/lib/number';
-import type { Resources } from '@tsukilabs/nil-bindings';
-import type { PartialNullish } from '@tb-dev/utils';
+import { toU32 } from "@/lib/number";
+import type { PartialNullish } from "@tb-dev/utils";
+import type { Resources } from "@tsukilabs/nil-bindings";
 
 export class ResourcesImpl implements Readonly<Resources> {
   public readonly food: number;
@@ -19,7 +19,7 @@ export class ResourcesImpl implements Readonly<Resources> {
   }
 
   public add(value: number | PartialNullish<Resources>) {
-    if (typeof value === 'number') {
+    if (typeof value === "number") {
       return ResourcesImpl.create({
         food: this.food + value,
         iron: this.iron + value,
@@ -37,7 +37,7 @@ export class ResourcesImpl implements Readonly<Resources> {
   }
 
   public sub(value: number | PartialNullish<Resources>) {
-    if (typeof value === 'number') {
+    if (typeof value === "number") {
       return ResourcesImpl.create({
         food: this.food - value,
         iron: this.iron - value,
@@ -55,7 +55,7 @@ export class ResourcesImpl implements Readonly<Resources> {
   }
 
   public mul(value: number | PartialNullish<Resources>) {
-    if (typeof value === 'number') {
+    if (typeof value === "number") {
       return ResourcesImpl.create({
         food: this.food * value,
         iron: this.iron * value,
@@ -73,7 +73,7 @@ export class ResourcesImpl implements Readonly<Resources> {
   }
 
   public div(value: number | PartialNullish<Resources>) {
-    if (typeof value === 'number') {
+    if (typeof value === "number") {
       return ResourcesImpl.create({
         food: this.food / value,
         iron: this.iron / value,

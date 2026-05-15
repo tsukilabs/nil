@@ -15,7 +15,16 @@ impl World {
     self.military.collapse_armies();
   }
 
+  #[inline]
   pub fn request_maneuver(&mut self, request: ManeuverRequest) -> Result<ManeuverId> {
+    self.request_maneuver_with_emit(request, true)
+  }
+
+  pub(crate) fn request_maneuver_with_emit(
+    &mut self,
+    request: ManeuverRequest,
+    emit: bool,
+  ) -> Result<ManeuverId> {
     self
       .military
       .collapse_armies_in(request.origin);
@@ -73,14 +82,16 @@ impl World {
     let sender_player = origin_ruler.player();
     let target_player = self.city(request.destination)?.player();
 
-    if let Some(sender_player) = sender_player {
-      self.emit_military_updated(sender_player.clone())?;
-    }
+    if emit {
+      if let Some(sender_player) = sender_player {
+        self.emit_military_updated(sender_player.clone())?;
+      }
 
-    if let Some(target_player) = target_player
-      && sender_player.is_none_or(|it| it != &target_player)
-    {
-      self.emit_military_updated(target_player)?;
+      if let Some(target_player) = target_player
+        && sender_player.is_none_or(|it| it != &target_player)
+      {
+        self.emit_military_updated(target_player)?;
+      }
     }
 
     Ok(id)

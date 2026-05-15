@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { cn } from '@/components/ui/utils';
-import { type Option, toPixel } from '@tb-dev/utils';
-import { computed, type CSSProperties, type HTMLAttributes, type VNode } from 'vue';
+import { cn } from "@/components/ui/utils";
+import { type Option, toPixel } from "@tb-dev/utils";
+import { computed, type CSSProperties, type HTMLAttributes, type VNode } from "vue";
 
 const props = defineProps<{
-  class?: HTMLAttributes['class'];
+  class?: HTMLAttributes["class"];
   height?: number | string;
-  style?: HTMLAttributes['style'];
-  tableClass?: HTMLAttributes['class'];
-  tableStyle?: HTMLAttributes['style'];
+  style?: HTMLAttributes["style"];
+  tableClass?: HTMLAttributes["class"];
+  tableStyle?: HTMLAttributes["style"];
   width?: number | string;
 }>();
 

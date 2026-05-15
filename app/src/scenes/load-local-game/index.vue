@@ -2,20 +2,20 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n';
-import { Button } from '@ui/button';
-import { formatDate } from 'date-fns';
-import { computed, ref, watch } from 'vue';
-import type { Option } from '@tb-dev/utils';
-import { useRouteQuery } from '@vueuse/router';
-import type { PlayerId } from '@tsukilabs/nil-bindings';
-import { hostLocalGameWithSavedata } from '@/core/game';
-import { asyncComputed, asyncRef, useMutex } from '@tb-dev/vue';
-import { getSavedataFiles, SavedataFile } from '@/core/savedata';
-import { useSavedataPlayers } from '@/composables/world/useSavedataPlayers';
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@ui/card';
-import { goBackIfPreviousIsNotGame, QUERY_LOAD_LOCAL_GAME_PATH } from '@/router';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ui/select';
+import { useI18n } from "vue-i18n";
+import { Button } from "@ui/button";
+import { formatDate } from "date-fns";
+import { computed, ref, watch } from "vue";
+import type { Option } from "@tb-dev/utils";
+import { useRouteQuery } from "@vueuse/router";
+import { hostLocalGameWithSavedata } from "@/core/game";
+import type { PlayerId } from "@tsukilabs/nil-bindings";
+import { asyncComputed, asyncRef, useMutex } from "@tb-dev/vue";
+import { getSavedataFiles, SavedataFile } from "@/core/savedata";
+import { useSavedataPlayers } from "@/composables/world/useSavedataPlayers";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@ui/card";
+import { goBackIfPreviousIsNotGame, QUERY_LOAD_LOCAL_GAME_PATH } from "@/router";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@ui/select";
 
 const { t } = useI18n();
 
@@ -107,7 +107,7 @@ async function remove() {
   <div class="card-layout">
     <Card class="sm:max-w-4/5 h-full max-h-9/10 sm:max-h-3/5">
       <CardHeader>
-        <CardTitle>{{ t('load-game') }}</CardTitle>
+        <CardTitle>{{ t("load-game") }}</CardTitle>
       </CardHeader>
 
       <CardContent class="h-full overflow-hidden px-2!">
@@ -139,8 +139,8 @@ async function remove() {
             >
               <span class="ellipsis">{{ file.info.worldName }}</span>
               <div class="flex gap-4 text-muted-foreground text-xs">
-                <span>{{ t('round-x', [file.info.round]) }}</span>
-                <span>{{ formatDate(file.date, 'dd/MM/yyyy HH:mm:ss') }}</span>
+                <span>{{ t("round-x", [file.info.round]) }}</span>
+                <span>{{ formatDate(file.date, "dd/MM/yyyy HH:mm:ss") }}</span>
               </div>
             </Button>
           </div>
@@ -149,13 +149,13 @@ async function remove() {
 
       <CardFooter class="grid grid-cols-3">
         <Button :disabled="!canLoad" @click="load">
-          {{ t('load') }}
+          {{ t("load") }}
         </Button>
         <Button variant="destructive" :disabled="!canRemove" @click="remove">
-          {{ t('delete') }}
+          {{ t("delete") }}
         </Button>
         <Button variant="secondary" :disabled="locked" @click="goBackIfPreviousIsNotGame">
-          <span>{{ t('cancel') }}</span>
+          <span>{{ t("cancel") }}</span>
         </Button>
       </CardFooter>
     </Card>

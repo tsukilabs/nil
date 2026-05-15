@@ -1,11 +1,11 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { password } from './utils';
-import { worldOptions } from './world';
-import type { Option } from '@tb-dev/utils';
-import { playerId, playerOptions } from './player';
-import type { PlayerOptions, WorldOptions } from '@tsukilabs/nil-bindings';
+import { password } from "./utils";
+import { worldOptions } from "./world";
+import type { Option } from "@tb-dev/utils";
+import { playerId, playerOptions } from "./player";
+import type { PlayerOptions, WorldOptions } from "@tsukilabs/nil-bindings";
 
 export function isValidPlayerId(value: unknown): value is string {
   return playerId.safeParse(value).success;
@@ -21,7 +21,7 @@ export function isValidPassword(value: unknown): value is string {
 
 export function isValidNullishPassword(value: unknown): value is Option<string> {
   return (
-    (typeof value === 'string' && value.trim().length === 0) ||
+    (typeof value === "string" && value.trim().length === 0) ||
     password.nullish().safeParse(value).success
   );
 }

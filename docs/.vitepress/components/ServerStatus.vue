@@ -2,7 +2,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import type { Server } from '../composables/useServer';
+import type { Server } from "../composables/useServer";
 
 defineProps<{
   server: Server;

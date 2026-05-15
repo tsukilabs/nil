@@ -1,8 +1,8 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as commands from '@/commands';
-import type { PlayerId, Round, RoundState } from '@tsukilabs/nil-bindings';
+import * as commands from "@/commands";
+import type { PlayerId, Round, RoundState } from "@tsukilabs/nil-bindings";
 
 export class RoundImpl implements Readonly<Round> {
   public readonly id: number;
@@ -16,15 +16,15 @@ export class RoundImpl implements Readonly<Round> {
   }
 
   public isIdle() {
-    return this.state.kind === 'idle';
+    return this.state.kind === "idle";
   }
 
   public isDone() {
-    return this.state.kind === 'done';
+    return this.state.kind === "done";
   }
 
   public isWaiting() {
-    return this.state.kind === 'waiting';
+    return this.state.kind === "waiting";
   }
 
   public isWaitingPlayer(id: PlayerId) {
@@ -32,11 +32,11 @@ export class RoundImpl implements Readonly<Round> {
   }
 
   public isPlayerPending(id: PlayerId) {
-    return this.state.kind === 'waiting' && this.state.pending.includes(id);
+    return this.state.kind === "waiting" && this.state.pending.includes(id);
   }
 
   public isPlayerReady(id: PlayerId) {
-    return this.state.kind === 'waiting' && this.state.ready.includes(id);
+    return this.state.kind === "waiting" && this.state.ready.includes(id);
   }
 
   public static create(round: Round) {

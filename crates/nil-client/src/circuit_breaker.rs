@@ -109,7 +109,8 @@ impl Default for CircuitBreaker {
   }
 }
 
-#[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
+#[derive(Copy, Debug)]
+#[derive_const(Clone, Default, PartialEq, Eq)]
 pub enum CircuitState {
   #[default]
   Closed,

@@ -10,6 +10,7 @@ use either::Either;
 use jiff::Zoned;
 use nil_core::chat::Chat;
 use nil_core::continent::Continent;
+use nil_core::military::Military;
 use nil_core::npc::bot::BotManager;
 use nil_core::npc::precursor::PrecursorManager;
 use nil_core::player::PlayerManager;
@@ -314,6 +315,15 @@ impl App {
   {
     self
       .world(id, |world| f(world.continent()))
+      .await
+  }
+
+  pub async fn military<F, T>(&self, id: WorldId, f: F) -> MaybeResponse<T>
+  where
+    F: FnOnce(&Military) -> T,
+  {
+    self
+      .world(id, |world| f(world.military()))
       .await
   }
 

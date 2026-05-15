@@ -1,20 +1,20 @@
 <script setup lang="ts">
-import type { PrimitiveProps } from 'reka-ui';
-import type { HTMLAttributes } from 'vue';
-import { Primitive } from 'reka-ui';
-import { cn } from '@/components/ui/utils';
+import type { PrimitiveProps } from "reka-ui";
+import type { HTMLAttributes } from "vue";
+import { Primitive } from "reka-ui";
+import { cn } from "@/components/ui/utils";
 
 const props = withDefaults(
   defineProps<
     PrimitiveProps & {
-      size?: 'sm' | 'md';
+      size?: "sm" | "md";
       isActive?: boolean;
-      class?: HTMLAttributes['class'];
+      class?: HTMLAttributes["class"];
     }
   >(),
   {
-    as: 'a',
-    size: 'md',
+    as: "a",
+    size: "md",
   },
 );
 </script>

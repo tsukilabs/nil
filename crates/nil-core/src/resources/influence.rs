@@ -4,8 +4,9 @@
 use super::cost::{Cost, ResourceRatio};
 use super::{Food, Iron, Resources, Stone, Wood};
 use crate::check_total_resource_ratio;
-use derive_more::{Display, From, Into};
+use derive_more::Display;
 use nil_num::triangle::nearest_triangle;
+use nil_util::ConstDeref;
 use serde::{Deserialize, Serialize};
 use std::num::NonZeroU32;
 
@@ -14,9 +15,8 @@ use std::num::NonZeroU32;
 ///
 /// The amount of influence needed to control a number `n` of cities is given by
 /// the formula `n * (n + 1) / 2`, meaning it increases as a triangular number.
-#[derive(
-  Clone, Copy, Debug, Display, From, Into, PartialEq, Eq, PartialOrd, Ord, Deserialize, Serialize,
-)]
+#[derive(Copy, Debug, Display, Deserialize, Serialize, ConstDeref)]
+#[derive_const(Clone, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Influence(NonZeroU32);
 
@@ -41,7 +41,7 @@ impl Influence {
   }
 
   /// Resources required to acquire one unit of influence.
-  pub fn resources() -> Resources {
+  pub const fn resources() -> Resources {
     Resources {
       food: Food::from((Self::COST * Self::FOOD_RATIO).round()),
       iron: Iron::from((Self::COST * Self::IRON_RATIO).round()),
@@ -56,7 +56,7 @@ impl Influence {
   }
 }
 
-impl Default for Influence {
+impl const Default for Influence {
   fn default() -> Self {
     Self::MIN
   }

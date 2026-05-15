@@ -8,6 +8,7 @@ use crate::response::EitherExt;
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
 use nil_core::ruler::Ruler;
+use nil_core::world::World;
 use nil_payload::request::cheat::military::*;
 use nil_payload::response::cheat::military::*;
 
@@ -40,7 +41,7 @@ pub async fn get_maneuvers(
   Json(req): Json<CheatGetManeuversRequest>,
 ) -> Response {
   app
-    .world(req.world, |world| world.cheat_get_maneuvers())
+    .world(req.world, World::cheat_get_maneuvers)
     .await
     .try_map_left(|maneuvers| res!(OK, CheatGetManeuversResponse(maneuvers)))
     .into_inner()

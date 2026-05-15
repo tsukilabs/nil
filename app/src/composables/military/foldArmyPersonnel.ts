@@ -1,9 +1,9 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Army } from '@tsukilabs/nil-bindings';
-import { computed, type MaybeRefOrGetter, toRef } from 'vue';
-import { ArmyPersonnelImpl } from '@/core/model/military/army-personnel';
+import type { Army } from "@tsukilabs/nil-bindings";
+import { computed, type MaybeRefOrGetter, toRef } from "vue";
+import { ArmyPersonnelImpl } from "@/core/model/military/army-personnel";
 
 export function foldArmyPersonnel(armies: MaybeRefOrGetter<readonly Army[]>) {
   const armiesRef = toRef(armies);

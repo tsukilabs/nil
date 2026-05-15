@@ -1,18 +1,18 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { Entity } from './abstract';
-import { ChatEntity } from './chat';
-import { CityEntity } from './city';
-import { RoundEntity } from './round';
-import { WorldEntity } from './world';
-import { PlayerEntity } from './player';
-import { ReportEntity } from './report';
-import { MilitaryEntity } from './military';
+import { Entity } from "./abstract";
+import { ChatEntity } from "./chat";
+import { CityEntity } from "./city";
+import { RoundEntity } from "./round";
+import { WorldEntity } from "./world";
+import { PlayerEntity } from "./player";
+import { ReportEntity } from "./report";
+import { MilitaryEntity } from "./military";
 
 export function initEntities() {
-  if (!Object.hasOwn(globalThis, 'NIL')) {
-    Object.defineProperty(globalThis, 'NIL', {
+  if (!Object.hasOwn(globalThis, "NIL")) {
+    Object.defineProperty(globalThis, "NIL", {
       configurable: false,
       enumerable: true,
       writable: false,

@@ -1,17 +1,17 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { go } from '@/router';
-import type { Scene } from '@/types/scene';
-import { isNil, type Option, panic } from '@tb-dev/utils';
-import type { ContinentIndex, Coord } from '@tsukilabs/nil-bindings';
-import type { ContinentKey, CoordTuple } from '@/types/core/continent';
+import { go } from "@/router";
+import type { Scene } from "@/types/scene";
+import { isNil, type Option, panic } from "@tb-dev/utils";
+import type { ContinentIndex, Coord } from "@tsukilabs/nil-bindings";
+import type { ContinentKey, CoordTuple } from "@/types/core/continent";
 import {
   QUERY_WAR_ROOM_DEST_X,
   QUERY_WAR_ROOM_DEST_Y,
   QUERY_WAR_ROOM_ORIGIN_X,
   QUERY_WAR_ROOM_ORIGIN_Y,
-} from '@/router/game/war-room';
+} from "@/router/game/war-room";
 
 export class CoordImpl implements Readonly<Coord> {
   public readonly x: number;
@@ -40,7 +40,7 @@ export class CoordImpl implements Readonly<Coord> {
   }
 
   public isXOutside() {
-    if (typeof this.#xOutside !== 'boolean') {
+    if (typeof this.#xOutside !== "boolean") {
       this.#xOutside = isOutside(this.x);
     }
 
@@ -48,14 +48,14 @@ export class CoordImpl implements Readonly<Coord> {
   }
 
   public isYOutside() {
-    if (typeof this.#yOutside !== 'boolean') {
+    if (typeof this.#yOutside !== "boolean") {
       this.#yOutside = isOutside(this.y);
     }
 
     return this.#yOutside;
   }
 
-  private async goWithQuery(scene: Scene, queryX = 'x', queryY = 'y') {
+  private async goWithQuery(scene: Scene, queryX = "x", queryY = "y") {
     const x = this.x.toString(10);
     const y = this.y.toString(10);
     await go(scene, {
@@ -64,18 +64,18 @@ export class CoordImpl implements Readonly<Coord> {
   }
 
   public async goToContinent() {
-    await this.goWithQuery('continent');
+    await this.goWithQuery("continent");
   }
 
   public async goToProfile() {
     const ckey = this.toContinentIndexString();
-    await go('profile-city', { params: { ckey } });
+    await go("profile-city", { params: { ckey } });
   }
 
-  public async goToWarRoom(kind: 'origin' | 'destination') {
-    const queryX = kind === 'origin' ? QUERY_WAR_ROOM_ORIGIN_X : QUERY_WAR_ROOM_DEST_X;
-    const queryY = kind === 'origin' ? QUERY_WAR_ROOM_ORIGIN_Y : QUERY_WAR_ROOM_DEST_Y;
-    await this.goWithQuery('war-room', queryX, queryY);
+  public async goToWarRoom(kind: "origin" | "destination") {
+    const queryX = kind === "origin" ? QUERY_WAR_ROOM_ORIGIN_X : QUERY_WAR_ROOM_DEST_X;
+    const queryY = kind === "origin" ? QUERY_WAR_ROOM_ORIGIN_Y : QUERY_WAR_ROOM_DEST_Y;
+    await this.goWithQuery("war-room", queryX, queryY);
   }
 
   public format() {
@@ -125,7 +125,7 @@ export class CoordImpl implements Readonly<Coord> {
   }
 
   public static fromContinentKey(key: ContinentKey) {
-    if (typeof key === 'number') {
+    if (typeof key === "number") {
       return CoordImpl.fromContinentIndex(key);
     }
     else {
@@ -134,7 +134,7 @@ export class CoordImpl implements Readonly<Coord> {
   }
 
   public static fromContinentKeyStrict(key?: Option<ContinentKey>) {
-    return key ? this.fromContinentKey(key) : panic('Missing continent key');
+    return key ? this.fromContinentKey(key) : panic("Missing continent key");
   }
 
   public static fromContinentKeyOrCurrent(key?: Option<ContinentKey>) {
@@ -147,7 +147,7 @@ export class CoordImpl implements Readonly<Coord> {
   }
 
   public static fromContinentKeyOrCurrentStrict(key?: Option<ContinentKey>) {
-    return this.fromContinentKeyOrCurrent(key) ?? panic('Missing continent key');
+    return this.fromContinentKeyOrCurrent(key) ?? panic("Missing continent key");
   }
 
   public static fromContinentIndex(index: ContinentIndex) {
@@ -183,10 +183,10 @@ export class CoordImpl implements Readonly<Coord> {
     return CoordImpl.fromContinentKey(a).is(b);
   }
 
-  private static readonly intl = new Intl.NumberFormat('default', {
+  private static readonly intl = new Intl.NumberFormat("default", {
     maximumFractionDigits: 0,
     minimumIntegerDigits: 3,
-    style: 'decimal',
+    style: "decimal",
     useGrouping: false,
   });
 }

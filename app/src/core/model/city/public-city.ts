@@ -1,13 +1,13 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { go } from '@/router';
-import * as commands from '@/commands';
-import { formatInt } from '@/lib/intl';
-import type { ProfileScene } from '@/types/scene/game';
-import { CoordImpl } from '@/core/model/continent/coord';
-import type { PublicCity, Ruler } from '@tsukilabs/nil-bindings';
-import type { ContinentKey } from '@/types/core/continent';
+import { go } from "@/router";
+import * as commands from "@/commands";
+import { formatInt } from "@/lib/intl";
+import type { ProfileScene } from "@/types/scene/game";
+import { CoordImpl } from "@/core/model/continent/coord";
+import type { ContinentKey } from "@/types/core/continent";
+import type { PublicCity, Ruler } from "@tsukilabs/nil-bindings";
 
 export class PublicCityImpl implements Readonly<PublicCity> {
   public readonly coord: CoordImpl;
@@ -35,7 +35,7 @@ export class PublicCityImpl implements Readonly<PublicCity> {
     await go(scene, { params: { id: this.owner.id } });
   }
 
-  public async goToWarRoom(kind: 'origin' | 'destination') {
+  public async goToWarRoom(kind: "origin" | "destination") {
     await this.coord.goToWarRoom(kind);
   }
 

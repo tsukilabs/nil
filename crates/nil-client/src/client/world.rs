@@ -104,6 +104,20 @@ impl Client {
       .await
   }
 
+  pub async fn get_world_personnel(
+    &self,
+    req: GetWorldPersonnelRequest,
+  ) -> Result<GetWorldPersonnelResponse> {
+    http::json_put("get-world-personnel")
+      .body(req)
+      .server(self.server)
+      .circuit_breaker(self.circuit_breaker())
+      .retry(&self.retry)
+      .user_agent(&self.user_agent)
+      .send()
+      .await
+  }
+
   pub async fn get_world_players(
     &self,
     req: GetWorldPlayersRequest,

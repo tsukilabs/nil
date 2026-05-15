@@ -2,27 +2,27 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { Input } from '@ui/input';
-import { Label } from '@ui/label';
-import { useI18n } from 'vue-i18n';
-import { Button } from '@ui/button';
-import * as commands from '@/commands';
-import { useMutex } from '@tb-dev/vue';
-import { useRouter } from 'vue-router';
-import type { Option } from '@tb-dev/utils';
-import { useSettings } from '@/stores/settings';
-import enUS from '@/locale/en-US/scenes/online.json';
-import ptBR from '@/locale/pt-BR/scenes/online.json';
-import { computed, onBeforeMount, reactive } from 'vue';
-import { isValidPassword, isValidPlayerId } from '@/lib/schema';
-import ButtonSpinner from '@/components/button/ButtonSpinner.vue';
-import { go, QUERY_SIGN_IN_USER, QUERY_SIGN_UP_USER } from '@/router';
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@ui/card';
+import { Input } from "@ui/input";
+import { Label } from "@ui/label";
+import { useI18n } from "vue-i18n";
+import { Button } from "@ui/button";
+import * as commands from "@/commands";
+import { useMutex } from "@tb-dev/vue";
+import { useRouter } from "vue-router";
+import type { Option } from "@tb-dev/utils";
+import { useSettings } from "@/stores/settings";
+import enUS from "@/locale/en-US/scenes/online.json";
+import ptBR from "@/locale/pt-BR/scenes/online.json";
+import { computed, onBeforeMount, reactive } from "vue";
+import { isValidPassword, isValidPlayerId } from "@/lib/schema";
+import ButtonSpinner from "@/components/button/ButtonSpinner.vue";
+import { go, QUERY_SIGN_IN_USER, QUERY_SIGN_UP_USER } from "@/router";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@ui/card";
 
 const { t } = useI18n({
   messages: {
-    'en-US': enUS,
-    'pt-BR': ptBR,
+    "en-US": enUS,
+    "pt-BR": ptBR,
   },
 });
 
@@ -60,20 +60,20 @@ async function signIn() {
     ) {
       const token = await commands.authorize(user.name, user.password);
       await commands.updateClient({
-        serverAddr: { kind: 'remote' },
+        serverAddr: { kind: "remote" },
         playerId: user.name,
         playerPassword: user.password,
         authorizationToken: token,
       });
 
       settings.auth.token = token;
-      await go('lobby');
+      await go("lobby");
     }
   });
 }
 
 async function goToSignUpScene() {
-  await go('sign-up', { query: { [QUERY_SIGN_UP_USER]: user.name } });
+  await go("sign-up", { query: { [QUERY_SIGN_UP_USER]: user.name } });
 }
 </script>
 
@@ -81,12 +81,12 @@ async function goToSignUpScene() {
   <div class="card-layout">
     <Card>
       <CardHeader>
-        <CardTitle>{{ t('sign-in') }}</CardTitle>
+        <CardTitle>{{ t("sign-in") }}</CardTitle>
       </CardHeader>
 
       <CardContent class="max-md:px-2">
         <Label>
-          <span>{{ t('user') }}</span>
+          <span>{{ t("user") }}</span>
           <Input
             v-model.trim="user.name"
             type="text"
@@ -97,7 +97,7 @@ async function goToSignUpScene() {
           />
         </Label>
         <Label>
-          <span>{{ t('password') }}</span>
+          <span>{{ t("password") }}</span>
           <Input
             v-model="user.password"
             type="password"
@@ -111,7 +111,7 @@ async function goToSignUpScene() {
 
       <CardFooter class="grid grid-cols-3">
         <ButtonSpinner :loading="locked" :disabled="locked || !canSignIn" @click="signIn">
-          {{ t('sign-in') }}
+          {{ t("sign-in") }}
         </ButtonSpinner>
 
         <Button
@@ -121,11 +121,11 @@ async function goToSignUpScene() {
           tabindex="0"
           @click="goToSignUpScene"
         >
-          <span>{{ t('sign-up') }}</span>
+          <span>{{ t("sign-up") }}</span>
         </Button>
 
         <Button variant="secondary" :disabled="locked" @click="() => router.back()">
-          <span>{{ t('cancel') }}</span>
+          <span>{{ t("cancel") }}</span>
         </Button>
       </CardFooter>
     </Card>

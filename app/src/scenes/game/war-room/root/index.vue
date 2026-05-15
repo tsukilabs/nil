@@ -2,22 +2,22 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n';
-import { Button } from '@ui/button';
-import * as commands from '@/commands';
-import Maneuvers from './Maneuvers.vue';
-import SquadGrid from './SquadGrid.vue';
-import { handleError } from '@/lib/error';
-import Destination from './Destination.vue';
-import { computed, nextTick, ref } from 'vue';
-import type { ManeuverKind } from '@tsukilabs/nil-bindings';
-import { asyncComputed, useBreakpoints } from '@tb-dev/vue';
-import { useManeuvers } from '@/composables/military/useManeuvers';
-import { usePlayerTurn } from '@/composables/player/usePlayerTurn';
-import { ArmyPersonnelImpl } from '@/core/model/military/army-personnel';
-import { useWarRoomCoords } from '@/composables/military/useWarRoomCoords';
-import { foldArmyPersonnel } from '@/composables/military/foldArmyPersonnel';
-import { useOwnIdleArmiesAt } from '@/composables/military/useOwnIdleArmiesAt';
+import { useI18n } from "vue-i18n";
+import { Button } from "@ui/button";
+import * as commands from "@/commands";
+import Maneuvers from "./Maneuvers.vue";
+import SquadGrid from "./SquadGrid.vue";
+import { handleError } from "@/lib/error";
+import Destination from "./Destination.vue";
+import { computed, nextTick, ref } from "vue";
+import { asyncComputed, useBreakpoints } from "@tb-dev/vue";
+import type { ManeuverKind } from "@tsukilabs/nil-bindings";
+import { useManeuvers } from "@/composables/military/useManeuvers";
+import { usePlayerTurn } from "@/composables/player/usePlayerTurn";
+import { ArmyPersonnelImpl } from "@/core/model/military/army-personnel";
+import { useWarRoomCoords } from "@/composables/military/useWarRoomCoords";
+import { foldArmyPersonnel } from "@/composables/military/foldArmyPersonnel";
+import { useOwnIdleArmiesAt } from "@/composables/military/useOwnIdleArmiesAt";
 
 const { t } = useI18n();
 
@@ -85,7 +85,7 @@ function clear() {
           :disabled="!canSend"
           @click="() => send('attack')"
         >
-          <span>{{ t('attack') }}</span>
+          <span>{{ t("attack") }}</span>
         </Button>
         <Button
           variant="default"
@@ -93,14 +93,14 @@ function clear() {
           :disabled="!canSend"
           @click="() => send('support')"
         >
-          <span>{{ t('support') }}</span>
+          <span>{{ t("support") }}</span>
         </Button>
         <Button
           variant="secondary"
           :size="sm ? 'default' : 'sm'"
           @click="clear"
         >
-          <span>{{ t('clear') }}</span>
+          <span>{{ t("clear") }}</span>
         </Button>
       </div>
     </div>

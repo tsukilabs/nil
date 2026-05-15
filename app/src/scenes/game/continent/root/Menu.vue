@@ -2,18 +2,18 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n';
-import { Button } from '@ui/button';
-import { MenuIcon } from '@lucide/vue';
-import { useBreakpoints } from '@tb-dev/vue';
-import type { ContinentScene } from '@/types/scene/game';
+import { useI18n } from "vue-i18n";
+import { Button } from "@ui/button";
+import { MenuIcon } from "@lucide/vue";
+import { useBreakpoints } from "@tb-dev/vue";
+import type { ContinentScene } from "@/types/scene/game";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@ui/dropdown-menu';
+} from "@ui/dropdown-menu";
 
 const { t } = useI18n();
 
@@ -38,7 +38,7 @@ const { md } = useBreakpoints();
       <DropdownMenuGroup>
         <DropdownMenuItem>
           <RouterLink :to="{ name: 'continent-cities' satisfies ContinentScene }" class="w-full">
-            {{ t('city', 2) }}
+            {{ t("city", 2) }}
           </RouterLink>
         </DropdownMenuItem>
       </DropdownMenuGroup>

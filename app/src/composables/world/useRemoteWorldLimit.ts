@@ -1,11 +1,11 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as commands from '@/commands';
-import { localRef } from '@tb-dev/vue';
-import { handleError } from '@/lib/error';
-import type { Option } from '@tb-dev/utils';
-import type { DeepReadonly, Ref } from 'vue';
+import * as commands from "@/commands";
+import { localRef } from "@tb-dev/vue";
+import { handleError } from "@/lib/error";
+import type { Option } from "@tb-dev/utils";
+import type { DeepReadonly, Ref } from "vue";
 
 interface Limit {
   readonly version: string;
@@ -14,7 +14,7 @@ interface Limit {
 }
 
 export function useRemoteWorldLimit() {
-  const limit = localRef('remote-world-limit', defaultLimit(), {
+  const limit = localRef("remote-world-limit", defaultLimit(), {
     initOnMounted: false,
     mergeDefaults: true,
     writeDefaults: true,
@@ -40,7 +40,7 @@ async function getRemoteWorldLimit(limit: Ref<Limit>) {
 function isValidLimit(limit: Option<number>, version: string) {
   return (
     version === __VERSION__ &&
-    typeof limit === 'number' &&
+    typeof limit === "number" &&
     limit > 0
   );
 }

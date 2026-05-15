@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import type { HTMLAttributes } from 'vue';
-import { cn } from '@/components/ui/utils';
-import { useSidebar } from './utils';
+import type { HTMLAttributes } from "vue";
+import { cn } from "@/components/ui/utils";
+import { useSidebar } from "./utils";
 
 const props = defineProps<{
-  class?: HTMLAttributes['class'];
+  class?: HTMLAttributes["class"];
 }>();
 
 const { toggleSidebar } = useSidebar();

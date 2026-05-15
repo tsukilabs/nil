@@ -3,9 +3,11 @@
 
 use crate::continent::Coord;
 use crate::error::{Error, Result};
-use crate::infrastructure::building::{Building, BuildingLevel, StorageId};
-use derive_more::{Deref, From, Into};
+use crate::infrastructure::building::level::BuildingLevel;
+use crate::infrastructure::building::{Building, StorageId};
+use derive_more::{From, Into};
 use nil_num::growth::growth;
+use nil_util::ConstDeref;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::ops::{Add, AddAssign, Sub, SubAssign};
@@ -39,8 +41,8 @@ pub struct StorageStatsTable {
 
 impl StorageStatsTable {
   pub(crate) fn new(storage: &dyn Storage) -> Self {
-    let max_level = *storage.max_level();
-    let mut table = HashMap::with_capacity((max_level).into());
+    let max_level = storage.max_level();
+    let mut table = HashMap::with_capacity(max_level.into());
 
     let mut capacity = f64::from(storage.min_capacity());
     let capacity_growth = growth()
@@ -49,7 +51,7 @@ impl StorageStatsTable {
       .max_level(max_level)
       .call();
 
-    for level in 1..=max_level {
+    for level in 1..=u8::from(max_level) {
       let level = BuildingLevel::new(level);
       table.insert(
         level,
@@ -84,22 +86,8 @@ impl StorageStatsTable {
 }
 
 /// Storage capacity of a building.
-#[derive(
-  Clone,
-  Copy,
-  Debug,
-  Deref,
-  Default,
-  From,
-  Into,
-  PartialEq,
-  Eq,
-  PartialOrd,
-  Ord,
-  Deserialize,
-  Serialize,
-)]
-#[into(u32, f64)]
+#[derive(Clone, Copy, Debug, From, Into, Deserialize, Serialize, ConstDeref)]
+#[derive_const(Default, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct StorageCapacity(u32);
 
@@ -110,13 +98,25 @@ impl StorageCapacity {
   }
 }
 
-impl PartialEq<u32> for StorageCapacity {
+impl const From<f64> for StorageCapacity {
+  fn from(value: f64) -> Self {
+    Self::new(value as u32)
+  }
+}
+
+impl const From<StorageCapacity> for f64 {
+  fn from(value: StorageCapacity) -> Self {
+    f64::from(value.0)
+  }
+}
+
+impl const PartialEq<u32> for StorageCapacity {
   fn eq(&self, other: &u32) -> bool {
     self.0.eq(other)
   }
 }
 
-impl Add for StorageCapacity {
+impl const Add for StorageCapacity {
   type Output = StorageCapacity;
 
   fn add(self, rhs: Self) -> Self::Output {
@@ -124,7 +124,7 @@ impl Add for StorageCapacity {
   }
 }
 
-impl Add<u32> for StorageCapacity {
+impl const Add<u32> for StorageCapacity {
   type Output = StorageCapacity;
 
   fn add(self, rhs: u32) -> Self::Output {
@@ -132,19 +132,19 @@ impl Add<u32> for StorageCapacity {
   }
 }
 
-impl AddAssign for StorageCapacity {
+impl const AddAssign for StorageCapacity {
   fn add_assign(&mut self, rhs: Self) {
     *self = *self + rhs;
   }
 }
 
-impl AddAssign<u32> for StorageCapacity {
+impl const AddAssign<u32> for StorageCapacity {
   fn add_assign(&mut self, rhs: u32) {
     *self = *self + rhs;
   }
 }
 
-impl Sub for StorageCapacity {
+impl const Sub for StorageCapacity {
   type Output = StorageCapacity;
 
   fn sub(self, rhs: Self) -> Self::Output {
@@ -152,7 +152,7 @@ impl Sub for StorageCapacity {
   }
 }
 
-impl Sub<u32> for StorageCapacity {
+impl const Sub<u32> for StorageCapacity {
   type Output = StorageCapacity;
 
   fn sub(self, rhs: u32) -> Self::Output {
@@ -160,25 +160,20 @@ impl Sub<u32> for StorageCapacity {
   }
 }
 
-impl SubAssign for StorageCapacity {
+impl const SubAssign for StorageCapacity {
   fn sub_assign(&mut self, rhs: Self) {
     *self = *self - rhs;
   }
 }
 
-impl SubAssign<u32> for StorageCapacity {
+impl const SubAssign<u32> for StorageCapacity {
   fn sub_assign(&mut self, rhs: u32) {
     *self = *self - rhs;
   }
 }
 
-impl From<f64> for StorageCapacity {
-  fn from(value: f64) -> Self {
-    Self::new(value as u32)
-  }
-}
-
-#[derive(Clone, Debug, Default, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive_const(Default, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct OverallStorageCapacity {
@@ -186,7 +181,7 @@ pub struct OverallStorageCapacity {
   pub warehouse: StorageCapacity,
 }
 
-impl Add for OverallStorageCapacity {
+impl const Add for OverallStorageCapacity {
   type Output = OverallStorageCapacity;
 
   fn add(mut self, rhs: Self) -> Self::Output {
@@ -195,14 +190,15 @@ impl Add for OverallStorageCapacity {
   }
 }
 
-impl AddAssign for OverallStorageCapacity {
+impl const AddAssign for OverallStorageCapacity {
   fn add_assign(&mut self, rhs: Self) {
     self.silo += rhs.silo;
     self.warehouse += rhs.warehouse;
   }
 }
 
-#[derive(Clone, Copy, Debug, Default, Deref, From, Into)]
+#[derive(Copy, Debug, From, Into, ConstDeref)]
+#[derive_const(Clone, Default, PartialEq, PartialOrd)]
 pub struct StorageCapacityWeight(f64);
 
 #[derive(Clone, Debug)]
@@ -213,7 +209,7 @@ pub struct OverallStorageCapacityWeight {
 }
 
 impl OverallStorageCapacityWeight {
-  pub fn new(coord: Coord) -> Self {
+  pub const fn new(coord: Coord) -> Self {
     Self {
       coord,
       silo: StorageCapacityWeight::default(),

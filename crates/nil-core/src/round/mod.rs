@@ -15,7 +15,8 @@ use std::fmt;
 use std::num::NonZeroU32;
 use strum::EnumIs;
 
-#[derive(Clone, Debug, Default, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive_const(Default)]
 #[serde(rename_all = "camelCase")]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Round {
@@ -159,7 +160,8 @@ impl Round {
   }
 }
 
-#[derive(Clone, Copy, Debug, Deref, PartialEq, Eq, PartialOrd, Ord, Deserialize, Serialize)]
+#[derive(Copy, Debug, Deref, Deserialize, Serialize)]
+#[derive_const(Clone, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct RoundId(NonZeroU32);
 
@@ -170,19 +172,20 @@ impl RoundId {
   }
 }
 
-impl Default for RoundId {
+impl const Default for RoundId {
   fn default() -> Self {
     Self(NonZeroU32::MIN)
   }
 }
 
-impl PartialEq<u32> for RoundId {
+impl const PartialEq<u32> for RoundId {
   fn eq(&self, other: &u32) -> bool {
     self.0.get().eq(other)
   }
 }
 
-#[derive(Clone, Default, Deserialize, Serialize, EnumIs)]
+#[derive(Clone, Deserialize, Serialize, EnumIs)]
+#[derive_const(Default)]
 #[serde(tag = "kind", rename_all = "kebab-case")]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub enum RoundState {

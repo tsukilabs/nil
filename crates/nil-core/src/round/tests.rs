@@ -7,6 +7,7 @@ use crate::player::PlayerId;
 use std::assert_matches;
 
 #[test]
+#[cfg_attr(miri, ignore)]
 fn lifecycle() -> Result<()> {
   let mut round = Round::default();
   let players = vec![

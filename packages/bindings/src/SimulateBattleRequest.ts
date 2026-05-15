@@ -8,6 +8,6 @@ export type SimulateBattleRequest = {
   world: WorldId;
   attacker: Array<Squad>;
   defender: Array<Squad>;
-  luck: Luck;
+  luck?: Luck | null;
   wall: BuildingLevel;
 };

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use nil_core::continent::Coord;
-use nil_core::infrastructure::building::academy::recruit_queue::{
+use nil_core::infrastructure::building::r#impl::academy::recruit_queue::{
   AcademyRecruitOrderId,
   AcademyRecruitOrderRequest,
 };

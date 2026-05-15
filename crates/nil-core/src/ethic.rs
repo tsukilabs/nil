@@ -8,6 +8,7 @@ use std::fmt::Debug;
 use strum::{EnumIs, VariantArray};
 
 #[derive(Builder, Clone, Debug, Deserialize, Serialize)]
+#[derive_const(PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
 #[builder(const)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
@@ -93,7 +94,8 @@ impl From<EthicTruthAxis> for Ethics {
   }
 }
 
-#[derive(Clone, Copy, Debug, EnumIs, PartialEq, Eq, Deserialize, Serialize, VariantArray)]
+#[derive(Clone, Copy, Debug, EnumIs, Deserialize, Serialize, VariantArray)]
+#[derive_const(PartialEq, Eq)]
 #[serde(rename_all = "kebab-case")]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub enum EthicPowerAxis {
@@ -116,18 +118,29 @@ impl EthicPowerAxis {
       .expect("`Self::VARIANTS` should never be empty")
   }
 
+  /// Whether this ethic is [`EthicPowerAxis::FanaticMilitarist`] or [`EthicPowerAxis::FanaticPacifist`].
+  pub const fn is_fanatic(&self) -> bool {
+    matches!(self, Self::FanaticMilitarist | Self::FanaticPacifist)
+  }
+
   /// Whether this ethic is [`EthicPowerAxis::Militarist`] or [`EthicPowerAxis::FanaticMilitarist`].
-  pub fn is_militarist_variant(&self) -> bool {
+  pub const fn is_militarist_variant(&self) -> bool {
     matches!(self, Self::Militarist | Self::FanaticMilitarist)
   }
 
   /// Whether this ethic is [`EthicPowerAxis::Pacifist`] or [`EthicPowerAxis::FanaticPacifist`].
-  pub fn is_pacifist_variant(&self) -> bool {
+  pub const fn is_pacifist_variant(&self) -> bool {
     matches!(self, Self::Pacifist | Self::FanaticPacifist)
+  }
+
+  pub const fn is_same_variant(&self, other: Self) -> bool {
+    (self.is_militarist_variant() && other.is_militarist_variant())
+      || (self.is_pacifist_variant() && other.is_pacifist_variant())
   }
 }
 
-#[derive(Clone, Copy, Debug, EnumIs, PartialEq, Eq, Deserialize, Serialize, VariantArray)]
+#[derive(Clone, Copy, Debug, EnumIs, Deserialize, Serialize, VariantArray)]
+#[derive_const(PartialEq, Eq)]
 #[serde(rename_all = "kebab-case")]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub enum EthicTruthAxis {
@@ -150,13 +163,23 @@ impl EthicTruthAxis {
       .expect("`Self::VARIANTS` should never be empty")
   }
 
+  /// Whether this ethic is [`EthicTruthAxis::FanaticMaterialist`] or [`EthicTruthAxis::FanaticSpiritualist`].
+  pub const fn is_fanatic(&self) -> bool {
+    matches!(self, Self::FanaticMaterialist | Self::FanaticSpiritualist)
+  }
+
   /// Whether this ethic is [`EthicTruthAxis::Materialist`] or [`EthicTruthAxis::FanaticMaterialist`].
-  pub fn is_materialist_variant(&self) -> bool {
+  pub const fn is_materialist_variant(&self) -> bool {
     matches!(self, Self::Materialist | Self::FanaticMaterialist)
   }
 
   /// Whether this ethic is [`EthicTruthAxis::Spiritualist`] or [`EthicTruthAxis::FanaticSpiritualist`].
-  pub fn is_spiritualist_variant(&self) -> bool {
+  pub const fn is_spiritualist_variant(&self) -> bool {
     matches!(self, Self::Spiritualist | Self::FanaticSpiritualist)
+  }
+
+  pub const fn is_same_variant(&self, other: Self) -> bool {
+    (self.is_materialist_variant() && other.is_materialist_variant())
+      || (self.is_spiritualist_variant() && other.is_spiritualist_variant())
   }
 }

@@ -1,10 +1,10 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { computed, toRef, watch } from 'vue';
-import type { PrecursorId } from '@tsukilabs/nil-bindings';
-import { asyncRef, type MaybeNilRef } from '@tb-dev/vue';
-import { PublicPrecursorImpl } from '@/core/model/npc/public-precursor';
+import { computed, toRef, watch } from "vue";
+import { asyncRef, type MaybeNilRef } from "@tb-dev/vue";
+import type { PrecursorId } from "@tsukilabs/nil-bindings";
+import { PublicPrecursorImpl } from "@/core/model/npc/public-precursor";
 
 export function usePublicPrecursor(id: MaybeNilRef<PrecursorId>) {
   const idRef = toRef(id);

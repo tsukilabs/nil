@@ -1,15 +1,15 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { leaveGame } from './game';
-import * as commands from '@/commands';
-import { fromZoned } from '@/lib/date';
-import { Semaphore } from 'es-toolkit/promise';
-import type { RoundId } from '@tsukilabs/nil-bindings';
-import { go, QUERY_LOAD_LOCAL_GAME_PATH } from '@/router';
-import { compareDesc as compareDateDesc } from 'date-fns';
-import { basename, extname, join } from '@tauri-apps/api/path';
-import { exists, mkdir, readDir, remove as removeFile } from '@tauri-apps/plugin-fs';
+import { leaveGame } from "./game";
+import * as commands from "@/commands";
+import { fromZoned } from "@/lib/date";
+import { Semaphore } from "es-toolkit/promise";
+import type { RoundId } from "@tsukilabs/nil-bindings";
+import { go, QUERY_LOAD_LOCAL_GAME_PATH } from "@/router";
+import { compareDesc as compareDateDesc } from "date-fns";
+import { basename, extname, join } from "@tauri-apps/api/path";
+import { exists, mkdir, readDir, remove as removeFile } from "@tauri-apps/plugin-fs";
 
 export class SavedataFile {
   private constructor(
@@ -22,7 +22,7 @@ export class SavedataFile {
   public async load() {
     await commands.allowScope(this.path);
     await leaveGame({ navigate: false });
-    await go('load-local-game', {
+    await go("load-local-game", {
       query: {
         [QUERY_LOAD_LOCAL_GAME_PATH]: this.path,
       },
@@ -34,7 +34,7 @@ export class SavedataFile {
   }
 
   public static async read(path: string) {
-    const name = await basename(path, '.nil');
+    const name = await basename(path, ".nil");
     const info = await commands.readSavedataInfo(path);
     const date = fromZoned(info.savedAt);
 
@@ -64,7 +64,7 @@ export async function getSavedataFiles() {
     await Promise.all(entries.map(async (entry) => {
       await semaphore.acquire();
       try {
-        if (entry.isFile && await extname(entry.name) === 'nil') {
+        if (entry.isFile && await extname(entry.name) === "nil") {
           const path = await join(dir, entry.name);
           files.push(await SavedataFile.read(path));
         }

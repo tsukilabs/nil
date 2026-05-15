@@ -1,12 +1,12 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { computed, toRef } from 'vue';
-import type { Option } from '@tb-dev/utils';
-import type { Ruler } from '@tsukilabs/nil-bindings';
-import type { MaybeNilRef } from '@tb-dev/vue';
-import type { ProfileScene } from '@/types/scene/game';
-import type { RouteLocationAsRelative } from 'vue-router';
+import { computed, toRef } from "vue";
+import type { Option } from "@tb-dev/utils";
+import type { MaybeNilRef } from "@tb-dev/vue";
+import type { Ruler } from "@tsukilabs/nil-bindings";
+import type { ProfileScene } from "@/types/scene/game";
+import type { RouteLocationAsRelative } from "vue-router";
 
 export function useCityOwnerSceneLink(owner: MaybeNilRef<Ruler>) {
   const ownerRef = toRef(owner);

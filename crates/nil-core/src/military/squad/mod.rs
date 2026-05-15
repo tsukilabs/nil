@@ -5,12 +5,12 @@ pub mod size;
 
 use crate::error::{Error, Result};
 use crate::military::unit::stats::haul::Haul;
+use crate::military::unit::stats::power::{AttackPower, DefensePower, Power};
 use crate::military::unit::stats::speed::Speed;
 use crate::military::unit::{Unit, UnitBox, UnitId, UnitKind};
 use crate::ranking::score::Score;
 use crate::resources::maintenance::Maintenance;
 use crate::world::config::WorldConfig;
-use derive_more::{Deref, Into};
 use serde::{Deserialize, Serialize};
 use size::SquadSize;
 use std::ops::{Add, AddAssign, Mul, MulAssign, Sub, SubAssign};
@@ -69,18 +69,20 @@ impl Squad {
     (self.size() * c_maintenance) / c_size
   }
 
-  pub fn attack(&self) -> SquadAttack {
-    let attack = self.unit.stats().attack();
-    let total = f64::from(attack * self.size);
-    SquadAttack::new(total)
+  /// Average power of the squad.
+  #[inline]
+  pub fn power(&self) -> Power {
+    self.unit.power() * self.size
   }
 
-  pub fn defense(&self) -> SquadDefense {
-    let stats = self.unit.stats();
-    let infantry = f64::from(stats.infantry_defense() * self.size);
-    let cavalry = f64::from(stats.cavalry_defense() * self.size);
-    let ranged = f64::from(stats.ranged_defense() * self.size);
-    SquadDefense { infantry, cavalry, ranged }
+  #[inline]
+  pub fn attack(&self) -> AttackPower {
+    self.unit.attack() * self.size
+  }
+
+  #[inline]
+  pub fn defense(&self) -> DefensePower {
+    self.unit.defense() * self.size
   }
 
   #[inline]
@@ -99,6 +101,12 @@ impl Squad {
     } else {
       Err(Error::UnexpectedUnit(self.id(), rhs.id()))
     }
+  }
+}
+
+impl From<UnitId> for Squad {
+  fn from(id: UnitId) -> Self {
+    Squad::new(id, SquadSize::new(0))
   }
 }
 
@@ -179,33 +187,4 @@ impl MulAssign<f64> for Squad {
   fn mul_assign(&mut self, rhs: f64) {
     self.size *= rhs;
   }
-}
-
-impl From<UnitId> for Squad {
-  fn from(id: UnitId) -> Self {
-    Squad::new(id, SquadSize::new(0))
-  }
-}
-
-#[derive(Clone, Copy, Debug, Deref, Into)]
-pub struct SquadAttack(f64);
-
-impl SquadAttack {
-  #[inline]
-  pub const fn new(value: f64) -> Self {
-    Self(value.max(0.0))
-  }
-}
-
-impl From<f64> for SquadAttack {
-  fn from(value: f64) -> Self {
-    Self::new(value)
-  }
-}
-
-#[derive(Clone, Debug)]
-pub struct SquadDefense {
-  pub(crate) infantry: f64,
-  pub(crate) cavalry: f64,
-  pub(crate) ranged: f64,
 }

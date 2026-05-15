@@ -2,12 +2,12 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { watch } from 'vue';
-import BuildQueue from './BuildQueue.vue';
-import BuildCatalog from './BuildCatalog.vue';
-import { usePrefecture } from '@/composables/infrastructure/useBuilding';
-import { useInfrastructure } from '@/composables/infrastructure/useInfrastructure';
-import { usePrefectureBuildCatalog } from '@/composables/infrastructure/usePrefectureBuildCatalog';
+import { watch } from "vue";
+import BuildQueue from "./BuildQueue.vue";
+import BuildCatalog from "./BuildCatalog.vue";
+import { usePrefecture } from "@/composables/infrastructure/useBuilding";
+import { useInfrastructure } from "@/composables/infrastructure/useInfrastructure";
+import { usePrefectureBuildCatalog } from "@/composables/infrastructure/usePrefectureBuildCatalog";
 
 const { coord, city } = NIL.city.refs();
 

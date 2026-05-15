@@ -4,7 +4,7 @@
 use crate::battle::luck::Luck;
 use crate::battle::{Battle, BattleWinner, DefensivePower, OffensivePower};
 use crate::error::Result;
-use crate::infrastructure::building::BuildingLevel;
+use crate::infrastructure::building::level::BuildingLevel;
 use crate::infrastructure::stats::InfrastructureStats;
 use crate::military::army::personnel::ArmyPersonnel;
 use crate::military::squad::Squad;
@@ -14,10 +14,12 @@ use crate::military::unit::UnitId::*;
 use crate::world::config::WorldConfig;
 use std::assert_matches;
 use std::sync::LazyLock;
+use tap::Pipe;
 
 static STATS: LazyLock<InfrastructureStats> = LazyLock::new(|| {
-  let config = WorldConfig::builder("World").build();
-  InfrastructureStats::new(&config)
+  WorldConfig::builder("World")
+    .build()
+    .pipe_borrow(InfrastructureStats::new)
 });
 
 #[test]

@@ -2,23 +2,23 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n';
-import { Button } from '@ui/button';
-import { computed, ref } from 'vue';
-import { handleError } from '@/lib/error';
-import { toI8, toU8 } from '@/lib/number';
-import type { Option } from '@tb-dev/utils';
-import PersonnelTable from './PersonnelTable.vue';
-import BattleResultTable from './BattleResultTable.vue';
-import enUS from '@/locale/en-US/scenes/game/war-room.json';
-import ptBR from '@/locale/pt-BR/scenes/game/war-room.json';
-import { BattleResultImpl } from '@/core/model/battle-result';
-import { ArmyPersonnelImpl } from '@/core/model/military/army-personnel';
+import { useI18n } from "vue-i18n";
+import { Button } from "@ui/button";
+import { computed, ref } from "vue";
+import { handleError } from "@/lib/error";
+import { toI8, toU8 } from "@/lib/number";
+import type { Option } from "@tb-dev/utils";
+import PersonnelTable from "./PersonnelTable.vue";
+import BattleResultTable from "./BattleResultTable.vue";
+import enUS from "@/locale/en-US/scenes/game/war-room.json";
+import ptBR from "@/locale/pt-BR/scenes/game/war-room.json";
+import { BattleResultImpl } from "@/core/model/battle-result";
+import { ArmyPersonnelImpl } from "@/core/model/military/army-personnel";
 
 const { t } = useI18n({
   messages: {
-    'en-US': enUS,
-    'pt-BR': ptBR,
+    "en-US": enUS,
+    "pt-BR": ptBR,
   },
 });
 
@@ -29,7 +29,7 @@ const result = ref<Option<BattleResultImpl>>();
 const attacker = ref(ArmyPersonnelImpl.createEmpty());
 const defender = ref(ArmyPersonnelImpl.createEmpty());
 const luck = ref(0);
-const wallLevel = ref(stats.value?.getBuildingMinLevel('wall'));
+const wallLevel = ref(stats.value?.getBuildingMinLevel("wall"));
 
 const canSimulate = computed(() => !attacker.value.isEmpty());
 
@@ -66,10 +66,10 @@ function clear() {
 
       <div class="grid grid-cols-2 items-center justify-start gap-4 max-w-max">
         <Button variant="default" :disabled="!canSimulate" @click="simulate">
-          <span>{{ t('calculate') }}</span>
+          <span>{{ t("calculate") }}</span>
         </Button>
         <Button variant="secondary" @click="clear">
-          <span>{{ t('clear') }}</span>
+          <span>{{ t("clear") }}</span>
         </Button>
       </div>
     </div>

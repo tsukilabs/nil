@@ -1,11 +1,11 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { handleError } from '@/lib/error';
-import { type InjectionKey, markRaw, ref } from 'vue';
-import type { MaybePromise, Option } from '@tb-dev/utils';
-import { ChatCommand } from '@/core/model/chat/chat-command';
-import { sessionRef, tryInjectOrElse, useMutex } from '@tb-dev/vue';
+import { handleError } from "@/lib/error";
+import { type InjectionKey, markRaw, ref } from "vue";
+import type { MaybePromise, Option } from "@tb-dev/utils";
+import { ChatCommand } from "@/core/model/chat/chat-command";
+import { sessionRef, tryInjectOrElse, useMutex } from "@tb-dev/vue";
 
 const chatInputKey = Symbol() as InjectionKey<ReturnType<typeof create>>;
 
@@ -66,8 +66,8 @@ class Message {
 
 function create() {
   const draft = ref<Option<string>>();
-  const currentId = ref<Option<Message['id']>>();
-  const history = sessionRef<Message[]>('chat-input:history', [], {
+  const currentId = ref<Option<Message["id"]>>();
+  const history = sessionRef<Message[]>("chat-input:history", [], {
     deep: true,
     listenToStorageChanges: true,
     shallow: false,

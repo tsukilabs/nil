@@ -10,7 +10,8 @@ use itertools::Itertools;
 use score::Score;
 use serde::{Deserialize, Serialize};
 
-#[derive(Clone, Debug, Default, Deref, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deref, Deserialize, Serialize)]
+#[derive_const(Default)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Ranking(Vec<RankingEntry>);
 
@@ -59,6 +60,7 @@ pub struct RankingEntry {
   cities: u32,
 }
 
-#[derive(Clone, Copy, Debug, Default, PartialEq, Eq, PartialOrd, Ord, Deserialize, Serialize)]
+#[derive(Copy, Debug, Deserialize, Serialize)]
+#[derive_const(Clone, Default, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Rank(u32);

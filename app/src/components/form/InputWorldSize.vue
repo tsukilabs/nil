@@ -2,18 +2,18 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { Label } from '@ui/label';
-import { useI18n } from 'vue-i18n';
-import type { Option } from '@tb-dev/utils';
-import enUS from '@/locale/en-US/scenes/host-game.json';
-import ptBR from '@/locale/pt-BR/scenes/host-game.json';
+import { Label } from "@ui/label";
+import { useI18n } from "vue-i18n";
+import type { Option } from "@tb-dev/utils";
+import enUS from "@/locale/en-US/scenes/host-game.json";
+import ptBR from "@/locale/pt-BR/scenes/host-game.json";
 import {
   NumberField,
   NumberFieldContent,
   NumberFieldDecrement,
   NumberFieldIncrement,
   NumberFieldInput,
-} from '@ui/number-field';
+} from "@ui/number-field";
 
 defineProps<{
   disabled: boolean;
@@ -23,8 +23,8 @@ const size = defineModel<Option<number>>({ required: true });
 
 const { t } = useI18n({
   messages: {
-    'en-US': enUS,
-    'pt-BR': ptBR,
+    "en-US": enUS,
+    "pt-BR": ptBR,
   },
 });
 
@@ -33,7 +33,7 @@ const consts = __CONSTS__;
 
 <template>
   <Label>
-    <span>{{ t('world-size') }}</span>
+    <span>{{ t("world-size") }}</span>
     <NumberField
       v-model="size"
       :disabled

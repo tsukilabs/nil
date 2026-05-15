@@ -1,7 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { invoke } from '@tauri-apps/api/core';
+import { invoke } from "@tauri-apps/api/core";
 import type {
   GetRoundRequest,
   GetRoundResponse,
@@ -9,14 +9,14 @@ import type {
   SetPlayerReadyResponse,
   StartRoundRequest,
   StartRoundResponse,
-} from '@tsukilabs/nil-bindings';
+} from "@tsukilabs/nil-bindings";
 
 export async function getRound() {
   const req: GetRoundRequest = {
     world: NIL.world.getIdStrict(),
   };
 
-  return invoke<GetRoundResponse>('get_round', { req });
+  return invoke<GetRoundResponse>("get_round", { req });
 }
 
 export async function isRoundIdle() {
@@ -24,7 +24,7 @@ export async function isRoundIdle() {
     world: NIL.world.getIdStrict(),
   };
 
-  return invoke<boolean>('is_round_idle', { req });
+  return invoke<boolean>("is_round_idle", { req });
 }
 
 export async function isRoundWaiting() {
@@ -32,7 +32,7 @@ export async function isRoundWaiting() {
     world: NIL.world.getIdStrict(),
   };
 
-  return invoke<boolean>('is_round_waiting', { req });
+  return invoke<boolean>("is_round_waiting", { req });
 }
 
 export async function setPlayerReady(isReady: boolean) {
@@ -41,7 +41,7 @@ export async function setPlayerReady(isReady: boolean) {
     isReady,
   };
 
-  return invoke<SetPlayerReadyResponse>('set_player_ready', { req });
+  return invoke<SetPlayerReadyResponse>("set_player_ready", { req });
 }
 
 export async function startRound() {
@@ -49,5 +49,5 @@ export async function startRound() {
     world: NIL.world.getIdStrict(),
   };
 
-  return invoke<StartRoundResponse>('start_round', { req });
+  return invoke<StartRoundResponse>("start_round", { req });
 }

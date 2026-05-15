@@ -1,11 +1,11 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { computed } from 'vue';
-import { useWorlds } from './useWorlds';
-import type { Option } from '@tb-dev/utils';
-import { useServerVersion } from './useServerVersion';
-import type { RemoteWorld } from '@tsukilabs/nil-bindings';
+import { computed } from "vue";
+import { useWorlds } from "./useWorlds";
+import type { Option } from "@tb-dev/utils";
+import { useServerVersion } from "./useServerVersion";
+import type { RemoteWorld } from "@tsukilabs/nil-bindings";
 
 export interface Server {
   readonly version: string;

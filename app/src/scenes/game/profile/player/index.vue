@@ -2,26 +2,26 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n';
-import { onKeyDown } from '@tb-dev/vue';
-import type { Option } from '@tb-dev/utils';
-import { throttle } from 'es-toolkit/function';
-import { useRouteParams } from '@vueuse/router';
-import type { PlayerId } from '@tsukilabs/nil-bindings';
-import CityTable from '@/components/CityTable.vue';
-import { Card, CardContent, CardHeader, CardTitle } from '@ui/card';
-import { usePublicCities } from '@/composables/city/usePublicCities';
-import { usePublicPlayer } from '@/composables/player/usePublicPlayer';
-import { Table, TableBody, TableCell, TableHead, TableRow } from '@ui/table';
+import { useI18n } from "vue-i18n";
+import { onKeyDown } from "@tb-dev/vue";
+import type { Option } from "@tb-dev/utils";
+import { throttle } from "es-toolkit/function";
+import { useRouteParams } from "@vueuse/router";
+import CityTable from "@/components/CityTable.vue";
+import type { PlayerId } from "@tsukilabs/nil-bindings";
+import { Card, CardContent, CardHeader, CardTitle } from "@ui/card";
+import { usePublicCities } from "@/composables/city/usePublicCities";
+import { usePublicPlayer } from "@/composables/player/usePublicPlayer";
+import { Table, TableBody, TableCell, TableHead, TableRow } from "@ui/table";
 
 const { t } = useI18n();
 
-const id = useRouteParams<Option<PlayerId>>('id', null);
+const id = useRouteParams<Option<PlayerId>>("id", null);
 const { player, coords, load } = usePublicPlayer(id);
 const { cities } = usePublicCities(coords);
 
 if (__DESKTOP__) {
-  onKeyDown('F5', throttle(load, 1000));
+  onKeyDown("F5", throttle(load, 1000));
 }
 </script>
 
@@ -39,18 +39,18 @@ if (__DESKTOP__) {
           <Table class="sm:max-w-max md:min-w-50">
             <TableBody>
               <TableRow>
-                <TableHead>{{ t('point', 2) }}</TableHead>
+                <TableHead>{{ t("point", 2) }}</TableHead>
                 <TableCell>{{ player.formatScore() }}</TableCell>
               </TableRow>
 
               <TableRow>
-                <TableHead>{{ t('rank') }}</TableHead>
+                <TableHead>{{ t("rank") }}</TableHead>
                 <TableCell>{{ player.formatRank() }}</TableCell>
               </TableRow>
 
               <TableRow>
-                <TableHead>{{ t('type') }}</TableHead>
-                <TableCell>{{ t('player') }}</TableCell>
+                <TableHead>{{ t("type") }}</TableHead>
+                <TableCell>{{ t("player") }}</TableCell>
               </TableRow>
             </TableBody>
           </Table>

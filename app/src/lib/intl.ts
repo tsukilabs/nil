@@ -3,8 +3,8 @@
 
 export const sortCollator = new Intl.Collator(undefined, {
   numeric: true,
-  sensitivity: 'variant',
-  usage: 'sort',
+  sensitivity: "variant",
+  usage: "sort",
 });
 
 export function compare(a: string, b: string): number {
@@ -12,12 +12,12 @@ export function compare(a: string, b: string): number {
 }
 
 export const integerIntl = new Intl.NumberFormat(undefined, {
-  style: 'decimal',
+  style: "decimal",
   maximumFractionDigits: 0,
-  roundingMode: 'trunc',
-  notation: 'standard',
-  useGrouping: 'auto',
-  localeMatcher: 'best fit',
+  roundingMode: "trunc",
+  notation: "standard",
+  useGrouping: "auto",
+  localeMatcher: "best fit",
 });
 
 export function formatInt(value: number) {
@@ -27,9 +27,9 @@ export function formatInt(value: number) {
 export const percentIntl = new Intl.NumberFormat(undefined, {
   maximumFractionDigits: 0,
   minimumFractionDigits: 0,
-  roundingMode: 'trunc',
-  localeMatcher: 'best fit',
-  style: 'percent',
+  roundingMode: "trunc",
+  localeMatcher: "best fit",
+  style: "percent",
 });
 
 export function formatPercent(num: number) {

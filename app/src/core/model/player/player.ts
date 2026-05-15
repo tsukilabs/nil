@@ -1,18 +1,18 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as commands from '@/commands';
-import type { PartialNullish } from '@tb-dev/utils';
-import { ResourcesImpl } from '@/core/model/resources';
-import { PublicPlayerImpl, type PublicPlayerImplConstructorArgs } from './public-player';
-import { OverallStorageCapacityImpl } from '@/core/model/infrastructure/storage-capacity';
+import * as commands from "@/commands";
+import type { PartialNullish } from "@tb-dev/utils";
+import { ResourcesImpl } from "@/core/model/resources";
+import { PublicPlayerImpl, type PublicPlayerImplConstructorArgs } from "./public-player";
+import { OverallStorageCapacityImpl } from "@/core/model/infrastructure/storage-capacity";
 import type {
   Influence,
   OverallStorageCapacity,
   Player,
   PlayerId,
   Resources,
-} from '@tsukilabs/nil-bindings';
+} from "@tsukilabs/nil-bindings";
 
 export class PlayerImpl extends PublicPlayerImpl implements Readonly<Player> {
   public readonly resources: ResourcesImpl;

@@ -1,14 +1,14 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { watch } from 'vue';
-import { compare } from '@/lib/intl';
-import { asyncRef } from '@tb-dev/vue';
-import type { Option } from '@tb-dev/utils';
-import { getBulkDistance } from '@/commands/continent';
-import { CoordImpl } from '@/core/model/continent/coord';
-import type { ContinentKey } from '@/types/core/continent';
-import { PublicCityImpl, type PublicCityImplConstructorArgs } from '@/core/model/city/public-city';
+import { watch } from "vue";
+import { compare } from "@/lib/intl";
+import { asyncRef } from "@tb-dev/vue";
+import type { Option } from "@tb-dev/utils";
+import { getBulkDistance } from "@/commands/continent";
+import { CoordImpl } from "@/core/model/continent/coord";
+import type { ContinentKey } from "@/types/core/continent";
+import { PublicCityImpl, type PublicCityImplConstructorArgs } from "@/core/model/city/public-city";
 
 class ContinentCity extends PublicCityImpl {
   public distance: number;

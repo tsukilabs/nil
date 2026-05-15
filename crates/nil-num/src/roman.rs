@@ -47,7 +47,8 @@ impl From<&Roman> for u16 {
   }
 }
 
-#[derive(Clone, Copy, Debug, Display, PartialEq, Eq, Deserialize, Serialize, EnumIter)]
+#[derive(Clone, Copy, Debug, Display, Deserialize, Serialize, EnumIter)]
+#[derive_const(PartialEq, Eq)]
 #[serde(rename_all = "UPPERCASE")]
 #[strum(serialize_all = "UPPERCASE")]
 pub enum Numeral {
@@ -66,7 +67,7 @@ pub enum Numeral {
   M,
 }
 
-impl From<Numeral> for u16 {
+impl const From<Numeral> for u16 {
   fn from(numeral: Numeral) -> Self {
     match numeral {
       Numeral::I => 1,
@@ -89,7 +90,7 @@ impl From<Numeral> for u16 {
 macro_rules! impl_from_numeral {
   ($($target:ident),+ $(,)?) => {
     $(
-      impl From<Numeral> for $target {
+      impl const From<Numeral> for $target {
         fn from(numeral: Numeral) -> Self {
           u16::from(numeral).into()
         }

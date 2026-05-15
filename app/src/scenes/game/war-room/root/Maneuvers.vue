@@ -2,11 +2,11 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n';
-import type { Coord } from '@tsukilabs/nil-bindings';
-import { ChevronLeftIcon, ChevronRightIcon } from '@lucide/vue';
-import type { ManeuverImpl } from '@/core/model/military/maneuver';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@ui/table';
+import { useI18n } from "vue-i18n";
+import type { Coord } from "@tsukilabs/nil-bindings";
+import { ChevronLeftIcon, ChevronRightIcon } from "@lucide/vue";
+import type { ManeuverImpl } from "@/core/model/military/maneuver";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@ui/table";
 
 defineProps<{
   maneuvers: ManeuverImpl[];
@@ -17,7 +17,7 @@ const { t } = useI18n();
 const { coord: currentCoord } = NIL.city.refs();
 
 function getCoordCellClass(coord: Coord) {
-  return currentCoord.value?.is(coord) ? 'font-bold' : null;
+  return currentCoord.value?.is(coord) ? "font-bold" : null;
 }
 </script>
 
@@ -26,10 +26,10 @@ function getCoordCellClass(coord: Coord) {
     <TableHeader>
       <TableRow>
         <TableHead></TableHead>
-        <TableHead>{{ t('kind') }}</TableHead>
-        <TableHead>{{ t('origin') }}</TableHead>
-        <TableHead>{{ t('destination') }}</TableHead>
-        <TableHead>{{ t('distance') }}</TableHead>
+        <TableHead>{{ t("kind") }}</TableHead>
+        <TableHead>{{ t("origin") }}</TableHead>
+        <TableHead>{{ t("destination") }}</TableHead>
+        <TableHead>{{ t("distance") }}</TableHead>
       </TableRow>
     </TableHeader>
 
@@ -45,8 +45,8 @@ function getCoordCellClass(coord: Coord) {
         </TableCell>
 
         <TableCell>
-          <span v-if="maneuver.kind === 'attack'">{{ t('attack-noun') }}</span>
-          <span v-else-if="maneuver.kind === 'support'">{{ t('support-noun') }}</span>
+          <span v-if="maneuver.kind === 'attack'">{{ t("attack-noun") }}</span>
+          <span v-else-if="maneuver.kind === 'support'">{{ t("support-noun") }}</span>
           <span v-else>{{ t(maneuver.kind) }}</span>
         </TableCell>
 

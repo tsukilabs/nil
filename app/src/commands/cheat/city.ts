@@ -1,11 +1,11 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { clamp } from 'es-toolkit/math';
-import { invoke } from '@tauri-apps/api/core';
-import { CoordImpl } from '@/core/model/continent/coord';
-import type { ContinentKey } from '@/types/core/continent';
-import type { CheatSetStabilityRequest } from '@tsukilabs/nil-bindings';
+import { clamp } from "es-toolkit/math";
+import { invoke } from "@tauri-apps/api/core";
+import { CoordImpl } from "@/core/model/continent/coord";
+import type { ContinentKey } from "@/types/core/continent";
+import type { CheatSetStabilityRequest } from "@tsukilabs/nil-bindings";
 
 export async function cheatSetStability(coord: ContinentKey, stability: number) {
   coord = CoordImpl.fromContinentKey(coord);
@@ -17,5 +17,5 @@ export async function cheatSetStability(coord: ContinentKey, stability: number) 
     stability,
   };
 
-  await invoke('cheat_set_stability', { req });
+  await invoke("cheat_set_stability", { req });
 }

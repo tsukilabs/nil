@@ -1,21 +1,21 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Ref } from 'vue';
-import * as commands from '@/commands';
-import { asyncRef } from '@tb-dev/vue';
-import type { MaybePromise } from '@tb-dev/utils';
-import { CoordImpl } from '@/core/model/continent/coord';
-import type { ReportImpl } from '@/core/model/report/abstract';
-import { BattleReportImpl } from '@/core/model/report/battle-report';
-import { SupportReportImpl } from '@/core/model/report/support-report';
+import type { Ref } from "vue";
+import * as commands from "@/commands";
+import { asyncRef } from "@tb-dev/vue";
+import type { MaybePromise } from "@tb-dev/utils";
+import { CoordImpl } from "@/core/model/continent/coord";
+import type { ReportImpl } from "@/core/model/report/abstract";
+import { BattleReportImpl } from "@/core/model/report/battle-report";
+import { SupportReportImpl } from "@/core/model/report/support-report";
 import type {
   ContinentIndex,
   Coord,
   PublicCity,
   ReportId,
   ReportKind,
-} from '@tsukilabs/nil-bindings';
+} from "@tsukilabs/nil-bindings";
 
 type CityCache = Map<ContinentIndex, MaybePromise<PublicCity>>;
 
@@ -41,14 +41,14 @@ export function useReports(ids: Ref<readonly ReportId[]>) {
 
 async function toReportImpl({ kind, report }: ReportKind, cityCache: CityCache) {
   switch (kind) {
-    case 'battle': {
+    case "battle": {
       return BattleReportImpl.create({
         report,
         originCity: await getCity(cityCache, report.origin),
         destinationCity: await getCity(cityCache, report.destination),
       });
     }
-    case 'support': {
+    case "support": {
       return SupportReportImpl.create({
         report,
         originCity: await getCity(cityCache, report.origin),

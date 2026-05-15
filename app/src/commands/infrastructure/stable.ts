@@ -1,7 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { invoke } from '@tauri-apps/api/core';
+import { invoke } from "@tauri-apps/api/core";
 import type {
   AddStableRecruitOrderRequest,
   CancelStableRecruitOrderRequest,
@@ -10,7 +10,7 @@ import type {
   GetStableRecruitCatalogResponse,
   StableRecruitOrderId,
   StableRecruitOrderRequest,
-} from '@tsukilabs/nil-bindings';
+} from "@tsukilabs/nil-bindings";
 
 export async function addStableRecruitOrder(request: StableRecruitOrderRequest) {
   const req: AddStableRecruitOrderRequest = {
@@ -18,7 +18,7 @@ export async function addStableRecruitOrder(request: StableRecruitOrderRequest) 
     request,
   };
 
-  await invoke('add_stable_recruit_order', { req });
+  await invoke("add_stable_recruit_order", { req });
 }
 
 export async function cancelStableRecruitOrder(coord: Coord, id: StableRecruitOrderId) {
@@ -28,7 +28,7 @@ export async function cancelStableRecruitOrder(coord: Coord, id: StableRecruitOr
     id,
   };
 
-  await invoke('cancel_stable_recruit_order', { req });
+  await invoke("cancel_stable_recruit_order", { req });
 }
 
 export async function getStableRecruitCatalog(coord: Coord) {
@@ -37,5 +37,5 @@ export async function getStableRecruitCatalog(coord: Coord) {
     coord,
   };
 
-  return invoke<GetStableRecruitCatalogResponse>('get_stable_recruit_catalog', { req });
+  return invoke<GetStableRecruitCatalogResponse>("get_stable_recruit_catalog", { req });
 }

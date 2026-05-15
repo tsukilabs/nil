@@ -1,20 +1,20 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { Entity } from './abstract';
-import { asyncRef, maybe } from '@tb-dev/vue';
-import { type Option, panic } from '@tb-dev/utils';
-import { readonly, ref, type Ref, type ShallowRef } from 'vue';
-import type { WorldConfigImpl } from '@/core/model/world-config';
-import type { WorldStatsImpl } from '@/core/model/stats/world-stats';
-import { getContinentSize, getWorldConfig, getWorldStats } from '@/commands';
+import { Entity } from "./abstract";
+import { asyncRef, maybe } from "@tb-dev/vue";
+import { type Option, panic } from "@tb-dev/utils";
+import { readonly, ref, type Ref, type ShallowRef } from "vue";
+import type { WorldConfigImpl } from "@/core/model/world-config";
+import type { WorldStatsImpl } from "@/core/model/stats/world-stats";
+import { getContinentSize, getWorldConfig, getWorldStats } from "@/commands";
 import type {
   BuildingId,
   BuildingLevel,
   MineId,
   StorageId,
   WorldId,
-} from '@tsukilabs/nil-bindings';
+} from "@tsukilabs/nil-bindings";
 
 export class WorldEntity extends Entity {
   private readonly id = ref<Option<WorldId>>();
@@ -89,7 +89,7 @@ export class WorldEntity extends Entity {
   }
 
   public static getIdStrict() {
-    return this.getId() ?? panic('Missing world id');
+    return this.getId() ?? panic("Missing world id");
   }
 
   public static getContinentSize() {
@@ -137,8 +137,8 @@ export class WorldEntity extends Entity {
   }
 
   public static init() {
-    if (!Object.hasOwn(globalThis.NIL, 'world')) {
-      const world: (typeof globalThis.NIL)['world'] = {
+    if (!Object.hasOwn(globalThis.NIL, "world")) {
+      const world: (typeof globalThis.NIL)["world"] = {
         getBuildingStats: WorldEntity.getBuildingStats.bind(WorldEntity),
         getBuildingStatsWithLevel: WorldEntity.getBuildingStatsWithLevel.bind(WorldEntity),
         getConfig: WorldEntity.getConfig.bind(WorldEntity),
@@ -158,7 +158,7 @@ export class WorldEntity extends Entity {
         use: WorldEntity.use.bind(WorldEntity),
       };
 
-      Object.defineProperty(globalThis.NIL, 'world', {
+      Object.defineProperty(globalThis.NIL, "world", {
         configurable: false,
         enumerable: true,
         writable: false,

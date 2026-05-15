@@ -21,7 +21,7 @@ pub struct RemoteWorld {
   pub has_password: bool,
   pub current_round: RoundId,
   pub round_duration: Option<RoundDuration>,
-  pub active_players: usize,
-  pub total_players: usize,
+  pub active_players: u32,
+  pub total_players: u32,
   pub continent_size: ContinentSize,
 }

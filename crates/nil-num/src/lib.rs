@@ -3,10 +3,9 @@
 
 #![cfg_attr(docsrs, feature(doc_cfg))]
 #![doc(html_favicon_url = "https://nil.dev.br/favicon.png")]
+#![feature(const_cmp, const_convert, const_trait_impl, derive_const)]
 
 pub mod growth;
 pub mod mul_ceil;
 pub mod roman;
 pub mod triangle;
-
-pub use nil_num_macros::{BigIntU64, BigIntUsize, F64Add, F64Div, F64Mul, F64Ops, F64Sub};

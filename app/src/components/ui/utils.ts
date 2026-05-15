@@ -1,12 +1,12 @@
-import { twMerge } from 'tailwind-merge';
-import { type ClassValue, clsx } from 'clsx';
-import type { CheckboxRootProps } from 'reka-ui';
-import type { Option } from '@tb-dev/utils';
+import { twMerge } from "tailwind-merge";
+import { type ClassValue, clsx } from "clsx";
+import type { CheckboxRootProps } from "reka-ui";
+import type { Option } from "@tb-dev/utils";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function toBooleanCheckboxValue(value: Option<CheckboxRootProps['modelValue']>): boolean {
+export function toBooleanCheckboxValue(value: Option<CheckboxRootProps["modelValue"]>): boolean {
   return value === true;
 }

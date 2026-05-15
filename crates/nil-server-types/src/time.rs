@@ -5,9 +5,8 @@ use derive_more::{From, Into};
 use serde::{Deserialize, Serialize};
 use std::time::Duration;
 
-#[derive(
-  Clone, Copy, Debug, Default, From, Into, PartialEq, Eq, PartialOrd, Ord, Deserialize, Serialize,
-)]
+#[derive(Copy, Debug, From, Into, Deserialize, Serialize)]
+#[derive_const(Clone, Default, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(as = "u32"))]
 pub struct Minutes(u64);
@@ -18,13 +17,13 @@ impl Minutes {
   }
 }
 
-impl From<Duration> for Minutes {
+impl const From<Duration> for Minutes {
   fn from(duration: Duration) -> Self {
     Self(duration.as_secs() / 60)
   }
 }
 
-impl From<Minutes> for Duration {
+impl const From<Minutes> for Duration {
   fn from(value: Minutes) -> Self {
     Duration::from_mins(value.0)
   }

@@ -1,16 +1,16 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { readonly, shallowRef } from 'vue';
-import type { Option } from '@tb-dev/utils';
-import { useRouteQuery } from '@vueuse/router';
-import { debounce } from 'es-toolkit/function';
-import { CoordImpl, isOutside } from '@/core/model/continent/coord';
+import { readonly, shallowRef } from "vue";
+import type { Option } from "@tb-dev/utils";
+import { useRouteQuery } from "@vueuse/router";
+import { debounce } from "es-toolkit/function";
+import { CoordImpl, isOutside } from "@/core/model/continent/coord";
 
 export function useQueryCoord() {
   const initialCoord = shallowRef<Option<CoordImpl>>();
-  const queryX = useRouteQuery('x', null, { transform });
-  const queryY = useRouteQuery('y', null, { transform });
+  const queryX = useRouteQuery("x", null, { transform });
+  const queryY = useRouteQuery("y", null, { transform });
 
   if (isValid(queryX.value) && isValid(queryY.value)) {
     initialCoord.value = CoordImpl.create({ x: queryX.value, y: queryY.value });
@@ -50,5 +50,5 @@ export function transform(value: Option<string>) {
 }
 
 export function isValid(coord: Option<number>): coord is number {
-  return typeof coord === 'number' && !isOutside(coord);
+  return typeof coord === "number" && !isOutside(coord);
 }

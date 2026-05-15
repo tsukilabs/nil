@@ -2,11 +2,11 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n';
-import { Table, TableBody, TableCell, TableRow } from '@ui/table';
-import { Card, CardContent, CardHeader, CardTitle } from '@ui/card';
-import type { ArmyPersonnelImpl } from '@/core/model/military/army-personnel';
-import { useArmyPersonnelSize } from '@/composables/military/useArmyPersonnelSize';
+import { useI18n } from "vue-i18n";
+import { Table, TableBody, TableCell, TableRow } from "@ui/table";
+import { Card, CardContent, CardHeader, CardTitle } from "@ui/card";
+import type { ArmyPersonnelImpl } from "@/core/model/military/army-personnel";
+import { useArmyPersonnelSize } from "@/composables/military/useArmyPersonnelSize";
 
 const props = defineProps<{ personnel: ArmyPersonnelImpl; }>();
 
@@ -19,7 +19,7 @@ const size = useArmyPersonnelSize(() => props.personnel);
   <Card>
     <CardHeader>
       <CardTitle>
-        <span>{{ t('unit', 2) }}</span>
+        <span>{{ t("unit", 2) }}</span>
       </CardTitle>
     </CardHeader>
 
@@ -28,43 +28,43 @@ const size = useArmyPersonnelSize(() => props.personnel);
         <TableBody>
           <TableRow v-if="size.pikeman > 0">
             <TableCell>
-              {{ `${size.pikeman} ${t('pikeman', size.pikeman)}` }}
+              {{ `${size.pikeman} ${t("pikeman", size.pikeman)}` }}
             </TableCell>
           </TableRow>
 
           <TableRow v-if="size.swordsman > 0">
             <TableCell>
-              {{ `${size.swordsman} ${t('swordsman', size.swordsman)}` }}
+              {{ `${size.swordsman} ${t("swordsman", size.swordsman)}` }}
             </TableCell>
           </TableRow>
 
           <TableRow v-if="size.axeman > 0">
             <TableCell>
-              {{ `${size.axeman} ${t('axeman', size.axeman)}` }}
+              {{ `${size.axeman} ${t("axeman", size.axeman)}` }}
             </TableCell>
           </TableRow>
 
           <TableRow v-if="size.archer > 0">
             <TableCell>
-              {{ `${size.archer} ${t('archer', size.archer)}` }}
+              {{ `${size.archer} ${t("archer", size.archer)}` }}
             </TableCell>
           </TableRow>
 
           <TableRow v-if="size.lightCavalry > 0">
             <TableCell>
-              {{ `${size.lightCavalry} ${t('light-cavalry', size.lightCavalry)}` }}
+              {{ `${size.lightCavalry} ${t("light-cavalry", size.lightCavalry)}` }}
             </TableCell>
           </TableRow>
 
           <TableRow v-if="size.heavyCavalry > 0">
             <TableCell>
-              {{ `${size.heavyCavalry} ${t('heavy-cavalry', size.heavyCavalry)}` }}
+              {{ `${size.heavyCavalry} ${t("heavy-cavalry", size.heavyCavalry)}` }}
             </TableCell>
           </TableRow>
 
           <TableRow v-if="size.ram > 0">
             <TableCell>
-              {{ `${size.ram} ${t('ram', size.ram)}` }}
+              {{ `${size.ram} ${t("ram", size.ram)}` }}
             </TableCell>
           </TableRow>
         </TableBody>

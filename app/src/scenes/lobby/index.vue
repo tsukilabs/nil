@@ -2,28 +2,28 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { computed } from 'vue';
-import { useI18n } from 'vue-i18n';
-import { Button } from '@ui/button';
-import { formatDate } from 'date-fns';
-import { LockIcon } from '@lucide/vue';
-import Loading from '@/components/Loading.vue';
-import { throttle } from 'es-toolkit/function';
-import type { WorldId } from '@tsukilabs/nil-bindings';
-import enUS from '@/locale/en-US/scenes/online.json';
-import ptBR from '@/locale/pt-BR/scenes/online.json';
-import { useToken } from '@/composables/auth/useToken';
-import { onKeyDown, useBreakpoints } from '@tb-dev/vue';
-import { go, QUERY_JOIN_REMOTE_GAME_WORLD_ID } from '@/router';
-import { Card, CardContent, CardHeader, CardTitle } from '@ui/card';
-import { useRemoteWorlds } from '@/composables/world/useRemoteWorlds';
-import { useRemoteWorldLimit } from '@/composables/world/useRemoteWorldLimit';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@ui/table';
+import { computed } from "vue";
+import { useI18n } from "vue-i18n";
+import { Button } from "@ui/button";
+import { formatDate } from "date-fns";
+import { LockIcon } from "@lucide/vue";
+import Loading from "@/components/Loading.vue";
+import { throttle } from "es-toolkit/function";
+import enUS from "@/locale/en-US/scenes/online.json";
+import ptBR from "@/locale/pt-BR/scenes/online.json";
+import { useToken } from "@/composables/auth/useToken";
+import type { WorldId } from "@tsukilabs/nil-bindings";
+import { onKeyDown, useBreakpoints } from "@tb-dev/vue";
+import { go, QUERY_JOIN_REMOTE_GAME_WORLD_ID } from "@/router";
+import { Card, CardContent, CardHeader, CardTitle } from "@ui/card";
+import { useRemoteWorlds } from "@/composables/world/useRemoteWorlds";
+import { useRemoteWorldLimit } from "@/composables/world/useRemoteWorldLimit";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@ui/table";
 
 const { t } = useI18n({
   messages: {
-    'en-US': enUS,
-    'pt-BR': ptBR,
+    "en-US": enUS,
+    "pt-BR": ptBR,
   },
 });
 
@@ -48,11 +48,11 @@ const someHasPassword = computed(() => {
 });
 
 if (__DESKTOP__) {
-  onKeyDown('F5', throttle(load, 1000));
+  onKeyDown("F5", throttle(load, 1000));
 }
 
 async function goToJoinRemoteGameScene(id: WorldId) {
-  await go('join-remote-game', { query: { [QUERY_JOIN_REMOTE_GAME_WORLD_ID]: id } });
+  await go("join-remote-game", { query: { [QUERY_JOIN_REMOTE_GAME_WORLD_ID]: id } });
 }
 
 function countCurrentPlayerWorlds() {
@@ -69,7 +69,7 @@ function countCurrentPlayerWorlds() {
       <CardHeader>
         <CardTitle>
           <div class="flex items-center justify-between">
-            <span>{{ t('lobby') }}</span>
+            <span>{{ t("lobby") }}</span>
             <div class="grid grid-cols-2 gap-2">
               <Button
                 variant="default"
@@ -78,7 +78,7 @@ function countCurrentPlayerWorlds() {
                 class="md:px-4 xl:px-6 2xl:px-8"
                 @click="() => go('host-remote-game')"
               >
-                <span>{{ t('host') }}</span>
+                <span>{{ t("host") }}</span>
               </Button>
               <Button
                 variant="secondary"
@@ -86,7 +86,7 @@ function countCurrentPlayerWorlds() {
                 class="md:px-4 xl:px-6 2xl:px-8"
                 @click="() => go('home')"
               >
-                <span>{{ t('leave') }}</span>
+                <span>{{ t("leave") }}</span>
               </Button>
             </div>
           </div>
@@ -99,14 +99,14 @@ function countCurrentPlayerWorlds() {
           <TableHeader>
             <TableRow class="hover:bg-card">
               <TableHead v-if="someHasPassword"></TableHead>
-              <TableHead>{{ t('name') }}</TableHead>
-              <TableHead>{{ t('round') }}</TableHead>
-              <TableHead v-if="md">{{ t('active-players') }}</TableHead>
-              <TableHead>{{ md ? t('total-players') : t('player', 2) }}</TableHead>
-              <TableHead v-if="xl">{{ t('size') }}</TableHead>
-              <TableHead>{{ t('created-by') }}</TableHead>
-              <TableHead v-if="xl">{{ t('created-at') }}</TableHead>
-              <TableHead v-if="xl">{{ t('updated-at') }}</TableHead>
+              <TableHead>{{ t("name") }}</TableHead>
+              <TableHead>{{ t("round") }}</TableHead>
+              <TableHead v-if="md">{{ t("active-players") }}</TableHead>
+              <TableHead>{{ md ? t("total-players") : t("player", 2) }}</TableHead>
+              <TableHead v-if="xl">{{ t("size") }}</TableHead>
+              <TableHead>{{ t("created-by") }}</TableHead>
+              <TableHead v-if="xl">{{ t("created-at") }}</TableHead>
+              <TableHead v-if="xl">{{ t("updated-at") }}</TableHead>
             </TableRow>
           </TableHeader>
 
@@ -141,10 +141,10 @@ function countCurrentPlayerWorlds() {
                 <span>{{ world.createdBy }}</span>
               </TableCell>
               <TableCell v-if="xl">
-                <span>{{ formatDate(world.createdAtDate, 'dd/MM/yyyy HH:mm') }}</span>
+                <span>{{ formatDate(world.createdAtDate, "dd/MM/yyyy HH:mm") }}</span>
               </TableCell>
               <TableCell v-if="xl">
-                <span>{{ formatDate(world.updatedAtDate, 'dd/MM/yyyy HH:mm') }}</span>
+                <span>{{ formatDate(world.updatedAtDate, "dd/MM/yyyy HH:mm") }}</span>
               </TableCell>
             </TableRow>
           </TableBody>

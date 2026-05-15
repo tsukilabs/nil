@@ -2,19 +2,19 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import Menu from './Menu.vue';
-import Field from './Field.vue';
-import { until } from '@vueuse/core';
-import { useRoute } from 'vue-router';
-import Navigation from './Navigation.vue';
-import { Card, CardContent } from '@ui/card';
-import type { GameScene } from '@/types/scene/game';
-import { CoordImpl } from '@/core/model/continent/coord';
-import { useBreakpoints, useElementSize } from '@tb-dev/vue';
-import { useContinent } from '@/composables/continent/useContinent';
-import { useQueryCoord } from '@/composables/continent/useQueryCoord';
-import { computed, nextTick, onBeforeMount, onMounted, useTemplateRef, watch } from 'vue';
-import { type Direction, onKeyboardMovement } from '@/composables/continent/onKeyboardMovement';
+import Menu from "./Menu.vue";
+import Field from "./Field.vue";
+import { until } from "@vueuse/core";
+import { useRoute } from "vue-router";
+import Navigation from "./Navigation.vue";
+import { Card, CardContent } from "@ui/card";
+import type { GameScene } from "@/types/scene/game";
+import { CoordImpl } from "@/core/model/continent/coord";
+import { useBreakpoints, useElementSize } from "@tb-dev/vue";
+import { useContinent } from "@/composables/continent/useContinent";
+import { useQueryCoord } from "@/composables/continent/useQueryCoord";
+import { computed, nextTick, onBeforeMount, onMounted, useTemplateRef, watch } from "vue";
+import { type Direction, onKeyboardMovement } from "@/composables/continent/onKeyboardMovement";
 
 const route = useRoute();
 const { initialCoord, updateQueryCoords } = useQueryCoord();
@@ -22,7 +22,7 @@ const { initialCoord, updateQueryCoords } = useQueryCoord();
 const { continentSize } = NIL.world.refs();
 const { coord: currentCoord } = NIL.city.refs();
 
-const containerEl = useTemplateRef('container');
+const containerEl = useTemplateRef("container");
 const containerSize = useElementSize(containerEl);
 
 const { sm } = useBreakpoints();
@@ -47,7 +47,7 @@ watch([containerSize.width, containerSize.height, cellSize], render);
 onBeforeMount(() => {
   const x = initialCoord.value?.x;
   const y = initialCoord.value?.y;
-  if (typeof x === 'number' && typeof y === 'number') {
+  if (typeof x === "number" && typeof y === "number") {
     center.value = CoordImpl.create({ x, y });
   }
 });
@@ -62,11 +62,11 @@ if (__DESKTOP__) {
 }
 
 function render() {
-  if (route.name === ('continent' satisfies GameScene)) {
-    if ('requestAnimationFrame' in window) {
+  if (route.name === ("continent" satisfies GameScene)) {
+    if ("requestAnimationFrame" in window) {
       requestAnimationFrame(updateCoordsWithin);
     }
-    else if ('requestIdleCallback' in window) {
+    else if ("requestIdleCallback" in window) {
       requestIdleCallback(updateCoordsWithin);
     }
     else {
@@ -83,19 +83,19 @@ function move(direction: Direction, delta: number) {
   let y = initialY;
 
   switch (direction) {
-    case 'up': {
+    case "up": {
       y = Math.min(y + delta, continentSize.value - 1);
       break;
     }
-    case 'down': {
+    case "down": {
       y = Math.max(y - delta, 0);
       break;
     }
-    case 'left': {
+    case "left": {
       x = Math.max(x - delta, 0);
       break;
     }
-    case 'right': {
+    case "right": {
       x = Math.min(x + delta, continentSize.value - 1);
       break;
     }

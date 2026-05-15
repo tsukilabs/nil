@@ -1,9 +1,9 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { getRanking } from '@/commands';
-import type { Ranking } from '@tsukilabs/nil-bindings';
-import { RankingEntryImpl } from './ranking-entry';
+import { getRanking } from "@/commands";
+import { RankingEntryImpl } from "./ranking-entry";
+import type { Ranking } from "@tsukilabs/nil-bindings";
 
 export class RankingImpl {
   public readonly ranking: readonly RankingEntryImpl[];

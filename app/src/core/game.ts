@@ -1,21 +1,21 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as commands from '@/commands';
-import { handleError } from '@/lib/error';
-import { go, isGameRoute } from '@/router';
-import type { Option } from '@tb-dev/utils';
-import { Entity } from '@/core/entity/abstract';
-import { useSettings } from '@/stores/settings';
-import type { ServerAddr } from '@/types/server';
-import { exit } from '@tauri-apps/plugin-process';
-import type { ClientOptions } from '@/types/client';
-import type { PlayerOptions, RoundDuration, WorldOptions } from '@tsukilabs/nil-bindings';
+import * as commands from "@/commands";
+import { handleError } from "@/lib/error";
+import { go, isGameRoute } from "@/router";
+import type { Option } from "@tb-dev/utils";
+import { Entity } from "@/core/entity/abstract";
+import { useSettings } from "@/stores/settings";
+import type { ServerAddr } from "@/types/server";
+import { exit } from "@tauri-apps/plugin-process";
+import type { ClientOptions } from "@/types/client";
+import type { PlayerOptions, RoundDuration, WorldOptions } from "@tsukilabs/nil-bindings";
 
 async function joinGame(options: {
-  worldId: NonNullable<ClientOptions['worldId']>;
-  worldPassword: ClientOptions['worldPassword'];
-  playerId: NonNullable<ClientOptions['playerId']>;
+  worldId: NonNullable<ClientOptions["worldId"]>;
+  worldPassword: ClientOptions["worldPassword"];
+  playerId: NonNullable<ClientOptions["playerId"]>;
 }) {
   await NIL.world.setId(options.worldId);
 
@@ -23,8 +23,8 @@ async function joinGame(options: {
   if (await commands.playerExists(playerId)) {
     // TODO: what if the player is already active?
     const status = await commands.getPlayerStatus(playerId);
-    if (status === 'inactive') {
-      await commands.setPlayerStatus('active');
+    if (status === "inactive") {
+      await commands.setPlayerStatus("active");
     }
   }
   else {
@@ -36,13 +36,13 @@ async function joinGame(options: {
   await NIL.city.setCoord();
   await NIL.update();
 
-  await go('city');
+  await go("city");
 }
 
 export async function joinLocalGame(options: {
-  serverAddr: NonNullable<ClientOptions['serverAddr']>;
-  worldId?: ClientOptions['worldId'];
-  playerId: NonNullable<ClientOptions['playerId']>;
+  serverAddr: NonNullable<ClientOptions["serverAddr"]>;
+  worldId?: ClientOptions["worldId"];
+  playerId: NonNullable<ClientOptions["playerId"]>;
 }) {
   await commands.updateClient({
     serverAddr: options.serverAddr,
@@ -60,19 +60,19 @@ export async function joinLocalGame(options: {
     });
   }
   else {
-    throw new Error('Missing world id');
+    throw new Error("Missing world id");
   }
 }
 
 export async function joinRemoteGame(options: {
-  worldId: NonNullable<ClientOptions['worldId']>;
-  worldPassword: ClientOptions['worldPassword'];
-  authorizationToken: NonNullable<ClientOptions['authorizationToken']>;
+  worldId: NonNullable<ClientOptions["worldId"]>;
+  worldPassword: ClientOptions["worldPassword"];
+  authorizationToken: NonNullable<ClientOptions["authorizationToken"]>;
 }) {
   const playerId = await commands.validateToken(options.authorizationToken);
   if (playerId) {
     await commands.updateClient({
-      serverAddr: { kind: 'remote' },
+      serverAddr: { kind: "remote" },
       worldId: options.worldId,
       worldPassword: options.worldPassword,
       authorizationToken: options.authorizationToken,
@@ -85,7 +85,7 @@ export async function joinRemoteGame(options: {
     });
   }
   else {
-    throw new Error('Invalid token');
+    throw new Error("Invalid token");
   }
 }
 
@@ -94,7 +94,7 @@ export async function hostLocalGame(options: {
   worldOptions: WorldOptions;
 }) {
   const server = await commands.startServerWithOptions(options.worldOptions);
-  const serverAddr: ServerAddr = { kind: 'local', addr: server.addr };
+  const serverAddr: ServerAddr = { kind: "local", addr: server.addr };
   return joinLocalGame({
     serverAddr,
     worldId: server.worldId,
@@ -107,7 +107,7 @@ export async function hostLocalGameWithSavedata(options: {
   playerOptions: PlayerOptions;
 }) {
   const server = await commands.startServerWithSavedata(options.path);
-  const serverAddr: ServerAddr = { kind: 'local', addr: server.addr };
+  const serverAddr: ServerAddr = { kind: "local", addr: server.addr };
   return joinLocalGame({
     serverAddr,
     worldId: server.worldId,
@@ -117,13 +117,13 @@ export async function hostLocalGameWithSavedata(options: {
 
 export async function hostRemoteGame(options: {
   worldOptions: WorldOptions;
-  worldPassword: ClientOptions['worldPassword'];
+  worldPassword: ClientOptions["worldPassword"];
   worldDescription: Option<string>;
-  authorizationToken: NonNullable<ClientOptions['authorizationToken']>;
+  authorizationToken: NonNullable<ClientOptions["authorizationToken"]>;
   roundDuration: Option<RoundDuration>;
 }) {
   await commands.updateClient({
-    serverAddr: { kind: 'remote' },
+    serverAddr: { kind: "remote" },
     authorizationToken: options.authorizationToken,
   });
 
@@ -162,10 +162,10 @@ export async function leaveGame(options?: {
         isGameRoute() &&
         await settings.auth.isTokenValid()
       ) {
-        await go('lobby');
+        await go("lobby");
       }
       else {
-        await go('home');
+        await go("home");
       }
     }
   }

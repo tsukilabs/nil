@@ -2,19 +2,19 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { computed } from 'vue';
-import { useI18n } from 'vue-i18n';
-import { Button } from '@ui/button';
-import type { Option } from '@tb-dev/utils';
-import type { Coord, PrecursorId } from '@tsukilabs/nil-bindings';
-import enUS from '@/locale/en-US/scenes/game/continent.json';
-import ptBR from '@/locale/pt-BR/scenes/game/continent.json';
-import { usePublicCity } from '@/composables/city/usePublicCity';
-import type { PublicFieldImpl } from '@/core/model/continent/public-field';
-import { Table, TableBody, TableCell, TableHead, TableRow } from '@ui/table';
-import { HoverCard, HoverCardContent, HoverCardTrigger } from '@ui/hover-card';
-import { useCityOwnerSceneLink } from '@/composables/city/useCityOwnerSceneLink';
-import { useCityProfileSceneLink } from '@/composables/city/useCityProfileSceneLink';
+import { computed } from "vue";
+import { useI18n } from "vue-i18n";
+import { Button } from "@ui/button";
+import type { Option } from "@tb-dev/utils";
+import enUS from "@/locale/en-US/scenes/game/continent.json";
+import ptBR from "@/locale/pt-BR/scenes/game/continent.json";
+import { usePublicCity } from "@/composables/city/usePublicCity";
+import type { Coord, PrecursorId } from "@tsukilabs/nil-bindings";
+import type { PublicFieldImpl } from "@/core/model/continent/public-field";
+import { Table, TableBody, TableCell, TableHead, TableRow } from "@ui/table";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@ui/hover-card";
+import { useCityOwnerSceneLink } from "@/composables/city/useCityOwnerSceneLink";
+import { useCityProfileSceneLink } from "@/composables/city/useCityProfileSceneLink";
 
 const props = defineProps<{
   field: PublicFieldImpl;
@@ -23,8 +23,8 @@ const props = defineProps<{
 
 const { t } = useI18n({
   messages: {
-    'en-US': enUS,
-    'pt-BR': ptBR,
+    "en-US": enUS,
+    "pt-BR": ptBR,
   },
 });
 
@@ -36,27 +36,27 @@ const toCityProfile = useCityProfileSceneLink(city);
 
 const color = computed(() => {
   switch (city.value?.owner.kind) {
-    case 'bot': {
-      return 'bg-amber-950';
+    case "bot": {
+      return "bg-amber-950";
     }
-    case 'player': {
-      return 'bg-primary';
+    case "player": {
+      return "bg-primary";
     }
-    case 'precursor': {
+    case "precursor": {
       return getPrecursorColor(city.value.owner.id);
     }
     default:
-      return 'bg-transparent';
+      return "bg-transparent";
   }
 });
 
 function getPrecursorColor(id: PrecursorId) {
   switch (id) {
-    case 'A': {
-      return 'bg-green-900';
+    case "A": {
+      return "bg-green-900";
     }
-    case 'B': {
-      return 'bg-purple-900';
+    case "B": {
+      return "bg-purple-900";
     }
   }
 }
@@ -85,7 +85,7 @@ function getPrecursorColor(id: PrecursorId) {
           <Table class="w-full">
             <TableBody>
               <TableRow>
-                <TableHead>{{ t('coordinate', 2) }}</TableHead>
+                <TableHead>{{ t("coordinate", 2) }}</TableHead>
                 <TableCell>
                   <RouterLink v-if="toCityProfile" :to="toCityProfile">
                     <span>{{ city.coord.format() }}</span>
@@ -94,12 +94,12 @@ function getPrecursorColor(id: PrecursorId) {
               </TableRow>
 
               <TableRow>
-                <TableHead>{{ t('point', 2) }}</TableHead>
+                <TableHead>{{ t("point", 2) }}</TableHead>
                 <TableCell>{{ city.score }}</TableCell>
               </TableRow>
 
               <TableRow>
-                <TableHead>{{ t('owner') }}</TableHead>
+                <TableHead>{{ t("owner") }}</TableHead>
                 <TableCell>
                   <RouterLink v-if="toOwnerScene" :to="toOwnerScene">
                     <span class="whitespace-pre-wrap wrap-anywhere">{{ owner.id }}</span>
@@ -108,7 +108,7 @@ function getPrecursorColor(id: PrecursorId) {
               </TableRow>
 
               <TableRow>
-                <TableHead>{{ t('type') }}</TableHead>
+                <TableHead>{{ t("type") }}</TableHead>
                 <TableCell>{{ t(city.owner.kind) }}</TableCell>
               </TableRow>
             </TableBody>
@@ -124,7 +124,7 @@ function getPrecursorColor(id: PrecursorId) {
               tabindex="0"
               @click="() => city?.goToWarRoom('destination')"
             >
-              <span>{{ t('send-troops') }}</span>
+              <span>{{ t("send-troops") }}</span>
             </Button>
           </div>
         </div>

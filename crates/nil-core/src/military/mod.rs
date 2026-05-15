@@ -11,6 +11,7 @@ pub mod unit;
 
 use crate::continent::{ContinentIndex, ContinentKey, ContinentSize, Coord};
 use crate::error::{Error, Result};
+use crate::military::unit::stats::power::{AttackPower, DefensePower, Power};
 use crate::ranking::score::Score;
 use crate::resources::maintenance::Maintenance;
 use crate::ruler::Ruler;
@@ -244,6 +245,34 @@ impl Military {
     self.army(id).map(Army::personnel)
   }
 
+  pub fn personnel_of<R>(&self, owner: R) -> impl Iterator<Item = &ArmyPersonnel>
+  where
+    R: Into<Ruler>,
+  {
+    self.armies_of(owner).map(Army::personnel)
+  }
+
+  pub fn fold_personnel_of<R>(&self, owner: R) -> ArmyPersonnel
+  where
+    R: Into<Ruler>,
+  {
+    self.personnel_of(owner).sum()
+  }
+
+  pub fn idle_personnel_at<K>(&self, key: K) -> impl Iterator<Item = &ArmyPersonnel>
+  where
+    K: ContinentKey,
+  {
+    self.idle_armies_at(key).map(Army::personnel)
+  }
+
+  pub fn fold_idle_personnel_at<K>(&self, key: K) -> ArmyPersonnel
+  where
+    K: ContinentKey,
+  {
+    self.idle_personnel_at(key).sum()
+  }
+
   #[inline]
   pub fn squads(&self, id: ArmyId) -> Result<Vec<Squad>> {
     self
@@ -252,48 +281,11 @@ impl Military {
       .map(ArmyPersonnel::to_vec)
   }
 
-  pub fn fold_idle_personnel_at<K>(&self, key: K) -> ArmyPersonnel
-  where
-    K: ContinentKey,
-  {
-    self
-      .idle_armies_at(key)
-      .map(Army::personnel)
-      .fold(ArmyPersonnel::default(), |mut acc, personnel| {
-        acc += personnel;
-        acc
-      })
-  }
-
   pub fn idle_squads_at<K>(&self, key: K) -> Vec<Squad>
   where
     K: ContinentKey,
   {
     self.fold_idle_personnel_at(key).to_vec()
-  }
-
-  pub fn score_of<R>(&self, owner: R) -> Score
-  where
-    R: Into<Ruler>,
-  {
-    self
-      .armies_of(owner)
-      .fold(Score::default(), |mut score, army| {
-        score += army.score();
-        score
-      })
-  }
-
-  pub fn maintenance_of<R>(&self, owner: R) -> Maintenance
-  where
-    R: Into<Ruler>,
-  {
-    self
-      .armies_of(owner)
-      .fold(Maintenance::default(), |mut maintenance, army| {
-        maintenance += army.maintenance();
-        maintenance
-      })
   }
 
   #[inline]
@@ -336,5 +328,40 @@ impl Military {
       .filter_map(|id| self.maneuvers.remove(&id))
       .collect_vec()
       .pipe(Ok)
+  }
+
+  pub fn score_of<R>(&self, owner: R) -> Score
+  where
+    R: Into<Ruler>,
+  {
+    self.armies_of(owner).sum()
+  }
+
+  pub fn maintenance_of<R>(&self, owner: R) -> Maintenance
+  where
+    R: Into<Ruler>,
+  {
+    self.armies_of(owner).sum()
+  }
+
+  pub fn power_of<R>(&self, owner: R) -> Power
+  where
+    R: Into<Ruler>,
+  {
+    self.armies_of(owner).sum()
+  }
+
+  pub fn attack_of<R>(&self, owner: R) -> AttackPower
+  where
+    R: Into<Ruler>,
+  {
+    self.armies_of(owner).sum()
+  }
+
+  pub fn defense_of<R>(&self, owner: R) -> DefensePower
+  where
+    R: Into<Ruler>,
+  {
+    self.armies_of(owner).sum()
   }
 }

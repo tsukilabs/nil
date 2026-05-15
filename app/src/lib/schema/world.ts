@@ -1,8 +1,8 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { z } from 'zod';
-import { isSafePathSegment } from './refine';
+import { z } from "zod";
+import { isSafePathSegment } from "./refine";
 
 export const worldName = z.string()
   .trim()

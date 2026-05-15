@@ -2,18 +2,18 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { computed } from 'vue';
-import { useI18n } from 'vue-i18n';
-import type { Option } from '@tb-dev/utils';
-import { useBreakpoints } from '@tb-dev/vue';
-import { useSettings } from '@/stores/settings';
-import { TableCell, TableRow } from '@ui/table';
-import { ResourcesImpl } from '@/core/model/resources';
-import CostGrid from '@/components/resources/CostGrid.vue';
-import type { WorkshopRecruitCatalogEntry, WorkshopUnitId } from '@tsukilabs/nil-bindings';
-import type { WorkshopImpl } from '@/core/model/infrastructure/building/workshop/workshop';
-import { useRecruitCatalogEntry } from '@/composables/infrastructure/useRecruitCatalogEntry';
-import RecruitCatalogRowAction from '@/components/infrastructure/RecruitCatalogRowAction.vue';
+import { computed } from "vue";
+import { useI18n } from "vue-i18n";
+import type { Option } from "@tb-dev/utils";
+import { useBreakpoints } from "@tb-dev/vue";
+import { useSettings } from "@/stores/settings";
+import { TableCell, TableRow } from "@ui/table";
+import { ResourcesImpl } from "@/core/model/resources";
+import CostGrid from "@/components/resources/CostGrid.vue";
+import type { WorkshopImpl } from "@/core/model/infrastructure/building/workshop/workshop";
+import type { WorkshopRecruitCatalogEntry, WorkshopUnitId } from "@tsukilabs/nil-bindings";
+import { useRecruitCatalogEntry } from "@/composables/infrastructure/useRecruitCatalogEntry";
+import RecruitCatalogRowAction from "@/components/infrastructure/RecruitCatalogRowAction.vue";
 
 const props = defineProps<{
   entry: WorkshopRecruitCatalogEntry;
@@ -44,7 +44,7 @@ const canRecruit = computed(() => {
     player.value &&
     props.isPlayerTurn &&
     props.workshop.enabled &&
-    props.entry.kind === 'available'
+    props.entry.kind === "available"
   ) {
     return player.value.hasResources(resources.value);
   }
@@ -103,7 +103,7 @@ const { sm } = useBreakpoints();
     </TableCell>
     <TableCell :colspan="sm ? 2 : 1" class="w-full">
       <div class="text-muted-foreground flex w-full items-center justify-center text-sm">
-        <span>{{ t('not-yet-available') }}</span>
+        <span>{{ t("not-yet-available") }}</span>
       </div>
     </TableCell>
   </TableRow>

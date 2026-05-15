@@ -2,29 +2,21 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::infrastructure::storage::StorageCapacity;
+use crate::military::army::Army;
+use crate::military::army::personnel::ArmyPersonnel;
+use crate::military::squad::Squad;
 use crate::military::squad::size::SquadSize;
 use crate::resources::prelude::*;
-use derive_more::{Deref, From, Into};
+use derive_more::{From, Into};
 use nil_num::mul_ceil::MulCeil;
+use nil_util::ConstDeref;
 use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
+use std::iter::Sum;
 use std::ops::{Add, AddAssign, Mul, MulAssign};
 
-#[derive(
-  Clone,
-  Copy,
-  Debug,
-  Deref,
-  Default,
-  From,
-  Into,
-  PartialEq,
-  Eq,
-  PartialOrd,
-  Ord,
-  Deserialize,
-  Serialize,
-)]
+#[derive(Copy, Debug, From, Into, Deserialize, Serialize, ConstDeref)]
+#[derive_const(Clone, Default, PartialEq, Eq, PartialOrd, Ord)]
 #[from(u32, Food, Iron, Stone, Wood)]
 #[into(u32, f64, Food, Iron, Stone, Wood)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
@@ -40,31 +32,67 @@ impl Haul {
   }
 }
 
-impl PartialEq<u32> for Haul {
+impl const PartialEq<u32> for Haul {
   fn eq(&self, other: &u32) -> bool {
     self.0.eq(other)
   }
 }
 
-impl PartialOrd<u32> for Haul {
+impl const PartialOrd<u32> for Haul {
   fn partial_cmp(&self, other: &u32) -> Option<Ordering> {
     Some(self.0.cmp(other))
   }
 }
 
-impl PartialEq<StorageCapacity> for Haul {
+impl const PartialEq<StorageCapacity> for Haul {
   fn eq(&self, other: &StorageCapacity) -> bool {
     self.0.eq(&**other)
   }
 }
 
-impl PartialOrd<StorageCapacity> for Haul {
+impl const PartialOrd<StorageCapacity> for Haul {
   fn partial_cmp(&self, other: &StorageCapacity) -> Option<Ordering> {
     Some(self.0.cmp(&**other))
   }
 }
 
-impl Add for Haul {
+impl const From<StorageCapacity> for Haul {
+  fn from(value: StorageCapacity) -> Self {
+    Haul::new(*value)
+  }
+}
+
+impl<'a> Sum<&'a Squad> for Haul {
+  fn sum<I>(iter: I) -> Self
+  where
+    I: Iterator<Item = &'a Squad>,
+  {
+    iter.fold(Haul::default(), |mut acc, squad| {
+      acc += squad.haul();
+      acc
+    })
+  }
+}
+
+impl<'a> Sum<&'a ArmyPersonnel> for Haul {
+  fn sum<I>(iter: I) -> Self
+  where
+    I: Iterator<Item = &'a ArmyPersonnel>,
+  {
+    iter.flat_map(ArmyPersonnel::iter).sum()
+  }
+}
+
+impl<'a> Sum<&'a Army> for Haul {
+  fn sum<I>(iter: I) -> Self
+  where
+    I: Iterator<Item = &'a Army>,
+  {
+    iter.flat_map(Army::iter).sum()
+  }
+}
+
+impl const Add for Haul {
   type Output = Haul;
 
   fn add(self, rhs: Self) -> Self::Output {
@@ -72,13 +100,13 @@ impl Add for Haul {
   }
 }
 
-impl AddAssign for Haul {
+impl const AddAssign for Haul {
   fn add_assign(&mut self, rhs: Self) {
     *self = *self + rhs;
   }
 }
 
-impl Mul<SquadSize> for Haul {
+impl const Mul<SquadSize> for Haul {
   type Output = Haul;
 
   fn mul(self, rhs: SquadSize) -> Self::Output {
@@ -86,23 +114,17 @@ impl Mul<SquadSize> for Haul {
   }
 }
 
-impl MulAssign<SquadSize> for Haul {
+impl const MulAssign<SquadSize> for Haul {
   fn mul_assign(&mut self, rhs: SquadSize) {
     *self = *self * rhs;
   }
 }
 
-impl Mul<f64> for Haul {
+impl const Mul<f64> for Haul {
   type Output = Haul;
 
   fn mul(self, rhs: f64) -> Self::Output {
     Self(f64::from(self.0).mul_ceil(rhs) as u32)
-  }
-}
-
-impl From<StorageCapacity> for Haul {
-  fn from(value: StorageCapacity) -> Self {
-    Haul::new(*value)
   }
 }
 

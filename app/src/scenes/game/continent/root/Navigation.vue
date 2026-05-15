@@ -2,11 +2,11 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { computed } from 'vue';
-import { Button } from '@ui/button';
-import { type Option, toPixel } from '@tb-dev/utils';
-import type { Direction } from '@/composables/continent/onKeyboardMovement';
-import { ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon, ChevronUpIcon } from '@lucide/vue';
+import { computed } from "vue";
+import { Button } from "@ui/button";
+import { type Option, toPixel } from "@tb-dev/utils";
+import type { Direction } from "@/composables/continent/onKeyboardMovement";
+import { ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon, ChevronUpIcon } from "@lucide/vue";
 
 const props = defineProps<{
   cellSize: number;
@@ -25,15 +25,15 @@ let rightInterval: Option<Timeout> = null;
 let downInterval: Option<Timeout> = null;
 let leftInterval: Option<Timeout> = null;
 
-const onUpStart = onStart('up');
-const onRightStart = onStart('right');
-const onDownStart = onStart('down');
-const onLeftStart = onStart('left');
+const onUpStart = onStart("up");
+const onRightStart = onStart("right");
+const onDownStart = onStart("down");
+const onLeftStart = onStart("left");
 
-const onUpEnd = onEnd('up');
-const onRightEnd = onEnd('right');
-const onDownEnd = onEnd('down');
-const onLeftEnd = onEnd('left');
+const onUpEnd = onEnd("up");
+const onRightEnd = onEnd("right");
+const onDownEnd = onEnd("down");
+const onLeftEnd = onEnd("left");
 
 function onStart(direction: Direction) {
   return function(e: MouseEvent | TouchEvent) {
@@ -41,22 +41,22 @@ function onStart(direction: Direction) {
     stop(direction);
 
     switch (direction) {
-      case 'up': {
+      case "up": {
         props.onUp();
         upInterval = start(() => props.onUp());
         break;
       }
-      case 'right': {
+      case "right": {
         props.onRight();
         rightInterval = start(() => props.onRight());
         break;
       }
-      case 'down': {
+      case "down": {
         props.onDown();
         downInterval = start(() => props.onDown());
         break;
       }
-      case 'left': {
+      case "left": {
         props.onLeft();
         leftInterval = start(() => props.onLeft());
         break;
@@ -78,28 +78,28 @@ function start(fn: () => void) {
 
 function stop(direction: Direction) {
   switch (direction) {
-    case 'up': {
+    case "up": {
       if (upInterval) {
         clearInterval(upInterval);
         upInterval = null;
       }
       break;
     }
-    case 'right': {
+    case "right": {
       if (rightInterval) {
         clearInterval(rightInterval);
         rightInterval = null;
       }
       break;
     }
-    case 'down': {
+    case "down": {
       if (downInterval) {
         clearInterval(downInterval);
         downInterval = null;
       }
       break;
     }
-    case 'left': {
+    case "left": {
       if (leftInterval) {
         clearInterval(leftInterval);
         leftInterval = null;

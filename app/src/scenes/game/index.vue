@@ -2,26 +2,26 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import { go } from '@/router';
-import Footer from './Footer.vue';
-import Header from './Header.vue';
-import Sidebar from './Sidebar.vue';
-import * as commands from '@/commands';
-import { DESKTOP } from '@/lib/global';
-import { leaveGame } from '@/core/game';
-import { useToggle } from '@vueuse/core';
-import { handleError } from '@/lib/error';
-import type { Option } from '@tb-dev/utils';
-import Finder from '@/components/Finder.vue';
-import { SidebarProvider } from '@ui/sidebar';
-import Loading from '@/components/Loading.vue';
-import { saveLocalGame } from '@/core/savedata';
-import type { RoundId } from '@tsukilabs/nil-bindings';
-import { ListenerSet } from '@/lib/listener-set';
-import { RemoteWorldImpl } from '@/core/model/remote-world';
-import { usePlayerReady } from '@/composables/player/usePlayerReady';
-import { asyncComputed, asyncRef, onCtrlKeyDown } from '@tb-dev/vue';
+import { ref } from "vue";
+import { go } from "@/router";
+import Footer from "./Footer.vue";
+import Header from "./Header.vue";
+import Sidebar from "./Sidebar.vue";
+import * as commands from "@/commands";
+import { DESKTOP } from "@/lib/global";
+import { leaveGame } from "@/core/game";
+import { useToggle } from "@vueuse/core";
+import { handleError } from "@/lib/error";
+import type { Option } from "@tb-dev/utils";
+import Finder from "@/components/Finder.vue";
+import { SidebarProvider } from "@ui/sidebar";
+import Loading from "@/components/Loading.vue";
+import { saveLocalGame } from "@/core/savedata";
+import { ListenerSet } from "@/lib/listener-set";
+import type { RoundId } from "@tsukilabs/nil-bindings";
+import { RemoteWorldImpl } from "@/core/model/remote-world";
+import { usePlayerReady } from "@/composables/player/usePlayerReady";
+import { asyncComputed, asyncRef, onCtrlKeyDown } from "@tb-dev/vue";
 
 const { worldId } = NIL.world.refs();
 const { round } = NIL.round.refs();
@@ -52,17 +52,17 @@ const listeners = new ListenerSet();
 listeners.event.onDrop(() => leaveGame());
 
 if (__DESKTOP__) {
-  onCtrlKeyDown(['b', 'B'], () => toggleSidebar());
-  onCtrlKeyDown(['f', 'F'], () => toggleFinder());
-  onCtrlKeyDown(['m', 'M'], () => go('continent'));
-  onCtrlKeyDown(['s', 'S'], () => save());
-  onCtrlKeyDown(' ', () => togglePlayerReady());
+  onCtrlKeyDown(["b", "B"], () => toggleSidebar());
+  onCtrlKeyDown(["f", "F"], () => toggleFinder());
+  onCtrlKeyDown(["m", "M"], () => go("continent"));
+  onCtrlKeyDown(["s", "S"], () => save());
+  onCtrlKeyDown(" ", () => togglePlayerReady());
 }
 
 async function startRound() {
   if (
     (isHost.value || isRemoteCreatedBySelf.value) &&
-    round.value?.state.kind === 'idle'
+    round.value?.state.kind === "idle"
   ) {
     await commands.startRound();
   }
@@ -72,7 +72,7 @@ async function save() {
   if (
     isHost.value &&
     isLocal.value &&
-    round.value?.state.kind !== 'idle' &&
+    round.value?.state.kind !== "idle" &&
     round.value?.id !== lastSavedAt.value
   ) {
     try {

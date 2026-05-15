@@ -1,18 +1,18 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { RouteRecordRaw } from 'vue-router';
-import type { PrefectureScene } from '@/types/scene/game/infrastructure';
+import type { RouteRecordRaw } from "vue-router";
+import type { PrefectureScene } from "@/types/scene/game/infrastructure";
 
 export const prefectureRoutes: RouteRecordRaw[] = [
   {
-    component: () => import('@/scenes/game/infrastructure/prefecture/root/index.vue'),
-    path: '',
-    name: 'prefecture' satisfies PrefectureScene,
+    component: () => import("@/scenes/game/infrastructure/prefecture/root/index.vue"),
+    path: "",
+    name: "prefecture" satisfies PrefectureScene,
   },
   {
-    component: () => import('@/scenes/game/infrastructure/prefecture/settings/index.vue'),
-    path: 'settings',
-    name: 'prefecture-settings' satisfies PrefectureScene,
+    component: () => import("@/scenes/game/infrastructure/prefecture/settings/index.vue"),
+    path: "settings",
+    name: "prefecture-settings" satisfies PrefectureScene,
   },
 ];

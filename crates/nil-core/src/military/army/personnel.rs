@@ -1,15 +1,18 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+use crate::military::army::Army;
 use crate::military::squad::Squad;
 use crate::military::squad::size::SquadSize;
 use crate::military::unit::stats::haul::Haul;
+use crate::military::unit::stats::power::{AttackPower, DefensePower, Power};
 use crate::military::unit::stats::speed::Speed;
 use crate::military::unit::{UnitId, UnitIdIter};
 use crate::ranking::score::Score;
 use crate::resources::maintenance::Maintenance;
 use crate::world::config::WorldConfig;
 use serde::{Deserialize, Serialize};
+use std::iter::Sum;
 use std::ops::{Add, AddAssign, Mul, MulAssign, Sub, SubAssign};
 use strum::IntoEnumIterator;
 use tap::Pipe;
@@ -74,31 +77,34 @@ impl ArmyPersonnel {
       .unwrap_or_default()
   }
 
+  #[inline]
   pub fn haul(&self) -> Haul {
-    self
-      .iter()
-      .fold(Haul::default(), |mut haul, squad| {
-        haul += squad.haul();
-        haul
-      })
+    self.iter().sum()
   }
 
+  #[inline]
   pub fn score(&self) -> Score {
-    self
-      .iter()
-      .fold(Score::default(), |mut score, squad| {
-        score += squad.score();
-        score
-      })
+    self.iter().sum()
   }
 
+  #[inline]
   pub fn maintenance(&self) -> Maintenance {
-    self
-      .iter()
-      .fold(Maintenance::default(), |mut maintenance, squad| {
-        maintenance += squad.maintenance();
-        maintenance
-      })
+    self.iter().sum()
+  }
+
+  #[inline]
+  pub fn power(&self) -> Power {
+    self.iter().sum()
+  }
+
+  #[inline]
+  pub fn attack(&self) -> AttackPower {
+    self.iter().sum()
+  }
+
+  #[inline]
+  pub fn defense(&self) -> DefensePower {
+    self.iter().sum()
   }
 
   #[inline]
@@ -187,6 +193,12 @@ impl Default for ArmyPersonnel {
   }
 }
 
+impl From<Army> for ArmyPersonnel {
+  fn from(army: Army) -> Self {
+    army.personnel
+  }
+}
+
 impl From<SquadSize> for ArmyPersonnel {
   fn from(size: SquadSize) -> Self {
     ArmyPersonnel::splat(size)
@@ -213,6 +225,27 @@ impl<'a> IntoIterator for &'a ArmyPersonnel {
 
   fn into_iter(self) -> Self::IntoIter {
     self.iter()
+  }
+}
+
+impl<'a> Sum<&'a ArmyPersonnel> for ArmyPersonnel {
+  fn sum<I>(iter: I) -> Self
+  where
+    I: Iterator<Item = &'a ArmyPersonnel>,
+  {
+    iter.fold(ArmyPersonnel::default(), |mut acc, personnel| {
+      acc += personnel;
+      acc
+    })
+  }
+}
+
+impl<'a> Sum<&'a Army> for ArmyPersonnel {
+  fn sum<I>(iter: I) -> Self
+  where
+    I: Iterator<Item = &'a Army>,
+  {
+    iter.map(Army::personnel).sum()
   }
 }
 

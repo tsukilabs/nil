@@ -2,19 +2,19 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { cn } from '@ui/utils';
-import { computed } from 'vue';
-import { useI18n } from 'vue-i18n';
-import { Button } from '@ui/button';
-import { useBreakpoints } from '@tb-dev/vue';
-import type { MaybePromise } from '@tb-dev/utils';
-import Workforce from '@/components/resources/Workforce.vue';
-import { ChevronDownIcon, ChevronUpIcon } from '@lucide/vue';
-import { Table, TableBody, TableCell, TableRow } from '@ui/table';
-import BuildingTitle from '@/components/infrastructure/BuildingTitle.vue';
-import enUS from '@/locale/en-US/scenes/game/infrastructure/prefecture.json';
-import ptBR from '@/locale/pt-BR/scenes/game/infrastructure/prefecture.json';
-import type { PrefectureImpl } from '@/core/model/infrastructure/building/prefecture/prefecture';
+import { cn } from "@ui/utils";
+import { computed } from "vue";
+import { useI18n } from "vue-i18n";
+import { Button } from "@ui/button";
+import { useBreakpoints } from "@tb-dev/vue";
+import type { MaybePromise } from "@tb-dev/utils";
+import Workforce from "@/components/resources/Workforce.vue";
+import { ChevronDownIcon, ChevronUpIcon } from "@lucide/vue";
+import { Table, TableBody, TableCell, TableRow } from "@ui/table";
+import BuildingTitle from "@/components/infrastructure/BuildingTitle.vue";
+import enUS from "@/locale/en-US/scenes/game/infrastructure/prefecture.json";
+import ptBR from "@/locale/pt-BR/scenes/game/infrastructure/prefecture.json";
+import type { PrefectureImpl } from "@/core/model/infrastructure/building/prefecture/prefecture";
 
 const props = defineProps<{
   prefecture: PrefectureImpl;
@@ -24,15 +24,15 @@ const props = defineProps<{
 
 const { t } = useI18n({
   messages: {
-    'en-US': enUS,
-    'pt-BR': ptBR,
+    "en-US": enUS,
+    "pt-BR": ptBR,
   },
 });
 
 const last = computed(() => props.prefecture.buildQueue.last());
 
 const tableClass = computed(() => {
-  return props.prefecture.buildQueue.size === 0 ? 'hidden' : null;
+  return props.prefecture.buildQueue.size === 0 ? "hidden" : null;
 });
 
 const { sm } = useBreakpoints();
@@ -78,7 +78,7 @@ const { sm } = useBreakpoints();
                 :disabled="loading"
                 @click="onCancel"
               >
-                <span>{{ t('cancel') }}</span>
+                <span>{{ t("cancel") }}</span>
               </Button>
             </div>
           </TableCell>

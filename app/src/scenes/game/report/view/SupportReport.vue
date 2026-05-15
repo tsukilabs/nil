@@ -2,15 +2,15 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n';
-import { CoordImpl } from '@/core/model/continent/coord';
-import enUS from '@/locale/en-US/scenes/game/report.json';
-import ptBR from '@/locale/pt-BR/scenes/game/report.json';
-import SupportReportPersonnel from './SupportReportPersonnel.vue';
-import type { SupportReportImpl } from '@/core/model/report/support-report';
-import { Table, TableBody, TableCell, TableHead, TableRow } from '@ui/table';
-import { useCityOwnerSceneLink } from '@/composables/city/useCityOwnerSceneLink';
-import { useCityProfileSceneLink } from '@/composables/city/useCityProfileSceneLink';
+import { useI18n } from "vue-i18n";
+import { CoordImpl } from "@/core/model/continent/coord";
+import enUS from "@/locale/en-US/scenes/game/report.json";
+import ptBR from "@/locale/pt-BR/scenes/game/report.json";
+import SupportReportPersonnel from "./SupportReportPersonnel.vue";
+import type { SupportReportImpl } from "@/core/model/report/support-report";
+import { Table, TableBody, TableCell, TableHead, TableRow } from "@ui/table";
+import { useCityOwnerSceneLink } from "@/composables/city/useCityOwnerSceneLink";
+import { useCityProfileSceneLink } from "@/composables/city/useCityProfileSceneLink";
 
 const props = defineProps<{
   report: SupportReportImpl;
@@ -18,8 +18,8 @@ const props = defineProps<{
 
 const { t } = useI18n({
   messages: {
-    'en-US': enUS,
-    'pt-BR': ptBR,
+    "en-US": enUS,
+    "pt-BR": ptBR,
   },
 });
 
@@ -33,7 +33,7 @@ const toDestinationProfile = useCityProfileSceneLink(() => props.report.destinat
     <Table class="max-w-[800px]">
       <TableBody>
         <TableRow>
-          <TableHead>{{ t('player') }}</TableHead>
+          <TableHead>{{ t("player") }}</TableHead>
           <TableCell>
             <RouterLink v-if="toRulerProfile" :to="toRulerProfile">
               {{ report.sender.id }}
@@ -42,7 +42,7 @@ const toDestinationProfile = useCityProfileSceneLink(() => props.report.destinat
         </TableRow>
 
         <TableRow>
-          <TableHead>{{ t('origin') }}</TableHead>
+          <TableHead>{{ t("origin") }}</TableHead>
           <TableCell>
             <RouterLink v-if="toOriginProfile" :to="toOriginProfile">
               {{ `${report.originCity.name} (${CoordImpl.format(report.originCity.coord)})` }}
@@ -51,7 +51,7 @@ const toDestinationProfile = useCityProfileSceneLink(() => props.report.destinat
         </TableRow>
 
         <TableRow>
-          <TableHead>{{ t('destination') }}</TableHead>
+          <TableHead>{{ t("destination") }}</TableHead>
           <TableCell>
             <RouterLink v-if="toDestinationProfile" :to="toDestinationProfile">
               {{ `${report.destinationCity.name} (${CoordImpl.format(report.destinationCity.coord)})` }}

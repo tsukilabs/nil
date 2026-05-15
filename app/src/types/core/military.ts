@@ -1,7 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ArmyPersonnel, Squad } from '@tsukilabs/nil-bindings';
+import type { ArmyPersonnel, Squad } from "@tsukilabs/nil-bindings";
 
 export interface ArmyAcademyPersonnel {
   readonly archer: Squad;
@@ -23,4 +23,4 @@ export type ArmyPersonnelSize = {
   [unit in keyof ArmyPersonnel]: number;
 };
 
-export type SquadTuple = [Squad['unit'], Squad['size']];
+export type SquadTuple = [Squad["unit"], Squad["size"]];

@@ -1,20 +1,20 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { go } from '@/router';
-import * as commands from '@/commands';
-import { formatInt } from '@/lib/intl';
-import { PLACEHOLDER } from '@/lib/string';
-import type { Option } from '@tb-dev/utils';
-import { RulerImpl } from '@/core/model/ruler';
-import type { ContinentKey } from '@/types/core/continent';
-import type { BotId, Coord, PublicBot, RankingEntry, Ruler } from '@tsukilabs/nil-bindings';
+import { go } from "@/router";
+import * as commands from "@/commands";
+import { formatInt } from "@/lib/intl";
+import { PLACEHOLDER } from "@/lib/string";
+import type { Option } from "@tb-dev/utils";
+import { RulerImpl } from "@/core/model/ruler";
+import type { ContinentKey } from "@/types/core/continent";
+import type { BotId, Coord, PublicBot, RankingEntry, Ruler } from "@tsukilabs/nil-bindings";
 
 export class PublicBotImpl extends RulerImpl implements Readonly<PublicBot> {
   public readonly id: BotId;
 
   public readonly toRuler = (): Ruler => {
-    return { kind: 'bot', id: this.id };
+    return { kind: "bot", id: this.id };
   };
 
   protected constructor(args: PublicBotImplConstructorArgs) {
@@ -31,7 +31,7 @@ export class PublicBotImpl extends RulerImpl implements Readonly<PublicBot> {
   }
 
   public async goToProfile() {
-    await go('profile-bot', { params: { id: this.id } });
+    await go("profile-bot", { params: { id: this.id } });
   }
 
   public formatRank() {

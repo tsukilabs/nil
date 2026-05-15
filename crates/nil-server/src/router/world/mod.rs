@@ -11,6 +11,7 @@ use crate::response::EitherExt;
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
 use itertools::Itertools;
+use nil_core::military::army::personnel::ArmyPersonnel;
 use nil_core::npc::bot::Bot;
 use nil_core::npc::precursor::Precursor;
 use nil_core::player::{Player, PlayerStatus};
@@ -35,6 +36,19 @@ pub async fn get_config(
     .world(req.world, |world| Arc::unwrap_or_clone(world.config()))
     .await
     .map_left(|world| res!(OK, GetWorldConfigResponse(world)))
+    .into_inner()
+}
+
+pub async fn get_personnel(
+  State(app): State<App>,
+  Json(req): Json<GetWorldPersonnelRequest>,
+) -> Response {
+  app
+    .military(req.world, |military| {
+      military.armies().sum::<ArmyPersonnel>()
+    })
+    .await
+    .map_left(|personnel| res!(OK, GetWorldPersonnelResponse(personnel)))
     .into_inner()
 }
 

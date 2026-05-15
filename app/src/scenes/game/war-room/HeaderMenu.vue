@@ -2,20 +2,20 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { go } from '@/router';
-import { useI18n } from 'vue-i18n';
-import { useRoute } from 'vue-router';
-import { MenuIcon } from '@lucide/vue';
-import { useBreakpoints } from '@tb-dev/vue';
-import type { WarRoomScene } from '@/types/scene/game';
-import { Button, type ButtonVariant } from '@ui/button';
+import { go } from "@/router";
+import { useI18n } from "vue-i18n";
+import { useRoute } from "vue-router";
+import { MenuIcon } from "@lucide/vue";
+import { useBreakpoints } from "@tb-dev/vue";
+import type { WarRoomScene } from "@/types/scene/game";
+import { Button, type ButtonVariant } from "@ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@ui/dropdown-menu';
+} from "@ui/dropdown-menu";
 
 const { t } = useI18n();
 
@@ -23,7 +23,7 @@ const route = useRoute();
 const { md } = useBreakpoints();
 
 function getButtonVariant(scene: WarRoomScene): ButtonVariant {
-  return route.name === scene ? 'secondary' : 'ghost';
+  return route.name === scene ? "secondary" : "ghost";
 }
 </script>
 
@@ -36,7 +36,7 @@ function getButtonVariant(scene: WarRoomScene): ButtonVariant {
       tabindex="0"
       @click="() => go('war-room')"
     >
-      <span>{{ t('maneuver', 2) }}</span>
+      <span>{{ t("maneuver", 2) }}</span>
     </Button>
 
     <Button
@@ -46,7 +46,7 @@ function getButtonVariant(scene: WarRoomScene): ButtonVariant {
       tabindex="0"
       @click="() => go('war-room-simulator')"
     >
-      <span>{{ t('simulator') }}</span>
+      <span>{{ t("simulator") }}</span>
     </Button>
   </div>
 
@@ -67,12 +67,12 @@ function getButtonVariant(scene: WarRoomScene): ButtonVariant {
       <DropdownMenuGroup>
         <DropdownMenuItem>
           <RouterLink :to="{ name: 'war-room' satisfies WarRoomScene }" class="w-full">
-            {{ t('maneuver', 2) }}
+            {{ t("maneuver", 2) }}
           </RouterLink>
         </DropdownMenuItem>
         <DropdownMenuItem>
           <RouterLink :to="{ name: 'war-room-simulator' satisfies WarRoomScene }" class="w-full">
-            {{ t('simulator') }}
+            {{ t("simulator") }}
           </RouterLink>
         </DropdownMenuItem>
       </DropdownMenuGroup>

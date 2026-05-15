@@ -1,0 +1,60 @@
+// Copyright (C) Call of Nil contributors
+// SPDX-License-Identifier: AGPL-3.0-only
+
+use crate::check_total_resource_ratio;
+use crate::infrastructure::building::BuildingId;
+use crate::infrastructure::building::level::BuildingLevel;
+use crate::infrastructure::requirements::InfrastructureRequirements;
+use crate::military::unit::stats::prelude::*;
+use crate::military::unit::{UnitChunk, UnitChunkSize, UnitId, UnitKind};
+use crate::ranking::score::Score;
+use crate::resources::prelude::*;
+use nil_core_macros::Unit;
+
+#[derive(Unit, Clone, Debug)]
+pub struct LightCavalry;
+
+impl LightCavalry {
+  pub const ID: UnitId = UnitId::LightCavalry;
+  pub const KIND: UnitKind = UnitKind::Cavalry;
+  pub const BUILDING: BuildingId = BuildingId::Stable;
+
+  pub const SCORE: Score = Score::new(4);
+
+  pub const STATS: UnitStats = UnitStats::builder()
+    .attack(AttackPower::new(130))
+    .defense(
+      DefensePower::builder()
+        .cavalry(Power::new(40))
+        .infantry(Power::new(30))
+        .ranged(Power::new(30))
+        .build(),
+    )
+    .ranged_debuff(RangedDebuff::MIN)
+    .base_speed(Speed::new(4.0))
+    .haul(Haul::new(80))
+    .build();
+
+  pub const CHUNK: UnitChunk = UnitChunk {
+    size: UnitChunkSize::new(5),
+    cost: Cost::new(2_375),
+    food_ratio: ResourceRatio::new(0.0),
+    stone_ratio: ResourceRatio::new(0.2),
+    iron_ratio: ResourceRatio::new(0.5),
+    wood_ratio: ResourceRatio::new(0.3),
+    maintenance_ratio: MaintenanceRatio::new(0.005),
+    workforce: Workforce::new(2),
+  };
+
+  pub const INFRASTRUCTURE_REQUIREMENTS: InfrastructureRequirements =
+    InfrastructureRequirements::builder()
+      .stable(BuildingLevel::new(1))
+      .build();
+}
+
+check_total_resource_ratio!(
+  LightCavalry::CHUNK.food_ratio,
+  LightCavalry::CHUNK.iron_ratio,
+  LightCavalry::CHUNK.stone_ratio,
+  LightCavalry::CHUNK.wood_ratio
+);

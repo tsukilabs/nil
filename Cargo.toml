@@ -9,13 +9,13 @@ members = [
   "crates/nil-log",
   "crates/nil-namegen",
   "crates/nil-num",
-  "crates/nil-num-macros",
   "crates/nil-payload",
   "crates/nil-payload-macros",
   "crates/nil-server",
   "crates/nil-server-database",
   "crates/nil-server-types",
   "crates/nil-util",
+  "crates/nil-util-macros",
 ]
 
 [workspace.package]
@@ -132,7 +132,7 @@ version = "0.2"
 features = ["serde"]
 
 [workspace.dependencies.jsonwebtoken]
-version = "10.3"
+version = "10.4"
 features = ["rust_crypto"]
 
 [workspace.dependencies.libsqlite3-sys]
@@ -252,10 +252,6 @@ path = "./crates/nil-namegen"
 version = "0.5"
 path = "./crates/nil-num"
 
-[workspace.dependencies.nil-num-macros]
-version = "0.5"
-path = "./crates/nil-num-macros"
-
 [workspace.dependencies.nil-server]
 version = "0.5"
 path = "./crates/nil-server"
@@ -279,6 +275,10 @@ path = "./crates/nil-payload-macros"
 [workspace.dependencies.nil-util]
 version = "0.5"
 path = "./crates/nil-util"
+
+[workspace.dependencies.nil-util-macros]
+version = "0.5"
+path = "./crates/nil-util-macros"
 
 [workspace.lints.rust]
 async_fn_in_trait = "allow"
@@ -310,6 +310,7 @@ rc_mutex = "deny"
 redundant_else = "allow"
 rest_pat_in_fully_bound_structs = "deny"
 similar_names = "allow"
+single_match_else = "allow"
 struct_field_names = "allow"
 unnecessary_safety_comment = "deny"
 unsafe_derive_deserialize = "allow"

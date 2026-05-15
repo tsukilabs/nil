@@ -13,7 +13,8 @@ use std::sync::Arc;
 use strum::EnumIs;
 use uuid::Uuid;
 
-#[derive(Clone, Debug, Default, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive_const(Default)]
 #[serde(rename_all = "camelCase")]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Chat {
@@ -44,7 +45,7 @@ impl ChatHistory {
   pub const MIN: NonZeroUsize = NonZeroUsize::new(100).unwrap();
   pub const MAX: NonZeroUsize = NonZeroUsize::new(500).unwrap();
 
-  fn new(size: usize) -> Self {
+  const fn new(size: usize) -> Self {
     let size = size.clamp(Self::MIN.get(), Self::MAX.get());
     let size = unsafe { NonZeroUsize::new_unchecked(size) };
     Self { queue: VecDeque::new(), size }
@@ -64,7 +65,7 @@ impl ChatHistory {
   }
 }
 
-impl Default for ChatHistory {
+impl const Default for ChatHistory {
   fn default() -> Self {
     Self::new(Self::MIN.get())
   }
@@ -125,7 +126,8 @@ impl Default for ChatMessageId {
   }
 }
 
-#[derive(Clone, Copy, Debug, Default, EnumIs, Deserialize, Serialize)]
+#[derive(Clone, Copy, Debug, EnumIs, Deserialize, Serialize)]
+#[derive_const(Default)]
 #[serde(rename_all = "kebab-case")]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub enum ChatMessageKind {

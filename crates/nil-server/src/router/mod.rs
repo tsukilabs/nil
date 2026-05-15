@@ -149,6 +149,7 @@ pub(crate) fn create() -> Router<App> {
     .route("/get-server-kind", get(server::kind))
     .route("/get-world-bots", put(world::get_bots))
     .route("/get-world-config", put(world::get_config))
+    .route("/get-world-personnel", put(world::get_personnel))
     .route("/get-world-players", put(world::get_players))
     .route("/get-world-precursors", put(world::get_precursors))
     .route("/get-world-stats", put(world::get_stats))

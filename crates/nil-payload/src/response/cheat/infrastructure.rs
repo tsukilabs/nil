@@ -3,9 +3,9 @@
 
 use nil_core::continent::Coord;
 use nil_core::infrastructure::Infrastructure;
-use nil_core::infrastructure::building::academy::recruit_queue::AcademyRecruitQueue;
-use nil_core::infrastructure::building::prefecture::build_queue::PrefectureBuildQueue;
-use nil_core::infrastructure::building::stable::recruit_queue::StableRecruitQueue;
+use nil_core::infrastructure::building::r#impl::academy::recruit_queue::AcademyRecruitQueue;
+use nil_core::infrastructure::building::r#impl::prefecture::build_queue::PrefectureBuildQueue;
+use nil_core::infrastructure::building::r#impl::stable::recruit_queue::StableRecruitQueue;
 use nil_core::infrastructure::storage::OverallStorageCapacity;
 use serde::{Deserialize, Serialize};
 

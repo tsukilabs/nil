@@ -1,7 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { invoke } from '@tauri-apps/api/core';
+import { invoke } from "@tauri-apps/api/core";
 import type {
   AddWorkshopRecruitOrderRequest,
   CancelWorkshopRecruitOrderRequest,
@@ -10,7 +10,7 @@ import type {
   GetWorkshopRecruitCatalogResponse,
   WorkshopRecruitOrderId,
   WorkshopRecruitOrderRequest,
-} from '@tsukilabs/nil-bindings';
+} from "@tsukilabs/nil-bindings";
 
 export async function addWorkshopRecruitOrder(request: WorkshopRecruitOrderRequest) {
   const req: AddWorkshopRecruitOrderRequest = {
@@ -18,7 +18,7 @@ export async function addWorkshopRecruitOrder(request: WorkshopRecruitOrderReque
     request,
   };
 
-  await invoke('add_workshop_recruit_order', { req });
+  await invoke("add_workshop_recruit_order", { req });
 }
 
 export async function cancelWorkshopRecruitOrder(coord: Coord, id: WorkshopRecruitOrderId) {
@@ -28,7 +28,7 @@ export async function cancelWorkshopRecruitOrder(coord: Coord, id: WorkshopRecru
     id,
   };
 
-  await invoke('cancel_workshop_recruit_order', { req });
+  await invoke("cancel_workshop_recruit_order", { req });
 }
 
 export async function getWorkshopRecruitCatalog(coord: Coord) {
@@ -37,5 +37,5 @@ export async function getWorkshopRecruitCatalog(coord: Coord) {
     coord,
   };
 
-  return invoke<GetWorkshopRecruitCatalogResponse>('get_workshop_recruit_catalog', { req });
+  return invoke<GetWorkshopRecruitCatalogResponse>("get_workshop_recruit_catalog", { req });
 }

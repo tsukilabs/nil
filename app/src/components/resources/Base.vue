@@ -2,11 +2,11 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { cn } from '@ui/utils';
-import { formatInt } from '@/lib/intl';
-import type { ClassValue } from 'clsx';
-import type { Option } from '@tb-dev/utils';
-import { useBreakpoints } from '@tb-dev/vue';
+import { cn } from "@ui/utils";
+import { formatInt } from "@/lib/intl";
+import type { ClassValue } from "clsx";
+import type { Option } from "@tb-dev/utils";
+import { useBreakpoints } from "@tb-dev/vue";
 
 const props = defineProps<{
   amount?: Option<number>;
@@ -20,14 +20,14 @@ const props = defineProps<{
 const { xl } = useBreakpoints();
 
 const fractionIntl = new Intl.NumberFormat(undefined, {
-  style: 'decimal',
+  style: "decimal",
   maximumFractionDigits: 1,
   minimumFractionDigits: 0,
-  roundingMode: 'trunc',
-  trailingZeroDisplay: 'stripIfInteger',
-  notation: 'standard',
-  useGrouping: 'auto',
-  localeMatcher: 'best fit',
+  roundingMode: "trunc",
+  trailingZeroDisplay: "stripIfInteger",
+  notation: "standard",
+  useGrouping: "auto",
+  localeMatcher: "best fit",
 });
 
 function format() {
@@ -55,8 +55,8 @@ function format() {
 
 function isOverflowing() {
   return (
-    typeof props.amount === 'number' &&
-    typeof props.limit === 'number' &&
+    typeof props.amount === "number" &&
+    typeof props.limit === "number" &&
     props.amount >= props.limit
   );
 }

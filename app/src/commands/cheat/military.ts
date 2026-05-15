@@ -1,13 +1,13 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Option } from '@tb-dev/utils';
-import { invoke } from '@tauri-apps/api/core';
-import { SquadImpl } from '@/core/model/military/squad';
-import type { SquadTuple } from '@/types/core/military';
-import { CoordImpl } from '@/core/model/continent/coord';
-import type { ContinentKey } from '@/types/core/continent';
-import { ArmyPersonnelImpl } from '@/core/model/military/army-personnel';
+import type { Option } from "@tb-dev/utils";
+import { invoke } from "@tauri-apps/api/core";
+import { SquadImpl } from "@/core/model/military/squad";
+import type { SquadTuple } from "@/types/core/military";
+import { CoordImpl } from "@/core/model/continent/coord";
+import type { ContinentKey } from "@/types/core/continent";
+import { ArmyPersonnelImpl } from "@/core/model/military/army-personnel";
 import type {
   ArmyPersonnel,
   CheatGetIdleArmiesAtRequest,
@@ -22,7 +22,7 @@ import type {
   Ruler,
   Squad,
   UnitId,
-} from '@tsukilabs/nil-bindings';
+} from "@tsukilabs/nil-bindings";
 
 export async function cheatGetIdleArmiesAt(coord?: Option<ContinentKey>) {
   coord = CoordImpl.fromContinentKeyOrCurrentStrict(coord);
@@ -31,7 +31,7 @@ export async function cheatGetIdleArmiesAt(coord?: Option<ContinentKey>) {
     coord,
   };
 
-  return invoke<CheatGetIdleArmiesAtResponse>('cheat_get_idle_armies_at', { req });
+  return invoke<CheatGetIdleArmiesAtResponse>("cheat_get_idle_armies_at", { req });
 }
 
 export async function cheatGetIdlePersonnelAt(coord?: Option<ContinentKey>) {
@@ -41,7 +41,7 @@ export async function cheatGetIdlePersonnelAt(coord?: Option<ContinentKey>) {
     coord,
   };
 
-  return invoke<CheatGetIdlePersonnelAtResponse>('cheat_get_idle_personnel_at', { req });
+  return invoke<CheatGetIdlePersonnelAtResponse>("cheat_get_idle_personnel_at", { req });
 }
 
 export async function cheatGetIdlePersonnelSizeAt(coord?: Option<ContinentKey>) {
@@ -67,7 +67,7 @@ export async function cheatGetManeuvers() {
     world: NIL.world.getIdStrict(),
   };
 
-  return invoke<CheatGetManeuversResponse>('cheat_get_maneuvers', { req });
+  return invoke<CheatGetManeuversResponse>("cheat_get_maneuvers", { req });
 }
 
 export async function cheatGetManeuversOf(ruler: Ruler) {
@@ -76,7 +76,7 @@ export async function cheatGetManeuversOf(ruler: Ruler) {
     ruler,
   };
 
-  return invoke<CheatGetManeuversOfResponse>('cheat_get_maneuvers_of', { req });
+  return invoke<CheatGetManeuversOfResponse>("cheat_get_maneuvers_of", { req });
 }
 
 export async function cheatSpawnPersonnel(
@@ -88,7 +88,7 @@ export async function cheatSpawnPersonnel(
   personnel ??= 1_000;
   ruler ??= null;
 
-  if (typeof personnel === 'number') {
+  if (typeof personnel === "number") {
     personnel = ArmyPersonnelImpl.splat(personnel);
   }
 
@@ -99,7 +99,7 @@ export async function cheatSpawnPersonnel(
     ruler,
   };
 
-  await invoke('cheat_spawn_personnel', { req });
+  await invoke("cheat_spawn_personnel", { req });
 }
 
 export async function cheatSpawnSquad(
@@ -107,7 +107,7 @@ export async function cheatSpawnSquad(
   squad: Squad | SquadTuple | UnitId,
   ruler?: Option<Ruler>,
 ) {
-  if (typeof squad === 'string') {
+  if (typeof squad === "string") {
     squad = { unit: squad, size: 1_000 };
   }
   else if (Array.isArray(squad)) {

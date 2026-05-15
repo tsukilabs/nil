@@ -2,10 +2,10 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n';
-import HeaderMenu from './HeaderMenu.vue';
-import Loading from '@/components/Loading.vue';
-import { Card, CardContent, CardHeader, CardTitle } from '@ui/card';
+import { useI18n } from "vue-i18n";
+import HeaderMenu from "./HeaderMenu.vue";
+import Loading from "@/components/Loading.vue";
+import { Card, CardContent, CardHeader, CardTitle } from "@ui/card";
 
 const { t } = useI18n();
 </script>
@@ -16,7 +16,7 @@ const { t } = useI18n();
       <CardHeader>
         <CardTitle>
           <div class="flex items-center justify-between">
-            <span>{{ t('war-room') }}</span>
+            <span>{{ t("war-room") }}</span>
             <HeaderMenu />
           </div>
         </CardTitle>

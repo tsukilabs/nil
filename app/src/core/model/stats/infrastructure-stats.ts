@@ -1,11 +1,11 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { type Option, unwrap } from '@tb-dev/utils';
-import { MineStatsTableImpl } from './mine-stats-table';
-import { StorageStatsTableImpl } from './storage-stats-table';
-import { BuildingStatsTableImpl } from './building-stats-table';
-import { WallStatsTableImpl } from '@/core/model/stats/wall-stats-table';
+import { type Option, unwrap } from "@tb-dev/utils";
+import { MineStatsTableImpl } from "./mine-stats-table";
+import { StorageStatsTableImpl } from "./storage-stats-table";
+import { BuildingStatsTableImpl } from "./building-stats-table";
+import { WallStatsTableImpl } from "@/core/model/stats/wall-stats-table";
 import type {
   BuildingId,
   BuildingStatsTable,
@@ -14,7 +14,7 @@ import type {
   MineStatsTable,
   StorageId,
   StorageStatsTable,
-} from '@tsukilabs/nil-bindings';
+} from "@tsukilabs/nil-bindings";
 
 export class InfrastructureStatsImpl {
   public readonly building: ReadonlyMap<BuildingId, BuildingStatsTableImpl>;
@@ -66,7 +66,7 @@ export class InfrastructureStatsImpl {
 
     for (const [key, value] of Object.entries(raw)) {
       switch (key as keyof InfrastructureStats) {
-        case 'building': {
+        case "building": {
           type Entries = [BuildingId, BuildingStatsTable][];
           for (const [id, record] of Object.entries(value) as Entries) {
             const impl = BuildingStatsTableImpl.fromRaw(record);
@@ -75,7 +75,7 @@ export class InfrastructureStatsImpl {
 
           break;
         }
-        case 'mine': {
+        case "mine": {
           type Entries = [MineId, MineStatsTable][];
           for (const [id, record] of Object.entries(value) as Entries) {
             const impl = MineStatsTableImpl.fromRaw(record);
@@ -84,7 +84,7 @@ export class InfrastructureStatsImpl {
 
           break;
         }
-        case 'storage': {
+        case "storage": {
           type Entries = [StorageId, StorageStatsTable][];
           for (const [id, record] of Object.entries(value) as Entries) {
             const impl = StorageStatsTableImpl.fromRaw(record);
@@ -93,7 +93,7 @@ export class InfrastructureStatsImpl {
 
           break;
         }
-        case 'wall': {
+        case "wall": {
           infrastructure.wall = WallStatsTableImpl.fromRaw(value);
           break;
         }

@@ -1,27 +1,27 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { go } from '@/router';
-import * as commands from '@/commands';
-import { formatInt } from '@/lib/intl';
-import { PLACEHOLDER } from '@/lib/string';
-import type { Option } from '@tb-dev/utils';
-import { RulerImpl } from '@/core/model/ruler';
-import type { ContinentKey } from '@/types/core/continent';
+import { go } from "@/router";
+import * as commands from "@/commands";
+import { formatInt } from "@/lib/intl";
+import { PLACEHOLDER } from "@/lib/string";
+import type { Option } from "@tb-dev/utils";
+import { RulerImpl } from "@/core/model/ruler";
+import type { ContinentKey } from "@/types/core/continent";
 import type {
   Coord,
   PrecursorId,
   PublicPrecursor,
   RankingEntry,
   Ruler,
-} from '@tsukilabs/nil-bindings';
+} from "@tsukilabs/nil-bindings";
 
 export class PublicPrecursorImpl extends RulerImpl implements Readonly<PublicPrecursor> {
   public readonly id: PrecursorId;
   public readonly origin: Coord;
 
   public readonly toRuler = (): Ruler => {
-    return { kind: 'precursor', id: this.id };
+    return { kind: "precursor", id: this.id };
   };
 
   protected constructor(args: PublicPrecursorImplConstructorArgs) {
@@ -39,7 +39,7 @@ export class PublicPrecursorImpl extends RulerImpl implements Readonly<PublicPre
   }
 
   public async goToProfile() {
-    await go('profile-precursor', { params: { id: this.id } });
+    await go("profile-precursor", { params: { id: this.id } });
   }
 
   public formatRank() {

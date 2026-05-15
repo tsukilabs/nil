@@ -1,14 +1,14 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { handleError } from '@/lib/error';
-import type { Option } from '@tb-dev/utils';
-import { attemptAsync } from 'es-toolkit/util';
-import { useSettings } from '@/stores/settings';
-import { shallowRef, type ShallowRef } from 'vue';
-import { check } from '@tauri-apps/plugin-updater';
-import { openUrl } from '@tauri-apps/plugin-opener';
-import { relaunch } from '@tauri-apps/plugin-process';
+import { handleError } from "@/lib/error";
+import type { Option } from "@tb-dev/utils";
+import { attemptAsync } from "es-toolkit/util";
+import { useSettings } from "@/stores/settings";
+import { shallowRef, type ShallowRef } from "vue";
+import { check } from "@tauri-apps/plugin-updater";
+import { openUrl } from "@tauri-apps/plugin-opener";
+import { relaunch } from "@tauri-apps/plugin-process";
 
 export interface Update {
   readonly version: string;
@@ -57,7 +57,7 @@ async function checkForUpdates(updateRef: ShallowRef<Option<Update>>) {
 
 async function openChangelog() {
   try {
-    await openUrl('https://github.com/tsukilabs/nil/releases/latest');
+    await openUrl("https://github.com/tsukilabs/nil/releases/latest");
   }
   catch (err) {
     handleError(err);

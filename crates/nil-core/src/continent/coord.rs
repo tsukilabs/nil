@@ -3,9 +3,9 @@
 
 use crate::continent::ContinentSize;
 use crate::error::Result;
-use derive_more::{From, Into};
 use glam::u8::U8Vec2;
 use itertools::Itertools;
+use nil_util::ConstDeref;
 use serde::de::{self, Error as _, MapAccess, SeqAccess, Visitor};
 use serde::ser::SerializeStruct;
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
@@ -47,11 +47,11 @@ impl Coord {
   }
 
   #[inline]
-  pub fn is_within_continent(&self, size: ContinentSize) -> bool {
+  pub const fn is_within_continent(&self, size: ContinentSize) -> bool {
     size > self.x() && size > self.y()
   }
 
-  pub fn is_within_distance(&self, other: Coord, distance: Distance) -> bool {
+  pub const fn is_within_distance(&self, other: Coord, distance: Distance) -> bool {
     let x0 = i16::from(self.x());
     let y0 = i16::from(self.y());
     let distance = i16::from(distance);
@@ -97,7 +97,7 @@ fn within_distance(origin: Coord, distance: Distance, inclusive: bool) -> Vec<Co
   coords.into_iter().unique().collect()
 }
 
-impl Add for Coord {
+impl const Add for Coord {
   type Output = Coord;
 
   fn add(self, rhs: Self) -> Self::Output {
@@ -105,7 +105,7 @@ impl Add for Coord {
   }
 }
 
-impl Sub for Coord {
+impl const Sub for Coord {
   type Output = Coord;
 
   fn sub(self, rhs: Self) -> Self::Output {
@@ -113,7 +113,7 @@ impl Sub for Coord {
   }
 }
 
-impl From<(u8, u8)> for Coord {
+impl const From<(u8, u8)> for Coord {
   fn from((x, y): (u8, u8)) -> Self {
     Self::new(x, y)
   }
@@ -205,10 +205,8 @@ impl<'de> Visitor<'de> for CoordVisitor {
   }
 }
 
-#[derive(
-  Clone, Copy, Debug, Default, From, Into, PartialEq, Eq, PartialOrd, Ord, Deserialize, Serialize,
-)]
-#[into(i16, u8, f64)]
+#[derive(Clone, Copy, Debug, Deserialize, Serialize, ConstDeref)]
+#[derive_const(Default, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Distance(u8);
 
 impl Distance {
@@ -218,13 +216,37 @@ impl Distance {
   }
 }
 
-impl PartialEq<u8> for Distance {
+impl const From<u8> for Distance {
+  fn from(value: u8) -> Self {
+    Self(value)
+  }
+}
+
+impl const From<Distance> for u8 {
+  fn from(value: Distance) -> Self {
+    value.0
+  }
+}
+
+impl const From<Distance> for i16 {
+  fn from(value: Distance) -> Self {
+    i16::from(value.0)
+  }
+}
+
+impl const From<Distance> for f64 {
+  fn from(value: Distance) -> Self {
+    f64::from(value.0)
+  }
+}
+
+impl const PartialEq<u8> for Distance {
   fn eq(&self, other: &u8) -> bool {
     self.0.eq(other)
   }
 }
 
-impl Add for Distance {
+impl const Add for Distance {
   type Output = Distance;
 
   fn add(self, rhs: Self) -> Self::Output {
@@ -232,13 +254,13 @@ impl Add for Distance {
   }
 }
 
-impl AddAssign for Distance {
+impl const AddAssign for Distance {
   fn add_assign(&mut self, rhs: Self) {
     *self = *self + rhs;
   }
 }
 
-impl Sub for Distance {
+impl const Sub for Distance {
   type Output = Distance;
 
   fn sub(self, rhs: Self) -> Self::Output {
@@ -246,13 +268,13 @@ impl Sub for Distance {
   }
 }
 
-impl SubAssign for Distance {
+impl const SubAssign for Distance {
   fn sub_assign(&mut self, rhs: Self) {
     *self = *self - rhs;
   }
 }
 
-impl Add<u8> for Distance {
+impl const Add<u8> for Distance {
   type Output = Distance;
 
   fn add(self, rhs: u8) -> Self::Output {
@@ -260,13 +282,13 @@ impl Add<u8> for Distance {
   }
 }
 
-impl AddAssign<u8> for Distance {
+impl const AddAssign<u8> for Distance {
   fn add_assign(&mut self, rhs: u8) {
     *self = *self + rhs;
   }
 }
 
-impl Sub<u8> for Distance {
+impl const Sub<u8> for Distance {
   type Output = Distance;
 
   fn sub(self, rhs: u8) -> Self::Output {
@@ -274,7 +296,7 @@ impl Sub<u8> for Distance {
   }
 }
 
-impl SubAssign<u8> for Distance {
+impl const SubAssign<u8> for Distance {
   fn sub_assign(&mut self, rhs: u8) {
     *self = *self - rhs;
   }

@@ -1,10 +1,10 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Option } from '@tb-dev/utils';
-import { invoke } from '@tauri-apps/api/core';
-import { getCityOwner } from '@/commands/city';
-import type { ContinentKey } from '@/types/core/continent';
+import type { Option } from "@tb-dev/utils";
+import { invoke } from "@tauri-apps/api/core";
+import { getCityOwner } from "@/commands/city";
+import type { ContinentKey } from "@/types/core/continent";
 import type {
   BotId,
   CheatGetEthicsRequest,
@@ -18,7 +18,7 @@ import type {
   Infrastructure,
   PrecursorId,
   Ruler,
-} from '@tsukilabs/nil-bindings';
+} from "@tsukilabs/nil-bindings";
 
 export async function cheatGetEthics(ruler: Ruler) {
   const req: CheatGetEthicsRequest = {
@@ -26,11 +26,11 @@ export async function cheatGetEthics(ruler: Ruler) {
     ruler,
   };
 
-  return invoke<CheatGetEthicsResponse>('cheat_get_ethics', { req });
+  return invoke<CheatGetEthicsResponse>("cheat_get_ethics", { req });
 }
 
 export async function cheatGetBotEthics(id: BotId) {
-  return cheatGetEthics({ kind: 'bot', id });
+  return cheatGetEthics({ kind: "bot", id });
 }
 
 export async function cheatGetOwnerEthics(coord: ContinentKey) {
@@ -54,7 +54,7 @@ export async function cheatGetPowerEthic(ruler: Ruler) {
 }
 
 export async function cheatGetPrecursorEthics(id: PrecursorId) {
-  return cheatGetEthics({ kind: 'precursor', id });
+  return cheatGetEthics({ kind: "precursor", id });
 }
 
 export async function cheatGetTruthEthic(ruler: Ruler) {
@@ -69,7 +69,7 @@ export async function cheatSetBotEthics(id: BotId, ethics: Ethics) {
     ethics,
   };
 
-  await invoke('cheat_set_bot_ethics', { req });
+  await invoke("cheat_set_bot_ethics", { req });
 }
 
 export async function cheatSetBotPowerEthic(id: BotId, ethic: EthicPowerAxis) {
@@ -88,27 +88,27 @@ export async function cheatSetBotTruthEthic(id: BotId, ethic: EthicTruthAxis) {
 
 export async function cheatSetOwnerBotEthics(coord: ContinentKey, ethics: Ethics) {
   const owner = await getCityOwner(coord);
-  if (owner.kind === 'bot') {
+  if (owner.kind === "bot") {
     await cheatSetBotEthics(owner.id, ethics);
   }
 }
 
 export async function cheatSetOwnerBotPowerEthic(coord: ContinentKey, ethic: EthicPowerAxis) {
   const owner = await getCityOwner(coord);
-  if (owner.kind === 'bot') {
+  if (owner.kind === "bot") {
     await cheatSetBotPowerEthic(owner.id, ethic);
   }
 }
 
 export async function cheatSetOwnerBotTruthEthic(coord: ContinentKey, ethic: EthicTruthAxis) {
   const owner = await getCityOwner(coord);
-  if (owner.kind === 'bot') {
+  if (owner.kind === "bot") {
     await cheatSetBotTruthEthic(owner.id, ethic);
   }
 }
 
 export async function cheatSpawnBot(name?: Option<string>, infrastructure?: Infrastructure) {
-  if (typeof name !== 'string' || name.length === 0) {
+  if (typeof name !== "string" || name.length === 0) {
     name = `Bot ${globalThis.crypto.randomUUID()}`;
   }
 
@@ -118,5 +118,5 @@ export async function cheatSpawnBot(name?: Option<string>, infrastructure?: Infr
     infrastructure: infrastructure ?? null,
   };
 
-  return invoke<CheatSpawnBotResponse>('cheat_spawn_bot', { req });
+  return invoke<CheatSpawnBotResponse>("cheat_spawn_bot", { req });
 }

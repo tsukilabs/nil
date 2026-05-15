@@ -1,15 +1,13 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use derive_more::{Deref, Into};
-use nil_num::F64Ops;
+use nil_util::{ConstDeref, F64Math};
 use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
 
 /// Represents how many fields a unit can travel in one round.
-#[derive(
-  Clone, Copy, Debug, Deref, Into, PartialEq, PartialOrd, Deserialize, Serialize, F64Ops,
-)]
+#[derive(Copy, Debug, Deserialize, Serialize, ConstDeref, F64Math)]
+#[derive_const(Clone, Default, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Speed(f64);
 
@@ -22,19 +20,19 @@ impl Speed {
   }
 }
 
-impl Default for Speed {
-  fn default() -> Self {
-    Self(0.0)
+impl const From<Speed> for f64 {
+  fn from(value: Speed) -> Self {
+    value.0
   }
 }
 
-impl PartialEq<f64> for Speed {
+impl const PartialEq<f64> for Speed {
   fn eq(&self, other: &f64) -> bool {
     self.0.eq(other)
   }
 }
 
-impl PartialOrd<f64> for Speed {
+impl const PartialOrd<f64> for Speed {
   fn partial_cmp(&self, other: &f64) -> Option<Ordering> {
     self.0.partial_cmp(other)
   }

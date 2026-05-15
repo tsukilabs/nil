@@ -16,7 +16,7 @@ use strum::{Display, EnumIter, IntoEnumIterator};
 pub use crate::npc::precursor::a::A;
 pub use crate::npc::precursor::b::B;
 
-pub trait Precursor: Send + Sync {
+pub const trait Precursor: Send + Sync {
   fn id(&self) -> PrecursorId;
   fn ethics(&self) -> &Ethics;
   fn origin(&self) -> Coord;
@@ -33,18 +33,18 @@ pub struct PrecursorManager {
 }
 
 impl PrecursorManager {
-  pub fn new(size: ContinentSize) -> Self {
+  pub const fn new(size: ContinentSize) -> Self {
     Self { a: A::new(size), b: B::new(size) }
   }
 
-  pub fn precursor(&self, id: PrecursorId) -> &dyn Precursor {
+  pub const fn precursor(&self, id: PrecursorId) -> &dyn Precursor {
     match id {
       PrecursorId::A => &self.a,
       PrecursorId::B => &self.b,
     }
   }
 
-  pub(crate) fn precursor_mut(&mut self, id: PrecursorId) -> &mut dyn Precursor {
+  pub(crate) const fn precursor_mut(&mut self, id: PrecursorId) -> &mut dyn Precursor {
     match id {
       PrecursorId::A => &mut self.a,
       PrecursorId::B => &mut self.b,
@@ -69,6 +69,7 @@ impl PrecursorManager {
     }
 
     check!(A, B);
+
     false
   }
 }
@@ -97,7 +98,8 @@ where
   }
 }
 
-#[derive(Clone, Copy, Debug, Display, PartialEq, Eq, Hash, EnumIter, Deserialize, Serialize)]
+#[derive(Copy, Debug, Display, Hash, EnumIter, Deserialize, Serialize)]
+#[derive_const(Clone, PartialEq, Eq)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub enum PrecursorId {
   #[serde(rename = "A")]
@@ -118,9 +120,9 @@ pub struct PublicPrecursor {
 }
 
 impl PublicPrecursor {
-  pub fn new<T>(precursor: &T) -> Self
+  pub const fn new<T>(precursor: &T) -> Self
   where
-    T: Precursor + ?Sized,
+    T: [const] Precursor + ?Sized,
   {
     Self {
       id: precursor.id(),
@@ -135,19 +137,24 @@ impl From<&dyn Precursor> for PublicPrecursor {
   }
 }
 
-impl<T: Precursor> From<&T> for PublicPrecursor {
+impl<T> const From<&T> for PublicPrecursor
+where
+  T: [const] Precursor,
+{
   fn from(precursor: &T) -> Self {
     Self::new(precursor)
   }
 }
 
+/// Precursors start with an initial territory equal to one-tenth of the continent size.
+/// In other words, they would begin with a 10×10 territory on a 100×100 continent.
 #[inline]
-pub fn initial_territory_radius(size: ContinentSize) -> Distance {
+pub const fn initial_territory_radius(size: ContinentSize) -> Distance {
   Distance::new(size.get().div_ceil(20).next_multiple_of(2))
 }
 
 #[inline]
-pub fn initial_city_amount(size: ContinentSize) -> u8 {
+pub const fn initial_city_amount(size: ContinentSize) -> u8 {
   size.get().div_ceil(10).saturating_mul(2)
 }
 
@@ -155,6 +162,7 @@ pub fn initial_offensive_personnel() -> ArmyPersonnel {
   ArmyPersonnel::builder()
     .axeman(5000)
     .light_cavalry(2500)
+    .ram(300)
     .build()
 }
 

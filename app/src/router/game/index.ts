@@ -1,53 +1,53 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { reportRoutes } from './report';
-import { profileRoutes } from './profile';
-import { warRoomRoutes } from './war-room';
-import { continentRoutes } from './continent';
-import type { RouteRecordRaw } from 'vue-router';
-import type { GameScene } from '@/types/scene/game';
-import { infrastructureRoutes } from './infrastructure';
+import { reportRoutes } from "./report";
+import { profileRoutes } from "./profile";
+import { warRoomRoutes } from "./war-room";
+import { continentRoutes } from "./continent";
+import type { RouteRecordRaw } from "vue-router";
+import type { GameScene } from "@/types/scene/game";
+import { infrastructureRoutes } from "./infrastructure";
 
 export const gameRoutes: RouteRecordRaw[] = [
   {
-    component: () => import('@/scenes/game/chat/index.vue'),
-    path: 'chat',
-    name: 'chat' satisfies GameScene,
+    component: () => import("@/scenes/game/chat/index.vue"),
+    path: "chat",
+    name: "chat" satisfies GameScene,
   },
   {
-    component: () => import('@/scenes/game/city/index.vue'),
-    path: 'city',
-    name: 'city' satisfies GameScene,
+    component: () => import("@/scenes/game/city/index.vue"),
+    path: "city",
+    name: "city" satisfies GameScene,
   },
   {
-    component: () => import('@/scenes/game/continent/index.vue'),
-    path: 'continent',
+    component: () => import("@/scenes/game/continent/index.vue"),
+    path: "continent",
     children: continentRoutes,
   },
   {
-    component: () => import('@/scenes/game/infrastructure/index.vue'),
-    path: 'infrastructure',
+    component: () => import("@/scenes/game/infrastructure/index.vue"),
+    path: "infrastructure",
     children: infrastructureRoutes,
   },
   {
-    component: () => import('@/scenes/game/profile/index.vue'),
-    path: 'profile',
+    component: () => import("@/scenes/game/profile/index.vue"),
+    path: "profile",
     children: profileRoutes,
   },
   {
-    component: () => import('@/scenes/game/ranking/index.vue'),
-    path: 'ranking',
-    name: 'ranking' satisfies GameScene,
+    component: () => import("@/scenes/game/ranking/index.vue"),
+    path: "ranking",
+    name: "ranking" satisfies GameScene,
   },
   {
-    component: () => import('@/scenes/game/report/index.vue'),
-    path: 'report',
+    component: () => import("@/scenes/game/report/index.vue"),
+    path: "report",
     children: reportRoutes,
   },
   {
-    component: () => import('@/scenes/game/war-room/index.vue'),
-    path: 'war-room',
+    component: () => import("@/scenes/game/war-room/index.vue"),
+    path: "war-room",
     children: warRoomRoutes,
   },
 ];

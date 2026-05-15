@@ -1,7 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use nil_core::infrastructure::building::prefecture::build_catalog::PrefectureBuildCatalog;
+use nil_core::infrastructure::building::r#impl::prefecture::build_catalog::PrefectureBuildCatalog;
 use serde::{Deserialize, Serialize};
 
 #[cfg(feature = "axum")]

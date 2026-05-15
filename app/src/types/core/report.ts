@@ -1,7 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReportId, RoundId } from '@tsukilabs/nil-bindings';
+import type { ReportId, RoundId } from "@tsukilabs/nil-bindings";
 
 export interface Report_ {
   readonly id: ReportId;
