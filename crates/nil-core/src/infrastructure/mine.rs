@@ -2,7 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::error::{Error, Result};
-use crate::infrastructure::building::{Building, BuildingLevel, MineId};
+use crate::infrastructure::building::level::BuildingLevel;
+use crate::infrastructure::building::{Building, MineId};
 use crate::world::config::WorldConfig;
 use derive_more::Into;
 use nil_num::growth::growth;

@@ -2,7 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::city::Stability;
-use crate::infrastructure::building::{Building, BuildingLevel};
+use crate::infrastructure::building::Building;
+use crate::infrastructure::building::level::BuildingLevel;
 use crate::world::config::WorldConfig;
 use nil_num::impl_mul_ceil;
 use nil_num::mul_ceil::MulCeil;

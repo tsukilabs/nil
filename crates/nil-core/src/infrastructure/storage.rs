@@ -3,7 +3,8 @@
 
 use crate::continent::Coord;
 use crate::error::{Error, Result};
-use crate::infrastructure::building::{Building, BuildingLevel, StorageId};
+use crate::infrastructure::building::level::BuildingLevel;
+use crate::infrastructure::building::{Building, StorageId};
 use derive_more::{From, Into};
 use nil_num::growth::growth;
 use nil_util::ConstDeref;
@@ -40,8 +41,8 @@ pub struct StorageStatsTable {
 
 impl StorageStatsTable {
   pub(crate) fn new(storage: &dyn Storage) -> Self {
-    let max_level = *storage.max_level();
-    let mut table = HashMap::with_capacity((max_level).into());
+    let max_level = storage.max_level();
+    let mut table = HashMap::with_capacity(max_level.into());
 
     let mut capacity = f64::from(storage.min_capacity());
     let capacity_growth = growth()
@@ -50,7 +51,7 @@ impl StorageStatsTable {
       .max_level(max_level)
       .call();
 
-    for level in 1..=max_level {
+    for level in 1..=u8::from(max_level) {
       let level = BuildingLevel::new(level);
       table.insert(
         level,

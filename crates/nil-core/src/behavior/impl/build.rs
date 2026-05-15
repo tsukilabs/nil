@@ -8,7 +8,7 @@ use crate::continent::Coord;
 use crate::error::Result;
 use crate::ethic::EthicPowerAxis;
 use crate::infrastructure::building::StorageId;
-use crate::infrastructure::building::prefecture::build_queue::{
+use crate::infrastructure::building::r#impl::prefecture::build_queue::{
   PrefectureBuildOrderKind,
   PrefectureBuildOrderRequest,
 };

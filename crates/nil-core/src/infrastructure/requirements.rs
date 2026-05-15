@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use super::Infrastructure;
-use super::building::BuildingLevel;
+use super::building::level::BuildingLevel;
 use bon::Builder;
 use serde::{Deserialize, Serialize};
 

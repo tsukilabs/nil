@@ -2,7 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::check_total_resource_ratio;
-use crate::infrastructure::building::{BuildingId, BuildingLevel};
+use crate::infrastructure::building::BuildingId;
+use crate::infrastructure::building::level::BuildingLevel;
 use crate::infrastructure::requirements::InfrastructureRequirements;
 use crate::military::unit::stats::prelude::*;
 use crate::military::unit::{UnitChunk, UnitChunkSize, UnitId, UnitKind};

@@ -7,8 +7,8 @@ pub mod luck;
 mod tests;
 
 use crate::error::Result;
-use crate::infrastructure::building::wall::{Wall, WallStats};
-use crate::infrastructure::building::{BuildingLevel, BuildingLevelDiff};
+use crate::infrastructure::building::r#impl::wall::{Wall, WallStats};
+use crate::infrastructure::building::level::{BuildingLevel, BuildingLevelDiff};
 use crate::infrastructure::stats::InfrastructureStats;
 use crate::military::army::personnel::ArmyPersonnel;
 use crate::military::squad::Squad;

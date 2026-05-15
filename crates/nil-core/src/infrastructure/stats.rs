@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use super::Infrastructure;
-use super::building::wall::WallStatsTable;
+use super::building::r#impl::wall::WallStatsTable;
 use super::building::{BuildingId, BuildingStatsTable, MineId, StorageId};
 use super::mine::MineStatsTable;
 use super::storage::StorageStatsTable;

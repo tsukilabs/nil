@@ -7,7 +7,7 @@ use crate::response::from_err;
 use crate::{bail_if_city_is_not_owned_by, bail_if_player_is_not_pending, res};
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
-use nil_core::infrastructure::building::academy::recruit_catalog::AcademyRecruitCatalog;
+use nil_core::infrastructure::building::r#impl::academy::recruit_catalog::AcademyRecruitCatalog;
 use nil_payload::request::infrastructure::academy::*;
 use nil_payload::response::infrastructure::academy::*;
 

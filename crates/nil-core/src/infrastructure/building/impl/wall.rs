@@ -3,7 +3,8 @@
 
 use crate::check_total_resource_ratio;
 use crate::error::{Error, Result};
-use crate::infrastructure::building::{BuildingId, BuildingLevel};
+use crate::infrastructure::building::BuildingId;
+use crate::infrastructure::building::level::BuildingLevel;
 use crate::infrastructure::requirements::InfrastructureRequirements;
 use crate::ranking::score::Score;
 use crate::resources::cost::{Cost, ResourceRatio};
@@ -156,7 +157,7 @@ impl WallStatsTable {
       .max_level(max_level)
       .call();
 
-    for level in 1..=max_level.0 {
+    for level in 1..=u8::from(max_level) {
       let level = BuildingLevel::new(level);
 
       table.insert(

@@ -1,7 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use nil_core::infrastructure::building::workshop::recruit_catalog::WorkshopRecruitCatalog;
+use nil_core::infrastructure::building::r#impl::workshop::recruit_catalog::WorkshopRecruitCatalog;
 use serde::{Deserialize, Serialize};
 
 #[cfg(feature = "axum")]

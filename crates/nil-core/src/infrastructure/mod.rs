@@ -18,22 +18,22 @@ use crate::resources::Resources;
 use crate::resources::maintenance::Maintenance;
 use crate::world::config::WorldConfig;
 use bon::Builder;
-use building::academy::recruit_queue::{
+use building::r#impl::academy::recruit_queue::{
   AcademyRecruitOrder,
   AcademyRecruitOrderId,
   AcademyRecruitOrderRequest,
 };
-use building::prefecture::build_queue::{
+use building::r#impl::prefecture::build_queue::{
   PrefectureBuildOrder,
   PrefectureBuildOrderKind,
   PrefectureBuildOrderRequest,
 };
-use building::stable::recruit_queue::{
+use building::r#impl::stable::recruit_queue::{
   StableRecruitOrder,
   StableRecruitOrderId,
   StableRecruitOrderRequest,
 };
-use building::workshop::recruit_queue::{
+use building::r#impl::workshop::recruit_queue::{
   WorkshopRecruitOrder,
   WorkshopRecruitOrderId,
   WorkshopRecruitOrderRequest,
