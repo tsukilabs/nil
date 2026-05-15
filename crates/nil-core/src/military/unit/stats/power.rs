@@ -134,7 +134,13 @@ impl const Mul<SquadSize> for Power {
   }
 }
 
-impl MulAssign<SquadSize> for Power {
+impl const MulAssign<u32> for Power {
+  fn mul_assign(&mut self, rhs: u32) {
+    *self = *self * rhs;
+  }
+}
+
+impl const MulAssign<SquadSize> for Power {
   fn mul_assign(&mut self, rhs: SquadSize) {
     *self = *self * rhs;
   }
@@ -259,7 +265,7 @@ impl const Mul<SquadSize> for AttackPower {
 }
 
 #[derive(Copy, Builder, Debug, Deserialize, Serialize)]
-#[derive_const(Clone)]
+#[derive_const(Clone, Default, PartialEq, Eq)]
 #[builder(const)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct DefensePower {
@@ -291,5 +297,83 @@ impl DefensePower {
       .saturating_add(*self.ranged);
 
     Power::new(defense / 3)
+  }
+}
+
+impl<'a> Sum<&'a Squad> for DefensePower {
+  fn sum<I>(iter: I) -> Self
+  where
+    I: Iterator<Item = &'a Squad>,
+  {
+    iter.fold(DefensePower::default(), |mut acc, squad| {
+      acc += squad.defense();
+      acc
+    })
+  }
+}
+
+impl<'a> Sum<&'a ArmyPersonnel> for DefensePower {
+  fn sum<I>(iter: I) -> Self
+  where
+    I: Iterator<Item = &'a ArmyPersonnel>,
+  {
+    iter.flat_map(ArmyPersonnel::iter).sum()
+  }
+}
+
+impl<'a> Sum<&'a Army> for DefensePower {
+  fn sum<I>(iter: I) -> Self
+  where
+    I: Iterator<Item = &'a Army>,
+  {
+    iter.flat_map(Army::iter).sum()
+  }
+}
+
+impl const Add for DefensePower {
+  type Output = DefensePower;
+
+  fn add(mut self, rhs: Self) -> Self::Output {
+    self.cavalry += rhs.cavalry;
+    self.infantry += rhs.infantry;
+    self.ranged += rhs.ranged;
+    self
+  }
+}
+
+impl const AddAssign for DefensePower {
+  fn add_assign(&mut self, rhs: Self) {
+    *self = *self + rhs;
+  }
+}
+
+impl const Mul<u32> for DefensePower {
+  type Output = DefensePower;
+
+  fn mul(mut self, rhs: u32) -> Self::Output {
+    self.cavalry *= rhs;
+    self.infantry *= rhs;
+    self.ranged *= rhs;
+    self
+  }
+}
+
+impl const Mul<SquadSize> for DefensePower {
+  type Output = DefensePower;
+
+  fn mul(self, rhs: SquadSize) -> Self::Output {
+    self * u32::from(rhs)
+  }
+}
+
+impl const MulAssign<u32> for DefensePower {
+  fn mul_assign(&mut self, rhs: u32) {
+    *self = *self * rhs;
+  }
+}
+
+impl const MulAssign<SquadSize> for DefensePower {
+  fn mul_assign(&mut self, rhs: SquadSize) {
+    *self = *self * rhs;
   }
 }

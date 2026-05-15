@@ -5,7 +5,7 @@ use crate::military::army::Army;
 use crate::military::squad::Squad;
 use crate::military::squad::size::SquadSize;
 use crate::military::unit::stats::haul::Haul;
-use crate::military::unit::stats::power::Power;
+use crate::military::unit::stats::power::{AttackPower, DefensePower, Power};
 use crate::military::unit::stats::speed::Speed;
 use crate::military::unit::{UnitId, UnitIdIter};
 use crate::ranking::score::Score;
@@ -94,6 +94,16 @@ impl ArmyPersonnel {
 
   #[inline]
   pub fn power(&self) -> Power {
+    self.iter().sum()
+  }
+
+  #[inline]
+  pub fn attack(&self) -> AttackPower {
+    self.iter().sum()
+  }
+
+  #[inline]
+  pub fn defense(&self) -> DefensePower {
     self.iter().sum()
   }
 

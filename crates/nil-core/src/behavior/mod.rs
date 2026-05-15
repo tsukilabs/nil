@@ -16,6 +16,7 @@ use std::ops::ControlFlow;
 
 pub trait Behavior: Any + Debug {
   fn score(&self, world: &World) -> Result<BehaviorScore>;
+
   fn behave(&self, world: &mut World) -> Result<ControlFlow<()>>;
 
   fn boxed(self) -> Box<dyn Behavior>
@@ -31,7 +32,7 @@ pub struct BehaviorProcessor<'a> {
   world: &'a mut World,
   behaviors: Vec<Box<dyn Behavior>>,
   buffer: Vec<(usize, BehaviorScore)>,
-  candidates: Vec<(usize, f64)>,
+  candidates: Vec<usize>,
   broken: HashSet<usize>,
 }
 
@@ -67,7 +68,11 @@ impl Iterator for BehaviorProcessor<'_> {
     for (idx, behavior) in self.behaviors.iter().enumerate() {
       if !self.broken.contains(&idx) {
         match behavior.score(self.world) {
-          Ok(score) => self.buffer.push((idx, score)),
+          Ok(score) => {
+            if score > BehaviorScore::MIN {
+              self.buffer.push((idx, score));
+            }
+          }
           Err(err) => return Some(Err(err)),
         }
       }
@@ -86,13 +91,13 @@ impl Iterator for BehaviorProcessor<'_> {
       .buffer
       .iter()
       .filter(|(_, score)| highest.1.is_within_range(*score, 0.2))
-      .map(|(idx, score)| (*idx, f64::from(*score)))
+      .map(|(idx, _)| *idx)
       .collect_into(&mut self.candidates);
 
     let idx = self
       .candidates
       .choose(&mut rand::rng())
-      .map(|(idx, _)| *idx)
+      .copied()
       .filter(|idx| !self.is_idle(*idx))?;
 
     let behavior = &self.behaviors[idx];

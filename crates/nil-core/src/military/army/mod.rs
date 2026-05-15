@@ -9,7 +9,7 @@ use crate::military::maneuver::ManeuverId;
 use crate::military::squad::Squad;
 use crate::military::unit::UnitId;
 use crate::military::unit::stats::haul::Haul;
-use crate::military::unit::stats::power::Power;
+use crate::military::unit::stats::power::{AttackPower, DefensePower, Power};
 use crate::military::unit::stats::speed::Speed;
 use crate::ranking::score::Score;
 use crate::resources::maintenance::Maintenance;
@@ -113,6 +113,16 @@ impl Army {
   #[inline]
   pub fn power(&self) -> Power {
     self.personnel.power()
+  }
+
+  #[inline]
+  pub fn attack(&self) -> AttackPower {
+    self.personnel.attack()
+  }
+
+  #[inline]
+  pub fn defense(&self) -> DefensePower {
+    self.personnel.defense()
   }
 
   #[inline]

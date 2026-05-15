@@ -17,6 +17,7 @@ use bon::Builder;
 use luck::Luck;
 use nil_num::growth::growth;
 use serde::{Deserialize, Serialize};
+use strum::EnumIs;
 
 #[derive(Builder)]
 pub struct Battle<'a> {
@@ -193,9 +194,20 @@ impl BattleResult {
   pub fn downgraded_wall_level(&self) -> BuildingLevelDiff {
     self.downgraded_wall_level
   }
+
+  #[inline]
+  pub fn winner(&self) -> BattleWinner {
+    self.winner
+  }
+
+  #[inline]
+  pub fn luck(&self) -> Luck {
+    self.luck
+  }
 }
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Deserialize, Serialize)]
+#[derive(Copy, Debug, Deserialize, Serialize, EnumIs)]
+#[derive_const(Clone, PartialEq, Eq)]
 #[serde(rename_all = "kebab-case")]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub enum BattleWinner {

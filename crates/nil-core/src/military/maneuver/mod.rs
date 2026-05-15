@@ -266,7 +266,7 @@ impl From<ManeuverHaul> for Resources {
   }
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Builder, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct ManeuverRequest {

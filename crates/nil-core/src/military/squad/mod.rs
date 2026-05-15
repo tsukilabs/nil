@@ -70,20 +70,19 @@ impl Squad {
   }
 
   /// Average power of the squad.
+  #[inline]
   pub fn power(&self) -> Power {
     self.unit.power() * self.size
   }
 
+  #[inline]
   pub fn attack(&self) -> AttackPower {
     self.unit.attack() * self.size
   }
 
+  #[inline]
   pub fn defense(&self) -> DefensePower {
-    let mut defense = self.unit.defense();
-    defense.cavalry *= self.size;
-    defense.infantry *= self.size;
-    defense.ranged *= self.size;
-    defense
+    self.unit.defense() * self.size
   }
 
   #[inline]

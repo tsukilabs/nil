@@ -11,6 +11,7 @@ pub mod unit;
 
 use crate::continent::{ContinentIndex, ContinentKey, ContinentSize, Coord};
 use crate::error::{Error, Result};
+use crate::military::unit::stats::power::{AttackPower, DefensePower, Power};
 use crate::ranking::score::Score;
 use crate::resources::maintenance::Maintenance;
 use crate::ruler::Ruler;
@@ -287,20 +288,6 @@ impl Military {
     self.fold_idle_personnel_at(key).to_vec()
   }
 
-  pub fn score_of<R>(&self, owner: R) -> Score
-  where
-    R: Into<Ruler>,
-  {
-    self.armies_of(owner).sum()
-  }
-
-  pub fn maintenance_of<R>(&self, owner: R) -> Maintenance
-  where
-    R: Into<Ruler>,
-  {
-    self.armies_of(owner).sum()
-  }
-
   #[inline]
   pub fn maneuver(&self, id: ManeuverId) -> Result<&Maneuver> {
     self
@@ -341,5 +328,40 @@ impl Military {
       .filter_map(|id| self.maneuvers.remove(&id))
       .collect_vec()
       .pipe(Ok)
+  }
+
+  pub fn score_of<R>(&self, owner: R) -> Score
+  where
+    R: Into<Ruler>,
+  {
+    self.armies_of(owner).sum()
+  }
+
+  pub fn maintenance_of<R>(&self, owner: R) -> Maintenance
+  where
+    R: Into<Ruler>,
+  {
+    self.armies_of(owner).sum()
+  }
+
+  pub fn power_of<R>(&self, owner: R) -> Power
+  where
+    R: Into<Ruler>,
+  {
+    self.armies_of(owner).sum()
+  }
+
+  pub fn attack_of<R>(&self, owner: R) -> AttackPower
+  where
+    R: Into<Ruler>,
+  {
+    self.armies_of(owner).sum()
+  }
+
+  pub fn defense_of<R>(&self, owner: R) -> DefensePower
+  where
+    R: Into<Ruler>,
+  {
+    self.armies_of(owner).sum()
   }
 }

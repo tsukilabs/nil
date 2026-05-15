@@ -118,6 +118,11 @@ impl EthicPowerAxis {
       .expect("`Self::VARIANTS` should never be empty")
   }
 
+  /// Whether this ethic is [`EthicPowerAxis::FanaticMilitarist`] or [`EthicPowerAxis::FanaticPacifist`].
+  pub const fn is_fanatic(&self) -> bool {
+    matches!(self, Self::FanaticMilitarist | Self::FanaticPacifist)
+  }
+
   /// Whether this ethic is [`EthicPowerAxis::Militarist`] or [`EthicPowerAxis::FanaticMilitarist`].
   pub const fn is_militarist_variant(&self) -> bool {
     matches!(self, Self::Militarist | Self::FanaticMilitarist)
@@ -126,6 +131,11 @@ impl EthicPowerAxis {
   /// Whether this ethic is [`EthicPowerAxis::Pacifist`] or [`EthicPowerAxis::FanaticPacifist`].
   pub const fn is_pacifist_variant(&self) -> bool {
     matches!(self, Self::Pacifist | Self::FanaticPacifist)
+  }
+
+  pub const fn is_same_variant(&self, other: Self) -> bool {
+    (self.is_militarist_variant() && other.is_militarist_variant())
+      || (self.is_pacifist_variant() && other.is_pacifist_variant())
   }
 }
 
@@ -153,6 +163,11 @@ impl EthicTruthAxis {
       .expect("`Self::VARIANTS` should never be empty")
   }
 
+  /// Whether this ethic is [`EthicTruthAxis::FanaticMaterialist`] or [`EthicTruthAxis::FanaticSpiritualist`].
+  pub const fn is_fanatic(&self) -> bool {
+    matches!(self, Self::FanaticMaterialist | Self::FanaticSpiritualist)
+  }
+
   /// Whether this ethic is [`EthicTruthAxis::Materialist`] or [`EthicTruthAxis::FanaticMaterialist`].
   pub const fn is_materialist_variant(&self) -> bool {
     matches!(self, Self::Materialist | Self::FanaticMaterialist)
@@ -161,5 +176,10 @@ impl EthicTruthAxis {
   /// Whether this ethic is [`EthicTruthAxis::Spiritualist`] or [`EthicTruthAxis::FanaticSpiritualist`].
   pub const fn is_spiritualist_variant(&self) -> bool {
     matches!(self, Self::Spiritualist | Self::FanaticSpiritualist)
+  }
+
+  pub const fn is_same_variant(&self, other: Self) -> bool {
+    (self.is_materialist_variant() && other.is_materialist_variant())
+      || (self.is_spiritualist_variant() && other.is_spiritualist_variant())
   }
 }
