@@ -22,14 +22,14 @@ If you also want to work on the Android version, you’ll need to go through som
 
 When you add a new endpoint, there are a few places you need to update. Right now this is entirely manual, but we might be able to automate at least part of it in the future ~~(I hope)~~. Use what already exists as a reference for how the new one should look.
 
-Here’s a simplified list of the steps you’ll need to take. In some cases, you can skip a few of them, for example, most of them won't need a response struct at all.
+Here’s a simplified list of the steps you’ll need to take.
 
 - [`nil-payload`](/crates/nil-payload)
   - [Create request and response structs](/crates/nil-payload/src/lib.rs)
 
 - [`nil-server`](/crates/nil-server)
   - [Create a handler](/crates/nil-server/src/router/mod.rs)
-  - [Register it as a new route](/crates/nil-server/src/router/mod.rs)
+  - [Register a new route](/crates/nil-server/src/router/mod.rs)
 
 - [`nil-client`](/crates/nil-client)
   - [Update the client](/crates/nil-client/src/client/mod.rs)
