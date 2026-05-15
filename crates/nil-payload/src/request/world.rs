@@ -61,6 +61,14 @@ pub struct GetWorldConfigRequest {
 #[serde(rename_all = "camelCase")]
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
+pub struct GetWorldPersonnelRequest {
+  pub world: WorldId,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 pub struct GetWorldPlayersRequest {
   pub world: WorldId,
 }

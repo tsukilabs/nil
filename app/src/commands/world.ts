@@ -20,6 +20,8 @@ import type {
   GetWorldBotsResponse,
   GetWorldConfigRequest,
   GetWorldConfigResponse,
+  GetWorldPersonnelRequest,
+  GetWorldPersonnelResponse,
   GetWorldPlayersRequest,
   GetWorldPlayersResponse,
   GetWorldPrecursorsRequest,
@@ -89,6 +91,14 @@ export async function getWorldConfig(world?: Option<WorldId>): Promise<WorldConf
 
   const config = await invoke<GetWorldConfigResponse>("get_world_config", { req });
   return WorldConfigImpl.create(config);
+}
+
+export async function getWorldPersonnel() {
+  const req: GetWorldPersonnelRequest = {
+    world: NIL.world.getIdStrict(),
+  };
+
+  return invoke<GetWorldPersonnelResponse>("get_world_personnel", { req });
 }
 
 export async function getWorldPlayers(world?: Option<WorldId>) {

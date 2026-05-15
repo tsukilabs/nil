@@ -203,6 +203,8 @@ export type { GetWorldBotsRequest } from './GetWorldBotsRequest';
 export type { GetWorldBotsResponse } from './GetWorldBotsResponse';
 export type { GetWorldConfigRequest } from './GetWorldConfigRequest';
 export type { GetWorldConfigResponse } from './GetWorldConfigResponse';
+export type { GetWorldPersonnelRequest } from './GetWorldPersonnelRequest';
+export type { GetWorldPersonnelResponse } from './GetWorldPersonnelResponse';
 export type { GetWorldPlayersRequest } from './GetWorldPlayersRequest';
 export type { GetWorldPlayersResponse } from './GetWorldPlayersResponse';
 export type { GetWorldPrecursorsRequest } from './GetWorldPrecursorsRequest';

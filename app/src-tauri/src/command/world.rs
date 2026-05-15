@@ -107,6 +107,17 @@ pub async fn get_world_config(
 }
 
 #[tauri::command]
+pub async fn get_world_personnel(
+  app: AppHandle,
+  req: GetWorldPersonnelRequest,
+) -> Result<GetWorldPersonnelResponse> {
+  app
+    .client(async |cl| cl.get_world_personnel(req).await)
+    .await
+    .map_err(Into::into)
+}
+
+#[tauri::command]
 pub async fn get_world_players(
   app: AppHandle,
   req: GetWorldPlayersRequest,
