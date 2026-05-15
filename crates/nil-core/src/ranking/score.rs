@@ -1,10 +1,14 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+use crate::military::army::Army;
+use crate::military::army::personnel::ArmyPersonnel;
+use crate::military::squad::Squad;
 use nil_num::impl_mul_ceil;
 use nil_util::{ConstDeref, F64Math};
 use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
+use std::iter::Sum;
 use std::ops::{Add, AddAssign, Mul, MulAssign, Sub, SubAssign};
 
 #[derive(Copy, Debug, Deserialize, Serialize, ConstDeref, F64Math)]
@@ -54,6 +58,36 @@ impl const PartialEq<u32> for Score {
 impl const PartialOrd<u32> for Score {
   fn partial_cmp(&self, other: &u32) -> Option<Ordering> {
     self.0.partial_cmp(other)
+  }
+}
+
+impl<'a> Sum<&'a Squad> for Score {
+  fn sum<I>(iter: I) -> Self
+  where
+    I: Iterator<Item = &'a Squad>,
+  {
+    iter.fold(Score::default(), |mut acc, squad| {
+      acc += squad.score();
+      acc
+    })
+  }
+}
+
+impl<'a> Sum<&'a ArmyPersonnel> for Score {
+  fn sum<I>(iter: I) -> Self
+  where
+    I: Iterator<Item = &'a ArmyPersonnel>,
+  {
+    iter.flat_map(ArmyPersonnel::iter).sum()
+  }
+}
+
+impl<'a> Sum<&'a Army> for Score {
+  fn sum<I>(iter: I) -> Self
+  where
+    I: Iterator<Item = &'a Army>,
+  {
+    iter.flat_map(Army::iter).sum()
   }
 }
 

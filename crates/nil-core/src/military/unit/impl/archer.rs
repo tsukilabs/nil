@@ -1,11 +1,11 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use super::stats::prelude::*;
-use super::{UnitChunk, UnitChunkSize, UnitId, UnitKind};
 use crate::check_total_resource_ratio;
 use crate::infrastructure::building::{BuildingId, BuildingLevel};
 use crate::infrastructure::requirements::InfrastructureRequirements;
+use crate::military::unit::stats::prelude::*;
+use crate::military::unit::{UnitChunk, UnitChunkSize, UnitId, UnitKind};
 use crate::ranking::score::Score;
 use crate::resources::prelude::*;
 use nil_core_macros::Unit;
@@ -21,10 +21,14 @@ impl Archer {
   pub const SCORE: Score = Score::new(1);
 
   pub const STATS: UnitStats = UnitStats::builder()
-    .attack(Power::new(30))
-    .infantry_defense(Power::new(40))
-    .cavalry_defense(Power::new(35))
-    .ranged_defense(Power::new(5))
+    .attack(AttackPower::new(30))
+    .defense(
+      DefensePower::builder()
+        .cavalry(Power::new(35))
+        .infantry(Power::new(40))
+        .ranged(Power::new(5))
+        .build(),
+    )
     .ranged_debuff(RangedDebuff::new(0.5))
     .base_speed(Speed::new(2.0))
     .haul(Haul::new(10))

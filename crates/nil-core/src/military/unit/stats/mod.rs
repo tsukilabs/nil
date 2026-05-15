@@ -11,39 +11,35 @@ use bon::Builder;
 use prelude::*;
 use serde::{Deserialize, Serialize};
 
+use crate::military::unit::stats::power::DefensePower;
+
 #[derive(Builder, Debug, Deserialize, Serialize)]
 #[derive_const(Clone)]
 #[serde(rename_all = "camelCase")]
 #[builder(const)]
 pub struct UnitStats {
-  attack: Power,
-  infantry_defense: Power,
-  cavalry_defense: Power,
-  ranged_defense: Power,
+  attack: AttackPower,
+  defense: DefensePower,
   ranged_debuff: RangedDebuff,
   base_speed: Speed,
   haul: Haul,
 }
 
 impl UnitStats {
+  /// Average power.
   #[inline]
-  pub const fn attack(&self) -> Power {
+  pub const fn power(&self) -> Power {
+    (*self.attack + self.defense().mean()) / 2
+  }
+
+  #[inline]
+  pub const fn attack(&self) -> AttackPower {
     self.attack
   }
 
   #[inline]
-  pub const fn infantry_defense(&self) -> Power {
-    self.infantry_defense
-  }
-
-  #[inline]
-  pub const fn cavalry_defense(&self) -> Power {
-    self.cavalry_defense
-  }
-
-  #[inline]
-  pub const fn ranged_defense(&self) -> Power {
-    self.ranged_defense
+  pub const fn defense(&self) -> DefensePower {
+    self.defense
   }
 
   #[inline]

@@ -2,6 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::infrastructure::storage::StorageCapacity;
+use crate::military::army::Army;
+use crate::military::army::personnel::ArmyPersonnel;
+use crate::military::squad::Squad;
 use crate::military::squad::size::SquadSize;
 use crate::resources::prelude::*;
 use derive_more::{From, Into};
@@ -9,6 +12,7 @@ use nil_num::mul_ceil::MulCeil;
 use nil_util::ConstDeref;
 use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
+use std::iter::Sum;
 use std::ops::{Add, AddAssign, Mul, MulAssign};
 
 #[derive(Copy, Debug, From, Into, Deserialize, Serialize, ConstDeref)]
@@ -52,6 +56,42 @@ impl const PartialOrd<StorageCapacity> for Haul {
   }
 }
 
+impl const From<StorageCapacity> for Haul {
+  fn from(value: StorageCapacity) -> Self {
+    Haul::new(*value)
+  }
+}
+
+impl<'a> Sum<&'a Squad> for Haul {
+  fn sum<I>(iter: I) -> Self
+  where
+    I: Iterator<Item = &'a Squad>,
+  {
+    iter.fold(Haul::default(), |mut acc, squad| {
+      acc += squad.haul();
+      acc
+    })
+  }
+}
+
+impl<'a> Sum<&'a ArmyPersonnel> for Haul {
+  fn sum<I>(iter: I) -> Self
+  where
+    I: Iterator<Item = &'a ArmyPersonnel>,
+  {
+    iter.flat_map(ArmyPersonnel::iter).sum()
+  }
+}
+
+impl<'a> Sum<&'a Army> for Haul {
+  fn sum<I>(iter: I) -> Self
+  where
+    I: Iterator<Item = &'a Army>,
+  {
+    iter.flat_map(Army::iter).sum()
+  }
+}
+
 impl const Add for Haul {
   type Output = Haul;
 
@@ -85,12 +125,6 @@ impl const Mul<f64> for Haul {
 
   fn mul(self, rhs: f64) -> Self::Output {
     Self(f64::from(self.0).mul_ceil(rhs) as u32)
-  }
-}
-
-impl const From<StorageCapacity> for Haul {
-  fn from(value: StorageCapacity) -> Self {
-    Haul::new(*value)
   }
 }
 

@@ -1,11 +1,11 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use super::stats::prelude::*;
-use super::{UnitChunk, UnitChunkSize, UnitId, UnitKind};
 use crate::check_total_resource_ratio;
 use crate::infrastructure::building::{BuildingId, BuildingLevel};
 use crate::infrastructure::requirements::InfrastructureRequirements;
+use crate::military::unit::stats::prelude::*;
+use crate::military::unit::{UnitChunk, UnitChunkSize, UnitId, UnitKind};
 use crate::ranking::score::Score;
 use crate::resources::prelude::*;
 use nil_core_macros::Unit;
@@ -21,10 +21,14 @@ impl HeavyCavalry {
   pub const SCORE: Score = Score::new(6);
 
   pub const STATS: UnitStats = UnitStats::builder()
-    .attack(Power::new(150))
-    .infantry_defense(Power::new(200))
-    .cavalry_defense(Power::new(80))
-    .ranged_defense(Power::new(180))
+    .attack(AttackPower::new(150))
+    .defense(
+      DefensePower::builder()
+        .cavalry(Power::new(80))
+        .infantry(Power::new(200))
+        .ranged(Power::new(180))
+        .build(),
+    )
     .ranged_debuff(RangedDebuff::MIN)
     .base_speed(Speed::new(3.5))
     .haul(Haul::new(50))

@@ -233,17 +233,17 @@ impl OffensivePower {
 
       match squad.kind() {
         UnitKind::Infantry => {
-          infantry += *squad.attack();
+          infantry += squad.attack();
           if squad.id() == UnitId::Ram {
             rams_amount = f64::from(squad.size());
           }
         }
         UnitKind::Cavalry => {
-          cavalry += *squad.attack();
+          cavalry += squad.attack();
         }
         UnitKind::Ranged => {
-          ranged += *squad.attack();
-          ranged_with_debuff += *squad.attack() * f64::from(squad.unit().stats().ranged_debuff());
+          ranged += squad.attack();
+          ranged_with_debuff += squad.attack() * squad.unit().stats().ranged_debuff();
           ranged_amount += f64::from(squad.size());
         }
       }

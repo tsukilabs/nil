@@ -26,7 +26,6 @@
   "githubPullRequests.assignCreated": "${user}",
   "githubPullRequests.defaultMergeMethod": "squash",
   "js/ts.tsdk.path": "node_modules/typescript/lib",
-  "rust-analyzer.cargo.targetDir": true,
   "rust-analyzer.linkedProjects": [
     "./Cargo.toml",
     "./scripts/build-client.rs",

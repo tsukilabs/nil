@@ -1,11 +1,11 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use super::stats::prelude::*;
-use super::{UnitChunk, UnitChunkSize, UnitId, UnitKind};
 use crate::check_total_resource_ratio;
 use crate::infrastructure::building::{BuildingId, BuildingLevel};
 use crate::infrastructure::requirements::InfrastructureRequirements;
+use crate::military::unit::stats::prelude::*;
+use crate::military::unit::{UnitChunk, UnitChunkSize, UnitId, UnitKind};
 use crate::ranking::score::Score;
 use crate::resources::prelude::*;
 use nil_core_macros::Unit;
@@ -21,10 +21,14 @@ impl Ram {
   pub const SCORE: Score = Score::new(5);
 
   pub const STATS: UnitStats = UnitStats::builder()
-    .attack(Power::new(2))
-    .infantry_defense(Power::new(20))
-    .cavalry_defense(Power::new(50))
-    .ranged_defense(Power::new(20))
+    .attack(AttackPower::new(2))
+    .defense(
+      DefensePower::builder()
+        .cavalry(Power::new(50))
+        .infantry(Power::new(20))
+        .ranged(Power::new(20))
+        .build(),
+    )
     .ranged_debuff(RangedDebuff::MIN)
     .base_speed(Speed::new(0.5))
     .haul(Haul::new(0))

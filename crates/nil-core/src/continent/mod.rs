@@ -130,6 +130,10 @@ impl Continent {
     self.cities_by(move |city| city.owner() == &owner)
   }
 
+  pub fn cities_within(&self, origin: Coord, distance: Distance) -> impl Iterator<Item = &City> {
+    self.cities_by(move |city| origin.is_within_distance(city.coord(), distance))
+  }
+
   pub fn coords_by<F>(&self, f: F) -> impl Iterator<Item = Coord>
   where
     F: Fn(&City) -> bool,

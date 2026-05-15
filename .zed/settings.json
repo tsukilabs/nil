@@ -3,9 +3,6 @@
   "lsp": {
     "rust-analyzer": {
       "initialization_options": {
-        "cargo": {
-          "targetDir": true
-        },
         "linkedProjects": [
           "./Cargo.toml",
           "./scripts/build-client.rs",

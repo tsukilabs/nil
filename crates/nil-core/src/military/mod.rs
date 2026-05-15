@@ -255,12 +255,7 @@ impl Military {
   where
     R: Into<Ruler>,
   {
-    self
-      .personnel_of(owner)
-      .fold(ArmyPersonnel::default(), |mut acc, personnel| {
-        acc += personnel;
-        acc
-      })
+    self.personnel_of(owner).sum()
   }
 
   pub fn idle_personnel_at<K>(&self, key: K) -> impl Iterator<Item = &ArmyPersonnel>
@@ -274,12 +269,7 @@ impl Military {
   where
     K: ContinentKey,
   {
-    self
-      .idle_personnel_at(key)
-      .fold(ArmyPersonnel::default(), |mut acc, personnel| {
-        acc += personnel;
-        acc
-      })
+    self.idle_personnel_at(key).sum()
   }
 
   #[inline]
@@ -301,24 +291,14 @@ impl Military {
   where
     R: Into<Ruler>,
   {
-    self
-      .armies_of(owner)
-      .fold(Score::default(), |mut score, army| {
-        score += army.score();
-        score
-      })
+    self.armies_of(owner).sum()
   }
 
   pub fn maintenance_of<R>(&self, owner: R) -> Maintenance
   where
     R: Into<Ruler>,
   {
-    self
-      .armies_of(owner)
-      .fold(Maintenance::default(), |mut maintenance, army| {
-        maintenance += army.maintenance();
-        maintenance
-      })
+    self.armies_of(owner).sum()
   }
 
   #[inline]

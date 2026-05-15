@@ -5,6 +5,7 @@ use crate::continent::ContinentSize;
 use crate::error::Result;
 use glam::u8::U8Vec2;
 use itertools::Itertools;
+use nil_util::ConstDeref;
 use serde::de::{self, Error as _, MapAccess, SeqAccess, Visitor};
 use serde::ser::SerializeStruct;
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
@@ -46,7 +47,7 @@ impl Coord {
   }
 
   #[inline]
-  pub fn is_within_continent(&self, size: ContinentSize) -> bool {
+  pub const fn is_within_continent(&self, size: ContinentSize) -> bool {
     size > self.x() && size > self.y()
   }
 
@@ -204,7 +205,7 @@ impl<'de> Visitor<'de> for CoordVisitor {
   }
 }
 
-#[derive(Clone, Copy, Debug, Deserialize, Serialize)]
+#[derive(Clone, Copy, Debug, Deserialize, Serialize, ConstDeref)]
 #[derive_const(Default, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Distance(u8);
 

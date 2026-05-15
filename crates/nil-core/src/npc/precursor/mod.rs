@@ -146,6 +146,8 @@ where
   }
 }
 
+/// Precursors start with an initial territory equal to one-tenth of the continent size.
+/// In other words, they would begin with a 10×10 territory on a 100×100 continent.
 #[inline]
 pub const fn initial_territory_radius(size: ContinentSize) -> Distance {
   Distance::new(size.get().div_ceil(20).next_multiple_of(2))
@@ -160,6 +162,7 @@ pub fn initial_offensive_personnel() -> ArmyPersonnel {
   ArmyPersonnel::builder()
     .axeman(5000)
     .light_cavalry(2500)
+    .ram(300)
     .build()
 }
 

@@ -9,6 +9,7 @@ use crate::military::maneuver::ManeuverId;
 use crate::military::squad::Squad;
 use crate::military::unit::UnitId;
 use crate::military::unit::stats::haul::Haul;
+use crate::military::unit::stats::power::Power;
 use crate::military::unit::stats::speed::Speed;
 use crate::ranking::score::Score;
 use crate::resources::maintenance::Maintenance;
@@ -16,7 +17,7 @@ use crate::ruler::Ruler;
 use crate::world::config::WorldConfig;
 use bon::Builder;
 use derive_more::Display;
-use personnel::ArmyPersonnel;
+use personnel::{ArmyPersonnel, ArmyPersonnelIter};
 use serde::{Deserialize, Serialize};
 use std::mem;
 use std::ops::{Mul, MulAssign};
@@ -54,6 +55,11 @@ impl Army {
 
   pub(crate) fn personnel_mut(&mut self) -> &mut ArmyPersonnel {
     &mut self.personnel
+  }
+
+  #[inline]
+  pub fn iter(&self) -> ArmyPersonnelIter<'_> {
+    self.personnel.iter()
   }
 
   #[inline]
@@ -105,6 +111,11 @@ impl Army {
   }
 
   #[inline]
+  pub fn power(&self) -> Power {
+    self.personnel.power()
+  }
+
+  #[inline]
   pub fn is_owned_by(&self, ruler: &Ruler) -> bool {
     self.owner.eq(ruler)
   }
@@ -142,29 +153,6 @@ impl Army {
   }
 }
 
-impl From<Army> for ArmyPersonnel {
-  fn from(army: Army) -> Self {
-    army.personnel
-  }
-}
-
-impl Mul<f64> for Army {
-  type Output = Army;
-
-  fn mul(mut self, rhs: f64) -> Self::Output {
-    self *= rhs;
-    self
-  }
-}
-
-impl MulAssign<f64> for Army {
-  fn mul_assign(&mut self, rhs: f64) {
-    for id in UnitId::iter() {
-      *self.squad_mut(id) *= rhs;
-    }
-  }
-}
-
 macro_rules! impl_army {
   ($($unit:ident),+) => {
     paste::paste! {
@@ -189,6 +177,32 @@ impl_army!(
   Ram,
   Swordsman
 );
+
+impl<'a> IntoIterator for &'a Army {
+  type Item = &'a Squad;
+  type IntoIter = ArmyPersonnelIter<'a>;
+
+  fn into_iter(self) -> Self::IntoIter {
+    self.iter()
+  }
+}
+
+impl Mul<f64> for Army {
+  type Output = Army;
+
+  fn mul(mut self, rhs: f64) -> Self::Output {
+    self *= rhs;
+    self
+  }
+}
+
+impl MulAssign<f64> for Army {
+  fn mul_assign(&mut self, rhs: f64) {
+    for id in UnitId::iter() {
+      *self.squad_mut(id) *= rhs;
+    }
+  }
+}
 
 #[must_use]
 #[derive(Clone, Copy, Debug, Display, PartialEq, Eq, Deserialize, Serialize)]

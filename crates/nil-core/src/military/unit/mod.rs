@@ -1,15 +1,9 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-pub mod archer;
-pub mod axeman;
-pub mod heavy_cavalry;
-pub mod light_cavalry;
-pub mod pikeman;
+pub mod r#impl;
 pub mod prelude;
-pub mod ram;
 pub mod stats;
-pub mod swordsman;
 
 use crate::error::Result;
 use crate::infrastructure::prelude::BuildingId;
@@ -29,6 +23,7 @@ use subenum::subenum;
 
 pub trait Unit: Send + Sync {
   fn id(&self) -> UnitId;
+
   fn kind(&self) -> UnitKind;
 
   /// Building where the unit is recruited.
@@ -37,12 +32,17 @@ pub trait Unit: Send + Sync {
   fn score(&self) -> Score;
 
   fn stats(&self) -> &UnitStats;
-  fn attack(&self) -> Power;
-  fn infantry_defense(&self) -> Power;
-  fn cavalry_defense(&self) -> Power;
-  fn ranged_defense(&self) -> Power;
+
+  fn power(&self) -> Power;
+
+  fn attack(&self) -> AttackPower;
+
+  fn defense(&self) -> DefensePower;
+
   fn ranged_debuff(&self) -> RangedDebuff;
+
   fn speed(&self, config: &WorldConfig) -> Speed;
+
   fn haul(&self) -> Haul;
 
   fn chunk(&self) -> &UnitChunk;
@@ -66,9 +66,8 @@ pub trait Unit: Send + Sync {
     match self.id() {
       UnitId::Archer | UnitId::Ram => true,
       _ => {
-        let infantry = self.infantry_defense();
-        let cavalry = self.cavalry_defense();
-        self.attack() > infantry.max(cavalry)
+        let defense = self.defense();
+        *self.attack() > defense.infantry.max(defense.cavalry)
       }
     }
   }

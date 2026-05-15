@@ -1,42 +1,46 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use super::stats::prelude::*;
-use super::{UnitChunk, UnitChunkSize, UnitId, UnitKind};
 use crate::check_total_resource_ratio;
 use crate::infrastructure::building::{BuildingId, BuildingLevel};
 use crate::infrastructure::requirements::InfrastructureRequirements;
+use crate::military::unit::stats::prelude::*;
+use crate::military::unit::{UnitChunk, UnitChunkSize, UnitId, UnitKind};
 use crate::ranking::score::Score;
 use crate::resources::prelude::*;
 use nil_core_macros::Unit;
 
 #[derive(Unit, Clone, Debug)]
-pub struct Axeman;
+pub struct Swordsman;
 
-impl Axeman {
-  pub const ID: UnitId = UnitId::Axeman;
+impl Swordsman {
+  pub const ID: UnitId = UnitId::Swordsman;
   pub const KIND: UnitKind = UnitKind::Infantry;
   pub const BUILDING: BuildingId = BuildingId::Academy;
 
   pub const SCORE: Score = Score::new(1);
 
   pub const STATS: UnitStats = UnitStats::builder()
-    .attack(Power::new(40))
-    .infantry_defense(Power::new(10))
-    .cavalry_defense(Power::new(5))
-    .ranged_defense(Power::new(10))
+    .attack(AttackPower::new(25))
+    .defense(
+      DefensePower::builder()
+        .cavalry(Power::new(15))
+        .infantry(Power::new(50))
+        .ranged(Power::new(40))
+        .build(),
+    )
     .ranged_debuff(RangedDebuff::MIN)
     .base_speed(Speed::new(2.0))
-    .haul(Haul::new(10))
+    .haul(Haul::new(15))
     .build();
 
   pub const CHUNK: UnitChunk = UnitChunk {
     size: UnitChunkSize::new(10),
     cost: Cost::new(1_300),
     food_ratio: ResourceRatio::new(0.0),
-    iron_ratio: ResourceRatio::new(0.3),
+    iron_ratio: ResourceRatio::new(0.5),
     stone_ratio: ResourceRatio::new(0.25),
-    wood_ratio: ResourceRatio::new(0.45),
+    wood_ratio: ResourceRatio::new(0.25),
     maintenance_ratio: MaintenanceRatio::new(0.005),
     workforce: Workforce::new(1),
   };
@@ -48,8 +52,8 @@ impl Axeman {
 }
 
 check_total_resource_ratio!(
-  Axeman::CHUNK.food_ratio,
-  Axeman::CHUNK.iron_ratio,
-  Axeman::CHUNK.stone_ratio,
-  Axeman::CHUNK.wood_ratio
+  Swordsman::CHUNK.food_ratio,
+  Swordsman::CHUNK.iron_ratio,
+  Swordsman::CHUNK.stone_ratio,
+  Swordsman::CHUNK.wood_ratio
 );

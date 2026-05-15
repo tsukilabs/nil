@@ -5,13 +5,12 @@ pub mod size;
 
 use crate::error::{Error, Result};
 use crate::military::unit::stats::haul::Haul;
-use crate::military::unit::stats::power::Power;
+use crate::military::unit::stats::power::{AttackPower, DefensePower, Power};
 use crate::military::unit::stats::speed::Speed;
 use crate::military::unit::{Unit, UnitBox, UnitId, UnitKind};
 use crate::ranking::score::Score;
 use crate::resources::maintenance::Maintenance;
 use crate::world::config::WorldConfig;
-use derive_more::{Deref, Into};
 use serde::{Deserialize, Serialize};
 use size::SquadSize;
 use std::ops::{Add, AddAssign, Mul, MulAssign, Sub, SubAssign};
@@ -70,17 +69,21 @@ impl Squad {
     (self.size() * c_maintenance) / c_size
   }
 
-  pub fn attack(&self) -> SquadAttack {
-    let attack = self.unit.stats().attack();
-    SquadAttack(attack * self.size)
+  /// Average power of the squad.
+  pub fn power(&self) -> Power {
+    self.unit.power() * self.size
   }
 
-  pub fn defense(&self) -> SquadDefense {
-    let stats = self.unit.stats();
-    let infantry = stats.infantry_defense() * self.size;
-    let cavalry = stats.cavalry_defense() * self.size;
-    let ranged = stats.ranged_defense() * self.size;
-    SquadDefense { infantry, cavalry, ranged }
+  pub fn attack(&self) -> AttackPower {
+    self.unit.attack() * self.size
+  }
+
+  pub fn defense(&self) -> DefensePower {
+    let mut defense = self.unit.defense();
+    defense.cavalry *= self.size;
+    defense.infantry *= self.size;
+    defense.ranged *= self.size;
+    defense
   }
 
   #[inline]
@@ -99,6 +102,12 @@ impl Squad {
     } else {
       Err(Error::UnexpectedUnit(self.id(), rhs.id()))
     }
+  }
+}
+
+impl From<UnitId> for Squad {
+  fn from(id: UnitId) -> Self {
+    Squad::new(id, SquadSize::new(0))
   }
 }
 
@@ -179,28 +188,4 @@ impl MulAssign<f64> for Squad {
   fn mul_assign(&mut self, rhs: f64) {
     self.size *= rhs;
   }
-}
-
-impl From<UnitId> for Squad {
-  fn from(id: UnitId) -> Self {
-    Squad::new(id, SquadSize::new(0))
-  }
-}
-
-#[derive(Copy, Debug, Deref, Into)]
-#[derive_const(Clone, PartialEq, PartialOrd)]
-pub struct SquadAttack(Power);
-
-impl const From<SquadAttack> for f64 {
-  fn from(value: SquadAttack) -> Self {
-    f64::from(value.0)
-  }
-}
-
-#[derive(Debug)]
-#[derive_const(Clone)]
-pub struct SquadDefense {
-  pub(crate) infantry: Power,
-  pub(crate) cavalry: Power,
-  pub(crate) ranged: Power,
 }

@@ -3,11 +3,15 @@
 
 use super::Food;
 use super::diff::FoodDiff;
+use crate::military::army::Army;
+use crate::military::army::personnel::ArmyPersonnel;
+use crate::military::squad::Squad;
 use crate::military::unit::UnitChunkSize;
 use derive_more::Display;
 use nil_util::ConstDeref;
 use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
+use std::iter::Sum;
 use std::num::NonZeroU32;
 use std::ops::{Add, AddAssign, Div, Mul, Sub, SubAssign};
 
@@ -50,6 +54,36 @@ impl const From<f64> for Maintenance {
 impl const From<Maintenance> for f64 {
   fn from(value: Maintenance) -> Self {
     f64::from(value.0)
+  }
+}
+
+impl<'a> Sum<&'a Squad> for Maintenance {
+  fn sum<I>(iter: I) -> Self
+  where
+    I: Iterator<Item = &'a Squad>,
+  {
+    iter.fold(Maintenance::default(), |mut acc, squad| {
+      acc += squad.maintenance();
+      acc
+    })
+  }
+}
+
+impl<'a> Sum<&'a ArmyPersonnel> for Maintenance {
+  fn sum<I>(iter: I) -> Self
+  where
+    I: Iterator<Item = &'a ArmyPersonnel>,
+  {
+    iter.flat_map(ArmyPersonnel::iter).sum()
+  }
+}
+
+impl<'a> Sum<&'a Army> for Maintenance {
+  fn sum<I>(iter: I) -> Self
+  where
+    I: Iterator<Item = &'a Army>,
+  {
+    iter.flat_map(Army::iter).sum()
   }
 }
 

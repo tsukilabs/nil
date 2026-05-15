@@ -4,15 +4,14 @@
 use crate::military::unit::stats::power::Power;
 use crate::ranking::score::Score;
 use crate::resources::maintenance::Maintenance;
-use derive_more::{Display, From, Into};
+use derive_more::Display;
 use nil_util::ConstDeref;
 use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
 use std::ops::{Add, AddAssign, Mul, MulAssign, Sub, SubAssign};
 
-#[derive(Copy, Debug, Display, From, Into, Deserialize, Serialize, ConstDeref)]
+#[derive(Copy, Debug, Display, Deserialize, Serialize, ConstDeref)]
 #[derive_const(Clone, Default, PartialEq, Eq, PartialOrd, Ord)]
-#[into(u32, f64)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct SquadSize(u32);
@@ -43,6 +42,24 @@ impl const PartialEq<u32> for SquadSize {
 impl const PartialOrd<u32> for SquadSize {
   fn partial_cmp(&self, other: &u32) -> Option<Ordering> {
     self.0.partial_cmp(other)
+  }
+}
+
+impl const From<u32> for SquadSize {
+  fn from(value: u32) -> Self {
+    Self::new(value)
+  }
+}
+
+impl const From<SquadSize> for u32 {
+  fn from(value: SquadSize) -> Self {
+    value.0
+  }
+}
+
+impl const From<SquadSize> for f64 {
+  fn from(value: SquadSize) -> Self {
+    f64::from(value.0)
   }
 }
 
@@ -124,14 +141,6 @@ impl const Mul<Power> for SquadSize {
 
   fn mul(self, rhs: Power) -> Self::Output {
     rhs * self.0
-  }
-}
-
-impl const Mul<SquadSize> for Power {
-  type Output = Power;
-
-  fn mul(self, rhs: SquadSize) -> Self::Output {
-    self * rhs.0
   }
 }
 
