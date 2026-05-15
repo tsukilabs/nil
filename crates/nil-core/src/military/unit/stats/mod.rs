@@ -7,11 +7,10 @@ pub mod prelude;
 pub mod ranged_debuff;
 pub mod speed;
 
+use crate::military::unit::stats::power::DefensePower;
 use bon::Builder;
 use prelude::*;
 use serde::{Deserialize, Serialize};
-
-use crate::military::unit::stats::power::DefensePower;
 
 #[derive(Builder, Debug, Deserialize, Serialize)]
 #[derive_const(Clone)]
