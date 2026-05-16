@@ -11,7 +11,7 @@ use crate::resources::Resources;
 use crate::resources::influence::Influence;
 use derive_more::Deref;
 use serde::{Deserialize, Serialize};
-use strum::{Display, EnumIter, IntoEnumIterator};
+use strum::{Display, EnumIter, EnumString, IntoEnumIterator};
 
 pub use crate::npc::precursor::a::A;
 pub use crate::npc::precursor::b::B;
@@ -98,7 +98,7 @@ where
   }
 }
 
-#[derive(Copy, Debug, Display, Hash, EnumIter, Deserialize, Serialize)]
+#[derive(Copy, Debug, Display, Hash, EnumIter, EnumString, Deserialize, Serialize)]
 #[derive_const(Clone, PartialEq, Eq)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub enum PrecursorId {
