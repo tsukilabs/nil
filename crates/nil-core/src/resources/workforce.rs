@@ -1,7 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use crate::city::Stability;
+use crate::city::stability::Stability;
 use crate::infrastructure::building::Building;
 use crate::infrastructure::building::level::BuildingLevel;
 use crate::world::config::WorldConfig;
