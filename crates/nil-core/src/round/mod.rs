@@ -6,8 +6,9 @@ mod tests;
 
 use crate::error::{Error, Result};
 use crate::player::PlayerId;
-use derive_more::Deref;
+use derive_more::Display;
 use jiff::Zoned;
+use nil_util::ConstDeref;
 use nil_util::iter::IterExt;
 use serde::{Deserialize, Serialize};
 use std::collections::HashSet;
@@ -160,7 +161,7 @@ impl Round {
   }
 }
 
-#[derive(Copy, Debug, Deref, Deserialize, Serialize)]
+#[derive(Copy, Debug, Display, Deserialize, Serialize, ConstDeref)]
 #[derive_const(Clone, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct RoundId(NonZeroU32);
@@ -207,13 +208,13 @@ impl fmt::Debug for RoundState {
   fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
     match self {
       Self::Idle => write!(f, "Idle"),
+      Self::Done => write!(f, "Done"),
       Self::Waiting { pending, ready } => {
         f.debug_struct("Waiting")
           .field("pending", &pending.len())
           .field("ready", &ready.len())
           .finish()
       }
-      Self::Done => write!(f, "Done"),
     }
   }
 }
