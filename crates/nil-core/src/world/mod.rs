@@ -185,7 +185,7 @@ pub struct WorldOptions {
   pub name: WorldName,
 
   #[serde(default)]
-  #[builder(default)]
+  #[builder(default, into)]
   pub size: ContinentSize,
 
   #[serde(default)]
@@ -197,19 +197,19 @@ pub struct WorldOptions {
   pub allow_cheats: bool,
 
   #[serde(default)]
-  #[builder(default)]
+  #[builder(default, into)]
   pub speed: WorldSpeed,
 
   #[serde(default)]
-  #[builder(default)]
+  #[builder(default, into)]
   pub unit_speed: WorldUnitSpeed,
 
   #[serde(default)]
-  #[builder(default)]
+  #[builder(default, into)]
   pub bot_density: BotDensity,
 
   #[serde(default)]
-  #[builder(default)]
+  #[builder(default, into)]
   pub bot_advanced_start_ratio: BotAdvancedStartRatio,
 }
 

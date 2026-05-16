@@ -22,7 +22,7 @@ use nil_core::world::{World, WorldOptions};
 use nil_crypto::password::Password;
 use nil_server_database::Database;
 use nil_server_database::model::game::{GameWithBlob, NewGame};
-use nil_server_database::sql_types::player_id::PlayerId;
+use nil_server_database::sql_types::player_id::db_PlayerId;
 use nil_server_types::ServerKind;
 use nil_server_types::round::RoundDuration;
 use semver::{Prerelease, Version};
@@ -162,10 +162,10 @@ impl App {
   pub(crate) async fn create_remote(
     &self,
     #[builder(start_fn)] options: &WorldOptions,
-    #[builder(into)] player_id: PlayerId,
+    #[builder(into)] player_id: db_PlayerId,
     #[builder(into)] world_description: Option<String>,
-    world_password: Option<Password>,
-    round_duration: Option<RoundDuration>,
+    #[builder(into)] world_password: Option<Password>,
+    #[builder(into)] round_duration: Option<RoundDuration>,
     server_version: Version,
   ) -> Result<WorldId> {
     self
@@ -207,7 +207,7 @@ impl App {
   }
 
   /// Checks if the player can create a new remote world.
-  async fn check_remote_world_limit(&self, player: PlayerId) -> Result<()> {
+  async fn check_remote_world_limit(&self, player: db_PlayerId) -> Result<()> {
     let database = self.database();
 
     let limit = i64::from(self.world_limit.get());

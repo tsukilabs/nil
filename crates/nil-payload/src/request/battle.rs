@@ -16,6 +16,7 @@ use ts_rs::TS;
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export, optional_fields = nullable))]
 pub struct SimulateBattleRequest {
+  #[builder(start_fn)]
   pub world: WorldId,
   #[serde(default)]
   #[builder(default, with = FromIterator::from_iter)]
@@ -24,8 +25,9 @@ pub struct SimulateBattleRequest {
   #[builder(default, with = FromIterator::from_iter)]
   pub defender: Vec<Squad>,
   #[serde(default)]
+  #[builder(into)]
   pub luck: Option<Luck>,
   #[serde(default)]
-  #[builder(default)]
+  #[builder(default, into)]
   pub wall: BuildingLevel,
 }

@@ -14,6 +14,7 @@ use ts_rs::TS;
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct GetContinentSizeRequest {
+  #[builder(start_fn)]
   pub world: WorldId,
 }
 
@@ -22,6 +23,7 @@ pub struct GetContinentSizeRequest {
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct GetPublicFieldRequest {
+  #[builder(start_fn)]
   pub world: WorldId,
   #[builder(into)]
   pub coord: Coord,
@@ -31,6 +33,7 @@ pub struct GetPublicFieldRequest {
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct GetPublicFieldsRequest {
+  #[builder(start_fn)]
   pub world: WorldId,
   #[serde(default)]
   #[builder(default, with = FromIterator::from_iter)]

@@ -13,6 +13,7 @@ use ts_rs::TS;
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct GetRoundRequest {
+  #[builder(start_fn)]
   pub world: WorldId,
 }
 
@@ -21,6 +22,7 @@ pub struct GetRoundRequest {
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct SetPlayerReadyRequest {
+  #[builder(start_fn)]
   pub world: WorldId,
   pub is_ready: bool,
 }
@@ -30,5 +32,6 @@ pub struct SetPlayerReadyRequest {
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct StartRoundRequest {
+  #[builder(start_fn)]
   pub world: WorldId,
 }

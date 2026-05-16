@@ -1,10 +1,10 @@
-use derive_more::Deref;
 use diesel::backend::Backend;
 use diesel::deserialize::{self as de, FromSql, FromSqlRow};
 use diesel::expression::AsExpression;
 use diesel::serialize::{self as ser, IsNull, Output, ToSql};
 use diesel::sql_types::Integer;
 use diesel::sqlite::Sqlite;
+use nil_util::ConstDeref;
 use serde::{Deserialize, Serialize};
 use std::fmt;
 use std::num::NonZeroU32;
@@ -16,17 +16,13 @@ macro_rules! impl_u32 {
         FromSqlRow,
         AsExpression,
         Debug,
-        Deref,
-        Clone,
         Copy,
-        PartialEq,
-        Eq,
-        PartialOrd,
-        Ord,
         Hash,
         Deserialize,
         Serialize,
+        ConstDeref,
       )]
+      #[derive_const(Clone, PartialEq, Eq, PartialOrd, Ord)]
       #[diesel(sql_type = Integer)]
       pub struct $name(NonZeroU32);
 

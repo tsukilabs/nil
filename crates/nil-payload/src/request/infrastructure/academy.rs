@@ -18,6 +18,7 @@ use ts_rs::TS;
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct AddAcademyRecruitOrderRequest {
+  #[builder(start_fn)]
   pub world: WorldId,
   pub request: AcademyRecruitOrderRequest,
 }
@@ -27,6 +28,7 @@ pub struct AddAcademyRecruitOrderRequest {
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct CancelAcademyRecruitOrderRequest {
+  #[builder(start_fn)]
   pub world: WorldId,
   #[builder(into)]
   pub coord: Coord,
@@ -38,6 +40,7 @@ pub struct CancelAcademyRecruitOrderRequest {
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct GetAcademyRecruitCatalogRequest {
+  #[builder(start_fn)]
   pub world: WorldId,
   #[builder(into)]
   pub coord: Coord,

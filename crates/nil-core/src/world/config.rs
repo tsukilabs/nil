@@ -5,7 +5,7 @@ use crate::error::AnyResult;
 use crate::world::WorldOptions;
 use bon::Builder;
 use derive_more::{Deref, Display};
-use nil_util::F64Math;
+use nil_util::{ConstDeref, F64Math};
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
@@ -28,19 +28,19 @@ pub struct WorldConfig {
   allow_cheats: bool,
 
   #[serde(default)]
-  #[builder(default)]
+  #[builder(default, into)]
   speed: WorldSpeed,
 
   #[serde(default)]
-  #[builder(default)]
+  #[builder(default, into)]
   unit_speed: WorldUnitSpeed,
 
   #[serde(default)]
-  #[builder(default)]
+  #[builder(default, into)]
   bot_density: BotDensity,
 
   #[serde(default)]
-  #[builder(default)]
+  #[builder(default, into)]
   bot_advanced_start_ratio: BotAdvancedStartRatio,
 }
 
@@ -136,8 +136,8 @@ impl<T: AsRef<str>> From<T> for WorldName {
   }
 }
 
-#[derive(Clone, Copy, Debug, Deserialize, Serialize)]
-#[derive_const(Default)]
+#[derive(Copy, Debug, Deserialize, Serialize)]
+#[derive_const(Clone, Default)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub enum Locale {
   #[default]
@@ -161,13 +161,10 @@ macro_rules! impl_f64_newtype {
         Self(value.clamp(Self::MIN.0, Self::MAX.0))
       }
     }
-  };
-  ($name:ident, min = $min:expr, max = $max:expr, default = $default:expr) => {
-    impl_f64_newtype!($name, min = $min, max = $max);
 
-    impl const Default for $name {
-      fn default() -> Self {
-        Self::new($default)
+    impl const From<f64> for $name {
+      fn from(value: f64) -> Self {
+        Self::new(value)
       }
     }
 
@@ -177,24 +174,33 @@ macro_rules! impl_f64_newtype {
       }
     }
   };
+  ($name:ident, min = $min:expr, max = $max:expr, default = $default:expr) => {
+    impl_f64_newtype!($name, min = $min, max = $max);
+
+    impl const Default for $name {
+      fn default() -> Self {
+        Self::new($default)
+      }
+    }
+  };
 }
 
-#[derive(Copy, Debug, Deref, Deserialize, Serialize, F64Math)]
-#[derive_const(Clone)]
+#[derive(Copy, Debug, Deserialize, Serialize, ConstDeref, F64Math)]
+#[derive_const(Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct WorldSpeed(f64);
 
 impl_f64_newtype!(WorldSpeed, min = 0.1, max = 10.0, default = 1.0);
 
-#[derive(Copy, Debug, Deref, Deserialize, Serialize, F64Math)]
-#[derive_const(Clone)]
+#[derive(Copy, Debug, Deserialize, Serialize, ConstDeref, F64Math)]
+#[derive_const(Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct WorldUnitSpeed(f64);
 
 impl_f64_newtype!(WorldUnitSpeed, min = 0.1, max = 10.0, default = 1.0);
 
-#[derive(Copy, Debug, Deref, Deserialize, Serialize, F64Math)]
-#[derive_const(Clone)]
+#[derive(Copy, Debug, Deserialize, Serialize, ConstDeref, F64Math)]
+#[derive_const(Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct BotDensity(f64);
 
@@ -206,8 +212,8 @@ impl_f64_newtype!(
 );
 
 /// Proportion of bots that will have an advanced start with higher level infrastructure.
-#[derive(Copy, Debug, Deref, Deserialize, Serialize, F64Math)]
-#[derive_const(Clone)]
+#[derive(Copy, Debug, Deserialize, Serialize, ConstDeref, F64Math)]
+#[derive_const(Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct BotAdvancedStartRatio(f64);
 

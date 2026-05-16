@@ -354,7 +354,8 @@ macro_rules! decl_resource {
         impl const From<f64> for $resource {
           fn from(value: f64) -> Self {
             debug_assert!(value.is_finite());
-            Self(value as u32)
+            debug_assert!(value >= 0.0);
+            Self(value.trunc() as u32)
           }
         }
 

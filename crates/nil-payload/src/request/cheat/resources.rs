@@ -15,6 +15,7 @@ use ts_rs::TS;
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export, optional_fields = nullable))]
 pub struct CheatGetResourcesRequest {
+  #[builder(start_fn)]
   pub world: WorldId,
   #[serde(default)]
   #[builder(into)]
@@ -26,6 +27,7 @@ pub struct CheatGetResourcesRequest {
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export, optional_fields = nullable))]
 pub struct CheatSetFoodRequest {
+  #[builder(start_fn)]
   pub world: WorldId,
   #[serde(default)]
   #[builder(into)]
@@ -40,6 +42,7 @@ pub struct CheatSetFoodRequest {
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export, optional_fields = nullable))]
 pub struct CheatSetIronRequest {
+  #[builder(start_fn)]
   pub world: WorldId,
   #[serde(default)]
   #[builder(into)]
@@ -65,6 +68,7 @@ pub struct CheatSetMaxFoodRequest {
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export, optional_fields = nullable))]
 pub struct CheatSetMaxIronRequest {
+  #[builder(start_fn)]
   pub world: WorldId,
   #[serde(default)]
   #[builder(into)]
@@ -76,6 +80,7 @@ pub struct CheatSetMaxIronRequest {
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export, optional_fields = nullable))]
 pub struct CheatSetMaxResourcesRequest {
+  #[builder(start_fn)]
   pub world: WorldId,
   #[serde(default)]
   #[builder(into)]
@@ -87,6 +92,7 @@ pub struct CheatSetMaxResourcesRequest {
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export, optional_fields = nullable))]
 pub struct CheatSetMaxSiloResourcesRequest {
+  #[builder(start_fn)]
   pub world: WorldId,
   #[serde(default)]
   #[builder(into)]
@@ -98,6 +104,7 @@ pub struct CheatSetMaxSiloResourcesRequest {
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export, optional_fields = nullable))]
 pub struct CheatSetMaxStoneRequest {
+  #[builder(start_fn)]
   pub world: WorldId,
   #[serde(default)]
   #[builder(into)]
@@ -109,6 +116,7 @@ pub struct CheatSetMaxStoneRequest {
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export, optional_fields = nullable))]
 pub struct CheatSetMaxWarehouseResourcesRequest {
+  #[builder(start_fn)]
   pub world: WorldId,
   #[serde(default)]
   #[builder(into)]
@@ -120,6 +128,7 @@ pub struct CheatSetMaxWarehouseResourcesRequest {
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export, optional_fields = nullable))]
 pub struct CheatSetMaxWoodRequest {
+  #[builder(start_fn)]
   pub world: WorldId,
   #[serde(default)]
   #[builder(into)]
@@ -131,6 +140,7 @@ pub struct CheatSetMaxWoodRequest {
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export, optional_fields = nullable))]
 pub struct CheatSetResourcesRequest {
+  #[builder(start_fn)]
   pub world: WorldId,
   #[serde(default)]
   #[builder(into)]
@@ -145,6 +155,7 @@ pub struct CheatSetResourcesRequest {
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export, optional_fields = nullable))]
 pub struct CheatSetStoneRequest {
+  #[builder(start_fn)]
   pub world: WorldId,
   #[serde(default)]
   #[builder(into)]
@@ -159,6 +170,7 @@ pub struct CheatSetStoneRequest {
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export, optional_fields = nullable))]
 pub struct CheatSetWoodRequest {
+  #[builder(start_fn)]
   pub world: WorldId,
   #[serde(default)]
   #[builder(into)]

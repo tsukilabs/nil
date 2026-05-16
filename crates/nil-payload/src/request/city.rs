@@ -15,6 +15,7 @@ use ts_rs::TS;
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct GetCityRequest {
+  #[builder(start_fn)]
   pub world: WorldId,
   #[builder(into)]
   pub coord: Coord,
@@ -25,6 +26,7 @@ pub struct GetCityRequest {
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct GetCityScoreRequest {
+  #[builder(start_fn)]
   pub world: WorldId,
   #[builder(into)]
   pub coord: Coord,
@@ -35,6 +37,7 @@ pub struct GetCityScoreRequest {
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct GetPublicCitiesRequest {
+  #[builder(start_fn)]
   pub world: WorldId,
   #[serde(default)]
   #[builder(default, with = FromIterator::from_iter)]
@@ -52,6 +55,7 @@ pub struct GetPublicCitiesRequest {
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct GetPublicCityRequest {
+  #[builder(start_fn)]
   pub world: WorldId,
   #[builder(into)]
   pub coord: Coord,
@@ -65,9 +69,11 @@ pub struct GetPublicCityRequest {
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct RenameCityRequest {
+  #[builder(start_fn)]
   pub world: WorldId,
   #[builder(into)]
   pub coord: Coord,
+  #[builder(into)]
   pub name: String,
 }
 
@@ -76,7 +82,9 @@ pub struct RenameCityRequest {
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct SearchCityRequest {
+  #[builder(start_fn)]
   pub world: WorldId,
+  #[builder(into)]
   pub search: CitySearch,
 }
 
@@ -85,6 +93,8 @@ pub struct SearchCityRequest {
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct SearchPublicCityRequest {
+  #[builder(start_fn)]
   pub world: WorldId,
+  #[builder(into)]
   pub search: CitySearch,
 }
