@@ -3,7 +3,16 @@
 
 #![cfg_attr(docsrs, feature(doc_cfg))]
 #![doc(html_favicon_url = "https://nil.dev.br/favicon.png")]
-#![feature(nonpoison_mutex, str_as_str, sync_nonpoison)]
+#![feature(
+  const_clone,
+  const_cmp,
+  const_convert,
+  const_trait_impl,
+  derive_const,
+  nonpoison_mutex,
+  str_as_str,
+  sync_nonpoison
+)]
 
 mod database;
 pub mod error;

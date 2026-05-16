@@ -16,7 +16,7 @@ use jiff::{SignedDuration, Zoned};
 use jsonwebtoken::{DecodingKey, EncodingKey, Header, TokenData, Validation, decode, encode};
 use nil_core::player::PlayerId;
 use nil_core::ruler::Ruler;
-use nil_server_database::sql_types::player_id::PlayerId as DbPlayerId;
+use nil_server_database::sql_types::player_id::db_PlayerId as DbPlayerId;
 use nil_server_types::auth::Token;
 use serde::{Deserialize, Serialize};
 use std::env;

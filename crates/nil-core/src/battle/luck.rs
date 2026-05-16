@@ -23,6 +23,12 @@ impl Luck {
   }
 }
 
+impl const From<i8> for Luck {
+  fn from(value: i8) -> Self {
+    Self::new(value)
+  }
+}
+
 impl const From<Luck> for f64 {
   fn from(luck: Luck) -> Self {
     f64::from(luck.0) / 100.0

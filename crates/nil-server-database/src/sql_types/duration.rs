@@ -10,24 +10,23 @@ use diesel::sql_types::Text;
 use diesel::sqlite::Sqlite;
 use jiff::SignedDuration;
 use nil_server_types::round::RoundDuration;
-use nil_server_types::time::Minutes;
 use serde::{Deserialize, Serialize};
-use std::time::Duration as StdDuration;
+use std::time::Duration;
 
 #[derive(
   FromSqlRow, AsExpression, Clone, Copy, Debug, Deref, From, Into, Deserialize, Serialize,
 )]
 #[diesel(sql_type = Text)]
-pub struct Duration(StdDuration);
+pub struct db_Duration(Duration);
 
-impl FromSql<Text, Sqlite> for Duration {
+impl FromSql<Text, Sqlite> for db_Duration {
   fn from_sql(bytes: <Sqlite as Backend>::RawValue<'_>) -> de::Result<Self> {
     let value = <String as FromSql<Text, Sqlite>>::from_sql(bytes)?;
-    Ok(Duration(StdDuration::from_millis(value.parse()?)))
+    Ok(db_Duration(Duration::from_millis(value.parse()?)))
   }
 }
 
-impl ToSql<Text, Sqlite> for Duration
+impl ToSql<Text, Sqlite> for db_Duration
 where
   String: ToSql<Text, Sqlite>,
 {
@@ -37,36 +36,30 @@ where
   }
 }
 
-impl From<Minutes> for Duration {
-  fn from(mins: Minutes) -> Self {
-    Self(StdDuration::from(mins))
-  }
-}
-
-impl From<RoundDuration> for Duration {
+impl const From<RoundDuration> for db_Duration {
   fn from(duration: RoundDuration) -> Self {
-    Self(StdDuration::from(duration))
+    Self(Duration::from(duration))
   }
 }
 
-impl From<Duration> for RoundDuration {
-  fn from(duration: Duration) -> Self {
-    RoundDuration::from(duration.0)
+impl const From<db_Duration> for RoundDuration {
+  fn from(value: db_Duration) -> Self {
+    RoundDuration::from(value.0)
   }
 }
 
-impl TryFrom<SignedDuration> for Duration {
+impl TryFrom<SignedDuration> for db_Duration {
   type Error = crate::error::Error;
 
   fn try_from(duration: SignedDuration) -> Result<Self, Self::Error> {
-    Ok(Duration(StdDuration::try_from(duration)?))
+    Ok(db_Duration(Duration::try_from(duration)?))
   }
 }
 
-impl TryFrom<Duration> for SignedDuration {
+impl TryFrom<db_Duration> for SignedDuration {
   type Error = crate::error::Error;
 
-  fn try_from(duration: Duration) -> Result<Self, Self::Error> {
+  fn try_from(duration: db_Duration) -> Result<Self, Self::Error> {
     Ok(SignedDuration::try_from(duration.0)?)
   }
 }

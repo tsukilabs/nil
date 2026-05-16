@@ -5,13 +5,13 @@ use super::BlockingDatabase;
 use crate::error::{Error, Result};
 use crate::model::user::{NewUser, User};
 use crate::sql_types::id::UserId;
-use crate::sql_types::player_id::PlayerId;
+use crate::sql_types::player_id::db_PlayerId;
 use diesel::prelude::*;
 use diesel::result::{DatabaseErrorKind, Error as DieselError};
 use either::Either;
 
 impl BlockingDatabase {
-  pub fn count_games_by_user(&self, id: PlayerId) -> Result<i64> {
+  pub fn count_games_by_user(&self, id: db_PlayerId) -> Result<i64> {
     self.count_games_by_user_id(self.get_user_id(id)?)
   }
 
@@ -41,7 +41,7 @@ impl BlockingDatabase {
     }
   }
 
-  pub fn get_user(&self, id: PlayerId) -> Result<User> {
+  pub fn get_user(&self, id: db_PlayerId) -> Result<User> {
     use crate::schema::user;
 
     let result = user::table
@@ -71,7 +71,7 @@ impl BlockingDatabase {
     }
   }
 
-  pub fn get_user_id(&self, id: PlayerId) -> Result<UserId> {
+  pub fn get_user_id(&self, id: db_PlayerId) -> Result<UserId> {
     use crate::schema::user;
 
     let result = user::table
@@ -86,13 +86,13 @@ impl BlockingDatabase {
     }
   }
 
-  pub fn get_user_player_id(&self, id: UserId) -> Result<PlayerId> {
+  pub fn get_user_player_id(&self, id: UserId) -> Result<db_PlayerId> {
     use crate::schema::user;
 
     let result = user::table
       .find(id)
       .select(user::player_id)
-      .first::<PlayerId>(&mut *self.conn());
+      .first::<db_PlayerId>(&mut *self.conn());
 
     if let Err(DieselError::NotFound) = &result {
       Err(Error::UserNotFound(Either::Right(id)))
@@ -101,7 +101,7 @@ impl BlockingDatabase {
     }
   }
 
-  pub fn user_exists(&self, id: &PlayerId) -> Result<bool> {
+  pub fn user_exists(&self, id: &db_PlayerId) -> Result<bool> {
     use crate::schema::user;
     use diesel::dsl::{exists, select};
 

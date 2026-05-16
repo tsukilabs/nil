@@ -15,6 +15,7 @@ use ts_rs::TS;
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct GetPlayerRequest {
+  #[builder(start_fn)]
   pub world: WorldId,
 }
 
@@ -23,6 +24,7 @@ pub struct GetPlayerRequest {
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct GetPlayerCoordsRequest {
+  #[builder(start_fn)]
   pub world: WorldId,
   #[builder(into)]
   pub id: PlayerId,
@@ -33,6 +35,7 @@ pub struct GetPlayerCoordsRequest {
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct GetPlayerIdsRequest {
+  #[builder(start_fn)]
   pub world: WorldId,
 }
 
@@ -41,6 +44,7 @@ pub struct GetPlayerIdsRequest {
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct GetPlayerMaintenanceRequest {
+  #[builder(start_fn)]
   pub world: WorldId,
 }
 
@@ -49,6 +53,7 @@ pub struct GetPlayerMaintenanceRequest {
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct GetPlayerMilitaryRequest {
+  #[builder(start_fn)]
   pub world: WorldId,
 }
 
@@ -57,6 +62,7 @@ pub struct GetPlayerMilitaryRequest {
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct GetPlayerReportsRequest {
+  #[builder(start_fn)]
   pub world: WorldId,
 }
 
@@ -65,6 +71,7 @@ pub struct GetPlayerReportsRequest {
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct GetPlayerStatusRequest {
+  #[builder(start_fn)]
   pub world: WorldId,
   #[builder(into)]
   pub id: PlayerId,
@@ -75,6 +82,7 @@ pub struct GetPlayerStatusRequest {
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct GetPlayerStorageCapacityRequest {
+  #[builder(start_fn)]
   pub world: WorldId,
 }
 
@@ -92,6 +100,7 @@ pub struct GetPlayerWorldsRequest {
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct GetPublicPlayerRequest {
+  #[builder(start_fn)]
   pub world: WorldId,
   #[builder(into)]
   pub id: PlayerId,
@@ -102,6 +111,7 @@ pub struct GetPublicPlayerRequest {
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct GetPublicPlayersRequest {
+  #[builder(start_fn)]
   pub world: WorldId,
 }
 
@@ -110,6 +120,7 @@ pub struct GetPublicPlayersRequest {
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct PlayerExistsRequest {
+  #[builder(start_fn)]
   pub world: WorldId,
   #[builder(into)]
   pub id: PlayerId,
@@ -120,6 +131,7 @@ pub struct PlayerExistsRequest {
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct SetPlayerStatusRequest {
+  #[builder(start_fn)]
   pub world: WorldId,
   pub status: PlayerStatus,
 }
@@ -129,6 +141,7 @@ pub struct SetPlayerStatusRequest {
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export, optional_fields = nullable))]
 pub struct SpawnPlayerRequest {
+  #[builder(start_fn)]
   pub world: WorldId,
   #[serde(default)]
   #[builder(into)]

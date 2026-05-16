@@ -14,6 +14,7 @@ use ts_rs::TS;
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct RequestManeuverRequest {
+  #[builder(start_fn)]
   pub world: WorldId,
   pub request: ManeuverRequest,
 }

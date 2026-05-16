@@ -15,8 +15,10 @@ use ts_rs::TS;
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export, optional_fields = nullable))]
 pub struct AuthorizeRequest {
+  #[builder(into)]
   pub player: PlayerId,
   #[serde(default)]
+  #[builder(into)]
   pub password: Option<Password>,
 }
 
@@ -25,6 +27,7 @@ pub struct AuthorizeRequest {
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct ValidateTokenRequest {
+  #[builder(start_fn, into)]
   pub token: Token,
 }
 

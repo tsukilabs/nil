@@ -242,7 +242,6 @@ export type { MineId } from './MineId';
 export type { MineProduction } from './MineProduction';
 export type { MineStats } from './MineStats';
 export type { MineStatsTable } from './MineStatsTable';
-export type { Minutes } from './Minutes';
 export type { OverallStorageCapacity } from './OverallStorageCapacity';
 export type { Password } from './Password';
 export type { Player } from './Player';

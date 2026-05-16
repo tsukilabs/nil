@@ -3,12 +3,12 @@
 
 use crate::Database;
 use crate::error::{Error, Result};
-use crate::sql_types::duration::Duration;
+use crate::sql_types::duration::db_Duration;
 use crate::sql_types::game_id::GameId;
 use crate::sql_types::hashed_password::HashedPassword;
 use crate::sql_types::id::UserId;
-use crate::sql_types::version::Version;
-use crate::sql_types::zoned::Zoned;
+use crate::sql_types::version::db_Version;
+use crate::sql_types::zoned::db_Zoned;
 use diesel::prelude::*;
 use nil_core::world::World;
 use nil_crypto::password::Password;
@@ -24,10 +24,10 @@ pub struct Game {
   pub id: GameId,
   pub password: Option<HashedPassword>,
   pub description: Option<String>,
-  pub round_duration: Option<Duration>,
+  pub round_duration: Option<db_Duration>,
   pub created_by: UserId,
-  pub created_at: Zoned,
-  pub updated_at: Zoned,
+  pub created_at: db_Zoned,
+  pub updated_at: db_Zoned,
 }
 
 impl From<GameWithBlob> for Game {
@@ -64,11 +64,11 @@ pub struct GameWithBlob {
   pub id: GameId,
   pub password: Option<HashedPassword>,
   pub description: Option<String>,
-  pub round_duration: Option<Duration>,
-  pub server_version: Version,
+  pub round_duration: Option<db_Duration>,
+  pub server_version: db_Version,
   pub created_by: UserId,
-  pub created_at: Zoned,
-  pub updated_at: Zoned,
+  pub created_at: db_Zoned,
+  pub updated_at: db_Zoned,
   pub world_blob: Vec<u8>,
 }
 
@@ -97,11 +97,11 @@ pub struct NewGame {
   id: GameId,
   password: Option<HashedPassword>,
   description: Option<String>,
-  round_duration: Option<Duration>,
-  server_version: Version,
+  round_duration: Option<db_Duration>,
+  server_version: db_Version,
   created_by: UserId,
-  created_at: Zoned,
-  updated_at: Zoned,
+  created_at: db_Zoned,
+  updated_at: db_Zoned,
   world_blob: Vec<u8>,
 }
 
@@ -111,10 +111,10 @@ impl NewGame {
   pub async fn new(
     #[builder(start_fn, into)] id: GameId,
     #[builder(start_fn)] blob: Vec<u8>,
-    password: Option<Password>,
-    mut description: Option<String>,
-    round_duration: Option<RoundDuration>,
-    #[builder(into)] server_version: Version,
+    #[builder(into)] password: Option<Password>,
+    #[builder(into)] mut description: Option<String>,
+    #[builder(into)] round_duration: Option<RoundDuration>,
+    #[builder(into)] server_version: db_Version,
     created_by: UserId,
   ) -> Result<Self> {
     if let Some(description) = &mut description {
@@ -127,7 +127,7 @@ impl NewGame {
       }
     }
 
-    let now = Zoned::now();
+    let now = db_Zoned::now();
 
     Ok(Self {
       id,

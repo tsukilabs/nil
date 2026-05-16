@@ -4,12 +4,12 @@
 use super::BlockingDatabase;
 use crate::error::{Error, Result};
 use crate::model::game::{Game, GameWithBlob, NewGame};
-use crate::sql_types::duration::Duration;
+use crate::sql_types::duration::db_Duration;
 use crate::sql_types::game_id::GameId;
 use crate::sql_types::hashed_password::HashedPassword;
 use crate::sql_types::id::UserId;
-use crate::sql_types::player_id::PlayerId;
-use crate::sql_types::zoned::Zoned;
+use crate::sql_types::player_id::db_PlayerId;
+use crate::sql_types::zoned::db_Zoned;
 use diesel::prelude::*;
 use diesel::result::Error as DieselError;
 use nil_crypto::password::Password;
@@ -72,7 +72,7 @@ impl BlockingDatabase {
       .do_update()
       .set((
         game::world_blob.eq(new.blob()),
-        game::updated_at.eq(Zoned::now()),
+        game::updated_at.eq(db_Zoned::now()),
       ))
       .execute(&mut *self.conn())
       .map_err(Into::into)
@@ -107,7 +107,7 @@ impl BlockingDatabase {
       .map_err(Into::into)
   }
 
-  pub fn get_game_creator(&self, id: GameId) -> Result<PlayerId> {
+  pub fn get_game_creator(&self, id: GameId) -> Result<db_PlayerId> {
     use crate::schema::game;
 
     let user_id = game::table
@@ -142,7 +142,7 @@ impl BlockingDatabase {
     }
   }
 
-  pub fn get_game_round_duration(&self, id: GameId) -> Result<Option<Duration>> {
+  pub fn get_game_round_duration(&self, id: GameId) -> Result<Option<db_Duration>> {
     use crate::schema::game;
 
     let result = game::table
@@ -161,7 +161,10 @@ impl BlockingDatabase {
     use crate::schema::game;
 
     let n = diesel::update(game::table.find(&id))
-      .set((game::world_blob.eq(blob), game::updated_at.eq(Zoned::now())))
+      .set((
+        game::world_blob.eq(blob),
+        game::updated_at.eq(db_Zoned::now()),
+      ))
       .execute(&mut *self.conn())?;
 
     if n == 0 { Err(Error::GameNotFound(id)) } else { Ok(n) }
@@ -178,7 +181,7 @@ impl BlockingDatabase {
     }
   }
 
-  pub fn was_game_created_by(&self, game_id: GameId, player_id: &PlayerId) -> Result<bool> {
+  pub fn was_game_created_by(&self, game_id: GameId, player_id: &db_PlayerId) -> Result<bool> {
     Ok(&self.get_game_creator(game_id)? == player_id)
   }
 }

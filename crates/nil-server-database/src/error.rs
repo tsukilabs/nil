@@ -3,7 +3,7 @@
 
 use crate::sql_types::game_id::GameId;
 use crate::sql_types::id::UserId;
-use crate::sql_types::player_id::PlayerId;
+use crate::sql_types::player_id::db_PlayerId;
 use either::Either;
 use serde::Serialize;
 use serde::ser::Serializer;
@@ -28,16 +28,16 @@ pub enum Error {
   InvalidPassword,
 
   #[error("Invalid username: \"{0}\"")]
-  InvalidUsername(PlayerId),
+  InvalidUsername(db_PlayerId),
 
   #[error("Migration failed: {0}")]
   MigrationFailed(Box<dyn StdError + Send + Sync>),
 
   #[error("User already exists: \"{0}\"")]
-  UserAlreadyExists(PlayerId),
+  UserAlreadyExists(db_PlayerId),
 
   #[error("User not found")]
-  UserNotFound(Either<PlayerId, UserId>),
+  UserNotFound(Either<db_PlayerId, UserId>),
 
   #[error(transparent)]
   Core(#[from] CoreError),

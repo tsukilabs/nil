@@ -8,11 +8,11 @@ use crate::error::Result;
 use crate::migration::run_pending_migrations;
 use crate::model::game::{Game, GameWithBlob, NewGame};
 use crate::model::user::{NewUser, User};
-use crate::sql_types::duration::Duration;
+use crate::sql_types::duration::db_Duration;
 use crate::sql_types::game_id::GameId;
 use crate::sql_types::hashed_password::HashedPassword;
 use crate::sql_types::id::UserId;
-use crate::sql_types::player_id::PlayerId;
+use crate::sql_types::player_id::db_PlayerId;
 use diesel::prelude::*;
 use itertools::Itertools;
 use nil_crypto::password::Password;
@@ -65,8 +65,8 @@ impl Database {
       .await
   }
 
-  pub async fn count_games_by_user(&self, id: impl Into<PlayerId>) -> Result<i64> {
-    let id: PlayerId = id.into();
+  pub async fn count_games_by_user(&self, id: impl Into<db_PlayerId>) -> Result<i64> {
+    let id: db_PlayerId = id.into();
     self
       .with_blocking(move |db| db.count_games_by_user(id))
       .await
@@ -122,7 +122,7 @@ impl Database {
       .await
   }
 
-  pub async fn get_game_creator(&self, id: impl Into<GameId>) -> Result<PlayerId> {
+  pub async fn get_game_creator(&self, id: impl Into<GameId>) -> Result<db_PlayerId> {
     let id: GameId = id.into();
     self
       .with_blocking(move |db| db.get_game_creator(id))
@@ -142,7 +142,10 @@ impl Database {
       .await
   }
 
-  pub async fn get_game_round_duration(&self, id: impl Into<GameId>) -> Result<Option<Duration>> {
+  pub async fn get_game_round_duration(
+    &self,
+    id: impl Into<GameId>,
+  ) -> Result<Option<db_Duration>> {
     let id: GameId = id.into();
     self
       .with_blocking(move |db| db.get_game_round_duration(id))
@@ -166,8 +169,8 @@ impl Database {
       .await
   }
 
-  pub async fn get_user(&self, id: impl Into<PlayerId>) -> Result<User> {
-    let id: PlayerId = id.into();
+  pub async fn get_user(&self, id: impl Into<db_PlayerId>) -> Result<User> {
+    let id: db_PlayerId = id.into();
     self
       .with_blocking(move |db| db.get_user(id))
       .await
@@ -180,14 +183,14 @@ impl Database {
       .await
   }
 
-  pub async fn get_user_id(&self, id: impl Into<PlayerId>) -> Result<UserId> {
-    let id: PlayerId = id.into();
+  pub async fn get_user_id(&self, id: impl Into<db_PlayerId>) -> Result<UserId> {
+    let id: db_PlayerId = id.into();
     self
       .with_blocking(move |db| db.get_user_id(id))
       .await
   }
 
-  pub async fn get_user_player_id(&self, id: impl Into<UserId>) -> Result<PlayerId> {
+  pub async fn get_user_player_id(&self, id: impl Into<UserId>) -> Result<db_PlayerId> {
     let id: UserId = id.into();
     self
       .with_blocking(move |db| db.get_user_player_id(id))
@@ -201,8 +204,8 @@ impl Database {
       .await
   }
 
-  pub async fn user_exists(&self, id: impl Into<PlayerId>) -> Result<bool> {
-    let id: PlayerId = id.into();
+  pub async fn user_exists(&self, id: impl Into<db_PlayerId>) -> Result<bool> {
+    let id: db_PlayerId = id.into();
     self
       .with_blocking(move |db| db.user_exists(&id))
       .await
@@ -222,10 +225,10 @@ impl Database {
   pub async fn was_game_created_by(
     &self,
     game_id: impl Into<GameId>,
-    player_id: impl Into<PlayerId>,
+    player_id: impl Into<db_PlayerId>,
   ) -> Result<bool> {
     let game_id: GameId = game_id.into();
-    let player_id: PlayerId = player_id.into();
+    let player_id: db_PlayerId = player_id.into();
     self
       .with_blocking(move |db| db.was_game_created_by(game_id, &player_id))
       .await

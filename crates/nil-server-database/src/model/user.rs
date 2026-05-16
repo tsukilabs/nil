@@ -5,8 +5,8 @@ use crate::Database;
 use crate::error::{Error, Result};
 use crate::sql_types::hashed_password::HashedPassword;
 use crate::sql_types::id::UserId;
-use crate::sql_types::player_id::PlayerId;
-use crate::sql_types::zoned::Zoned;
+use crate::sql_types::player_id::db_PlayerId;
+use crate::sql_types::zoned::db_Zoned;
 use diesel::prelude::*;
 use nil_crypto::password::Password;
 use std::fmt;
@@ -17,10 +17,10 @@ use tokio::task::spawn_blocking;
 #[diesel(check_for_backend(diesel::sqlite::Sqlite))]
 pub struct User {
   pub id: UserId,
-  pub player_id: PlayerId,
+  pub player_id: db_PlayerId,
   pub password: HashedPassword,
-  pub created_at: Zoned,
-  pub updated_at: Zoned,
+  pub created_at: db_Zoned,
+  pub updated_at: db_Zoned,
 }
 
 impl User {
@@ -47,22 +47,22 @@ impl fmt::Debug for User {
 #[derive(Insertable, Clone)]
 #[diesel(table_name = crate::schema::user)]
 pub struct NewUser {
-  player_id: PlayerId,
+  player_id: db_PlayerId,
   password: HashedPassword,
-  created_at: Zoned,
-  updated_at: Zoned,
+  created_at: db_Zoned,
+  updated_at: db_Zoned,
 }
 
 impl NewUser {
-  pub async fn new(player_id: impl Into<PlayerId>, password: Password) -> Result<Self> {
-    let player_id: PlayerId = player_id.into();
+  pub async fn new(player_id: impl Into<db_PlayerId>, password: Password) -> Result<Self> {
+    let player_id: db_PlayerId = player_id.into();
     let id_len = player_id.trim().chars().count();
 
     if !(1..=20).contains(&id_len) {
       return Err(Error::InvalidUsername(player_id));
     }
 
-    let now = Zoned::now();
+    let now = db_Zoned::now();
 
     Ok(Self {
       player_id,
@@ -72,7 +72,7 @@ impl NewUser {
     })
   }
 
-  pub fn player_id(&self) -> PlayerId {
+  pub fn player_id(&self) -> db_PlayerId {
     self.player_id.clone()
   }
 

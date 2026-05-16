@@ -14,6 +14,7 @@ use ts_rs::TS;
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct GetRankingRequest {
+  #[builder(start_fn)]
   pub world: WorldId,
 }
 
@@ -22,6 +23,7 @@ pub struct GetRankingRequest {
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct GetRankRequest {
+  #[builder(start_fn)]
   pub world: WorldId,
   #[builder(into)]
   pub ruler: Ruler,

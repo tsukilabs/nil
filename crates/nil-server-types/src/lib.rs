@@ -8,6 +8,7 @@
   const_cmp,
   const_convert,
   const_default,
+  const_result_trait_fn,
   const_trait_impl,
   derive_const,
   str_as_str
@@ -15,7 +16,6 @@
 
 pub mod auth;
 pub mod round;
-pub mod time;
 pub mod world;
 
 use nil_core::world::config::WorldId;
