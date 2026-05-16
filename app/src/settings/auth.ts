@@ -4,9 +4,9 @@
 import * as commands from "@/commands";
 import type { Option } from "@tb-dev/utils";
 import type { ClientOptions } from "@/types/client";
-import type { AuthSettings } from "@/types/settings";
+import type { app_AuthSettings } from "@tsukilabs/nil-bindings";
 
-export class AuthSettingsImpl implements AuthSettings {
+export class AuthSettingsImpl implements app_AuthSettings {
   public token: Option<string> = null;
 
   public async isTokenValid() {

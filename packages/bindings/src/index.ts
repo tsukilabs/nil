@@ -19,6 +19,14 @@ export type { AddAcademyRecruitOrderRequest } from './AddAcademyRecruitOrderRequ
 export type { AddPrefectureBuildOrderRequest } from './AddPrefectureBuildOrderRequest';
 export type { AddStableRecruitOrderRequest } from './AddStableRecruitOrderRequest';
 export type { AddWorkshopRecruitOrderRequest } from './AddWorkshopRecruitOrderRequest';
+export type { app_AcademySettings } from './app_AcademySettings';
+export type { app_AppearanceSettings } from './app_AppearanceSettings';
+export type { app_AuthSettings } from './app_AuthSettings';
+export type { app_GeneralSettings } from './app_GeneralSettings';
+export type { app_PrefectureSettings } from './app_PrefectureSettings';
+export type { app_Settings } from './app_Settings';
+export type { app_StableSettings } from './app_StableSettings';
+export type { app_WorkshopSettings } from './app_WorkshopSettings';
 export type { Army } from './Army';
 export type { ArmyId } from './ArmyId';
 export type { ArmyPersonnel } from './ArmyPersonnel';

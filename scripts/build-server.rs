@@ -5,7 +5,6 @@ edition = "2024"
 
 [dependencies]
 anyhow = "1.0"
-regex = "1.12"
 serde_json = "1.0"
 
 [dependencies.clap]
@@ -26,17 +25,13 @@ features = ["json"]
 
 #![feature(try_blocks_heterogeneous)]
 
-use anyhow::{Context, Result, bail};
+use anyhow::{Context, Result, anyhow};
 use clap::Parser;
 use nil_util::{output_fmt, spawn, spawn_fmt};
-use regex::Regex;
 use serde::Deserialize;
 use serde_json::json;
-use std::borrow::Cow;
 use std::fmt::Write;
 use std::path::PathBuf;
-use std::thread::sleep;
-use std::time::Duration;
 use std::{env, fs};
 
 #[derive(Parser)]
@@ -100,10 +95,6 @@ fn main() -> Result<()> {
 
         execute_webhook(&webhook_url, &message)?;
       }
-
-      if let Ok(webhook_url) = env::var("NIL_DISCORD_WEBHOOK_URL_RELEASE") {
-        execute_release_webhook(&webhook_url, &release)?;
-      }
     }
   }
 
@@ -131,7 +122,6 @@ fn view_release(tag_name: Option<&str>) -> Result<Release> {
 }
 
 fn execute_webhook(url: &str, content: &str) -> Result<()> {
-  sleep(Duration::from_millis(200));
   let result = try bikeshed Result<()> {
     let mut response = ureq::post(url)
       .config()
@@ -140,48 +130,11 @@ fn execute_webhook(url: &str, content: &str) -> Result<()> {
       .send_json(json!({ "content": content }))?;
 
     if !response.status().is_success() {
-      bail!("{}", response.body_mut().read_to_string()?);
+      Err(anyhow!("{}", response.body_mut().read_to_string()?))?;
     }
   };
 
   result.context("failed to execute webhook")
-}
-
-fn execute_release_webhook(url: &str, release: &Release) -> Result<()> {
-  let mut message = format!("# {}\n\n", release.name);
-
-  let pr_re = Regex::new(r"\*\s+(.+?by\s+)@(\S+)\s+in\s+https.+?pull/(\d+)")?;
-  let changelog_re = Regex::new(r".+?Full\sChangelog.+?(https\S+)")?;
-
-  for line in release.body.trim().split_inclusive('\n') {
-    let mut current_line = Cow::Borrowed(line);
-
-    if let Some(captures) = pr_re.captures(line)
-      && let Some(title) = captures.get(1).map(|it| it.as_str())
-      && let Some(user) = captures.get(2).map(|it| it.as_str())
-      && let Some(pr) = captures.get(3).map(|it| it.as_str())
-    {
-      let profile = format!("<https://github.com/{user}>");
-      let pr_url = format!("<https://github.com/tsukilabs/nil/pull/{pr}>");
-      let line = format!("- {title}[@{user}]({profile}) in [#{pr}]({pr_url})\n");
-      current_line = Cow::Owned(line);
-    }
-
-    if let Some(captures) = changelog_re.captures(line)
-      && let Some(url) = captures.get(1).map(|it| it.as_str())
-    {
-      let line = format!("**Full Changelog**: <{url}>\n");
-      current_line = Cow::Owned(line);
-    };
-
-    message.push_str(&current_line);
-  }
-
-  message = message.replace("\n\n\n", "\n\n");
-
-  execute_webhook(url, message.trim())?;
-
-  Ok(())
 }
 
 #[derive(Deserialize)]

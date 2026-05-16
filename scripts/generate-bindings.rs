@@ -57,11 +57,8 @@ fn main() -> Result<()> {
   files.sort_by(|a, b| compare_ignore_case(a, b));
 
   let mut index = String::new();
-  write_header(&mut index)?;
-
-  for file in files {
-    writeln!(index, "export type {{ {file} }} from './{file}';")?;
-  }
+  write_license(&mut index)?;
+  write_index_exports(&mut index, &files)?;
 
   let path = Path::new(&dir).join("index.ts");
   fs::write(path, index)?;
@@ -71,12 +68,20 @@ fn main() -> Result<()> {
   Ok(())
 }
 
-#[rustfmt::skip]
-fn write_header(index: &mut String) -> Result<()> {
+fn write_license(index: &mut String) -> Result<()> {
   writeln!(index, "//! Copyright (C) Call of Nil contributors")?;
   writeln!(index, "//! SPDX-License-Identifier: AGPL-3.0-only\n")?;
+  Ok(())
+}
+
+#[rustfmt::skip]
+fn write_index_exports(index: &mut String, files: &[String]) -> Result<()> {
   writeln!(index, "import {{ version }} from '../package.json' with {{ type: 'json' }};\n")?;
   writeln!(index, "export const VERSION = version;\n")?;
+
+  for file in files {
+    writeln!(index, "export type {{ {file} }} from './{file}';")?;
+  }
 
   Ok(())
 }

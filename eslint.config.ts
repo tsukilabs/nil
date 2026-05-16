@@ -8,7 +8,7 @@ export default defineConfig({
     "packages/bindings/tsconfig.json",
   ],
   ignores: [
-    "**/bindings",
+    "**/bindings/src",
     "**/components/ui/*",
   ],
   features: {
