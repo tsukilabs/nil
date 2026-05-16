@@ -7,6 +7,7 @@ use crate::infrastructure::building::{BuildingId, BuildingLevel, BuildingStatsTa
 use crate::infrastructure::queue::{InfrastructureQueue, InfrastructureQueueOrder};
 use crate::resources::Resources;
 use crate::resources::workforce::Workforce;
+use bon::Builder;
 use nil_num::mul_ceil::MulCeil;
 use serde::{Deserialize, Serialize};
 use std::collections::VecDeque;
@@ -216,11 +217,13 @@ impl PrefectureBuildOrderState {
   }
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Builder, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct PrefectureBuildOrderRequest {
+  #[builder(into)]
   pub coord: Coord,
+  #[builder(into)]
   pub building: BuildingId,
   pub kind: PrefectureBuildOrderKind,
 }

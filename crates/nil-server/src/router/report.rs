@@ -73,7 +73,7 @@ pub async fn get_by(
       let reports = manager
         .reports_by(|(id, _)| req.ids.contains(&id))
         .filter(|report| player_reports.contains(&report.id()))
-        .take(req.limit.unwrap_or(1_000))
+        .take(usize::from(req.limit.unwrap_or(1_000)))
         .sorted_unstable_by_key(|report| report.id())
         .rev()
         .cloned()

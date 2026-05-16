@@ -1,6 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+use bon::Builder;
 use nil_core::ethic::Ethics;
 use nil_core::infrastructure::Infrastructure;
 use nil_core::npc::bot::BotId;
@@ -11,27 +12,30 @@ use serde::{Deserialize, Serialize};
 #[cfg(feature = "typescript")]
 use ts_rs::TS;
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Builder, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct CheatGetEthicsRequest {
   pub world: WorldId,
+  #[builder(into)]
   pub ruler: Ruler,
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Builder, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export, optional_fields = nullable))]
 pub struct CheatSetBotEthicsRequest {
   pub world: WorldId,
+  #[builder(into)]
   pub id: BotId,
   #[serde(default)]
+  #[builder(into)]
   pub ethics: Option<Ethics>,
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Builder, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export, optional_fields = nullable))]

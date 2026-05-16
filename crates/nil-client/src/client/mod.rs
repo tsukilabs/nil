@@ -81,11 +81,11 @@ impl Client {
   pub async fn update<OnEvent>(
     &mut self,
     #[builder(start_fn)] server: ServerAddr,
-    world_id: Option<WorldId>,
-    world_password: Option<Password>,
-    player_id: Option<PlayerId>,
-    player_password: Option<Password>,
-    authorization_token: Option<Token>,
+    #[builder(into)] world_id: Option<WorldId>,
+    #[builder(into)] world_password: Option<Password>,
+    #[builder(into)] player_id: Option<PlayerId>,
+    #[builder(into)] player_password: Option<Password>,
+    #[builder(into)] authorization_token: Option<Token>,
     on_event: Option<OnEvent>,
   ) -> Result<()>
   where
