@@ -20,7 +20,7 @@ members = [
 
 [workspace.package]
 description = "Multiplayer strategy game"
-version = "0.5.1"
+version = "0.5.2"
 edition = "2024"
 rust-version = "1.97"
 license = "AGPL-3.0-only"

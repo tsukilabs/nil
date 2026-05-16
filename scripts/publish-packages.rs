@@ -84,8 +84,6 @@ struct Package {
   name: String,
   version: Version,
   private: bool,
-
-  #[serde(default)]
   scripts: HashMap<String, Json>,
 }
 
