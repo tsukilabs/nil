@@ -8,7 +8,7 @@ pub mod maintenance;
 pub mod prelude;
 pub mod workforce;
 
-use crate::city::Stability;
+use crate::city::stability::Stability;
 use crate::infrastructure::mine::MineProduction;
 use crate::infrastructure::storage::{OverallStorageCapacity, StorageCapacity};
 use bon::Builder;

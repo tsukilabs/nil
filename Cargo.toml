@@ -37,8 +37,6 @@ lto = "fat"
 opt-level = 3
 panic = "abort"
 strip = "symbols"
-debug = false
-debug-assertions = false
 
 [profile.release-server]
 inherits = "release"

@@ -1,8 +1,9 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-mod stability;
+pub mod stability;
 
+use crate::city::stability::Stability;
 use crate::continent::Coord;
 use crate::error::Result;
 use crate::infrastructure::Infrastructure;
@@ -20,8 +21,6 @@ use bon::Builder;
 use derive_more::{Deref, DerefMut, From};
 use serde::{Deserialize, Serialize};
 use std::sync::Arc;
-
-pub use stability::Stability;
 
 #[derive(Builder, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
