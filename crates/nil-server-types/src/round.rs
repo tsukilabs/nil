@@ -1,11 +1,12 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+use derive_more::Display;
 use serde::{Deserialize, Serialize};
 use std::time::Duration;
 
 /// Round duration, in minutes.
-#[derive(Copy, Debug, Deserialize, Serialize)]
+#[derive(Copy, Debug, Display, Deserialize, Serialize)]
 #[derive_const(Clone, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct RoundDuration(u16);
