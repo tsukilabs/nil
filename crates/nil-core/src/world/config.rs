@@ -7,6 +7,7 @@ use bon::Builder;
 use derive_more::{Deref, Display};
 use nil_util::{ConstDeref, F64Math};
 use serde::{Deserialize, Serialize};
+use strum::EnumString;
 use uuid::Uuid;
 
 #[derive(Builder, Clone, Debug, Deserialize, Serialize)]
@@ -136,15 +137,17 @@ impl<T: AsRef<str>> From<T> for WorldName {
   }
 }
 
-#[derive(Copy, Debug, Deserialize, Serialize)]
+#[derive(Copy, Debug, Deserialize, Serialize, EnumString)]
 #[derive_const(Clone, Default)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub enum Locale {
   #[default]
   #[serde(rename = "en-US")]
+  #[strum(serialize = "en-US")]
   English,
 
   #[serde(rename = "pt-BR")]
+  #[strum(serialize = "pt-BR")]
   Portuguese,
 }
 

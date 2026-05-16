@@ -7,6 +7,7 @@ use crate::npc::precursor::{Precursor, PrecursorId};
 use crate::player::{Player, PlayerId};
 use crate::resources::Resources;
 use crate::resources::influence::Influence;
+use derive_more::{TryUnwrap, Unwrap};
 use serde::{Deserialize, Serialize};
 use std::mem;
 use strum::EnumIs;
@@ -132,6 +133,9 @@ impl From<RulerRefMut<'_>> for Ruler {
   }
 }
 
+#[derive(EnumIs, TryUnwrap, Unwrap)]
+#[try_unwrap(ref)]
+#[unwrap(ref)]
 pub enum RulerRef<'a> {
   Bot(&'a Bot),
   Player(&'a Player),
@@ -190,6 +194,9 @@ impl<'a> From<&'a dyn Precursor> for RulerRef<'a> {
   }
 }
 
+#[derive(EnumIs, TryUnwrap, Unwrap)]
+#[try_unwrap(ref)]
+#[unwrap(ref)]
 pub enum RulerRefMut<'a> {
   Bot(&'a mut Bot),
   Player(&'a mut Player),
