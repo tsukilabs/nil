@@ -10,6 +10,7 @@ use crate::military::squad::size::SquadSize;
 use crate::military::unit::{StableUnitId, UnitBox};
 use crate::resources::Resources;
 use crate::resources::workforce::Workforce;
+use bon::Builder;
 use serde::{Deserialize, Serialize};
 use std::collections::VecDeque;
 use std::num::NonZeroU32;

@@ -16,6 +16,8 @@ impl Stability {
 
   #[inline]
   pub const fn new(value: f64) -> Self {
+    debug_assert!(value.is_finite());
+    debug_assert!(!value.is_subnormal());
     Self(value.clamp(Self::MIN.0, Self::MAX.0))
   }
 }
@@ -23,6 +25,12 @@ impl Stability {
 impl const Default for Stability {
   fn default() -> Self {
     Self::MAX
+  }
+}
+
+impl const From<f64> for Stability {
+  fn from(value: f64) -> Self {
+    Self::new(value)
   }
 }
 

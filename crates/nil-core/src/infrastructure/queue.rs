@@ -244,10 +244,11 @@ macro_rules! decl_recruit_queue {
         }
       }
 
-      #[derive(Clone, Debug, Deserialize, Serialize)]
+      #[derive(Builder, Clone, Debug, Deserialize, Serialize)]
       #[serde(rename_all = "camelCase")]
       #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
       pub struct [<$building RecruitOrderRequest>] {
+        #[builder(into)]
         pub coord: Coord,
         pub unit: [<$building UnitId>],
         pub chunks: NonZeroU32,
