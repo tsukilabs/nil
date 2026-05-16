@@ -5,9 +5,15 @@ use nil_core::world::config::Locale;
 use nil_server_types::auth::Token;
 use serde::{Deserialize, Serialize};
 
+#[cfg(feature = "typescript")]
+use ts_rs::TS;
+
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[derive_const(Default)]
 #[serde(default, rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
+#[cfg_attr(feature = "typescript", ts(rename = "app_Settings"))]
 pub struct Settings {
   pub academy: AcademySettings,
   pub appearance: AppearanceSettings,
@@ -20,6 +26,9 @@ pub struct Settings {
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
+#[cfg_attr(feature = "typescript", ts(rename = "app_AcademySettings"))]
 pub struct AcademySettings {
   pub hide_unmet: bool,
 }
@@ -33,20 +42,28 @@ impl const Default for AcademySettings {
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[derive_const(Default)]
 #[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
+#[cfg_attr(feature = "typescript", ts(rename = "app_AppearanceSettings"))]
 pub struct AppearanceSettings {
   pub color_mode: String,
-  pub theme: String,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[derive_const(Default)]
 #[serde(default, rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export, optional_fields = nullable))]
+#[cfg_attr(feature = "typescript", ts(rename = "app_AuthSettings"))]
 pub struct AuthSettings {
   pub token: Option<Token>,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
+#[cfg_attr(feature = "typescript", ts(rename = "app_GeneralSettings"))]
 pub struct GeneralSettings {
   pub auto_update: bool,
   pub hide_on_close: bool,
@@ -66,6 +83,9 @@ impl const Default for GeneralSettings {
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
+#[cfg_attr(feature = "typescript", ts(rename = "app_PrefectureSettings"))]
 pub struct PrefectureSettings {
   pub hide_maxed: bool,
   pub hide_unmet: bool,
@@ -79,6 +99,9 @@ impl const Default for PrefectureSettings {
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
+#[cfg_attr(feature = "typescript", ts(rename = "app_StableSettings"))]
 pub struct StableSettings {
   pub hide_unmet: bool,
 }
@@ -91,6 +114,9 @@ impl const Default for StableSettings {
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
+#[cfg_attr(feature = "typescript", ts(rename = "app_WorkshopSettings"))]
 pub struct WorkshopSettings {
   pub hide_unmet: bool,
 }
