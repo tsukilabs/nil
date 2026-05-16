@@ -16,7 +16,7 @@ use ts_rs::TS;
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct ForwardReportRequest {
-  #[builder(start_fn)]
+  #[builder(start_fn, into)]
   pub world: WorldId,
   pub id: ReportId,
   #[builder(into)]
@@ -28,7 +28,7 @@ pub struct ForwardReportRequest {
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct GetReportRequest {
-  #[builder(start_fn)]
+  #[builder(start_fn, into)]
   pub world: WorldId,
   pub id: ReportId,
 }
@@ -38,7 +38,7 @@ pub struct GetReportRequest {
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export, optional_fields = nullable))]
 pub struct GetReportsRequest {
-  #[builder(start_fn)]
+  #[builder(start_fn, into)]
   pub world: WorldId,
   #[serde(default)]
   #[builder(default, with = FromIterator::from_iter)]
@@ -52,7 +52,7 @@ pub struct GetReportsRequest {
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct RemoveReportRequest {
-  #[builder(start_fn)]
+  #[builder(start_fn, into)]
   pub world: WorldId,
   pub id: ReportId,
 }

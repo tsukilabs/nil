@@ -14,7 +14,7 @@ use ts_rs::TS;
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export, optional_fields = nullable))]
 pub struct CheatGetPlayerRequest {
-  #[builder(start_fn)]
+  #[builder(start_fn, into)]
   pub world: WorldId,
   #[serde(default)]
   #[builder(into)]
@@ -26,6 +26,6 @@ pub struct CheatGetPlayerRequest {
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct CheatGetPlayersRequest {
-  #[builder(start_fn)]
+  #[builder(start_fn, into)]
   pub world: WorldId,
 }

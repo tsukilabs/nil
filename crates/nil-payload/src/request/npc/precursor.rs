@@ -14,7 +14,7 @@ use ts_rs::TS;
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct GetPrecursorCoordsRequest {
-  #[builder(start_fn)]
+  #[builder(start_fn, into)]
   pub world: WorldId,
   pub id: PrecursorId,
 }
@@ -24,7 +24,7 @@ pub struct GetPrecursorCoordsRequest {
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct GetPublicPrecursorRequest {
-  #[builder(start_fn)]
+  #[builder(start_fn, into)]
   pub world: WorldId,
   pub id: PrecursorId,
 }
@@ -34,6 +34,6 @@ pub struct GetPublicPrecursorRequest {
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct GetPublicPrecursorsRequest {
-  #[builder(start_fn)]
+  #[builder(start_fn, into)]
   pub world: WorldId,
 }

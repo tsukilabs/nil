@@ -15,7 +15,7 @@ use ts_rs::TS;
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct AddPrefectureBuildOrderRequest {
-  #[builder(start_fn)]
+  #[builder(start_fn, into)]
   pub world: WorldId,
   pub request: PrefectureBuildOrderRequest,
 }
@@ -25,7 +25,7 @@ pub struct AddPrefectureBuildOrderRequest {
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct CancelPrefectureBuildOrderRequest {
-  #[builder(start_fn)]
+  #[builder(start_fn, into)]
   pub world: WorldId,
   #[builder(into)]
   pub coord: Coord,
@@ -36,7 +36,7 @@ pub struct CancelPrefectureBuildOrderRequest {
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct GetPrefectureBuildCatalogRequest {
-  #[builder(start_fn)]
+  #[builder(start_fn, into)]
   pub world: WorldId,
   #[builder(into)]
   pub coord: Coord,

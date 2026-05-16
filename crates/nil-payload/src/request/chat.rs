@@ -13,7 +13,7 @@ use ts_rs::TS;
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct GetChatHistoryRequest {
-  #[builder(start_fn)]
+  #[builder(start_fn, into)]
   pub world: WorldId,
 }
 
@@ -22,7 +22,7 @@ pub struct GetChatHistoryRequest {
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct PushChatMessageRequest {
-  #[builder(start_fn)]
+  #[builder(start_fn, into)]
   pub world: WorldId,
   #[builder(into)]
   pub message: String,
