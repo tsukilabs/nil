@@ -1,14 +1,13 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use derive_more::Into;
 use nil_util::ConstDeref;
 use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
 use std::num::NonZeroU8;
 
-#[derive(Clone, Copy, Debug, Into, Deserialize, Serialize, ConstDeref)]
-#[derive_const(PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Copy, Debug, Deserialize, Serialize, ConstDeref)]
+#[derive_const(Clone, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct ContinentSize(NonZeroU8);
 
@@ -39,33 +38,39 @@ impl const Default for ContinentSize {
   }
 }
 
+impl const From<u8> for ContinentSize {
+  fn from(value: u8) -> Self {
+    Self::new(value)
+  }
+}
+
 impl const From<ContinentSize> for u8 {
-  fn from(size: ContinentSize) -> Self {
-    size.0.get()
+  fn from(value: ContinentSize) -> Self {
+    value.0.get()
   }
 }
 
 impl const From<ContinentSize> for u16 {
-  fn from(size: ContinentSize) -> Self {
-    u16::from(size.0.get())
+  fn from(value: ContinentSize) -> Self {
+    u16::from(value.0.get())
   }
 }
 
 impl const From<ContinentSize> for usize {
-  fn from(size: ContinentSize) -> Self {
-    usize::from(size.0.get())
+  fn from(value: ContinentSize) -> Self {
+    usize::from(value.0.get())
   }
 }
 
 impl const From<ContinentSize> for i16 {
-  fn from(size: ContinentSize) -> Self {
-    i16::from(size.0.get())
+  fn from(value: ContinentSize) -> Self {
+    i16::from(value.0.get())
   }
 }
 
 impl const From<ContinentSize> for f64 {
-  fn from(size: ContinentSize) -> Self {
-    f64::from(size.0.get())
+  fn from(value: ContinentSize) -> Self {
+    f64::from(value.0.get())
   }
 }
 
