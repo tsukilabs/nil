@@ -16,8 +16,22 @@ const { t } = useI18n();
 
 const { coord: currentCoord } = NIL.city.refs();
 
+const distanceIntl = new Intl.NumberFormat(undefined, {
+  style: "decimal",
+  minimumFractionDigits: 0,
+  maximumFractionDigits: 2,
+  roundingMode: "floor",
+  notation: "standard",
+  useGrouping: "auto",
+  localeMatcher: "best fit",
+});
+
 function getCoordCellClass(coord: Coord) {
   return currentCoord.value?.is(coord) ? "font-bold" : null;
+}
+
+function formatDistance(distance: number) {
+  return distanceIntl.format(distance);
 }
 </script>
 
@@ -73,7 +87,7 @@ function getCoordCellClass(coord: Coord) {
         </TableCell>
 
         <TableCell>
-          <span>{{ maneuver.getPendingDistance() }}</span>
+          <span>{{ formatDistance(maneuver.getPendingDistance()) }}</span>
         </TableCell>
       </TableRow>
     </TableBody>
