@@ -70,8 +70,7 @@ fn main() -> Result<()> {
       .keys()
       .all(|it| it < &package.version)
     {
-      let path = format!("packages/{dir}");
-      spawn_fmt!("npm publish {path} --access=public --tag=latest --provenance")?;
+      spawn_fmt!("npm publish ./packages/{dir}")?;
     }
 
     sleep(Duration::from_millis(200));
