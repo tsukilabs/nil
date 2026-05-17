@@ -375,7 +375,7 @@ impl App {
 
 fn has_valid_version(game: &GameWithBlob) -> bool {
   let Ok(version) = Version::parse(VERSION) else {
-    unreachable!("Current version should always be valid")
+    unreachable!("Current version should always be valid");
   };
 
   let minor = if version.major == 0 { version.minor } else { 0 };
