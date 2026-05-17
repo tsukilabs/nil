@@ -13,6 +13,7 @@ use crate::resources::maintenance::Maintenance;
 use crate::world::config::WorldConfig;
 use serde::{Deserialize, Serialize};
 use size::SquadSize;
+use std::fmt;
 use std::ops::{Add, AddAssign, Mul, MulAssign, Sub, SubAssign};
 
 /// A group of units of the same type.
@@ -101,6 +102,12 @@ impl Squad {
     } else {
       Err(Error::UnexpectedUnit(self.id(), rhs.id()))
     }
+  }
+}
+
+impl fmt::Display for Squad {
+  fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+    write!(f, "{} ({})", self.unit, self.size)
   }
 }
 

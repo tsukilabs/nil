@@ -222,7 +222,8 @@ impl const PartialOrd<Maintenance> for Food {
 }
 
 /// Proportion of the base cost that should be used as a maintenance tax.
-#[derive(Clone, Copy, Debug, Deserialize, Serialize, ConstDeref)]
+#[derive(Copy, Debug, Display, Deserialize, Serialize, ConstDeref)]
+#[derive_const(Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct MaintenanceRatio(f64);
 

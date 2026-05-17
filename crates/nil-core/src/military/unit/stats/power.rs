@@ -7,12 +7,13 @@ use crate::military::squad::Squad;
 use crate::military::squad::size::SquadSize;
 use crate::military::unit::stats::ranged_debuff::RangedDebuff;
 use bon::Builder;
+use derive_more::Display;
 use nil_util::{ConstDeref, F64Math};
 use serde::{Deserialize, Serialize};
 use std::iter::Sum;
 use std::ops::{Add, AddAssign, Div, Mul, MulAssign, Sub};
 
-#[derive(Copy, Debug, Deserialize, Serialize, ConstDeref, F64Math)]
+#[derive(Copy, Debug, Display, Deserialize, Serialize, ConstDeref, F64Math)]
 #[derive_const(Clone, Default, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Power(u32);

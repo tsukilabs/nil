@@ -1,10 +1,11 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+use derive_more::Display;
 use nil_util::{ConstDeref, F64Math};
 use serde::{Deserialize, Serialize};
 
-#[derive(Copy, Debug, Deserialize, Serialize, ConstDeref, F64Math)]
+#[derive(Copy, Debug, Display, Deserialize, Serialize, ConstDeref, F64Math)]
 #[derive_const(Clone, Default, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Luck(i8);

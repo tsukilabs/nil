@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use super::maintenance::MaintenanceRatio;
-use derive_more::Into;
+use derive_more::{Display, Into};
 use nil_util::{ConstDeref, F64Math};
 use serde::{Deserialize, Serialize};
 use std::ops::Mul;
 
 /// Base cost of an entity, such as buildings or units.
-#[derive(Copy, Debug, Into, Deserialize, Serialize, ConstDeref, F64Math)]
+#[derive(Copy, Debug, Display, Into, Deserialize, Serialize, ConstDeref, F64Math)]
 #[derive_const(Clone, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Cost(u32);
@@ -51,7 +51,7 @@ impl const Mul<MaintenanceRatio> for Cost {
 }
 
 /// Proportion between the total cost and a given resource.
-#[derive(Copy, Debug, Deserialize, Serialize, ConstDeref, F64Math)]
+#[derive(Copy, Debug, Display, Deserialize, Serialize, ConstDeref, F64Math)]
 #[derive_const(Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct ResourceRatio(f64);

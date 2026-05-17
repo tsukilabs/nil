@@ -3,12 +3,13 @@
 
 use crate::continent::{ContinentSize, Coord};
 use crate::error::{Error, Result};
-use derive_more::{Deref, Display};
+use derive_more::Display;
+use nil_util::ConstDeref;
 use serde::{Deserialize, Serialize, Serializer, ser};
 use std::ops::{Div, Rem};
 
-#[derive(Clone, Copy, Debug, Deref, Display, Hash, Deserialize)]
-#[derive_const(PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Copy, Debug, Display, Hash, Deserialize, ConstDeref)]
+#[derive_const(Clone, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(as = "u32"))]
 pub struct ContinentIndex(usize);

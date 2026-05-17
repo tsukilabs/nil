@@ -5,7 +5,7 @@ pub mod score;
 
 use crate::ruler::Ruler;
 use bon::Builder;
-use derive_more::Deref;
+use derive_more::{Deref, Display};
 use itertools::Itertools;
 use score::Score;
 use serde::{Deserialize, Serialize};
@@ -60,7 +60,7 @@ pub struct RankingEntry {
   cities: u32,
 }
 
-#[derive(Copy, Debug, Deserialize, Serialize)]
+#[derive(Copy, Debug, Display, Deserialize, Serialize)]
 #[derive_const(Clone, Default, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Rank(u32);

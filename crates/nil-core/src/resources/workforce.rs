@@ -5,6 +5,7 @@ use crate::city::stability::Stability;
 use crate::infrastructure::building::Building;
 use crate::infrastructure::building::level::BuildingLevel;
 use crate::world::config::WorldConfig;
+use derive_more::Display;
 use nil_num::impl_mul_ceil;
 use nil_num::mul_ceil::MulCeil;
 use nil_util::{ConstDeref, F64Math};
@@ -19,7 +20,7 @@ use std::ops::{Add, AddAssign, Mul, MulAssign, Sub, SubAssign};
 ///
 /// Unlike other resources, workforce should never accumulate for the next round.
 /// Anything that is not used should be discarded.
-#[derive(Copy, Debug, Deserialize, Serialize, ConstDeref, F64Math)]
+#[derive(Copy, Debug, Display, Deserialize, Serialize, ConstDeref, F64Math)]
 #[derive_const(Clone, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Workforce(u32);

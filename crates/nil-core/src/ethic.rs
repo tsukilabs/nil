@@ -5,7 +5,7 @@ use bon::Builder;
 use rand::seq::IndexedRandom;
 use serde::{Deserialize, Serialize};
 use std::fmt::Debug;
-use strum::{EnumIs, VariantArray};
+use strum::{Display, EnumIs, VariantArray};
 
 #[derive(Builder, Copy, Debug, Deserialize, Serialize)]
 #[derive_const(Clone, PartialEq, Eq)]
@@ -94,9 +94,10 @@ impl From<EthicTruthAxis> for Ethics {
   }
 }
 
-#[derive(Clone, Copy, Debug, EnumIs, Deserialize, Serialize, VariantArray)]
+#[derive(Clone, Copy, Debug, Display, EnumIs, Deserialize, Serialize, VariantArray)]
 #[derive_const(PartialEq, Eq)]
 #[serde(rename_all = "kebab-case")]
+#[strum(serialize_all = "kebab-case")]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub enum EthicPowerAxis {
   Militarist,
@@ -139,9 +140,10 @@ impl EthicPowerAxis {
   }
 }
 
-#[derive(Clone, Copy, Debug, EnumIs, Deserialize, Serialize, VariantArray)]
+#[derive(Clone, Copy, Debug, Display, EnumIs, Deserialize, Serialize, VariantArray)]
 #[derive_const(PartialEq, Eq)]
 #[serde(rename_all = "kebab-case")]
+#[strum(serialize_all = "kebab-case")]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub enum EthicTruthAxis {
   Materialist,
