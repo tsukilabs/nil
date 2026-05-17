@@ -4,7 +4,7 @@
 use crate::error::{Error, Result};
 use crate::response::{MaybeResponse, from_err};
 use crate::server::{remote, spawn_round_duration_task};
-use crate::{VERSION, env, res};
+use crate::{VERSION, res};
 use dashmap::DashMap;
 use either::Either;
 use jiff::Zoned;
@@ -112,8 +112,8 @@ impl App {
       server_kind: ServerKind::Remote,
       database: Some(database),
       worlds,
-      world_limit: env::remote_world_limit(),
-      world_limit_per_user: env::remote_world_limit_per_user(),
+      world_limit: nil_env::remote_world_limit(),
+      world_limit_per_user: nil_env::remote_world_limit_per_user(),
     })
   }
 

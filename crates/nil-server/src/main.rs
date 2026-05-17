@@ -1,7 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-#![feature(try_blocks_heterogeneous)]
+#![feature(str_as_str, try_blocks_heterogeneous)]
 
 use anyhow::Result;
 use bytesize::ByteSize;
@@ -9,7 +9,6 @@ use humantime::format_duration;
 use mimalloc::MiMalloc;
 use nil_log::{Directives, Layers};
 use nil_server::remote;
-use std::env;
 use std::time::Duration;
 use sysinfo::{Pid, ProcessRefreshKind, ProcessesToUpdate, RefreshKind, System};
 use tokio::runtime::Handle;
@@ -32,8 +31,8 @@ async fn main() -> Result<()> {
   }
 
   let result = try bikeshed Result<()> {
-    let database_url = env::var("NIL_DATABASE_URL")?;
-    remote::start(database_url).await?;
+    let database_url = nil_env::database_url()?;
+    remote::start(database_url.as_str()).await?;
   };
 
   if let Err(err) = &result {
@@ -91,7 +90,7 @@ fn watch_process(pid: Pid) {
         );
       }
 
-      let mins = rand::random_range(10..=30);
+      let mins = rand::random_range(10..=15);
       sleep(Duration::from_mins(mins)).await;
     }
   });

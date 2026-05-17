@@ -3,12 +3,13 @@
 
 #![cfg_attr(docsrs, feature(doc_cfg))]
 #![doc(html_favicon_url = "https://nil.dev.br/favicon.png")]
+#![feature(const_default, const_trait_impl)]
 
 pub mod timer;
 
 use anyhow::Result;
 use bitflags::bitflags;
-use std::{env, fs, io};
+use std::{fs, io};
 use timer::Timer;
 use tracing::subscriber::set_global_default;
 use tracing_appender::non_blocking::WorkerGuard;
@@ -23,11 +24,19 @@ pub fn setup(
   #[builder(default)] debug_layers: Layers,
   #[builder(default)] release_layers: Layers,
 ) -> Result<Option<WorkerGuard>> {
+  setup_(directives, debug_layers, release_layers)
+}
+
+fn setup_(
+  directives: Directives,
+  debug_layers: Layers,
+  release_layers: Layers,
+) -> Result<Option<WorkerGuard>> {
   let mut guard = None::<WorkerGuard>;
   let mut filter = EnvFilter::builder().from_env()?;
 
+  let level = nil_env::log_level();
   let layers = if cfg!(debug_assertions) { debug_layers } else { release_layers };
-  let level = env::var("NIL_LOG_LEVEL").unwrap_or_else(|_| String::from("trace"));
 
   macro_rules! add_directive {
     ($flag:ident, $krate:literal) => {
@@ -36,8 +45,8 @@ pub fn setup(
         filter = filter.add_directive(directive.parse()?);
       }
     };
-    ($flag:ident, $krate:literal, $env_var:literal) => {
-      if directives.contains(Directives::$flag) || env::var($env_var).is_ok_and(|it| it == "true") {
+    ($flag:ident, $krate:literal, $var_fn:ident) => {
+      if directives.contains(Directives::$flag) || nil_env::$var_fn() {
         let directive = format!("{}={}", $krate, level);
         filter = filter.add_directive(directive.parse()?);
       }
@@ -51,14 +60,14 @@ pub fn setup(
   add_directive!(NIL_SERVER, "nil_server");
   add_directive!(NIL_SERVER_DATABASE, "nil_server_database");
 
-  add_directive!(TOWER_HTTP, "tower_http", "NIL_LOG_TOWER_HTTP");
+  add_directive!(TOWER_HTTP, "tower_http", log_tower_http);
 
   let mut chosen_layers = Vec::new();
 
   // The order matters.
   // See: https://github.com/tokio-rs/tracing/issues/1817
   if layers.contains(Layers::FILE) {
-    let path = env::var("NIL_LOG_DIR")?;
+    let path = nil_env::log_dir()?;
     fs::create_dir_all(&path)?;
 
     let appender = RollingFileAppender::builder()
@@ -113,7 +122,7 @@ bitflags! {
   }
 }
 
-impl Default for Directives {
+impl const Default for Directives {
   fn default() -> Self {
     Self::all().difference(Self::TOWER_HTTP)
   }
@@ -127,7 +136,7 @@ bitflags! {
   }
 }
 
-impl Default for Layers {
+impl const Default for Layers {
   fn default() -> Self {
     Self::STDERR
   }

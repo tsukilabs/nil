@@ -3,22 +3,13 @@
 
 use crate::error::Result;
 use serde::{Deserialize, Serialize};
-use std::env;
 use std::ffi::{OsStr, OsString};
 use std::net::SocketAddrV4;
 use std::sync::{Arc, LazyLock};
 use strum::EnumIs;
-use tap::Pipe;
 use url::Url;
 
-const URL: &str = "https://tsukilabs.dev.br/nil/";
-
-static REMOTE_SERVER_ADDR: LazyLock<Url> = LazyLock::new(|| {
-  env::var("NIL_REMOTE_SERVER_ADDR")
-    .unwrap_or_else(|_| URL.to_owned())
-    .pipe_deref(Url::parse)
-    .expect("Failed to parse remote server address")
-});
+static REMOTE_SERVER_ADDR: LazyLock<Url> = LazyLock::new(nil_env::remote_server_addr);
 
 #[derive(Clone, Copy, Debug, Default, EnumIs, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[serde(tag = "kind", rename_all = "kebab-case")]

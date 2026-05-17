@@ -6,6 +6,7 @@ edition = "2024"
 [dependencies]
 anyhow = "1.0"
 natord = "=1.0.9"
+regex = "1.12"
 
 [dependencies.clap]
 version = "4.6"
@@ -15,13 +16,21 @@ features = ["derive"]
 path = "../crates/nil-util"
 ---
 
-use anyhow::Result;
+#![feature(file_buffered)]
+
+use anyhow::{Result, bail};
 use clap::Parser;
-use natord::compare_ignore_case;
+use natord::compare_ignore_case as compare;
 use nil_util::spawn;
+use regex::Regex;
 use std::fmt::Write as _;
+use std::fs::File;
+use std::io::BufRead;
 use std::path::Path;
+use std::sync::LazyLock;
 use std::{env, fs};
+
+static KIND_RE: LazyLock<Regex> = LazyLock::new(|| Regex::new(r"export\s+(\w+)\s").unwrap());
 
 #[derive(Parser)]
 struct Args {
@@ -50,11 +59,14 @@ fn main() -> Result<()> {
       && let Some(stem) = stem.to_str()
       && !stem.eq_ignore_ascii_case("index")
     {
-      files.push(stem.to_owned());
+      files.push(Binding {
+        name: stem.to_owned(),
+        kind: BindingKind::from_file(&path)?,
+      });
     }
   }
 
-  files.sort_by(|a, b| compare_ignore_case(a, b));
+  files.sort_by(|a, b| compare(&a.name, &b.name));
 
   let mut index = String::new();
   write_license(&mut index)?;
@@ -75,13 +87,48 @@ fn write_license(index: &mut String) -> Result<()> {
 }
 
 #[rustfmt::skip]
-fn write_index_exports(index: &mut String, files: &[String]) -> Result<()> {
+fn write_index_exports(index: &mut String, bindings: &[Binding]) -> Result<()> {
   writeln!(index, "import {{ version }} from '../package.json' with {{ type: 'json' }};\n")?;
   writeln!(index, "export const VERSION = version;\n")?;
 
-  for file in files {
-    writeln!(index, "export type {{ {file} }} from './{file}';")?;
+  for binding in bindings {
+    let name = &binding.name;
+    if let BindingKind::Type = binding.kind {
+      writeln!(index, "export type {{ {name} }} from './{name}';")?;
+    } else {
+      writeln!(index, "export {{ {name} }} from './{name}';")?;
+    }
   }
 
   Ok(())
+}
+
+struct Binding {
+  name: String,
+  kind: BindingKind,
+}
+
+enum BindingKind {
+  Enum,
+  Type,
+}
+
+impl BindingKind {
+  fn from_file(path: &Path) -> Result<Self> {
+    let file = File::open_buffered(path)?;
+    for line in file.lines() {
+      let line = line?;
+      if !line.starts_with("//")
+        && let Some(captures) = KIND_RE.captures(&line)
+        && let Some(keyword) = captures.get(1)
+      {
+        return match keyword.as_str() {
+          "enum" => Ok(Self::Enum),
+          _ => Ok(Self::Type),
+        };
+      }
+    }
+
+    bail!("unknown binding kind at {}", path.to_string_lossy());
+  }
 }

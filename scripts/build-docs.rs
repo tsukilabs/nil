@@ -15,7 +15,7 @@ use nil_util::spawn;
 use std::fs;
 
 fn main() -> Result<()> {
-  spawn!("pnpm install --no-frozen-lockfile")?;
+  spawn!("pnpm ci")?;
   spawn!("pnpm run -F docs build")?;
 
   fs::write("docs/dist/.nojekyll", "")?;

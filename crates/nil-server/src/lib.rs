@@ -11,7 +11,6 @@
 )]
 
 mod app;
-mod env;
 mod error;
 mod middleware;
 mod response;
