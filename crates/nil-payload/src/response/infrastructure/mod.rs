@@ -5,3 +5,10 @@ pub mod academy;
 pub mod prefecture;
 pub mod stable;
 pub mod workshop;
+
+pub mod prelude {
+  pub use super::academy::*;
+  pub use super::prefecture::*;
+  pub use super::stable::*;
+  pub use super::workshop::*;
+}

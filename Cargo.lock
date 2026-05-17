@@ -3482,6 +3482,7 @@ dependencies = [
  "nil-server-types",
  "nil-util",
  "num-traits",
+ "paste",
  "rand 0.10.1",
  "reqwest 0.12.28",
  "serde",

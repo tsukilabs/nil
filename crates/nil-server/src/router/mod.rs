@@ -115,7 +115,7 @@ pub(crate) fn create() -> Router<App> {
     .route("/set-player-status", post(player::set_status))
     .route("/spawn-player", post(player::spawn))
     .route("/start-round", post(round::start))
-    .route("/toggle-building", post(infrastructure::toggle))
+    .route("/toggle-building", post(infrastructure::building::toggle))
     .route("/websocket", any(websocket::websocket))
     .route_layer(middleware::from_fn(authorization))
 

@@ -20,6 +20,7 @@ mod circuit_breaker;
 mod client;
 mod error;
 mod http;
+mod request;
 mod retry;
 mod server;
 mod websocket;
@@ -30,6 +31,7 @@ pub use nil_core as core;
 pub use nil_crypto as crypto;
 pub use nil_payload as payload;
 pub use nil_server_types as server_types;
+pub use request::Request;
 pub use server::ServerAddr;
 
 pub const VERSION: &str = env!("CARGO_PKG_VERSION");

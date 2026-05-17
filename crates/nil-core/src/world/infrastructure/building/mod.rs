@@ -6,7 +6,7 @@ mod prefecture;
 mod stable;
 mod workshop;
 
-use crate::continent::ContinentKey;
+use crate::continent::{ContinentKey, Coord};
 use crate::error::Result;
 use crate::infrastructure::prelude::{BuildingId, BuildingLevel};
 use crate::world::World;
@@ -26,6 +26,19 @@ impl World {
       .infrastructure_mut()
       .building_mut(id)
       .set_level(level);
+
+    Ok(())
+  }
+
+  pub fn toggle_building(&mut self, coord: Coord, id: BuildingId, enabled: bool) -> Result<()> {
+    self
+      .continent
+      .city_mut(coord)?
+      .infrastructure_mut()
+      .building_mut(id)
+      .toggle(enabled);
+
+    self.emit_city_updated(coord)?;
 
     Ok(())
   }
