@@ -40,8 +40,6 @@ fn main() -> Result<()> {
 
   if args.local && !args.android {
     env.push(("NIL_REMOTE_SERVER_ADDR", "http://127.0.0.1:3000/"));
-  } else {
-    env.push(("NIL_REMOTE_SERVER_ADDR", "https://tsukilabs.dev.br/nil/"));
   }
 
   if args.verbose {
