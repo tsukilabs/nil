@@ -2,36 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 pub mod academy;
+pub mod building;
 pub mod prefecture;
 pub mod stable;
 pub mod workshop;
-
-use crate::app::App;
-use crate::middleware::authorization::CurrentPlayer;
-use crate::response::from_err;
-use crate::{bail_if_city_is_not_owned_by, bail_if_player_is_not_pending, res};
-use axum::extract::{Extension, Json, State};
-use axum::response::Response;
-use nil_payload::request::infrastructure::*;
-
-pub async fn toggle(
-  State(app): State<App>,
-  Extension(player): Extension<CurrentPlayer>,
-  Json(req): Json<ToggleBuildingRequest>,
-) -> Response {
-  match app.get(req.world) {
-    Ok(world) => {
-      let result = try {
-        let mut world = world.write().await;
-        bail_if_player_is_not_pending!(world, &player.0);
-        bail_if_city_is_not_owned_by!(world, &player.0, req.coord);
-        world.toggle_building(req.coord, req.id, req.enabled)?;
-      };
-
-      result
-        .map(|()| res!(OK))
-        .unwrap_or_else(from_err)
-    }
-    Err(err) => from_err(err),
-  }
-}

@@ -2,19 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 pub mod academy;
+pub mod building;
 pub mod prefecture;
 pub mod stable;
 pub mod workshop;
-
-use crate::error::Result;
-use crate::manager::ManagerExt;
-use nil_payload::request::infrastructure::ToggleBuildingRequest;
-use tauri::AppHandle;
-
-#[tauri::command]
-pub async fn toggle_building(app: AppHandle, req: ToggleBuildingRequest) -> Result<()> {
-  app
-    .client(async |cl| cl.toggle_building(req).await)
-    .await
-    .map_err(Into::into)
-}

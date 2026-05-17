@@ -3,3 +3,8 @@
 
 pub mod bot;
 pub mod precursor;
+
+pub mod prelude {
+  pub use super::bot::*;
+  pub use super::precursor::*;
+}
