@@ -94,8 +94,8 @@ pub trait Unit: Send + Sync {
 }
 
 #[subenum(AcademyUnitId, StableUnitId, WorkshopUnitId)]
-#[derive(Clone, Copy, Debug, Display, Hash, Deserialize, Serialize, EnumIter)]
-#[derive_const(PartialEq, Eq)]
+#[derive(Copy, Debug, Display, Hash, Deserialize, Serialize, EnumIter)]
+#[derive_const(Clone, PartialEq, Eq)]
 #[serde(rename_all = "kebab-case")]
 #[strum(serialize_all = "kebab-case")]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
@@ -161,6 +161,12 @@ impl Clone for UnitBox {
   }
 }
 
+impl fmt::Display for UnitBox {
+  fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+    self.0.id().fmt(f)
+  }
+}
+
 impl fmt::Debug for UnitBox {
   fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
     f.debug_tuple("UnitBox")
@@ -220,8 +226,9 @@ impl<'de> Deserialize<'de> for UnitBox {
   }
 }
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Deserialize, Serialize)]
+#[derive(Clone, Copy, Debug, strum::Display, PartialEq, Eq, Deserialize, Serialize)]
 #[serde(rename_all = "kebab-case")]
+#[strum(serialize_all = "kebab-case")]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub enum UnitKind {
   Infantry,
@@ -269,7 +276,7 @@ impl UnitChunk {
   }
 }
 
-#[derive(Clone, Copy, Debug, From, Into, Deserialize, Serialize, ConstDeref)]
+#[derive(Clone, Copy, Debug, Display, From, Into, Deserialize, Serialize, ConstDeref)]
 #[derive_const(Default, PartialEq, Eq, PartialOrd, Ord)]
 #[into(u8, u32)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]

@@ -9,7 +9,7 @@ use crate::resources::Resources;
 use crate::resources::influence::Influence;
 use derive_more::{TryUnwrap, Unwrap};
 use serde::{Deserialize, Serialize};
-use std::mem;
+use std::{fmt, mem};
 use strum::EnumIs;
 
 #[derive(Clone, Debug, PartialEq, Eq, Hash, Deserialize, Serialize, EnumIs)]
@@ -56,6 +56,16 @@ impl Ruler {
     F: FnOnce(PrecursorId) -> bool,
   {
     self.precursor().is_some_and(f)
+  }
+}
+
+impl fmt::Display for Ruler {
+  fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+    match self {
+      Self::Bot { id } => id.fmt(f),
+      Self::Player { id } => id.fmt(f),
+      Self::Precursor { id } => id.fmt(f),
+    }
   }
 }
 

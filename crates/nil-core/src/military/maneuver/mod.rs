@@ -1,7 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-mod distance;
+pub mod distance;
 
 use crate::continent::Coord;
 use crate::error::{Error, Result};
@@ -11,11 +11,10 @@ use crate::military::unit::stats::speed::Speed;
 use crate::resources::Resources;
 use crate::ruler::Ruler;
 use bon::Builder;
+use distance::ManeuverDistance;
 use serde::{Deserialize, Serialize};
 use strum::EnumIs;
 use uuid::Uuid;
-
-pub use distance::ManeuverDistance;
 
 #[must_use]
 #[derive(Clone, Debug, Deserialize, Serialize)]
@@ -194,7 +193,19 @@ impl Maneuver {
 }
 
 #[must_use]
-#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Hash, Deserialize, Serialize)]
+#[derive(
+  Clone,
+  Copy,
+  Debug,
+  derive_more::Display,
+  PartialEq,
+  Eq,
+  PartialOrd,
+  Ord,
+  Hash,
+  Deserialize,
+  Serialize,
+)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct ManeuverId(Uuid);
 
@@ -210,24 +221,30 @@ impl Default for ManeuverId {
   }
 }
 
-#[derive(Clone, Copy, Debug, Deserialize, Serialize, EnumIs)]
+#[derive(Copy, Debug, strum::Display, Deserialize, Serialize, EnumIs)]
+#[derive_const(Clone, PartialEq, Eq)]
 #[serde(rename_all = "kebab-case")]
+#[strum(serialize_all = "kebab-case")]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub enum ManeuverKind {
   Attack,
   Support,
 }
 
-#[derive(Clone, Copy, Debug, Deserialize, Serialize, EnumIs)]
+#[derive(Copy, Debug, strum::Display, Deserialize, Serialize, EnumIs)]
+#[derive_const(Clone, PartialEq, Eq)]
 #[serde(rename_all = "kebab-case")]
+#[strum(serialize_all = "kebab-case")]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub enum ManeuverDirection {
   Going,
   Returning,
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize, EnumIs)]
+#[derive(Debug, strum::Display, Deserialize, Serialize, EnumIs)]
+#[derive_const(Clone, PartialEq, Eq)]
 #[serde(tag = "kind", rename_all = "kebab-case")]
+#[strum(serialize_all = "kebab-case")]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub enum ManeuverState {
   Done,
@@ -271,7 +288,10 @@ impl From<ManeuverHaul> for Resources {
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct ManeuverRequest {
   pub kind: ManeuverKind,
+  #[builder(into)]
   pub origin: Coord,
+  #[builder(into)]
   pub destination: Coord,
+  #[builder(into)]
   pub personnel: ArmyPersonnel,
 }

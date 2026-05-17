@@ -4,6 +4,7 @@
 use crate::military::army::Army;
 use crate::military::army::personnel::ArmyPersonnel;
 use crate::military::squad::Squad;
+use derive_more::Display;
 use nil_num::impl_mul_ceil;
 use nil_util::{ConstDeref, F64Math};
 use serde::{Deserialize, Serialize};
@@ -11,7 +12,7 @@ use std::cmp::Ordering;
 use std::iter::Sum;
 use std::ops::{Add, AddAssign, Mul, MulAssign, Sub, SubAssign};
 
-#[derive(Copy, Debug, Deserialize, Serialize, ConstDeref, F64Math)]
+#[derive(Copy, Debug, Display, Deserialize, Serialize, ConstDeref, F64Math)]
 #[derive_const(Clone, Default, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Score(u32);

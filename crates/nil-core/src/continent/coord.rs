@@ -3,6 +3,7 @@
 
 use crate::continent::ContinentSize;
 use crate::error::Result;
+use derive_more::Display;
 use glam::u8::U8Vec2;
 use itertools::Itertools;
 use nil_util::ConstDeref;
@@ -205,8 +206,8 @@ impl<'de> Visitor<'de> for CoordVisitor {
   }
 }
 
-#[derive(Clone, Copy, Debug, Deserialize, Serialize, ConstDeref)]
-#[derive_const(Default, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Copy, Debug, Display, Deserialize, Serialize, ConstDeref)]
+#[derive_const(Clone, Default, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Distance(u8);
 
 impl Distance {
