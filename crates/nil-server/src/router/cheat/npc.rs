@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::app::App;
-use crate::res;
 use crate::response::EitherExt;
+use crate::{bail_if_max_chars_exceeded, res};
 use axum::extract::{Json, State};
 use axum::response::Response;
 use nil_core::ethic::Ethics;
@@ -36,6 +36,7 @@ pub async fn set_bot_ethics(
 }
 
 pub async fn spawn_bot(State(app): State<App>, Json(req): Json<CheatSpawnBotRequest>) -> Response {
+  bail_if_max_chars_exceeded!(req.name, 50);
   app
     .world_blocking_mut(req.world, move |world| {
       let infrastructure = req.infrastructure.unwrap_or_default();

@@ -5,7 +5,7 @@ use crate::app::App;
 use crate::error::Result;
 use crate::middleware::authorization::CurrentPlayer;
 use crate::response::from_err;
-use crate::{VERSION, res};
+use crate::{VERSION, bail_if_max_chars_exceeded, res};
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
 use nil_core::world::config::WorldId;
@@ -21,6 +21,7 @@ pub async fn create(
   Extension(player): Extension<CurrentPlayer>,
   Json(req): Json<CreateRemoteWorldRequest>,
 ) -> Response {
+  bail_if_max_chars_exceeded!(req.options.name, 30);
   if app.server_kind().is_remote() {
     let Ok(version) = Version::parse(VERSION) else {
       return res!(INTERNAL_SERVER_ERROR);

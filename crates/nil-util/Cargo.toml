@@ -31,10 +31,11 @@ workspace = true
 optional = true
 
 [features]
-default = ["iter", "macros", "ops", "process", "vec"]
+default = ["iter", "macros", "ops", "process", "string", "vec"]
 
 iter = []
 macros = ["dep:nil-util-macros"]
 ops = []
 process = ["dep:anyhow"]
+string = []
 vec = []

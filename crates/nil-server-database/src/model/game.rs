@@ -13,6 +13,7 @@ use diesel::prelude::*;
 use nil_core::world::World;
 use nil_crypto::password::Password;
 use nil_server_types::round::RoundDuration;
+use nil_util::string::StringExt;
 use std::fmt;
 use tokio::task::spawn_blocking;
 
@@ -118,13 +119,7 @@ impl NewGame {
     created_by: UserId,
   ) -> Result<Self> {
     if let Some(description) = &mut description {
-      let chars = description.chars().count();
-      let excess = chars.saturating_sub(1000);
-      if excess > 0 {
-        for _ in 0..excess {
-          description.pop();
-        }
-      }
+      description.truncate_chars(1000);
     }
 
     let now = db_Zoned::now();

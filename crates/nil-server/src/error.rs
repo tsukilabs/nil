@@ -23,6 +23,9 @@ pub enum Error {
   #[error("Incorrect world password")]
   IncorrectWorldCredentials(WorldId),
 
+  #[error("Expected at most {max} characters, got {current}")]
+  MaxCharactersExceeded { max: usize, current: usize },
+
   #[error("Missing password")]
   MissingPassword,
 

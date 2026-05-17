@@ -14,6 +14,9 @@ pub mod ops;
 #[cfg(feature = "process")]
 pub mod process;
 
+#[cfg(feature = "string")]
+pub mod string;
+
 #[cfg(feature = "vec")]
 pub mod vec;
 

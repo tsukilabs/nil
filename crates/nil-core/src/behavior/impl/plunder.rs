@@ -79,12 +79,14 @@ impl Behavior for PlunderBehavior {
     }
 
     let mut behaviors = vec![IdleBehavior.boxed()];
-    let mut defense_cache = HashMap::new();
 
     let attack = world.military().attack_of(ruler.clone());
+    let mut defense_cache = HashMap::new();
 
     for target in targets {
-      let owner = world.continent().owner_of(target.coord())?;
+      let coord = target.coord();
+      let owner = world.continent().owner_of(coord)?;
+
       let defense = *defense_cache
         .entry(owner.clone())
         .or_insert_with(|| {
@@ -97,7 +99,7 @@ impl Behavior for PlunderBehavior {
       if *attack > (defense * 2) {
         let behavior = PlunderTargetBehavior::builder()
           .origin(self.origin)
-          .target(target.coord())
+          .target(coord)
           .build()
           .boxed();
 

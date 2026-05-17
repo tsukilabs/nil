@@ -5,7 +5,7 @@ use crate::app::App;
 use crate::error::{CoreError, Error};
 use crate::middleware::authorization::CurrentPlayer;
 use crate::response::{EitherExt, from_err};
-use crate::{bail_if_city_is_not_owned_by, res};
+use crate::{bail_if_city_is_not_owned_by, bail_if_max_chars_exceeded, res};
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
 use itertools::Itertools;
@@ -100,6 +100,7 @@ pub async fn rename_city(
   Extension(player): Extension<CurrentPlayer>,
   Json(req): Json<RenameCityRequest>,
 ) -> Response {
+  bail_if_max_chars_exceeded!(req.name, 50);
   match app.get(req.world) {
     Ok(world) => {
       let result = try {

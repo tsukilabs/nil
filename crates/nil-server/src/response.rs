@@ -143,6 +143,7 @@ fn from_server_err(err: Error) -> Response {
     IncorrectUserCredentials => res!(UNAUTHORIZED, err.to_string()),
     IncorrectWorldCredentials(..) => res!(UNAUTHORIZED, err.to_string()),
     Io(..) => res!(INTERNAL_SERVER_ERROR),
+    MaxCharactersExceeded { .. } => res!(BAD_REQUEST, err.to_string()),
     MissingPassword => res!(BAD_REQUEST, err.to_string()),
     Unknown(..) => res!(INTERNAL_SERVER_ERROR),
     WorldLimitReached => res!(FORBIDDEN, err.to_string()),
@@ -181,6 +182,32 @@ impl<L, R> EitherExt<L, R> for Either<L, R> {
 
 #[doc(hidden)]
 #[macro_export]
+macro_rules! bail_if_city_is_not_owned_by {
+  ($world:expr, $player:expr, $coord:expr) => {
+    if !$world
+      .city($coord)?
+      .is_owned_by_player_and(|id| $player == id)
+    {
+      return $crate::res!(FORBIDDEN);
+    }
+  };
+}
+
+#[doc(hidden)]
+#[macro_export]
+macro_rules! bail_if_max_chars_exceeded {
+  ($value:expr, $max:expr) => {
+    let current = $value.chars().count();
+    if current > $max {
+      use $crate::error::Error;
+      let err = Error::MaxCharactersExceeded { max: $max, current };
+      return $crate::response::from_err(err);
+    }
+  };
+}
+
+#[doc(hidden)]
+#[macro_export]
 macro_rules! bail_if_player_is_not_pending {
   ($world:expr, $player:expr) => {
     if !$world.round().is_waiting_player($player) {
@@ -193,22 +220,9 @@ macro_rules! bail_if_player_is_not_pending {
 
 #[doc(hidden)]
 #[macro_export]
-macro_rules! bail_if_not_player {
+macro_rules! bail_if_player_ne {
   ($current_player:expr, $player:expr) => {
     if $current_player != $player {
-      return $crate::res!(FORBIDDEN);
-    }
-  };
-}
-
-#[doc(hidden)]
-#[macro_export]
-macro_rules! bail_if_city_is_not_owned_by {
-  ($world:expr, $player:expr, $coord:expr) => {
-    if !$world
-      .city($coord)?
-      .is_owned_by_player_and(|id| $player == id)
-    {
       return $crate::res!(FORBIDDEN);
     }
   };
