@@ -29,7 +29,7 @@ pub struct GetPlayerCoordsResponse(pub Vec<Coord>);
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct GetPlayerIdsResponse(pub Vec<PlayerId>);
 
-#[derive(Clone, Debug, Deref, DerefMut, From, Into, Deserialize, Serialize)]
+#[derive(Clone, Copy, Debug, Deref, DerefMut, From, Into, Deserialize, Serialize)]
 #[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
@@ -53,7 +53,7 @@ pub struct GetPlayerReportsResponse(pub Vec<ReportId>);
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct GetPlayerResponse(pub Player);
 
-#[derive(Clone, Debug, Deref, DerefMut, From, Into, Deserialize, Serialize)]
+#[derive(Clone, Copy, Debug, Deref, DerefMut, From, Into, Deserialize, Serialize)]
 #[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]

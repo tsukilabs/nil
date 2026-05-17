@@ -21,7 +21,7 @@ use ts_rs::TS;
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct GetCityResponse(pub City);
 
-#[derive(Clone, Debug, Deref, DerefMut, From, Into, Deserialize, Serialize)]
+#[derive(Clone, Copy, Debug, Deref, DerefMut, From, Into, Deserialize, Serialize)]
 #[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
