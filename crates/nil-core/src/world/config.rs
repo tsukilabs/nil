@@ -1,10 +1,11 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+use std::ops::Deref;
+
 use crate::error::AnyResult;
 use crate::world::WorldOptions;
 use bon::Builder;
-use derive_more::Deref;
 use nil_util::{ConstDeref, F64Math};
 use serde::{Deserialize, Serialize};
 use strum::EnumString;
@@ -104,7 +105,7 @@ impl WorldConfig {
   Clone,
   Copy,
   Debug,
-  Deref,
+  derive_more::Deref,
   derive_more::Display,
   PartialEq,
   Eq,
@@ -141,6 +142,14 @@ impl TryFrom<&str> for WorldId {
 #[derive(Clone, Debug, derive_more::Display, PartialEq, Eq, Deserialize, Serialize)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct WorldName(Box<str>);
+
+impl Deref for WorldName {
+  type Target = str;
+
+  fn deref(&self) -> &Self::Target {
+    self.0.as_str()
+  }
+}
 
 impl<T: AsRef<str>> From<T> for WorldName {
   fn from(value: T) -> Self {

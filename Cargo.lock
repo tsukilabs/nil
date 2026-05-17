@@ -3423,7 +3423,7 @@ checksum = "650eef8c711430f1a879fdd01d4745a7deea475becfb90269c06775983bbf086"
 
 [[package]]
 name = "nil"
-version = "0.5.6"
+version = "0.5.7"
 dependencies = [
  "anyhow",
  "bon",
@@ -3464,7 +3464,7 @@ dependencies = [
 
 [[package]]
 name = "nil-client"
-version = "0.5.6"
+version = "0.5.7"
 dependencies = [
  "anyhow",
  "bon",
@@ -3497,7 +3497,7 @@ dependencies = [
 
 [[package]]
 name = "nil-core"
-version = "0.5.6"
+version = "0.5.7"
 dependencies = [
  "anyhow",
  "bon",
@@ -3531,7 +3531,7 @@ dependencies = [
 
 [[package]]
 name = "nil-core-macros"
-version = "0.5.6"
+version = "0.5.7"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -3540,7 +3540,7 @@ dependencies = [
 
 [[package]]
 name = "nil-crypto"
-version = "0.5.6"
+version = "0.5.7"
 dependencies = [
  "anyhow",
  "argon2",
@@ -3554,7 +3554,7 @@ dependencies = [
 
 [[package]]
 name = "nil-log"
-version = "0.5.6"
+version = "0.5.7"
 dependencies = [
  "anyhow",
  "bitflags 2.11.1",
@@ -3567,7 +3567,7 @@ dependencies = [
 
 [[package]]
 name = "nil-namegen"
-version = "0.5.6"
+version = "0.5.7"
 dependencies = [
  "itertools",
  "rand 0.10.1",
@@ -3576,7 +3576,7 @@ dependencies = [
 
 [[package]]
 name = "nil-num"
-version = "0.5.6"
+version = "0.5.7"
 dependencies = [
  "bon",
  "num-traits",
@@ -3586,7 +3586,7 @@ dependencies = [
 
 [[package]]
 name = "nil-payload"
-version = "0.5.6"
+version = "0.5.7"
 dependencies = [
  "axum",
  "bon",
@@ -3601,7 +3601,7 @@ dependencies = [
 
 [[package]]
 name = "nil-payload-macros"
-version = "0.5.6"
+version = "0.5.7"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -3610,7 +3610,7 @@ dependencies = [
 
 [[package]]
 name = "nil-server"
-version = "0.5.6"
+version = "0.5.7"
 dependencies = [
  "anyhow",
  "axum",
@@ -3649,7 +3649,7 @@ dependencies = [
 
 [[package]]
 name = "nil-server-database"
-version = "0.5.6"
+version = "0.5.7"
 dependencies = [
  "anyhow",
  "bon",
@@ -3674,7 +3674,7 @@ dependencies = [
 
 [[package]]
 name = "nil-server-types"
-version = "0.5.6"
+version = "0.5.7"
 dependencies = [
  "derive_more",
  "jiff",
@@ -3686,7 +3686,7 @@ dependencies = [
 
 [[package]]
 name = "nil-util"
-version = "0.5.6"
+version = "0.5.7"
 dependencies = [
  "anyhow",
  "nil-util-macros",
@@ -3694,7 +3694,7 @@ dependencies = [
 
 [[package]]
 name = "nil-util-macros"
-version = "0.5.6"
+version = "0.5.7"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -6040,9 +6040,9 @@ dependencies = [
 
 [[package]]
 name = "sysinfo"
-version = "0.39.1"
+version = "0.39.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a4deba334e1190ba7cb498327affa11e5ece10d26a30ab2f27fcf09504b8d8b6"
+checksum = "14311e7e9a03114cd4b65eedd54e8fed2945e17f08586ae97ef53bc0669f9581"
 dependencies = [
  "libc",
  "memchr",
