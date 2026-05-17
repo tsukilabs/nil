@@ -8,18 +8,16 @@ use std::ffi::{OsStr, OsString};
 use std::net::SocketAddrV4;
 use std::sync::{Arc, LazyLock};
 use strum::EnumIs;
+use tap::Pipe;
 use url::Url;
 
-static REMOTE_SERVER_ADDR: LazyLock<Url> = LazyLock::new(|| {
-  let result = if let Ok(addr) = env::var("NIL_REMOTE_SERVER_ADDR") {
-    Url::parse(&addr)
-  } else if cfg!(debug_assertions) && cfg!(not(target_os = "android")) {
-    Url::parse("http://127.0.0.1:3000/")
-  } else {
-    Url::parse("https://tsukilabs.dev.br/nil/")
-  };
+const URL: &str = "https://tsukilabs.dev.br/nil/";
 
-  result.expect("Failed to parse remote server address")
+static REMOTE_SERVER_ADDR: LazyLock<Url> = LazyLock::new(|| {
+  env::var("NIL_REMOTE_SERVER_ADDR")
+    .unwrap_or_else(|_| URL.to_owned())
+    .pipe_deref(Url::parse)
+    .expect("Failed to parse remote server address")
 });
 
 #[derive(Clone, Copy, Debug, Default, EnumIs, PartialEq, Eq, Hash, Deserialize, Serialize)]
