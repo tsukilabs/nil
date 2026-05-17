@@ -12,6 +12,6 @@ use tap::Pipe;
 
 impl World {
   pub(crate) fn get_ethics(&self, ruler: &Ruler) -> Result<Option<Ethics>> {
-    self.ruler(ruler)?.ethics().cloned().pipe(Ok)
+    self.ruler(ruler)?.ethics().copied().pipe(Ok)
   }
 }

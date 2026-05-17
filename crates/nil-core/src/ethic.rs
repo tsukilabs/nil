@@ -7,8 +7,8 @@ use serde::{Deserialize, Serialize};
 use std::fmt::Debug;
 use strum::{EnumIs, VariantArray};
 
-#[derive(Builder, Clone, Debug, Deserialize, Serialize)]
-#[derive_const(PartialEq, Eq)]
+#[derive(Builder, Copy, Debug, Deserialize, Serialize)]
+#[derive_const(Clone, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
 #[builder(const)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
