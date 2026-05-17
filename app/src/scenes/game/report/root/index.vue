@@ -3,6 +3,7 @@
 
 <script setup lang="ts">
 import { useI18n } from "vue-i18n";
+import Loading from "@/components/Loading.vue";
 import { throttle } from "es-toolkit/function";
 import { onKeyDown, useBreakpoints } from "@tb-dev/vue";
 import enUS from "@/locale/en-US/scenes/game/report.json";
@@ -19,7 +20,7 @@ const { t } = useI18n({
 });
 
 const { reports: reportIds } = NIL.report.refs();
-const { reports, load: loadReports } = useReports(reportIds);
+const { reports, loading, load: loadReports } = useReports(reportIds);
 
 const { md } = useBreakpoints();
 
@@ -43,7 +44,8 @@ async function reload() {
       </CardHeader>
 
       <CardContent class="relative size-full overflow-auto px-2 py-0">
-        <Table v-if="reports.length > 0">
+        <Loading v-if="loading" />
+        <Table v-else-if="reports.length > 0" class="min-w-max">
           <TableHeader>
             <TableRow class="hover:bg-card">
               <TableHead>{{ t("title") }}</TableHead>
