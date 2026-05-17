@@ -11,6 +11,9 @@ serde_json = "1.0"
 version = "4.6"
 features = ["derive"]
 
+[dependencies.nil-env]
+path = "../crates/nil-env"
+
 [dependencies.nil-util]
 path = "../crates/nil-util"
 
@@ -25,6 +28,7 @@ features = ["derive"]
 
 use anyhow::Result;
 use clap::Parser;
+use nil_env::Var;
 use nil_util::{spawn, spawn_fmt};
 use serde::Deserialize;
 use std::fmt::Write;
@@ -60,7 +64,7 @@ fn main() -> Result<()> {
   let mut env = Vec::new();
 
   if args.only_ui {
-    env.push(("NIL_MINIFY_SOURCE", "false"));
+    env.push((Var::MinifySource, "false"));
     return spawn!("pnpm run -F ui build", env);
   }
 
@@ -73,7 +77,7 @@ fn main() -> Result<()> {
   let mut env = Vec::new();
 
   if args.preview && !args.android {
-    env.push(("NIL_MINIFY_SOURCE", "false"));
+    env.push((Var::MinifySource, "false"));
     write!(command, " --no-bundle -- --profile preview")?;
   }
 

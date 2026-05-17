@@ -10,12 +10,16 @@ anyhow = "1.0"
 version = "4.6"
 features = ["derive"]
 
+[dependencies.nil-env]
+path = "../crates/nil-env"
+
 [dependencies.nil-util]
 path = "../crates/nil-util"
 ---
 
 use anyhow::Result;
 use clap::Parser;
+use nil_env::Var;
 use nil_util::spawn;
 use std::fmt::Write;
 
@@ -39,17 +43,17 @@ fn main() -> Result<()> {
   let mut env = Vec::new();
 
   if args.local && !args.android {
-    env.push(("NIL_REMOTE_SERVER_ADDR", "http://127.0.0.1:3000/"));
+    env.push((Var::RemoteServerAddr, "http://127.0.0.1:3000/"));
   }
 
   if args.verbose {
-    env.push(("NIL_LOG_LEVEL", "trace"));
+    env.push((Var::LogLevel, "trace"));
 
     if !args.android {
-      env.push(("NIL_LOG_TOWER_HTTP", "true"));
+      env.push((Var::LogTowerHttp, "true"));
     }
   } else {
-    env.push(("NIL_LOG_LEVEL", "debug"));
+    env.push((Var::LogLevel, "debug"));
   }
 
   if args.android {

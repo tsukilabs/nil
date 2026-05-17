@@ -14,8 +14,8 @@ use std::sync::Weak;
 use tokio::sync::RwLock;
 use tokio::task::spawn;
 
-pub async fn start(database_url: String) -> Result<()> {
-  let app = App::new_remote(&database_url).await?;
+pub async fn start(database_url: &str) -> Result<()> {
+  let app = App::new_remote(database_url).await?;
   let router = router::create()
     .with_state(app)
     .into_make_service_with_connect_info::<SocketAddr>();

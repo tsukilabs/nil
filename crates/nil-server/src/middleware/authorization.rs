@@ -19,16 +19,10 @@ use nil_core::ruler::Ruler;
 use nil_server_database::sql_types::player_id::db_PlayerId as DbPlayerId;
 use nil_server_types::auth::Token;
 use serde::{Deserialize, Serialize};
-use std::env;
 use std::sync::LazyLock;
 use tokio::task::spawn_blocking;
 
-// Using a known secret is not a problem for local servers.
-static JWT_SECRET: LazyLock<Box<str>> = LazyLock::new(|| {
-  env::var("NIL_JWT_SECRET")
-    .map(String::into_boxed_str)
-    .unwrap_or_else(|_| Box::from("CALL-OF-NIL"))
-});
+static JWT_SECRET: LazyLock<Box<str>> = LazyLock::new(nil_env::jwt_secret);
 
 pub async fn authorization(mut request: Request, next: Next) -> Response {
   let Ok(token) = request

@@ -3,6 +3,7 @@ import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
 import tailwind from "@tailwindcss/vite";
 import { fileURLToPath, URL } from "node:url";
+import { env_Var } from "@tsukilabs/nil-bindings";
 
 export default defineConfig({
   plugins: [
@@ -22,7 +23,7 @@ export default defineConfig({
     copyPublicDir: true,
     emptyOutDir: true,
     sourcemap: false,
-    minify: env.NIL_MINIFY_SOURCE !== "false",
+    minify: env[env_Var.NIL_MINIFY_SOURCE] !== "false",
   },
   server: {
     port: 1420,

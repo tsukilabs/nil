@@ -6,6 +6,7 @@ members = [
   "crates/nil-core",
   "crates/nil-core-macros",
   "crates/nil-crypto",
+  "crates/nil-env",
   "crates/nil-log",
   "crates/nil-namegen",
   "crates/nil-num",
@@ -237,6 +238,10 @@ path = "./crates/nil-core-macros"
 [workspace.dependencies.nil-crypto]
 version = "0.5"
 path = "./crates/nil-crypto"
+
+[workspace.dependencies.nil-env]
+version = "0.5"
+path = "./crates/nil-env"
 
 [workspace.dependencies.nil-log]
 version = "0.5"

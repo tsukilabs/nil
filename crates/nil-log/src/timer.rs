@@ -12,6 +12,7 @@ const PRINTER: DateTimePrinter = DateTimePrinter::new()
   .separator(b' ')
   .precision(Some(3));
 
+#[derive(Debug)]
 pub struct Timer;
 
 impl FormatTime for Timer {

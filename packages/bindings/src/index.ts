@@ -126,6 +126,7 @@ export type { CreateRemoteWorldRequest } from './CreateRemoteWorldRequest';
 export type { CreateRemoteWorldResponse } from './CreateRemoteWorldResponse';
 export type { CreateUserRequest } from './CreateUserRequest';
 export type { DeleteRemoteWorldRequest } from './DeleteRemoteWorldRequest';
+export { env_Var } from './env_Var';
 export type { EthicPowerAxis } from './EthicPowerAxis';
 export type { Ethics } from './Ethics';
 export type { EthicTruthAxis } from './EthicTruthAxis';

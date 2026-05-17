@@ -91,59 +91,18 @@ impl Client {
   where
     OnEvent: Fn(Event) -> BoxFuture<'static, ()> + Send + Sync + 'static,
   {
-    self.stop().await;
-    self.world_id = world_id;
+    let update = Update {
+      client: self,
+      server,
+      world_id,
+      world_password,
+      player_id,
+      player_password,
+      authorization_token,
+      on_event,
+    };
 
-    if server != self.server {
-      self.server = server;
-      self
-        .circuit_breaker
-        .set(CircuitBreaker::new());
-    }
-
-    if self.server.is_remote()
-      && let Some(token) = authorization_token
-      && let Some(id) = self.validate_token(&token).await?.0
-      && player_id.as_ref().is_none_or(|it| it == &id)
-      && let Ok(authorization) = Authorization::new(token)
-    {
-      self.authorization = Some(authorization);
-    } else if let Some(player) = player_id {
-      let req = AuthorizeRequest { player, password: player_password };
-      self.authorization = self
-        .authorize(req)
-        .await
-        .map(|token| Some(Authorization::new(&token.0)))?
-        .transpose()
-        .inspect_err(|err| tracing::error!(message = %err, error = ?err))
-        .map_err(|_| Error::FailedToAuthenticate)?;
-    }
-
-    if self.world_id.is_none()
-      && self.server.is_local()
-      && let ServerKind::Local { id } = self.get_server_kind().await?.0
-    {
-      self.world_id = Some(id);
-    }
-
-    if let Some(world_id) = self.world_id
-      && let Some(on_event) = on_event
-      && let Some(authorization) = self.authorization.clone()
-    {
-      let websocket = WebSocketClient::connect(self.server)
-        .world_id(world_id)
-        .maybe_world_password(world_password)
-        .authorization(authorization)
-        .circuit_breaker(self.circuit_breaker())
-        .user_agent(&self.user_agent)
-        .on_event(on_event)
-        .call()
-        .await?;
-
-      self.websocket = Some(websocket);
-    }
-
-    Ok(())
+    update.execute().await
   }
 
   pub async fn stop(&mut self) {
@@ -246,5 +205,89 @@ impl Client {
 impl Default for Client {
   fn default() -> Self {
     Self::new_remote()
+  }
+}
+
+struct Update<'a, OnEvent>
+where
+  OnEvent: Fn(Event) -> BoxFuture<'static, ()> + Send + Sync + 'static,
+{
+  client: &'a mut Client,
+  server: ServerAddr,
+  world_id: Option<WorldId>,
+  world_password: Option<Password>,
+  player_id: Option<PlayerId>,
+  player_password: Option<Password>,
+  authorization_token: Option<Token>,
+  on_event: Option<OnEvent>,
+}
+
+impl<OnEvent> Update<'_, OnEvent>
+where
+  OnEvent: Fn(Event) -> BoxFuture<'static, ()> + Send + Sync + 'static,
+{
+  async fn execute(self) -> Result<()> {
+    self.client.stop().await;
+    self.client.world_id = self.world_id;
+
+    if self.server != self.client.server {
+      self.client.server = self.server;
+      self
+        .client
+        .circuit_breaker
+        .set(CircuitBreaker::new());
+    }
+
+    if self.client.server.is_remote()
+      && let Some(token) = self.authorization_token
+      && let Some(id) = self.client.validate_token(&token).await?.0
+      && self
+        .player_id
+        .as_ref()
+        .is_none_or(|it| it == &id)
+      && let Ok(authorization) = Authorization::new(token)
+    {
+      self.client.authorization = Some(authorization);
+    } else if let Some(player) = self.player_id {
+      let req = AuthorizeRequest {
+        player,
+        password: self.player_password,
+      };
+
+      self.client.authorization = self
+        .client
+        .authorize(req)
+        .await
+        .map(|token| Some(Authorization::new(&token.0)))?
+        .transpose()
+        .inspect_err(|err| tracing::error!(message = %err, error = ?err))
+        .map_err(|_| Error::FailedToAuthenticate)?;
+    }
+
+    if self.client.world_id.is_none()
+      && self.client.server.is_local()
+      && let ServerKind::Local { id } = self.client.get_server_kind().await?.0
+    {
+      self.client.world_id = Some(id);
+    }
+
+    if let Some(world_id) = self.client.world_id
+      && let Some(on_event) = self.on_event
+      && let Some(authorization) = self.client.authorization.clone()
+    {
+      let websocket = WebSocketClient::connect(self.client.server)
+        .world_id(world_id)
+        .maybe_world_password(self.world_password)
+        .authorization(authorization)
+        .circuit_breaker(self.client.circuit_breaker())
+        .user_agent(&self.client.user_agent)
+        .on_event(on_event)
+        .call()
+        .await?;
+
+      self.client.websocket = Some(websocket);
+    }
+
+    Ok(())
   }
 }
