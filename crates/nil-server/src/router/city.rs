@@ -100,7 +100,7 @@ pub async fn rename_city(
   Extension(player): Extension<CurrentPlayer>,
   Json(req): Json<RenameCityRequest>,
 ) -> Response {
-  bail_if_max_chars_exceeded!(req.name, 100);
+  bail_if_max_chars_exceeded!(req.name, 50);
   match app.get(req.world) {
     Ok(world) => {
       let result = try {
