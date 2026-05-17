@@ -10,10 +10,9 @@ use crate::ranking::score::Score;
 use crate::resources::cost::{Cost, ResourceRatio};
 use crate::resources::maintenance::MaintenanceRatio;
 use crate::resources::workforce::Workforce;
-use derive_more::Deref;
 use nil_core_macros::Building;
 use nil_num::growth::growth;
-use nil_util::F64Math;
+use nil_util::{ConstDeref, F64Math};
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
@@ -76,64 +75,6 @@ check_total_resource_ratio!(
   Wall::WOOD_RATIO
 );
 
-#[derive(Clone, Copy, Debug, Deref, Deserialize, Serialize, F64Math)]
-#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
-pub struct WallDefense(u32);
-
-impl WallDefense {
-  #[inline]
-  pub const fn new(value: u32) -> Self {
-    Self(value)
-  }
-}
-
-impl const From<WallDefense> for f64 {
-  fn from(value: WallDefense) -> Self {
-    f64::from(value.0)
-  }
-}
-
-impl const From<f64> for WallDefense {
-  fn from(value: f64) -> Self {
-    debug_assert!(value >= 0.0);
-    debug_assert!(value.is_finite());
-    Self::new(value as u32)
-  }
-}
-
-#[derive(Clone, Copy, Debug, Deref, Deserialize, Serialize, F64Math)]
-#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
-pub struct WallDefenseBonus(f64);
-
-impl WallDefenseBonus {
-  pub const MIN: WallDefenseBonus = WallDefenseBonus(0.0);
-  #[inline]
-  pub const fn new(value: f64) -> Self {
-    Self(value.max(Self::MIN.0))
-  }
-}
-
-impl const From<WallDefenseBonus> for f64 {
-  fn from(value: WallDefenseBonus) -> Self {
-    value.0
-  }
-}
-
-impl const From<f64> for WallDefenseBonus {
-  fn from(value: f64) -> Self {
-    Self::new(value)
-  }
-}
-
-#[derive(Clone, Debug, Deserialize, Serialize)]
-#[serde(rename_all = "camelCase")]
-#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
-pub struct WallStats {
-  pub level: BuildingLevel,
-  pub defense: WallDefense,
-  pub defense_percent: WallDefenseBonus,
-}
-
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct WallStatsTable(HashMap<BuildingLevel, WallStats>);
@@ -190,5 +131,67 @@ impl WallStatsTable {
 impl Default for WallStatsTable {
   fn default() -> Self {
     Self::new()
+  }
+}
+
+#[derive(Debug, Deserialize, Serialize)]
+#[derive_const(Clone)]
+#[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
+pub struct WallStats {
+  pub level: BuildingLevel,
+  pub defense: WallDefense,
+  pub defense_percent: WallDefenseBonus,
+}
+
+#[derive(Copy, Debug, Deserialize, Serialize, ConstDeref, F64Math)]
+#[derive_const(Clone, PartialEq, Eq, PartialOrd, Ord)]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
+pub struct WallDefense(u32);
+
+impl WallDefense {
+  #[inline]
+  pub const fn new(value: u32) -> Self {
+    Self(value)
+  }
+}
+
+impl const From<WallDefense> for f64 {
+  fn from(value: WallDefense) -> Self {
+    f64::from(value.0)
+  }
+}
+
+impl const From<f64> for WallDefense {
+  fn from(value: f64) -> Self {
+    debug_assert!(value >= 0.0);
+    debug_assert!(value.is_finite());
+    Self::new(value.trunc() as u32)
+  }
+}
+
+#[derive(Copy, Debug, Deserialize, Serialize, ConstDeref, F64Math)]
+#[derive_const(Clone, PartialEq, PartialOrd)]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
+pub struct WallDefenseBonus(f64);
+
+impl WallDefenseBonus {
+  pub const MIN: WallDefenseBonus = WallDefenseBonus(0.0);
+
+  #[inline]
+  pub const fn new(value: f64) -> Self {
+    Self(value.max(Self::MIN.0))
+  }
+}
+
+impl const From<WallDefenseBonus> for f64 {
+  fn from(value: WallDefenseBonus) -> Self {
+    value.0
+  }
+}
+
+impl const From<f64> for WallDefenseBonus {
+  fn from(value: f64) -> Self {
+    Self::new(value)
   }
 }

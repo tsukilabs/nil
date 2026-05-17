@@ -3,8 +3,8 @@
 
 use crate::app::App;
 use crate::middleware::authorization::CurrentPlayer;
-use crate::res;
 use crate::response::EitherExt;
+use crate::{bail_if_max_chars_exceeded, res};
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
 use nil_core::chat::Chat;
@@ -24,6 +24,7 @@ pub async fn push(
   Extension(player): Extension<CurrentPlayer>,
   Json(req): Json<PushChatMessageRequest>,
 ) -> Response {
+  bail_if_max_chars_exceeded!(req.message, 200);
   app
     .world_mut(req.world, |world| {
       world.push_chat_message(player.0, &req.message)

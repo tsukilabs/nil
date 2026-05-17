@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::app::App;
-use crate::res;
 use crate::response::from_err;
+use crate::{bail_if_max_chars_exceeded, res};
 use axum::extract::{Json, State};
 use axum::response::Response;
 use nil_payload::request::user::*;
@@ -11,6 +11,7 @@ use nil_payload::response::user::*;
 use nil_server_database::model::user::NewUser;
 
 pub async fn create(State(app): State<App>, Json(req): Json<CreateUserRequest>) -> Response {
+  bail_if_max_chars_exceeded!(req.player, 20);
   if app.server_kind().is_remote() {
     let result = try {
       let new = NewUser::new(req.player, req.password).await?;

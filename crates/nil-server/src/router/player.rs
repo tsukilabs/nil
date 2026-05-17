@@ -4,8 +4,8 @@
 use crate::app::App;
 use crate::error::Error;
 use crate::middleware::authorization::CurrentPlayer;
-use crate::res;
 use crate::response::{EitherExt, from_err};
+use crate::{bail_if_max_chars_exceeded, res};
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
 use either::Either;
@@ -171,6 +171,7 @@ pub async fn set_status(
 }
 
 pub async fn spawn(State(app): State<App>, Json(req): Json<SpawnPlayerRequest>) -> Response {
+  bail_if_max_chars_exceeded!(req.options.id, 20);
   if app.server_kind().is_remote() {
     match app
       .database()
