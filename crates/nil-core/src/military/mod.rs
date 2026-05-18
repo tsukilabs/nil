@@ -22,7 +22,6 @@ use maneuver::{Maneuver, ManeuverId};
 use serde::{Deserialize, Serialize};
 use squad::Squad;
 use std::collections::HashMap;
-use tap::Pipe;
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
@@ -323,11 +322,24 @@ impl Military {
       }
     }
 
-    done
+    let done = done
       .into_iter()
       .filter_map(|id| self.maneuvers.remove(&id))
-      .collect_vec()
-      .pipe(Ok)
+      .collect_vec();
+
+    self.maneuvers.shrink_to_fit();
+
+    Ok(done)
+  }
+
+  /// Retains only the maneuvers specified by the predicate.
+  pub(crate) fn retain_maneuvers<F>(&mut self, f: F)
+  where
+    F: Fn(&Maneuver) -> bool,
+  {
+    self
+      .maneuvers
+      .retain(|_, maneuver| f(maneuver));
   }
 
   pub fn score_of<R>(&self, owner: R) -> Score

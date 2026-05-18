@@ -38,6 +38,12 @@ export class MilitaryImpl {
     });
   }
 
+  public getManeuversAt(key: ContinentKey) {
+    return this.getManeuversBy((maneuver) => {
+      return maneuver.origin.is(key) || maneuver.destination.is(key);
+    });
+  }
+
   public getManeuversBy(f: (maneuver: ManeuverImpl) => boolean): ManeuverImpl[] {
     return this.maneuvers.values()
       .filter((maneuver) => maneuver.isPending() && f(maneuver))
@@ -54,12 +60,6 @@ export class MilitaryImpl {
   public getReturningManeuversBy(f: (maneuver: ManeuverImpl) => boolean) {
     return this.getManeuversBy((maneuver) => {
       return maneuver.direction === "returning" && f(maneuver);
-    });
-  }
-
-  public getManeuversAt(key: ContinentKey) {
-    return this.getManeuversBy((maneuver) => {
-      return maneuver.origin.is(key) || maneuver.destination.is(key);
     });
   }
 
