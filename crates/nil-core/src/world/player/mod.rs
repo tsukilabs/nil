@@ -7,9 +7,11 @@ mod tests;
 use crate::city::City;
 use crate::error::{Error, Result};
 use crate::military::Military;
+use crate::military::maneuver::ManeuverDirection;
 use crate::player::{Player, PlayerId, PlayerManager, PlayerStatus};
 use crate::report::ReportId;
 use crate::resources::maintenance::Maintenance;
+use crate::ruler::Ruler;
 use crate::world::World;
 
 impl World {
@@ -39,7 +41,22 @@ impl World {
 
   pub fn get_player_military(&self, player: &PlayerId) -> Result<Military> {
     let coords = self.continent.coords_of(player);
-    self.military.intersection(coords)
+    let mut military = self.military.intersection(coords)?;
+
+    military.retain_maneuvers(|maneuver| {
+      // Should not include foreign armies returning home.
+      if let ManeuverDirection::Returning = maneuver.direction() {
+        let ruler = Ruler::from(player);
+        self
+          .military
+          .army(maneuver.army())
+          .is_ok_and(|army| army.is_owned_by(&ruler))
+      } else {
+        true
+      }
+    });
+
+    Ok(military)
   }
 
   pub fn get_player_reports(&self, player: &PlayerId) -> Vec<ReportId> {
