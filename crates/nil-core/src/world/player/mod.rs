@@ -40,13 +40,13 @@ impl World {
   }
 
   pub fn get_player_military(&self, player: &PlayerId) -> Result<Military> {
+    let ruler = Ruler::from(player);
     let coords = self.continent.coords_of(player);
     let mut military = self.military.intersection(coords)?;
 
     military.retain_maneuvers(|maneuver| {
       // Should not include foreign armies returning home.
       if let ManeuverDirection::Returning = maneuver.direction() {
-        let ruler = Ruler::from(player);
         self
           .military
           .army(maneuver.army())
