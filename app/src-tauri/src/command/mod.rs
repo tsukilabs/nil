@@ -146,8 +146,3 @@ pub fn show_window(window: WebviewWindow) -> Result<()> {
 #[cfg(mobile)]
 #[tauri::command]
 pub fn show_window() {}
-
-#[tauri::command]
-pub fn version() -> &'static str {
-  env!("CARGO_PKG_VERSION")
-}

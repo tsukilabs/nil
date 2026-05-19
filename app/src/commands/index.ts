@@ -89,7 +89,3 @@ export async function openDevtools() {
 export async function showWindow() {
   await invoke("show_window");
 }
-
-export async function version() {
-  return invoke<string>("version");
-}

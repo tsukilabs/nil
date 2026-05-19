@@ -33,10 +33,6 @@ export async function getServerKind() {
   return invoke<GetServerKindResponse>("get_server_kind");
 }
 
-export async function getServerVersion() {
-  return invoke<VersionResponse>("get_server_version");
-}
-
 export async function isServerReady() {
   return invoke<boolean>("is_server_ready");
 }
@@ -61,4 +57,8 @@ export async function validateToken(token: Option<string>) {
   else {
     return null;
   }
+}
+
+export async function version() {
+  return invoke<VersionResponse>("version");
 }

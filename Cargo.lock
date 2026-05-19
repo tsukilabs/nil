@@ -3608,6 +3608,7 @@ dependencies = [
  "nil-crypto",
  "nil-payload-macros",
  "nil-server-types",
+ "semver",
  "serde",
  "ts-rs",
 ]

@@ -109,7 +109,9 @@ impl From<ChatMessage> for ChatMessageAuthor {
   }
 }
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Deserialize, Serialize)]
+#[derive(
+  Clone, Copy, Debug, derive_more::Display, PartialEq, Eq, PartialOrd, Ord, Deserialize, Serialize,
+)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct ChatMessageId(Uuid);
 

@@ -1,7 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use derive_more::{Deref, DerefMut, From, Into};
+use derive_more::{Deref, DerefMut, Display, From, Into};
 use nil_core::military::maneuver::ManeuverId;
 use serde::{Deserialize, Serialize};
 
@@ -11,7 +11,7 @@ use nil_payload_macros::IntoJsonResponse;
 #[cfg(feature = "typescript")]
 use ts_rs::TS;
 
-#[derive(Clone, Copy, Debug, Deref, DerefMut, From, Into, Deserialize, Serialize)]
+#[derive(Clone, Copy, Debug, Deref, DerefMut, Display, From, Into, Deserialize, Serialize)]
 #[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]

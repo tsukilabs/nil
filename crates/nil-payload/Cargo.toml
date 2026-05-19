@@ -29,6 +29,7 @@ nil-core.workspace = true
 nil-crypto.workspace = true
 nil-payload-macros.workspace = true
 nil-server-types.workspace = true
+semver.workspace = true
 serde.workspace = true
 
 [dependencies.axum]

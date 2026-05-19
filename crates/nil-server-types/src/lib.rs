@@ -20,9 +20,9 @@ pub mod world;
 
 use nil_core::world::config::WorldId;
 use serde::{Deserialize, Serialize};
-use strum::EnumIs;
+use strum::{Display, EnumIs};
 
-#[derive(Clone, Copy, Debug, EnumIs, Deserialize, Serialize)]
+#[derive(Clone, Copy, Debug, Display, EnumIs, Deserialize, Serialize)]
 #[serde(tag = "kind", rename_all = "kebab-case")]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub enum ServerKind {
