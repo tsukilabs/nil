@@ -88,10 +88,10 @@ tauri-plugin-process = "2.3"
 tauri-plugin-single-instance = "2.4"
 tauri-plugin-updater = "2.10"
 thiserror = "2.0"
+tower = "0.5"
 tracing = "0.1"
 tracing-appender = "0.2"
 
-## External dependencies
 [workspace.dependencies.axum]
 version = "0.8"
 features = ["macros", "ws"]
@@ -186,10 +186,6 @@ features = ["rustls-tls-webpki-roots", "url"]
 [workspace.dependencies.toml]
 version = "1.1"
 features = ["fast_hash", "preserve_order"]
-
-[workspace.dependencies.tower]
-version = "0.5"
-features = []
 
 [workspace.dependencies.tower-http]
 version = "0.6"
