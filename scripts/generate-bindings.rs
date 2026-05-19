@@ -42,7 +42,7 @@ fn main() -> Result<()> {
   let args = Args::parse();
   let dir = env::var("TS_RS_EXPORT_DIR")?;
 
-  if args.force {
+  if args.force && fs::exists(&dir)? {
     fs::remove_dir_all(&dir)?;
   }
 

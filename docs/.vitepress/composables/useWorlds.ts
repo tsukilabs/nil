@@ -2,12 +2,20 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { get } from "../lib/api";
+import { inBrowser } from "vitepress";
 import { asyncRef } from "@tb-dev/vue";
 import type { RemoteWorld } from "@tsukilabs/nil-bindings";
 
 export function useWorlds() {
   const { state, loading } = asyncRef<readonly RemoteWorld[]>([], async () => {
-    return get("get-remote-worlds").then((it) => it.json());
+    if (inBrowser) {
+      const response = await get("get-remote-worlds");
+      const worlds: RemoteWorld[] = await response.json();
+      return worlds;
+    }
+    else {
+      return [];
+    }
   });
 
   return {
