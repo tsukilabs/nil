@@ -1,7 +1,14 @@
+# JavaScript and its friends
+*.html linguist-detectable=false
+*.css linguist-detectable=false
 *.js linguist-detectable=false
 *.cjs linguist-detectable=false
 *.mjs linguist-detectable=false
-*.html linguist-detectable=false
-*.css linguist-detectable=false
+
+# Kotlin
 *.kt linguist-detectable=false
 *.kts linguist-detectable=false
+
+# Just
+justfile linguist-detectable=false
+*.just linguist-detectable=false
