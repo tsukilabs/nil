@@ -1,4 +1,4 @@
-set windows-shell := ["powershell.exe", "-Command"]
+set windows-shell := ["powershell.exe", "-NoLogo", "-Command"]
 
 alias build := build-client
 alias clear := clean
