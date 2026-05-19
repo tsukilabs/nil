@@ -51,7 +51,6 @@ fn watch_process(pid: Pid) {
     RefreshKind::nothing().with_processes(
       ProcessRefreshKind::nothing()
         .with_cpu()
-        .with_disk_usage()
         .with_memory(),
     ),
   );
@@ -63,7 +62,6 @@ fn watch_process(pid: Pid) {
         true,
         ProcessRefreshKind::nothing()
           .with_cpu()
-          .with_disk_usage()
           .with_memory(),
       );
 
@@ -71,20 +69,13 @@ fn watch_process(pid: Pid) {
         let runtime = Handle::current();
         let metrics = runtime.metrics();
 
-        let disk_usage = process.disk_usage();
         let run_time = Duration::from_secs(process.run_time());
 
         tracing::info!(
           name = %process.name().to_string_lossy(),
           cpu_usage = format!("{:.2}%", process.cpu_usage()),
           memory = %b!(process.memory()),
-          virtual_memory = %b!(process.virtual_memory()),
-          read_bytes = %b!(disk_usage.read_bytes),
-          total_read_bytes = %b!(disk_usage.total_read_bytes),
-          written_bytes = %b!(disk_usage.written_bytes),
-          total_written_bytes = %b!(disk_usage.total_written_bytes),
           run_time = %format_duration(run_time),
-          tokio_global_queue_depth = metrics.global_queue_depth(),
           tokio_num_alive_tasks = metrics.num_alive_tasks(),
           tokio_num_workers = metrics.num_workers(),
         );
