@@ -11,9 +11,9 @@ init:
   @pnpm ci
   @rustup update
   @rustup toolchain install nightly
-  @cargo install tauri-cli dprint
+  @cargo +stable install tauri-cli dprint
+  @cargo +stable install diesel_cli --no-default-features --features "sqlite-bundled"
   @cargo +nightly install miho
-  @cargo install diesel_cli --no-default-features --features "sqlite-bundled"
   @just generate-bindings --force
 
 docs:
