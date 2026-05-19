@@ -176,16 +176,6 @@ impl Client {
       .await
   }
 
-  pub async fn get_server_version(&self) -> Result<VersionResponse> {
-    http::json_get("version")
-      .server(self.server)
-      .retry(&self.retry)
-      .circuit_breaker(self.circuit_breaker())
-      .user_agent(&self.user_agent)
-      .send()
-      .await
-  }
-
   pub async fn is_ready(&self) -> bool {
     http::get("")
       .server(self.server)
@@ -199,6 +189,16 @@ impl Client {
         tracing::error!(message = %err, error = ?err);
         false
       })
+  }
+
+  pub async fn version(&self) -> Result<VersionResponse> {
+    http::json_get("version")
+      .server(self.server)
+      .retry(&self.retry)
+      .circuit_breaker(self.circuit_breaker())
+      .user_agent(&self.user_agent)
+      .send()
+      .await
   }
 }
 

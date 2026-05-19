@@ -6,7 +6,7 @@ use crate::resources::Resources;
 use crate::resources::influence::Influence;
 use crate::world::World;
 use bon::Builder;
-use derive_more::{Display, From, Into};
+use derive_more::{From, Into};
 use serde::{Deserialize, Serialize};
 use std::borrow::{Borrow, Cow};
 use std::collections::HashMap;
@@ -124,7 +124,19 @@ impl Player {
   }
 }
 
-#[derive(Debug, Display, From, Into, PartialEq, Eq, Hash, Deserialize, Serialize)]
+#[derive(
+  Debug,
+  derive_more::Display,
+  From,
+  Into,
+  PartialEq,
+  Eq,
+  PartialOrd,
+  Ord,
+  Hash,
+  Deserialize,
+  Serialize,
+)]
 #[from(String, &str, Arc<str>, Box<str>, Cow<'_, str>)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct PlayerId(Arc<str>);
@@ -155,7 +167,7 @@ impl Borrow<str> for PlayerId {
   }
 }
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Deserialize, Serialize)]
+#[derive(Clone, Copy, Debug, strum::Display, PartialEq, Eq, Deserialize, Serialize)]
 #[serde(rename_all = "kebab-case")]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub enum PlayerStatus {

@@ -60,6 +60,22 @@ pub enum Var {
   RemoteWorldLimitPerUser,
 }
 
+impl Var {
+  /// # Safety
+  ///
+  /// See [`std::env::set_var`].
+  pub unsafe fn set(self, value: impl AsRef<OsStr>) {
+    unsafe { env::set_var(self, value) }
+  }
+
+  /// # Safety
+  ///
+  /// See [`std::env::remove_var`].
+  pub unsafe fn remove(self) {
+    unsafe { env::remove_var(self) }
+  }
+}
+
 impl AsRef<OsStr> for Var {
   fn as_ref(&self) -> &OsStr {
     OsStr::new(<Var as AsRef<str>>::as_ref(self))

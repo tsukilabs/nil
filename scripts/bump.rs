@@ -16,10 +16,13 @@ path = "../crates/nil-util"
 
 use anyhow::Result;
 use clap::Parser;
-use nil_util::spawn;
+use nil_util::{spawn, spawn_fmt};
 
 #[derive(Parser)]
 struct Args {
+  #[arg(long)]
+  ask: bool,
+
   #[arg(long)]
   major: bool,
 
@@ -30,12 +33,18 @@ struct Args {
 fn main() -> Result<()> {
   let args = Args::parse();
 
-  if args.major {
-    spawn!("miho bump major -k")?;
+  let command = if args.major {
+    "miho bump major"
   } else if args.minor {
-    spawn!("miho bump minor -k")?;
+    "miho bump minor"
   } else {
-    spawn!("miho bump -k")?;
+    "miho bump"
+  };
+
+  if args.ask {
+    spawn!(command)?;
+  } else {
+    spawn_fmt!("{command} -k")?;
   }
 
   spawn!("pnpm run format")?;
