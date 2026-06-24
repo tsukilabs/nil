@@ -23,19 +23,19 @@ impl Stability {
   }
 }
 
-impl const Default for Stability {
+const impl Default for Stability {
   fn default() -> Self {
     Self::MAX
   }
 }
 
-impl const From<f64> for Stability {
+const impl From<f64> for Stability {
   fn from(value: f64) -> Self {
     Self::new(value)
   }
 }
 
-impl const From<Stability> for f64 {
+const impl From<Stability> for f64 {
   fn from(value: Stability) -> Self {
     value.0
   }

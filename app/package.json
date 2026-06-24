@@ -1,7 +1,7 @@
 {
   "name": "ui",
   "type": "module",
-  "packageManager": "pnpm@11.1.3",
+  "packageManager": "pnpm@11.9.0",
   "license": "AGPL-3.0-only",
   "private": true,
   "scripts": {
@@ -13,6 +13,6 @@
     "@tsukilabs/nil-bindings": "workspace:*"
   },
   "devDependencies": {
-    "tailwindcss": "=4.3.0"
+    "tailwindcss": "=4.3.1"
   }
 }

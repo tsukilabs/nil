@@ -25,19 +25,19 @@ impl Power {
   }
 }
 
-impl const From<u32> for Power {
+const impl From<u32> for Power {
   fn from(value: u32) -> Self {
     Power::new(value)
   }
 }
 
-impl const From<Power> for u32 {
+const impl From<Power> for u32 {
   fn from(value: Power) -> Self {
     value.0
   }
 }
 
-impl const From<Power> for f64 {
+const impl From<Power> for f64 {
   fn from(value: Power) -> Self {
     f64::from(value.0)
   }
@@ -73,7 +73,7 @@ impl<'a> Sum<&'a Army> for Power {
   }
 }
 
-impl const Add for Power {
+const impl Add for Power {
   type Output = Power;
 
   fn add(self, rhs: Self) -> Self::Output {
@@ -81,13 +81,13 @@ impl const Add for Power {
   }
 }
 
-impl const AddAssign for Power {
+const impl AddAssign for Power {
   fn add_assign(&mut self, rhs: Self) {
     *self = *self + rhs;
   }
 }
 
-impl const Sub for Power {
+const impl Sub for Power {
   type Output = Power;
 
   fn sub(self, rhs: Self) -> Self::Output {
@@ -95,7 +95,7 @@ impl const Sub for Power {
   }
 }
 
-impl const Mul for Power {
+const impl Mul for Power {
   type Output = Power;
 
   fn mul(self, rhs: Self) -> Self::Output {
@@ -103,7 +103,7 @@ impl const Mul for Power {
   }
 }
 
-impl const Mul<u32> for Power {
+const impl Mul<u32> for Power {
   type Output = Power;
 
   fn mul(self, rhs: u32) -> Self::Output {
@@ -111,7 +111,7 @@ impl const Mul<u32> for Power {
   }
 }
 
-impl const Mul<Power> for u32 {
+const impl Mul<Power> for u32 {
   type Output = u32;
 
   fn mul(self, rhs: Power) -> Self::Output {
@@ -119,7 +119,7 @@ impl const Mul<Power> for u32 {
   }
 }
 
-impl const Mul<RangedDebuff> for Power {
+const impl Mul<RangedDebuff> for Power {
   type Output = f64;
 
   fn mul(self, rhs: RangedDebuff) -> Self::Output {
@@ -127,7 +127,7 @@ impl const Mul<RangedDebuff> for Power {
   }
 }
 
-impl const Mul<SquadSize> for Power {
+const impl Mul<SquadSize> for Power {
   type Output = Power;
 
   fn mul(self, rhs: SquadSize) -> Self::Output {
@@ -135,19 +135,19 @@ impl const Mul<SquadSize> for Power {
   }
 }
 
-impl const MulAssign<u32> for Power {
+const impl MulAssign<u32> for Power {
   fn mul_assign(&mut self, rhs: u32) {
     *self = *self * rhs;
   }
 }
 
-impl const MulAssign<SquadSize> for Power {
+const impl MulAssign<SquadSize> for Power {
   fn mul_assign(&mut self, rhs: SquadSize) {
     *self = *self * rhs;
   }
 }
 
-impl const Div for Power {
+const impl Div for Power {
   type Output = Power;
 
   fn div(self, rhs: Self) -> Self::Output {
@@ -155,7 +155,7 @@ impl const Div for Power {
   }
 }
 
-impl const Div<u32> for Power {
+const impl Div<u32> for Power {
   type Output = Power;
 
   fn div(self, rhs: u32) -> Self::Output {
@@ -163,7 +163,7 @@ impl const Div<u32> for Power {
   }
 }
 
-impl const Div<Power> for u32 {
+const impl Div<Power> for u32 {
   type Output = u32;
 
   fn div(self, rhs: Power) -> Self::Output {
@@ -185,13 +185,13 @@ impl AttackPower {
   }
 }
 
-impl const From<u32> for AttackPower {
+const impl From<u32> for AttackPower {
   fn from(value: u32) -> Self {
     Self(Power::new(value))
   }
 }
 
-impl const From<AttackPower> for f64 {
+const impl From<AttackPower> for f64 {
   fn from(value: AttackPower) -> Self {
     f64::from(value.0)
   }
@@ -241,7 +241,7 @@ impl AddAssign for AttackPower {
   }
 }
 
-impl const Mul<u32> for AttackPower {
+const impl Mul<u32> for AttackPower {
   type Output = AttackPower;
 
   fn mul(self, rhs: u32) -> Self::Output {
@@ -249,7 +249,7 @@ impl const Mul<u32> for AttackPower {
   }
 }
 
-impl const Mul<RangedDebuff> for AttackPower {
+const impl Mul<RangedDebuff> for AttackPower {
   type Output = f64;
 
   fn mul(self, rhs: RangedDebuff) -> Self::Output {
@@ -257,7 +257,7 @@ impl const Mul<RangedDebuff> for AttackPower {
   }
 }
 
-impl const Mul<SquadSize> for AttackPower {
+const impl Mul<SquadSize> for AttackPower {
   type Output = AttackPower;
 
   fn mul(self, rhs: SquadSize) -> Self::Output {
@@ -331,7 +331,7 @@ impl<'a> Sum<&'a Army> for DefensePower {
   }
 }
 
-impl const Add for DefensePower {
+const impl Add for DefensePower {
   type Output = DefensePower;
 
   fn add(mut self, rhs: Self) -> Self::Output {
@@ -342,13 +342,13 @@ impl const Add for DefensePower {
   }
 }
 
-impl const AddAssign for DefensePower {
+const impl AddAssign for DefensePower {
   fn add_assign(&mut self, rhs: Self) {
     *self = *self + rhs;
   }
 }
 
-impl const Mul<u32> for DefensePower {
+const impl Mul<u32> for DefensePower {
   type Output = DefensePower;
 
   fn mul(mut self, rhs: u32) -> Self::Output {
@@ -359,7 +359,7 @@ impl const Mul<u32> for DefensePower {
   }
 }
 
-impl const Mul<SquadSize> for DefensePower {
+const impl Mul<SquadSize> for DefensePower {
   type Output = DefensePower;
 
   fn mul(self, rhs: SquadSize) -> Self::Output {
@@ -367,13 +367,13 @@ impl const Mul<SquadSize> for DefensePower {
   }
 }
 
-impl const MulAssign<u32> for DefensePower {
+const impl MulAssign<u32> for DefensePower {
   fn mul_assign(&mut self, rhs: u32) {
     *self = *self * rhs;
   }
 }
 
-impl const MulAssign<SquadSize> for DefensePower {
+const impl MulAssign<SquadSize> for DefensePower {
   fn mul_assign(&mut self, rhs: SquadSize) {
     *self = *self * rhs;
   }

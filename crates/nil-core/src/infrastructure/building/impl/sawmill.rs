@@ -50,7 +50,7 @@ impl Sawmill {
     InfrastructureRequirements::none();
 }
 
-impl const Default for Sawmill {
+const impl Default for Sawmill {
   fn default() -> Self {
     Self {
       level: BuildingLevel::new(1),

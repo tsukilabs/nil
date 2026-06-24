@@ -289,13 +289,13 @@ impl UnitChunkSize {
   }
 }
 
-impl const From<UnitChunkSize> for f64 {
+const impl From<UnitChunkSize> for f64 {
   fn from(value: UnitChunkSize) -> Self {
     f64::from(value.0)
   }
 }
 
-impl const Mul<u32> for UnitChunkSize {
+const impl Mul<u32> for UnitChunkSize {
   type Output = u32;
 
   fn mul(self, rhs: u32) -> Self::Output {
@@ -303,7 +303,7 @@ impl const Mul<u32> for UnitChunkSize {
   }
 }
 
-impl const Mul<NonZeroU32> for UnitChunkSize {
+const impl Mul<NonZeroU32> for UnitChunkSize {
   type Output = u32;
 
   fn mul(self, rhs: NonZeroU32) -> Self::Output {

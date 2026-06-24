@@ -50,7 +50,7 @@ impl IronMine {
     InfrastructureRequirements::none();
 }
 
-impl const Default for IronMine {
+const impl Default for IronMine {
   fn default() -> Self {
     Self {
       level: BuildingLevel::new(1),

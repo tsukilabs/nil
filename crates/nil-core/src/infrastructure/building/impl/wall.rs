@@ -59,7 +59,7 @@ impl Wall {
       .build();
 }
 
-impl const Default for Wall {
+const impl Default for Wall {
   fn default() -> Self {
     Self {
       level: BuildingLevel::ZERO,
@@ -156,13 +156,13 @@ impl WallDefense {
   }
 }
 
-impl const From<WallDefense> for f64 {
+const impl From<WallDefense> for f64 {
   fn from(value: WallDefense) -> Self {
     f64::from(value.0)
   }
 }
 
-impl const From<f64> for WallDefense {
+const impl From<f64> for WallDefense {
   fn from(value: f64) -> Self {
     debug_assert!(value >= 0.0);
     debug_assert!(value.is_finite());
@@ -184,13 +184,13 @@ impl WallDefenseBonus {
   }
 }
 
-impl const From<WallDefenseBonus> for f64 {
+const impl From<WallDefenseBonus> for f64 {
   fn from(value: WallDefenseBonus) -> Self {
     value.0
   }
 }
 
-impl const From<f64> for WallDefenseBonus {
+const impl From<f64> for WallDefenseBonus {
   fn from(value: f64) -> Self {
     Self::new(value)
   }

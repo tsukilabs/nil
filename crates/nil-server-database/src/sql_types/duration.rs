@@ -36,13 +36,13 @@ where
   }
 }
 
-impl const From<RoundDuration> for db_Duration {
+const impl From<RoundDuration> for db_Duration {
   fn from(duration: RoundDuration) -> Self {
     Self(Duration::from(duration))
   }
 }
 
-impl const From<db_Duration> for RoundDuration {
+const impl From<db_Duration> for RoundDuration {
   fn from(value: db_Duration) -> Self {
     RoundDuration::from(value.0)
   }

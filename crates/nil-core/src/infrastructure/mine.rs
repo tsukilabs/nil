@@ -99,13 +99,13 @@ impl MineProduction {
   }
 }
 
-impl const From<f64> for MineProduction {
+const impl From<f64> for MineProduction {
   fn from(value: f64) -> Self {
     Self::new(value as u32)
   }
 }
 
-impl const From<MineProduction> for f64 {
+const impl From<MineProduction> for f64 {
   fn from(value: MineProduction) -> Self {
     f64::from(value.0)
   }

@@ -32,31 +32,31 @@ impl Haul {
   }
 }
 
-impl const PartialEq<u32> for Haul {
+const impl PartialEq<u32> for Haul {
   fn eq(&self, other: &u32) -> bool {
     self.0.eq(other)
   }
 }
 
-impl const PartialOrd<u32> for Haul {
+const impl PartialOrd<u32> for Haul {
   fn partial_cmp(&self, other: &u32) -> Option<Ordering> {
     Some(self.0.cmp(other))
   }
 }
 
-impl const PartialEq<StorageCapacity> for Haul {
+const impl PartialEq<StorageCapacity> for Haul {
   fn eq(&self, other: &StorageCapacity) -> bool {
     self.0.eq(&**other)
   }
 }
 
-impl const PartialOrd<StorageCapacity> for Haul {
+const impl PartialOrd<StorageCapacity> for Haul {
   fn partial_cmp(&self, other: &StorageCapacity) -> Option<Ordering> {
     Some(self.0.cmp(&**other))
   }
 }
 
-impl const From<StorageCapacity> for Haul {
+const impl From<StorageCapacity> for Haul {
   fn from(value: StorageCapacity) -> Self {
     Haul::new(*value)
   }
@@ -92,7 +92,7 @@ impl<'a> Sum<&'a Army> for Haul {
   }
 }
 
-impl const Add for Haul {
+const impl Add for Haul {
   type Output = Haul;
 
   fn add(self, rhs: Self) -> Self::Output {
@@ -100,13 +100,13 @@ impl const Add for Haul {
   }
 }
 
-impl const AddAssign for Haul {
+const impl AddAssign for Haul {
   fn add_assign(&mut self, rhs: Self) {
     *self = *self + rhs;
   }
 }
 
-impl const Mul<SquadSize> for Haul {
+const impl Mul<SquadSize> for Haul {
   type Output = Haul;
 
   fn mul(self, rhs: SquadSize) -> Self::Output {
@@ -114,13 +114,13 @@ impl const Mul<SquadSize> for Haul {
   }
 }
 
-impl const MulAssign<SquadSize> for Haul {
+const impl MulAssign<SquadSize> for Haul {
   fn mul_assign(&mut self, rhs: SquadSize) {
     *self = *self * rhs;
   }
 }
 
-impl const Mul<f64> for Haul {
+const impl Mul<f64> for Haul {
   type Output = Haul;
 
   fn mul(self, rhs: f64) -> Self::Output {

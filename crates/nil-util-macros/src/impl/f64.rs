@@ -33,7 +33,7 @@ fn impl_add(ast: &DeriveInput) -> TokenStream {
   let name = &ast.ident;
   let stream = quote! {
     #[automatically_derived]
-    impl const ::core::ops::Add<f64> for #name {
+    const impl ::core::ops::Add<f64> for #name {
       type Output = f64;
 
       fn add(self, rhs: f64) -> Self::Output {
@@ -42,7 +42,7 @@ fn impl_add(ast: &DeriveInput) -> TokenStream {
     }
 
     #[automatically_derived]
-    impl const ::core::ops::Add<#name> for f64 {
+    const impl ::core::ops::Add<#name> for f64 {
       type Output = f64;
 
       fn add(self, rhs: #name) -> Self::Output {
@@ -58,7 +58,7 @@ fn impl_add_assign(ast: &DeriveInput) -> TokenStream {
   let name = &ast.ident;
   let stream = quote! {
     #[automatically_derived]
-    impl const ::core::ops::AddAssign<#name> for f64 {
+    const impl ::core::ops::AddAssign<#name> for f64 {
       fn add_assign(&mut self, rhs: #name) {
         *self = *self + f64::from(rhs);
       }
@@ -72,7 +72,7 @@ fn impl_sub(ast: &DeriveInput) -> TokenStream {
   let name = &ast.ident;
   let stream = quote! {
     #[automatically_derived]
-    impl const ::core::ops::Sub<f64> for #name {
+    const impl ::core::ops::Sub<f64> for #name {
       type Output = f64;
 
       fn sub(self, rhs: f64) -> Self::Output {
@@ -81,7 +81,7 @@ fn impl_sub(ast: &DeriveInput) -> TokenStream {
     }
 
     #[automatically_derived]
-    impl const ::core::ops::Sub<#name> for f64 {
+    const impl ::core::ops::Sub<#name> for f64 {
       type Output = f64;
 
       fn sub(self, rhs: #name) -> Self::Output {
@@ -97,7 +97,7 @@ fn impl_sub_assign(ast: &DeriveInput) -> TokenStream {
   let name = &ast.ident;
   let stream = quote! {
     #[automatically_derived]
-    impl const ::core::ops::SubAssign<#name> for f64 {
+    const impl ::core::ops::SubAssign<#name> for f64 {
       fn sub_assign(&mut self, rhs: #name) {
         *self = *self - f64::from(rhs);
       }
@@ -111,7 +111,7 @@ fn impl_mul(ast: &DeriveInput) -> TokenStream {
   let name = &ast.ident;
   let stream = quote! {
     #[automatically_derived]
-    impl const ::core::ops::Mul<f64> for #name {
+    const impl ::core::ops::Mul<f64> for #name {
       type Output = f64;
 
       fn mul(self, rhs: f64) -> Self::Output {
@@ -120,7 +120,7 @@ fn impl_mul(ast: &DeriveInput) -> TokenStream {
     }
 
     #[automatically_derived]
-    impl const ::core::ops::Mul<#name> for f64 {
+    const impl ::core::ops::Mul<#name> for f64 {
       type Output = f64;
 
       fn mul(self, rhs: #name) -> Self::Output {
@@ -136,7 +136,7 @@ fn impl_mul_assign(ast: &DeriveInput) -> TokenStream {
   let name = &ast.ident;
   let stream = quote! {
     #[automatically_derived]
-    impl const ::core::ops::MulAssign<#name> for f64 {
+    const impl ::core::ops::MulAssign<#name> for f64 {
       fn mul_assign(&mut self, rhs: #name) {
         *self = *self * f64::from(rhs);
       }
@@ -150,7 +150,7 @@ fn impl_div(ast: &DeriveInput) -> TokenStream {
   let name = &ast.ident;
   let stream = quote! {
     #[automatically_derived]
-    impl const ::core::ops::Div<f64> for #name {
+    const impl ::core::ops::Div<f64> for #name {
       type Output = f64;
 
       fn div(self, rhs: f64) -> Self::Output {
@@ -159,7 +159,7 @@ fn impl_div(ast: &DeriveInput) -> TokenStream {
     }
 
     #[automatically_derived]
-    impl const ::core::ops::Div<#name> for f64 {
+    const impl ::core::ops::Div<#name> for f64 {
       type Output = f64;
 
       fn div(self, rhs: #name) -> Self::Output {
@@ -175,7 +175,7 @@ fn impl_div_assign(ast: &DeriveInput) -> TokenStream {
   let name = &ast.ident;
   let stream = quote! {
     #[automatically_derived]
-    impl const ::core::ops::DivAssign<#name> for f64 {
+    const impl ::core::ops::DivAssign<#name> for f64 {
       fn div_assign(&mut self, rhs: #name) {
         *self = *self / f64::from(rhs);
       }

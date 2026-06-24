@@ -32,31 +32,31 @@ impl Workforce {
   }
 }
 
-impl const From<u32> for Workforce {
+const impl From<u32> for Workforce {
   fn from(value: u32) -> Self {
     Workforce::new(value)
   }
 }
 
-impl const From<Workforce> for u32 {
+const impl From<Workforce> for u32 {
   fn from(value: Workforce) -> Self {
     value.0
   }
 }
 
-impl const From<Workforce> for f64 {
+const impl From<Workforce> for f64 {
   fn from(value: Workforce) -> Self {
     f64::from(value.0)
   }
 }
 
-impl const From<BuildingLevel> for Workforce {
+const impl From<BuildingLevel> for Workforce {
   fn from(value: BuildingLevel) -> Self {
     Workforce(u32::from(value))
   }
 }
 
-impl const From<f64> for Workforce {
+const impl From<f64> for Workforce {
   fn from(value: f64) -> Self {
     debug_assert!(value >= 0.0);
     debug_assert!(value.is_finite());
@@ -64,19 +64,19 @@ impl const From<f64> for Workforce {
   }
 }
 
-impl const PartialEq<u32> for Workforce {
+const impl PartialEq<u32> for Workforce {
   fn eq(&self, other: &u32) -> bool {
     self.0.eq(other)
   }
 }
 
-impl const PartialOrd<u32> for Workforce {
+const impl PartialOrd<u32> for Workforce {
   fn partial_cmp(&self, other: &u32) -> Option<Ordering> {
     self.0.partial_cmp(other)
   }
 }
 
-impl const Add for Workforce {
+const impl Add for Workforce {
   type Output = Workforce;
 
   fn add(self, rhs: Self) -> Self::Output {
@@ -84,13 +84,13 @@ impl const Add for Workforce {
   }
 }
 
-impl const AddAssign for Workforce {
+const impl AddAssign for Workforce {
   fn add_assign(&mut self, rhs: Self) {
     *self = *self + rhs;
   }
 }
 
-impl const Sub for Workforce {
+const impl Sub for Workforce {
   type Output = Workforce;
 
   fn sub(self, rhs: Self) -> Self::Output {
@@ -98,13 +98,13 @@ impl const Sub for Workforce {
   }
 }
 
-impl const SubAssign for Workforce {
+const impl SubAssign for Workforce {
   fn sub_assign(&mut self, rhs: Self) {
     *self = *self - rhs;
   }
 }
 
-impl const Mul for Workforce {
+const impl Mul for Workforce {
   type Output = Workforce;
 
   fn mul(self, rhs: Workforce) -> Self::Output {
@@ -112,7 +112,7 @@ impl const Mul for Workforce {
   }
 }
 
-impl const Mul<u32> for Workforce {
+const impl Mul<u32> for Workforce {
   type Output = Workforce;
 
   fn mul(self, rhs: u32) -> Self::Output {
@@ -120,7 +120,7 @@ impl const Mul<u32> for Workforce {
   }
 }
 
-impl const Mul<NonZeroU32> for Workforce {
+const impl Mul<NonZeroU32> for Workforce {
   type Output = Workforce;
 
   fn mul(self, rhs: NonZeroU32) -> Self::Output {
@@ -128,7 +128,7 @@ impl const Mul<NonZeroU32> for Workforce {
   }
 }
 
-impl const Mul<Stability> for Workforce {
+const impl Mul<Stability> for Workforce {
   type Output = Workforce;
 
   fn mul(self, rhs: Stability) -> Self::Output {
@@ -136,13 +136,13 @@ impl const Mul<Stability> for Workforce {
   }
 }
 
-impl const MulAssign for Workforce {
+const impl MulAssign for Workforce {
   fn mul_assign(&mut self, rhs: Self) {
     *self = *self * rhs;
   }
 }
 
-impl const MulAssign<Stability> for Workforce {
+const impl MulAssign<Stability> for Workforce {
   fn mul_assign(&mut self, rhs: Stability) {
     *self = *self * rhs;
   }

@@ -28,13 +28,7 @@ use axum::response::Redirect;
 use axum::routing::{any, get, post, put};
 use axum::{Router, middleware};
 use tower_http::cors::{Any, CorsLayer};
-use tower_http::trace::{
-  DefaultMakeSpan,
-  DefaultOnFailure,
-  DefaultOnRequest,
-  DefaultOnResponse,
-  TraceLayer,
-};
+use tower_http::trace::{DefaultMakeSpan, DefaultOnFailure, DefaultOnResponse, TraceLayer};
 use tracing::Level;
 
 #[expect(clippy::too_many_lines)]
@@ -158,7 +152,7 @@ pub(crate) fn create() -> Router<App> {
     .route("/simulate-battle", put(battle::simulate))
     .route("/user-exists", put(user::exists))
     .route("/validate-token", put(auth::validate_token))
-    
+
     // Files.
     .route("/license", any(license))
     .route("/robots.txt", any(robots_txt));
@@ -166,11 +160,11 @@ pub(crate) fn create() -> Router<App> {
   router.merge(with_cors()).layer(
     TraceLayer::new_for_http()
       .make_span_with(DefaultMakeSpan::new().include_headers(true))
-      .on_request(DefaultOnRequest::new().level(Level::TRACE))
       .on_response(DefaultOnResponse::new().level(Level::TRACE))
       .on_failure(DefaultOnFailure::new().level(Level::TRACE))
       .on_body_chunk(())
-      .on_eos(()),
+      .on_eos(())
+      .on_request(()),
   )
 }
 

@@ -9,6 +9,7 @@ import { useRoute } from "vue-router";
 import * as commands from "@/commands";
 import { whenever } from "@vueuse/core";
 import type { Option } from "@tb-dev/utils";
+import Loading from "@/components/Loading.vue";
 import SupportReport from "./SupportReport.vue";
 import { useRouteParams } from "@vueuse/router";
 import type { ReportScene } from "@/types/scene/game";
@@ -32,7 +33,7 @@ const { t } = useI18n({
 const route = useRoute();
 
 const reportId = useRouteParams<Option<ReportId>>("id", null);
-const { report } = useReport(reportId);
+const { report, loading } = useReport(reportId);
 
 const { sm } = useBreakpoints();
 
@@ -74,29 +75,32 @@ async function remove() {
       </CardHeader>
 
       <CardContent class="size-full flex flex-col gap-6 overflow-auto px-2 py-0">
-        <BattleReport v-if="report && (report instanceof BattleReportImpl)" :report />
-        <SupportReport v-else-if="report && (report instanceof SupportReportImpl)" :report />
+        <Loading v-if="loading" />
+        <template v-else>
+          <BattleReport v-if="report && (report instanceof BattleReportImpl)" :report />
+          <SupportReport v-else-if="report && (report instanceof SupportReportImpl)" :report />
 
-        <div v-if="report" class="grid grid-cols-2 items-center justify-start gap-4 max-w-max">
-          <Button
-            variant="default"
-            :size="sm ? 'default' : 'xs'"
-            :disabled="locked"
-            role="link"
-            tabindex="0"
-            @click="goToReportForwardScene"
-          >
-            <span>{{ t("forward") }}</span>
-          </Button>
-          <Button
-            variant="destructive"
-            :size="sm ? 'default' : 'xs'"
-            :disabled="locked"
-            @click="remove"
-          >
-            <span>{{ t("remove") }}</span>
-          </Button>
-        </div>
+          <div v-if="report" class="grid grid-cols-2 items-center justify-start gap-4 max-w-max">
+            <Button
+              variant="default"
+              :size="sm ? 'default' : 'xs'"
+              :disabled="locked"
+              role="link"
+              tabindex="0"
+              @click="goToReportForwardScene"
+            >
+              <span>{{ t("forward") }}</span>
+            </Button>
+            <Button
+              variant="destructive"
+              :size="sm ? 'default' : 'xs'"
+              :disabled="locked"
+              @click="remove"
+            >
+              <span>{{ t("remove") }}</span>
+            </Button>
+          </div>
+        </template>
       </CardContent>
     </Card>
   </div>

@@ -98,7 +98,7 @@ fn within_distance(origin: Coord, distance: Distance, inclusive: bool) -> Vec<Co
   coords.into_iter().unique().collect()
 }
 
-impl const Add for Coord {
+const impl Add for Coord {
   type Output = Coord;
 
   fn add(self, rhs: Self) -> Self::Output {
@@ -106,7 +106,7 @@ impl const Add for Coord {
   }
 }
 
-impl const Sub for Coord {
+const impl Sub for Coord {
   type Output = Coord;
 
   fn sub(self, rhs: Self) -> Self::Output {
@@ -114,7 +114,7 @@ impl const Sub for Coord {
   }
 }
 
-impl const From<(u8, u8)> for Coord {
+const impl From<(u8, u8)> for Coord {
   fn from((x, y): (u8, u8)) -> Self {
     Self::new(x, y)
   }
@@ -217,37 +217,37 @@ impl Distance {
   }
 }
 
-impl const From<u8> for Distance {
+const impl From<u8> for Distance {
   fn from(value: u8) -> Self {
     Self(value)
   }
 }
 
-impl const From<Distance> for u8 {
+const impl From<Distance> for u8 {
   fn from(value: Distance) -> Self {
     value.0
   }
 }
 
-impl const From<Distance> for i16 {
+const impl From<Distance> for i16 {
   fn from(value: Distance) -> Self {
     i16::from(value.0)
   }
 }
 
-impl const From<Distance> for f64 {
+const impl From<Distance> for f64 {
   fn from(value: Distance) -> Self {
     f64::from(value.0)
   }
 }
 
-impl const PartialEq<u8> for Distance {
+const impl PartialEq<u8> for Distance {
   fn eq(&self, other: &u8) -> bool {
     self.0.eq(other)
   }
 }
 
-impl const Add for Distance {
+const impl Add for Distance {
   type Output = Distance;
 
   fn add(self, rhs: Self) -> Self::Output {
@@ -255,13 +255,13 @@ impl const Add for Distance {
   }
 }
 
-impl const AddAssign for Distance {
+const impl AddAssign for Distance {
   fn add_assign(&mut self, rhs: Self) {
     *self = *self + rhs;
   }
 }
 
-impl const Sub for Distance {
+const impl Sub for Distance {
   type Output = Distance;
 
   fn sub(self, rhs: Self) -> Self::Output {
@@ -269,13 +269,13 @@ impl const Sub for Distance {
   }
 }
 
-impl const SubAssign for Distance {
+const impl SubAssign for Distance {
   fn sub_assign(&mut self, rhs: Self) {
     *self = *self - rhs;
   }
 }
 
-impl const Add<u8> for Distance {
+const impl Add<u8> for Distance {
   type Output = Distance;
 
   fn add(self, rhs: u8) -> Self::Output {
@@ -283,13 +283,13 @@ impl const Add<u8> for Distance {
   }
 }
 
-impl const AddAssign<u8> for Distance {
+const impl AddAssign<u8> for Distance {
   fn add_assign(&mut self, rhs: u8) {
     *self = *self + rhs;
   }
 }
 
-impl const Sub<u8> for Distance {
+const impl Sub<u8> for Distance {
   type Output = Distance;
 
   fn sub(self, rhs: u8) -> Self::Output {
@@ -297,7 +297,7 @@ impl const Sub<u8> for Distance {
   }
 }
 
-impl const SubAssign<u8> for Distance {
+const impl SubAssign<u8> for Distance {
   fn sub_assign(&mut self, rhs: u8) {
     *self = *self - rhs;
   }

@@ -26,37 +26,37 @@ impl Score {
   }
 }
 
-impl const From<u32> for Score {
+const impl From<u32> for Score {
   fn from(value: u32) -> Self {
     Self::new(value)
   }
 }
 
-impl const From<Score> for u32 {
+const impl From<Score> for u32 {
   fn from(value: Score) -> Self {
     value.0
   }
 }
 
-impl const From<f64> for Score {
+const impl From<f64> for Score {
   fn from(value: f64) -> Self {
     Self::new(value as u32)
   }
 }
 
-impl const From<Score> for f64 {
+const impl From<Score> for f64 {
   fn from(value: Score) -> Self {
     f64::from(value.0)
   }
 }
 
-impl const PartialEq<u32> for Score {
+const impl PartialEq<u32> for Score {
   fn eq(&self, other: &u32) -> bool {
     self.0.eq(other)
   }
 }
 
-impl const PartialOrd<u32> for Score {
+const impl PartialOrd<u32> for Score {
   fn partial_cmp(&self, other: &u32) -> Option<Ordering> {
     self.0.partial_cmp(other)
   }
@@ -92,7 +92,7 @@ impl<'a> Sum<&'a Army> for Score {
   }
 }
 
-impl const Add for Score {
+const impl Add for Score {
   type Output = Score;
 
   fn add(self, rhs: Self) -> Self::Output {
@@ -100,13 +100,13 @@ impl const Add for Score {
   }
 }
 
-impl const AddAssign for Score {
+const impl AddAssign for Score {
   fn add_assign(&mut self, rhs: Self) {
     *self = *self + rhs;
   }
 }
 
-impl const Add<u32> for Score {
+const impl Add<u32> for Score {
   type Output = Score;
 
   fn add(self, rhs: u32) -> Self::Output {
@@ -114,13 +114,13 @@ impl const Add<u32> for Score {
   }
 }
 
-impl const AddAssign<u32> for Score {
+const impl AddAssign<u32> for Score {
   fn add_assign(&mut self, rhs: u32) {
     *self = *self + rhs;
   }
 }
 
-impl const Sub for Score {
+const impl Sub for Score {
   type Output = Score;
 
   fn sub(self, rhs: Self) -> Self::Output {
@@ -128,13 +128,13 @@ impl const Sub for Score {
   }
 }
 
-impl const SubAssign for Score {
+const impl SubAssign for Score {
   fn sub_assign(&mut self, rhs: Self) {
     *self = *self - rhs;
   }
 }
 
-impl const Mul for Score {
+const impl Mul for Score {
   type Output = Score;
 
   fn mul(self, rhs: Score) -> Self::Output {
@@ -142,7 +142,7 @@ impl const Mul for Score {
   }
 }
 
-impl const Mul<u32> for Score {
+const impl Mul<u32> for Score {
   type Output = Score;
 
   fn mul(self, rhs: u32) -> Self::Output {
@@ -150,7 +150,7 @@ impl const Mul<u32> for Score {
   }
 }
 
-impl const MulAssign for Score {
+const impl MulAssign for Score {
   fn mul_assign(&mut self, rhs: Self) {
     *self = *self * rhs;
   }

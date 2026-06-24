@@ -5,7 +5,7 @@ edition = "2024"
 
 [dependencies]
 anyhow = "1.0"
-cargo_toml = "0.22"
+cargo_toml = "1.0"
 
 [dependencies.nil-util]
 path = "../crates/nil-util"
@@ -43,8 +43,7 @@ fn main() -> Result<()> {
   let version = Manifest::from_path("Cargo.toml")?
     .workspace
     .and_then(|workspace| workspace.package?.version)
-    .expect("failed to get workspace version")
-    .parse::<Version>()?;
+    .expect("failed to get workspace version");
 
   for entry in fs::read_dir("crates")? {
     let path = entry?.path().join("Cargo.toml");

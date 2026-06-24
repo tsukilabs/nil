@@ -12,7 +12,7 @@ pub fn impl_const_deref(ast: &DeriveInput) -> TokenStream {
 
   let stream = quote! {
     #[automatically_derived]
-    impl const ::core::ops::Deref for #name {
+    const impl ::core::ops::Deref for #name {
       type Target = #inner;
 
       fn deref(&self) -> &Self::Target {

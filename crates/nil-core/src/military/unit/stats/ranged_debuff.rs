@@ -20,13 +20,13 @@ impl RangedDebuff {
   }
 }
 
-impl const From<RangedDebuff> for f64 {
+const impl From<RangedDebuff> for f64 {
   fn from(value: RangedDebuff) -> Self {
     value.0
   }
 }
 
-impl const Mul<u32> for RangedDebuff {
+const impl Mul<u32> for RangedDebuff {
   type Output = f64;
 
   fn mul(self, rhs: u32) -> Self::Output {

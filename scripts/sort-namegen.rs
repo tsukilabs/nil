@@ -5,7 +5,7 @@ edition = "2024"
 
 [dependencies]
 anyhow = "1.0"
-itertools = "0.14"
+itertools = "0.15"
 natord = "=1.0.9"
 
 [dependencies.nil-util]

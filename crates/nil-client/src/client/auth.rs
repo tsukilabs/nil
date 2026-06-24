@@ -25,7 +25,7 @@ impl Client {
     T: Into<ValidateTokenRequest>,
   {
     let retry = Retry::builder()
-      .attempts(unsafe { NonZeroU8::new_unchecked(3) })
+      .attempts(unsafe { NonZeroU8::new_unchecked(5) })
       .backoff(false)
       .build();
 

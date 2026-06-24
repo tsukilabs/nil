@@ -22,19 +22,19 @@ impl RoundDuration {
   }
 }
 
-impl const Default for RoundDuration {
+const impl Default for RoundDuration {
   fn default() -> Self {
     Self::MIN
   }
 }
 
-impl const From<u16> for RoundDuration {
+const impl From<u16> for RoundDuration {
   fn from(value: u16) -> Self {
     Self::new(value)
   }
 }
 
-impl const From<Duration> for RoundDuration {
+const impl From<Duration> for RoundDuration {
   fn from(value: Duration) -> Self {
     let mins = value.as_secs() / 60;
     u16::try_from(mins)
@@ -43,7 +43,7 @@ impl const From<Duration> for RoundDuration {
   }
 }
 
-impl const From<RoundDuration> for Duration {
+const impl From<RoundDuration> for Duration {
   fn from(value: RoundDuration) -> Self {
     Duration::from_mins(u64::from(value.0))
   }
