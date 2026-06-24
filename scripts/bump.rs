@@ -47,7 +47,7 @@ fn main() -> Result<()> {
     spawn_fmt!("{command} -k")?;
   }
 
-  spawn!("pnpm run format")?;
+  spawn!("just fmt")?;
 
   Ok(())
 }

@@ -748,9 +748,9 @@ checksum = "613afe47fcd5fac7ccf1db93babcb082c5994d996f20b8b159f2ad1658eb5724"
 
 [[package]]
 name = "chacha20"
-version = "0.10.0"
+version = "0.10.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6f8d983286843e49675a4b7a2d174efe136dc93a18d69130dd18198a6c167601"
+checksum = "d524456ba66e72eb8b115ff89e01e497f8e6d11d78b70b1aa13c0fbd97540a81"
 dependencies = [
  "cfg-if",
  "cpufeatures 0.3.0",
@@ -3448,7 +3448,7 @@ checksum = "650eef8c711430f1a879fdd01d4745a7deea475becfb90269c06775983bbf086"
 
 [[package]]
 name = "nil"
-version = "0.5.11"
+version = "0.5.12"
 dependencies = [
  "anyhow",
  "bon",
@@ -3489,7 +3489,7 @@ dependencies = [
 
 [[package]]
 name = "nil-client"
-version = "0.5.11"
+version = "0.5.12"
 dependencies = [
  "anyhow",
  "bon",
@@ -3523,7 +3523,7 @@ dependencies = [
 
 [[package]]
 name = "nil-core"
-version = "0.5.11"
+version = "0.5.12"
 dependencies = [
  "anyhow",
  "bon",
@@ -3557,7 +3557,7 @@ dependencies = [
 
 [[package]]
 name = "nil-core-macros"
-version = "0.5.11"
+version = "0.5.12"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -3566,7 +3566,7 @@ dependencies = [
 
 [[package]]
 name = "nil-crypto"
-version = "0.5.11"
+version = "0.5.12"
 dependencies = [
  "anyhow",
  "argon2",
@@ -3580,7 +3580,7 @@ dependencies = [
 
 [[package]]
 name = "nil-env"
-version = "0.5.11"
+version = "0.5.12"
 dependencies = [
  "anyhow",
  "serde",
@@ -3591,7 +3591,7 @@ dependencies = [
 
 [[package]]
 name = "nil-log"
-version = "0.5.11"
+version = "0.5.12"
 dependencies = [
  "anyhow",
  "bitflags 2.13.0",
@@ -3605,7 +3605,7 @@ dependencies = [
 
 [[package]]
 name = "nil-namegen"
-version = "0.5.11"
+version = "0.5.12"
 dependencies = [
  "itertools 0.15.0",
  "rand 0.10.1",
@@ -3614,7 +3614,7 @@ dependencies = [
 
 [[package]]
 name = "nil-num"
-version = "0.5.11"
+version = "0.5.12"
 dependencies = [
  "bon",
  "num-traits",
@@ -3624,7 +3624,7 @@ dependencies = [
 
 [[package]]
 name = "nil-payload"
-version = "0.5.11"
+version = "0.5.12"
 dependencies = [
  "axum",
  "bon",
@@ -3640,7 +3640,7 @@ dependencies = [
 
 [[package]]
 name = "nil-payload-macros"
-version = "0.5.11"
+version = "0.5.12"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -3649,7 +3649,7 @@ dependencies = [
 
 [[package]]
 name = "nil-server"
-version = "0.5.11"
+version = "0.5.12"
 dependencies = [
  "anyhow",
  "axum",
@@ -3689,7 +3689,7 @@ dependencies = [
 
 [[package]]
 name = "nil-server-database"
-version = "0.5.11"
+version = "0.5.12"
 dependencies = [
  "anyhow",
  "bon",
@@ -3714,7 +3714,7 @@ dependencies = [
 
 [[package]]
 name = "nil-server-types"
-version = "0.5.11"
+version = "0.5.12"
 dependencies = [
  "derive_more",
  "jiff",
@@ -3726,7 +3726,7 @@ dependencies = [
 
 [[package]]
 name = "nil-util"
-version = "0.5.11"
+version = "0.5.12"
 dependencies = [
  "anyhow",
  "nil-util-macros",
@@ -3734,7 +3734,7 @@ dependencies = [
 
 [[package]]
 name = "nil-util-macros"
-version = "0.5.11"
+version = "0.5.12"
 dependencies = [
  "proc-macro2",
  "quote",
