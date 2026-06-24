@@ -67,7 +67,7 @@ pub enum Numeral {
   M,
 }
 
-impl const From<Numeral> for u16 {
+const impl From<Numeral> for u16 {
   fn from(numeral: Numeral) -> Self {
     match numeral {
       Numeral::I => 1,
@@ -90,7 +90,7 @@ impl const From<Numeral> for u16 {
 macro_rules! impl_from_numeral {
   ($($target:ident),+ $(,)?) => {
     $(
-      impl const From<Numeral> for $target {
+      const impl From<Numeral> for $target {
         fn from(numeral: Numeral) -> Self {
           u16::from(numeral).into()
         }

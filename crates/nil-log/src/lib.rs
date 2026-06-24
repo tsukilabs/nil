@@ -122,7 +122,7 @@ bitflags! {
   }
 }
 
-impl const Default for Directives {
+const impl Default for Directives {
   fn default() -> Self {
     Self::all().difference(Self::TOWER_HTTP)
   }
@@ -136,7 +136,7 @@ bitflags! {
   }
 }
 
-impl const Default for Layers {
+const impl Default for Layers {
   fn default() -> Self {
     Self::STDERR
   }

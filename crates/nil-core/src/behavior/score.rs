@@ -27,51 +27,51 @@ impl BehaviorScore {
   }
 }
 
-impl const Default for BehaviorScore {
+const impl Default for BehaviorScore {
   fn default() -> Self {
     Self::MIN
   }
 }
 
-impl const From<f64> for BehaviorScore {
+const impl From<f64> for BehaviorScore {
   fn from(score: f64) -> Self {
     Self::new(score)
   }
 }
 
-impl const PartialEq for BehaviorScore {
+const impl PartialEq for BehaviorScore {
   fn eq(&self, other: &Self) -> bool {
     matches!(self.0.total_cmp(&other.0), Ordering::Equal)
   }
 }
 
-impl const Eq for BehaviorScore {}
+const impl Eq for BehaviorScore {}
 
-impl const PartialOrd for BehaviorScore {
+const impl PartialOrd for BehaviorScore {
   fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
     Some(self.cmp(other))
   }
 }
 
-impl const Ord for BehaviorScore {
+const impl Ord for BehaviorScore {
   fn cmp(&self, other: &Self) -> Ordering {
     self.0.total_cmp(&other.0)
   }
 }
 
-impl const PartialEq<f64> for BehaviorScore {
+const impl PartialEq<f64> for BehaviorScore {
   fn eq(&self, other: &f64) -> bool {
     self.0.eq(other)
   }
 }
 
-impl const PartialOrd<f64> for BehaviorScore {
+const impl PartialOrd<f64> for BehaviorScore {
   fn partial_cmp(&self, other: &f64) -> Option<Ordering> {
     self.0.partial_cmp(other)
   }
 }
 
-impl const Add<f64> for BehaviorScore {
+const impl Add<f64> for BehaviorScore {
   type Output = BehaviorScore;
 
   fn add(self, rhs: f64) -> Self::Output {
@@ -79,13 +79,13 @@ impl const Add<f64> for BehaviorScore {
   }
 }
 
-impl const AddAssign<f64> for BehaviorScore {
+const impl AddAssign<f64> for BehaviorScore {
   fn add_assign(&mut self, rhs: f64) {
     *self = *self + rhs;
   }
 }
 
-impl const Sub<f64> for BehaviorScore {
+const impl Sub<f64> for BehaviorScore {
   type Output = BehaviorScore;
 
   fn sub(self, rhs: f64) -> Self::Output {
@@ -93,13 +93,13 @@ impl const Sub<f64> for BehaviorScore {
   }
 }
 
-impl const SubAssign<f64> for BehaviorScore {
+const impl SubAssign<f64> for BehaviorScore {
   fn sub_assign(&mut self, rhs: f64) {
     *self = *self - rhs;
   }
 }
 
-impl const Mul<f64> for BehaviorScore {
+const impl Mul<f64> for BehaviorScore {
   type Output = BehaviorScore;
 
   fn mul(self, rhs: f64) -> Self::Output {
@@ -107,13 +107,13 @@ impl const Mul<f64> for BehaviorScore {
   }
 }
 
-impl const MulAssign<f64> for BehaviorScore {
+const impl MulAssign<f64> for BehaviorScore {
   fn mul_assign(&mut self, rhs: f64) {
     *self = *self * rhs;
   }
 }
 
-impl const Div<f64> for BehaviorScore {
+const impl Div<f64> for BehaviorScore {
   type Output = BehaviorScore;
 
   fn div(self, rhs: f64) -> Self::Output {
@@ -121,7 +121,7 @@ impl const Div<f64> for BehaviorScore {
   }
 }
 
-impl const DivAssign<f64> for BehaviorScore {
+const impl DivAssign<f64> for BehaviorScore {
   fn div_assign(&mut self, rhs: f64) {
     *self = *self / rhs;
   }

@@ -137,7 +137,7 @@ impl From<&dyn Precursor> for PublicPrecursor {
   }
 }
 
-impl<T> const From<&T> for PublicPrecursor
+const impl<T> From<&T> for PublicPrecursor
 where
   T: [const] Precursor,
 {

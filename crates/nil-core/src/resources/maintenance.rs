@@ -32,26 +32,26 @@ impl Maintenance {
   }
 }
 
-impl const From<u32> for Maintenance {
+const impl From<u32> for Maintenance {
   fn from(value: u32) -> Self {
     Self::new(value)
   }
 }
 
-impl const From<Maintenance> for u32 {
+const impl From<Maintenance> for u32 {
   fn from(value: Maintenance) -> Self {
     u32::from(value.0)
   }
 }
 
-impl const From<f64> for Maintenance {
+const impl From<f64> for Maintenance {
   fn from(value: f64) -> Self {
     debug_assert!(value.is_finite());
     Self::new(value as u32)
   }
 }
 
-impl const From<Maintenance> for f64 {
+const impl From<Maintenance> for f64 {
   fn from(value: Maintenance) -> Self {
     f64::from(value.0)
   }
@@ -87,7 +87,7 @@ impl<'a> Sum<&'a Army> for Maintenance {
   }
 }
 
-impl const Add for Maintenance {
+const impl Add for Maintenance {
   type Output = Self;
 
   fn add(self, rhs: Self) -> Self {
@@ -95,7 +95,7 @@ impl const Add for Maintenance {
   }
 }
 
-impl const Add<Food> for Maintenance {
+const impl Add<Food> for Maintenance {
   type Output = Self;
 
   fn add(self, rhs: Food) -> Self {
@@ -103,19 +103,19 @@ impl const Add<Food> for Maintenance {
   }
 }
 
-impl const AddAssign for Maintenance {
+const impl AddAssign for Maintenance {
   fn add_assign(&mut self, rhs: Self) {
     *self = Self(self.0 + rhs.0);
   }
 }
 
-impl const AddAssign<Food> for Maintenance {
+const impl AddAssign<Food> for Maintenance {
   fn add_assign(&mut self, rhs: Food) {
     *self = Self(self.0 + rhs);
   }
 }
 
-impl const Sub for Maintenance {
+const impl Sub for Maintenance {
   type Output = Self;
 
   fn sub(self, rhs: Self) -> Self {
@@ -123,7 +123,7 @@ impl const Sub for Maintenance {
   }
 }
 
-impl const Sub<Food> for Maintenance {
+const impl Sub<Food> for Maintenance {
   type Output = Self;
 
   fn sub(self, rhs: Food) -> Self {
@@ -131,7 +131,7 @@ impl const Sub<Food> for Maintenance {
   }
 }
 
-impl const Sub<Maintenance> for Food {
+const impl Sub<Maintenance> for Food {
   type Output = Self;
 
   fn sub(self, rhs: Maintenance) -> Self {
@@ -139,7 +139,7 @@ impl const Sub<Maintenance> for Food {
   }
 }
 
-impl const Sub<Maintenance> for FoodDiff {
+const impl Sub<Maintenance> for FoodDiff {
   type Output = Self;
 
   fn sub(self, rhs: Maintenance) -> Self {
@@ -147,31 +147,31 @@ impl const Sub<Maintenance> for FoodDiff {
   }
 }
 
-impl const SubAssign for Maintenance {
+const impl SubAssign for Maintenance {
   fn sub_assign(&mut self, rhs: Self) {
     *self = Self(self.0 - rhs.0);
   }
 }
 
-impl const SubAssign<Food> for Maintenance {
+const impl SubAssign<Food> for Maintenance {
   fn sub_assign(&mut self, rhs: Food) {
     *self = Self(self.0 - rhs);
   }
 }
 
-impl const SubAssign<Maintenance> for Food {
+const impl SubAssign<Maintenance> for Food {
   fn sub_assign(&mut self, rhs: Maintenance) {
     *self = *self - rhs.0;
   }
 }
 
-impl const SubAssign<Maintenance> for FoodDiff {
+const impl SubAssign<Maintenance> for FoodDiff {
   fn sub_assign(&mut self, rhs: Maintenance) {
     *self = *self - rhs.0;
   }
 }
 
-impl const Mul<u32> for Maintenance {
+const impl Mul<u32> for Maintenance {
   type Output = Maintenance;
 
   fn mul(self, rhs: u32) -> Self::Output {
@@ -179,7 +179,7 @@ impl const Mul<u32> for Maintenance {
   }
 }
 
-impl const Mul<NonZeroU32> for Maintenance {
+const impl Mul<NonZeroU32> for Maintenance {
   type Output = Maintenance;
 
   fn mul(self, rhs: NonZeroU32) -> Self::Output {
@@ -187,7 +187,7 @@ impl const Mul<NonZeroU32> for Maintenance {
   }
 }
 
-impl const Div<UnitChunkSize> for Maintenance {
+const impl Div<UnitChunkSize> for Maintenance {
   type Output = Maintenance;
 
   fn div(self, rhs: UnitChunkSize) -> Self::Output {
@@ -197,25 +197,25 @@ impl const Div<UnitChunkSize> for Maintenance {
   }
 }
 
-impl const PartialEq<Food> for Maintenance {
+const impl PartialEq<Food> for Maintenance {
   fn eq(&self, other: &Food) -> bool {
     self.0.eq(other)
   }
 }
 
-impl const PartialEq<Maintenance> for Food {
+const impl PartialEq<Maintenance> for Food {
   fn eq(&self, other: &Maintenance) -> bool {
     self.eq(&other.0)
   }
 }
 
-impl const PartialOrd<Food> for Maintenance {
+const impl PartialOrd<Food> for Maintenance {
   fn partial_cmp(&self, other: &Food) -> Option<Ordering> {
     self.0.partial_cmp(other)
   }
 }
 
-impl const PartialOrd<Maintenance> for Food {
+const impl PartialOrd<Maintenance> for Food {
   fn partial_cmp(&self, other: &Maintenance) -> Option<Ordering> {
     self.partial_cmp(&other.0)
   }
@@ -236,7 +236,7 @@ impl MaintenanceRatio {
   }
 }
 
-impl const From<MaintenanceRatio> for f64 {
+const impl From<MaintenanceRatio> for f64 {
   fn from(value: MaintenanceRatio) -> Self {
     value.0
   }
@@ -259,7 +259,7 @@ impl MaintenanceBalance {
   }
 }
 
-impl const Add<Maintenance> for MaintenanceBalance {
+const impl Add<Maintenance> for MaintenanceBalance {
   type Output = Self;
 
   fn add(self, rhs: Maintenance) -> Self::Output {

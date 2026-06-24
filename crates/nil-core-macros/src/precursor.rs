@@ -23,7 +23,7 @@ pub fn impl_precursor(ast: &DeriveInput) -> TokenStream {
       }
 
       #[automatically_derived]
-      impl const Precursor for #name {
+      const impl Precursor for #name {
         fn id(&self) -> PrecursorId {
           Self::ID
         }

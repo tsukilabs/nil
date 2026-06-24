@@ -33,7 +33,7 @@ pub struct AcademySettings {
   pub hide_unmet: bool,
 }
 
-impl const Default for AcademySettings {
+const impl Default for AcademySettings {
   fn default() -> Self {
     Self { hide_unmet: true }
   }
@@ -70,7 +70,7 @@ pub struct GeneralSettings {
   pub locale: Locale,
 }
 
-impl const Default for GeneralSettings {
+const impl Default for GeneralSettings {
   #[cfg_attr(not(windows), allow(clippy::derivable_impls))]
   fn default() -> Self {
     Self {
@@ -91,7 +91,7 @@ pub struct PrefectureSettings {
   pub hide_unmet: bool,
 }
 
-impl const Default for PrefectureSettings {
+const impl Default for PrefectureSettings {
   fn default() -> Self {
     Self { hide_maxed: false, hide_unmet: true }
   }
@@ -106,7 +106,7 @@ pub struct StableSettings {
   pub hide_unmet: bool,
 }
 
-impl const Default for StableSettings {
+const impl Default for StableSettings {
   fn default() -> Self {
     Self { hide_unmet: true }
   }
@@ -121,7 +121,7 @@ pub struct WorkshopSettings {
   pub hide_unmet: bool,
 }
 
-impl const Default for WorkshopSettings {
+const impl Default for WorkshopSettings {
   fn default() -> Self {
     Self { hide_unmet: true }
   }

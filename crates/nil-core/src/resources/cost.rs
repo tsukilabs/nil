@@ -20,7 +20,7 @@ impl Cost {
   }
 }
 
-impl const From<f64> for Cost {
+const impl From<f64> for Cost {
   fn from(value: f64) -> Self {
     debug_assert!(value.is_finite());
     debug_assert!(value >= 0.0);
@@ -28,13 +28,13 @@ impl const From<f64> for Cost {
   }
 }
 
-impl const From<Cost> for f64 {
+const impl From<Cost> for f64 {
   fn from(value: Cost) -> Self {
     f64::from(value.0)
   }
 }
 
-impl const Mul<ResourceRatio> for Cost {
+const impl Mul<ResourceRatio> for Cost {
   type Output = f64;
 
   fn mul(self, rhs: ResourceRatio) -> Self::Output {
@@ -42,7 +42,7 @@ impl const Mul<ResourceRatio> for Cost {
   }
 }
 
-impl const Mul<MaintenanceRatio> for Cost {
+const impl Mul<MaintenanceRatio> for Cost {
   type Output = f64;
 
   fn mul(self, rhs: MaintenanceRatio) -> Self::Output {
@@ -64,7 +64,7 @@ impl ResourceRatio {
   }
 }
 
-impl const From<ResourceRatio> for f64 {
+const impl From<ResourceRatio> for f64 {
   fn from(value: ResourceRatio) -> Self {
     value.0
   }

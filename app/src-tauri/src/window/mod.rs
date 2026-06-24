@@ -86,7 +86,7 @@ struct Constants {
   world_unit_speed_default: WorldUnitSpeed,
 }
 
-impl const Default for Constants {
+const impl Default for Constants {
   fn default() -> Self {
     Self {
       i8_min: i8::MIN,

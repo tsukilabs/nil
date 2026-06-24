@@ -33,37 +33,37 @@ impl SquadSize {
   }
 }
 
-impl const PartialEq<u32> for SquadSize {
+const impl PartialEq<u32> for SquadSize {
   fn eq(&self, other: &u32) -> bool {
     self.0.eq(other)
   }
 }
 
-impl const PartialOrd<u32> for SquadSize {
+const impl PartialOrd<u32> for SquadSize {
   fn partial_cmp(&self, other: &u32) -> Option<Ordering> {
     self.0.partial_cmp(other)
   }
 }
 
-impl const From<u32> for SquadSize {
+const impl From<u32> for SquadSize {
   fn from(value: u32) -> Self {
     Self::new(value)
   }
 }
 
-impl const From<SquadSize> for u32 {
+const impl From<SquadSize> for u32 {
   fn from(value: SquadSize) -> Self {
     value.0
   }
 }
 
-impl const From<SquadSize> for f64 {
+const impl From<SquadSize> for f64 {
   fn from(value: SquadSize) -> Self {
     f64::from(value.0)
   }
 }
 
-impl const Add for SquadSize {
+const impl Add for SquadSize {
   type Output = SquadSize;
 
   fn add(self, rhs: Self) -> Self::Output {
@@ -71,7 +71,7 @@ impl const Add for SquadSize {
   }
 }
 
-impl const Add<u32> for SquadSize {
+const impl Add<u32> for SquadSize {
   type Output = SquadSize;
 
   fn add(self, rhs: u32) -> Self::Output {
@@ -79,19 +79,19 @@ impl const Add<u32> for SquadSize {
   }
 }
 
-impl const AddAssign for SquadSize {
+const impl AddAssign for SquadSize {
   fn add_assign(&mut self, rhs: Self) {
     *self = *self + rhs;
   }
 }
 
-impl const AddAssign<u32> for SquadSize {
+const impl AddAssign<u32> for SquadSize {
   fn add_assign(&mut self, rhs: u32) {
     *self = *self + rhs;
   }
 }
 
-impl const From<f64> for SquadSize {
+const impl From<f64> for SquadSize {
   fn from(value: f64) -> Self {
     debug_assert!(value >= 0.0);
     debug_assert!(value.is_finite());
@@ -99,7 +99,7 @@ impl const From<f64> for SquadSize {
   }
 }
 
-impl const Sub for SquadSize {
+const impl Sub for SquadSize {
   type Output = SquadSize;
 
   fn sub(self, rhs: Self) -> Self::Output {
@@ -107,7 +107,7 @@ impl const Sub for SquadSize {
   }
 }
 
-impl const Sub<u32> for SquadSize {
+const impl Sub<u32> for SquadSize {
   type Output = SquadSize;
 
   fn sub(self, rhs: u32) -> Self::Output {
@@ -115,19 +115,19 @@ impl const Sub<u32> for SquadSize {
   }
 }
 
-impl const SubAssign for SquadSize {
+const impl SubAssign for SquadSize {
   fn sub_assign(&mut self, rhs: Self) {
     *self = *self - rhs;
   }
 }
 
-impl const SubAssign<u32> for SquadSize {
+const impl SubAssign<u32> for SquadSize {
   fn sub_assign(&mut self, rhs: u32) {
     *self = *self - rhs;
   }
 }
 
-impl const Mul<Maintenance> for SquadSize {
+const impl Mul<Maintenance> for SquadSize {
   type Output = Maintenance;
 
   fn mul(self, rhs: Maintenance) -> Self::Output {
@@ -136,7 +136,7 @@ impl const Mul<Maintenance> for SquadSize {
   }
 }
 
-impl const Mul<Power> for SquadSize {
+const impl Mul<Power> for SquadSize {
   type Output = Power;
 
   fn mul(self, rhs: Power) -> Self::Output {
@@ -144,7 +144,7 @@ impl const Mul<Power> for SquadSize {
   }
 }
 
-impl const Mul<Score> for SquadSize {
+const impl Mul<Score> for SquadSize {
   type Output = Score;
 
   fn mul(self, rhs: Score) -> Self::Output {
@@ -153,7 +153,7 @@ impl const Mul<Score> for SquadSize {
   }
 }
 
-impl const Mul<f64> for SquadSize {
+const impl Mul<f64> for SquadSize {
   type Output = SquadSize;
 
   fn mul(self, rhs: f64) -> Self::Output {
@@ -164,7 +164,7 @@ impl const Mul<f64> for SquadSize {
   }
 }
 
-impl const MulAssign<f64> for SquadSize {
+const impl MulAssign<f64> for SquadSize {
   fn mul_assign(&mut self, rhs: f64) {
     *self = *self * rhs;
   }

@@ -179,13 +179,13 @@ impl Resources {
   }
 }
 
-impl const Default for Resources {
+const impl Default for Resources {
   fn default() -> Self {
     Self::new()
   }
 }
 
-impl const Add for Resources {
+const impl Add for Resources {
   type Output = Self;
 
   fn add(self, rhs: Self) -> Self {
@@ -198,7 +198,7 @@ impl const Add for Resources {
   }
 }
 
-impl const Add<&Resources> for Resources {
+const impl Add<&Resources> for Resources {
   type Output = Self;
 
   fn add(self, rhs: &Resources) -> Self {
@@ -211,7 +211,7 @@ impl const Add<&Resources> for Resources {
   }
 }
 
-impl const AddAssign for Resources {
+const impl AddAssign for Resources {
   fn add_assign(&mut self, rhs: Self) {
     *self = Self {
       food: self.food + rhs.food,
@@ -222,7 +222,7 @@ impl const AddAssign for Resources {
   }
 }
 
-impl const AddAssign<&Resources> for Resources {
+const impl AddAssign<&Resources> for Resources {
   fn add_assign(&mut self, rhs: &Resources) {
     *self = Self {
       food: self.food + rhs.food,
@@ -233,7 +233,7 @@ impl const AddAssign<&Resources> for Resources {
   }
 }
 
-impl const Sub for Resources {
+const impl Sub for Resources {
   type Output = Self;
 
   fn sub(self, rhs: Self) -> Self {
@@ -246,7 +246,7 @@ impl const Sub for Resources {
   }
 }
 
-impl const Sub<&Resources> for Resources {
+const impl Sub<&Resources> for Resources {
   type Output = Self;
 
   fn sub(self, rhs: &Resources) -> Self {
@@ -259,7 +259,7 @@ impl const Sub<&Resources> for Resources {
   }
 }
 
-impl const SubAssign for Resources {
+const impl SubAssign for Resources {
   fn sub_assign(&mut self, rhs: Self) {
     *self = Self {
       food: self.food - rhs.food,
@@ -270,7 +270,7 @@ impl const SubAssign for Resources {
   }
 }
 
-impl const SubAssign<&Resources> for Resources {
+const impl SubAssign<&Resources> for Resources {
   fn sub_assign(&mut self, rhs: &Resources) {
     *self = Self {
       food: self.food - rhs.food,
@@ -281,7 +281,7 @@ impl const SubAssign<&Resources> for Resources {
   }
 }
 
-impl const Mul<u32> for &Resources {
+const impl Mul<u32> for &Resources {
   type Output = Resources;
 
   fn mul(self, rhs: u32) -> Self::Output {
@@ -294,7 +294,7 @@ impl const Mul<u32> for &Resources {
   }
 }
 
-impl const Mul<NonZeroU32> for &Resources {
+const impl Mul<NonZeroU32> for &Resources {
   type Output = Resources;
 
   fn mul(self, rhs: NonZeroU32) -> Self::Output {
@@ -339,19 +339,19 @@ macro_rules! decl_resource {
           }
         }
 
-        impl const From<u32> for $resource {
+        const impl From<u32> for $resource {
           fn from(value: u32) -> Self {
             Self::new(value)
           }
         }
 
-        impl const From<$resource> for u32 {
+        const impl From<$resource> for u32 {
           fn from(value: $resource) -> Self {
             value.0
           }
         }
 
-        impl const From<f64> for $resource {
+        const impl From<f64> for $resource {
           fn from(value: f64) -> Self {
             debug_assert!(value.is_finite());
             debug_assert!(value >= 0.0);
@@ -359,37 +359,37 @@ macro_rules! decl_resource {
           }
         }
 
-        impl const From<$resource> for f64 {
+        const impl From<$resource> for f64 {
           fn from(value: $resource) -> Self {
             f64::from(value.0)
           }
         }
 
-        impl const From<MineProduction> for $resource {
+        const impl From<MineProduction> for $resource {
           fn from(value: MineProduction) -> Self {
             Self(*value)
           }
         }
 
-        impl const From<StorageCapacity> for $resource {
+        const impl From<StorageCapacity> for $resource {
           fn from(value: StorageCapacity) -> Self {
             Self(*value)
           }
         }
 
-        impl const PartialEq<u32> for $resource {
+        const impl PartialEq<u32> for $resource {
           fn eq(&self, other: &u32) -> bool {
             self.0.eq(other)
           }
         }
 
-        impl const PartialOrd<u32> for $resource {
+        const impl PartialOrd<u32> for $resource {
           fn partial_cmp(&self, other: &u32) -> Option<Ordering> {
             self.0.partial_cmp(other)
           }
         }
 
-        impl const Add for $resource {
+        const impl Add for $resource {
           type Output = Self;
 
           fn add(self, rhs: Self) -> Self {
@@ -397,7 +397,7 @@ macro_rules! decl_resource {
           }
         }
 
-        impl const Add<u32> for $resource {
+        const impl Add<u32> for $resource {
           type Output = Self;
 
           fn add(self, rhs: u32) -> Self {
@@ -405,13 +405,13 @@ macro_rules! decl_resource {
           }
         }
 
-        impl const AddAssign for $resource {
+        const impl AddAssign for $resource {
           fn add_assign(&mut self, rhs: Self) {
             *self = *self + rhs;
           }
         }
 
-        impl const Sub for $resource {
+        const impl Sub for $resource {
           type Output = Self;
 
           fn sub(self, rhs: Self) -> Self {
@@ -419,7 +419,7 @@ macro_rules! decl_resource {
           }
         }
 
-        impl const Sub<u32> for $resource {
+        const impl Sub<u32> for $resource {
           type Output = Self;
 
           fn sub(self, rhs: u32) -> Self {
@@ -427,13 +427,13 @@ macro_rules! decl_resource {
           }
         }
 
-        impl const SubAssign for $resource {
+        const impl SubAssign for $resource {
           fn sub_assign(&mut self, rhs: Self) {
             *self = *self - rhs;
           }
         }
 
-        impl const Mul<u32> for $resource {
+        const impl Mul<u32> for $resource {
           type Output = Self;
 
           fn mul(self, rhs: u32) -> Self::Output {
@@ -441,7 +441,7 @@ macro_rules! decl_resource {
           }
         }
 
-        impl const Mul<NonZeroU32> for $resource {
+        const impl Mul<NonZeroU32> for $resource {
           type Output = Self;
 
           fn mul(self, rhs: NonZeroU32) -> Self::Output {
@@ -449,7 +449,7 @@ macro_rules! decl_resource {
           }
         }
 
-        impl const Mul<Stability> for $resource {
+        const impl Mul<Stability> for $resource {
           type Output = $resource;
 
           fn mul(self, rhs: Stability) -> Self::Output {
@@ -457,13 +457,13 @@ macro_rules! decl_resource {
           }
         }
 
-        impl const MulAssign<u32> for $resource {
+        const impl MulAssign<u32> for $resource {
           fn mul_assign(&mut self, rhs: u32) {
             *self = *self * rhs;
           }
         }
 
-        impl const MulAssign<Stability> for $resource {
+        const impl MulAssign<Stability> for $resource {
           fn mul_assign(&mut self, rhs: Stability) {
             *self = *self * rhs;
           }

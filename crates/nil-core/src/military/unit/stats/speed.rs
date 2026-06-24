@@ -21,19 +21,19 @@ impl Speed {
   }
 }
 
-impl const From<Speed> for f64 {
+const impl From<Speed> for f64 {
   fn from(value: Speed) -> Self {
     value.0
   }
 }
 
-impl const PartialEq<f64> for Speed {
+const impl PartialEq<f64> for Speed {
   fn eq(&self, other: &f64) -> bool {
     self.0.eq(other)
   }
 }
 
-impl const PartialOrd<f64> for Speed {
+const impl PartialOrd<f64> for Speed {
   fn partial_cmp(&self, other: &f64) -> Option<Ordering> {
     self.0.partial_cmp(other)
   }

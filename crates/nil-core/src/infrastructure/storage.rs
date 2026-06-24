@@ -98,25 +98,25 @@ impl StorageCapacity {
   }
 }
 
-impl const From<f64> for StorageCapacity {
+const impl From<f64> for StorageCapacity {
   fn from(value: f64) -> Self {
     Self::new(value as u32)
   }
 }
 
-impl const From<StorageCapacity> for f64 {
+const impl From<StorageCapacity> for f64 {
   fn from(value: StorageCapacity) -> Self {
     f64::from(value.0)
   }
 }
 
-impl const PartialEq<u32> for StorageCapacity {
+const impl PartialEq<u32> for StorageCapacity {
   fn eq(&self, other: &u32) -> bool {
     self.0.eq(other)
   }
 }
 
-impl const Add for StorageCapacity {
+const impl Add for StorageCapacity {
   type Output = StorageCapacity;
 
   fn add(self, rhs: Self) -> Self::Output {
@@ -124,7 +124,7 @@ impl const Add for StorageCapacity {
   }
 }
 
-impl const Add<u32> for StorageCapacity {
+const impl Add<u32> for StorageCapacity {
   type Output = StorageCapacity;
 
   fn add(self, rhs: u32) -> Self::Output {
@@ -132,19 +132,19 @@ impl const Add<u32> for StorageCapacity {
   }
 }
 
-impl const AddAssign for StorageCapacity {
+const impl AddAssign for StorageCapacity {
   fn add_assign(&mut self, rhs: Self) {
     *self = *self + rhs;
   }
 }
 
-impl const AddAssign<u32> for StorageCapacity {
+const impl AddAssign<u32> for StorageCapacity {
   fn add_assign(&mut self, rhs: u32) {
     *self = *self + rhs;
   }
 }
 
-impl const Sub for StorageCapacity {
+const impl Sub for StorageCapacity {
   type Output = StorageCapacity;
 
   fn sub(self, rhs: Self) -> Self::Output {
@@ -152,7 +152,7 @@ impl const Sub for StorageCapacity {
   }
 }
 
-impl const Sub<u32> for StorageCapacity {
+const impl Sub<u32> for StorageCapacity {
   type Output = StorageCapacity;
 
   fn sub(self, rhs: u32) -> Self::Output {
@@ -160,13 +160,13 @@ impl const Sub<u32> for StorageCapacity {
   }
 }
 
-impl const SubAssign for StorageCapacity {
+const impl SubAssign for StorageCapacity {
   fn sub_assign(&mut self, rhs: Self) {
     *self = *self - rhs;
   }
 }
 
-impl const SubAssign<u32> for StorageCapacity {
+const impl SubAssign<u32> for StorageCapacity {
   fn sub_assign(&mut self, rhs: u32) {
     *self = *self - rhs;
   }
@@ -181,7 +181,7 @@ pub struct OverallStorageCapacity {
   pub warehouse: StorageCapacity,
 }
 
-impl const Add for OverallStorageCapacity {
+const impl Add for OverallStorageCapacity {
   type Output = OverallStorageCapacity;
 
   fn add(mut self, rhs: Self) -> Self::Output {
@@ -190,7 +190,7 @@ impl const Add for OverallStorageCapacity {
   }
 }
 
-impl const AddAssign for OverallStorageCapacity {
+const impl AddAssign for OverallStorageCapacity {
   fn add_assign(&mut self, rhs: Self) {
     self.silo += rhs.silo;
     self.warehouse += rhs.warehouse;

@@ -57,19 +57,19 @@ impl Serialize for ContinentIndex {
   }
 }
 
-impl const From<usize> for ContinentIndex {
+const impl From<usize> for ContinentIndex {
   fn from(value: usize) -> Self {
     Self::new(value)
   }
 }
 
-impl const From<ContinentIndex> for usize {
+const impl From<ContinentIndex> for usize {
   fn from(value: ContinentIndex) -> Self {
     value.0
   }
 }
 
-impl const Div<usize> for ContinentIndex {
+const impl Div<usize> for ContinentIndex {
   type Output = usize;
 
   fn div(self, rhs: usize) -> Self::Output {
@@ -77,7 +77,7 @@ impl const Div<usize> for ContinentIndex {
   }
 }
 
-impl const Div<ContinentSize> for ContinentIndex {
+const impl Div<ContinentSize> for ContinentIndex {
   type Output = usize;
 
   fn div(self, rhs: ContinentSize) -> Self::Output {
@@ -85,7 +85,7 @@ impl const Div<ContinentSize> for ContinentIndex {
   }
 }
 
-impl const Rem<usize> for ContinentIndex {
+const impl Rem<usize> for ContinentIndex {
   type Output = usize;
 
   fn rem(self, rhs: usize) -> Self::Output {
@@ -93,7 +93,7 @@ impl const Rem<usize> for ContinentIndex {
   }
 }
 
-impl const Rem<ContinentSize> for ContinentIndex {
+const impl Rem<ContinentSize> for ContinentIndex {
   type Output = usize;
 
   fn rem(self, rhs: ContinentSize) -> Self::Output {

@@ -56,7 +56,7 @@ impl Influence {
   }
 }
 
-impl const Default for Influence {
+const impl Default for Influence {
   fn default() -> Self {
     Self::MIN
   }

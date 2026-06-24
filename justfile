@@ -11,13 +11,12 @@ init:
   @pnpm ci
   @rustup update
   @rustup toolchain install nightly
-  @cargo +stable install tauri-cli dprint
-  @cargo +stable install diesel_cli --no-default-features --features "sqlite-bundled"
-  @cargo +nightly install miho
+  @cargo install tauri-cli dprint miho
+  @cargo install diesel_cli --no-default-features --features "sqlite-bundled"
   @just generate-bindings --force
 
 docs:
-  @cargo +nightly doc -p nil-* --open --no-deps --lib --document-private-items
+  @cargo doc -p nil-* --open --no-deps --lib --document-private-items
 
 fmt:
   @dprint fmt
@@ -31,11 +30,11 @@ type-check:
   @pnpm run -r --bail type-check
 
 udeps:
-  @cargo +nightly udeps
+  @cargo udeps
 
 [private]
 rsx FILE *ARGS:
-  @cargo +nightly -Zscript scripts/{{ FILE }}.rs {{ ARGS }}
+  @cargo -Zscript scripts/{{ FILE }}.rs {{ ARGS }}
 
 build-client *ARGS:
   @just rsx build-client {{ ARGS }}

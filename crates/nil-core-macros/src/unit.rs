@@ -80,7 +80,7 @@ pub fn impl_unit(ast: &DeriveInput) -> TokenStream {
       }
 
       #[automatically_derived]
-      impl const From<#name> for UnitId {
+      const impl From<#name> for UnitId {
         fn from(_: #name) -> UnitId {
           #name::ID
         }

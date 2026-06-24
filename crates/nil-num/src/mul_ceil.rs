@@ -7,7 +7,7 @@ pub const trait MulCeil<Rhs = Self> {
   fn mul_ceil(self, rhs: Rhs) -> Self::Output;
 }
 
-impl const MulCeil for f64 {
+const impl MulCeil for f64 {
   type Output = f64;
 
   fn mul_ceil(self, rhs: f64) -> f64 {
@@ -19,7 +19,7 @@ impl const MulCeil for f64 {
 macro_rules! impl_mul_ceil {
   ($($name:ident),+ $(,)?) => {
     $(
-      impl const $crate::mul_ceil::MulCeil<f64> for $name {
+      const impl $crate::mul_ceil::MulCeil<f64> for $name {
         type Output = f64;
 
         fn mul_ceil(self, rhs: f64) -> Self::Output {
@@ -27,7 +27,7 @@ macro_rules! impl_mul_ceil {
         }
       }
 
-      impl const $crate::mul_ceil::MulCeil<$name> for f64 {
+      const impl $crate::mul_ceil::MulCeil<$name> for f64 {
         type Output = f64;
 
         fn mul_ceil(self, rhs: $name) -> Self::Output {

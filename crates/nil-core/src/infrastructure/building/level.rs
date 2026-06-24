@@ -22,74 +22,74 @@ impl BuildingLevel {
   }
 }
 
-impl const From<BuildingLevel> for i8 {
+const impl From<BuildingLevel> for i8 {
   fn from(value: BuildingLevel) -> Self {
     debug_assert!(i8::try_from(value.0).is_ok());
     i8::try_from(value.0).unwrap_or(i8::MAX)
   }
 }
 
-impl const From<BuildingLevel> for u32 {
+const impl From<BuildingLevel> for u32 {
   fn from(value: BuildingLevel) -> Self {
     u32::from(value.0)
   }
 }
 
-impl const From<BuildingLevel> for f64 {
+const impl From<BuildingLevel> for f64 {
   fn from(value: BuildingLevel) -> Self {
     f64::from(value.0)
   }
 }
 
-impl const PartialEq<u8> for BuildingLevel {
+const impl PartialEq<u8> for BuildingLevel {
   fn eq(&self, other: &u8) -> bool {
     self.0.eq(other)
   }
 }
 
-impl const PartialEq<BuildingLevel> for u8 {
+const impl PartialEq<BuildingLevel> for u8 {
   fn eq(&self, other: &BuildingLevel) -> bool {
     self.eq(&other.0)
   }
 }
 
-impl const PartialEq<f64> for BuildingLevel {
+const impl PartialEq<f64> for BuildingLevel {
   fn eq(&self, other: &f64) -> bool {
     f64::from(self.0).eq(other)
   }
 }
 
-impl const PartialEq<BuildingLevel> for f64 {
+const impl PartialEq<BuildingLevel> for f64 {
   fn eq(&self, other: &BuildingLevel) -> bool {
     self.eq(&f64::from(other.0))
   }
 }
 
-impl const PartialOrd<u8> for BuildingLevel {
+const impl PartialOrd<u8> for BuildingLevel {
   fn partial_cmp(&self, other: &u8) -> Option<cmp::Ordering> {
     self.0.partial_cmp(other)
   }
 }
 
-impl const PartialOrd<BuildingLevel> for u8 {
+const impl PartialOrd<BuildingLevel> for u8 {
   fn partial_cmp(&self, other: &BuildingLevel) -> Option<cmp::Ordering> {
     self.partial_cmp(&other.0)
   }
 }
 
-impl const PartialOrd<f64> for BuildingLevel {
+const impl PartialOrd<f64> for BuildingLevel {
   fn partial_cmp(&self, other: &f64) -> Option<cmp::Ordering> {
     f64::from(self.0).partial_cmp(other)
   }
 }
 
-impl const PartialOrd<BuildingLevel> for f64 {
+const impl PartialOrd<BuildingLevel> for f64 {
   fn partial_cmp(&self, other: &BuildingLevel) -> Option<cmp::Ordering> {
     self.partial_cmp(&f64::from(other.0))
   }
 }
 
-impl const Add for BuildingLevel {
+const impl Add for BuildingLevel {
   type Output = Self;
 
   fn add(self, rhs: Self) -> Self {
@@ -97,7 +97,7 @@ impl const Add for BuildingLevel {
   }
 }
 
-impl const Add<u8> for BuildingLevel {
+const impl Add<u8> for BuildingLevel {
   type Output = Self;
 
   fn add(self, rhs: u8) -> Self {
@@ -105,7 +105,7 @@ impl const Add<u8> for BuildingLevel {
   }
 }
 
-impl const Add<i8> for BuildingLevel {
+const impl Add<i8> for BuildingLevel {
   type Output = Self;
 
   fn add(self, rhs: i8) -> Self {
@@ -113,7 +113,7 @@ impl const Add<i8> for BuildingLevel {
   }
 }
 
-impl const Add<BuildingLevelDiff> for BuildingLevel {
+const impl Add<BuildingLevelDiff> for BuildingLevel {
   type Output = Self;
 
   fn add(self, rhs: BuildingLevelDiff) -> Self {
@@ -121,31 +121,31 @@ impl const Add<BuildingLevelDiff> for BuildingLevel {
   }
 }
 
-impl const AddAssign for BuildingLevel {
+const impl AddAssign for BuildingLevel {
   fn add_assign(&mut self, rhs: Self) {
     *self = *self + rhs;
   }
 }
 
-impl const AddAssign<u8> for BuildingLevel {
+const impl AddAssign<u8> for BuildingLevel {
   fn add_assign(&mut self, rhs: u8) {
     *self = *self + rhs;
   }
 }
 
-impl const AddAssign<i8> for BuildingLevel {
+const impl AddAssign<i8> for BuildingLevel {
   fn add_assign(&mut self, rhs: i8) {
     *self = *self + rhs;
   }
 }
 
-impl const AddAssign<BuildingLevelDiff> for BuildingLevel {
+const impl AddAssign<BuildingLevelDiff> for BuildingLevel {
   fn add_assign(&mut self, rhs: BuildingLevelDiff) {
     *self = *self + rhs;
   }
 }
 
-impl const Sub for BuildingLevel {
+const impl Sub for BuildingLevel {
   type Output = Self;
 
   fn sub(self, rhs: Self) -> Self {
@@ -153,7 +153,7 @@ impl const Sub for BuildingLevel {
   }
 }
 
-impl const Sub<u8> for BuildingLevel {
+const impl Sub<u8> for BuildingLevel {
   type Output = Self;
 
   fn sub(self, rhs: u8) -> Self {
@@ -161,7 +161,7 @@ impl const Sub<u8> for BuildingLevel {
   }
 }
 
-impl const Sub<i8> for BuildingLevel {
+const impl Sub<i8> for BuildingLevel {
   type Output = Self;
 
   fn sub(self, rhs: i8) -> Self {
@@ -169,7 +169,7 @@ impl const Sub<i8> for BuildingLevel {
   }
 }
 
-impl const Sub<BuildingLevelDiff> for BuildingLevel {
+const impl Sub<BuildingLevelDiff> for BuildingLevel {
   type Output = Self;
 
   fn sub(self, rhs: BuildingLevelDiff) -> Self {
@@ -177,31 +177,31 @@ impl const Sub<BuildingLevelDiff> for BuildingLevel {
   }
 }
 
-impl const SubAssign for BuildingLevel {
+const impl SubAssign for BuildingLevel {
   fn sub_assign(&mut self, rhs: Self) {
     *self = *self - rhs;
   }
 }
 
-impl const SubAssign<u8> for BuildingLevel {
+const impl SubAssign<u8> for BuildingLevel {
   fn sub_assign(&mut self, rhs: u8) {
     *self = *self - rhs;
   }
 }
 
-impl const SubAssign<i8> for BuildingLevel {
+const impl SubAssign<i8> for BuildingLevel {
   fn sub_assign(&mut self, rhs: i8) {
     *self = *self - rhs;
   }
 }
 
-impl const SubAssign<BuildingLevelDiff> for BuildingLevel {
+const impl SubAssign<BuildingLevelDiff> for BuildingLevel {
   fn sub_assign(&mut self, rhs: BuildingLevelDiff) {
     *self = *self - rhs;
   }
 }
 
-impl const Neg for BuildingLevel {
+const impl Neg for BuildingLevel {
   type Output = BuildingLevelDiff;
 
   fn neg(self) -> BuildingLevelDiff {
@@ -223,7 +223,7 @@ impl BuildingLevelDiff {
   }
 }
 
-impl const From<f64> for BuildingLevelDiff {
+const impl From<f64> for BuildingLevelDiff {
   fn from(mut value: f64) -> Self {
     value = value.round();
     debug_assert!(value.is_finite());
@@ -233,13 +233,13 @@ impl const From<f64> for BuildingLevelDiff {
   }
 }
 
-impl const PartialEq<i8> for BuildingLevelDiff {
+const impl PartialEq<i8> for BuildingLevelDiff {
   fn eq(&self, other: &i8) -> bool {
     self.0.eq(other)
   }
 }
 
-impl const PartialOrd<i8> for BuildingLevelDiff {
+const impl PartialOrd<i8> for BuildingLevelDiff {
   fn partial_cmp(&self, other: &i8) -> Option<cmp::Ordering> {
     self.0.partial_cmp(other)
   }

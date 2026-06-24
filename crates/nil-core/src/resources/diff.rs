@@ -19,7 +19,7 @@ pub struct ResourcesDiff {
   pub wood: WoodDiff,
 }
 
-impl const Add for ResourcesDiff {
+const impl Add for ResourcesDiff {
   type Output = Self;
 
   fn add(self, rhs: Self) -> Self {
@@ -32,7 +32,7 @@ impl const Add for ResourcesDiff {
   }
 }
 
-impl const Add<Resources> for ResourcesDiff {
+const impl Add<Resources> for ResourcesDiff {
   type Output = Self;
 
   fn add(self, rhs: Resources) -> Self {
@@ -45,7 +45,7 @@ impl const Add<Resources> for ResourcesDiff {
   }
 }
 
-impl const Add<ResourcesDiff> for Resources {
+const impl Add<ResourcesDiff> for Resources {
   type Output = Self;
 
   fn add(self, rhs: ResourcesDiff) -> Self {
@@ -58,7 +58,7 @@ impl const Add<ResourcesDiff> for Resources {
   }
 }
 
-impl const AddAssign for ResourcesDiff {
+const impl AddAssign for ResourcesDiff {
   fn add_assign(&mut self, rhs: Self) {
     *self = Self {
       food: self.food + rhs.food,
@@ -69,7 +69,7 @@ impl const AddAssign for ResourcesDiff {
   }
 }
 
-impl const AddAssign<Resources> for ResourcesDiff {
+const impl AddAssign<Resources> for ResourcesDiff {
   fn add_assign(&mut self, rhs: Resources) {
     *self = Self {
       food: self.food + rhs.food,
@@ -80,7 +80,7 @@ impl const AddAssign<Resources> for ResourcesDiff {
   }
 }
 
-impl const AddAssign<ResourcesDiff> for Resources {
+const impl AddAssign<ResourcesDiff> for Resources {
   fn add_assign(&mut self, rhs: ResourcesDiff) {
     *self = Self {
       food: self.food + rhs.food,
@@ -91,7 +91,7 @@ impl const AddAssign<ResourcesDiff> for Resources {
   }
 }
 
-impl const Sub for ResourcesDiff {
+const impl Sub for ResourcesDiff {
   type Output = Self;
 
   fn sub(self, rhs: Self) -> Self {
@@ -104,7 +104,7 @@ impl const Sub for ResourcesDiff {
   }
 }
 
-impl const Sub<ResourcesDiff> for Resources {
+const impl Sub<ResourcesDiff> for Resources {
   type Output = Self;
 
   fn sub(self, rhs: ResourcesDiff) -> Self {
@@ -117,7 +117,7 @@ impl const Sub<ResourcesDiff> for Resources {
   }
 }
 
-impl const SubAssign for ResourcesDiff {
+const impl SubAssign for ResourcesDiff {
   fn sub_assign(&mut self, rhs: Self) {
     *self = Self {
       food: self.food - rhs.food,
@@ -128,7 +128,7 @@ impl const SubAssign for ResourcesDiff {
   }
 }
 
-impl const SubAssign<Resources> for ResourcesDiff {
+const impl SubAssign<Resources> for ResourcesDiff {
   fn sub_assign(&mut self, rhs: Resources) {
     *self = Self {
       food: self.food - rhs.food,
@@ -139,7 +139,7 @@ impl const SubAssign<Resources> for ResourcesDiff {
   }
 }
 
-impl const SubAssign<ResourcesDiff> for Resources {
+const impl SubAssign<ResourcesDiff> for Resources {
   fn sub_assign(&mut self, rhs: ResourcesDiff) {
     *self = Self {
       food: self.food - rhs.food,
@@ -171,25 +171,25 @@ macro_rules! decl_resource_diff {
           }
         }
 
-        impl const From<[<$resource Diff>]> for f64 {
+        const impl From<[<$resource Diff>]> for f64 {
           fn from(value: [<$resource Diff>]) -> Self {
             f64::from(value.0)
           }
         }
 
-        impl const PartialEq<i32> for [<$resource Diff>] {
+        const impl PartialEq<i32> for [<$resource Diff>] {
           fn eq(&self, other: &i32) -> bool {
             self.0.eq(other)
           }
         }
 
-        impl const PartialOrd<i32> for [<$resource Diff>] {
+        const impl PartialOrd<i32> for [<$resource Diff>] {
           fn partial_cmp(&self, other: &i32) -> Option<Ordering> {
             self.0.partial_cmp(other)
           }
         }
 
-        impl const Add for [<$resource Diff>] {
+        const impl Add for [<$resource Diff>] {
           type Output = Self;
 
           fn add(self, rhs: Self) -> Self {
@@ -197,7 +197,7 @@ macro_rules! decl_resource_diff {
           }
         }
 
-        impl const Add<$resource> for [<$resource Diff>] {
+        const impl Add<$resource> for [<$resource Diff>] {
           type Output = Self;
 
           fn add(self, rhs: $resource) -> Self {
@@ -205,7 +205,7 @@ macro_rules! decl_resource_diff {
           }
         }
 
-        impl const Add<[<$resource Diff>]> for $resource {
+        const impl Add<[<$resource Diff>]> for $resource {
           type Output = Self;
 
           fn add(self, rhs: [<$resource Diff>]) -> Self {
@@ -213,7 +213,7 @@ macro_rules! decl_resource_diff {
           }
         }
 
-        impl const Add<i32> for [<$resource Diff>] {
+        const impl Add<i32> for [<$resource Diff>] {
           type Output = Self;
 
           fn add(self, rhs: i32) -> Self {
@@ -221,7 +221,7 @@ macro_rules! decl_resource_diff {
           }
         }
 
-        impl const Add<u32> for [<$resource Diff>] {
+        const impl Add<u32> for [<$resource Diff>] {
           type Output = Self;
 
           fn add(self, rhs: u32) -> Self {
@@ -229,37 +229,37 @@ macro_rules! decl_resource_diff {
           }
         }
 
-        impl const AddAssign for [<$resource Diff>] {
+        const impl AddAssign for [<$resource Diff>] {
           fn add_assign(&mut self, rhs: Self) {
             *self = *self + rhs;
           }
         }
 
-        impl const AddAssign<$resource> for [<$resource Diff>] {
+        const impl AddAssign<$resource> for [<$resource Diff>] {
           fn add_assign(&mut self, rhs: $resource) {
             *self = *self + rhs;
           }
         }
 
-        impl const AddAssign<[<$resource Diff>]> for $resource {
+        const impl AddAssign<[<$resource Diff>]> for $resource {
           fn add_assign(&mut self, rhs: [<$resource Diff>]) {
             *self = *self + rhs;
           }
         }
 
-        impl const AddAssign<i32> for [<$resource Diff>] {
+        const impl AddAssign<i32> for [<$resource Diff>] {
           fn add_assign(&mut self, rhs: i32) {
             *self = *self + rhs;
           }
         }
 
-        impl const AddAssign<u32> for [<$resource Diff>] {
+        const impl AddAssign<u32> for [<$resource Diff>] {
           fn add_assign(&mut self, rhs: u32) {
             *self = *self + rhs;
           }
         }
 
-        impl const Sub for [<$resource Diff>] {
+        const impl Sub for [<$resource Diff>] {
           type Output = Self;
 
           fn sub(self, rhs: Self) -> Self {
@@ -267,7 +267,7 @@ macro_rules! decl_resource_diff {
           }
         }
 
-        impl const Sub<$resource> for [<$resource Diff>] {
+        const impl Sub<$resource> for [<$resource Diff>] {
           type Output = Self;
 
           fn sub(self, rhs: $resource) -> Self {
@@ -275,7 +275,7 @@ macro_rules! decl_resource_diff {
           }
         }
 
-        impl const Sub<[<$resource Diff>]> for $resource {
+        const impl Sub<[<$resource Diff>]> for $resource {
           type Output = Self;
 
           fn sub(self, rhs: [<$resource Diff>]) -> Self {
@@ -283,7 +283,7 @@ macro_rules! decl_resource_diff {
           }
         }
 
-        impl const Sub<i32> for [<$resource Diff>] {
+        const impl Sub<i32> for [<$resource Diff>] {
           type Output = Self;
 
           fn sub(self, rhs: i32) -> Self {
@@ -291,7 +291,7 @@ macro_rules! decl_resource_diff {
           }
         }
 
-        impl const Sub<u32> for [<$resource Diff>] {
+        const impl Sub<u32> for [<$resource Diff>] {
           type Output = Self;
 
           fn sub(self, rhs: u32) -> Self {
@@ -299,31 +299,31 @@ macro_rules! decl_resource_diff {
           }
         }
 
-        impl const SubAssign for [<$resource Diff>] {
+        const impl SubAssign for [<$resource Diff>] {
           fn sub_assign(&mut self, rhs: Self) {
             *self = *self - rhs;
           }
         }
 
-        impl const SubAssign<$resource> for [<$resource Diff>] {
+        const impl SubAssign<$resource> for [<$resource Diff>] {
           fn sub_assign(&mut self, rhs: $resource) {
             *self = *self - rhs;
           }
         }
 
-        impl const SubAssign<[<$resource Diff>]> for $resource {
+        const impl SubAssign<[<$resource Diff>]> for $resource {
           fn sub_assign(&mut self, rhs: [<$resource Diff>]) {
             *self = *self - rhs;
           }
         }
 
-        impl const SubAssign<i32> for [<$resource Diff>] {
+        const impl SubAssign<i32> for [<$resource Diff>] {
           fn sub_assign(&mut self, rhs: i32) {
             *self = *self - rhs;
           }
         }
 
-        impl const SubAssign<u32> for [<$resource Diff>] {
+        const impl SubAssign<u32> for [<$resource Diff>] {
           fn sub_assign(&mut self, rhs: u32) {
             *self = *self - rhs;
           }

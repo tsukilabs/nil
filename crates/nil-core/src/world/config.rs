@@ -185,13 +185,13 @@ macro_rules! impl_f64_newtype {
       }
     }
 
-    impl const From<f64> for $name {
+    const impl From<f64> for $name {
       fn from(value: f64) -> Self {
         Self::new(value)
       }
     }
 
-    impl const From<$name> for f64 {
+    const impl From<$name> for f64 {
       fn from(value: $name) -> Self {
         value.0
       }
@@ -200,7 +200,7 @@ macro_rules! impl_f64_newtype {
   ($name:ident, min = $min:expr, max = $max:expr, default = $default:expr) => {
     impl_f64_newtype!($name, min = $min, max = $max);
 
-    impl const Default for $name {
+    const impl Default for $name {
       fn default() -> Self {
         Self::new($default)
       }
