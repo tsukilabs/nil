@@ -6,7 +6,6 @@ import { go } from "@/router";
 import { useI18n } from "vue-i18n";
 import { Button } from "@ui/button";
 import { useRoute } from "vue-router";
-import * as commands from "@/commands";
 import { whenever } from "@vueuse/core";
 import type { Option } from "@tb-dev/utils";
 import Loading from "@/components/Loading.vue";
@@ -51,7 +50,7 @@ async function remove() {
   await lock(async () => {
     if (report.value) {
       const id = report.value.id;
-      await commands.removeReport(id);
+      NIL.report.removeReport(id);
       await NIL.report.update();
 
       if (

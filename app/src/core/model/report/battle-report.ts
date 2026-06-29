@@ -8,7 +8,14 @@ import { CoordImpl } from "@/core/model/continent/coord";
 import { ReportImpl } from "@/core/model/report/abstract";
 import enUS from "@/locale/en-US/scenes/game/report.json";
 import { BattleResultImpl } from "@/core/model/battle-result";
-import type { BattleReport, Coord, PlayerId, PublicCity, Ruler } from "@tsukilabs/nil-bindings";
+import type {
+  BattleReport,
+  Coord,
+  PlayerId,
+  PublicCity,
+  ReportKind,
+  Ruler,
+} from "@tsukilabs/nil-bindings";
 
 export class BattleReportImpl extends ReportImpl implements Readonly<BattleReport> {
   public readonly attacker: Ruler;
@@ -57,6 +64,23 @@ export class BattleReportImpl extends ReportImpl implements Readonly<BattleRepor
 
   public resolveWallLevel() {
     return this.result.resolveWallLevel();
+  }
+
+  public override toReportKind(): ReportKind {
+    return {
+      kind: "battle",
+      report: {
+        id: this.id,
+        attacker: this.attacker,
+        defender: this.defender,
+        origin: this.origin,
+        destination: this.destination,
+        result: this.result,
+        hauledResources: this.hauledResources,
+        round: this.round,
+        time: this.time,
+      },
+    };
   }
 
   public static create(args: BattleReportImplConstructorArgs) {

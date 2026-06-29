@@ -9,7 +9,6 @@ use crate::error::{Error, Result};
 use crate::military::Military;
 use crate::military::maneuver::ManeuverDirection;
 use crate::player::{Player, PlayerId, PlayerManager, PlayerStatus};
-use crate::report::ReportId;
 use crate::resources::maintenance::Maintenance;
 use crate::ruler::Ruler;
 use crate::world::World;
@@ -57,13 +56,6 @@ impl World {
     });
 
     Ok(military)
-  }
-
-  pub fn get_player_reports(&self, player: &PlayerId) -> Vec<ReportId> {
-    self
-      .report_manager
-      .reports_of(player)
-      .collect()
   }
 
   #[inline]

@@ -2,7 +2,7 @@
 import type { ChatMessage } from "./ChatMessage";
 import type { Coord } from "./Coord";
 import type { PlayerId } from "./PlayerId";
-import type { ReportId } from "./ReportId";
+import type { ReportKind } from "./ReportKind";
 import type { Round } from "./Round";
 import type { WorldId } from "./WorldId";
 
@@ -13,5 +13,5 @@ export type Event =
   | { "kind": "military-updated"; world: WorldId; player: PlayerId }
   | { "kind": "player-updated"; world: WorldId; player: PlayerId }
   | { "kind": "public-city-updated"; world: WorldId; coord: Coord }
-  | { "kind": "report"; world: WorldId; report: ReportId }
+  | { "kind": "report"; world: WorldId; report: ReportKind }
   | { "kind": "round-updated"; world: WorldId; round: Round };

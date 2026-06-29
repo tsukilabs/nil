@@ -33,6 +33,7 @@ pub fn impl_report(ast: &DeriveInput) -> TokenStream {
         }
       }
 
+      #[automatically_derived]
       impl From<#name> for ReportKind {
         fn from(report: #name) -> Self {
           ReportKind::#kind { report: Arc::new(report) }

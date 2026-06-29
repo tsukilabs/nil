@@ -9,7 +9,6 @@ use crate::npc::bot::BotManager;
 use crate::npc::precursor::PrecursorManager;
 use crate::player::{Player, PlayerManager};
 use crate::ranking::Ranking;
-use crate::report::ReportManager;
 use crate::round::{Round, RoundId};
 use crate::world::config::{WorldConfig, WorldName};
 use crate::world::stats::WorldStats;
@@ -43,7 +42,6 @@ pub struct Savedata {
   pub(crate) precursor_manager: PrecursorManager,
   pub(crate) military: Military,
   pub(crate) ranking: Ranking,
-  pub(crate) report_manager: ReportManager,
   pub(crate) chat: Chat,
 
   pub(crate) config: WorldConfig,

@@ -15,7 +15,6 @@ use nil_core::npc::bot::BotManager;
 use nil_core::npc::precursor::PrecursorManager;
 use nil_core::player::PlayerManager;
 use nil_core::ranking::Ranking;
-use nil_core::report::ReportManager;
 use nil_core::round::Round;
 use nil_core::world::config::WorldId;
 use nil_core::world::{World, WorldOptions};
@@ -351,15 +350,6 @@ impl App {
   {
     self
       .world(id, |world| f(world.ranking()))
-      .await
-  }
-
-  pub async fn report_manager<F, T>(&self, id: WorldId, f: F) -> MaybeResponse<T>
-  where
-    F: FnOnce(&ReportManager) -> T,
-  {
-    self
-      .world(id, |world| f(world.report_manager()))
       .await
   }
 

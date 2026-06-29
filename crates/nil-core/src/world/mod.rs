@@ -30,7 +30,6 @@ use crate::npc::bot::BotManager;
 use crate::npc::precursor::PrecursorManager;
 use crate::player::PlayerManager;
 use crate::ranking::Ranking;
-use crate::report::ReportManager;
 use crate::round::Round;
 use crate::ruler::{Ruler, RulerRef, RulerRefMut};
 use crate::savedata::{SaveHandle, Savedata};
@@ -50,7 +49,6 @@ pub struct World {
   precursor_manager: PrecursorManager,
   military: Military,
   ranking: Ranking,
-  report_manager: ReportManager,
   chat: Chat,
 
   config: Arc<WorldConfig>,
@@ -78,7 +76,6 @@ impl World {
       precursor_manager,
       military,
       ranking: Ranking::default(),
-      report_manager: ReportManager::default(),
       config: Arc::new(config),
       stats,
       chat: Chat::default(),

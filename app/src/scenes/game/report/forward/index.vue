@@ -44,8 +44,8 @@ const canForward = computed(() => {
 
 async function forward() {
   await lock(async () => {
-    if (canForward.value && reportId.value && player.value) {
-      await forwardReport(reportId.value, player.value);
+    if (canForward.value && report.value && player.value) {
+      await forwardReport(player.value, report.value.toReportKind());
 
       if (route.name === ("report-forward" satisfies ReportScene)) {
         router.back();

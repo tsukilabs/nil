@@ -61,15 +61,6 @@ pub struct GetPlayerMilitaryRequest {
 #[serde(rename_all = "camelCase")]
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
-pub struct GetPlayerReportsRequest {
-  #[builder(start_fn, into)]
-  pub world: WorldId,
-}
-
-#[derive(Builder, Clone, Debug, Deserialize, Serialize)]
-#[serde(rename_all = "camelCase")]
-#[cfg_attr(feature = "typescript", derive(TS))]
-#[cfg_attr(feature = "typescript", ts(export))]
 pub struct GetPlayerStatusRequest {
   #[builder(start_fn, into)]
   pub world: WorldId,

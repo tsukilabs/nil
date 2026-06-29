@@ -5,7 +5,7 @@ use crate::chat::ChatMessage;
 use crate::continent::Coord;
 use crate::error::{Error, Result};
 use crate::player::PlayerId;
-use crate::report::ReportId;
+use crate::report::ReportKind;
 use crate::round::Round;
 use crate::world::config::WorldId;
 use bytes::Bytes;
@@ -104,7 +104,10 @@ pub enum Event {
   PublicCityUpdated { world: WorldId, coord: Coord },
 
   /// A report was generated.
-  Report { world: WorldId, report: ReportId },
+  Report {
+    world: WorldId,
+    report: Box<ReportKind>,
+  },
 
   /// Indicates changes in the round, such as the end of a player's turn or
   /// the transition from one round to another, after all players have completed their actions.

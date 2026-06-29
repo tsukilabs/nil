@@ -6,9 +6,9 @@ use crate::continent::Coord;
 use crate::error::Result;
 use crate::event::{Event, Listener};
 use crate::player::PlayerId;
+use crate::report::ReportKind;
 use crate::report::battle::BattleReport;
 use crate::report::support::SupportReport;
-use crate::report::{Report, ReportId};
 use crate::world::World;
 
 impl World {
@@ -38,14 +38,14 @@ impl World {
     Ok(())
   }
 
-  pub(super) fn emit_battle_report(&self, report: &BattleReport) -> Result<()> {
+  pub(super) fn emit_battle_report(&self, report: BattleReport) -> Result<()> {
     if let Some(attacker) = report.attacker().player().cloned() {
-      self.emit_report(attacker, report.id())?;
+      self.emit_report(attacker, report.clone().into())?;
     }
 
     if let Some(defender) = report.defender().player().cloned() {
       debug_assert_ne!(report.attacker().player(), Some(&defender));
-      self.emit_report(defender, report.id())?;
+      self.emit_report(defender, report.into())?;
     }
 
     Ok(())
@@ -89,9 +89,9 @@ impl World {
   }
 
   /// Emits [`Event::Report`].
-  pub(super) fn emit_report(&self, player: PlayerId, report: ReportId) -> Result<()> {
+  pub(super) fn emit_report(&self, player: PlayerId, report: ReportKind) -> Result<()> {
     let world = self.config.id();
-    self.emit_to(player, Event::Report { world, report })
+    self.emit_to(player, Event::Report { world, report: Box::new(report) })
   }
 
   /// Emits [`Event::RoundUpdated`].
@@ -101,14 +101,14 @@ impl World {
     self.broadcast(Event::RoundUpdated { world, round })
   }
 
-  pub(super) fn emit_support_report(&self, report: &SupportReport) -> Result<()> {
+  pub(super) fn emit_support_report(&self, report: SupportReport) -> Result<()> {
     if let Some(sender) = report.sender().player().cloned() {
-      self.emit_report(sender, report.id())?;
+      self.emit_report(sender, report.clone().into())?;
     }
 
     if let Some(receiver) = report.receiver().player().cloned() {
       debug_assert_ne!(report.sender().player(), Some(&receiver));
-      self.emit_report(receiver, report.id())?;
+      self.emit_report(receiver, report.into())?;
     }
 
     Ok(())

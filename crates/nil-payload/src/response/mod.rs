@@ -12,7 +12,6 @@ pub mod military;
 pub mod npc;
 pub mod player;
 pub mod ranking;
-pub mod report;
 pub mod round;
 pub mod server;
 pub mod user;
@@ -30,7 +29,6 @@ pub mod prelude {
   pub use super::npc::prelude::*;
   pub use super::player::*;
   pub use super::ranking::*;
-  pub use super::report::*;
   pub use super::round::*;
   pub use super::server::*;
   pub use super::user::*;

@@ -3,7 +3,6 @@
 
 import { toRef, watch } from "vue";
 import type { Option } from "@tb-dev/utils";
-import { getReport } from "@/commands/report";
 import { asyncRef, type MaybeNilRef } from "@tb-dev/vue";
 import type { ReportImpl } from "@/core/model/report/abstract";
 import type { ReportId, ReportKind } from "@tsukilabs/nil-bindings";
@@ -13,7 +12,13 @@ import { SupportReportImpl } from "@/core/model/report/support-report";
 export function useReport(id: MaybeNilRef<ReportId>) {
   const idRef = toRef(id);
   const { state, loading, load } = asyncRef<Option<ReportImpl>>(null, async () => {
-    return idRef.value ? getReport(idRef.value).then(toReportImpl) : null;
+    if (idRef.value) {
+      const report = NIL.report.getReport(idRef.value);
+      return report ? toReportImpl(report) : null;
+    }
+    else {
+      return null;
+    }
   });
 
   watch(idRef, load);
