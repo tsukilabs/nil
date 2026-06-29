@@ -12,8 +12,6 @@ import type {
   GetPlayerMaintenanceResponse,
   GetPlayerMilitaryRequest,
   GetPlayerMilitaryResponse,
-  GetPlayerReportsRequest,
-  GetPlayerReportsResponse,
   GetPlayerRequest,
   GetPlayerResponse,
   GetPlayerStatusRequest,
@@ -74,14 +72,6 @@ export async function getPlayerMilitary() {
   };
 
   return invoke<GetPlayerMilitaryResponse>("get_player_military", { req });
-}
-
-export async function getPlayerReports() {
-  const req: GetPlayerReportsRequest = {
-    world: NIL.world.getIdStrict(),
-  };
-
-  return invoke<GetPlayerReportsResponse>("get_player_reports", { req });
 }
 
 export async function getPlayerStatus(id: PlayerId) {

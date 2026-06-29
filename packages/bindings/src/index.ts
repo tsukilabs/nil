@@ -154,8 +154,6 @@ export type { GetPlayerMaintenanceRequest } from './GetPlayerMaintenanceRequest'
 export type { GetPlayerMaintenanceResponse } from './GetPlayerMaintenanceResponse';
 export type { GetPlayerMilitaryRequest } from './GetPlayerMilitaryRequest';
 export type { GetPlayerMilitaryResponse } from './GetPlayerMilitaryResponse';
-export type { GetPlayerReportsRequest } from './GetPlayerReportsRequest';
-export type { GetPlayerReportsResponse } from './GetPlayerReportsResponse';
 export type { GetPlayerRequest } from './GetPlayerRequest';
 export type { GetPlayerResponse } from './GetPlayerResponse';
 export type { GetPlayerStatusRequest } from './GetPlayerStatusRequest';
@@ -197,10 +195,6 @@ export type { GetRemoteWorldLimitResponse } from './GetRemoteWorldLimitResponse'
 export type { GetRemoteWorldRequest } from './GetRemoteWorldRequest';
 export type { GetRemoteWorldResponse } from './GetRemoteWorldResponse';
 export type { GetRemoteWorldsResponse } from './GetRemoteWorldsResponse';
-export type { GetReportRequest } from './GetReportRequest';
-export type { GetReportResponse } from './GetReportResponse';
-export type { GetReportsRequest } from './GetReportsRequest';
-export type { GetReportsResponse } from './GetReportsResponse';
 export type { GetRoundRequest } from './GetRoundRequest';
 export type { GetRoundResponse } from './GetRoundResponse';
 export type { GetServerKindResponse } from './GetServerKindResponse';
@@ -274,7 +268,6 @@ export type { Rank } from './Rank';
 export type { Ranking } from './Ranking';
 export type { RankingEntry } from './RankingEntry';
 export type { RemoteWorld } from './RemoteWorld';
-export type { RemoveReportRequest } from './RemoveReportRequest';
 export type { RenameCityRequest } from './RenameCityRequest';
 export type { ReportId } from './ReportId';
 export type { ReportKind } from './ReportKind';

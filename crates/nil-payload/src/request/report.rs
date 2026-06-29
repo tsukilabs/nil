@@ -18,7 +18,7 @@ pub struct ForwardReportRequest {
   #[builder(start_fn, into)]
   pub world: WorldId,
   #[builder(into)]
-  pub report: ReportKind,
-  #[builder(into)]
   pub recipient: PlayerId,
+  #[builder(into)]
+  pub report: ReportKind,
 }
