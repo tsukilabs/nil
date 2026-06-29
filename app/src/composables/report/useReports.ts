@@ -1,6 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { watch } from "vue";
 import * as commands from "@/commands";
 import { asyncRef } from "@tb-dev/vue";
 import type { MaybePromise } from "@tb-dev/utils";
@@ -13,11 +14,11 @@ import type { ContinentIndex, Coord, PublicCity, ReportKind } from "@tsukilabs/n
 type CityCache = Map<ContinentIndex, MaybePromise<PublicCity>>;
 
 export function useReports() {
+  const { reports } = NIL.report.refs();
   const { state, loading, load } = asyncRef<ReportImpl[]>([], async () => {
-    const reports = NIL.report.getReports();
-    if (reports.length > 0) {
+    if (reports.value.length > 0) {
       const cityCache: CityCache = new Map();
-      return Promise.all(reports.map((report) => {
+      return Promise.all(reports.value.map((report) => {
         return toReportImpl(report, cityCache);
       }));
     }
@@ -25,6 +26,8 @@ export function useReports() {
       return [];
     }
   });
+
+  watch(reports, () => void load());
 
   return {
     reports: state,
