@@ -103,18 +103,6 @@ pub async fn get_military(
     .into_inner()
 }
 
-pub async fn get_reports(
-  State(app): State<App>,
-  Extension(player): Extension<CurrentPlayer>,
-  Json(req): Json<GetPlayerReportsRequest>,
-) -> Response {
-  app
-    .world(req.world, |world| world.get_player_reports(&player))
-    .await
-    .map_left(|reports| res!(OK, GetPlayerReportsResponse(reports)))
-    .into_inner()
-}
-
 pub async fn get_status(
   State(app): State<App>,
   Json(req): Json<GetPlayerStatusRequest>,

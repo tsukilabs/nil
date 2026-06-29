@@ -6,7 +6,6 @@ use nil_core::continent::Coord;
 use nil_core::infrastructure::storage::OverallStorageCapacity;
 use nil_core::military::Military;
 use nil_core::player::{Player, PlayerId, PlayerStatus, PublicPlayer};
-use nil_core::report::ReportId;
 use nil_core::resources::maintenance::Maintenance;
 use nil_core::world::config::WorldId;
 use serde::{Deserialize, Serialize};
@@ -40,12 +39,6 @@ pub struct GetPlayerMaintenanceResponse(pub Maintenance);
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct GetPlayerMilitaryResponse(pub Military);
-
-#[derive(Clone, Debug, Deref, DerefMut, From, Into, Deserialize, Serialize)]
-#[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
-#[cfg_attr(feature = "typescript", derive(TS))]
-#[cfg_attr(feature = "typescript", ts(export))]
-pub struct GetPlayerReportsResponse(pub Vec<ReportId>);
 
 #[derive(Clone, Debug, Deref, DerefMut, From, Into, Deserialize, Serialize)]
 #[cfg_attr(feature = "axum", derive(IntoJsonResponse))]

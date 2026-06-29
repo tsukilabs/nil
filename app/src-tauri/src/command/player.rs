@@ -60,21 +60,6 @@ pub async fn get_player_military(
 }
 
 #[tauri::command]
-pub async fn get_player_reports(
-  app: AppHandle,
-  req: GetPlayerReportsRequest,
-) -> Result<GetPlayerReportsResponse> {
-  let mut response = app
-    .client(async |cl| cl.get_player_reports(req).await)
-    .await?;
-
-  response.0.sort();
-  response.0.dedup();
-
-  Ok(response)
-}
-
-#[tauri::command]
 pub async fn get_player_status(
   app: AppHandle,
   req: GetPlayerStatusRequest,

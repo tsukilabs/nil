@@ -3,14 +3,14 @@
 
 #![feature(str_as_str, try_blocks_heterogeneous)]
 
-use anyhow::Result;
+use anyhow::{Context as _, Result, anyhow};
 use bytesize::ByteSize;
 use humantime::format_duration;
 use mimalloc::MiMalloc;
 use nil_log::{Directives, Layers};
 use nil_server::remote;
 use std::time::Duration;
-use sysinfo::{Pid, ProcessRefreshKind, ProcessesToUpdate, RefreshKind, System};
+use sysinfo::{ProcessRefreshKind, ProcessesToUpdate, RefreshKind, System};
 use tokio::runtime::Handle;
 use tokio::task::spawn;
 use tokio::time::sleep;
@@ -26,9 +26,7 @@ async fn main() -> Result<()> {
     .release_layers(Layers::FILE)
     .call()?;
 
-  if let Ok(pid) = sysinfo::get_current_pid() {
-    watch_process(pid);
-  }
+  watch_process()?;
 
   let result = try bikeshed Result<()> {
     let database_url = nil_env::database_url()?;
@@ -46,7 +44,11 @@ macro_rules! b {
   ($bytes:expr) => {{ ByteSize::b($bytes).display().si() }};
 }
 
-fn watch_process(pid: Pid) {
+fn watch_process() -> Result<()> {
+  let pid = sysinfo::get_current_pid()
+    .map_err(|err| anyhow!("{err}"))
+    .context("Failed to get process pid")?;
+
   let mut sys = System::new_with_specifics(
     RefreshKind::nothing().with_processes(
       ProcessRefreshKind::nothing()
@@ -85,4 +87,6 @@ fn watch_process(pid: Pid) {
       sleep(Duration::from_mins(mins)).await;
     }
   });
+
+  Ok(())
 }

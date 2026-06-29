@@ -3,29 +3,12 @@
 
 use crate::error::Result;
 use crate::player::PlayerId;
-use crate::report::{ReportId, ReportManager};
+use crate::report::ReportKind;
 use crate::world::World;
 
 impl World {
-  #[inline]
-  pub fn report_manager(&self) -> &ReportManager {
-    &self.report_manager
-  }
-
   /// Forwards a report to a player.
-  pub fn forward_report(&mut self, id: ReportId, recipient: PlayerId) -> Result<()> {
-    if self
-      .report_manager
-      .forward(id, recipient.clone())
-    {
-      self.emit_report(recipient, id)?;
-    }
-
-    Ok(())
-  }
-
-  /// Removes a report from a player's list of reports.
-  pub fn remove_report_of(&mut self, id: ReportId, player: &PlayerId) {
-    self.report_manager.remove_of(id, player);
+  pub fn forward_report(&mut self, recipient: PlayerId, report: ReportKind) -> Result<()> {
+    self.emit_report(recipient, report)
   }
 }

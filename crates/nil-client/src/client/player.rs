@@ -77,21 +77,6 @@ impl Client {
       .await
   }
 
-  pub async fn get_player_reports(
-    &self,
-    req: GetPlayerReportsRequest,
-  ) -> Result<GetPlayerReportsResponse> {
-    http::json_put("get-player-reports")
-      .body(req)
-      .server(self.server)
-      .maybe_authorization(self.authorization.as_ref())
-      .circuit_breaker(self.circuit_breaker())
-      .retry(&self.retry)
-      .user_agent(&self.user_agent)
-      .send()
-      .await
-  }
-
   pub async fn get_player_status(
     &self,
     req: GetPlayerStatusRequest,

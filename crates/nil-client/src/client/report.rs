@@ -5,46 +5,10 @@ use super::Client;
 use crate::error::Result;
 use crate::http;
 use nil_payload::request::report::*;
-use nil_payload::response::report::*;
 
 impl Client {
   pub async fn forward_report(&self, req: ForwardReportRequest) -> Result<()> {
     http::post("forward-report")
-      .body(req)
-      .server(self.server)
-      .maybe_authorization(self.authorization.as_ref())
-      .circuit_breaker(self.circuit_breaker())
-      .user_agent(&self.user_agent)
-      .send()
-      .await
-  }
-
-  pub async fn get_report(&self, req: GetReportRequest) -> Result<GetReportResponse> {
-    http::json_put("get-report")
-      .body(req)
-      .server(self.server)
-      .maybe_authorization(self.authorization.as_ref())
-      .circuit_breaker(self.circuit_breaker())
-      .retry(&self.retry)
-      .user_agent(&self.user_agent)
-      .send()
-      .await
-  }
-
-  pub async fn get_reports(&self, req: GetReportsRequest) -> Result<GetReportsResponse> {
-    http::json_put("get-reports")
-      .body(req)
-      .server(self.server)
-      .maybe_authorization(self.authorization.as_ref())
-      .circuit_breaker(self.circuit_breaker())
-      .retry(&self.retry)
-      .user_agent(&self.user_agent)
-      .send()
-      .await
-  }
-
-  pub async fn remove_report(&self, req: RemoveReportRequest) -> Result<()> {
-    http::post("remove-report")
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())

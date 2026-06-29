@@ -10,7 +10,6 @@ use crate::infrastructure::building::{Building, BuildingId};
 use crate::military::army::{Army, ArmyState};
 use crate::military::maneuver::{Maneuver, ManeuverDirection, ManeuverHaul, ManeuverKind};
 use crate::military::unit::stats::haul::Haul;
-use crate::player::PlayerId;
 use crate::report::battle::BattleReport;
 use crate::report::support::SupportReport;
 use crate::resources::Resources;
@@ -96,7 +95,6 @@ impl World {
 
     update_wall_level(self, &battle_result, destination)?;
 
-    let players = rulers.players();
     let report = BattleReport::builder()
       .attacker(rulers.sender)
       .defender(rulers.destination_ruler)
@@ -107,10 +105,7 @@ impl World {
       .round(self.round.id())
       .build();
 
-    self.emit_battle_report(&report)?;
-    self
-      .report_manager
-      .manage(report.into(), players);
+    self.emit_battle_report(report)?;
 
     Ok(())
   }
@@ -136,10 +131,7 @@ impl World {
       .round(self.round.id())
       .build();
 
-    self.emit_support_report(&report)?;
-    self
-      .report_manager
-      .manage(report.into(), players);
+    self.emit_support_report(report)?;
 
     self
       .military
@@ -203,13 +195,6 @@ impl ManeuverRulers {
       destination_ruler,
       destination_army_owners: destination_army_owners.into_boxed_slice(),
     })
-  }
-
-  fn players(&self) -> Vec<PlayerId> {
-    let mut players = Vec::new();
-    players.try_push(self.sender.player().cloned());
-    players.try_push(self.destination_ruler.player().cloned());
-    players
   }
 }
 
