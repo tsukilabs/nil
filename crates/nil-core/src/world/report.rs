@@ -9,6 +9,10 @@ use crate::world::World;
 impl World {
   /// Forwards a report to a player.
   pub fn forward_report(&mut self, recipient: PlayerId, report: ReportKind) -> Result<()> {
-    self.emit_report(recipient, report)
+    if self.has_player(&recipient) {
+      self.emit_report(recipient, report)?;
+    }
+
+    Ok(())
   }
 }
