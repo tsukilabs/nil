@@ -1,7 +1,6 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Ref } from "vue";
 import * as commands from "@/commands";
 import { asyncRef } from "@tb-dev/vue";
 import type { MaybePromise } from "@tb-dev/utils";
@@ -9,33 +8,28 @@ import { CoordImpl } from "@/core/model/continent/coord";
 import type { ReportImpl } from "@/core/model/report/abstract";
 import { BattleReportImpl } from "@/core/model/report/battle-report";
 import { SupportReportImpl } from "@/core/model/report/support-report";
-import type {
-  ContinentIndex,
-  Coord,
-  PublicCity,
-  ReportId,
-  ReportKind,
-} from "@tsukilabs/nil-bindings";
+import type { ContinentIndex, Coord, PublicCity, ReportKind } from "@tsukilabs/nil-bindings";
 
 type CityCache = Map<ContinentIndex, MaybePromise<PublicCity>>;
 
-export function useReports(ids: Ref<readonly ReportId[]>) {
+export function useReports() {
   const { state, loading, load } = asyncRef<ReportImpl[]>([], async () => {
-    if (ids.value.length > 0) {
-      const reports = await commands.getReports(ids.value as ReportId[]);
+    const reports = NIL.report.getReports();
+    if (reports.length > 0) {
       const cityCache: CityCache = new Map();
       return Promise.all(reports.map((report) => {
         return toReportImpl(report, cityCache);
       }));
     }
-
-    return [];
+    else {
+      return [];
+    }
   });
 
   return {
     reports: state,
     loading,
-    load,
+    loadReports: load,
   };
 }
 

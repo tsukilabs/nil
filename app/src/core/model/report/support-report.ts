@@ -7,7 +7,14 @@ import { CoordImpl } from "@/core/model/continent/coord";
 import { ReportImpl } from "@/core/model/report/abstract";
 import enUS from "@/locale/en-US/scenes/game/report.json";
 import { ArmyPersonnelImpl } from "@/core/model/military/army-personnel";
-import type { Coord, PlayerId, PublicCity, Ruler, SupportReport } from "@tsukilabs/nil-bindings";
+import type {
+  Coord,
+  PlayerId,
+  PublicCity,
+  ReportKind,
+  Ruler,
+  SupportReport,
+} from "@tsukilabs/nil-bindings";
 
 export class SupportReportImpl extends ReportImpl implements Readonly<SupportReport> {
   public readonly sender: Ruler;
@@ -50,6 +57,22 @@ export class SupportReportImpl extends ReportImpl implements Readonly<SupportRep
       destination: this.destination.format(),
       destinationName: this.destinationCity.name,
     });
+  }
+
+  public override toReportKind(): ReportKind {
+    return {
+      kind: "support",
+      report: {
+        id: this.id,
+        sender: this.sender,
+        receiver: this.receiver,
+        origin: this.origin,
+        destination: this.destination,
+        personnel: this.personnel,
+        round: this.round,
+        time: this.time,
+      },
+    };
   }
 
   public static create(args: SupportReportImplConstructorArgs) {

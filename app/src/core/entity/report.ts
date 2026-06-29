@@ -2,27 +2,19 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { Entity } from "./abstract";
-import { asyncRef } from "@tb-dev/vue";
-import { getPlayerReports } from "@/commands";
+import type { Option } from "@tb-dev/utils";
 import type { ReportPayload } from "@/types/event";
-import type { ReportId } from "@tsukilabs/nil-bindings";
 import { shallowRef, type ShallowRef, triggerRef } from "vue";
+import type { ReportId, ReportKind } from "@tsukilabs/nil-bindings";
 
 export class ReportEntity extends Entity {
-  private readonly reports: ShallowRef<ReportId[]>;
+  private readonly reports = shallowRef<ReportKind[]>([]);
   private readonly unread = shallowRef(new Set<ReportId>());
-
-  public readonly updateReports: () => Promise<void>;
 
   public override readonly requireManualUpdates = true;
 
   constructor() {
     super();
-
-    const reports = asyncRef([], getPlayerReports);
-    this.reports = reports.state;
-    this.updateReports = reports.load;
-
     this.initListeners();
   }
 
@@ -30,8 +22,12 @@ export class ReportEntity extends Entity {
     this.event.onReport(this.onReport.bind(this));
   }
 
-  public override async update() {
-    await this.updateReports();
+  public get(id: ReportId): Option<ReportKind> {
+    return this.reports.value.find(({ report }) => report.id === id);
+  }
+
+  public has(id: ReportId) {
+    return this.reports.value.some(({ report }) => report.id === id);
   }
 
   public isUnread(id: ReportId) {
@@ -46,13 +42,17 @@ export class ReportEntity extends Entity {
   }
 
   private onReport({ report }: ReportPayload) {
-    if (!this.reports.value.includes(report)) {
+    if (!this.has(report.report.id)) {
       this.reports.value.push(report);
       triggerRef(this.reports);
 
-      this.unread.value.add(report);
+      this.unread.value.add(report.report.id);
       triggerRef(this.unread);
     }
+  }
+
+  public remove(id: ReportId) {
+    return this.reports.value = this.reports.value.filter(({ report }) => report.id !== id);
   }
 
   public static use() {
@@ -62,7 +62,7 @@ export class ReportEntity extends Entity {
   public static refs() {
     const instance = this.use();
     return {
-      reports: instance.reports as Readonly<ShallowRef<readonly ReportId[]>>,
+      reports: instance.reports as Readonly<ShallowRef<readonly ReportKind[]>>,
       unread: instance.unread as Readonly<ShallowRef<ReadonlySet<ReportId>>>,
     } as const;
   }
@@ -71,7 +71,11 @@ export class ReportEntity extends Entity {
     return this.use().update();
   }
 
-  public static getReports(): readonly ReportId[] {
+  public static getReport(id: ReportId): Option<ReportKind> {
+    return this.use().get(id);
+  }
+
+  public static getReports(): readonly ReportKind[] {
     return this.use().reports.value;
   }
 
@@ -87,14 +91,20 @@ export class ReportEntity extends Entity {
     this.use().markRead(id);
   }
 
+  public static removeReport(id: ReportId) {
+    return this.use().remove(id);
+  }
+
   public static init() {
     if (!Object.hasOwn(globalThis.NIL, "report")) {
       const report: (typeof globalThis.NIL)["report"] = {
+        getReport: ReportEntity.getReport.bind(ReportEntity),
         getReports: ReportEntity.getReports.bind(ReportEntity),
         getUnread: ReportEntity.getUnread.bind(ReportEntity),
         isUnread: ReportEntity.isUnread.bind(ReportEntity),
         markRead: ReportEntity.markRead.bind(ReportEntity),
         refs: ReportEntity.refs.bind(ReportEntity),
+        removeReport: ReportEntity.removeReport.bind(ReportEntity),
         update: ReportEntity.update.bind(ReportEntity),
         use: ReportEntity.use.bind(ReportEntity),
       };

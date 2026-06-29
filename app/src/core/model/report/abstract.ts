@@ -6,7 +6,7 @@ import type { Report_ } from "@/types/core/report";
 import { formatToday, fromZoned } from "@/lib/date";
 import type { ComposerTranslation } from "vue-i18n";
 import enUS from "@/locale/en-US/scenes/game/report.json";
-import type { PlayerId, ReportId, RoundId } from "@tsukilabs/nil-bindings";
+import type { PlayerId, ReportId, ReportKind, RoundId } from "@tsukilabs/nil-bindings";
 
 export abstract class ReportImpl implements Report_ {
   public readonly id: ReportId;
@@ -23,6 +23,7 @@ export abstract class ReportImpl implements Report_ {
 
   public abstract getPlayerIds(): readonly PlayerId[];
   public abstract getTitle(t: ComposerTranslation<typeof enUS>): string;
+  public abstract toReportKind(): ReportKind;
 
   public isUnread() {
     return NIL.report.isUnread(this.id);

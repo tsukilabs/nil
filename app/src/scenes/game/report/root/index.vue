@@ -19,8 +19,7 @@ const { t } = useI18n({
   },
 });
 
-const { reports: reportIds } = NIL.report.refs();
-const { reports, loading, load: loadReports } = useReports(reportIds);
+const { reports, loading, loadReports } = useReports();
 
 const { md } = useBreakpoints();
 
