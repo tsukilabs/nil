@@ -19,7 +19,7 @@ pub async fn forward(
   }
 
   app
-    .world_mut(req.world, |world| {
+    .world(req.world, |world| {
       world.forward_report(req.recipient, req.report)
     })
     .await
