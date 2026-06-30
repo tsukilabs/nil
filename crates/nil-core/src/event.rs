@@ -61,7 +61,7 @@ impl fmt::Debug for Emitter {
   }
 }
 
-#[derive(Clone, Debug, Display, Deserialize, Serialize)]
+#[derive(Clone, Display, Deserialize, Serialize)]
 #[serde(tag = "kind", rename_all = "kebab-case")]
 #[strum(serialize_all = "kebab-case")]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
@@ -118,16 +118,57 @@ pub enum Event {
   RoundUpdated { world: WorldId, round: Round },
 }
 
-impl TryFrom<Event> for Bytes {
-  type Error = Error;
-
-  fn try_from(event: Event) -> Result<Self> {
-    serde_json::to_vec(&event)
-      .map(Bytes::from)
-      .map_err(|err| {
-        tracing::error!("Failed to serialize event: {err}");
-        Error::FailedToSerializeEvent
-      })
+impl fmt::Debug for Event {
+  fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+    match self {
+      Self::ChatUpdated { world, message } => {
+        f.debug_struct("ChatUpdated")
+          .field("world", world)
+          .field("message", &message.id())
+          .finish()
+      }
+      Self::CityUpdated { world, coord } => {
+        f.debug_struct("CityUpdated")
+          .field("world", world)
+          .field("coord", coord)
+          .finish()
+      }
+      Self::Drop { world } => {
+        f.debug_struct("Drop")
+          .field("world", world)
+          .finish()
+      }
+      Self::MilitaryUpdated { world, player } => {
+        f.debug_struct("MilitaryUpdated")
+          .field("world", world)
+          .field("player", player)
+          .finish()
+      }
+      Self::PlayerUpdated { world, player } => {
+        f.debug_struct("PlayerUpdated")
+          .field("world", world)
+          .field("player", player)
+          .finish()
+      }
+      Self::PublicCityUpdated { world, coord } => {
+        f.debug_struct("PublicCityUpdated")
+          .field("world", world)
+          .field("coord", coord)
+          .finish()
+      }
+      Self::Report { world, report } => {
+        f.debug_struct("Report")
+          .field("world", world)
+          .field("report", &report.id())
+          .finish()
+      }
+      Self::RoundUpdated { world, round } => {
+        f.debug_struct("RoundUpdated")
+          .field("world", world)
+          .field("round", &round.id())
+          .finish()
+      }
+    }
   }
 }
 
@@ -139,6 +180,19 @@ impl TryFrom<Bytes> for Event {
       tracing::error!("Failed to deserialize event: {err}");
       Error::FailedToDeserializeEvent
     })
+  }
+}
+
+impl TryFrom<Event> for Bytes {
+  type Error = Error;
+
+  fn try_from(event: Event) -> Result<Self> {
+    serde_json::to_vec(&event)
+      .map(Bytes::from)
+      .map_err(|err| {
+        tracing::error!("Failed to serialize event: {err}");
+        Error::FailedToSerializeEvent
+      })
   }
 }
 
