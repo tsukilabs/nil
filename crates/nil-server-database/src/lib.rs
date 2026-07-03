@@ -57,6 +57,14 @@ impl Database {
   }
 }
 
+#[doc(hidden)]
+#[macro_export]
+macro_rules! conn {
+  ($database:expr) => {
+    &mut *$database.pool.get().await?
+  };
+}
+
 async fn execute(conn: &mut Conn, query: &str) -> Result<(), HookError> {
   sql_query(query)
     .execute(conn)
