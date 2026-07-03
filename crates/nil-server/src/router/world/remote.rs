@@ -52,7 +52,7 @@ pub async fn delete(
     let result = try {
       let database = app.database();
       if database
-        .was_game_created_by(req.world, player.0)
+        .is_game_owned_by(req.world, player.0)
         .await?
       {
         database.delete_game(req.world).await?;

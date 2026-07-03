@@ -42,7 +42,7 @@ pub async fn start(
   if app.server_kind().is_remote() {
     match app
       .database()
-      .was_game_created_by(req.world, player)
+      .is_game_owned_by(req.world, player)
       .await
     {
       Ok(true) => {}

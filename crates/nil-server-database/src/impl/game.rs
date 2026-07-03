@@ -124,7 +124,7 @@ impl Database {
       .map_err(Into::into)
   }
 
-  pub async fn get_game_creator(&self, id: GameId) -> Result<db_PlayerId> {
+  pub async fn get_game_owner(&self, id: GameId) -> Result<db_PlayerId> {
     use crate::schema::game;
 
     let mut conn = self.pool.get().await?;
@@ -215,14 +215,14 @@ impl Database {
     }
   }
 
-  pub async fn was_game_created_by(
+  pub async fn is_game_owned_by(
     &self,
     game_id: impl Into<GameId>,
     player_id: impl Into<db_PlayerId>,
   ) -> Result<bool> {
     let game_id: GameId = game_id.into();
     let player_id: db_PlayerId = player_id.into();
-    let creator = self.get_game_creator(game_id).await?;
-    Ok(creator == player_id)
+    let owner = self.get_game_owner(game_id).await?;
+    Ok(owner == player_id)
   }
 }
