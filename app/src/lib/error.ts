@@ -6,7 +6,7 @@ import type { Option } from "@tb-dev/utils";
 
 export function handleError(err: unknown, message?: Option<string>) {
   if (__DEBUG_ASSERTIONS__ && err) {
-    if (err instanceof Error) {
+    if (Error.isError(err)) {
       console.error(`${err.message}\n${err.stack}`);
     }
     else {
@@ -15,7 +15,7 @@ export function handleError(err: unknown, message?: Option<string>) {
   }
 
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-  message ||= err instanceof Error ? err.message : String(err);
+  message ||= Error.isError(err) ? err.message : String(err);
 
   if (message) {
     toast.error(message);

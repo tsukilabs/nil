@@ -38,12 +38,11 @@ pub(crate) fn on_next_round(
 
     world.save(move |bytes| {
       let id = GameId::from(id);
-      if let Err(err) = database
-        .blocking()
-        .update_game_blob(id, &bytes)
-      {
-        tracing::error!(message = %err, error = ?err);
-      }
+      spawn(async move {
+        if let Err(err) = database.update_game_blob(id, &bytes).await {
+          tracing::error!(message = %err, error = ?err);
+        }
+      });
     });
 
     if let Some(duration) = round_duration {

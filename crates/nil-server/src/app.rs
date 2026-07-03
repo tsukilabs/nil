@@ -105,7 +105,7 @@ impl App {
       }
     }
 
-    database.delete_games(invalid_games).await?;
+    database.delete_games(&invalid_games).await?;
 
     Ok(Self {
       server_kind: ServerKind::Remote,

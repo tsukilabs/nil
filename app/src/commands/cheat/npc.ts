@@ -109,7 +109,7 @@ export async function cheatSetOwnerBotTruthEthic(coord: ContinentKey, ethic: Eth
 
 export async function cheatSpawnBot(name?: Option<string>, infrastructure?: Infrastructure) {
   if (typeof name !== "string" || name.length === 0) {
-    name = `Bot ${globalThis.crypto.randomUUID()}`;
+    name = `Bot ${crypto.randomUUID()}`;
   }
 
   const req: CheatSpawnBotRequest = {

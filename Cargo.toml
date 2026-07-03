@@ -65,7 +65,7 @@ either = "1.16"
 futures = "0.3"
 headers = "0.4"
 http = "1.4"
-humantime = "=2.3.0"
+humantime = "=2.4.0"
 itertools = "0.15"
 local-ip-address = "=0.6.13"
 num-traits = "=0.2.19"
@@ -112,6 +112,10 @@ features = ["deref", "deref_mut", "display", "from", "into", "try_unwrap", "unwr
 version = "2.3"
 default-features = false
 features = ["returning_clauses_for_sqlite_3_35", "sqlite"]
+
+[workspace.dependencies.diesel-async]
+version = "0.9"
+features = ["migrations", "sqlite"]
 
 [workspace.dependencies.diesel_migrations]
 version = "2.3"

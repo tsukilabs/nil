@@ -31,7 +31,8 @@ export function useContinentCities() {
     if (origin.value) {
       const destinations = cities.map((it) => it.coord);
       if (destinations.length > 0) {
-        for (const [coord, distance] of await getBulkDistance(origin.value, destinations)) {
+        const coords = await getBulkDistance(origin.value, destinations);
+        for (const [coord, distance] of coords) {
           const city = cities.find((it) => it.coord.is(coord));
           if (city) {
             city.distance = distance;

@@ -28,6 +28,7 @@ anyhow.workspace = true
 bon.workspace = true
 derive_more.workspace = true
 diesel.workspace = true
+diesel-async.workspace = true
 diesel_migrations.workspace = true
 either.workspace = true
 itertools.workspace = true

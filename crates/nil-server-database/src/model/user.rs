@@ -77,7 +77,7 @@ impl NewUser {
   }
 
   pub async fn create(self, database: &Database) -> Result<usize> {
-    database.create_user(self).await
+    database.create_user(&self).await
   }
 }
 
