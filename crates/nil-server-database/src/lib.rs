@@ -41,7 +41,7 @@ impl Database {
     run_pending_migrations(url)?;
     let manager = AsyncDieselConnectionManager::new(url);
     let pool = Pool::builder(manager)
-      .max_size(10)
+      .max_size(4)
       .post_create(Hook::async_fn(move |conn: &mut Conn, _| {
         Box::pin(async move {
           execute(conn, "PRAGMA journal_mode=WAL;").await?;
