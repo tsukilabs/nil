@@ -6,10 +6,10 @@ import { type DateArg, formatDate, type FormatOptions, isToday } from "date-fns"
 const ZONE_REGEX = /\[.+?\]/;
 
 /**
- * Example:
- *
- * 2025-06-02T22:08:36.6360753-03:00[America/Sao_Paulo]
- */
+Example:
+
+2025-06-02T22:08:36.6360753-03:00[America/Sao_Paulo]
+*/
 export function fromZoned(zoned: string) {
   return new Date(zoned.replace(ZONE_REGEX, ""));
 }

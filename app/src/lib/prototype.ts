@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable no-extend-native */
+/* eslint-disable unicorn/no-unreadable-new-expression */
 import "@tb-dev/prototype-dom";
 import { handleError } from "@/lib/error";
 import type { Option } from "@tb-dev/utils";

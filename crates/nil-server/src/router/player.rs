@@ -161,9 +161,10 @@ pub async fn set_status(
 pub async fn spawn(State(app): State<App>, Json(req): Json<SpawnPlayerRequest>) -> Response {
   bail_if_max_chars_exceeded!(req.options.id, 20);
   if app.server_kind().is_remote() {
+    let password = req.world_password.as_ref();
     match app
       .database()
-      .verify_game_password(req.world, req.world_password)
+      .verify_game_password(req.world, password)
       .await
     {
       Ok(true) => {}

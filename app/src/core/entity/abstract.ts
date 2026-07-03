@@ -19,10 +19,10 @@ export abstract class Entity {
   protected readonly watchEffect = this.listeners.watchEffect.bind(this.listeners);
 
   /**
-   * Whether the entity must be updated manually.
-   *
-   * If true, it won't be updated when calling the global {@link NIL.update} method.
-   */
+  Whether the entity must be updated manually.
+
+  If true, it won't be updated when calling the global {@link NIL.update} method.
+  */
   public readonly requireManualUpdates: boolean = false;
 
   protected initListeners() {

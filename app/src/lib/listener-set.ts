@@ -27,7 +27,8 @@ export class ListenerSet {
   }
 
   private async add(listener: MaybePromise<MaybeArray<Fn>>) {
-    for (const unlisten of toArray(await listener)) {
+    const listeners = toArray(await listener);
+    for (const unlisten of listeners) {
       if (this.disposed) {
         unlisten();
       }

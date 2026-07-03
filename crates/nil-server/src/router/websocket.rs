@@ -19,9 +19,10 @@ pub async fn websocket(
   Query(query): Query<WebsocketQuery>,
 ) -> Response {
   if app.server_kind().is_remote() {
+    let password = query.world_password.as_ref();
     match app
       .database()
-      .verify_game_password(query.world_id, query.world_password)
+      .verify_game_password(query.world_id, password)
       .await
     {
       Ok(true) => {}

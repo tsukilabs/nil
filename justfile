@@ -36,33 +36,43 @@ udeps:
 rsx FILE *ARGS:
   @cargo -Zscript scripts/{{ FILE }}.rs {{ ARGS }}
 
+[group("rsx")]
 build-client *ARGS:
   @just rsx build-client {{ ARGS }}
 
+[group("rsx")]
 bump *ARGS:
   @just rsx bump {{ ARGS }}
 
+[group("rsx")]
 clippy *ARGS:
   @just rsx run-clippy {{ ARGS }}
 
+[group("rsx")]
 clean *ARGS:
   @just rsx clean {{ ARGS }}
   @cargo clean
 
+[group("rsx")]
 dev *ARGS:
   @just rsx start-dev {{ ARGS }}
 
+[group("rsx")]
 generate-bindings *ARGS:
   @just rsx generate-bindings {{ ARGS }}
 
+[group("rsx")]
 miri:
   @just rsx test --miri
 
+[group("rsx")]
 preview:
   @just rsx build-client --preview
 
+[group("rsx")]
 server:
   @just rsx start-server
 
+[group("rsx")]
 test *ARGS:
   @just rsx test {{ ARGS }}

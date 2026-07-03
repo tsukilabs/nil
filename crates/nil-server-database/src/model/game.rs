@@ -144,7 +144,7 @@ impl NewGame {
 
   #[inline]
   pub async fn create(self, database: &Database) -> Result<usize> {
-    database.create_game(self).await
+    database.create_game(&self).await
   }
 }
 

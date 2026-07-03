@@ -15,7 +15,7 @@ pub async fn create(State(app): State<App>, Json(req): Json<CreateUserRequest>) 
   if app.server_kind().is_remote() {
     let result = try {
       let new = NewUser::new(req.player, req.password).await?;
-      app.database().create_user(new).await?;
+      app.database().create_user(&new).await?;
     };
 
     result

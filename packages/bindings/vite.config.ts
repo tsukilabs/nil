@@ -12,7 +12,7 @@ export default defineConfig({
       bundleTypes: false,
       afterBuild: async (files) => {
         const promises: Promise<void>[] = [];
-        for (const [path, content] of files.entries()) {
+        for (const [path, content] of files) {
           if (extname(path) === ".ts") {
             promises.push(prependLicense(path, content));
           }

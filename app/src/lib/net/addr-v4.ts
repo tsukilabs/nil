@@ -13,13 +13,13 @@ export class IpAddrV4 {
   }
 
   public static loopback() {
-    return new this([127, 0, 0, 1]);
+    return new IpAddrV4([127, 0, 0, 1]);
   }
 
   public static parse(ip: string) {
     const value = ip.split(".").map((n) => Number.parseInt(n));
     if (value.length === 4 && value.every((n) => Number.isInteger(n) && n >= 0 && n <= 255)) {
-      return new this(value as [number, number, number, number]);
+      return new IpAddrV4(value as [number, number, number, number]);
     }
 
     throw new Error(`Invalid IPv4 address: ${ip}`);

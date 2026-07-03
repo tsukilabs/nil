@@ -42,6 +42,10 @@ pub enum Error {
   #[error(transparent)]
   Core(#[from] CoreError),
   #[error(transparent)]
+  Deadpool(#[from] diesel_async::pooled_connection::deadpool::PoolError),
+  #[error(transparent)]
+  DeadpoolBuild(#[from] diesel_async::pooled_connection::deadpool::BuildError),
+  #[error(transparent)]
   Diesel(#[from] diesel::result::Error),
   #[error(transparent)]
   DieselConnection(#[from] diesel::ConnectionError),

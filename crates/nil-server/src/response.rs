@@ -111,6 +111,8 @@ fn from_database_err(err: DatabaseError) -> Response {
 
   match err {
     Core(err) => from_core_err(err),
+    Deadpool(..) => res!(INTERNAL_SERVER_ERROR),
+    DeadpoolBuild(..) => res!(INTERNAL_SERVER_ERROR),
     Diesel(err) => from_diesel_err(&err),
     DieselConnection(..) => res!(INTERNAL_SERVER_ERROR),
     GameNotFound(..) => res!(NOT_FOUND, err.to_string()),

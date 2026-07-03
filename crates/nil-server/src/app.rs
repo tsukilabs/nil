@@ -62,7 +62,7 @@ impl App {
 
   pub async fn new_remote(database_url: &str) -> Result<Self> {
     let worlds = Arc::new(DashMap::new());
-    let database = Database::new(database_url).await?;
+    let database = Database::new(database_url)?;
 
     let mut invalid_games = Vec::new();
 
@@ -105,7 +105,7 @@ impl App {
       }
     }
 
-    database.delete_games(invalid_games).await?;
+    database.delete_games(&invalid_games).await?;
 
     Ok(Self {
       server_kind: ServerKind::Remote,
