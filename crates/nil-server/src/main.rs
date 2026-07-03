@@ -83,8 +83,7 @@ fn watch_process() -> Result<()> {
         );
       }
 
-      let mins = rand::random_range(10..=15);
-      sleep(Duration::from_mins(mins)).await;
+      sleep(Duration::from_mins(10)).await;
     }
   });
 
