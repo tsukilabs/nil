@@ -25,12 +25,16 @@ rustc-ice-*.txt
 **/.vitepress/cache
 **/.vitepress/dist
 
+# Database
+**/*.db
+**/*.db-shm
+**/*.db-wal
+
 # Others
 **/.DS_Store
 **/.Thumbs.db
 **/.eslintcache
 **/.logs
 **/.temp
-**/*.db
 **/.env
 **/*.jks

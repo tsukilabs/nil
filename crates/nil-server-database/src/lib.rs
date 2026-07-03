@@ -21,30 +21,47 @@ pub mod sql_types;
 
 use crate::error::Result;
 use crate::migration::run_pending_migrations;
-use diesel::SqliteConnection;
-use diesel_async::AsyncConnection;
+use diesel::{SqliteConnection, sql_query};
+use diesel_async::RunQueryDsl;
+use diesel_async::pooled_connection::AsyncDieselConnectionManager;
+use diesel_async::pooled_connection::deadpool::{Hook, HookError, Pool};
 use diesel_async::sync_connection_wrapper::SyncConnectionWrapper;
-use std::fmt;
-use std::sync::Arc;
-use tokio::sync::Mutex;
+use std::borrow::Cow;
 
 type Conn = SyncConnectionWrapper<SqliteConnection>;
 
 #[must_use]
 #[derive(Clone)]
-pub struct Database(Arc<Mutex<Conn>>);
+pub struct Database {
+  pool: Pool<Conn>,
+}
 
 impl Database {
-  pub async fn new(url: &str) -> Result<Self> {
-    let conn = Conn::establish(url).await?;
-    let conn = run_pending_migrations(conn)?;
-    Ok(Self(Arc::new(Mutex::new(conn))))
+  pub fn new(url: &str) -> Result<Self> {
+    run_pending_migrations(url)?;
+    let manager = AsyncDieselConnectionManager::new(url);
+    let pool = Pool::builder(manager)
+      .max_size(10)
+      .post_create(Hook::async_fn(move |conn: &mut Conn, _| {
+        Box::pin(async move {
+          execute(conn, "PRAGMA journal_mode=WAL;").await?;
+          execute(conn, "PRAGMA synchronous=NORMAL;").await?;
+          execute(conn, "PRAGMA busy_timeout=5000;").await?;
+          execute(conn, "PRAGMA foreign_keys=ON;").await?;
+          Ok(())
+        })
+      }))
+      .build()?;
+
+    Ok(Self { pool })
   }
 }
 
-impl fmt::Debug for Database {
-  fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-    f.debug_tuple("Database")
-      .finish_non_exhaustive()
-  }
+async fn execute(conn: &mut Conn, query: &str) -> Result<(), HookError> {
+  sql_query(query)
+    .execute(conn)
+    .await
+    .map_err(|err| HookError::Message(Cow::Owned(err.to_string())))?;
+
+  Ok(())
 }

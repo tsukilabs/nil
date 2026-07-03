@@ -22,8 +22,7 @@ macro_rules! decl_get {
       use $crate::schema::game;
 
       let id: GameId = id.into();
-      let mut conn = self.0.lock().await;
-
+      let mut conn = self.pool.get().await?;
       let result = game::table
         .find(&id)
         .select($model::as_select())
@@ -44,7 +43,7 @@ macro_rules! decl_get_all {
     pub async fn $fn_name(&self) -> Result<Vec<$model>> {
       use $crate::schema::game;
 
-      let mut conn = self.0.lock().await;
+      let mut conn = self.pool.get().await?;
       game::table
         .select($model::as_select())
         .load(&mut *conn)
@@ -64,7 +63,7 @@ impl Database {
   pub async fn count_games(&self) -> Result<i64> {
     use crate::schema::game;
 
-    let mut conn = self.0.lock().await;
+    let mut conn = self.pool.get().await?;
     game::table
       .count()
       .get_result(&mut *conn)
@@ -75,7 +74,7 @@ impl Database {
   pub async fn create_game(&self, new: &NewGame) -> Result<usize> {
     use crate::schema::game;
 
-    let mut conn = self.0.lock().await;
+    let mut conn = self.pool.get().await?;
     diesel::insert_into(game::table)
       .values(new)
       .on_conflict(game::id)
@@ -93,8 +92,7 @@ impl Database {
     use crate::schema::game;
 
     let id: GameId = id.into();
-    let mut conn = self.0.lock().await;
-
+    let mut conn = self.pool.get().await?;
     diesel::delete(game::table.find(id))
       .execute(&mut *conn)
       .await
@@ -107,7 +105,7 @@ impl Database {
     if ids.is_empty() {
       Ok(0)
     } else {
-      let mut conn = self.0.lock().await;
+      let mut conn = self.pool.get().await?;
       diesel::delete(game::table.filter(game::id.eq_any(ids)))
         .execute(&mut *conn)
         .await
@@ -119,7 +117,7 @@ impl Database {
     use crate::schema::game;
     use diesel::dsl::{exists, select};
 
-    let mut conn = self.0.lock().await;
+    let mut conn = self.pool.get().await?;
     select(exists(game::table.find(id)))
       .get_result(&mut *conn)
       .await
@@ -129,7 +127,7 @@ impl Database {
   pub async fn get_game_creator(&self, id: GameId) -> Result<db_PlayerId> {
     use crate::schema::game;
 
-    let mut conn = self.0.lock().await;
+    let mut conn = self.pool.get().await?;
     let user_id = game::table
       .find(&id)
       .select(game::created_by)
@@ -144,7 +142,7 @@ impl Database {
   pub async fn get_game_ids(&self) -> Result<Vec<GameId>> {
     use crate::schema::game;
 
-    let mut conn = self.0.lock().await;
+    let mut conn = self.pool.get().await?;
     game::table
       .select(game::id)
       .load(&mut *conn)
@@ -155,7 +153,7 @@ impl Database {
   pub async fn get_game_password(&self, id: GameId) -> Result<Option<HashedPassword>> {
     use crate::schema::game;
 
-    let mut conn = self.0.lock().await;
+    let mut conn = self.pool.get().await?;
     let result = game::table
       .find(&id)
       .select(game::password)
@@ -172,7 +170,7 @@ impl Database {
   pub async fn get_game_round_duration(&self, id: GameId) -> Result<Option<db_Duration>> {
     use crate::schema::game;
 
-    let mut conn = self.0.lock().await;
+    let mut conn = self.pool.get().await?;
     let result = game::table
       .find(&id)
       .select(game::round_duration)
@@ -189,7 +187,7 @@ impl Database {
   pub async fn update_game_blob(&self, id: GameId, blob: &[u8]) -> Result<usize> {
     use crate::schema::game;
 
-    let mut conn = self.0.lock().await;
+    let mut conn = self.pool.get().await?;
     let n = diesel::update(game::table.find(&id))
       .set((
         game::world_blob.eq(blob),

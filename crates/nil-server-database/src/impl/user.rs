@@ -20,7 +20,7 @@ impl Database {
   pub async fn count_games_by_user_id(&self, id: UserId) -> Result<i64> {
     use crate::schema::game;
 
-    let mut conn = self.0.lock().await;
+    let mut conn = self.pool.get().await?;
     game::table
       .filter(game::created_by.eq(id))
       .count()
@@ -32,7 +32,7 @@ impl Database {
   pub async fn create_user(&self, new: &NewUser) -> Result<usize> {
     use crate::schema::user;
 
-    let mut conn = self.0.lock().await;
+    let mut conn = self.pool.get().await?;
     let result = diesel::insert_into(user::table)
       .values(new)
       .execute(&mut *conn)
@@ -51,8 +51,7 @@ impl Database {
     use crate::schema::user;
 
     let id: db_PlayerId = id.into();
-    let mut conn = self.0.lock().await;
-
+    let mut conn = self.pool.get().await?;
     let result = user::table
       .filter(user::player_id.eq(&id))
       .select(User::as_select())
@@ -69,7 +68,7 @@ impl Database {
   pub async fn get_user_by_id(&self, id: UserId) -> Result<User> {
     use crate::schema::user;
 
-    let mut conn = self.0.lock().await;
+    let mut conn = self.pool.get().await?;
     let result = user::table
       .find(id)
       .select(User::as_select())
@@ -86,7 +85,7 @@ impl Database {
   pub async fn get_user_id(&self, id: db_PlayerId) -> Result<UserId> {
     use crate::schema::user;
 
-    let mut conn = self.0.lock().await;
+    let mut conn = self.pool.get().await?;
     let result = user::table
       .filter(user::player_id.eq(&id))
       .select(user::id)
@@ -103,7 +102,7 @@ impl Database {
   pub async fn get_user_player_id(&self, id: UserId) -> Result<db_PlayerId> {
     use crate::schema::user;
 
-    let mut conn = self.0.lock().await;
+    let mut conn = self.pool.get().await?;
     let result = user::table
       .find(id)
       .select(user::player_id)
@@ -122,8 +121,7 @@ impl Database {
     use diesel::dsl::{exists, select};
 
     let id: db_PlayerId = id.into();
-    let mut conn = self.0.lock().await;
-
+    let mut conn = self.pool.get().await?;
     select(exists(user::table.filter(user::player_id.eq(id))))
       .get_result(&mut *conn)
       .await
