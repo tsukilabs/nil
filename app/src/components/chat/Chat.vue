@@ -2,7 +2,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { sleep } from "@tb-dev/utils";
+import { delay } from "es-toolkit/promise";
 import ChatMessage from "./ChatMessage.vue";
 import { ScrollArea } from "@ui/scroll-area";
 import { ListenerSet } from "@/lib/listener-set";
@@ -28,7 +28,7 @@ const listener = new ListenerSet();
 listener.event.onChatUpdated(scroll);
 
 async function scroll() {
-  await sleep(10);
+  await delay(10);
   content.value?.parentElement?.parentElement?.scrollTo({
     top: Number.MAX_SAFE_INTEGER,
     behavior: "instant",
