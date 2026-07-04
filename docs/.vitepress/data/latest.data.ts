@@ -3,7 +3,7 @@
 
 import { delay } from "es-toolkit/promise";
 
-type Platform = "linux-x86_64-deb" | "linux-x86_64-rpm" | "windows-x86_64-nsis";
+export type Platform = "linux-x86_64-deb" | "linux-x86_64-rpm" | "windows-x86_64-nsis";
 
 export interface Latest {
   readonly version: string;
