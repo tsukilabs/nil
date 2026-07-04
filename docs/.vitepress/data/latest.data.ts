@@ -1,12 +1,14 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { delay } from "es-toolkit/promise";
+
 type Platform = "linux-x86_64-deb" | "linux-x86_64-rpm" | "windows-x86_64-nsis";
 
 export interface Latest {
   readonly version: string;
   readonly pub_date: string;
-  readonly platforms: Readonly<Record<Platform, { url: string; }>>;
+  readonly platforms: Record<Platform, { url: string; }>;
 }
 
 interface Release {
@@ -20,9 +22,14 @@ export default {
     );
 
     for (const [platform, { url }] of Object.entries(latest.platforms)) {
+      await delay(100);
       const release: Release = await getJson(url);
-      latest.platforms[platform as Platform].url = release.browser_download_url;
+      latest.platforms[platform as Platform] = {
+        url: release.browser_download_url,
+      };
     }
+
+    return latest;
   },
 };
 
