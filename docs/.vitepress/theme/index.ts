@@ -3,10 +3,13 @@
 
 import type { Theme } from "vitepress";
 import DefaultTheme from "vitepress/theme";
+import { setCurrentApp } from "@tb-dev/vue";
 
 const theme: Theme = {
   extends: DefaultTheme,
-  enhanceApp() {},
+  enhanceApp(ctx) {
+    setCurrentApp(ctx.app);
+  },
 };
 
 export default theme;
