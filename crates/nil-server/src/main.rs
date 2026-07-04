@@ -83,7 +83,7 @@ fn watch_process() -> Result<()> {
         );
       }
 
-      sleep(Duration::from_mins(10)).await;
+      sleep(Duration::from_mins(1)).await;
     }
   });
 
