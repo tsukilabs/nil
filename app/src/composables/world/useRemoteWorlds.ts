@@ -8,7 +8,9 @@ import { RemoteWorldImpl } from "@/core/model/remote-world";
 export function useRemoteWorlds() {
   const { state, loading, load } = asyncRef<readonly RemoteWorldImpl[]>([], async () => {
     const worlds = await commands.getRemoteWorlds();
-    return worlds.map(RemoteWorldImpl.create.bind(RemoteWorldImpl));
+    return worlds
+      .map(RemoteWorldImpl.create.bind(RemoteWorldImpl))
+      .toSorted((a, b) => b.updatedAtDate.getTime() - a.updatedAtDate.getTime());
   });
 
   return {
