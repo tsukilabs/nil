@@ -1,2 +1,2 @@
 [update]
-exclude = ["reqwest", "vue"]
+exclude = ["reqwest"]
