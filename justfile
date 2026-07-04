@@ -16,6 +16,9 @@ init:
   @just generate-bindings --force
 
 docs:
+  @pnpm run -F docs dev
+
+docs-rust:
   @cargo doc -p nil-* --open --no-deps --lib --document-private-items
 
 fmt:

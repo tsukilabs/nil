@@ -16,6 +16,9 @@ defineProps<{
         <th>Name</th>
         <th>Round</th>
         <th>Players</th>
+        <th :class="$style['maybe-hidden']">Size</th>
+        <th :class="$style['maybe-hidden']">Speed</th>
+        <th :class="$style['maybe-hidden']">Unit speed</th>
       </tr>
     </thead>
 
@@ -24,6 +27,9 @@ defineProps<{
         <td>{{ world.config.name }}</td>
         <td>{{ world.currentRound }}</td>
         <td>{{ world.totalPlayers }}</td>
+        <td :class="$style['maybe-hidden']">{{ world.continentSize }}</td>
+        <td :class="$style['maybe-hidden']">{{ world.config.speed }}</td>
+        <td :class="$style['maybe-hidden']">{{ world.config.unitSpeed }}</td>
       </tr>
     </tbody>
 
@@ -37,6 +43,12 @@ defineProps<{
 </template>
 
 <style module>
+.maybe-hidden {
+  @media (width < 64rem) {
+    display: none;
+  }
+}
+
 .version {
   text-align: right !important;
 }

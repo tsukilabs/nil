@@ -2,13 +2,13 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import type { Latest } from "../data/latest.data";
+import type { Latest, Platform } from "../data/latest.data";
 
 const props = defineProps<{
   latest: Latest;
 }>();
 
-function url(platform: keyof typeof props.latest.platforms) {
+function url(platform: Platform) {
   return props.latest.platforms[platform].url;
 }
 </script>
