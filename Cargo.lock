@@ -3479,7 +3479,7 @@ checksum = "650eef8c711430f1a879fdd01d4745a7deea475becfb90269c06775983bbf086"
 
 [[package]]
 name = "nil"
-version = "0.6.1"
+version = "0.6.2"
 dependencies = [
  "anyhow",
  "bon",
@@ -3520,7 +3520,7 @@ dependencies = [
 
 [[package]]
 name = "nil-client"
-version = "0.6.1"
+version = "0.6.2"
 dependencies = [
  "anyhow",
  "bon",
@@ -3554,7 +3554,7 @@ dependencies = [
 
 [[package]]
 name = "nil-core"
-version = "0.6.1"
+version = "0.6.2"
 dependencies = [
  "anyhow",
  "bon",
@@ -3588,7 +3588,7 @@ dependencies = [
 
 [[package]]
 name = "nil-core-macros"
-version = "0.6.1"
+version = "0.6.2"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -3597,7 +3597,7 @@ dependencies = [
 
 [[package]]
 name = "nil-crypto"
-version = "0.6.1"
+version = "0.6.2"
 dependencies = [
  "anyhow",
  "argon2",
@@ -3611,7 +3611,7 @@ dependencies = [
 
 [[package]]
 name = "nil-env"
-version = "0.6.1"
+version = "0.6.2"
 dependencies = [
  "anyhow",
  "serde",
@@ -3622,7 +3622,7 @@ dependencies = [
 
 [[package]]
 name = "nil-log"
-version = "0.6.1"
+version = "0.6.2"
 dependencies = [
  "anyhow",
  "bitflags 2.13.0",
@@ -3636,7 +3636,7 @@ dependencies = [
 
 [[package]]
 name = "nil-namegen"
-version = "0.6.1"
+version = "0.6.2"
 dependencies = [
  "itertools 0.15.0",
  "rand 0.10.2",
@@ -3645,7 +3645,7 @@ dependencies = [
 
 [[package]]
 name = "nil-num"
-version = "0.6.1"
+version = "0.6.2"
 dependencies = [
  "bon",
  "num-traits",
@@ -3655,7 +3655,7 @@ dependencies = [
 
 [[package]]
 name = "nil-payload"
-version = "0.6.1"
+version = "0.6.2"
 dependencies = [
  "axum",
  "bon",
@@ -3671,7 +3671,7 @@ dependencies = [
 
 [[package]]
 name = "nil-payload-macros"
-version = "0.6.1"
+version = "0.6.2"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -3680,7 +3680,7 @@ dependencies = [
 
 [[package]]
 name = "nil-server"
-version = "0.6.1"
+version = "0.6.2"
 dependencies = [
  "anyhow",
  "axum",
@@ -3720,7 +3720,7 @@ dependencies = [
 
 [[package]]
 name = "nil-server-database"
-version = "0.6.1"
+version = "0.6.2"
 dependencies = [
  "anyhow",
  "bon",
@@ -3746,7 +3746,7 @@ dependencies = [
 
 [[package]]
 name = "nil-server-types"
-version = "0.6.1"
+version = "0.6.2"
 dependencies = [
  "derive_more",
  "jiff",
@@ -3758,7 +3758,7 @@ dependencies = [
 
 [[package]]
 name = "nil-util"
-version = "0.6.1"
+version = "0.6.2"
 dependencies = [
  "anyhow",
  "nil-util-macros",
@@ -3766,7 +3766,7 @@ dependencies = [
 
 [[package]]
 name = "nil-util-macros"
-version = "0.6.1"
+version = "0.6.2"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -4507,13 +4507,13 @@ checksum = "19f132c84eca552bf34cab8ec81f1c1dcc229b811638f9d283dceabe58c5569e"
 
 [[package]]
 name = "plist"
-version = "1.9.0"
+version = "1.10.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "092791278e026273c1b65bbdcfbba3a300f2994c896bd01ab01da613c29c46f1"
+checksum = "7da1d65da6dd5d1e44199ac0f58712d241c0f439f80adea8924d832384087f85"
 dependencies = [
  "base64 0.22.1",
  "indexmap 2.14.0",
- "quick-xml",
+ "quick-xml 0.41.0",
  "serde",
  "time",
 ]
@@ -4711,6 +4711,15 @@ name = "quick-xml"
 version = "0.39.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "cdcc8dd4e2f670d309a5f0e83fe36dfdc05af317008fea29144da1a2ac858e5e"
+dependencies = [
+ "memchr",
+]
+
+[[package]]
+name = "quick-xml"
+version = "0.41.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e660451e55124f798a69a5af3f49ccfbefbd41910eefd25caf2393e1f3473ec1"
 dependencies = [
  "memchr",
 ]
@@ -7604,7 +7613,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "9c324a910fd86ebdc364a3e61ec1f11737d3b1d6c273c0239ee8ff4bc0d24b4a"
 dependencies = [
  "proc-macro2",
- "quick-xml",
+ "quick-xml 0.39.4",
  "quote",
 ]
 
