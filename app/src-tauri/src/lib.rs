@@ -120,6 +120,7 @@ pub fn run() {
       command::infrastructure::workshop::cancel_workshop_recruit_order,
       command::infrastructure::workshop::get_workshop_recruit_catalog,
       command::military::get_army,
+      command::military::get_army_owner,
       command::military::get_maneuver,
       command::military::request_maneuver,
       command::npc::bot::get_bot_coords,

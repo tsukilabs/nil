@@ -87,6 +87,7 @@ pub(crate) fn create() -> Router<App> {
     .route("/forward-report", post(report::forward))
     .route("/get-academy-recruit-catalog", put(infrastructure::academy::get_recruit_catalog))
     .route("/get-army", put(military::get_army))
+    .route("/get-army-owner", put(military::get_army_owner))
     .route("/get-chat-history", put(chat::get))
     .route("/get-city", put(city::get_city))
     .route("/get-maneuver", put(military::get_maneuver))

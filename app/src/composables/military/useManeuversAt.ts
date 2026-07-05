@@ -6,7 +6,7 @@ import type { MaybeNilRef } from "@tb-dev/vue";
 import { toContinentKeyRef } from "@/composables/toRef";
 import type { ContinentKey } from "@/types/core/continent";
 
-export function useManeuvers(key?: MaybeNilRef<ContinentKey>) {
+export function useManeuversAt(key?: MaybeNilRef<ContinentKey>) {
   const keyRef = toContinentKeyRef(key);
   const { military } = NIL.military.refs();
 

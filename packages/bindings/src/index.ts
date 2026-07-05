@@ -136,6 +136,8 @@ export type { Food } from './Food';
 export type { ForwardReportRequest } from './ForwardReportRequest';
 export type { GetAcademyRecruitCatalogRequest } from './GetAcademyRecruitCatalogRequest';
 export type { GetAcademyRecruitCatalogResponse } from './GetAcademyRecruitCatalogResponse';
+export type { GetArmyOwnerRequest } from './GetArmyOwnerRequest';
+export type { GetArmyOwnerResponse } from './GetArmyOwnerResponse';
 export type { GetArmyRequest } from './GetArmyRequest';
 export type { GetArmyResponse } from './GetArmyResponse';
 export type { GetBotCoordsRequest } from './GetBotCoordsRequest';

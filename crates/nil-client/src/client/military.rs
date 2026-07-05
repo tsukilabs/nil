@@ -19,6 +19,17 @@ impl Client {
       .await
   }
 
+  pub async fn get_army_owner(&self, req: GetArmyOwnerRequest) -> Result<GetArmyOwnerResponse> {
+    http::json_put("get-army-owner")
+      .body(req)
+      .server(self.server)
+      .circuit_breaker(self.circuit_breaker())
+      .retry(&self.retry)
+      .user_agent(&self.user_agent)
+      .send()
+      .await
+  }
+
   pub async fn get_maneuver(&self, req: GetManeuverRequest) -> Result<GetManeuverResponse> {
     http::json_put("get-maneuver")
       .body(req)

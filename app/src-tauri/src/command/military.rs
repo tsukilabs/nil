@@ -16,6 +16,17 @@ pub async fn get_army(app: AppHandle, req: GetArmyRequest) -> Result<GetArmyResp
 }
 
 #[tauri::command]
+pub async fn get_army_owner(
+  app: AppHandle,
+  req: GetArmyOwnerRequest,
+) -> Result<GetArmyOwnerResponse> {
+  app
+    .client(async |cl| cl.get_army_owner(req).await)
+    .await
+    .map_err(Into::into)
+}
+
+#[tauri::command]
 pub async fn get_maneuver(app: AppHandle, req: GetManeuverRequest) -> Result<GetManeuverResponse> {
   app
     .client(async |cl| cl.get_maneuver(req).await)

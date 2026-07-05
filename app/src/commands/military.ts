@@ -4,6 +4,8 @@
 import { invoke } from "@tauri-apps/api/core";
 import type {
   ArmyId,
+  GetArmyOwnerRequest,
+  GetArmyOwnerResponse,
   GetArmyRequest,
   GetArmyResponse,
   GetManeuverRequest,
@@ -21,6 +23,15 @@ export async function getArmy(id: ArmyId) {
   };
 
   return invoke<GetArmyResponse>("get_army", { req });
+}
+
+export async function getArmyOwner(id: ArmyId) {
+  const req: GetArmyOwnerRequest = {
+    world: NIL.world.getIdStrict(),
+    id,
+  };
+
+  return invoke<GetArmyOwnerResponse>("get_army_owner", { req });
 }
 
 export async function getManeuver(id: ManeuverId) {

@@ -8,6 +8,7 @@ use crate::res;
 use crate::response::{EitherExt, from_err};
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
+use nil_core::military::army::Army;
 use nil_payload::request::military::*;
 use nil_payload::response::military::*;
 
@@ -39,6 +40,22 @@ pub async fn get_army(
     }
     Err(err) => from_err(err),
   }
+}
+
+pub async fn get_army_owner(
+  State(app): State<App>,
+  Json(req): Json<GetArmyOwnerRequest>,
+) -> Response {
+  app
+    .military(req.world, |military| {
+      military
+        .army(req.id)
+        .map(Army::owner)
+        .cloned()
+    })
+    .await
+    .try_map_left(|owner| res!(OK, GetArmyOwnerResponse(owner)))
+    .into_inner()
 }
 
 pub async fn get_maneuver(State(app): State<App>, Json(req): Json<GetManeuverRequest>) -> Response {
