@@ -5,6 +5,7 @@ use crate::error::{Error, Result};
 use crate::ethic::Ethics;
 use crate::resources::Resources;
 use crate::resources::influence::Influence;
+use crate::ruler::Ruler;
 use derive_more::{Display, From, Into};
 use serde::{Deserialize, Serialize};
 use std::borrow::{Borrow, Cow};
@@ -130,6 +131,12 @@ impl Borrow<str> for BotId {
 impl From<BotId> for String {
   fn from(value: BotId) -> Self {
     String::from(value.0.as_ref())
+  }
+}
+
+impl PartialEq<Ruler> for BotId {
+  fn eq(&self, other: &Ruler) -> bool {
+    if let Ruler::Bot { id } = other { self.eq(id) } else { false }
   }
 }
 

@@ -9,6 +9,7 @@ use crate::ethic::Ethics;
 use crate::military::army::personnel::ArmyPersonnel;
 use crate::resources::Resources;
 use crate::resources::influence::Influence;
+use crate::ruler::Ruler;
 use derive_more::Deref;
 use serde::{Deserialize, Serialize};
 use strum::{Display, EnumIter, EnumString, IntoEnumIterator};
@@ -109,6 +110,12 @@ pub enum PrecursorId {
   #[serde(rename = "B")]
   #[strum(serialize = "B")]
   B,
+}
+
+const impl PartialEq<Ruler> for PrecursorId {
+  fn eq(&self, other: &Ruler) -> bool {
+    if let Ruler::Precursor { id } = other { self.eq(id) } else { false }
+  }
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
