@@ -12,6 +12,7 @@ export type GameScene =
   | "chat"
   | "city"
   | "continent"
+  | "maneuver"
   | "ranking";
 
 export type ContinentScene = "continent" | "continent-cities";
@@ -20,4 +21,4 @@ export type ProfileScene = "profile-bot" | "profile-city" | "profile-player" | "
 
 export type ReportScene = "report" | "report-forward" | "report-view";
 
-export type WarRoomScene = "war-room" | "war-room-maneuver" | "war-room-simulator";
+export type WarRoomScene = "war-room" | "war-room-simulator";

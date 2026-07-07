@@ -145,9 +145,8 @@ export async function leaveGame(options?: {
   navigate?: boolean;
 }) {
   try {
-    // We must check whether the server is remote
-    // BEFORE stopping the client, because stopping
-    // the client marks the server as remote.
+    // We must check whether the server is remote BEFORE stopping the client,
+    // because stopping the client marks the server as remote.
     const isRemote = await commands.isRemote();
 
     Entity.dispose();

@@ -1,15 +1,15 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Ref } from "vue";
 import { Entity } from "./abstract";
+import type { ShallowRef } from "vue";
 import { asyncRef } from "@tb-dev/vue";
 import type { Option } from "@tb-dev/utils";
 import { RoundImpl } from "@/core/model/round";
 import type { RoundUpdatedPayload } from "@/types/event";
 
 export class RoundEntity extends Entity {
-  private readonly round: Ref<Option<RoundImpl>>;
+  private readonly round: ShallowRef<Option<RoundImpl>>;
 
   public readonly updateRound: () => Promise<void>;
 

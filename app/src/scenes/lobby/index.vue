@@ -76,7 +76,8 @@ function countCurrentPlayerWorlds() {
                 :size="sm ? 'default' : 'xs'"
                 :disabled="!canHost"
                 class="md:px-4 xl:px-6 2xl:px-8"
-                @click="() => go('host-remote-game')"
+                @click.stop="() => go('host-remote-game')"
+                @keydown.enter.stop="() => go('host-remote-game')"
               >
                 <span>{{ t("host") }}</span>
               </Button>
@@ -84,7 +85,8 @@ function countCurrentPlayerWorlds() {
                 variant="secondary"
                 :size="sm ? 'default' : 'xs'"
                 class="md:px-4 xl:px-6 2xl:px-8"
-                @click="() => go('home')"
+                @click.stop="() => go('home')"
+                @keydown.enter.stop="() => go('home')"
               >
                 <span>{{ t("leave") }}</span>
               </Button>
@@ -117,7 +119,9 @@ function countCurrentPlayerWorlds() {
               role="link"
               tabindex="0"
               class="cursor-pointer"
-              @click="() => goToJoinRemoteGameScene(world.config.id)"
+              @click.stop="() => goToJoinRemoteGameScene(world.config.id)"
+              @keydown.enter.stop="() => goToJoinRemoteGameScene(world.config.id)"
+              @keydown.space.stop="() => goToJoinRemoteGameScene(world.config.id)"
             >
               <TableCell v-if="someHasPassword">
                 <LockIcon v-if="world.hasPassword" class="size-4" />

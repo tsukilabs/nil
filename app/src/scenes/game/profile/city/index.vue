@@ -80,11 +80,19 @@ if (__DESKTOP__) {
               <TableRow class="bg-card hover:bg-card">
                 <TableCell colspan="2" class="text-center">
                   <div class="flex items-center justify-center gap-2">
-                    <Button size="sm" :disabled="loading" @click="() => city?.goToContinent()">
+                    <Button
+                      size="sm"
+                      :disabled="loading"
+                      @click.stop="() => city?.goToContinent()"
+                    >
                       <span>{{ t("show-on-map") }}</span>
                     </Button>
 
-                    <Button size="sm" :disabled="loading" @click="() => city?.goToWarRoom('destination')">
+                    <Button
+                      size="sm"
+                      :disabled="loading"
+                      @click.stop="() => city?.goToWarRoom('destination')"
+                    >
                       <span>{{ t("send-troops") }}</span>
                     </Button>
                   </div>

@@ -5,9 +5,9 @@
 import { useI18n } from "vue-i18n";
 import { Button } from "@ui/button";
 import { formatDate } from "date-fns";
-import { computed, ref, watch } from "vue";
 import type { Option } from "@tb-dev/utils";
 import { useRouteQuery } from "@vueuse/router";
+import { computed, nextTick, ref, watch } from "vue";
 import { hostLocalGameWithSavedata } from "@/core/game";
 import type { PlayerId } from "@tsukilabs/nil-bindings";
 import { asyncComputed, asyncRef, useMutex } from "@tb-dev/vue";
@@ -101,6 +101,13 @@ async function remove() {
     }
   });
 }
+
+async function onDblClick() {
+  await nextTick();
+  if (canLoad.value) {
+    await load();
+  }
+}
 </script>
 
 <template>
@@ -136,6 +143,7 @@ async function remove() {
               :variant="file.path === savedata?.path ? 'secondary' : 'ghost'"
               class="h-16 w-full flex flex-col items-start gap-1"
               @click="() => void (savedata = file)"
+              @dblclick="onDblClick"
             >
               <span class="ellipsis">{{ file.info.worldName }}</span>
               <div class="flex gap-4 text-muted-foreground text-xs">
@@ -148,13 +156,13 @@ async function remove() {
       </CardContent>
 
       <CardFooter class="grid grid-cols-3">
-        <Button :disabled="!canLoad" @click="load">
+        <Button :disabled="!canLoad" @click.stop="load">
           {{ t("load") }}
         </Button>
-        <Button variant="destructive" :disabled="!canRemove" @click="remove">
+        <Button variant="destructive" :disabled="!canRemove" @click.stop="remove">
           {{ t("delete") }}
         </Button>
-        <Button variant="secondary" :disabled="locked" @click="goBackIfPreviousIsNotGame">
+        <Button variant="secondary" :disabled="locked" @click.stop="goBackIfPreviousIsNotGame">
           <span>{{ t("cancel") }}</span>
         </Button>
       </CardFooter>

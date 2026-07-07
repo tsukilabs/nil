@@ -122,7 +122,7 @@ function getPrecursorColor(id: PrecursorId) {
               size="sm"
               role="link"
               tabindex="0"
-              @click="() => city?.goToWarRoom('destination')"
+              @click.stop="() => city?.goToWarRoom('destination')"
             >
               <span>{{ t("send-troops") }}</span>
             </Button>

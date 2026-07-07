@@ -48,7 +48,16 @@ function formatDistance(distance: number) {
     </TableHeader>
 
     <TableBody>
-      <TableRow v-for="maneuver of maneuvers" :key="maneuver.id" class="cursor-pointer">
+      <TableRow
+        v-for="maneuver of maneuvers"
+        :key="maneuver.id"
+        role="link"
+        tabindex="0"
+        class="cursor-pointer"
+        @click.stop="() => maneuver.goToManeuverScene()"
+        @keydown.enter.stop="() => maneuver.goToManeuverScene()"
+        @keydown.space.stop="() => maneuver.goToManeuverScene()"
+      >
         <TableCell class="w-[1%] pl-0 pr-2">
           <span v-if="maneuver.direction === 'returning'">
             <ChevronLeftIcon class="size-4 text-red-500" />
@@ -69,8 +78,8 @@ function formatDistance(distance: number) {
           tabindex="0"
           :class="getCoordCellClass(maneuver.origin)"
           @click.stop="() => maneuver.origin.goToProfile()"
-          @keydown.enter="() => maneuver.origin.goToProfile()"
-          @keydown.space="() => maneuver.origin.goToProfile()"
+          @keydown.enter.stop="() => maneuver.origin.goToProfile()"
+          @keydown.space.stop="() => maneuver.origin.goToProfile()"
         >
           {{ maneuver.origin.format() }}
         </TableCell>
@@ -80,8 +89,8 @@ function formatDistance(distance: number) {
           tabindex="0"
           :class="getCoordCellClass(maneuver.destination)"
           @click.stop="() => maneuver.destination.goToProfile()"
-          @keydown.enter="() => maneuver.destination.goToProfile()"
-          @keydown.space="() => maneuver.destination.goToProfile()"
+          @keydown.enter.stop="() => maneuver.destination.goToProfile()"
+          @keydown.space.stop="() => maneuver.destination.goToProfile()"
         >
           {{ maneuver.destination.format() }}
         </TableCell>

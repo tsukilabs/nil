@@ -148,6 +148,7 @@ impl Client {
     &self.user_agent
   }
 
+  #[inline]
   pub fn set_user_agent(&mut self, user_agent: &str) {
     self.user_agent = Cow::Owned(user_agent.to_owned());
   }

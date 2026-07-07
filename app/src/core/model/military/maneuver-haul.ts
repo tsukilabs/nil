@@ -13,6 +13,10 @@ export class ManeuverHaulImpl implements Readonly<ManeuverHaul> {
     this.resources = ResourcesImpl.create(haul.resources);
   }
 
+  public isEmpty() {
+    return this.resources.isEmpty();
+  }
+
   public static create(haul: ManeuverHaul) {
     if (haul instanceof ManeuverHaulImpl) {
       return haul;

@@ -29,7 +29,7 @@ pub struct GetArmyOwnerResponse(pub Ruler);
 #[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
-pub struct GetManeuverResponse(pub Maneuver);
+pub struct GetManeuverResponse(pub Option<Maneuver>);
 
 #[derive(Clone, Copy, Debug, Deref, DerefMut, Display, From, Into, Deserialize, Serialize)]
 #[cfg_attr(feature = "axum", derive(IntoJsonResponse))]

@@ -36,7 +36,8 @@ const toggleReady = () => lock(() => props.onTogglePlayerReady());
       v-if="(isHost || isRemoteCreatedBySelf) && round?.state.kind === 'idle'"
       size="sm"
       :disabled="locked"
-      @click="start"
+      @click.stop="start"
+      @keydown.enter.stop="start"
     >
       <span>{{ t("start") }}</span>
     </Button>
@@ -45,7 +46,8 @@ const toggleReady = () => lock(() => props.onTogglePlayerReady());
       v-else-if="round?.state.kind === 'waiting'"
       size="sm"
       :disabled="locked || !isPlayerTurn"
-      @click="toggleReady"
+      @click.stop="toggleReady"
+      @keydown.enter.stop="toggleReady"
     >
       <span v-if="isPlayerReady">{{ t("cancel") }}</span>
       <span v-else>{{ sm ? t("finish-turn") : t("finish") }}</span>

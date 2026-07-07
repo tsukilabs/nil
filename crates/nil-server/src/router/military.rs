@@ -60,7 +60,13 @@ pub async fn get_army_owner(
 
 pub async fn get_maneuver(State(app): State<App>, Json(req): Json<GetManeuverRequest>) -> Response {
   app
-    .military(req.world, |military| military.maneuver(req.id).cloned())
+    .military(req.world, |military| {
+      match military.maneuver(req.id) {
+        Ok(maneuver) => Ok(Some(maneuver.clone())),
+        Err(CoreError::ManeuverNotFound(_)) => Ok(None),
+        Err(err) => Err(err),
+      }
+    })
     .await
     .try_map_left(|maneuver| res!(OK, GetManeuverResponse(maneuver)))
     .into_inner()
