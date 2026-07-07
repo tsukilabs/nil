@@ -12,6 +12,7 @@ export type GameScene =
   | "chat"
   | "city"
   | "continent"
+  | "maneuver"
   | "ranking";
 
 export type ContinentScene = "continent" | "continent-cities";

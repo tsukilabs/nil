@@ -28,9 +28,9 @@ const { production } = NIL.city.refs();
             role="link"
             tabindex="0"
             class="cursor-pointer"
-            @click="() => go('sawmill')"
-            @keydown.enter="() => go('sawmill')"
-            @keydown.space="() => go('sawmill')"
+            @click.stop="() => go('sawmill')"
+            @keydown.enter.stop="() => go('sawmill')"
+            @keydown.space.stop="() => go('sawmill')"
           >
             <TableCell>{{ t("wood") }}</TableCell>
             <TableCell>{{ t("x-per-turn", [production.wood]) }}</TableCell>
@@ -41,9 +41,9 @@ const { production } = NIL.city.refs();
             role="link"
             tabindex="0"
             class="cursor-pointer"
-            @click="() => go('quarry')"
-            @keydown.enter="() => go('quarry')"
-            @keydown.space="() => go('quarry')"
+            @click.stop="() => go('quarry')"
+            @keydown.enter.stop="() => go('quarry')"
+            @keydown.space.stop="() => go('quarry')"
           >
             <TableCell>{{ t("stone") }}</TableCell>
             <TableCell>{{ t("x-per-turn", [production.stone]) }}</TableCell>
@@ -54,9 +54,9 @@ const { production } = NIL.city.refs();
             role="link"
             tabindex="0"
             class="cursor-pointer"
-            @click="() => go('iron-mine')"
-            @keydown.enter="() => go('iron-mine')"
-            @keydown.space="() => go('iron-mine')"
+            @click.stop="() => go('iron-mine')"
+            @keydown.enter.stop="() => go('iron-mine')"
+            @keydown.space.stop="() => go('iron-mine')"
           >
             <TableCell>{{ t("iron") }}</TableCell>
             <TableCell>{{ t("x-per-turn", [production.iron]) }}</TableCell>
@@ -67,9 +67,9 @@ const { production } = NIL.city.refs();
             role="link"
             tabindex="0"
             class="cursor-pointer"
-            @click="() => go('farm')"
-            @keydown.enter="() => go('farm')"
-            @keydown.space="() => go('farm')"
+            @click.stop="() => go('farm')"
+            @keydown.enter.stop="() => go('farm')"
+            @keydown.space.stop="() => go('farm')"
           >
             <TableCell>{{ t("food") }}</TableCell>
             <TableCell>{{ t("x-per-turn", [production.food]) }}</TableCell>

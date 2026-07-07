@@ -1,6 +1,8 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { go } from "@/router";
+import { getManeuver } from "@/commands";
 import { CoordImpl } from "@/core/model/continent/coord";
 import { ManeuverHaulImpl } from "@/core/model/military/maneuver-haul";
 import type {
@@ -71,11 +73,31 @@ export class ManeuverImpl implements Readonly<Maneuver> {
     }
   }
 
+  public async goToManeuverScene() {
+    await go("maneuver", {
+      params: { id: this.id },
+    });
+  }
+
+  public hasHauledResources() {
+    if (this.hauledResources) {
+      return !this.hauledResources.isEmpty();
+    }
+    else {
+      return false;
+    }
+  }
+
   public static create(maneuver: Maneuver) {
     if (maneuver instanceof ManeuverImpl) {
       return maneuver;
     }
 
     return new ManeuverImpl(maneuver);
+  }
+
+  public static async load(id: ManeuverId) {
+    const maneuver = await getManeuver(id);
+    return maneuver ? ManeuverImpl.create(maneuver) : null;
   }
 }

@@ -241,7 +241,7 @@ pub enum ManeuverDirection {
   Returning,
 }
 
-#[derive(Debug, strum::Display, Deserialize, Serialize, EnumIs)]
+#[derive(Copy, Debug, strum::Display, Deserialize, Serialize, EnumIs)]
 #[derive_const(Clone, PartialEq, Eq)]
 #[serde(tag = "kind", rename_all = "kebab-case")]
 #[strum(serialize_all = "kebab-case")]

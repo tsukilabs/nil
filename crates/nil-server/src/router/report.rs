@@ -15,7 +15,7 @@ pub async fn forward(
   Json(req): Json<ForwardReportRequest>,
 ) -> Response {
   if player == req.recipient {
-    return res!(FORBIDDEN);
+    return res!(BAD_REQUEST);
   }
 
   app

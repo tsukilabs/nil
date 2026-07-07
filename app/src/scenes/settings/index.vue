@@ -88,7 +88,7 @@ const { sm, md } = useBreakpoints();
           variant="default"
           :size="sm ? 'default' : 'sm'"
           class="px-8"
-          @click="() => router.back()"
+          @click.stop="() => router.back()"
         >
           <span>{{ t("back") }}</span>
         </Button>

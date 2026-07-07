@@ -4,6 +4,7 @@
 use crate::error::{Error, Result};
 use crate::resources::Resources;
 use crate::resources::influence::Influence;
+use crate::ruler::Ruler;
 use crate::world::World;
 use bon::Builder;
 use derive_more::{From, Into};
@@ -164,6 +165,12 @@ impl Deref for PlayerId {
 impl Borrow<str> for PlayerId {
   fn borrow(&self) -> &str {
     self.0.as_str()
+  }
+}
+
+impl PartialEq<Ruler> for PlayerId {
+  fn eq(&self, other: &Ruler) -> bool {
+    if let Ruler::Player { id } = other { self.eq(id) } else { false }
   }
 }
 

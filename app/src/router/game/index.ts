@@ -31,6 +31,11 @@ export const gameRoutes: RouteRecordRaw[] = [
     children: infrastructureRoutes,
   },
   {
+    component: () => import("@/scenes/game/maneuver/index.vue"),
+    path: "maneuver/:id",
+    name: "maneuver" satisfies GameScene,
+  },
+  {
     component: () => import("@/scenes/game/profile/index.vue"),
     path: "profile",
     children: profileRoutes,

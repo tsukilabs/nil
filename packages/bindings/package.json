@@ -2,7 +2,7 @@
   "name": "@tsukilabs/nil-bindings",
   "version": "0.6.2",
   "type": "module",
-  "packageManager": "pnpm@11.9.0",
+  "packageManager": "pnpm@11.10.0",
   "license": "AGPL-3.0-only",
   "private": false,
   "homepage": "https://nil.dev.br",

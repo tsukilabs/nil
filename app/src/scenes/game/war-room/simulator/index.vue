@@ -65,10 +65,10 @@ function clear() {
       />
 
       <div class="grid grid-cols-2 items-center justify-start gap-4 max-w-max">
-        <Button variant="default" :disabled="!canSimulate" @click="simulate">
+        <Button variant="default" :disabled="!canSimulate" @click.stop="simulate">
           <span>{{ t("calculate") }}</span>
         </Button>
-        <Button variant="secondary" @click="clear">
+        <Button variant="secondary" @click.stop="clear">
           <span>{{ t("clear") }}</span>
         </Button>
       </div>

@@ -1,6 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { getArmy } from "@/commands";
 import { ArmyPersonnelImpl } from "./army-personnel";
 import type { Army, ArmyId, ArmyState, Ruler } from "@tsukilabs/nil-bindings";
 
@@ -33,11 +34,48 @@ export class ArmyImpl implements Readonly<Army> {
     return this.state.kind === "maneuvering";
   }
 
+  public isEmpty() {
+    return this.personnel.isEmpty();
+  }
+
+  get archer() {
+    return this.personnel.archer;
+  }
+
+  get axeman() {
+    return this.personnel.axeman;
+  }
+
+  get heavyCavalry() {
+    return this.personnel.heavyCavalry;
+  }
+
+  get lightCavalry() {
+    return this.personnel.lightCavalry;
+  }
+
+  get pikeman() {
+    return this.personnel.pikeman;
+  }
+
+  get ram() {
+    return this.personnel.ram;
+  }
+
+  get swordsman() {
+    return this.personnel.swordsman;
+  }
+
   public static create(army: Army) {
     if (army instanceof ArmyImpl) {
       return army;
     }
 
     return new ArmyImpl(army);
+  }
+
+  public static async load(id: ArmyId) {
+    const army = await getArmy(id);
+    return ArmyImpl.create(army);
   }
 }

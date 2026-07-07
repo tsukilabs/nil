@@ -156,14 +156,29 @@ function copyServerAddr() {
         ref="sidebarFooterEl"
         class="grid grid-cols-2 items-center justify-center gap-2 lg:gap-4"
       >
-        <Button v-if="canSave" size="sm" @click="() => onSave()">
+        <Button
+          v-if="canSave"
+          size="sm"
+          @click.stop="() => onSave()"
+          @keydown.enter.stop="() => onSave()"
+        >
           <span>{{ t("save") }}</span>
         </Button>
-        <Button v-else size="sm" @click="() => update()">
+        <Button
+          v-else
+          size="sm"
+          @click.stop="() => update()"
+          @keydown.enter.stop="() => update()"
+        >
           <span>{{ t("update") }}</span>
         </Button>
 
-        <Button variant="destructive" size="sm" @click="() => onLeave()">
+        <Button
+          variant="destructive"
+          size="sm"
+          @click.stop="() => onLeave()"
+          @keydown.enter.stop="() => onLeave()"
+        >
           <span>{{ t("leave") }}</span>
         </Button>
       </div>

@@ -34,7 +34,8 @@ function getButtonVariant(scene: WarRoomScene): ButtonVariant {
       :variant="getButtonVariant('war-room')"
       role="link"
       tabindex="0"
-      @click="() => go('war-room')"
+      @click.stop="() => go('war-room')"
+      @keydown.enter.stop="() => go('war-room')"
     >
       <span>{{ t("maneuver", 2) }}</span>
     </Button>
@@ -44,7 +45,8 @@ function getButtonVariant(scene: WarRoomScene): ButtonVariant {
       :variant="getButtonVariant('war-room-simulator')"
       role="link"
       tabindex="0"
-      @click="() => go('war-room-simulator')"
+      @click.stop="() => go('war-room-simulator')"
+      @keydown.enter.stop="() => go('war-room-simulator')"
     >
       <span>{{ t("simulator") }}</span>
     </Button>

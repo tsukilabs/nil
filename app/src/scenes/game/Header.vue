@@ -36,7 +36,8 @@ const { sm } = useBreakpoints();
           role="link"
           tabindex="0"
           class="py-2 text-base lg:text-lg"
-          @click="() => go('city')"
+          @click.stop="() => go('city')"
+          @keydown.enter.stop="() => go('city')"
         >
           <div class="space-x-1">
             <template v-if="sm">

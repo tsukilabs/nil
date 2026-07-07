@@ -54,8 +54,9 @@ function getIdClass(ruler: Ruler) {
               role="link"
               tabindex="0"
               class="cursor-pointer"
-              @click="() => entry.goToProfile()"
-              @keydown.enter="() => entry.goToProfile()"
+              @click.stop="() => entry.goToProfile()"
+              @keydown.enter.stop="() => entry.goToProfile()"
+              @keydown.space.stop="() => entry.goToProfile()"
             >
               <TableCell>
                 {{ entry.formatRank() }}

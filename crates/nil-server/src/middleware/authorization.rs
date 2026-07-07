@@ -113,3 +113,9 @@ impl PartialEq<PlayerId> for CurrentPlayer {
     self.0.eq(other)
   }
 }
+
+impl PartialEq<Ruler> for CurrentPlayer {
+  fn eq(&self, other: &Ruler) -> bool {
+    self.0.eq(other)
+  }
+}

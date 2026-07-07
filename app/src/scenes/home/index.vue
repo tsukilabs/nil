@@ -64,7 +64,8 @@ async function goToOnlineScene() {
         :disabled
         role="link"
         tabindex="0"
-        @click="() => go('host-local-game')"
+        @click.stop="() => go('host-local-game')"
+        @keydown.enter.stop="() => go('host-local-game')"
       >
         <span>{{ t("host-game") }}</span>
       </Button>
@@ -75,7 +76,8 @@ async function goToOnlineScene() {
         :disabled
         role="link"
         tabindex="0"
-        @click="() => go('join-local-game')"
+        @click.stop="() => go('join-local-game')"
+        @keydown.enter.stop="() => go('join-local-game')"
       >
         <span>{{ t("join-game") }}</span>
       </Button>
@@ -87,7 +89,8 @@ async function goToOnlineScene() {
         :loading="isLoadingOnlineScene"
         role="link"
         tabindex="0"
-        @click="goToOnlineScene"
+        @click.stop="goToOnlineScene"
+        @keydown.enter.stop="goToOnlineScene"
       >
         <span>{{ t("online") }}</span>
       </ButtonSpinner>
@@ -98,7 +101,8 @@ async function goToOnlineScene() {
         :disabled
         role="link"
         tabindex="0"
-        @click="() => go('settings')"
+        @click.stop="() => go('settings')"
+        @keydown.enter.stop="() => go('settings')"
       >
         <span>{{ t("settings") }}</span>
       </Button>
@@ -107,7 +111,9 @@ async function goToOnlineScene() {
         variant="secondary"
         :size="sm ? 'default' : 'lg'"
         :disabled
-        @click="() => exitGame()"
+        tabindex="0"
+        @click.stop="() => exitGame()"
+        @keydown.enter.stop="() => exitGame()"
       >
         <span>{{ t("exit") }}</span>
       </Button>
@@ -118,11 +124,21 @@ async function goToOnlineScene() {
       <AlertDescription class="gap-2">
         <span>{{ t("version-ready", [update.version]) }}</span>
         <div class="grid grid-cols-2 items-center gap-2 justify-self-end">
-          <Button variant="default" size="sm" @click="() => update?.install()">
+          <Button
+            variant="default"
+            size="sm"
+            @click.stop="() => update?.install()"
+            @keydown.enter.stop="() => update?.install()"
+          >
             <span>{{ t("update") }}</span>
           </Button>
 
-          <Button variant="secondary" size="sm" @click="() => update?.openChangelog()">
+          <Button
+            variant="secondary"
+            size="sm"
+            @click.stop="() => update?.openChangelog()"
+            @keydown.enter.stop="() => update?.openChangelog()"
+          >
             <span>{{ t("whats-new") }}</span>
           </Button>
         </div>

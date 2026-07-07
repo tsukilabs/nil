@@ -12,8 +12,8 @@ import Destination from "./Destination.vue";
 import { computed, nextTick, ref } from "vue";
 import { asyncComputed, useBreakpoints } from "@tb-dev/vue";
 import type { ManeuverKind } from "@tsukilabs/nil-bindings";
-import { useManeuvers } from "@/composables/military/useManeuvers";
 import { usePlayerTurn } from "@/composables/player/usePlayerTurn";
+import { useManeuversAt } from "@/composables/military/useManeuversAt";
 import { ArmyPersonnelImpl } from "@/core/model/military/army-personnel";
 import { useWarRoomCoords } from "@/composables/military/useWarRoomCoords";
 import { foldArmyPersonnel } from "@/composables/military/foldArmyPersonnel";
@@ -34,7 +34,7 @@ const armies = useOwnIdleArmiesAt(origin);
 const available = foldArmyPersonnel(armies);
 const personnel = ref(ArmyPersonnelImpl.createEmpty());
 
-const maneuvers = useManeuvers(origin);
+const maneuvers = useManeuversAt(origin);
 
 const { sm } = useBreakpoints();
 
