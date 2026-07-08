@@ -252,8 +252,16 @@ pub enum ManeuverState {
 }
 
 impl ManeuverState {
-  fn with_distance(distance: ManeuverDistance) -> Self {
+  #[inline]
+  pub fn with_distance(distance: ManeuverDistance) -> Self {
     Self::Pending { distance }
+  }
+
+  pub fn distance(&self) -> Option<ManeuverDistance> {
+    match self {
+      Self::Done => None,
+      Self::Pending { distance } => Some(*distance),
+    }
   }
 }
 
