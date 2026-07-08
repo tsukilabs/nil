@@ -20,6 +20,12 @@ const impl From<ManeuverDistance> for f64 {
   }
 }
 
+const impl From<f64> for ManeuverDistance {
+  fn from(distance: f64) -> Self {
+    Self(distance)
+  }
+}
+
 const impl From<Distance> for ManeuverDistance {
   fn from(distance: Distance) -> Self {
     Self(f64::from(distance))

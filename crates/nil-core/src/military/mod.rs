@@ -295,6 +295,13 @@ impl Military {
       .ok_or(Error::ManeuverNotFound(id))
   }
 
+  fn maneuver_mut(&mut self, id: ManeuverId) -> Result<&mut Maneuver> {
+    self
+      .maneuvers
+      .get_mut(&id)
+      .ok_or(Error::ManeuverNotFound(id))
+  }
+
   pub fn maneuvers(&self) -> impl Iterator<Item = &Maneuver> {
     self.maneuvers.values()
   }
@@ -330,6 +337,10 @@ impl Military {
     self.maneuvers.shrink_to_fit();
 
     Ok(done)
+  }
+
+  pub(crate) fn cancel_maneuver(&mut self, id: ManeuverId) -> Result<()> {
+    self.maneuver_mut(id)?.cancel()
   }
 
   /// Retains only the maneuvers specified by the predicate.

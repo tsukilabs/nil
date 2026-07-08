@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 mod coord;
+mod distance;
 mod field;
 mod index;
 mod size;
@@ -14,7 +15,8 @@ use crate::error::{Error, Result};
 use crate::ruler::Ruler;
 use serde::{Deserialize, Serialize};
 
-pub use coord::{Coord, Distance};
+pub use coord::Coord;
+pub use distance::Distance;
 pub use field::{Field, PublicField};
 pub use index::{ContinentIndex, ContinentKey};
 pub use size::ContinentSize;

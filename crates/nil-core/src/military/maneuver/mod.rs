@@ -3,7 +3,7 @@
 
 pub mod distance;
 
-use crate::continent::Coord;
+use crate::continent::{Coord, Distance};
 use crate::error::{Error, Result};
 use crate::military::army::ArmyId;
 use crate::military::army::personnel::ArmyPersonnel;
@@ -70,8 +70,10 @@ impl Maneuver {
         return Err(Error::ManeuverIsDone(self.id));
       }
       ManeuverState::Pending { distance } => {
-        *distance -= self.speed;
         debug_assert!(distance.is_finite());
+
+        *distance -= self.speed;
+        *distance = ((**distance).max(0.0)).into();
         *distance <= 0.0
       }
     };
@@ -83,6 +85,29 @@ impl Maneuver {
     Ok(())
   }
 
+  pub(super) fn cancel(&mut self) -> Result<()> {
+    if self.is_returning() {
+      return Err(Error::ManeuverIsReturning(self.id));
+    }
+
+    let base_distance = self.distance();
+    match &mut self.state {
+      ManeuverState::Done => {
+        return Err(Error::ManeuverIsDone(self.id));
+      }
+      ManeuverState::Pending { distance } => {
+        debug_assert!(distance.is_finite());
+        debug_assert!(*distance > 0.0);
+
+        let covered = f64::from(base_distance - *distance).max(1.0);
+        self.state = ManeuverState::with_distance(covered.into());
+        self.direction = ManeuverDirection::Returning;
+      }
+    };
+
+    Ok(())
+  }
+
   pub(crate) fn reverse(&mut self) -> Result<()> {
     if self.is_pending() {
       return Err(Error::ManeuverIsPending(self.id));
@@ -90,7 +115,7 @@ impl Maneuver {
       return Err(Error::ManeuverIsReturning(self.id));
     }
 
-    let distance = self.origin.distance(self.destination);
+    let distance = self.distance();
     self.state = ManeuverState::with_distance(distance.into());
     self.direction = ManeuverDirection::Returning;
 
@@ -181,6 +206,11 @@ impl Maneuver {
   #[inline]
   pub fn matches_coord(&self, coord: Coord) -> bool {
     coord == self.origin || coord == self.destination
+  }
+
+  #[inline]
+  pub fn distance(&self) -> Distance {
+    self.origin.distance(self.destination)
   }
 
   pub fn pending_distance(&self) -> Option<ManeuverDistance> {

@@ -5,6 +5,7 @@ use crate::chat::ChatMessage;
 use crate::continent::Coord;
 use crate::error::Result;
 use crate::event::{Event, Listener};
+use crate::military::maneuver::ManeuverId;
 use crate::player::PlayerId;
 use crate::report::ReportKind;
 use crate::report::battle::BattleReport;
@@ -28,10 +29,9 @@ impl World {
   }
 
   /// Emits the event to the owner of the city at the specified coordinate, if any.
-  fn emit_to_owner(&self, coord: Coord, event: Event) -> Result<()> {
-    if let Ok(city) = self.city(coord)
-      && let Some(player) = city.player()
-    {
+  fn emit_to_city_owner(&self, coord: Coord, event: Event) -> Result<()> {
+    let city = self.city(coord)?;
+    if let Some(player) = city.player() {
       self.emitter.emit_to(player, event)?;
     }
 
@@ -47,7 +47,7 @@ impl World {
   /// Emits [`Event::City`].
   pub(super) fn emit_city(&self, coord: Coord) -> Result<()> {
     let world = self.config.id();
-    self.emit_to_owner(coord, Event::City { world, coord })
+    self.emit_to_city_owner(coord, Event::City { world, coord })
   }
 
   /// Emits [`Event::Drop`].
@@ -61,6 +61,25 @@ impl World {
   pub(super) fn emit_military(&self, player: PlayerId) -> Result<()> {
     let world = self.config.id();
     self.emit_to(player.clone(), Event::Military { world, player })
+  }
+
+  /// Emits [`Event::Military`] to all players participating in the specified maneuver.
+  pub(super) fn emit_military_to_maneuver_players(&self, id: ManeuverId) -> Result<()> {
+    let maneuver = self.military.maneuver(id)?;
+    let sender = self.city(maneuver.origin())?.player();
+    let target = self.city(maneuver.destination())?.player();
+
+    if let Some(sender) = &sender {
+      self.emit_military(sender.clone())?;
+    }
+
+    if let Some(target) = target
+      && sender.is_none_or(|it| it != target)
+    {
+      self.emit_military(target)?;
+    }
+
+    Ok(())
   }
 
   /// Emits [`Event::Player`].
