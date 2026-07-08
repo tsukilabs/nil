@@ -109,7 +109,7 @@ if (__DESKTOP__) {
 
           <Table
             v-if="maneuver.hauledResources && maneuver.hasHauledResources()"
-            class="max-w-[800px]"
+            class="sm:max-w-max"
           >
             <TableBody>
               <TableRow class="hover:bg-card">

@@ -25,7 +25,7 @@ const { chat } = NIL.chat.refs();
 const content = useTemplateRef("contentEl");
 
 const listener = new ListenerSet();
-listener.event.onChatUpdated(scroll);
+listener.event.onChatMessage(scroll);
 
 async function scroll() {
   await delay(10);

@@ -11,11 +11,11 @@ type KindMap = {
   [E in EventPayload as E["kind"]]: Readonly<E>;
 };
 
-export type ChatUpdatedPayload = KindMap["chat-updated"];
-export type CityUpdatedPayload = KindMap["city-updated"];
+export type ChatMessagePayload = KindMap["chat-message"];
+export type CityPayload = KindMap["city"];
 export type DropPayload = KindMap["drop"];
-export type MilitaryUpdatedPayload = KindMap["military-updated"];
-export type PlayerUpdatedPayload = KindMap["player-updated"];
-export type PublicCityUpdatedPayload = KindMap["public-city-updated"];
+export type MilitaryPayload = KindMap["military"];
+export type PlayerPayload = KindMap["player"];
+export type PublicCityPayload = KindMap["public-city"];
 export type ReportPayload = KindMap["report"];
-export type RoundUpdatedPayload = KindMap["round-updated"];
+export type RoundPayload = KindMap["round"];

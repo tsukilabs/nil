@@ -76,7 +76,7 @@ impl World {
     self.military.spawn(coord, ruler, personnel);
 
     if let Some(player) = player {
-      self.emit_military_updated(player)?;
+      self.emit_military(player)?;
     }
 
     Ok(())

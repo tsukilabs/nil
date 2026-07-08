@@ -6,7 +6,7 @@ import type { ShallowRef } from "vue";
 import { asyncRef } from "@tb-dev/vue";
 import type { Option } from "@tb-dev/utils";
 import { RoundImpl } from "@/core/model/round";
-import type { RoundUpdatedPayload } from "@/types/event";
+import type { RoundPayload } from "@/types/event";
 
 export class RoundEntity extends Entity {
   private readonly round: ShallowRef<Option<RoundImpl>>;
@@ -24,14 +24,14 @@ export class RoundEntity extends Entity {
   }
 
   protected override initListeners() {
-    this.event.onRoundUpdated(this.onRoundUpdated.bind(this));
+    this.event.onRound(this.onRound.bind(this));
   }
 
   public override async update() {
     await this.updateRound();
   }
 
-  private async onRoundUpdated({ round }: RoundUpdatedPayload) {
+  private async onRound({ round }: RoundPayload) {
     // This typically indicates that the current round is complete, so we update all the entities.
     if (round.id !== this.id || round.state.kind !== this.state?.kind) {
       await NIL.update();

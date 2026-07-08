@@ -38,6 +38,49 @@ impl World {
     Ok(())
   }
 
+  /// Emits [`Event::ChatMessage`].
+  pub(super) fn emit_chat_message(&self, message: ChatMessage) -> Result<()> {
+    let world = self.config.id();
+    self.broadcast(Event::ChatMessage { world, message })
+  }
+
+  /// Emits [`Event::City`].
+  pub(super) fn emit_city(&self, coord: Coord) -> Result<()> {
+    let world = self.config.id();
+    self.emit_to_owner(coord, Event::City { world, coord })
+  }
+
+  /// Emits [`Event::Drop`].
+  /// This should never be called manually.
+  pub(super) fn emit_drop(&self) -> Result<()> {
+    let world = self.config.id();
+    self.broadcast(Event::Drop { world })
+  }
+
+  /// Emits [`Event::Military`].
+  pub(super) fn emit_military(&self, player: PlayerId) -> Result<()> {
+    let world = self.config.id();
+    self.emit_to(player.clone(), Event::Military { world, player })
+  }
+
+  /// Emits [`Event::Player`].
+  pub(super) fn emit_player(&self, player: PlayerId) -> Result<()> {
+    let world = self.config.id();
+    self.emit_to(player.clone(), Event::Player { world, player })
+  }
+
+  /// Emits [`Event::PublicCity`].
+  pub(super) fn emit_public_city(&self, coord: Coord) -> Result<()> {
+    let world = self.config.id();
+    self.broadcast(Event::PublicCity { world, coord })
+  }
+
+  /// Emits [`Event::Report`].
+  pub(super) fn emit_report(&self, player: PlayerId, report: ReportKind) -> Result<()> {
+    let world = self.config.id();
+    self.emit_to(player, Event::Report { world, report: Box::new(report) })
+  }
+
   pub(super) fn emit_battle_report(&self, report: BattleReport) -> Result<()> {
     if let Some(attacker) = report.attacker().player().cloned() {
       self.emit_report(attacker, report.clone().into())?;
@@ -51,56 +94,6 @@ impl World {
     Ok(())
   }
 
-  /// Emits [`Event::ChatUpdated`].
-  pub(super) fn emit_chat_updated(&self, message: ChatMessage) -> Result<()> {
-    let world = self.config.id();
-    self.broadcast(Event::ChatUpdated { world, message })
-  }
-
-  /// Emits [`Event::CityUpdated`].
-  pub(super) fn emit_city_updated(&self, coord: Coord) -> Result<()> {
-    let world = self.config.id();
-    self.emit_to_owner(coord, Event::CityUpdated { world, coord })
-  }
-
-  /// Emits [`Event::Drop`].
-  /// This should never be called manually.
-  pub(super) fn emit_drop(&self) -> Result<()> {
-    let world = self.config.id();
-    self.broadcast(Event::Drop { world })
-  }
-
-  /// Emits [`Event::MilitaryUpdated`].
-  pub(super) fn emit_military_updated(&self, player: PlayerId) -> Result<()> {
-    let world = self.config.id();
-    self.emit_to(player.clone(), Event::MilitaryUpdated { world, player })
-  }
-
-  /// Emits [`Event::PlayerUpdated`].
-  pub(super) fn emit_player_updated(&self, player: PlayerId) -> Result<()> {
-    let world = self.config.id();
-    self.emit_to(player.clone(), Event::PlayerUpdated { world, player })
-  }
-
-  /// Emits [`Event::PublicCityUpdated`].
-  pub(super) fn emit_public_city_updated(&self, coord: Coord) -> Result<()> {
-    let world = self.config.id();
-    self.broadcast(Event::PublicCityUpdated { world, coord })
-  }
-
-  /// Emits [`Event::Report`].
-  pub(super) fn emit_report(&self, player: PlayerId, report: ReportKind) -> Result<()> {
-    let world = self.config.id();
-    self.emit_to(player, Event::Report { world, report: Box::new(report) })
-  }
-
-  /// Emits [`Event::RoundUpdated`].
-  pub(super) fn emit_round_updated(&self) -> Result<()> {
-    let world = self.config.id();
-    let round = self.round.clone();
-    self.broadcast(Event::RoundUpdated { world, round })
-  }
-
   pub(super) fn emit_support_report(&self, report: SupportReport) -> Result<()> {
     if let Some(sender) = report.sender().player().cloned() {
       self.emit_report(sender, report.clone().into())?;
@@ -112,5 +105,12 @@ impl World {
     }
 
     Ok(())
+  }
+
+  /// Emits [`Event::Round`].
+  pub(super) fn emit_round(&self) -> Result<()> {
+    let world = self.config.id();
+    let round = self.round.clone();
+    self.broadcast(Event::Round { world, round })
   }
 }

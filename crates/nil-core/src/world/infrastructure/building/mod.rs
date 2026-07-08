@@ -38,7 +38,7 @@ impl World {
       .building_mut(id)
       .toggle(enabled);
 
-    self.emit_city_updated(coord)?;
+    self.emit_city(coord)?;
 
     Ok(())
   }
@@ -74,8 +74,8 @@ macro_rules! decl_world_recruit_order_fn {
               .checked_sub(order.resources())
               .ok_or(Error::InsufficientResources)?;
 
-            self.emit_player_updated(id)?;
-            self.emit_city_updated(req.coord)?;
+            self.emit_player(id)?;
+            self.emit_city(req.coord)?;
           }
 
           Ok(())
@@ -94,8 +94,8 @@ macro_rules! decl_world_recruit_order_fn {
             let resources = player.resources_mut();
             *resources += order.resources();
 
-            self.emit_player_updated(id)?;
-            self.emit_city_updated(coord)?;
+            self.emit_player(id)?;
+            self.emit_city(coord)?;
           }
 
           Ok(())
