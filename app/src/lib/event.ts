@@ -7,15 +7,15 @@ import { SavedataFile } from "@/core/savedata";
 import type { Fn, MaybePromise, Option } from "@tb-dev/utils";
 import { getCurrentWebviewWindow, type WebviewWindow } from "@tauri-apps/api/webviewWindow";
 import type {
-  ChatUpdatedPayload,
-  CityUpdatedPayload,
+  ChatMessagePayload,
+  CityPayload,
   DropPayload,
   EventPayload,
-  MilitaryUpdatedPayload,
-  PlayerUpdatedPayload,
-  PublicCityUpdatedPayload,
+  MilitaryPayload,
+  PlayerPayload,
+  PublicCityPayload,
   ReportPayload,
-  RoundUpdatedPayload,
+  RoundPayload,
 } from "@/types/event";
 
 export type ListenerFn<T> = (payload: T) => MaybePromise<unknown>;
@@ -50,14 +50,14 @@ class Listener<T extends EventPayload> {
   private static webview: Option<WebviewWindow>;
 
   public static readonly listeners = {
-    onChatUpdated: new Listener<ChatUpdatedPayload>("chat-updated"),
-    onCityUpdated: new Listener<CityUpdatedPayload>("city-updated"),
+    onChatMessage: new Listener<ChatMessagePayload>("chat-message"),
+    onCity: new Listener<CityPayload>("city"),
     onDrop: new Listener<DropPayload>("drop"),
-    onMilitaryUpdated: new Listener<MilitaryUpdatedPayload>("military-updated"),
-    onPlayerUpdated: new Listener<PlayerUpdatedPayload>("player-updated"),
-    onPublicCityUpdated: new Listener<PublicCityUpdatedPayload>("public-city-updated"),
+    onMilitary: new Listener<MilitaryPayload>("military"),
+    onPlayer: new Listener<PlayerPayload>("player"),
+    onPublicCity: new Listener<PublicCityPayload>("public-city"),
     onReport: new Listener<ReportPayload>("report"),
-    onRoundUpdated: new Listener<RoundUpdatedPayload>("round-updated"),
+    onRound: new Listener<RoundPayload>("round"),
   } as const;
 }
 

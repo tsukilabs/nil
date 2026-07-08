@@ -4,10 +4,10 @@
 import { Entity } from "./abstract";
 import { ref, type Ref } from "vue";
 import { asyncRef } from "@tb-dev/vue";
+import type { PlayerPayload } from "@/types/event";
 import { type Option, panic } from "@tb-dev/utils";
 import { PlayerImpl } from "@/core/model/player/player";
 import type { PlayerId } from "@tsukilabs/nil-bindings";
-import type { PlayerUpdatedPayload } from "@/types/event";
 
 export class PlayerEntity extends Entity {
   private readonly id = ref<Option<PlayerId>>();
@@ -26,14 +26,14 @@ export class PlayerEntity extends Entity {
   }
 
   protected override initListeners() {
-    this.event.onPlayerUpdated(this.onPlayerUpdated.bind(this));
+    this.event.onPlayer(this.onPlayer.bind(this));
   }
 
   public override async update() {
     await this.updatePlayer();
   }
 
-  private async onPlayerUpdated({ player }: PlayerUpdatedPayload) {
+  private async onPlayer({ player }: PlayerPayload) {
     if (player === this.id.value) {
       await this.update();
     }

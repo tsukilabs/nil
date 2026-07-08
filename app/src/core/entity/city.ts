@@ -4,8 +4,8 @@
 import { Entity } from "./abstract";
 import type { Option } from "@tb-dev/utils";
 import { asyncRef, maybe } from "@tb-dev/vue";
+import type { CityPayload } from "@/types/event";
 import { CityImpl } from "@/core/model/city/city";
-import type { CityUpdatedPayload } from "@/types/event";
 import { CoordImpl } from "@/core/model/continent/coord";
 import { computed, nextTick, type Ref, shallowRef } from "vue";
 import type { Coord, Resources } from "@tsukilabs/nil-bindings";
@@ -35,7 +35,7 @@ export class CityEntity extends Entity {
   }
 
   protected override initListeners() {
-    this.event.onCityUpdated(this.onCityUpdated.bind(this));
+    this.event.onCity(this.onCity.bind(this));
   }
 
   public override async update() {
@@ -46,7 +46,7 @@ export class CityEntity extends Entity {
     return this.city.value?.coord.is(coord) ?? false;
   }
 
-  private async onCityUpdated(payload: CityUpdatedPayload) {
+  private async onCity(payload: CityPayload) {
     if (this.isCoord(payload.coord)) {
       await this.update();
     }

@@ -6,7 +6,7 @@ import { asyncRef } from "@tb-dev/vue";
 import type { Option } from "@tb-dev/utils";
 import { ChatImpl } from "@/core/model/chat/chat";
 import { type ShallowRef, triggerRef } from "vue";
-import type { ChatUpdatedPayload } from "@/types/event";
+import type { ChatMessagePayload } from "@/types/event";
 
 export class ChatEntity extends Entity {
   private readonly chat: ShallowRef<Option<ChatImpl>>;
@@ -24,14 +24,14 @@ export class ChatEntity extends Entity {
   }
 
   protected override initListeners() {
-    this.event.onChatUpdated(this.onChatUpdated.bind(this));
+    this.event.onChatMessage(this.onChatMessage.bind(this));
   }
 
   public override async update() {
     await this.updateChat();
   }
 
-  private onChatUpdated({ message }: ChatUpdatedPayload) {
+  private onChatMessage({ message }: ChatMessagePayload) {
     if (this.chat.value) {
       this.chat.value.push(message);
       triggerRef(this.chat);

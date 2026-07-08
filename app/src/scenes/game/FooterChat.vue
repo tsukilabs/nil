@@ -12,7 +12,7 @@ import { useRoute, useRouter } from "vue-router";
 import { useToggle, whenever } from "@vueuse/core";
 import type { GameScene } from "@/types/scene/game";
 import ChatInput from "@/components/chat/ChatInput.vue";
-import type { ChatUpdatedPayload } from "@/types/event";
+import type { ChatMessagePayload } from "@/types/event";
 import { Popover, PopoverContent, PopoverTrigger } from "@ui/popover";
 
 const { player } = NIL.player.refs();
@@ -24,7 +24,7 @@ const route = useRoute();
 const router = useRouter();
 
 const listener = new ListenerSet();
-listener.event.onChatUpdated(onChatUpdated);
+listener.event.onChatMessage(onChatMessage);
 
 const { sm } = useBreakpoints();
 
@@ -36,7 +36,7 @@ watchEffect(() => {
   }
 });
 
-function onChatUpdated({ message }: ChatUpdatedPayload) {
+function onChatMessage({ message }: ChatMessagePayload) {
   if (
     !isChatOpen.value &&
     route.name !== ("chat" satisfies GameScene) &&

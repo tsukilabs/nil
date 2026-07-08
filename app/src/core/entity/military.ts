@@ -5,7 +5,7 @@ import type { Ref } from "vue";
 import { Entity } from "./abstract";
 import { asyncRef } from "@tb-dev/vue";
 import type { Option } from "@tb-dev/utils";
-import type { MilitaryUpdatedPayload } from "@/types/event";
+import type { MilitaryPayload } from "@/types/event";
 import { MilitaryImpl } from "@/core/model/military/military";
 
 export class MilitaryEntity extends Entity {
@@ -24,14 +24,14 @@ export class MilitaryEntity extends Entity {
   }
 
   protected override initListeners() {
-    this.event.onMilitaryUpdated(this.onMilitaryUpdated.bind(this));
+    this.event.onMilitary(this.onMilitary.bind(this));
   }
 
   public override async update() {
     await this.updateMilitary();
   }
 
-  private async onMilitaryUpdated({ player }: MilitaryUpdatedPayload) {
+  private async onMilitary({ player }: MilitaryPayload) {
     if (player === NIL.player.getId()) {
       await this.update();
     }

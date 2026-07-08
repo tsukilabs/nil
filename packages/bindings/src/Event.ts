@@ -7,11 +7,11 @@ import type { Round } from "./Round";
 import type { WorldId } from "./WorldId";
 
 export type Event =
-  | { "kind": "chat-updated"; world: WorldId; message: ChatMessage }
-  | { "kind": "city-updated"; world: WorldId; coord: Coord }
+  | { "kind": "chat-message"; world: WorldId; message: ChatMessage }
+  | { "kind": "city"; world: WorldId; coord: Coord }
   | { "kind": "drop"; world: WorldId }
-  | { "kind": "military-updated"; world: WorldId; player: PlayerId }
-  | { "kind": "player-updated"; world: WorldId; player: PlayerId }
-  | { "kind": "public-city-updated"; world: WorldId; coord: Coord }
+  | { "kind": "military"; world: WorldId; player: PlayerId }
+  | { "kind": "player"; world: WorldId; player: PlayerId }
+  | { "kind": "public-city"; world: WorldId; coord: Coord }
   | { "kind": "report"; world: WorldId; report: ReportKind }
-  | { "kind": "round-updated"; world: WorldId; round: Round };
+  | { "kind": "round"; world: WorldId; round: Round };

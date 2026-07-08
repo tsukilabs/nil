@@ -69,7 +69,7 @@ impl fmt::Debug for Emitter {
 #[remain::sorted]
 pub enum Event {
   /// A new message has been sent in the chat.
-  ChatUpdated {
+  ChatMessage {
     world: WorldId,
     message: ChatMessage,
   },
@@ -78,8 +78,8 @@ pub enum Event {
   ///
   /// This event is only emitted to the city owner.
   /// If you believe that all players should be notified,
-  /// consider using [`Event::PublicCityUpdated`] instead.
-  CityUpdated { world: WorldId, coord: Coord },
+  /// consider using [`Event::PublicCity`] instead.
+  City { world: WorldId, coord: Coord },
 
   /// Signals that all active players should disconnect, as the world is about to be dropped.
   ///
@@ -89,19 +89,19 @@ pub enum Event {
   /// Indicates that the player's military has changed.
   /// It usually means new maneuvers have been initiated,
   /// since the armies themselves are processed at the end of the round.
-  MilitaryUpdated { world: WorldId, player: PlayerId },
+  Military { world: WorldId, player: PlayerId },
 
   /// Indicates that there has been a change in some of the player's data, be it public or not.
-  PlayerUpdated { world: WorldId, player: PlayerId },
+  Player { world: WorldId, player: PlayerId },
 
   /// Indicates that there has been a change in public data for the city.
   ///
   /// As a rule, whenever the situation requires this event to be emitted,
-  /// `Event::CityUpdated` should also be emitted, but the opposite is not true!
+  /// [`Event::City`] should also be emitted, but the opposite is not true!
   ///
-  /// Unlike [`Event::CityUpdated`], which is emitted only to the city owner,
+  /// Unlike [`Event::City`], which is emitted only to the city owner,
   /// this event is sent to all players in the world.
-  PublicCityUpdated { world: WorldId, coord: Coord },
+  PublicCity { world: WorldId, coord: Coord },
 
   /// A report was generated.
   Report {
@@ -113,22 +113,22 @@ pub enum Event {
   /// the transition from one round to another, after all players have completed their actions.
   ///
   /// When emitted at the start of the game or at the end of a round,
-  /// [`Event::RoundUpdated`] typically makes it unnecessary to emit other events,
+  /// [`Event::Round`] typically makes it unnecessary to emit other events,
   /// as this situation naturally prompts all entities to update themselves.
-  RoundUpdated { world: WorldId, round: Round },
+  Round { world: WorldId, round: Round },
 }
 
 impl fmt::Debug for Event {
   fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
     match self {
-      Self::ChatUpdated { world, message } => {
-        f.debug_struct("ChatUpdated")
+      Self::ChatMessage { world, message } => {
+        f.debug_struct("ChatMessage")
           .field("world", world)
           .field("message", &message.id())
           .finish()
       }
-      Self::CityUpdated { world, coord } => {
-        f.debug_struct("CityUpdated")
+      Self::City { world, coord } => {
+        f.debug_struct("City")
           .field("world", world)
           .field("coord", coord)
           .finish()
@@ -138,20 +138,20 @@ impl fmt::Debug for Event {
           .field("world", world)
           .finish()
       }
-      Self::MilitaryUpdated { world, player } => {
-        f.debug_struct("MilitaryUpdated")
+      Self::Military { world, player } => {
+        f.debug_struct("Military")
           .field("world", world)
           .field("player", player)
           .finish()
       }
-      Self::PlayerUpdated { world, player } => {
-        f.debug_struct("PlayerUpdated")
+      Self::Player { world, player } => {
+        f.debug_struct("Player")
           .field("world", world)
           .field("player", player)
           .finish()
       }
-      Self::PublicCityUpdated { world, coord } => {
-        f.debug_struct("PublicCityUpdated")
+      Self::PublicCity { world, coord } => {
+        f.debug_struct("PublicCity")
           .field("world", world)
           .field("coord", coord)
           .finish()
@@ -162,8 +162,8 @@ impl fmt::Debug for Event {
           .field("report", &report.id())
           .finish()
       }
-      Self::RoundUpdated { world, round } => {
-        f.debug_struct("RoundUpdated")
+      Self::Round { world, round } => {
+        f.debug_struct("Round")
           .field("world", world)
           .field("round", &round.id())
           .finish()

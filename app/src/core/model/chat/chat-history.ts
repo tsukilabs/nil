@@ -10,8 +10,8 @@ export class ChatHistoryImpl implements Readonly<ChatHistory> {
 
   private constructor(history: ChatHistory) {
     this.queue = history.queue
-      .map((it) => ChatMessageImpl.create(it))
-      .filter((it) => !it.isEmpty());
+      .map((message) => ChatMessageImpl.create(message))
+      .filter((message) => !message.isEmpty());
 
     this.size = history.size;
 

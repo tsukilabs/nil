@@ -63,7 +63,7 @@ export function useContinent(options: {
 
   const listener = new ListenerSet();
   listener.event
-    .onPublicCityUpdated(({ coord }) => loadCoord(coord));
+    .onPublicCity(({ coord }) => loadCoord(coord));
 
   tryOnScopeDispose(() => {
     fields.value = [];

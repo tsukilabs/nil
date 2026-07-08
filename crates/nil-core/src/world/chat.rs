@@ -20,7 +20,7 @@ impl World {
 
     let id = message.id();
     self.chat.push(message.clone());
-    self.emit_chat_updated(message)?;
+    self.emit_chat_message(message)?;
 
     Ok(id)
   }
