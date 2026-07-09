@@ -37,13 +37,19 @@ export function useManeuver(id: MaybeNilRef<ManeuverId>) {
     evaluating: isLoadingArmyOwner,
   });
 
+  const isArmyOwnedByCurrentPlayer = computed(() => {
+    return (
+      armyOwner.value?.kind === "player" &&
+      armyOwner.value.id === player.value
+    );
+  });
+
   const isLoadingArmy = ref(false);
   const army = asyncComputed(null, async () => {
     if (
       player.value &&
       armyId.value &&
-      armyOwner.value?.kind === "player" &&
-      armyOwner.value.id === player.value
+      isArmyOwnedByCurrentPlayer.value
     ) {
       return ArmyImpl.load(armyId.value);
     }
@@ -85,6 +91,7 @@ export function useManeuver(id: MaybeNilRef<ManeuverId>) {
     army,
     armyOwner,
     cities,
+    isArmyOwnedByCurrentPlayer,
     maneuver: maneuver as Readonly<typeof maneuver>,
     loading,
     loadManeuver,
