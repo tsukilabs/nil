@@ -3,11 +3,12 @@
 
 use crate::continent::coord::Coord;
 use crate::continent::size::ContinentSize;
-use crate::error::Error;
+use crate::error::{Error, Result};
 use crate::military::Military;
 use crate::military::army::personnel::ArmyPersonnel;
 use crate::military::army::{Army, ArmyId, ArmyState, collapse_armies};
-use crate::military::maneuver::{Maneuver, ManeuverId, ManeuverKind};
+use crate::military::maneuver::distance::ManeuverDistance;
+use crate::military::maneuver::{Maneuver, ManeuverDirection, ManeuverId, ManeuverKind};
 use crate::military::unit::stats::speed::Speed;
 use crate::npc::bot::{Bot, BotId};
 use crate::ruler::Ruler;
@@ -126,6 +127,29 @@ fn advance_done_maneuver() {
   };
 
   assert_matches!(result, Err(Error::ManeuverIsDone(..)));
+}
+
+#[test]
+fn cancel_maneuver() -> Result<()> {
+  let (_, mut maneuver) = Maneuver::builder()
+    .kind(ManeuverKind::Attack)
+    .army(ArmyId::new())
+    .origin(Coord::splat(0))
+    .destination(Coord::splat(1))
+    .speed(Speed::new(5.0))
+    .build()?;
+
+  assert_matches!(maneuver.direction(), ManeuverDirection::Going);
+
+  maneuver.cancel()?;
+
+  assert_matches!(maneuver.direction(), ManeuverDirection::Returning);
+  assert_eq!(
+    maneuver.pending_distance(),
+    Some(ManeuverDistance::from(1.0f64))
+  );
+
+  Ok(())
 }
 
 fn make_ruler(id: &str) -> Ruler {
