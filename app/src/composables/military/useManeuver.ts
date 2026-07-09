@@ -6,7 +6,6 @@ import { computed, ref, toRef, watch } from "vue";
 import { ArmyImpl } from "@/core/model/military/army";
 import type { ManeuverId } from "@tsukilabs/nil-bindings";
 import { ManeuverImpl } from "@/core/model/military/maneuver";
-import { PublicCityImpl } from "@/core/model/city/public-city";
 import { asyncComputed, asyncRef, type MaybeNilRef, useMutex } from "@tb-dev/vue";
 
 export function useManeuver(id: MaybeNilRef<ManeuverId>) {
@@ -63,18 +62,7 @@ export function useManeuver(id: MaybeNilRef<ManeuverId>) {
 
   const isLoadingCities = ref(false);
   const cities = asyncComputed(null, async () => {
-    if (maneuver.value) {
-      const origin = maneuver.value.origin;
-      const destination = maneuver.value.destination;
-      const impl = await PublicCityImpl.bulkLoad([origin, destination]);
-      return {
-        origin: impl.find((city) => city.coord.is(origin)) ?? null,
-        destination: impl.find((city) => city.coord.is(destination)) ?? null,
-      } as const;
-    }
-    else {
-      return null;
-    }
+    return maneuver.value?.getCities();
   }, {
     evaluating: isLoadingCities,
   });

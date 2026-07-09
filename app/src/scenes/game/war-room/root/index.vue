@@ -88,7 +88,7 @@ function clear() {
           variant="default"
           :size="sm ? 'default' : 'sm'"
           :disabled="!canSend"
-          @click="() => send('attack')"
+          @click.stop="() => send('attack')"
         >
           <span>{{ t("attack") }}</span>
         </Button>
@@ -96,14 +96,14 @@ function clear() {
           variant="default"
           :size="sm ? 'default' : 'sm'"
           :disabled="!canSend"
-          @click="() => send('support')"
+          @click.stop="() => send('support')"
         >
           <span>{{ t("support") }}</span>
         </Button>
         <Button
           variant="secondary"
           :size="sm ? 'default' : 'sm'"
-          @click="clear"
+          @click.stop="clear"
         >
           <span>{{ t("clear") }}</span>
         </Button>

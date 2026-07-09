@@ -2,8 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { go } from "@/router";
+import * as commands from "@/commands";
 import { getManeuver } from "@/commands";
+import type { Option } from "@tb-dev/utils";
 import { CoordImpl } from "@/core/model/continent/coord";
+import { PublicCityImpl } from "@/core/model/city/public-city";
 import { ManeuverHaulImpl } from "@/core/model/military/maneuver-haul";
 import type {
   ArmyId,
@@ -12,6 +15,7 @@ import type {
   ManeuverId,
   ManeuverKind,
   ManeuverState,
+  Ruler,
 } from "@tsukilabs/nil-bindings";
 
 export class ManeuverImpl implements Readonly<Maneuver> {
@@ -24,6 +28,10 @@ export class ManeuverImpl implements Readonly<Maneuver> {
   public readonly state: ManeuverState;
   public readonly speed: number;
   public readonly hauledResources: ManeuverHaulImpl | null;
+
+  #armyOwner: Option<Ruler>;
+  #originCity: Option<PublicCityImpl>;
+  #destinationCity: Option<PublicCityImpl>;
 
   private constructor(maneuver: Maneuver) {
     this.id = maneuver.id;
@@ -86,6 +94,24 @@ export class ManeuverImpl implements Readonly<Maneuver> {
     else {
       return false;
     }
+  }
+
+  public async getArmyOwner(): Promise<Ruler> {
+    this.#armyOwner ??= await commands.getArmyOwner(this.army);
+    return this.#armyOwner;
+  }
+
+  public async getCities() {
+    if (!this.#originCity || !this.#destinationCity) {
+      const cities = await PublicCityImpl.bulkLoad([this.origin, this.destination]);
+      this.#originCity = cities.find((city) => city.coord.is(this.origin)) ?? null;
+      this.#destinationCity = cities.find((city) => city.coord.is(this.destination)) ?? null;
+    }
+
+    return {
+      origin: this.#originCity,
+      destination: this.#destinationCity,
+    } as const;
   }
 
   public static create(maneuver: Maneuver) {
