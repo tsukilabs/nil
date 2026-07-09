@@ -119,6 +119,7 @@ pub fn run() {
       command::infrastructure::workshop::add_workshop_recruit_order,
       command::infrastructure::workshop::cancel_workshop_recruit_order,
       command::infrastructure::workshop::get_workshop_recruit_catalog,
+      command::military::cancel_maneuver,
       command::military::get_army,
       command::military::get_army_owner,
       command::military::get_maneuver,

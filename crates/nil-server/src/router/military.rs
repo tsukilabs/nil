@@ -12,6 +12,31 @@ use nil_core::military::army::Army;
 use nil_payload::request::military::*;
 use nil_payload::response::military::*;
 
+pub async fn cancel_maneuver(
+  State(app): State<App>,
+  Extension(player): Extension<CurrentPlayer>,
+  Json(req): Json<CancelManeuverRequest>,
+) -> Response {
+  match app.get(req.world) {
+    Ok(world) => {
+      let result = try {
+        let mut world = world.write().await;
+        if !world.is_maneuver_army_owned_by(req.id, player)? {
+          return res!(FORBIDDEN);
+        }
+
+        world.cancel_maneuver(req.id)?;
+        world.military().maneuver(req.id)?.clone()
+      };
+
+      result
+        .map(|maneuver| res!(OK, CancelManeuverResponse(maneuver)))
+        .unwrap_or_else(from_err)
+    }
+    Err(err) => from_err(err),
+  }
+}
+
 pub async fn get_army(
   State(app): State<App>,
   Extension(player): Extension<CurrentPlayer>,

@@ -8,6 +8,17 @@ use nil_payload::response::military::*;
 use tauri::AppHandle;
 
 #[tauri::command]
+pub async fn cancel_maneuver(
+  app: AppHandle,
+  req: CancelManeuverRequest,
+) -> Result<CancelManeuverResponse> {
+  app
+    .client(async |cl| cl.cancel_maneuver(req).await)
+    .await
+    .map_err(Into::into)
+}
+
+#[tauri::command]
 pub async fn get_army(app: AppHandle, req: GetArmyRequest) -> Result<GetArmyResponse> {
   app
     .client(async |cl| cl.get_army(req).await)

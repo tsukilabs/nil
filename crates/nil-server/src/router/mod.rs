@@ -40,6 +40,7 @@ pub(crate) fn create() -> Router<App> {
     .route("/add-stable-recruit-order", post(infrastructure::stable::add_recruit_order))
     .route("/add-workshop-recruit-order", post(infrastructure::workshop::add_recruit_order))
     .route("/cancel-academy-recruit-order", post(infrastructure::academy::cancel_recruit_order))
+    .route("/cancel-maneuver", post(military::cancel_maneuver))
     .route("/cancel-prefecture-build-order", post(infrastructure::prefecture::cancel_build_order))
     .route("/cancel-stable-recruit-order", post(infrastructure::stable::cancel_recruit_order))
     .route("/cancel-workshop-recruit-order", post(infrastructure::workshop::cancel_recruit_order))

@@ -7,6 +7,7 @@ mod tests;
 use crate::error::{Error, Result};
 use crate::military::army::{Army, ArmyState};
 use crate::military::maneuver::{Maneuver, ManeuverId, ManeuverRequest};
+use crate::ruler::Ruler;
 use crate::world::World;
 
 impl World {
@@ -19,6 +20,16 @@ impl World {
   #[inline]
   pub fn collapse_armies(&mut self) {
     self.military.collapse_armies();
+  }
+
+  pub fn is_maneuver_army_owned_by<R>(&self, id: ManeuverId, ruler: R) -> Result<bool>
+  where
+    R: Into<Ruler>,
+  {
+    let ruler: Ruler = ruler.into();
+    let army_id = self.military.maneuver(id)?.army();
+    let army_owner = self.military.army(army_id)?.owner();
+    Ok(ruler == *army_owner)
   }
 
   #[inline]
