@@ -3,6 +3,9 @@
 
 pub mod distance;
 
+#[cfg(test)]
+mod tests;
+
 use crate::continent::coord::Coord;
 use crate::continent::distance::Distance;
 use crate::error::{Error, Result};
