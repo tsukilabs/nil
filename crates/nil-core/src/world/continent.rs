@@ -1,7 +1,9 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use crate::continent::{Continent, Coord, Field};
+use crate::continent::Continent;
+use crate::continent::coord::Coord;
+use crate::continent::field::Field;
 use crate::error::{Error, Result};
 use crate::world::World;
 use rand::seq::IteratorRandom;

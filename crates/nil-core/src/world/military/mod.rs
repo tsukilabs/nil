@@ -7,12 +7,29 @@ mod tests;
 use crate::error::{Error, Result};
 use crate::military::army::{Army, ArmyState};
 use crate::military::maneuver::{Maneuver, ManeuverId, ManeuverRequest};
+use crate::ruler::Ruler;
 use crate::world::World;
 
 impl World {
+  pub fn cancel_maneuver(&mut self, id: ManeuverId) -> Result<()> {
+    self.military.cancel_maneuver(id)?;
+    self.emit_military_to_maneuver_players(id)?;
+    Ok(())
+  }
+
   #[inline]
   pub fn collapse_armies(&mut self) {
     self.military.collapse_armies();
+  }
+
+  pub fn is_maneuver_army_owned_by<R>(&self, id: ManeuverId, ruler: R) -> Result<bool>
+  where
+    R: Into<Ruler>,
+  {
+    let ruler: Ruler = ruler.into();
+    let army_id = self.military.maneuver(id)?.army();
+    let army_owner = self.military.army(army_id)?.owner();
+    Ok(ruler == *army_owner)
   }
 
   #[inline]
@@ -79,19 +96,8 @@ impl World {
         .spawn(&mut self.military, request.origin);
     }
 
-    let sender_player = origin_ruler.player();
-    let target_player = self.city(request.destination)?.player();
-
     if emit {
-      if let Some(sender_player) = sender_player {
-        self.emit_military(sender_player.clone())?;
-      }
-
-      if let Some(target_player) = target_player
-        && sender_player.is_none_or(|it| it != &target_player)
-      {
-        self.emit_military(target_player)?;
-      }
+      self.emit_military_to_maneuver_players(id)?;
     }
 
     Ok(id)

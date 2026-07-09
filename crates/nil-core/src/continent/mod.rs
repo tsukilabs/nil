@@ -1,23 +1,24 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-mod coord;
-mod field;
-mod index;
-mod size;
+pub mod coord;
+pub mod distance;
+pub mod field;
+pub mod index;
+pub mod size;
 
 #[cfg(test)]
 mod tests;
 
 use crate::city::{City, CitySearch};
+use crate::continent::coord::Coord;
+use crate::continent::distance::Distance;
+use crate::continent::field::Field;
+use crate::continent::index::{ContinentIndex, ContinentKey};
+use crate::continent::size::ContinentSize;
 use crate::error::{Error, Result};
 use crate::ruler::Ruler;
 use serde::{Deserialize, Serialize};
-
-pub use coord::{Coord, Distance};
-pub use field::{Field, PublicField};
-pub use index::{ContinentIndex, ContinentKey};
-pub use size::ContinentSize;
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]

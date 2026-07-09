@@ -21,7 +21,8 @@ mod round;
 mod savedata;
 
 use crate::chat::Chat;
-use crate::continent::{Continent, ContinentSize};
+use crate::continent::Continent;
+use crate::continent::size::ContinentSize;
 use crate::error::{Error, Result};
 use crate::event::Emitter;
 use crate::hooks::OnNextRound;

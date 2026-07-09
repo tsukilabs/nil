@@ -1,7 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use crate::continent::ContinentKey;
+use crate::continent::index::ContinentKey;
 use crate::error::Result;
 use crate::infrastructure::storage::{
   OverallStorageCapacity,

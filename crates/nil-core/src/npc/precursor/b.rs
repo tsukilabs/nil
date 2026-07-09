@@ -1,7 +1,8 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use crate::continent::{ContinentSize, Coord};
+use crate::continent::coord::Coord;
+use crate::continent::size::ContinentSize;
 use crate::ethic::{EthicPowerAxis, EthicTruthAxis, Ethics};
 use crate::npc::precursor::PrecursorId;
 use crate::resources::Resources;

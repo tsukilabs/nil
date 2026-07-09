@@ -1,7 +1,8 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use crate::continent::{ContinentIndex, Coord};
+use crate::continent::coord::Coord;
+use crate::continent::index::ContinentIndex;
 use crate::infrastructure::building::level::BuildingLevel;
 use crate::infrastructure::building::{BuildingId, MineId, StorageId};
 use crate::military::army::ArmyId;

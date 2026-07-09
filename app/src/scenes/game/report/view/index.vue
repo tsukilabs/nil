@@ -86,7 +86,7 @@ async function remove() {
               :disabled="locked"
               role="link"
               tabindex="0"
-              @click="goToReportForwardScene"
+              @click.stop="goToReportForwardScene"
             >
               <span>{{ t("forward") }}</span>
             </Button>
@@ -94,7 +94,7 @@ async function remove() {
               variant="destructive"
               :size="sm ? 'default' : 'xs'"
               :disabled="locked"
-              @click="remove"
+              @click.stop="remove"
             >
               <span>{{ t("remove") }}</span>
             </Button>

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::battle::BattleResult;
-use crate::continent::Coord;
+use crate::continent::coord::Coord;
 use crate::report::ReportId;
 use crate::resources::Resources;
 use crate::round::RoundId;

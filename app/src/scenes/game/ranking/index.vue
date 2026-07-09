@@ -3,7 +3,7 @@
 
 <script setup lang="ts">
 import { useI18n } from "vue-i18n";
-import { onKeyDown } from "@vueuse/core";
+import { onKeyDown } from "@tb-dev/vue";
 import Loading from "@/components/Loading.vue";
 import { throttle } from "es-toolkit/function";
 import type { Ruler } from "@tsukilabs/nil-bindings";

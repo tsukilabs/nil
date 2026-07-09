@@ -14,6 +14,16 @@ use ts_rs::TS;
 #[serde(rename_all = "camelCase")]
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
+pub struct CancelManeuverRequest {
+  #[builder(start_fn, into)]
+  pub world: WorldId,
+  pub id: ManeuverId,
+}
+
+#[derive(Builder, Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 pub struct GetArmyRequest {
   #[builder(start_fn, into)]
   pub world: WorldId,

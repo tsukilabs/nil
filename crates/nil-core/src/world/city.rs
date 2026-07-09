@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::city::City;
-use crate::continent::ContinentKey;
+use crate::continent::index::ContinentKey;
 use crate::error::Result;
 use crate::ranking::score::Score;
 use crate::ruler::Ruler;

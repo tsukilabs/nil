@@ -9,18 +9,20 @@ pub mod maneuver;
 pub mod squad;
 pub mod unit;
 
-use crate::continent::{ContinentIndex, ContinentKey, ContinentSize, Coord};
+use crate::continent::coord::Coord;
+use crate::continent::index::{ContinentIndex, ContinentKey};
+use crate::continent::size::ContinentSize;
 use crate::error::{Error, Result};
+use crate::military::army::personnel::ArmyPersonnel;
+use crate::military::army::{Army, ArmyId, collapse_armies};
+use crate::military::maneuver::{Maneuver, ManeuverId};
+use crate::military::squad::Squad;
 use crate::military::unit::stats::power::{AttackPower, DefensePower, Power};
 use crate::ranking::score::Score;
 use crate::resources::maintenance::Maintenance;
 use crate::ruler::Ruler;
-use army::personnel::ArmyPersonnel;
-use army::{Army, ArmyId, collapse_armies};
 use itertools::Itertools;
-use maneuver::{Maneuver, ManeuverId};
 use serde::{Deserialize, Serialize};
-use squad::Squad;
 use std::collections::HashMap;
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
@@ -295,6 +297,13 @@ impl Military {
       .ok_or(Error::ManeuverNotFound(id))
   }
 
+  fn maneuver_mut(&mut self, id: ManeuverId) -> Result<&mut Maneuver> {
+    self
+      .maneuvers
+      .get_mut(&id)
+      .ok_or(Error::ManeuverNotFound(id))
+  }
+
   pub fn maneuvers(&self) -> impl Iterator<Item = &Maneuver> {
     self.maneuvers.values()
   }
@@ -330,6 +339,10 @@ impl Military {
     self.maneuvers.shrink_to_fit();
 
     Ok(done)
+  }
+
+  pub(crate) fn cancel_maneuver(&mut self, id: ManeuverId) -> Result<()> {
+    self.maneuver_mut(id)?.cancel()
   }
 
   /// Retains only the maneuvers specified by the predicate.

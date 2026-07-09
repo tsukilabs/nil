@@ -10,7 +10,7 @@ pub fn impl_precursor(ast: &DeriveInput) -> TokenStream {
   let stream = quote! {
     mod __impl_precursor {
       use super::#name;
-      use crate::continent::Coord;
+      use crate::continent::coord::Coord;
       use crate::ethic::Ethics;
       use crate::npc::precursor::{Precursor, PrecursorBox, PrecursorId};
       use crate::resources::Resources;

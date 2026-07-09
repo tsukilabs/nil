@@ -3,7 +3,7 @@
 
 use crate::bail_if_cheats_are_not_allowed;
 use crate::behavior::r#impl::build::{BUILD_TEMPLATE, BuildStep};
-use crate::continent::Coord;
+use crate::continent::coord::Coord;
 use crate::error::Result;
 use crate::world::World;
 use itertools::Itertools;

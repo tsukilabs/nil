@@ -4,6 +4,7 @@
 import { invoke } from "@tauri-apps/api/core";
 import type {
   ArmyId,
+  CancelManeuverRequest,
   GetArmyOwnerRequest,
   GetArmyOwnerResponse,
   GetArmyRequest,
@@ -15,6 +16,15 @@ import type {
   RequestManeuverRequest,
   RequestManeuverResponse,
 } from "@tsukilabs/nil-bindings";
+
+export async function cancelManeuver(id: ManeuverId) {
+  const req: CancelManeuverRequest = {
+    world: NIL.world.getIdStrict(),
+    id,
+  };
+
+  await invoke("cancel_maneuver", { req });
+}
 
 export async function getArmy(id: ArmyId) {
   const req: GetArmyRequest = {

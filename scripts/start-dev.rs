@@ -47,11 +47,7 @@ fn main() -> Result<()> {
   }
 
   if args.verbose {
-    env.push((Var::LogLevel, "trace"));
-
-    if !args.android {
-      env.push((Var::LogTowerHttp, "true"));
-    }
+    env.extend([(Var::LogLevel, "trace"), (Var::LogTowerHttp, "true")]);
   } else {
     env.push((Var::LogLevel, "debug"));
   }

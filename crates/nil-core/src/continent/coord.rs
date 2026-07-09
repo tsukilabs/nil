@@ -2,17 +2,16 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::continent::ContinentSize;
+use crate::continent::distance::Distance;
 use crate::error::Result;
-use derive_more::Display;
 use glam::u8::U8Vec2;
 use itertools::Itertools;
-use nil_util::ConstDeref;
 use serde::de::{self, Error as _, MapAccess, SeqAccess, Visitor};
 use serde::ser::SerializeStruct;
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
 use std::borrow::Cow;
 use std::fmt;
-use std::ops::{Add, AddAssign, Sub, SubAssign};
+use std::ops::{Add, Sub};
 
 #[derive(Clone, Copy, PartialEq, Eq, Hash)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
@@ -203,102 +202,5 @@ impl<'de> Visitor<'de> for CoordVisitor {
       x.ok_or_else(|| V::Error::missing_field("x"))?,
       y.ok_or_else(|| V::Error::missing_field("y"))?,
     ))
-  }
-}
-
-#[derive(Copy, Debug, Display, Deserialize, Serialize, ConstDeref)]
-#[derive_const(Clone, Default, PartialEq, Eq, PartialOrd, Ord)]
-pub struct Distance(u8);
-
-impl Distance {
-  #[inline]
-  pub const fn new(distance: u8) -> Self {
-    Self(distance)
-  }
-}
-
-const impl From<u8> for Distance {
-  fn from(value: u8) -> Self {
-    Self(value)
-  }
-}
-
-const impl From<Distance> for u8 {
-  fn from(value: Distance) -> Self {
-    value.0
-  }
-}
-
-const impl From<Distance> for i16 {
-  fn from(value: Distance) -> Self {
-    i16::from(value.0)
-  }
-}
-
-const impl From<Distance> for f64 {
-  fn from(value: Distance) -> Self {
-    f64::from(value.0)
-  }
-}
-
-const impl PartialEq<u8> for Distance {
-  fn eq(&self, other: &u8) -> bool {
-    self.0.eq(other)
-  }
-}
-
-const impl Add for Distance {
-  type Output = Distance;
-
-  fn add(self, rhs: Self) -> Self::Output {
-    Self(self.0.saturating_add(rhs.0))
-  }
-}
-
-const impl AddAssign for Distance {
-  fn add_assign(&mut self, rhs: Self) {
-    *self = *self + rhs;
-  }
-}
-
-const impl Sub for Distance {
-  type Output = Distance;
-
-  fn sub(self, rhs: Self) -> Self::Output {
-    Self(self.0.saturating_sub(rhs.0))
-  }
-}
-
-const impl SubAssign for Distance {
-  fn sub_assign(&mut self, rhs: Self) {
-    *self = *self - rhs;
-  }
-}
-
-const impl Add<u8> for Distance {
-  type Output = Distance;
-
-  fn add(self, rhs: u8) -> Self::Output {
-    Self(self.0.saturating_add(rhs))
-  }
-}
-
-const impl AddAssign<u8> for Distance {
-  fn add_assign(&mut self, rhs: u8) {
-    *self = *self + rhs;
-  }
-}
-
-const impl Sub<u8> for Distance {
-  type Output = Distance;
-
-  fn sub(self, rhs: u8) -> Self::Output {
-    Self(self.0.saturating_sub(rhs))
-  }
-}
-
-const impl SubAssign<u8> for Distance {
-  fn sub_assign(&mut self, rhs: u8) {
-    *self = *self - rhs;
   }
 }

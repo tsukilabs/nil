@@ -8,6 +8,17 @@ use nil_payload::request::military::*;
 use nil_payload::response::military::*;
 
 impl Client {
+  pub async fn cancel_maneuver(&self, req: CancelManeuverRequest) -> Result<()> {
+    http::post("cancel-maneuver")
+      .body(req)
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_ref())
+      .circuit_breaker(self.circuit_breaker())
+      .user_agent(&self.user_agent)
+      .send()
+      .await
+  }
+
   pub async fn get_army(&self, req: GetArmyRequest) -> Result<GetArmyResponse> {
     http::json_put("get-army")
       .body(req)

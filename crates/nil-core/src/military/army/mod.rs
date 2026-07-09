@@ -3,8 +3,9 @@
 
 pub mod personnel;
 
-use crate::continent::ContinentKey;
+use crate::continent::index::ContinentKey;
 use crate::military::Military;
+use crate::military::army::personnel::{ArmyPersonnel, ArmyPersonnelIter};
 use crate::military::maneuver::ManeuverId;
 use crate::military::squad::Squad;
 use crate::military::unit::UnitId;
@@ -17,7 +18,6 @@ use crate::ruler::Ruler;
 use crate::world::config::WorldConfig;
 use bon::Builder;
 use derive_more::Display;
-use personnel::{ArmyPersonnel, ArmyPersonnelIter};
 use serde::{Deserialize, Serialize};
 use std::mem;
 use std::ops::{Mul, MulAssign};

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::bail_if_cheats_are_not_allowed;
-use crate::continent::Coord;
+use crate::continent::coord::Coord;
 use crate::error::Result;
 use crate::military::army::Army;
 use crate::military::army::personnel::ArmyPersonnel;

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use derive_more::{Deref, DerefMut, From, Into};
-use nil_core::continent::Coord;
+use nil_core::continent::coord::Coord;
 use nil_core::infrastructure::Infrastructure;
 use nil_core::infrastructure::building::r#impl::academy::recruit_queue::AcademyRecruitQueue;
 use nil_core::infrastructure::building::r#impl::prefecture::build_queue::PrefectureBuildQueue;

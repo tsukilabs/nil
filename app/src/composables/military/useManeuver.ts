@@ -6,12 +6,10 @@ import { computed, ref, toRef, watch } from "vue";
 import { ArmyImpl } from "@/core/model/military/army";
 import type { ManeuverId } from "@tsukilabs/nil-bindings";
 import { ManeuverImpl } from "@/core/model/military/maneuver";
-import { asyncComputed, asyncRef, type MaybeNilRef } from "@tb-dev/vue";
+import { PublicCityImpl } from "@/core/model/city/public-city";
+import { asyncComputed, asyncRef, type MaybeNilRef, useMutex } from "@tb-dev/vue";
 
 export function useManeuver(id: MaybeNilRef<ManeuverId>) {
-  const { round } = NIL.round.refs();
-  const { id: player } = NIL.player.refs();
-
   const idRef = toRef(id);
   const {
     state: maneuver,
@@ -20,6 +18,10 @@ export function useManeuver(id: MaybeNilRef<ManeuverId>) {
   } = asyncRef(null, async () => {
     return idRef.value ? ManeuverImpl.load(idRef.value) : null;
   });
+
+  const { round } = NIL.round.refs();
+  const { id: player } = NIL.player.refs();
+  const { locked, lock } = useMutex();
 
   watch(() => round.value?.id, loadManeuver);
 
@@ -36,13 +38,19 @@ export function useManeuver(id: MaybeNilRef<ManeuverId>) {
     evaluating: isLoadingArmyOwner,
   });
 
+  const isArmyOwnedByCurrentPlayer = computed(() => {
+    return (
+      armyOwner.value?.kind === "player" &&
+      armyOwner.value.id === player.value
+    );
+  });
+
   const isLoadingArmy = ref(false);
   const army = asyncComputed(null, async () => {
     if (
       player.value &&
       armyId.value &&
-      armyOwner.value?.kind === "player" &&
-      armyOwner.value.id === player.value
+      isArmyOwnedByCurrentPlayer.value
     ) {
       return ArmyImpl.load(armyId.value);
     }
@@ -53,19 +61,51 @@ export function useManeuver(id: MaybeNilRef<ManeuverId>) {
     evaluating: isLoadingArmy,
   });
 
+  const isLoadingCities = ref(false);
+  const cities = asyncComputed(null, async () => {
+    if (maneuver.value) {
+      const origin = maneuver.value.origin;
+      const destination = maneuver.value.destination;
+      const impl = await PublicCityImpl.bulkLoad([origin, destination]);
+      return {
+        origin: impl.find((city) => city.coord.is(origin)) ?? null,
+        destination: impl.find((city) => city.coord.is(destination)) ?? null,
+      } as const;
+    }
+    else {
+      return null;
+    }
+  }, {
+    evaluating: isLoadingCities,
+  });
+
   const loading = computed(() => {
     return (
+      locked.value ||
       isLoadingArmy.value ||
       isLoadingArmyOwner.value ||
+      isLoadingCities.value ||
       isLoadingManeuver.value
     );
   });
 
+  async function cancelManeuver() {
+    await lock(async () => {
+      if (maneuver.value && isArmyOwnedByCurrentPlayer.value) {
+        await commands.cancelManeuver(maneuver.value.id);
+        await loadManeuver();
+      }
+    });
+  }
+
   return {
     army,
     armyOwner,
+    cities,
+    isArmyOwnedByCurrentPlayer,
     maneuver: maneuver as Readonly<typeof maneuver>,
     loading,
+    cancelManeuver,
     loadManeuver,
   };
 }

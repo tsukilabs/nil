@@ -3,7 +3,7 @@
 
 use crate::battle::luck::Luck;
 use crate::battle::{Battle, BattleResult};
-use crate::continent::Coord;
+use crate::continent::coord::Coord;
 use crate::error::Result;
 use crate::infrastructure::building::level::{BuildingLevel, BuildingLevelDiff};
 use crate::infrastructure::building::{Building, BuildingId};

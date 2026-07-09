@@ -1,7 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use crate::continent::Coord;
+use crate::continent::coord::Coord;
 use crate::military::army::personnel::ArmyPersonnel;
 use crate::report::ReportId;
 use crate::round::RoundId;

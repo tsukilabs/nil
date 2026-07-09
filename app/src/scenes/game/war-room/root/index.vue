@@ -10,10 +10,11 @@ import SquadGrid from "./SquadGrid.vue";
 import { handleError } from "@/lib/error";
 import Destination from "./Destination.vue";
 import { computed, nextTick, ref } from "vue";
-import { asyncComputed, useBreakpoints } from "@tb-dev/vue";
+import { throttle } from "es-toolkit/function";
 import type { ManeuverKind } from "@tsukilabs/nil-bindings";
 import { usePlayerTurn } from "@/composables/player/usePlayerTurn";
 import { useManeuversAt } from "@/composables/military/useManeuversAt";
+import { asyncComputed, onKeyDown, useBreakpoints } from "@tb-dev/vue";
 import { ArmyPersonnelImpl } from "@/core/model/military/army-personnel";
 import { useWarRoomCoords } from "@/composables/military/useWarRoomCoords";
 import { foldArmyPersonnel } from "@/composables/military/foldArmyPersonnel";
@@ -48,6 +49,10 @@ const canSend = computed(() => {
 });
 
 await NIL.military.update();
+
+if (__DESKTOP__) {
+  onKeyDown("F5", throttle(NIL.military.update, 1000));
+}
 
 async function send(kind: ManeuverKind) {
   await nextTick();

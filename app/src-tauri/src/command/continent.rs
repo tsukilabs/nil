@@ -4,7 +4,8 @@
 use crate::error::Result;
 use crate::manager::ManagerExt;
 use itertools::Itertools;
-use nil_core::continent::{Coord, Distance};
+use nil_core::continent::coord::Coord;
+use nil_core::continent::distance::Distance;
 use nil_payload::request::continent::*;
 use nil_payload::response::continent::*;
 use tauri::AppHandle;

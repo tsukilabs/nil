@@ -1,7 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use crate::continent::Coord;
+use crate::continent::coord::Coord;
 use crate::decl_world_recruit_order_fn;
 use crate::error::{Error, Result};
 use crate::infrastructure::building::r#impl::workshop::recruit_queue::{
