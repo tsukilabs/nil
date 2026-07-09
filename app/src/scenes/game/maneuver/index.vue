@@ -3,15 +3,16 @@
 
 <script setup lang="ts">
 import { useI18n } from "vue-i18n";
-import { onKeyDown } from "@vueuse/core";
 import type { Option } from "@tb-dev/utils";
 import Loading from "@/components/Loading.vue";
 import { throttle } from "es-toolkit/function";
+import { Button } from "@/components/ui/button";
 import { useRouteParams } from "@vueuse/router";
 import Food from "@/components/resources/Food.vue";
 import Iron from "@/components/resources/Iron.vue";
 import Wood from "@/components/resources/Wood.vue";
 import Stone from "@/components/resources/Stone.vue";
+import { onKeyDown, useBreakpoints } from "@tb-dev/vue";
 import type { ManeuverId } from "@tsukilabs/nil-bindings";
 import type { CoordImpl } from "@/core/model/continent/coord";
 import { useManeuver } from "@/composables/military/useManeuver";
@@ -25,10 +26,14 @@ const id = useRouteParams<Option<ManeuverId>>("id", null);
 const {
   army,
   cities,
+  isArmyOwnedByCurrentPlayer,
   maneuver,
   loading,
+  cancelManeuver,
   loadManeuver,
 } = useManeuver(id);
+
+const { sm } = useBreakpoints();
 
 if (__DESKTOP__) {
   onKeyDown("F5", throttle(loadManeuver, 1000));
@@ -149,6 +154,18 @@ function formatCity(city: PublicCityImpl) {
               </TableRow>
             </TableBody>
           </Table>
+
+          <div class="grid grid-cols-1 items-center justify-start gap-4 max-w-max">
+            <Button
+              v-if="maneuver.direction === 'going' && isArmyOwnedByCurrentPlayer"
+              variant="default"
+              :size="sm ? 'default' : 'xs'"
+              :disabled="loading"
+              @click.stop="cancelManeuver"
+            >
+              <span>{{ t("cancel") }}</span>
+            </Button>
+          </div>
         </div>
       </CardContent>
     </Card>

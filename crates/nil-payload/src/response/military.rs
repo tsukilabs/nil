@@ -17,12 +17,6 @@ use ts_rs::TS;
 #[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
-pub struct CancelManeuverResponse(pub Maneuver);
-
-#[derive(Clone, Debug, Deref, DerefMut, From, Into, Deserialize, Serialize)]
-#[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
-#[cfg_attr(feature = "typescript", derive(TS))]
-#[cfg_attr(feature = "typescript", ts(export))]
 pub struct GetArmyResponse(pub Army);
 
 #[derive(Clone, Debug, Deref, DerefMut, From, Into, Deserialize, Serialize)]

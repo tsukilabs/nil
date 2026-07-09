@@ -47,7 +47,6 @@ export type { BuildingStatsTable } from './BuildingStatsTable';
 export type { BuildStep } from './BuildStep';
 export type { CancelAcademyRecruitOrderRequest } from './CancelAcademyRecruitOrderRequest';
 export type { CancelManeuverRequest } from './CancelManeuverRequest';
-export type { CancelManeuverResponse } from './CancelManeuverResponse';
 export type { CancelPrefectureBuildOrderRequest } from './CancelPrefectureBuildOrderRequest';
 export type { CancelStableRecruitOrderRequest } from './CancelStableRecruitOrderRequest';
 export type { CancelWorkshopRecruitOrderRequest } from './CancelWorkshopRecruitOrderRequest';

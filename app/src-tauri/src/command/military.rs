@@ -8,10 +8,7 @@ use nil_payload::response::military::*;
 use tauri::AppHandle;
 
 #[tauri::command]
-pub async fn cancel_maneuver(
-  app: AppHandle,
-  req: CancelManeuverRequest,
-) -> Result<CancelManeuverResponse> {
+pub async fn cancel_maneuver(app: AppHandle, req: CancelManeuverRequest) -> Result<()> {
   app
     .client(async |cl| cl.cancel_maneuver(req).await)
     .await

@@ -7,12 +7,9 @@ import { ArmyImpl } from "@/core/model/military/army";
 import type { ManeuverId } from "@tsukilabs/nil-bindings";
 import { ManeuverImpl } from "@/core/model/military/maneuver";
 import { PublicCityImpl } from "@/core/model/city/public-city";
-import { asyncComputed, asyncRef, type MaybeNilRef } from "@tb-dev/vue";
+import { asyncComputed, asyncRef, type MaybeNilRef, useMutex } from "@tb-dev/vue";
 
 export function useManeuver(id: MaybeNilRef<ManeuverId>) {
-  const { round } = NIL.round.refs();
-  const { id: player } = NIL.player.refs();
-
   const idRef = toRef(id);
   const {
     state: maneuver,
@@ -21,6 +18,10 @@ export function useManeuver(id: MaybeNilRef<ManeuverId>) {
   } = asyncRef(null, async () => {
     return idRef.value ? ManeuverImpl.load(idRef.value) : null;
   });
+
+  const { round } = NIL.round.refs();
+  const { id: player } = NIL.player.refs();
+  const { locked, lock } = useMutex();
 
   watch(() => round.value?.id, loadManeuver);
 
@@ -80,12 +81,22 @@ export function useManeuver(id: MaybeNilRef<ManeuverId>) {
 
   const loading = computed(() => {
     return (
+      locked.value ||
       isLoadingArmy.value ||
       isLoadingArmyOwner.value ||
       isLoadingCities.value ||
       isLoadingManeuver.value
     );
   });
+
+  async function cancelManeuver() {
+    await lock(async () => {
+      if (maneuver.value && isArmyOwnedByCurrentPlayer.value) {
+        await commands.cancelManeuver(maneuver.value.id);
+        await loadManeuver();
+      }
+    });
+  }
 
   return {
     army,
@@ -94,6 +105,7 @@ export function useManeuver(id: MaybeNilRef<ManeuverId>) {
     isArmyOwnedByCurrentPlayer,
     maneuver: maneuver as Readonly<typeof maneuver>,
     loading,
+    cancelManeuver,
     loadManeuver,
   };
 }

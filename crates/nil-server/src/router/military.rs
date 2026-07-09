@@ -21,16 +21,15 @@ pub async fn cancel_maneuver(
     Ok(world) => {
       let result = try {
         let mut world = world.write().await;
-        if !world.is_maneuver_army_owned_by(req.id, player)? {
+        if world.is_maneuver_army_owned_by(req.id, player)? {
+          world.cancel_maneuver(req.id)?;
+        } else {
           return res!(FORBIDDEN);
         }
-
-        world.cancel_maneuver(req.id)?;
-        world.military().maneuver(req.id)?.clone()
       };
 
       result
-        .map(|maneuver| res!(OK, CancelManeuverResponse(maneuver)))
+        .map(|()| res!(OK))
         .unwrap_or_else(from_err)
     }
     Err(err) => from_err(err),

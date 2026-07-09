@@ -8,11 +8,8 @@ use nil_payload::request::military::*;
 use nil_payload::response::military::*;
 
 impl Client {
-  pub async fn cancel_maneuver(
-    &self,
-    req: CancelManeuverRequest,
-  ) -> Result<CancelManeuverResponse> {
-    http::json_post("cancel-maneuver")
+  pub async fn cancel_maneuver(&self, req: CancelManeuverRequest) -> Result<()> {
+    http::post("cancel-maneuver")
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())

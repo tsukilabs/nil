@@ -5,7 +5,6 @@ import { invoke } from "@tauri-apps/api/core";
 import type {
   ArmyId,
   CancelManeuverRequest,
-  CancelManeuverResponse,
   GetArmyOwnerRequest,
   GetArmyOwnerResponse,
   GetArmyRequest,
@@ -24,7 +23,7 @@ export async function cancelManeuver(id: ManeuverId) {
     id,
   };
 
-  return invoke<CancelManeuverResponse>("cancel_maneuver", { req });
+  await invoke("cancel_maneuver", { req });
 }
 
 export async function getArmy(id: ArmyId) {
