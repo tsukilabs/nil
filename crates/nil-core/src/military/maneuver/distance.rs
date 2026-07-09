@@ -1,7 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use crate::continent::Distance;
+use crate::continent::distance::Distance;
 use crate::military::unit::stats::speed::Speed;
 use derive_more::Display;
 use nil_util::{ConstDeref, F64Math};

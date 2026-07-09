@@ -6,7 +6,8 @@ mod prefecture;
 mod stable;
 mod workshop;
 
-use crate::continent::{ContinentKey, Coord};
+use crate::continent::coord::Coord;
+use crate::continent::index::ContinentKey;
 use crate::error::Result;
 use crate::infrastructure::prelude::{BuildingId, BuildingLevel};
 use crate::world::World;

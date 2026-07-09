@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use derive_more::{Deref, DerefMut, Display, From, Into};
-use nil_core::continent::Coord;
+use nil_core::continent::coord::Coord;
 use nil_core::infrastructure::storage::OverallStorageCapacity;
 use nil_core::military::Military;
 use nil_core::player::{Player, PlayerId, PlayerStatus, PublicPlayer};

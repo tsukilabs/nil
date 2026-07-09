@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::chat::ChatMessage;
-use crate::continent::Coord;
+use crate::continent::coord::Coord;
 use crate::error::{Error, Result};
 use crate::player::PlayerId;
 use crate::report::ReportKind;

@@ -4,7 +4,9 @@
 mod a;
 mod b;
 
-use crate::continent::{ContinentSize, Coord, Distance};
+use crate::continent::coord::Coord;
+use crate::continent::distance::Distance;
+use crate::continent::size::ContinentSize;
 use crate::ethic::Ethics;
 use crate::military::army::personnel::ArmyPersonnel;
 use crate::resources::Resources;

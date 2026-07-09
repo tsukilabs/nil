@@ -5,7 +5,7 @@ mod building;
 mod storage;
 
 use crate::city::City;
-use crate::continent::ContinentKey;
+use crate::continent::index::ContinentKey;
 use crate::error::Result;
 use crate::infrastructure::Infrastructure;
 use crate::world::World;

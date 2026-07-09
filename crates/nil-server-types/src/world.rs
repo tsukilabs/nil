@@ -3,7 +3,7 @@
 
 use crate::round::RoundDuration;
 use jiff::Zoned;
-use nil_core::continent::ContinentSize;
+use nil_core::continent::size::ContinentSize;
 use nil_core::player::PlayerId;
 use nil_core::round::RoundId;
 use nil_core::world::config::WorldConfig;

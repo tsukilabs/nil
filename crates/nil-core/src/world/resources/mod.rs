@@ -4,7 +4,7 @@
 #[cfg(test)]
 mod tests;
 
-use crate::continent::ContinentKey;
+use crate::continent::index::ContinentKey;
 use crate::error::Result;
 use crate::resources::maintenance::MaintenanceBalance;
 use crate::resources::prelude::Maintenance;

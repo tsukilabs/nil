@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::chat::ChatMessage;
-use crate::continent::Coord;
+use crate::continent::coord::Coord;
 use crate::error::Result;
 use crate::event::{Event, Listener};
 use crate::military::maneuver::ManeuverId;

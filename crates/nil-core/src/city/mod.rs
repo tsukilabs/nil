@@ -4,7 +4,7 @@
 pub mod stability;
 
 use crate::city::stability::Stability;
-use crate::continent::Coord;
+use crate::continent::coord::Coord;
 use crate::error::Result;
 use crate::infrastructure::Infrastructure;
 use crate::infrastructure::building::StorageId;

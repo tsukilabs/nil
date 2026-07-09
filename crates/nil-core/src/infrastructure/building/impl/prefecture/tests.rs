@@ -3,7 +3,7 @@
 
 use super::build_queue::PrefectureBuildOrderKind::*;
 use super::build_queue::{PrefectureBuildOrderKind, PrefectureBuildOrderRequest};
-use crate::continent::Coord;
+use crate::continent::coord::Coord;
 use crate::error::Error;
 use crate::infrastructure::building::{BuildingId, BuildingStatsTable};
 use crate::infrastructure::queue::InfrastructureQueue;

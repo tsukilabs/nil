@@ -4,7 +4,7 @@
 use crate::behavior::r#impl::idle::IdleBehavior;
 use crate::behavior::score::BehaviorScore;
 use crate::behavior::{Behavior, BehaviorProcessor};
-use crate::continent::Coord;
+use crate::continent::coord::Coord;
 use crate::error::Result;
 use crate::ethic::EthicPowerAxis;
 use crate::infrastructure::building::r#impl::academy::recruit_queue::AcademyRecruitOrderRequest;

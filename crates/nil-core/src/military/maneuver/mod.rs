@@ -3,7 +3,8 @@
 
 pub mod distance;
 
-use crate::continent::{Coord, Distance};
+use crate::continent::coord::Coord;
+use crate::continent::distance::Distance;
 use crate::error::{Error, Result};
 use crate::military::army::ArmyId;
 use crate::military::army::personnel::ArmyPersonnel;
@@ -103,7 +104,7 @@ impl Maneuver {
         self.state = ManeuverState::with_distance(covered.into());
         self.direction = ManeuverDirection::Returning;
       }
-    };
+    }
 
     Ok(())
   }

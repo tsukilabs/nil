@@ -3,7 +3,7 @@
 
 use bon::Builder;
 use nil_core::city::CitySearch;
-use nil_core::continent::Coord;
+use nil_core::continent::coord::Coord;
 use nil_core::world::config::WorldId;
 use serde::{Deserialize, Serialize};
 

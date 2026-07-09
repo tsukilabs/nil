@@ -6,7 +6,8 @@ use crate::res;
 use crate::response::{EitherExt, from_err};
 use axum::extract::{Json, State};
 use axum::response::Response;
-use nil_core::continent::{Continent, PublicField};
+use nil_core::continent::Continent;
+use nil_core::continent::field::PublicField;
 use nil_payload::request::continent::*;
 use nil_payload::response::continent::*;
 
