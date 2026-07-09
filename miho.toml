@@ -1,2 +1,7 @@
 [update]
-exclude = ["reqwest"]
+exclude = [
+  # See: https://github.com/seanmonstar/reqwest/issues/2968
+  "reqwest",
+  # We need to wait until TypeScript 7 is more widely supported.
+  "typescript",
+]

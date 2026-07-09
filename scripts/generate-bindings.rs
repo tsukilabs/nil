@@ -6,7 +6,7 @@ edition = "2024"
 [dependencies]
 anyhow = "1.0"
 natord = "=1.0.9"
-regex = "1.12"
+regex = "1.13"
 
 [dependencies.clap]
 version = "4.6"
