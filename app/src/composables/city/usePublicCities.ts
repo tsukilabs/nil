@@ -11,7 +11,8 @@ import { PublicCityImpl } from "@/core/model/city/public-city";
 export function usePublicCities(keys: MaybeNilRef<readonly ContinentKey[]>) {
   const keysRef = toRef(keys);
   const coords = computed(() => {
-    return (keysRef.value ?? []).map((key) => CoordImpl.fromContinentKey(key));
+    return (keysRef.value ?? [])
+      .map((key) => CoordImpl.fromContinentKey(key));
   });
 
   const { state, loading, load } = asyncRef<readonly PublicCityImpl[]>([], async () => {

@@ -13,17 +13,41 @@ import Iron from "@/components/resources/Iron.vue";
 import Wood from "@/components/resources/Wood.vue";
 import Stone from "@/components/resources/Stone.vue";
 import type { ManeuverId } from "@tsukilabs/nil-bindings";
+import type { CoordImpl } from "@/core/model/continent/coord";
 import { useManeuver } from "@/composables/military/useManeuver";
+import type { PublicCityImpl } from "@/core/model/city/public-city";
 import { Card, CardContent, CardHeader, CardTitle } from "@ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@ui/table";
 
 const { t } = useI18n();
 
 const id = useRouteParams<Option<ManeuverId>>("id", null);
-const { army, maneuver, loading, loadManeuver } = useManeuver(id);
+const {
+  army,
+  cities,
+  maneuver,
+  loading,
+  loadManeuver,
+} = useManeuver(id);
 
 if (__DESKTOP__) {
   onKeyDown("F5", throttle(loadManeuver, 1000));
+}
+
+function formatCoord(coord: CoordImpl) {
+  if (cities.value?.origin?.coord.is(coord)) {
+    return formatCity(cities.value.origin);
+  }
+  else if (cities.value?.destination?.coord.is(coord)) {
+    return formatCity(cities.value.destination);
+  }
+  else {
+    return coord.format();
+  }
+}
+
+function formatCity(city: PublicCityImpl) {
+  return `${city.name} (${city.coord.format()})`;
 }
 </script>
 
@@ -56,7 +80,7 @@ if (__DESKTOP__) {
                   @keydown.enter.stop="() => maneuver?.origin.goToProfile()"
                   @keydown.space.stop="() => maneuver?.origin.goToProfile()"
                 >
-                  {{ maneuver.origin.format() }}
+                  {{ formatCoord(maneuver.origin) }}
                 </TableCell>
               </TableRow>
 
@@ -70,7 +94,7 @@ if (__DESKTOP__) {
                   @keydown.enter.stop="() => maneuver?.destination.goToProfile()"
                   @keydown.space.stop="() => maneuver?.destination.goToProfile()"
                 >
-                  {{ maneuver.destination.format() }}
+                  {{ formatCoord(maneuver.destination) }}
                 </TableCell>
               </TableRow>
 
