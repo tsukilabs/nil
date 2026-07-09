@@ -22,15 +22,12 @@ use anyhow::{Result, bail};
 use clap::Parser;
 use natord::compare_ignore_case as compare;
 use nil_util::spawn;
-use regex::Regex;
+use regex::regex;
 use std::fmt::Write as _;
 use std::fs::File;
 use std::io::BufRead;
 use std::path::Path;
-use std::sync::LazyLock;
 use std::{env, fs};
-
-static KIND_RE: LazyLock<Regex> = LazyLock::new(|| Regex::new(r"export\s+(\w+)\s").unwrap());
 
 #[derive(Parser)]
 struct Args {
@@ -116,10 +113,11 @@ enum BindingKind {
 impl BindingKind {
   fn from_file(path: &Path) -> Result<Self> {
     let file = File::open_buffered(path)?;
+    let regex = regex!(r"export\s+(\w+)\s");
     for line in file.lines() {
       let line = line?;
       if !line.starts_with("//")
-        && let Some(captures) = KIND_RE.captures(&line)
+        && let Some(captures) = regex.captures(&line)
         && let Some(keyword) = captures.get(1)
       {
         return match keyword.as_str() {
