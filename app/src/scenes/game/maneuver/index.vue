@@ -158,7 +158,7 @@ function formatCity(city: PublicCityImpl) {
           <div class="grid grid-cols-1 items-center justify-start gap-4 max-w-max">
             <Button
               v-if="maneuver.direction === 'going' && isArmyOwnedByCurrentPlayer"
-              variant="default"
+              variant="destructive"
               :size="sm ? 'default' : 'xs'"
               :disabled="loading"
               @click.stop="cancelManeuver"
