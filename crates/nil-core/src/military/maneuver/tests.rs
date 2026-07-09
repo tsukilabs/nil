@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::continent::coord::Coord;
-use crate::error::{Error, Result};
+use crate::error::Error;
 use crate::military::army::ArmyId;
 use crate::military::maneuver::distance::ManeuverDistance;
 use crate::military::maneuver::{Maneuver, ManeuverDirection, ManeuverKind};
@@ -30,18 +30,19 @@ fn advance_done_maneuver() {
 }
 
 #[test]
-fn cancel_maneuver() -> Result<()> {
+fn cancel_maneuver() {
   let (_, mut maneuver) = Maneuver::builder()
     .kind(ManeuverKind::Attack)
     .army(ArmyId::new())
     .origin(Coord::splat(0))
     .destination(Coord::splat(1))
     .speed(Speed::new(5.0))
-    .build()?;
+    .build()
+    .unwrap();
 
   assert_matches!(maneuver.direction(), ManeuverDirection::Going);
 
-  maneuver.cancel()?;
+  maneuver.cancel().unwrap();
 
   assert_matches!(maneuver.direction(), ManeuverDirection::Returning);
   assert_eq!(
@@ -49,7 +50,7 @@ fn cancel_maneuver() -> Result<()> {
     Some(ManeuverDistance::from(1.0f64))
   );
 
-  Ok(())
+  assert_matches!(maneuver.cancel(), Err(Error::ManeuverIsReturning(..)));
 }
 
 #[test]
