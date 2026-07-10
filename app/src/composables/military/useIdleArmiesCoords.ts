@@ -8,26 +8,28 @@ import { CoordImpl } from "@/core/model/continent/coord";
 import { useRandomKey } from "@/composables/useRandomKey";
 
 export interface UseIdleArmiesCoordsOptions {
-  includeCurrent?: boolean;
+  includeOwnCoords?: boolean;
 }
 
 export function useIdleArmiesCoords(options: UseIdleArmiesCoordsOptions = {}) {
-  options.includeCurrent ??= true;
+  options.includeOwnCoords ??= true;
 
-  const { coord: currentCoord } = NIL.city.refs();
   const { key, updateRandomKey } = useRandomKey();
-
   const { state, loading, load } = asyncRef<readonly CoordImpl[]>([], async () => {
-    const coords = await commands.getIdleArmiesCoords();
+    const coords = await commands.getIdleArmiesCoords().then((it) => {
+      return it.map((coord) => CoordImpl.create(coord));
+    });
 
-    if (options.includeCurrent) {
-      const current = currentCoord.value;
-      if (current && coords.every((it) => !current.is(it))) {
-        coords.push(current);
+    if (options.includeOwnCoords) {
+      const playerCoords = NIL.player.getCoords();
+      for (const coord of playerCoords) {
+        if (coords.every((it) => !it.is(coord))) {
+          coords.push(coord);
+        }
       }
     }
 
-    return coords.map((coord) => CoordImpl.create(coord));
+    return coords;
   });
 
   return {
