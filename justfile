@@ -77,5 +77,9 @@ server:
   @just rsx start-server
 
 [group("rsx")]
+sort-namegen:
+  @just rsx sort-namegen
+
+[group("rsx")]
 test *ARGS:
   @just rsx test {{ ARGS }}

@@ -3,18 +3,17 @@
 
 import { computed } from "vue";
 import type { MaybeNilRef } from "@tb-dev/vue";
-import { toContinentKeyRef } from "@/composables/toRef";
 import type { ArmyImpl } from "@/core/model/military/army";
 import type { ContinentKey } from "@/types/core/continent";
+import { useIdleArmiesAt } from "@/composables/military/useIdleArmiesAt";
 
 export function useOwnIdleArmiesAt(key?: MaybeNilRef<ContinentKey>) {
-  const keyRef = toContinentKeyRef(key);
-  const { military } = NIL.military.refs();
-  return computed<readonly ArmyImpl[]>(() => {
-    if (keyRef.value && military.value) {
-      return military.value.getOwnIdleArmiesAt(keyRef.value);
-    }
+  const armies = useIdleArmiesAt(key);
+  const { player } = NIL.player.refs();
 
-    return [];
+  return computed<readonly ArmyImpl[]>(() => {
+    return armies.value.filter((army) => {
+      return army.owner.kind === "player" && army.owner.id === player.value?.id;
+    });
   });
 }
