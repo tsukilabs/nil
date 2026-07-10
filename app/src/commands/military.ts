@@ -15,6 +15,8 @@ import type {
   GetArmyResponse,
   GetIdleArmiesAtRequest,
   GetIdleArmiesAtResponse,
+  GetIdleArmiesCoordsRequest,
+  GetIdleArmiesCoordsResponse,
   GetManeuverRequest,
   GetManeuverResponse,
   ManeuverId,
@@ -66,6 +68,14 @@ export async function getIdleArmiesAt(coord: ContinentKey) {
   };
 
   return invoke<GetIdleArmiesAtResponse>("get_idle_armies_at", { req });
+}
+
+export async function getIdleArmiesCoords() {
+  const req: GetIdleArmiesCoordsRequest = {
+    world: NIL.world.getIdStrict(),
+  };
+
+  return invoke<GetIdleArmiesCoordsResponse>("get_idle_armies_coords", { req });
 }
 
 export async function getManeuver(id: ManeuverId) {

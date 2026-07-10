@@ -40,7 +40,7 @@ export function useQueryCoord() {
   };
 }
 
-export function transform(value: Option<string>) {
+export function transform(value: Option<string>): Option<number> {
   if (value) {
     const coord = Number.parseInt(value);
     if (isValid(coord)) return coord;

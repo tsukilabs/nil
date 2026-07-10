@@ -9,7 +9,6 @@ use crate::response::{EitherExt, from_err};
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
 use itertools::Itertools;
-use nil_core::continent::index::ContinentKey;
 use nil_core::military::army::Army;
 use nil_core::ruler::Ruler;
 use nil_payload::request::military::*;
@@ -45,33 +44,19 @@ pub async fn get_armies(
   Extension(player): Extension<CurrentPlayer>,
   Json(req): Json<GetArmiesRequest>,
 ) -> Response {
-  match app.get(req.world) {
-    Ok(world) => {
-      let result = try {
-        let world = world.read().await;
-        let k_size = world.continent().size();
-
-        let player: Ruler = player.into();
-        let mut player_armies = Vec::new();
-
-        for (index, armies) in world.military().continent() {
-          let coord = index.into_coord(k_size)?;
-          for army in armies {
-            if army.is_owned_by(&player) {
-              player_armies.push((coord, army.clone()));
-            }
-          }
-        }
-
-        player_armies
-      };
-
-      result
-        .map(|armies| res!(OK, GetArmiesResponse(armies)))
-        .unwrap_or_else(from_err)
-    }
-    Err(err) => from_err(err),
-  }
+  app
+    .world(req.world, |world| {
+      let k_size = world.continent().size();
+      world
+        .military()
+        .indexed_armies_of(player)
+        .into_iter()
+        .map(|(index, army)| Ok((index.to_coord(k_size)?, army.clone())))
+        .try_collect::<_, _, CoreError>()
+    })
+    .await
+    .try_map_left(|armies| res!(OK, GetArmiesResponse(armies)))
+    .into_inner()
 }
 
 pub async fn get_army(
@@ -143,6 +128,27 @@ pub async fn get_idle_armies_at(
     })
     .await
     .try_map_left(|armies| res!(OK, GetIdleArmiesAtResponse(armies)))
+    .into_inner()
+}
+
+pub async fn get_idle_armies_coords(
+  State(app): State<App>,
+  Extension(player): Extension<CurrentPlayer>,
+  Json(req): Json<GetIdleArmiesCoordsRequest>,
+) -> Response {
+  app
+    .world(req.world, |world| {
+      let k_size = world.continent().size();
+      world
+        .military()
+        .indexed_armies_of(player)
+        .into_iter()
+        .filter(|(_, army)| army.is_idle())
+        .map(|(index, _)| index.to_coord(k_size))
+        .try_collect()
+    })
+    .await
+    .try_map_left(|armies| res!(OK, GetIdleArmiesCoordsResponse(armies)))
     .into_inner()
 }
 

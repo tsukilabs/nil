@@ -216,6 +216,25 @@ impl Military {
       .filter(move |army| army.is_owned_by(&owner))
   }
 
+  pub fn indexed_armies_of<R>(&self, owner: R) -> Vec<(ContinentIndex, &Army)>
+  where
+    R: Into<Ruler>,
+  {
+    let owner: Ruler = owner.into();
+    let mut owner_armies = Vec::new();
+
+    for (index, armies) in &self.continent {
+      for army in armies {
+        if army.is_owned_by(&owner) {
+          owner_armies.push((*index, army));
+        }
+      }
+    }
+
+    owner_armies.sort_by_key(|(index, _)| *index);
+    owner_armies
+  }
+
   #[inline]
   pub fn count_armies(&self) -> usize {
     self.armies().count()

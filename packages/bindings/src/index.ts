@@ -155,6 +155,8 @@ export type { GetContinentSizeRequest } from './GetContinentSizeRequest';
 export type { GetContinentSizeResponse } from './GetContinentSizeResponse';
 export type { GetIdleArmiesAtRequest } from './GetIdleArmiesAtRequest';
 export type { GetIdleArmiesAtResponse } from './GetIdleArmiesAtResponse';
+export type { GetIdleArmiesCoordsRequest } from './GetIdleArmiesCoordsRequest';
+export type { GetIdleArmiesCoordsResponse } from './GetIdleArmiesCoordsResponse';
 export type { GetManeuverRequest } from './GetManeuverRequest';
 export type { GetManeuverResponse } from './GetManeuverResponse';
 export type { GetPlayerCoordsRequest } from './GetPlayerCoordsRequest';

@@ -6,11 +6,11 @@ import { useI18n } from "vue-i18n";
 import { Sonner } from "@ui/sonner";
 import * as commands from "@/commands";
 import { handleError } from "@/lib/error";
+import { nextTick, onMounted } from "vue";
 import { handleProcessArgs } from "@/lib/env";
 import Loading from "@/components/Loading.vue";
 import { useSettings } from "@/stores/settings";
 import { ListenerSet } from "@/lib/listener-set";
-import { nextTick, onMounted, watch } from "vue";
 import type { Locale } from "@tsukilabs/nil-bindings";
 import { setDragDropEventListener } from "@/lib/event";
 import { type as osType } from "@tauri-apps/plugin-os";
@@ -34,7 +34,7 @@ watchImmediate(() => settings.appearance.colorMode, setColorMode);
 watchImmediate(() => settings.general.locale, setLocale);
 
 if (__DESKTOP__) {
-  watch(colorMode, (mode) => {
+  watchImmediate(colorMode, (mode) => {
     if (mode === "dark" || mode === "light") {
       const webview = getCurrentWebviewWindow();
       webview.setTheme(mode).err();

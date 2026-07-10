@@ -87,7 +87,11 @@ export class PublicCityImpl implements Readonly<PublicCity> {
     });
   }
 
-  public static async bulkLoad(keys: readonly ContinentKey[]) {
+  public static async bulkLoad(keys: readonly ContinentKey[]): Promise<PublicCityImpl[]> {
+    if (keys.length === 0) {
+      return [];
+    }
+
     const response = await commands.getPublicCities({
       coords: keys.map((key) => CoordImpl.fromContinentKey(key)),
       score: true,

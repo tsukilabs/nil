@@ -22,8 +22,6 @@ export function useManeuver(id: MaybeNilRef<ManeuverId>) {
   const { id: player } = NIL.player.refs();
   const { locked, lock } = useMutex();
 
-  watch(() => round.value?.id, loadManeuver);
-
   const armyId = computed(() => maneuver.value?.army);
   const isLoadingArmyOwner = ref(false);
   const armyOwner = asyncComputed(null, async () => {
@@ -76,6 +74,8 @@ export function useManeuver(id: MaybeNilRef<ManeuverId>) {
       isLoadingManeuver.value
     );
   });
+
+  watch(() => round.value?.id, loadManeuver);
 
   async function cancelManeuver() {
     await lock(async () => {

@@ -70,6 +70,21 @@ impl Client {
       .await
   }
 
+  pub async fn get_idle_armies_coords(
+    &self,
+    req: GetIdleArmiesCoordsRequest,
+  ) -> Result<GetIdleArmiesCoordsResponse> {
+    http::json_put("get-idle-armies-coords")
+      .body(req)
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_ref())
+      .circuit_breaker(self.circuit_breaker())
+      .retry(&self.retry)
+      .user_agent(&self.user_agent)
+      .send()
+      .await
+  }
+
   pub async fn get_maneuver(&self, req: GetManeuverRequest) -> Result<GetManeuverResponse> {
     http::json_put("get-maneuver")
       .body(req)

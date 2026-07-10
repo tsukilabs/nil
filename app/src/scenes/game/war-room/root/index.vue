@@ -5,13 +5,14 @@
 import { useI18n } from "vue-i18n";
 import { Button } from "@ui/button";
 import * as commands from "@/commands";
-import Maneuvers from "./Maneuvers.vue";
-import SquadGrid from "./SquadGrid.vue";
 import { handleError } from "@/lib/error";
-import Destination from "./Destination.vue";
 import { computed, nextTick, ref } from "vue";
 import { throttle } from "es-toolkit/function";
+import Cities from "@/scenes/game/war-room/root/Cities.vue";
+import Maneuvers from "@/scenes/game/war-room/root/Maneuvers.vue";
+import SquadGrid from "@/scenes/game/war-room/root/SquadGrid.vue";
 import { usePlayerTurn } from "@/composables/player/usePlayerTurn";
+import Destination from "@/scenes/game/war-room/root/Destination.vue";
 import { useManeuversAt } from "@/composables/military/useManeuversAt";
 import { asyncComputed, onKeyDown, useBreakpoints } from "@tb-dev/vue";
 import type { ManeuverId, ManeuverKind } from "@tsukilabs/nil-bindings";
@@ -32,7 +33,7 @@ const destinationCity = asyncComputed(null, async () => {
 });
 
 const armies = useOwnIdleArmiesAt(origin);
-const available = foldArmyPersonnel(armies);
+const availablePersonnel = foldArmyPersonnel(armies);
 const personnel = ref(ArmyPersonnelImpl.createEmpty());
 
 const maneuvers = useManeuversAt(origin);
@@ -41,6 +42,7 @@ const { sm } = useBreakpoints();
 
 const canSend = computed(() => {
   return (
+    origin.value &&
     isPlayerTurn.value &&
     !personnel.value.isEmpty() &&
     !origin.value.is(destination.value) &&
@@ -48,15 +50,13 @@ const canSend = computed(() => {
   );
 });
 
-await NIL.military.update();
-
 if (__DESKTOP__) {
   onKeyDown("F5", throttle(NIL.military.update, 1000));
 }
 
 async function request(kind: ManeuverKind) {
   await nextTick();
-  if (canSend.value) {
+  if (canSend.value && origin.value) {
     try {
       await commands.requestManeuver({
         kind,
@@ -78,13 +78,15 @@ function cancel(id: ManeuverId) {
 function clear() {
   personnel.value = ArmyPersonnelImpl.createEmpty();
 }
+
+await NIL.military.update();
 </script>
 
 <template>
   <div class="w-full flex flex-col gap-4 px-4 xl:flex-row xl:gap-8">
     <div class="w-full flex flex-col gap-8">
-      <SquadGrid v-model="personnel" :available />
-
+      <Cities v-model="origin" />
+      <SquadGrid v-model="personnel" :available="availablePersonnel" />
       <Destination v-model="destination" :destination-city />
 
       <div class="max-sm:w-full sm:max-w-max grid grid-cols-3 items-center justify-center sm:justify-start gap-4">

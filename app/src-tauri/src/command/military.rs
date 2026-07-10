@@ -54,6 +54,17 @@ pub async fn get_idle_armies_at(
 }
 
 #[tauri::command]
+pub async fn get_idle_armies_coords(
+  app: AppHandle,
+  req: GetIdleArmiesCoordsRequest,
+) -> Result<GetIdleArmiesCoordsResponse> {
+  app
+    .client(async |cl| cl.get_idle_armies_coords(req).await)
+    .await
+    .map_err(Into::into)
+}
+
+#[tauri::command]
 pub async fn get_maneuver(app: AppHandle, req: GetManeuverRequest) -> Result<GetManeuverResponse> {
   app
     .client(async |cl| cl.get_maneuver(req).await)

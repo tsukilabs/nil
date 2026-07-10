@@ -86,6 +86,7 @@ dispatch!(
   get_city_score,
   get_continent_size,
   get_idle_armies_at,
+  get_idle_armies_coords,
   get_maneuver,
   get_player,
   get_player_coords,

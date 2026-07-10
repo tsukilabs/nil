@@ -64,6 +64,15 @@ pub struct GetIdleArmiesAtRequest {
 #[serde(rename_all = "camelCase")]
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
+pub struct GetIdleArmiesCoordsRequest {
+  #[builder(start_fn, into)]
+  pub world: WorldId,
+}
+
+#[derive(Builder, Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 pub struct GetManeuverRequest {
   #[builder(start_fn, into)]
   pub world: WorldId,

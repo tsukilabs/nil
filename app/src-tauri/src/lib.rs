@@ -124,6 +124,7 @@ pub fn run() {
       command::military::get_army,
       command::military::get_army_owner,
       command::military::get_idle_armies_at,
+      command::military::get_idle_armies_coords,
       command::military::get_maneuver,
       command::military::request_maneuver,
       command::npc::bot::get_bot_coords,
