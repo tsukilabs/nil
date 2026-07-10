@@ -169,8 +169,9 @@ pub async fn get_maneuver(State(app): State<App>, Json(req): Json<GetManeuverReq
 pub async fn request_maneuver(
   State(app): State<App>,
   Extension(player): Extension<CurrentPlayer>,
-  Json(req): Json<RequestManeuverRequest>,
+  Json(mut req): Json<RequestManeuverRequest>,
 ) -> Response {
+  req.request.ruler = Ruler::from(&player.0);
   app
     .world_blocking_mut(req.world, move |world| {
       if world.round().is_waiting_player(&player.0) {

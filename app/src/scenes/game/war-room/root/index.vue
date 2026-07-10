@@ -23,6 +23,7 @@ import { useOwnIdleArmiesAt } from "@/composables/military/useOwnIdleArmiesAt";
 
 const { t } = useI18n();
 
+const { player } = NIL.player.refs();
 const isPlayerTurn = usePlayerTurn();
 
 const { origin, destination } = useWarRoomCoords();
@@ -42,6 +43,7 @@ const { sm } = useBreakpoints();
 
 const canSend = computed(() => {
   return (
+    player.value &&
     origin.value &&
     isPlayerTurn.value &&
     !personnel.value.isEmpty() &&
@@ -56,10 +58,11 @@ if (__DESKTOP__) {
 
 async function request(kind: ManeuverKind) {
   await nextTick();
-  if (canSend.value && origin.value) {
+  if (canSend.value && player.value && origin.value) {
     try {
       await commands.requestManeuver({
         kind,
+        ruler: player.value.toRuler(),
         origin: origin.value,
         destination: destination.value,
         personnel: personnel.value.normalize(),

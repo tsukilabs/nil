@@ -61,6 +61,7 @@ fn with_coords(world: &World, ruler: &Ruler) -> impl Iterator<Item = Box<dyn Beh
           .build()
           .boxed(),
         PlunderBehavior::builder()
+          .ruler(ruler.clone())
           .origin(coord)
           .build()
           .boxed(),

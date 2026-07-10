@@ -27,12 +27,13 @@ fn has_enough_personnel_to_maneuver() -> Result<()> {
   let coord_a = get_coord(&world, &player_a);
   let coord_b = get_coord(&world, &player_b);
 
-  let request = ManeuverRequest {
-    kind: ManeuverKind::Attack,
-    origin: coord_a,
-    destination: coord_b,
-    personnel: ArmyPersonnel::splat(1000),
-  };
+  let request = ManeuverRequest::builder()
+    .kind(ManeuverKind::Attack)
+    .ruler(&player_a)
+    .origin(coord_a)
+    .destination(coord_b)
+    .personnel(ArmyPersonnel::splat(1000))
+    .build();
 
   assert_matches!(
     world.request_maneuver(request.clone()),
@@ -69,14 +70,15 @@ fn slowest_maneuver_squad() -> Result<()> {
 
   world
     .military
-    .spawn(coord_a, player_a, spawned.clone());
+    .spawn(coord_a, &player_a, spawned.clone());
 
-  let request = ManeuverRequest {
-    kind: ManeuverKind::Attack,
-    origin: coord_a,
-    destination: coord_b,
-    personnel: sent.clone(),
-  };
+  let request = ManeuverRequest::builder()
+    .kind(ManeuverKind::Attack)
+    .ruler(&player_a)
+    .origin(coord_a)
+    .destination(coord_b)
+    .personnel(sent.clone())
+    .build();
 
   let maneuver_id = world.request_maneuver(request)?;
   let maneuver = world.military.maneuver(maneuver_id)?;

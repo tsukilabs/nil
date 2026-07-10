@@ -332,6 +332,8 @@ impl From<ManeuverHaul> for Resources {
 pub struct ManeuverRequest {
   pub kind: ManeuverKind,
   #[builder(into)]
+  pub ruler: Ruler,
+  #[builder(into)]
   pub origin: Coord,
   #[builder(into)]
   pub destination: Coord,

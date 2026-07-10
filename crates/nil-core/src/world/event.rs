@@ -11,6 +11,7 @@ use crate::report::ReportKind;
 use crate::report::battle::BattleReport;
 use crate::report::support::SupportReport;
 use crate::world::World;
+use std::collections::HashSet;
 
 impl World {
   #[inline]
@@ -66,17 +67,28 @@ impl World {
   /// Emits [`Event::Military`] to all players participating in the specified maneuver.
   pub(super) fn emit_military_to_maneuver_players(&self, id: ManeuverId) -> Result<()> {
     let maneuver = self.military.maneuver(id)?;
-    let sender = self.city(maneuver.origin())?.player();
-    let target = self.city(maneuver.destination())?.player();
+    let mut players = HashSet::with_capacity(3);
 
-    if let Some(sender) = &sender {
-      self.emit_military(sender.clone())?;
+    if let Some(player) = self
+      .military
+      .army(maneuver.army())?
+      .owner()
+      .player()
+      .cloned()
+    {
+      players.insert(player);
     }
 
-    if let Some(target) = target
-      && sender.is_none_or(|it| it != target)
-    {
-      self.emit_military(target)?;
+    if let Some(player) = self.city(maneuver.origin())?.player() {
+      players.insert(player);
+    }
+
+    if let Some(player) = self.city(maneuver.destination())?.player() {
+      players.insert(player);
+    }
+
+    for player in players {
+      self.emit_military(player)?;
     }
 
     Ok(())

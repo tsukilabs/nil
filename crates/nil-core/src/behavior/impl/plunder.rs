@@ -25,6 +25,7 @@ use tap::{Conv, Pipe};
 
 #[derive(Builder, Debug)]
 pub struct PlunderBehavior {
+  ruler: Ruler,
   origin: Coord,
 }
 
@@ -99,6 +100,7 @@ impl Behavior for PlunderBehavior {
 
       if *attack > (defense * 2) {
         let behavior = PlunderTargetBehavior::builder()
+          .ruler(self.ruler.clone())
           .origin(self.origin)
           .target(coord)
           .build()
@@ -120,6 +122,7 @@ impl Behavior for PlunderBehavior {
 
 #[derive(Builder, Debug)]
 pub struct PlunderTargetBehavior {
+  ruler: Ruler,
   origin: Coord,
   target: Coord,
 }
@@ -222,6 +225,7 @@ impl Behavior for PlunderTargetBehavior {
     let attacker_personnel = self.attacker_personnel(world)?;
     let request = ManeuverRequest::builder()
       .kind(ManeuverKind::Attack)
+      .ruler(self.ruler.clone())
       .origin(self.origin)
       .destination(self.target)
       .personnel(attacker_personnel)

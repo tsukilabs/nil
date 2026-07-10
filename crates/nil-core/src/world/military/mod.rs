@@ -46,12 +46,11 @@ impl World {
       .military
       .collapse_armies_in(request.origin);
 
-    let origin_ruler = self.city(request.origin)?.owner().clone();
     let Some(army) = self
       .military
       .armies_mut_at(request.origin)
       .iter_mut()
-      .find(|army| army.is_idle_and_owned_by(&origin_ruler))
+      .find(|army| army.is_idle_and_owned_by(&request.ruler))
       .filter(|army| army.has_enough_personnel(&request.personnel))
     else {
       return Err(Error::InsufficientUnits);
