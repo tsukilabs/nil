@@ -67,7 +67,9 @@ function formatCoord(coord: CoordImpl) {
             <TableBody>
               <TableRow>
                 <TableHead>{{ t("kind") }}</TableHead>
-                <TableCell>{{ t(maneuver.kind) }}</TableCell>
+                <TableCell v-if="maneuver.kind === 'attack'">{{ t("attack-noun") }}</TableCell>
+                <TableCell v-else-if="maneuver.kind === 'support'">{{ t("support-noun") }}</TableCell>
+                <TableCell v-else>{{ t(maneuver.kind) }}</TableCell>
               </TableRow>
 
               <TableRow>
