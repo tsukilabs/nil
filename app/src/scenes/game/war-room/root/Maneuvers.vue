@@ -22,7 +22,6 @@ const { t } = useI18n();
     <TableHeader>
       <TableRow>
         <TableHead></TableHead>
-        <TableHead>{{ t("kind") }}</TableHead>
         <TableHead>{{ t("origin") }}</TableHead>
         <TableHead>{{ t("destination") }}</TableHead>
         <TableHead>{{ t("distance") }}</TableHead>
