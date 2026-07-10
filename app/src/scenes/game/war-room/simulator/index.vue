@@ -64,7 +64,7 @@ function clear() {
         v-model:wall="wallLevel"
       />
 
-      <div class="grid grid-cols-2 items-center justify-start gap-4 max-w-max">
+      <div class="grid grid-cols-2 items-center justify-start gap-4 max-w-max pb-4">
         <Button variant="default" :disabled="!canSimulate" @click.stop="simulate">
           <span>{{ t("simulate") }}</span>
         </Button>
