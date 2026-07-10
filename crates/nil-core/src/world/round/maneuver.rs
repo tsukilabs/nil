@@ -112,14 +112,17 @@ impl World {
 
   fn process_going_support_maneuver(&mut self, maneuver: &Maneuver) -> Result<()> {
     let army_id = maneuver.army();
-    let origin = maneuver.origin();
-    let destination = maneuver.destination();
+    let army = self.military.army_mut(army_id)?;
+    *army.state_mut() = ArmyState::Idle;
+
     let rulers = ManeuverRulers::new(self, maneuver)?;
 
     let mut players = Vec::new();
     players.try_push(rulers.sender.player().cloned());
     players.try_push(rulers.destination_ruler.player().cloned());
 
+    let origin = maneuver.origin();
+    let destination = maneuver.destination();
     let personnel = self.military.personnel(army_id).cloned()?;
 
     let report = SupportReport::builder()

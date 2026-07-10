@@ -4,6 +4,7 @@
 import { readonly } from "vue";
 import * as commands from "@/commands";
 import { asyncRef } from "@tb-dev/vue";
+import { unionBy } from "es-toolkit/array";
 import { CoordImpl } from "@/core/model/continent/coord";
 import { useRandomKey } from "@/composables/useRandomKey";
 
@@ -16,17 +17,13 @@ export function useIdleArmiesCoords(options: UseIdleArmiesCoordsOptions = {}) {
 
   const { key, updateRandomKey } = useRandomKey();
   const { state, loading, load } = asyncRef<readonly CoordImpl[]>([], async () => {
-    const coords = await commands.getIdleArmiesCoords().then((it) => {
+    let coords = await commands.getIdleArmiesCoords().then((it) => {
       return it.map((coord) => CoordImpl.create(coord));
     });
 
     if (options.includeOwnCoords) {
       const playerCoords = NIL.player.getCoords();
-      for (const coord of playerCoords) {
-        if (coords.every((it) => !it.is(coord))) {
-          coords.push(coord);
-        }
-      }
+      coords = unionBy(coords, playerCoords, (coord) => coord.id);
     }
 
     return coords;
