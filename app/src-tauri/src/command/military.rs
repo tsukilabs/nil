@@ -16,6 +16,14 @@ pub async fn cancel_maneuver(app: AppHandle, req: CancelManeuverRequest) -> Resu
 }
 
 #[tauri::command]
+pub async fn get_armies(app: AppHandle, req: GetArmiesRequest) -> Result<GetArmiesResponse> {
+  app
+    .client(async |cl| cl.get_armies(req).await)
+    .await
+    .map_err(Into::into)
+}
+
+#[tauri::command]
 pub async fn get_army(app: AppHandle, req: GetArmyRequest) -> Result<GetArmyResponse> {
   app
     .client(async |cl| cl.get_army(req).await)
@@ -30,6 +38,17 @@ pub async fn get_army_owner(
 ) -> Result<GetArmyOwnerResponse> {
   app
     .client(async |cl| cl.get_army_owner(req).await)
+    .await
+    .map_err(Into::into)
+}
+
+#[tauri::command]
+pub async fn get_idle_armies_at(
+  app: AppHandle,
+  req: GetIdleArmiesAtRequest,
+) -> Result<GetIdleArmiesAtResponse> {
+  app
+    .client(async |cl| cl.get_idle_armies_at(req).await)
     .await
     .map_err(Into::into)
 }

@@ -19,6 +19,18 @@ impl Client {
       .await
   }
 
+  pub async fn get_armies(&self, req: GetArmiesRequest) -> Result<GetArmiesResponse> {
+    http::json_put("get-armies")
+      .body(req)
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_ref())
+      .circuit_breaker(self.circuit_breaker())
+      .retry(&self.retry)
+      .user_agent(&self.user_agent)
+      .send()
+      .await
+  }
+
   pub async fn get_army(&self, req: GetArmyRequest) -> Result<GetArmyResponse> {
     http::json_put("get-army")
       .body(req)
@@ -33,6 +45,21 @@ impl Client {
 
   pub async fn get_army_owner(&self, req: GetArmyOwnerRequest) -> Result<GetArmyOwnerResponse> {
     http::json_put("get-army-owner")
+      .body(req)
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_ref())
+      .circuit_breaker(self.circuit_breaker())
+      .retry(&self.retry)
+      .user_agent(&self.user_agent)
+      .send()
+      .await
+  }
+
+  pub async fn get_idle_armies_at(
+    &self,
+    req: GetIdleArmiesAtRequest,
+  ) -> Result<GetIdleArmiesAtResponse> {
+    http::json_put("get-idle-armies-at")
       .body(req)
       .server(self.server)
       .maybe_authorization(self.authorization.as_ref())

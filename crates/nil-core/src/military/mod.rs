@@ -151,6 +151,13 @@ impl Military {
     Ok(())
   }
 
+  pub fn continent(&self) -> impl Iterator<Item = (ContinentIndex, &[Army])> {
+    self
+      .continent
+      .iter()
+      .map(|(index, armies)| (*index, armies.as_slice()))
+  }
+
   pub fn army(&self, id: ArmyId) -> Result<&Army> {
     self
       .armies()
@@ -171,11 +178,6 @@ impl Military {
 
   pub(crate) fn armies_mut(&mut self) -> impl Iterator<Item = &mut Army> {
     self.continent.values_mut().flatten()
-  }
-
-  #[inline]
-  pub fn count_armies(&self) -> usize {
-    self.armies().count()
   }
 
   pub fn armies_at<K>(&self, key: K) -> &[Army]
@@ -200,6 +202,23 @@ impl Military {
       .get_mut(&index)
       .map(Vec::as_mut_slice)
       .unwrap_or_default()
+  }
+
+  pub fn armies_of<R>(&self, owner: R) -> impl Iterator<Item = &Army>
+  where
+    R: Into<Ruler>,
+  {
+    let owner: Ruler = owner.into();
+    self
+      .continent
+      .values()
+      .flatten()
+      .filter(move |army| army.is_owned_by(&owner))
+  }
+
+  #[inline]
+  pub fn count_armies(&self) -> usize {
+    self.armies().count()
   }
 
   pub fn count_armies_at<K>(&self, key: K) -> usize
@@ -227,18 +246,6 @@ impl Military {
       .armies_mut_at(key)
       .iter_mut()
       .filter(|army| army.is_idle())
-  }
-
-  pub fn armies_of<R>(&self, owner: R) -> impl Iterator<Item = &Army>
-  where
-    R: Into<Ruler>,
-  {
-    let owner: Ruler = owner.into();
-    self
-      .continent
-      .values()
-      .flatten()
-      .filter(move |army| army.is_owned_by(&owner))
   }
 
   #[inline]

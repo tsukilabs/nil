@@ -8,9 +8,13 @@ use crate::res;
 use crate::response::{EitherExt, from_err};
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
+use itertools::Itertools;
+use nil_core::continent::index::ContinentKey;
 use nil_core::military::army::Army;
+use nil_core::ruler::Ruler;
 use nil_payload::request::military::*;
 use nil_payload::response::military::*;
+use tap::Pipe;
 
 pub async fn cancel_maneuver(
   State(app): State<App>,
@@ -30,6 +34,40 @@ pub async fn cancel_maneuver(
 
       result
         .map(|()| res!(OK))
+        .unwrap_or_else(from_err)
+    }
+    Err(err) => from_err(err),
+  }
+}
+
+pub async fn get_armies(
+  State(app): State<App>,
+  Extension(player): Extension<CurrentPlayer>,
+  Json(req): Json<GetArmiesRequest>,
+) -> Response {
+  match app.get(req.world) {
+    Ok(world) => {
+      let result = try {
+        let world = world.read().await;
+        let k_size = world.continent().size();
+
+        let player: Ruler = player.into();
+        let mut player_armies = Vec::new();
+
+        for (index, armies) in world.military().continent() {
+          let coord = index.into_coord(k_size)?;
+          for army in armies {
+            if army.is_owned_by(&player) {
+              player_armies.push((coord, army.clone()));
+            }
+          }
+        }
+
+        player_armies
+      };
+
+      result
+        .map(|armies| res!(OK, GetArmiesResponse(armies)))
         .unwrap_or_else(from_err)
     }
     Err(err) => from_err(err),
@@ -79,6 +117,32 @@ pub async fn get_army_owner(
     })
     .await
     .try_map_left(|owner| res!(OK, GetArmyOwnerResponse(owner)))
+    .into_inner()
+}
+
+pub async fn get_idle_armies_at(
+  State(app): State<App>,
+  Extension(player): Extension<CurrentPlayer>,
+  Json(req): Json<GetIdleArmiesAtRequest>,
+) -> Response {
+  app
+    .world(req.world, |world| {
+      let player: Ruler = player.into();
+      let is_own_city = world
+        .continent()
+        .city(req.coord)?
+        .is_owned_by(player.clone());
+
+      world
+        .military()
+        .idle_armies_at(req.coord)
+        .filter(|army| is_own_city || army.is_owned_by(&player))
+        .cloned()
+        .collect_vec()
+        .pipe(Ok::<_, CoreError>)
+    })
+    .await
+    .try_map_left(|armies| res!(OK, GetIdleArmiesAtResponse(armies)))
     .into_inner()
 }
 

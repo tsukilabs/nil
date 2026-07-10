@@ -2,13 +2,19 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { invoke } from "@tauri-apps/api/core";
+import { CoordImpl } from "@/core/model/continent/coord";
+import type { ContinentKey } from "@/types/core/continent";
 import type {
   ArmyId,
   CancelManeuverRequest,
+  GetArmiesRequest,
+  GetArmiesResponse,
   GetArmyOwnerRequest,
   GetArmyOwnerResponse,
   GetArmyRequest,
   GetArmyResponse,
+  GetIdleArmiesAtRequest,
+  GetIdleArmiesAtResponse,
   GetManeuverRequest,
   GetManeuverResponse,
   ManeuverId,
@@ -24,6 +30,14 @@ export async function cancelManeuver(id: ManeuverId) {
   };
 
   await invoke("cancel_maneuver", { req });
+}
+
+export async function getArmies() {
+  const req: GetArmiesRequest = {
+    world: NIL.world.getIdStrict(),
+  };
+
+  return invoke<GetArmiesResponse>("get_armies", { req });
 }
 
 export async function getArmy(id: ArmyId) {
@@ -42,6 +56,16 @@ export async function getArmyOwner(id: ArmyId) {
   };
 
   return invoke<GetArmyOwnerResponse>("get_army_owner", { req });
+}
+
+export async function getIdleArmiesAt(coord: ContinentKey) {
+  coord = CoordImpl.fromContinentKey(coord);
+  const req: GetIdleArmiesAtRequest = {
+    world: NIL.world.getIdStrict(),
+    coord,
+  };
+
+  return invoke<GetIdleArmiesAtResponse>("get_idle_armies_at", { req });
 }
 
 export async function getManeuver(id: ManeuverId) {
