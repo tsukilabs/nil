@@ -33,7 +33,7 @@ type-check:
   @pnpm run -r --bail type-check
 
 udeps:
-  @cargo udeps
+  @cargo udeps --workspace
 
 [private]
 rsx FILE *ARGS:
