@@ -2,20 +2,18 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { useI18n } from "vue-i18n";
+import { XIcon } from "@lucide/vue";
+import ManeuverIcon from "./ManeuverIcon.vue";
 import { TableCell, TableRow } from "@ui/table";
 import type { MaybePromise } from "@tb-dev/utils";
 import type { Coord } from "@tsukilabs/nil-bindings";
 import { asyncComputed, useBreakpoints } from "@tb-dev/vue";
 import type { ManeuverImpl } from "@/core/model/military/maneuver";
-import { ChevronLeftIcon, ChevronRightIcon, XIcon } from "@lucide/vue";
 
 const props = defineProps<{
   maneuver: ManeuverImpl;
   onCancelManeuver: () => MaybePromise<void>;
 }>();
-
-const { t } = useI18n();
 
 const { id: player } = NIL.player.refs();
 const { coord: currentCoord } = NIL.city.refs();
@@ -62,18 +60,7 @@ function isArmyOwnedByCurrentPlayer() {
     @keydown.space.stop="() => maneuver.goToManeuverScene()"
   >
     <TableCell class="w-[1%] pl-0 pr-2">
-      <span v-if="maneuver.direction === 'returning'">
-        <ChevronLeftIcon class="size-4 text-red-500" />
-      </span>
-      <span v-else>
-        <ChevronRightIcon class="size-4 text-green-500" />
-      </span>
-    </TableCell>
-
-    <TableCell>
-      <span v-if="maneuver.kind === 'attack'">{{ t("attack-noun") }}</span>
-      <span v-else-if="maneuver.kind === 'support'">{{ t("support-noun") }}</span>
-      <span v-else>{{ t(maneuver.kind) }}</span>
+      <ManeuverIcon v-if="currentCoord" :coord="currentCoord" :maneuver />
     </TableCell>
 
     <TableCell

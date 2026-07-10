@@ -18,11 +18,10 @@ const { t } = useI18n();
 </script>
 
 <template>
-  <Table>
+  <Table class="min-w-max">
     <TableHeader>
       <TableRow>
         <TableHead></TableHead>
-        <TableHead>{{ t("kind") }}</TableHead>
         <TableHead>{{ t("origin") }}</TableHead>
         <TableHead>{{ t("destination") }}</TableHead>
         <TableHead>{{ t("distance") }}</TableHead>

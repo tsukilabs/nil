@@ -26,8 +26,8 @@ const wallLevel = useBattleWallLevel(() => props.result);
 </script>
 
 <template>
-  <div class="w-full min-w-max flex flex-col gap-4">
-    <Table class="md:w-max">
+  <div class="w-full max-w-[90vw] flex flex-col gap-4">
+    <Table class="min-w-max md:w-max pr-2">
       <TableHeader>
         <TableRow class="hover:bg-card">
           <TableHead />
