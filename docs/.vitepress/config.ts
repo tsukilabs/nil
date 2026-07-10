@@ -18,6 +18,7 @@ export default defineConfig({
     hostname: "https://nil.dev.br",
   },
   vite: {
+    publicDir: "../public",
     build: {
       emptyOutDir: true,
       minify: true,

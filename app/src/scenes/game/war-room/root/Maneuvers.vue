@@ -3,36 +3,18 @@
 
 <script setup lang="ts">
 import { useI18n } from "vue-i18n";
-import type { Coord } from "@tsukilabs/nil-bindings";
-import { ChevronLeftIcon, ChevronRightIcon } from "@lucide/vue";
+import Maneuver from "./Maneuver.vue";
+import type { MaybePromise } from "@tb-dev/utils";
+import type { ManeuverId } from "@tsukilabs/nil-bindings";
 import type { ManeuverImpl } from "@/core/model/military/maneuver";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@ui/table";
+import { Table, TableBody, TableHead, TableHeader, TableRow } from "@ui/table";
 
 defineProps<{
   maneuvers: ManeuverImpl[];
+  onCancelManeuver: (id: ManeuverId) => MaybePromise<void>;
 }>();
 
 const { t } = useI18n();
-
-const { coord: currentCoord } = NIL.city.refs();
-
-const distanceIntl = new Intl.NumberFormat(undefined, {
-  style: "decimal",
-  minimumFractionDigits: 0,
-  maximumFractionDigits: 2,
-  roundingMode: "floor",
-  notation: "standard",
-  useGrouping: "auto",
-  localeMatcher: "best fit",
-});
-
-function getCoordCellClass(coord: Coord) {
-  return currentCoord.value?.is(coord) ? "font-bold" : null;
-}
-
-function formatDistance(distance: number) {
-  return distanceIntl.format(distance);
-}
 </script>
 
 <template>
@@ -44,61 +26,17 @@ function formatDistance(distance: number) {
         <TableHead>{{ t("origin") }}</TableHead>
         <TableHead>{{ t("destination") }}</TableHead>
         <TableHead>{{ t("distance") }}</TableHead>
+        <TableHead></TableHead>
       </TableRow>
     </TableHeader>
 
     <TableBody>
-      <TableRow
+      <Maneuver
         v-for="maneuver of maneuvers"
         :key="maneuver.id"
-        role="link"
-        tabindex="0"
-        class="cursor-pointer"
-        @click.stop="() => maneuver.goToManeuverScene()"
-        @keydown.enter.stop="() => maneuver.goToManeuverScene()"
-        @keydown.space.stop="() => maneuver.goToManeuverScene()"
-      >
-        <TableCell class="w-[1%] pl-0 pr-2">
-          <span v-if="maneuver.direction === 'returning'">
-            <ChevronLeftIcon class="size-4 text-red-500" />
-          </span>
-          <span v-else>
-            <ChevronRightIcon class="size-4 text-green-500" />
-          </span>
-        </TableCell>
-
-        <TableCell>
-          <span v-if="maneuver.kind === 'attack'">{{ t("attack-noun") }}</span>
-          <span v-else-if="maneuver.kind === 'support'">{{ t("support-noun") }}</span>
-          <span v-else>{{ t(maneuver.kind) }}</span>
-        </TableCell>
-
-        <TableCell
-          role="link"
-          tabindex="0"
-          :class="getCoordCellClass(maneuver.origin)"
-          @click.stop="() => maneuver.origin.goToProfile()"
-          @keydown.enter.stop="() => maneuver.origin.goToProfile()"
-          @keydown.space.stop="() => maneuver.origin.goToProfile()"
-        >
-          {{ maneuver.origin.format() }}
-        </TableCell>
-
-        <TableCell
-          role="link"
-          tabindex="0"
-          :class="getCoordCellClass(maneuver.destination)"
-          @click.stop="() => maneuver.destination.goToProfile()"
-          @keydown.enter.stop="() => maneuver.destination.goToProfile()"
-          @keydown.space.stop="() => maneuver.destination.goToProfile()"
-        >
-          {{ maneuver.destination.format() }}
-        </TableCell>
-
-        <TableCell>
-          <span>{{ formatDistance(maneuver.getPendingDistance()) }}</span>
-        </TableCell>
-      </TableRow>
+        :maneuver
+        @cancel-maneuver="() => onCancelManeuver(maneuver.id)"
+      />
     </TableBody>
   </Table>
 </template>

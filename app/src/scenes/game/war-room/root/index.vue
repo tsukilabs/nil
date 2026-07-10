@@ -11,10 +11,10 @@ import { handleError } from "@/lib/error";
 import Destination from "./Destination.vue";
 import { computed, nextTick, ref } from "vue";
 import { throttle } from "es-toolkit/function";
-import type { ManeuverKind } from "@tsukilabs/nil-bindings";
 import { usePlayerTurn } from "@/composables/player/usePlayerTurn";
 import { useManeuversAt } from "@/composables/military/useManeuversAt";
 import { asyncComputed, onKeyDown, useBreakpoints } from "@tb-dev/vue";
+import type { ManeuverId, ManeuverKind } from "@tsukilabs/nil-bindings";
 import { ArmyPersonnelImpl } from "@/core/model/military/army-personnel";
 import { useWarRoomCoords } from "@/composables/military/useWarRoomCoords";
 import { foldArmyPersonnel } from "@/composables/military/foldArmyPersonnel";
@@ -54,7 +54,7 @@ if (__DESKTOP__) {
   onKeyDown("F5", throttle(NIL.military.update, 1000));
 }
 
-async function send(kind: ManeuverKind) {
+async function request(kind: ManeuverKind) {
   await nextTick();
   if (canSend.value) {
     try {
@@ -69,6 +69,10 @@ async function send(kind: ManeuverKind) {
       handleError(err);
     }
   }
+}
+
+function cancel(id: ManeuverId) {
+  commands.cancelManeuver(id).err();
 }
 
 function clear() {
@@ -88,7 +92,7 @@ function clear() {
           variant="default"
           :size="sm ? 'default' : 'sm'"
           :disabled="!canSend"
-          @click="() => send('attack')"
+          @click.stop="() => request('attack')"
         >
           <span>{{ t("attack") }}</span>
         </Button>
@@ -96,20 +100,24 @@ function clear() {
           variant="default"
           :size="sm ? 'default' : 'sm'"
           :disabled="!canSend"
-          @click="() => send('support')"
+          @click.stop="() => request('support')"
         >
           <span>{{ t("support") }}</span>
         </Button>
         <Button
           variant="secondary"
           :size="sm ? 'default' : 'sm'"
-          @click="clear"
+          @click.stop="clear"
         >
           <span>{{ t("clear") }}</span>
         </Button>
       </div>
     </div>
 
-    <Maneuvers v-if="maneuvers.length > 0" :maneuvers />
+    <Maneuvers
+      v-if="maneuvers.length > 0"
+      :maneuvers
+      @cancel-maneuver="cancel"
+    />
   </div>
 </template>

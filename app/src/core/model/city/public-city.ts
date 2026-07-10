@@ -39,6 +39,14 @@ export class PublicCityImpl implements Readonly<PublicCity> {
     await this.coord.goToWarRoom(kind);
   }
 
+  public formatCoord() {
+    return this.coord.format();
+  }
+
+  public formatNameWithCoord() {
+    return `${this.name} (${this.formatCoord()})`;
+  }
+
   public formatScore() {
     return formatInt(this.score);
   }

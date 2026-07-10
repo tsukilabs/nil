@@ -16,7 +16,6 @@ import { onKeyDown, useBreakpoints } from "@tb-dev/vue";
 import type { ManeuverId } from "@tsukilabs/nil-bindings";
 import type { CoordImpl } from "@/core/model/continent/coord";
 import { useManeuver } from "@/composables/military/useManeuver";
-import type { PublicCityImpl } from "@/core/model/city/public-city";
 import { Card, CardContent, CardHeader, CardTitle } from "@ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@ui/table";
 
@@ -41,18 +40,14 @@ if (__DESKTOP__) {
 
 function formatCoord(coord: CoordImpl) {
   if (cities.value?.origin?.coord.is(coord)) {
-    return formatCity(cities.value.origin);
+    return cities.value.origin.formatNameWithCoord();
   }
   else if (cities.value?.destination?.coord.is(coord)) {
-    return formatCity(cities.value.destination);
+    return cities.value.destination.formatNameWithCoord();
   }
   else {
     return coord.format();
   }
-}
-
-function formatCity(city: PublicCityImpl) {
-  return `${city.name} (${city.coord.format()})`;
 }
 </script>
 
