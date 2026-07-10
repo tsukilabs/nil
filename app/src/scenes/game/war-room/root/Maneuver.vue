@@ -4,17 +4,26 @@
 <script setup lang="ts">
 import { useI18n } from "vue-i18n";
 import { TableCell, TableRow } from "@ui/table";
+import type { MaybePromise } from "@tb-dev/utils";
 import type { Coord } from "@tsukilabs/nil-bindings";
-import { ChevronLeftIcon, ChevronRightIcon } from "@lucide/vue";
+import { asyncComputed, useBreakpoints } from "@tb-dev/vue";
 import type { ManeuverImpl } from "@/core/model/military/maneuver";
+import { ChevronLeftIcon, ChevronRightIcon, XIcon } from "@lucide/vue";
 
-defineProps<{
+const props = defineProps<{
   maneuver: ManeuverImpl;
+  onCancelManeuver: () => MaybePromise<void>;
 }>();
 
 const { t } = useI18n();
 
+const { id: player } = NIL.player.refs();
 const { coord: currentCoord } = NIL.city.refs();
+
+const armyOwner = asyncComputed(null, () => props.maneuver.getArmyOwner());
+const cities = asyncComputed(null, () => props.maneuver.getCities());
+
+const { lg } = useBreakpoints();
 
 const distanceIntl = new Intl.NumberFormat(undefined, {
   style: "decimal",
@@ -32,6 +41,14 @@ function getCoordCellClass(coord: Coord) {
 
 function formatDistance(distance: number) {
   return distanceIntl.format(distance);
+}
+
+function isArmyOwnedByCurrentPlayer() {
+  return (
+    player.value &&
+    armyOwner.value?.kind === "player" &&
+    armyOwner.value.id === player.value
+  );
 }
 </script>
 
@@ -67,7 +84,8 @@ function formatDistance(distance: number) {
       @keydown.enter.stop="() => maneuver.origin.goToProfile()"
       @keydown.space.stop="() => maneuver.origin.goToProfile()"
     >
-      {{ maneuver.origin.format() }}
+      <span v-if="lg && cities?.origin">{{ cities.origin.formatNameWithCoord() }}</span>
+      <span v-else>{{ maneuver.origin.format() }}</span>
     </TableCell>
 
     <TableCell
@@ -78,11 +96,20 @@ function formatDistance(distance: number) {
       @keydown.enter.stop="() => maneuver.destination.goToProfile()"
       @keydown.space.stop="() => maneuver.destination.goToProfile()"
     >
-      {{ maneuver.destination.format() }}
+      <span v-if="lg && cities?.destination">{{ cities.destination.formatNameWithCoord() }}</span>
+      <span v-else>{{ maneuver.destination.format() }}</span>
     </TableCell>
 
     <TableCell>
       <span>{{ formatDistance(maneuver.getPendingDistance()) }}</span>
+    </TableCell>
+
+    <TableCell @click.stop.prevent>
+      <XIcon
+        v-if="maneuver.direction === 'going' && isArmyOwnedByCurrentPlayer()"
+        class="size-4"
+        @click.stop="onCancelManeuver"
+      />
     </TableCell>
   </TableRow>
 </template>
