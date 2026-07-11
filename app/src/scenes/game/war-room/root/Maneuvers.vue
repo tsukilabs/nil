@@ -3,18 +3,27 @@
 
 <script setup lang="ts">
 import { useI18n } from "vue-i18n";
-import Maneuver from "./Maneuver.vue";
 import type { MaybePromise } from "@tb-dev/utils";
 import type { ManeuverId } from "@tsukilabs/nil-bindings";
+import type { CoordImpl } from "@/core/model/continent/coord";
+import Maneuver from "@/scenes/game/war-room/root/Maneuver.vue";
 import type { ManeuverImpl } from "@/core/model/military/maneuver";
 import { Table, TableBody, TableHead, TableHeader, TableRow } from "@ui/table";
 
-defineProps<{
+const props = defineProps<{
   maneuvers: ManeuverImpl[];
+  warRoomOrigin: CoordImpl;
   onCancelManeuver: (id: ManeuverId) => MaybePromise<void>;
 }>();
 
 const { t } = useI18n();
+
+function shouldShowManeuver(maneuver: ManeuverImpl) {
+  return (
+    maneuver.direction === "going" ||
+    maneuver.origin.is(props.warRoomOrigin)
+  );
+}
 </script>
 
 <template>
@@ -30,12 +39,14 @@ const { t } = useI18n();
     </TableHeader>
 
     <TableBody>
-      <Maneuver
-        v-for="maneuver of maneuvers"
-        :key="maneuver.id"
-        :maneuver
-        @cancel-maneuver="() => onCancelManeuver(maneuver.id)"
-      />
+      <template v-for="maneuver of maneuvers" :key="maneuver.id">
+        <Maneuver
+          v-if="shouldShowManeuver(maneuver)"
+          :maneuver
+          :war-room-origin
+          @cancel-maneuver="() => onCancelManeuver(maneuver.id)"
+        />
+      </template>
     </TableBody>
   </Table>
 </template>

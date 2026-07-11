@@ -569,9 +569,9 @@ dependencies = [
 
 [[package]]
 name = "bytemuck"
-version = "1.25.0"
+version = "1.25.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c8efb64bd706a16a1bdde310ae86b351e4d21550d98d056f22f8a7f7a2183fec"
+checksum = "d6aedf8ae72766347502cf3cb4f41cf5e9cc37d28bee90f1fdaaae15f9cf9424"
 
 [[package]]
 name = "byteorder"
@@ -1213,9 +1213,9 @@ dependencies = [
 
 [[package]]
 name = "deno_ast"
-version = "0.53.2"
+version = "0.53.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "05792fb2b77938767ffeb0853289e86501fddc84b1cdba9e5dc860c52baa2ff7"
+checksum = "6f7c1384d87fc0a6439a065312fbef8f6ac6128689dbc2831b28b3a1d4f3a4e6"
 dependencies = [
  "capacity_builder",
  "deno_error",
@@ -1365,9 +1365,9 @@ dependencies = [
 
 [[package]]
 name = "diesel"
-version = "2.3.10"
+version = "2.3.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "29fe29a87fb84c631ffb3ba21798c4b1f3a964701ba78f0dce4bf8668562ec88"
+checksum = "e54d1f576cd3a3460f212a4615fd12ce1b6303c095b79a44449ffbe627753dc1"
 dependencies = [
  "diesel_derives",
  "downcast-rs 2.0.2",
@@ -3479,7 +3479,7 @@ checksum = "650eef8c711430f1a879fdd01d4745a7deea475becfb90269c06775983bbf086"
 
 [[package]]
 name = "nil"
-version = "0.6.3"
+version = "0.6.4"
 dependencies = [
  "anyhow",
  "bon",
@@ -3520,7 +3520,7 @@ dependencies = [
 
 [[package]]
 name = "nil-client"
-version = "0.6.3"
+version = "0.6.4"
 dependencies = [
  "anyhow",
  "bon",
@@ -3554,7 +3554,7 @@ dependencies = [
 
 [[package]]
 name = "nil-core"
-version = "0.6.3"
+version = "0.6.4"
 dependencies = [
  "anyhow",
  "bon",
@@ -3588,7 +3588,7 @@ dependencies = [
 
 [[package]]
 name = "nil-core-macros"
-version = "0.6.3"
+version = "0.6.4"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -3597,7 +3597,7 @@ dependencies = [
 
 [[package]]
 name = "nil-crypto"
-version = "0.6.3"
+version = "0.6.4"
 dependencies = [
  "anyhow",
  "argon2",
@@ -3611,7 +3611,7 @@ dependencies = [
 
 [[package]]
 name = "nil-env"
-version = "0.6.3"
+version = "0.6.4"
 dependencies = [
  "anyhow",
  "serde",
@@ -3622,7 +3622,7 @@ dependencies = [
 
 [[package]]
 name = "nil-log"
-version = "0.6.3"
+version = "0.6.4"
 dependencies = [
  "anyhow",
  "bitflags 2.13.0",
@@ -3636,7 +3636,7 @@ dependencies = [
 
 [[package]]
 name = "nil-namegen"
-version = "0.6.3"
+version = "0.6.4"
 dependencies = [
  "itertools 0.15.0",
  "rand 0.10.2",
@@ -3645,7 +3645,7 @@ dependencies = [
 
 [[package]]
 name = "nil-num"
-version = "0.6.3"
+version = "0.6.4"
 dependencies = [
  "bon",
  "num-traits",
@@ -3655,7 +3655,7 @@ dependencies = [
 
 [[package]]
 name = "nil-payload"
-version = "0.6.3"
+version = "0.6.4"
 dependencies = [
  "axum",
  "bon",
@@ -3671,7 +3671,7 @@ dependencies = [
 
 [[package]]
 name = "nil-payload-macros"
-version = "0.6.3"
+version = "0.6.4"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -3680,7 +3680,7 @@ dependencies = [
 
 [[package]]
 name = "nil-server"
-version = "0.6.3"
+version = "0.6.4"
 dependencies = [
  "anyhow",
  "axum",
@@ -3720,7 +3720,7 @@ dependencies = [
 
 [[package]]
 name = "nil-server-database"
-version = "0.6.3"
+version = "0.6.4"
 dependencies = [
  "anyhow",
  "bon",
@@ -3746,7 +3746,7 @@ dependencies = [
 
 [[package]]
 name = "nil-server-types"
-version = "0.6.3"
+version = "0.6.4"
 dependencies = [
  "derive_more",
  "jiff",
@@ -3758,7 +3758,7 @@ dependencies = [
 
 [[package]]
 name = "nil-util"
-version = "0.6.3"
+version = "0.6.4"
 dependencies = [
  "anyhow",
  "nil-util-macros",
@@ -3766,7 +3766,7 @@ dependencies = [
 
 [[package]]
 name = "nil-util-macros"
-version = "0.6.3"
+version = "0.6.4"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -5594,9 +5594,9 @@ dependencies = [
 
 [[package]]
 name = "sha1"
-version = "0.10.6"
+version = "0.10.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e3bf829a2d51ab4a5ddf1352d8470c140cadc8301b2ae1789db023f01cedd6ba"
+checksum = "a978451301f4db1d02937a4ab3ccce137717b81826e79b7d49ffe3244a13c3b8"
 dependencies = [
  "cfg-if",
  "cpufeatures 0.2.17",
@@ -6770,9 +6770,9 @@ dependencies = [
 
 [[package]]
 name = "thread_local"
-version = "1.1.9"
+version = "1.1.10"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f60246a4944f24f6e018aa17cdeffb7818b76356965d03b07d6a9886e8962185"
+checksum = "1ad99c4c6d32803332c548b1af0540b357b3f5fc0be8f6c6bfe8b2e6ae784070"
 dependencies = [
  "cfg-if",
 ]
@@ -6833,9 +6833,9 @@ dependencies = [
 
 [[package]]
 name = "tinyvec"
-version = "1.11.0"
+version = "1.12.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3e61e67053d25a4e82c844e8424039d9745781b3fc4f32b8d55ed50f5f667ef3"
+checksum = "bb4ebadaa0af04fab11ae01eb5f9fdb5f9c5b875506e210e71c07873528baa7f"
 dependencies = [
  "tinyvec_macros",
 ]

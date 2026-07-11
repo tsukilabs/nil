@@ -2,9 +2,11 @@
 import type { ArmyPersonnel } from "./ArmyPersonnel";
 import type { Coord } from "./Coord";
 import type { ManeuverKind } from "./ManeuverKind";
+import type { Ruler } from "./Ruler";
 
 export type ManeuverRequest = {
   kind: ManeuverKind;
+  ruler: Ruler;
   origin: Coord;
   destination: Coord;
   personnel: ArmyPersonnel;

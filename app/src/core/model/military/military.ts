@@ -63,6 +63,18 @@ export class MilitaryImpl {
     });
   }
 
+  public getAttackManeuversBy(f: (maneuver: ManeuverImpl) => boolean) {
+    return this.getManeuversBy((maneuver) => {
+      return maneuver.kind === "attack" && f(maneuver);
+    });
+  }
+
+  public getSupportManeuversBy(f: (maneuver: ManeuverImpl) => boolean) {
+    return this.getManeuversBy((maneuver) => {
+      return maneuver.kind === "support" && f(maneuver);
+    });
+  }
+
   public static fromRaw(raw: Military) {
     const continent = new Map<number, readonly ArmyImpl[]>();
     for (const [index, armies] of Object.entries(raw.continent)) {

@@ -1,7 +1,10 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { ref } from "vue";
+import { ref, shallowRef } from "vue";
+import type { Option } from "@tb-dev/utils";
+import { watchDebounced } from "@vueuse/core";
+import { useRouteQuery } from "@vueuse/router";
 import { CoordImpl } from "@/core/model/continent/coord";
 import { isValid, transform } from "@/composables/continent/useQueryCoord";
 import {
@@ -12,20 +15,33 @@ import {
 } from "@/router/game/war-room";
 
 export function useWarRoomCoords() {
-  const url = new URL(window.location.href);
-  const originX = transform(url.searchParams.get(QUERY_WAR_ROOM_ORIGIN_X));
-  const originY = transform(url.searchParams.get(QUERY_WAR_ROOM_ORIGIN_Y));
-  const destX = transform(url.searchParams.get(QUERY_WAR_ROOM_DEST_X));
-  const destY = transform(url.searchParams.get(QUERY_WAR_ROOM_DEST_Y));
+  const origin = shallowRef(getDefaultOrigin());
+  const destination = ref(CoordImpl.splat(0));
 
-  const origin = ref(getDefaultOrigin());
-  if (isValid(originX) && isValid(originY)) {
-    origin.value = CoordImpl.create({ x: originX, y: originY });
+  const originX = useRouteQuery(QUERY_WAR_ROOM_ORIGIN_X, null, { transform });
+  const originY = useRouteQuery(QUERY_WAR_ROOM_ORIGIN_Y, null, { transform });
+  const destX = useRouteQuery(QUERY_WAR_ROOM_DEST_X, null, { transform });
+  const destY = useRouteQuery(QUERY_WAR_ROOM_DEST_Y, null, { transform });
+
+  if (isValid(originX.value) && isValid(originY.value)) {
+    origin.value = CoordImpl.create({ x: originX.value, y: originY.value });
   }
 
-  const destination = ref(CoordImpl.splat(0));
-  if (isValid(destX) && isValid(destY)) {
-    destination.value = CoordImpl.create({ x: destX, y: destY });
+  if (isValid(destX.value) && isValid(destY.value)) {
+    destination.value = CoordImpl.create({ x: destX.value, y: destY.value });
+  }
+
+  watchDebounced([origin, destination], updateRouteQuery, {
+    debounce: 200,
+    maxWait: 500,
+    immediate: true,
+  });
+
+  function updateRouteQuery() {
+    originX.value = origin.value?.x ?? null;
+    originY.value = origin.value?.y ?? null;
+    destX.value = destination.value.x;
+    destY.value = destination.value.y;
   }
 
   return {
@@ -34,8 +50,6 @@ export function useWarRoomCoords() {
   };
 }
 
-function getDefaultOrigin() {
-  return NIL.city.getCoord() ??
-    NIL.player.getCoords().at(0) ??
-    CoordImpl.splat(0);
+function getDefaultOrigin(): Option<CoordImpl> {
+  return NIL.city.getCoord() ?? NIL.player.getCoords().at(0);
 }

@@ -4,6 +4,7 @@
 <script setup lang="ts">
 import { useI18n } from "vue-i18n";
 import type { Option } from "@tb-dev/utils";
+import ManeuverIcon from "./ManeuverIcon.vue";
 import Loading from "@/components/Loading.vue";
 import { throttle } from "es-toolkit/function";
 import { Button } from "@/components/ui/button";
@@ -67,7 +68,13 @@ function formatCoord(coord: CoordImpl) {
             <TableBody>
               <TableRow>
                 <TableHead>{{ t("kind") }}</TableHead>
-                <TableCell>{{ t(maneuver.kind) }}</TableCell>
+                <TableCell class="flex justify-start items-center gap-1">
+                  <span v-if="maneuver.kind === 'attack'">{{ t("attack-noun") }}</span>
+                  <span v-else-if="maneuver.kind === 'support'">{{ t("support-noun") }}</span>
+                  <span v-else>{{ t(maneuver.kind) }}</span>
+
+                  <ManeuverIcon :maneuver />
+                </TableCell>
               </TableRow>
 
               <TableRow>

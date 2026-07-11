@@ -86,6 +86,14 @@ impl City {
     self.owner().player().cloned()
   }
 
+  pub fn is_owned_by<R>(&self, ruler: R) -> bool
+  where
+    R: Into<Ruler>,
+  {
+    let ruler: Ruler = ruler.into();
+    self.owner == ruler
+  }
+
   /// Checks whether the city belongs to a player.
   #[inline]
   pub fn is_owned_by_player(&self) -> bool {

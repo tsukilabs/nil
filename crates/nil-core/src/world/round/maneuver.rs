@@ -18,6 +18,7 @@ use crate::world::World;
 use itertools::Itertools;
 use nil_util::vec::VecExt;
 use num_traits::ToPrimitive;
+use std::debug_assert_matches;
 use tap::Pipe;
 
 impl World {
@@ -34,6 +35,7 @@ impl World {
   }
 
   fn process_going_maneuver(&mut self, maneuver: Maneuver) -> Result<()> {
+    debug_assert_matches!(maneuver.direction(), ManeuverDirection::Going);
     match maneuver.kind() {
       ManeuverKind::Attack => self.process_going_attack_maneuver(maneuver),
       ManeuverKind::Support => self.process_going_support_maneuver(&maneuver),
@@ -41,10 +43,18 @@ impl World {
   }
 
   fn process_going_attack_maneuver(&mut self, mut maneuver: Maneuver) -> Result<()> {
+    debug_assert_matches!(maneuver.kind(), ManeuverKind::Attack);
+
     let army_id = maneuver.army();
     let origin = maneuver.origin();
     let destination = maneuver.destination();
     let rulers = ManeuverRulers::new(self, &maneuver)?;
+
+    // A player should not be able to attack themselves.
+    if rulers.sender == rulers.destination_ruler {
+      *maneuver.kind_mut() = ManeuverKind::Support;
+      return self.process_going_support_maneuver(&maneuver);
+    }
 
     let battle_result = perform_battle(self, &maneuver)?;
     *self
@@ -111,15 +121,20 @@ impl World {
   }
 
   fn process_going_support_maneuver(&mut self, maneuver: &Maneuver) -> Result<()> {
+    debug_assert_matches!(maneuver.kind(), ManeuverKind::Support);
+
     let army_id = maneuver.army();
-    let origin = maneuver.origin();
-    let destination = maneuver.destination();
+    let army = self.military.army_mut(army_id)?;
+    *army.state_mut() = ArmyState::Idle;
+
     let rulers = ManeuverRulers::new(self, maneuver)?;
 
     let mut players = Vec::new();
     players.try_push(rulers.sender.player().cloned());
     players.try_push(rulers.destination_ruler.player().cloned());
 
+    let origin = maneuver.origin();
+    let destination = maneuver.destination();
     let personnel = self.military.personnel(army_id).cloned()?;
 
     let report = SupportReport::builder()

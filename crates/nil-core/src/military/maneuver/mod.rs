@@ -151,6 +151,10 @@ impl Maneuver {
     self.kind
   }
 
+  pub(crate) fn kind_mut(&mut self) -> &mut ManeuverKind {
+    &mut self.kind
+  }
+
   #[inline]
   pub fn direction(&self) -> ManeuverDirection {
     self.direction
@@ -266,11 +270,12 @@ pub enum ManeuverKind {
 }
 
 #[derive(Copy, Debug, strum::Display, Deserialize, Serialize, EnumIs)]
-#[derive_const(Clone, PartialEq, Eq)]
+#[derive_const(Clone, Default, PartialEq, Eq)]
 #[serde(rename_all = "kebab-case")]
 #[strum(serialize_all = "kebab-case")]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub enum ManeuverDirection {
+  #[default]
   Going,
   Returning,
 }
@@ -330,6 +335,8 @@ impl From<ManeuverHaul> for Resources {
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct ManeuverRequest {
   pub kind: ManeuverKind,
+  #[builder(into)]
+  pub ruler: Ruler,
   #[builder(into)]
   pub origin: Coord,
   #[builder(into)]

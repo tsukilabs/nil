@@ -17,6 +17,7 @@ import { type as osType } from "@tauri-apps/plugin-os";
 import { createTrayIcon, showWindow } from "@/commands";
 import { onKeyDown, useBreakpoints } from "@tb-dev/vue";
 import { defineGlobalCheats, defineGlobalCommands } from "@/lib/global";
+import { getCurrentWebviewWindow } from "@tauri-apps/api/webviewWindow";
 import { type BasicColorSchema, useColorMode, watchImmediate } from "@vueuse/core";
 
 const i18n = useI18n();
@@ -33,6 +34,13 @@ watchImmediate(() => settings.appearance.colorMode, setColorMode);
 watchImmediate(() => settings.general.locale, setLocale);
 
 if (__DESKTOP__) {
+  watchImmediate(colorMode, (mode) => {
+    if (mode === "dark" || mode === "light") {
+      const webview = getCurrentWebviewWindow();
+      webview.setTheme(mode).err();
+    }
+  });
+
   onKeyDown("F5", NIL.throttledUpdate);
 
   if (__DEBUG_ASSERTIONS__ && osType() === "linux") {

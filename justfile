@@ -33,7 +33,7 @@ type-check:
   @pnpm run -r --bail type-check
 
 udeps:
-  @cargo udeps
+  @cargo udeps --workspace
 
 [private]
 rsx FILE *ARGS:
@@ -75,6 +75,10 @@ preview:
 [group("rsx")]
 server:
   @just rsx start-server
+
+[group("rsx")]
+sort-namegen:
+  @just rsx sort-namegen
 
 [group("rsx")]
 test *ARGS:

@@ -18,13 +18,13 @@ const { continentSize } = NIL.world.refs();
 
 <template>
   <div class="w-full flex items-center justify-center sm:justify-start">
-    <div class="w-max flex flex-col gap-2 border border-border rounded-md p-4">
+    <div class="w-full flex flex-col gap-2 border border-border rounded-md p-4">
       <div v-if="destinationCity" class="flex flex-col gap-1">
         <span class="text-sm text-muted-foreground">
           {{ `${destinationCity.name} (${destinationCity.owner.id})` }}
         </span>
       </div>
-      <div class="flex items-center gap-4">
+      <div class="grid grid-cols-2 items-center gap-4">
         <Label class="flex-row! items-center! gap-2!">
           <span class="w-max! text-xs md:text-sm text-muted-foreground">X</span>
           <NumberField
@@ -40,6 +40,7 @@ const { continentSize } = NIL.world.refs();
             </NumberFieldContent>
           </NumberField>
         </Label>
+
         <Label class="flex-row! items-center! gap-2!">
           <span class="w-max! text-xs md:text-sm text-muted-foreground">Y</span>
           <NumberField
@@ -51,7 +52,7 @@ const { continentSize } = NIL.world.refs();
             class="w-full"
           >
             <NumberFieldContent>
-              <NumberFieldInput class="dark:bg-input/40 max-sm:h-6 max-sm:max-w-28 max-sm:text-xs" />
+              <NumberFieldInput class="dark:bg-input/40 max-sm:h-6 max-sm:text-xs" />
             </NumberFieldContent>
           </NumberField>
         </Label>
