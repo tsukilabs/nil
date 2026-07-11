@@ -8,7 +8,7 @@ import type { Component, HTMLAttributes, VNode } from "vue";
 
 defineProps<{
   icon?: Component;
-  hasUnread: boolean;
+  showBadge: boolean;
   role?: HTMLAttributes["role"];
   tabindex?: HTMLAttributes["tabindex"];
   onClick?: () => MaybePromise<void>;
@@ -26,7 +26,7 @@ defineSlots<{
     </ButtonIcon>
 
     <div
-      v-if="hasUnread"
+      v-if="showBadge"
       class="absolute top-[4px] right-[4px] size-[10px] min-h-[10px] min-w-[10px] overflow-hidden rounded-full bg-red-500"
     >
     </div>
