@@ -5,6 +5,9 @@ edition = "2024"
 
 [dependencies]
 anyhow = "1.0"
+futures = "0.3"
+octocrab = "0.54"
+reqwest = "0.13"
 serde_json = "1.0"
 
 [dependencies.clap]
@@ -17,20 +20,15 @@ path = "../crates/nil-util"
 [dependencies.serde]
 version = "1.0"
 features = ["derive"]
-
-[dependencies.ureq]
-version = "3.3"
-features = ["json"]
 ---
 
-#![feature(try_blocks_heterogeneous)]
-
-use anyhow::{Context, Result, anyhow};
+use anyhow::{Context, Result};
 use clap::Parser;
-use nil_util::{output_fmt, spawn, spawn_fmt};
+use futures::executor::block_on;
+use nil_util::{spawn, spawn_fmt};
+use reqwest::Client;
 use serde::Deserialize;
-use serde_json::json;
-use std::fmt::Write;
+use serde_json::from_slice;
 use std::path::PathBuf;
 use std::{env, fs};
 
@@ -44,6 +42,10 @@ struct Args {
 }
 
 fn main() -> Result<()> {
+  block_on(execute())
+}
+
+async fn execute() -> Result<()> {
   spawn!("cargo build --profile release-server --package nil-server")?;
 
   let args = Args::parse();
@@ -56,7 +58,7 @@ fn main() -> Result<()> {
 
   if args.release && cfg!(target_os = "linux") {
     let package = fs::read("package.json")?;
-    let package = serde_json::from_slice::<Package>(&package)?;
+    let package = from_slice::<Package>(&package)?;
     let version = package.version;
 
     let asset_name = format!("Call.of.Nil_{version}_server");
@@ -64,37 +66,24 @@ fn main() -> Result<()> {
 
     fs::rename(path, &asset_path)?;
 
-    let tag_name = view_release(None)?.tag_name;
+    let octocrab = octocrab::instance();
+    let repository = octocrab.repos("tsukilabs", "nil");
+    let tag_name = repository
+      .releases()
+      .get_latest()
+      .await?
+      .tag_name;
+
     upload_asset(&tag_name, &asset_path)?;
 
     if let Ok(token) = env::var("TSUKILABS_TOKEN") {
-      ureq::get("https://tsukilabs.dev.br/release/nil")
+      let client = Client::new();
+      client
+        .get("https://tsukilabs.dev.br/release/nil")
         .header("Authorization", format!("Bearer {token}"))
-        .call()
+        .send()
+        .await
         .context("failed to update remote server")?;
-
-      let release = view_release(Some(&tag_name))?;
-
-      if let Ok(webhook_url) = env::var("NIL_DISCORD_WEBHOOK_URL_PRIVATE") {
-        let asset_url = release
-          .assets
-          .iter()
-          .find_map(|asset| (asset.name == asset_name).then(|| asset.url.clone()))
-          .expect("release asset not found");
-
-        #[rustfmt::skip]
-        let write_webhook_content = |message: &mut String| -> Result<()> {
-          writeln!(message, "Server updated to v{version}")?;
-          writeln!(message, "<https://github.com/tsukilabs/nil/releases/tag/{tag_name}>")?;
-          writeln!(message, "<{asset_url}>")?;
-          Ok(())
-        };
-
-        let mut message = String::new();
-        write_webhook_content(&mut message)?;
-
-        execute_webhook(&webhook_url, &message)?;
-      }
     }
   }
 
@@ -106,55 +95,7 @@ fn upload_asset(tag_name: &str, path: &str) -> Result<()> {
     .context("failed to upload asset")
 }
 
-fn view_release(tag_name: Option<&str>) -> Result<Release> {
-  let result = try bikeshed Result<Release> {
-    let fields = "assets,body,name,tagName,url";
-    let bytes = if let Some(tag_name) = tag_name {
-      output_fmt!("gh release view {tag_name} --json {fields} -R tsukilabs/nil")?
-    } else {
-      output_fmt!("gh release view --json {fields} -R tsukilabs/nil")?
-    };
-
-    serde_json::from_slice(&bytes)?
-  };
-
-  result.context("failed to fetch github release")
-}
-
-fn execute_webhook(url: &str, content: &str) -> Result<()> {
-  let result = try bikeshed Result<()> {
-    let mut response = ureq::post(url)
-      .config()
-      .http_status_as_error(false)
-      .build()
-      .send_json(json!({ "content": content }))?;
-
-    if !response.status().is_success() {
-      Err(anyhow!("{}", response.body_mut().read_to_string()?))?;
-    }
-  };
-
-  result.context("failed to execute webhook")
-}
-
 #[derive(Deserialize)]
 struct Package {
   version: String,
-}
-
-#[derive(Default, Deserialize)]
-#[serde(default, rename_all = "camelCase")]
-struct Release {
-  name: String,
-  tag_name: String,
-  body: String,
-  url: String,
-  assets: Vec<Asset>,
-}
-
-#[derive(Deserialize)]
-#[serde(rename_all = "camelCase")]
-struct Asset {
-  name: String,
-  url: String,
 }
