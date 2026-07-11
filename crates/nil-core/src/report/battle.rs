@@ -26,7 +26,7 @@ pub struct BattleReport {
   hauled_resources: Resources,
   round: RoundId,
   #[builder(skip = Zoned::now())]
-  time: Zoned,
+  created_at: Zoned,
 }
 
 impl BattleReport {

@@ -15,5 +15,5 @@ export type BattleReport = {
   result: BattleResult;
   hauledResources: Resources;
   round: RoundId;
-  time: string;
+  createdAt: string;
 };

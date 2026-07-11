@@ -70,7 +70,7 @@ export class SupportReportImpl extends ReportImpl implements Readonly<SupportRep
         destination: this.destination,
         personnel: this.personnel,
         round: this.round,
-        time: this.time,
+        createdAt: this.createdAt,
       },
     };
   }

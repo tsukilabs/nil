@@ -28,8 +28,8 @@ pub fn impl_report(ast: &DeriveInput) -> TokenStream {
           self.round
         }
 
-        fn time(&self) -> &Zoned {
-          &self.time
+        fn created_at(&self) -> &Zoned {
+          &self.created_at
         }
       }
 

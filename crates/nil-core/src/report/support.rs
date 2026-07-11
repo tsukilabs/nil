@@ -24,7 +24,7 @@ pub struct SupportReport {
   personnel: ArmyPersonnel,
   round: RoundId,
   #[builder(skip = Zoned::now())]
-  time: Zoned,
+  created_at: Zoned,
 }
 
 impl SupportReport {

@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { go } from "@/router";
+import type { Option } from "@tb-dev/utils";
 import type { Report_ } from "@/types/core/report";
 import { formatToday, fromZoned } from "@/lib/date";
 import type { ComposerTranslation } from "vue-i18n";
@@ -11,16 +12,14 @@ import type { PlayerId, ReportId, ReportKind, RoundId } from "@tsukilabs/nil-bin
 export abstract class ReportImpl implements Report_ {
   public readonly id: ReportId;
   public readonly round: RoundId;
-  public readonly time: string;
+  public readonly createdAt: string;
 
-  public readonly date: Date;
+  #createdAtDate: Option<Date> = null;
 
   protected constructor(report: Report_) {
     this.id = report.id;
     this.round = report.round;
-    this.time = report.time;
-
-    this.date = fromZoned(report.time);
+    this.createdAt = report.createdAt;
   }
 
   public abstract getPlayerIds(): readonly PlayerId[];
@@ -36,10 +35,15 @@ export abstract class ReportImpl implements Report_ {
   }
 
   public formatDate() {
-    return formatToday(this.date);
+    return formatToday(this.createdAtDate);
   }
 
   public async goToView() {
     await go("report-view", { params: { id: this.id } });
+  }
+
+  get createdAtDate() {
+    this.#createdAtDate ??= fromZoned(this.createdAt);
+    return this.#createdAtDate;
   }
 }
