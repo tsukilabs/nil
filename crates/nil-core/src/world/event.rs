@@ -113,26 +113,34 @@ impl World {
   }
 
   pub(super) fn emit_battle_report(&self, report: BattleReport) -> Result<()> {
-    if let Some(attacker) = report.attacker().player().cloned() {
-      self.emit_report(attacker, report.clone().into())?;
+    let mut players = HashSet::with_capacity(2);
+    if let Some(player) = report.attacker().player() {
+      players.insert(player.clone());
     }
 
-    if let Some(defender) = report.defender().player().cloned() {
-      debug_assert_ne!(report.attacker().player(), Some(&defender));
-      self.emit_report(defender, report.into())?;
+    if let Some(player) = report.defender().player() {
+      players.insert(player.clone());
+    }
+
+    for player in players {
+      self.emit_report(player, report.clone().into())?;
     }
 
     Ok(())
   }
 
   pub(super) fn emit_support_report(&self, report: SupportReport) -> Result<()> {
-    if let Some(sender) = report.sender().player().cloned() {
-      self.emit_report(sender, report.clone().into())?;
+    let mut players = HashSet::with_capacity(2);
+    if let Some(player) = report.sender().player() {
+      players.insert(player.clone());
     }
 
-    if let Some(receiver) = report.receiver().player().cloned() {
-      debug_assert_ne!(report.sender().player(), Some(&receiver));
-      self.emit_report(receiver, report.into())?;
+    if let Some(player) = report.receiver().player() {
+      players.insert(player.clone());
+    }
+
+    for player in players {
+      self.emit_report(player, report.clone().into())?;
     }
 
     Ok(())

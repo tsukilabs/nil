@@ -90,12 +90,12 @@ await NIL.military.update();
     <div class="w-full flex flex-col gap-8 pt-1">
       <Cities
         v-model="origin"
-        trigger-class="w-full lg:max-w-1/2"
+        trigger-class="w-full min-w-max lg:max-w-1/2"
       />
       <SquadGrid
         v-model="personnel"
         :available="availablePersonnel"
-        class="w-full lg:max-w-1/2"
+        class="w-full min-w-max lg:max-w-1/2"
       />
 
       <Destination v-model="destination" :destination-city />
@@ -130,6 +130,7 @@ await NIL.military.update();
     <Maneuvers
       v-if="maneuvers.length > 0"
       :maneuvers
+      class="lg:max-w-1/2"
       @cancel-maneuver="cancel"
     />
   </div>

@@ -151,6 +151,10 @@ impl Maneuver {
     self.kind
   }
 
+  pub(crate) fn kind_mut(&mut self) -> &mut ManeuverKind {
+    &mut self.kind
+  }
+
   #[inline]
   pub fn direction(&self) -> ManeuverDirection {
     self.direction
