@@ -112,7 +112,7 @@ impl World {
     self.emit_to(player, Event::Report { world, report: Box::new(report) })
   }
 
-  pub(super) fn emit_battle_report(&self, report: BattleReport) -> Result<()> {
+  pub(super) fn emit_battle_report(&self, report: &BattleReport) -> Result<()> {
     let mut players = SmallVec::<[_; 2]>::new();
     if let Some(player) = report.attacker().player() {
       players.push(player);
@@ -129,7 +129,7 @@ impl World {
     Ok(())
   }
 
-  pub(super) fn emit_support_report(&self, report: SupportReport) -> Result<()> {
+  pub(super) fn emit_support_report(&self, report: &SupportReport) -> Result<()> {
     let mut players = SmallVec::<[_; 2]>::new();
     if let Some(player) = report.sender().player() {
       players.push(player);
