@@ -6,7 +6,7 @@ edition = "2024"
 [dependencies]
 anyhow = "1.0"
 futures = "0.3"
-octocrab = "0.54"
+octocrab = "=0.54.0"
 reqwest = "0.13"
 serde_json = "1.0"
 
