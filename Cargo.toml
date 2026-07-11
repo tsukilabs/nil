@@ -21,7 +21,7 @@ members = [
 
 [workspace.package]
 description = "Multiplayer strategy game"
-version = "0.6.5"
+version = "0.6.6"
 edition = "2024"
 rust-version = "1.99"
 license = "AGPL-3.0-only"
@@ -41,8 +41,10 @@ strip = "symbols"
 
 [profile.release-server]
 inherits = "release"
+lto = "fat"
+opt-level = 3
 panic = "unwind"
-strip = "none"
+strip = "symbols"
 
 [profile.preview]
 inherits = "release"

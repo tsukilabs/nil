@@ -43,10 +43,6 @@ const canHost = computed(() => {
   );
 });
 
-const someHasPassword = computed(() => {
-  return remoteWorlds.value.some((world) => world.hasPassword);
-});
-
 if (__DESKTOP__) {
   onKeyDown("F5", throttle(load, 1000));
 }
@@ -100,7 +96,6 @@ function countCurrentPlayerWorlds() {
         <Table v-else-if="remoteWorlds.length > 0" class="w-full min-w-max">
           <TableHeader>
             <TableRow class="hover:bg-card">
-              <TableHead v-if="someHasPassword"></TableHead>
               <TableHead>{{ t("name") }}</TableHead>
               <TableHead>{{ t("round") }}</TableHead>
               <TableHead v-if="md">{{ t("active-players") }}</TableHead>
@@ -123,11 +118,9 @@ function countCurrentPlayerWorlds() {
               @keydown.enter.stop="() => goToJoinRemoteGameScene(world.config.id)"
               @keydown.space.stop="() => goToJoinRemoteGameScene(world.config.id)"
             >
-              <TableCell v-if="someHasPassword">
-                <LockIcon v-if="world.hasPassword" class="size-4" />
-              </TableCell>
-              <TableCell>
+              <TableCell class="flex justify-start items-center gap-2">
                 <span>{{ world.config.name }}</span>
+                <LockIcon v-if="world.hasPassword" class="size-3" />
               </TableCell>
               <TableCell>
                 <span>{{ world.currentRound }}</span>
