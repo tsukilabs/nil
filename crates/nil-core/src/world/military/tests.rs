@@ -1,31 +1,27 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use crate::continent::coord::Coord;
 use crate::error::{Error, Result};
 use crate::military::army::personnel::ArmyPersonnel;
 use crate::military::maneuver::{ManeuverKind, ManeuverRequest};
 use crate::military::unit::r#impl::heavy_cavalry::HeavyCavalry;
-use crate::player::{PlayerId, PlayerOptions};
-use crate::world::config::WorldConfig;
-use crate::world::{World, WorldOptions};
+use crate::player::PlayerId;
+use crate::tests::{CONFIG, get_first_coord, make_world, spawn_player};
 use std::assert_matches;
-use std::sync::LazyLock;
-
-static CONFIG: LazyLock<WorldConfig> = LazyLock::new(|| WorldConfig::builder("World").build());
 
 #[test]
+#[cfg_attr(miri, ignore)]
 fn has_enough_personnel_to_maneuver() -> Result<()> {
   let mut world = make_world()?;
 
   let player_a = PlayerId::from("Player A");
-  spawn(&mut world, &player_a)?;
+  spawn_player(&mut world, player_a.as_str())?;
 
   let player_b = PlayerId::from("Player B");
-  spawn(&mut world, &player_b)?;
+  spawn_player(&mut world, player_b.as_str())?;
 
-  let coord_a = get_coord(&world, &player_a);
-  let coord_b = get_coord(&world, &player_b);
+  let coord_a = get_first_coord(&world, &player_a);
+  let coord_b = get_first_coord(&world, &player_b);
 
   let request = ManeuverRequest::builder()
     .kind(ManeuverKind::Attack)
@@ -50,17 +46,18 @@ fn has_enough_personnel_to_maneuver() -> Result<()> {
 }
 
 #[test]
+#[cfg_attr(miri, ignore)]
 fn slowest_maneuver_squad() -> Result<()> {
   let mut world = make_world()?;
 
   let player_a = PlayerId::from("Player A");
-  spawn(&mut world, &player_a)?;
+  spawn_player(&mut world, player_a.as_str())?;
 
   let player_b = PlayerId::from("Player B");
-  spawn(&mut world, &player_b)?;
+  spawn_player(&mut world, player_b.as_str())?;
 
-  let coord_a = get_coord(&world, &player_a);
-  let coord_b = get_coord(&world, &player_b);
+  let coord_a = get_first_coord(&world, &player_a);
+  let coord_b = get_first_coord(&world, &player_b);
 
   let spawned = ArmyPersonnel::splat(1000);
   let sent = ArmyPersonnel::builder()
@@ -90,25 +87,4 @@ fn slowest_maneuver_squad() -> Result<()> {
   assert_ne!(slowest, spawned.slowest_squad(&CONFIG).unwrap());
 
   Ok(())
-}
-
-fn make_world() -> Result<World> {
-  WorldOptions::builder("World")
-    .build()
-    .to_world()
-}
-
-fn spawn(world: &mut World, id: &PlayerId) -> Result<()> {
-  PlayerOptions::builder(id.clone())
-    .build()
-    .into_player()
-    .spawn(world)
-}
-
-fn get_coord(world: &World, id: &PlayerId) -> Coord {
-  world
-    .continent
-    .coords_of(id.clone())
-    .next()
-    .unwrap()
 }

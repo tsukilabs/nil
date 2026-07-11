@@ -24,7 +24,7 @@ export function useReports() {
       }));
 
       return impl.toSorted((a, b) => {
-        return compareDateDesc(a.date, b.date);
+        return compareDateDesc(a.createdAtDate, b.createdAtDate);
       });
     }
     else {

@@ -6,5 +6,5 @@ import type { ReportId, RoundId } from "@tsukilabs/nil-bindings";
 export interface Report_ {
   readonly id: ReportId;
   readonly round: RoundId;
-  readonly time: string;
+  readonly createdAt: string;
 }

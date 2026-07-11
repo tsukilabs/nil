@@ -15,7 +15,7 @@ use uuid::Uuid;
 pub trait Report {
   fn id(&self) -> ReportId;
   fn round(&self) -> RoundId;
-  fn time(&self) -> &Zoned;
+  fn created_at(&self) -> &Zoned;
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]

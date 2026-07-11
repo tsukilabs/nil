@@ -12,7 +12,7 @@ impl World {
     let stats = Arc::clone(&self.stats.infrastructure);
     let table = stats.building(req.building)?;
 
-    let player_id = self.city(req.coord)?.player();
+    let player_id = self.city(req.coord)?.player().cloned();
     let curr_res = if let Some(id) = &player_id {
       Some(self.player(id)?.resources().clone())
     } else {
@@ -45,10 +45,12 @@ impl World {
 
   pub fn cancel_prefecture_build_order(&mut self, coord: Coord) -> Result<()> {
     let city = self.city_mut(coord)?;
-    if let Some(order) = city
+    let order = city
       .infrastructure_mut()
-      .cancel_prefecture_build_order()
-      && let Some(id) = city.player()
+      .cancel_prefecture_build_order();
+
+    if let Some(order) = order
+      && let Some(id) = city.player().cloned()
     {
       let kind = order.kind();
       if kind.is_construction() {

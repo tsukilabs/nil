@@ -55,7 +55,7 @@ macro_rules! decl_world_recruit_order_fn {
           &mut self,
           req: &[<$building RecruitOrderRequest>]
         ) -> Result<()> {
-          let player_id = self.city(req.coord)?.player();
+          let player_id = self.city(req.coord)?.player().cloned();
           let curr_res = if let Some(id) = &player_id {
             Some(self.player(id)?.resources().clone())
           } else {
@@ -88,8 +88,12 @@ macro_rules! decl_world_recruit_order_fn {
           id: [<$building RecruitOrderId>]
         ) -> Result<()> {
           let city = self.city_mut(coord)?;
-          if let Some(order) = city.infrastructure_mut().[<cancel_ $building:snake _recruit_order>](id)
-            && let Some(id) = city.player()
+          let order = city
+            .infrastructure_mut()
+            .[<cancel_ $building:snake _recruit_order>](id);
+
+          if let Some(order) = order
+            && let Some(id) = city.player().cloned()
           {
             let player = self.player_mut(&id)?;
             let resources = player.resources_mut();

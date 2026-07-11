@@ -78,7 +78,7 @@ export class BattleReportImpl extends ReportImpl implements Readonly<BattleRepor
         result: this.result,
         hauledResources: this.hauledResources,
         round: this.round,
-        time: this.time,
+        createdAt: this.createdAt,
       },
     };
   }

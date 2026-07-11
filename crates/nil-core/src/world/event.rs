@@ -11,7 +11,8 @@ use crate::report::ReportKind;
 use crate::report::battle::BattleReport;
 use crate::report::support::SupportReport;
 use crate::world::World;
-use std::collections::HashSet;
+use nil_util::vec::VecExt as _;
+use smallvec::SmallVec;
 
 impl World {
   #[inline]
@@ -33,7 +34,7 @@ impl World {
   fn emit_to_city_owner(&self, coord: Coord, event: Event) -> Result<()> {
     let city = self.city(coord)?;
     if let Some(player) = city.player() {
-      self.emitter.emit_to(player, event)?;
+      self.emitter.emit_to(player.clone(), event)?;
     }
 
     Ok(())
@@ -67,28 +68,27 @@ impl World {
   /// Emits [`Event::Military`] to all players participating in the specified maneuver.
   pub(super) fn emit_military_to_maneuver_players(&self, id: ManeuverId) -> Result<()> {
     let maneuver = self.military.maneuver(id)?;
-    let mut players = HashSet::with_capacity(3);
+    let mut players = SmallVec::<[_; 3]>::new();
 
     if let Some(player) = self
       .military
       .army(maneuver.army())?
       .owner()
       .player()
-      .cloned()
     {
-      players.insert(player);
+      players.push(player);
     }
 
     if let Some(player) = self.city(maneuver.origin())?.player() {
-      players.insert(player);
+      players.push_unique(player);
     }
 
     if let Some(player) = self.city(maneuver.destination())?.player() {
-      players.insert(player);
+      players.push_unique(player);
     }
 
     for player in players {
-      self.emit_military(player)?;
+      self.emit_military(player.clone())?;
     }
 
     Ok(())
@@ -112,35 +112,35 @@ impl World {
     self.emit_to(player, Event::Report { world, report: Box::new(report) })
   }
 
-  pub(super) fn emit_battle_report(&self, report: BattleReport) -> Result<()> {
-    let mut players = HashSet::with_capacity(2);
+  pub(super) fn emit_battle_report(&self, report: &BattleReport) -> Result<()> {
+    let mut players = SmallVec::<[_; 2]>::new();
     if let Some(player) = report.attacker().player() {
-      players.insert(player.clone());
+      players.push(player);
     }
 
     if let Some(player) = report.defender().player() {
-      players.insert(player.clone());
+      players.push_unique(player);
     }
 
     for player in players {
-      self.emit_report(player, report.clone().into())?;
+      self.emit_report(player.clone(), report.clone().into())?;
     }
 
     Ok(())
   }
 
-  pub(super) fn emit_support_report(&self, report: SupportReport) -> Result<()> {
-    let mut players = HashSet::with_capacity(2);
+  pub(super) fn emit_support_report(&self, report: &SupportReport) -> Result<()> {
+    let mut players = SmallVec::<[_; 2]>::new();
     if let Some(player) = report.sender().player() {
-      players.insert(player.clone());
+      players.push(player);
     }
 
     if let Some(player) = report.receiver().player() {
-      players.insert(player.clone());
+      players.push_unique(player);
     }
 
     for player in players {
-      self.emit_report(player, report.clone().into())?;
+      self.emit_report(player.clone(), report.clone().into())?;
     }
 
     Ok(())

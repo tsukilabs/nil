@@ -5,22 +5,13 @@ use crate::battle::luck::Luck;
 use crate::battle::{Battle, BattleWinner, DefensivePower, OffensivePower};
 use crate::error::Result;
 use crate::infrastructure::building::level::BuildingLevel;
-use crate::infrastructure::stats::InfrastructureStats;
 use crate::military::army::personnel::ArmyPersonnel;
 use crate::military::squad::Squad;
 use crate::military::squad::size::SquadSize;
 use crate::military::unit::UnitId;
 use crate::military::unit::UnitId::*;
-use crate::world::config::WorldConfig;
+use crate::tests::INFRASTRUCTURE_STATS;
 use std::assert_matches;
-use std::sync::LazyLock;
-use tap::Pipe;
-
-static STATS: LazyLock<InfrastructureStats> = LazyLock::new(|| {
-  WorldConfig::builder("World")
-    .build()
-    .pipe_borrow(InfrastructureStats::new)
-});
 
 #[test]
 fn offensive_power() {
@@ -28,7 +19,7 @@ fn offensive_power() {
   let battle = Battle::builder()
     .attacker(&attacker)
     .luck(Luck::new(0))
-    .infrastructure_stats(&STATS)
+    .infrastructure_stats(&INFRASTRUCTURE_STATS)
     .build();
 
   let power = offensive(&battle);
@@ -41,7 +32,7 @@ fn offensive_power_max_luck() {
   let battle = Battle::builder()
     .attacker(&attacker)
     .luck(Luck::MAX)
-    .infrastructure_stats(&STATS)
+    .infrastructure_stats(&INFRASTRUCTURE_STATS)
     .build();
 
   let power = offensive(&battle);
@@ -54,7 +45,7 @@ fn offensive_power_min_luck() {
   let battle = Battle::builder()
     .attacker(&attacker)
     .luck(Luck::MIN)
-    .infrastructure_stats(&STATS)
+    .infrastructure_stats(&INFRASTRUCTURE_STATS)
     .build();
 
   let power = offensive(&battle);
@@ -67,7 +58,7 @@ fn offensive_power_cavalry() {
   let battle = Battle::builder()
     .attacker(&attacker)
     .luck(Luck::new(0))
-    .infrastructure_stats(&STATS)
+    .infrastructure_stats(&INFRASTRUCTURE_STATS)
     .build();
 
   let power = offensive(&battle);
@@ -80,7 +71,7 @@ fn offensive_power_mixed() {
   let battle = Battle::builder()
     .attacker(&attacker)
     .luck(Luck::new(0))
-    .infrastructure_stats(&STATS)
+    .infrastructure_stats(&INFRASTRUCTURE_STATS)
     .build();
 
   let power = offensive(&battle);
@@ -95,7 +86,7 @@ fn defensive_power() -> Result<()> {
     .attacker(&attacker)
     .defender(&defender)
     .luck(Luck::new(0))
-    .infrastructure_stats(&STATS)
+    .infrastructure_stats(&INFRASTRUCTURE_STATS)
     .build();
 
   let power = defensive(&battle)?;
@@ -108,14 +99,16 @@ fn defensive_power() -> Result<()> {
 fn defensive_power_with_wall() -> Result<()> {
   let attacker = [s(Axeman, 100), s(Swordsman, 50)];
   let defender = [s(Pikeman, 100), s(Swordsman, 50)];
-  let wall = STATS.wall().get(BuildingLevel::new(20))?;
+  let wall = INFRASTRUCTURE_STATS
+    .wall()
+    .get(BuildingLevel::new(20))?;
 
   let battle = Battle::builder()
     .attacker(&attacker)
     .defender(&defender)
     .luck(Luck::new(0))
     .wall(wall)
-    .infrastructure_stats(&STATS)
+    .infrastructure_stats(&INFRASTRUCTURE_STATS)
     .build();
 
   let power = defensive(&battle)?;
@@ -130,14 +123,16 @@ fn defensive_power_with_wall() -> Result<()> {
 fn battle_result() -> Result<()> {
   let attacker = [s(Axeman, 100), s(Swordsman, 50)];
   let defender = [s(Pikeman, 100), s(Swordsman, 50)];
-  let wall = STATS.wall().get(BuildingLevel::new(20))?;
+  let wall = INFRASTRUCTURE_STATS
+    .wall()
+    .get(BuildingLevel::new(20))?;
 
   let battle = Battle::builder()
     .attacker(&attacker)
     .defender(&defender)
     .luck(Luck::new(0))
     .wall(wall)
-    .infrastructure_stats(&STATS)
+    .infrastructure_stats(&INFRASTRUCTURE_STATS)
     .build();
 
   let attacker: ArmyPersonnel = attacker.iter().cloned().collect();
@@ -165,7 +160,7 @@ fn ranged_attack_no_debuff() {
     .attacker(&attacker)
     .defender(&defender)
     .luck(Luck::new(0))
-    .infrastructure_stats(&STATS)
+    .infrastructure_stats(&INFRASTRUCTURE_STATS)
     .build();
 
   let attack_power = offensive(&battle);
@@ -178,7 +173,7 @@ fn no_defenders() -> Result<()> {
   let result = Battle::builder()
     .attacker(&attacker)
     .luck(Luck::new(0))
-    .infrastructure_stats(&STATS)
+    .infrastructure_stats(&INFRASTRUCTURE_STATS)
     .build()
     .result()?;
 
@@ -196,14 +191,16 @@ fn no_defenders() -> Result<()> {
 fn downgrade_wall() -> Result<()> {
   let attacker = [s(Axeman, 2000), s(Ram, 500)];
   let defender = [s(Pikeman, 100), s(Swordsman, 100)];
-  let wall = STATS.wall().get(BuildingLevel::new(20))?;
+  let wall = INFRASTRUCTURE_STATS
+    .wall()
+    .get(BuildingLevel::new(20))?;
 
   let battle = Battle::builder()
     .attacker(&attacker)
     .defender(&defender)
     .luck(Luck::new(0))
     .wall(wall)
-    .infrastructure_stats(&STATS)
+    .infrastructure_stats(&INFRASTRUCTURE_STATS)
     .build();
 
   let result = battle.result()?;
@@ -223,5 +220,10 @@ fn offensive(battle: &Battle<'_>) -> OffensivePower {
 }
 
 fn defensive(battle: &Battle<'_>) -> Result<DefensivePower> {
-  DefensivePower::new(battle.defender, &offensive(battle), battle.wall, &STATS)
+  DefensivePower::new(
+    battle.defender,
+    &offensive(battle),
+    battle.wall,
+    &INFRASTRUCTURE_STATS,
+  )
 }

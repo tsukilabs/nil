@@ -82,8 +82,8 @@ impl City {
   }
 
   #[inline]
-  pub fn player(&self) -> Option<PlayerId> {
-    self.owner().player().cloned()
+  pub fn player(&self) -> Option<&PlayerId> {
+    self.owner().player()
   }
 
   pub fn is_owned_by<R>(&self, ruler: R) -> bool

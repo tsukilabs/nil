@@ -3,7 +3,8 @@
 
 import { go } from "@/router";
 import type { Scene } from "@/types/scene";
-import { isNil, type Option, panic } from "@tb-dev/utils";
+import { isNil } from "es-toolkit/predicate";
+import { type Option, panic } from "@tb-dev/utils";
 import type { ContinentIndex, Coord } from "@tsukilabs/nil-bindings";
 import type { ContinentKey, CoordTuple } from "@/types/core/continent";
 import {

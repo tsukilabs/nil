@@ -13,5 +13,5 @@ export type SupportReport = {
   destination: Coord;
   personnel: ArmyPersonnel;
   round: RoundId;
-  time: string;
+  createdAt: string;
 };

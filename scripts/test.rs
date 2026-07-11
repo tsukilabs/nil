@@ -28,8 +28,7 @@ struct Args {
 fn main() -> Result<()> {
   let args = Args::parse();
   let mut command = if args.miri {
-    spawn!("rustup component add --toolchain nightly miri")?;
-    String::from("cargo miri test")
+    String::from("cargo miri test --exclude nil-server")
   } else {
     String::from("cargo test")
   };

@@ -4,6 +4,9 @@
 mod behavior;
 mod maneuver;
 
+#[cfg(test)]
+mod tests;
+
 use crate::error::Result;
 use crate::player::{Player, PlayerId};
 use crate::resources::prelude::*;

@@ -7,8 +7,7 @@ use crate::military::Military;
 use crate::military::army::personnel::ArmyPersonnel;
 use crate::military::army::{Army, ArmyState, collapse_armies};
 use crate::military::maneuver::ManeuverId;
-use crate::npc::bot::{Bot, BotId};
-use crate::ruler::Ruler;
+use crate::tests::make_ruler_bot;
 use tap::Pipe;
 
 #[test]
@@ -18,7 +17,7 @@ fn spawn() {
   assert_eq!(military.count_armies(), 0);
 
   let coord = Coord::splat(0);
-  let ruler = make_ruler("Bot 1");
+  let ruler = make_ruler_bot("Bot 1");
   let personnel = ArmyPersonnel::splat(10);
   military.spawn(coord, ruler, personnel);
 
@@ -27,7 +26,7 @@ fn spawn() {
 
 #[test]
 fn collapse() {
-  let ruler = make_ruler("Bot 1");
+  let ruler = make_ruler_bot("Bot 1");
   let mut armies = Vec::with_capacity(15);
 
   for _ in 0..10 {
@@ -46,13 +45,13 @@ fn collapse() {
     .pipe(|army| armies.push(army));
 
   Army::builder()
-    .owner(make_ruler("Bot 2"))
+    .owner(make_ruler_bot("Bot 2"))
     .personnel(ArmyPersonnel::splat(10))
     .build()
     .pipe(|army| armies.push(army));
 
   Army::builder()
-    .owner(make_ruler("Bot 3"))
+    .owner(make_ruler_bot("Bot 3"))
     .personnel(ArmyPersonnel::splat(10))
     .build()
     .pipe(|army| armies.push(army));
@@ -67,7 +66,7 @@ fn intersection() {
   let size = ContinentSize::new(50);
   let mut military = Military::new(size);
 
-  let ruler = make_ruler("Bot 1");
+  let ruler = make_ruler_bot("Bot 1");
   let mut coords = Vec::with_capacity(10);
 
   let mut spawn = |coord: Coord| {
@@ -89,8 +88,4 @@ fn intersection() {
   let coords = coords.iter().take(3).copied();
   let military = military.intersection(coords).unwrap();
   assert_eq!(military.count_armies(), 3);
-}
-
-fn make_ruler(id: &str) -> Ruler {
-  Ruler::from(&Bot::new(BotId::from(id)))
 }
