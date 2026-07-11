@@ -43,6 +43,7 @@ remain.workspace = true
 semver.workspace = true
 serde.workspace = true
 serde_json.workspace = true
+smallvec.workspace = true
 strum.workspace = true
 subenum.workspace = true
 tap.workspace = true

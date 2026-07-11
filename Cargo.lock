@@ -3582,6 +3582,7 @@ dependencies = [
  "semver",
  "serde",
  "serde_json",
+ "smallvec",
  "strum",
  "subenum",
  "tap",
@@ -3769,6 +3770,7 @@ version = "0.6.5"
 dependencies = [
  "anyhow",
  "nil-util-macros",
+ "smallvec",
 ]
 
 [[package]]
