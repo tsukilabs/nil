@@ -40,7 +40,7 @@ const hasIncomingAttack = computed(() => {
   <footer class="flex items-center justify-between gap-4 overflow-hidden">
     <Resources v-if="sm" />
     <div class="flex size-full min-w-max items-center justify-end gap-2 sm:gap-4">
-      <RouterLink :to="{ name: 'war-room' satisfies GameScene }" class="relative">
+      <RouterLink :to="{ name: 'war-room' satisfies GameScene }">
         <ButtonBadge :icon="SwordsIcon" :show-badge="hasIncomingAttack" />
       </RouterLink>
 
