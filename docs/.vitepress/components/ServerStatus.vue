@@ -28,7 +28,7 @@ const { lg } = useBreakpoints();
 
     <tbody>
       <tr v-for="world of server.worlds" :key="world.config.id">
-        <td :class="$style['name-cell']">
+        <td>
           <span>{{ world.config.name }}</span>
           <LockIcon v-if="world.hasPassword" :class="$style.icon" />
         </td>
@@ -58,15 +58,10 @@ const { lg } = useBreakpoints();
   text-align: right !important;
 }
 
-.name-cell {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 0.5rem;
-}
-
 .icon {
+  display: inline-block;
   width: 0.75rem;
   height: 0.75rem;
+  margin-left: 0.5rem;
 }
 </style>
