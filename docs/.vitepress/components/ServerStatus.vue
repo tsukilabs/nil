@@ -2,6 +2,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
+import { LockIcon } from "@lucide/vue";
 import { useBreakpoints } from "@tb-dev/vue";
 import type { Server } from "../composables/useServer";
 
@@ -27,7 +28,10 @@ const { lg } = useBreakpoints();
 
     <tbody>
       <tr v-for="world of server.worlds" :key="world.config.id">
-        <td>{{ world.config.name }}</td>
+        <td :class="$style['name-cell']">
+          <span>{{ world.config.name }}</span>
+          <LockIcon v-if="world.hasPassword" :class="$style.icon" />
+        </td>
         <td>{{ world.currentRound }}</td>
         <td>{{ world.totalPlayers }}</td>
         <td :class="lg ? null : $style.hidden">{{ world.continentSize }}</td>
@@ -52,5 +56,17 @@ const { lg } = useBreakpoints();
 
 .version {
   text-align: right !important;
+}
+
+.name-cell {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.icon {
+  width: 0.75rem;
+  height: 0.75rem;
 }
 </style>

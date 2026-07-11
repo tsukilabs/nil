@@ -27,6 +27,7 @@ use clap::Parser;
 use futures::executor::block_on;
 use nil_util::{spawn, spawn_fmt};
 use reqwest::Client;
+use reqwest::header::AUTHORIZATION;
 use serde::Deserialize;
 use serde_json::from_slice;
 use std::path::PathBuf;
@@ -80,7 +81,7 @@ async fn execute() -> Result<()> {
       let client = Client::new();
       client
         .get("https://tsukilabs.dev.br/release/nil")
-        .header("Authorization", format!("Bearer {token}"))
+        .header(AUTHORIZATION, format!("Bearer {token}"))
         .send()
         .await
         .context("failed to update remote server")?;

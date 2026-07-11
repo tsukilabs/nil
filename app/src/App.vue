@@ -2,6 +2,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
+import { router } from "@/router";
 import { useI18n } from "vue-i18n";
 import { Sonner } from "@ui/sonner";
 import * as commands from "@/commands";
@@ -15,7 +16,7 @@ import type { Locale } from "@tsukilabs/nil-bindings";
 import { setDragDropEventListener } from "@/lib/event";
 import { type as osType } from "@tauri-apps/plugin-os";
 import { createTrayIcon, showWindow } from "@/commands";
-import { onKeyDown, useBreakpoints } from "@tb-dev/vue";
+import { onAltKeyDown, onKeyDown, useBreakpoints } from "@tb-dev/vue";
 import { defineGlobalCheats, defineGlobalCommands } from "@/lib/global";
 import { getCurrentWebviewWindow } from "@tauri-apps/api/webviewWindow";
 import { type BasicColorSchema, useColorMode, watchImmediate } from "@vueuse/core";
@@ -42,6 +43,9 @@ if (__DESKTOP__) {
   });
 
   onKeyDown("F5", NIL.throttledUpdate);
+
+  onAltKeyDown("ArrowLeft", () => router.back());
+  onAltKeyDown("ArrowRight", () => router.forward());
 
   if (__DEBUG_ASSERTIONS__ && osType() === "linux") {
     onKeyDown("F12", commands.openDevtools);
