@@ -87,9 +87,17 @@ await NIL.military.update();
 
 <template>
   <div class="w-full flex flex-col gap-4 px-4 xl:flex-row xl:gap-8">
-    <div class="w-full flex flex-col gap-8">
-      <Cities v-model="origin" />
-      <SquadGrid v-model="personnel" :available="availablePersonnel" />
+    <div class="w-full flex flex-col gap-8 pt-1">
+      <Cities
+        v-model="origin"
+        trigger-class="w-full lg:max-w-1/2"
+      />
+      <SquadGrid
+        v-model="personnel"
+        :available="availablePersonnel"
+        class="w-full lg:max-w-1/2"
+      />
+
       <Destination v-model="destination" :destination-city />
 
       <div class="max-sm:w-full sm:max-w-max grid grid-cols-3 items-center justify-center sm:justify-start gap-4">
