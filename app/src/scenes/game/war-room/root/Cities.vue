@@ -11,10 +11,6 @@ import type { CoordImpl } from "@/core/model/continent/coord";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@ui/select";
 import { useIdleArmiesPublicCities } from "@/composables/military/useIdleArmiesPublicCities";
 
-defineProps<{
-  triggerClass: string;
-}>();
-
 const coord = defineModel<Option<CoordImpl>>({ required: true });
 
 const {
@@ -48,22 +44,24 @@ if (__DESKTOP__) {
 </script>
 
 <template>
-  <Select
-    :key
-    v-model="coordId"
-    :disabled="loading || cities.length === 0"
-  >
-    <SelectTrigger :class="triggerClass">
-      <SelectValue />
-    </SelectTrigger>
-    <SelectContent>
-      <SelectItem
-        v-for="city of cities"
-        :key="city.coord.id"
-        :value="city.coord.id"
-      >
-        <span>{{ city.formatNameWithCoord() }}</span>
-      </SelectItem>
-    </SelectContent>
-  </Select>
+  <div>
+    <Select
+      :key
+      v-model="coordId"
+      :disabled="loading || cities.length === 0"
+    >
+      <SelectTrigger class="w-full">
+        <SelectValue />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectItem
+          v-for="city of cities"
+          :key="city.coord.id"
+          :value="city.coord.id"
+        >
+          <span>{{ city.formatNameWithCoord() }}</span>
+        </SelectItem>
+      </SelectContent>
+    </Select>
+  </div>
 </template>
