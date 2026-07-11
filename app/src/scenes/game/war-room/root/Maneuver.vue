@@ -3,20 +3,21 @@
 
 <script setup lang="ts">
 import { XIcon } from "@lucide/vue";
-import ManeuverIcon from "./ManeuverIcon.vue";
 import { TableCell, TableRow } from "@ui/table";
 import type { MaybePromise } from "@tb-dev/utils";
 import type { Coord } from "@tsukilabs/nil-bindings";
 import { asyncComputed, useBreakpoints } from "@tb-dev/vue";
+import type { CoordImpl } from "@/core/model/continent/coord";
 import type { ManeuverImpl } from "@/core/model/military/maneuver";
+import ManeuverIcon from "@/scenes/game/war-room/root/ManeuverIcon.vue";
 
 const props = defineProps<{
   maneuver: ManeuverImpl;
+  warRoomOrigin: CoordImpl;
   onCancelManeuver: () => MaybePromise<void>;
 }>();
 
 const { id: player } = NIL.player.refs();
-const { coord: currentCoord } = NIL.city.refs();
 
 const armyOwner = asyncComputed(null, () => props.maneuver.getArmyOwner());
 const cities = asyncComputed(null, () => props.maneuver.getCities());
@@ -34,7 +35,7 @@ const distanceIntl = new Intl.NumberFormat(undefined, {
 });
 
 function getCoordCellClass(coord: Coord) {
-  return currentCoord.value?.is(coord) ? "font-bold" : null;
+  return props.warRoomOrigin.is(coord) ? "font-bold" : null;
 }
 
 function formatDistance(distance: number) {
@@ -60,7 +61,7 @@ function isArmyOwnedByCurrentPlayer() {
     @keydown.space.stop="() => maneuver.goToManeuverScene()"
   >
     <TableCell class="w-[1%] pl-0 pr-2">
-      <ManeuverIcon v-if="currentCoord" :coord="currentCoord" :maneuver />
+      <ManeuverIcon :maneuver :war-room-origin />
     </TableCell>
 
     <TableCell

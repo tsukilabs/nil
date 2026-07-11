@@ -341,6 +341,11 @@ impl Military {
       .filter(move |maneuver| maneuver.matches_coord(coord))
   }
 
+  #[inline]
+  pub fn has_maneuver(&self, id: ManeuverId) -> bool {
+    self.maneuvers.contains_key(&id)
+  }
+
   pub(crate) fn insert_maneuver(&mut self, maneuver: Maneuver) {
     self
       .maneuvers

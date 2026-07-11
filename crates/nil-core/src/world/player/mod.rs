@@ -43,6 +43,20 @@ impl World {
     let coords = self.continent.coords_of(player);
     let mut military = self.military.intersection(coords)?;
 
+    // Ensures that maneuvers whose origin or destination
+    // is not among the player's coords are also included.
+    for maneuver in self.military.maneuvers() {
+      if !military.has_maneuver(maneuver.id())
+        && self
+          .military
+          .army(maneuver.army())?
+          .owner()
+          .eq(&ruler)
+      {
+        military.insert_maneuver(maneuver.clone());
+      }
+    }
+
     military.retain_maneuvers(|maneuver| {
       // Should not include foreign armies returning home.
       if let ManeuverDirection::Returning = maneuver.direction() {

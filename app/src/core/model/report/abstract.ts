@@ -12,12 +12,14 @@ export abstract class ReportImpl implements Report_ {
   public readonly id: ReportId;
   public readonly round: RoundId;
   public readonly time: string;
+
   public readonly date: Date;
 
   protected constructor(report: Report_) {
     this.id = report.id;
     this.round = report.round;
     this.time = report.time;
+
     this.date = fromZoned(report.time);
   }
 

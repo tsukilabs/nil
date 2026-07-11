@@ -122,8 +122,9 @@ await NIL.military.update();
     </div>
 
     <Maneuvers
-      v-if="maneuvers.length > 0"
+      v-if="origin && maneuvers.length > 0"
       :maneuvers
+      :war-room-origin="origin"
       class="lg:max-w-1/2"
       @cancel-maneuver="cancel"
     />

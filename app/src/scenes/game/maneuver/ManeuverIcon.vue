@@ -14,18 +14,18 @@ const { player } = NIL.player.refs();
 
 <!-- eslint-disable vue/no-root-v-if -->
 <template>
-  <template v-if="maneuver.direction === 'going'">
-    <span v-if="player?.owns(maneuver.origin)">
+  <div>
+    <span v-if="maneuver.direction === 'going' && player?.owns(maneuver.origin)">
       <ChevronRightIcon v-if="maneuver.kind === 'attack'" class="size-4 text-green-500" />
       <ChevronRightIcon v-if="maneuver.kind === 'support'" class="size-4 text-blue-500" />
     </span>
-    <span v-else-if="player?.owns(maneuver.destination)">
+    <span v-else-if="maneuver.direction === 'going' && player?.owns(maneuver.destination)">
       <ChevronLeftIcon v-if="maneuver.kind === 'attack'" class="size-4 text-red-500" />
       <ChevronLeftIcon v-else-if="maneuver.kind === 'support'" class="size-4 text-blue-500" />
     </span>
-  </template>
-  <span v-else-if="maneuver.direction === 'returning'">
-    <ChevronDownIcon v-if="maneuver.kind === 'attack'" class="size-4" />
-    <ChevronDownIcon v-else-if="maneuver.kind === 'support'" class="size-4" />
-  </span>
+    <span v-else-if="maneuver.direction === 'returning'">
+      <ChevronDownIcon v-if="maneuver.kind === 'attack'" class="size-4" />
+      <ChevronDownIcon v-else-if="maneuver.kind === 'support'" class="size-4" />
+    </span>
+  </div>
 </template>
