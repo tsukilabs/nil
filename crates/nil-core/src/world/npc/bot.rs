@@ -30,6 +30,26 @@ impl World {
     self.bot_manager.bots()
   }
 
+  pub(crate) fn spawn_bot(
+    &mut self,
+    id: impl Into<BotId>,
+    infrastructure: Infrastructure,
+  ) -> Result<BotId> {
+    let id: BotId = id.into();
+    self.bot_manager.manage(id.clone())?;
+
+    let (coord, field) = self.find_spawn_point()?;
+
+    *field = City::builder(coord)
+      .name(id.as_ref())
+      .owner(id.clone())
+      .infrastructure(infrastructure)
+      .build()
+      .into();
+
+    Ok(id)
+  }
+
   pub(crate) fn spawn_bots(&mut self) -> Result<()> {
     let size = self.continent.size();
     let density = self.config().bot_density();
@@ -63,25 +83,5 @@ impl World {
     }
 
     Ok(())
-  }
-
-  pub(crate) fn spawn_bot(
-    &mut self,
-    id: impl Into<BotId>,
-    infrastructure: Infrastructure,
-  ) -> Result<BotId> {
-    let id: BotId = id.into();
-    self.bot_manager.manage(id.clone())?;
-
-    let (coord, field) = self.find_spawn_point()?;
-
-    *field = City::builder(coord)
-      .name(id.as_ref())
-      .owner(id.clone())
-      .infrastructure(infrastructure)
-      .build()
-      .into();
-
-    Ok(id)
   }
 }

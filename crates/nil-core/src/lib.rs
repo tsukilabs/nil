@@ -39,3 +39,6 @@ pub mod round;
 pub mod ruler;
 pub mod savedata;
 pub mod world;
+
+#[cfg(test)]
+mod tests;

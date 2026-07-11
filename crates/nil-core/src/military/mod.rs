@@ -272,6 +272,23 @@ impl Military {
     self.army(id).map(Army::personnel)
   }
 
+  pub fn personnel_at<K>(&self, key: K) -> impl Iterator<Item = &ArmyPersonnel>
+  where
+    K: ContinentKey,
+  {
+    self
+      .armies_at(key)
+      .iter()
+      .map(Army::personnel)
+  }
+
+  pub fn fold_personnel_at<K>(&self, key: K) -> ArmyPersonnel
+  where
+    K: ContinentKey,
+  {
+    self.personnel_at(key).sum()
+  }
+
   pub fn personnel_of<R>(&self, owner: R) -> impl Iterator<Item = &ArmyPersonnel>
   where
     R: Into<Ruler>,

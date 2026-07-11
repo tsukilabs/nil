@@ -78,6 +78,7 @@ mod tests {
   use anyhow::Result;
 
   #[test]
+  #[cfg_attr(miri, ignore)]
   fn verify_password() -> Result<()> {
     let password = Password::new("foo123");
     let hash = password.hash().unwrap();
