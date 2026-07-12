@@ -17,7 +17,9 @@ use serde::ser::Serializer;
 use std::result::Result as StdResult;
 use strum::EnumIs;
 
+#[doc(hidden)]
 pub type Result<T, E = Error> = StdResult<T, E>;
+#[doc(hidden)]
 pub type AnyResult<T> = anyhow::Result<T>;
 
 #[derive(Clone, Debug, EnumIs, thiserror::Error)]
@@ -67,7 +69,7 @@ pub enum Error {
   #[error("Failed to write savedata file")]
   FailedToWriteSavedata,
 
-  #[error("Field {0} is not empty")]
+  #[error("{0} is not empty")]
   FieldNotEmpty(Coord),
 
   #[error("Not authorized to execute this action")]

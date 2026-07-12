@@ -5,9 +5,11 @@ use nil_core::player::PlayerId;
 use serde::Serialize;
 use serde::ser::Serializer;
 
-pub use std::result::Result as StdResult;
+pub(crate) use std::result::Result as StdResult;
 
+#[doc(hidden)]
 pub type Result<T, E = Error> = StdResult<T, E>;
+#[doc(hidden)]
 pub type AnyResult<T> = anyhow::Result<T>;
 
 #[derive(Debug, thiserror::Error)]
