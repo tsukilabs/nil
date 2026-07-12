@@ -11,7 +11,7 @@ import type {
 
 export async function cheatGetBuildSteps(
   coord: ContinentKey,
-  limit = 1_000,
+  limit = Number.MAX_SAFE_INTEGER,
 ) {
   coord = CoordImpl.fromContinentKey(coord);
   const req: CheatGetBuildStepsRequest = {
