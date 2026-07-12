@@ -25,7 +25,6 @@ workspace = true
 [dependencies]
 anyhow = { workspace = true, optional = true }
 nil-util-macros = { workspace = true, optional = true }
-smallvec = { workspace = true, optional = true }
 
 [features]
 default = ["iter", "macros", "ops", "process", "string", "vec"]
@@ -35,4 +34,4 @@ macros = ["dep:nil-util-macros"]
 ops = []
 process = ["dep:anyhow"]
 string = []
-vec = ["dep:smallvec"]
+vec = []

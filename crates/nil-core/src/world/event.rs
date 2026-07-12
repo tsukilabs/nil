@@ -11,8 +11,7 @@ use crate::report::ReportKind;
 use crate::report::battle::BattleReport;
 use crate::report::support::SupportReport;
 use crate::world::World;
-use nil_util::vec::VecExt as _;
-use smallvec::SmallVec;
+use std::collections::HashSet;
 
 impl World {
   #[inline]
@@ -68,7 +67,7 @@ impl World {
   /// Emits [`Event::Military`] to all players participating in the specified maneuver.
   pub(super) fn emit_military_to_maneuver_players(&self, id: ManeuverId) -> Result<()> {
     let maneuver = self.military.maneuver(id)?;
-    let mut players = SmallVec::<[_; 3]>::new();
+    let mut players = HashSet::with_capacity(3);
 
     if let Some(player) = self
       .military
@@ -76,15 +75,15 @@ impl World {
       .owner()
       .player()
     {
-      players.push(player);
+      players.insert(player);
     }
 
     if let Some(player) = self.city(maneuver.origin())?.player() {
-      players.push_unique(player);
+      players.insert(player);
     }
 
     if let Some(player) = self.city(maneuver.destination())?.player() {
-      players.push_unique(player);
+      players.insert(player);
     }
 
     for player in players {
@@ -113,13 +112,13 @@ impl World {
   }
 
   pub(super) fn emit_battle_report(&self, report: &BattleReport) -> Result<()> {
-    let mut players = SmallVec::<[_; 2]>::new();
+    let mut players = HashSet::with_capacity(2);
     if let Some(player) = report.attacker().player() {
-      players.push(player);
+      players.insert(player);
     }
 
     if let Some(player) = report.defender().player() {
-      players.push_unique(player);
+      players.insert(player);
     }
 
     for player in players {
@@ -130,13 +129,13 @@ impl World {
   }
 
   pub(super) fn emit_support_report(&self, report: &SupportReport) -> Result<()> {
-    let mut players = SmallVec::<[_; 2]>::new();
+    let mut players = HashSet::with_capacity(2);
     if let Some(player) = report.sender().player() {
-      players.push(player);
+      players.insert(player);
     }
 
     if let Some(player) = report.receiver().player() {
-      players.push_unique(player);
+      players.insert(player);
     }
 
     for player in players {
