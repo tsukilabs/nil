@@ -4,19 +4,19 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { go } from "@/router";
-import Footer from "./Footer.vue";
-import Header from "./Header.vue";
-import Sidebar from "./Sidebar.vue";
 import * as commands from "@/commands";
 import { DESKTOP } from "@/lib/global";
 import { leaveGame } from "@/core/game";
 import { useToggle } from "@vueuse/core";
 import { handleError } from "@/lib/error";
 import type { Option } from "@tb-dev/utils";
-import Finder from "@/components/Finder.vue";
+import Finder from "@/scenes/game/Finder.vue";
+import Footer from "@/scenes/game/Footer.vue";
+import Header from "@/scenes/game/Header.vue";
 import { SidebarProvider } from "@ui/sidebar";
 import Loading from "@/components/Loading.vue";
 import { saveLocalGame } from "@/core/savedata";
+import Sidebar from "@/scenes/game/Sidebar.vue";
 import { ListenerSet } from "@/lib/listener-set";
 import type { RoundId } from "@tsukilabs/nil-bindings";
 import { RemoteWorldImpl } from "@/core/model/remote-world";
