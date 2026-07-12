@@ -7,8 +7,8 @@ edition = "2024"
 anyhow = "1.0"
 futures = "0.3"
 octocrab = "=0.54.0"
-reqwest = "0.13"
 serde_json = "1.0"
+ureq = "3.3"
 
 [dependencies.clap]
 version = "4.6"
@@ -26,8 +26,6 @@ use anyhow::{Context, Result};
 use clap::Parser;
 use futures::executor::block_on;
 use nil_util::{spawn, spawn_fmt};
-use reqwest::Client;
-use reqwest::header::AUTHORIZATION;
 use serde::Deserialize;
 use serde_json::from_slice;
 use std::path::PathBuf;
@@ -78,12 +76,9 @@ async fn execute() -> Result<()> {
     upload_asset(&tag_name, &asset_path)?;
 
     if let Ok(token) = env::var("TSUKILABS_TOKEN") {
-      let client = Client::new();
-      client
-        .get("https://tsukilabs.dev.br/release/nil")
-        .header(AUTHORIZATION, format!("Bearer {token}"))
-        .send()
-        .await
+      ureq::get("https://tsukilabs.dev.br/release/nil")
+        .header("Authorization", format!("Bearer {token}"))
+        .call()
         .context("failed to update remote server")?;
     }
   }
