@@ -59,6 +59,16 @@ impl Ruler {
   }
 }
 
+impl AsRef<str> for Ruler {
+  fn as_ref(&self) -> &str {
+    match self {
+      Self::Bot { id } => id.as_str(),
+      Self::Player { id } => id.as_str(),
+      Self::Precursor { id } => id.as_ref(),
+    }
+  }
+}
+
 impl fmt::Display for Ruler {
   fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
     match self {

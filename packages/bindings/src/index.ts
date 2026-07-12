@@ -115,6 +115,7 @@ export type { CheatSetWoodRequest } from './CheatSetWoodRequest';
 export type { CheatSkipRoundRequest } from './CheatSkipRoundRequest';
 export type { CheatSpawnBotRequest } from './CheatSpawnBotRequest';
 export type { CheatSpawnBotResponse } from './CheatSpawnBotResponse';
+export type { CheatSpawnCityRequest } from './CheatSpawnCityRequest';
 export type { CheatSpawnPersonnelRequest } from './CheatSpawnPersonnelRequest';
 export type { City } from './City';
 export type { CityName } from './CityName';

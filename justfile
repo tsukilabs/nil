@@ -44,6 +44,10 @@ build-client *ARGS:
   @just rsx build-client {{ ARGS }}
 
 [group("rsx")]
+build-server *ARGS:
+  @just rsx build-server {{ ARGS }}
+
+[group("rsx")]
 bump *ARGS:
   @just rsx bump {{ ARGS }}
 

@@ -5,7 +5,11 @@ import { clamp } from "es-toolkit/math";
 import { invoke } from "@tauri-apps/api/core";
 import { CoordImpl } from "@/core/model/continent/coord";
 import type { ContinentKey } from "@/types/core/continent";
-import type { CheatSetStabilityRequest } from "@tsukilabs/nil-bindings";
+import type {
+  CheatSetStabilityRequest,
+  CheatSpawnCityRequest,
+  Ruler,
+} from "@tsukilabs/nil-bindings";
 
 export async function cheatSetStability(coord: ContinentKey, stability: number) {
   coord = CoordImpl.fromContinentKey(coord);
@@ -18,4 +22,15 @@ export async function cheatSetStability(coord: ContinentKey, stability: number) 
   };
 
   await invoke("cheat_set_stability", { req });
+}
+
+export async function cheatSpawnCity(ruler: Ruler, coord: ContinentKey) {
+  coord = CoordImpl.fromContinentKey(coord);
+  const req: CheatSpawnCityRequest = {
+    world: NIL.world.getIdStrict(),
+    ruler,
+    coord,
+  };
+
+  await invoke("cheat_spawn_city", { req });
 }

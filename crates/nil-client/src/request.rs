@@ -159,6 +159,7 @@ dispatch_unit!(
   cheat_set_stability,
   cheat_set_stone,
   cheat_set_wood,
+  cheat_spawn_city,
   cheat_spawn_personnel,
   delete_remote_world,
   create_user,

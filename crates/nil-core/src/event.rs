@@ -96,11 +96,11 @@ pub enum Event {
 
   /// Indicates that there has been a change in public data for the city.
   ///
-  /// As a rule, whenever the situation requires this event to be emitted,
-  /// [`Event::City`] should also be emitted, but the opposite is not true!
-  ///
   /// Unlike [`Event::City`], which is emitted only to the city owner,
   /// this event is sent to all players in the world.
+  ///
+  /// As a rule, whenever the situation requires this event to be emitted,
+  /// [`Event::City`] should also be emitted, but the opposite is not true!
   PublicCity { world: WorldId, coord: Coord },
 
   /// A report was generated.

@@ -17,4 +17,15 @@ impl Client {
       .send()
       .await
   }
+
+  pub async fn cheat_spawn_city(&self, req: CheatSpawnCityRequest) -> Result<()> {
+    http::post("cheat-spawn-city")
+      .body(req)
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_ref())
+      .circuit_breaker(self.circuit_breaker())
+      .user_agent(&self.user_agent)
+      .send()
+      .await
+  }
 }

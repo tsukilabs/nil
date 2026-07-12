@@ -82,6 +82,7 @@ pub(crate) fn create() -> Router<App> {
     .route("/cheat-set-wood", post(cheat::resources::set_wood))
     .route("/cheat-skip-round", post(cheat::round::skip))
     .route("/cheat-spawn-bot", post(cheat::npc::spawn_bot))
+    .route("/cheat-spawn-city", post(cheat::city::spawn_city))
     .route("/cheat-spawn-personnel", post(cheat::military::spawn_personnel))
     .route("/create-remote-world", post(world::remote::create))
     .route("/delete-remote-world", post(world::remote::delete))

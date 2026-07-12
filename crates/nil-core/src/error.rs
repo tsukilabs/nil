@@ -67,6 +67,9 @@ pub enum Error {
   #[error("Failed to write savedata file")]
   FailedToWriteSavedata,
 
+  #[error("Field {0} is not empty")]
+  FieldNotEmpty(Coord),
+
   #[error("Not authorized to execute this action")]
   Forbidden,
 
@@ -96,9 +99,6 @@ pub enum Error {
 
   #[error("No stats found for mine \"{0}\" at level {1}")]
   MineStatsNotFoundForLevel(MineId, BuildingLevel),
-
-  #[error("No players in the world")]
-  NoPlayer,
 
   #[error("Player \"{0}\" has already taken their turn")]
   NotWaitingPlayer(PlayerId),

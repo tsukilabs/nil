@@ -42,7 +42,6 @@ impl World {
     name.clone_into(city.name_mut());
 
     self.emit_public_city(coord)?;
-    self.emit_city(coord)?;
 
     Ok(())
   }
