@@ -3,18 +3,16 @@
 
 <script setup lang="ts">
 import { go } from "@/router";
-import Round from "./Round.vue";
 import { Button } from "@ui/button";
-import Resources from "./Resources.vue";
 import { useToggle } from "@vueuse/core";
 import { Separator } from "@ui/separator";
+import Round from "@/scenes/game/Round.vue";
 import { useBreakpoints } from "@tb-dev/vue";
 import { SidebarTrigger } from "@ui/sidebar";
 import { ChevronDownIcon } from "@lucide/vue";
-import type { AcceptableValue } from "reka-ui";
-import { computed, useTemplateRef } from "vue";
+import Resources from "@/scenes/game/Resources.vue";
+import HeaderCities from "@/scenes/game/HeaderCities.vue";
 import ButtonIcon from "@/components/button/ButtonIcon.vue";
-import { Select, SelectContent, SelectItem } from "@ui/select";
 
 defineProps<{
   isHost: boolean;
@@ -31,21 +29,6 @@ const { cities: playerCities } = NIL.player.refs();
 const { sm } = useBreakpoints();
 
 const [isCitySelectOpen, toggleCitySelect] = useToggle(false);
-const currentCityContainer = useTemplateRef("currentCityContainer");
-const currentCityContainerEl = computed(() => {
-  return currentCityContainer.value ?? undefined;
-});
-
-function setCurrentCoord(value: AcceptableValue) {
-  const city = playerCities.value.find((it) => {
-    return it.coord.id === value;
-  });
-
-  const currentCoord = currentCity.value?.coord;
-  if (city && (!currentCoord || !city.coord.is(currentCoord))) {
-    NIL.city.setCoord(city.coord).err();
-  }
-}
 </script>
 
 <template>
@@ -54,7 +37,7 @@ function setCurrentCoord(value: AcceptableValue) {
       <div class="max-w-3/5 flex items-center shrink-0 gap-2">
         <SidebarTrigger class="-ml-1" />
         <Separator orientation="vertical" class="data-[orientation=vertical]:h-4" />
-        <div ref="currentCityContainer" class="flex items-center gap-0.5">
+        <div class="flex items-center gap-0.5">
           <Button
             v-if="currentCity"
             variant="ghost"
@@ -73,27 +56,6 @@ function setCurrentCoord(value: AcceptableValue) {
             size="icon-sm"
             @click="() => void toggleCitySelect()"
           />
-
-          <Select
-            v-if="currentCity && playerCities.length > 0"
-            v-model:open="isCitySelectOpen"
-            :model-value="currentCity.coord.id"
-            @update:model-value="(id) => setCurrentCoord(id)"
-          >
-            <SelectContent
-              disable-outside-pointer-events
-              :reference="currentCityContainerEl"
-              class="max-h-[80vh]"
-            >
-              <SelectItem
-                v-for="city of playerCities"
-                :key="city.coord.id"
-                :value="city.coord.id"
-              >
-                <span>{{ city.formatNameWithCoord() }}</span>
-              </SelectItem>
-            </SelectContent>
-          </Select>
         </div>
       </div>
 
@@ -112,5 +74,12 @@ function setCurrentCoord(value: AcceptableValue) {
     <div class="w-full flex items-center justify-center">
       <Resources v-if="!sm" />
     </div>
+
+    <HeaderCities
+      v-if="currentCity && playerCities.length > 0"
+      v-model:open="isCitySelectOpen"
+      :current-city
+      :player-cities
+    />
   </header>
 </template>
