@@ -109,7 +109,7 @@ fn edit_release_notes(tag_name: &str, notes: &str) -> Result<()> {
     "This is an early preview. The game is still under development and not yet ready to play.\n\n{notes}"
   );
 
-  spawn_fmt!("gh release edit {tag_name} --notes {notes} --verify-tag -R tsukilabs/nil")
+  spawn_fmt!(r#"gh release edit {tag_name} --notes "{notes}" --verify-tag -R tsukilabs/nil"#)
     .context("failed to edit release notes")
 }
 

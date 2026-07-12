@@ -9,4 +9,4 @@ CREATE TABLE game (
   updated_at TEXT NOT NULL CHECK (length(updated_at) > 0),
   world_blob BLOB NOT NULL,
   FOREIGN KEY (created_by) REFERENCES user (id) ON DELETE CASCADE ON UPDATE CASCADE
-)
+) STRICT;
