@@ -85,12 +85,12 @@ jobs:
         with:
           tagName: v__VERSION__
           releaseName: "Call of Nil v__VERSION__"
-          releaseBody: "This is an early preview. The game is still under development and not yet ready to play."
+          releaseBody: ""
           releaseDraft: false
           prerelease: false
           uploadUpdaterJson: true
           updaterJsonPreferNsis: true
-          generateReleaseNotes: true
+          generateReleaseNotes: false
           args: ${{ matrix.args }}
 
   release-server:

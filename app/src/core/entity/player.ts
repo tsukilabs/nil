@@ -2,16 +2,19 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { Entity } from "./abstract";
-import { ref, type Ref } from "vue";
-import { asyncRef } from "@tb-dev/vue";
+import { compare } from "@/lib/intl";
+import { CityImpl } from "@/core/model/city/city";
 import type { PlayerPayload } from "@/types/event";
 import { type Option, panic } from "@tb-dev/utils";
+import { ref, type Ref, type ShallowRef } from "vue";
+import { asyncComputed, asyncRef } from "@tb-dev/vue";
 import { PlayerImpl } from "@/core/model/player/player";
 import type { PlayerId } from "@tsukilabs/nil-bindings";
 
 export class PlayerEntity extends Entity {
   private readonly id = ref<Option<PlayerId>>();
-  private readonly player: Ref<Option<PlayerImpl>>;
+  private readonly player: ShallowRef<Option<PlayerImpl>>;
+  private readonly cities: Readonly<ShallowRef<readonly CityImpl[]>>;
 
   public readonly updatePlayer: () => Promise<void>;
 
@@ -21,6 +24,8 @@ export class PlayerEntity extends Entity {
     const player = usePlayer(this.id);
     this.player = player.state;
     this.updatePlayer = player.load;
+
+    this.cities = useCities(this.player);
 
     this.initListeners();
   }
@@ -47,6 +52,7 @@ export class PlayerEntity extends Entity {
     const instance = this.use();
     return {
       id: instance.id as Readonly<typeof instance.id>,
+      cities: instance.cities,
       player: instance.player as Readonly<typeof instance.player>,
     } as const;
   }
@@ -81,9 +87,14 @@ export class PlayerEntity extends Entity {
     return this.getPlayer()?.coords ?? [];
   }
 
+  public static getCities() {
+    return this.use().cities.value;
+  }
+
   public static init() {
     if (!Object.hasOwn(globalThis.NIL, "player")) {
       const player: (typeof globalThis.NIL)["player"] = {
+        getCities: PlayerEntity.getCities.bind(PlayerEntity),
         getCoords: PlayerEntity.getCoords.bind(PlayerEntity),
         getId: PlayerEntity.getId.bind(PlayerEntity),
         getIdStrict: PlayerEntity.getIdStrict.bind(PlayerEntity),
@@ -108,5 +119,14 @@ export class PlayerEntity extends Entity {
 function usePlayer(id: Ref<Option<PlayerId>>) {
   return asyncRef(null, async () => {
     return id.value ? PlayerImpl.load(id.value) : null;
+  });
+}
+
+function useCities(player: ShallowRef<Option<PlayerImpl>>) {
+  return asyncComputed([], async () => {
+    const coords = player.value?.coords ?? [];
+    const cities = await CityImpl.bulkLoad(coords);
+    cities.sort((a, b) => compare(a.name, b.name));
+    return cities;
   });
 }

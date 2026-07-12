@@ -79,11 +79,14 @@ async fn main() -> Result<()> {
 
     upload_asset(&tag_name, &asset_path)?;
 
-    repository
+    let notes = repository
       .releases()
       .generate_release_notes(&tag_name)
       .send()
-      .await?;
+      .await?
+      .body;
+
+    edit_release_notes(&tag_name, &notes)?;
 
     if let Ok(token) = env::var("TSUKILABS_TOKEN") {
       ureq::get("https://tsukilabs.dev.br/release/nil")
@@ -99,6 +102,15 @@ async fn main() -> Result<()> {
 fn upload_asset(tag_name: &str, path: &str) -> Result<()> {
   spawn_fmt!("gh release upload --clobber {tag_name} {path} -R tsukilabs/nil")
     .context("failed to upload asset")
+}
+
+fn edit_release_notes(tag_name: &str, notes: &str) -> Result<()> {
+  let notes = format!(
+    "This is an early preview. The game is still under development and not yet ready to play.\n\n{notes}"
+  );
+
+  spawn_fmt!("gh release edit {tag_name} --notes {notes} --verify-tag -R tsukilabs/nil")
+    .context("failed to edit release notes")
 }
 
 #[derive(Deserialize)]

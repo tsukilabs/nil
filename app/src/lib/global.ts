@@ -5,8 +5,11 @@ import * as commands from "@/commands";
 import * as cheats from "@/commands/cheat";
 import { camelCase } from "es-toolkit/string";
 
+export const CONSTS = globalThis.__CONSTS__;
+export const DEBUG_ASSERTIONS = globalThis.__DEBUG_ASSERTIONS__;
 export const DESKTOP = globalThis.__DESKTOP__;
 export const MOBILE = globalThis.__MOBILE__;
+export const VERSION = globalThis.__VERSION__;
 
 export function defineGlobalCommands() {
   if (__DEBUG_ASSERTIONS__ && !Object.hasOwn(globalThis.NIL, "cmd")) {

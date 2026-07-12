@@ -7,6 +7,7 @@ import { Label } from "@ui/label";
 import { useI18n } from "vue-i18n";
 import { Slider } from "@ui/slider";
 import { Switch } from "@ui/switch";
+import { CONSTS } from "@/lib/global";
 import enUS from "@/locale/en-US/scenes/host-game.json";
 import ptBR from "@/locale/pt-BR/scenes/host-game.json";
 import type { RoundDuration } from "@tsukilabs/nil-bindings";
@@ -18,12 +19,10 @@ defineProps<{
 const duration = defineModel<RoundDuration>("duration", { required: true });
 const enabled = defineModel<boolean>("enabled", { required: true });
 
-const consts = __CONSTS__;
-
 const sliderValue = computed({
   get: () => [duration.value],
   set: (value) => {
-    duration.value = value.at(0) ?? consts.roundDurationDefault;
+    duration.value = value.at(0) ?? CONSTS.roundDurationDefault;
   },
 });
 
@@ -44,8 +43,8 @@ const { t } = useI18n({
         id="slider-round-duration"
         v-model:model-value="sliderValue"
         :disabled="disabled || !enabled"
-        :min="consts.roundDurationMin"
-        :max="consts.roundDurationMax"
+        :min="CONSTS.roundDurationMin"
+        :max="CONSTS.roundDurationMax"
         :step="1"
       />
       <span>{{ duration }}</span>

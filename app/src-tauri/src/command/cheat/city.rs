@@ -13,3 +13,11 @@ pub async fn cheat_set_stability(app: AppHandle, req: CheatSetStabilityRequest) 
     .await
     .map_err(Into::into)
 }
+
+#[tauri::command]
+pub async fn cheat_spawn_city(app: AppHandle, req: CheatSpawnCityRequest) -> Result<()> {
+  app
+    .client(async |cl| cl.cheat_spawn_city(req).await)
+    .await
+    .map_err(Into::into)
+}

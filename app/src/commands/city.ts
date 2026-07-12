@@ -8,6 +8,7 @@ import type { ContinentKey } from "@/types/core/continent";
 import type {
   City,
   CitySearch,
+  GetCitiesRequest,
   GetCityRequest,
   GetCityResponse,
   GetCityScoreRequest,
@@ -20,11 +21,27 @@ import type {
   SearchPublicCityRequest,
 } from "@tsukilabs/nil-bindings";
 
-export async function getCity(coord: ContinentKey) {
-  coord = CoordImpl.fromContinentKey(coord);
+export async function getCities(options: {
+  coords: ContinentKey[];
+  score?: Option<boolean>;
+}) {
+  const req: GetCitiesRequest = {
+    world: NIL.world.getIdStrict(),
+    coords: options.coords.map((coord) => CoordImpl.fromContinentKey(coord)),
+    score: options.score ?? false,
+  };
+
+  return invoke<readonly GetCityResponse[]>("get_cities", { req });
+}
+
+export async function getCity(options: {
+  coord: ContinentKey;
+  score?: Option<boolean>;
+}) {
   const req: GetCityRequest = {
     world: NIL.world.getIdStrict(),
-    coord,
+    coord: CoordImpl.fromContinentKey(options.coord),
+    score: options.score ?? false,
   };
 
   return invoke<GetCityResponse>("get_city", { req });

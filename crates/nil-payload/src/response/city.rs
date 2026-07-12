@@ -19,7 +19,33 @@ use ts_rs::TS;
 #[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
-pub struct GetCityResponse(pub City);
+pub struct GetCitiesResponse(pub Vec<GetCityResponse>);
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
+pub struct GetCityResponse {
+  pub city: City,
+  pub score: Option<Score>,
+}
+
+#[bon::bon]
+impl GetCityResponse {
+  #[builder]
+  pub fn new(
+    #[builder(start_fn)] world: &World,
+    #[builder(start_fn)] coord: Coord,
+    #[builder(default)] score: bool,
+  ) -> Result<Self, CoreError> {
+    let city = world.city(coord)?;
+    let score = score
+      .then(|| city.score(&world.stats().infrastructure()))
+      .transpose()?;
+
+    Ok(Self { city: city.clone(), score })
+  }
+}
 
 #[derive(Clone, Copy, Debug, Deref, DerefMut, Display, From, Into, Deserialize, Serialize)]
 #[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
@@ -51,12 +77,14 @@ impl GetPublicCityResponse {
     #[builder(start_fn)] coord: Coord,
     #[builder(default)] score: bool,
   ) -> Result<Self, CoreError> {
-    let city = world.city(coord)?;
-    let score = score
-      .then(|| city.score(&world.stats().infrastructure()))
-      .transpose()?;
+    let response = GetCityResponse::builder(world, coord)
+      .score(score)
+      .build()?;
 
-    Ok(Self { city: PublicCity::from(city), score })
+    Ok(Self {
+      city: PublicCity::from(&response.city),
+      score: response.score,
+    })
   }
 }
 

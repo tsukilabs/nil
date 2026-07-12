@@ -87,6 +87,7 @@ declare global {
 
     /** Current player. */
     readonly player: {
+      readonly getCities: (typeof PlayerEntity)["getCities"];
       readonly getCoords: (typeof PlayerEntity)["getCoords"];
       readonly getId: (typeof PlayerEntity)["getId"];
       readonly getIdStrict: (typeof PlayerEntity)["getIdStrict"];

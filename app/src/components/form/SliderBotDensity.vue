@@ -6,6 +6,7 @@ import { computed } from "vue";
 import { Label } from "@ui/label";
 import { useI18n } from "vue-i18n";
 import { Slider } from "@ui/slider";
+import { CONSTS } from "@/lib/global";
 import { formatPercent } from "@/lib/intl";
 import enUS from "@/locale/en-US/scenes/host-game.json";
 import ptBR from "@/locale/pt-BR/scenes/host-game.json";
@@ -17,12 +18,10 @@ defineProps<{
 
 const worldOptions = defineModel<Partial<WorldOptions>>({ required: true });
 
-const consts = __CONSTS__;
-
 const sliderValue = computed({
-  get: () => [worldOptions.value.botDensity ?? consts.botDensityDefault],
+  get: () => [worldOptions.value.botDensity ?? CONSTS.botDensityDefault],
   set: (value) => {
-    worldOptions.value.botDensity = value.at(0) ?? consts.botDensityDefault;
+    worldOptions.value.botDensity = value.at(0) ?? CONSTS.botDensityDefault;
   },
 });
 
@@ -41,8 +40,8 @@ const { t } = useI18n({
       <Slider
         v-model:model-value="sliderValue"
         :disabled
-        :min="consts.botDensityMin"
-        :max="consts.botDensityMax"
+        :min="CONSTS.botDensityMin"
+        :max="CONSTS.botDensityMax"
         :step="0.01"
       />
       <span>{{ formatPercent(sliderValue[0]) }}</span>

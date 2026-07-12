@@ -1,3 +1,5 @@
+export { SelectIcon, SelectPortal, SelectArrow, SelectViewport } from "reka-ui";
+
 export { default as Select } from "./Select.vue";
 export { default as SelectContent } from "./SelectContent.vue";
 export { default as SelectGroup } from "./SelectGroup.vue";

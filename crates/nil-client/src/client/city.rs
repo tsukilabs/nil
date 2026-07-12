@@ -8,6 +8,18 @@ use nil_payload::request::city::*;
 use nil_payload::response::city::*;
 
 impl Client {
+  pub async fn get_cities(&self, req: GetCitiesRequest) -> Result<GetCitiesResponse> {
+    http::json_put("get-cities")
+      .body(req)
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_ref())
+      .circuit_breaker(self.circuit_breaker())
+      .retry(&self.retry)
+      .user_agent(&self.user_agent)
+      .send()
+      .await
+  }
+
   pub async fn get_city(&self, req: GetCityRequest) -> Result<GetCityResponse> {
     http::json_put("get-city")
       .body(req)

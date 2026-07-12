@@ -16,7 +16,9 @@ use tokio::task::JoinError;
 pub use diesel::result::Error as DieselError;
 pub use nil_core::error::Error as CoreError;
 
+#[doc(hidden)]
 pub type Result<T, E = Error> = StdResult<T, E>;
+#[doc(hidden)]
 pub type AnyResult<T> = anyhow::Result<T>;
 
 #[derive(Debug, thiserror::Error)]

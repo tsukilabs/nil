@@ -4,6 +4,7 @@
 use bon::Builder;
 use nil_core::city::stability::Stability;
 use nil_core::continent::coord::Coord;
+use nil_core::ruler::Ruler;
 use nil_core::world::config::WorldId;
 use serde::{Deserialize, Serialize};
 
@@ -21,4 +22,18 @@ pub struct CheatSetStabilityRequest {
   pub coord: Coord,
   #[builder(into)]
   pub stability: Stability,
+}
+
+#[derive(Builder, Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
+pub struct CheatSpawnCityRequest {
+  #[builder(start_fn, into)]
+  pub world: WorldId,
+  #[serde(default)]
+  #[builder(into)]
+  pub ruler: Option<Ruler>,
+  #[builder(into)]
+  pub coord: Coord,
 }

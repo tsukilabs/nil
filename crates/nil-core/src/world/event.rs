@@ -45,7 +45,7 @@ impl World {
     self.broadcast(Event::ChatMessage { world, message })
   }
 
-  /// Emits [`Event::City`].
+  /// Emits [`Event::City`] to the city owner.
   pub(super) fn emit_city(&self, coord: Coord) -> Result<()> {
     let world = self.config.id();
     self.emit_to_city_owner(coord, Event::City { world, coord })
@@ -99,10 +99,12 @@ impl World {
     self.emit_to(player.clone(), Event::Player { world, player })
   }
 
-  /// Emits [`Event::PublicCity`].
+  /// Emits [`Event::PublicCity`] **and** [`Event::City`].
   pub(super) fn emit_public_city(&self, coord: Coord) -> Result<()> {
     let world = self.config.id();
-    self.broadcast(Event::PublicCity { world, coord })
+    self.broadcast(Event::PublicCity { world, coord })?;
+    self.emit_city(coord)?;
+    Ok(())
   }
 
   /// Emits [`Event::Report`].
