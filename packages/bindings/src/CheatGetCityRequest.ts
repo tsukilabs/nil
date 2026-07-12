@@ -2,9 +2,8 @@
 import type { Coord } from "./Coord";
 import type { WorldId } from "./WorldId";
 
-export type GetCitiesRequest = {
+export type CheatGetCityRequest = {
   world: WorldId;
-  coords: Array<Coord>;
+  coord: Coord;
   score: boolean;
-  all: boolean;
 };

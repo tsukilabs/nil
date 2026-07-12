@@ -77,14 +77,19 @@ impl GetPublicCityResponse {
     #[builder(start_fn)] coord: Coord,
     #[builder(default)] score: bool,
   ) -> Result<Self, CoreError> {
-    let response = GetCityResponse::builder(world, coord)
+    GetCityResponse::builder(world, coord)
       .score(score)
-      .build()?;
+      .build()
+      .map(Into::into)
+  }
+}
 
-    Ok(Self {
-      city: PublicCity::from(&response.city),
-      score: response.score,
-    })
+impl From<GetCityResponse> for GetPublicCityResponse {
+  fn from(value: GetCityResponse) -> Self {
+    Self {
+      city: PublicCity::from(&value.city),
+      score: value.score,
+    }
   }
 }
 

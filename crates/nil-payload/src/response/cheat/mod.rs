@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 pub mod behavior;
+pub mod city;
 pub mod infrastructure;
 pub mod military;
 pub mod npc;
@@ -10,6 +11,7 @@ pub mod resources;
 
 pub mod prelude {
   pub use super::behavior::*;
+  pub use super::city::*;
   pub use super::infrastructure::*;
   pub use super::military::*;
   pub use super::npc::*;

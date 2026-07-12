@@ -2,17 +2,50 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { clamp } from "es-toolkit/math";
+import type { Option } from "@tb-dev/utils";
 import { invoke } from "@tauri-apps/api/core";
 import { CoordImpl } from "@/core/model/continent/coord";
 import type { ContinentKey } from "@/types/core/continent";
 import type {
   BotId,
+  CheatGetCitiesRequest,
+  CheatGetCityRequest,
+  CheatGetCityResponse,
   CheatSetStabilityRequest,
   CheatSpawnCityRequest,
   PlayerId,
   PrecursorId,
   Ruler,
 } from "@tsukilabs/nil-bindings";
+
+export async function cheatGetCities(options: {
+  coords?: Option<ContinentKey[]>;
+  score?: Option<boolean>;
+  all?: Option<boolean>;
+}) {
+  const coords = options.coords?.map((coord) => CoordImpl.fromContinentKey(coord));
+  const req: CheatGetCitiesRequest = {
+    world: NIL.world.getIdStrict(),
+    coords: coords ?? [],
+    score: options.score ?? false,
+    all: options.all ?? false,
+  };
+
+  return invoke<readonly CheatGetCityResponse[]>("cheat_get_cities", { req });
+}
+
+export async function cheatGetCity(options: {
+  coord: ContinentKey;
+  score?: Option<boolean>;
+}) {
+  const req: CheatGetCityRequest = {
+    world: NIL.world.getIdStrict(),
+    coord: CoordImpl.fromContinentKey(options.coord),
+    score: options.score ?? false,
+  };
+
+  return invoke<CheatGetCityResponse>("cheat_get_city", { req });
+}
 
 export async function cheatSetStability(coord: ContinentKey, stability: number) {
   coord = CoordImpl.fromContinentKey(coord);

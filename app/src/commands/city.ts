@@ -22,13 +22,16 @@ import type {
 } from "@tsukilabs/nil-bindings";
 
 export async function getCities(options: {
-  coords: ContinentKey[];
+  coords?: Option<ContinentKey[]>;
   score?: Option<boolean>;
+  all?: Option<boolean>;
 }) {
+  const coords = options.coords?.map((coord) => CoordImpl.fromContinentKey(coord));
   const req: GetCitiesRequest = {
     world: NIL.world.getIdStrict(),
-    coords: options.coords.map((coord) => CoordImpl.fromContinentKey(coord)),
+    coords: coords ?? [],
     score: options.score ?? false,
+    all: options.all ?? false,
   };
 
   return invoke<readonly GetCityResponse[]>("get_cities", { req });
