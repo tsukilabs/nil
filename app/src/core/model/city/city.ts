@@ -89,6 +89,21 @@ export class CityImpl extends PublicCityImpl implements Readonly<City> {
 
     return CityImpl.create({ city, score: score ?? 0 });
   }
+
+  public static override async bulkLoad(keys: readonly ContinentKey[]): Promise<CityImpl[]> {
+    if (keys.length === 0) {
+      return [];
+    }
+
+    const response = await commands.getCities({
+      coords: keys.map((key) => CoordImpl.fromContinentKey(key)),
+      score: true,
+    });
+
+    return response.map(({ city, score }) => {
+      return CityImpl.create({ city, score: score ?? 0 });
+    });
+  }
 }
 
 export interface CityImplConstructorArgs extends PublicCityImplConstructorArgs {
