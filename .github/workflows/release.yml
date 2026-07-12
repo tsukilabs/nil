@@ -111,6 +111,5 @@ jobs:
         run: cargo +nightly -Zscript scripts/build-server.rs --release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NIL_DISCORD_WEBHOOK_URL_PRIVATE: ${{ secrets.NIL_DISCORD_WEBHOOK_URL_PRIVATE }}
           RUST_BACKTRACE: 1
           TSUKILABS_TOKEN: ${{ secrets.TSUKILABS_TOKEN }}

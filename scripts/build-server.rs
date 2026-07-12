@@ -28,8 +28,10 @@ features = ["full"]
 use anyhow::{Context, Result};
 use clap::Parser;
 use nil_util::{spawn, spawn_fmt};
+use octocrab::Octocrab;
 use serde::Deserialize;
 use serde_json::from_slice;
+use std::env::var;
 use std::path::PathBuf;
 use std::{env, fs};
 
@@ -64,7 +66,10 @@ async fn main() -> Result<()> {
 
     fs::rename(path, &asset_path)?;
 
-    let octocrab = octocrab::instance();
+    let octocrab = Octocrab::builder()
+      .personal_token(var("GH_TOKEN")?)
+      .build()?;
+
     let repository = octocrab.repos("tsukilabs", "nil");
     let tag_name = repository
       .releases()
