@@ -5,7 +5,6 @@ edition = "2024"
 
 [dependencies]
 anyhow = "1.0"
-futures = "0.3"
 octocrab = "=0.54.0"
 serde_json = "1.0"
 ureq = "3.3"
@@ -20,11 +19,14 @@ path = "../crates/nil-util"
 [dependencies.serde]
 version = "1.0"
 features = ["derive"]
+
+[dependencies.tokio]
+version = "1.52"
+features = ["full"]
 ---
 
 use anyhow::{Context, Result};
 use clap::Parser;
-use futures::executor::block_on;
 use nil_util::{spawn, spawn_fmt};
 use serde::Deserialize;
 use serde_json::from_slice;
@@ -40,11 +42,8 @@ struct Args {
   target_dir: Option<PathBuf>,
 }
 
-fn main() -> Result<()> {
-  block_on(execute())
-}
-
-async fn execute() -> Result<()> {
+#[tokio::main]
+async fn main() -> Result<()> {
   spawn!("cargo build --profile release-server --package nil-server")?;
 
   let args = Args::parse();
@@ -74,6 +73,12 @@ async fn execute() -> Result<()> {
       .tag_name;
 
     upload_asset(&tag_name, &asset_path)?;
+
+    repository
+      .releases()
+      .generate_release_notes(&tag_name)
+      .send()
+      .await?;
 
     if let Ok(token) = env::var("TSUKILABS_TOKEN") {
       ureq::get("https://tsukilabs.dev.br/release/nil")
