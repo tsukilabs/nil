@@ -4,7 +4,6 @@
 <script setup lang="ts">
 import { useI18n } from "vue-i18n";
 import type { Option } from "@tb-dev/utils";
-import ManeuverIcon from "./ManeuverIcon.vue";
 import Loading from "@/components/Loading.vue";
 import { throttle } from "es-toolkit/function";
 import { Button } from "@/components/ui/button";
@@ -17,6 +16,7 @@ import { onKeyDown, useBreakpoints } from "@tb-dev/vue";
 import type { ManeuverId } from "@tsukilabs/nil-bindings";
 import type { CoordImpl } from "@/core/model/continent/coord";
 import { useManeuver } from "@/composables/military/useManeuver";
+import ManeuverIcon from "@/scenes/game/maneuver/ManeuverIcon.vue";
 import { Card, CardContent, CardHeader, CardTitle } from "@ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@ui/table";
 

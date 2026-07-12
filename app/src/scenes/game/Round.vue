@@ -4,7 +4,7 @@
 <script setup lang="ts">
 import { useI18n } from "vue-i18n";
 import { Button } from "@ui/button";
-import RoundState from "./RoundState.vue";
+import RoundState from "@/scenes/game/RoundState.vue";
 import { useBreakpoints, useMutex } from "@tb-dev/vue";
 
 const props = defineProps<{

@@ -1,6 +1,7 @@
 **/android
 **/build
 **/dist
+**/migrations
 **/node_modules
 **/scripts
 **/target
