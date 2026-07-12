@@ -18,7 +18,7 @@ path = "../crates/nil-env"
 path = "../crates/nil-util"
 
 [dependencies.open]
-version = "5.3"
+version = "5.4"
 features = ["shellexecute-on-windows"]
 
 [dependencies.serde]
