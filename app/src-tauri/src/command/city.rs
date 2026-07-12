@@ -8,6 +8,14 @@ use nil_payload::response::city::*;
 use tauri::AppHandle;
 
 #[tauri::command]
+pub async fn get_cities(app: AppHandle, req: GetCitiesRequest) -> Result<GetCitiesResponse> {
+  app
+    .client(async |cl| cl.get_cities(req).await)
+    .await
+    .map_err(Into::into)
+}
+
+#[tauri::command]
 pub async fn get_city(app: AppHandle, req: GetCityRequest) -> Result<GetCityResponse> {
   app
     .client(async |cl| cl.get_city(req).await)

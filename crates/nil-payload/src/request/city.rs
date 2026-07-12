@@ -6,9 +6,25 @@ use nil_core::city::CitySearch;
 use nil_core::continent::coord::Coord;
 use nil_core::world::config::WorldId;
 use serde::{Deserialize, Serialize};
+use std::collections::HashSet;
 
 #[cfg(feature = "typescript")]
 use ts_rs::TS;
+
+#[derive(Builder, Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
+pub struct GetCitiesRequest {
+  #[builder(start_fn, into)]
+  pub world: WorldId,
+  #[serde(default)]
+  #[builder(default, with = FromIterator::from_iter)]
+  pub coords: HashSet<Coord>,
+  #[serde(default)]
+  #[builder(default)]
+  pub score: bool,
+}
 
 #[derive(Builder, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
@@ -19,6 +35,9 @@ pub struct GetCityRequest {
   pub world: WorldId,
   #[builder(into)]
   pub coord: Coord,
+  #[serde(default)]
+  #[builder(default)]
+  pub score: bool,
 }
 
 #[derive(Builder, Clone, Debug, Deserialize, Serialize)]
@@ -41,7 +60,7 @@ pub struct GetPublicCitiesRequest {
   pub world: WorldId,
   #[serde(default)]
   #[builder(default, with = FromIterator::from_iter)]
-  pub coords: Vec<Coord>,
+  pub coords: HashSet<Coord>,
   #[serde(default)]
   #[builder(default)]
   pub score: bool,

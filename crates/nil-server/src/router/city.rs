@@ -14,6 +14,38 @@ use nil_payload::request::city::*;
 use nil_payload::response::city::*;
 use tap::Pipe;
 
+pub async fn get_cities(
+  State(app): State<App>,
+  Extension(player): Extension<CurrentPlayer>,
+  Json(req): Json<GetCitiesRequest>,
+) -> Response {
+  if req.coords.is_empty() {
+    return res!(OK, GetCitiesResponse(Vec::new()));
+  }
+
+  app
+    .world(req.world, move |world| {
+      let mut responses = Vec::with_capacity(req.coords.len());
+      let cities = world
+        .continent()
+        .cities_by(|city| req.coords.contains(&city.coord()));
+
+      for city in cities {
+        if city.is_owned_by_player_and(|it| it == &player.0) {
+          GetCityResponse::builder(world, city.coord())
+            .score(req.score)
+            .build()?
+            .pipe(|it| responses.push(it));
+        }
+      }
+
+      Ok::<_, Error>(responses)
+    })
+    .await
+    .try_map_left(|responses| res!(OK, GetCitiesResponse(responses)))
+    .into_inner()
+}
+
 pub async fn get_city(
   State(app): State<App>,
   Extension(player): Extension<CurrentPlayer>,
@@ -24,11 +56,13 @@ pub async fn get_city(
       let result = try {
         let world = world.read().await;
         bail_if_city_is_not_owned_by!(world, &player.0, req.coord);
-        world.city(req.coord)?.clone()
+        GetCityResponse::builder(&world, req.coord)
+          .score(req.score)
+          .build()?
       };
 
       result
-        .map(|city| res!(OK, GetCityResponse(city)))
+        .map(|response| res!(OK, response))
         .unwrap_or_else(from_err)
     }
     Err(err) => from_err(err),

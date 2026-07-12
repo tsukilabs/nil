@@ -148,6 +148,8 @@ export type { GetBotCoordsRequest } from './GetBotCoordsRequest';
 export type { GetBotCoordsResponse } from './GetBotCoordsResponse';
 export type { GetChatHistoryRequest } from './GetChatHistoryRequest';
 export type { GetChatHistoryResponse } from './GetChatHistoryResponse';
+export type { GetCitiesRequest } from './GetCitiesRequest';
+export type { GetCitiesResponse } from './GetCitiesResponse';
 export type { GetCityRequest } from './GetCityRequest';
 export type { GetCityResponse } from './GetCityResponse';
 export type { GetCityScoreRequest } from './GetCityScoreRequest';

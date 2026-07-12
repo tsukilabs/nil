@@ -82,12 +82,12 @@ export class CityImpl extends PublicCityImpl implements Readonly<City> {
 
   public static override async load(key: ContinentKey) {
     const coord = CoordImpl.fromContinentKey(key);
-    const [city, score] = await Promise.all([
-      commands.getCity(coord),
-      commands.getCityScore(coord),
-    ]);
+    const { city, score } = await commands.getCity({
+      coord,
+      score: true,
+    });
 
-    return CityImpl.create({ city, score });
+    return CityImpl.create({ city, score: score ?? 0 });
   }
 }
 

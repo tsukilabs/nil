@@ -82,6 +82,7 @@ dispatch!(
   get_army_owner,
   get_bot_coords,
   get_chat_history,
+  get_cities,
   get_city,
   get_city_score,
   get_continent_size,

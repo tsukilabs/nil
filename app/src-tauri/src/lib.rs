@@ -92,6 +92,7 @@ pub fn run() {
       command::cheat::resources::cheat_set_stone,
       command::cheat::resources::cheat_set_wood,
       command::cheat::round::cheat_skip_round,
+      command::city::get_cities,
       command::city::get_city,
       command::city::get_city_score,
       command::city::get_public_cities,

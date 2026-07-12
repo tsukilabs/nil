@@ -92,6 +92,7 @@ pub(crate) fn create() -> Router<App> {
     .route("/get-army", put(military::get_army))
     .route("/get-army-owner", put(military::get_army_owner))
     .route("/get-chat-history", put(chat::get))
+    .route("/get-cities", put(city::get_cities))
     .route("/get-city", put(city::get_city))
     .route("/get-idle-armies-at", put(military::get_idle_armies_at))
     .route("/get-idle-armies-coords", put(military::get_idle_armies_coords))
