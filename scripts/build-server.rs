@@ -7,6 +7,7 @@ edition = "2024"
 anyhow = "1.0"
 octocrab = "=0.54.0"
 serde_json = "1.0"
+tempfile = "3.27"
 ureq = "3.3"
 
 [dependencies.clap]
@@ -32,8 +33,10 @@ use octocrab::Octocrab;
 use serde::Deserialize;
 use serde_json::from_slice;
 use std::env::var;
+use std::io::Write as _;
 use std::path::PathBuf;
 use std::{env, fs};
+use tempfile::NamedTempFile;
 
 #[derive(Parser)]
 struct Args {
@@ -104,12 +107,13 @@ fn upload_asset(tag_name: &str, path: &str) -> Result<()> {
     .context("failed to upload asset")
 }
 
+#[rustfmt::skip]
 fn edit_release_notes(tag_name: &str, notes: &str) -> Result<()> {
-  let notes = format!(
-    "This is an early preview. The game is still under development and not yet ready to play.\n\n{notes}"
-  );
+  let mut file = NamedTempFile::new()?;
+  write!(file, "This is an early preview. The game is still under development and not yet ready to play.\n\n{notes}")?;
 
-  spawn_fmt!(r#"gh release edit {tag_name} --notes "{notes}" --verify-tag -R tsukilabs/nil"#)
+  let path = file.path().to_str().unwrap();
+  spawn_fmt!("gh release edit {tag_name} -F {path} -R tsukilabs/nil")
     .context("failed to edit release notes")
 }
 

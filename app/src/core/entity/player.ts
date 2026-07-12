@@ -124,9 +124,13 @@ function usePlayer(id: Ref<Option<PlayerId>>) {
 
 function useCities(player: ShallowRef<Option<PlayerImpl>>) {
   return asyncComputed([], async () => {
-    const coords = player.value?.coords ?? [];
-    const cities = await CityImpl.bulkLoad(coords);
-    cities.sort((a, b) => compare(a.name, b.name));
-    return cities;
+    if (player.value && player.value.coords.length > 0) {
+      const cities = await CityImpl.loadAll();
+      cities.sort((a, b) => compare(a.name, b.name));
+      return cities;
+    }
+    else {
+      return [];
+    }
   });
 }

@@ -68,6 +68,10 @@ export type { CheatGetAllStableRecruitQueuesRequest } from './CheatGetAllStableR
 export type { CheatGetAllStableRecruitQueuesResponse } from './CheatGetAllStableRecruitQueuesResponse';
 export type { CheatGetBuildStepsRequest } from './CheatGetBuildStepsRequest';
 export type { CheatGetBuildStepsResponse } from './CheatGetBuildStepsResponse';
+export type { CheatGetCitiesRequest } from './CheatGetCitiesRequest';
+export type { CheatGetCitiesResponse } from './CheatGetCitiesResponse';
+export type { CheatGetCityRequest } from './CheatGetCityRequest';
+export type { CheatGetCityResponse } from './CheatGetCityResponse';
 export type { CheatGetEthicsRequest } from './CheatGetEthicsRequest';
 export type { CheatGetEthicsResponse } from './CheatGetEthicsResponse';
 export type { CheatGetIdleArmiesAtRequest } from './CheatGetIdleArmiesAtRequest';

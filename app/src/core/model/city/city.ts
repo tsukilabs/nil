@@ -90,6 +90,18 @@ export class CityImpl extends PublicCityImpl implements Readonly<City> {
     return CityImpl.create({ city, score: score ?? 0 });
   }
 
+  public static override async loadAll(): Promise<CityImpl[]> {
+    const response = await commands.getCities({
+      coords: null,
+      score: true,
+      all: true,
+    });
+
+    return response.map(({ city, score }) => {
+      return CityImpl.create({ city, score: score ?? 0 });
+    });
+  }
+
   public static override async bulkLoad(keys: readonly ContinentKey[]): Promise<CityImpl[]> {
     if (keys.length === 0) {
       return [];

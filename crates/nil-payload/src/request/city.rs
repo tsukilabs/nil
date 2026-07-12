@@ -24,6 +24,9 @@ pub struct GetCitiesRequest {
   #[serde(default)]
   #[builder(default)]
   pub score: bool,
+  #[serde(default)]
+  #[builder(default)]
+  pub all: bool,
 }
 
 #[derive(Builder, Clone, Debug, Deserialize, Serialize)]

@@ -60,6 +60,8 @@ dispatch!(
   cheat_get_all_prefecture_build_queues,
   cheat_get_all_stable_recruit_queues,
   cheat_get_build_steps,
+  cheat_get_cities,
+  cheat_get_city,
   cheat_get_ethics,
   cheat_get_idle_armies_at,
   cheat_get_idle_personnel_at,

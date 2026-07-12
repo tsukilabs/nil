@@ -53,6 +53,8 @@ pub fn run() {
       command::chat::get_chat_history,
       command::chat::push_chat_message,
       command::cheat::behavior::cheat_get_build_steps,
+      command::cheat::city::cheat_get_cities,
+      command::cheat::city::cheat_get_city,
       command::cheat::city::cheat_set_stability,
       command::cheat::city::cheat_spawn_city,
       command::cheat::infrastructure::cheat_get_academy_recruit_queue,

@@ -2,14 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::app::App;
-use crate::error::{CoreError, Error};
+use crate::error::CoreError;
 use crate::middleware::authorization::CurrentPlayer;
 use crate::response::{EitherExt, from_err};
 use crate::{bail_if_city_is_not_owned_by, bail_if_max_chars_exceeded, res};
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
 use itertools::Itertools;
-use nil_core::city::{City, PublicCity};
+use nil_core::city::PublicCity;
 use nil_payload::request::city::*;
 use nil_payload::response::city::*;
 use tap::Pipe;
@@ -19,27 +19,22 @@ pub async fn get_cities(
   Extension(player): Extension<CurrentPlayer>,
   Json(req): Json<GetCitiesRequest>,
 ) -> Response {
-  if req.coords.is_empty() {
+  if req.coords.is_empty() && !req.all {
     return res!(OK, GetCitiesResponse(Vec::new()));
   }
 
   app
     .world(req.world, move |world| {
-      let mut responses = Vec::with_capacity(req.coords.len());
-      let cities = world
+      world
         .continent()
-        .cities_by(|city| req.coords.contains(&city.coord()));
-
-      for city in cities {
-        if city.is_owned_by_player_and(|it| it == &player.0) {
+        .cities_of(player.0)
+        .filter(|city| req.all || req.coords.contains(&city.coord()))
+        .map(|city| {
           GetCityResponse::builder(world, city.coord())
             .score(req.score)
-            .build()?
-            .pipe(|it| responses.push(it));
-        }
-      }
-
-      Ok::<_, Error>(responses)
+            .build()
+        })
+        .try_collect()
     })
     .await
     .try_map_left(|responses| res!(OK, GetCitiesResponse(responses)))
@@ -79,24 +74,15 @@ pub async fn get_public_cities(
 
   app
     .world(req.world, |world| {
-      let mut responses = Vec::with_capacity(req.coords.len());
-      let cities: Box<dyn Iterator<Item = &City>> = if req.all {
-        world.continent().cities().pipe(Box::new)
-      } else {
-        world
-          .continent()
-          .cities_by(|city| req.coords.contains(&city.coord()))
-          .pipe(Box::new)
-      };
-
-      for city in cities {
-        GetPublicCityResponse::builder(world, city.coord())
-          .score(req.score)
-          .build()?
-          .pipe(|it| responses.push(it));
-      }
-
-      Ok::<_, Error>(responses)
+      world
+        .continent()
+        .cities_by(|city| req.all || req.coords.contains(&city.coord()))
+        .map(|city| {
+          GetPublicCityResponse::builder(world, city.coord())
+            .score(req.score)
+            .build()
+        })
+        .try_collect()
     })
     .await
     .try_map_left(|responses| res!(OK, GetPublicCitiesResponse(responses)))

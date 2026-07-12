@@ -4,7 +4,30 @@
 use crate::error::Result;
 use crate::manager::ManagerExt;
 use nil_payload::request::cheat::city::*;
+use nil_payload::response::cheat::city::*;
 use tauri::AppHandle;
+
+#[tauri::command]
+pub async fn cheat_get_cities(
+  app: AppHandle,
+  req: CheatGetCitiesRequest,
+) -> Result<CheatGetCitiesResponse> {
+  app
+    .client(async |cl| cl.cheat_get_cities(req).await)
+    .await
+    .map_err(Into::into)
+}
+
+#[tauri::command]
+pub async fn cheat_get_city(
+  app: AppHandle,
+  req: CheatGetCityRequest,
+) -> Result<CheatGetCityResponse> {
+  app
+    .client(async |cl| cl.cheat_get_city(req).await)
+    .await
+    .map_err(Into::into)
+}
 
 #[tauri::command]
 pub async fn cheat_set_stability(app: AppHandle, req: CheatSetStabilityRequest) -> Result<()> {
