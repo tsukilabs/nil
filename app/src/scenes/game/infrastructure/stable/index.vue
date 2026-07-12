@@ -3,10 +3,10 @@
 
 <script setup lang="ts">
 import { useI18n } from "vue-i18n";
-import HeaderMenu from "./HeaderMenu.vue";
 import Loading from "@/components/Loading.vue";
 import { Card, CardContent, CardHeader, CardTitle } from "@ui/card";
 import { useStable } from "@/composables/infrastructure/useBuilding";
+import HeaderMenu from "@/scenes/game/infrastructure/stable/HeaderMenu.vue";
 
 const { t } = useI18n();
 
