@@ -28,3 +28,12 @@ pub struct UserExistsRequest {
   #[builder(into)]
   pub user: PlayerId,
 }
+
+impl<T> From<T> for UserExistsRequest
+where
+  T: Into<PlayerId>,
+{
+  fn from(value: T) -> Self {
+    Self::builder().user(value).build()
+  }
+}
