@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { Entity } from "./abstract";
+import { compare } from "@/lib/intl";
 import { CityImpl } from "@/core/model/city/city";
 import type { PlayerPayload } from "@/types/event";
 import { type Option, panic } from "@tb-dev/utils";
@@ -124,6 +125,8 @@ function usePlayer(id: Ref<Option<PlayerId>>) {
 function useCities(player: ShallowRef<Option<PlayerImpl>>) {
   return asyncComputed([], async () => {
     const coords = player.value?.coords ?? [];
-    return CityImpl.bulkLoad(coords);
+    const cities = await CityImpl.bulkLoad(coords);
+    cities.sort((a, b) => compare(a.name, b.name));
+    return cities;
   });
 }

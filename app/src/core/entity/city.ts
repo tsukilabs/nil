@@ -116,8 +116,7 @@ export class CityEntity extends Entity {
     }
     else {
       await nextTick();
-      const { player } = NIL.player.refs();
-      city.coord.value = player.value?.coords.at(0);
+      city.coord.value = NIL.player.getCoords().at(0);
     }
 
     await city.update();
