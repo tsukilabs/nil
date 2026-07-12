@@ -6,6 +6,7 @@ import { computed } from "vue";
 import { Label } from "@ui/label";
 import { useI18n } from "vue-i18n";
 import { Slider } from "@ui/slider";
+import { CONSTS } from "@/lib/global";
 import enUS from "@/locale/en-US/scenes/host-game.json";
 import ptBR from "@/locale/pt-BR/scenes/host-game.json";
 import type { WorldOptions } from "@tsukilabs/nil-bindings";
@@ -16,12 +17,10 @@ defineProps<{
 
 const worldOptions = defineModel<Partial<WorldOptions>>({ required: true });
 
-const consts = __CONSTS__;
-
 const sliderValue = computed({
-  get: () => [worldOptions.value.unitSpeed ?? consts.worldUnitSpeedDefault],
+  get: () => [worldOptions.value.unitSpeed ?? CONSTS.worldUnitSpeedDefault],
   set: (value) => {
-    worldOptions.value.unitSpeed = value.at(0) ?? consts.worldUnitSpeedDefault;
+    worldOptions.value.unitSpeed = value.at(0) ?? CONSTS.worldUnitSpeedDefault;
   },
 });
 
@@ -47,8 +46,8 @@ const intl = new Intl.NumberFormat(undefined, {
       <Slider
         v-model:model-value="sliderValue"
         :disabled
-        :min="consts.worldUnitSpeedMin"
-        :max="consts.worldUnitSpeedMax"
+        :min="CONSTS.worldUnitSpeedMin"
+        :max="CONSTS.worldUnitSpeedMax"
         :step="0.1"
       />
       <span>{{ `${intl.format(sliderValue[0])}x` }}</span>

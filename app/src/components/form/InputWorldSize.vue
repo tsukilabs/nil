@@ -4,6 +4,7 @@
 <script setup lang="ts">
 import { Label } from "@ui/label";
 import { useI18n } from "vue-i18n";
+import { CONSTS } from "@/lib/global";
 import type { Option } from "@tb-dev/utils";
 import enUS from "@/locale/en-US/scenes/host-game.json";
 import ptBR from "@/locale/pt-BR/scenes/host-game.json";
@@ -27,8 +28,6 @@ const { t } = useI18n({
     "pt-BR": ptBR,
   },
 });
-
-const consts = __CONSTS__;
 </script>
 
 <template>
@@ -37,8 +36,8 @@ const consts = __CONSTS__;
     <NumberField
       v-model="size"
       :disabled
-      :min="consts.continentSizeMin"
-      :max="consts.continentSizeMax"
+      :min="CONSTS.continentSizeMin"
+      :max="CONSTS.continentSizeMax"
       :step="10"
       class="w-full"
     >

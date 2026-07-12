@@ -4,8 +4,7 @@
 use nil_core::player::PlayerId;
 use serde::Serialize;
 use serde::ser::Serializer;
-
-pub(crate) use std::result::Result as StdResult;
+use std::result::Result as StdResult;
 
 #[doc(hidden)]
 pub type Result<T, E = Error> = StdResult<T, E>;

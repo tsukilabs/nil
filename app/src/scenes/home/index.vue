@@ -7,6 +7,7 @@ import { useI18n } from "vue-i18n";
 import { Button } from "@ui/button";
 import { computed, ref } from "vue";
 import { exitGame } from "@/core/game";
+import { DESKTOP } from "@/lib/global";
 import { handleError } from "@/lib/error";
 import { useBreakpoints } from "@tb-dev/vue";
 import { useSettings } from "@/stores/settings";
@@ -108,6 +109,7 @@ async function goToOnlineScene() {
       </Button>
 
       <Button
+        v-if="DESKTOP"
         variant="secondary"
         :size="sm ? 'default' : 'lg'"
         :disabled
