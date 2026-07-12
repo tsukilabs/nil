@@ -75,7 +75,7 @@ function onChatMessage({ message }: ChatMessagePayload) {
     v-else-if="route.name === ('chat' satisfies GameScene)"
     :icon="MessagesSquareIcon"
     :show-badge="hasUnread"
-    @click.stop="() => router.back()"
+    @click="() => router.back()"
   />
 
   <RouterLink v-else :to="{ name: 'chat' satisfies GameScene }">

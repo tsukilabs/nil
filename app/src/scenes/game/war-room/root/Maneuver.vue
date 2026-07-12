@@ -3,10 +3,10 @@
 
 <script setup lang="ts">
 import { XIcon } from "@lucide/vue";
+import { asyncComputed } from "@tb-dev/vue";
 import { TableCell, TableRow } from "@ui/table";
 import type { MaybePromise } from "@tb-dev/utils";
 import type { Coord } from "@tsukilabs/nil-bindings";
-import { asyncComputed, useBreakpoints } from "@tb-dev/vue";
 import type { CoordImpl } from "@/core/model/continent/coord";
 import type { ManeuverImpl } from "@/core/model/military/maneuver";
 import ManeuverIcon from "@/scenes/game/war-room/root/ManeuverIcon.vue";
@@ -21,8 +21,6 @@ const { id: player } = NIL.player.refs();
 
 const armyOwner = asyncComputed(null, () => props.maneuver.getArmyOwner());
 const cities = asyncComputed(null, () => props.maneuver.getCities());
-
-const { lg } = useBreakpoints();
 
 const distanceIntl = new Intl.NumberFormat(undefined, {
   style: "decimal",
@@ -72,7 +70,7 @@ function isArmyOwnedByCurrentPlayer() {
       @keydown.enter.stop="() => maneuver.origin.goToProfile()"
       @keydown.space.stop="() => maneuver.origin.goToProfile()"
     >
-      <span v-if="lg && cities?.origin">{{ cities.origin.formatNameWithCoord() }}</span>
+      <span v-if="cities?.origin">{{ cities.origin.formatNameWithCoord() }}</span>
       <span v-else>{{ maneuver.origin.format() }}</span>
     </TableCell>
 
@@ -84,7 +82,7 @@ function isArmyOwnedByCurrentPlayer() {
       @keydown.enter.stop="() => maneuver.destination.goToProfile()"
       @keydown.space.stop="() => maneuver.destination.goToProfile()"
     >
-      <span v-if="lg && cities?.destination">{{ cities.destination.formatNameWithCoord() }}</span>
+      <span v-if="cities?.destination">{{ cities.destination.formatNameWithCoord() }}</span>
       <span v-else>{{ maneuver.destination.format() }}</span>
     </TableCell>
 
