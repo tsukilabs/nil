@@ -36,6 +36,11 @@ export const gameRoutes: RouteRecordRaw[] = [
     name: "maneuver" satisfies GameScene,
   },
   {
+    component: () => import("@/scenes/game/own-cities/index.vue"),
+    path: "own-cities",
+    name: "own-cities" satisfies GameScene,
+  },
+  {
     component: () => import("@/scenes/game/profile/index.vue"),
     path: "profile",
     children: profileRoutes,

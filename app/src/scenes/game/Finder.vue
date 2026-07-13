@@ -26,6 +26,7 @@ const items = computed<FinderItem[]>(() => {
     { value: "continent-cities", label: t("continent-cities") },
     { value: "farm", label: t("farm") },
     { value: "iron-mine", label: t("iron-mine") },
+    { value: "own-cities", label: t("city", 2) },
     { value: "prefecture", label: t("prefecture") },
     { value: "prefecture-settings", label: t("prefecture-settings") },
     { value: "quarry", label: t("quarry") },
