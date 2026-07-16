@@ -221,7 +221,7 @@ version = "2.5"
 features = ["serde"]
 
 [workspace.dependencies.uuid]
-version = "1.23"
+version = "1.24"
 features = ["serde", "v4", "v7"]
 
 ## Internal dependencies
