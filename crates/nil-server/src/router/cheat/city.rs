@@ -72,7 +72,7 @@ pub async fn spawn_city(
   app
     .world_mut(req.world, move |world| {
       let ruler = req.ruler.unwrap_or_else(|| player.into());
-      world.cheat_spawn_city(ruler, req.coord)
+      world.cheat_spawn_city(&ruler, req.coord)
     })
     .await
     .try_map_left(|()| res!(OK))

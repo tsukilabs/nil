@@ -10,8 +10,8 @@ importers:
   .:
     dependencies:
       '@lucide/vue':
-        specifier: '=1.24.0'
-        version: 1.24.0(vue@3.5.40)
+        specifier: '=1.25.0'
+        version: 1.25.0(vue@3.5.40)
       '@tauri-apps/api':
         specifier: '=2.11.1'
         version: 2.11.1
@@ -19,8 +19,8 @@ importers:
         specifier: '=2.3.2'
         version: 2.3.2
       '@tauri-apps/plugin-dialog':
-        specifier: '=2.7.1'
-        version: 2.7.1
+        specifier: '=2.7.2'
+        version: 2.7.2
       '@tauri-apps/plugin-fs':
         specifier: '=2.5.1'
         version: 2.5.1
@@ -40,11 +40,11 @@ importers:
         specifier: '=5.0.0'
         version: 5.0.0(@vue/devtools-api@8.1.5)(typescript@6.0.3)
       '@tb-dev/prototype-dom':
-        specifier: '=7.0.50'
-        version: 7.0.50
+        specifier: '=7.0.52'
+        version: 7.0.52
       '@tb-dev/utils':
-        specifier: '=8.0.0'
-        version: 8.0.0
+        specifier: '=8.1.0'
+        version: 8.1.0
       '@tb-dev/vue':
         specifier: '=4.0.28'
         version: 4.0.28(typescript@6.0.3)
@@ -331,8 +331,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@lucide/vue@1.24.0':
-    resolution: {integrity: sha512-5bNPX0G2YEWdUlBYk7pE8SgDg/f1mkIFpJ9vtE44pW/cwRz7Ioc0tOTESoVJAPvxIELSmYekX+XXIJMjsswNIg==}
+  '@lucide/vue@1.25.0':
+    resolution: {integrity: sha512-hkEetV+v48ScIn3uwqwWQ66sI8foeP2q6OMI09GzLFH4SfvBlfe3JHYlMBdBCqFC7WRlhFsndyDn/awRKRc2OQ==}
     peerDependencies:
       vue: '>=3.0.1'
 
@@ -801,8 +801,8 @@ packages:
   '@tauri-apps/plugin-clipboard-manager@2.3.2':
     resolution: {integrity: sha512-CUlb5Hqi2oZbcZf4VUyUH53XWPPdtpw43EUpCza5HWZJwxEoDowFzNUDt1tRUXA8Uq+XPn17Ysfptip33sG4eQ==}
 
-  '@tauri-apps/plugin-dialog@2.7.1':
-    resolution: {integrity: sha512-OK1UBXYt+ojcmxMktzzuyonYIFta8CmAASpX+CA+DTGK24KlHjhYI6x2iOJ/TjZF4N7/ACK1oFmEOjIY9IhzOQ==}
+  '@tauri-apps/plugin-dialog@2.7.2':
+    resolution: {integrity: sha512-pX0IGm1I3I6wc+zeKYcq1GSqogK6okCNX5fOdaNU5ab1AjGS6l1E5wFNjEb7meg7ZFSp0JUs+0jQGQNyOvLrsg==}
 
   '@tauri-apps/plugin-fs@2.5.1':
     resolution: {integrity: sha512-9Lz+Jopp6QyeEWhlpkMx4R/+P9HgR+AVAI4vOZhlT8Xaymtz8iVI/Ov984/XTqgJz/5gz5NretqPB/XEMS3NhQ==}
@@ -828,11 +828,11 @@ packages:
   '@tb-dev/eslint-config@10.2.1':
     resolution: {integrity: sha512-1cbIXr4Ei7esZwrpIicV7CDY14uJrhgsGiyGJB1AP+eKOIXbu/Furg5TIz9kzg71eMlKxo6QrUdnJ1PoqM3Wog==}
 
-  '@tb-dev/prototype-dom@7.0.50':
-    resolution: {integrity: sha512-VB2ikrty5+bCgU+HdEwCZmDljd9+AQWg8OVGOfSArltnCE3VjUmjPqqVpIPIrYI4x6R1TNWPDJd2BkREKxvsJQ==}
+  '@tb-dev/prototype-dom@7.0.52':
+    resolution: {integrity: sha512-DMN8xxleeixSaocqgbNGMxz1X7tmnJr5AKSB4fsPPh0TGIKM/Y9FqaIVflPmDOSkGkPIKi7uI8qm50ol5kKdWQ==}
 
-  '@tb-dev/utils@8.0.0':
-    resolution: {integrity: sha512-4LbqQItjuoCv30yHTXJ/Zt+j4RdDqKz+jZi/0+9BMWt53AcTA9pV1lUWGjTbX4ekCvq/pfdH1R2TjLQ62n2Paw==}
+  '@tb-dev/utils@8.1.0':
+    resolution: {integrity: sha512-MMmyX8KL+062gpvrqzqXivHcC90BjPl4YzDjgV/6TaoXDEcP9AoTy7er37cnJBcDJjU0XipBiQTQpH2Vp21rug==}
 
   '@tb-dev/vue-sonner@1.0.8':
     resolution: {integrity: sha512-oqak+buCcfGpoznEYlDfYEE3keZpUiUpBlCR5tisRJTkHf4aata/9yScpssFOG9Yd4Zn6W0+wXh3ScK+aKtLpQ==}
@@ -2301,7 +2301,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@lucide/vue@1.24.0(vue@3.5.40)':
+  '@lucide/vue@1.25.0(vue@3.5.40)':
     dependencies:
       vue: 3.5.40(typescript@6.0.3)
 
@@ -2619,7 +2619,7 @@ snapshots:
     dependencies:
       '@tauri-apps/api': 2.11.1
 
-  '@tauri-apps/plugin-dialog@2.7.1':
+  '@tauri-apps/plugin-dialog@2.7.2':
     dependencies:
       '@tauri-apps/api': 2.11.1
 
@@ -2673,9 +2673,11 @@ snapshots:
       - supports-color
       - typescript
 
-  '@tb-dev/prototype-dom@7.0.50': {}
+  '@tb-dev/prototype-dom@7.0.52':
+    dependencies:
+      '@tb-dev/utils': 8.1.0
 
-  '@tb-dev/utils@8.0.0':
+  '@tb-dev/utils@8.1.0':
     dependencies:
       es-toolkit: 1.49.0
 
@@ -2687,7 +2689,7 @@ snapshots:
 
   '@tb-dev/vue@4.0.28(typescript@6.0.3)':
     dependencies:
-      '@tb-dev/utils': 8.0.0
+      '@tb-dev/utils': 8.1.0
       '@vueuse/core': 14.3.0(vue@3.5.40)
       es-toolkit: 1.49.0
       vue: 3.5.40(typescript@6.0.3)
@@ -2931,8 +2933,8 @@ snapshots:
   '@vue/language-core@3.3.7':
     dependencies:
       '@volar/language-core': 2.4.28
-      '@vue/compiler-dom': 3.5.39
-      '@vue/shared': 3.5.39
+      '@vue/compiler-dom': 3.5.40
+      '@vue/shared': 3.5.40
       alien-signals: 3.2.1
       muggle-string: 0.4.1
       path-browserify: 1.0.1

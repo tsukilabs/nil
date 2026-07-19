@@ -19,10 +19,10 @@ impl World {
     Ok(())
   }
 
-  pub fn cheat_spawn_city(&mut self, ruler: Ruler, coord: Coord) -> Result<()> {
+  pub fn cheat_spawn_city(&mut self, ruler: &Ruler, coord: Coord) -> Result<()> {
     bail_if_cheats_are_not_allowed!(self);
     let city = City::builder(coord)
-      .name(<Ruler as AsRef<str>>::as_ref(&ruler))
+      .name(<Ruler as AsRef<str>>::as_ref(ruler))
       .owner(ruler.clone())
       .build();
 
