@@ -37,8 +37,8 @@ importers:
         specifier: '=2.10.1'
         version: 2.10.1
       '@tauri-store/pinia':
-        specifier: '=5.0.0'
-        version: 5.0.0(@vue/devtools-api@8.1.5)(typescript@6.0.3)
+        specifier: '=5.0.1'
+        version: 5.0.1(@vue/devtools-api@8.1.5)(typescript@6.0.3)
       '@tb-dev/prototype-dom':
         specifier: '=7.0.52'
         version: 7.0.52
@@ -91,8 +91,8 @@ importers:
         specifier: '=3.5.40'
         version: 3.5.40(typescript@6.0.3)
       vue-i18n:
-        specifier: '=11.4.6'
-        version: 11.4.6(vue@3.5.40)
+        specifier: '=11.4.7'
+        version: 11.4.7(vue@3.5.40)
       vue-router:
         specifier: '=5.2.0'
         version: 5.2.0(@vue/compiler-sfc@3.5.39)(pinia@4.0.2)(rolldown@1.1.5)(vite@8.1.5)(vue@3.5.40)
@@ -299,20 +299,20 @@ packages:
   '@internationalized/number@3.6.7':
     resolution: {integrity: sha512-3ji1fcrT+FPAK86UqEhB/psHixYo6niWPJtt7+qRaYFynt/BaJG8GhAPimtWUpEiVSTq8ZM8L5psMxGquiB/Vg==}
 
-  '@intlify/core-base@11.4.6':
-    resolution: {integrity: sha512-EOeHO95XESK9IFHgHeZXunsM/WBAoCA0DlaWODvx14vKmetAuS97t+l6Xe9hTUqntPpF93vtVSjjUDafw3wXMw==}
+  '@intlify/core-base@11.4.7':
+    resolution: {integrity: sha512-MSB/sBKwEWJTILvQIhg2rnIcwPpLayo3wGwvVA+dJTNeUBD9GoqQgAaSOLdI9iOPDHCm9YoVnLqpfzza98MpkQ==}
     engines: {node: '>= 22'}
 
-  '@intlify/devtools-types@11.4.6':
-    resolution: {integrity: sha512-wowQPpNem56b2d43IJmqbrzG2FeBKe5f/kUGlpNuBmXs6OSqncF8m1+1lxHuW8ISZJF0ma2RkW3iLkw0g0G4VA==}
+  '@intlify/devtools-types@11.4.7':
+    resolution: {integrity: sha512-GSz+J+hqH+AEpAHIYya6fSufS30OaMnG39HiZX7DmGKi3+aaLvassCfsXENEc4Wr4m68q2YP0QdMdB3D9UeAXg==}
     engines: {node: '>= 22'}
 
-  '@intlify/message-compiler@11.4.6':
-    resolution: {integrity: sha512-5nj3jULqeTAC1WovwMs1LQWgatTa2pM/rXN9T3XW8rdOtXW9ZF6/GLSNFTKDQmPLwclhPdgUWLJ/4w3fMeeC/Q==}
+  '@intlify/message-compiler@11.4.7':
+    resolution: {integrity: sha512-bHxmh7n94N4N1evADeb7XTkc3jTw6Ki5biMFZVSX6Jmk+iehy8/maeH2XUsBI27rtKIK+Hzc6QnVAKggUwylKw==}
     engines: {node: '>= 22'}
 
-  '@intlify/shared@11.4.6':
-    resolution: {integrity: sha512-m1p1HHAMLhqSpTRH7VnXdrN0CQ4y+9vunFkpLkbD8soIuBsnQdawZXqMCgvwI2UVF9Ww7sVaw7g9tV2VO7shoA==}
+  '@intlify/shared@11.4.7':
+    resolution: {integrity: sha512-OtjPZan3No2OZZFnMUiCVsXC6+j+XRwEywaFDk0AoayAbLuPesyDloXhJZLl9JUl5vHZeQUkYSbEA8VX+CWMjg==}
     engines: {node: '>= 22'}
 
   '@jridgewell/gen-mapping@0.3.13':
@@ -819,8 +819,8 @@ packages:
   '@tauri-apps/plugin-updater@2.10.1':
     resolution: {integrity: sha512-NFYMg+tWOZPJdzE/PpFj2qfqwAWwNS3kXrb1tm1gnBJ9mYzZ4WDRrwy8udzWoAnfGCHLuePNLY1WVCNHnh3eRA==}
 
-  '@tauri-store/pinia@5.0.0':
-    resolution: {integrity: sha512-kRN3LiwwIQLU0wVSRDv7gHGwCkJREXjj9pUMHt+B5ssXV/PA1mwma6MCjA2554cvnVI0ATKjviZZvVCrqRnBWw==}
+  '@tauri-store/pinia@5.0.1':
+    resolution: {integrity: sha512-QGhyrSyAmDBZNmZs9r8hFFEZ9eYXtbTzkFxVs9eOVoxygz2/mRm9Q+rPTr0O9ShFU1QATe0YfPgv2OmAQtFKAA==}
 
   '@tauri-store/shared@0.10.5':
     resolution: {integrity: sha512-ZWHJ8NEo8Ejx1Hz7szJfSGh+JGQgqA+I3nnPzGpqIQ2m4mCCWRO8CJ5AaY+7DjZKrQpJzlHsiuWTY3k3J1TZOA==}
@@ -2042,8 +2042,8 @@ packages:
     peerDependencies:
       eslint: ^8.57.0 || ^9.0.0 || ^10.0.0
 
-  vue-i18n@11.4.6:
-    resolution: {integrity: sha512-l0gE7Rfy0phCa5ChKYkOq543Wgd39BCK6hkktfr1Ed4D99oRkgPK9ffShASZdeC8OJxGfdWmpYoAaAH6iLEuIg==}
+  vue-i18n@11.4.7:
+    resolution: {integrity: sha512-j6RyshdPPzqLiMAUpnpvZGFPM+rRoWi14Sl5yTsquvoW0/56DWyvhAj2o9TO2YXGvb6teg8T0xrYO9jR3urvdw==}
     engines: {node: '>= 22'}
     peerDependencies:
       vue: ^3.0.0
@@ -2264,23 +2264,23 @@ snapshots:
     dependencies:
       '@swc/helpers': 0.5.23
 
-  '@intlify/core-base@11.4.6':
+  '@intlify/core-base@11.4.7':
     dependencies:
-      '@intlify/devtools-types': 11.4.6
-      '@intlify/message-compiler': 11.4.6
-      '@intlify/shared': 11.4.6
+      '@intlify/devtools-types': 11.4.7
+      '@intlify/message-compiler': 11.4.7
+      '@intlify/shared': 11.4.7
 
-  '@intlify/devtools-types@11.4.6':
+  '@intlify/devtools-types@11.4.7':
     dependencies:
-      '@intlify/core-base': 11.4.6
-      '@intlify/shared': 11.4.6
+      '@intlify/core-base': 11.4.7
+      '@intlify/shared': 11.4.7
 
-  '@intlify/message-compiler@11.4.6':
+  '@intlify/message-compiler@11.4.7':
     dependencies:
-      '@intlify/shared': 11.4.6
+      '@intlify/shared': 11.4.7
       source-map-js: 1.2.1
 
-  '@intlify/shared@11.4.6': {}
+  '@intlify/shared@11.4.7': {}
 
   '@jridgewell/gen-mapping@0.3.13':
     dependencies:
@@ -2643,7 +2643,7 @@ snapshots:
     dependencies:
       '@tauri-apps/api': 2.11.1
 
-  '@tauri-store/pinia@5.0.0(@vue/devtools-api@8.1.5)(typescript@6.0.3)':
+  '@tauri-store/pinia@5.0.1(@vue/devtools-api@8.1.5)(typescript@6.0.3)':
     dependencies:
       '@tauri-apps/api': 2.11.1
       '@tauri-store/shared': 0.10.5
@@ -3914,11 +3914,11 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  vue-i18n@11.4.6(vue@3.5.40):
+  vue-i18n@11.4.7(vue@3.5.40):
     dependencies:
-      '@intlify/core-base': 11.4.6
-      '@intlify/devtools-types': 11.4.6
-      '@intlify/shared': 11.4.6
+      '@intlify/core-base': 11.4.7
+      '@intlify/devtools-types': 11.4.7
+      '@intlify/shared': 11.4.7
       '@vue/devtools-api': 6.6.4
       vue: 3.5.40(typescript@6.0.3)
 
