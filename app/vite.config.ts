@@ -5,9 +5,11 @@ import tailwind from "@tailwindcss/vite";
 import { fileURLToPath, URL } from "node:url";
 import { env_Var } from "@tsukilabs/nil-bindings";
 
+const minify = env[env_Var.NIL_MINIFY_SOURCE] !== "false";
+
 export default defineConfig({
   plugins: [
-    tailwind(),
+    tailwind({ optimize: { minify } }),
     vue({ features: { optionsAPI: false } }),
   ],
   resolve: {
@@ -23,7 +25,7 @@ export default defineConfig({
     copyPublicDir: true,
     emptyOutDir: true,
     sourcemap: false,
-    minify: env[env_Var.NIL_MINIFY_SOURCE] !== "false",
+    minify,
   },
   server: {
     port: 1420,
