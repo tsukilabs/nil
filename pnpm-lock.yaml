@@ -37,8 +37,8 @@ importers:
         specifier: '=2.10.1'
         version: 2.10.1
       '@tauri-store/pinia':
-        specifier: '=5.0.1'
-        version: 5.0.1(@vue/devtools-api@8.1.5)(typescript@6.0.3)
+        specifier: '=5.0.2'
+        version: 5.0.2(@vue/devtools-api@8.1.5)(typescript@6.0.3)
       '@tb-dev/prototype-dom':
         specifier: '=7.0.52'
         version: 7.0.52
@@ -819,11 +819,11 @@ packages:
   '@tauri-apps/plugin-updater@2.10.1':
     resolution: {integrity: sha512-NFYMg+tWOZPJdzE/PpFj2qfqwAWwNS3kXrb1tm1gnBJ9mYzZ4WDRrwy8udzWoAnfGCHLuePNLY1WVCNHnh3eRA==}
 
-  '@tauri-store/pinia@5.0.1':
-    resolution: {integrity: sha512-QGhyrSyAmDBZNmZs9r8hFFEZ9eYXtbTzkFxVs9eOVoxygz2/mRm9Q+rPTr0O9ShFU1QATe0YfPgv2OmAQtFKAA==}
+  '@tauri-store/pinia@5.0.2':
+    resolution: {integrity: sha512-z3IFRGVom+i7rD3CP0DLPde8mCu2ZecuqnvzLvcZIWYQ/ojjqnuyVW/2aliJOpPd9u9NB5/idz8D927XlbSlng==}
 
-  '@tauri-store/shared@0.10.5':
-    resolution: {integrity: sha512-ZWHJ8NEo8Ejx1Hz7szJfSGh+JGQgqA+I3nnPzGpqIQ2m4mCCWRO8CJ5AaY+7DjZKrQpJzlHsiuWTY3k3J1TZOA==}
+  '@tauri-store/shared@0.10.6':
+    resolution: {integrity: sha512-vRC4MH52j6ITeD9yWs6jwmYxJwt17x0YwSzigxwEkUQad6JC9m6lIJPD4r+ebZYpVJ47RlI9g5SPy2dxMOpYqg==}
 
   '@tb-dev/eslint-config@10.2.1':
     resolution: {integrity: sha512-1cbIXr4Ei7esZwrpIicV7CDY14uJrhgsGiyGJB1AP+eKOIXbu/Furg5TIz9kzg71eMlKxo6QrUdnJ1PoqM3Wog==}
@@ -2643,17 +2643,17 @@ snapshots:
     dependencies:
       '@tauri-apps/api': 2.11.1
 
-  '@tauri-store/pinia@5.0.1(@vue/devtools-api@8.1.5)(typescript@6.0.3)':
+  '@tauri-store/pinia@5.0.2(@vue/devtools-api@8.1.5)(typescript@6.0.3)':
     dependencies:
       '@tauri-apps/api': 2.11.1
-      '@tauri-store/shared': 0.10.5
+      '@tauri-store/shared': 0.10.6
       pinia: 4.0.2(@vue/devtools-api@8.1.5)(typescript@6.0.3)(vue@3.5.40)
       vue: 3.5.40(typescript@6.0.3)
     transitivePeerDependencies:
       - '@vue/devtools-api'
       - typescript
 
-  '@tauri-store/shared@0.10.5':
+  '@tauri-store/shared@0.10.6':
     dependencies:
       '@tauri-apps/api': 2.11.1
       es-toolkit: 1.49.0

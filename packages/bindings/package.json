@@ -6,18 +6,15 @@
   "license": "AGPL-3.0-only",
   "private": false,
   "homepage": "https://nil.dev.br",
-  "contributors": [
-    {
-      "name": "Andrew Ferreira",
-      "email": "andrew.shien2@gmail.com",
-      "url": "https://tb.dev.br"
-    },
-    {
-      "name": "Danilo Soares",
-      "email": "danilofs18@gmail.com",
-      "url": "https://github.com/danilofs18"
-    }
-  ],
+  "contributors": [{
+    "name": "Andrew Ferreira",
+    "email": "andrew.shien2@gmail.com",
+    "url": "https://tb.dev.br"
+  }, {
+    "name": "Danilo Soares",
+    "email": "danilofs18@gmail.com",
+    "url": "https://github.com/danilofs18"
+  }],
   "repository": {
     "type": "git",
     "url": "https://github.com/tsukilabs/nil"
@@ -25,16 +22,12 @@
   "bugs": {
     "url": "https://github.com/tsukilabs/nil/issues"
   },
-  "keywords": [
-    "call-of-nil"
-  ],
+  "keywords": ["call-of-nil"],
   "scripts": {
     "build": "vite build",
     "type-check": "tsc --noEmit"
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "main": "./dist/index.js",
   "types": "./dist/src/index.d.ts"
 }
