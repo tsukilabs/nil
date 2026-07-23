@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import type { ListboxFilterProps } from "reka-ui";
 import type { HTMLAttributes } from "vue";
+import { SearchIcon } from "@lucide/vue";
 import { reactiveOmit } from "@vueuse/core";
-import { Search } from "@lucide/vue";
 import { ListboxFilter, useForwardProps } from "reka-ui";
 import { cn } from "@/components/ui/utils";
+import { InputGroup, InputGroupAddon } from "@/components/ui/input-group";
 import { useCommand } from ".";
 
 defineOptions({
@@ -27,18 +28,19 @@ const { filterState } = useCommand();
 <template>
   <div
     data-slot="command-input-wrapper"
-    class="flex h-9 items-center gap-2 border-b px-3"
+    class="border-b pb-0"
   >
-    <Search class="size-4 shrink-0 opacity-50" />
-    <ListboxFilter
-      v-bind="{ ...forwardedProps, ...$attrs }"
-      v-model="filterState.search"
-      data-slot="command-input"
-      auto-focus
-      :class="cn(
-        'placeholder:text-muted-foreground flex h-10 w-full rounded-none bg-transparent py-3 text-sm outline-hidden disabled:cursor-not-allowed disabled:opacity-50',
-        props.class,
-      )"
-    />
+    <InputGroup class="bg-input/30 border-input/30 h-8 border-none shadow-none! *:data-[slot=input-group-addon]:pl-2!">
+      <ListboxFilter
+        v-bind="{ ...forwardedProps, ...$attrs }"
+        v-model="filterState.search"
+        data-slot="command-input"
+        auto-focus
+        :class="cn('w-full text-xs outline-hidden disabled:cursor-not-allowed disabled:opacity-50', props.class)"
+      />
+      <InputGroupAddon>
+        <SearchIcon class="size-4 shrink-0 opacity-50" />
+      </InputGroupAddon>
+    </InputGroup>
   </div>
 </template>

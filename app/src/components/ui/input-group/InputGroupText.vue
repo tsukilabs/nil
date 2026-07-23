@@ -8,10 +8,12 @@ const props = defineProps<{
 </script>
 
 <template>
-  <div
-    data-slot="card-description"
-    :class="cn('text-muted-foreground text-xs/relaxed', props.class)"
+  <span
+    :class="cn(
+      'text-muted-foreground gap-2 text-xs [&_svg:not([class*=size-])]:size-4 flex items-center [&_svg]:pointer-events-none',
+      props.class,
+    )"
   >
     <slot />
-  </div>
+  </span>
 </template>
