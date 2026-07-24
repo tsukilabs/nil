@@ -54,7 +54,6 @@
   --font-mono: "Geist Mono", monospace;
   --font-syne: "Syne";
   --font-syne-mono: "Syne Mono";
-  --font-heading: var(--font-sans);
 }
 
 @utility ellipsis {
@@ -144,14 +143,4 @@
 
 @utility right-safe-* {
   right: calc(var(--safe-right) + calc(var(--spacing, 0.25rem) * --value(integer)));
-}
-
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-
-  body {
-    @apply bg-background text-foreground;
-  }
 }

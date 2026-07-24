@@ -10,10 +10,7 @@
     "type-check": "vue-tsc --noEmit"
   },
   "dependencies": {
-    "@lucide/vue": "1.25.0",
-    "@tsukilabs/nil-bindings": "workspace:*",
-    "@vueuse/core": "14.3.0",
-    "reka-ui": "2.10.1"
+    "@tsukilabs/nil-bindings": "workspace:*"
   },
   "devDependencies": {
     "tailwindcss": "=4.3.3"
