@@ -2,7 +2,7 @@
   "name": "nil",
   "version": "0.6.9",
   "type": "module",
-  "packageManager": "pnpm@11.16.0",
+  "packageManager": "pnpm@11.17.0",
   "license": "AGPL-3.0-only",
   "private": true,
   "scripts": {
@@ -54,6 +54,6 @@
     "unplugin-dts": "=1.0.3",
     "vite": "=8.1.5",
     "vitepress": "=2.0.0-alpha.18",
-    "vue-tsc": "=3.3.7"
+    "vue-tsc": "=3.3.8"
   }
 }
