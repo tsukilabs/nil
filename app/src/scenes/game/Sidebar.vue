@@ -116,6 +116,14 @@ function copyServerAddr() {
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton as-child>
+                  <RouterLink :to="{ name: 'own-cities' satisfies GameScene }">
+                    {{ t("city", 2) }}
+                  </RouterLink>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+
+              <SidebarMenuItem>
+                <SidebarMenuButton as-child>
                   <RouterLink :to="{ name: 'war-room' satisfies GameScene }">
                     {{ t("war-room") }}
                   </RouterLink>

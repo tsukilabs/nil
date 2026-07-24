@@ -1,9 +1,13 @@
 {
-  "style": "lyra",
-  "base": "reka",
+  "$schema": "https://shadcn-vue.com/schema.json",
+  "style": "reka-lyra",
   "font": "geist",
   "typescript": true,
   "iconLibrary": "lucide",
+  "rtl": false,
+  "pointer": false,
+  "menuColor": "default",
+  "menuAccent": "subtle",
   "tailwind": {
     "config": "",
     "css": "src/assets/style/base.css",

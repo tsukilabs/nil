@@ -10,6 +10,7 @@ trustPolicy: no-downgrade
 minimumReleaseAge: 1440
 minimumReleaseAgeStrict: true
 minimumReleaseAgeExclude:
+  - "@tauri-store/*"
   - "@tb-dev/*"
   - "@tsukilabs/*"
 
