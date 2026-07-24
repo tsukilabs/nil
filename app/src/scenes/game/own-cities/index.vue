@@ -22,8 +22,11 @@ async function goToCity(coord: Coord) {
       return it.coord.is(coord);
     });
 
-    if (city && (!currentCity.value || !city.coord.is(currentCity.value.coord))) {
-      await NIL.city.setCoord(city.coord);
+    if (city) {
+      if (!currentCity.value || !city.coord.is(currentCity.value.coord)) {
+        await NIL.city.setCoord(city.coord);
+      }
+
       await go("city");
     }
   }
