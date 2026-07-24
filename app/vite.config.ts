@@ -26,6 +26,11 @@ export default defineConfig({
     emptyOutDir: true,
     sourcemap: false,
     minify,
+    rolldownOptions: {
+      experimental: {
+        attachDebugInfo: import.meta.env.DEV ? "simple" : "none",
+      },
+    },
   },
   server: {
     port: 1420,
