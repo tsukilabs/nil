@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as commands from "@/commands";
+import { formatPercent } from "@/lib/intl";
 import { CoordImpl } from "@/core/model/continent/coord";
 import type { ContinentKey } from "@/types/core/continent";
 import type { City, Resources } from "@tsukilabs/nil-bindings";
@@ -26,6 +27,10 @@ export class CityImpl extends PublicCityImpl implements Readonly<City> {
       stone: this.quarry.getProduction(),
       wood: this.sawmill.getProduction(),
     } satisfies Partial<Resources>;
+  }
+
+  public formatStability() {
+    return formatPercent(this.stability);
   }
 
   get academy() {

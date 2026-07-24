@@ -6,7 +6,6 @@ import { go } from "@/router";
 import { nextTick } from "vue";
 import { useI18n } from "vue-i18n";
 import { handleError } from "@/lib/error";
-import { formatPercent } from "@/lib/intl";
 import type { Coord } from "@tsukilabs/nil-bindings";
 import { Card, CardContent, CardHeader, CardTitle } from "@ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@ui/table";
@@ -72,10 +71,10 @@ async function goToCity(coord: Coord) {
                 {{ city.name }}
               </TableCell>
               <TableCell>
-                {{ city.score }}
+                {{ city.formatScore() }}
               </TableCell>
               <TableCell>
-                {{ formatPercent(city.stability) }}
+                {{ city.formatStability() }}
               </TableCell>
             </TableRow>
           </TableBody>
