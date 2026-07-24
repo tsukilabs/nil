@@ -13,7 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - uses: pnpm/action-setup@v6
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@v7
         with:
           node-version: 26
           registry-url: "https://registry.npmjs.org"
@@ -26,13 +26,13 @@ jobs:
         run: pnpm ci
 
       - name: Publish packages
-        run: cargo +nightly -Zscript scripts/publish-packages.rs
+        run: cargo -Zscript scripts/publish-packages.rs
 
-      - uses: rust-lang/crates-io-auth-action@v1.0.4
+      - uses: rust-lang/crates-io-auth-action@v1.0.5
         id: auth
 
       - name: Publish crates
-        run: cargo +nightly -Zscript scripts/publish-crates.rs
+        run: cargo -Zscript scripts/publish-crates.rs
         env:
           CARGO_REGISTRY_TOKEN: ${{ steps.auth.outputs.token }}
 
@@ -73,7 +73,7 @@ jobs:
           pnpm run -F @tsukilabs/nil-bindings build
 
       - name: Run tests
-        run: cargo +nightly -Zscript scripts/test.rs
+        run: cargo -Zscript scripts/test.rs
         env:
           RUST_BACKTRACE: 1
 
@@ -108,7 +108,7 @@ jobs:
         run: sudo apt-get update
 
       - name: Release
-        run: cargo +nightly -Zscript scripts/build-server.rs --release
+        run: cargo -Zscript scripts/build-server.rs --release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           RUST_BACKTRACE: 1

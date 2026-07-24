@@ -14,7 +14,7 @@ Call of Nil requires a [nightly Rust toolchain](https://rust-lang.github.io/rust
 ```sh
 git clone https://github.com/tsukilabs/nil.git
 cd nil
-cargo +nightly -Zscript scripts/build-client.rs
+cargo -Zscript scripts/build-client.rs
 ```
 
 ## License

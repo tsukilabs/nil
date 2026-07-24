@@ -1,11 +1,10 @@
-#!/usr/bin/env -S cargo +nightly -Zscript
 ---
 [package]
 edition = "2024"
 
 [dependencies]
 anyhow = "1.0"
-octocrab = "=0.54.0"
+octocrab = "=0.54.1"
 serde_json = "1.0"
 tempfile = "3.27"
 ureq = "3.3"
