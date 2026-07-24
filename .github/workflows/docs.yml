@@ -34,7 +34,7 @@ jobs:
         uses: actions/configure-pages@v6
 
       - name: Build
-        run: cargo +nightly -Zscript scripts/build-docs.rs
+        run: cargo -Zscript scripts/build-docs.rs
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v5
