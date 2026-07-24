@@ -9,20 +9,22 @@ use crate::npc::bot::BotId;
 use crate::ruler::Ruler;
 use crate::world::World;
 
-impl World {
-  pub fn cheat_get_ethics(&self, ruler: &Ruler) -> Result<Option<Ethics>> {
-    bail_if_cheats_are_not_allowed!(self);
-    self.get_ethics(ruler)
-  }
+pub fn get_ethics(world: &World, ruler: &Ruler) -> Result<Option<Ethics>> {
+  bail_if_cheats_are_not_allowed!(world);
+  world.get_ethics(ruler)
+}
 
-  pub fn cheat_set_bot_ethics(&mut self, id: &BotId, ethics: Ethics) -> Result<()> {
-    bail_if_cheats_are_not_allowed!(self);
-    *self.bot_mut(id)?.ethics_mut() = ethics;
-    Ok(())
-  }
+pub fn set_bot_ethics(world: &mut World, id: &BotId, ethics: Ethics) -> Result<()> {
+  bail_if_cheats_are_not_allowed!(world);
+  *world.bot_mut(id)?.ethics_mut() = ethics;
+  Ok(())
+}
 
-  pub fn cheat_spawn_bot(&mut self, name: &str, infrastructure: Infrastructure) -> Result<BotId> {
-    bail_if_cheats_are_not_allowed!(self);
-    self.spawn_bot(name, infrastructure)
-  }
+pub fn spawn_bot(
+  world: &mut World,
+  name: impl Into<BotId>,
+  infrastructure: Infrastructure,
+) -> Result<BotId> {
+  bail_if_cheats_are_not_allowed!(world);
+  world.spawn_bot(name, infrastructure)
 }

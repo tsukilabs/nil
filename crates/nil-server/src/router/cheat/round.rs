@@ -6,6 +6,7 @@ use crate::res;
 use crate::response::EitherExt;
 use axum::extract::{Json, State};
 use axum::response::Response;
+use nil_core::world::cheat;
 use nil_payload::request::cheat::round::*;
 use std::num::NonZeroU8;
 
@@ -15,7 +16,7 @@ pub async fn skip(State(app): State<App>, Json(mut req): Json<CheatSkipRoundRequ
   }
 
   app
-    .world_blocking_mut(req.world, move |world| world.cheat_skip_round(req.amount))
+    .world_blocking_mut(req.world, move |world| cheat::skip_round(world, req.amount))
     .await
     .try_map_left(|()| res!(OK))
     .into_inner()

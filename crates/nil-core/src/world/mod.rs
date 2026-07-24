@@ -6,7 +6,7 @@ pub mod stats;
 
 mod battle;
 mod chat;
-mod cheat;
+pub mod cheat;
 mod city;
 mod continent;
 mod event;

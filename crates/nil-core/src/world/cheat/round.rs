@@ -6,17 +6,15 @@ use crate::error::Result;
 use crate::world::World;
 use std::num::NonZeroU8;
 
-impl World {
-  pub fn cheat_skip_round(&mut self, amount: NonZeroU8) -> Result<()> {
-    bail_if_cheats_are_not_allowed!(self);
+pub fn skip_round(world: &mut World, amount: NonZeroU8) -> Result<()> {
+  bail_if_cheats_are_not_allowed!(world);
 
-    if !self.round.is_idle() {
-      let amount = amount.get();
-      for i in 1..=amount {
-        self.dangerously_end_round(i == amount)?;
-      }
+  if !world.round.is_idle() {
+    let amount = amount.get();
+    for i in 1..=amount {
+      world.dangerously_end_round(i == amount)?;
     }
-
-    Ok(())
   }
+
+  Ok(())
 }

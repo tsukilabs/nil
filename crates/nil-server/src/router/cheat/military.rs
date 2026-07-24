@@ -8,7 +8,7 @@ use crate::response::EitherExt;
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
 use nil_core::ruler::Ruler;
-use nil_core::world::World;
+use nil_core::world::cheat;
 use nil_payload::request::cheat::military::*;
 use nil_payload::response::cheat::military::*;
 
@@ -17,7 +17,9 @@ pub async fn get_idle_armies_at(
   Json(req): Json<CheatGetIdleArmiesAtRequest>,
 ) -> Response {
   app
-    .world(req.world, |world| world.cheat_get_idle_armies_at(req.coord))
+    .world(req.world, |world| {
+      cheat::get_idle_armies_at(world, req.coord)
+    })
     .await
     .try_map_left(|armies| res!(OK, CheatGetIdleArmiesAtResponse(armies)))
     .into_inner()
@@ -29,7 +31,7 @@ pub async fn get_idle_personnel_at(
 ) -> Response {
   app
     .world(req.world, |world| {
-      world.cheat_get_idle_personnel_at(req.coord)
+      cheat::get_idle_personnel_at(world, req.coord)
     })
     .await
     .try_map_left(|personnel| res!(OK, CheatGetIdlePersonnelAtResponse(personnel)))
@@ -41,7 +43,7 @@ pub async fn get_maneuvers(
   Json(req): Json<CheatGetManeuversRequest>,
 ) -> Response {
   app
-    .world(req.world, World::cheat_get_maneuvers)
+    .world(req.world, cheat::get_maneuvers)
     .await
     .try_map_left(|maneuvers| res!(OK, CheatGetManeuversResponse(maneuvers)))
     .into_inner()
@@ -57,7 +59,7 @@ pub async fn get_maneuvers_of(
     .unwrap_or_else(|| Ruler::from(player.0));
 
   app
-    .world(req.world, |world| world.cheat_get_maneuvers_of(ruler))
+    .world(req.world, |world| cheat::get_maneuvers_of(world, ruler))
     .await
     .try_map_left(|maneuvers| res!(OK, CheatGetManeuversOfResponse(maneuvers)))
     .into_inner()
@@ -69,7 +71,7 @@ pub async fn spawn_personnel(
 ) -> Response {
   app
     .world_blocking_mut(req.world, move |world| {
-      world.cheat_spawn_personnel(req.coord, req.personnel, req.ruler)
+      cheat::spawn_personnel(world, req.coord, req.personnel, req.ruler)
     })
     .await
     .try_map_left(|()| res!(OK))

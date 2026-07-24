@@ -7,7 +7,7 @@ use nil_core::city::City;
 use nil_core::continent::coord::Coord;
 use nil_core::error::Error as CoreError;
 use nil_core::ranking::score::Score;
-use nil_core::world::World;
+use nil_core::world::{World, cheat};
 use serde::{Deserialize, Serialize};
 
 #[cfg(feature = "axum")]
@@ -40,7 +40,7 @@ impl CheatGetCityResponse {
     #[builder(start_fn)] coord: Coord,
     #[builder(default)] score: bool,
   ) -> Result<Self, CoreError> {
-    let city = world.cheat_get_city(coord)?;
+    let city = cheat::get_city(world, coord)?;
     let score = score
       .then(|| city.score(&world.stats().infrastructure()))
       .transpose()?;
