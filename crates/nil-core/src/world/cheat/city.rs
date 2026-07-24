@@ -6,11 +6,17 @@ use crate::city::City;
 use crate::city::stability::Stability;
 use crate::continent::coord::Coord;
 use crate::continent::field::Field;
+use crate::continent::index::ContinentKey;
 use crate::error::{Error, Result};
 use crate::ruler::Ruler;
 use crate::world::World;
 
 impl World {
+  pub fn cheat_get_city(&self, key: impl ContinentKey) -> Result<&City> {
+    bail_if_cheats_are_not_allowed!(self);
+    self.continent.city(key)
+  }
+
   pub fn cheat_set_stability(&mut self, coord: Coord, stability: Stability) -> Result<()> {
     bail_if_cheats_are_not_allowed!(self);
     let city = self.city_mut(coord)?;

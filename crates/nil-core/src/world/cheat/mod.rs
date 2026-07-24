@@ -14,7 +14,7 @@ mod round;
 #[macro_export]
 macro_rules! bail_if_cheats_are_not_allowed {
   ($world:expr) => {
-    if !$world.config().are_cheats_allowed() {
+    if !$world.config.are_cheats_allowed() {
       use $crate::error::Error;
       return Err(Error::CheatingNotAllowed);
     }

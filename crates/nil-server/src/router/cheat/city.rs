@@ -8,7 +8,6 @@ use crate::response::EitherExt;
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
 use itertools::Itertools;
-use nil_core::bail_if_cheats_are_not_allowed;
 use nil_payload::request::cheat::city::*;
 use nil_payload::response::cheat::city::*;
 
@@ -22,7 +21,6 @@ pub async fn get_cities(
 
   app
     .world(req.world, move |world| {
-      bail_if_cheats_are_not_allowed!(world);
       world
         .continent()
         .cities_by(|city| req.all || req.coords.contains(&city.coord()))
@@ -41,7 +39,6 @@ pub async fn get_cities(
 pub async fn get_city(State(app): State<App>, Json(req): Json<CheatGetCityRequest>) -> Response {
   app
     .world(req.world, move |world| {
-      bail_if_cheats_are_not_allowed!(world);
       CheatGetCityResponse::builder(world, req.coord)
         .score(req.score)
         .build()

@@ -40,10 +40,12 @@ impl CheatGetCityResponse {
     #[builder(start_fn)] coord: Coord,
     #[builder(default)] score: bool,
   ) -> Result<Self, CoreError> {
-    GetCityResponse::builder(world, coord)
-      .score(score)
-      .build()
-      .map(Into::into)
+    let city = world.cheat_get_city(coord)?;
+    let score = score
+      .then(|| city.score(&world.stats().infrastructure()))
+      .transpose()?;
+
+    Ok(Self { city: city.clone(), score })
   }
 }
 
