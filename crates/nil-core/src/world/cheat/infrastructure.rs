@@ -3,6 +3,7 @@
 
 use crate::bail_if_cheats_are_not_allowed;
 use crate::continent::coord::Coord;
+use crate::continent::index::ContinentKey;
 use crate::error::Result;
 use crate::infrastructure::Infrastructure;
 use crate::infrastructure::building::BuildingId;
@@ -18,10 +19,13 @@ use itertools::Itertools;
 use strum::IntoEnumIterator;
 use tap::Pipe;
 
-pub fn get_academy_recruit_queue(world: &World, coord: Coord) -> Result<AcademyRecruitQueue> {
+pub fn get_academy_recruit_queue(
+  world: &World,
+  key: impl ContinentKey,
+) -> Result<AcademyRecruitQueue> {
   bail_if_cheats_are_not_allowed!(world);
   world
-    .city(coord)?
+    .city(key)?
     .infrastructure()
     .academy()
     .recruit_queue()
@@ -34,7 +38,7 @@ pub fn get_academy_recruit_queues(
   coords: &[Coord],
   filter_empty: bool,
 ) -> Result<Vec<(Coord, AcademyRecruitQueue)>> {
-   bail_if_cheats_are_not_allowed!(world);
+  bail_if_cheats_are_not_allowed!(world);
   coords
     .iter()
     .copied()
@@ -47,7 +51,7 @@ pub fn get_all_academy_recruit_queues(
   world: &World,
   filter_empty: bool,
 ) -> Result<Vec<(Coord, AcademyRecruitQueue)>> {
-   bail_if_cheats_are_not_allowed!(world);
+  bail_if_cheats_are_not_allowed!(world);
   world
     .continent
     .city_coords()
@@ -60,7 +64,7 @@ pub fn get_all_prefecture_build_queues(
   world: &World,
   filter_empty: bool,
 ) -> Result<Vec<(Coord, PrefectureBuildQueue)>> {
-   bail_if_cheats_are_not_allowed!(world);
+  bail_if_cheats_are_not_allowed!(world);
   world
     .continent
     .city_coords()
@@ -73,7 +77,7 @@ pub fn get_all_stable_recruit_queues(
   world: &World,
   filter_empty: bool,
 ) -> Result<Vec<(Coord, StableRecruitQueue)>> {
-   bail_if_cheats_are_not_allowed!(world);
+  bail_if_cheats_are_not_allowed!(world);
   world
     .continent
     .city_coords()
@@ -82,19 +86,22 @@ pub fn get_all_stable_recruit_queues(
     .try_collect()
 }
 
-pub fn get_infrastructure(world: &World, coord: Coord) -> Result<Infrastructure> {
+pub fn get_infrastructure(world: &World, key: impl ContinentKey) -> Result<Infrastructure> {
   bail_if_cheats_are_not_allowed!(world);
   world
-    .city(coord)?
+    .city(key)?
     .infrastructure()
     .clone()
     .pipe(Ok)
 }
 
-pub fn get_prefecture_build_queue(world: &World, coord: Coord) -> Result<PrefectureBuildQueue> {
+pub fn get_prefecture_build_queue(
+  world: &World,
+  key: impl ContinentKey,
+) -> Result<PrefectureBuildQueue> {
   bail_if_cheats_are_not_allowed!(world);
   world
-    .city(coord)?
+    .city(key)?
     .infrastructure()
     .prefecture()
     .build_queue()
@@ -107,7 +114,7 @@ pub fn get_prefecture_build_queues(
   coords: &[Coord],
   filter_empty: bool,
 ) -> Result<Vec<(Coord, PrefectureBuildQueue)>> {
-   bail_if_cheats_are_not_allowed!(world);
+  bail_if_cheats_are_not_allowed!(world);
   coords
     .iter()
     .copied()
@@ -116,10 +123,13 @@ pub fn get_prefecture_build_queues(
     .try_collect()
 }
 
-pub fn get_stable_recruit_queue(world: &World, coord: Coord) -> Result<StableRecruitQueue> {
+pub fn get_stable_recruit_queue(
+  world: &World,
+  key: impl ContinentKey,
+) -> Result<StableRecruitQueue> {
   bail_if_cheats_are_not_allowed!(world);
   world
-    .city(coord)?
+    .city(key)?
     .infrastructure()
     .stable()
     .recruit_queue()
@@ -132,7 +142,7 @@ pub fn get_stable_recruit_queues(
   coords: &[Coord],
   filter_empty: bool,
 ) -> Result<Vec<(Coord, StableRecruitQueue)>> {
-   bail_if_cheats_are_not_allowed!(world);
+  bail_if_cheats_are_not_allowed!(world);
   coords
     .iter()
     .copied()
@@ -148,19 +158,21 @@ pub fn get_storage_capacity(world: &World, ruler: Ruler) -> Result<OverallStorag
 
 pub fn set_building_level(
   world: &mut World,
-  coord: Coord,
+  key: impl ContinentKey,
   id: BuildingId,
   level: BuildingLevel,
 ) -> Result<()> {
   bail_if_cheats_are_not_allowed!(world);
+  let coord = key.into_coord(world.continent.size())?;
   world.set_building_level(coord, id, level)?;
   world.emit_city(coord)?;
   Ok(())
 }
 
-pub fn set_max_infrastructure(world: &mut World, coord: Coord) -> Result<()> {
+pub fn set_max_infrastructure(world: &mut World, key: impl ContinentKey) -> Result<()> {
   bail_if_cheats_are_not_allowed!(world);
 
+  let coord = key.into_coord(world.continent.size())?;
   let infrastructure = world.city_mut(coord)?.infrastructure_mut();
 
   for id in BuildingId::iter() {

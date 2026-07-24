@@ -4,7 +4,6 @@
 use crate::bail_if_cheats_are_not_allowed;
 use crate::city::City;
 use crate::city::stability::Stability;
-use crate::continent::coord::Coord;
 use crate::continent::field::Field;
 use crate::continent::index::ContinentKey;
 use crate::error::{Error, Result};
@@ -16,16 +15,26 @@ pub fn get_city(world: &World, key: impl ContinentKey) -> Result<&City> {
   world.continent.city(key)
 }
 
-pub fn set_stability(world: &mut World, coord: Coord, stability: Stability) -> Result<()> {
+pub fn set_stability(
+  world: &mut World,
+  key: impl ContinentKey,
+  stability: Stability,
+) -> Result<()> {
   bail_if_cheats_are_not_allowed!(world);
+
+  let coord = key.into_coord(world.continent.size())?;
   let city = world.city_mut(coord)?;
   *city.stability_mut() = stability;
+
   world.emit_city(coord)?;
+
   Ok(())
 }
 
-pub fn spawn_city(world: &mut World, ruler: &Ruler, coord: Coord) -> Result<()> {
+pub fn spawn_city(world: &mut World, ruler: &Ruler, key: impl ContinentKey) -> Result<()> {
   bail_if_cheats_are_not_allowed!(world);
+
+  let coord = key.into_coord(world.continent.size())?;
   let city = City::builder(coord)
     .name(<Ruler as AsRef<str>>::as_ref(ruler))
     .owner(ruler.clone())
