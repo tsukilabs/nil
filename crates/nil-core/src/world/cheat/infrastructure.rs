@@ -3,6 +3,7 @@
 
 use crate::bail_if_cheats_are_not_allowed;
 use crate::continent::coord::Coord;
+use crate::continent::index::ContinentKey;
 use crate::error::Result;
 use crate::infrastructure::Infrastructure;
 use crate::infrastructure::building::BuildingId;
@@ -18,153 +19,168 @@ use itertools::Itertools;
 use strum::IntoEnumIterator;
 use tap::Pipe;
 
-impl World {
-  pub fn cheat_get_academy_recruit_queue(&self, coord: Coord) -> Result<AcademyRecruitQueue> {
-    bail_if_cheats_are_not_allowed!(self);
-    self
-      .city(coord)?
-      .infrastructure()
-      .academy()
-      .recruit_queue()
-      .clone()
-      .pipe(Ok)
+pub fn get_academy_recruit_queue(
+  world: &World,
+  key: impl ContinentKey,
+) -> Result<AcademyRecruitQueue> {
+  bail_if_cheats_are_not_allowed!(world);
+  world
+    .city(key)?
+    .infrastructure()
+    .academy()
+    .recruit_queue()
+    .clone()
+    .pipe(Ok)
+}
+
+pub fn get_academy_recruit_queues(
+  world: &World,
+  coords: &[Coord],
+  filter_empty: bool,
+) -> Result<Vec<(Coord, AcademyRecruitQueue)>> {
+  bail_if_cheats_are_not_allowed!(world);
+  coords
+    .iter()
+    .copied()
+    .map(|coord| Ok((coord, get_academy_recruit_queue(world, coord)?)))
+    .filter_ok(|(_, queue)| !filter_empty || !queue.is_empty())
+    .try_collect()
+}
+
+pub fn get_all_academy_recruit_queues(
+  world: &World,
+  filter_empty: bool,
+) -> Result<Vec<(Coord, AcademyRecruitQueue)>> {
+  bail_if_cheats_are_not_allowed!(world);
+  world
+    .continent
+    .city_coords()
+    .map(|coord| Ok((coord, get_academy_recruit_queue(world, coord)?)))
+    .filter_ok(|(_, queue)| !filter_empty || !queue.is_empty())
+    .try_collect()
+}
+
+pub fn get_all_prefecture_build_queues(
+  world: &World,
+  filter_empty: bool,
+) -> Result<Vec<(Coord, PrefectureBuildQueue)>> {
+  bail_if_cheats_are_not_allowed!(world);
+  world
+    .continent
+    .city_coords()
+    .map(|coord| Ok((coord, get_prefecture_build_queue(world, coord)?)))
+    .filter_ok(|(_, queue)| !filter_empty || !queue.is_empty())
+    .try_collect()
+}
+
+pub fn get_all_stable_recruit_queues(
+  world: &World,
+  filter_empty: bool,
+) -> Result<Vec<(Coord, StableRecruitQueue)>> {
+  bail_if_cheats_are_not_allowed!(world);
+  world
+    .continent
+    .city_coords()
+    .map(|coord| Ok((coord, get_stable_recruit_queue(world, coord)?)))
+    .filter_ok(|(_, queue)| !filter_empty || !queue.is_empty())
+    .try_collect()
+}
+
+pub fn get_infrastructure(world: &World, key: impl ContinentKey) -> Result<Infrastructure> {
+  bail_if_cheats_are_not_allowed!(world);
+  world
+    .city(key)?
+    .infrastructure()
+    .clone()
+    .pipe(Ok)
+}
+
+pub fn get_prefecture_build_queue(
+  world: &World,
+  key: impl ContinentKey,
+) -> Result<PrefectureBuildQueue> {
+  bail_if_cheats_are_not_allowed!(world);
+  world
+    .city(key)?
+    .infrastructure()
+    .prefecture()
+    .build_queue()
+    .clone()
+    .pipe(Ok)
+}
+
+pub fn get_prefecture_build_queues(
+  world: &World,
+  coords: &[Coord],
+  filter_empty: bool,
+) -> Result<Vec<(Coord, PrefectureBuildQueue)>> {
+  bail_if_cheats_are_not_allowed!(world);
+  coords
+    .iter()
+    .copied()
+    .map(|coord| Ok((coord, get_prefecture_build_queue(world, coord)?)))
+    .filter_ok(|(_, queue)| !filter_empty || !queue.is_empty())
+    .try_collect()
+}
+
+pub fn get_stable_recruit_queue(
+  world: &World,
+  key: impl ContinentKey,
+) -> Result<StableRecruitQueue> {
+  bail_if_cheats_are_not_allowed!(world);
+  world
+    .city(key)?
+    .infrastructure()
+    .stable()
+    .recruit_queue()
+    .clone()
+    .pipe(Ok)
+}
+
+pub fn get_stable_recruit_queues(
+  world: &World,
+  coords: &[Coord],
+  filter_empty: bool,
+) -> Result<Vec<(Coord, StableRecruitQueue)>> {
+  bail_if_cheats_are_not_allowed!(world);
+  coords
+    .iter()
+    .copied()
+    .map(|coord| Ok((coord, get_stable_recruit_queue(world, coord)?)))
+    .filter_ok(|(_, queue)| !filter_empty || !queue.is_empty())
+    .try_collect()
+}
+
+pub fn get_storage_capacity(world: &World, ruler: Ruler) -> Result<OverallStorageCapacity> {
+  bail_if_cheats_are_not_allowed!(world);
+  world.get_storage_capacity(ruler)
+}
+
+pub fn set_building_level(
+  world: &mut World,
+  key: impl ContinentKey,
+  id: BuildingId,
+  level: BuildingLevel,
+) -> Result<()> {
+  bail_if_cheats_are_not_allowed!(world);
+  let coord = key.into_coord(world.continent.size())?;
+  world.set_building_level(coord, id, level)?;
+  world.emit_city(coord)?;
+  Ok(())
+}
+
+pub fn set_max_infrastructure(world: &mut World, key: impl ContinentKey) -> Result<()> {
+  bail_if_cheats_are_not_allowed!(world);
+
+  let coord = key.into_coord(world.continent.size())?;
+  let infrastructure = world.city_mut(coord)?.infrastructure_mut();
+
+  for id in BuildingId::iter() {
+    let building = infrastructure.building_mut(id);
+    building.set_level(building.max_level());
   }
 
-  pub fn cheat_get_academy_recruit_queues(
-    &self,
-    coords: &[Coord],
-    filter_empty: bool,
-  ) -> Result<Vec<(Coord, AcademyRecruitQueue)>> {
-    coords
-      .iter()
-      .copied()
-      .map(|coord| Ok((coord, self.cheat_get_academy_recruit_queue(coord)?)))
-      .filter_ok(|(_, queue)| !filter_empty || !queue.is_empty())
-      .try_collect()
-  }
+  world.emit_city(coord)?;
 
-  pub fn cheat_get_all_academy_recruit_queues(
-    &self,
-    filter_empty: bool,
-  ) -> Result<Vec<(Coord, AcademyRecruitQueue)>> {
-    self
-      .continent
-      .city_coords()
-      .map(|coord| Ok((coord, self.cheat_get_academy_recruit_queue(coord)?)))
-      .filter_ok(|(_, queue)| !filter_empty || !queue.is_empty())
-      .try_collect()
-  }
-
-  pub fn cheat_get_all_prefecture_build_queues(
-    &self,
-    filter_empty: bool,
-  ) -> Result<Vec<(Coord, PrefectureBuildQueue)>> {
-    self
-      .continent
-      .city_coords()
-      .map(|coord| Ok((coord, self.cheat_get_prefecture_build_queue(coord)?)))
-      .filter_ok(|(_, queue)| !filter_empty || !queue.is_empty())
-      .try_collect()
-  }
-
-  pub fn cheat_get_all_stable_recruit_queues(
-    &self,
-    filter_empty: bool,
-  ) -> Result<Vec<(Coord, StableRecruitQueue)>> {
-    self
-      .continent
-      .city_coords()
-      .map(|coord| Ok((coord, self.cheat_get_stable_recruit_queue(coord)?)))
-      .filter_ok(|(_, queue)| !filter_empty || !queue.is_empty())
-      .try_collect()
-  }
-
-  pub fn cheat_get_infrastructure(&self, coord: Coord) -> Result<Infrastructure> {
-    bail_if_cheats_are_not_allowed!(self);
-    self
-      .city(coord)?
-      .infrastructure()
-      .clone()
-      .pipe(Ok)
-  }
-
-  pub fn cheat_get_prefecture_build_queue(&self, coord: Coord) -> Result<PrefectureBuildQueue> {
-    bail_if_cheats_are_not_allowed!(self);
-    self
-      .city(coord)?
-      .infrastructure()
-      .prefecture()
-      .build_queue()
-      .clone()
-      .pipe(Ok)
-  }
-
-  pub fn cheat_get_prefecture_build_queues(
-    &self,
-    coords: &[Coord],
-    filter_empty: bool,
-  ) -> Result<Vec<(Coord, PrefectureBuildQueue)>> {
-    coords
-      .iter()
-      .copied()
-      .map(|coord| Ok((coord, self.cheat_get_prefecture_build_queue(coord)?)))
-      .filter_ok(|(_, queue)| !filter_empty || !queue.is_empty())
-      .try_collect()
-  }
-
-  pub fn cheat_get_stable_recruit_queue(&self, coord: Coord) -> Result<StableRecruitQueue> {
-    bail_if_cheats_are_not_allowed!(self);
-    self
-      .city(coord)?
-      .infrastructure()
-      .stable()
-      .recruit_queue()
-      .clone()
-      .pipe(Ok)
-  }
-
-  pub fn cheat_get_stable_recruit_queues(
-    &self,
-    coords: &[Coord],
-    filter_empty: bool,
-  ) -> Result<Vec<(Coord, StableRecruitQueue)>> {
-    coords
-      .iter()
-      .copied()
-      .map(|coord| Ok((coord, self.cheat_get_stable_recruit_queue(coord)?)))
-      .filter_ok(|(_, queue)| !filter_empty || !queue.is_empty())
-      .try_collect()
-  }
-
-  pub fn cheat_get_storage_capacity(&self, ruler: Ruler) -> Result<OverallStorageCapacity> {
-    bail_if_cheats_are_not_allowed!(self);
-    self.get_storage_capacity(ruler)
-  }
-
-  pub fn cheat_set_max_infrastructure(&mut self, coord: Coord) -> Result<()> {
-    bail_if_cheats_are_not_allowed!(self);
-
-    let infrastructure = self.city_mut(coord)?.infrastructure_mut();
-
-    for id in BuildingId::iter() {
-      let building = infrastructure.building_mut(id);
-      building.set_level(building.max_level());
-    }
-
-    self.emit_city(coord)?;
-
-    Ok(())
-  }
-
-  pub fn cheat_set_building_level(
-    &mut self,
-    coord: Coord,
-    id: BuildingId,
-    level: BuildingLevel,
-  ) -> Result<()> {
-    bail_if_cheats_are_not_allowed!(self);
-    self.set_building_level(coord, id, level)?;
-    self.emit_city(coord)?;
-    Ok(())
-  }
+  Ok(())
 }

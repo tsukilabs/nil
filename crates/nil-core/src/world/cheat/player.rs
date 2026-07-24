@@ -8,18 +8,16 @@ use crate::world::World;
 use itertools::Itertools;
 use tap::Pipe;
 
-impl World {
-  pub fn cheat_get_player(&self, id: &PlayerId) -> Result<Player> {
-    bail_if_cheats_are_not_allowed!(self);
-    self.player(id).cloned()
-  }
+pub fn get_player(world: &World, id: &PlayerId) -> Result<Player> {
+  bail_if_cheats_are_not_allowed!(world);
+  world.player(id).cloned()
+}
 
-  pub fn cheat_get_players(&self) -> Result<Vec<Player>> {
-    bail_if_cheats_are_not_allowed!(self);
-    self
-      .players()
-      .cloned()
-      .collect_vec()
-      .pipe(Ok)
-  }
+pub fn get_players(world: &World) -> Result<Vec<Player>> {
+  bail_if_cheats_are_not_allowed!(world);
+  world
+    .players()
+    .cloned()
+    .collect_vec()
+    .pipe(Ok)
 }

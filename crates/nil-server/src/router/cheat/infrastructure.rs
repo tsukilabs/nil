@@ -8,6 +8,7 @@ use crate::response::EitherExt;
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
 use nil_core::ruler::Ruler;
+use nil_core::world::cheat;
 use nil_payload::request::cheat::infrastructure::*;
 use nil_payload::response::cheat::infrastructure::*;
 
@@ -17,7 +18,7 @@ pub async fn get_academy_recruit_queue(
 ) -> Response {
   app
     .world(req.world, |world| {
-      world.cheat_get_academy_recruit_queue(req.coord)
+      cheat::get_academy_recruit_queue(world, req.coord)
     })
     .await
     .try_map_left(|queue| res!(OK, CheatGetAcademyRecruitQueueResponse(queue)))
@@ -34,7 +35,7 @@ pub async fn get_academy_recruit_queues(
 
   app
     .world_blocking(req.world, move |world| {
-      world.cheat_get_academy_recruit_queues(&req.coords, req.filter_empty)
+      cheat::get_academy_recruit_queues(world, &req.coords, req.filter_empty)
     })
     .await
     .try_map_left(|queues| res!(OK, CheatGetAcademyRecruitQueuesResponse(queues)))
@@ -47,7 +48,7 @@ pub async fn get_all_academy_recruit_queues(
 ) -> Response {
   app
     .world_blocking(req.world, move |world| {
-      world.cheat_get_all_academy_recruit_queues(req.filter_empty)
+      cheat::get_all_academy_recruit_queues(world, req.filter_empty)
     })
     .await
     .try_map_left(|queues| res!(OK, CheatGetAllAcademyRecruitQueuesResponse(queues)))
@@ -60,7 +61,7 @@ pub async fn get_all_prefecture_build_queues(
 ) -> Response {
   app
     .world_blocking(req.world, move |world| {
-      world.cheat_get_all_prefecture_build_queues(req.filter_empty)
+      cheat::get_all_prefecture_build_queues(world, req.filter_empty)
     })
     .await
     .try_map_left(|queues| res!(OK, CheatGetAllPrefectureBuildQueuesResponse(queues)))
@@ -73,7 +74,7 @@ pub async fn get_all_stable_recruit_queues(
 ) -> Response {
   app
     .world_blocking(req.world, move |world| {
-      world.cheat_get_all_stable_recruit_queues(req.filter_empty)
+      cheat::get_all_stable_recruit_queues(world, req.filter_empty)
     })
     .await
     .try_map_left(|queues| res!(OK, CheatGetAllStableRecruitQueuesResponse(queues)))
@@ -85,7 +86,9 @@ pub async fn get_infrastructure(
   Json(req): Json<CheatGetInfrastructureRequest>,
 ) -> Response {
   app
-    .world(req.world, |world| world.cheat_get_infrastructure(req.coord))
+    .world(req.world, |world| {
+      cheat::get_infrastructure(world, req.coord)
+    })
     .await
     .try_map_left(|infrastructure| res!(OK, CheatGetInfrastructureResponse(infrastructure)))
     .into_inner()
@@ -97,7 +100,7 @@ pub async fn get_prefecture_build_queue(
 ) -> Response {
   app
     .world(req.world, |world| {
-      world.cheat_get_prefecture_build_queue(req.coord)
+      cheat::get_prefecture_build_queue(world, req.coord)
     })
     .await
     .try_map_left(|queue| res!(OK, CheatGetPrefectureBuildQueueResponse(queue)))
@@ -114,7 +117,7 @@ pub async fn get_prefecture_build_queues(
 
   app
     .world_blocking(req.world, move |world| {
-      world.cheat_get_prefecture_build_queues(&req.coords, req.filter_empty)
+      cheat::get_prefecture_build_queues(world, &req.coords, req.filter_empty)
     })
     .await
     .try_map_left(|queues| res!(OK, CheatGetPrefectureBuildQueuesResponse(queues)))
@@ -127,7 +130,7 @@ pub async fn get_stable_recruit_queue(
 ) -> Response {
   app
     .world(req.world, |world| {
-      world.cheat_get_stable_recruit_queue(req.coord)
+      cheat::get_stable_recruit_queue(world, req.coord)
     })
     .await
     .try_map_left(|queue| res!(OK, CheatGetStableRecruitQueueResponse(queue)))
@@ -144,7 +147,7 @@ pub async fn get_stable_recruit_queues(
 
   app
     .world_blocking(req.world, move |world| {
-      world.cheat_get_stable_recruit_queues(&req.coords, req.filter_empty)
+      cheat::get_stable_recruit_queues(world, &req.coords, req.filter_empty)
     })
     .await
     .try_map_left(|queues| res!(OK, CheatGetStableRecruitQueuesResponse(queues)))
@@ -161,7 +164,7 @@ pub async fn get_storage_capacity(
     .unwrap_or_else(|| Ruler::from(player));
 
   app
-    .world(req.world, |world| world.cheat_get_storage_capacity(ruler))
+    .world(req.world, |world| cheat::get_storage_capacity(world, ruler))
     .await
     .try_map_left(|capacity| res!(OK, CheatGetStorageCapacityResponse(capacity)))
     .into_inner()
@@ -173,7 +176,7 @@ pub async fn set_building_level(
 ) -> Response {
   app
     .world_mut(req.world, |world| {
-      world.cheat_set_building_level(req.coord, req.id, req.level)
+      cheat::set_building_level(world, req.coord, req.id, req.level)
     })
     .await
     .try_map_left(|()| res!(OK))
@@ -186,7 +189,7 @@ pub async fn set_max_infrastructure(
 ) -> Response {
   app
     .world_mut(req.world, |world| {
-      world.cheat_set_max_infrastructure(req.coord)
+      cheat::set_max_infrastructure(world, req.coord)
     })
     .await
     .try_map_left(|()| res!(OK))

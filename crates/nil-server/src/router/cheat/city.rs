@@ -8,7 +8,7 @@ use crate::response::EitherExt;
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
 use itertools::Itertools;
-use nil_core::bail_if_cheats_are_not_allowed;
+use nil_core::world::cheat;
 use nil_payload::request::cheat::city::*;
 use nil_payload::response::cheat::city::*;
 
@@ -22,7 +22,6 @@ pub async fn get_cities(
 
   app
     .world(req.world, move |world| {
-      bail_if_cheats_are_not_allowed!(world);
       world
         .continent()
         .cities_by(|city| req.all || req.coords.contains(&city.coord()))
@@ -41,7 +40,6 @@ pub async fn get_cities(
 pub async fn get_city(State(app): State<App>, Json(req): Json<CheatGetCityRequest>) -> Response {
   app
     .world(req.world, move |world| {
-      bail_if_cheats_are_not_allowed!(world);
       CheatGetCityResponse::builder(world, req.coord)
         .score(req.score)
         .build()
@@ -57,7 +55,7 @@ pub async fn set_stability(
 ) -> Response {
   app
     .world_mut(req.world, |world| {
-      world.cheat_set_stability(req.coord, req.stability)
+      cheat::set_stability(world, req.coord, req.stability)
     })
     .await
     .try_map_left(|()| res!(OK))
@@ -72,7 +70,7 @@ pub async fn spawn_city(
   app
     .world_mut(req.world, move |world| {
       let ruler = req.ruler.unwrap_or_else(|| player.into());
-      world.cheat_spawn_city(&ruler, req.coord)
+      cheat::spawn_city(world, &ruler, req.coord)
     })
     .await
     .try_map_left(|()| res!(OK))

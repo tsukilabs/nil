@@ -14,7 +14,6 @@ impl World {
     self.continent.city(key)
   }
 
-  #[inline]
   pub(crate) fn city_mut(&mut self, key: impl ContinentKey) -> Result<&mut City> {
     self.continent.city_mut(key)
   }

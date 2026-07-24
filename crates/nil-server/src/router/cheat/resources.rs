@@ -8,6 +8,7 @@ use crate::response::EitherExt;
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
 use nil_core::ruler::Ruler;
+use nil_core::world::cheat;
 use nil_payload::request::cheat::resources::*;
 use nil_payload::response::cheat::resources::*;
 
@@ -21,7 +22,7 @@ pub async fn get_resources(
     .unwrap_or_else(|| Ruler::from(player));
 
   app
-    .world(req.world, |world| world.cheat_get_resources(&ruler))
+    .world(req.world, |world| cheat::get_resources(world, &ruler))
     .await
     .try_map_left(|resources| res!(OK, CheatGetResourcesResponse(resources)))
     .into_inner()
@@ -37,7 +38,7 @@ pub async fn set_food(
     .unwrap_or_else(|| Ruler::from(player));
 
   app
-    .world_mut(req.world, |world| world.cheat_set_food(&ruler, req.food))
+    .world_mut(req.world, |world| cheat::set_food(world, &ruler, req.food))
     .await
     .try_map_left(|()| res!(OK))
     .into_inner()
@@ -53,7 +54,7 @@ pub async fn set_iron(
     .unwrap_or_else(|| Ruler::from(player));
 
   app
-    .world_mut(req.world, |world| world.cheat_set_iron(&ruler, req.iron))
+    .world_mut(req.world, |world| cheat::set_iron(world, &ruler, req.iron))
     .await
     .try_map_left(|()| res!(OK))
     .into_inner()
@@ -69,7 +70,7 @@ pub async fn set_max_food(
     .unwrap_or_else(|| Ruler::from(player));
 
   app
-    .world_mut(req.world, |world| world.cheat_set_max_food(&ruler))
+    .world_mut(req.world, |world| cheat::set_max_food(world, &ruler))
     .await
     .try_map_left(|()| res!(OK))
     .into_inner()
@@ -85,7 +86,7 @@ pub async fn set_max_iron(
     .unwrap_or_else(|| Ruler::from(player));
 
   app
-    .world_mut(req.world, |world| world.cheat_set_max_iron(&ruler))
+    .world_mut(req.world, |world| cheat::set_max_iron(world, &ruler))
     .await
     .try_map_left(|()| res!(OK))
     .into_inner()
@@ -101,7 +102,7 @@ pub async fn set_max_resources(
     .unwrap_or_else(|| Ruler::from(player));
 
   app
-    .world_mut(req.world, |world| world.cheat_set_max_resources(&ruler))
+    .world_mut(req.world, |world| cheat::set_max_resources(world, &ruler))
     .await
     .try_map_left(|()| res!(OK))
     .into_inner()
@@ -118,7 +119,7 @@ pub async fn set_max_silo_resources(
 
   app
     .world_mut(req.world, |world| {
-      world.cheat_set_max_silo_resources(&ruler)
+      cheat::set_max_silo_resources(world, &ruler)
     })
     .await
     .try_map_left(|()| res!(OK))
@@ -135,7 +136,7 @@ pub async fn set_max_stone(
     .unwrap_or_else(|| Ruler::from(player));
 
   app
-    .world_mut(req.world, |world| world.cheat_set_max_stone(&ruler))
+    .world_mut(req.world, |world| cheat::set_max_stone(world, &ruler))
     .await
     .try_map_left(|()| res!(OK))
     .into_inner()
@@ -152,7 +153,7 @@ pub async fn set_max_warehouse_resources(
 
   app
     .world_mut(req.world, |world| {
-      world.cheat_set_max_warehouse_resources(&ruler)
+      cheat::set_max_warehouse_resources(world, &ruler)
     })
     .await
     .try_map_left(|()| res!(OK))
@@ -169,7 +170,7 @@ pub async fn set_max_wood(
     .unwrap_or_else(|| Ruler::from(player));
 
   app
-    .world_mut(req.world, |world| world.cheat_set_max_wood(&ruler))
+    .world_mut(req.world, |world| cheat::set_max_wood(world, &ruler))
     .await
     .try_map_left(|()| res!(OK))
     .into_inner()
@@ -186,7 +187,7 @@ pub async fn set_resources(
 
   app
     .world_mut(req.world, |world| {
-      world.cheat_set_resources(&ruler, req.resources)
+      cheat::set_resources(world, &ruler, req.resources)
     })
     .await
     .try_map_left(|()| res!(OK))
@@ -203,7 +204,9 @@ pub async fn set_stone(
     .unwrap_or_else(|| Ruler::from(player));
 
   app
-    .world_mut(req.world, |world| world.cheat_set_stone(&ruler, req.stone))
+    .world_mut(req.world, |world| {
+      cheat::set_stone(world, &ruler, req.stone)
+    })
     .await
     .try_map_left(|()| res!(OK))
     .into_inner()
@@ -219,7 +222,7 @@ pub async fn set_wood(
     .unwrap_or_else(|| Ruler::from(player));
 
   app
-    .world_mut(req.world, |world| world.cheat_set_wood(&ruler, req.wood))
+    .world_mut(req.world, |world| cheat::set_wood(world, &ruler, req.wood))
     .await
     .try_map_left(|()| res!(OK))
     .into_inner()
