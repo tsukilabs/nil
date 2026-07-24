@@ -28,7 +28,7 @@ export default defineConfig({
     minify,
     rolldownOptions: {
       experimental: {
-        attachDebugInfo: minify ? "simple" : "none",
+        attachDebugInfo: minify ? "none" : "simple",
       },
     },
   },
