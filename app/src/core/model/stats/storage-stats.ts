@@ -1,9 +1,10 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { DeepReadonly } from "es-toolkit/types";
 import type { BuildingLevel, StorageStats } from "@tsukilabs/nil-bindings";
 
-export class StorageStatsImpl implements Readonly<StorageStats> {
+export class StorageStatsImpl implements DeepReadonly<StorageStats> {
   public readonly level: BuildingLevel;
   public readonly capacity: number;
 

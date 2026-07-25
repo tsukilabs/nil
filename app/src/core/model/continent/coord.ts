@@ -5,6 +5,7 @@ import { go } from "@/router";
 import type { Scene } from "@/types/scene";
 import { isNil } from "es-toolkit/predicate";
 import { type Option, panic } from "@tb-dev/utils";
+import type { DeepReadonly } from "es-toolkit/types";
 import type { ContinentIndex, Coord } from "@tsukilabs/nil-bindings";
 import type { ContinentKey, CoordTuple } from "@/types/core/continent";
 import {
@@ -14,7 +15,7 @@ import {
   QUERY_WAR_ROOM_ORIGIN_Y,
 } from "@/router/game/war-room";
 
-export class CoordImpl implements Readonly<Coord> {
+export class CoordImpl implements DeepReadonly<Coord> {
   public readonly x: number;
   public readonly y: number;
 

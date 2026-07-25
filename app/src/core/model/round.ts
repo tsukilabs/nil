@@ -2,9 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as commands from "@/commands";
+import type { DeepReadonly } from "es-toolkit/types";
 import type { PlayerId, Round, RoundState } from "@tsukilabs/nil-bindings";
 
-export class RoundImpl implements Readonly<Round> {
+export class RoundImpl implements DeepReadonly<Round> {
   public readonly id: number;
   public readonly state: RoundState;
   public readonly startedAt: string | null;

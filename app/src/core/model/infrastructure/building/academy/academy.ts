@@ -2,10 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { BuildingImpl } from "../abstract";
+import type { DeepReadonly } from "es-toolkit/types";
 import { AcademyRecruitQueueImpl } from "./recruit-queue";
 import type { Academy, AcademyRecruitOrderId, BuildingId } from "@tsukilabs/nil-bindings";
 
-export class AcademyImpl extends BuildingImpl implements Readonly<Academy> {
+export class AcademyImpl extends BuildingImpl implements DeepReadonly<Academy> {
   public readonly id: BuildingId = "academy";
   public readonly recruitQueue: AcademyRecruitQueueImpl;
 

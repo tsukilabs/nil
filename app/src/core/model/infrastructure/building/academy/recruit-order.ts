@@ -1,12 +1,13 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { DeepReadonly } from "es-toolkit/types";
 import { SquadImpl } from "@/core/model/military/squad";
 import type { AcademyRecruitOrder } from "@tsukilabs/nil-bindings";
 import { InfrastructureQueueOrderImpl } from "@/core/model/infrastructure/queue/queue-order";
 
 export class AcademyRecruitOrderImpl extends InfrastructureQueueOrderImpl
-  implements Readonly<AcademyRecruitOrder>
+  implements DeepReadonly<AcademyRecruitOrder>
 {
   public readonly squad: SquadImpl;
 

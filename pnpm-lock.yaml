@@ -73,8 +73,8 @@ importers:
         specifier: '=4.4.0'
         version: 4.4.0
       es-toolkit:
-        specifier: '=1.49.0'
-        version: 1.49.0
+        specifier: '=1.50.0'
+        version: 1.50.0
       pinia:
         specifier: '=4.0.2'
         version: 4.0.2(@vue/devtools-api@8.1.5)(typescript@6.0.3)(vue@3.5.40)
@@ -1300,8 +1300,8 @@ packages:
     resolution: {integrity: sha512-TWrgLOFUQTH994YUyl1yT4uyavY5nNB5muff+RtWaqNVCAK408b5ZnnbNAUEWLTCpum9w6arT70i1XdQ4UeOPA==}
     engines: {node: '>=0.12'}
 
-  es-toolkit@1.49.0:
-    resolution: {integrity: sha512-G5iZ6Pc/FNRY/soKZHC+TxGDD83rHUDXxzaWhGCX44vAv/tMs56WMusnm/KMNK+luUPsgA9U28cGr4RDlSzL2g==}
+  es-toolkit@1.50.0:
+    resolution: {integrity: sha512-OyZKhUVvEep9ITEiwHn8GKnMRQIVqoSIX7WnRbkWgJkllCujilqP2rD0u979tkl8wqyc8ICwlc1UBVv/Sl1G6w==}
 
   escalade@3.2.0:
     resolution: {integrity: sha512-WUj2qlxaQtO4g6Pq5c29GTcWGDyd8itL8zTlipgECz3JesAiiOKotd8JU6otB3PACgG6xkJUyVhboMS+bje/jA==}
@@ -2709,7 +2709,7 @@ snapshots:
   '@tauri-store/shared@0.10.6':
     dependencies:
       '@tauri-apps/api': 2.11.1
-      es-toolkit: 1.49.0
+      es-toolkit: 1.50.0
 
   '@tb-dev/eslint-config@10.3.0(eslint@10.7.0)(typescript@6.0.3)':
     dependencies:
@@ -2732,7 +2732,7 @@ snapshots:
 
   '@tb-dev/utils@8.1.1':
     dependencies:
-      es-toolkit: 1.49.0
+      es-toolkit: 1.50.0
 
   '@tb-dev/vue-sonner@1.0.9(typescript@6.0.3)':
     dependencies:
@@ -2744,7 +2744,7 @@ snapshots:
     dependencies:
       '@tb-dev/utils': 8.1.1
       '@vueuse/core': 14.3.0(vue@3.5.40)
-      es-toolkit: 1.49.0
+      es-toolkit: 1.50.0
       vue: 3.5.40(typescript@6.0.3)
     transitivePeerDependencies:
       - typescript
@@ -3238,7 +3238,7 @@ snapshots:
 
   entities@7.0.1: {}
 
-  es-toolkit@1.49.0: {}
+  es-toolkit@1.50.0: {}
 
   escalade@3.2.0: {}
 

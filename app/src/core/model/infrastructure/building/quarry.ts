@@ -2,9 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { MineImpl } from "./abstract";
+import type { DeepReadonly } from "es-toolkit/types";
 import type { MineId, Quarry } from "@tsukilabs/nil-bindings";
 
-export class QuarryImpl extends MineImpl implements Readonly<Quarry> {
+export class QuarryImpl extends MineImpl implements DeepReadonly<Quarry> {
   public readonly id: MineId = "quarry";
 
   private constructor(quarry: Quarry) {

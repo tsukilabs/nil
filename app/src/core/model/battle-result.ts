@@ -3,6 +3,7 @@
 
 import { toI8 } from "@/lib/number";
 import { simulateBattle } from "@/commands/battle";
+import type { DeepReadonly } from "es-toolkit/types";
 import { ArmyPersonnelImpl } from "@/core/model/military/army-personnel";
 import type {
   ArmyPersonnel,
@@ -13,7 +14,7 @@ import type {
   Luck,
 } from "@tsukilabs/nil-bindings";
 
-export class BattleResultImpl implements Readonly<BattleResult> {
+export class BattleResultImpl implements DeepReadonly<BattleResult> {
   public readonly winner: BattleWinner;
   public readonly attackerPersonnel: ArmyPersonnelImpl;
   public readonly attackerSurvivingPersonnel: ArmyPersonnelImpl;

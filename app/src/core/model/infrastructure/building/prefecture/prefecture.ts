@@ -2,10 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { BuildingImpl } from "../abstract";
+import type { DeepReadonly } from "es-toolkit/types";
 import { PrefectureBuildQueueImpl } from "./build-queue";
 import type { BuildingId, Prefecture, PrefectureBuildOrderId } from "@tsukilabs/nil-bindings";
 
-export class PrefectureImpl extends BuildingImpl implements Prefecture {
+export class PrefectureImpl extends BuildingImpl implements DeepReadonly<Prefecture> {
   public readonly id: BuildingId = "prefecture";
   public readonly buildQueue: PrefectureBuildQueueImpl;
 

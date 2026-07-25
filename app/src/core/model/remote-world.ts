@@ -5,6 +5,7 @@ import * as commands from "@/commands";
 import { fromZoned } from "@/lib/date";
 import type { Option } from "@tb-dev/utils";
 import { WorldConfigImpl } from "./world-config";
+import type { DeepReadonly } from "es-toolkit/types";
 import type {
   ContinentSize,
   PlayerId,
@@ -14,7 +15,7 @@ import type {
   WorldId,
 } from "@tsukilabs/nil-bindings";
 
-export class RemoteWorldImpl implements Readonly<RemoteWorld> {
+export class RemoteWorldImpl implements DeepReadonly<RemoteWorld> {
   public readonly config: WorldConfigImpl;
   public readonly description: string | null;
   public readonly createdBy: PlayerId;

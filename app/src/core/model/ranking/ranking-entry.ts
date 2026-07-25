@@ -4,9 +4,10 @@
 import { go } from "@/router";
 import { getRank } from "@/commands";
 import { formatInt } from "@/lib/intl";
+import type { DeepReadonly } from "es-toolkit/types";
 import type { RankingEntry, Ruler } from "@tsukilabs/nil-bindings";
 
-export class RankingEntryImpl implements Readonly<RankingEntry> {
+export class RankingEntryImpl implements DeepReadonly<RankingEntry> {
   public readonly rank: number;
   public readonly ruler: Ruler;
   public readonly score: number;

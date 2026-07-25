@@ -30,7 +30,7 @@
     "class-variance-authority": "=0.7.1",
     "clsx": "=2.1.1",
     "date-fns": "=4.4.0",
-    "es-toolkit": "=1.49.0",
+    "es-toolkit": "=1.50.0",
     "pinia": "=4.0.2",
     "reka-ui": "=2.10.1",
     "tailwind-merge": "=3.6.0",

@@ -1,10 +1,11 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { DeepReadonly } from "es-toolkit/types";
 import { ResourcesImpl } from "@/core/model/resources";
 import type { BuildingLevel, BuildingStats } from "@tsukilabs/nil-bindings";
 
-export class BuildingStatsImpl implements Readonly<BuildingStats> {
+export class BuildingStatsImpl implements DeepReadonly<BuildingStats> {
   public readonly level: BuildingLevel;
   public readonly cost: number;
   public readonly resources: ResourcesImpl;

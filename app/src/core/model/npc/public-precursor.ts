@@ -7,6 +7,7 @@ import { formatInt } from "@/lib/intl";
 import { PLACEHOLDER } from "@/lib/string";
 import type { Option } from "@tb-dev/utils";
 import { RulerImpl } from "@/core/model/ruler";
+import type { DeepReadonly } from "es-toolkit/types";
 import type { ContinentKey } from "@/types/core/continent";
 import type {
   Coord,
@@ -16,7 +17,7 @@ import type {
   Ruler,
 } from "@tsukilabs/nil-bindings";
 
-export class PublicPrecursorImpl extends RulerImpl implements Readonly<PublicPrecursor> {
+export class PublicPrecursorImpl extends RulerImpl implements DeepReadonly<PublicPrecursor> {
   public readonly id: PrecursorId;
   public readonly origin: Coord;
 

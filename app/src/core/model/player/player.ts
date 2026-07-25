@@ -3,6 +3,7 @@
 
 import * as commands from "@/commands";
 import type { PartialNullish } from "@tb-dev/utils";
+import type { DeepReadonly } from "es-toolkit/types";
 import { ResourcesImpl } from "@/core/model/resources";
 import { PublicPlayerImpl, type PublicPlayerImplConstructorArgs } from "./public-player";
 import { OverallStorageCapacityImpl } from "@/core/model/infrastructure/storage-capacity";
@@ -14,7 +15,7 @@ import type {
   Resources,
 } from "@tsukilabs/nil-bindings";
 
-export class PlayerImpl extends PublicPlayerImpl implements Readonly<Player> {
+export class PlayerImpl extends PublicPlayerImpl implements DeepReadonly<Player> {
   public readonly resources: ResourcesImpl;
   public readonly influence: Influence;
   public readonly capacity: OverallStorageCapacityImpl;

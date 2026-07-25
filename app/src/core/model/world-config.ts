@@ -1,6 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { DeepReadonly } from "es-toolkit/types";
 import type {
   BotAdvancedStartRatio,
   BotDensity,
@@ -11,7 +12,7 @@ import type {
   WorldUnitSpeed,
 } from "@tsukilabs/nil-bindings";
 
-export class WorldConfigImpl implements Readonly<WorldConfig> {
+export class WorldConfigImpl implements DeepReadonly<WorldConfig> {
   public readonly id: WorldId;
   public readonly name: string;
   public readonly locale: Locale;

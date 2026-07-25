@@ -1,9 +1,10 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { DeepReadonly } from "es-toolkit/types";
 import type { OverallStorageCapacity } from "@tsukilabs/nil-bindings";
 
-export class OverallStorageCapacityImpl implements Readonly<OverallStorageCapacity> {
+export class OverallStorageCapacityImpl implements DeepReadonly<OverallStorageCapacity> {
   public readonly silo: number;
   public readonly warehouse: number;
 

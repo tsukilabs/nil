@@ -3,9 +3,10 @@
 
 import { toU32 } from "@/lib/number";
 import type { PartialNullish } from "@tb-dev/utils";
+import type { DeepReadonly } from "es-toolkit/types";
 import type { Resources } from "@tsukilabs/nil-bindings";
 
-export class ResourcesImpl implements Readonly<Resources> {
+export class ResourcesImpl implements DeepReadonly<Resources> {
   public readonly food: number;
   public readonly iron: number;
   public readonly stone: number;

@@ -7,6 +7,7 @@ import { formatInt } from "@/lib/intl";
 import { PLACEHOLDER } from "@/lib/string";
 import type { Option } from "@tb-dev/utils";
 import { RulerImpl } from "@/core/model/ruler";
+import type { DeepReadonly } from "es-toolkit/types";
 import type { ContinentKey } from "@/types/core/continent";
 import type {
   Coord,
@@ -17,7 +18,7 @@ import type {
   Ruler,
 } from "@tsukilabs/nil-bindings";
 
-export class PublicPlayerImpl extends RulerImpl implements Readonly<PublicPlayer> {
+export class PublicPlayerImpl extends RulerImpl implements DeepReadonly<PublicPlayer> {
   public readonly id: PlayerId;
   public readonly status: PlayerStatus;
 
