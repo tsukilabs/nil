@@ -8,6 +8,17 @@ use nil_payload::request::cheat::city::*;
 use nil_payload::response::cheat::city::*;
 
 impl Client {
+  pub async fn cheat_fill_world(&self, req: CheatFillWorldRequest) -> Result<()> {
+    http::post("cheat-fill-world")
+      .body(req)
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_ref())
+      .circuit_breaker(self.circuit_breaker())
+      .user_agent(&self.user_agent)
+      .send()
+      .await
+  }
+
   pub async fn cheat_get_cities(
     &self,
     req: CheatGetCitiesRequest,

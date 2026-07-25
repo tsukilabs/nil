@@ -8,6 +8,7 @@ import { CoordImpl } from "@/core/model/continent/coord";
 import type { ContinentKey } from "@/types/core/continent";
 import type {
   BotId,
+  CheatFillWorldRequest,
   CheatGetCitiesRequest,
   CheatGetCityRequest,
   CheatGetCityResponse,
@@ -17,6 +18,15 @@ import type {
   PrecursorId,
   Ruler,
 } from "@tsukilabs/nil-bindings";
+
+export async function cheatFillWorld(ruler?: Option<Ruler>) {
+  const req: CheatFillWorldRequest = {
+    world: NIL.world.getIdStrict(),
+    ruler: ruler ?? null,
+  };
+
+  await invoke("cheat_fill_world", { req });
+}
 
 export async function cheatGetCities(options: {
   coords?: Option<ContinentKey[]>;

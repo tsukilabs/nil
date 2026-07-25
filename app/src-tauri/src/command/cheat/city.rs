@@ -8,6 +8,14 @@ use nil_payload::response::cheat::city::*;
 use tauri::AppHandle;
 
 #[tauri::command]
+pub async fn cheat_fill_world(app: AppHandle, req: CheatFillWorldRequest) -> Result<()> {
+  app
+    .client(async |cl| cl.cheat_fill_world(req).await)
+    .await
+    .map_err(Into::into)
+}
+
+#[tauri::command]
 pub async fn cheat_get_cities(
   app: AppHandle,
   req: CheatGetCitiesRequest,

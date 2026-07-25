@@ -145,6 +145,7 @@ dispatch_unit!(
   cancel_prefecture_build_order,
   cancel_stable_recruit_order,
   cancel_workshop_recruit_order,
+  cheat_fill_world,
   cheat_skip_round,
   cheat_set_bot_ethics,
   cheat_set_building_level,

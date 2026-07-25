@@ -11,7 +11,7 @@ mod resources;
 mod round;
 
 pub use behavior::get_build_steps;
-pub use city::{get_city, set_stability, spawn_city};
+pub use city::{fill_world, get_city, set_stability, spawn_city};
 pub use infrastructure::{
   get_academy_recruit_queue,
   get_academy_recruit_queues,
