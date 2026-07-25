@@ -2,10 +2,8 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { Label } from "@ui/label";
 import { useI18n } from "vue-i18n";
 import { Button } from "@ui/button";
-import { Switch } from "@ui/switch";
 import { computed, ref } from "vue";
 import { useRouter } from "vue-router";
 import type { Option } from "@tb-dev/utils";
@@ -115,13 +113,6 @@ function key(name: string) {
           v-model:enabled="isRoundDurationEnabled"
           :disabled="locked"
         />
-
-        <div class="flex items-center justify-center py-1">
-          <Label>
-            <Switch v-model="worldOptions.allowCheats" :disabled="locked" />
-            <span>{{ t("allow-cheats") }}</span>
-          </Label>
-        </div>
       </CardContent>
 
       <CardFooter class="w-full flex">

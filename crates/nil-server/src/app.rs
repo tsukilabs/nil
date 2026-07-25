@@ -160,13 +160,15 @@ impl App {
   #[builder]
   pub(crate) async fn create_remote(
     &self,
-    #[builder(start_fn)] options: &WorldOptions,
+    #[builder(start_fn)] mut options: WorldOptions,
     #[builder(into)] player_id: db_PlayerId,
     #[builder(into)] world_description: Option<String>,
     #[builder(into)] world_password: Option<Password>,
     #[builder(into)] round_duration: Option<RoundDuration>,
     server_version: Version,
   ) -> Result<WorldId> {
+    options.allow_cheats = false;
+
     self
       .check_remote_world_limit(player_id.clone())
       .await?;
@@ -174,7 +176,7 @@ impl App {
     let database = self.database();
     let user = database.get_user(player_id).await?;
 
-    let world = World::try_from(options)?;
+    let world = World::try_from(&options)?;
     let world_id = world.config().id();
     let blob = world.to_bytes()?;
 
