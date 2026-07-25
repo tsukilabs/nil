@@ -2,10 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { BuildingImpl } from "../abstract";
+import type { DeepReadonly } from "es-toolkit/types";
 import { WorkshopRecruitQueueImpl } from "./recruit-queue";
 import type { BuildingId, Workshop, WorkshopRecruitOrderId } from "@tsukilabs/nil-bindings";
 
-export class WorkshopImpl extends BuildingImpl implements Readonly<Workshop> {
+export class WorkshopImpl extends BuildingImpl implements DeepReadonly<Workshop> {
   public readonly id: BuildingId = "workshop";
   public readonly recruitQueue: WorkshopRecruitQueueImpl;
 

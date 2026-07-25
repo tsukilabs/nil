@@ -3,6 +3,7 @@
 
 import { getPublicCities } from "@/commands/city";
 import type { ComposerTranslation } from "vue-i18n";
+import type { DeepReadonly } from "es-toolkit/types";
 import { CoordImpl } from "@/core/model/continent/coord";
 import { ReportImpl } from "@/core/model/report/abstract";
 import enUS from "@/locale/en-US/scenes/game/report.json";
@@ -16,7 +17,7 @@ import type {
   SupportReport,
 } from "@tsukilabs/nil-bindings";
 
-export class SupportReportImpl extends ReportImpl implements Readonly<SupportReport> {
+export class SupportReportImpl extends ReportImpl implements DeepReadonly<SupportReport> {
   public readonly sender: Ruler;
   public readonly receiver: Ruler;
   public readonly origin: CoordImpl;

@@ -7,10 +7,11 @@ import { formatInt } from "@/lib/intl";
 import { PLACEHOLDER } from "@/lib/string";
 import type { Option } from "@tb-dev/utils";
 import { RulerImpl } from "@/core/model/ruler";
+import type { DeepReadonly } from "es-toolkit/types";
 import type { ContinentKey } from "@/types/core/continent";
 import type { BotId, Coord, PublicBot, RankingEntry, Ruler } from "@tsukilabs/nil-bindings";
 
-export class PublicBotImpl extends RulerImpl implements Readonly<PublicBot> {
+export class PublicBotImpl extends RulerImpl implements DeepReadonly<PublicBot> {
   public readonly id: BotId;
 
   public readonly toRuler = (): Ruler => {

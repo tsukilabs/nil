@@ -1,6 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { DeepReadonly } from "es-toolkit/types";
 import { InfrastructureQueueOrderImpl } from "@/core/model/infrastructure/queue/queue-order";
 import type {
   BuildingId,
@@ -10,7 +11,7 @@ import type {
 } from "@tsukilabs/nil-bindings";
 
 export class PrefectureBuildOrderImpl extends InfrastructureQueueOrderImpl
-  implements PrefectureBuildOrder
+  implements DeepReadonly<PrefectureBuildOrder>
 {
   public readonly kind: PrefectureBuildOrderKind;
   public readonly building: BuildingId;

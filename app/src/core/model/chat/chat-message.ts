@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { formatToday, fromZoned } from "@/lib/date";
+import type { DeepReadonly } from "es-toolkit/types";
 import { compareAsc as compareDateAsc } from "date-fns";
 import type {
   ChatMessage,
@@ -11,7 +12,7 @@ import type {
   ChatMessageKind,
 } from "@tsukilabs/nil-bindings";
 
-export class ChatMessageImpl implements Readonly<ChatMessage> {
+export class ChatMessageImpl implements DeepReadonly<ChatMessage> {
   public readonly id: ChatMessageId;
   public readonly kind: ChatMessageKind;
   public readonly author: ChatMessageAuthor;

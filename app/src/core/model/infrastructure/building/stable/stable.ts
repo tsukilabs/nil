@@ -2,10 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { BuildingImpl } from "../abstract";
+import type { DeepReadonly } from "es-toolkit/types";
 import { StableRecruitQueueImpl } from "./recruit-queue";
 import type { BuildingId, Stable, StableRecruitOrderId } from "@tsukilabs/nil-bindings";
 
-export class StableImpl extends BuildingImpl implements Readonly<Stable> {
+export class StableImpl extends BuildingImpl implements DeepReadonly<Stable> {
   public readonly id: BuildingId = "stable";
   public readonly recruitQueue: StableRecruitQueueImpl;
 

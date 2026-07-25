@@ -1,9 +1,10 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { DeepReadonly } from "es-toolkit/types";
 import type { BuildingLevel, WallStats } from "@tsukilabs/nil-bindings";
 
-export class WallStatsImpl implements Readonly<WallStats> {
+export class WallStatsImpl implements DeepReadonly<WallStats> {
   public readonly level: BuildingLevel;
   public readonly defense: number;
   public readonly defensePercent: number;

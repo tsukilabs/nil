@@ -3,10 +3,11 @@
 
 import { SquadImpl } from "./squad";
 import { toU32 } from "@/lib/number";
+import type { DeepReadonly } from "es-toolkit/types";
 import type { ArmyPersonnel, Squad } from "@tsukilabs/nil-bindings";
 import type { ArmyPersonnelSize, SquadTuple } from "@/types/core/military";
 
-export class ArmyPersonnelImpl implements Readonly<ArmyPersonnel> {
+export class ArmyPersonnelImpl implements DeepReadonly<ArmyPersonnel> {
   public readonly archer: SquadImpl;
   public readonly axeman: SquadImpl;
   public readonly heavyCavalry: SquadImpl;

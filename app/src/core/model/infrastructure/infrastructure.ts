@@ -8,13 +8,14 @@ import { QuarryImpl } from "./building/quarry";
 import { SawmillImpl } from "./building/sawmill";
 import { IronMineImpl } from "./building/iron-mine";
 import { WarehouseImpl } from "./building/warehouse";
+import type { DeepReadonly } from "es-toolkit/types";
 import { StableImpl } from "./building/stable/stable";
 import { AcademyImpl } from "./building/academy/academy";
 import { WorkshopImpl } from "./building/workshop/workshop";
 import type { Infrastructure } from "@tsukilabs/nil-bindings";
 import { PrefectureImpl } from "./building/prefecture/prefecture";
 
-export class InfrastructureImpl implements Readonly<Infrastructure> {
+export class InfrastructureImpl implements DeepReadonly<Infrastructure> {
   public readonly academy: AcademyImpl;
   public readonly farm: FarmImpl;
   public readonly ironMine: IronMineImpl;

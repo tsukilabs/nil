@@ -2,9 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { StorageImpl } from "./abstract";
+import type { DeepReadonly } from "es-toolkit/types";
 import type { Silo, StorageId } from "@tsukilabs/nil-bindings";
 
-export class SiloImpl extends StorageImpl implements Readonly<Silo> {
+export class SiloImpl extends StorageImpl implements DeepReadonly<Silo> {
   public readonly id: StorageId = "silo";
 
   private constructor(silo: Silo) {

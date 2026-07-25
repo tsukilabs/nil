@@ -3,9 +3,10 @@
 
 import { getArmy } from "@/commands";
 import { ArmyPersonnelImpl } from "./army-personnel";
+import type { DeepReadonly } from "es-toolkit/types";
 import type { Army, ArmyId, ArmyState, Ruler } from "@tsukilabs/nil-bindings";
 
-export class ArmyImpl implements Readonly<Army> {
+export class ArmyImpl implements DeepReadonly<Army> {
   public readonly id: ArmyId;
   public readonly personnel: ArmyPersonnelImpl;
   public readonly state: ArmyState;

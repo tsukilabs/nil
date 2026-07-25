@@ -5,6 +5,7 @@ import { go } from "@/router";
 import * as commands from "@/commands";
 import { getManeuver } from "@/commands";
 import type { Option } from "@tb-dev/utils";
+import type { DeepReadonly } from "es-toolkit/types";
 import { CoordImpl } from "@/core/model/continent/coord";
 import { PublicCityImpl } from "@/core/model/city/public-city";
 import { ManeuverHaulImpl } from "@/core/model/military/maneuver-haul";
@@ -18,7 +19,7 @@ import type {
   Ruler,
 } from "@tsukilabs/nil-bindings";
 
-export class ManeuverImpl implements Readonly<Maneuver> {
+export class ManeuverImpl implements DeepReadonly<Maneuver> {
   public readonly id: ManeuverId;
   public readonly origin: CoordImpl;
   public readonly destination: CoordImpl;
