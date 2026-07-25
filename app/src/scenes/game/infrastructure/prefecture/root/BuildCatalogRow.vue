@@ -3,6 +3,7 @@
 
 <script setup lang="ts">
 import { useI18n } from "vue-i18n";
+import { clamp } from "es-toolkit/math";
 import { computed, nextTick } from "vue";
 import type { Option } from "@tb-dev/utils";
 import { useBreakpoints } from "@tb-dev/vue";
@@ -83,12 +84,24 @@ async function makeOrder(kind: PrefectureBuildOrderKind) {
     props.onBuildOrder(kind);
   }
 }
+
+function resolveNextLevel() {
+  return clamp(
+    props.prefecture.resolveBuildingLevel(props.building) + 1,
+    props.building.minLevel,
+    props.building.maxLevel,
+  );
+}
 </script>
 
 <template>
   <TableRow v-if="entry.kind === 'available'">
     <TableCell>
-      <BuildingTitle :building="building.id" :level="building.level" :scene />
+      <BuildingTitle
+        :building="building.id"
+        :level="resolveNextLevel()"
+        :scene
+      />
     </TableCell>
 
     <TableCell>
