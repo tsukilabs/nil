@@ -1,0 +1,22 @@
+[package]
+name = "nil-client-ffi"
+publish = false
+
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+homepage.workspace = true
+repository.workspace = true
+authors.workspace = true
+
+[lib]
+name = "callofnil"
+crate-type = ["cdylib"]
+
+[lints]
+workspace = true
+
+[dependencies]
+nil-client.workspace = true
+tokio.workspace = true

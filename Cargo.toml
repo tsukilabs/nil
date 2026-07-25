@@ -3,6 +3,7 @@ resolver = "3"
 members = [
   "app/src-tauri",
   "crates/nil-client",
+  "crates/nil-client-ffi",
   "crates/nil-core",
   "crates/nil-core-macros",
   "crates/nil-crypto",
@@ -41,6 +42,7 @@ strip = "symbols"
 
 [profile.release-server]
 inherits = "release"
+codegen-units = 1
 lto = "fat"
 opt-level = 3
 panic = "unwind"

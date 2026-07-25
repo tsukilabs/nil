@@ -2,6 +2,7 @@ set windows-shell := ["powershell.exe", "-NoLogo", "-Command"]
 
 alias build := build-client
 alias clear := clean
+alias ffi := build-ffi
 alias format := fmt
 
 help:
@@ -42,6 +43,10 @@ rsx FILE *ARGS:
 [group("rsx")]
 build-client *ARGS:
   @just rsx build-client {{ ARGS }}
+
+[group("rsx")]
+build-ffi *ARGS:
+  @just rsx build-ffi {{ ARGS }}
 
 [group("rsx")]
 build-server *ARGS:

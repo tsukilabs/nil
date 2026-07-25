@@ -3562,6 +3562,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "nil-client-ffi"
+version = "0.6.12"
+dependencies = [
+ "nil-client",
+ "tokio",
+]
+
+[[package]]
 name = "nil-core"
 version = "0.6.12"
 dependencies = [

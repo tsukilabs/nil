@@ -30,6 +30,7 @@
     "./Cargo.toml",
     "./scripts/build-client.rs",
     "./scripts/build-docs.rs",
+    "./scripts/build-ffi.rs",
     "./scripts/build-server.rs",
     "./scripts/bump.rs",
     "./scripts/clean.rs",
