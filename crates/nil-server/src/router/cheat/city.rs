@@ -12,6 +12,19 @@ use nil_core::world::cheat;
 use nil_payload::request::cheat::city::*;
 use nil_payload::response::cheat::city::*;
 
+pub async fn fill_world(
+  State(app): State<App>,
+  Extension(player): Extension<CurrentPlayer>,
+  Json(req): Json<CheatFillWorldRequest>,
+) -> Response {
+  let ruler = req.ruler.unwrap_or_else(|| player.into());
+  app
+    .world_blocking_mut(req.world, move |world| cheat::fill_world(world, &ruler))
+    .await
+    .try_map_left(|()| res!(OK))
+    .into_inner()
+}
+
 pub async fn get_cities(
   State(app): State<App>,
   Json(req): Json<CheatGetCitiesRequest>,
@@ -67,9 +80,9 @@ pub async fn spawn_city(
   Extension(player): Extension<CurrentPlayer>,
   Json(req): Json<CheatSpawnCityRequest>,
 ) -> Response {
+  let ruler = req.ruler.unwrap_or_else(|| player.into());
   app
     .world_mut(req.world, move |world| {
-      let ruler = req.ruler.unwrap_or_else(|| player.into());
       cheat::spawn_city(world, &ruler, req.coord)
     })
     .await

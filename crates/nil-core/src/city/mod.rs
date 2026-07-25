@@ -192,6 +192,12 @@ impl CityName {
   }
 }
 
+impl From<&Ruler> for CityName {
+  fn from(ruler: &Ruler) -> Self {
+    Self::new(<Ruler as AsRef<str>>::as_ref(ruler))
+  }
+}
+
 /// Public data about a city, to which any player can have access.
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]

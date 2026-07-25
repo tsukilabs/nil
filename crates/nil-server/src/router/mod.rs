@@ -44,6 +44,7 @@ pub(crate) fn create() -> Router<App> {
     .route("/cancel-prefecture-build-order", post(infrastructure::prefecture::cancel_build_order))
     .route("/cancel-stable-recruit-order", post(infrastructure::stable::cancel_recruit_order))
     .route("/cancel-workshop-recruit-order", post(infrastructure::workshop::cancel_recruit_order))
+    .route("/cheat-fill-world", post(cheat::city::fill_world))
     .route("/cheat-get-academy-recruit-queue", put(cheat::infrastructure::get_academy_recruit_queue))
     .route("/cheat-get-academy-recruit-queues", put(cheat::infrastructure::get_academy_recruit_queues))
     .route("/cheat-get-all-academy-recruit-queues", put(cheat::infrastructure::get_all_academy_recruit_queues))

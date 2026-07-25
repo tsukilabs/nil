@@ -16,6 +16,18 @@ use ts_rs::TS;
 #[serde(rename_all = "camelCase")]
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
+pub struct CheatFillWorldRequest {
+  #[builder(start_fn, into)]
+  pub world: WorldId,
+  #[serde(default)]
+  #[builder(into)]
+  pub ruler: Option<Ruler>,
+}
+
+#[derive(Builder, Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 pub struct CheatGetCitiesRequest {
   #[builder(start_fn, into)]
   pub world: WorldId,

@@ -56,6 +56,7 @@ export type { ChatMessageAuthor } from './ChatMessageAuthor';
 export type { ChatMessageContent } from './ChatMessageContent';
 export type { ChatMessageId } from './ChatMessageId';
 export type { ChatMessageKind } from './ChatMessageKind';
+export type { CheatFillWorldRequest } from './CheatFillWorldRequest';
 export type { CheatGetAcademyRecruitQueueRequest } from './CheatGetAcademyRecruitQueueRequest';
 export type { CheatGetAcademyRecruitQueueResponse } from './CheatGetAcademyRecruitQueueResponse';
 export type { CheatGetAcademyRecruitQueuesRequest } from './CheatGetAcademyRecruitQueuesRequest';
