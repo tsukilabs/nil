@@ -3,7 +3,7 @@ use std::ffi::{CString, c_char};
 const VERSION: &str = env!("CARGO_PKG_VERSION");
 
 #[unsafe(no_mangle)]
-pub extern "C" fn callofnil_version() -> *const c_char {
+pub extern "C" fn callofnil_ffi_version() -> *mut c_char {
   into_c_string(VERSION)
 }
 
