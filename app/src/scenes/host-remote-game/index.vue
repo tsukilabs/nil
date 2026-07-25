@@ -76,6 +76,7 @@ async function host() {
   worldOptions.value.locale = settings.general.locale;
   await lock(async () => {
     if (isWorldOptions(worldOptions.value) && settings.auth.token) {
+      worldOptions.value.allowCheats = false;
       await hostRemoteGame({
         worldOptions: worldOptions.value,
         worldPassword: worldPassword.value,
