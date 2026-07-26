@@ -13,18 +13,17 @@ export * from "./error";
 export type Handle = ffi.DynamicLibraryResult<typeof definitions>;
 
 export class Nil implements Disposable {
-  readonly #handle: Handle;
-  #disposed = false;
-
+  private readonly handle: Handle;
   public readonly functions: Handle["functions"];
+  private disposed = false;
 
   constructor(dll: string) {
     if (!dll.endsWith(ffi.suffix)) {
       dll = `${dll}.${ffi.suffix}`;
     }
 
-    this.#handle = ffi.dlopen(dll, definitions);
-    this.functions = this.#handle.functions;
+    this.handle = ffi.dlopen(dll, definitions);
+    this.functions = this.handle.functions;
   }
 
   public [Symbol.dispose]() {
@@ -32,36 +31,36 @@ export class Nil implements Disposable {
   }
 
   public close() {
-    this.#disposed = true;
-    this.#handle[Symbol.dispose]();
+    this.disposed = true;
+    this.handle[Symbol.dispose]();
   }
 
   public getClientVersion() {
-    if (this.#disposed) return null;
+    if (this.disposed) return null;
     const ptr = this.functions.callofnil_client_version();
     return this.ptr.readStr(ptr);
   }
 
   public getFfiVersion() {
-    if (this.#disposed) return null;
+    if (this.disposed) return null;
     const ptr = this.functions.callofnil_ffi_version();
     return this.ptr.readStr(ptr);
   }
 
   public getUserAgent() {
-    if (this.#disposed) return null;
+    if (this.disposed) return null;
     const ptr = this.functions.callofnil_user_agent();
     return this.ptr.readStr(ptr);
   }
 
   public getWorld() {
-    if (this.#disposed) return null;
+    if (this.disposed) return null;
     const ptr = this.functions.callofnil_world();
     return this.ptr.readStr(ptr);
   }
 
   public setUserAgent(userAgent: string) {
-    if (!this.#disposed) {
+    if (!this.disposed) {
       const buffer = allocBuffer();
       const status = this.functions.callofnil_set_user_agent(userAgent, buffer);
       if (status !== 0) {
@@ -76,12 +75,12 @@ export class Nil implements Disposable {
 
   public readonly ptr = {
     freeStr: (ptr: Option<bigint>) => {
-      if (ptr && !this.#disposed) {
+      if (ptr && !this.disposed) {
         this.functions.callofnil_free_str(ptr);
       }
     },
     readStr: (ptr: Option<bigint>, free = true) => {
-      if (!ptr || this.#disposed) {
+      if (!ptr || this.disposed) {
         return null;
       }
 
