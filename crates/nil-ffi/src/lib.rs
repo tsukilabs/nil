@@ -3,7 +3,7 @@
 
 #![expect(clippy::missing_safety_doc)]
 
-mod poll;
+mod queue;
 mod request;
 mod response;
 mod status;
