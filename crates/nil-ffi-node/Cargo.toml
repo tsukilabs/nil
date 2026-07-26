@@ -1,5 +1,5 @@
 [package]
-name = "nil-ffi"
+name = "nil-ffi-node"
 publish = true
 
 version.workspace = true
@@ -10,14 +10,8 @@ homepage.workspace = true
 repository.workspace = true
 authors.workspace = true
 
-[lib]
-crate-type = ["cdylib"]
-
 [lints]
 workspace = true
 
 [dependencies]
-nil-client.workspace = true
-serde.workspace = true
-serde_json.workspace = true
-tokio.workspace = true
+syn.workspace = true
