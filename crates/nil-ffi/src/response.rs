@@ -1,7 +1,9 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use crate::string::into_c_string;
+use crate::request::RequestId;
+use crate::status::Status;
+use crate::string::serialize;
 use anyhow::Result;
 use serde::Serialize;
 use std::ffi::c_char;
@@ -10,6 +12,20 @@ use std::ptr;
 
 #[cfg(feature = "typescript")]
 use ts_rs::TS;
+
+#[derive(Debug, Serialize)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
+#[cfg_attr(feature = "typescript", ts(rename = "ffi_Response"))]
+#[cfg_attr(feature = "typescript", ts(concrete(T = serde_json::Value)))]
+pub struct FfiResponse<T>
+where
+  T: Serialize,
+{
+  pub id: RequestId,
+  #[serde(flatten)]
+  pub result: FfiResult<T>,
+}
 
 #[derive(Debug, Serialize)]
 #[serde(tag = "kind", rename_all = "kebab-case")]
@@ -35,19 +51,17 @@ impl<T: Serialize> FfiResult<T> {
   }
 }
 
-#[expect(non_camel_case_types)]
-#[repr(i32)]
-#[derive(Clone, Copy, Debug, PartialEq, Eq)]
-#[cfg_attr(feature = "typescript", derive(TS))]
-#[cfg_attr(feature = "typescript", ts(export, repr(enum)))]
-#[cfg_attr(feature = "typescript", ts(rename = "ffi_Status"))]
-pub enum Status {
-  OK = 0,
-  ERR_NULL_POINTER = 1,
-  ERR_INVALID_UTF8 = 2,
-  ERR_SERIALIZATION = 3,
-  ERR_PANIC = 4,
-  ERR_UNKNOWN = i32::MAX,
+impl<T, E> From<Result<T, E>> for FfiResult<T>
+where
+  T: Serialize,
+  E: Display,
+{
+  fn from(value: Result<T, E>) -> Self {
+    match value {
+      Ok(data) => Self::ok(data),
+      Err(error) => Self::err(error),
+    }
+  }
 }
 
 pub(crate) unsafe fn write<T, F, U>(value: T, out: *mut *mut c_char, f: F) -> Status
@@ -64,21 +78,16 @@ where
   let result = FfiResult::ok(f(value));
   match serialize(result) {
     Ok(json) => {
-      unsafe { *out = json };
+      unsafe { *out = json.into_raw() };
       Status::OK
     }
     Err(err) => {
       let result = FfiResult::<()>::err(err);
       if let Ok(json) = serialize(result) {
-        unsafe { *out = json };
+        unsafe { *out = json.into_raw() };
       }
 
       Status::ERR_SERIALIZATION
     }
   }
-}
-
-fn serialize<T: Serialize>(value: T) -> Result<*mut c_char> {
-  let json = serde_json::to_string(&value)?;
-  Ok(into_c_string(json))
 }

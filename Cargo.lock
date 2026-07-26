@@ -3638,6 +3638,7 @@ dependencies = [
  "nil-ffi-node",
  "serde",
  "serde_json",
+ "tap",
  "tokio",
  "ts-rs",
 ]

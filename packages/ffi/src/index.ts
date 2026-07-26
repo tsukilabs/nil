@@ -93,7 +93,9 @@ export class Nil implements Disposable {
     },
     readStr: (ptr: Option<bigint>, free = true) => {
       this.throwIfClosed();
-      if (!ptr) return null;
+      if (!ptr) {
+        return null;
+      }
 
       try {
         return ffi.toString(ptr);

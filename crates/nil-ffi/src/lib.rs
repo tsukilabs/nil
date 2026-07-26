@@ -1,22 +1,28 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-#![feature(nonpoison_rwlock, sync_nonpoison)]
 #![expect(clippy::missing_safety_doc)]
 
-mod result;
+mod poll;
+mod request;
+mod response;
+mod status;
 mod string;
 
-use crate::result::write;
+use crate::request::next_request_id;
+use crate::response::write;
 use crate::string::into_c_string;
 use nil_client::Client;
 use std::ffi::{CStr, CString, c_char};
 use std::ptr;
 use std::sync::LazyLock;
-use std::sync::nonpoison::RwLock;
+use tap::Conv;
 use tokio::runtime::{Builder as RuntimeBuilder, Runtime};
+use tokio::sync::RwLock;
 
-pub use result::{FfiResult, Status};
+pub use request::RequestId;
+pub use response::FfiResult;
+pub use status::Status;
 
 static CLIENT: LazyLock<RwLock<Client>> = LazyLock::new(RwLock::default);
 
@@ -27,8 +33,6 @@ static RUNTIME: LazyLock<Runtime> = LazyLock::new(|| {
     .build()
     .expect("failed to initialize tokio runtime")
 });
-
-pub type Callback = unsafe extern "C" fn(request_id: u64, status: Status, json: *const c_char);
 
 #[unsafe(no_mangle)]
 pub extern "C" fn callofnil_client_version() -> *mut c_char {
@@ -48,6 +52,21 @@ pub unsafe extern "C" fn callofnil_free_str(ptr: *mut c_char) {
 }
 
 #[unsafe(no_mangle)]
+pub extern "C" fn callofnil_server_version() -> RequestId {
+  let id = next_request_id();
+  RUNTIME.spawn(async move {
+    let result = CLIENT
+      .read()
+      .await
+      .version()
+      .await
+      .conv::<FfiResult<_>>();
+  });
+
+  id
+}
+
+#[unsafe(no_mangle)]
 pub unsafe extern "C" fn callofnil_set_user_agent(
   user_agent: *const c_char,
   out: *mut *mut c_char,
@@ -59,7 +78,7 @@ pub unsafe extern "C" fn callofnil_set_user_agent(
     match user_agent.to_str() {
       Ok(user_agent) => unsafe {
         write(user_agent, out, |value| {
-          CLIENT.write().set_user_agent(value);
+          CLIENT.blocking_write().set_user_agent(value);
         })
       },
       Err(_) => Status::ERR_INVALID_UTF8,
@@ -69,12 +88,12 @@ pub unsafe extern "C" fn callofnil_set_user_agent(
 
 #[unsafe(no_mangle)]
 pub extern "C" fn callofnil_user_agent() -> *mut c_char {
-  into_c_string(CLIENT.read().user_agent())
+  into_c_string(CLIENT.blocking_read().user_agent())
 }
 
 #[unsafe(no_mangle)]
 pub extern "C" fn callofnil_world() -> *mut c_char {
-  match CLIENT.read().world() {
+  match CLIENT.blocking_read().world() {
     Some(world) => into_c_string(world.to_string()),
     None => ptr::null_mut(),
   }
