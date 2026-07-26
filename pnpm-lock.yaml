@@ -161,6 +161,15 @@ importers:
 
   packages/bindings: {}
 
+  packages/ffi:
+    dependencies:
+      '@tb-dev/utils':
+        specifier: ^8.1.1
+        version: 8.1.1
+      '@tsukilabs/nil-bindings':
+        specifier: workspace:*
+        version: link:../bindings
+
 packages:
 
   '@babel/generator@8.0.0':
