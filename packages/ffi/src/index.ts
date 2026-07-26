@@ -13,23 +13,18 @@ export * from "./error";
 export type Handle = ffi.DynamicLibraryResult<typeof definitions>;
 
 export class Nil implements Disposable {
-  readonly #handle: Handle;
-  #disposed = false;
+  private readonly handle: Handle;
+  private disposed = false;
 
   public readonly functions: Handle["functions"];
-
-  public readonly ptr = {
-    freeStr: this.#freeStringPtr.bind(this),
-    readStr: this.#readStringPtr.bind(this),
-  } as const;
 
   constructor(dll: string) {
     if (!dll.endsWith(ffi.suffix)) {
       dll = `${dll}.${ffi.suffix}`;
     }
 
-    this.#handle = ffi.dlopen(dll, definitions);
-    this.functions = this.#handle.functions;
+    this.handle = ffi.dlopen(dll, definitions);
+    this.functions = this.handle.functions;
   }
 
   public [Symbol.dispose]() {
@@ -37,68 +32,69 @@ export class Nil implements Disposable {
   }
 
   public close() {
-    this.#disposed = true;
-    this.#handle[Symbol.dispose]();
+    this.disposed = true;
+    this.handle[Symbol.dispose]();
   }
 
   public getClientVersion() {
-    if (this.#disposed) return null;
+    if (this.disposed) return null;
     const ptr = this.functions.callofnil_client_version();
-    return this.#readStringPtr(ptr);
+    return this.ptr.readStr(ptr);
   }
 
   public getFfiVersion() {
-    if (this.#disposed) return null;
+    if (this.disposed) return null;
     const ptr = this.functions.callofnil_ffi_version();
-    return this.#readStringPtr(ptr);
+    return this.ptr.readStr(ptr);
   }
 
   public getUserAgent() {
-    if (this.#disposed) return null;
+    if (this.disposed) return null;
     const ptr = this.functions.callofnil_user_agent();
-    return this.#readStringPtr(ptr);
+    return this.ptr.readStr(ptr);
   }
 
   public getWorld() {
-    if (this.#disposed) return null;
+    if (this.disposed) return null;
     const ptr = this.functions.callofnil_world();
-    return this.#readStringPtr(ptr);
+    return this.ptr.readStr(ptr);
   }
 
   public setUserAgent(userAgent: string) {
-    if (!this.#disposed) {
+    if (!this.disposed) {
       const buffer = allocBuffer();
       const status = this.functions.callofnil_set_user_agent(userAgent, buffer);
       if (status !== 0) {
-        const err = this.#readStringPtr(buffer.readBigInt64LE());
+        const err = this.ptr.readStr(buffer.readBigInt64LE());
         throw new FfiError(err, { status });
       }
       else {
-        this.#freeStringPtr(buffer.readBigInt64LE());
+        this.ptr.freeStr(buffer.readBigInt64LE());
       }
     }
   }
 
-  #freeStringPtr(ptr: Option<bigint>) {
-    if (ptr && !this.#disposed) {
-      this.functions.callofnil_free_str(ptr);
-    }
-  }
-
-  #readStringPtr(ptr: Option<bigint>, free = true) {
-    if (!ptr || this.#disposed) {
-      return null;
-    }
-
-    try {
-      return ffi.toString(ptr);
-    }
-    finally {
-      if (free) {
-        this.#freeStringPtr(ptr);
+  public readonly ptr = {
+    freeStr: (ptr: Option<bigint>) => {
+      if (ptr && !this.disposed) {
+        this.functions.callofnil_free_str(ptr);
       }
-    }
-  }
+    },
+    readStr: (ptr: Option<bigint>, free = true) => {
+      if (!ptr || this.disposed) {
+        return null;
+      }
+
+      try {
+        return ffi.toString(ptr);
+      }
+      finally {
+        if (free) {
+          this.ptr.freeStr(ptr);
+        }
+      }
+    },
+  } as const;
 }
 
 export function allocBuffer(size?: number): Buffer {
