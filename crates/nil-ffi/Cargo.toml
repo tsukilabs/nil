@@ -17,6 +17,7 @@ crate-type = ["cdylib"]
 workspace = true
 
 [dependencies]
+anyhow.workspace = true
 nil-client.workspace = true
 serde.workspace = true
 serde_json.workspace = true

@@ -14,10 +14,21 @@ use std::ffi::{CStr, CString, c_char};
 use std::ptr;
 use std::sync::LazyLock;
 use std::sync::nonpoison::RwLock;
+use tokio::runtime::{Builder as RuntimeBuilder, Runtime};
 
 pub use result::{FfiResult, Status};
 
 static CLIENT: LazyLock<RwLock<Client>> = LazyLock::new(RwLock::default);
+
+static RUNTIME: LazyLock<Runtime> = LazyLock::new(|| {
+  RuntimeBuilder::new_multi_thread()
+    .enable_all()
+    .thread_name("callofnil-tokio")
+    .build()
+    .expect("failed to initialize tokio runtime")
+});
+
+pub type Callback = unsafe extern "C" fn(request_id: u64, status: Status, json: *const c_char);
 
 #[unsafe(no_mangle)]
 pub extern "C" fn callofnil_client_version() -> *mut c_char {

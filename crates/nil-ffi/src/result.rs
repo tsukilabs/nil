@@ -2,28 +2,36 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::string::into_c_string;
+use anyhow::Result;
 use serde::Serialize;
-use serde_json::Value as JsonValue;
 use std::ffi::c_char;
+use std::fmt::Display;
 use std::ptr;
 
 #[cfg(feature = "typescript")]
 use ts_rs::TS;
 
 #[derive(Debug, Serialize)]
-pub struct FfiResult {
-  pub data: JsonValue,
+#[serde(tag = "kind", rename_all = "kebab-case")]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
+#[cfg_attr(feature = "typescript", ts(rename = "ffi_Result"))]
+#[cfg_attr(feature = "typescript", ts(concrete(T = serde_json::Value)))]
+pub enum FfiResult<T: Serialize> {
+  Ok { data: T },
+  Err { error: String },
 }
 
-impl FfiResult {
-  pub(crate) fn new<T>(data: T) -> Result<Self, Status>
+impl<T: Serialize> FfiResult<T> {
+  pub(crate) fn ok(data: T) -> Self {
+    Self::Ok { data }
+  }
+
+  pub(crate) fn err<E>(error: E) -> Self
   where
-    T: Serialize,
+    E: Display,
   {
-    match serde_json::to_value(data) {
-      Ok(data) => Ok(Self { data }),
-      Err(_) => Err(Status::ERR_SERIALIZATION),
-    }
+    Self::Err { error: error.to_string() }
   }
 }
 
@@ -44,26 +52,33 @@ pub enum Status {
 
 pub(crate) unsafe fn write<T, F, U>(value: T, out: *mut *mut c_char, f: F) -> Status
 where
-  T: Serialize,
   F: FnOnce(T) -> U,
   U: Serialize,
 {
   if out.is_null() {
-    Status::ERR_NULL_POINTER
-  } else {
-    unsafe { *out = ptr::null_mut() };
+    return Status::ERR_NULL_POINTER;
+  }
 
-    match FfiResult::new(f(value)) {
-      Ok(result) => {
-        match serde_json::to_string(&result) {
-          Ok(json) => {
-            unsafe { *out = into_c_string(json) };
-            Status::OK
-          }
-          Err(_) => Status::ERR_SERIALIZATION,
-        }
+  unsafe { *out = ptr::null_mut() };
+
+  let result = FfiResult::ok(f(value));
+  match serialize(result) {
+    Ok(json) => {
+      unsafe { *out = json };
+      Status::OK
+    }
+    Err(err) => {
+      let result = FfiResult::<()>::err(err);
+      if let Ok(json) = serialize(result) {
+        unsafe { *out = json };
       }
-      Err(status) => status,
+
+      Status::ERR_SERIALIZATION
     }
   }
+}
+
+fn serialize<T: Serialize>(value: T) -> Result<*mut c_char> {
+  let json = serde_json::to_string(&value)?;
+  Ok(into_c_string(json))
 }
