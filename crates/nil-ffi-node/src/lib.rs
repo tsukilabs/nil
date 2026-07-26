@@ -25,9 +25,10 @@ pub fn generate(input: impl AsRef<Path>, output: impl AsRef<Path>) -> Result<()>
       .inputs
       .iter()
       .map(|arg| {
-        match arg {
-          FnArg::Receiver(_) => bail!("FFI function cannot have self receiver"),
-          FnArg::Typed(arg) => node_type(&arg.ty),
+        if let FnArg::Typed(arg) = arg {
+          node_type(&arg.ty)
+        } else {
+          bail!("invalid fn argument");
         }
       })
       .try_collect::<Vec<_>>()?;
