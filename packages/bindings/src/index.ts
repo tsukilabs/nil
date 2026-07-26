@@ -139,6 +139,7 @@ export type { Ethics } from './Ethics';
 export type { EthicTruthAxis } from './EthicTruthAxis';
 export type { Event } from './Event';
 export type { Farm } from './Farm';
+export { ffi_Status } from './ffi_Status';
 export type { Food } from './Food';
 export type { ForwardReportRequest } from './ForwardReportRequest';
 export type { GetAcademyRecruitCatalogRequest } from './GetAcademyRecruitCatalogRequest';

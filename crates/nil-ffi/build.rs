@@ -5,7 +5,7 @@ use anyhow::Result;
 
 fn main() -> Result<()> {
   nil_ffi_node::generate()
-    .input("src/lib.rs")
+    .input("./src/lib.rs")
     .output("../../packages/ffi/src/def.ts")
     .call()?;
 

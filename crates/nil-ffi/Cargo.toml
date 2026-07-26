@@ -22,6 +22,14 @@ serde.workspace = true
 serde_json.workspace = true
 tokio.workspace = true
 
+[dependencies.ts-rs]
+workspace = true
+optional = true
+
 [build-dependencies]
 anyhow.workspace = true
 nil-ffi-node.workspace = true
+
+[features]
+default = []
+typescript = ["dep:ts-rs"]

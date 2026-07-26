@@ -7,6 +7,9 @@ use serde_json::Value as JsonValue;
 use std::ffi::c_char;
 use std::ptr;
 
+#[cfg(feature = "typescript")]
+use ts_rs::TS;
+
 #[derive(Debug, Serialize)]
 pub struct FfiResult {
   pub data: JsonValue,
@@ -27,6 +30,9 @@ impl FfiResult {
 #[expect(non_camel_case_types)]
 #[repr(i32)]
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export, repr(enum)))]
+#[cfg_attr(feature = "typescript", ts(rename = "ffi_Status"))]
 pub enum Status {
   OK = 0,
   ERR_NULL_POINTER = 1,

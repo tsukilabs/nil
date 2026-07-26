@@ -1,5 +1,5 @@
 {
-  "include": ["**/*.config.ts", "**/*.mts"],
+  "include": ["**/*.mts", "**/*.config.ts"],
   "compilerOptions": {
     "lib": ["esnext"],
     "module": "esnext",

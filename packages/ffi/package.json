@@ -27,7 +27,11 @@
     "build": "vite build",
     "type-check": "tsc --noEmit"
   },
+  "dependencies": {
+    "@tb-dev/utils": "^8.1.1",
+    "@tsukilabs/nil-bindings": "workspace:*"
+  },
   "files": ["dist"],
   "main": "./dist/index.js",
-  "types": "./dist/src/index.d.ts"
+  "types": "./dist/index.d.ts"
 }

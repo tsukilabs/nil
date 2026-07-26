@@ -15,11 +15,7 @@ pub fn generate(input: impl AsRef<Path>, output: impl AsRef<Path>) -> Result<()>
   let file = syn::parse_file(&content)?;
   let functions = collect_functions(&file);
 
-  let mut result = String::new();
-  writeln!(&mut result, "// dprint-ignore-file\n")?;
-  writeln!(&mut result, "// Copyright (C) Call of Nil contributors")?;
-  writeln!(&mut result, "// SPDX-License-Identifier: AGPL-3.0-only\n")?;
-  writeln!(&mut result, "import * as ffi from \"node:ffi\";\n")?;
+  let mut result = with_header()?;
   writeln!(&mut result, "export const definitions = {{")?;
 
   for function in functions {
@@ -53,6 +49,16 @@ pub fn generate(input: impl AsRef<Path>, output: impl AsRef<Path>) -> Result<()>
   fs::write(output, result)?;
 
   Ok(())
+}
+
+#[rustfmt::skip]
+fn with_header() -> Result<String> {
+  let mut buf = String::new();
+  writeln!(buf, "// dprint-ignore-file\n")?;
+  writeln!(buf, "// Copyright (C) Call of Nil contributors")?;
+  writeln!(buf, "// SPDX-License-Identifier: AGPL-3.0-only\n")?;
+  writeln!(buf, "import * as ffi from \"node:ffi\";\n")?;
+  Ok(buf)
 }
 
 fn collect_functions(file: &syn::File) -> Vec<&ItemFn> {
