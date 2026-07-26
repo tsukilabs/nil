@@ -13,5 +13,5 @@ use anyhow::Result;
 use nil_util::spawn;
 
 fn main() -> Result<()> {
-  spawn!("cargo build -p nil-client-ffi --release")
+  spawn!("cargo build --profile release-ffi --package nil-ffi")
 }
