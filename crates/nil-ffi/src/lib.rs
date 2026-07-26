@@ -21,7 +21,7 @@ use tokio::runtime::{Builder as RuntimeBuilder, Runtime};
 use tokio::sync::RwLock;
 
 pub use request::RequestId;
-pub use response::FfiResult;
+pub use response::{FfiResponse, FfiResult};
 pub use status::Status;
 
 static CLIENT: LazyLock<RwLock<Client>> = LazyLock::new(RwLock::default);
