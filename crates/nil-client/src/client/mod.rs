@@ -134,11 +134,6 @@ impl Client {
   }
 
   #[inline]
-  pub fn server(&self) -> ServerAddr {
-    self.server
-  }
-
-  #[inline]
   pub fn world(&self) -> Option<WorldId> {
     self.world_id
   }
