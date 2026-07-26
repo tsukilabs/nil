@@ -20,6 +20,11 @@ pub use result::{FfiResult, Status};
 static CLIENT: LazyLock<RwLock<Client>> = LazyLock::new(RwLock::default);
 
 #[unsafe(no_mangle)]
+pub extern "C" fn callofnil_client_version() -> *mut c_char {
+  into_c_string(nil_client::VERSION)
+}
+
+#[unsafe(no_mangle)]
 pub extern "C" fn callofnil_ffi_version() -> *mut c_char {
   into_c_string(env!("CARGO_PKG_VERSION"))
 }
