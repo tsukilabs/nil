@@ -16,6 +16,7 @@ pub fn generate(input: impl AsRef<Path>, output: impl AsRef<Path>) -> Result<()>
   let functions = collect_functions(&file);
 
   let mut result = String::new();
+  writeln!(&mut result, "// dprint-ignore-file\n")?;
   writeln!(&mut result, "// Copyright (C) Call of Nil contributors")?;
   writeln!(&mut result, "// SPDX-License-Identifier: AGPL-3.0-only\n")?;
   writeln!(&mut result, "import * as ffi from \"node:ffi\";\n")?;
@@ -86,8 +87,11 @@ fn is_c_abi(abi: &Abi) -> bool {
 }
 
 fn has_no_mangle(function: &ItemFn) -> bool {
-  function.attrs.iter().any(|attr| {
-    if attr.path().is_ident("unsafe") {
+  function
+    .attrs
+    .iter()
+    .filter(|attr| attr.path().is_ident("unsafe"))
+    .any(|attr| {
       let mut found = false;
       let _ = attr.parse_nested_meta(|meta| {
         if meta.path.is_ident("no_mangle") {
@@ -97,22 +101,20 @@ fn has_no_mangle(function: &ItemFn) -> bool {
         Ok(())
       });
 
-      return found;
-    }
-
-    false
-  })
+      found
+    })
 }
 
 fn node_type(ty: &Type) -> Result<&'static str> {
+  const ERR: &str = "unsupported FFI type";
+
   let value = match ty {
     Type::Ptr(_) => "ffi.types.POINTER",
     Type::FnPtr(_) => "ffi.types.FUNCTION",
     Type::Path(path) => {
-      let Some(segment) = path.path.segments.last() else {
-        bail!("unsupported FFI type");
-      };
+      let Some(segment) = path.path.segments.last() else { bail!(ERR) };
 
+      #[allow(clippy::match_same_arms)]
       match segment.ident.to_string().as_str() {
         "i8" => "ffi.types.INT_8",
         "u8" => "ffi.types.UINT_8",
@@ -126,10 +128,10 @@ fn node_type(ty: &Type) -> Result<&'static str> {
         "f64" => "ffi.types.FLOAT_64",
         "bool" => "ffi.types.BOOL",
         "Status" => "ffi.types.INT_32",
-        _ => bail!("unsupported FFI type"),
+        _ => bail!(ERR),
       }
     }
-    _ => bail!("unsupported FFI type"),
+    _ => bail!(ERR),
   };
 
   Ok(value)

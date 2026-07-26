@@ -7,6 +7,8 @@ export default defineConfig({
     dts({ bundleTypes: false }),
   ],
   build: {
+    target: "node26",
+    ssr: "node",
     outDir: "dist",
     emptyOutDir: true,
     minify: false,

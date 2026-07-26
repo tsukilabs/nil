@@ -1,15 +1,8 @@
 import * as ffi from "node:ffi";
-import * as process from "node:process";
+import { allocBuffer, definitions } from "./packages/ffi/src";
 
 {
-  using handle = ffi.dlopen(`./target/release-ffi/nil_ffi.${ffi.suffix}`, {
-    callofnil_client_version: { arguments: [], return: "ptr" },
-    callofnil_ffi_version: { arguments: [], return: "ptr" },
-    callofnil_free_str: { arguments: ["ptr"], return: "void" },
-    callofnil_set_user_agent: { arguments: ["ptr", "ptr"], return: "i32" },
-    callofnil_user_agent: { arguments: [], return: "ptr" },
-    callofnil_world: { arguments: [], return: "ptr" },
-  });
+  using handle = ffi.dlopen(`./target/release-ffi/nil_ffi.${ffi.suffix}`, definitions);
 
   const versionPtr = handle.functions.callofnil_ffi_version();
   if (versionPtr) console.log(readStringPtr(versionPtr));
@@ -45,8 +38,4 @@ import * as process from "node:process";
       handle.functions.callofnil_free_str(strPtr);
     }
   }
-}
-
-function allocBuffer(): Buffer {
-  return Buffer.alloc(process.arch === "x64" ? 8 : 4);
 }

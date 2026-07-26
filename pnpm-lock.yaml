@@ -161,6 +161,8 @@ importers:
 
   packages/bindings: {}
 
+  packages/ffi: {}
+
 packages:
 
   '@babel/generator@8.0.0':
