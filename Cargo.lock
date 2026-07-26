@@ -3633,7 +3633,9 @@ dependencies = [
 name = "nil-ffi"
 version = "0.7.0"
 dependencies = [
+ "anyhow",
  "nil-client",
+ "nil-ffi-node",
  "serde",
  "serde_json",
  "tokio",
@@ -3643,6 +3645,8 @@ dependencies = [
 name = "nil-ffi-node"
 version = "0.7.0"
 dependencies = [
+ "anyhow",
+ "bon",
  "syn 3.0.3",
 ]
 
