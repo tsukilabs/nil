@@ -3,6 +3,7 @@ import * as process from "node:process";
 
 {
   using handle = ffi.dlopen(`./target/release-ffi/nil_ffi.${ffi.suffix}`, {
+    callofnil_client_version: { arguments: [], return: "ptr" },
     callofnil_ffi_version: { arguments: [], return: "ptr" },
     callofnil_free_str: { arguments: ["ptr"], return: "void" },
     callofnil_set_user_agent: { arguments: ["ptr", "ptr"], return: "i32" },
