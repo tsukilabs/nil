@@ -19,3 +19,16 @@ export class FfiError extends Error {
     this.status = options.status;
   }
 }
+
+export class HandleClosedError extends Error {
+  public override readonly name = "HandleClosedError";
+
+  constructor(operation?: Option<string>, options?: ErrorOptions) {
+    super(
+      operation ?
+        `Cannot call ${operation}: Nil has already been closed.` :
+        "Cannot use Nil: it has already been closed.",
+      options,
+    );
+  }
+}
