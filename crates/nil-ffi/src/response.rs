@@ -43,10 +43,10 @@ impl<T: Serialize> Result<T> {
   where
     E: Display,
   {
-    Self::status(Status::ERR_UNKNOWN, error)
+    Self::err_with_status(error, Status::ERR_UNKNOWN)
   }
 
-  pub(crate) fn status<E>(status: Status, error: E) -> Self
+  pub(crate) fn err_with_status<E>(error: E, status: Status) -> Self
   where
     E: Display,
   {

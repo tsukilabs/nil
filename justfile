@@ -22,6 +22,9 @@ docs:
 docs-rust:
   @cargo doc -p nil-* --open --no-deps --lib
 
+ffi-pkg:
+  @pnpm run -F @tsukilabs/nil-ffi build
+
 fmt:
   @dprint fmt
   @cargo fmt --all
