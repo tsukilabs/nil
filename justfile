@@ -3,10 +3,14 @@ set windows-shell := ["powershell.exe", "-NoLogo", "-Command"]
 alias build := build-client
 alias clear := clean
 alias ffi := build-ffi
+alias ffi-pkg := build-ffi-package
 alias format := fmt
 
 help:
   @just --list
+
+build-ffi-package:
+  @pnpm run -F @tsukilabs/nil-ffi build
 
 init:
   @pnpm ci
@@ -21,9 +25,6 @@ docs:
 
 docs-rust:
   @cargo doc -p nil-* --open --no-deps --lib
-
-ffi-pkg:
-  @pnpm run -F @tsukilabs/nil-ffi build
 
 fmt:
   @dprint fmt
