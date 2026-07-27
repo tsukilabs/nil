@@ -3634,8 +3634,12 @@ name = "nil-ffi"
 version = "0.7.0"
 dependencies = [
  "anyhow",
+ "futures",
  "nil-client",
+ "nil-core",
+ "nil-crypto",
  "nil-ffi-node",
+ "nil-server-types",
  "serde",
  "serde_json",
  "serde_repr",

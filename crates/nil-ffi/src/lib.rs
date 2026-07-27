@@ -5,6 +5,7 @@
 #![expect(clippy::missing_safety_doc)]
 
 mod client;
+mod json;
 mod macros;
 mod queue;
 mod request;
@@ -13,12 +14,15 @@ mod status;
 
 use crate::request::next_request_id;
 use client::CLIENT;
-use serde_json::to_string as serialize;
-use std::ffi::{CStr, CString, c_char};
+use futures::future::BoxFuture;
+use json::{deserialize_ptr, serialize};
+use nil_core::event::Event;
+use std::ffi::{CString, c_char};
 use std::ptr;
 use std::sync::LazyLock;
 use tokio::runtime::{Builder as RuntimeBuilder, Runtime};
 
+pub use client::UpdateClient;
 pub use request::RequestId;
 pub use response::{Response, Result};
 pub use status::Status;
@@ -110,8 +114,7 @@ pub unsafe extern "C" fn nil_set_user_agent(user_agent: *const c_char) -> Reques
   if user_agent.is_null() {
     queue::push_err(id, Status::ERR_NULL_POINTER);
   } else {
-    let user_agent = unsafe { CStr::from_ptr(user_agent) };
-    match user_agent.to_str().map(ToOwned::to_owned) {
+    match unsafe { deserialize_ptr::<String>(user_agent) } {
       Ok(user_agent) => {
         RUNTIME.spawn(async move {
           CLIENT
@@ -137,6 +140,40 @@ pub extern "C" fn nil_stop_client() -> RequestId {
   RUNTIME.spawn(async move {
     CLIENT.write().await.stop().await;
   });
+
+  id
+}
+
+#[unsafe(no_mangle)]
+pub unsafe extern "C" fn nil_update_client(options: *const c_char) -> RequestId {
+  let id = next_request_id();
+  if options.is_null() {
+    queue::push_err(id, Status::ERR_NULL_POINTER);
+  } else {
+    type OnEvent = fn(Event) -> BoxFuture<'static, ()>;
+    match unsafe { deserialize_ptr::<UpdateClient>(options) } {
+      Ok(options) => {
+        RUNTIME.spawn(async move {
+          let result = CLIENT
+            .write()
+            .await
+            .update::<OnEvent>(options.server)
+            .maybe_world_id(options.world_id)
+            .maybe_world_password(options.world_password)
+            .maybe_player_id(options.player_id)
+            .maybe_player_password(options.player_password)
+            .maybe_authorization_token(options.authorization_token)
+            .call()
+            .await;
+
+          queue::push_result(id, Result::from(result));
+        });
+      }
+      Err(err) => {
+        queue::push_err(id, err);
+      }
+    }
+  }
 
   id
 }
