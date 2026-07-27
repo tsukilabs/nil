@@ -63,7 +63,7 @@ pub extern "C" fn callofnil_poll(out: *mut *mut c_char) -> Status {
   unsafe { *out = ptr::null_mut() };
 
   match queue::poll() {
-    Ok(entry) => {
+    Some(entry) => {
       match serialize(&entry) {
         Ok(json) => {
           if let Ok(json) = CString::new(json) {
@@ -76,7 +76,7 @@ pub extern "C" fn callofnil_poll(out: *mut *mut c_char) -> Status {
         Err(_) => Status::ERR_SERIALIZATION,
       }
     }
-    Err(status) => status,
+    None => Status::ERR_NOTHING_TO_POLL,
   }
 }
 

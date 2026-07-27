@@ -3,7 +3,6 @@
 
 use crate::request::RequestId;
 use crate::response::{FfiResponse, FfiResult};
-use crate::status::Status;
 use serde::Serialize;
 use serde_json::to_string as serialize;
 use std::collections::VecDeque;
@@ -34,11 +33,8 @@ pub enum QueueEntryKind {
   Response,
 }
 
-pub(crate) fn poll() -> Result<QueueEntry, Status> {
-  QUEUE
-    .lock()
-    .pop_front()
-    .ok_or(Status::ERR_NOTHING_TO_POLL)
+pub(crate) fn poll() -> Option<QueueEntry> {
+  QUEUE.lock().pop_front()
 }
 
 pub(crate) fn push_result<T>(id: RequestId, result: FfiResult<T>)
