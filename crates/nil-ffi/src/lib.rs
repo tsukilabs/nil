@@ -1,18 +1,17 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+#![feature(nonpoison_mutex, sync_nonpoison)]
 #![expect(clippy::missing_safety_doc)]
 
 mod queue;
 mod request;
 mod response;
 mod status;
-mod string;
 
 use crate::request::next_request_id;
-use crate::response::write;
-use crate::string::into_c_string;
 use nil_client::Client;
+use serde_json::to_string as serialize;
 use std::ffi::{CStr, CString, c_char};
 use std::ptr;
 use std::sync::LazyLock;
@@ -35,19 +34,49 @@ static RUNTIME: LazyLock<Runtime> = LazyLock::new(|| {
 });
 
 #[unsafe(no_mangle)]
-pub extern "C" fn callofnil_client_version() -> *mut c_char {
-  into_c_string(nil_client::VERSION)
+pub extern "C" fn callofnil_client_version() -> RequestId {
+  let id = next_request_id();
+  queue::push_ok(id, nil_client::VERSION);
+  id
 }
 
 #[unsafe(no_mangle)]
-pub extern "C" fn callofnil_ffi_version() -> *mut c_char {
-  into_c_string(env!("CARGO_PKG_VERSION"))
+pub extern "C" fn callofnil_ffi_version() -> RequestId {
+  let id = next_request_id();
+  queue::push_ok(id, env!("CARGO_PKG_VERSION"));
+  id
 }
 
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn callofnil_free_str(ptr: *mut c_char) {
   if !ptr.is_null() {
     drop(unsafe { CString::from_raw(ptr) });
+  }
+}
+
+#[unsafe(no_mangle)]
+pub extern "C" fn callofnil_poll(out: *mut *mut c_char) -> Status {
+  if out.is_null() {
+    return Status::ERR_NULL_POINTER;
+  }
+
+  unsafe { *out = ptr::null_mut() };
+
+  match queue::poll() {
+    Ok(entry) => {
+      match serialize(&entry) {
+        Ok(json) => {
+          if let Ok(json) = CString::new(json) {
+            unsafe { *out = json.into_raw() };
+            Status::OK
+          } else {
+            Status::ERR_INVALID_UTF8
+          }
+        }
+        Err(_) => Status::ERR_SERIALIZATION,
+      }
+    }
+    Err(status) => status,
   }
 }
 
@@ -61,40 +90,56 @@ pub extern "C" fn callofnil_server_version() -> RequestId {
       .version()
       .await
       .conv::<FfiResult<_>>();
+
+    queue::push_result(id, result);
   });
 
   id
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn callofnil_set_user_agent(
-  user_agent: *const c_char,
-  out: *mut *mut c_char,
-) -> Status {
+pub unsafe extern "C" fn callofnil_set_user_agent(user_agent: *const c_char) -> RequestId {
+  let id = next_request_id();
   if user_agent.is_null() {
-    Status::ERR_NULL_POINTER
+    queue::push_err(id, Status::ERR_NULL_POINTER);
   } else {
     let user_agent = unsafe { CStr::from_ptr(user_agent) };
     match user_agent.to_str() {
-      Ok(user_agent) => unsafe {
-        write(user_agent, out, |value| {
-          CLIENT.blocking_write().set_user_agent(value);
-        })
-      },
-      Err(_) => Status::ERR_INVALID_UTF8,
+      Ok(user_agent) => {
+        CLIENT
+          .blocking_write()
+          .set_user_agent(user_agent);
+
+        queue::push_ok(id, ());
+      }
+      Err(err) => {
+        queue::push_err(id, err);
+      }
     }
   }
+
+  id
 }
 
 #[unsafe(no_mangle)]
-pub extern "C" fn callofnil_user_agent() -> *mut c_char {
-  into_c_string(CLIENT.blocking_read().user_agent())
+pub extern "C" fn callofnil_user_agent() -> RequestId {
+  let id = next_request_id();
+  let user_agent = CLIENT
+    .blocking_read()
+    .user_agent()
+    .to_owned();
+
+  queue::push_ok(id, user_agent);
+  id
 }
 
 #[unsafe(no_mangle)]
-pub extern "C" fn callofnil_world() -> *mut c_char {
+pub extern "C" fn callofnil_world() -> RequestId {
+  let id = next_request_id();
   match CLIENT.blocking_read().world() {
-    Some(world) => into_c_string(world.to_string()),
-    None => ptr::null_mut(),
+    Some(world) => queue::push_ok(id, world),
+    None => queue::push_ok(id, None::<&str>),
   }
+
+  id
 }

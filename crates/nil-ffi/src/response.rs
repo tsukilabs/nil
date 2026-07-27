@@ -2,13 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::request::RequestId;
-use crate::status::Status;
-use crate::string::serialize;
 use anyhow::Result;
 use serde::Serialize;
-use std::ffi::c_char;
 use std::fmt::Display;
-use std::ptr;
 
 #[cfg(feature = "typescript")]
 use ts_rs::TS;
@@ -60,34 +56,6 @@ where
     match value {
       Ok(data) => Self::ok(data),
       Err(error) => Self::err(error),
-    }
-  }
-}
-
-pub(crate) unsafe fn write<T, F, U>(value: T, out: *mut *mut c_char, f: F) -> Status
-where
-  F: FnOnce(T) -> U,
-  U: Serialize,
-{
-  if out.is_null() {
-    return Status::ERR_NULL_POINTER;
-  }
-
-  unsafe { *out = ptr::null_mut() };
-
-  let result = FfiResult::ok(f(value));
-  match serialize(result) {
-    Ok(json) => {
-      unsafe { *out = json.into_raw() };
-      Status::OK
-    }
-    Err(err) => {
-      let result = FfiResult::<()>::err(err);
-      if let Ok(json) = serialize(result) {
-        unsafe { *out = json.into_raw() };
-      }
-
-      Status::ERR_SERIALIZATION
     }
   }
 }

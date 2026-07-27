@@ -139,6 +139,8 @@ export type { Ethics } from './Ethics';
 export type { EthicTruthAxis } from './EthicTruthAxis';
 export type { Event } from './Event';
 export type { Farm } from './Farm';
+export type { ffi_QueueEntry } from './ffi_QueueEntry';
+export type { ffi_QueueEntryKind } from './ffi_QueueEntryKind';
 export type { ffi_RequestId } from './ffi_RequestId';
 export type { ffi_Response } from './ffi_Response';
 export type { ffi_Result } from './ffi_Result';
