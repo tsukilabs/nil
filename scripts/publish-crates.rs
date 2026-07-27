@@ -37,7 +37,7 @@ use std::time::Duration;
 const REGISTRY: &str = "https://crates.io/api/v1/crates";
 
 fn main() -> Result<()> {
-  let mut command = String::from("cargo publish --workspace --exclude nil-ffi");
+  let mut command = String::from("cargo publish --workspace");
 
   let version = Manifest::from_path("Cargo.toml")?
     .workspace
@@ -54,10 +54,6 @@ fn main() -> Result<()> {
     {
       let name = package.name.as_str();
       let url = format!("{REGISTRY}/{name}/versions");
-
-      if name == "nil-ffi" {
-        continue;
-      }
 
       let mut response = ureq::get(&url)
         .config()
