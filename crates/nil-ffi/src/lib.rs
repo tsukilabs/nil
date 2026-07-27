@@ -30,7 +30,7 @@ pub use status::Status;
 static RUNTIME: LazyLock<Runtime> = LazyLock::new(|| {
   RuntimeBuilder::new_multi_thread()
     .enable_all()
-    .thread_name("callofnil-tokio")
+    .thread_name("libnil-worker")
     .build()
     .expect("failed to initialize tokio runtime")
 });
@@ -70,12 +70,12 @@ pub unsafe extern "C" fn nil_ffi_poll(out: *mut *mut c_char) -> Status {
 }
 
 #[unsafe(no_mangle)]
-pub extern "C" fn nil_ffi_shutdown() {
+pub unsafe extern "C" fn nil_ffi_shutdown() {
   queue::clear();
 }
 
 #[unsafe(no_mangle)]
-pub extern "C" fn nil_ffi_version() -> RequestId {
+pub unsafe extern "C" fn nil_ffi_version() -> RequestId {
   push_ok!(env!("CARGO_PKG_VERSION"))
 }
 
@@ -84,27 +84,27 @@ pub extern "C" fn nil_ffi_version() -> RequestId {
 ///////////////////////////////
 
 #[unsafe(no_mangle)]
-pub extern "C" fn nil_client_version() -> RequestId {
+pub unsafe extern "C" fn nil_client_version() -> RequestId {
   push_ok!(nil_client::VERSION)
 }
 
 #[unsafe(no_mangle)]
-pub extern "C" fn nil_is_local() -> RequestId {
+pub unsafe extern "C" fn nil_is_local() -> RequestId {
   async_push_ok!(CLIENT.read().await.is_local())
 }
 
 #[unsafe(no_mangle)]
-pub extern "C" fn nil_is_ready() -> RequestId {
+pub unsafe extern "C" fn nil_is_ready() -> RequestId {
   async_push_ok!(CLIENT.read().await.is_ready().await)
 }
 
 #[unsafe(no_mangle)]
-pub extern "C" fn nil_is_remote() -> RequestId {
+pub unsafe extern "C" fn nil_is_remote() -> RequestId {
   async_push_ok!(CLIENT.read().await.is_remote())
 }
 
 #[unsafe(no_mangle)]
-pub extern "C" fn nil_server_addr() -> RequestId {
+pub unsafe extern "C" fn nil_server_addr() -> RequestId {
   async_push_ok!(CLIENT.read().await.server_addr())
 }
 
@@ -135,7 +135,7 @@ pub unsafe extern "C" fn nil_set_user_agent(user_agent: *const c_char) -> Reques
 }
 
 #[unsafe(no_mangle)]
-pub extern "C" fn nil_stop_client() -> RequestId {
+pub unsafe extern "C" fn nil_stop_client() -> RequestId {
   let id = next_request_id();
   RUNTIME.spawn(async move {
     CLIENT.write().await.stop().await;
@@ -179,12 +179,12 @@ pub unsafe extern "C" fn nil_update_client(options: *const c_char) -> RequestId 
 }
 
 #[unsafe(no_mangle)]
-pub extern "C" fn nil_user_agent() -> RequestId {
+pub unsafe extern "C" fn nil_user_agent() -> RequestId {
   async_push_ok!(CLIENT.read().await.user_agent().to_owned())
 }
 
 #[unsafe(no_mangle)]
-pub extern "C" fn nil_world() -> RequestId {
+pub unsafe extern "C" fn nil_world() -> RequestId {
   let id = next_request_id();
   RUNTIME.spawn(async move {
     match CLIENT.read().await.world() {

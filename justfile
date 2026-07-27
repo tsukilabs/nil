@@ -46,6 +46,7 @@ build-client *ARGS:
 
 [group("rsx")]
 build-ffi *ARGS:
+  @just generate-bindings --skip-ts
   @just rsx build-ffi {{ ARGS }}
 
 [group("rsx")]

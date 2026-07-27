@@ -35,13 +35,24 @@ use std::{env, fs};
 struct Args {
   #[arg(long)]
   force: bool,
+
+  #[arg(long)]
+  skip_ts: bool,
+
+  #[arg(long)]
+  skip_ffi: bool,
 }
 
 fn main() -> Result<()> {
   let args = Args::parse();
 
-  generate_ts_bindings(args.force)?;
-  generate_ffi_bindings()?;
+  if !args.skip_ts {
+    generate_ts_bindings(args.force)?;
+  }
+
+  if !args.skip_ffi {
+    generate_ffi_bindings()?;
+  }
 
   Ok(())
 }

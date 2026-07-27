@@ -32,45 +32,58 @@ use serde_json::from_slice;
 use std::env::var;
 use std::fs;
 
+const RELEASE_PROFILE: &str = "release-ffi";
+
 #[derive(Parser)]
 struct Args {
+  #[arg(short = 'p', long, default_value = RELEASE_PROFILE)]
+  profile: String,
+
   #[arg(long)]
   publish: bool,
 }
 
 #[tokio::main]
 async fn main() -> Result<()> {
-  spawn!("cargo build --profile release-ffi --package nil-ffi")?;
+  let args = Args::parse();
+  let profile = if args.publish { RELEASE_PROFILE } else { args.profile.as_str() };
+
+  spawn_fmt!("cargo build --profile {profile} --package nil-ffi")?;
   spawn!("pnpm run -F @tsukilabs/nil-ffi build")?;
 
-  let args = Args::parse();
+  if args.publish {
+    publish().await?;
+  }
+
+  Ok(())
+}
+
+async fn publish() -> Result<()> {
   let name = if cfg!(windows) { "nil_ffi" } else { "libnil_ffi" };
   let ext = if cfg!(windows) { ".dll" } else { ".so" };
   let path = format!("target/release-ffi/{name}{ext}");
 
-  if args.publish {
-    let package = fs::read("package.json")?;
-    let package = from_slice::<Package>(&package)?;
-    let version = package.version;
+  let package = fs::read("package.json")?;
+  let package = from_slice::<Package>(&package)?;
+  let version = package.version;
 
-    let asset_name = format!("libnil_{version}{ext}");
-    let asset_path = format!("target/release-ffi/{asset_name}");
+  let asset_name = format!("libnil_{version}{ext}");
+  let asset_path = format!("target/release-ffi/{asset_name}");
 
-    fs::rename(path, &asset_path)?;
+  fs::rename(path, &asset_path)?;
 
-    let octocrab = Octocrab::builder()
-      .personal_token(var("GH_TOKEN")?)
-      .build()?;
+  let octocrab = Octocrab::builder()
+    .personal_token(var("GH_TOKEN")?)
+    .build()?;
 
-    let repository = octocrab.repos("tsukilabs", "nil");
-    let tag_name = repository
-      .releases()
-      .get_latest()
-      .await?
-      .tag_name;
+  let repository = octocrab.repos("tsukilabs", "nil");
+  let tag_name = repository
+    .releases()
+    .get_latest()
+    .await?
+    .tag_name;
 
-    upload_asset(&tag_name, &asset_path)?;
-  }
+  upload_asset(&tag_name, &asset_path)?;
 
   Ok(())
 }
