@@ -4,13 +4,11 @@ alias build := build-client
 alias clear := clean
 alias ffi := build-ffi
 alias ffi-pkg := build-ffi-package
+alias ffi-pkg-run := run-ffi-package
 alias format := fmt
 
 help:
   @just --list
-
-build-ffi-package:
-  @pnpm run -F @tsukilabs/nil-ffi build
 
 init:
   @pnpm ci
@@ -40,7 +38,17 @@ type-check:
 udeps:
   @cargo udeps --workspace
 
+[group("ffi")]
+build-ffi-package:
+  @pnpm run -F @tsukilabs/nil-ffi build
+
+[group("ffi")]
+run-ffi-package:
+  @just build-ffi-package
+  @node --experimental-ffi packages/ffi/scripts/run.mts
+
 [private]
+[group("rsx")]
 rsx FILE *ARGS:
   @cargo -Zscript scripts/{{ FILE }}.rs {{ ARGS }}
 
@@ -49,6 +57,7 @@ build-client *ARGS:
   @just rsx build-client {{ ARGS }}
 
 [group("rsx")]
+[group("ffi")]
 build-ffi *ARGS:
   @just generate-bindings --skip-ts
   @just rsx build-ffi {{ ARGS }}
