@@ -32,7 +32,7 @@ macro_rules! send {
 
     let id = $crate::request::next_request_id();
     $crate::RUNTIME.spawn(async move {
-      let result = $crate::CLIENT
+      let result = $crate::client::CLIENT
         .read()
         .await
         .$endpoint()
@@ -57,7 +57,7 @@ macro_rules! send {
           match ::serde_json::from_str(req) {
             Ok(req) => {
               $crate::RUNTIME.spawn(async move {
-                let result = $crate::CLIENT
+                let result = $crate::client::CLIENT
                   .read()
                   .await
                   .$endpoint(req)

@@ -4,6 +4,7 @@
 #![feature(nonpoison_mutex, sync_nonpoison)]
 #![expect(clippy::missing_safety_doc)]
 
+mod client;
 mod macros;
 mod queue;
 mod request;
@@ -11,19 +12,16 @@ mod response;
 mod status;
 
 use crate::request::next_request_id;
-use nil_client::Client;
+use client::CLIENT;
 use serde_json::to_string as serialize;
 use std::ffi::{CStr, CString, c_char};
 use std::ptr;
 use std::sync::LazyLock;
 use tokio::runtime::{Builder as RuntimeBuilder, Runtime};
-use tokio::sync::RwLock;
 
 pub use request::RequestId;
 pub use response::{Response, Result};
 pub use status::Status;
-
-static CLIENT: LazyLock<RwLock<Client>> = LazyLock::new(RwLock::default);
 
 static RUNTIME: LazyLock<Runtime> = LazyLock::new(|| {
   RuntimeBuilder::new_multi_thread()
