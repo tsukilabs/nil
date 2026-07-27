@@ -37,7 +37,7 @@ use std::time::Duration;
 const REGISTRY: &str = "https://crates.io/api/v1/crates";
 
 fn main() -> Result<()> {
-  let mut command = String::from("cargo publish --workspace");
+  let mut command = String::from("cargo publish --workspace --exclude nil-ffi");
 
   let version = Manifest::from_path("Cargo.toml")?
     .workspace
