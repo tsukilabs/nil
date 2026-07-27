@@ -47,7 +47,6 @@ build-client *ARGS:
 [group("rsx")]
 build-ffi *ARGS:
   @just rsx build-ffi {{ ARGS }}
-  @pnpm run -F @tsukilabs/nil-ffi build
 
 [group("rsx")]
 build-server *ARGS:

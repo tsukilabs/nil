@@ -32,18 +32,14 @@ use octocrab::Octocrab;
 use serde::Deserialize;
 use serde_json::from_slice;
 use std::env::var;
+use std::fs;
 use std::io::Write as _;
-use std::path::PathBuf;
-use std::{env, fs};
 use tempfile::NamedTempFile;
 
 #[derive(Parser)]
 struct Args {
   #[arg(long)]
-  release: bool,
-
-  #[arg(long)]
-  target_dir: Option<PathBuf>,
+  publish: bool,
 }
 
 #[tokio::main]
@@ -51,14 +47,10 @@ async fn main() -> Result<()> {
   spawn!("cargo build --profile release-server --package nil-server")?;
 
   let args = Args::parse();
-  let name = if cfg!(windows) { "nil-server.exe" } else { "nil-server" };
-  let path = format!("target/release-server/{name}");
+  let ext = if cfg!(windows) { ".exe" } else { "" };
+  let path = format!("target/release-server/nil-server{ext}");
 
-  if let Some(target_dir) = args.target_dir {
-    fs::copy(&path, target_dir.join(name))?;
-  }
-
-  if args.release && cfg!(target_os = "linux") {
+  if args.publish && cfg!(target_os = "linux") {
     let package = fs::read("package.json")?;
     let package = from_slice::<Package>(&package)?;
     let version = package.version;
@@ -90,7 +82,7 @@ async fn main() -> Result<()> {
 
     edit_release_notes(&tag_name, &notes)?;
 
-    if let Ok(token) = env::var("TSUKILABS_TOKEN") {
+    if let Ok(token) = var("TSUKILABS_TOKEN") {
       ureq::get("https://tsukilabs.dev.br/release/nil")
         .header("Authorization", format!("Bearer {token}"))
         .call()
