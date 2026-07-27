@@ -78,7 +78,8 @@ export class Nil implements Disposable {
   public async setUserAgent(userAgent: string) {
     this.throwIfClosed();
     await this.queue.request(() => {
-      return this.functions.nil_set_user_agent(userAgent);
+      const arg0 = JSON.stringify(userAgent);
+      return this.functions.nil_set_user_agent(arg0);
     });
   }
 
