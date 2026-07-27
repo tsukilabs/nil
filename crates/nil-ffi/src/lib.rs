@@ -66,12 +66,9 @@ pub extern "C" fn callofnil_poll(out: *mut *mut c_char) -> Status {
     Some(entry) => {
       match serialize(&entry) {
         Ok(json) => {
-          if let Ok(json) = CString::new(json) {
-            unsafe { *out = json.into_raw() };
-            Status::OK
-          } else {
-            Status::ERR_INVALID_UTF8
-          }
+          let json = CString::new(json).unwrap();
+          unsafe { *out = json.into_raw() };
+          Status::OK
         }
         Err(_) => Status::ERR_SERIALIZATION,
       }
@@ -104,13 +101,16 @@ pub unsafe extern "C" fn callofnil_set_user_agent(user_agent: *const c_char) -> 
     queue::push_err(id, Status::ERR_NULL_POINTER);
   } else {
     let user_agent = unsafe { CStr::from_ptr(user_agent) };
-    match user_agent.to_str() {
+    match user_agent.to_str().map(ToOwned::to_owned) {
       Ok(user_agent) => {
-        CLIENT
-          .blocking_write()
-          .set_user_agent(user_agent);
+        RUNTIME.spawn(async move {
+          CLIENT
+            .write()
+            .await
+            .set_user_agent(&user_agent);
 
-        queue::push_ok(id, ());
+          queue::push_ok(id, ());
+        });
       }
       Err(err) => {
         queue::push_err(id, err);
@@ -122,24 +122,30 @@ pub unsafe extern "C" fn callofnil_set_user_agent(user_agent: *const c_char) -> 
 }
 
 #[unsafe(no_mangle)]
+pub extern "C" fn callofnil_shutdown() {
+  queue::clear();
+}
+
+#[unsafe(no_mangle)]
 pub extern "C" fn callofnil_user_agent() -> RequestId {
   let id = next_request_id();
-  let user_agent = CLIENT
-    .blocking_read()
-    .user_agent()
-    .to_owned();
+  RUNTIME.spawn(async move {
+    let user_agent = CLIENT.read().await.user_agent().to_owned();
+    queue::push_ok(id, user_agent);
+  });
 
-  queue::push_ok(id, user_agent);
   id
 }
 
 #[unsafe(no_mangle)]
 pub extern "C" fn callofnil_world() -> RequestId {
   let id = next_request_id();
-  match CLIENT.blocking_read().world() {
-    Some(world) => queue::push_ok(id, world),
-    None => queue::push_ok(id, None::<&str>),
-  }
+  RUNTIME.spawn(async move {
+    match CLIENT.read().await.world() {
+      Some(world) => queue::push_ok(id, world),
+      None => queue::push_ok(id, None::<&str>),
+    }
+  });
 
   id
 }

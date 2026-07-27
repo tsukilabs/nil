@@ -3,6 +3,7 @@
 
 use crate::request::RequestId;
 use crate::response::{FfiResponse, FfiResult};
+use crate::status::Status;
 use serde::Serialize;
 use serde_json::to_string as serialize;
 use std::collections::VecDeque;
@@ -37,6 +38,12 @@ pub(crate) fn poll() -> Option<QueueEntry> {
   QUEUE.lock().pop_front()
 }
 
+pub(crate) fn clear() {
+  let mut queue = QUEUE.lock();
+  queue.clear();
+  queue.shrink_to_fit();
+}
+
 pub(crate) fn push_result<T>(id: RequestId, result: FfiResult<T>)
 where
   T: Serialize,
@@ -46,7 +53,7 @@ where
   let entry = match serialize(&response) {
     Ok(json_str) => QueueEntry { kind, json_str },
     Err(err) => {
-      let result = FfiResult::<()>::err(err);
+      let result = FfiResult::<()>::status(Status::ERR_SERIALIZATION, err);
       let response = FfiResponse { id, result };
       let json_str = serialize(&response).expect("`FfiResult<()>` must always serialize");
       QueueEntry { kind, json_str }

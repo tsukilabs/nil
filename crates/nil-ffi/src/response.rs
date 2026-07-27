@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::request::RequestId;
+use crate::status::Status;
 use anyhow::Result;
 use serde::Serialize;
 use std::fmt::Display;
@@ -31,7 +32,7 @@ where
 #[cfg_attr(feature = "typescript", ts(concrete(T = serde_json::Value)))]
 pub enum FfiResult<T: Serialize> {
   Ok { data: T },
-  Err { error: String },
+  Err { status: Status, error: String },
 }
 
 impl<T: Serialize> FfiResult<T> {
@@ -43,7 +44,14 @@ impl<T: Serialize> FfiResult<T> {
   where
     E: Display,
   {
-    Self::Err { error: error.to_string() }
+    Self::status(Status::ERR_UNKNOWN, error)
+  }
+
+  pub(crate) fn status<E>(status: Status, error: E) -> Self
+  where
+    E: Display,
+  {
+    Self::Err { status, error: error.to_string() }
   }
 }
 

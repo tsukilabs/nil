@@ -29,7 +29,8 @@
   },
   "dependencies": {
     "@tb-dev/utils": "^8.1.1",
-    "@tsukilabs/nil-bindings": "workspace:*"
+    "@tsukilabs/nil-bindings": "workspace:*",
+    "es-toolkit": "^1.50.0"
   },
   "files": ["dist"],
   "main": "./dist/index.js",

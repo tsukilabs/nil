@@ -4,7 +4,6 @@ export enum ffi_Status {
   "OK" = 0,
   "ERR_NULL_POINTER" = 1,
   "ERR_NOTHING_TO_POLL" = 2,
-  "ERR_INVALID_UTF8" = 3,
-  "ERR_SERIALIZATION" = 4,
+  "ERR_SERIALIZATION" = 3,
   "ERR_UNKNOWN" = 2147483647,
 }

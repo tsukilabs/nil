@@ -17,8 +17,5 @@ export default defineConfig({
       formats: ["es"],
       fileName: "index",
     },
-    rolldownOptions: {
-      external: [/^@tb-dev/, /^@tsukilabs/],
-    },
   },
 });

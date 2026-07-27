@@ -135,7 +135,7 @@ fn node_type(ty: &Type) -> Result<&'static str> {
         "f64" => "ffi.types.FLOAT_64",
         "bool" => "ffi.types.BOOL",
 
-        "RequestId" => "ffi.types.UINT_64",
+        "RequestId" => "ffi.types.UINT_32",
         "Status" => "ffi.types.INT_32",
         other if other.contains("Callback") => "ffi.types.FUNCTION",
 
