@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::request::RequestId;
-use crate::response::{FfiResponse, FfiResult};
+use crate::response::{Response, Result};
 use crate::status::Status;
 use serde::Serialize;
 use serde_json::to_string as serialize;
@@ -44,17 +44,17 @@ pub(crate) fn clear() {
   queue.shrink_to_fit();
 }
 
-pub(crate) fn push_result<T>(id: RequestId, result: FfiResult<T>)
+pub(crate) fn push_result<T>(id: RequestId, result: Result<T>)
 where
   T: Serialize,
 {
-  let response = FfiResponse { id, result };
+  let response = Response { id, result };
   let kind = QueueEntryKind::Response;
   let entry = match serialize(&response) {
     Ok(json_str) => QueueEntry { kind, json_str },
     Err(err) => {
-      let result = FfiResult::<()>::status(Status::ERR_SERIALIZATION, err);
-      let response = FfiResponse { id, result };
+      let result = Result::<()>::status(Status::ERR_SERIALIZATION, err);
+      let response = Response { id, result };
       let json_str = serialize(&response).expect("`FfiResult<()>` must always serialize");
       QueueEntry { kind, json_str }
     }
@@ -67,12 +67,12 @@ pub(crate) fn push_ok<T>(id: RequestId, data: T)
 where
   T: Serialize,
 {
-  push_result(id, FfiResult::ok(data));
+  push_result(id, Result::ok(data));
 }
 
 pub(crate) fn push_err<E>(id: RequestId, error: E)
 where
   E: Display,
 {
-  push_result(id, FfiResult::<()>::err(error));
+  push_result(id, Result::<()>::err(error));
 }

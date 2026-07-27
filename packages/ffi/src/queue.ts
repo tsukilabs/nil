@@ -16,6 +16,7 @@ import {
 
 export class Queue implements Disposable {
   private static readonly POLL_INTERVAL = 16;
+  private static readonly LIMIT_PER_TICK = 200;
 
   public readonly functions: Handle["functions"];
   private timer: Option<ReturnType<typeof setTimeout>>;
@@ -71,8 +72,7 @@ export class Queue implements Disposable {
     this.timer = null;
     if (!this.disposed && this.pending.size > 0) {
       try {
-        const LIMIT = 200;
-        for (let i = 0; i < LIMIT; i++) {
+        for (let i = 0; i < Queue.LIMIT_PER_TICK; i++) {
           if (!this.pollOnce()) {
             break;
           }
@@ -91,7 +91,7 @@ export class Queue implements Disposable {
 
   private pollOnce(): boolean {
     const out = allocBuffer();
-    const status = this.functions.callofnil_poll(out);
+    const status = this.functions.nil_ffi_poll(out);
 
     if (status === ffi_Status.ERR_NOTHING_TO_POLL) {
       return false;
@@ -111,7 +111,7 @@ export class Queue implements Disposable {
       json = ffi.toString(ptr)!;
     }
     finally {
-      this.functions.callofnil_free_str(ptr);
+      this.functions.nil_ffi_free_str(ptr);
     }
 
     const entry = JSON.parse(json) as ffi_QueueEntry;

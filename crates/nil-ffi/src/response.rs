@@ -3,7 +3,6 @@
 
 use crate::request::RequestId;
 use crate::status::Status;
-use anyhow::Result;
 use serde::Serialize;
 use std::fmt::Display;
 
@@ -15,13 +14,13 @@ use ts_rs::TS;
 #[cfg_attr(feature = "typescript", ts(export))]
 #[cfg_attr(feature = "typescript", ts(rename = "ffi_Response"))]
 #[cfg_attr(feature = "typescript", ts(concrete(T = serde_json::Value)))]
-pub struct FfiResponse<T>
+pub struct Response<T>
 where
   T: Serialize,
 {
   pub id: RequestId,
   #[serde(flatten)]
-  pub result: FfiResult<T>,
+  pub result: Result<T>,
 }
 
 #[derive(Debug, Serialize)]
@@ -30,12 +29,12 @@ where
 #[cfg_attr(feature = "typescript", ts(export))]
 #[cfg_attr(feature = "typescript", ts(rename = "ffi_Result"))]
 #[cfg_attr(feature = "typescript", ts(concrete(T = serde_json::Value)))]
-pub enum FfiResult<T: Serialize> {
+pub enum Result<T: Serialize> {
   Ok { data: T },
   Err { status: Status, error: String },
 }
 
-impl<T: Serialize> FfiResult<T> {
+impl<T: Serialize> Result<T> {
   pub(crate) fn ok(data: T) -> Self {
     Self::Ok { data }
   }
@@ -55,12 +54,12 @@ impl<T: Serialize> FfiResult<T> {
   }
 }
 
-impl<T, E> From<Result<T, E>> for FfiResult<T>
+impl<T, E> From<std::result::Result<T, E>> for Result<T>
 where
   T: Serialize,
   E: Display,
 {
-  fn from(value: Result<T, E>) -> Self {
+  fn from(value: std::result::Result<T, E>) -> Self {
     match value {
       Ok(data) => Self::ok(data),
       Err(error) => Self::err(error),

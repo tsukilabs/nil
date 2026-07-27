@@ -6,6 +6,7 @@ import * as ffi from "node:ffi";
 import { definitions } from "./def";
 import { HandleClosedError } from "./error";
 import type { Option } from "@tb-dev/utils";
+import { version } from "../package.json" with { type: "json" };
 
 export * from "./def";
 export * from "./error";
@@ -27,6 +28,8 @@ export class Nil implements Disposable {
     this.handle = ffi.dlopen(dll, definitions);
     this.functions = this.handle.functions;
     this.queue = new Queue(this.handle);
+
+    void this.setUserAgent(`nil-ffi-node/${version}`);
   }
 
   public [Symbol.dispose]() {
@@ -40,42 +43,42 @@ export class Nil implements Disposable {
 
     this.disposed = true;
     this.queue[Symbol.dispose]();
-    this.functions.callofnil_shutdown();
+    this.functions.nil_ffi_shutdown();
     this.handle[Symbol.dispose]();
   }
 
   public async getClientVersion() {
     this.throwIfClosed();
     return this.queue.request<string>(() => {
-      return this.functions.callofnil_client_version();
+      return this.functions.nil_client_version();
     });
   }
 
   public async getFfiVersion() {
     this.throwIfClosed();
     return this.queue.request<string>(() => {
-      return this.functions.callofnil_ffi_version();
+      return this.functions.nil_ffi_version();
     });
   }
 
   public async getUserAgent() {
     this.throwIfClosed();
     return this.queue.request<string>(() => {
-      return this.functions.callofnil_user_agent();
+      return this.functions.nil_user_agent();
     });
   }
 
   public async getWorld() {
     this.throwIfClosed();
     return this.queue.request<Option<string>>(() => {
-      return this.functions.callofnil_world();
+      return this.functions.nil_world();
     });
   }
 
   public async setUserAgent(userAgent: string) {
     this.throwIfClosed();
     await this.queue.request(() => {
-      return this.functions.callofnil_set_user_agent(userAgent);
+      return this.functions.nil_set_user_agent(userAgent);
     });
   }
 
