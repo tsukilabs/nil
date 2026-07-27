@@ -1,5 +1,5 @@
 {
-  "name": "@tsukilabs/nil-bindings",
+  "name": "@tsukilabs/nil-ffi",
   "version": "0.7.0",
   "type": "module",
   "packageManager": "pnpm@11.17.0",
@@ -22,10 +22,15 @@
   "bugs": {
     "url": "https://github.com/tsukilabs/nil/issues"
   },
-  "keywords": ["call-of-nil"],
+  "keywords": ["call-of-nil", "ffi"],
   "scripts": {
     "build": "vite build",
     "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@tb-dev/utils": "^8.1.1",
+    "@tsukilabs/nil-bindings": "workspace:*",
+    "es-toolkit": "^1.50.0"
   },
   "files": ["dist"],
   "main": "./dist/index.js",

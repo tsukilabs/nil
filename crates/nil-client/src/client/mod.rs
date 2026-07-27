@@ -134,11 +134,6 @@ impl Client {
   }
 
   #[inline]
-  pub fn server(&self) -> ServerAddr {
-    self.server
-  }
-
-  #[inline]
   pub fn world(&self) -> Option<WorldId> {
     self.world_id
   }
@@ -241,7 +236,11 @@ where
 
     if self.client.server.is_remote()
       && let Some(token) = self.authorization_token
-      && let Some(id) = self.client.validate_token(&token).await?.0
+      && let Some(id) = self
+        .client
+        .validate_token((&token).into())
+        .await?
+        .0
       && self
         .player_id
         .as_ref()

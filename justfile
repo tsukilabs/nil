@@ -2,6 +2,7 @@ set windows-shell := ["powershell.exe", "-NoLogo", "-Command"]
 
 alias build := build-client
 alias clear := clean
+alias ffi := build-ffi
 alias format := fmt
 
 help:
@@ -19,7 +20,7 @@ docs:
   @pnpm run -F docs dev
 
 docs-rust:
-  @cargo doc -p nil-* --open --no-deps --lib --document-private-items
+  @cargo doc -p nil-* --open --no-deps --lib
 
 fmt:
   @dprint fmt
@@ -42,6 +43,10 @@ rsx FILE *ARGS:
 [group("rsx")]
 build-client *ARGS:
   @just rsx build-client {{ ARGS }}
+
+[group("rsx")]
+build-ffi *ARGS:
+  @just rsx build-ffi {{ ARGS }}
 
 [group("rsx")]
 build-server *ARGS:

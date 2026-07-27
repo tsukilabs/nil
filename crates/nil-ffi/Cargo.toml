@@ -1,0 +1,43 @@
+[package]
+name = "nil-ffi"
+publish = true
+
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+homepage.workspace = true
+repository.workspace = true
+authors.workspace = true
+
+[lib]
+crate-type = ["cdylib"]
+
+[lints]
+workspace = true
+
+[dependencies]
+anyhow.workspace = true
+futures.workspace = true
+nil-client.workspace = true
+nil-core.workspace = true
+nil-crypto.workspace = true
+nil-server-types.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+serde_repr.workspace = true
+strum.workspace = true
+tap.workspace = true
+tokio.workspace = true
+
+[dependencies.ts-rs]
+workspace = true
+optional = true
+
+[build-dependencies]
+anyhow.workspace = true
+nil-ffi-node.workspace = true
+
+[features]
+default = []
+typescript = ["dep:ts-rs"]

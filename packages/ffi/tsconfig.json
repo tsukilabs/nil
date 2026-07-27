@@ -1,5 +1,5 @@
 {
-  "include": ["**/*.mts", "**/*.config.ts"],
+  "include": ["./src/**/*"],
   "compilerOptions": {
     "lib": ["esnext"],
     "module": "esnext",
@@ -10,6 +10,7 @@
     "verbatimModuleSyntax": true,
     "skipLibCheck": true,
     "declaration": false,
+
     "alwaysStrict": true,
     "noImplicitAny": true,
     "noImplicitThis": true,
@@ -23,13 +24,11 @@
     "allowUnreachableCode": false,
     "noImplicitOverride": true,
     "noImplicitReturns": true,
-    "exactOptionalPropertyTypes": false,
+    "exactOptionalPropertyTypes": true,
     "noFallthroughCasesInSwitch": true,
     "forceConsistentCasingInFileNames": true,
+    "noEmitOnError": true,
 
-    "noEmit": true,
-    "allowImportingTsExtensions": true,
-
-    "types": ["node", "vite/client"]
+    "types": ["node"]
   }
 }

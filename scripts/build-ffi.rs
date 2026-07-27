@@ -6,8 +6,6 @@ edition = "2024"
 anyhow = "1.0"
 octocrab = "=0.54.1"
 serde_json = "1.0"
-tempfile = "3.27"
-ureq = "3.3"
 
 [dependencies.clap]
 version = "4.6"
@@ -33,8 +31,6 @@ use serde::Deserialize;
 use serde_json::from_slice;
 use std::env::var;
 use std::fs;
-use std::io::Write as _;
-use tempfile::NamedTempFile;
 
 #[derive(Parser)]
 struct Args {
@@ -44,19 +40,20 @@ struct Args {
 
 #[tokio::main]
 async fn main() -> Result<()> {
-  spawn!("cargo build --profile release-server --package nil-server")?;
+  spawn!("cargo build --profile release-ffi --package nil-ffi")?;
+  spawn!("pnpm run -F @tsukilabs/nil-ffi build")?;
 
   let args = Args::parse();
-  let ext = if cfg!(windows) { ".exe" } else { "" };
-  let path = format!("target/release-server/nil-server{ext}");
+  let ext = if cfg!(windows) { ".dll" } else { ".so" };
+  let path = format!("target/release-ffi/nil_ffi{ext}");
 
-  if args.publish && cfg!(target_os = "linux") {
+  if args.publish {
     let package = fs::read("package.json")?;
     let package = from_slice::<Package>(&package)?;
     let version = package.version;
 
-    let asset_name = format!("Call.of.Nil_{version}_server");
-    let asset_path = format!("target/release-server/{asset_name}");
+    let asset_name = format!("libcallofnil_{version}{ext}");
+    let asset_path = format!("target/release-ffi/{asset_name}");
 
     fs::rename(path, &asset_path)?;
 
@@ -72,22 +69,6 @@ async fn main() -> Result<()> {
       .tag_name;
 
     upload_asset(&tag_name, &asset_path)?;
-
-    let notes = repository
-      .releases()
-      .generate_release_notes(&tag_name)
-      .send()
-      .await?
-      .body;
-
-    edit_release_notes(&tag_name, &notes)?;
-
-    if let Ok(token) = var("TSUKILABS_TOKEN") {
-      ureq::get("https://tsukilabs.dev.br/release/nil")
-        .header("Authorization", format!("Bearer {token}"))
-        .call()
-        .context("failed to update remote server")?;
-    }
   }
 
   Ok(())
@@ -96,16 +77,6 @@ async fn main() -> Result<()> {
 fn upload_asset(tag_name: &str, path: &str) -> Result<()> {
   spawn_fmt!("gh release upload --clobber {tag_name} {path} -R tsukilabs/nil")
     .context("failed to upload asset")
-}
-
-#[rustfmt::skip]
-fn edit_release_notes(tag_name: &str, notes: &str) -> Result<()> {
-  let mut file = NamedTempFile::new()?;
-  write!(file, "This is an early preview. The game is still under development and not yet ready to play.\n\n{notes}")?;
-
-  let path = file.path().to_str().unwrap();
-  spawn_fmt!("gh release edit {tag_name} -F {path} -R tsukilabs/nil")
-    .context("failed to edit release notes")
 }
 
 #[derive(Deserialize)]

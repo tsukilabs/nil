@@ -75,7 +75,7 @@ fn main() -> Result<()> {
 
   let mut env = Vec::new();
 
-  if args.preview && !args.android {
+  if (args.preview || args.open_preview) && !args.android {
     env.push((Var::MinifySource, "false"));
     write!(command, " --no-bundle -- --profile preview")?;
   }
@@ -99,7 +99,7 @@ fn main() -> Result<()> {
     }
   }
 
-  if args.preview && args.open_preview {
+  if args.open_preview {
     if cfg!(windows) {
       open::that_detached("target/preview/nil.exe")?;
     } else {

@@ -2,6 +2,7 @@ packages:
   - "app"
   - "docs"
   - "packages/bindings"
+  - "packages/ffi"
 
 dedupePeers: true
 ignoreWorkspaceRootCheck: true

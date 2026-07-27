@@ -20,10 +20,7 @@ impl Client {
       .await
   }
 
-  pub async fn validate_token<T>(&self, req: T) -> Result<ValidateTokenResponse>
-  where
-    T: Into<ValidateTokenRequest>,
-  {
+  pub async fn validate_token(&self, req: ValidateTokenRequest) -> Result<ValidateTokenResponse> {
     let retry = Retry::builder()
       .attempts(unsafe { NonZeroU8::new_unchecked(5) })
       .backoff(false)
