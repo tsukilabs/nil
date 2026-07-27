@@ -44,15 +44,16 @@ async fn main() -> Result<()> {
   spawn!("pnpm run -F @tsukilabs/nil-ffi build")?;
 
   let args = Args::parse();
+  let name = if cfg!(windows) { "nil_ffi" } else { "libnil_ffi" };
   let ext = if cfg!(windows) { ".dll" } else { ".so" };
-  let path = format!("target/release-ffi/nil_ffi{ext}");
+  let path = format!("target/release-ffi/{name}{ext}");
 
   if args.publish {
     let package = fs::read("package.json")?;
     let package = from_slice::<Package>(&package)?;
     let version = package.version;
 
-    let asset_name = format!("libcallofnil_{version}{ext}");
+    let asset_name = format!("libnil_{version}{ext}");
     let asset_path = format!("target/release-ffi/{asset_name}");
 
     fs::rename(path, &asset_path)?;
