@@ -9,6 +9,7 @@ const semaphore = new Semaphore(50);
 export default defineConfig({
   plugins: [
     dts({
+      entryRoot: "src",
       bundleTypes: false,
       afterBuild: async (files) => {
         const promises: Promise<void>[] = [];
