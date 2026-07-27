@@ -55,6 +55,10 @@ fn main() -> Result<()> {
       let name = package.name.as_str();
       let url = format!("{REGISTRY}/{name}/versions");
 
+      if name == "nil-ffi" {
+        continue;
+      }
+
       let mut response = ureq::get(&url)
         .config()
         .http_status_as_error(false)
