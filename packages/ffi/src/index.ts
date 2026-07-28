@@ -19,6 +19,7 @@ export * from "./error";
 export type Handle = ffi.DynamicLibraryResult<typeof definitions>;
 
 export const VERSION = version;
+export const USER_AGENT = `nil-ffi-node/${VERSION}`;
 
 export class Nil implements Disposable {
   private readonly handle: Handle;
@@ -27,7 +28,7 @@ export class Nil implements Disposable {
   private readonly queue: Queue;
   private disposed = false;
 
-  constructor(dll: string) {
+  private constructor(dll: string) {
     if (!dll.endsWith(ffi.suffix)) {
       dll = `${dll}.${ffi.suffix}`;
     }
@@ -35,9 +36,12 @@ export class Nil implements Disposable {
     this.handle = ffi.dlopen(dll, definitions);
     this.functions = this.handle.functions;
     this.queue = new Queue(this.handle);
+  }
 
-    this.setUserAgent(`nil-ffi-node/${version}`)
-      .catch(console.error);
+  public static async init(dll: string) {
+    const nil = new Nil(dll);
+    await nil.setUserAgent(USER_AGENT);
+    return nil;
   }
 
   public [Symbol.dispose]() {

@@ -1858,7 +1858,7 @@ dependencies = [
  "cc",
  "memchr",
  "rustc_version",
- "toml 1.1.3+spec-1.1.0",
+ "toml 1.1.4+spec-1.1.0",
  "vswhom",
  "winreg",
 ]
@@ -3605,7 +3605,7 @@ checksum = "650eef8c711430f1a879fdd01d4745a7deea475becfb90269c06775983bbf086"
 
 [[package]]
 name = "nil"
-version = "0.7.1"
+version = "0.7.2"
 dependencies = [
  "anyhow",
  "bon",
@@ -3646,7 +3646,7 @@ dependencies = [
 
 [[package]]
 name = "nil-client"
-version = "0.7.1"
+version = "0.7.2"
 dependencies = [
  "anyhow",
  "bon",
@@ -3680,7 +3680,7 @@ dependencies = [
 
 [[package]]
 name = "nil-core"
-version = "0.7.1"
+version = "0.7.2"
 dependencies = [
  "anyhow",
  "bon",
@@ -3714,7 +3714,7 @@ dependencies = [
 
 [[package]]
 name = "nil-core-macros"
-version = "0.7.1"
+version = "0.7.2"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -3723,7 +3723,7 @@ dependencies = [
 
 [[package]]
 name = "nil-crypto"
-version = "0.7.1"
+version = "0.7.2"
 dependencies = [
  "anyhow",
  "argon2",
@@ -3737,7 +3737,7 @@ dependencies = [
 
 [[package]]
 name = "nil-env"
-version = "0.7.1"
+version = "0.7.2"
 dependencies = [
  "anyhow",
  "serde",
@@ -3748,7 +3748,7 @@ dependencies = [
 
 [[package]]
 name = "nil-ffi"
-version = "0.7.1"
+version = "0.7.2"
 dependencies = [
  "anyhow",
  "cbindgen",
@@ -3771,7 +3771,7 @@ dependencies = [
 
 [[package]]
 name = "nil-ffi-node"
-version = "0.7.1"
+version = "0.7.2"
 dependencies = [
  "anyhow",
  "bon",
@@ -3780,7 +3780,7 @@ dependencies = [
 
 [[package]]
 name = "nil-log"
-version = "0.7.1"
+version = "0.7.2"
 dependencies = [
  "anyhow",
  "bitflags 2.13.1",
@@ -3794,7 +3794,7 @@ dependencies = [
 
 [[package]]
 name = "nil-namegen"
-version = "0.7.1"
+version = "0.7.2"
 dependencies = [
  "itertools",
  "rand 0.10.2",
@@ -3803,7 +3803,7 @@ dependencies = [
 
 [[package]]
 name = "nil-num"
-version = "0.7.1"
+version = "0.7.2"
 dependencies = [
  "bon",
  "num-traits",
@@ -3813,7 +3813,7 @@ dependencies = [
 
 [[package]]
 name = "nil-payload"
-version = "0.7.1"
+version = "0.7.2"
 dependencies = [
  "axum",
  "bon",
@@ -3829,7 +3829,7 @@ dependencies = [
 
 [[package]]
 name = "nil-payload-macros"
-version = "0.7.1"
+version = "0.7.2"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -3838,7 +3838,7 @@ dependencies = [
 
 [[package]]
 name = "nil-server"
-version = "0.7.1"
+version = "0.7.2"
 dependencies = [
  "anyhow",
  "axum",
@@ -3878,7 +3878,7 @@ dependencies = [
 
 [[package]]
 name = "nil-server-database"
-version = "0.7.1"
+version = "0.7.2"
 dependencies = [
  "anyhow",
  "bon",
@@ -3904,7 +3904,7 @@ dependencies = [
 
 [[package]]
 name = "nil-server-types"
-version = "0.7.1"
+version = "0.7.2"
 dependencies = [
  "derive_more",
  "jiff",
@@ -3916,7 +3916,7 @@ dependencies = [
 
 [[package]]
 name = "nil-util"
-version = "0.7.1"
+version = "0.7.2"
 dependencies = [
  "anyhow",
  "nil-util-macros",
@@ -3924,7 +3924,7 @@ dependencies = [
 
 [[package]]
 name = "nil-util-macros"
-version = "0.7.1"
+version = "0.7.2"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -6573,7 +6573,7 @@ dependencies = [
  "tauri-plugin",
  "tauri-utils",
  "thiserror 2.0.19",
- "toml 1.1.3+spec-1.1.0",
+ "toml 1.1.4+spec-1.1.0",
  "url",
 ]
 
@@ -6790,7 +6790,7 @@ dependencies = [
  "tauri-store-utils",
  "thiserror 2.0.19",
  "tokio",
- "toml 1.1.3+spec-1.1.0",
+ "toml 1.1.4+spec-1.1.0",
 ]
 
 [[package]]
@@ -6848,7 +6848,7 @@ dependencies = [
  "serde_with",
  "swift-rs",
  "thiserror 2.0.19",
- "toml 1.1.3+spec-1.1.0",
+ "toml 1.1.4+spec-1.1.0",
  "url",
  "urlpattern",
  "uuid",
@@ -6863,7 +6863,7 @@ checksum = "cc65d45c68858bfe420dd29e834b5d15dbecf8a07a8a16cf4d532c7b1f69d4b6"
 dependencies = [
  "dunce",
  "embed-resource",
- "toml 1.1.3+spec-1.1.0",
+ "toml 1.1.4+spec-1.1.0",
 ]
 
 [[package]]
@@ -7132,9 +7132,9 @@ dependencies = [
 
 [[package]]
 name = "toml"
-version = "1.1.3+spec-1.1.0"
+version = "1.1.4+spec-1.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "53c96ecdfa941c8fc4fcaed14f99ada8ebed502eef533015095a07e3301d4c3c"
+checksum = "3aace63f4bbcdfc2c965b059de67119c89c4017a70d633be6c104910f67056f5"
 dependencies = [
  "indexmap 2.14.0",
  "serde_core",
