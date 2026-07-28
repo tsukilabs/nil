@@ -5,7 +5,7 @@
   "useTabs": false,
   "typescript": {
     "arrowFunction.useParentheses": "force",
-    "commentLine.forceSpaceAfterSlashes": true,
+    "commentLine.forceSpaceAfterSlashes": false,
     "exportDeclaration.sortNamedExports": "maintain",
     "exportDeclaration.sortTypeOnlyExports": "none",
     "importDeclaration.sortNamedImports": "maintain",

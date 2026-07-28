@@ -56,8 +56,8 @@ pub fn generate(input: impl AsRef<Path>, output: impl AsRef<Path>) -> Result<()>
 fn with_header() -> Result<String> {
   let mut buf = String::new();
   writeln!(buf, "// dprint-ignore-file\n")?;
-  writeln!(buf, "// Copyright (C) Call of Nil contributors")?;
-  writeln!(buf, "// SPDX-License-Identifier: AGPL-3.0-only\n")?;
+  writeln!(buf, "//! Copyright (C) Call of Nil contributors")?;
+  writeln!(buf, "//! SPDX-License-Identifier: AGPL-3.0-only\n")?;
   writeln!(buf, "import * as ffi from \"node:ffi\";\n")?;
   Ok(buf)
 }

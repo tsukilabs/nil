@@ -1,5 +1,5 @@
-// Copyright (C) Call of Nil contributors
-// SPDX-License-Identifier: AGPL-3.0-only
+//! Copyright (C) Call of Nil contributors
+//! SPDX-License-Identifier: AGPL-3.0-only
 
 import type { Option } from "@tb-dev/utils";
 import { type ffi_Response, ffi_Status } from "@tsukilabs/nil-bindings";
