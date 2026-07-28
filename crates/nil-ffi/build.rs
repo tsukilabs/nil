@@ -37,14 +37,14 @@ fn generate_csharp() -> Result<()> {
     .csharp_dll_name("libnil")
     .csharp_class_name("libnil")
     .csharp_class_accessibility("public")
-    .csharp_type_rename(rename_cs_type)
+    .csharp_type_rename(rename_csharp_type)
     .generate_csharp_file("gen/libnil.cs")
     .unwrap();
 
   Ok(())
 }
 
-fn rename_cs_type(name: String) -> String {
+fn rename_csharp_type(name: String) -> String {
   match name.as_str() {
     "RequestId" => "uint".into(),
     "Status" => "StatusCode".into(),
