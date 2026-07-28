@@ -36,9 +36,6 @@ export class Nil implements Disposable {
     this.handle = ffi.dlopen(dll, definitions);
     this.functions = this.handle.functions;
     this.queue = new Queue(this.handle);
-
-    this.setUserAgent(`nil-ffi-node/${version}`)
-      .catch(console.error);
   }
 
   public static async init(dll: string) {
