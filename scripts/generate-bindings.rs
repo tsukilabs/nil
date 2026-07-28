@@ -11,9 +11,6 @@ regex = "1.13"
 version = "4.6"
 features = ["derive"]
 
-[dependencies.nil-ffi-node]
-path = "../crates/nil-ffi-node"
-
 [dependencies.nil-util]
 path = "../crates/nil-util"
 ---
@@ -39,17 +36,9 @@ struct Args {
 
 fn main() -> Result<()> {
   let args = Args::parse();
-
-  generate_ts_bindings(args.force)?;
-  generate_ffi_bindings()?;
-
-  Ok(())
-}
-
-fn generate_ts_bindings(force: bool) -> Result<()> {
   let dir = env::var("TS_RS_EXPORT_DIR")?;
 
-  if force && fs::exists(&dir)? {
+  if args.force && fs::exists(&dir)? {
     fs::remove_dir_all(&dir)?;
   }
 
@@ -139,13 +128,4 @@ impl BindingKind {
 
     bail!("unknown binding kind at {}", path.to_string_lossy());
   }
-}
-
-fn generate_ffi_bindings() -> Result<()> {
-  nil_ffi_node::generate()
-    .input("crates/nil-ffi/src/lib.rs")
-    .output("packages/ffi/src/def.ts")
-    .call()?;
-
-  Ok(())
 }

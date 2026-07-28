@@ -4,7 +4,10 @@ import { defineConfig } from "vite";
 
 export default defineConfig({
   plugins: [
-    dts({ bundleTypes: false }),
+    dts({
+      entryRoot: "src",
+      bundleTypes: false,
+    }),
   ],
   build: {
     target: "node26",

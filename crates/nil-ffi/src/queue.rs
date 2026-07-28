@@ -53,7 +53,7 @@ where
   let entry = match serialize(&response) {
     Ok(json_str) => QueueEntry { kind, json_str },
     Err(err) => {
-      let result = Result::<()>::status(Status::ERR_SERIALIZATION, err);
+      let result = Result::<()>::err_with_status(err, Status::ERR_SERIALIZATION);
       let response = Response { id, result };
       let json_str = serialize(&response).expect("`FfiResult<()>` must always serialize");
       QueueEntry { kind, json_str }

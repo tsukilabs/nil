@@ -3,6 +3,7 @@ set windows-shell := ["powershell.exe", "-NoLogo", "-Command"]
 alias build := build-client
 alias clear := clean
 alias ffi := build-ffi
+alias ffi-pkg := build-ffi-package
 alias format := fmt
 
 help:
@@ -36,6 +37,11 @@ type-check:
 udeps:
   @cargo udeps --workspace
 
+[group("ffi")]
+build-ffi-package:
+  @pnpm run -F @tsukilabs/nil-ffi build
+
+[group("rsx")]
 [private]
 rsx FILE *ARGS:
   @cargo -Zscript scripts/{{ FILE }}.rs {{ ARGS }}
@@ -44,6 +50,7 @@ rsx FILE *ARGS:
 build-client *ARGS:
   @just rsx build-client {{ ARGS }}
 
+[group("ffi")]
 [group("rsx")]
 build-ffi *ARGS:
   @just rsx build-ffi {{ ARGS }}

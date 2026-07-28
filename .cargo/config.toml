@@ -3,5 +3,7 @@ target-dir = "target"
 rustflags = []
 
 [env]
+NIL_GENERATE_FFI_BINDINGS = "true"
+
 CARGO_TARGET_DIR = "target"
 TS_RS_EXPORT_DIR = { value = "packages/bindings/src", relative = true }

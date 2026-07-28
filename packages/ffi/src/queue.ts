@@ -1,8 +1,11 @@
+/* eslint-disable @typescript-eslint/prefer-promise-reject-errors */
+
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { Handle } from ".";
 import * as ffi from "node:ffi";
+import { RequestId } from "./request";
 import type { Option } from "@tb-dev/utils";
 import { isNil } from "es-toolkit/predicate";
 import { allocBuffer, readBufferPtr } from "./ptr";
@@ -14,6 +17,8 @@ import {
   ffi_Status,
 } from "@tsukilabs/nil-bindings";
 
+type RequestFn = (requestId: ffi_RequestId) => void;
+
 export class Queue implements Disposable {
   private static readonly POLL_INTERVAL = 16;
   private static readonly LIMIT_PER_TICK = 200;
@@ -23,6 +28,7 @@ export class Queue implements Disposable {
   private readonly pending = new Map<ffi_RequestId, Pending<unknown>>();
 
   private disposed = false;
+  private readonly requestId = new RequestId();
 
   constructor(handle: Handle) {
     this.functions = handle.functions;
@@ -37,26 +43,26 @@ export class Queue implements Disposable {
     this.rejectAll(new HandleClosedError());
   }
 
-  public request<T = unknown>(start: () => ffi_RequestId): Promise<T> {
+  public request<T = unknown>(start: RequestFn): Promise<T> {
     if (this.disposed) {
       return Promise.reject(new HandleClosedError());
     }
 
+    const requestId = this.requestId.next();
     return new Promise<T>((resolve, reject) => {
-      let id: ffi_RequestId;
-      try {
-        id = start();
-      }
-      catch (err) {
-        // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
-        reject(err);
-        return;
-      }
-
-      this.pending.set(id, {
+      this.pending.set(requestId, {
         resolve: resolve as Pending<unknown>["resolve"],
         reject,
       });
+
+      try {
+        start(requestId);
+      }
+      catch (err) {
+        this.pending.delete(requestId);
+        reject(err);
+        return;
+      }
 
       this.startPolling();
     });
