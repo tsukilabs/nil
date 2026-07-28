@@ -1,8 +1,10 @@
 use anyhow::Result;
+use std::env;
 
 fn main() -> Result<()> {
   if nil_env::generate_ffi_bindings() {
     generate_node()?;
+    generate_c()?;
     generate_csharp()?;
   }
 
@@ -14,6 +16,16 @@ fn generate_node() -> Result<()> {
     .input("src/lib.rs")
     .output("../../packages/ffi/src/def.ts")
     .call()?;
+
+  Ok(())
+}
+
+fn generate_c() -> Result<()> {
+  cbindgen::Builder::new()
+    .with_crate(env::var("CARGO_MANIFEST_DIR")?)
+    .with_language(cbindgen::Language::C)
+    .generate()?
+    .write_to_file("gen/libnil.h");
 
   Ok(())
 }

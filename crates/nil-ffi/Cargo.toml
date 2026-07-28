@@ -46,6 +46,7 @@ optional = true
 
 [build-dependencies]
 anyhow.workspace = true
+cbindgen.workspace = true
 csbindgen.workspace = true
 nil-env.workspace = true
 nil-ffi-node.workspace = true
