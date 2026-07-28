@@ -1,5 +1,12 @@
+// Copyright (C) Call of Nil contributors
+// SPDX-License-Identifier: AGPL-3.0-only
+
 use anyhow::Result;
 use std::env;
+
+const LICENSE: &str = "
+// Copyright (C) Call of Nil contributors
+// SPDX-License-Identifier: AGPL-3.0-only";
 
 fn main() -> Result<()> {
   if nil_env::generate_ffi_bindings() {
@@ -24,6 +31,7 @@ fn generate_c() -> Result<()> {
   cbindgen::Builder::new()
     .with_crate(env::var("CARGO_MANIFEST_DIR")?)
     .with_language(cbindgen::Language::C)
+    .with_header(LICENSE.trim_start())
     .generate()?
     .write_to_file("gen/libnil.h");
 
@@ -31,6 +39,7 @@ fn generate_c() -> Result<()> {
 }
 
 fn generate_csharp() -> Result<()> {
+  let license = LICENSE.trim_start();
   csbindgen::Builder::default()
     .input_extern_file("src/lib.rs")
     .input_extern_file("src/status.rs")
@@ -38,6 +47,7 @@ fn generate_csharp() -> Result<()> {
     .csharp_class_name("libnil")
     .csharp_class_accessibility("public")
     .csharp_type_rename(rename_csharp_type)
+    .csharp_file_header(format!("{license}\n"))
     .generate_csharp_file("gen/libnil.cs")
     .unwrap();
 
