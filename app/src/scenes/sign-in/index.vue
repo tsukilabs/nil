@@ -7,13 +7,13 @@ import { Label } from "@ui/label";
 import { useI18n } from "vue-i18n";
 import { Button } from "@ui/button";
 import * as commands from "@/commands";
-import { useMutex } from "@tb-dev/vue";
 import { useRouter } from "vue-router";
 import type { Option } from "@tb-dev/utils";
+import { computed, onBeforeMount } from "vue";
 import { useSettings } from "@/stores/settings";
+import { localRef, useMutex } from "@tb-dev/vue";
 import enUS from "@/locale/en-US/scenes/online.json";
 import ptBR from "@/locale/pt-BR/scenes/online.json";
-import { computed, onBeforeMount, reactive } from "vue";
 import { isValidPassword, isValidPlayerId } from "@/lib/schema";
 import ButtonSpinner from "@/components/button/ButtonSpinner.vue";
 import { go, QUERY_SIGN_IN_USER, QUERY_SIGN_UP_USER } from "@/router";
@@ -34,35 +34,33 @@ interface User {
   password: Option<string>;
 }
 
-const user = reactive<User>({
-  name: null,
-  password: null,
-});
+const userName = localRef<User["name"]>(key("user.name"), null);
+const userPassword = localRef<User["password"]>(key("user.password"), null);
 
 const { locked, lock } = useMutex();
 const canSignIn = computed(() => {
   return (
-    isValidPlayerId(user.name) &&
-    isValidPassword(user.password)
+    isValidPlayerId(userName.value) &&
+    isValidPassword(userPassword.value)
   );
 });
 
 onBeforeMount(() => {
   const url = new URL(window.location.href);
-  user.name = url.searchParams.get(QUERY_SIGN_IN_USER);
+  userName.value = url.searchParams.get(QUERY_SIGN_IN_USER);
 });
 
 async function signIn() {
   await lock(async () => {
     if (
-      isValidPlayerId(user.name) &&
-      isValidPassword(user.password)
+      isValidPlayerId(userName.value) &&
+      isValidPassword(userPassword.value)
     ) {
-      const token = await commands.authorize(user.name, user.password);
+      const token = await commands.authorize(userName.value, userPassword.value);
       await commands.updateClient({
         serverAddr: { kind: "remote" },
-        playerId: user.name,
-        playerPassword: user.password,
+        playerId: userName.value,
+        playerPassword: userPassword.value,
         authorizationToken: token,
       });
 
@@ -73,7 +71,11 @@ async function signIn() {
 }
 
 async function goToSignUpScene() {
-  await go("sign-up", { query: { [QUERY_SIGN_UP_USER]: user.name } });
+  await go("sign-up", { query: { [QUERY_SIGN_UP_USER]: userName.value } });
+}
+
+function key(name: string) {
+  return `sign-in:${name}`;
 }
 </script>
 
@@ -88,7 +90,7 @@ async function goToSignUpScene() {
         <Label>
           <span>{{ t("user") }}</span>
           <Input
-            v-model.trim="user.name"
+            v-model.trim="userName"
             type="text"
             :disabled="locked"
             :minlength="1"
@@ -99,7 +101,7 @@ async function goToSignUpScene() {
         <Label>
           <span>{{ t("password") }}</span>
           <Input
-            v-model="user.password"
+            v-model="userPassword"
             type="password"
             :disabled="locked"
             :minlength="3"
