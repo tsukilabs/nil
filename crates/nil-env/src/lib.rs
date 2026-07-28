@@ -31,6 +31,10 @@ pub enum Var {
   #[strum(serialize = "NIL_JWT_SECRET")]
   JwtSecret,
 
+  #[serde(rename = "NIL_GENERATE_FFI_BINDINGS")]
+  #[strum(serialize = "NIL_GENERATE_FFI_BINDINGS")]
+  GenerateFfiBindings,
+
   #[serde(rename = "NIL_LOG_DIR")]
   #[strum(serialize = "NIL_LOG_DIR")]
   LogDir,
@@ -109,6 +113,10 @@ pub fn log_level() -> Box<str> {
 
 pub fn log_tower_http() -> bool {
   env::var(Var::LogTowerHttp).is_ok_and(|it| it == "true")
+}
+
+pub fn generate_ffi_bindings() -> bool {
+  env::var(Var::GenerateFfiBindings).is_ok_and(|it| it == "true")
 }
 
 pub fn remote_server_addr() -> Url {

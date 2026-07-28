@@ -3648,6 +3648,7 @@ dependencies = [
  "nil-client",
  "nil-core",
  "nil-crypto",
+ "nil-env",
  "nil-ffi-node",
  "nil-server-types",
  "serde",

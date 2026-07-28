@@ -1,8 +1,7 @@
 use anyhow::Result;
-use std::env::var;
 
 fn main() -> Result<()> {
-  if var("NIL_GENERATE_FFI_BINDINGS").is_ok_and(|it| it == "true") {
+  if nil_env::generate_ffi_bindings() {
     generate_node()?;
     generate_csharp()?;
   }
