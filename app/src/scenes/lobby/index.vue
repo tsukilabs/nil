@@ -9,6 +9,7 @@ import { formatDate } from "date-fns";
 import { LockIcon } from "@lucide/vue";
 import Loading from "@/components/Loading.vue";
 import { throttle } from "es-toolkit/function";
+import { useSettings } from "@/stores/settings";
 import enUS from "@/locale/en-US/scenes/online.json";
 import ptBR from "@/locale/pt-BR/scenes/online.json";
 import { useToken } from "@/composables/auth/useToken";
@@ -27,6 +28,7 @@ const { t } = useI18n({
   },
 });
 
+const settings = useSettings();
 const { sm, md, xl } = useBreakpoints();
 
 const { remoteWorlds, loading, load } = useRemoteWorlds();
@@ -45,6 +47,11 @@ const canHost = computed(() => {
 
 if (__DESKTOP__) {
   onKeyDown("F5", throttle(load, 1000));
+}
+
+async function leaveLobby() {
+  await go("home");
+  settings.auth.token = null;
 }
 
 async function goToJoinRemoteGameScene(id: WorldId) {
@@ -81,8 +88,8 @@ function countCurrentPlayerWorlds() {
                 variant="secondary"
                 :size="sm ? 'default' : 'xs'"
                 class="md:px-4 xl:px-6 2xl:px-8"
-                @click.stop="() => go('home')"
-                @keydown.enter.stop="() => go('home')"
+                @click.stop="leaveLobby"
+                @keydown.enter.stop="leaveLobby"
               >
                 <span>{{ t("leave") }}</span>
               </Button>
