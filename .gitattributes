@@ -9,6 +9,9 @@
 *.kt linguist-detectable=false
 *.kts linguist-detectable=false
 
+# C#
+*.cs linguist-detectable=false
+
 # Just
 justfile linguist-detectable=false
 *.just linguist-detectable=false

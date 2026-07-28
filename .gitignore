@@ -30,6 +30,11 @@ rustc-ice-*.txt
 **/*.db-shm
 **/*.db-wal
 
+# Scripts
+**/*.dev.mjs
+**/*.dev.mts
+**/*.dev.ps1
+
 # Others
 **/.DS_Store
 **/.Thumbs.db
