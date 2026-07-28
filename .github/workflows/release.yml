@@ -36,7 +36,9 @@ jobs:
           CARGO_REGISTRY_TOKEN: ${{ steps.auth.outputs.token }}
 
       - name: Publish packages
-        run: cargo -Zscript scripts/publish-packages.rs
+        run: |
+          pnpm run -F @tsukilabs/nil-bindings build
+          cargo -Zscript scripts/publish-packages.rs
 
   release-client:
     needs: publish
