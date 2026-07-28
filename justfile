@@ -41,8 +41,8 @@ udeps:
 build-ffi-package:
   @pnpm run -F @tsukilabs/nil-ffi build
 
-[private]
 [group("rsx")]
+[private]
 rsx FILE *ARGS:
   @cargo -Zscript scripts/{{ FILE }}.rs {{ ARGS }}
 
@@ -50,8 +50,8 @@ rsx FILE *ARGS:
 build-client *ARGS:
   @just rsx build-client {{ ARGS }}
 
-[group("rsx")]
 [group("ffi")]
+[group("rsx")]
 build-ffi *ARGS:
   @just rsx build-ffi {{ ARGS }}
 
