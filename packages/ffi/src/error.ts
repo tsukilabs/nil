@@ -2,14 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { Option } from "@tb-dev/utils";
-import { ffi_Status } from "@tsukilabs/nil-bindings";
+import { type ffi_Response, ffi_Status } from "@tsukilabs/nil-bindings";
 
 export interface FfiErrorOptions extends ErrorOptions {
   readonly status?: Option<ffi_Status>;
 }
 
-export class FfiError extends Error {
-  public override readonly name = "FfiError";
+export class NilError extends Error {
+  public override readonly name = "NilError";
   public readonly status: ffi_Status;
 
   constructor(message: Option<string>, options?: FfiErrorOptions) {
@@ -30,7 +30,7 @@ export class FfiError extends Error {
   }
 
   public static fromStatus(status: ffi_Status) {
-    return new FfiError(null, { status });
+    return new NilError(null, { status });
   }
 }
 
@@ -39,5 +39,15 @@ export class HandleClosedError extends Error {
 
   constructor(options?: ErrorOptions) {
     super("handle is closed", options);
+  }
+}
+
+export class UnknownResponseError extends Error {
+  public override readonly name = "UnknownResponseError";
+  public readonly response: ffi_Response;
+
+  constructor(response: ffi_Response, options?: ErrorOptions) {
+    super(`got unknown response with id ${response.id}`, options);
+    this.response = response;
   }
 }
