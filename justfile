@@ -4,7 +4,6 @@ alias build := build-client
 alias clear := clean
 alias ffi := build-ffi
 alias ffi-pkg := build-ffi-package
-alias ffi-pkg-run := run-ffi-package
 alias format := fmt
 
 help:
@@ -41,11 +40,6 @@ udeps:
 [group("ffi")]
 build-ffi-package:
   @pnpm run -F @tsukilabs/nil-ffi build
-
-[group("ffi")]
-run-ffi-package:
-  @just build-ffi-package
-  @node --experimental-ffi packages/ffi/scripts/run.mts
 
 [private]
 [group("rsx")]

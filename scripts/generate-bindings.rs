@@ -4,6 +4,7 @@ edition = "2024"
 
 [dependencies]
 anyhow = "1.0"
+csbindgen = "=1.9.6"
 natord = "=1.0.9"
 regex = "1.13"
 
@@ -37,27 +38,34 @@ struct Args {
   force: bool,
 
   #[arg(long)]
-  skip_ts: bool,
+  skip_ffi_cs: bool,
 
   #[arg(long)]
-  skip_ffi: bool,
+  skip_ffi_node: bool,
+
+  #[arg(long)]
+  skip_ts: bool,
 }
 
 fn main() -> Result<()> {
   let args = Args::parse();
 
   if !args.skip_ts {
-    generate_ts_bindings(args.force)?;
+    generate_ts(args.force)?;
   }
 
-  if !args.skip_ffi {
-    generate_ffi_bindings()?;
+  if !args.skip_ffi_node {
+    generate_ffi_node()?;
+  }
+
+  if !args.skip_ffi_cs {
+    generate_ffi_cs()?;
   }
 
   Ok(())
 }
 
-fn generate_ts_bindings(force: bool) -> Result<()> {
+fn generate_ts(force: bool) -> Result<()> {
   let dir = env::var("TS_RS_EXPORT_DIR")?;
 
   if force && fs::exists(&dir)? {
@@ -152,11 +160,33 @@ impl BindingKind {
   }
 }
 
-fn generate_ffi_bindings() -> Result<()> {
+fn generate_ffi_node() -> Result<()> {
   nil_ffi_node::generate()
     .input("crates/nil-ffi/src/lib.rs")
     .output("packages/ffi/src/def.ts")
     .call()?;
 
   Ok(())
+}
+
+fn generate_ffi_cs() -> Result<()> {
+  csbindgen::Builder::default()
+    .input_extern_file("crates/nil-ffi/src/lib.rs")
+    .input_extern_file("crates/nil-ffi/src/status.rs")
+    .csharp_dll_name("libnil")
+    .csharp_class_name("libnil")
+    .csharp_class_accessibility("public")
+    .csharp_type_rename(rename_cs_type)
+    .generate_csharp_file("crates/nil-ffi/gen/libnil.cs")
+    .unwrap();
+
+  Ok(())
+}
+
+fn rename_cs_type(name: String) -> String {
+  match name.as_str() {
+    "RequestId" => "uint".into(),
+    "Status" => "StatusCode".into(),
+    _ => name,
+  }
 }
