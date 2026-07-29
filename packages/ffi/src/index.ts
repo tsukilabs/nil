@@ -172,6 +172,20 @@ export class Nil implements Disposable {
   }
 
   @ThrowIfClosed
+  public async getRuntimeNumAliveTasks() {
+    return this.queue.request<number>((requestId) => {
+      this.functions.nil_runtime_num_alive_tasks(requestId);
+    });
+  }
+
+  @ThrowIfClosed
+  public async getRuntimeNumWorkers() {
+    return this.queue.request<number>((requestId) => {
+      this.functions.nil_runtime_num_workers(requestId);
+    });
+  }
+
+  @ThrowIfClosed
   public async getServerAddr() {
     return this.queue.request<ServerAddr>((requestId) => {
       this.functions.nil_server_addr(requestId);
