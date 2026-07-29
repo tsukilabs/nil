@@ -67,7 +67,7 @@ impl World {
 
     let config = WorldConfig::new(&options);
     let stats = WorldStats::new(&config);
-    let continent = Continent::new(options.size.get());
+    let continent = Continent::new(options.size.unwrap_or_default());
     let precursor_manager = PrecursorManager::new(continent.size());
     let military = Military::new(continent.size());
 
@@ -188,45 +188,58 @@ impl TryFrom<WorldOptions> for World {
 #[derive(Builder, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
+#[cfg_attr(feature = "typescript", ts(optional_fields = nullable))]
 pub struct WorldOptions {
   #[builder(start_fn, into)]
   pub name: WorldName,
 
   #[serde(default)]
-  #[builder(default, into)]
-  pub size: ContinentSize,
+  #[builder(into)]
+  pub size: Option<ContinentSize>,
 
   #[serde(default)]
-  #[builder(default)]
-  pub locale: Locale,
+  pub locale: Option<Locale>,
 
   #[serde(default)]
-  #[builder(default)]
-  pub allow_cheats: bool,
+  pub allow_cheats: Option<bool>,
 
   #[serde(default)]
-  #[builder(default, into)]
-  pub speed: WorldSpeed,
+  #[builder(into)]
+  pub speed: Option<WorldSpeed>,
 
   #[serde(default)]
-  #[builder(default, into)]
-  pub unit_speed: WorldUnitSpeed,
+  #[builder(into)]
+  pub unit_speed: Option<WorldUnitSpeed>,
 
   #[serde(default)]
-  #[builder(default, into)]
-  pub bot_density: BotDensity,
+  #[builder(into)]
+  pub bot_density: Option<BotDensity>,
 
   #[serde(default)]
-  #[builder(default, into)]
-  pub bot_advanced_start_ratio: BotAdvancedStartRatio,
+  #[builder(into)]
+  pub bot_advanced_start_ratio: Option<BotAdvancedStartRatio>,
 }
 
 impl WorldOptions {
   pub fn clamp(&mut self) {
-    ContinentSize::clamp(&mut self.size);
-    WorldSpeed::clamp(&mut self.speed);
-    WorldUnitSpeed::clamp(&mut self.unit_speed);
-    BotDensity::clamp(&mut self.bot_density);
-    BotAdvancedStartRatio::clamp(&mut self.bot_advanced_start_ratio);
+    if let Some(value) = self.size.as_mut() {
+      ContinentSize::clamp(value);
+    }
+
+    if let Some(value) = self.speed.as_mut() {
+      WorldSpeed::clamp(value);
+    }
+
+    if let Some(value) = self.unit_speed.as_mut() {
+      WorldUnitSpeed::clamp(value);
+    }
+
+    if let Some(value) = self.bot_density.as_mut() {
+      BotDensity::clamp(value);
+    }
+
+    if let Some(value) = self.bot_advanced_start_ratio.as_mut() {
+      BotAdvancedStartRatio::clamp(value);
+    }
   }
 }

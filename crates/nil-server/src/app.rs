@@ -167,7 +167,7 @@ impl App {
     #[builder(into)] round_duration: Option<RoundDuration>,
     server_version: Version,
   ) -> Result<WorldId> {
-    options.allow_cheats = false;
+    options.allow_cheats = Some(false);
 
     self
       .check_remote_world_limit(player_id.clone())
