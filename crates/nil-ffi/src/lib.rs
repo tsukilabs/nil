@@ -10,31 +10,23 @@ mod macros;
 mod queue;
 mod request;
 mod response;
+mod runtime;
 mod server;
 mod status;
 
+use crate::runtime::RUNTIME;
+use crate::server::SERVER;
 use client::CLIENT;
 use futures::future::BoxFuture;
 use json::serialize;
 use nil_core::event::Event;
 use std::ffi::{CString, c_char};
 use std::ptr;
-use std::sync::LazyLock;
-use tokio::runtime::{Builder as RuntimeBuilder, Runtime};
+use tap::TryConv;
 
 pub use request::RequestId;
 pub use response::{Response, Result};
 pub use status::Status;
-
-use crate::server::SERVER;
-
-static RUNTIME: LazyLock<Runtime> = LazyLock::new(|| {
-  RuntimeBuilder::new_multi_thread()
-    .enable_all()
-    .thread_name("libnil-worker")
-    .build()
-    .expect("failed to initialize tokio runtime")
-});
 
 ///////////////////////////////
 //////////// FFI //////////////
@@ -211,7 +203,33 @@ pub unsafe extern "C" fn nil_world(request_id: RequestId) {
 }
 
 ///////////////////////////////
-/////////// SERVER ////////////
+/////////// RUNTIME ///////////
+///////////////////////////////
+
+#[unsafe(no_mangle)]
+pub unsafe extern "C" fn nil_runtime_num_alive_tasks(request_id: RequestId) {
+  push_result!(
+    request_id,
+    RUNTIME
+      .metrics()
+      .num_alive_tasks()
+      .try_conv::<u32>()
+  );
+}
+
+#[unsafe(no_mangle)]
+pub unsafe extern "C" fn nil_runtime_num_workers(request_id: RequestId) {
+  push_result!(
+    request_id,
+    RUNTIME
+      .metrics()
+      .num_workers()
+      .try_conv::<u32>()
+  );
+}
+
+///////////////////////////////
+////////// ENDPOINTS //////////
 ///////////////////////////////
 
 #[unsafe(no_mangle)]

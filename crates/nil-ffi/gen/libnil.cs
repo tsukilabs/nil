@@ -75,6 +75,12 @@ namespace CsBindgen
         [DllImport(__DllName, EntryPoint = "nil_world", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_world(uint request_id);
 
+        [DllImport(__DllName, EntryPoint = "nil_runtime_num_alive_tasks", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void nil_runtime_num_alive_tasks(uint request_id);
+
+        [DllImport(__DllName, EntryPoint = "nil_runtime_num_workers", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void nil_runtime_num_workers(uint request_id);
+
         [DllImport(__DllName, EntryPoint = "nil_add_academy_recruit_order", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_add_academy_recruit_order(uint request_id, byte* json_req);
 

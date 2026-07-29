@@ -61,6 +61,10 @@ void nil_user_agent(RequestId request_id);
 
 void nil_world(RequestId request_id);
 
+void nil_runtime_num_alive_tasks(RequestId request_id);
+
+void nil_runtime_num_workers(RequestId request_id);
+
 void nil_add_academy_recruit_order(RequestId request_id, const char *json_req);
 
 void nil_add_prefecture_build_order(RequestId request_id, const char *json_req);
