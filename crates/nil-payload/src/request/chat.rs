@@ -5,12 +5,9 @@ use bon::Builder;
 use nil_core::world::config::WorldId;
 use serde::{Deserialize, Serialize};
 
-#[cfg(feature = "typescript")]
-use ts_rs::TS;
-
 #[derive(Builder, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct GetChatHistoryRequest {
   #[builder(start_fn, into)]
@@ -19,7 +16,7 @@ pub struct GetChatHistoryRequest {
 
 #[derive(Builder, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct PushChatMessageRequest {
   #[builder(start_fn, into)]

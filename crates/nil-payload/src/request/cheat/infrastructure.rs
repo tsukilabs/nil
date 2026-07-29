@@ -8,12 +8,9 @@ use nil_core::ruler::Ruler;
 use nil_core::world::config::WorldId;
 use serde::{Deserialize, Serialize};
 
-#[cfg(feature = "typescript")]
-use ts_rs::TS;
-
 #[derive(Builder, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct CheatGetAcademyRecruitQueueRequest {
   #[builder(start_fn, into)]
@@ -24,7 +21,7 @@ pub struct CheatGetAcademyRecruitQueueRequest {
 
 #[derive(Builder, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct CheatGetAcademyRecruitQueuesRequest {
   #[builder(start_fn, into)]
@@ -39,7 +36,7 @@ pub struct CheatGetAcademyRecruitQueuesRequest {
 
 #[derive(Builder, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct CheatGetAllAcademyRecruitQueuesRequest {
   #[builder(start_fn, into)]
@@ -51,7 +48,7 @@ pub struct CheatGetAllAcademyRecruitQueuesRequest {
 
 #[derive(Builder, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct CheatGetAllPrefectureBuildQueuesRequest {
   #[builder(start_fn, into)]
@@ -63,7 +60,7 @@ pub struct CheatGetAllPrefectureBuildQueuesRequest {
 
 #[derive(Builder, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct CheatGetAllStableRecruitQueuesRequest {
   #[builder(start_fn, into)]
@@ -75,7 +72,7 @@ pub struct CheatGetAllStableRecruitQueuesRequest {
 
 #[derive(Builder, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct CheatGetInfrastructureRequest {
   #[builder(start_fn, into)]
@@ -86,7 +83,7 @@ pub struct CheatGetInfrastructureRequest {
 
 #[derive(Builder, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct CheatGetPrefectureBuildQueueRequest {
   #[builder(start_fn, into)]
@@ -97,7 +94,7 @@ pub struct CheatGetPrefectureBuildQueueRequest {
 
 #[derive(Builder, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct CheatGetPrefectureBuildQueuesRequest {
   #[builder(start_fn, into)]
@@ -112,7 +109,7 @@ pub struct CheatGetPrefectureBuildQueuesRequest {
 
 #[derive(Builder, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct CheatGetStableRecruitQueueRequest {
   #[builder(start_fn, into)]
@@ -123,7 +120,7 @@ pub struct CheatGetStableRecruitQueueRequest {
 
 #[derive(Builder, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct CheatGetStableRecruitQueuesRequest {
   #[builder(start_fn, into)]
@@ -138,7 +135,7 @@ pub struct CheatGetStableRecruitQueuesRequest {
 
 #[derive(Builder, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export, optional_fields = nullable))]
 pub struct CheatGetStorageCapacityRequest {
   #[builder(start_fn, into)]
@@ -150,7 +147,7 @@ pub struct CheatGetStorageCapacityRequest {
 
 #[derive(Builder, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct CheatSetBuildingLevelRequest {
   #[builder(start_fn, into)]
@@ -165,7 +162,7 @@ pub struct CheatSetBuildingLevelRequest {
 
 #[derive(Builder, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct CheatSetMaxInfrastructureRequest {
   #[builder(start_fn, into)]
