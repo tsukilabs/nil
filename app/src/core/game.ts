@@ -101,7 +101,7 @@ export async function hostLocalGame(options: {
   const serverAddr: ServerAddr = { kind: "local", addr: server.addr };
   return joinLocalGame({
     serverAddr,
-    worldId: server.worldId,
+    worldId: server.world,
     playerId: options.playerOptions.id,
   });
 }
@@ -114,7 +114,7 @@ export async function hostLocalGameWithSavedata(options: {
   const serverAddr: ServerAddr = { kind: "local", addr: server.addr };
   return joinLocalGame({
     serverAddr,
-    worldId: server.worldId,
+    worldId: server.world,
     playerId: options.playerOptions.id,
   });
 }
