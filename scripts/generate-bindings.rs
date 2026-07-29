@@ -86,6 +86,7 @@ fn write_license(index: &mut String) -> Result<()> {
 fn write_index_exports(index: &mut String, bindings: &[Binding]) -> Result<()> {
   writeln!(index, "import {{ version }} from '../package.json' with {{ type: 'json' }};\n")?;
   writeln!(index, "export const VERSION = version;\n")?;
+  writeln!(index, "export type {{ JsonValue }} from './serde_json/JsonValue';\n")?;
 
   for binding in bindings {
     let name = &binding.name;

@@ -183,7 +183,8 @@ export class Queue implements Disposable {
 
 type QueueEvent = "error" | "response";
 type RequestFn = (requestId: ffi_RequestId) => void;
-type ErrorHandler = (error: unknown) => void;
+
+export type ErrorHandler = (error: unknown) => void;
 
 export interface QueueOptions {
   onError?: Option<ErrorHandler>;

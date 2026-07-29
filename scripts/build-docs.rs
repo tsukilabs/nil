@@ -16,6 +16,7 @@ use std::fs;
 fn main() -> Result<()> {
   spawn!("pnpm ci")?;
   spawn!("pnpm run -F docs build")?;
+  spawn!("pnpm run --recursive --if-present typedoc")?;
 
   fs::write("docs/dist/.nojekyll", "")?;
   fs::write("docs/dist/CNAME", "nil.dev.br")?;

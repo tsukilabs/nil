@@ -13,7 +13,7 @@ import { join as joinPath, resolve as resolvePath } from "node:path";
 import type {
   AuthorizeRequest,
   AuthorizeResponse,
-  ffi_UpdateClient,
+  ClientOptions,
   GetPlayerIdsRequest,
   GetPlayerIdsResponse,
   GetPlayerRequest,
@@ -40,6 +40,7 @@ export * from "./def";
 export * from "./error";
 
 export type Handle = ffi.DynamicLibraryResult<typeof definitions>;
+export type { ErrorHandler } from "./queue";
 
 export const VERSION = version;
 export const USER_AGENT = `nil-ffi-node/${VERSION}`;
@@ -298,7 +299,7 @@ export class Nil implements Disposable {
   }
 
   @ThrowIfClosed
-  public async updateClient(options: ffi_UpdateClient) {
+  public async updateClient(options: ClientOptions) {
     return this.queue.request((requestId) => {
       this.functions.nil_update_client(requestId, JSON.stringify(options));
     });

@@ -5,6 +5,8 @@ import { version } from '../package.json' with { type: 'json' };
 
 export const VERSION = version;
 
+export type { JsonValue } from './serde_json/JsonValue';
+
 export type { Academy } from './Academy';
 export type { AcademyRecruitCatalog } from './AcademyRecruitCatalog';
 export type { AcademyRecruitCatalogEntry } from './AcademyRecruitCatalogEntry';
