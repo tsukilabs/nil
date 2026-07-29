@@ -31,7 +31,7 @@
   },
   "dependencies": {
     "@tb-dev/utils": "^8.1.1",
-    "@tsukilabs/nil-bindings": "^0.7.4",
+    "@tsukilabs/nil-bindings": "^0.7.5",
     "es-toolkit": "^1.50.0"
   },
   "files": ["dist"],
