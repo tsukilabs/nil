@@ -64,7 +64,7 @@ impl Nil {
 
   pub async fn start_server_with_options(&self, options: WorldOptions) -> Result<LocalServer> {
     self
-      .start_server(async move || Ok(local::start(&options).await?))
+      .start_server(async move || Ok(local::start(options).await?))
       .await
   }
 

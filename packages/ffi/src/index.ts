@@ -2,14 +2,15 @@
 //! SPDX-License-Identifier: AGPL-3.0-only
 
 import * as ffi from "node:ffi";
+import * as path from "node:path";
 import { cwd } from "node:process";
 import { definitions } from "./def";
+import { existsSync } from "node:fs";
+import * as fs from "node:fs/promises";
 import { HandleClosedError } from "./error";
 import type { Option } from "@tb-dev/utils";
-import { writeFile } from "node:fs/promises";
 import { Queue, type QueueOptions } from "./queue";
 import { version } from "../package.json" with { type: "json" };
-import { join as joinPath, resolve as resolvePath } from "node:path";
 import type {
   AuthorizeRequest,
   AuthorizeResponse,
@@ -58,7 +59,7 @@ export class Nil implements Disposable {
       dll = `${dll}.${ffi.suffix}`;
     }
 
-    this.path = resolvePath(dll);
+    this.path = path.resolve(dll);
     this.handle = ffi.dlopen(dll, definitions);
     this.functions = this.handle.functions;
     this.queue = new Queue(this.handle, options);
@@ -70,14 +71,22 @@ export class Nil implements Disposable {
     return nil;
   }
 
-  public static async initLatest(outDir?: Option<string>, options?: NilOptions) {
-    const dll = await this.downloadLatest(outDir);
+  public static async initLatest(options?: InitLatestOptions) {
+    const dll = await this.downloadLatest(options);
     return this.init(dll, options);
   }
 
-  public static async downloadLatest(outDir?: Option<string>) {
+  public static async downloadLatest(options?: DownloadLatestOptions) {
     const file = `libnil.${ffi.suffix}`;
-    const response = await fetch(`https://tsukilabs.dev.br/${file}`);
+    const filePath = path.resolve(options?.outDir ?? cwd(), file);
+    if (!(options?.truncate ?? true) && existsSync(filePath)) {
+      return filePath;
+    }
+
+    const response = await fetch(`https://tsukilabs.dev.br/download/nil/${file}`, {
+      headers: { "User-Agent": USER_AGENT },
+    });
+
     if (!response.ok) {
       throw new Error(
         `failed to download ${file}: ${response.status} ${response.statusText}`,
@@ -85,9 +94,8 @@ export class Nil implements Disposable {
     }
 
     const bytes = await response.bytes();
-    const path = joinPath(outDir ?? cwd(), file);
-    await writeFile(path, bytes);
-    return resolvePath(path);
+    await fs.writeFile(filePath, bytes);
+    return filePath;
   }
 
   public [Symbol.dispose]() {
@@ -278,9 +286,9 @@ export class Nil implements Disposable {
   }
 
   @ThrowIfClosed
-  public async startServerWithSavedata(path: string) {
+  public async startServerWithSavedata(savedataPath: string) {
     return this.queue.request<LocalServer>((requestId) => {
-      this.functions.nil_start_server_with_savedata(requestId, JSON.stringify(path));
+      this.functions.nil_start_server_with_savedata(requestId, JSON.stringify(savedataPath));
     });
   }
 
@@ -327,3 +335,10 @@ function ThrowIfClosed(_target: Nil, _key: string, descriptor: PropertyDescripto
 export interface NilOptions {
   onError?: QueueOptions["onError"];
 }
+
+export interface DownloadLatestOptions {
+  outDir?: Option<string>;
+  truncate?: boolean;
+}
+
+export type InitLatestOptions = DownloadLatestOptions & NilOptions;

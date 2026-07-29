@@ -12,7 +12,7 @@ fn main() -> Result<()> {
   if nil_env::generate_ffi_bindings() {
     generate_node()?;
     generate_c()?;
-    generate_csharp()?;
+    generate_csharp();
   }
 
   Ok(())
@@ -38,7 +38,7 @@ fn generate_c() -> Result<()> {
   Ok(())
 }
 
-fn generate_csharp() -> Result<()> {
+fn generate_csharp() {
   let license = LICENSE.trim_start();
   csbindgen::Builder::default()
     .input_extern_file("src/lib.rs")
@@ -50,8 +50,6 @@ fn generate_csharp() -> Result<()> {
     .csharp_file_header(format!("{license}\n"))
     .generate_csharp_file("gen/libnil.cs")
     .unwrap();
-
-  Ok(())
 }
 
 fn rename_csharp_type(name: String) -> String {

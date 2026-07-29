@@ -183,6 +183,10 @@ macro_rules! impl_f64_newtype {
         debug_assert!(!value.is_subnormal());
         Self(value.clamp(Self::MIN.0, Self::MAX.0))
       }
+
+      pub const fn clamp(&mut self) {
+        *self = Self(self.0.clamp(Self::MIN.0, Self::MAX.0));
+      }
     }
 
     const impl From<f64> for $name {

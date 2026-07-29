@@ -36,7 +36,7 @@ pub(crate) fn make_world() -> Result<World> {
   WorldOptions::builder("World")
     .allow_cheats(true)
     .build()
-    .to_world()
+    .try_into()
 }
 
 pub(crate) fn make_ruler_bot(id: impl Into<BotId>) -> Ruler {
