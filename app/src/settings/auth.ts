@@ -3,8 +3,7 @@
 
 import * as commands from "@/commands";
 import type { Option } from "@tb-dev/utils";
-import type { ClientOptions } from "@/types/client";
-import type { app_AuthSettings } from "@tsukilabs/nil-bindings";
+import type { app_AuthSettings, ClientOptions } from "@tsukilabs/nil-bindings";
 
 export class AuthSettingsImpl implements app_AuthSettings {
   public token: Option<string> = null;
@@ -16,7 +15,7 @@ export class AuthSettingsImpl implements app_AuthSettings {
   public async updateClient(options: Partial<ClientOptions> = {}) {
     await commands.updateClient({
       ...options,
-      serverAddr: { kind: "remote" },
+      server: { kind: "remote" },
       authorizationToken: this.token,
     });
   }

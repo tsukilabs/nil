@@ -5,11 +5,11 @@ import type { ServerAddr } from "./ServerAddr";
 import type { Token } from "./Token";
 import type { WorldId } from "./WorldId";
 
-export type ffi_UpdateClient = {
+export type ClientOptions = {
   server: ServerAddr;
-  world_id?: WorldId | null;
-  world_password?: Password | null;
-  player_id?: PlayerId | null;
-  player_password?: Password | null;
-  authorization_token?: Token | null;
+  worldId?: WorldId | null;
+  worldPassword?: Password | null;
+  playerId?: PlayerId | null;
+  playerPassword?: Password | null;
+  authorizationToken?: Token | null;
 };

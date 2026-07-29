@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { invoke } from "@tauri-apps/api/core";
-import type { ClientOptions } from "@/types/client";
+import type { ClientOptions } from "@tsukilabs/nil-bindings";
 
 export async function getClientVersion() {
   return invoke<string>("get_client_version");
@@ -13,18 +13,11 @@ export async function stopClient() {
 }
 
 export async function updateClient(options: ClientOptions) {
-  if (options.serverAddr.kind !== "remote") {
+  if (options.server.kind !== "remote") {
     options.worldPassword = null;
     options.playerPassword = null;
     options.authorizationToken = null;
   }
 
-  await invoke("update_client", {
-    serverAddr: options.serverAddr,
-    worldId: options.worldId ?? null,
-    worldPassword: options.worldPassword ?? null,
-    playerId: options.playerId ?? null,
-    playerPassword: options.playerPassword ?? null,
-    authorizationToken: options.authorizationToken ?? null,
-  });
+  await invoke("update_client", { options });
 }

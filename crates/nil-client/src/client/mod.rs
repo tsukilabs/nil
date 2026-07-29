@@ -26,6 +26,7 @@ use crate::http::{self, USER_AGENT};
 use crate::retry::Retry;
 use crate::server::ServerAddr;
 use crate::websocket::WebSocketClient;
+use bon::Builder;
 use futures::future::BoxFuture;
 use local_ip_address::local_ip;
 use nil_core::event::Event;
@@ -37,6 +38,7 @@ use nil_payload::request::world::LeaveRequest;
 use nil_payload::response::server::*;
 use nil_server_types::ServerKind;
 use nil_server_types::auth::Token;
+use serde::{Deserialize, Serialize};
 use std::borrow::Cow;
 use std::net::{IpAddr, SocketAddrV4};
 use std::sync::nonpoison::Mutex;
@@ -52,7 +54,6 @@ pub struct Client {
   user_agent: Cow<'static, str>,
 }
 
-#[bon::bon]
 impl Client {
   #[inline]
   pub fn new(server: ServerAddr) -> Self {
@@ -77,15 +78,9 @@ impl Client {
     Self::new(ServerAddr::Remote)
   }
 
-  #[builder]
   pub async fn update<OnEvent>(
     &mut self,
-    #[builder(start_fn)] server: ServerAddr,
-    #[builder(into)] world_id: Option<WorldId>,
-    #[builder(into)] world_password: Option<Password>,
-    #[builder(into)] player_id: Option<PlayerId>,
-    #[builder(into)] player_password: Option<Password>,
-    #[builder(into)] authorization_token: Option<Token>,
+    options: ClientOptions,
     on_event: Option<OnEvent>,
   ) -> Result<()>
   where
@@ -93,12 +88,12 @@ impl Client {
   {
     let update = Update {
       client: self,
-      server,
-      world_id,
-      world_password,
-      player_id,
-      player_password,
-      authorization_token,
+      server: options.server,
+      world_id: options.world_id,
+      world_password: options.world_password,
+      player_id: options.player_id,
+      player_password: options.player_password,
+      authorization_token: options.authorization_token,
       on_event,
     };
 
@@ -202,6 +197,35 @@ impl Default for Client {
   fn default() -> Self {
     Self::new_remote()
   }
+}
+
+#[derive(Builder, Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
+#[cfg_attr(feature = "typescript", ts(export, optional_fields = nullable))]
+pub struct ClientOptions {
+  #[builder(start_fn, into)]
+  pub server: ServerAddr,
+
+  #[serde(default)]
+  #[builder(into)]
+  pub world_id: Option<WorldId>,
+
+  #[serde(default)]
+  #[builder(into)]
+  pub world_password: Option<Password>,
+
+  #[serde(default)]
+  #[builder(into)]
+  pub player_id: Option<PlayerId>,
+
+  #[serde(default)]
+  #[builder(into)]
+  pub player_password: Option<Password>,
+
+  #[serde(default)]
+  #[builder(into)]
+  pub authorization_token: Option<Token>,
 }
 
 struct Update<'a, OnEvent>
