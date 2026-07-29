@@ -176,7 +176,7 @@ impl App {
     let database = self.database();
     let user = database.get_user(player_id).await?;
 
-    let world = World::try_from(&options)?;
+    let world = World::try_from(options)?;
     let world_id = world.config().id();
     let blob = world.to_bytes()?;
 

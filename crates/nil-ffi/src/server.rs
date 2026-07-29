@@ -26,7 +26,7 @@ where
 }
 
 pub(crate) async fn start_with_options(options: WorldOptions) -> Result<LocalServer> {
-  start(async move || Ok(local::start(&options).await?)).await
+  start(async move || Ok(local::start(options).await?)).await
 }
 
 pub(crate) async fn start_with_savedata(path: PathBuf) -> Result<LocalServer> {

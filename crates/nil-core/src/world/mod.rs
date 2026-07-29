@@ -62,8 +62,10 @@ pub struct World {
 }
 
 impl World {
-  pub fn new(options: &WorldOptions) -> Result<Self> {
-    let config = WorldConfig::new(options);
+  pub fn new(mut options: WorldOptions) -> Result<Self> {
+    WorldOptions::clamp(&mut options);
+
+    let config = WorldConfig::new(&options);
     let stats = WorldStats::new(&config);
     let continent = Continent::new(options.size.get());
     let precursor_manager = PrecursorManager::new(continent.size());
@@ -175,6 +177,14 @@ impl Drop for World {
   }
 }
 
+impl TryFrom<WorldOptions> for World {
+  type Error = Error;
+
+  fn try_from(options: WorldOptions) -> Result<Self> {
+    Self::new(options)
+  }
+}
+
 #[derive(Builder, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
@@ -212,15 +222,11 @@ pub struct WorldOptions {
 }
 
 impl WorldOptions {
-  pub fn to_world(&self) -> Result<World> {
-    World::try_from(self)
-  }
-}
-
-impl TryFrom<&WorldOptions> for World {
-  type Error = Error;
-
-  fn try_from(options: &WorldOptions) -> Result<Self> {
-    Self::new(options)
+  pub fn clamp(&mut self) {
+    ContinentSize::clamp(&mut self.size);
+    WorldSpeed::clamp(&mut self.speed);
+    WorldUnitSpeed::clamp(&mut self.unit_speed);
+    BotDensity::clamp(&mut self.bot_density);
+    BotAdvancedStartRatio::clamp(&mut self.bot_advanced_start_ratio);
   }
 }

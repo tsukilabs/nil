@@ -67,7 +67,7 @@ impl LocalServer {
   }
 }
 
-pub async fn start(options: &WorldOptions) -> Result<LocalServer> {
+pub async fn start(options: WorldOptions) -> Result<LocalServer> {
   LocalServer::serve(options.try_into()?).await
 }
 

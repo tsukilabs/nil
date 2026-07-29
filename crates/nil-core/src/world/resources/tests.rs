@@ -4,14 +4,15 @@
 use crate::error::Result;
 use crate::player::PlayerId;
 use crate::tests::{res, spawn_player};
-use crate::world::WorldOptions;
+use crate::world::{World, WorldOptions};
+use tap::TryConv;
 
 #[test]
 #[cfg_attr(miri, ignore)]
 fn take_resources_of() -> Result<()> {
   let mut world = WorldOptions::builder("World")
     .build()
-    .to_world()?;
+    .try_conv::<World>()?;
 
   let player = PlayerId::from("Player A");
   spawn_player(&mut world, player.as_str())?;
