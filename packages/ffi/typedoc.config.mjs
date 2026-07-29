@@ -1,7 +1,8 @@
 /** @type {import('typedoc').TypeDocOptions} */
 export default {
   entryPoints: ["src/index.ts"],
-  out: "../../docs/.vitepress/dist/js-docs/ffi",
+  out: "../../docs/dist/js-docs/ffi",
+  readme: "../../README.md",
   includeVersion: true,
   excludeInternal: true,
   excludePrivate: true,

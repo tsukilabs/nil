@@ -40,6 +40,7 @@ export * from "./def";
 export * from "./error";
 
 export type Handle = ffi.DynamicLibraryResult<typeof definitions>;
+export type { ErrorHandler } from "./queue";
 
 export const VERSION = version;
 export const USER_AGENT = `nil-ffi-node/${VERSION}`;
