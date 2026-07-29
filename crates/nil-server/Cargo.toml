@@ -61,3 +61,11 @@ uuid.workspace = true
 [dependencies.nil-payload]
 workspace = true
 features = ["axum"]
+
+[dependencies.ts-rs]
+workspace = true
+optional = true
+
+[features]
+default = []
+typescript = ["dep:ts-rs", "nil-core/typescript"]

@@ -15,11 +15,14 @@ use uuid::Uuid;
 
 #[derive(Clone, Debug, Serialize)]
 #[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 pub struct LocalServer {
   world: WorldId,
   addr: SocketAddrV4,
 
   #[serde(skip_serializing)]
+  #[cfg_attr(feature = "typescript", ts(skip))]
   handle: AbortHandle,
 }
 

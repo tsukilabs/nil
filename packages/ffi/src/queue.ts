@@ -7,8 +7,8 @@ import type { Handle } from ".";
 import * as ffi from "node:ffi";
 import { RequestId } from "./request";
 import { EventEmitter } from "node:events";
-import type { Option } from "@tb-dev/utils";
 import { isNil } from "es-toolkit/predicate";
+import type { nil, Option } from "@tb-dev/utils";
 import { allocBuffer, readBufferPtr } from "./ptr";
 import { HandleClosedError, NilError, UnknownResponseError } from "./error";
 import {
@@ -66,7 +66,7 @@ export class Queue implements Disposable {
     this.emitter.removeAllListeners();
   }
 
-  public request<T = unknown>(start: RequestFn): Promise<T> {
+  public request<T = nil>(start: RequestFn): Promise<T> {
     if (this.disposed) {
       return Promise.reject(new HandleClosedError());
     }

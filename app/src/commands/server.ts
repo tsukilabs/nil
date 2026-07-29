@@ -3,12 +3,13 @@
 
 import type { Option } from "@tb-dev/utils";
 import { invoke } from "@tauri-apps/api/core";
-import type { LocalServer, ServerAddr } from "@/types/server";
 import type {
   AuthorizeRequest,
   AuthorizeResponse,
   GetServerKindResponse,
+  LocalServer,
   PlayerId,
+  ServerAddr,
   ValidateTokenRequest,
   ValidateTokenResponse,
   VersionResponse,

@@ -10,11 +10,12 @@ mod macros;
 mod queue;
 mod request;
 mod response;
+mod server;
 mod status;
 
 use client::CLIENT;
 use futures::future::BoxFuture;
-use json::{deserialize_ptr, serialize};
+use json::serialize;
 use nil_core::event::Event;
 use std::ffi::{CString, c_char};
 use std::ptr;
@@ -25,6 +26,8 @@ pub use client::UpdateClient;
 pub use request::RequestId;
 pub use response::{Response, Result};
 pub use status::Status;
+
+use crate::server::SERVER;
 
 static RUNTIME: LazyLock<Runtime> = LazyLock::new(|| {
   RuntimeBuilder::new_multi_thread()
@@ -46,19 +49,19 @@ pub unsafe extern "C" fn nil_ffi_free_str(ptr: *mut c_char) {
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_ffi_poll(out: *mut *mut c_char) -> Status {
-  if out.is_null() {
+pub unsafe extern "C" fn nil_ffi_poll(json_out: *mut *mut c_char) -> Status {
+  if json_out.is_null() {
     return Status::ERR_NULL_POINTER;
   }
 
-  unsafe { *out = ptr::null_mut() };
+  unsafe { *json_out = ptr::null_mut() };
 
   match queue::poll() {
     Some(entry) => {
       match serialize(&entry) {
         Ok(json) => {
           let json = CString::new(json).unwrap();
-          unsafe { *out = json.into_raw() };
+          unsafe { *json_out = json.into_raw() };
           Status::OK
         }
         Err(_) => Status::ERR_SERIALIZATION,
@@ -76,6 +79,50 @@ pub unsafe extern "C" fn nil_ffi_shutdown() {
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn nil_ffi_version(request_id: RequestId) {
   push_ok!(request_id, env!("CARGO_PKG_VERSION"))
+}
+
+///////////////////////////////
+//////////// SERVER ///////////
+///////////////////////////////
+
+#[unsafe(no_mangle)]
+pub unsafe extern "C" fn nil_is_host(request_id: RequestId) {
+  async_push_ok!(request_id, SERVER.read().await.is_some())
+}
+
+#[unsafe(no_mangle)]
+pub unsafe extern "C" fn nil_start_server(request_id: RequestId, json_options: *const c_char) {
+  let f = |options| {
+    RUNTIME.spawn(async move {
+      let result = server::start_with_options(options).await;
+      queue::push_result(request_id, Result::from(result));
+    });
+  };
+
+  unsafe { json::with_ptr(request_id, json_options, f) };
+}
+
+#[unsafe(no_mangle)]
+pub unsafe extern "C" fn nil_start_server_with_savedata(
+  request_id: RequestId,
+  json_path: *const c_char,
+) {
+  let f = |path| {
+    RUNTIME.spawn(async move {
+      let result = server::start_with_savedata(path).await;
+      queue::push_result(request_id, Result::from(result));
+    });
+  };
+
+  unsafe { json::with_ptr(request_id, json_path, f) };
+}
+
+#[unsafe(no_mangle)]
+pub unsafe extern "C" fn nil_stop_server(request_id: RequestId) {
+  RUNTIME.spawn(async move {
+    server::stop().await;
+    queue::push_ok(request_id, ());
+  });
 }
 
 ///////////////////////////////
@@ -108,26 +155,19 @@ pub unsafe extern "C" fn nil_server_addr(request_id: RequestId) {
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_set_user_agent(request_id: RequestId, user_agent: *const c_char) {
-  if user_agent.is_null() {
-    queue::push_err(request_id, Status::ERR_NULL_POINTER);
-  } else {
-    match unsafe { deserialize_ptr::<String>(user_agent) } {
-      Ok(user_agent) => {
-        RUNTIME.spawn(async move {
-          CLIENT
-            .write()
-            .await
-            .set_user_agent(&user_agent);
+pub unsafe extern "C" fn nil_set_user_agent(request_id: RequestId, json_user_agent: *const c_char) {
+  let f = |user_agent: String| {
+    RUNTIME.spawn(async move {
+      CLIENT
+        .write()
+        .await
+        .set_user_agent(&user_agent);
 
-          queue::push_ok(request_id, ());
-        });
-      }
-      Err(err) => {
-        queue::push_err(request_id, err);
-      }
-    }
-  }
+      queue::push_ok(request_id, ());
+    });
+  };
+
+  unsafe { json::with_ptr(request_id, json_user_agent, f) };
 }
 
 #[unsafe(no_mangle)]
@@ -139,34 +179,27 @@ pub unsafe extern "C" fn nil_stop_client(request_id: RequestId) {
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_update_client(request_id: RequestId, options: *const c_char) {
-  if options.is_null() {
-    queue::push_err(request_id, Status::ERR_NULL_POINTER);
-  } else {
+pub unsafe extern "C" fn nil_update_client(request_id: RequestId, json_options: *const c_char) {
+  let f = |options: UpdateClient| {
     type OnEvent = fn(Event) -> BoxFuture<'static, ()>;
-    match unsafe { deserialize_ptr::<UpdateClient>(options) } {
-      Ok(options) => {
-        RUNTIME.spawn(async move {
-          let result = CLIENT
-            .write()
-            .await
-            .update::<OnEvent>(options.server)
-            .maybe_world_id(options.world_id)
-            .maybe_world_password(options.world_password)
-            .maybe_player_id(options.player_id)
-            .maybe_player_password(options.player_password)
-            .maybe_authorization_token(options.authorization_token)
-            .call()
-            .await;
+    RUNTIME.spawn(async move {
+      let result = CLIENT
+        .write()
+        .await
+        .update::<OnEvent>(options.server)
+        .maybe_world_id(options.world_id)
+        .maybe_world_password(options.world_password)
+        .maybe_player_id(options.player_id)
+        .maybe_player_password(options.player_password)
+        .maybe_authorization_token(options.authorization_token)
+        .call()
+        .await;
 
-          queue::push_result(request_id, Result::from(result));
-        });
-      }
-      Err(err) => {
-        queue::push_err(request_id, err);
-      }
-    }
-  }
+      queue::push_result(request_id, Result::from(result));
+    });
+  };
+
+  unsafe { json::with_ptr(request_id, json_options, f) };
 }
 
 #[unsafe(no_mangle)]
@@ -189,528 +222,564 @@ pub unsafe extern "C" fn nil_world(request_id: RequestId) {
 ///////////////////////////////
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_add_academy_recruit_order(request_id: RequestId, req: *const c_char) {
-  send!(request_id, add_academy_recruit_order, req)
+pub unsafe extern "C" fn nil_add_academy_recruit_order(
+  request_id: RequestId,
+  json_req: *const c_char,
+) {
+  send!(request_id, add_academy_recruit_order, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_add_prefecture_build_order(request_id: RequestId, req: *const c_char) {
-  send!(request_id, add_prefecture_build_order, req)
+pub unsafe extern "C" fn nil_add_prefecture_build_order(
+  request_id: RequestId,
+  json_req: *const c_char,
+) {
+  send!(request_id, add_prefecture_build_order, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_add_stable_recruit_order(request_id: RequestId, req: *const c_char) {
-  send!(request_id, add_stable_recruit_order, req)
+pub unsafe extern "C" fn nil_add_stable_recruit_order(
+  request_id: RequestId,
+  json_req: *const c_char,
+) {
+  send!(request_id, add_stable_recruit_order, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_add_workshop_recruit_order(request_id: RequestId, req: *const c_char) {
-  send!(request_id, add_workshop_recruit_order, req)
+pub unsafe extern "C" fn nil_add_workshop_recruit_order(
+  request_id: RequestId,
+  json_req: *const c_char,
+) {
+  send!(request_id, add_workshop_recruit_order, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_authorize(request_id: RequestId, req: *const c_char) {
-  send!(request_id, authorize, req)
+pub unsafe extern "C" fn nil_authorize(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, authorize, json_req)
 }
 
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn nil_cancel_academy_recruit_order(
   request_id: RequestId,
-  req: *const c_char,
+  json_req: *const c_char,
 ) {
-  send!(request_id, cancel_academy_recruit_order, req)
+  send!(request_id, cancel_academy_recruit_order, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_cancel_maneuver(request_id: RequestId, req: *const c_char) {
-  send!(request_id, cancel_maneuver, req)
+pub unsafe extern "C" fn nil_cancel_maneuver(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, cancel_maneuver, json_req)
 }
 
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn nil_cancel_prefecture_build_order(
   request_id: RequestId,
-  req: *const c_char,
+  json_req: *const c_char,
 ) {
-  send!(request_id, cancel_prefecture_build_order, req)
+  send!(request_id, cancel_prefecture_build_order, json_req)
 }
 
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn nil_cancel_stable_recruit_order(
   request_id: RequestId,
-  req: *const c_char,
+  json_req: *const c_char,
 ) {
-  send!(request_id, cancel_stable_recruit_order, req)
+  send!(request_id, cancel_stable_recruit_order, json_req)
 }
 
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn nil_cancel_workshop_recruit_order(
   request_id: RequestId,
-  req: *const c_char,
+  json_req: *const c_char,
 ) {
-  send!(request_id, cancel_workshop_recruit_order, req)
+  send!(request_id, cancel_workshop_recruit_order, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_cheat_fill_world(request_id: RequestId, req: *const c_char) {
-  send!(request_id, cheat_fill_world, req)
+pub unsafe extern "C" fn nil_cheat_fill_world(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, cheat_fill_world, json_req)
 }
 
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn nil_cheat_get_academy_recruit_queue(
   request_id: RequestId,
-  req: *const c_char,
+  json_req: *const c_char,
 ) {
-  send!(request_id, cheat_get_academy_recruit_queue, req)
+  send!(request_id, cheat_get_academy_recruit_queue, json_req)
 }
 
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn nil_cheat_get_academy_recruit_queues(
   request_id: RequestId,
-  req: *const c_char,
+  json_req: *const c_char,
 ) {
-  send!(request_id, cheat_get_academy_recruit_queues, req)
+  send!(request_id, cheat_get_academy_recruit_queues, json_req)
 }
 
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn nil_cheat_get_all_academy_recruit_queues(
   request_id: RequestId,
-  req: *const c_char,
+  json_req: *const c_char,
 ) {
-  send!(request_id, cheat_get_all_academy_recruit_queues, req)
+  send!(request_id, cheat_get_all_academy_recruit_queues, json_req)
 }
 
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn nil_cheat_get_all_prefecture_build_queues(
   request_id: RequestId,
-  req: *const c_char,
+  json_req: *const c_char,
 ) {
-  send!(request_id, cheat_get_all_prefecture_build_queues, req)
+  send!(request_id, cheat_get_all_prefecture_build_queues, json_req)
 }
 
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn nil_cheat_get_all_stable_recruit_queues(
   request_id: RequestId,
-  req: *const c_char,
+  json_req: *const c_char,
 ) {
-  send!(request_id, cheat_get_all_stable_recruit_queues, req)
+  send!(request_id, cheat_get_all_stable_recruit_queues, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_cheat_get_build_steps(request_id: RequestId, req: *const c_char) {
-  send!(request_id, cheat_get_build_steps, req)
+pub unsafe extern "C" fn nil_cheat_get_build_steps(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, cheat_get_build_steps, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_cheat_get_cities(request_id: RequestId, req: *const c_char) {
-  send!(request_id, cheat_get_cities, req)
+pub unsafe extern "C" fn nil_cheat_get_cities(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, cheat_get_cities, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_cheat_get_city(request_id: RequestId, req: *const c_char) {
-  send!(request_id, cheat_get_city, req)
+pub unsafe extern "C" fn nil_cheat_get_city(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, cheat_get_city, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_cheat_get_ethics(request_id: RequestId, req: *const c_char) {
-  send!(request_id, cheat_get_ethics, req)
+pub unsafe extern "C" fn nil_cheat_get_ethics(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, cheat_get_ethics, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_cheat_get_idle_armies_at(request_id: RequestId, req: *const c_char) {
-  send!(request_id, cheat_get_idle_armies_at, req)
+pub unsafe extern "C" fn nil_cheat_get_idle_armies_at(
+  request_id: RequestId,
+  json_req: *const c_char,
+) {
+  send!(request_id, cheat_get_idle_armies_at, json_req)
 }
 
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn nil_cheat_get_idle_personnel_at(
   request_id: RequestId,
-  req: *const c_char,
+  json_req: *const c_char,
 ) {
-  send!(request_id, cheat_get_idle_personnel_at, req)
+  send!(request_id, cheat_get_idle_personnel_at, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_cheat_get_infrastructure(request_id: RequestId, req: *const c_char) {
-  send!(request_id, cheat_get_infrastructure, req)
+pub unsafe extern "C" fn nil_cheat_get_infrastructure(
+  request_id: RequestId,
+  json_req: *const c_char,
+) {
+  send!(request_id, cheat_get_infrastructure, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_cheat_get_maneuvers(request_id: RequestId, req: *const c_char) {
-  send!(request_id, cheat_get_maneuvers, req)
+pub unsafe extern "C" fn nil_cheat_get_maneuvers(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, cheat_get_maneuvers, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_cheat_get_maneuvers_of(request_id: RequestId, req: *const c_char) {
-  send!(request_id, cheat_get_maneuvers_of, req)
+pub unsafe extern "C" fn nil_cheat_get_maneuvers_of(
+  request_id: RequestId,
+  json_req: *const c_char,
+) {
+  send!(request_id, cheat_get_maneuvers_of, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_cheat_get_player(request_id: RequestId, req: *const c_char) {
-  send!(request_id, cheat_get_player, req)
+pub unsafe extern "C" fn nil_cheat_get_player(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, cheat_get_player, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_cheat_get_players(request_id: RequestId, req: *const c_char) {
-  send!(request_id, cheat_get_players, req)
+pub unsafe extern "C" fn nil_cheat_get_players(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, cheat_get_players, json_req)
 }
 
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn nil_cheat_get_prefecture_build_queue(
   request_id: RequestId,
-  req: *const c_char,
+  json_req: *const c_char,
 ) {
-  send!(request_id, cheat_get_prefecture_build_queue, req)
+  send!(request_id, cheat_get_prefecture_build_queue, json_req)
 }
 
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn nil_cheat_get_prefecture_build_queues(
   request_id: RequestId,
-  req: *const c_char,
+  json_req: *const c_char,
 ) {
-  send!(request_id, cheat_get_prefecture_build_queues, req)
+  send!(request_id, cheat_get_prefecture_build_queues, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_cheat_get_resources(request_id: RequestId, req: *const c_char) {
-  send!(request_id, cheat_get_resources, req)
+pub unsafe extern "C" fn nil_cheat_get_resources(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, cheat_get_resources, json_req)
 }
 
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn nil_cheat_get_stable_recruit_queue(
   request_id: RequestId,
-  req: *const c_char,
+  json_req: *const c_char,
 ) {
-  send!(request_id, cheat_get_stable_recruit_queue, req)
+  send!(request_id, cheat_get_stable_recruit_queue, json_req)
 }
 
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn nil_cheat_get_stable_recruit_queues(
   request_id: RequestId,
-  req: *const c_char,
+  json_req: *const c_char,
 ) {
-  send!(request_id, cheat_get_stable_recruit_queues, req)
+  send!(request_id, cheat_get_stable_recruit_queues, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_cheat_get_storage_capacity(request_id: RequestId, req: *const c_char) {
-  send!(request_id, cheat_get_storage_capacity, req)
+pub unsafe extern "C" fn nil_cheat_get_storage_capacity(
+  request_id: RequestId,
+  json_req: *const c_char,
+) {
+  send!(request_id, cheat_get_storage_capacity, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_cheat_set_bot_ethics(request_id: RequestId, req: *const c_char) {
-  send!(request_id, cheat_set_bot_ethics, req)
+pub unsafe extern "C" fn nil_cheat_set_bot_ethics(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, cheat_set_bot_ethics, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_cheat_set_building_level(request_id: RequestId, req: *const c_char) {
-  send!(request_id, cheat_set_building_level, req)
+pub unsafe extern "C" fn nil_cheat_set_building_level(
+  request_id: RequestId,
+  json_req: *const c_char,
+) {
+  send!(request_id, cheat_set_building_level, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_cheat_set_food(request_id: RequestId, req: *const c_char) {
-  send!(request_id, cheat_set_food, req)
+pub unsafe extern "C" fn nil_cheat_set_food(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, cheat_set_food, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_cheat_set_iron(request_id: RequestId, req: *const c_char) {
-  send!(request_id, cheat_set_iron, req)
+pub unsafe extern "C" fn nil_cheat_set_iron(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, cheat_set_iron, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_cheat_set_max_food(request_id: RequestId, req: *const c_char) {
-  send!(request_id, cheat_set_max_food, req)
+pub unsafe extern "C" fn nil_cheat_set_max_food(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, cheat_set_max_food, json_req)
 }
 
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn nil_cheat_set_max_infrastructure(
   request_id: RequestId,
-  req: *const c_char,
+  json_req: *const c_char,
 ) {
-  send!(request_id, cheat_set_max_infrastructure, req)
+  send!(request_id, cheat_set_max_infrastructure, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_cheat_set_max_iron(request_id: RequestId, req: *const c_char) {
-  send!(request_id, cheat_set_max_iron, req)
+pub unsafe extern "C" fn nil_cheat_set_max_iron(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, cheat_set_max_iron, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_cheat_set_max_resources(request_id: RequestId, req: *const c_char) {
-  send!(request_id, cheat_set_max_resources, req)
+pub unsafe extern "C" fn nil_cheat_set_max_resources(
+  request_id: RequestId,
+  json_req: *const c_char,
+) {
+  send!(request_id, cheat_set_max_resources, json_req)
 }
 
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn nil_cheat_set_max_silo_resources(
   request_id: RequestId,
-  req: *const c_char,
+  json_req: *const c_char,
 ) {
-  send!(request_id, cheat_set_max_silo_resources, req)
+  send!(request_id, cheat_set_max_silo_resources, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_cheat_set_max_stone(request_id: RequestId, req: *const c_char) {
-  send!(request_id, cheat_set_max_stone, req)
+pub unsafe extern "C" fn nil_cheat_set_max_stone(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, cheat_set_max_stone, json_req)
 }
 
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn nil_cheat_set_max_warehouse_resources(
   request_id: RequestId,
-  req: *const c_char,
+  json_req: *const c_char,
 ) {
-  send!(request_id, cheat_set_max_warehouse_resources, req)
+  send!(request_id, cheat_set_max_warehouse_resources, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_cheat_set_max_wood(request_id: RequestId, req: *const c_char) {
-  send!(request_id, cheat_set_max_wood, req)
+pub unsafe extern "C" fn nil_cheat_set_max_wood(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, cheat_set_max_wood, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_cheat_set_resources(request_id: RequestId, req: *const c_char) {
-  send!(request_id, cheat_set_resources, req)
+pub unsafe extern "C" fn nil_cheat_set_resources(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, cheat_set_resources, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_cheat_set_stability(request_id: RequestId, req: *const c_char) {
-  send!(request_id, cheat_set_stability, req)
+pub unsafe extern "C" fn nil_cheat_set_stability(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, cheat_set_stability, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_cheat_set_stone(request_id: RequestId, req: *const c_char) {
-  send!(request_id, cheat_set_stone, req)
+pub unsafe extern "C" fn nil_cheat_set_stone(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, cheat_set_stone, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_cheat_set_wood(request_id: RequestId, req: *const c_char) {
-  send!(request_id, cheat_set_wood, req)
+pub unsafe extern "C" fn nil_cheat_set_wood(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, cheat_set_wood, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_cheat_skip_round(request_id: RequestId, req: *const c_char) {
-  send!(request_id, cheat_skip_round, req)
+pub unsafe extern "C" fn nil_cheat_skip_round(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, cheat_skip_round, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_cheat_spawn_bot(request_id: RequestId, req: *const c_char) {
-  send!(request_id, cheat_spawn_bot, req)
+pub unsafe extern "C" fn nil_cheat_spawn_bot(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, cheat_spawn_bot, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_cheat_spawn_city(request_id: RequestId, req: *const c_char) {
-  send!(request_id, cheat_spawn_city, req)
+pub unsafe extern "C" fn nil_cheat_spawn_city(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, cheat_spawn_city, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_cheat_spawn_personnel(request_id: RequestId, req: *const c_char) {
-  send!(request_id, cheat_spawn_personnel, req)
+pub unsafe extern "C" fn nil_cheat_spawn_personnel(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, cheat_spawn_personnel, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_create_remote_world(request_id: RequestId, req: *const c_char) {
-  send!(request_id, create_remote_world, req)
+pub unsafe extern "C" fn nil_create_remote_world(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, create_remote_world, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_create_user(request_id: RequestId, req: *const c_char) {
-  send!(request_id, create_user, req)
+pub unsafe extern "C" fn nil_create_user(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, create_user, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_delete_remote_world(request_id: RequestId, req: *const c_char) {
-  send!(request_id, delete_remote_world, req)
+pub unsafe extern "C" fn nil_delete_remote_world(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, delete_remote_world, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_forward_report(request_id: RequestId, req: *const c_char) {
-  send!(request_id, forward_report, req)
+pub unsafe extern "C" fn nil_forward_report(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, forward_report, json_req)
 }
 
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn nil_get_academy_recruit_catalog(
   request_id: RequestId,
-  req: *const c_char,
+  json_req: *const c_char,
 ) {
-  send!(request_id, get_academy_recruit_catalog, req)
+  send!(request_id, get_academy_recruit_catalog, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_get_armies(request_id: RequestId, req: *const c_char) {
-  send!(request_id, get_armies, req)
+pub unsafe extern "C" fn nil_get_armies(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, get_armies, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_get_army(request_id: RequestId, req: *const c_char) {
-  send!(request_id, get_army, req)
+pub unsafe extern "C" fn nil_get_army(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, get_army, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_get_army_owner(request_id: RequestId, req: *const c_char) {
-  send!(request_id, get_army_owner, req)
+pub unsafe extern "C" fn nil_get_army_owner(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, get_army_owner, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_get_bot_coords(request_id: RequestId, req: *const c_char) {
-  send!(request_id, get_bot_coords, req)
+pub unsafe extern "C" fn nil_get_bot_coords(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, get_bot_coords, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_get_chat_history(request_id: RequestId, req: *const c_char) {
-  send!(request_id, get_chat_history, req)
+pub unsafe extern "C" fn nil_get_chat_history(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, get_chat_history, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_get_cities(request_id: RequestId, req: *const c_char) {
-  send!(request_id, get_cities, req)
+pub unsafe extern "C" fn nil_get_cities(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, get_cities, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_get_city(request_id: RequestId, req: *const c_char) {
-  send!(request_id, get_city, req)
+pub unsafe extern "C" fn nil_get_city(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, get_city, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_get_city_score(request_id: RequestId, req: *const c_char) {
-  send!(request_id, get_city_score, req)
+pub unsafe extern "C" fn nil_get_city_score(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, get_city_score, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_get_continent_size(request_id: RequestId, req: *const c_char) {
-  send!(request_id, get_continent_size, req)
+pub unsafe extern "C" fn nil_get_continent_size(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, get_continent_size, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_get_idle_armies_at(request_id: RequestId, req: *const c_char) {
-  send!(request_id, get_idle_armies_at, req)
+pub unsafe extern "C" fn nil_get_idle_armies_at(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, get_idle_armies_at, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_get_idle_armies_coords(request_id: RequestId, req: *const c_char) {
-  send!(request_id, get_idle_armies_coords, req)
+pub unsafe extern "C" fn nil_get_idle_armies_coords(
+  request_id: RequestId,
+  json_req: *const c_char,
+) {
+  send!(request_id, get_idle_armies_coords, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_get_maneuver(request_id: RequestId, req: *const c_char) {
-  send!(request_id, get_maneuver, req)
+pub unsafe extern "C" fn nil_get_maneuver(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, get_maneuver, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_get_player(request_id: RequestId, req: *const c_char) {
-  send!(request_id, get_player, req)
+pub unsafe extern "C" fn nil_get_player(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, get_player, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_get_player_coords(request_id: RequestId, req: *const c_char) {
-  send!(request_id, get_player_coords, req)
+pub unsafe extern "C" fn nil_get_player_coords(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, get_player_coords, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_get_player_ids(request_id: RequestId, req: *const c_char) {
-  send!(request_id, get_player_ids, req)
+pub unsafe extern "C" fn nil_get_player_ids(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, get_player_ids, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_get_player_maintenance(request_id: RequestId, req: *const c_char) {
-  send!(request_id, get_player_maintenance, req)
+pub unsafe extern "C" fn nil_get_player_maintenance(
+  request_id: RequestId,
+  json_req: *const c_char,
+) {
+  send!(request_id, get_player_maintenance, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_get_player_military(request_id: RequestId, req: *const c_char) {
-  send!(request_id, get_player_military, req)
+pub unsafe extern "C" fn nil_get_player_military(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, get_player_military, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_get_player_status(request_id: RequestId, req: *const c_char) {
-  send!(request_id, get_player_status, req)
+pub unsafe extern "C" fn nil_get_player_status(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, get_player_status, json_req)
 }
 
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn nil_get_player_storage_capacity(
   request_id: RequestId,
-  req: *const c_char,
+  json_req: *const c_char,
 ) {
-  send!(request_id, get_player_storage_capacity, req)
+  send!(request_id, get_player_storage_capacity, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_get_player_worlds(request_id: RequestId, req: *const c_char) {
-  send!(request_id, get_player_worlds, req)
+pub unsafe extern "C" fn nil_get_player_worlds(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, get_player_worlds, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_get_precursor_coords(request_id: RequestId, req: *const c_char) {
-  send!(request_id, get_precursor_coords, req)
+pub unsafe extern "C" fn nil_get_precursor_coords(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, get_precursor_coords, json_req)
 }
 
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn nil_get_prefecture_build_catalog(
   request_id: RequestId,
-  req: *const c_char,
+  json_req: *const c_char,
 ) {
-  send!(request_id, get_prefecture_build_catalog, req)
+  send!(request_id, get_prefecture_build_catalog, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_get_public_bot(request_id: RequestId, req: *const c_char) {
-  send!(request_id, get_public_bot, req)
+pub unsafe extern "C" fn nil_get_public_bot(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, get_public_bot, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_get_public_bots(request_id: RequestId, req: *const c_char) {
-  send!(request_id, get_public_bots, req)
+pub unsafe extern "C" fn nil_get_public_bots(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, get_public_bots, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_get_public_cities(request_id: RequestId, req: *const c_char) {
-  send!(request_id, get_public_cities, req)
+pub unsafe extern "C" fn nil_get_public_cities(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, get_public_cities, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_get_public_city(request_id: RequestId, req: *const c_char) {
-  send!(request_id, get_public_city, req)
+pub unsafe extern "C" fn nil_get_public_city(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, get_public_city, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_get_public_field(request_id: RequestId, req: *const c_char) {
-  send!(request_id, get_public_field, req)
+pub unsafe extern "C" fn nil_get_public_field(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, get_public_field, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_get_public_fields(request_id: RequestId, req: *const c_char) {
-  send!(request_id, get_public_fields, req)
+pub unsafe extern "C" fn nil_get_public_fields(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, get_public_fields, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_get_public_player(request_id: RequestId, req: *const c_char) {
-  send!(request_id, get_public_player, req)
+pub unsafe extern "C" fn nil_get_public_player(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, get_public_player, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_get_public_players(request_id: RequestId, req: *const c_char) {
-  send!(request_id, get_public_players, req)
+pub unsafe extern "C" fn nil_get_public_players(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, get_public_players, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_get_public_precursor(request_id: RequestId, req: *const c_char) {
-  send!(request_id, get_public_precursor, req)
+pub unsafe extern "C" fn nil_get_public_precursor(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, get_public_precursor, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_get_public_precursors(request_id: RequestId, req: *const c_char) {
-  send!(request_id, get_public_precursors, req)
+pub unsafe extern "C" fn nil_get_public_precursors(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, get_public_precursors, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_get_rank(request_id: RequestId, req: *const c_char) {
-  send!(request_id, get_rank, req)
+pub unsafe extern "C" fn nil_get_rank(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, get_rank, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_get_ranking(request_id: RequestId, req: *const c_char) {
-  send!(request_id, get_ranking, req)
+pub unsafe extern "C" fn nil_get_ranking(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, get_ranking, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_get_remote_world(request_id: RequestId, req: *const c_char) {
-  send!(request_id, get_remote_world, req)
+pub unsafe extern "C" fn nil_get_remote_world(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, get_remote_world, json_req)
 }
 
 #[unsafe(no_mangle)]
@@ -729,8 +798,8 @@ pub unsafe extern "C" fn nil_get_remote_worlds(request_id: RequestId) {
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_get_round(request_id: RequestId, req: *const c_char) {
-  send!(request_id, get_round, req)
+pub unsafe extern "C" fn nil_get_round(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, get_round, json_req)
 }
 
 #[unsafe(no_mangle)]
@@ -739,81 +808,84 @@ pub unsafe extern "C" fn nil_get_server_kind(request_id: RequestId) {
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_get_stable_recruit_catalog(request_id: RequestId, req: *const c_char) {
-  send!(request_id, get_stable_recruit_catalog, req)
+pub unsafe extern "C" fn nil_get_stable_recruit_catalog(
+  request_id: RequestId,
+  json_req: *const c_char,
+) {
+  send!(request_id, get_stable_recruit_catalog, json_req)
 }
 
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn nil_get_workshop_recruit_catalog(
   request_id: RequestId,
-  req: *const c_char,
+  json_req: *const c_char,
 ) {
-  send!(request_id, get_workshop_recruit_catalog, req)
+  send!(request_id, get_workshop_recruit_catalog, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_get_world_bots(request_id: RequestId, req: *const c_char) {
-  send!(request_id, get_world_bots, req)
+pub unsafe extern "C" fn nil_get_world_bots(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, get_world_bots, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_get_world_config(request_id: RequestId, req: *const c_char) {
-  send!(request_id, get_world_config, req)
+pub unsafe extern "C" fn nil_get_world_config(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, get_world_config, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_get_world_personnel(request_id: RequestId, req: *const c_char) {
-  send!(request_id, get_world_personnel, req)
+pub unsafe extern "C" fn nil_get_world_personnel(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, get_world_personnel, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_get_world_players(request_id: RequestId, req: *const c_char) {
-  send!(request_id, get_world_players, req)
+pub unsafe extern "C" fn nil_get_world_players(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, get_world_players, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_get_world_precursors(request_id: RequestId, req: *const c_char) {
-  send!(request_id, get_world_precursors, req)
+pub unsafe extern "C" fn nil_get_world_precursors(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, get_world_precursors, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_get_world_stats(request_id: RequestId, req: *const c_char) {
-  send!(request_id, get_world_stats, req)
+pub unsafe extern "C" fn nil_get_world_stats(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, get_world_stats, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_player_exists(request_id: RequestId, req: *const c_char) {
-  send!(request_id, player_exists, req)
+pub unsafe extern "C" fn nil_player_exists(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, player_exists, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_push_chat_message(request_id: RequestId, req: *const c_char) {
-  send!(request_id, push_chat_message, req)
+pub unsafe extern "C" fn nil_push_chat_message(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, push_chat_message, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_rename_city(request_id: RequestId, req: *const c_char) {
-  send!(request_id, rename_city, req)
+pub unsafe extern "C" fn nil_rename_city(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, rename_city, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_request_maneuver(request_id: RequestId, req: *const c_char) {
-  send!(request_id, request_maneuver, req)
+pub unsafe extern "C" fn nil_request_maneuver(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, request_maneuver, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_save_local_world(request_id: RequestId, req: *const c_char) {
-  send!(request_id, save_local_world, req)
+pub unsafe extern "C" fn nil_save_local_world(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, save_local_world, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_search_city(request_id: RequestId, req: *const c_char) {
-  send!(request_id, search_city, req)
+pub unsafe extern "C" fn nil_search_city(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, search_city, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_search_public_city(request_id: RequestId, req: *const c_char) {
-  send!(request_id, search_public_city, req)
+pub unsafe extern "C" fn nil_search_public_city(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, search_public_city, json_req)
 }
 
 #[unsafe(no_mangle)]
@@ -822,41 +894,41 @@ pub unsafe extern "C" fn nil_server_version(request_id: RequestId) {
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_set_player_ready(request_id: RequestId, req: *const c_char) {
-  send!(request_id, set_player_ready, req)
+pub unsafe extern "C" fn nil_set_player_ready(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, set_player_ready, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_set_player_status(request_id: RequestId, req: *const c_char) {
-  send!(request_id, set_player_status, req)
+pub unsafe extern "C" fn nil_set_player_status(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, set_player_status, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_simulate_battle(request_id: RequestId, req: *const c_char) {
-  send!(request_id, simulate_battle, req)
+pub unsafe extern "C" fn nil_simulate_battle(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, simulate_battle, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_spawn_player(request_id: RequestId, req: *const c_char) {
-  send!(request_id, spawn_player, req)
+pub unsafe extern "C" fn nil_spawn_player(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, spawn_player, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_start_round(request_id: RequestId, req: *const c_char) {
-  send!(request_id, start_round, req)
+pub unsafe extern "C" fn nil_start_round(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, start_round, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_toggle_building(request_id: RequestId, req: *const c_char) {
-  send!(request_id, toggle_building, req)
+pub unsafe extern "C" fn nil_toggle_building(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, toggle_building, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_user_exists(request_id: RequestId, req: *const c_char) {
-  send!(request_id, user_exists, req)
+pub unsafe extern "C" fn nil_user_exists(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, user_exists, json_req)
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn nil_validate_token(request_id: RequestId, req: *const c_char) {
-  send!(request_id, validate_token, req)
+pub unsafe extern "C" fn nil_validate_token(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, validate_token, json_req)
 }

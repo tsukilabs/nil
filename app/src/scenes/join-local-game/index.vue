@@ -10,10 +10,9 @@ import { joinLocalGame } from "@/core/game";
 import type { Option } from "@tb-dev/utils";
 import { isPlayerOptions } from "@/lib/schema";
 import { SocketAddrV4 } from "@/lib/net/addr-v4";
-import type { ServerAddr } from "@/types/server";
-import type { PlayerOptions } from "@tsukilabs/nil-bindings";
 import { localRef, useBreakpoints, useMutex } from "@tb-dev/vue";
 import InputPlayerName from "@/components/form/InputPlayerName.vue";
+import type { PlayerOptions, ServerAddr } from "@tsukilabs/nil-bindings";
 import InputServerAddress from "@/components/form/InputServerAddress.vue";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@ui/card";
 

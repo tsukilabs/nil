@@ -10,6 +10,7 @@
     "verbatimModuleSyntax": true,
     "skipLibCheck": true,
     "declaration": false,
+    "experimentalDecorators": true,
 
     "alwaysStrict": true,
     "noImplicitAny": true,

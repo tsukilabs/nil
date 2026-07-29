@@ -14,6 +14,9 @@ pub(crate) static CLIENT: LazyLock<RwLock<Client>> = LazyLock::new(RwLock::defau
 
 #[derive(Clone, Debug, Default, Serialize, Deserialize)]
 #[serde(default)]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
+#[cfg_attr(feature = "typescript", ts(export, optional_fields = nullable))]
+#[cfg_attr(feature = "typescript", ts(rename = "ffi_UpdateClient"))]
 pub struct UpdateClient {
   pub server: ServerAddr,
   pub world_id: Option<WorldId>,
