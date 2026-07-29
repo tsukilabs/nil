@@ -9,12 +9,9 @@ use nil_core::world::config::WorldId;
 use serde::{Deserialize, Serialize};
 use std::collections::HashSet;
 
-#[cfg(feature = "typescript")]
-use ts_rs::TS;
-
 #[derive(Builder, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct CheatFillWorldRequest {
   #[builder(start_fn, into)]
@@ -26,7 +23,7 @@ pub struct CheatFillWorldRequest {
 
 #[derive(Builder, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct CheatGetCitiesRequest {
   #[builder(start_fn, into)]
@@ -44,7 +41,7 @@ pub struct CheatGetCitiesRequest {
 
 #[derive(Builder, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct CheatGetCityRequest {
   #[builder(start_fn, into)]
@@ -58,7 +55,7 @@ pub struct CheatGetCityRequest {
 
 #[derive(Builder, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct CheatSetStabilityRequest {
   #[builder(start_fn, into)]
@@ -71,7 +68,7 @@ pub struct CheatSetStabilityRequest {
 
 #[derive(Builder, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct CheatSpawnCityRequest {
   #[builder(start_fn, into)]

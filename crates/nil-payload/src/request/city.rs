@@ -8,12 +8,9 @@ use nil_core::world::config::WorldId;
 use serde::{Deserialize, Serialize};
 use std::collections::HashSet;
 
-#[cfg(feature = "typescript")]
-use ts_rs::TS;
-
 #[derive(Builder, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct GetCitiesRequest {
   #[builder(start_fn, into)]
@@ -31,7 +28,7 @@ pub struct GetCitiesRequest {
 
 #[derive(Builder, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct GetCityRequest {
   #[builder(start_fn, into)]
@@ -45,7 +42,7 @@ pub struct GetCityRequest {
 
 #[derive(Builder, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct GetCityScoreRequest {
   #[builder(start_fn, into)]
@@ -56,7 +53,7 @@ pub struct GetCityScoreRequest {
 
 #[derive(Builder, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct GetPublicCitiesRequest {
   #[builder(start_fn, into)]
@@ -74,7 +71,7 @@ pub struct GetPublicCitiesRequest {
 
 #[derive(Builder, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct GetPublicCityRequest {
   #[builder(start_fn, into)]
@@ -88,7 +85,7 @@ pub struct GetPublicCityRequest {
 
 #[derive(Builder, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct RenameCityRequest {
   #[builder(start_fn, into)]
@@ -101,7 +98,7 @@ pub struct RenameCityRequest {
 
 #[derive(Builder, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct SearchCityRequest {
   #[builder(start_fn, into)]
@@ -112,7 +109,7 @@ pub struct SearchCityRequest {
 
 #[derive(Builder, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct SearchPublicCityRequest {
   #[builder(start_fn, into)]

@@ -10,7 +10,7 @@ use ts_rs::TS;
 #[expect(non_camel_case_types)]
 #[repr(i32)]
 #[derive(Clone, Copy, Debug, Display, PartialEq, Eq, Serialize_repr)]
-#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export, repr(enum)))]
 #[cfg_attr(feature = "typescript", ts(rename = "ffi_Status"))]
 pub enum Status {

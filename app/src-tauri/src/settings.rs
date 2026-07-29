@@ -5,13 +5,10 @@ use nil_core::world::config::Locale;
 use nil_server_types::auth::Token;
 use serde::{Deserialize, Serialize};
 
-#[cfg(feature = "typescript")]
-use ts_rs::TS;
-
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[derive_const(Default)]
 #[serde(default, rename_all = "camelCase")]
-#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 #[cfg_attr(feature = "typescript", ts(rename = "app_Settings"))]
 pub struct Settings {
@@ -26,7 +23,7 @@ pub struct Settings {
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 #[cfg_attr(feature = "typescript", ts(rename = "app_AcademySettings"))]
 pub struct AcademySettings {
@@ -42,7 +39,7 @@ const impl Default for AcademySettings {
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[derive_const(Default)]
 #[serde(rename_all = "camelCase")]
-#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 #[cfg_attr(feature = "typescript", ts(rename = "app_AppearanceSettings"))]
 pub struct AppearanceSettings {
@@ -52,7 +49,7 @@ pub struct AppearanceSettings {
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[derive_const(Default)]
 #[serde(default, rename_all = "camelCase")]
-#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export, optional_fields = nullable))]
 #[cfg_attr(feature = "typescript", ts(rename = "app_AuthSettings"))]
 pub struct AuthSettings {
@@ -61,7 +58,7 @@ pub struct AuthSettings {
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 #[cfg_attr(feature = "typescript", ts(rename = "app_GeneralSettings"))]
 pub struct GeneralSettings {
@@ -83,7 +80,7 @@ const impl Default for GeneralSettings {
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 #[cfg_attr(feature = "typescript", ts(rename = "app_PrefectureSettings"))]
 pub struct PrefectureSettings {
@@ -99,7 +96,7 @@ const impl Default for PrefectureSettings {
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 #[cfg_attr(feature = "typescript", ts(rename = "app_StableSettings"))]
 pub struct StableSettings {
@@ -114,7 +111,7 @@ const impl Default for StableSettings {
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 #[cfg_attr(feature = "typescript", ts(rename = "app_WorkshopSettings"))]
 pub struct WorkshopSettings {

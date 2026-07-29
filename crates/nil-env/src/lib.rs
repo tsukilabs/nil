@@ -19,7 +19,7 @@ use ts_rs::TS;
 
 #[derive(Copy, Debug, Display, AsRefStr, EnumString, Deserialize, Serialize)]
 #[derive_const(Clone, PartialEq, Eq)]
-#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export, repr(enum = name)))]
 #[cfg_attr(feature = "typescript", ts(rename = "env_Var"))]
 pub enum Var {

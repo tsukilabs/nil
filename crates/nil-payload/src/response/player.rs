@@ -13,71 +13,68 @@ use serde::{Deserialize, Serialize};
 #[cfg(feature = "axum")]
 use nil_payload_macros::IntoJsonResponse;
 
-#[cfg(feature = "typescript")]
-use ts_rs::TS;
-
 #[derive(Clone, Debug, Deref, DerefMut, From, Into, Deserialize, Serialize)]
 #[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
-#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct GetPlayerCoordsResponse(pub Vec<Coord>);
 
 #[derive(Clone, Debug, Deref, DerefMut, From, Into, Deserialize, Serialize)]
 #[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
-#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct GetPlayerIdsResponse(pub Vec<PlayerId>);
 
 #[derive(Clone, Copy, Debug, Deref, DerefMut, Display, From, Into, Deserialize, Serialize)]
 #[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
-#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct GetPlayerMaintenanceResponse(pub Maintenance);
 
 #[derive(Clone, Debug, Deref, DerefMut, From, Into, Deserialize, Serialize)]
 #[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
-#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct GetPlayerMilitaryResponse(pub Military);
 
 #[derive(Clone, Debug, Deref, DerefMut, From, Into, Deserialize, Serialize)]
 #[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
-#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct GetPlayerResponse(pub Player);
 
 #[derive(Clone, Copy, Debug, Deref, DerefMut, Display, From, Into, Deserialize, Serialize)]
 #[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
-#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct GetPlayerStatusResponse(pub PlayerStatus);
 
 #[derive(Clone, Debug, Deref, DerefMut, From, Into, Deserialize, Serialize)]
 #[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
-#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct GetPlayerStorageCapacityResponse(pub OverallStorageCapacity);
 
 #[derive(Clone, Debug, Deref, DerefMut, From, Into, Deserialize, Serialize)]
 #[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
-#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct GetPlayerWorldsResponse(pub Vec<WorldId>);
 
 #[derive(Clone, Debug, Deref, DerefMut, From, Into, Deserialize, Serialize)]
 #[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
-#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct GetPublicPlayerResponse(pub PublicPlayer);
 
 #[derive(Clone, Debug, Deref, DerefMut, From, Into, Deserialize, Serialize)]
 #[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
-#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct GetPublicPlayersResponse(pub Vec<PublicPlayer>);
 
 #[derive(Clone, Copy, Debug, Deref, DerefMut, Display, From, Into, Deserialize, Serialize)]
 #[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
-#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct PlayerExistsResponse(pub bool);

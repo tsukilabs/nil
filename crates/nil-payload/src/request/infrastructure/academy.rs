@@ -10,12 +10,9 @@ use nil_core::infrastructure::building::r#impl::academy::recruit_queue::{
 use nil_core::world::config::WorldId;
 use serde::{Deserialize, Serialize};
 
-#[cfg(feature = "typescript")]
-use ts_rs::TS;
-
 #[derive(Builder, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct AddAcademyRecruitOrderRequest {
   #[builder(start_fn, into)]
@@ -25,7 +22,7 @@ pub struct AddAcademyRecruitOrderRequest {
 
 #[derive(Builder, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct CancelAcademyRecruitOrderRequest {
   #[builder(start_fn, into)]
@@ -37,7 +34,7 @@ pub struct CancelAcademyRecruitOrderRequest {
 
 #[derive(Builder, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct GetAcademyRecruitCatalogRequest {
   #[builder(start_fn, into)]

@@ -17,7 +17,7 @@ use ts_rs::TS;
 static QUEUE: LazyLock<Mutex<VecDeque<QueueEntry>>> = LazyLock::new(Mutex::default);
 
 #[derive(Debug, Serialize)]
-#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 #[cfg_attr(feature = "typescript", ts(rename = "ffi_QueueEntry"))]
 pub struct QueueEntry {
@@ -27,7 +27,7 @@ pub struct QueueEntry {
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize)]
 #[serde(rename_all = "kebab-case")]
-#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 #[cfg_attr(feature = "typescript", ts(rename = "ffi_QueueEntryKind"))]
 pub enum QueueEntryKind {

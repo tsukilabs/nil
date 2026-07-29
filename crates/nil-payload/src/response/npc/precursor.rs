@@ -9,23 +9,20 @@ use serde::{Deserialize, Serialize};
 #[cfg(feature = "axum")]
 use nil_payload_macros::IntoJsonResponse;
 
-#[cfg(feature = "typescript")]
-use ts_rs::TS;
-
 #[derive(Clone, Debug, Deref, DerefMut, From, Into, Deserialize, Serialize)]
 #[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
-#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct GetPrecursorCoordsResponse(pub Vec<Coord>);
 
 #[derive(Clone, Debug, Deref, DerefMut, From, Into, Deserialize, Serialize)]
 #[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
-#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct GetPublicPrecursorResponse(pub PublicPrecursor);
 
 #[derive(Clone, Debug, Deref, DerefMut, From, Into, Deserialize, Serialize)]
 #[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
-#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct GetPublicPrecursorsResponse(pub Vec<PublicPrecursor>);

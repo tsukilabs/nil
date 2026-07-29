@@ -7,12 +7,9 @@ use nil_core::infrastructure::building::r#impl::prefecture::build_queue::Prefect
 use nil_core::world::config::WorldId;
 use serde::{Deserialize, Serialize};
 
-#[cfg(feature = "typescript")]
-use ts_rs::TS;
-
 #[derive(Builder, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct AddPrefectureBuildOrderRequest {
   #[builder(start_fn, into)]
@@ -22,7 +19,7 @@ pub struct AddPrefectureBuildOrderRequest {
 
 #[derive(Builder, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct CancelPrefectureBuildOrderRequest {
   #[builder(start_fn, into)]
@@ -33,7 +30,7 @@ pub struct CancelPrefectureBuildOrderRequest {
 
 #[derive(Builder, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct GetPrefectureBuildCatalogRequest {
   #[builder(start_fn, into)]

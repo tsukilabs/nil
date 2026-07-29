@@ -9,17 +9,14 @@ use serde::{Deserialize, Serialize};
 #[cfg(feature = "axum")]
 use nil_payload_macros::IntoJsonResponse;
 
-#[cfg(feature = "typescript")]
-use ts_rs::TS;
-
 #[derive(Clone, Copy, Debug, Deref, DerefMut, Display, From, Into, Deserialize, Serialize)]
 #[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
-#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct GetServerKindResponse(pub ServerKind);
 
 #[derive(Clone, Debug, Deref, DerefMut, Display, From, Into, Deserialize, Serialize)]
 #[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
-#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct VersionResponse(pub Version);

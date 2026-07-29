@@ -10,7 +10,7 @@ use std::fmt::Display;
 use ts_rs::TS;
 
 #[derive(Debug, Serialize)]
-#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 #[cfg_attr(feature = "typescript", ts(rename = "ffi_Response"))]
 #[cfg_attr(feature = "typescript", ts(concrete(T = serde_json::Value)))]
@@ -25,7 +25,7 @@ where
 
 #[derive(Debug, Serialize)]
 #[serde(tag = "kind", rename_all = "kebab-case")]
-#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 #[cfg_attr(feature = "typescript", ts(rename = "ffi_Result"))]
 #[cfg_attr(feature = "typescript", ts(concrete(T = serde_json::Value)))]
