@@ -29,8 +29,8 @@ pub struct Continent {
 }
 
 impl Continent {
-  pub(crate) fn new(size: u8) -> Self {
-    let size = ContinentSize::new(size);
+  pub(crate) fn new(size: impl Into<u8>) -> Self {
+    let size = ContinentSize::new(size.into());
     let capacity = usize::from(size.get()).pow(2);
     let mut fields = Vec::with_capacity(capacity);
     fields.resize_with(capacity, Field::default);

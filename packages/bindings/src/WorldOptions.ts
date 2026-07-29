@@ -9,11 +9,11 @@ import type { WorldUnitSpeed } from "./WorldUnitSpeed";
 
 export type WorldOptions = {
   name: WorldName;
-  size: ContinentSize;
-  locale: Locale;
-  allowCheats: boolean;
-  speed: WorldSpeed;
-  unitSpeed: WorldUnitSpeed;
-  botDensity: BotDensity;
-  botAdvancedStartRatio: BotAdvancedStartRatio;
+  size?: ContinentSize | null;
+  locale?: Locale | null;
+  allowCheats?: boolean | null;
+  speed?: WorldSpeed | null;
+  unitSpeed?: WorldUnitSpeed | null;
+  botDensity?: BotDensity | null;
+  botAdvancedStartRatio?: BotAdvancedStartRatio | null;
 };

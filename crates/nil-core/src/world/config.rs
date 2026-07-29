@@ -13,6 +13,7 @@ use uuid::Uuid;
 
 #[derive(Builder, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+#[builder(builder_type(vis = "pub(crate)"))]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct WorldConfig {
   #[builder(start_fn, into)]
@@ -51,12 +52,14 @@ impl WorldConfig {
     Self {
       id: WorldId::new(),
       name: options.name.clone(),
-      locale: options.locale,
-      allow_cheats: options.allow_cheats,
-      speed: options.speed,
-      unit_speed: options.unit_speed,
-      bot_density: options.bot_density,
-      bot_advanced_start_ratio: options.bot_advanced_start_ratio,
+      locale: options.locale.unwrap_or_default(),
+      allow_cheats: options.allow_cheats.unwrap_or_default(),
+      speed: options.speed.unwrap_or_default(),
+      unit_speed: options.unit_speed.unwrap_or_default(),
+      bot_density: options.bot_density.unwrap_or_default(),
+      bot_advanced_start_ratio: options
+        .bot_advanced_start_ratio
+        .unwrap_or_default(),
     }
   }
 
