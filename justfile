@@ -17,12 +17,6 @@ init:
   @cargo install diesel_cli --no-default-features --features "sqlite-bundled"
   @just generate-bindings --force
 
-docs:
-  @pnpm run -F docs dev
-
-docs-rust:
-  @cargo doc -p nil-* --open --no-deps --lib
-
 fmt:
   @dprint fmt
   @cargo fmt --all
@@ -36,6 +30,22 @@ type-check:
 
 udeps:
   @cargo udeps --workspace
+
+[group("docs")]
+docs:
+  @pnpm run -F docs dev
+
+[group("docs")]
+docs-rust:
+  @cargo doc -p nil-* --open --no-deps --lib
+
+[group("docs")]
+typedoc:
+  @pnpm run --recursive --if-present typedoc
+
+[group("docs")]
+vitepress:
+  @pnpm run -F docs build
 
 [group("ffi")]
 build-ffi-package:
