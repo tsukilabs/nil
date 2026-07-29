@@ -1,6 +1,6 @@
 {
   "name": "@tsukilabs/nil-bindings",
-  "version": "0.7.4",
+  "version": "0.7.5",
   "type": "module",
   "packageManager": "pnpm@11.17.0",
   "license": "AGPL-3.0-only",
@@ -25,7 +25,8 @@
   "keywords": ["call-of-nil"],
   "scripts": {
     "build": "vite build",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "typedoc": "typedoc --plugin typedoc-plugin-mdn-links"
   },
   "files": ["dist"],
   "main": "./dist/index.js",
