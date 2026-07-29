@@ -13,6 +13,7 @@ import { join as joinPath, resolve as resolvePath } from "node:path";
 import type {
   AuthorizeRequest,
   AuthorizeResponse,
+  ffi_UpdateClient,
   GetPlayerIdsRequest,
   GetPlayerIdsResponse,
   GetPlayerRequest,
@@ -23,13 +24,12 @@ import type {
   GetRemoteWorldLimitResponse,
   GetRemoteWorldsResponse,
   GetServerKindResponse,
-  Password,
+  LocalServer,
   PlayerExistsRequest,
   PlayerExistsResponse,
-  PlayerId,
+  ServerAddr,
   SetPlayerStatusRequest,
   SpawnPlayerRequest,
-  Token,
   ValidateTokenRequest,
   ValidateTokenResponse,
   WorldId,
@@ -40,18 +40,6 @@ export * from "./def";
 export * from "./error";
 
 export type Handle = ffi.DynamicLibraryResult<typeof definitions>;
-
-// TODO: import from `@tsukilabs/nil-bindings`.
-type LocalServer = { world: WorldId; addr: string; };
-type ServerAddr = { kind: "remote"; } | { kind: "local"; addr: string; };
-type ffi_UpdateClient = {
-  server: ServerAddr;
-  world_id?: WorldId | null;
-  world_password?: Password | null;
-  player_id?: PlayerId | null;
-  player_password?: Password | null;
-  authorization_token?: Token | null;
-};
 
 export const VERSION = version;
 export const USER_AGENT = `nil-ffi-node/${VERSION}`;

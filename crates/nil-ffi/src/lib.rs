@@ -22,7 +22,6 @@ use std::ptr;
 use std::sync::LazyLock;
 use tokio::runtime::{Builder as RuntimeBuilder, Runtime};
 
-pub use client::UpdateClient;
 pub use request::RequestId;
 pub use response::{Response, Result};
 pub use status::Status;
@@ -180,19 +179,13 @@ pub unsafe extern "C" fn nil_stop_client(request_id: RequestId) {
 
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn nil_update_client(request_id: RequestId, json_options: *const c_char) {
-  let f = |options: UpdateClient| {
+  let f = |options| {
     type OnEvent = fn(Event) -> BoxFuture<'static, ()>;
     RUNTIME.spawn(async move {
       let result = CLIENT
         .write()
         .await
-        .update::<OnEvent>(options.server)
-        .maybe_world_id(options.world_id)
-        .maybe_world_password(options.world_password)
-        .maybe_player_id(options.player_id)
-        .maybe_player_password(options.player_password)
-        .maybe_authorization_token(options.authorization_token)
-        .call()
+        .update(options, None::<OnEvent>)
         .await;
 
       queue::push_result(request_id, Result::from(result));

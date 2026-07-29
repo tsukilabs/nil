@@ -58,7 +58,7 @@ async function signIn() {
     ) {
       const token = await commands.authorize(userName.value, userPassword.value);
       await commands.updateClient({
-        serverAddr: { kind: "remote" },
+        server: { kind: "remote" },
         playerId: userName.value,
         playerPassword: userPassword.value,
         authorizationToken: token,

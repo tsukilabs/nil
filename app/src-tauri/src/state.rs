@@ -3,13 +3,9 @@
 
 use crate::error::Result;
 use crate::event::on_core_event;
-use nil_client::{Client, ServerAddr};
-use nil_core::player::PlayerId;
+use nil_client::{Client, ClientOptions};
 use nil_core::world::WorldOptions;
-use nil_core::world::config::WorldId;
-use nil_crypto::password::Password;
 use nil_server::local::{self, LocalServer};
-use nil_server_types::auth::Token;
 use std::path::PathBuf;
 use std::sync::Arc;
 use tauri::AppHandle;
@@ -22,7 +18,6 @@ pub struct Nil {
   server: Arc<RwLock<Option<LocalServer>>>,
 }
 
-#[bon::bon]
 impl Nil {
   pub fn new(app: &AppHandle) -> Self {
     Self {
@@ -39,26 +34,11 @@ impl Nil {
     f(&*self.client.read().await).await
   }
 
-  #[builder]
-  pub async fn update_client(
-    &self,
-    #[builder(start_fn)] server_addr: ServerAddr,
-    world_id: Option<WorldId>,
-    world_password: Option<Password>,
-    player_id: Option<PlayerId>,
-    player_password: Option<Password>,
-    authorization_token: Option<Token>,
-  ) -> Result<()> {
+  pub async fn update_client(&self, options: ClientOptions) -> Result<()> {
     let mut client = self.client.write().await;
+    let on_event = on_core_event(self.app.clone());
     client
-      .update(server_addr)
-      .maybe_world_id(world_id)
-      .maybe_world_password(world_password)
-      .maybe_player_id(player_id)
-      .maybe_player_password(player_password)
-      .maybe_authorization_token(authorization_token)
-      .on_event(on_core_event(self.app.clone()))
-      .call()
+      .update(options, Some(on_event))
       .await?;
 
     Ok(())

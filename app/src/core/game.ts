@@ -8,8 +8,8 @@ import type { Option } from "@tb-dev/utils";
 import { Entity } from "@/core/entity/abstract";
 import { useSettings } from "@/stores/settings";
 import { exit } from "@tauri-apps/plugin-process";
-import type { ClientOptions } from "@/types/client";
 import type {
+  ClientOptions,
   PlayerOptions,
   RoundDuration,
   ServerAddr,
@@ -44,12 +44,12 @@ async function joinGame(options: {
 }
 
 export async function joinLocalGame(options: {
-  serverAddr: NonNullable<ClientOptions["serverAddr"]>;
+  serverAddr: NonNullable<ClientOptions["server"]>;
   worldId?: ClientOptions["worldId"];
   playerId: NonNullable<ClientOptions["playerId"]>;
 }) {
   await commands.updateClient({
-    serverAddr: options.serverAddr,
+    server: options.serverAddr,
     worldId: options.worldId,
     playerId: options.playerId,
   });
@@ -76,7 +76,7 @@ export async function joinRemoteGame(options: {
   const playerId = await commands.validateToken(options.authorizationToken);
   if (playerId) {
     await commands.updateClient({
-      serverAddr: { kind: "remote" },
+      server: { kind: "remote" },
       worldId: options.worldId,
       worldPassword: options.worldPassword,
       authorizationToken: options.authorizationToken,
@@ -127,7 +127,7 @@ export async function hostRemoteGame(options: {
   roundDuration: Option<RoundDuration>;
 }) {
   await commands.updateClient({
-    serverAddr: { kind: "remote" },
+    server: { kind: "remote" },
     authorizationToken: options.authorizationToken,
   });
 
