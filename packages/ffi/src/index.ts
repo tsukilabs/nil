@@ -11,12 +11,17 @@ import type {
   GetRemoteWorldLimitPerUserResponse,
   GetRemoteWorldLimitResponse,
   GetRemoteWorldsResponse,
+  WorldId,
+  WorldOptions,
 } from "@tsukilabs/nil-bindings";
 
 export * from "./def";
 export * from "./error";
 
 export type Handle = ffi.DynamicLibraryResult<typeof definitions>;
+
+// TODO: import from `@tsukilabs/nil-bindings`.
+type LocalServer = { world: WorldId; addr: string; };
 
 export const VERSION = version;
 export const USER_AGENT = `nil-ffi-node/${VERSION}`;
@@ -59,66 +64,105 @@ export class Nil implements Disposable {
     this.handle[Symbol.dispose]();
   }
 
+  public isClosed() {
+    return this.disposed;
+  }
+
+  @ThrowIfClosed
   public async getClientVersion() {
-    this.throwIfClosed();
     return this.queue.request<string>((requestId) => {
       this.functions.nil_client_version(requestId);
     });
   }
 
+  @ThrowIfClosed
   public async getFfiVersion() {
-    this.throwIfClosed();
     return this.queue.request<string>((requestId) => {
       this.functions.nil_ffi_version(requestId);
     });
   }
 
+  @ThrowIfClosed
   public async getRemoteWorldLimit() {
-    this.throwIfClosed();
     return this.queue.request<GetRemoteWorldLimitResponse>((requestId) => {
       this.functions.nil_get_remote_world_limit(requestId);
     });
   }
 
+  @ThrowIfClosed
   public async getRemoteWorldLimitPerUser() {
-    this.throwIfClosed();
     return this.queue.request<GetRemoteWorldLimitPerUserResponse>((requestId) => {
       this.functions.nil_get_remote_world_limit_per_user(requestId);
     });
   }
 
+  @ThrowIfClosed
   public async getRemoteWorlds() {
-    this.throwIfClosed();
     return this.queue.request<GetRemoteWorldsResponse>((requestId) => {
       this.functions.nil_get_remote_worlds(requestId);
     });
   }
 
+  @ThrowIfClosed
   public async getUserAgent() {
-    this.throwIfClosed();
     return this.queue.request<string>((requestId) => {
       this.functions.nil_user_agent(requestId);
     });
   }
 
+  @ThrowIfClosed
   public async getWorld() {
-    this.throwIfClosed();
     return this.queue.request<Option<string>>((requestId) => {
       this.functions.nil_world(requestId);
     });
   }
 
+  @ThrowIfClosed
+  public async isLocal() {
+    return this.queue.request<boolean>((requestId) => {
+      this.functions.nil_is_local(requestId);
+    });
+  }
+
+  @ThrowIfClosed
   public async setUserAgent(userAgent: string) {
-    this.throwIfClosed();
     await this.queue.request((requestId) => {
       const arg1 = JSON.stringify(userAgent);
       this.functions.nil_set_user_agent(requestId, arg1);
     });
   }
 
-  private throwIfClosed() {
-    if (this.disposed) {
+  @ThrowIfClosed
+  public async startServer(options: WorldOptions) {
+    await this.queue.request<LocalServer>((requestId) => {
+      const arg1 = JSON.stringify(options);
+      this.functions.nil_start_server(requestId, arg1);
+    });
+  }
+
+  @ThrowIfClosed
+  public async startServerWithSavedata(path: string) {
+    return this.queue.request<LocalServer>((requestId) => {
+      const arg1 = JSON.stringify(path);
+      this.functions.nil_start_server_with_savedata(requestId, arg1);
+    });
+  }
+
+  @ThrowIfClosed
+  public async stopServer() {
+    await this.queue.request((requestId) => {
+      this.functions.nil_stop_server(requestId);
+    });
+  }
+}
+
+function ThrowIfClosed(target: Nil, _key: string, descriptor: PropertyDescriptor) {
+  const method = descriptor.value;
+  descriptor.value = function(...args: any[]) {
+    if (target.isClosed()) {
       throw new HandleClosedError();
     }
-  }
+
+    Reflect.apply(method, this, args);
+  };
 }

@@ -2,8 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { Option } from "@tb-dev/utils";
-import type { ServerAddr } from "@/types/server";
-import type { PlayerId, WorldId } from "@tsukilabs/nil-bindings";
+import type { PlayerId, ServerAddr, WorldId } from "@tsukilabs/nil-bindings";
 
 export interface ClientOptions {
   serverAddr: ServerAddr;

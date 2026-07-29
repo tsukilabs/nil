@@ -13,6 +13,8 @@ static REMOTE_SERVER_ADDR: LazyLock<Url> = LazyLock::new(nil_env::remote_server_
 
 #[derive(Clone, Copy, Debug, Default, EnumIs, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[serde(tag = "kind", rename_all = "kebab-case")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 pub enum ServerAddr {
   #[default]
   Remote,

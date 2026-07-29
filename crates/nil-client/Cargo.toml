@@ -52,3 +52,11 @@ tokio.workspace = true
 tracing.workspace = true
 tokio-tungstenite.workspace = true
 url.workspace = true
+
+[dependencies.ts-rs]
+workspace = true
+optional = true
+
+[features]
+default = []
+typescript = ["dep:ts-rs", "nil-core/typescript"]

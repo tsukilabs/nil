@@ -3675,6 +3675,7 @@ dependencies = [
  "tokio",
  "tokio-tungstenite 0.30.0",
  "tracing",
+ "ts-rs",
  "url",
 ]
 
@@ -3759,6 +3760,7 @@ dependencies = [
  "nil-crypto",
  "nil-env",
  "nil-ffi-node",
+ "nil-server",
  "nil-server-types",
  "serde",
  "serde_json",
@@ -3873,6 +3875,7 @@ dependencies = [
  "tower",
  "tower-http 0.7.0",
  "tracing",
+ "ts-rs",
  "uuid",
 ]
 

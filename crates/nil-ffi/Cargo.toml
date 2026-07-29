@@ -32,6 +32,7 @@ futures.workspace = true
 nil-client.workspace = true
 nil-core.workspace = true
 nil-crypto.workspace = true
+nil-server.workspace = true
 nil-server-types.workspace = true
 serde.workspace = true
 serde_json.workspace = true
@@ -53,4 +54,4 @@ nil-ffi-node.workspace = true
 
 [features]
 default = []
-typescript = ["dep:ts-rs"]
+typescript = ["dep:ts-rs", "nil-client/typescript", "nil-server/typescript"]

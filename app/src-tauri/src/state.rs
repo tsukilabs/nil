@@ -64,12 +64,18 @@ impl Nil {
     Ok(())
   }
 
+  pub async fn stop_client(&self) {
+    self.client.write().await.stop().await;
+  }
+
   async fn start_server<F>(&self, f: F) -> Result<LocalServer>
   where
     F: AsyncFnOnce() -> Result<LocalServer>,
   {
     let mut lock = self.server.write().await;
-    *lock = None;
+    if let Some(server) = lock.take() {
+      server.stop();
+    }
 
     let server = f().await?;
     *lock = Some(server.clone());
@@ -86,10 +92,6 @@ impl Nil {
     self
       .start_server(async move || Ok(local::load(path).await?))
       .await
-  }
-
-  pub async fn stop_client(&self) {
-    self.client.write().await.stop().await;
   }
 
   pub async fn stop_server(&self) {
