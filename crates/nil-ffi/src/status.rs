@@ -4,9 +4,6 @@
 use serde_repr::Serialize_repr;
 use strum::Display;
 
-#[cfg(feature = "typescript")]
-use ts_rs::TS;
-
 #[expect(non_camel_case_types)]
 #[repr(i32)]
 #[derive(Clone, Copy, Debug, Display, PartialEq, Eq, Serialize_repr)]

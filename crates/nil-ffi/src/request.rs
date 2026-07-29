@@ -4,9 +4,6 @@
 use serde::Serialize;
 use std::ffi::c_uint;
 
-#[cfg(feature = "typescript")]
-use ts_rs::TS;
-
 #[repr(transparent)]
 #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]

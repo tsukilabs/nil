@@ -14,9 +14,6 @@ use std::path::Path;
 use strum::{AsRefStr, Display, EnumString};
 use url::Url;
 
-#[cfg(feature = "typescript")]
-use ts_rs::TS;
-
 #[derive(Copy, Debug, Display, AsRefStr, EnumString, Deserialize, Serialize)]
 #[derive_const(Clone, PartialEq, Eq)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]

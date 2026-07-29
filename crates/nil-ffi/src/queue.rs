@@ -11,9 +11,6 @@ use std::fmt::Display;
 use std::sync::LazyLock;
 use std::sync::nonpoison::Mutex;
 
-#[cfg(feature = "typescript")]
-use ts_rs::TS;
-
 static QUEUE: LazyLock<Mutex<VecDeque<QueueEntry>>> = LazyLock::new(Mutex::default);
 
 #[derive(Debug, Serialize)]

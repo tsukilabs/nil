@@ -6,9 +6,6 @@ use crate::status::Status;
 use serde::Serialize;
 use std::fmt::Display;
 
-#[cfg(feature = "typescript")]
-use ts_rs::TS;
-
 #[derive(Debug, Serialize)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
