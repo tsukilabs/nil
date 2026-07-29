@@ -9,6 +9,7 @@ import { existsSync } from "node:fs";
 import * as fs from "node:fs/promises";
 import { HandleClosedError } from "./error";
 import type { Option } from "@tb-dev/utils";
+import { attemptAsync } from "es-toolkit/util";
 import { Queue, type QueueOptions } from "./queue";
 import { version } from "../package.json" with { type: "json" };
 import type {
@@ -41,18 +42,20 @@ export * from "./def";
 export * from "./error";
 
 export type Handle = ffi.DynamicLibraryResult<typeof definitions>;
-export type { ErrorHandler } from "./queue";
+export type { ErrorHandler, QueueOptions } from "./queue";
 
 export const VERSION = version;
 export const USER_AGENT = `nil-ffi-node/${VERSION}`;
 
-export class Nil implements Disposable {
+export class Nil implements AsyncDisposable {
   public readonly path: string;
   private readonly handle: Handle;
-  public readonly functions: Handle["functions"];
+  private readonly functions: Handle["functions"];
 
   private readonly queue: Queue;
-  private disposed = false;
+
+  private closed = false;
+  private closePromise: Option<Promise<void>>;
 
   private constructor(dll: string, options?: NilOptions) {
     if (!dll.endsWith(ffi.suffix)) {
@@ -65,56 +68,32 @@ export class Nil implements Disposable {
     this.queue = new Queue(this.handle, options);
   }
 
-  public static async init(dll: string, options?: NilOptions) {
-    const nil = new Nil(dll, options);
-    await nil.setUserAgent(USER_AGENT);
-    return nil;
+  public async [Symbol.asyncDispose]() {
+    await this.close();
   }
 
-  public static async initLatest(options?: InitLatestOptions) {
-    const dll = await this.downloadLatest(options);
-    return this.init(dll, options);
-  }
-
-  public static async downloadLatest(options?: DownloadLatestOptions) {
-    const file = `libnil.${ffi.suffix}`;
-    const filePath = path.resolve(options?.outDir ?? cwd(), file);
-    if (!(options?.truncate ?? true) && existsSync(filePath)) {
-      return filePath;
-    }
-
-    const response = await fetch(`https://tsukilabs.dev.br/download/nil/${file}`, {
-      headers: { "User-Agent": USER_AGENT },
-    });
-
-    if (!response.ok) {
-      throw new Error(
-        `failed to download ${file}: ${response.status} ${response.statusText}`,
-      );
-    }
-
-    const bytes = await response.bytes();
-    await fs.writeFile(filePath, bytes);
-    return filePath;
-  }
-
-  public [Symbol.dispose]() {
-    this.close();
-  }
-
-  public close() {
-    if (this.disposed) {
+  async #close() {
+    if (this.closed) {
       return;
     }
 
-    this.disposed = true;
+    this.closed = true;
+
+    await attemptAsync(this.stopClient.bind(this));
+    await attemptAsync(this.stopServer.bind(this));
+
     this.queue[Symbol.dispose]();
     this.functions.nil_ffi_shutdown();
     this.handle[Symbol.dispose]();
   }
 
+  public async close() {
+    this.closePromise ??= this.#close();
+    return this.closePromise;
+  }
+
   public isClosed() {
-    return this.disposed;
+    return this.closed;
   }
 
   @ThrowIfClosed
@@ -319,6 +298,39 @@ export class Nil implements Disposable {
       this.functions.nil_validate_token(requestId, JSON.stringify(req));
     });
   }
+
+  public static async init(dll: string, options?: NilOptions) {
+    const nil = new Nil(dll, options);
+    await nil.setUserAgent(USER_AGENT);
+    return nil;
+  }
+
+  public static async initLatest(options?: InitLatestOptions) {
+    const dll = await this.downloadLatest(options);
+    return this.init(dll, options);
+  }
+
+  public static async downloadLatest(options?: DownloadLatestOptions) {
+    const file = `libnil.${ffi.suffix}`;
+    const filePath = path.resolve(options?.outDir ?? cwd(), file);
+    if (!(options?.overwrite ?? true) && existsSync(filePath)) {
+      return filePath;
+    }
+
+    const response = await fetch(`https://tsukilabs.dev.br/download/nil/${file}`, {
+      headers: { "User-Agent": USER_AGENT },
+    });
+
+    if (!response.ok) {
+      throw new Error(
+        `failed to download ${file}: ${response.status} ${response.statusText}`,
+      );
+    }
+
+    const bytes = await response.bytes();
+    await fs.writeFile(filePath, bytes);
+    return filePath;
+  }
 }
 
 function ThrowIfClosed(_target: Nil, _key: string, descriptor: PropertyDescriptor) {
@@ -332,13 +344,12 @@ function ThrowIfClosed(_target: Nil, _key: string, descriptor: PropertyDescripto
   };
 }
 
-export interface NilOptions {
-  onError?: QueueOptions["onError"];
-}
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+export interface NilOptions extends QueueOptions {}
 
 export interface DownloadLatestOptions {
   outDir?: Option<string>;
-  truncate?: boolean;
+  overwrite?: boolean;
 }
 
 export type InitLatestOptions = DownloadLatestOptions & NilOptions;
