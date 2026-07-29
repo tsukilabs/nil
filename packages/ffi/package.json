@@ -1,6 +1,6 @@
 {
   "name": "@tsukilabs/nil-ffi",
-  "version": "0.7.2",
+  "version": "0.7.3",
   "type": "module",
   "packageManager": "pnpm@11.17.0",
   "license": "AGPL-3.0-only",
@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "@tb-dev/utils": "^8.1.1",
-    "@tsukilabs/nil-bindings": "workspace:*",
+    "@tsukilabs/nil-bindings": "^0.7.2",
     "es-toolkit": "^1.50.0"
   },
   "files": ["dist"],

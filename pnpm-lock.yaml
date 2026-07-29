@@ -167,8 +167,8 @@ importers:
         specifier: ^8.1.1
         version: 8.1.1
       '@tsukilabs/nil-bindings':
-        specifier: workspace:*
-        version: link:../bindings
+        specifier: ^0.7.2
+        version: 0.7.2
       es-toolkit:
         specifier: ^1.50.0
         version: 1.50.0
@@ -855,6 +855,9 @@ packages:
 
   '@tb-dev/vue@4.0.29':
     resolution: {integrity: sha512-ahHNAEkCgARUACyPMGxwAS4w0xlkVEaWMAWNROUYc7zUI1Gli1NZP/YrUD/5X8Z52kNH+vaBoJlZcPm46PiM/g==}
+
+  '@tsukilabs/nil-bindings@0.7.2':
+    resolution: {integrity: sha512-RR1Jf8IYWtAmkwtfevNFzWRfPOfswNHJBl50D8orCQ4MKQhGzwpCztGWUdsw3L3+nHjbTLCf5PL6kGo9bho47g==}
 
   '@tybys/wasm-util@0.10.3':
     resolution: {integrity: sha512-F3fo1MYrRJYL3zER0OUOmkutjr1Vp23m7OsSgp7nq4SP6OqX6C/56XFIPAl5bt3zaBRjmW7SGz3u/6LwFpYcOg==}
@@ -2760,6 +2763,8 @@ snapshots:
       vue: 3.5.40(typescript@6.0.3)
     transitivePeerDependencies:
       - typescript
+
+  '@tsukilabs/nil-bindings@0.7.2': {}
 
   '@tybys/wasm-util@0.10.3':
     dependencies:
