@@ -3,6 +3,7 @@ export default {
   entryPoints: ["src/index.ts"],
   out: "../../docs/dist/js-docs/bindings",
   readme: "../../README.md",
+  favicon: "../../docs/dist/favicon.png",
   includeVersion: true,
   excludeInternal: true,
   excludePrivate: true,

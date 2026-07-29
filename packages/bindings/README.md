@@ -1,3 +1,3 @@
 # nil-bindings
 
-See: https://github.com/tsukilabs/nil
+API Reference: https://nil.dev.br/js-docs/bindings
