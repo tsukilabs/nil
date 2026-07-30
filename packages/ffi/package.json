@@ -36,5 +36,8 @@
   },
   "files": ["dist"],
   "main": "./dist/index.js",
-  "types": "./dist/index.d.ts"
+  "types": "./dist/index.d.ts",
+  "engines": {
+    "node": ">=26.5.1"
+  }
 }
