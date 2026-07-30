@@ -72,7 +72,6 @@ anyhow = "1.0"
 bitflags = "2.13"
 bon = "3.9"
 bytes = "1.12"
-bytesize = "=2.4.2"
 cbindgen = "0.29"
 csbindgen = "=1.9.8"
 dashmap = "6.2"
@@ -80,7 +79,6 @@ either = "1.17"
 futures = "0.3"
 headers = "0.4"
 http = "1.5"
-humantime = "=2.4.0"
 itertools = "0.15"
 local-ip-address = "=0.6.13"
 num-traits = "=0.2.19"
@@ -213,7 +211,7 @@ features = ["cors", "trace"]
 
 [workspace.dependencies.tracing-subscriber]
 version = "0.3"
-features = ["env-filter"]
+features = ["env-filter", "json"]
 
 [workspace.dependencies.ts-rs]
 version = "12.0"
