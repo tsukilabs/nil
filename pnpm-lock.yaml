@@ -5,6 +5,9 @@ settings:
   dedupePeers: true
   excludeLinksFromLockfile: false
 
+overrides:
+  brace-expansion@<=5.0.7: ^5.0.8
+
 importers:
 
   .:
@@ -107,8 +110,8 @@ importers:
         specifier: '=2.11.4'
         version: 2.11.4
       '@tb-dev/eslint-config':
-        specifier: '=10.3.1'
-        version: 10.3.1(eslint@10.8.0)(typescript@6.0.3)
+        specifier: '=10.3.2'
+        version: 10.3.2(eslint@10.8.0)(typescript@6.0.3)
       '@types/node':
         specifier: '=26.1.2'
         version: 26.1.2
@@ -862,8 +865,8 @@ packages:
   '@tauri-store/shared@0.10.6':
     resolution: {integrity: sha512-vRC4MH52j6ITeD9yWs6jwmYxJwt17x0YwSzigxwEkUQad6JC9m6lIJPD4r+ebZYpVJ47RlI9g5SPy2dxMOpYqg==}
 
-  '@tb-dev/eslint-config@10.3.1':
-    resolution: {integrity: sha512-VTMd8QCW+t6KT+XcXLjz9SD3jDwGt5K02mq2NaXd7U+1dBDATOvx5BN017u3RZnvFbQmrMfYWXvl9uheVuMqaA==}
+  '@tb-dev/eslint-config@10.3.2':
+    resolution: {integrity: sha512-bq3SfZrxfjTKnocTp64bMEPl328Qmw1YAgoDvSSnchojb5/mJ1iDDIF8+mFyBCde2Hpw7WnygEbcmsPCTW+Iew==}
 
   '@tb-dev/prototype-dom@7.0.53':
     resolution: {integrity: sha512-TfMtX3UI++vJgRpHP1DpETLAXrU9TsCSsHbW86op4SsPsn2JTsTzkajPylZ3zpB+nctLH1TD7VFiJzZDWZqjEQ==}
@@ -1193,9 +1196,9 @@ packages:
   boolbase@1.0.0:
     resolution: {integrity: sha512-JZOSA7Mo9sNGB8+UjSgzdLtokWAky1zbztM3WRLCbZ70/3cTANmQmOdR7y2g+J0e2WXywy1yS468tY+IruqEww==}
 
-  brace-expansion@5.0.7:
-    resolution: {integrity: sha512-7oFy703dxfY3/NLxC1fh2SUCQ0H9rmAY+5EpDVfXjUTTs+HEwR2nYaqLv+GWcTsumwxPfiz6CzCNkwXwBUwqCA==}
-    engines: {node: 18 || 20 || >=22}
+  brace-expansion@5.0.8:
+    resolution: {integrity: sha512-JZyDyq3D4AUifKTPOB7DELf6XsB3WdPuNxCtob1vFXPsSXhdAiHBWJ/tJ8HAc9aH84BK+5JFZLNkJKx3G9kzQg==}
+    engines: {node: 20 || >=22}
 
   browserslist@4.28.6:
     resolution: {integrity: sha512-FQBYNK15VMslhLHpA7+n+n1GOlF1kId2xcCg7/j95f24AOF6VDYMNH4mFxF7KuaTdv627faazpOAjFzMrfJOUw==}
@@ -1452,10 +1455,6 @@ packages:
   glob-parent@6.0.2:
     resolution: {integrity: sha512-XxwI8EOhVQgWp6iDL+3b0r86f4d6AX6zSU55HfB4ydCEuXLXc5FcYeOu+nnGftS4TEju/11rt4KJPTMgbfmv4A==}
     engines: {node: '>=10.13.0'}
-
-  globals@17.7.0:
-    resolution: {integrity: sha512-Czmyns5dUsq4seFBR/Kdydhmo8y9kC79hiSkPn0YcGtNnYWnrgt0vjrSjx9tspoDGWm2CMarffRuLjM4xUz8xg==}
-    engines: {node: '>=18'}
 
   globals@17.8.0:
     resolution: {integrity: sha512-Zz/LMDZScFmkakeL2cTHzf+PbWKdpU3uclqkZT7TjDG58j5WPt0PpA+n9uPI24fZtlw07q0OtEi84K+umsRzqQ==}
@@ -2788,7 +2787,7 @@ snapshots:
       '@tauri-apps/api': 2.11.1
       es-toolkit: 1.50.0
 
-  '@tb-dev/eslint-config@10.3.1(eslint@10.8.0)(typescript@6.0.3)':
+  '@tb-dev/eslint-config@10.3.2(eslint@10.8.0)(typescript@6.0.3)':
     dependencies:
       '@typescript-eslint/eslint-plugin': 8.65.0(@typescript-eslint/parser@8.65.0)(eslint@10.8.0)(typescript@6.0.3)
       '@typescript-eslint/parser': 8.65.0(eslint@10.8.0)(typescript@6.0.3)
@@ -3190,7 +3189,7 @@ snapshots:
 
   boolbase@1.0.0: {}
 
-  brace-expansion@5.0.7:
+  brace-expansion@5.0.8:
     dependencies:
       balanced-match: 4.0.4
 
@@ -3308,7 +3307,7 @@ snapshots:
       entities: 4.5.0
       eslint: 10.8.0(jiti@2.7.0)
       find-up-simple: 1.0.1
-      globals: 17.7.0
+      globals: 17.8.0
       indent-string: 5.0.0
       is-builtin-module: 5.0.0
       is-identifier: 1.1.0
@@ -3443,8 +3442,6 @@ snapshots:
   glob-parent@6.0.2:
     dependencies:
       is-glob: 4.0.3
-
-  globals@17.7.0: {}
 
   globals@17.8.0: {}
 
@@ -3649,7 +3646,7 @@ snapshots:
 
   minimatch@10.2.5:
     dependencies:
-      brace-expansion: 5.0.7
+      brace-expansion: 5.0.8
 
   minisearch@7.2.0: {}
 
