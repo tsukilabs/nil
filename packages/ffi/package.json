@@ -30,7 +30,7 @@
     "typedoc": "typedoc --plugin typedoc-plugin-mdn-links"
   },
   "dependencies": {
-    "@tb-dev/utils": "^8.1.1",
+    "@tb-dev/utils": "^8.1.2",
     "@tsukilabs/nil-bindings": "^0.7.6",
     "es-toolkit": "^1.50.0"
   },
