@@ -7,6 +7,7 @@ use serde::Serialize;
 use std::fmt::Display;
 
 #[derive(Debug, Serialize)]
+#[serde(rename_all = "camelCase")]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 #[cfg_attr(feature = "typescript", ts(rename = "ffi_Response"))]

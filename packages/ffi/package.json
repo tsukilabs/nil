@@ -1,6 +1,6 @@
 {
   "name": "@tsukilabs/nil-ffi",
-  "version": "0.7.6",
+  "version": "0.7.7",
   "description": "FFI bindings for Call of Nil",
   "type": "module",
   "packageManager": "pnpm@11.18.0",
@@ -31,7 +31,7 @@
   },
   "dependencies": {
     "@tb-dev/utils": "^8.1.1",
-    "@tsukilabs/nil-bindings": "^0.7.5",
+    "@tsukilabs/nil-bindings": "^0.7.6",
     "es-toolkit": "^1.50.0"
   },
   "files": ["dist"],

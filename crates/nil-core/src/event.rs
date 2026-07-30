@@ -22,8 +22,8 @@ pub(crate) struct Emitter {
 }
 
 impl Emitter {
-  pub fn new(capacity: usize) -> Self {
-    let (sender, _) = channel(capacity);
+  pub fn new() -> Self {
+    let (sender, _) = channel(100);
     Self { sender }
   }
 
@@ -49,7 +49,7 @@ impl Emitter {
 
 impl Default for Emitter {
   fn default() -> Self {
-    Self::new(100)
+    Self::new()
   }
 }
 

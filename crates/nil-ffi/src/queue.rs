@@ -14,6 +14,7 @@ use std::sync::nonpoison::Mutex;
 static QUEUE: LazyLock<Mutex<VecDeque<QueueEntry>>> = LazyLock::new(Mutex::default);
 
 #[derive(Debug, Serialize)]
+#[serde(rename_all = "camelCase")]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 #[cfg_attr(feature = "typescript", ts(rename = "ffi_QueueEntry"))]

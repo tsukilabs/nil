@@ -655,12 +655,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "bytesize"
-version = "2.4.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3d7c8918969267b2932ffd5655509bbbea0833823058c378876953217f5fc50e"
-
-[[package]]
 name = "cairo-rs"
 version = "0.18.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2733,16 +2727,10 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "df3b46402a9d5adb4c86a0cf463f42e19994e3ee891101b1841f30a545cb49a9"
 
 [[package]]
-name = "humantime"
-version = "2.4.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "15cdd26707701c53297e2fa6afb323d55fbc1d0810c3aec078ae3ef0424c3c15"
-
-[[package]]
 name = "hybrid-array"
-version = "0.4.13"
+version = "0.4.14"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "818356c5132c1fede50f837ca96afbe78ff42413047f4abb886217845e1b6c8c"
+checksum = "707114b52a152fa7bdb290cd7cd5912d9467273b6d74e21b8d81aca1f8533f6b"
 dependencies = [
  "typenum",
 ]
@@ -3605,7 +3593,7 @@ checksum = "650eef8c711430f1a879fdd01d4745a7deea475becfb90269c06775983bbf086"
 
 [[package]]
 name = "nil"
-version = "0.7.6"
+version = "0.7.7"
 dependencies = [
  "anyhow",
  "bon",
@@ -3646,7 +3634,7 @@ dependencies = [
 
 [[package]]
 name = "nil-client"
-version = "0.7.6"
+version = "0.7.7"
 dependencies = [
  "anyhow",
  "bon",
@@ -3681,7 +3669,7 @@ dependencies = [
 
 [[package]]
 name = "nil-core"
-version = "0.7.6"
+version = "0.7.7"
 dependencies = [
  "anyhow",
  "bon",
@@ -3715,7 +3703,7 @@ dependencies = [
 
 [[package]]
 name = "nil-core-macros"
-version = "0.7.6"
+version = "0.7.7"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -3724,7 +3712,7 @@ dependencies = [
 
 [[package]]
 name = "nil-crypto"
-version = "0.7.6"
+version = "0.7.7"
 dependencies = [
  "anyhow",
  "argon2",
@@ -3738,7 +3726,7 @@ dependencies = [
 
 [[package]]
 name = "nil-env"
-version = "0.7.6"
+version = "0.7.7"
 dependencies = [
  "anyhow",
  "serde",
@@ -3749,7 +3737,7 @@ dependencies = [
 
 [[package]]
 name = "nil-ffi"
-version = "0.7.6"
+version = "0.7.7"
 dependencies = [
  "anyhow",
  "cbindgen",
@@ -3773,7 +3761,7 @@ dependencies = [
 
 [[package]]
 name = "nil-ffi-node"
-version = "0.7.6"
+version = "0.7.7"
 dependencies = [
  "anyhow",
  "bon",
@@ -3782,7 +3770,7 @@ dependencies = [
 
 [[package]]
 name = "nil-log"
-version = "0.7.6"
+version = "0.7.7"
 dependencies = [
  "anyhow",
  "bitflags 2.13.1",
@@ -3796,7 +3784,7 @@ dependencies = [
 
 [[package]]
 name = "nil-namegen"
-version = "0.7.6"
+version = "0.7.7"
 dependencies = [
  "itertools",
  "rand 0.10.2",
@@ -3805,7 +3793,7 @@ dependencies = [
 
 [[package]]
 name = "nil-num"
-version = "0.7.6"
+version = "0.7.7"
 dependencies = [
  "bon",
  "num-traits",
@@ -3815,7 +3803,7 @@ dependencies = [
 
 [[package]]
 name = "nil-payload"
-version = "0.7.6"
+version = "0.7.7"
 dependencies = [
  "axum",
  "bon",
@@ -3831,7 +3819,7 @@ dependencies = [
 
 [[package]]
 name = "nil-payload-macros"
-version = "0.7.6"
+version = "0.7.7"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -3840,19 +3828,17 @@ dependencies = [
 
 [[package]]
 name = "nil-server"
-version = "0.7.6"
+version = "0.7.7"
 dependencies = [
  "anyhow",
  "axum",
  "axum-extra",
  "bon",
- "bytesize",
  "dashmap",
  "derive_more",
  "either",
  "futures",
  "headers",
- "humantime",
  "itertools",
  "jiff",
  "jsonwebtoken",
@@ -3881,7 +3867,7 @@ dependencies = [
 
 [[package]]
 name = "nil-server-database"
-version = "0.7.6"
+version = "0.7.7"
 dependencies = [
  "anyhow",
  "bon",
@@ -3907,7 +3893,7 @@ dependencies = [
 
 [[package]]
 name = "nil-server-types"
-version = "0.7.6"
+version = "0.7.7"
 dependencies = [
  "derive_more",
  "jiff",
@@ -3919,7 +3905,7 @@ dependencies = [
 
 [[package]]
 name = "nil-util"
-version = "0.7.6"
+version = "0.7.7"
 dependencies = [
  "anyhow",
  "nil-util-macros",
@@ -3927,7 +3913,7 @@ dependencies = [
 
 [[package]]
 name = "nil-util-macros"
-version = "0.7.6"
+version = "0.7.7"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -7347,6 +7333,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "tracing-serde"
+version = "0.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "704b1aeb7be0d0a84fc9828cae51dab5970fee5088f83d1dd7ee6f6246fc6ff1"
+dependencies = [
+ "serde",
+ "tracing-core",
+]
+
+[[package]]
 name = "tracing-subscriber"
 version = "0.3.23"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -7356,12 +7352,15 @@ dependencies = [
  "nu-ansi-term",
  "once_cell",
  "regex-automata",
+ "serde",
+ "serde_json",
  "sharded-slab",
  "smallvec",
  "thread_local",
  "tracing",
  "tracing-core",
  "tracing-log",
+ "tracing-serde",
 ]
 
 [[package]]

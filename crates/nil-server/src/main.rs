@@ -4,8 +4,6 @@
 #![feature(str_as_str, try_blocks_heterogeneous)]
 
 use anyhow::{Context as _, Result, anyhow};
-use bytesize::ByteSize;
-use humantime::format_duration;
 use mimalloc::MiMalloc;
 use nil_log::{Directives, Layers};
 use nil_server::remote;
@@ -40,10 +38,6 @@ async fn main() -> Result<()> {
   result
 }
 
-macro_rules! b {
-  ($bytes:expr) => {{ ByteSize::b($bytes).display().si() }};
-}
-
 fn watch_process() -> Result<()> {
   let pid = sysinfo::get_current_pid()
     .map_err(|err| anyhow!("{err}"))
@@ -71,15 +65,13 @@ fn watch_process() -> Result<()> {
         let runtime = Handle::current();
         let metrics = runtime.metrics();
 
-        let run_time = Duration::from_secs(process.run_time());
-
         tracing::info!(
           name = %process.name().to_string_lossy(),
-          cpu_usage = format!("{:.2}%", process.cpu_usage()),
-          memory = %b!(process.memory()),
-          run_time = %format_duration(run_time),
-          tokio_num_alive_tasks = metrics.num_alive_tasks(),
-          tokio_num_workers = metrics.num_workers(),
+          cpu_usage = %process.cpu_usage(),
+          memory = %process.memory(),
+          run_time = %process.run_time(),
+          tokio_num_alive_tasks = %metrics.num_alive_tasks(),
+          tokio_num_workers = %metrics.num_workers(),
         );
       }
 

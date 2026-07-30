@@ -82,7 +82,7 @@ fn setup_(
         .with_ansi(false)
         .with_timer(Timer)
         .with_writer(writer)
-        .pretty()
+        .json()
         .boxed(),
     );
 
