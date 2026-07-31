@@ -140,7 +140,7 @@ export class Queue implements Disposable {
     switch (entry.kind) {
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       case "response": {
-        const response = JSON.parse(entry.json_str) as ffi_Response;
+        const response = JSON.parse(entry.jsonStr) as ffi_Response;
         this.emitter.emit("response", response);
         break;
       }
