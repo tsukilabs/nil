@@ -51,6 +51,10 @@ tokio.workspace = true
 version = "2.11"
 features = ["image-png", "protocol-asset", "rustls-tls", "tray-icon"]
 
+[target.'cfg(not(target_os = "android"))'.dependencies.tauri]
+version = "2.11"
+features = ["devtools"]
+
 [dependencies.tracing]
 workspace = true
 features = ["release_max_level_off"]

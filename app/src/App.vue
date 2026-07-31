@@ -14,7 +14,6 @@ import { useSettings } from "@/stores/settings";
 import { ListenerSet } from "@/lib/listener-set";
 import type { Locale } from "@tsukilabs/nil-bindings";
 import { setDragDropEventListener } from "@/lib/event";
-import { type as osType } from "@tauri-apps/plugin-os";
 import { createTrayIcon, showWindow } from "@/commands";
 import { onAltKeyDown, onKeyDown, useBreakpoints } from "@tb-dev/vue";
 import { defineGlobalCheats, defineGlobalCommands } from "@/lib/global";
@@ -35,21 +34,18 @@ watchImmediate(() => settings.appearance.colorMode, setColorMode);
 watchImmediate(() => settings.general.locale, setLocale);
 
 if (__DESKTOP__) {
+  onKeyDown("F5", NIL.throttledUpdate);
+  onKeyDown("F12", commands.openDevtools);
+
+  onAltKeyDown("ArrowLeft", () => router.back());
+  onAltKeyDown("ArrowRight", () => router.forward());
+
   watchImmediate(colorMode, (mode) => {
     if (mode === "dark" || mode === "light") {
       const webview = getCurrentWebviewWindow();
       webview.setTheme(mode).err();
     }
   });
-
-  onKeyDown("F5", NIL.throttledUpdate);
-
-  onAltKeyDown("ArrowLeft", () => router.back());
-  onAltKeyDown("ArrowRight", () => router.forward());
-
-  if (__DEBUG_ASSERTIONS__ && osType() === "linux") {
-    onKeyDown("F12", commands.openDevtools);
-  }
 }
 
 onMounted(async () => {
@@ -61,6 +57,8 @@ onMounted(async () => {
     await handleProcessArgs();
     await createTrayIcon();
     await showWindow();
+
+    void commands.isServerReady();
   }
   catch (err) {
     handleError(err);
