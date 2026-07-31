@@ -49,11 +49,7 @@ tokio.workspace = true
 
 [dependencies.tauri]
 version = "2.11"
-features = ["image-png", "protocol-asset", "rustls-tls", "tray-icon"]
-
-[target.'cfg(not(target_os = "android"))'.dependencies.tauri]
-version = "2.11"
-features = ["devtools"]
+features = ["devtools", "image-png", "protocol-asset", "rustls-tls", "tray-icon"]
 
 [dependencies.tracing]
 workspace = true

@@ -81,9 +81,7 @@ export async function now() {
 }
 
 export async function openDevtools() {
-  if (__DEBUG_ASSERTIONS__ && __DESKTOP__) {
-    await invoke("open_devtools");
-  }
+  await invoke("open_devtools");
 }
 
 export async function showWindow() {
