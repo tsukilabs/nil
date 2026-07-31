@@ -25,13 +25,13 @@ use crate::manager::ManagerExt;
 use jiff::Zoned;
 use std::env;
 use std::path::PathBuf;
+use tauri::AppHandle;
 use tauri::async_runtime::spawn_blocking;
-use tauri::{AppHandle, WebviewWindow};
 use tauri_plugin_fs::FsExt;
 use tokio::fs;
 
 #[cfg(desktop)]
-use crate::tray;
+use {crate::tray, tauri::WebviewWindow};
 
 #[tauri::command]
 pub async fn allow_scope(app: AppHandle, path: PathBuf) -> Result<()> {
@@ -130,9 +130,9 @@ pub fn open_devtools(window: WebviewWindow) {
   window.open_devtools();
 }
 
-#[cfg(not(desktop))]
+#[cfg(mobile)]
 #[tauri::command]
-pub fn open_devtools(window: WebviewWindow) {}
+pub fn open_devtools() {}
 
 #[cfg(desktop)]
 #[tauri::command]
