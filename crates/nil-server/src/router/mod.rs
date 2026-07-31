@@ -23,6 +23,7 @@ mod world;
 
 use crate::app::App;
 use crate::middleware::authorization::authorization;
+use crate::middleware::user_agent::check_user_agent;
 use axum::http::{Method, StatusCode};
 use axum::response::Redirect;
 use axum::routing::{any, get, post, put};
@@ -165,15 +166,18 @@ pub(crate) fn create() -> Router<App> {
     .route("/license", any(license))
     .route("/robots.txt", any(robots_txt));
 
-  router.merge(with_cors()).layer(
-    TraceLayer::new_for_http()
-      .make_span_with(DefaultMakeSpan::new().include_headers(true))
-      .on_response(DefaultOnResponse::new().level(Level::TRACE))
-      .on_failure(DefaultOnFailure::new().level(Level::TRACE))
-      .on_body_chunk(())
-      .on_eos(())
-      .on_request(()),
-  )
+  router
+    .merge(with_cors())
+    .layer(middleware::from_fn(check_user_agent))
+    .layer(
+      TraceLayer::new_for_http()
+        .make_span_with(DefaultMakeSpan::new().include_headers(true))
+        .on_response(DefaultOnResponse::new().level(Level::TRACE))
+        .on_failure(DefaultOnFailure::new().level(Level::TRACE))
+        .on_body_chunk(())
+        .on_eos(())
+        .on_request(()),
+    )
 }
 
 fn with_cors() -> Router<App> {
