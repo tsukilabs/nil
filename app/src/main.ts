@@ -11,15 +11,15 @@ import "@/assets/style/layout.css";
 import "@/lib/prototype";
 import App from "@/App.vue";
 import { i18n } from "@/locale";
-import { createApp } from "vue";
 import { router } from "@/router";
 import { createPinia } from "pinia";
 import { handleError } from "@/lib/error";
 import { initEntities } from "@/core/entity";
 import { TauriPluginPinia } from "@tauri-store/pinia";
+import { createVaporApp, vaporInteropPlugin } from "vue";
 import { setCurrentApp, setErrorHandler } from "@tb-dev/vue";
 
-const app = createApp(App);
+const app = createVaporApp(App);
 const pinia = createPinia();
 
 setCurrentApp(app);
@@ -33,6 +33,7 @@ pinia.use(TauriPluginPinia({
   hooks: { error: handleError },
 }));
 
+app.use(vaporInteropPlugin);
 app.use(i18n());
 app.use(router);
 app.use(pinia);

@@ -1,7 +1,7 @@
 <!-- Copyright (C) Call of Nil contributors -->
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
-<script setup lang="ts">
+<script  vapor lang="ts">
 import Food from "./Food.vue";
 import Iron from "./Iron.vue";
 import Wood from "./Wood.vue";

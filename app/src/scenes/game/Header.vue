@@ -1,7 +1,7 @@
 <!-- Copyright (C) Call of Nil contributors -->
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
-<script setup lang="ts">
+<script vapor lang="ts">
 import { go } from "@/router";
 import { Button } from "@ui/button";
 import { useToggle } from "@vueuse/core";

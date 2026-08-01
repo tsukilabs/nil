@@ -20,4 +20,6 @@ allowBuilds:
   vue-demi: false
 
 overrides:
+  vue: "=3.6.0-rc.2"
+
   brace-expansion@<=5.0.7: ^5.0.8

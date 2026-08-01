@@ -1,7 +1,7 @@
 <!-- Copyright (C) Call of Nil contributors -->
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
-<script setup lang="ts">
+<script  vapor lang="ts">
 import { cn } from "@ui/utils";
 import { formatInt } from "@/lib/intl";
 import type { ClassValue } from "clsx";

@@ -1,7 +1,7 @@
 <!-- Copyright (C) Call of Nil contributors -->
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
-<script setup lang="ts">
+<script  vapor lang="ts">
 import type { CoordImpl } from "@/core/model/continent/coord";
 import type { ManeuverImpl } from "@/core/model/military/maneuver";
 import { ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon } from "@lucide/vue";
