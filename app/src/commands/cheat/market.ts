@@ -11,4 +11,5 @@ export async function cheatSetMarketFee(fee: MarketFee) {
   };
 
   await invoke("cheat_set_market_fee", { req });
+  await NIL.world.updateConfig();
 }

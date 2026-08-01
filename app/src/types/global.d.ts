@@ -91,6 +91,7 @@ declare global {
       readonly getProduction: (typeof CityEntity)["getProduction"];
       readonly refs: (typeof CityEntity)["refs"];
       readonly setCoord: (typeof CityEntity)["setCoord"];
+      readonly update: (typeof CityEntity)["update"];
       readonly use: (typeof CityEntity)["use"];
     };
 
@@ -150,6 +151,10 @@ declare global {
       readonly getWallStatsWithLevel: (typeof WorldEntity)["getWallStatsWithLevel"];
       readonly refs: (typeof WorldEntity)["refs"];
       readonly setId: (typeof WorldEntity)["setId"];
+      readonly update: (typeof WorldEntity)["update"];
+      readonly updateConfig: (typeof WorldEntity)["updateConfig"];
+      readonly updateStats: (typeof WorldEntity)["updateStats"];
+      readonly updateContinentSize: (typeof WorldEntity)["updateContinentSize"];
       readonly use: (typeof WorldEntity)["use"];
     };
   };
