@@ -1,15 +1,15 @@
 {
   "name": "nil",
-  "version": "0.7.9",
+  "version": "0.7.10",
   "type": "module",
-  "packageManager": "pnpm@11.18.0",
+  "packageManager": "pnpm@11.19.0",
   "license": "AGPL-3.0-only",
   "private": true,
   "scripts": {
     "lint": "eslint . --config eslint.config.ts"
   },
   "dependencies": {
-    "@lucide/vue": "=1.27.0",
+    "@lucide/vue": "=1.28.0",
     "@tauri-apps/api": "=2.11.1",
     "@tauri-apps/plugin-clipboard-manager": "=2.3.2",
     "@tauri-apps/plugin-dialog": "=2.7.2",
@@ -54,7 +54,7 @@
     "typedoc-plugin-mdn-links": "=5.1.1",
     "typescript": "=6.0.3",
     "unplugin-dts": "=1.0.3",
-    "vite": "=8.1.5",
+    "vite": "=8.2.0",
     "vitepress": "=2.0.0-alpha.18",
     "vue-tsc": "=3.3.8"
   }
