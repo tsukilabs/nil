@@ -160,6 +160,13 @@ export class Nil implements AsyncDisposable {
   }
 
   @ThrowIfClosed
+  public async getRuntimeGlobalQueueDepth() {
+    return this.queue.request<number>((requestId) => {
+      this.functions.nil_runtime_global_queue_depth(requestId);
+    });
+  }
+
+  @ThrowIfClosed
   public async getRuntimeNumAliveTasks() {
     return this.queue.request<number>((requestId) => {
       this.functions.nil_runtime_num_alive_tasks(requestId);
