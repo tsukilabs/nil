@@ -2,7 +2,6 @@
 import type { BotAdvancedStartRatio } from "./BotAdvancedStartRatio";
 import type { BotDensity } from "./BotDensity";
 import type { Locale } from "./Locale";
-import type { MarketFee } from "./MarketFee";
 import type { WorldId } from "./WorldId";
 import type { WorldName } from "./WorldName";
 import type { WorldSpeed } from "./WorldSpeed";
@@ -17,5 +16,4 @@ export type WorldConfig = {
   unitSpeed: WorldUnitSpeed;
   botDensity: BotDensity;
   botAdvancedStartRatio: BotAdvancedStartRatio;
-  marketFee: MarketFee;
 };

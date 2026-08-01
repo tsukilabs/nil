@@ -5,12 +5,18 @@
 mod tests;
 
 use crate::error::{Error, Result};
+use crate::military::Military;
 use crate::military::army::{Army, ArmyState};
 use crate::military::maneuver::{Maneuver, ManeuverId, ManeuverRequest};
 use crate::ruler::Ruler;
 use crate::world::World;
 
 impl World {
+  #[inline]
+  pub fn military(&self) -> &Military {
+    &self.military
+  }
+
   pub fn cancel_maneuver(&mut self, id: ManeuverId) -> Result<()> {
     self.military.cancel_maneuver(id)?;
     self.emit_military_to_maneuver_players(id)?;

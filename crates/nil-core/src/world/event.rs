@@ -10,6 +10,7 @@ use crate::player::PlayerId;
 use crate::report::ReportKind;
 use crate::report::battle::BattleReport;
 use crate::report::support::SupportReport;
+use crate::ruler::Ruler;
 use crate::world::World;
 use std::collections::HashSet;
 
@@ -24,18 +25,24 @@ impl World {
     self.emitter.broadcast(event)
   }
 
-  /// Emits the event for a specific player.
+  /// Emits the event to a specific player.
   fn emit_to(&self, target: PlayerId, event: Event) -> Result<()> {
     self.emitter.emit_to(target, event)
+  }
+
+  /// Emits the event to a specific ruler, if they're a player.
+  fn emit_to_ruler(&self, ruler: &Ruler, event: Event) -> Result<()> {
+    if let Some(player) = ruler.player() {
+      self.emitter.emit_to(player.clone(), event)?;
+    }
+
+    Ok(())
   }
 
   /// Emits the event to the owner of the city at the specified coordinate, if any.
   fn emit_to_city_owner(&self, coord: Coord, event: Event) -> Result<()> {
     let city = self.city(coord)?;
-    if let Some(player) = city.player() {
-      self.emitter.emit_to(player.clone(), event)?;
-    }
-
+    self.emit_to_ruler(city.owner(), event)?;
     Ok(())
   }
 

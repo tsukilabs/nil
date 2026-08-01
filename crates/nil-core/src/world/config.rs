@@ -2,13 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::error::AnyResult;
-use crate::market::MarketFee;
 use crate::world::WorldOptions;
 use bon::Builder;
 use nil_util::{ClampNew, ConstDeref, F64Math};
 use serde::{Deserialize, Serialize};
 use std::ops::Deref;
-use std::sync::Arc;
 use strum::EnumString;
 use uuid::Uuid;
 
@@ -46,10 +44,6 @@ pub struct WorldConfig {
   #[serde(default)]
   #[builder(default, into)]
   bot_advanced_start_ratio: BotAdvancedStartRatio,
-
-  #[serde(default)]
-  #[builder(default)]
-  market_fee: MarketFee,
 }
 
 impl WorldConfig {
@@ -65,7 +59,6 @@ impl WorldConfig {
       bot_advanced_start_ratio: options
         .bot_advanced_start_ratio
         .unwrap_or_default(),
-      market_fee: options.market_fee.unwrap_or_default(),
     }
   }
 
@@ -150,7 +143,7 @@ impl TryFrom<&str> for WorldId {
 
 #[derive(Clone, Debug, derive_more::Display, PartialEq, Eq, Deserialize, Serialize)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
-pub struct WorldName(Arc<str>);
+pub struct WorldName(Box<str>);
 
 impl Deref for WorldName {
   type Target = str;
@@ -162,7 +155,7 @@ impl Deref for WorldName {
 
 impl<T: AsRef<str>> From<T> for WorldName {
   fn from(value: T) -> Self {
-    Self(Arc::from(value.as_ref()))
+    Self(Box::from(value.as_ref()))
   }
 }
 

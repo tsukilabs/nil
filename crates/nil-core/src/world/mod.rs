@@ -1,16 +1,13 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-pub mod config;
-pub mod stats;
-
 mod battle;
 mod chat;
-pub mod cheat;
 mod city;
 mod continent;
 mod event;
 mod infrastructure;
+mod market;
 mod military;
 mod npc;
 mod player;
@@ -19,6 +16,10 @@ mod report;
 mod resources;
 mod round;
 mod savedata;
+
+pub mod cheat;
+pub mod config;
+pub mod stats;
 
 use crate::chat::Chat;
 use crate::continent::Continent;
@@ -66,6 +67,7 @@ pub struct World {
 impl World {
   pub fn new(mut options: WorldOptions) -> Result<Self> {
     WorldOptions::clamp(&mut options);
+    options.name = options.name.trim().into();
 
     let config = WorldConfig::new(&options);
     let stats = WorldStats::new(&config);
@@ -150,16 +152,6 @@ impl World {
       .map(RulerRef::from)
       .chain(self.bots().map(RulerRef::from))
       .chain(self.precursors().map(RulerRef::from))
-  }
-
-  #[inline]
-  pub fn military(&self) -> &Military {
-    &self.military
-  }
-
-  #[inline]
-  pub fn market(&self) -> &Market {
-    &self.market
   }
 
   /// Schedules a save to be performed at the end of the current round.
