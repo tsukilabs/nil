@@ -1,7 +1,7 @@
 <!-- Copyright (C) Call of Nil contributors -->
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
-<script setup lang="ts">
+<script vapor lang="ts">
 import { computed, watch } from "vue";
 import { onKeyDown } from "@tb-dev/vue";
 import type { Option } from "@tb-dev/utils";

@@ -36,6 +36,11 @@ docs:
   @pnpm run -F docs dev
 
 [group("docs")]
+docs-js:
+  @just vitepress
+  @just typedoc
+
+[group("docs")]
 docs-rust:
   @cargo doc -p nil-* --open --no-deps --lib
 

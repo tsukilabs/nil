@@ -1,7 +1,7 @@
 <!-- Copyright (C) Call of Nil contributors -->
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
-<script setup lang="ts">
+<script vapor lang="ts">
 import SquadGridItem from "./SquadGridItem.vue";
 import type { ArmyPersonnel } from "@tsukilabs/nil-bindings";
 

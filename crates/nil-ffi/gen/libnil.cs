@@ -36,414 +36,828 @@ namespace CsBindgen
         [DllImport(__DllName, EntryPoint = "nil_is_host", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_is_host(uint request_id);
 
+        /// <summary>
+        ///  [`nil_server::local::start`]
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_start_server", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_start_server(uint request_id, byte* json_options);
 
+        /// <summary>
+        ///  [`nil_server::local::load`]
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_start_server_with_savedata", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_start_server_with_savedata(uint request_id, byte* json_path);
 
+        /// <summary>
+        ///  [`LocalServer::stop`](nil_server::local::LocalServer::stop)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_stop_server", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_stop_server(uint request_id);
 
         [DllImport(__DllName, EntryPoint = "nil_client_version", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_client_version(uint request_id);
 
+        /// <summary>
+        ///  [`Client::is_local`](nil_client::Client::is_local)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_is_local", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_is_local(uint request_id);
 
+        /// <summary>
+        ///  [`Client::is_ready`](nil_client::Client::is_ready)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_is_ready", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_is_ready(uint request_id);
 
+        /// <summary>
+        ///  [`Client::is_remote`](nil_client::Client::is_remote)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_is_remote", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_is_remote(uint request_id);
 
+        /// <summary>
+        ///  [`Client::server_addr`](nil_client::Client::server_addr)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_server_addr", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_server_addr(uint request_id);
 
+        /// <summary>
+        ///  [`Client::set_user_agent`](nil_client::Client::set_user_agent)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_set_user_agent", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_set_user_agent(uint request_id, byte* json_user_agent);
 
+        /// <summary>
+        ///  [`Client::stop`](nil_client::Client::stop)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_stop_client", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_stop_client(uint request_id);
 
+        /// <summary>
+        ///  [`Client::update`](nil_client::Client::update)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_update_client", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_update_client(uint request_id, byte* json_options);
 
+        /// <summary>
+        ///  [`Client::user_agent`](nil_client::Client::user_agent)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_user_agent", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_user_agent(uint request_id);
 
+        /// <summary>
+        ///  [`Client::world`](nil_client::Client::world)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_world", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_world(uint request_id);
 
+        /// <summary>
+        ///  [`RuntimeMetrics::global_queue_depth`](tokio::runtime::RuntimeMetrics::global_queue_depth)
+        /// </summary>
+        [DllImport(__DllName, EntryPoint = "nil_runtime_global_queue_depth", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void nil_runtime_global_queue_depth(uint request_id);
+
+        /// <summary>
+        ///  [`RuntimeMetrics::num_alive_tasks`](tokio::runtime::RuntimeMetrics::num_alive_tasks)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_runtime_num_alive_tasks", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_runtime_num_alive_tasks(uint request_id);
 
+        /// <summary>
+        ///  [`RuntimeMetrics::num_workers`](tokio::runtime::RuntimeMetrics::num_workers)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_runtime_num_workers", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_runtime_num_workers(uint request_id);
 
+        /// <summary>
+        ///  [`Client::add_academy_recruit_order`](nil_client::Client::add_academy_recruit_order)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_add_academy_recruit_order", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_add_academy_recruit_order(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::add_prefecture_build_order`](nil_client::Client::add_prefecture_build_order)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_add_prefecture_build_order", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_add_prefecture_build_order(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::add_stable_recruit_order`](nil_client::Client::add_stable_recruit_order)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_add_stable_recruit_order", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_add_stable_recruit_order(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::add_workshop_recruit_order`](nil_client::Client::add_workshop_recruit_order)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_add_workshop_recruit_order", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_add_workshop_recruit_order(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::authorize`](nil_client::Client::authorize)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_authorize", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_authorize(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::cancel_academy_recruit_order`](nil_client::Client::cancel_academy_recruit_order)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_cancel_academy_recruit_order", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_cancel_academy_recruit_order(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::cancel_maneuver`](nil_client::Client::cancel_maneuver)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_cancel_maneuver", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_cancel_maneuver(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::cancel_prefecture_build_order`](nil_client::Client::cancel_prefecture_build_order)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_cancel_prefecture_build_order", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_cancel_prefecture_build_order(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::cancel_stable_recruit_order`](nil_client::Client::cancel_stable_recruit_order)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_cancel_stable_recruit_order", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_cancel_stable_recruit_order(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::cancel_workshop_recruit_order`](nil_client::Client::cancel_workshop_recruit_order)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_cancel_workshop_recruit_order", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_cancel_workshop_recruit_order(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::cheat_fill_world`](nil_client::Client::cheat_fill_world)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_cheat_fill_world", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_cheat_fill_world(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::cheat_get_academy_recruit_queue`](nil_client::Client::cheat_get_academy_recruit_queue)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_cheat_get_academy_recruit_queue", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_cheat_get_academy_recruit_queue(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::cheat_get_academy_recruit_queues`](nil_client::Client::cheat_get_academy_recruit_queues)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_cheat_get_academy_recruit_queues", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_cheat_get_academy_recruit_queues(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::cheat_get_all_academy_recruit_queues`](nil_client::Client::cheat_get_all_academy_recruit_queues)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_cheat_get_all_academy_recruit_queues", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_cheat_get_all_academy_recruit_queues(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::cheat_get_all_prefecture_build_queues`](nil_client::Client::cheat_get_all_prefecture_build_queues)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_cheat_get_all_prefecture_build_queues", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_cheat_get_all_prefecture_build_queues(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::cheat_get_all_stable_recruit_queues`](nil_client::Client::cheat_get_all_stable_recruit_queues)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_cheat_get_all_stable_recruit_queues", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_cheat_get_all_stable_recruit_queues(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::cheat_get_build_steps`](nil_client::Client::cheat_get_build_steps)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_cheat_get_build_steps", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_cheat_get_build_steps(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::cheat_get_cities`](nil_client::Client::cheat_get_cities)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_cheat_get_cities", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_cheat_get_cities(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::cheat_get_city`](nil_client::Client::cheat_get_city)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_cheat_get_city", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_cheat_get_city(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::cheat_get_ethics`](nil_client::Client::cheat_get_ethics)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_cheat_get_ethics", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_cheat_get_ethics(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::cheat_get_idle_armies_at`](nil_client::Client::cheat_get_idle_armies_at)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_cheat_get_idle_armies_at", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_cheat_get_idle_armies_at(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::cheat_get_idle_personnel_at`](nil_client::Client::cheat_get_idle_personnel_at)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_cheat_get_idle_personnel_at", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_cheat_get_idle_personnel_at(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::cheat_get_infrastructure`](nil_client::Client::cheat_get_infrastructure)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_cheat_get_infrastructure", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_cheat_get_infrastructure(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::cheat_get_maneuvers`](nil_client::Client::cheat_get_maneuvers)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_cheat_get_maneuvers", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_cheat_get_maneuvers(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::cheat_get_maneuvers_of`](nil_client::Client::cheat_get_maneuvers_of)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_cheat_get_maneuvers_of", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_cheat_get_maneuvers_of(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::cheat_get_player`](nil_client::Client::cheat_get_player)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_cheat_get_player", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_cheat_get_player(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::cheat_get_players`](nil_client::Client::cheat_get_players)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_cheat_get_players", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_cheat_get_players(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::cheat_get_prefecture_build_queue`](nil_client::Client::cheat_get_prefecture_build_queue)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_cheat_get_prefecture_build_queue", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_cheat_get_prefecture_build_queue(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::cheat_get_prefecture_build_queues`](nil_client::Client::cheat_get_prefecture_build_queues)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_cheat_get_prefecture_build_queues", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_cheat_get_prefecture_build_queues(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::cheat_get_resources`](nil_client::Client::cheat_get_resources)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_cheat_get_resources", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_cheat_get_resources(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::cheat_get_stable_recruit_queue`](nil_client::Client::cheat_get_stable_recruit_queue)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_cheat_get_stable_recruit_queue", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_cheat_get_stable_recruit_queue(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::cheat_get_stable_recruit_queues`](nil_client::Client::cheat_get_stable_recruit_queues)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_cheat_get_stable_recruit_queues", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_cheat_get_stable_recruit_queues(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::cheat_get_storage_capacity`](nil_client::Client::cheat_get_storage_capacity)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_cheat_get_storage_capacity", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_cheat_get_storage_capacity(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::cheat_set_bot_ethics`](nil_client::Client::cheat_set_bot_ethics)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_cheat_set_bot_ethics", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_cheat_set_bot_ethics(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::cheat_set_building_level`](nil_client::Client::cheat_set_building_level)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_cheat_set_building_level", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_cheat_set_building_level(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::cheat_set_food`](nil_client::Client::cheat_set_food)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_cheat_set_food", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_cheat_set_food(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::cheat_set_iron`](nil_client::Client::cheat_set_iron)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_cheat_set_iron", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_cheat_set_iron(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::cheat_set_max_food`](nil_client::Client::cheat_set_max_food)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_cheat_set_max_food", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_cheat_set_max_food(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::cheat_set_max_infrastructure`](nil_client::Client::cheat_set_max_infrastructure)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_cheat_set_max_infrastructure", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_cheat_set_max_infrastructure(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::cheat_set_max_iron`](nil_client::Client::cheat_set_max_iron)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_cheat_set_max_iron", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_cheat_set_max_iron(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::cheat_set_max_resources`](nil_client::Client::cheat_set_max_resources)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_cheat_set_max_resources", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_cheat_set_max_resources(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::cheat_set_max_silo_resources`](nil_client::Client::cheat_set_max_silo_resources)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_cheat_set_max_silo_resources", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_cheat_set_max_silo_resources(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::cheat_set_max_stone`](nil_client::Client::cheat_set_max_stone)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_cheat_set_max_stone", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_cheat_set_max_stone(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::cheat_set_max_warehouse_resources`](nil_client::Client::cheat_set_max_warehouse_resources)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_cheat_set_max_warehouse_resources", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_cheat_set_max_warehouse_resources(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::cheat_set_max_wood`](nil_client::Client::cheat_set_max_wood)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_cheat_set_max_wood", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_cheat_set_max_wood(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::cheat_set_resources`](nil_client::Client::cheat_set_resources)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_cheat_set_resources", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_cheat_set_resources(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::cheat_set_stability`](nil_client::Client::cheat_set_stability)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_cheat_set_stability", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_cheat_set_stability(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::cheat_set_stone`](nil_client::Client::cheat_set_stone)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_cheat_set_stone", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_cheat_set_stone(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::cheat_set_wood`](nil_client::Client::cheat_set_wood)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_cheat_set_wood", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_cheat_set_wood(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::cheat_skip_round`](nil_client::Client::cheat_skip_round)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_cheat_skip_round", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_cheat_skip_round(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::cheat_spawn_bot`](nil_client::Client::cheat_spawn_bot)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_cheat_spawn_bot", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_cheat_spawn_bot(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::cheat_spawn_city`](nil_client::Client::cheat_spawn_city)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_cheat_spawn_city", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_cheat_spawn_city(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::cheat_spawn_personnel`](nil_client::Client::cheat_spawn_personnel)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_cheat_spawn_personnel", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_cheat_spawn_personnel(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::create_remote_world`](nil_client::Client::create_remote_world)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_create_remote_world", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_create_remote_world(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::create_user`](nil_client::Client::create_user)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_create_user", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_create_user(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::delete_remote_world`](nil_client::Client::delete_remote_world)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_delete_remote_world", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_delete_remote_world(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::forward_report`](nil_client::Client::forward_report)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_forward_report", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_forward_report(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::get_academy_recruit_catalog`](nil_client::Client::get_academy_recruit_catalog)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_get_academy_recruit_catalog", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_get_academy_recruit_catalog(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::get_armies`](nil_client::Client::get_armies)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_get_armies", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_get_armies(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::get_army`](nil_client::Client::get_army)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_get_army", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_get_army(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::get_army_owner`](nil_client::Client::get_army_owner)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_get_army_owner", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_get_army_owner(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::get_bot_coords`](nil_client::Client::get_bot_coords)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_get_bot_coords", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_get_bot_coords(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::get_chat_history`](nil_client::Client::get_chat_history)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_get_chat_history", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_get_chat_history(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::get_cities`](nil_client::Client::get_cities)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_get_cities", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_get_cities(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::get_city`](nil_client::Client::get_city)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_get_city", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_get_city(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::get_city_score`](nil_client::Client::get_city_score)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_get_city_score", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_get_city_score(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::get_continent_size`](nil_client::Client::get_continent_size)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_get_continent_size", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_get_continent_size(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::get_idle_armies_at`](nil_client::Client::get_idle_armies_at)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_get_idle_armies_at", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_get_idle_armies_at(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::get_idle_armies_coords`](nil_client::Client::get_idle_armies_coords)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_get_idle_armies_coords", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_get_idle_armies_coords(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::get_maneuver`](nil_client::Client::get_maneuver)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_get_maneuver", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_get_maneuver(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::get_player`](nil_client::Client::get_player)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_get_player", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_get_player(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::get_player_coords`](nil_client::Client::get_player_coords)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_get_player_coords", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_get_player_coords(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::get_player_ids`](nil_client::Client::get_player_ids)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_get_player_ids", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_get_player_ids(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::get_player_maintenance`](nil_client::Client::get_player_maintenance)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_get_player_maintenance", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_get_player_maintenance(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::get_player_military`](nil_client::Client::get_player_military)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_get_player_military", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_get_player_military(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::get_player_status`](nil_client::Client::get_player_status)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_get_player_status", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_get_player_status(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::get_player_storage_capacity`](nil_client::Client::get_player_storage_capacity)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_get_player_storage_capacity", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_get_player_storage_capacity(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::get_player_worlds`](nil_client::Client::get_player_worlds)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_get_player_worlds", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_get_player_worlds(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::get_precursor_coords`](nil_client::Client::get_precursor_coords)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_get_precursor_coords", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_get_precursor_coords(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::get_prefecture_build_catalog`](nil_client::Client::get_prefecture_build_catalog)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_get_prefecture_build_catalog", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_get_prefecture_build_catalog(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::get_public_bot`](nil_client::Client::get_public_bot)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_get_public_bot", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_get_public_bot(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::get_public_bots`](nil_client::Client::get_public_bots)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_get_public_bots", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_get_public_bots(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::get_public_cities`](nil_client::Client::get_public_cities)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_get_public_cities", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_get_public_cities(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::get_public_city`](nil_client::Client::get_public_city)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_get_public_city", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_get_public_city(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::get_public_field`](nil_client::Client::get_public_field)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_get_public_field", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_get_public_field(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::get_public_fields`](nil_client::Client::get_public_fields)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_get_public_fields", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_get_public_fields(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::get_public_player`](nil_client::Client::get_public_player)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_get_public_player", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_get_public_player(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::get_public_players`](nil_client::Client::get_public_players)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_get_public_players", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_get_public_players(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::get_public_precursor`](nil_client::Client::get_public_precursor)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_get_public_precursor", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_get_public_precursor(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::get_public_precursors`](nil_client::Client::get_public_precursors)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_get_public_precursors", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_get_public_precursors(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::get_rank`](nil_client::Client::get_rank)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_get_rank", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_get_rank(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::get_ranking`](nil_client::Client::get_ranking)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_get_ranking", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_get_ranking(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::get_remote_world`](nil_client::Client::get_remote_world)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_get_remote_world", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_get_remote_world(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::get_remote_world_limit`](nil_client::Client::get_remote_world_limit)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_get_remote_world_limit", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_get_remote_world_limit(uint request_id);
 
+        /// <summary>
+        ///  [`Client::get_remote_world_limit_per_user`](nil_client::Client::get_remote_world_limit_per_user)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_get_remote_world_limit_per_user", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_get_remote_world_limit_per_user(uint request_id);
 
+        /// <summary>
+        ///  [`Client::get_remote_worlds`](nil_client::Client::get_remote_worlds)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_get_remote_worlds", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_get_remote_worlds(uint request_id);
 
+        /// <summary>
+        ///  [`Client::get_round`](nil_client::Client::get_round)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_get_round", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_get_round(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::get_server_kind`](nil_client::Client::get_server_kind)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_get_server_kind", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_get_server_kind(uint request_id);
 
+        /// <summary>
+        ///  [`Client::get_stable_recruit_catalog`](nil_client::Client::get_stable_recruit_catalog)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_get_stable_recruit_catalog", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_get_stable_recruit_catalog(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::get_workshop_recruit_catalog`](nil_client::Client::get_workshop_recruit_catalog)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_get_workshop_recruit_catalog", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_get_workshop_recruit_catalog(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::get_world_bots`](nil_client::Client::get_world_bots)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_get_world_bots", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_get_world_bots(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::get_world_config`](nil_client::Client::get_world_config)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_get_world_config", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_get_world_config(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::get_world_personnel`](nil_client::Client::get_world_personnel)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_get_world_personnel", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_get_world_personnel(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::get_world_players`](nil_client::Client::get_world_players)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_get_world_players", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_get_world_players(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::get_world_precursors`](nil_client::Client::get_world_precursors)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_get_world_precursors", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_get_world_precursors(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::get_world_stats`](nil_client::Client::get_world_stats)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_get_world_stats", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_get_world_stats(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::player_exists`](nil_client::Client::player_exists)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_player_exists", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_player_exists(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::push_chat_message`](nil_client::Client::push_chat_message)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_push_chat_message", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_push_chat_message(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::rename_city`](nil_client::Client::rename_city)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_rename_city", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_rename_city(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::request_maneuver`](nil_client::Client::request_maneuver)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_request_maneuver", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_request_maneuver(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::save_local_world`](nil_client::Client::save_local_world)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_save_local_world", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_save_local_world(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::search_city`](nil_client::Client::search_city)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_search_city", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_search_city(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::search_public_city`](nil_client::Client::search_public_city)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_search_public_city", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_search_public_city(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::version`](nil_client::Client::version)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_server_version", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_server_version(uint request_id);
 
+        /// <summary>
+        ///  [`Client::set_player_ready`](nil_client::Client::set_player_ready)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_set_player_ready", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_set_player_ready(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::set_player_status`](nil_client::Client::set_player_status)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_set_player_status", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_set_player_status(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::simulate_battle`](nil_client::Client::simulate_battle)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_simulate_battle", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_simulate_battle(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::spawn_player`](nil_client::Client::spawn_player)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_spawn_player", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_spawn_player(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::start_round`](nil_client::Client::start_round)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_start_round", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_start_round(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::toggle_building`](nil_client::Client::toggle_building)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_toggle_building", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_toggle_building(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::user_exists`](nil_client::Client::user_exists)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_user_exists", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_user_exists(uint request_id, byte* json_req);
 
+        /// <summary>
+        ///  [`Client::validate_token`](nil_client::Client::validate_token)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_validate_token", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_validate_token(uint request_id, byte* json_req);
 
