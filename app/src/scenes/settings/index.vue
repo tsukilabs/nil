@@ -1,7 +1,7 @@
 <!-- Copyright (C) Call of Nil contributors -->
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
-<script vapor lang="ts">
+<script setup lang="ts">
 import { Label } from "@ui/label";
 import { useI18n } from "vue-i18n";
 import Section from "./Section.vue";
