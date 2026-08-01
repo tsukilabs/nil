@@ -21,4 +21,4 @@ pub mod string;
 pub mod vec;
 
 #[cfg(feature = "macros")]
-pub use nil_util_macros::{BigInt, ConstDeref, F64Math};
+pub use nil_util_macros::{BigInt, ClampNew, ConstDeref, F64Math};

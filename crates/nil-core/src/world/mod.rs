@@ -235,28 +235,23 @@ pub struct WorldOptions {
 
 impl WorldOptions {
   pub fn clamp(&mut self) {
-    if let Some(value) = self.size.as_mut() {
-      ContinentSize::clamp(value);
+    macro_rules! clamp {
+      ($($field_ty:ident => $field:ident),* $(,)?) => {
+        $(
+          if let Some(value) = self.$field.as_mut() {
+            $field_ty::clamp(value);
+          }
+        )*
+      };
     }
 
-    if let Some(value) = self.speed.as_mut() {
-      WorldSpeed::clamp(value);
-    }
-
-    if let Some(value) = self.unit_speed.as_mut() {
-      WorldUnitSpeed::clamp(value);
-    }
-
-    if let Some(value) = self.bot_density.as_mut() {
-      BotDensity::clamp(value);
-    }
-
-    if let Some(value) = self.bot_advanced_start_ratio.as_mut() {
-      BotAdvancedStartRatio::clamp(value);
-    }
-
-    if let Some(value) = self.market_fee.as_mut() {
-      MarketFee::clamp(value);
-    }
+    clamp!(
+      ContinentSize => size,
+      WorldSpeed => speed,
+      WorldUnitSpeed => unit_speed,
+      BotDensity => bot_density,
+      BotAdvancedStartRatio => bot_advanced_start_ratio,
+      MarketFee => market_fee,
+    );
   }
 }

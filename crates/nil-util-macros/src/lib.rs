@@ -15,6 +15,12 @@ pub fn derive_big_int(input: TokenStream) -> TokenStream {
   r#impl::big_int::impl_big_int(&ast)
 }
 
+#[proc_macro_derive(ClampNew)]
+pub fn derive_clamp_new(input: TokenStream) -> TokenStream {
+  let ast = syn::parse::<DeriveInput>(input).unwrap();
+  r#impl::clamp::impl_clamp_new(&ast)
+}
+
 #[proc_macro_derive(ConstDeref)]
 pub fn derive_const_deref(input: TokenStream) -> TokenStream {
   let ast = syn::parse::<DeriveInput>(input).unwrap();
