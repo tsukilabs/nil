@@ -147,7 +147,7 @@ importers:
         version: 8.2.0(@types/node@26.1.2)(jiti@2.7.0)(yaml@2.9.0)
       vitepress:
         specifier: '=2.0.0-alpha.18'
-        version: 2.0.0-alpha.18(@types/node@26.1.2)(change-case@5.4.4)(jiti@2.7.0)(postcss@8.5.19)(typescript@6.0.3)(yaml@2.9.0)
+        version: 2.0.0-alpha.18(@types/node@26.1.2)(change-case@5.4.4)(jiti@2.7.0)(postcss@8.5.25)(typescript@6.0.3)(yaml@2.9.0)
       vue-tsc:
         specifier: '=3.3.8'
         version: 3.3.8(typescript@6.0.3)
@@ -176,8 +176,8 @@ importers:
         specifier: ^8.1.2
         version: 8.1.2
       '@tsukilabs/nil-bindings':
-        specifier: ^0.7.9
-        version: 0.7.9
+        specifier: ^0.7.10
+        version: 0.7.10
       es-toolkit:
         specifier: ^1.50.0
         version: 1.50.0
@@ -889,8 +889,8 @@ packages:
   '@tb-dev/vue@4.0.30':
     resolution: {integrity: sha512-EUm+uAqoyRdXiGxJIS2kwG6t7bMOitfX5vzn4+c6Yvm/iNPJ85M/VKBNuOF6fjI+xJjW7ZngmM+vgPN7i/ZNGA==}
 
-  '@tsukilabs/nil-bindings@0.7.9':
-    resolution: {integrity: sha512-KGlHhQRq8N5S+bxHvaGFL6J6eZfH3lTsWIkN++y276XEoUrP4ZGBv1yo/dexx6woSi09EvnfvL7hZLVbG3OwPg==}
+  '@tsukilabs/nil-bindings@0.7.10':
+    resolution: {integrity: sha512-NV2qhmg/UPyd6612DPaHKJXEMg8z/r+ks1Uwftaub24rLJ2PZxaUVOBHD+W6je332zEyoKNgXwlO45J15ssPyA==}
 
   '@tybys/wasm-util@0.10.3':
     resolution: {integrity: sha512-F3fo1MYrRJYL3zER0OUOmkutjr1Vp23m7OsSgp7nq4SP6OqX6C/56XFIPAl5bt3zaBRjmW7SGz3u/6LwFpYcOg==}
@@ -2922,7 +2922,7 @@ snapshots:
     transitivePeerDependencies:
       - typescript
 
-  '@tsukilabs/nil-bindings@0.7.9': {}
+  '@tsukilabs/nil-bindings@0.7.10': {}
 
   '@tybys/wasm-util@0.10.3':
     dependencies:
@@ -3132,7 +3132,7 @@ snapshots:
       '@vue/shared': 3.5.40
       estree-walker: 2.0.2
       magic-string: 0.30.21
-      postcss: 8.5.19
+      postcss: 8.5.25
       source-map-js: 1.2.1
 
   '@vue/compiler-ssr@3.5.39':
@@ -4188,7 +4188,7 @@ snapshots:
       jiti: 2.7.0
       yaml: 2.9.0
 
-  vitepress@2.0.0-alpha.18(@types/node@26.1.2)(change-case@5.4.4)(jiti@2.7.0)(postcss@8.5.19)(typescript@6.0.3)(yaml@2.9.0):
+  vitepress@2.0.0-alpha.18(@types/node@26.1.2)(change-case@5.4.4)(jiti@2.7.0)(postcss@8.5.25)(typescript@6.0.3)(yaml@2.9.0):
     dependencies:
       '@docsearch/css': 4.6.3
       '@docsearch/js': 4.6.3
@@ -4210,7 +4210,7 @@ snapshots:
       vite: 8.2.0(@types/node@26.1.2)(jiti@2.7.0)(yaml@2.9.0)
       vue: 3.5.40(typescript@6.0.3)
     optionalDependencies:
-      postcss: 8.5.19
+      postcss: 8.5.25
     transitivePeerDependencies:
       - '@types/node'
       - '@vitejs/devtools'
