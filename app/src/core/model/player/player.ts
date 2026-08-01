@@ -8,6 +8,7 @@ import { ResourcesImpl } from "@/core/model/resources";
 import { PublicPlayerImpl, type PublicPlayerImplConstructorArgs } from "./public-player";
 import { OverallStorageCapacityImpl } from "@/core/model/infrastructure/storage-capacity";
 import type {
+  Gold,
   Influence,
   OverallStorageCapacity,
   Player,
@@ -17,12 +18,14 @@ import type {
 
 export class PlayerImpl extends PublicPlayerImpl implements DeepReadonly<Player> {
   public readonly resources: ResourcesImpl;
+  public readonly gold: Gold;
   public readonly influence: Influence;
   public readonly capacity: OverallStorageCapacityImpl;
 
   private constructor(args: PlayerImplConstructorArgs) {
     super(args);
     this.resources = ResourcesImpl.create(args.player.resources);
+    this.gold = args.player.gold;
     this.influence = args.player.influence;
     this.capacity = OverallStorageCapacityImpl.create(args.capacity);
   }

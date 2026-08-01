@@ -8,6 +8,7 @@ pub mod mobile;
 
 use crate::settings::Settings;
 use nil_core::continent::size::ContinentSize;
+use nil_core::market::MarketFee;
 use nil_core::world::config::{BotAdvancedStartRatio, BotDensity, WorldSpeed, WorldUnitSpeed};
 use nil_server_types::round::RoundDuration;
 use serde::Serialize;
@@ -61,17 +62,21 @@ struct Constants {
 
   default_settings: Settings,
 
-  bot_density_min: BotDensity,
-  bot_density_max: BotDensity,
-  bot_density_default: BotDensity,
-
   bot_advanced_start_ratio_min: BotAdvancedStartRatio,
   bot_advanced_start_ratio_max: BotAdvancedStartRatio,
   bot_advanced_start_ratio_default: BotAdvancedStartRatio,
 
+  bot_density_min: BotDensity,
+  bot_density_max: BotDensity,
+  bot_density_default: BotDensity,
+
   continent_size_min: ContinentSize,
   continent_size_max: ContinentSize,
   continent_size_default: ContinentSize,
+
+  market_fee_min: MarketFee,
+  market_fee_max: MarketFee,
+  market_fee_default: MarketFee,
 
   round_duration_min: RoundDuration,
   round_duration_max: RoundDuration,
@@ -101,17 +106,21 @@ const impl Default for Constants {
 
       default_settings: Settings::default(),
 
-      bot_density_min: BotDensity::MIN,
-      bot_density_max: BotDensity::MAX,
-      bot_density_default: BotDensity::default(),
-
       bot_advanced_start_ratio_min: BotAdvancedStartRatio::MIN,
       bot_advanced_start_ratio_max: BotAdvancedStartRatio::MAX,
       bot_advanced_start_ratio_default: BotAdvancedStartRatio::default(),
 
+      bot_density_min: BotDensity::MIN,
+      bot_density_max: BotDensity::MAX,
+      bot_density_default: BotDensity::default(),
+
       continent_size_min: ContinentSize::MIN,
       continent_size_max: ContinentSize::MAX,
       continent_size_default: ContinentSize::default(),
+
+      market_fee_min: MarketFee::MIN,
+      market_fee_max: MarketFee::MAX,
+      market_fee_default: MarketFee::default(),
 
       round_duration_min: RoundDuration::MIN,
       round_duration_max: RoundDuration::MAX,
