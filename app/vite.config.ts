@@ -9,7 +9,7 @@ const minify = env[env_Var.NIL_MINIFY_SOURCE] !== "false";
 
 export default defineConfig({
   plugins: [
-    tailwind({ optimize: { minify } }),
+    tailwind({ optimize: minify }),
     vue({ features: { optionsAPI: false } }),
   ],
   resolve: {

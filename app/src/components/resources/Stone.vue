@@ -1,7 +1,7 @@
 <!-- Copyright (C) Call of Nil contributors -->
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
-<script  vapor lang="ts">
+<script vapor lang="ts">
 import Base from "./Base.vue";
 import type { ClassValue } from "clsx";
 import type { Option } from "@tb-dev/utils";

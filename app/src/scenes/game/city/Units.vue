@@ -1,7 +1,7 @@
 <!-- Copyright (C) Call of Nil contributors -->
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
-<script setup lang="ts">
+<script vapor lang="ts">
 import { useI18n } from "vue-i18n";
 import { Table, TableBody, TableCell, TableRow } from "@ui/table";
 import { Card, CardContent, CardHeader, CardTitle } from "@ui/card";

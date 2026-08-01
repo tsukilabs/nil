@@ -1,7 +1,7 @@
 <!-- Copyright (C) Call of Nil contributors -->
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
-<script  vapor lang="ts">
+<script vapor lang="ts">
 import { Badge } from "@ui/badge";
 import { useI18n } from "vue-i18n";
 import { CoordImpl } from "@/core/model/continent/coord";
