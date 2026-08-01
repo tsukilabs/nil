@@ -35,10 +35,19 @@ void nil_ffi_version(RequestId request_id);
 
 void nil_is_host(RequestId request_id);
 
+/**
+ * [`nil_server::local::start`]
+ */
 void nil_start_server(RequestId request_id, const char *json_options);
 
+/**
+ * [`nil_server::local::load`]
+ */
 void nil_start_server_with_savedata(RequestId request_id, const char *json_path);
 
+/**
+ * [`LocalServer::stop`](nil_server::local::LocalServer::stop)
+ */
 void nil_stop_server(RequestId request_id);
 
 void nil_client_version(RequestId request_id);

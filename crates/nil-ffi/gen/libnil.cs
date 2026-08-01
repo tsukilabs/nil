@@ -36,12 +36,21 @@ namespace CsBindgen
         [DllImport(__DllName, EntryPoint = "nil_is_host", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_is_host(uint request_id);
 
+        /// <summary>
+        ///  [`nil_server::local::start`]
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_start_server", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_start_server(uint request_id, byte* json_options);
 
+        /// <summary>
+        ///  [`nil_server::local::load`]
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_start_server_with_savedata", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_start_server_with_savedata(uint request_id, byte* json_path);
 
+        /// <summary>
+        ///  [`LocalServer::stop`](nil_server::local::LocalServer::stop)
+        /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_stop_server", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_stop_server(uint request_id);
 

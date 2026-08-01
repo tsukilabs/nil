@@ -81,6 +81,7 @@ pub unsafe extern "C" fn nil_is_host(request_id: RequestId) {
   async_push_ok!(request_id, SERVER.read().await.is_some());
 }
 
+/// [`nil_server::local::start`]
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn nil_start_server(request_id: RequestId, json_options: *const c_char) {
   let f = |options| {
@@ -93,6 +94,7 @@ pub unsafe extern "C" fn nil_start_server(request_id: RequestId, json_options: *
   unsafe { json::with_ptr(request_id, json_options, f) };
 }
 
+/// [`nil_server::local::load`]
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn nil_start_server_with_savedata(
   request_id: RequestId,
@@ -108,6 +110,7 @@ pub unsafe extern "C" fn nil_start_server_with_savedata(
   unsafe { json::with_ptr(request_id, json_path, f) };
 }
 
+/// [`LocalServer::stop`](nil_server::local::LocalServer::stop)
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn nil_stop_server(request_id: RequestId) {
   RUNTIME.spawn(async move {
