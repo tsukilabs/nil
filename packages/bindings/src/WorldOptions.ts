@@ -3,6 +3,7 @@ import type { BotAdvancedStartRatio } from "./BotAdvancedStartRatio";
 import type { BotDensity } from "./BotDensity";
 import type { ContinentSize } from "./ContinentSize";
 import type { Locale } from "./Locale";
+import type { MarketFee } from "./MarketFee";
 import type { WorldName } from "./WorldName";
 import type { WorldSpeed } from "./WorldSpeed";
 import type { WorldUnitSpeed } from "./WorldUnitSpeed";
@@ -16,4 +17,5 @@ export type WorldOptions = {
   unitSpeed?: WorldUnitSpeed | null;
   botDensity?: BotDensity | null;
   botAdvancedStartRatio?: BotAdvancedStartRatio | null;
+  marketFee?: MarketFee | null;
 };

@@ -26,14 +26,15 @@ impl ContinentSize {
 
   /// # Safety
   ///
-  /// The size must be between [`ContinentSize::MIN`] and [`ContinentSize::MAX`].
+  /// The size must be between [`ContinentSize::MIN`] and [`ContinentSize::MAX`],
+  /// and be a multiple of 10.
   #[inline]
   pub const unsafe fn new_unchecked(size: u8) -> Self {
     Self(unsafe { NonZeroU8::new_unchecked(size) })
   }
 
   pub const fn clamp(&mut self) {
-    *self = Self(self.0.clamp(Self::MIN.0, Self::MAX.0));
+    *self = Self::new(self.0.get());
   }
 }
 

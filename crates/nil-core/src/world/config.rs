@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::error::AnyResult;
+use crate::market::MarketFee;
 use crate::world::WorldOptions;
 use bon::Builder;
 use nil_util::{ConstDeref, F64Math};
@@ -45,6 +46,10 @@ pub struct WorldConfig {
   #[serde(default)]
   #[builder(default, into)]
   bot_advanced_start_ratio: BotAdvancedStartRatio,
+
+  #[serde(default)]
+  #[builder(default)]
+  market_fee: MarketFee,
 }
 
 impl WorldConfig {
@@ -60,6 +65,7 @@ impl WorldConfig {
       bot_advanced_start_ratio: options
         .bot_advanced_start_ratio
         .unwrap_or_default(),
+      market_fee: options.market_fee.unwrap_or_default(),
     }
   }
 
@@ -188,7 +194,7 @@ macro_rules! impl_f64_newtype {
       }
 
       pub const fn clamp(&mut self) {
-        *self = Self(self.0.clamp(Self::MIN.0, Self::MAX.0));
+        *self = Self::new(self.0);
       }
     }
 
@@ -234,12 +240,7 @@ impl_f64_newtype!(WorldUnitSpeed, min = 0.1, max = 10.0, default = 1.0);
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct BotDensity(f64);
 
-impl_f64_newtype!(
-  BotDensity,
-  min = 0.0,
-  max = 3.0,
-  default = if cfg!(target_os = "android") { 1.0 } else { 2.0 }
-);
+impl_f64_newtype!(BotDensity, min = 0.0, max = 3.0, default = 2.0);
 
 /// Proportion of bots that will have an advanced start with higher level infrastructure.
 #[derive(Copy, Debug, derive_more::Display, Deserialize, Serialize, ConstDeref, F64Math)]

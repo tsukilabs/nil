@@ -4,6 +4,7 @@
 use crate::error::{Error, Result};
 use crate::ethic::Ethics;
 use crate::resources::Resources;
+use crate::resources::gold::Gold;
 use crate::resources::influence::Influence;
 use crate::ruler::Ruler;
 use derive_more::{Display, From, Into};
@@ -54,6 +55,7 @@ pub struct Bot {
   id: BotId,
   ethics: Ethics,
   resources: Resources,
+  gold: Gold,
   influence: Influence,
 }
 
@@ -63,6 +65,7 @@ impl Bot {
       id,
       ethics: Ethics::random(),
       resources: Resources::BOT.clone(),
+      gold: Gold::MIN,
       influence: Influence::MIN,
     }
   }

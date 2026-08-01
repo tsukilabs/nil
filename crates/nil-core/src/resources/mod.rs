@@ -3,6 +3,7 @@
 
 pub mod cost;
 pub mod diff;
+pub mod gold;
 pub mod influence;
 pub mod maintenance;
 pub mod prelude;
@@ -22,6 +23,7 @@ use std::cmp::Ordering;
 use std::num::NonZeroU32;
 use std::ops::{Add, AddAssign, Mul, MulAssign, Sub, SubAssign};
 
+/// Basic resources, such as [food](Food).
 #[derive(Builder, Debug, Deserialize, Serialize)]
 #[derive_const(Clone, PartialEq, Eq)]
 #[serde(default, rename_all = "camelCase")]

@@ -26,6 +26,7 @@ use crate::continent::size::ContinentSize;
 use crate::error::{Error, Result};
 use crate::event::Emitter;
 use crate::hooks::OnNextRound;
+use crate::market::{Market, MarketFee};
 use crate::military::Military;
 use crate::npc::bot::BotManager;
 use crate::npc::precursor::PrecursorManager;
@@ -49,6 +50,7 @@ pub struct World {
   bot_manager: BotManager,
   precursor_manager: PrecursorManager,
   military: Military,
+  market: Market,
   ranking: Ranking,
   chat: Chat,
 
@@ -70,6 +72,7 @@ impl World {
     let continent = Continent::new(options.size.unwrap_or_default());
     let precursor_manager = PrecursorManager::new(continent.size());
     let military = Military::new(continent.size());
+    let market = Market::new(options.market_fee.unwrap_or_default());
 
     let mut world = Self {
       round: Round::default(),
@@ -78,6 +81,7 @@ impl World {
       bot_manager: BotManager::default(),
       precursor_manager,
       military,
+      market,
       ranking: Ranking::default(),
       config: Arc::new(config),
       stats,
@@ -153,6 +157,11 @@ impl World {
     &self.military
   }
 
+  #[inline]
+  pub fn market(&self) -> &Market {
+    &self.market
+  }
+
   /// Schedules a save to be performed at the end of the current round.
   /// If a save is already scheduled, it will be overwritten.
   pub fn save<F>(&mut self, f: F)
@@ -218,6 +227,10 @@ pub struct WorldOptions {
   #[serde(default)]
   #[builder(into)]
   pub bot_advanced_start_ratio: Option<BotAdvancedStartRatio>,
+
+  #[serde(default)]
+  #[builder(into)]
+  pub market_fee: Option<MarketFee>,
 }
 
 impl WorldOptions {
@@ -240,6 +253,10 @@ impl WorldOptions {
 
     if let Some(value) = self.bot_advanced_start_ratio.as_mut() {
       BotAdvancedStartRatio::clamp(value);
+    }
+
+    if let Some(value) = self.market_fee.as_mut() {
+      MarketFee::clamp(value);
     }
   }
 }
