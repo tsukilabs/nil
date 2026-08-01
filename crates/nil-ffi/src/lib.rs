@@ -218,6 +218,18 @@ pub unsafe extern "C" fn nil_world(request_id: RequestId) {
 /////////// RUNTIME ///////////
 ///////////////////////////////
 
+/// [`RuntimeMetrics::global_queue_depth`](tokio::runtime::RuntimeMetrics::global_queue_depth)
+#[unsafe(no_mangle)]
+pub unsafe extern "C" fn nil_runtime_global_queue_depth(request_id: RequestId) {
+  push_result!(
+    request_id,
+    RUNTIME
+      .metrics()
+      .global_queue_depth()
+      .try_conv::<u32>()
+  );
+}
+
 /// [`RuntimeMetrics::num_alive_tasks`](tokio::runtime::RuntimeMetrics::num_alive_tasks)
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn nil_runtime_num_alive_tasks(request_id: RequestId) {

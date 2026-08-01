@@ -98,6 +98,11 @@ void nil_user_agent(RequestId request_id);
 void nil_world(RequestId request_id);
 
 /**
+ * [`RuntimeMetrics::global_queue_depth`](tokio::runtime::RuntimeMetrics::global_queue_depth)
+ */
+void nil_runtime_global_queue_depth(RequestId request_id);
+
+/**
  * [`RuntimeMetrics::num_alive_tasks`](tokio::runtime::RuntimeMetrics::num_alive_tasks)
  */
 void nil_runtime_num_alive_tasks(RequestId request_id);

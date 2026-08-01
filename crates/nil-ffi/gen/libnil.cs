@@ -112,6 +112,12 @@ namespace CsBindgen
         public static extern void nil_world(uint request_id);
 
         /// <summary>
+        ///  [`RuntimeMetrics::global_queue_depth`](tokio::runtime::RuntimeMetrics::global_queue_depth)
+        /// </summary>
+        [DllImport(__DllName, EntryPoint = "nil_runtime_global_queue_depth", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void nil_runtime_global_queue_depth(uint request_id);
+
+        /// <summary>
         ///  [`RuntimeMetrics::num_alive_tasks`](tokio::runtime::RuntimeMetrics::num_alive_tasks)
         /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_runtime_num_alive_tasks", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
