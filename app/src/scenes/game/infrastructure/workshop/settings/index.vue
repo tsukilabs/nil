@@ -1,7 +1,7 @@
 <!-- Copyright (C) Call of Nil contributors -->
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
-<script setup lang="ts">
+<script vapor lang="ts">
 import { Label } from "@ui/label";
 import { useI18n } from "vue-i18n";
 import { Checkbox } from "@ui/checkbox";

@@ -1,7 +1,7 @@
 <!-- Copyright (C) Call of Nil contributors -->
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
-<script setup lang="ts">
+<script vapor lang="ts">
 import { Input } from "@ui/input";
 import { useI18n } from "vue-i18n";
 import { Button } from "@ui/button";

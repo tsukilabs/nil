@@ -1,7 +1,7 @@
 <!-- Copyright (C) Call of Nil contributors -->
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
-<script setup lang="ts">
+<script vapor lang="ts">
 import { useI18n } from "vue-i18n";
 import { CoordImpl } from "@/core/model/continent/coord";
 import enUS from "@/locale/en-US/scenes/game/report.json";

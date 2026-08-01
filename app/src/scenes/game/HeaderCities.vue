@@ -1,7 +1,7 @@
 <!-- Copyright (C) Call of Nil contributors -->
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
-<script setup lang="ts">
+<script vapor lang="ts">
 import { useI18n } from "vue-i18n";
 import { computed, nextTick } from "vue";
 import { cn } from "@/components/ui/utils";
@@ -42,7 +42,7 @@ async function onClick(coordId: string) {
 
 <template>
   <CommandDialog v-model:open="open">
-    <CommandInput :placeholder="t('search')" />
+    <CommandInput :placeholder="t('search')" :auto-focus="false" />
     <CommandList>
       <CommandEmpty>{{ t("no-results-found") }}</CommandEmpty>
       <CommandGroup>
