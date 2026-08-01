@@ -8,6 +8,7 @@ use nil_payload::request::continent::*;
 use nil_payload::response::continent::*;
 
 impl Client {
+  /// Endpoint: `PUT /get-continent-size`
   pub async fn get_continent_size(
     &self,
     req: GetContinentSizeRequest,
@@ -22,6 +23,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `PUT /get-public-field`
   pub async fn get_public_field(
     &self,
     req: GetPublicFieldRequest,
@@ -36,6 +38,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `PUT /get-public-fields`
   pub async fn get_public_fields(
     &self,
     req: GetPublicFieldsRequest,

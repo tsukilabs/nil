@@ -8,6 +8,7 @@ use nil_payload::request::infrastructure::workshop::*;
 use nil_payload::response::infrastructure::workshop::*;
 
 impl Client {
+  /// Endpoint: `POST /add-workshop-recruit-order`
   pub async fn add_workshop_recruit_order(
     &self,
     req: AddWorkshopRecruitOrderRequest,
@@ -22,6 +23,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `POST /cancel-workshop-recruit-order`
   pub async fn cancel_workshop_recruit_order(
     &self,
     req: CancelWorkshopRecruitOrderRequest,
@@ -36,6 +38,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `PUT /get-workshop-recruit-catalog`
   pub async fn get_workshop_recruit_catalog(
     &self,
     req: GetWorkshopRecruitCatalogRequest,

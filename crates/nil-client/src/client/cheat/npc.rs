@@ -8,6 +8,7 @@ use nil_payload::request::cheat::npc::*;
 use nil_payload::response::cheat::npc::*;
 
 impl Client {
+  /// Endpoint: `PUT /cheat-get-ethics`
   pub async fn cheat_get_ethics(
     &self,
     req: CheatGetEthicsRequest,
@@ -23,6 +24,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `POST /cheat-set-bot-ethics`
   pub async fn cheat_set_bot_ethics(&self, req: CheatSetBotEthicsRequest) -> Result<()> {
     http::post("cheat-set-bot-ethics")
       .body(req)
@@ -34,6 +36,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `POST /cheat-spawn-bot`
   pub async fn cheat_spawn_bot(&self, req: CheatSpawnBotRequest) -> Result<CheatSpawnBotResponse> {
     http::json_post("cheat-spawn-bot")
       .body(req)

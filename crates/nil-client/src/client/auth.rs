@@ -10,6 +10,7 @@ use nil_payload::response::auth::*;
 use std::num::NonZeroU8;
 
 impl Client {
+  /// Endpoint: `POST /authorize`
   pub async fn authorize(&self, req: AuthorizeRequest) -> Result<AuthorizeResponse> {
     http::json_post("authorize")
       .body(req)
@@ -20,6 +21,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `PUT /validate-token`
   pub async fn validate_token(&self, req: ValidateTokenRequest) -> Result<ValidateTokenResponse> {
     let retry = Retry::builder()
       .attempts(unsafe { NonZeroU8::new_unchecked(5) })

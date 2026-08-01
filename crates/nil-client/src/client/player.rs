@@ -8,6 +8,7 @@ use nil_payload::request::player::*;
 use nil_payload::response::player::*;
 
 impl Client {
+  /// Endpoint: `PUT /get-player`
   pub async fn get_player(&self, req: GetPlayerRequest) -> Result<GetPlayerResponse> {
     http::json_put("get-player")
       .body(req)
@@ -20,6 +21,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `PUT /get-player-coords`
   pub async fn get_player_coords(
     &self,
     req: GetPlayerCoordsRequest,
@@ -35,6 +37,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `PUT /get-player-ids`
   pub async fn get_player_ids(&self, req: GetPlayerIdsRequest) -> Result<GetPlayerIdsResponse> {
     http::json_put("get-player-ids")
       .body(req)
@@ -47,6 +50,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `PUT /get-player-maintenance`
   pub async fn get_player_maintenance(
     &self,
     req: GetPlayerMaintenanceRequest,
@@ -62,6 +66,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `PUT /get-player-military`
   pub async fn get_player_military(
     &self,
     req: GetPlayerMilitaryRequest,
@@ -77,6 +82,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `PUT /get-player-status`
   pub async fn get_player_status(
     &self,
     req: GetPlayerStatusRequest,
@@ -91,6 +97,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `PUT /get-player-storage-capacity`
   pub async fn get_player_storage_capacity(
     &self,
     req: GetPlayerStorageCapacityRequest,
@@ -106,6 +113,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `PUT /get-player-worlds`
   pub async fn get_player_worlds(
     &self,
     req: GetPlayerWorldsRequest,
@@ -120,6 +128,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `PUT /get-public-player`
   pub async fn get_public_player(
     &self,
     req: GetPublicPlayerRequest,
@@ -134,6 +143,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `PUT /get-public-players`
   pub async fn get_public_players(
     &self,
     req: GetPublicPlayersRequest,
@@ -148,6 +158,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `PUT /player-exists`
   pub async fn player_exists(&self, req: PlayerExistsRequest) -> Result<PlayerExistsResponse> {
     http::json_put("player-exists")
       .body(req)
@@ -159,6 +170,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `POST /set-player-status`
   pub async fn set_player_status(&self, req: SetPlayerStatusRequest) -> Result<()> {
     http::post("set-player-status")
       .body(req)
@@ -170,6 +182,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `POST /spawn-player`
   pub async fn spawn_player(&self, req: SpawnPlayerRequest) -> Result<()> {
     http::post("spawn-player")
       .body(req)

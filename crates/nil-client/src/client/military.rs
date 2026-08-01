@@ -8,6 +8,7 @@ use nil_payload::request::military::*;
 use nil_payload::response::military::*;
 
 impl Client {
+  /// Endpoint: `POST /cancel-maneuver`
   pub async fn cancel_maneuver(&self, req: CancelManeuverRequest) -> Result<()> {
     http::post("cancel-maneuver")
       .body(req)
@@ -19,6 +20,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `PUT /get-armies`
   pub async fn get_armies(&self, req: GetArmiesRequest) -> Result<GetArmiesResponse> {
     http::json_put("get-armies")
       .body(req)
@@ -31,6 +33,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `PUT /get-army`
   pub async fn get_army(&self, req: GetArmyRequest) -> Result<GetArmyResponse> {
     http::json_put("get-army")
       .body(req)
@@ -43,6 +46,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `PUT /get-army-owner`
   pub async fn get_army_owner(&self, req: GetArmyOwnerRequest) -> Result<GetArmyOwnerResponse> {
     http::json_put("get-army-owner")
       .body(req)
@@ -55,6 +59,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `PUT /get-idle-armies-at`
   pub async fn get_idle_armies_at(
     &self,
     req: GetIdleArmiesAtRequest,
@@ -70,6 +75,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `PUT /get-idle-armies-coords`
   pub async fn get_idle_armies_coords(
     &self,
     req: GetIdleArmiesCoordsRequest,
@@ -85,6 +91,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `PUT /get-maneuver`
   pub async fn get_maneuver(&self, req: GetManeuverRequest) -> Result<GetManeuverResponse> {
     http::json_put("get-maneuver")
       .body(req)
@@ -97,6 +104,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `POST /request-maneuver`
   pub async fn request_maneuver(
     &self,
     req: RequestManeuverRequest,

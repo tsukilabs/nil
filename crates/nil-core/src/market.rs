@@ -21,6 +21,10 @@ impl Market {
   pub fn fee(&self) -> MarketFee {
     self.fee
   }
+
+  pub(crate) fn fee_mut(&mut self) -> &mut MarketFee {
+    &mut self.fee
+  }
 }
 
 #[derive(Copy, Debug, Display, Deserialize, Serialize, ConstDeref, F64Math)]

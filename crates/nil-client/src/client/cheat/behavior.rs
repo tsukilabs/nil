@@ -8,6 +8,7 @@ use nil_payload::request::cheat::behavior::*;
 use nil_payload::response::cheat::behavior::*;
 
 impl Client {
+  /// Endpoint: `PUT /cheat-get-build-steps`
   pub async fn cheat_get_build_steps(
     &self,
     req: CheatGetBuildStepsRequest,

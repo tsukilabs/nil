@@ -8,6 +8,7 @@ use nil_payload::request::infrastructure::academy::*;
 use nil_payload::response::infrastructure::academy::*;
 
 impl Client {
+  /// Endpoint: `POST /add-academy-recruit-order`
   pub async fn add_academy_recruit_order(&self, req: AddAcademyRecruitOrderRequest) -> Result<()> {
     http::post("add-academy-recruit-order")
       .body(req)
@@ -19,6 +20,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `POST /cancel-academy-recruit-order`
   pub async fn cancel_academy_recruit_order(
     &self,
     req: CancelAcademyRecruitOrderRequest,
@@ -33,6 +35,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `PUT /get-academy-recruit-catalog`
   pub async fn get_academy_recruit_catalog(
     &self,
     req: GetAcademyRecruitCatalogRequest,

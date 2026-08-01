@@ -7,6 +7,7 @@ use crate::http;
 use nil_payload::request::cheat::round::*;
 
 impl Client {
+  /// Endpoint: `POST /cheat-skip-round`
   pub async fn cheat_skip_round(&self, req: CheatSkipRoundRequest) -> Result<()> {
     http::post("cheat-skip-round")
       .body(req)

@@ -549,6 +549,12 @@ pub unsafe extern "C" fn nil_cheat_set_iron(request_id: RequestId, json_req: *co
   send!(request_id, cheat_set_iron, json_req);
 }
 
+/// [`Client::cheat_set_market_fee`](nil_client::Client::cheat_set_market_fee)
+#[unsafe(no_mangle)]
+pub unsafe extern "C" fn nil_cheat_set_market_fee(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, cheat_set_market_fee, json_req);
+}
+
 /// [`Client::cheat_set_max_food`](nil_client::Client::cheat_set_max_food)
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn nil_cheat_set_max_food(request_id: RequestId, json_req: *const c_char) {
@@ -763,6 +769,12 @@ pub unsafe extern "C" fn nil_get_idle_armies_coords(
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn nil_get_maneuver(request_id: RequestId, json_req: *const c_char) {
   send!(request_id, get_maneuver, json_req);
+}
+
+/// [`Client::get_market_fee`](nil_client::Client::get_market_fee)
+#[unsafe(no_mangle)]
+pub unsafe extern "C" fn nil_get_market_fee(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, get_market_fee, json_req);
 }
 
 /// [`Client::get_player`](nil_client::Client::get_player)

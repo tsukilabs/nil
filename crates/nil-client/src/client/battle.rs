@@ -8,6 +8,7 @@ use nil_payload::request::battle::*;
 use nil_payload::response::battle::*;
 
 impl Client {
+  /// Endpoint: `PUT /simulate-battle`
   pub async fn simulate_battle(
     &self,
     req: SimulateBattleRequest,

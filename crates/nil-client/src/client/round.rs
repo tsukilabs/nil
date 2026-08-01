@@ -8,6 +8,7 @@ use nil_payload::request::round::*;
 use nil_payload::response::round::*;
 
 impl Client {
+  /// Endpoint: `PUT /get-round`
   pub async fn get_round(&self, req: GetRoundRequest) -> Result<GetRoundResponse> {
     http::json_put("get-round")
       .body(req)
@@ -19,6 +20,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `POST /set-player-ready`
   pub async fn set_player_ready(
     &self,
     req: SetPlayerReadyRequest,
@@ -33,6 +35,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `POST /start-round`
   pub async fn start_round(&self, req: StartRoundRequest) -> Result<StartRoundResponse> {
     http::json_post("start-round")
       .body(req)

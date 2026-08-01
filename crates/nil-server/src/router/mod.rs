@@ -10,6 +10,7 @@ mod cheat;
 mod city;
 mod continent;
 mod infrastructure;
+mod market;
 mod military;
 mod npc;
 mod player;
@@ -72,6 +73,7 @@ pub(crate) fn create() -> Router<App> {
     .route("/cheat-set-building-level", post(cheat::infrastructure::set_building_level))
     .route("/cheat-set-food", post(cheat::resources::set_food))
     .route("/cheat-set-iron", post(cheat::resources::set_iron))
+    .route("/cheat-set-market-fee", post(cheat::market::set_fee))
     .route("/cheat-set-max-food", post(cheat::resources::set_max_food))
     .route("/cheat-set-max-infrastructure", post(cheat::infrastructure::set_max_infrastructure))
     .route("/cheat-set-max-iron", post(cheat::resources::set_max_iron))
@@ -128,6 +130,7 @@ pub(crate) fn create() -> Router<App> {
     .route("/get-bot-coords", put(npc::bot::get_coords))
     .route("/get-city-score", put(city::get_city_score))
     .route("/get-continent-size", put(continent::size))
+    .route("/get-market-fee", put(market::fee))
     .route("/get-player-coords", put(player::get_coords))
     .route("/get-player-ids", put(player::get_ids))
     .route("/get-player-status", put(player::get_status))

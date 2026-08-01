@@ -1,19 +1,20 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-use crate::client::Client;
+use super::Client;
 use crate::error::Result;
 use crate::http;
-use nil_payload::request::infrastructure::building::*;
+use nil_payload::request::market::*;
+use nil_payload::response::market::*;
 
 impl Client {
-  /// Endpoint: `POST /toggle-building`
-  pub async fn toggle_building(&self, req: ToggleBuildingRequest) -> Result<()> {
-    http::post("toggle-building")
+  /// Endpoint: `PUT /get-market-fee`
+  pub async fn get_market_fee(&self, req: GetMarketFeeRequest) -> Result<GetMarketFeeResponse> {
+    http::json_put("get-market-fee")
       .body(req)
       .server(self.server)
-      .maybe_authorization(self.authorization.as_ref())
       .circuit_breaker(self.circuit_breaker())
+      .retry(&self.retry)
       .user_agent(&self.user_agent)
       .send()
       .await

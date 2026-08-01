@@ -8,6 +8,7 @@ use nil_payload::request::cheat::resources::*;
 use nil_payload::response::cheat::resources::*;
 
 impl Client {
+  /// Endpoint: `PUT /cheat-get-resources`
   pub async fn cheat_get_resources(
     &self,
     req: CheatGetResourcesRequest,
@@ -23,6 +24,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `POST /cheat-set-food`
   pub async fn cheat_set_food(&self, req: CheatSetFoodRequest) -> Result<()> {
     http::post("cheat-set-food")
       .body(req)
@@ -34,6 +36,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `POST /cheat-set-iron`
   pub async fn cheat_set_iron(&self, req: CheatSetIronRequest) -> Result<()> {
     http::post("cheat-set-iron")
       .body(req)
@@ -45,6 +48,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `POST /cheat-set-max-food`
   pub async fn cheat_set_max_food(&self, req: CheatSetMaxFoodRequest) -> Result<()> {
     http::post("cheat-set-max-food")
       .body(req)
@@ -56,6 +60,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `POST /cheat-set-max-iron`
   pub async fn cheat_set_max_iron(&self, req: CheatSetMaxIronRequest) -> Result<()> {
     http::post("cheat-set-max-iron")
       .body(req)
@@ -67,6 +72,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `POST /cheat-set-max-resources`
   pub async fn cheat_set_max_resources(&self, req: CheatSetMaxResourcesRequest) -> Result<()> {
     http::post("cheat-set-max-resources")
       .body(req)
@@ -78,6 +84,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `POST /cheat-set-max-silo-resources`
   pub async fn cheat_set_max_silo_resources(
     &self,
     req: CheatSetMaxSiloResourcesRequest,
@@ -92,6 +99,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `POST /cheat-set-max-stone`
   pub async fn cheat_set_max_stone(&self, req: CheatSetMaxStoneRequest) -> Result<()> {
     http::post("cheat-set-max-stone")
       .body(req)
@@ -103,6 +111,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `POST /cheat-set-max-warehouse-resources`
   pub async fn cheat_set_max_warehouse_resources(
     &self,
     req: CheatSetMaxWarehouseResourcesRequest,
@@ -117,6 +126,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `POST /cheat-set-max-wood`
   pub async fn cheat_set_max_wood(&self, req: CheatSetMaxWoodRequest) -> Result<()> {
     http::post("cheat-set-max-wood")
       .body(req)
@@ -128,6 +138,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `POST /cheat-set-resources`
   pub async fn cheat_set_resources(&self, req: CheatSetResourcesRequest) -> Result<()> {
     http::post("cheat-set-resources")
       .body(req)
@@ -139,6 +150,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `POST /cheat-set-stone`
   pub async fn cheat_set_stone(&self, req: CheatSetStoneRequest) -> Result<()> {
     http::post("cheat-set-stone")
       .body(req)
@@ -150,6 +162,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `POST /cheat-set-wood`
   pub async fn cheat_set_wood(&self, req: CheatSetWoodRequest) -> Result<()> {
     http::post("cheat-set-wood")
       .body(req)

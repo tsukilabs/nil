@@ -8,6 +8,7 @@ use nil_payload::request::ranking::*;
 use nil_payload::response::ranking::*;
 
 impl Client {
+  /// Endpoint: `PUT /get-rank`
   pub async fn get_rank(&self, req: GetRankRequest) -> Result<GetRankResponse> {
     http::json_put("get-rank")
       .body(req)
@@ -19,6 +20,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `PUT /get-ranking`
   pub async fn get_ranking(&self, req: GetRankingRequest) -> Result<GetRankingResponse> {
     http::json_put("get-ranking")
       .body(req)

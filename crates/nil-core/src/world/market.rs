@@ -9,4 +9,8 @@ impl World {
   pub fn market(&self) -> &Market {
     &self.market
   }
+
+  pub(crate) fn market_mut(&mut self) -> &mut Market {
+    &mut self.market
+  }
 }

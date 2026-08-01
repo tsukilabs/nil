@@ -6,7 +6,6 @@ import type {
   BotAdvancedStartRatio,
   BotDensity,
   Locale,
-  MarketFee,
   WorldConfig,
   WorldId,
   WorldSpeed,
@@ -22,7 +21,6 @@ export class WorldConfigImpl implements DeepReadonly<WorldConfig> {
   public readonly unitSpeed: WorldUnitSpeed;
   public readonly botDensity: BotDensity;
   public readonly botAdvancedStartRatio: BotAdvancedStartRatio;
-  public readonly marketFee: MarketFee;
 
   private constructor(config: WorldConfig) {
     this.id = config.id;
@@ -33,7 +31,6 @@ export class WorldConfigImpl implements DeepReadonly<WorldConfig> {
     this.unitSpeed = config.unitSpeed;
     this.botDensity = config.botDensity;
     this.botAdvancedStartRatio = config.botAdvancedStartRatio;
-    this.marketFee = config.marketFee;
   }
 
   public static create(config: WorldConfig) {

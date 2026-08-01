@@ -8,6 +8,7 @@ use nil_payload::request::npc::bot::*;
 use nil_payload::response::npc::bot::*;
 
 impl Client {
+  /// Endpoint: `PUT /get-bot-coords`
   pub async fn get_bot_coords(&self, req: GetBotCoordsRequest) -> Result<GetBotCoordsResponse> {
     http::json_put("get-bot-coords")
       .body(req)
@@ -19,6 +20,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `PUT /get-public-bot`
   pub async fn get_public_bot(&self, req: GetPublicBotRequest) -> Result<GetPublicBotResponse> {
     http::json_put("get-public-bot")
       .body(req)
@@ -30,6 +32,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `PUT /get-public-bots`
   pub async fn get_public_bots(&self, req: GetPublicBotsRequest) -> Result<GetPublicBotsResponse> {
     http::json_put("get-public-bots")
       .body(req)

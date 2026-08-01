@@ -4,6 +4,7 @@
 pub mod behavior;
 pub mod city;
 pub mod infrastructure;
+pub mod market;
 pub mod military;
 pub mod npc;
 pub mod player;
@@ -14,6 +15,7 @@ pub mod prelude {
   pub use super::behavior::*;
   pub use super::city::*;
   pub use super::infrastructure::*;
+  pub use super::market::*;
   pub use super::military::*;
   pub use super::npc::*;
   pub use super::player::*;

@@ -8,6 +8,7 @@ use nil_payload::request::city::*;
 use nil_payload::response::city::*;
 
 impl Client {
+  /// Endpoint: `PUT /get-cities`
   pub async fn get_cities(&self, req: GetCitiesRequest) -> Result<GetCitiesResponse> {
     http::json_put("get-cities")
       .body(req)
@@ -20,6 +21,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `PUT /get-city`
   pub async fn get_city(&self, req: GetCityRequest) -> Result<GetCityResponse> {
     http::json_put("get-city")
       .body(req)
@@ -32,6 +34,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `PUT /get-city-score`
   pub async fn get_city_score(&self, req: GetCityScoreRequest) -> Result<GetCityScoreResponse> {
     http::json_put("get-city-score")
       .body(req)
@@ -43,6 +46,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `PUT /get-public-cities`
   pub async fn get_public_cities(
     &self,
     req: GetPublicCitiesRequest,
@@ -57,6 +61,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `PUT /get-public-city`
   pub async fn get_public_city(&self, req: GetPublicCityRequest) -> Result<GetPublicCityResponse> {
     http::json_put("get-public-city")
       .body(req)
@@ -68,6 +73,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `POST /rename-city`
   pub async fn rename_city(&self, req: RenameCityRequest) -> Result<()> {
     http::post("rename-city")
       .body(req)
@@ -79,6 +85,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `PUT /search-city`
   pub async fn search_city(&self, req: SearchCityRequest) -> Result<SearchCityResponse> {
     http::json_put("search-city")
       .body(req)
@@ -91,6 +98,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `PUT /search-public-city`
   pub async fn search_public_city(
     &self,
     req: SearchPublicCityRequest,

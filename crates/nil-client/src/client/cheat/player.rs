@@ -8,6 +8,7 @@ use nil_payload::request::cheat::player::*;
 use nil_payload::response::cheat::player::*;
 
 impl Client {
+  /// Endpoint: `PUT /cheat-get-player`
   pub async fn cheat_get_player(
     &self,
     req: CheatGetPlayerRequest,
@@ -22,7 +23,7 @@ impl Client {
       .send()
       .await
   }
-
+  /// Endpoint: `PUT /cheat-get-players`
   pub async fn cheat_get_players(
     &self,
     req: CheatGetPlayersRequest,

@@ -4,6 +4,7 @@
 mod behavior;
 mod city;
 mod infrastructure;
+mod market;
 mod military;
 mod npc;
 mod player;
@@ -27,6 +28,7 @@ pub use infrastructure::{
   set_building_level,
   set_max_infrastructure,
 };
+pub use market::set_market_fee;
 pub use military::{
   get_idle_armies_at,
   get_idle_personnel_at,
