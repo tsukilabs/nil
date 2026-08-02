@@ -126,6 +126,8 @@ import type {
   GetManeuverResponse,
   GetMarketFeeRequest,
   GetMarketFeeResponse,
+  GetMarketRequest,
+  GetMarketResponse,
   GetPlayerCoordsRequest,
   GetPlayerCoordsResponse,
   GetPlayerIdsRequest,
@@ -831,6 +833,13 @@ export class Nil implements AsyncDisposable {
   public async getManeuver(req: GetManeuverRequest) {
     return this.queue.request<GetManeuverResponse>((requestId) => {
       this.functions.nil_get_maneuver(requestId, JSON.stringify(req));
+    });
+  }
+
+  @ThrowIfClosed
+  public async getMarket(req: GetMarketRequest) {
+    return this.queue.request<GetMarketResponse>((requestId) => {
+      this.functions.nil_get_market(requestId, JSON.stringify(req));
     });
   }
 

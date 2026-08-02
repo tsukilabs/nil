@@ -131,6 +131,7 @@ pub(crate) fn create() -> Router<App> {
     .route("/get-bot-coords", put(npc::bot::get_coords))
     .route("/get-city-score", put(city::get_city_score))
     .route("/get-continent-size", put(continent::size))
+    .route("/get-market", put(market::get))
     .route("/get-market-fee", put(market::fee))
     .route("/get-player-coords", put(player::get_coords))
     .route("/get-player-ids", put(player::get_ids))

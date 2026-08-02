@@ -98,6 +98,7 @@ nil_get_continent_size: { arguments: [ffi.types.UINT_32, ffi.types.POINTER], ret
 nil_get_idle_armies_at: { arguments: [ffi.types.UINT_32, ffi.types.POINTER], return: ffi.types.VOID },
 nil_get_idle_armies_coords: { arguments: [ffi.types.UINT_32, ffi.types.POINTER], return: ffi.types.VOID },
 nil_get_maneuver: { arguments: [ffi.types.UINT_32, ffi.types.POINTER], return: ffi.types.VOID },
+nil_get_market: { arguments: [ffi.types.UINT_32, ffi.types.POINTER], return: ffi.types.VOID },
 nil_get_market_fee: { arguments: [ffi.types.UINT_32, ffi.types.POINTER], return: ffi.types.VOID },
 nil_get_player: { arguments: [ffi.types.UINT_32, ffi.types.POINTER], return: ffi.types.VOID },
 nil_get_player_coords: { arguments: [ffi.types.UINT_32, ffi.types.POINTER], return: ffi.types.VOID },

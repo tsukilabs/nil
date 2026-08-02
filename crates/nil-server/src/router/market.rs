@@ -19,6 +19,14 @@ pub async fn fee(State(app): State<App>, Json(req): Json<GetMarketFeeRequest>) -
     .into_inner()
 }
 
+pub async fn get(State(app): State<App>, Json(req): Json<GetMarketRequest>) -> Response {
+  app
+    .world(req.world, |world| world.market().clone())
+    .await
+    .map_left(|market| res!(OK, GetMarketResponse(market)))
+    .into_inner()
+}
+
 pub async fn send_resources(
   State(app): State<App>,
   Extension(player): Extension<CurrentPlayer>,

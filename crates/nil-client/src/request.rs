@@ -91,6 +91,7 @@ dispatch!(
   get_idle_armies_at,
   get_idle_armies_coords,
   get_maneuver,
+  get_market,
   get_market_fee,
   get_player,
   get_player_coords,

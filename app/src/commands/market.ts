@@ -5,10 +5,20 @@ import { invoke } from "@tauri-apps/api/core";
 import type {
   GetMarketFeeRequest,
   GetMarketFeeResponse,
+  GetMarketRequest,
+  GetMarketResponse,
   Resources,
   Ruler,
   SendResourcesRequest,
 } from "@tsukilabs/nil-bindings";
+
+export async function getMarket() {
+  const req: GetMarketRequest = {
+    world: NIL.world.getIdStrict(),
+  };
+
+  return invoke<GetMarketResponse>("get_market", { req });
+}
 
 export async function getMarketFee() {
   const req: GetMarketFeeRequest = {

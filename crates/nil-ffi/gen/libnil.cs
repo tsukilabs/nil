@@ -556,6 +556,12 @@ namespace CsBindgen
         public static extern void nil_get_maneuver(uint request_id, byte* json_req);
 
         /// <summary>
+        ///  [`Client::get_market`](nil_client::Client::get_market)
+        /// </summary>
+        [DllImport(__DllName, EntryPoint = "nil_get_market", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void nil_get_market(uint request_id, byte* json_req);
+
+        /// <summary>
         ///  [`Client::get_market_fee`](nil_client::Client::get_market_fee)
         /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_get_market_fee", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]

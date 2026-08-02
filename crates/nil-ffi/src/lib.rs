@@ -771,6 +771,12 @@ pub unsafe extern "C" fn nil_get_maneuver(request_id: RequestId, json_req: *cons
   send!(request_id, get_maneuver, json_req);
 }
 
+/// [`Client::get_market`](nil_client::Client::get_market)
+#[unsafe(no_mangle)]
+pub unsafe extern "C" fn nil_get_market(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, get_market, json_req);
+}
+
 /// [`Client::get_market_fee`](nil_client::Client::get_market_fee)
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn nil_get_market_fee(request_id: RequestId, json_req: *const c_char) {

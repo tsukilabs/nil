@@ -475,6 +475,11 @@ void nil_get_idle_armies_coords(RequestId request_id, const char *json_req);
 void nil_get_maneuver(RequestId request_id, const char *json_req);
 
 /**
+ * [`Client::get_market`](nil_client::Client::get_market)
+ */
+void nil_get_market(RequestId request_id, const char *json_req);
+
+/**
  * [`Client::get_market_fee`](nil_client::Client::get_market_fee)
  */
 void nil_get_market_fee(RequestId request_id, const char *json_req);
