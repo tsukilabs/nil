@@ -14,6 +14,7 @@ export * from "./ruler";
 export * from "./world";
 export * from "./battle";
 export * from "./client";
+export * from "./market";
 export * from "./player";
 export * from "./report";
 export * from "./server";
