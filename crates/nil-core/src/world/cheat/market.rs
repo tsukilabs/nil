@@ -3,7 +3,7 @@
 
 use crate::bail_if_cheats_are_not_allowed;
 use crate::error::Result;
-use crate::market::MarketFee;
+use crate::market::fee::MarketFee;
 use crate::world::World;
 
 pub fn set_market_fee(world: &mut World, fee: MarketFee) -> Result<()> {

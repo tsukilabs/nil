@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use bon::Builder;
-use nil_core::market::MarketFee;
+use nil_core::market::fee::MarketFee;
 use nil_core::world::config::WorldId;
 use serde::{Deserialize, Serialize};
 

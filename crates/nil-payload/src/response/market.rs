@@ -2,7 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use derive_more::{Deref, DerefMut, Display, From, Into};
-use nil_core::market::{Market, MarketFee};
+use nil_core::market::Market;
+use nil_core::market::fee::MarketFee;
 use serde::{Deserialize, Serialize};
 
 #[cfg(feature = "axum")]

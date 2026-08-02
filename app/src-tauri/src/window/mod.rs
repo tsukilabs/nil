@@ -8,7 +8,7 @@ pub mod mobile;
 
 use crate::settings::Settings;
 use nil_core::continent::size::ContinentSize;
-use nil_core::market::MarketFee;
+use nil_core::market::fee::MarketFee;
 use nil_core::world::config::{BotAdvancedStartRatio, BotDensity, WorldSpeed, WorldUnitSpeed};
 use nil_server_types::round::RoundDuration;
 use serde::Serialize;

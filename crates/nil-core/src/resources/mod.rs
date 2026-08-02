@@ -12,7 +12,7 @@ pub mod workforce;
 use crate::city::stability::Stability;
 use crate::infrastructure::mine::MineProduction;
 use crate::infrastructure::storage::{OverallStorageCapacity, StorageCapacity};
-use crate::market::MarketFee;
+use crate::market::fee::MarketFee;
 use bon::Builder;
 use derive_more::Display;
 use diff::{FoodDiff, IronDiff, ResourcesDiff, StoneDiff, WoodDiff};

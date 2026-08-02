@@ -6,8 +6,8 @@ use nil_core::continent::coord::Coord;
 use nil_core::military::army::ArmyId;
 use nil_core::military::maneuver::{ManeuverId, ManeuverRequest};
 use nil_core::world::config::WorldId;
-use serde::{Deserialize, Serialize};
 use nil_payload_macros::FromWorld;
+use serde::{Deserialize, Serialize};
 
 #[derive(Builder, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
