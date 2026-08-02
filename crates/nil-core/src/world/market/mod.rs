@@ -1,6 +1,9 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+#[cfg(test)]
+mod tests;
+
 use crate::error::{Error, Result};
 use crate::market::Market;
 use crate::resources::Resources;
@@ -16,9 +19,10 @@ impl World {
     &mut self.market
   }
 
+  /// Sends resources from one ruler to another, also deducting the current market fee from the sender's resources.
   pub fn send_resources(&mut self, from: &Ruler, to: &Ruler, resources: Resources) -> Result<()> {
     if from == to {
-      return Err(Error::ResourcesTransferToSelf(from.clone()));
+      return Err(Error::ResourceReceiverIsSender(from.clone()));
     }
 
     let fee = resources * self.market().fee();

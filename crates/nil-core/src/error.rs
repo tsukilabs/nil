@@ -122,7 +122,7 @@ pub enum Error {
   ReportNotFound(ReportId),
 
   #[error("Cannot send resources to self ({0})")]
-  ResourcesTransferToSelf(Ruler),
+  ResourceReceiverIsSender(Ruler),
 
   #[error("Round already started")]
   RoundAlreadyStarted,
