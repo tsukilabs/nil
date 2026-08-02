@@ -7,7 +7,7 @@ import { useI18n } from "vue-i18n";
 import { useRoute } from "vue-router";
 import { MenuIcon } from "@lucide/vue";
 import { useBreakpoints } from "@tb-dev/vue";
-import type { WarRoomScene } from "@/types/scene/game";
+import type { WarRoomScene } from "@/types/scene";
 import { Button, type ButtonVariant } from "@ui/button";
 import {
   DropdownMenu,

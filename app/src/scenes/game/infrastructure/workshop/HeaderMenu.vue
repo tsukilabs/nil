@@ -8,7 +8,7 @@ import { useRoute } from "vue-router";
 import { MenuIcon } from "@lucide/vue";
 import { useBreakpoints } from "@tb-dev/vue";
 import { Button, type ButtonVariant } from "@ui/button";
-import type { WorkshopScene } from "@/types/scene/game/infrastructure";
+import type { WorkshopScene } from "@/types/scene";
 import {
   DropdownMenu,
   DropdownMenuContent,

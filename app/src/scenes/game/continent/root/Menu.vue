@@ -6,7 +6,7 @@ import { useI18n } from "vue-i18n";
 import { Button } from "@ui/button";
 import { MenuIcon } from "@lucide/vue";
 import { useBreakpoints } from "@tb-dev/vue";
-import type { ContinentScene } from "@/types/scene/game";
+import type { ContinentScene } from "@/types/scene";
 import {
   DropdownMenu,
   DropdownMenuContent,

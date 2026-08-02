@@ -5,7 +5,7 @@ import { computed, toRef } from "vue";
 import type { Option } from "@tb-dev/utils";
 import type { MaybeNilRef } from "@tb-dev/vue";
 import type { Ruler } from "@tsukilabs/nil-bindings";
-import type { ProfileScene } from "@/types/scene/game";
+import type { ProfileScene } from "@/types/scene";
 import type { RouteLocationAsRelative } from "vue-router";
 
 export function useCityOwnerSceneLink(owner: MaybeNilRef<Ruler>) {

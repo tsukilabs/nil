@@ -5,7 +5,7 @@
 import { computed } from "vue";
 import { useBreakpoints } from "@tb-dev/vue";
 import Resources from "@/scenes/game/Resources.vue";
-import type { GameScene } from "@/types/scene/game";
+import type { GameScene } from "@/types/scene";
 import FooterChat from "@/scenes/game/FooterChat.vue";
 import ButtonIcon from "@/components/button/ButtonIcon.vue";
 import ButtonBadge from "@/components/button/ButtonBadge.vue";

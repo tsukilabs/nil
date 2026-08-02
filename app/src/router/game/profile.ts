@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { RouteRecordRaw } from "vue-router";
-import type { ProfileScene } from "@/types/scene/game";
+import type { ProfileScene } from "@/types/scene";
 
 export const profileRoutes: RouteRecordRaw[] = [
   {

@@ -11,7 +11,7 @@ import type { Option } from "@tb-dev/utils";
 import Loading from "@/components/Loading.vue";
 import SupportReport from "./SupportReport.vue";
 import { useRouteParams } from "@vueuse/router";
-import type { ReportScene } from "@/types/scene/game";
+import type { ReportScene } from "@/types/scene";
 import { useBreakpoints, useMutex } from "@tb-dev/vue";
 import type { ReportId } from "@tsukilabs/nil-bindings";
 import enUS from "@/locale/en-US/scenes/game/report.json";

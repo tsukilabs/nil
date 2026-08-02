@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { RouteRecordRaw } from "vue-router";
-import type { AcademyScene } from "@/types/scene/game/infrastructure";
+import type { AcademyScene } from "@/types/scene";
 
 export const academyRoutes: RouteRecordRaw[] = [
   {

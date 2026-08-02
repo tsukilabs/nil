@@ -5,8 +5,8 @@ import { reportRoutes } from "./report";
 import { profileRoutes } from "./profile";
 import { warRoomRoutes } from "./war-room";
 import { continentRoutes } from "./continent";
+import type { GameScene } from "@/types/scene";
 import type { RouteRecordRaw } from "vue-router";
-import type { GameScene } from "@/types/scene/game";
 import { infrastructureRoutes } from "./infrastructure";
 
 export const gameRoutes: RouteRecordRaw[] = [
@@ -29,6 +29,11 @@ export const gameRoutes: RouteRecordRaw[] = [
     component: () => import("@/scenes/game/infrastructure/index.vue"),
     path: "infrastructure",
     children: infrastructureRoutes,
+  },
+  {
+    component: () => import("@/scenes/game/market/index.vue"),
+    path: "market",
+    name: "market" satisfies GameScene,
   },
   {
     component: () => import("@/scenes/game/maneuver/index.vue"),

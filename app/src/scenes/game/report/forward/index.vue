@@ -9,7 +9,7 @@ import type { Option } from "@tb-dev/utils";
 import { useRouteParams } from "@vueuse/router";
 import { useRoute, useRouter } from "vue-router";
 import { forwardReport } from "@/commands/report";
-import type { ReportScene } from "@/types/scene/game";
+import type { ReportScene } from "@/types/scene";
 import { useBreakpoints, useMutex } from "@tb-dev/vue";
 import { useReport } from "@/composables/report/useReport";
 import type { PlayerId, ReportId } from "@tsukilabs/nil-bindings";
