@@ -47,15 +47,13 @@ pub fn get_city(world: &World, key: impl ContinentKey) -> Result<&City> {
 pub fn set_stability(
   world: &mut World,
   key: impl ContinentKey,
-  mut stability: Stability,
+  stability: Stability,
 ) -> Result<()> {
   bail_if_cheats_are_not_allowed!(world);
 
   let coord = key.into_coord(world.continent.size())?;
   let city = world.city_mut(coord)?;
-
-  Stability::clamp(&mut stability);
-  *city.stability_mut() = stability;
+  *city.stability_mut() = stability.clamped();
 
   world.emit_city(coord)?;
 

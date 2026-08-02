@@ -24,6 +24,12 @@ pub fn impl_clamp_new(ast: &DeriveInput) -> TokenStream {
       pub const fn clamp(&mut self) {
         *self = Self::new(#new_arg);
       }
+
+      #[inline]
+      pub const fn clamped(mut self) -> Self {
+        Self::clamp(&mut self);
+        self
+      }
     }
   };
 

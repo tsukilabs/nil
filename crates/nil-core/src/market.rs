@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use derive_more::Display;
-use nil_util::{ConstDeref, F64Math};
+use nil_util::{ClampNew, ConstDeref, F64Math};
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, Default, Deserialize, Serialize)]
@@ -27,7 +27,7 @@ impl Market {
   }
 }
 
-#[derive(Copy, Debug, Display, Deserialize, Serialize, ConstDeref, F64Math)]
+#[derive(Copy, Debug, Display, Deserialize, Serialize, ClampNew, ConstDeref, F64Math)]
 #[derive_const(Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct MarketFee(f64);
@@ -41,11 +41,6 @@ impl MarketFee {
     debug_assert!(value.is_finite());
     debug_assert!(!value.is_subnormal());
     Self(value.clamp(Self::MIN.0, Self::MAX.0))
-  }
-
-  #[inline]
-  pub fn clamp(value: &mut Self) {
-    *value = Self::new(value.0);
   }
 }
 
