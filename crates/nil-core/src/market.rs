@@ -14,7 +14,7 @@ pub struct Market {
 
 impl Market {
   pub fn new(fee: MarketFee) -> Self {
-    Self { fee }
+    Self { fee: fee.clamped() }
   }
 
   #[inline]
