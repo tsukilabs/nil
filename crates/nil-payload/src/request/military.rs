@@ -7,6 +7,7 @@ use nil_core::military::army::ArmyId;
 use nil_core::military::maneuver::{ManeuverId, ManeuverRequest};
 use nil_core::world::config::WorldId;
 use serde::{Deserialize, Serialize};
+use nil_payload_macros::FromWorld;
 
 #[derive(Builder, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
@@ -18,7 +19,7 @@ pub struct CancelManeuverRequest {
   pub id: ManeuverId,
 }
 
-#[derive(Builder, Clone, Debug, Deserialize, Serialize)]
+#[derive(Builder, Clone, Debug, Deserialize, Serialize, FromWorld)]
 #[serde(rename_all = "camelCase")]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
@@ -57,7 +58,7 @@ pub struct GetIdleArmiesAtRequest {
   pub coord: Coord,
 }
 
-#[derive(Builder, Clone, Debug, Deserialize, Serialize)]
+#[derive(Builder, Clone, Debug, Deserialize, Serialize, FromWorld)]
 #[serde(rename_all = "camelCase")]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]

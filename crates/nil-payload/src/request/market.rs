@@ -5,9 +5,10 @@ use bon::Builder;
 use nil_core::resources::Resources;
 use nil_core::ruler::Ruler;
 use nil_core::world::config::WorldId;
+use nil_payload_macros::FromWorld;
 use serde::{Deserialize, Serialize};
 
-#[derive(Builder, Clone, Debug, Deserialize, Serialize)]
+#[derive(Builder, Clone, Debug, Deserialize, Serialize, FromWorld)]
 #[serde(rename_all = "camelCase")]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
@@ -16,7 +17,7 @@ pub struct GetMarketRequest {
   pub world: WorldId,
 }
 
-#[derive(Builder, Clone, Debug, Deserialize, Serialize)]
+#[derive(Builder, Clone, Debug, Deserialize, Serialize, FromWorld)]
 #[serde(rename_all = "camelCase")]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]

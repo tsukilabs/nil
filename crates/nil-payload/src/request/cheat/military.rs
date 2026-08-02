@@ -6,6 +6,7 @@ use nil_core::continent::coord::Coord;
 use nil_core::military::army::personnel::ArmyPersonnel;
 use nil_core::ruler::Ruler;
 use nil_core::world::config::WorldId;
+use nil_payload_macros::FromWorld;
 use serde::{Deserialize, Serialize};
 
 #[derive(Builder, Clone, Debug, Deserialize, Serialize)]
@@ -30,7 +31,7 @@ pub struct CheatGetIdlePersonnelAtRequest {
   pub coord: Coord,
 }
 
-#[derive(Builder, Clone, Debug, Deserialize, Serialize)]
+#[derive(Builder, Clone, Debug, Deserialize, Serialize, FromWorld)]
 #[serde(rename_all = "camelCase")]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
