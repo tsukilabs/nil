@@ -271,6 +271,7 @@ export type { ManeuverRequest } from './ManeuverRequest';
 export type { ManeuverState } from './ManeuverState';
 export type { Market } from './Market';
 export type { MarketFee } from './MarketFee';
+export type { MarketVault } from './MarketVault';
 export type { Military } from './Military';
 export type { MineId } from './MineId';
 export type { MineProduction } from './MineProduction';

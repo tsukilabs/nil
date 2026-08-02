@@ -10,6 +10,7 @@ export type Event =
   | { "kind": "chat-message"; world: WorldId; message: ChatMessage }
   | { "kind": "city"; world: WorldId; coord: Coord }
   | { "kind": "drop"; world: WorldId }
+  | { "kind": "market"; world: WorldId }
   | { "kind": "military"; world: WorldId; player: PlayerId }
   | { "kind": "player"; world: WorldId; player: PlayerId }
   | { "kind": "public-city"; world: WorldId; coord: Coord }
