@@ -91,6 +91,7 @@ dispatch!(
   get_idle_armies_at,
   get_idle_armies_coords,
   get_maneuver,
+  get_market_fee,
   get_player,
   get_player_coords,
   get_player_ids,
@@ -151,6 +152,7 @@ dispatch_unit!(
   cheat_set_building_level,
   cheat_set_food,
   cheat_set_iron,
+  cheat_set_market_fee,
   cheat_set_max_food,
   cheat_set_max_infrastructure,
   cheat_set_max_iron,
@@ -170,6 +172,7 @@ dispatch_unit!(
   forward_report,
   rename_city,
   save_local_world,
+  send_resources,
   set_player_status,
   spawn_player,
   toggle_building

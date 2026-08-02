@@ -32,6 +32,9 @@ Here’s a simplified list of the steps you’ll need to take.
   - [Update the client](/crates/nil-client/src/client/mod.rs)
   - [Implement the `Request` trait](/crates/nil-client/src/request.rs)
 
+- [`nil-ffi`](/crates/nil-ffi)
+  - [Update the FFI bindings](/crates/nil-ffi/src/lib.rs)
+
 - [`nil`](/app)
   - [Create a new Rust command](/app/src-tauri/src/command/mod.rs)
   - [Expose it to TypeScript](/app/src-tauri/src/lib.rs)

@@ -322,6 +322,7 @@ export type { SearchCityRequest } from './SearchCityRequest';
 export type { SearchCityResponse } from './SearchCityResponse';
 export type { SearchPublicCityRequest } from './SearchPublicCityRequest';
 export type { SearchPublicCityResponse } from './SearchPublicCityResponse';
+export type { SendResourcesRequest } from './SendResourcesRequest';
 export type { ServerAddr } from './ServerAddr';
 export type { ServerKind } from './ServerKind';
 export type { SetPlayerReadyRequest } from './SetPlayerReadyRequest';

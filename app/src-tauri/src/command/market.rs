@@ -17,3 +17,11 @@ pub async fn get_market_fee(
     .await
     .map_err(Into::into)
 }
+
+#[tauri::command]
+pub async fn send_resources(app: AppHandle, req: SendResourcesRequest) -> Result<()> {
+  app
+    .client(async |cl| cl.send_resources(req).await)
+    .await
+    .map_err(Into::into)
+}

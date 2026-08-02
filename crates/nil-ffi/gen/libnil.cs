@@ -820,6 +820,12 @@ namespace CsBindgen
         public static extern void nil_search_public_city(uint request_id, byte* json_req);
 
         /// <summary>
+        ///  [`Client::send_resources`](nil_client::Client::send_resources)
+        /// </summary>
+        [DllImport(__DllName, EntryPoint = "nil_send_resources", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void nil_send_resources(uint request_id, byte* json_req);
+
+        /// <summary>
         ///  [`Client::version`](nil_client::Client::version)
         /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_server_version", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]

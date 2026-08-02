@@ -2,7 +2,13 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { invoke } from "@tauri-apps/api/core";
-import type { GetMarketFeeRequest, GetMarketFeeResponse } from "@tsukilabs/nil-bindings";
+import type {
+  GetMarketFeeRequest,
+  GetMarketFeeResponse,
+  Resources,
+  Ruler,
+  SendResourcesRequest,
+} from "@tsukilabs/nil-bindings";
 
 export async function getMarketFee() {
   const req: GetMarketFeeRequest = {
@@ -10,4 +16,14 @@ export async function getMarketFee() {
   };
 
   return invoke<GetMarketFeeResponse>("get_market_fee", { req });
+}
+
+export async function sendResources(recipient: Ruler, resources: Resources) {
+  const req: SendResourcesRequest = {
+    world: NIL.world.getIdStrict(),
+    recipient,
+    resources,
+  };
+
+  await invoke("send_resources", { req });
 }

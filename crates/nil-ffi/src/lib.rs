@@ -1050,6 +1050,12 @@ pub unsafe extern "C" fn nil_search_public_city(request_id: RequestId, json_req:
   send!(request_id, search_public_city, json_req);
 }
 
+/// [`Client::send_resources`](nil_client::Client::send_resources)
+#[unsafe(no_mangle)]
+pub unsafe extern "C" fn nil_send_resources(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, send_resources, json_req);
+}
+
 /// [`Client::version`](nil_client::Client::version)
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn nil_server_version(request_id: RequestId) {

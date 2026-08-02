@@ -142,6 +142,7 @@ nil_request_maneuver: { arguments: [ffi.types.UINT_32, ffi.types.POINTER], retur
 nil_save_local_world: { arguments: [ffi.types.UINT_32, ffi.types.POINTER], return: ffi.types.VOID },
 nil_search_city: { arguments: [ffi.types.UINT_32, ffi.types.POINTER], return: ffi.types.VOID },
 nil_search_public_city: { arguments: [ffi.types.UINT_32, ffi.types.POINTER], return: ffi.types.VOID },
+nil_send_resources: { arguments: [ffi.types.UINT_32, ffi.types.POINTER], return: ffi.types.VOID },
 nil_server_version: { arguments: [ffi.types.UINT_32], return: ffi.types.VOID },
 nil_set_player_ready: { arguments: [ffi.types.UINT_32, ffi.types.POINTER], return: ffi.types.VOID },
 nil_set_player_status: { arguments: [ffi.types.UINT_32, ffi.types.POINTER], return: ffi.types.VOID },

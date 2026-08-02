@@ -695,6 +695,11 @@ void nil_search_city(RequestId request_id, const char *json_req);
 void nil_search_public_city(RequestId request_id, const char *json_req);
 
 /**
+ * [`Client::send_resources`](nil_client::Client::send_resources)
+ */
+void nil_send_resources(RequestId request_id, const char *json_req);
+
+/**
  * [`Client::version`](nil_client::Client::version)
  */
 void nil_server_version(RequestId request_id);
