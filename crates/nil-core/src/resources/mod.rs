@@ -24,7 +24,7 @@ use std::cmp::Ordering;
 use std::num::NonZeroU32;
 use std::ops::{Add, AddAssign, Mul, MulAssign, Sub, SubAssign};
 
-/// Basic resources, such as [food](Food).
+/// Basic resources, such as food.
 #[derive(Builder, Copy, Debug, Deserialize, Serialize)]
 #[derive_const(Clone, PartialEq, Eq)]
 #[serde(default, rename_all = "camelCase")]
