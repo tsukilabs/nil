@@ -58,29 +58,23 @@ macro_rules! decl_world_recruit_order_fn {
           &mut self,
           req: &[<$building RecruitOrderRequest>]
         ) -> Result<()> {
-          let player_id = self.city(req.coord)?.player().cloned();
-          let curr_res = if let Some(id) = &player_id {
-            Some(self.player(id)?.resources().clone())
-          } else {
-            None
-          };
+          let ruler = self.city(req.coord)?.owner().clone();
+          let available_resources = self.ruler(&ruler)?.resources();
 
           let order = self
             .city_mut(req.coord)?
             .infrastructure_mut()
-            .[<add_ $building:snake _recruit_order>](req, curr_res)?
+            .[<add_ $building:snake _recruit_order>](req, available_resources)?
             .clone();
 
-          if let Some(id) = player_id {
-            let player = self.player_mut(&id)?;
-            let resources = player.resources_mut();
-            *resources = resources
-              .checked_sub(order.resources())
-              .ok_or(Error::InsufficientResources)?;
+          let mut ruler_ref = self.ruler_mut(&ruler)?;
+          let resources = ruler_ref.resources_mut();
+          *resources = resources
+            .checked_sub(order.resources())
+            .ok_or(Error::InsufficientResources)?;
 
-            self.emit_player(id)?;
-            self.emit_city(req.coord)?;
-          }
+          self.emit_ruler(&ruler)?;
+          self.emit_city(req.coord)?;
 
           Ok(())
         }
@@ -95,14 +89,13 @@ macro_rules! decl_world_recruit_order_fn {
             .infrastructure_mut()
             .[<cancel_ $building:snake _recruit_order>](id);
 
-          if let Some(order) = order
-            && let Some(id) = city.player().cloned()
-          {
-            let player = self.player_mut(&id)?;
-            let resources = player.resources_mut();
+          if let Some(order) = order {
+            let ruler = city.owner().clone();
+            let mut ruler_ref = self.ruler_mut(&ruler)?;
+            let resources = ruler_ref.resources_mut();
             *resources += order.resources();
 
-            self.emit_player(id)?;
+            self.emit_ruler(&ruler)?;
             self.emit_city(coord)?;
           }
 

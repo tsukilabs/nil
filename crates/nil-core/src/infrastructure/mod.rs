@@ -241,12 +241,12 @@ macro_rules! impl_recruitment {
         pub(crate) fn [<add_ $building:snake _recruit_order>](
           &mut self,
           request: &[<$building RecruitOrderRequest>],
-          current_resources: Option<Resources>,
+          available_resources: Resources,
         ) -> Result<&[<$building RecruitOrder>]> {
           self
             .[<$building:snake>]
             .recruit_queue_mut()
-            .recruit(request, current_resources)
+            .recruit(request, available_resources)
         }
 
         #[must_use]
