@@ -79,7 +79,7 @@ impl Player {
     Self {
       id: options.id,
       status: PlayerStatus::Active,
-      resources: Resources::PLAYER.clone(),
+      resources: Resources::PLAYER,
       gold: Gold::MIN,
       influence: Influence::MIN,
     }
@@ -104,8 +104,8 @@ impl Player {
   }
 
   #[inline]
-  pub fn resources(&self) -> &Resources {
-    &self.resources
+  pub fn resources(&self) -> Resources {
+    self.resources
   }
 
   pub(crate) fn resources_mut(&mut self) -> &mut Resources {

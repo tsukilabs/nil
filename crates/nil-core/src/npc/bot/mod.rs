@@ -64,7 +64,7 @@ impl Bot {
     Self {
       id,
       ethics: Ethics::random(),
-      resources: Resources::BOT.clone(),
+      resources: Resources::BOT,
       gold: Gold::MIN,
       influence: Influence::MIN,
     }
@@ -86,8 +86,8 @@ impl Bot {
   }
 
   #[inline]
-  pub fn resources(&self) -> &Resources {
-    &self.resources
+  pub fn resources(&self) -> Resources {
+    self.resources
   }
 
   pub(crate) fn resources_mut(&mut self) -> &mut Resources {

@@ -56,7 +56,7 @@ impl BattleReport {
   }
 
   #[inline]
-  pub fn hauled_resources(&self) -> &Resources {
-    &self.hauled_resources
+  pub fn hauled_resources(&self) -> Resources {
+    self.hauled_resources
   }
 }

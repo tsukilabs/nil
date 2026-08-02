@@ -171,7 +171,7 @@ impl<'a> RulerRef<'a> {
     }
   }
 
-  pub fn resources(&'a self) -> &'a Resources {
+  pub fn resources(&self) -> Resources {
     match self {
       Self::Bot(bot) => bot.resources(),
       Self::Player(player) => player.resources(),
@@ -180,7 +180,7 @@ impl<'a> RulerRef<'a> {
   }
 
   #[inline]
-  pub fn has_resources(&self, resources: &Resources) -> bool {
+  pub fn has_resources(&self, resources: Resources) -> bool {
     self
       .resources()
       .checked_sub(resources)

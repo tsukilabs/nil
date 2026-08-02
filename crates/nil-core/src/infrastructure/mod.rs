@@ -150,7 +150,7 @@ impl Infrastructure {
     &mut self,
     request: &PrefectureBuildOrderRequest,
     table: &BuildingStatsTable,
-    current_resources: Option<&Resources>,
+    current_resources: Option<Resources>,
   ) -> Result<&PrefectureBuildOrder> {
     let level = self.building(request.building).level();
     self
@@ -241,7 +241,7 @@ macro_rules! impl_recruitment {
         pub(crate) fn [<add_ $building:snake _recruit_order>](
           &mut self,
           request: &[<$building RecruitOrderRequest>],
-          current_resources: Option<&Resources>,
+          current_resources: Option<Resources>,
         ) -> Result<&[<$building RecruitOrder>]> {
           self
             .[<$building:snake>]

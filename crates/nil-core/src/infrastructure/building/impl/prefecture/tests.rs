@@ -49,7 +49,7 @@ fn cannot_increase() {
 fn insufficient_resources() {
   assert!(
     Infrastructure::default()
-      .add_prefecture_build_order(&req(Construction), stats(), Some(&Resources::MIN))
+      .add_prefecture_build_order(&req(Construction), stats(), Some(Resources::MIN))
       .is_err_and(|err| matches!(err, Error::InsufficientResources))
   );
 }
@@ -57,7 +57,7 @@ fn insufficient_resources() {
 #[test]
 fn has_resources() {
   Infrastructure::default()
-    .add_prefecture_build_order(&req(Construction), stats(), Some(&Resources::MAX))
+    .add_prefecture_build_order(&req(Construction), stats(), Some(Resources::MAX))
     .expect("should have enough resources");
 }
 

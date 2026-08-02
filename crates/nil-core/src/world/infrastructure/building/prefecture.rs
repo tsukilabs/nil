@@ -14,7 +14,7 @@ impl World {
 
     let player_id = self.city(req.coord)?.player().cloned();
     let curr_res = if let Some(id) = &player_id {
-      Some(self.player(id)?.resources().clone())
+      Some(self.player(id)?.resources())
     } else {
       None
     };
@@ -22,7 +22,7 @@ impl World {
     let order = self
       .city_mut(req.coord)?
       .infrastructure_mut()
-      .add_prefecture_build_order(req, table, curr_res.as_ref())?
+      .add_prefecture_build_order(req, table, curr_res)?
       .clone();
 
     if let Some(id) = player_id {
@@ -49,16 +49,15 @@ impl World {
       .infrastructure_mut()
       .cancel_prefecture_build_order();
 
-    if let Some(order) = order
-      && let Some(id) = city.player().cloned()
-    {
+    if let Some(order) = order {
       let kind = order.kind();
       if kind.is_construction() {
-        let player = self.player_mut(&id)?;
-        let resources = player.resources_mut();
+        let ruler = city.owner().clone();
+        let mut ruler_ref = self.ruler_mut(&ruler)?;
+        let resources = ruler_ref.resources_mut();
         *resources += order.resources();
 
-        self.emit_player(id)?;
+        self.emit_ruler(&ruler)?;
       }
 
       self.emit_city(coord)?;

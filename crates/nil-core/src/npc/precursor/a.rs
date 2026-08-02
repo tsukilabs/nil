@@ -30,7 +30,7 @@ impl A {
   pub const fn new(size: ContinentSize) -> Self {
     Self {
       origin: origin(size),
-      resources: Resources::PRECURSOR.clone(),
+      resources: Resources::PRECURSOR,
       gold: Gold::MIN,
       influence: Influence::MAX,
     }

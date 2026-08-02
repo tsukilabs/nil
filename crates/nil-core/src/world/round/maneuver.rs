@@ -96,7 +96,7 @@ impl World {
       maneuver.reverse()?;
       *maneuver.hauled_resources_mut() = ManeuverHaul::builder()
         .ruler(rulers.destination_ruler.clone())
-        .resources(hauled_resources.clone())
+        .resources(hauled_resources)
         .build()
         .pipe(Some);
 

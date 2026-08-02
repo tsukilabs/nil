@@ -36,8 +36,8 @@ pub fn impl_precursor(ast: &DeriveInput) -> TokenStream {
           self.origin
         }
 
-        fn resources(&self) -> &Resources {
-          &self.resources
+        fn resources(&self) -> Resources {
+          self.resources
         }
 
         fn resources_mut(&mut self) -> &mut Resources {

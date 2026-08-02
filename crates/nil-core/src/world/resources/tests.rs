@@ -22,11 +22,11 @@ fn take_resources_of() -> Result<()> {
   let mut buf = res(8000);
 
   world.take_resources_of(&player, &mut buf)?;
-  assert_eq!(world.player(&player)?.resources(), &res(2_000));
+  assert_eq!(world.player(&player)?.resources(), res(2_000));
   assert_eq!(buf, res(8000));
 
   world.take_resources_of(&player, &mut buf)?;
-  assert_eq!(world.player(&player)?.resources(), &res(0));
+  assert_eq!(world.player(&player)?.resources(), res(0));
   assert_eq!(buf, res(2_000));
 
   Ok(())

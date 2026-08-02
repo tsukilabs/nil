@@ -12,6 +12,7 @@ use crate::npc::bot::BotId;
 use crate::npc::precursor::PrecursorId;
 use crate::player::PlayerId;
 use crate::report::ReportId;
+use crate::ruler::Ruler;
 use serde::Serialize;
 use serde::ser::Serializer;
 use std::result::Result as StdResult;
@@ -119,6 +120,9 @@ pub enum Error {
 
   #[error("Report not found")]
   ReportNotFound(ReportId),
+
+  #[error("Cannot send resources to self ({0})")]
+  ResourcesTransferToSelf(Ruler),
 
   #[error("Round already started")]
   RoundAlreadyStarted,

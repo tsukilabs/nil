@@ -65,7 +65,7 @@ macro_rules! decl_world_recruit_order_fn {
           let order = self
             .city_mut(req.coord)?
             .infrastructure_mut()
-            .[<add_ $building:snake _recruit_order>](req, curr_res.as_ref())?
+            .[<add_ $building:snake _recruit_order>](req, curr_res)?
             .clone();
 
           if let Some(id) = player_id {

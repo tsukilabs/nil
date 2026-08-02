@@ -137,7 +137,7 @@ where
     let owner = world.continent().owner_of(self.coord)?;
     let ruler_ref = world.ruler(owner)?;
 
-    let required_resources = &stats
+    let required_resources = stats
       .building(self.building)?
       .get(level + 1u8)?
       .resources;

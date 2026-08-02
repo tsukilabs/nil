@@ -56,7 +56,7 @@ impl World {
       .and_then(|coord| self.city(coord))?;
 
     let capacity_weight = self.get_storage_capacity_weight(city.coord())?;
-    let mut resources = self.ruler(city.owner())?.resources().clone();
+    let mut resources = self.ruler(city.owner())?.resources();
 
     macro_rules! apply {
       ($res:ident, $storage:ident) => {
@@ -79,7 +79,7 @@ impl World {
   {
     let mut ruler = self.ruler_mut(&ruler.into())?;
     let current_resources = ruler.take_resources();
-    if let Some(res) = current_resources.checked_sub(resources) {
+    if let Some(res) = current_resources.checked_sub(*resources) {
       *ruler.resources_mut() = res;
     } else {
       *resources = current_resources;

@@ -120,6 +120,15 @@ impl World {
     self.emit_to(player, Event::Report { world, report: Box::new(report) })
   }
 
+  /// Emits [`Event::Player`] if the ruler is a player.
+  pub(super) fn emit_ruler(&self, ruler: &Ruler) -> Result<()> {
+    if let Some(player) = ruler.player() {
+      self.emit_player(player.clone())?;
+    }
+
+    Ok(())
+  }
+
   pub(super) fn emit_battle_report(&self, report: &BattleReport) -> Result<()> {
     let mut players = HashSet::with_capacity(2);
     if let Some(player) = report.attacker().player() {

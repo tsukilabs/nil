@@ -319,8 +319,8 @@ impl ManeuverHaul {
   }
 
   #[inline]
-  pub fn resources(&self) -> &Resources {
-    &self.resources
+  pub fn resources(&self) -> Resources {
+    self.resources
   }
 }
 

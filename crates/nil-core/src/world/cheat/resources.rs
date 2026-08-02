@@ -12,7 +12,7 @@ pub fn get_resources(world: &World, ruler: &Ruler) -> Result<Resources> {
   bail_if_cheats_are_not_allowed!(world);
   world
     .ruler(ruler)
-    .map(|ruler| ruler.resources().clone())
+    .map(|ruler| ruler.resources())
 }
 
 pub fn set_resources(world: &mut World, ruler: &Ruler, resources: Resources) -> Result<()> {
@@ -21,16 +21,14 @@ pub fn set_resources(world: &mut World, ruler: &Ruler, resources: Resources) -> 
   let mut ruler_ref = world.ruler_mut(ruler)?;
   *ruler_ref.resources_mut() = resources;
 
-  if let Some(player) = ruler.player().cloned() {
-    world.emit_player(player)?;
-  }
+  world.emit_ruler(ruler)?;
 
   Ok(())
 }
 
 #[inline]
 pub fn set_max_resources(world: &mut World, ruler: &Ruler) -> Result<()> {
-  set_resources(world, ruler, Resources::MAX.clone())
+  set_resources(world, ruler, Resources::MAX)
 }
 
 pub fn set_max_silo_resources(world: &mut World, ruler: &Ruler) -> Result<()> {
