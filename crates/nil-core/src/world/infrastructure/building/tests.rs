@@ -11,7 +11,14 @@ use crate::lv;
 use crate::player::PlayerId;
 use crate::resources::Resources;
 use crate::ruler::Ruler;
-use crate::tests::{INFRASTRUCTURE_STATS, get_first_coord, make_world, spawn_player};
+use crate::tests::{
+  INFRASTRUCTURE_STATS,
+  get_first_bot,
+  get_first_coord,
+  get_first_precursor,
+  make_world,
+  spawn_player,
+};
 
 #[test]
 fn prefecture_build_order_deducts_player_resources() -> Result<()> {
@@ -83,7 +90,7 @@ fn cancel_prefecture_build_order_refunds_player_resources() -> Result<()> {
 #[test]
 fn prefecture_build_order_deducts_bot_resources() -> Result<()> {
   let mut world = make_world()?;
-  let bot = world.bots().next().unwrap().id();
+  let bot = get_first_bot(&world);
 
   let ruler = Ruler::from(bot);
   let initial_resources = Resources::splat(5000);
@@ -126,7 +133,7 @@ fn prefecture_build_order_deducts_bot_resources() -> Result<()> {
 #[test]
 fn cancel_prefecture_build_order_refunds_bot_resources() -> Result<()> {
   let mut world = make_world()?;
-  let bot = world.bots().next().unwrap().id();
+  let bot = get_first_bot(&world);
 
   let ruler = Ruler::from(bot);
   let initial_resources = Resources::splat(5000);
@@ -160,7 +167,7 @@ fn cancel_prefecture_build_order_refunds_bot_resources() -> Result<()> {
 #[test]
 fn prefecture_build_order_deducts_precursor_resources() -> Result<()> {
   let mut world = make_world()?;
-  let precursor = world.precursors().next().unwrap().id();
+  let precursor = get_first_precursor(&world);
 
   let ruler = Ruler::from(precursor);
   let initial_resources = Resources::splat(5000);
@@ -203,7 +210,7 @@ fn prefecture_build_order_deducts_precursor_resources() -> Result<()> {
 #[test]
 fn cancel_prefecture_build_order_refunds_precursor_resources() -> Result<()> {
   let mut world = make_world()?;
-  let precursor = world.precursors().next().unwrap().id();
+  let precursor = get_first_precursor(&world);
 
   let ruler = Ruler::from(precursor);
   let initial_resources = Resources::splat(5000);
