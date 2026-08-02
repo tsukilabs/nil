@@ -4,9 +4,9 @@
 <script vapor lang="ts">
 import { useI18n } from "vue-i18n";
 import type { CityImpl } from "@/core/model/city/city";
+import type { InfrastructureScene } from "@/types/scene";
 import { Table, TableBody, TableCell, TableRow } from "@ui/table";
 import { Card, CardContent, CardHeader, CardTitle } from "@ui/card";
-import type { InfrastructureScene } from "@/types/scene";
 
 defineProps<{ city: CityImpl; }>();
 

@@ -4,12 +4,11 @@
 <script setup lang="ts">
 import { useI18n } from "vue-i18n";
 import { Button } from "@ui/button";
-import type { Scene } from "@/types/scene";
 import type { Option } from "@tb-dev/utils";
 import { useBreakpoints } from "@tb-dev/vue";
 import { onBeforeRouteUpdate } from "vue-router";
-import type { GameScene } from "@/types/scene";
 import RoundState from "@/scenes/game/RoundState.vue";
+import type { GameScene, Scene } from "@/types/scene";
 import type { RoundId } from "@tsukilabs/nil-bindings";
 import { computed, nextTick, useTemplateRef } from "vue";
 import { writeText } from "@tauri-apps/plugin-clipboard-manager";
