@@ -1,6 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+use crate::continent::coord::Coord;
 use crate::error::{Error, Result};
 use crate::infrastructure::building::BuildingId;
 use crate::infrastructure::building::r#impl::prefecture::build_queue::{
@@ -34,13 +35,8 @@ fn prefecture_build_order_deducts_player_resources() -> Result<()> {
     .set(initial_resources);
 
   let coord = get_first_coord(&world, ruler.clone());
-  let request = PrefectureBuildOrderRequest {
-    coord,
-    building: BuildingId::Prefecture,
-    kind: PrefectureBuildOrderKind::Construction,
-  };
 
-  world.add_prefecture_build_order(&request)?;
+  world.add_prefecture_build_order(&req(coord))?;
 
   let remaining_resources = world.ruler(&ruler)?.resources();
   let required_resources = INFRASTRUCTURE_STATS
@@ -72,13 +68,8 @@ fn cancel_prefecture_build_order_refunds_player_resources() -> Result<()> {
     .set(initial_resources);
 
   let coord = get_first_coord(&world, ruler.clone());
-  let request = PrefectureBuildOrderRequest {
-    coord,
-    building: BuildingId::Prefecture,
-    kind: PrefectureBuildOrderKind::Construction,
-  };
 
-  world.add_prefecture_build_order(&request)?;
+  world.add_prefecture_build_order(&req(coord))?;
   world.cancel_prefecture_build_order(coord)?;
 
   let remaining_resources = world.ruler(&ruler)?.resources();
@@ -106,13 +97,7 @@ fn prefecture_build_order_deducts_bot_resources() -> Result<()> {
     .building_mut(BuildingId::Prefecture)
     .set_level(lv!(1));
 
-  let request = PrefectureBuildOrderRequest {
-    coord,
-    building: BuildingId::Prefecture,
-    kind: PrefectureBuildOrderKind::Construction,
-  };
-
-  world.add_prefecture_build_order(&request)?;
+  world.add_prefecture_build_order(&req(coord))?;
 
   let remaining_resources = world.ruler(&ruler)?.resources();
   let required_resources = INFRASTRUCTURE_STATS
@@ -149,13 +134,7 @@ fn cancel_prefecture_build_order_refunds_bot_resources() -> Result<()> {
     .building_mut(BuildingId::Prefecture)
     .set_level(lv!(1));
 
-  let request = PrefectureBuildOrderRequest {
-    coord,
-    building: BuildingId::Prefecture,
-    kind: PrefectureBuildOrderKind::Construction,
-  };
-
-  world.add_prefecture_build_order(&request)?;
+  world.add_prefecture_build_order(&req(coord))?;
   world.cancel_prefecture_build_order(coord)?;
 
   let remaining_resources = world.ruler(&ruler)?.resources();
@@ -183,13 +162,7 @@ fn prefecture_build_order_deducts_precursor_resources() -> Result<()> {
     .building_mut(BuildingId::Prefecture)
     .set_level(lv!(1));
 
-  let request = PrefectureBuildOrderRequest {
-    coord,
-    building: BuildingId::Prefecture,
-    kind: PrefectureBuildOrderKind::Construction,
-  };
-
-  world.add_prefecture_build_order(&request)?;
+  world.add_prefecture_build_order(&req(coord))?;
 
   let remaining_resources = world.ruler(&ruler)?.resources();
   let required_resources = INFRASTRUCTURE_STATS
@@ -226,17 +199,19 @@ fn cancel_prefecture_build_order_refunds_precursor_resources() -> Result<()> {
     .building_mut(BuildingId::Prefecture)
     .set_level(lv!(1));
 
-  let request = PrefectureBuildOrderRequest {
-    coord,
-    building: BuildingId::Prefecture,
-    kind: PrefectureBuildOrderKind::Construction,
-  };
-
-  world.add_prefecture_build_order(&request)?;
+  world.add_prefecture_build_order(&req(coord))?;
   world.cancel_prefecture_build_order(coord)?;
 
   let remaining_resources = world.ruler(&ruler)?.resources();
   assert_eq!(remaining_resources, initial_resources);
 
   Ok(())
+}
+
+fn req(coord: Coord) -> PrefectureBuildOrderRequest {
+  PrefectureBuildOrderRequest {
+    coord,
+    building: BuildingId::Prefecture,
+    kind: PrefectureBuildOrderKind::Construction,
+  }
 }
