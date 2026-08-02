@@ -121,7 +121,7 @@ pub enum Error {
   #[error("Report not found")]
   ReportNotFound(ReportId),
 
-  #[error("Cannot send resources to self ({0})")]
+  #[error("Cannot send resources to self")]
   ResourceReceiverIsSender(Ruler),
 
   #[error("Round already started")]
