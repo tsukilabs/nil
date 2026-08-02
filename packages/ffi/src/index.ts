@@ -276,7 +276,9 @@ export class Nil implements AsyncDisposable {
   }
 
   public async close() {
-    this.closePromise ??= this.#close();
+    this.closePromise ??= this.#close()
+      .finally(() => void (this.closePromise = null));
+
     return this.closePromise;
   }
 
