@@ -6,6 +6,7 @@ use crate::npc::bot::{Bot, BotId};
 use crate::npc::precursor::{Precursor, PrecursorId};
 use crate::player::{Player, PlayerId};
 use crate::resources::Resources;
+use crate::resources::gold::Gold;
 use crate::resources::influence::Influence;
 use derive_more::{TryUnwrap, Unwrap};
 use serde::{Deserialize, Serialize};
@@ -185,6 +186,14 @@ impl<'a> RulerRef<'a> {
       .resources()
       .checked_sub(resources)
       .is_some()
+  }
+
+  pub fn gold(&self) -> Gold {
+    match self {
+      Self::Bot(bot) => bot.gold(),
+      Self::Player(player) => player.gold(),
+      Self::Precursor(precursor) => precursor.gold(),
+    }
   }
 
   pub fn influence(&self) -> Influence {

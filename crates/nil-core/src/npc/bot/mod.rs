@@ -95,6 +95,11 @@ impl Bot {
   }
 
   #[inline]
+  pub fn gold(&self) -> Gold {
+    self.gold
+  }
+
+  #[inline]
   pub fn influence(&self) -> Influence {
     self.influence
   }

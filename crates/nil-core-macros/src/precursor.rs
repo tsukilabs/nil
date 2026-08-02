@@ -15,6 +15,7 @@ pub fn impl_precursor(ast: &DeriveInput) -> TokenStream {
       use crate::npc::precursor::{Precursor, PrecursorBox, PrecursorId};
       use crate::resources::Resources;
       use crate::resources::influence::Influence;
+      use crate::resources::gold::Gold;
 
       impl #name {
         pub fn boxed(&self) -> PrecursorBox {
@@ -42,6 +43,14 @@ pub fn impl_precursor(ast: &DeriveInput) -> TokenStream {
 
         fn resources_mut(&mut self) -> &mut Resources {
           &mut self.resources
+        }
+
+        fn gold(&self) -> Gold {
+          self.gold
+        }
+
+        fn gold_mut(&mut self) -> &mut Gold {
+          &mut self.gold
         }
 
         fn influence(&self) -> Influence {

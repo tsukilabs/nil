@@ -10,6 +10,7 @@ use crate::continent::size::ContinentSize;
 use crate::ethic::Ethics;
 use crate::military::army::personnel::ArmyPersonnel;
 use crate::resources::Resources;
+use crate::resources::gold::Gold;
 use crate::resources::influence::Influence;
 use crate::ruler::Ruler;
 use derive_more::Deref;
@@ -25,6 +26,8 @@ pub const trait Precursor: Send + Sync {
   fn origin(&self) -> Coord;
   fn resources(&self) -> Resources;
   fn resources_mut(&mut self) -> &mut Resources;
+  fn gold(&self) -> Gold;
+  fn gold_mut(&mut self) -> &mut Gold;
   fn influence(&self) -> Influence;
 }
 
