@@ -3982,7 +3982,7 @@ snapshots:
       '@internationalized/number': 3.6.7
       '@tanstack/vue-virtual': 3.13.32(vue@3.6.0-rc.2)
       '@vueuse/core': 14.4.0(vue@3.6.0-rc.2)
-      '@vueuse/shared': 14.3.0(vue@3.6.0-rc.2)
+      '@vueuse/shared': 14.4.0(vue@3.6.0-rc.2)
       aria-hidden: 1.2.6
       defu: 6.1.7
       ohash: 2.0.11

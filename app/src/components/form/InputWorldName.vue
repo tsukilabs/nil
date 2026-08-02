@@ -32,6 +32,9 @@ const { t } = useI18n({
       :disabled
       :minlength="1"
       :maxlength="30"
+      spellcheck="false"
+      autocapitalize="off"
+      autocomplete="off"
     />
   </Label>
 </template>

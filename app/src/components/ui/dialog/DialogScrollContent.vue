@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import type { DialogContentEmits, DialogContentProps } from "reka-ui";
+
 import type { HTMLAttributes } from "vue";
+import { XIcon } from "@lucide/vue";
 import { reactiveOmit } from "@vueuse/core";
-import { X } from "@lucide/vue";
 import { DialogClose, DialogContent, DialogOverlay, DialogPortal, useForwardPropsEmits } from "reka-ui";
 import { cn } from "@/components/ui/utils";
 
@@ -25,7 +26,7 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits);
     >
       <DialogContent
         :class="cn(
-          'relative z-50 grid w-full max-w-lg my-8 gap-4 border border-border bg-background p-6 shadow-lg duration-200 sm:rounded-none md:w-full',
+          'relative z-50 grid w-full max-w-lg my-8 gap-4 border border-border bg-background p-6 shadow-lg duration-200 sm:rounded-lg md:w-full',
           props.class,
         )"
         v-bind="{ ...$attrs, ...forwarded }"
@@ -39,8 +40,8 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits);
       >
         <slot />
 
-        <DialogClose class="absolute top-4 right-4 p-0.5 transition-colors rounded-none hover:bg-secondary">
-          <X class="w-4 h-4" />
+        <DialogClose class="absolute top-4 right-4 p-0.5 transition-colors rounded-md hover:bg-secondary">
+          <XIcon class="w-4 h-4" />
           <span class="sr-only">Close</span>
         </DialogClose>
       </DialogContent>

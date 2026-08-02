@@ -62,8 +62,13 @@ async function onClick() {
     <CommandList>
       <CommandEmpty>{{ t("no-results-found") }}</CommandEmpty>
       <CommandGroup>
-        <CommandItem v-for="item of items" :key="item.value" :value="item.value" as-child>
-          <RouterLink :to="{ name: item.value }" class="w-full cursor-pointer" @click="onClick">
+        <CommandItem
+          v-for="item of items"
+          :key="item.value"
+          :value="item.value"
+          @click="onClick"
+        >
+          <RouterLink :to="{ name: item.value }" class="w-full cursor-pointer">
             {{ item.label }}
           </RouterLink>
         </CommandItem>
