@@ -3,13 +3,13 @@
 //! Copyright (C) Call of Nil contributors
 //! SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Handle } from ".";
 import * as ffi from "node:ffi";
 import { RequestId } from "./request";
 import { EventEmitter } from "node:events";
 import { isNil } from "es-toolkit/predicate";
 import type { nil, Option } from "@tb-dev/utils";
 import { allocBuffer, readBufferPtr } from "./ptr";
+import type { ErrorHandler, Handle, QueueOptions } from "./types";
 import { HandleClosedError, NilError, UnknownResponseError } from "./error";
 import {
   type ffi_QueueEntry,
@@ -183,12 +183,6 @@ export class Queue implements Disposable {
 
 type QueueEvent = "error" | "response";
 type RequestFn = (requestId: ffi_RequestId) => void;
-
-export type ErrorHandler = (error: unknown) => void;
-
-export interface QueueOptions {
-  onError?: Option<ErrorHandler>;
-}
 
 interface Pending<T> {
   resolve: (value: T) => void;

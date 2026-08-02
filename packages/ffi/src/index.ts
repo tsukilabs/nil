@@ -1,6 +1,7 @@
 //! Copyright (C) Call of Nil contributors
 //! SPDX-License-Identifier: AGPL-3.0-only
 
+import { Queue } from "./queue";
 import * as ffi from "node:ffi";
 import * as path from "node:path";
 import { cwd } from "node:process";
@@ -10,8 +11,8 @@ import * as fs from "node:fs/promises";
 import { HandleClosedError } from "./error";
 import type { Option } from "@tb-dev/utils";
 import { attemptAsync } from "es-toolkit/util";
-import { Queue, type QueueOptions } from "./queue";
 import { version } from "../package.json" with { type: "json" };
+import type { DownloadLatestOptions, Handle, InitLatestOptions, NilOptions } from "./types";
 import type {
   AddAcademyRecruitOrderRequest,
   AddPrefectureBuildOrderRequest,
@@ -229,8 +230,7 @@ import type {
 export * from "./def";
 export * from "./error";
 
-export type Handle = ffi.DynamicLibraryResult<typeof definitions>;
-export type { ErrorHandler, QueueOptions } from "./queue";
+export type * from "./types";
 
 export const VERSION = version;
 export const USER_AGENT = `nil-ffi-node/${VERSION}`;
@@ -283,6 +283,43 @@ export class Nil implements AsyncDisposable {
   public isClosed() {
     return this.closed;
   }
+
+  public static async init(dll: string, options?: NilOptions) {
+    const nil = new Nil(dll, options);
+    await nil.setUserAgent(USER_AGENT);
+    return nil;
+  }
+
+  public static async initLatest(options?: InitLatestOptions) {
+    const dll = await this.downloadLatest(options);
+    return this.init(dll, options);
+  }
+
+  public static async downloadLatest(options?: DownloadLatestOptions) {
+    const file = `libnil.${ffi.suffix}`;
+    const filePath = path.resolve(options?.outDir ?? cwd(), file);
+    if (!(options?.overwrite ?? true) && existsSync(filePath)) {
+      return filePath;
+    }
+
+    const response = await fetch(`https://tsukilabs.dev.br/download/nil/${file}`, {
+      headers: { "User-Agent": USER_AGENT },
+    });
+
+    if (!response.ok) {
+      throw new Error(
+        `failed to download ${file}: ${response.status} ${response.statusText}`,
+      );
+    }
+
+    const bytes = await response.bytes();
+    await fs.writeFile(filePath, bytes);
+    return filePath;
+  }
+
+  /////////////////////////////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////// FFI FUNCTIONS ////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////////////////////
 
   @ThrowIfClosed
   public async addAcademyRecruitOrder(req: AddAcademyRecruitOrderRequest) {
@@ -1284,39 +1321,6 @@ export class Nil implements AsyncDisposable {
       this.functions.nil_validate_token(requestId, JSON.stringify(req));
     });
   }
-
-  public static async init(dll: string, options?: NilOptions) {
-    const nil = new Nil(dll, options);
-    await nil.setUserAgent(USER_AGENT);
-    return nil;
-  }
-
-  public static async initLatest(options?: InitLatestOptions) {
-    const dll = await this.downloadLatest(options);
-    return this.init(dll, options);
-  }
-
-  public static async downloadLatest(options?: DownloadLatestOptions) {
-    const file = `libnil.${ffi.suffix}`;
-    const filePath = path.resolve(options?.outDir ?? cwd(), file);
-    if (!(options?.overwrite ?? true) && existsSync(filePath)) {
-      return filePath;
-    }
-
-    const response = await fetch(`https://tsukilabs.dev.br/download/nil/${file}`, {
-      headers: { "User-Agent": USER_AGENT },
-    });
-
-    if (!response.ok) {
-      throw new Error(
-        `failed to download ${file}: ${response.status} ${response.statusText}`,
-      );
-    }
-
-    const bytes = await response.bytes();
-    await fs.writeFile(filePath, bytes);
-    return filePath;
-  }
 }
 
 function ThrowIfClosed(_target: Nil, _key: string, descriptor: PropertyDescriptor) {
@@ -1329,13 +1333,3 @@ function ThrowIfClosed(_target: Nil, _key: string, descriptor: PropertyDescripto
     return Reflect.apply(method, this, args);
   };
 }
-
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
-export interface NilOptions extends QueueOptions {}
-
-export interface DownloadLatestOptions {
-  outDir?: Option<string>;
-  overwrite?: boolean;
-}
-
-export type InitLatestOptions = DownloadLatestOptions & NilOptions;
