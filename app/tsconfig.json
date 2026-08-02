@@ -1,8 +1,6 @@
 {
   "include": ["src/**/*.ts", "src/**/*.vue"],
   "compilerOptions": {
-    "ignoreDeprecations": "6.0",
-    "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
       "@ui/*": ["./src/components/ui/*"]
@@ -35,6 +33,9 @@
     "noFallthroughCasesInSwitch": true,
     "forceConsistentCasingInFileNames": true,
     "noEmitOnError": true,
+
+    "ignoreDeprecations": "6.0",
+    "baseUrl": ".",
 
     "types": ["@tauri-store/pinia", "@tb-dev/prototype-dom"]
   },
