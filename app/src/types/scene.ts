@@ -18,18 +18,20 @@ export type Scene =
 export type GameScene =
   | ContinentScene
   | InfrastructureScene
+  | MarketScene
   | ProfileScene
   | ReportScene
   | WarRoomScene
   | "chat"
   | "city"
   | "continent"
-  | "market"
   | "maneuver"
   | "own-cities"
   | "ranking";
 
 export type ContinentScene = "continent" | "continent-cities";
+
+export type MarketScene = "market" | "market-send";
 
 export type ProfileScene = "profile-bot" | "profile-city" | "profile-player" | "profile-precursor";
 

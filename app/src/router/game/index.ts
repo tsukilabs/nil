@@ -1,6 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { marketRoutes } from "./market";
 import { reportRoutes } from "./report";
 import { profileRoutes } from "./profile";
 import { warRoomRoutes } from "./war-room";
@@ -33,7 +34,7 @@ export const gameRoutes: RouteRecordRaw[] = [
   {
     component: () => import("@/scenes/game/market/index.vue"),
     path: "market",
-    name: "market" satisfies GameScene,
+    children: marketRoutes,
   },
   {
     component: () => import("@/scenes/game/maneuver/index.vue"),

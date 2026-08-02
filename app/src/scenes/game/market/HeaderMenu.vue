@@ -7,7 +7,7 @@ import { useI18n } from "vue-i18n";
 import { useRoute } from "vue-router";
 import { MenuIcon } from "@lucide/vue";
 import { useBreakpoints } from "@tb-dev/vue";
-import type { WarRoomScene } from "@/types/scene";
+import type { MarketScene } from "@/types/scene";
 import { Button, type ButtonVariant } from "@ui/button";
 import {
   DropdownMenu,
@@ -22,33 +22,22 @@ const { t } = useI18n();
 const route = useRoute();
 const { md } = useBreakpoints();
 
-function getButtonVariant(scene: WarRoomScene): ButtonVariant {
+function getButtonVariant(scene: MarketScene): ButtonVariant {
   return route.name === scene ? "secondary" : "ghost";
 }
 </script>
 
 <template>
-  <div v-if="md" class="grid grid-cols-2 gap-2">
+  <div v-if="md" class="grid grid-cols-1 gap-2">
     <Button
       size="sm"
-      :variant="getButtonVariant('war-room')"
+      :variant="getButtonVariant('market-send')"
       role="link"
       tabindex="0"
-      @click.stop="() => go('war-room')"
-      @keydown.enter.stop="() => go('war-room')"
+      @click.stop="() => go('market-send')"
+      @keydown.enter.stop="() => go('market-send')"
     >
-      <span>{{ t("maneuver", 2) }}</span>
-    </Button>
-
-    <Button
-      size="sm"
-      :variant="getButtonVariant('war-room-simulator')"
-      role="link"
-      tabindex="0"
-      @click.stop="() => go('war-room-simulator')"
-      @keydown.enter.stop="() => go('war-room-simulator')"
-    >
-      <span>{{ t("simulator") }}</span>
+      <span>{{ t("send-resources") }}</span>
     </Button>
   </div>
 
@@ -68,13 +57,8 @@ function getButtonVariant(scene: WarRoomScene): ButtonVariant {
     >
       <DropdownMenuGroup>
         <DropdownMenuItem>
-          <RouterLink :to="{ name: 'war-room' satisfies WarRoomScene }" class="w-full">
-            {{ t("maneuver", 2) }}
-          </RouterLink>
-        </DropdownMenuItem>
-        <DropdownMenuItem>
-          <RouterLink :to="{ name: 'war-room-simulator' satisfies WarRoomScene }" class="w-full">
-            {{ t("simulator") }}
+          <RouterLink :to="{ name: 'market-send' satisfies MarketScene }" class="w-full">
+            {{ t("send-resources") }}
           </RouterLink>
         </DropdownMenuItem>
       </DropdownMenuGroup>
