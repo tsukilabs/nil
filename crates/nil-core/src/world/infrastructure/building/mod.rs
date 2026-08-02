@@ -6,6 +6,9 @@ mod prefecture;
 mod stable;
 mod workshop;
 
+#[cfg(test)]
+mod tests;
+
 use crate::continent::coord::Coord;
 use crate::continent::index::ContinentKey;
 use crate::error::Result;

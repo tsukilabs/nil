@@ -12,31 +12,24 @@ impl World {
     let stats = Arc::clone(&self.stats.infrastructure);
     let table = stats.building(req.building)?;
 
-    let player_id = self.city(req.coord)?.player().cloned();
-    let curr_res = if let Some(id) = &player_id {
-      Some(self.player(id)?.resources())
-    } else {
-      None
-    };
+    let ruler = self.city(req.coord)?.owner().clone();
+    let available_resources = self.ruler(&ruler)?.resources();
 
     let order = self
       .city_mut(req.coord)?
       .infrastructure_mut()
-      .add_prefecture_build_order(req, table, curr_res)?
+      .add_prefecture_build_order(req, table, available_resources)?
       .clone();
 
-    if let Some(id) = player_id {
-      let kind = order.kind();
-      if kind.is_construction() {
-        let player = self.player_mut(&id)?;
-        let resources = player.resources_mut();
-        *resources = resources
-          .checked_sub(order.resources())
-          .ok_or(Error::InsufficientResources)?;
+    let kind = order.kind();
+    if kind.is_construction() {
+      let mut ruler_ref = self.ruler_mut(&ruler)?;
+      let resources = ruler_ref.resources_mut();
+      *resources = resources
+        .checked_sub(order.resources())
+        .ok_or(Error::InsufficientResources)?;
 
-        self.emit_player(id)?;
-      }
-
+      self.emit_ruler(&ruler)?;
       self.emit_city(req.coord)?;
     }
 

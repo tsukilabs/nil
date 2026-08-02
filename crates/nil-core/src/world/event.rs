@@ -39,7 +39,7 @@ impl World {
     Ok(())
   }
 
-  /// Emits the event to the owner of the city at the specified coordinate, if any.
+  /// Emits the event to the owner of the city at the specified coordinate, if they're a player.
   fn emit_to_city_owner(&self, coord: Coord, event: Event) -> Result<()> {
     let city = self.city(coord)?;
     self.emit_to_ruler(city.owner(), event)?;
@@ -52,7 +52,7 @@ impl World {
     self.broadcast(Event::ChatMessage { world, message })
   }
 
-  /// Emits [`Event::City`] to the city owner.
+  /// Emits [`Event::City`] to the city owner, if they're a player.
   pub(super) fn emit_city(&self, coord: Coord) -> Result<()> {
     let world = self.config.id();
     self.emit_to_city_owner(coord, Event::City { world, coord })

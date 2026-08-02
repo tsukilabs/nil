@@ -129,6 +129,7 @@ impl Resources {
     }
   }
 
+  /// Adds resources, respecting the storage capacity.
   pub const fn add_within_capacity(
     &mut self,
     diff: &ResourcesDiff,
@@ -145,6 +146,10 @@ impl Resources {
     }
 
     add!(food => silo, iron => warehouse, stone => warehouse, wood => warehouse);
+  }
+
+  pub fn set(&mut self, resources: impl Into<Resources>) {
+    *self = resources.into();
   }
 
   /// Checked resource subtraction.
@@ -185,6 +190,12 @@ impl Resources {
 const impl Default for Resources {
   fn default() -> Self {
     Self::new()
+  }
+}
+
+const impl From<u32> for Resources {
+  fn from(value: u32) -> Self {
+    Self::splat(value)
   }
 }
 

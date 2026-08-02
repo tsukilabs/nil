@@ -150,13 +150,13 @@ impl Infrastructure {
     &mut self,
     request: &PrefectureBuildOrderRequest,
     table: &BuildingStatsTable,
-    current_resources: Option<Resources>,
+    available_resources: Resources,
   ) -> Result<&PrefectureBuildOrder> {
     let level = self.building(request.building).level();
     self
       .prefecture
       .build_queue_mut()
-      .build(request, table, level, current_resources)
+      .build(request, table, level, available_resources)
   }
 
   #[must_use]
