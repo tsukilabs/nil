@@ -33,6 +33,9 @@ const { t } = useI18n({
       :disabled
       :minlength="3"
       :maxlength="50"
+      spellcheck="false"
+      autocapitalize="off"
+      autocomplete="off"
       @keydown.enter="() => onEnter?.()"
     />
   </Label>

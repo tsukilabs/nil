@@ -6,7 +6,6 @@ packages:
 
 dedupePeers: true
 ignoreWorkspaceRootCheck: true
-trustPolicy: no-downgrade
 
 minimumReleaseAge: 1440
 minimumReleaseAgeStrict: true
