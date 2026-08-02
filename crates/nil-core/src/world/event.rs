@@ -65,6 +65,12 @@ impl World {
     self.broadcast(Event::Drop { world })
   }
 
+  /// Emits [`Event::Market`].
+  pub(super) fn emit_market(&self) -> Result<()> {
+    let world = self.config.id();
+    self.broadcast(Event::Market { world })
+  }
+
   /// Emits [`Event::Military`].
   pub(super) fn emit_military(&self, player: PlayerId) -> Result<()> {
     let world = self.config.id();

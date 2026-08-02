@@ -86,6 +86,9 @@ pub enum Event {
   /// This event **MUST** only be emitted inside the `Drop` implementation of the `World` struct.
   Drop { world: WorldId },
 
+  /// Indicates that the market prices have changed.
+  Market { world: WorldId },
+
   /// Indicates that the player's military has changed.
   /// It usually means new maneuvers have been initiated,
   /// since the armies themselves are processed at the end of the round.
@@ -135,6 +138,11 @@ impl fmt::Debug for Event {
       }
       Self::Drop { world } => {
         f.debug_struct("Drop")
+          .field("world", world)
+          .finish()
+      }
+      Self::Market { world } => {
+        f.debug_struct("Market")
           .field("world", world)
           .finish()
       }

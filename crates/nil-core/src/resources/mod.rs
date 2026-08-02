@@ -10,6 +10,7 @@ pub mod prelude;
 pub mod workforce;
 
 use crate::city::stability::Stability;
+use crate::error::{Error, Result};
 use crate::infrastructure::mine::MineProduction;
 use crate::infrastructure::storage::{OverallStorageCapacity, StorageCapacity};
 use crate::market::fee::MarketFee;
@@ -132,8 +133,8 @@ impl Resources {
   /// Adds resources, respecting the storage capacity.
   pub const fn add_within_capacity(
     &mut self,
-    diff: &ResourcesDiff,
-    capacity: &OverallStorageCapacity,
+    diff: ResourcesDiff,
+    capacity: OverallStorageCapacity,
   ) {
     macro_rules! add {
       ($($resource:ident => $storage:ident),+ $(,)?) => {
@@ -353,6 +354,28 @@ macro_rules! decl_resource {
         const impl From<StorageCapacity> for $resource {
           fn from(value: StorageCapacity) -> Self {
             Self(*value)
+          }
+        }
+
+        const impl From<$resource> for Resources {
+          fn from(value: $resource) -> Self {
+            let mut resources = Resources::new();
+            resources.[<$resource:snake>] = value;
+            resources
+          }
+        }
+
+        impl TryFrom<$resource> for i32 {
+          type Error = $crate::error::Error;
+
+          fn try_from(value: $resource) -> Result<Self> {
+            match i32::try_from(value.0) {
+              Ok(value) => Ok(value),
+              Err(_) =>  {
+                let resources = Resources::from(value);
+                Err(Error::TooManyResources(resources))
+              },
+            }
           }
         }
 

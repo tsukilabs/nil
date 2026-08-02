@@ -100,6 +100,7 @@ fn from_core_err(err: CoreError) -> Response {
     RoundNotStarted => res!(BAD_REQUEST, text),
     StorageStatsNotFound(..) => res!(NOT_FOUND, text),
     StorageStatsNotFoundForLevel(..) => res!(NOT_FOUND, text),
+    TooManyResources(..) => res!(BAD_REQUEST, text),
     UnexpectedUnit(..) => res!(BAD_REQUEST, text),
     WallStatsNotFoundForLevel(..) => res!(NOT_FOUND, text),
     WorldIsFull => res!(FORBIDDEN, text),
