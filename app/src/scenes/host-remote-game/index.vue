@@ -18,6 +18,7 @@ import ptBR_hostGame from "@/locale/pt-BR/scenes/host-game.json";
 import { localRef, useBreakpoints, useMutex } from "@tb-dev/vue";
 import ButtonSpinner from "@/components/button/ButtonSpinner.vue";
 import InputWorldName from "@/components/form/InputWorldName.vue";
+import SliderMarketFee from "@/components/form/SliderMarketFee.vue";
 import SliderWorldSize from "@/components/form/SliderWorldSize.vue";
 import SliderBotDensity from "@/components/form/SliderBotDensity.vue";
 import SliderWorldSpeed from "@/components/form/SliderWorldSpeed.vue";
@@ -109,6 +110,7 @@ function key(name: string) {
         <SliderWorldUnitSpeed v-model="worldOptions" :disabled="locked" />
         <SliderBotDensity v-model="worldOptions" :disabled="locked" />
         <SliderBotAdvancedStartRatio v-model="worldOptions" :disabled="locked" />
+        <SliderMarketFee v-model="worldOptions" :disabled="locked" />
         <SliderRoundDuration
           v-model:duration="roundDuration"
           v-model:enabled="isRoundDurationEnabled"
