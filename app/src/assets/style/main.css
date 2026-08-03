@@ -3,10 +3,6 @@
 
 @reference "./base.css";
 
-button {
-  @apply cursor-pointer;
-}
-
 button[data-slot="tabs-trigger"] {
   @apply border-0!;
 }
