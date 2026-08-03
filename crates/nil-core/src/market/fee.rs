@@ -11,7 +11,7 @@ use serde::{Deserialize, Serialize};
 pub struct MarketFee(f64);
 
 impl MarketFee {
-  pub const MIN: MarketFee = MarketFee(0.05);
+  pub const MIN: MarketFee = MarketFee(0.01);
   pub const MAX: MarketFee = MarketFee(1.0);
 
   #[inline]

@@ -17,6 +17,7 @@ import { isPlayerOptions, isWorldOptions } from "@/lib/schema";
 import { localRef, useBreakpoints, useMutex } from "@tb-dev/vue";
 import InputWorldName from "@/components/form/InputWorldName.vue";
 import InputPlayerName from "@/components/form/InputPlayerName.vue";
+import SliderMarketFee from "@/components/form/SliderMarketFee.vue";
 import SliderWorldSize from "@/components/form/SliderWorldSize.vue";
 import SliderBotDensity from "@/components/form/SliderBotDensity.vue";
 import SliderWorldSpeed from "@/components/form/SliderWorldSpeed.vue";
@@ -89,13 +90,14 @@ function key(name: string) {
       </CardHeader>
 
       <CardContent class="card-form">
-        <InputWorldName v-model="worldOptions.name" :disabled="locked" />
+        <InputWorldName v-model="worldOptions" :disabled="locked" />
         <InputPlayerName v-model="playerOptions.id" :disabled="locked" />
         <SliderWorldSize v-model="worldOptions" :disabled="locked" />
         <SliderWorldSpeed v-model="worldOptions" :disabled="locked" />
         <SliderWorldUnitSpeed v-model="worldOptions" :disabled="locked" />
         <SliderBotDensity v-model="worldOptions" :disabled="locked" />
         <SliderBotAdvancedStartRatio v-model="worldOptions" :disabled="locked" />
+        <SliderMarketFee v-model="worldOptions" :disabled="locked" />
 
         <div class="flex items-center justify-center py-1">
           <Label>
