@@ -186,6 +186,7 @@ pub fn run() {
       command::world::get_world_personnel,
       command::world::get_world_players,
       command::world::get_world_precursors,
+      command::world::get_world_rulers,
       command::world::get_world_stats,
       command::world::is_savedata,
       command::world::read_savedata_info,

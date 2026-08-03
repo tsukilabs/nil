@@ -124,6 +124,7 @@ dispatch!(
   get_world_personnel,
   get_world_players,
   get_world_precursors,
+  get_world_rulers,
   get_world_stats,
   player_exists,
   push_chat_message,

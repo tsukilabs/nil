@@ -778,6 +778,12 @@ namespace CsBindgen
         public static extern void nil_get_world_precursors(uint request_id, byte* json_req);
 
         /// <summary>
+        ///  [`Client::get_world_rulers`](nil_client::Client::get_world_rulers)
+        /// </summary>
+        [DllImport(__DllName, EntryPoint = "nil_get_world_rulers", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void nil_get_world_rulers(uint request_id, byte* json_req);
+
+        /// <summary>
         ///  [`Client::get_world_stats`](nil_client::Client::get_world_stats)
         /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_get_world_stats", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]

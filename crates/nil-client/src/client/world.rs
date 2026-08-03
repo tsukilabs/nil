@@ -157,6 +157,21 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `PUT /get-world-rulers`
+  pub async fn get_world_rulers(
+    &self,
+    req: GetWorldRulersRequest,
+  ) -> Result<GetWorldRulersResponse> {
+    http::json_put("get-world-rulers")
+      .body(req)
+      .server(self.server)
+      .circuit_breaker(self.circuit_breaker())
+      .retry(&self.retry)
+      .user_agent(&self.user_agent)
+      .send()
+      .await
+  }
+
   /// Endpoint: `PUT /get-world-stats`
   pub async fn get_world_stats(&self, req: GetWorldStatsRequest) -> Result<GetWorldStatsResponse> {
     http::json_put("get-world-stats")

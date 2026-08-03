@@ -94,6 +94,15 @@ pub struct GetWorldPrecursorsRequest {
 #[serde(rename_all = "camelCase")]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
+pub struct GetWorldRulersRequest {
+  #[builder(start_fn, into)]
+  pub world: WorldId,
+}
+
+#[derive(Builder, Clone, Debug, Deserialize, Serialize, FromWorld)]
+#[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 pub struct GetWorldStatsRequest {
   #[builder(start_fn, into)]
   pub world: WorldId,

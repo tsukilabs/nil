@@ -247,6 +247,8 @@ export type { GetWorldPlayersRequest } from './GetWorldPlayersRequest';
 export type { GetWorldPlayersResponse } from './GetWorldPlayersResponse';
 export type { GetWorldPrecursorsRequest } from './GetWorldPrecursorsRequest';
 export type { GetWorldPrecursorsResponse } from './GetWorldPrecursorsResponse';
+export type { GetWorldRulersRequest } from './GetWorldRulersRequest';
+export type { GetWorldRulersResponse } from './GetWorldRulersResponse';
 export type { GetWorldStatsRequest } from './GetWorldStatsRequest';
 export type { GetWorldStatsResponse } from './GetWorldStatsResponse';
 export type { Gold } from './Gold';

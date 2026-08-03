@@ -26,6 +26,8 @@ import type {
   GetWorldPlayersResponse,
   GetWorldPrecursorsRequest,
   GetWorldPrecursorsResponse,
+  GetWorldRulersRequest,
+  GetWorldRulersResponse,
   GetWorldStatsRequest,
   GetWorldStatsResponse,
   PlayerId,
@@ -115,6 +117,14 @@ export async function getWorldPrecursors(world?: Option<WorldId>) {
   };
 
   return invoke<GetWorldPrecursorsResponse>("get_world_precursors", { req });
+}
+
+export async function getWorldRulers(world?: Option<WorldId>) {
+  const req: GetWorldRulersRequest = {
+    world: world ?? NIL.world.getIdStrict(),
+  };
+
+  return invoke<GetWorldRulersResponse>("get_world_rulers", { req });
 }
 
 export async function getWorldStats(world?: Option<WorldId>): Promise<WorldStatsImpl> {

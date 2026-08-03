@@ -15,6 +15,7 @@ use nil_core::military::army::personnel::ArmyPersonnel;
 use nil_core::npc::bot::Bot;
 use nil_core::npc::precursor::Precursor;
 use nil_core::player::{Player, PlayerStatus};
+use nil_core::ruler::Ruler;
 use nil_core::world::World;
 use nil_payload::request::world::*;
 use nil_payload::response::world::*;
@@ -22,7 +23,12 @@ use std::sync::Arc;
 
 pub async fn get_bots(State(app): State<App>, Json(req): Json<GetWorldBotsRequest>) -> Response {
   app
-    .bot_manager(req.world, |bm| bm.bots().map(Bot::id).collect_vec())
+    .bot_manager(req.world, |bm| {
+      bm.bots()
+        .map(Bot::id)
+        .sorted_unstable()
+        .collect_vec()
+    })
     .await
     .map_left(|bots| res!(OK, GetWorldBotsResponse(bots)))
     .into_inner()
@@ -57,7 +63,12 @@ pub async fn get_players(
   Json(req): Json<GetWorldPlayersRequest>,
 ) -> Response {
   app
-    .player_manager(req.world, |pm| pm.players().map(Player::id).collect_vec())
+    .player_manager(req.world, |pm| {
+      pm.players()
+        .map(Player::id)
+        .sorted_unstable()
+        .collect_vec()
+    })
     .await
     .map_left(|players| res!(OK, GetWorldPlayersResponse(players)))
     .into_inner()
@@ -71,10 +82,28 @@ pub async fn get_precursors(
     .precursor_manager(req.world, |pm| {
       pm.precursors()
         .map(Precursor::id)
+        .sorted_unstable()
         .collect_vec()
     })
     .await
     .map_left(|precursors| res!(OK, GetWorldPrecursorsResponse(precursors)))
+    .into_inner()
+}
+
+pub async fn get_rulers(
+  State(app): State<App>,
+  Json(req): Json<GetWorldRulersRequest>,
+) -> Response {
+  app
+    .world(req.world, |world| {
+      world
+        .rulers()
+        .map(Ruler::from)
+        .sorted_unstable()
+        .collect_vec()
+    })
+    .await
+    .map_left(|rulers| res!(OK, GetWorldRulersResponse(rulers)))
     .into_inner()
 }
 

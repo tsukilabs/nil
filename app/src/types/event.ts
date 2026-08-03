@@ -14,6 +14,7 @@ type KindMap = {
 export type ChatMessagePayload = KindMap["chat-message"];
 export type CityPayload = KindMap["city"];
 export type DropPayload = KindMap["drop"];
+export type MarketPayload = KindMap["market"];
 export type MilitaryPayload = KindMap["military"];
 export type PlayerPayload = KindMap["player"];
 export type PublicCityPayload = KindMap["public-city"];

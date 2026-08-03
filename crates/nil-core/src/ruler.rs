@@ -10,7 +10,7 @@ use crate::resources::gold::Gold;
 use crate::resources::influence::Influence;
 use derive_more::{TryUnwrap, Unwrap};
 use serde::{Deserialize, Serialize};
-use std::{fmt, mem};
+use std::{cmp, fmt, mem};
 use strum::EnumIs;
 
 #[derive(Clone, Debug, PartialEq, Eq, Hash, Deserialize, Serialize, EnumIs)]
@@ -150,6 +150,26 @@ impl From<RulerRefMut<'_>> for Ruler {
       RulerRefMut::Bot(bot) => Self::Bot { id: bot.id() },
       RulerRefMut::Player(player) => Self::Player { id: player.id() },
       RulerRefMut::Precursor(precursor) => Self::Precursor { id: precursor.id() },
+    }
+  }
+}
+
+impl PartialOrd for Ruler {
+  fn partial_cmp(&self, other: &Self) -> Option<cmp::Ordering> {
+    Some(self.cmp(other))
+  }
+}
+
+impl Ord for Ruler {
+  fn cmp(&self, other: &Self) -> cmp::Ordering {
+    match (self, other) {
+      (Self::Bot { id: a }, Self::Bot { id: b }) => a.cmp(b),
+      (Self::Player { id: a }, Self::Player { id: b }) => a.cmp(b),
+      (Self::Precursor { id: a }, Self::Precursor { id: b }) => a.cmp(b),
+      (Self::Bot { .. }, Self::Player { .. }) => cmp::Ordering::Less,
+      (Self::Bot { .. }, Self::Precursor { .. }) => cmp::Ordering::Greater,
+      (Self::Player { .. }, _) => cmp::Ordering::Greater,
+      (Self::Precursor { .. }, _) => cmp::Ordering::Less,
     }
   }
 }

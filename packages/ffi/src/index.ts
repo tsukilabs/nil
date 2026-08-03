@@ -194,6 +194,8 @@ import type {
   GetWorldPlayersResponse,
   GetWorldPrecursorsRequest,
   GetWorldPrecursorsResponse,
+  GetWorldRulersRequest,
+  GetWorldRulersResponse,
   GetWorldStatsRequest,
   GetWorldStatsResponse,
   LocalServer,
@@ -1141,6 +1143,13 @@ export class Nil implements AsyncDisposable {
   public async getWorldPrecursors(req: GetWorldPrecursorsRequest) {
     return this.queue.request<GetWorldPrecursorsResponse>((requestId) => {
       this.functions.nil_get_world_precursors(requestId, JSON.stringify(req));
+    });
+  }
+
+  @ThrowIfClosed
+  public async getWorldRulers(req: GetWorldRulersRequest) {
+    return this.queue.request<GetWorldRulersResponse>((requestId) => {
+      this.functions.nil_get_world_rulers(requestId, JSON.stringify(req));
     });
   }
 

@@ -105,7 +105,9 @@ impl Bot {
   }
 }
 
-#[derive(Debug, Display, PartialEq, Eq, Hash, From, Into, Deserialize, Serialize)]
+#[derive(
+  Debug, Display, PartialEq, Eq, PartialOrd, Ord, Hash, From, Into, Deserialize, Serialize,
+)]
 #[from(String, &str, Arc<str>, Box<str>, Cow<'_, str>)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct BotId(Arc<str>);

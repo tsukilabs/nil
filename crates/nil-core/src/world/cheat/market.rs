@@ -9,5 +9,6 @@ use crate::world::World;
 pub fn set_market_fee(world: &mut World, fee: MarketFee) -> Result<()> {
   bail_if_cheats_are_not_allowed!(world);
   *world.market_mut().fee_mut() = fee.clamped();
+  world.emit_market()?;
   Ok(())
 }

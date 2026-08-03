@@ -135,6 +135,7 @@ nil_get_world_config: { arguments: [ffi.types.UINT_32, ffi.types.POINTER], retur
 nil_get_world_personnel: { arguments: [ffi.types.UINT_32, ffi.types.POINTER], return: ffi.types.VOID },
 nil_get_world_players: { arguments: [ffi.types.UINT_32, ffi.types.POINTER], return: ffi.types.VOID },
 nil_get_world_precursors: { arguments: [ffi.types.UINT_32, ffi.types.POINTER], return: ffi.types.VOID },
+nil_get_world_rulers: { arguments: [ffi.types.UINT_32, ffi.types.POINTER], return: ffi.types.VOID },
 nil_get_world_stats: { arguments: [ffi.types.UINT_32, ffi.types.POINTER], return: ffi.types.VOID },
 nil_player_exists: { arguments: [ffi.types.UINT_32, ffi.types.POINTER], return: ffi.types.VOID },
 nil_push_chat_message: { arguments: [ffi.types.UINT_32, ffi.types.POINTER], return: ffi.types.VOID },

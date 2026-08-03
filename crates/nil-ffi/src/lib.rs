@@ -1008,6 +1008,12 @@ pub unsafe extern "C" fn nil_get_world_precursors(request_id: RequestId, json_re
   send!(request_id, get_world_precursors, json_req);
 }
 
+/// [`Client::get_world_rulers`](nil_client::Client::get_world_rulers)
+#[unsafe(no_mangle)]
+pub unsafe extern "C" fn nil_get_world_rulers(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, get_world_rulers, json_req);
+}
+
 /// [`Client::get_world_stats`](nil_client::Client::get_world_stats)
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn nil_get_world_stats(request_id: RequestId, json_req: *const c_char) {

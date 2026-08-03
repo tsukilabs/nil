@@ -660,6 +660,11 @@ void nil_get_world_players(RequestId request_id, const char *json_req);
 void nil_get_world_precursors(RequestId request_id, const char *json_req);
 
 /**
+ * [`Client::get_world_rulers`](nil_client::Client::get_world_rulers)
+ */
+void nil_get_world_rulers(RequestId request_id, const char *json_req);
+
+/**
  * [`Client::get_world_stats`](nil_client::Client::get_world_stats)
  */
 void nil_get_world_stats(RequestId request_id, const char *json_req);

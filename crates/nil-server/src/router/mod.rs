@@ -160,6 +160,7 @@ pub(crate) fn create() -> Router<App> {
     .route("/get-world-personnel", put(world::get_personnel))
     .route("/get-world-players", put(world::get_players))
     .route("/get-world-precursors", put(world::get_precursors))
+    .route("/get-world-rulers", put(world::get_rulers))
     .route("/get-world-stats", put(world::get_stats))
     .route("/player-exists", put(player::exists))
     .route("/search-public-city", put(city::search_public_city))
