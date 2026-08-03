@@ -14,6 +14,7 @@ use crate::error::{Error, Result};
 use crate::infrastructure::mine::MineProduction;
 use crate::infrastructure::storage::{OverallStorageCapacity, StorageCapacity};
 use crate::market::fee::MarketFee;
+use crate::resources::gold::Gold;
 use bon::Builder;
 use derive_more::Display;
 use diff::{FoodDiff, IronDiff, ResourcesDiff, StoneDiff, WoodDiff};
@@ -492,3 +493,19 @@ macro_rules! decl_resource {
 }
 
 decl_resource!(Food, Iron, Stone, Wood);
+
+impl Food {
+  pub const MARKET_PRICE: Gold = Gold::new(1);
+}
+
+impl Iron {
+  pub const MARKET_PRICE: Gold = Gold::new(1);
+}
+
+impl Stone {
+  pub const MARKET_PRICE: Gold = Gold::new(1);
+}
+
+impl Wood {
+  pub const MARKET_PRICE: Gold = Gold::new(1);
+}

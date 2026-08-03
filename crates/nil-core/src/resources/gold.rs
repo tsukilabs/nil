@@ -1,10 +1,15 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+use crate::market::fee::MarketFee;
 use derive_more::Display;
+use nil_num::impl_mul_ceil;
+use nil_num::mul_ceil::MulCeil;
 use nil_util::{ConstDeref, F64Math};
 use serde::{Deserialize, Serialize};
+use std::ops::Mul;
 
+/// Gold is a special resource used to trade in the market.
 #[derive(Copy, Debug, Display, Deserialize, Serialize, ConstDeref, F64Math)]
 #[derive_const(Clone, Default, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
@@ -24,6 +29,8 @@ impl Gold {
     self.0.checked_sub(rhs.0).map(Self::new)
   }
 }
+
+impl_mul_ceil!(Gold);
 
 const impl From<u32> for Gold {
   fn from(value: u32) -> Self {
@@ -48,5 +55,13 @@ const impl From<f64> for Gold {
 const impl From<Gold> for f64 {
   fn from(value: Gold) -> Self {
     f64::from(value.0)
+  }
+}
+
+const impl Mul<MarketFee> for Gold {
+  type Output = Gold;
+
+  fn mul(self, rhs: MarketFee) -> Self::Output {
+    Self::from(self.mul_ceil(*rhs))
   }
 }
