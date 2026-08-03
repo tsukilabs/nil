@@ -28,7 +28,18 @@ function getButtonVariant(scene: MarketScene): ButtonVariant {
 </script>
 
 <template>
-  <div v-if="md" class="grid grid-cols-1 gap-2">
+  <div v-if="md" class="grid grid-cols-2 gap-2">
+    <Button
+      size="sm"
+      :variant="getButtonVariant('market')"
+      role="link"
+      tabindex="0"
+      @click.stop="() => go('market')"
+      @keydown.enter.stop="() => go('market')"
+    >
+      <span>{{ t("trade-noun") }}</span>
+    </Button>
+
     <Button
       size="sm"
       :variant="getButtonVariant('market-send')"
@@ -56,6 +67,11 @@ function getButtonVariant(scene: MarketScene): ButtonVariant {
       class="w-56"
     >
       <DropdownMenuGroup>
+        <DropdownMenuItem>
+          <RouterLink :to="{ name: 'market' satisfies MarketScene }" class="w-full">
+            {{ t("trade-noun") }}
+          </RouterLink>
+        </DropdownMenuItem>
         <DropdownMenuItem>
           <RouterLink :to="{ name: 'market-send' satisfies MarketScene }" class="w-full">
             {{ t("send-resources") }}

@@ -51,6 +51,40 @@ fn send_resources() -> Result<()> {
 }
 
 #[test]
+fn fee_is_stored_in_vault() -> Result<()> {
+  let mut world = make_world()?;
+  let player_a = PlayerId::from("Player A");
+  spawn_player(&mut world, player_a.as_str())?;
+
+  let player_b = PlayerId::from("Player B");
+  spawn_player(&mut world, player_b.as_str())?;
+
+  let ruler_a = Ruler::from(player_a);
+  let ruler_b = Ruler::from(player_b);
+  let initial_resources_a = Resources::splat(5000);
+  let initial_resources_b = Resources::splat(1000);
+
+  world
+    .ruler_mut(&ruler_a)?
+    .resources_mut()
+    .set(initial_resources_a);
+
+  world
+    .ruler_mut(&ruler_b)?
+    .resources_mut()
+    .set(initial_resources_b);
+
+  let resources_to_send = Resources::splat(1000);
+  let fee = resources_to_send * world.market().fee();
+  world.send_resources(&ruler_a, &ruler_b, resources_to_send)?;
+
+  let market_vault = world.market().vault();
+  assert_eq!(market_vault.resources(), fee);
+
+  Ok(())
+}
+
+#[test]
 fn cannot_send_resources_to_self() -> Result<()> {
   let mut world = make_world()?;
   let player = PlayerId::from("Player A");
@@ -76,7 +110,7 @@ fn cannot_send_resources_if_insufficient() -> Result<()> {
 
   let ruler_a = Ruler::from(player_a);
   let ruler_b = Ruler::from(player_b);
-  let resources = Resources::splat(u32::MAX);
+  let resources = Resources::splat(1_000_000);
 
   let result = world.send_resources(&ruler_a, &ruler_b, resources);
   assert_matches!(result, Err(Error::InsufficientResources));

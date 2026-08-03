@@ -5,6 +5,7 @@
 import { computed } from "vue";
 import { Label } from "@ui/label";
 import { useI18n } from "vue-i18n";
+import { formatInt } from "@/lib/intl";
 import Food from "@/components/resources/Food.vue";
 import Iron from "@/components/resources/Iron.vue";
 import Wood from "@/components/resources/Wood.vue";
@@ -26,6 +27,15 @@ const available = computed(() => {
   const value = player.value?.resources[props.kind] ?? 0;
   return Math.max(0, value - (value * props.marketFee));
 });
+
+function toggleMax() {
+  if (amount.value !== available.value) {
+    amount.value = available.value;
+  }
+  else {
+    amount.value = 0;
+  }
+}
 </script>
 
 <template>
@@ -36,7 +46,12 @@ const available = computed(() => {
         <Iron v-else-if="kind === 'iron'" hide-amount />
         <Stone v-else-if="kind === 'stone'" hide-amount />
         <Wood v-else-if="kind === 'wood'" hide-amount />
-        <span>{{ t(kind) }}</span>
+        <div>
+          <span>{{ t(kind) }}</span>
+          <span class="cursor-pointer" @click="toggleMax">
+            {{ ` (${formatInt(available)})` }}
+          </span>
+        </div>
       </div>
       <NumberField
         v-model="amount"
