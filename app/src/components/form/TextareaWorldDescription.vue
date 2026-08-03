@@ -24,9 +24,10 @@ const { t } = useI18n({
 </script>
 
 <template>
-  <Label>
+  <Label for="textarea-world-description">
     <span>{{ t("world-description") }}</span>
     <Textarea
+      id="textarea-world-description"
       v-model="description"
       type="text"
       spellcheck="false"

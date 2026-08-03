@@ -34,10 +34,11 @@ const { t } = useI18n({
 </script>
 
 <template>
-  <Label>
+  <Label for="slider-bot-advanced-start-ratio">
     <span>{{ t("advanced-bots-ratio") }}</span>
     <div>
       <Slider
+        id="slider-bot-advanced-start-ratio"
         v-model:model-value="sliderValue"
         :disabled
         :min="CONSTS.botAdvancedStartRatioMin"

@@ -34,10 +34,11 @@ const { t } = useI18n({
 </script>
 
 <template>
-  <Label>
+  <Label for="slider-bot-density">
     <span>{{ t("bot-density") }}</span>
     <div>
       <Slider
+        id="slider-bot-density"
         v-model:model-value="sliderValue"
         :disabled
         :min="CONSTS.botDensityMin"

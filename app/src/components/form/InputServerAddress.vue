@@ -17,9 +17,10 @@ const { t } = useI18n();
 </script>
 
 <template>
-  <Label>
+  <Label for="input-server-address">
     <span>{{ t("server") }}</span>
     <Input
+      id="input-server-address"
       v-model="server"
       type="text"
       :disabled
