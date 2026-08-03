@@ -38,6 +38,10 @@ impl Market {
     self.fee
   }
 
+  /// Sets the market fee, clamping it to the valid range.
+  ///
+  /// As the fee is not expected to be changed throughout the game,
+  /// this should only be used to execute cheats or for testing purposes.
   pub(crate) fn set_fee(&mut self, fee: MarketFee) {
     self.fee = fee.clamped();
   }
