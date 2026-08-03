@@ -4,10 +4,9 @@
 use crate::error::AnyResult;
 use crate::world::WorldOptions;
 use bon::Builder;
-use nil_util::{ConstDeref, F64Math};
+use nil_util::{ClampNew, ConstDeref, F64Math};
 use serde::{Deserialize, Serialize};
 use std::ops::Deref;
-use std::sync::Arc;
 use strum::EnumString;
 use uuid::Uuid;
 
@@ -144,7 +143,7 @@ impl TryFrom<&str> for WorldId {
 
 #[derive(Clone, Debug, derive_more::Display, PartialEq, Eq, Deserialize, Serialize)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
-pub struct WorldName(Arc<str>);
+pub struct WorldName(Box<str>);
 
 impl Deref for WorldName {
   type Target = str;
@@ -156,7 +155,7 @@ impl Deref for WorldName {
 
 impl<T: AsRef<str>> From<T> for WorldName {
   fn from(value: T) -> Self {
-    Self(Arc::from(value.as_ref()))
+    Self(Box::from(value.as_ref()))
   }
 }
 
@@ -186,10 +185,6 @@ macro_rules! impl_f64_newtype {
         debug_assert!(!value.is_subnormal());
         Self(value.clamp(Self::MIN.0, Self::MAX.0))
       }
-
-      pub const fn clamp(&mut self) {
-        *self = Self(self.0.clamp(Self::MIN.0, Self::MAX.0));
-      }
     }
 
     const impl From<f64> for $name {
@@ -215,34 +210,37 @@ macro_rules! impl_f64_newtype {
   };
 }
 
-#[derive(Copy, Debug, derive_more::Display, Deserialize, Serialize, ConstDeref, F64Math)]
+#[derive(
+  Copy, Debug, derive_more::Display, Deserialize, Serialize, ClampNew, ConstDeref, F64Math,
+)]
 #[derive_const(Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct WorldSpeed(f64);
 
 impl_f64_newtype!(WorldSpeed, min = 0.1, max = 10.0, default = 1.0);
 
-#[derive(Copy, Debug, derive_more::Display, Deserialize, Serialize, ConstDeref, F64Math)]
+#[derive(
+  Copy, Debug, derive_more::Display, Deserialize, Serialize, ClampNew, ConstDeref, F64Math,
+)]
 #[derive_const(Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct WorldUnitSpeed(f64);
 
 impl_f64_newtype!(WorldUnitSpeed, min = 0.1, max = 10.0, default = 1.0);
 
-#[derive(Copy, Debug, derive_more::Display, Deserialize, Serialize, ConstDeref, F64Math)]
+#[derive(
+  Copy, Debug, derive_more::Display, Deserialize, Serialize, ClampNew, ConstDeref, F64Math,
+)]
 #[derive_const(Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct BotDensity(f64);
 
-impl_f64_newtype!(
-  BotDensity,
-  min = 0.0,
-  max = 3.0,
-  default = if cfg!(target_os = "android") { 1.0 } else { 2.0 }
-);
+impl_f64_newtype!(BotDensity, min = 0.0, max = 3.0, default = 2.0);
 
 /// Proportion of bots that will have an advanced start with higher level infrastructure.
-#[derive(Copy, Debug, derive_more::Display, Deserialize, Serialize, ConstDeref, F64Math)]
+#[derive(
+  Copy, Debug, derive_more::Display, Deserialize, Serialize, ClampNew, ConstDeref, F64Math,
+)]
 #[derive_const(Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct BotAdvancedStartRatio(f64);

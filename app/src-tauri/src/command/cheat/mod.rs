@@ -4,6 +4,7 @@
 pub mod behavior;
 pub mod city;
 pub mod infrastructure;
+pub mod market;
 pub mod military;
 pub mod npc;
 pub mod player;

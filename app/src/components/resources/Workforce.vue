@@ -10,6 +10,7 @@ defineProps<{
   amount?: Option<number>;
   limit?: Option<number>;
   alwaysLiteral?: boolean;
+  hideAmount?: boolean;
   iconClass?: ClassValue;
   textClass?: ClassValue;
 }>();
@@ -21,6 +22,7 @@ defineProps<{
     :amount
     :limit
     :always-literal
+    :hide-amount
     :icon-class
     :text-class
   />

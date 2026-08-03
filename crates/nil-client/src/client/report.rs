@@ -7,6 +7,7 @@ use crate::http;
 use nil_payload::request::report::*;
 
 impl Client {
+  /// Endpoint: `POST /forward-report`
   pub async fn forward_report(&self, req: ForwardReportRequest) -> Result<()> {
     http::post("forward-report")
       .body(req)

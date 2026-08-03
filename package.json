@@ -1,6 +1,6 @@
 {
   "name": "nil",
-  "version": "0.7.11",
+  "version": "0.7.12",
   "type": "module",
   "packageManager": "pnpm@11.19.0",
   "license": "AGPL-3.0-only",
@@ -55,7 +55,7 @@
     "typescript": "=6.0.3",
     "unplugin-dts": "=1.0.3",
     "vite": "=8.2.0",
-    "vitepress": "=2.0.0-alpha.18",
+    "vitepress": "=2.0.0-alpha.19",
     "vue-tsc": "=3.3.9"
   }
 }

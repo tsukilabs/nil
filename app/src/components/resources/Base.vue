@@ -13,6 +13,7 @@ const props = defineProps<{
   limit?: Option<number>;
   color: string;
   alwaysLiteral?: boolean;
+  hideAmount?: boolean;
   iconClass?: ClassValue;
   textClass?: ClassValue;
 }>();
@@ -70,7 +71,7 @@ function isOverflowing() {
     >
     </div>
 
-    <div :class="cn(isOverflowing() ? 'text-red-400' : null, textClass)">
+    <div v-if="!hideAmount" :class="cn(isOverflowing() ? 'text-red-400' : null, textClass)">
       {{ format() }}
     </div>
   </div>

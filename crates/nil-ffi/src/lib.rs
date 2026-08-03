@@ -549,6 +549,12 @@ pub unsafe extern "C" fn nil_cheat_set_iron(request_id: RequestId, json_req: *co
   send!(request_id, cheat_set_iron, json_req);
 }
 
+/// [`Client::cheat_set_market_fee`](nil_client::Client::cheat_set_market_fee)
+#[unsafe(no_mangle)]
+pub unsafe extern "C" fn nil_cheat_set_market_fee(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, cheat_set_market_fee, json_req);
+}
+
 /// [`Client::cheat_set_max_food`](nil_client::Client::cheat_set_max_food)
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn nil_cheat_set_max_food(request_id: RequestId, json_req: *const c_char) {
@@ -763,6 +769,18 @@ pub unsafe extern "C" fn nil_get_idle_armies_coords(
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn nil_get_maneuver(request_id: RequestId, json_req: *const c_char) {
   send!(request_id, get_maneuver, json_req);
+}
+
+/// [`Client::get_market`](nil_client::Client::get_market)
+#[unsafe(no_mangle)]
+pub unsafe extern "C" fn nil_get_market(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, get_market, json_req);
+}
+
+/// [`Client::get_market_fee`](nil_client::Client::get_market_fee)
+#[unsafe(no_mangle)]
+pub unsafe extern "C" fn nil_get_market_fee(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, get_market_fee, json_req);
 }
 
 /// [`Client::get_player`](nil_client::Client::get_player)
@@ -990,6 +1008,12 @@ pub unsafe extern "C" fn nil_get_world_precursors(request_id: RequestId, json_re
   send!(request_id, get_world_precursors, json_req);
 }
 
+/// [`Client::get_world_rulers`](nil_client::Client::get_world_rulers)
+#[unsafe(no_mangle)]
+pub unsafe extern "C" fn nil_get_world_rulers(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, get_world_rulers, json_req);
+}
+
 /// [`Client::get_world_stats`](nil_client::Client::get_world_stats)
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn nil_get_world_stats(request_id: RequestId, json_req: *const c_char) {
@@ -1036,6 +1060,12 @@ pub unsafe extern "C" fn nil_search_city(request_id: RequestId, json_req: *const
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn nil_search_public_city(request_id: RequestId, json_req: *const c_char) {
   send!(request_id, search_public_city, json_req);
+}
+
+/// [`Client::send_resources`](nil_client::Client::send_resources)
+#[unsafe(no_mangle)]
+pub unsafe extern "C" fn nil_send_resources(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, send_resources, json_req);
 }
 
 /// [`Client::version`](nil_client::Client::version)

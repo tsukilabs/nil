@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 pub mod big_int;
+pub mod clamp;
 pub mod deref;
 pub mod f64;
 

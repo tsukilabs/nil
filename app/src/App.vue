@@ -1,7 +1,7 @@
 <!-- Copyright (C) Call of Nil contributors -->
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
-<script vapor lang="ts">
+<script setup lang="ts">
 import { router } from "@/router";
 import { useI18n } from "vue-i18n";
 import { Sonner } from "@ui/sonner";

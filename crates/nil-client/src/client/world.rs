@@ -8,6 +8,7 @@ use nil_payload::request::world::*;
 use nil_payload::response::world::*;
 
 impl Client {
+  /// Endpoint: `POST /create-remote-world`
   pub async fn create_remote_world(
     &self,
     req: CreateRemoteWorldRequest,
@@ -22,6 +23,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `POST /delete-remote-world`
   pub async fn delete_remote_world(&self, req: DeleteRemoteWorldRequest) -> Result<()> {
     http::post("delete-remote-world")
       .body(req)
@@ -33,6 +35,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `PUT /get-remote-world`
   pub async fn get_remote_world(
     &self,
     req: GetRemoteWorldRequest,
@@ -47,6 +50,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `GET /get-remote-world-limit`
   pub async fn get_remote_world_limit(&self) -> Result<GetRemoteWorldLimitResponse> {
     http::json_get("get-remote-world-limit")
       .server(self.server)
@@ -57,6 +61,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `GET /get-remote-world-limit-per-user`
   pub async fn get_remote_world_limit_per_user(
     &self,
   ) -> Result<GetRemoteWorldLimitPerUserResponse> {
@@ -69,6 +74,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `GET /get-remote-worlds`
   pub async fn get_remote_worlds(&self) -> Result<GetRemoteWorldsResponse> {
     http::json_get("get-remote-worlds")
       .server(self.server)
@@ -79,6 +85,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `PUT /get-world-bots`
   pub async fn get_world_bots(&self, req: GetWorldBotsRequest) -> Result<GetWorldBotsResponse> {
     http::json_put("get-world-bots")
       .body(req)
@@ -90,6 +97,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `PUT /get-world-config`
   pub async fn get_world_config(
     &self,
     req: GetWorldConfigRequest,
@@ -104,6 +112,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `PUT /get-world-personnel`
   pub async fn get_world_personnel(
     &self,
     req: GetWorldPersonnelRequest,
@@ -118,6 +127,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `PUT /get-world-players`
   pub async fn get_world_players(
     &self,
     req: GetWorldPlayersRequest,
@@ -132,6 +142,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `PUT /get-world-precursors`
   pub async fn get_world_precursors(
     &self,
     req: GetWorldPrecursorsRequest,
@@ -146,6 +157,22 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `PUT /get-world-rulers`
+  pub async fn get_world_rulers(
+    &self,
+    req: GetWorldRulersRequest,
+  ) -> Result<GetWorldRulersResponse> {
+    http::json_put("get-world-rulers")
+      .body(req)
+      .server(self.server)
+      .circuit_breaker(self.circuit_breaker())
+      .retry(&self.retry)
+      .user_agent(&self.user_agent)
+      .send()
+      .await
+  }
+
+  /// Endpoint: `PUT /get-world-stats`
   pub async fn get_world_stats(&self, req: GetWorldStatsRequest) -> Result<GetWorldStatsResponse> {
     http::json_put("get-world-stats")
       .body(req)
@@ -157,6 +184,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `POST /leave`
   pub(super) async fn leave(&self, req: LeaveRequest) -> Result<()> {
     if self.server.is_local() {
       http::post("leave")
@@ -172,6 +200,7 @@ impl Client {
     }
   }
 
+  /// Endpoint: `POST /save-local-world`
   pub async fn save_local_world(&self, req: SaveLocalWorldRequest) -> Result<()> {
     if self.server.is_local() {
       http::post("save-local-world")

@@ -352,6 +352,12 @@ namespace CsBindgen
         public static extern void nil_cheat_set_iron(uint request_id, byte* json_req);
 
         /// <summary>
+        ///  [`Client::cheat_set_market_fee`](nil_client::Client::cheat_set_market_fee)
+        /// </summary>
+        [DllImport(__DllName, EntryPoint = "nil_cheat_set_market_fee", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void nil_cheat_set_market_fee(uint request_id, byte* json_req);
+
+        /// <summary>
         ///  [`Client::cheat_set_max_food`](nil_client::Client::cheat_set_max_food)
         /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_cheat_set_max_food", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -548,6 +554,18 @@ namespace CsBindgen
         /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_get_maneuver", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_get_maneuver(uint request_id, byte* json_req);
+
+        /// <summary>
+        ///  [`Client::get_market`](nil_client::Client::get_market)
+        /// </summary>
+        [DllImport(__DllName, EntryPoint = "nil_get_market", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void nil_get_market(uint request_id, byte* json_req);
+
+        /// <summary>
+        ///  [`Client::get_market_fee`](nil_client::Client::get_market_fee)
+        /// </summary>
+        [DllImport(__DllName, EntryPoint = "nil_get_market_fee", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void nil_get_market_fee(uint request_id, byte* json_req);
 
         /// <summary>
         ///  [`Client::get_player`](nil_client::Client::get_player)
@@ -760,6 +778,12 @@ namespace CsBindgen
         public static extern void nil_get_world_precursors(uint request_id, byte* json_req);
 
         /// <summary>
+        ///  [`Client::get_world_rulers`](nil_client::Client::get_world_rulers)
+        /// </summary>
+        [DllImport(__DllName, EntryPoint = "nil_get_world_rulers", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void nil_get_world_rulers(uint request_id, byte* json_req);
+
+        /// <summary>
         ///  [`Client::get_world_stats`](nil_client::Client::get_world_stats)
         /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_get_world_stats", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -806,6 +830,12 @@ namespace CsBindgen
         /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_search_public_city", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_search_public_city(uint request_id, byte* json_req);
+
+        /// <summary>
+        ///  [`Client::send_resources`](nil_client::Client::send_resources)
+        /// </summary>
+        [DllImport(__DllName, EntryPoint = "nil_send_resources", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void nil_send_resources(uint request_id, byte* json_req);
 
         /// <summary>
         ///  [`Client::version`](nil_client::Client::version)

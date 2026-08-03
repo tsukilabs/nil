@@ -2,13 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use super::{Food, Iron, Resources, Stone, Wood};
+use crate::error::Result;
 use derive_more::Display;
 use nil_util::{ConstDeref, F64Math};
 use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
 use std::ops::{Add, AddAssign, Sub, SubAssign};
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Copy, Debug, Deserialize, Serialize)]
 #[derive_const(Clone, Default, PartialEq, Eq, PartialOrd, Ord)]
 #[serde(default, rename_all = "camelCase")]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
@@ -17,6 +18,19 @@ pub struct ResourcesDiff {
   pub iron: IronDiff,
   pub stone: StoneDiff,
   pub wood: WoodDiff,
+}
+
+impl TryFrom<Resources> for ResourcesDiff {
+  type Error = crate::error::Error;
+
+  fn try_from(value: Resources) -> Result<Self> {
+    Ok(Self {
+      food: FoodDiff::try_from(value.food)?,
+      iron: IronDiff::try_from(value.iron)?,
+      stone: StoneDiff::try_from(value.stone)?,
+      wood: WoodDiff::try_from(value.wood)?,
+    })
+  }
 }
 
 const impl Add for ResourcesDiff {
@@ -174,6 +188,14 @@ macro_rules! decl_resource_diff {
         const impl From<[<$resource Diff>]> for f64 {
           fn from(value: [<$resource Diff>]) -> Self {
             f64::from(value.0)
+          }
+        }
+
+        impl TryFrom<$resource> for [<$resource Diff>] {
+          type Error = $crate::error::Error;
+
+          fn try_from(value: $resource) -> Result<Self> {
+            Ok(Self(value.try_into()?))
           }
         }
 

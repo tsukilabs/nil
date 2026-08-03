@@ -5,7 +5,7 @@
 import { useI18n } from "vue-i18n";
 import { compare } from "@/lib/intl";
 import { computed, nextTick } from "vue";
-import type { GameScene } from "@/types/scene/game";
+import type { GameScene } from "@/types/scene";
 import { CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@ui/command";
 
 const open = defineModel<boolean>("open", { required: true });
@@ -26,6 +26,8 @@ const items = computed<FinderItem[]>(() => {
     { value: "continent-cities", label: t("continent-cities") },
     { value: "farm", label: t("farm") },
     { value: "iron-mine", label: t("iron-mine") },
+    { value: "market", label: t("market") },
+    { value: "market-send", label: t("send-resources") },
     { value: "own-cities", label: t("city", 2) },
     { value: "prefecture", label: t("prefecture") },
     { value: "prefecture-settings", label: t("prefecture-settings") },
@@ -61,8 +63,13 @@ async function onClick() {
     <CommandList>
       <CommandEmpty>{{ t("no-results-found") }}</CommandEmpty>
       <CommandGroup>
-        <CommandItem v-for="item of items" :key="item.value" :value="item.value" as-child>
-          <RouterLink :to="{ name: item.value }" class="w-full cursor-pointer" @click="onClick">
+        <CommandItem
+          v-for="item of items"
+          :key="item.value"
+          :value="item.value"
+          @click="onClick"
+        >
+          <RouterLink :to="{ name: item.value }" class="w-full cursor-pointer">
             {{ item.label }}
           </RouterLink>
         </CommandItem>

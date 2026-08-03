@@ -10,6 +10,7 @@ mod cheat;
 mod city;
 mod continent;
 mod infrastructure;
+mod market;
 mod military;
 mod npc;
 mod player;
@@ -72,6 +73,7 @@ pub(crate) fn create() -> Router<App> {
     .route("/cheat-set-building-level", post(cheat::infrastructure::set_building_level))
     .route("/cheat-set-food", post(cheat::resources::set_food))
     .route("/cheat-set-iron", post(cheat::resources::set_iron))
+    .route("/cheat-set-market-fee", post(cheat::market::set_fee))
     .route("/cheat-set-max-food", post(cheat::resources::set_max_food))
     .route("/cheat-set-max-infrastructure", post(cheat::infrastructure::set_max_infrastructure))
     .route("/cheat-set-max-iron", post(cheat::resources::set_max_iron))
@@ -114,6 +116,7 @@ pub(crate) fn create() -> Router<App> {
     .route("/request-maneuver", post(military::request_maneuver))
     .route("/save-local-world", post(world::local::save))
     .route("/search-city", put(city::search_city))
+    .route("/send-resources", post(market::send_resources))
     .route("/set-player-ready", post(round::set_ready))
     .route("/set-player-status", post(player::set_status))
     .route("/spawn-player", post(player::spawn))
@@ -128,6 +131,8 @@ pub(crate) fn create() -> Router<App> {
     .route("/get-bot-coords", put(npc::bot::get_coords))
     .route("/get-city-score", put(city::get_city_score))
     .route("/get-continent-size", put(continent::size))
+    .route("/get-market", put(market::get))
+    .route("/get-market-fee", put(market::fee))
     .route("/get-player-coords", put(player::get_coords))
     .route("/get-player-ids", put(player::get_ids))
     .route("/get-player-status", put(player::get_status))
@@ -155,6 +160,7 @@ pub(crate) fn create() -> Router<App> {
     .route("/get-world-personnel", put(world::get_personnel))
     .route("/get-world-players", put(world::get_players))
     .route("/get-world-precursors", put(world::get_precursors))
+    .route("/get-world-rulers", put(world::get_rulers))
     .route("/get-world-stats", put(world::get_stats))
     .route("/player-exists", put(player::exists))
     .route("/search-public-city", put(city::search_public_city))

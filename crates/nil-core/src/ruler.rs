@@ -6,10 +6,11 @@ use crate::npc::bot::{Bot, BotId};
 use crate::npc::precursor::{Precursor, PrecursorId};
 use crate::player::{Player, PlayerId};
 use crate::resources::Resources;
+use crate::resources::gold::Gold;
 use crate::resources::influence::Influence;
 use derive_more::{TryUnwrap, Unwrap};
 use serde::{Deserialize, Serialize};
-use std::{fmt, mem};
+use std::{cmp, fmt, mem};
 use strum::EnumIs;
 
 #[derive(Clone, Debug, PartialEq, Eq, Hash, Deserialize, Serialize, EnumIs)]
@@ -153,6 +154,26 @@ impl From<RulerRefMut<'_>> for Ruler {
   }
 }
 
+impl PartialOrd for Ruler {
+  fn partial_cmp(&self, other: &Self) -> Option<cmp::Ordering> {
+    Some(self.cmp(other))
+  }
+}
+
+impl Ord for Ruler {
+  fn cmp(&self, other: &Self) -> cmp::Ordering {
+    match (self, other) {
+      (Self::Bot { id: a }, Self::Bot { id: b }) => a.cmp(b),
+      (Self::Player { id: a }, Self::Player { id: b }) => a.cmp(b),
+      (Self::Precursor { id: a }, Self::Precursor { id: b }) => a.cmp(b),
+      (Self::Bot { .. }, Self::Player { .. }) => cmp::Ordering::Less,
+      (Self::Bot { .. }, Self::Precursor { .. }) => cmp::Ordering::Greater,
+      (Self::Player { .. }, _) => cmp::Ordering::Greater,
+      (Self::Precursor { .. }, _) => cmp::Ordering::Less,
+    }
+  }
+}
+
 #[derive(EnumIs, TryUnwrap, Unwrap)]
 #[try_unwrap(ref)]
 #[unwrap(ref)]
@@ -171,7 +192,7 @@ impl<'a> RulerRef<'a> {
     }
   }
 
-  pub fn resources(&'a self) -> &'a Resources {
+  pub fn resources(&self) -> Resources {
     match self {
       Self::Bot(bot) => bot.resources(),
       Self::Player(player) => player.resources(),
@@ -180,11 +201,19 @@ impl<'a> RulerRef<'a> {
   }
 
   #[inline]
-  pub fn has_resources(&self, resources: &Resources) -> bool {
+  pub fn has_resources(&self, resources: Resources) -> bool {
     self
       .resources()
       .checked_sub(resources)
       .is_some()
+  }
+
+  pub fn gold(&self) -> Gold {
+    match self {
+      Self::Bot(bot) => bot.gold(),
+      Self::Player(player) => player.gold(),
+      Self::Precursor(precursor) => precursor.gold(),
+    }
   }
 
   pub fn influence(&self) -> Influence {

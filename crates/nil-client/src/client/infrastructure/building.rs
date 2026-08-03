@@ -7,6 +7,7 @@ use crate::http;
 use nil_payload::request::infrastructure::building::*;
 
 impl Client {
+  /// Endpoint: `POST /toggle-building`
   pub async fn toggle_building(&self, req: ToggleBuildingRequest) -> Result<()> {
     http::post("toggle-building")
       .body(req)

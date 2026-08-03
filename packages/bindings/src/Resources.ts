@@ -4,4 +4,7 @@ import type { Iron } from "./Iron";
 import type { Stone } from "./Stone";
 import type { Wood } from "./Wood";
 
+/**
+ * Basic resources, such as food.
+ */
 export type Resources = { food: Food; iron: Iron; stone: Stone; wood: Wood };

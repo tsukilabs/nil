@@ -28,7 +28,7 @@ impl PrefectureBuildQueue {
     request: &PrefectureBuildOrderRequest,
     table: &BuildingStatsTable,
     current_level: BuildingLevel,
-    current_resources: Option<&Resources>,
+    available_resources: Resources,
   ) -> Result<&PrefectureBuildOrder> {
     let id = table.id();
     let mut target_level = self.resolve_level(id, current_level);
@@ -45,11 +45,10 @@ impl PrefectureBuildQueue {
       PrefectureBuildOrderKind::Demolition => -1i8,
     };
 
-    let resources = table.get(target_level)?.resources.clone();
+    let resources = table.get(target_level)?.resources;
     if let PrefectureBuildOrderKind::Construction = kind
-      && let Some(current_resources) = current_resources
-      && current_resources
-        .checked_sub(&resources)
+      && available_resources
+        .checked_sub(resources)
         .is_none()
     {
       return Err(Error::InsufficientResources);
@@ -137,8 +136,8 @@ impl PrefectureBuildOrder {
   }
 
   #[inline]
-  pub fn resources(&self) -> &Resources {
-    &self.resources
+  pub fn resources(&self) -> Resources {
+    self.resources
   }
 }
 

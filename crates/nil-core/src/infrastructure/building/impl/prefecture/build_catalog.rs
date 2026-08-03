@@ -98,7 +98,7 @@ impl PrefectureBuildCatalogEntry {
       let stats = table.get(target_level)?;
       let recipe = Box::new(PrefectureBuildCatalogRecipe {
         level: target_level,
-        resources: stats.resources.clone(),
+        resources: stats.resources,
         maintenance: stats.maintenance,
         workforce: stats.workforce,
         requirements: infra_req.clone(),

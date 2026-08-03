@@ -10,10 +10,12 @@ use crate::continent::size::ContinentSize;
 use crate::ethic::Ethics;
 use crate::military::army::personnel::ArmyPersonnel;
 use crate::resources::Resources;
+use crate::resources::gold::Gold;
 use crate::resources::influence::Influence;
 use crate::ruler::Ruler;
 use derive_more::Deref;
 use serde::{Deserialize, Serialize};
+use std::cmp;
 use strum::{AsRefStr, Display, EnumIter, EnumString, IntoEnumIterator};
 
 pub use crate::npc::precursor::a::A;
@@ -23,8 +25,10 @@ pub const trait Precursor: Send + Sync {
   fn id(&self) -> PrecursorId;
   fn ethics(&self) -> &Ethics;
   fn origin(&self) -> Coord;
-  fn resources(&self) -> &Resources;
+  fn resources(&self) -> Resources;
   fn resources_mut(&mut self) -> &mut Resources;
+  fn gold(&self) -> Gold;
+  fn gold_mut(&mut self) -> &mut Gold;
   fn influence(&self) -> Influence;
 }
 
@@ -117,6 +121,18 @@ pub enum PrecursorId {
 const impl PartialEq<Ruler> for PrecursorId {
   fn eq(&self, other: &Ruler) -> bool {
     if let Ruler::Precursor { id } = other { self.eq(id) } else { false }
+  }
+}
+
+impl PartialOrd for PrecursorId {
+  fn partial_cmp(&self, other: &Self) -> Option<cmp::Ordering> {
+    Some(self.cmp(other))
+  }
+}
+
+impl Ord for PrecursorId {
+  fn cmp(&self, other: &Self) -> cmp::Ordering {
+    <Self as AsRef<str>>::as_ref(self).cmp(<Self as AsRef<str>>::as_ref(other))
   }
 }
 

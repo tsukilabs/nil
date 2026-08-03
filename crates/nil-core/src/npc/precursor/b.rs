@@ -6,6 +6,7 @@ use crate::continent::size::ContinentSize;
 use crate::ethic::{EthicPowerAxis, EthicTruthAxis, Ethics};
 use crate::npc::precursor::PrecursorId;
 use crate::resources::Resources;
+use crate::resources::gold::Gold;
 use crate::resources::influence::Influence;
 use nil_core_macros::Precursor;
 use serde::{Deserialize, Serialize};
@@ -15,6 +16,7 @@ use serde::{Deserialize, Serialize};
 pub struct B {
   origin: Coord,
   resources: Resources,
+  gold: Gold,
   influence: Influence,
 }
 
@@ -28,7 +30,8 @@ impl B {
   pub const fn new(size: ContinentSize) -> Self {
     Self {
       origin: origin(size),
-      resources: Resources::PRECURSOR.clone(),
+      resources: Resources::PRECURSOR,
+      gold: Gold::MIN,
       influence: Influence::MAX,
     }
   }

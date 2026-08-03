@@ -31,6 +31,7 @@ rustc-ice-*.txt
 **/*.db-wal
 
 # Scripts
+**/scripts-dev
 **/*.dev.mjs
 **/*.dev.mts
 **/*.dev.ps1

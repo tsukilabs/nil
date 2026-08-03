@@ -8,6 +8,7 @@ use nil_payload::request::infrastructure::stable::*;
 use nil_payload::response::infrastructure::stable::*;
 
 impl Client {
+  /// Endpoint: `POST /add-stable-recruit-order`
   pub async fn add_stable_recruit_order(&self, req: AddStableRecruitOrderRequest) -> Result<()> {
     http::post("add-stable-recruit-order")
       .body(req)
@@ -19,6 +20,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `POST /cancel-stable-recruit-order`
   pub async fn cancel_stable_recruit_order(
     &self,
     req: CancelStableRecruitOrderRequest,
@@ -33,6 +35,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `PUT /get-stable-recruit-catalog`
   pub async fn get_stable_recruit_catalog(
     &self,
     req: GetStableRecruitCatalogRequest,

@@ -1,0 +1,24 @@
+// Copyright (C) Call of Nil contributors
+// SPDX-License-Identifier: AGPL-3.0-only
+
+use crate::resources::Resources;
+use crate::resources::diff::ResourcesDiff;
+use serde::{Deserialize, Serialize};
+
+#[derive(Clone, Debug, Default, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
+pub struct MarketVault {
+  resources: Resources,
+}
+
+impl MarketVault {
+  #[inline]
+  pub fn resources(&self) -> Resources {
+    self.resources
+  }
+
+  pub(crate) fn update_resources(&mut self, resources: ResourcesDiff) {
+    self.resources += resources;
+  }
+}

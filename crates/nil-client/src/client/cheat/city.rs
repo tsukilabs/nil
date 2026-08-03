@@ -8,6 +8,7 @@ use nil_payload::request::cheat::city::*;
 use nil_payload::response::cheat::city::*;
 
 impl Client {
+  /// Endpoint: `POST /cheat-fill-world`
   pub async fn cheat_fill_world(&self, req: CheatFillWorldRequest) -> Result<()> {
     http::post("cheat-fill-world")
       .body(req)
@@ -19,6 +20,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `PUT /cheat-get-cities`
   pub async fn cheat_get_cities(
     &self,
     req: CheatGetCitiesRequest,
@@ -34,6 +36,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `PUT /cheat-get-city`
   pub async fn cheat_get_city(&self, req: CheatGetCityRequest) -> Result<CheatGetCityResponse> {
     http::json_put("cheat-get-city")
       .body(req)
@@ -46,6 +49,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `POST /cheat-set-stability`
   pub async fn cheat_set_stability(&self, req: CheatSetStabilityRequest) -> Result<()> {
     http::post("cheat-set-stability")
       .body(req)
@@ -57,6 +61,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `POST /cheat-spawn-city`
   pub async fn cheat_spawn_city(&self, req: CheatSpawnCityRequest) -> Result<()> {
     http::post("cheat-spawn-city")
       .body(req)

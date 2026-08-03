@@ -74,6 +74,18 @@ export class WorldEntity extends Entity {
     return this.use().update();
   }
 
+  public static updateConfig() {
+    return this.use().updateConfig();
+  }
+
+  public static updateStats() {
+    return this.use().updateStats();
+  }
+
+  public static updateContinentSize() {
+    return this.use().updateContinentSize();
+  }
+
   public static getConfig() {
     return this.use().config.value ?? null;
   }
@@ -155,6 +167,10 @@ export class WorldEntity extends Entity {
         getWallStatsWithLevel: WorldEntity.getWallStatsWithLevel.bind(WorldEntity),
         refs: WorldEntity.refs.bind(WorldEntity),
         setId: WorldEntity.setId.bind(WorldEntity),
+        update: WorldEntity.update.bind(WorldEntity),
+        updateConfig: WorldEntity.updateConfig.bind(WorldEntity),
+        updateStats: WorldEntity.updateStats.bind(WorldEntity),
+        updateContinentSize: WorldEntity.updateContinentSize.bind(WorldEntity),
         use: WorldEntity.use.bind(WorldEntity),
       };
 

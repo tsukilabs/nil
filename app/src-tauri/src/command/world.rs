@@ -140,6 +140,17 @@ pub async fn get_world_precursors(
 }
 
 #[tauri::command]
+pub async fn get_world_rulers(
+  app: AppHandle,
+  req: GetWorldRulersRequest,
+) -> Result<GetWorldRulersResponse> {
+  app
+    .client(async |cl| cl.get_world_rulers(req).await)
+    .await
+    .map_err(Into::into)
+}
+
+#[tauri::command]
 pub async fn get_world_stats(
   app: AppHandle,
   req: GetWorldStatsRequest,

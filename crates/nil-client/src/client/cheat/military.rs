@@ -8,6 +8,7 @@ use nil_payload::request::cheat::military::*;
 use nil_payload::response::cheat::military::*;
 
 impl Client {
+  /// Endpoint: `PUT /cheat-get-idle-armies-at`
   pub async fn cheat_get_idle_armies_at(
     &self,
     req: CheatGetIdleArmiesAtRequest,
@@ -23,6 +24,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `PUT /cheat-get-idle-personnel-at`
   pub async fn cheat_get_idle_personnel_at(
     &self,
     req: CheatGetIdlePersonnelAtRequest,
@@ -38,6 +40,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `PUT /cheat-get-maneuvers`
   pub async fn cheat_get_maneuvers(
     &self,
     req: CheatGetManeuversRequest,
@@ -53,6 +56,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `PUT /cheat-get-maneuvers-of`
   pub async fn cheat_get_maneuvers_of(
     &self,
     req: CheatGetManeuversOfRequest,
@@ -68,6 +72,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `POST /cheat-spawn-personnel`
   pub async fn cheat_spawn_personnel(&self, req: CheatSpawnPersonnelRequest) -> Result<()> {
     http::post("cheat-spawn-personnel")
       .body(req)

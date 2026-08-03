@@ -10,6 +10,7 @@ mod cheat;
 mod city;
 mod continent;
 mod infrastructure;
+mod market;
 mod military;
 mod npc;
 mod player;
@@ -157,6 +158,7 @@ impl Client {
     Arc::downgrade(&self.circuit_breaker)
   }
 
+  /// Endpoint: `GET /get-server-kind`
   pub async fn get_server_kind(&self) -> Result<GetServerKindResponse> {
     http::json_get("get-server-kind")
       .server(self.server)
@@ -167,6 +169,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `GET /`
   pub async fn is_ready(&self) -> bool {
     http::get("")
       .server(self.server)
@@ -182,6 +185,7 @@ impl Client {
       })
   }
 
+  /// Endpoint: `GET /version`
   pub async fn version(&self) -> Result<VersionResponse> {
     http::json_get("version")
       .server(self.server)

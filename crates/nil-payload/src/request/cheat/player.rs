@@ -4,6 +4,7 @@
 use bon::Builder;
 use nil_core::player::PlayerId;
 use nil_core::world::config::WorldId;
+use nil_payload_macros::FromWorld;
 use serde::{Deserialize, Serialize};
 
 #[derive(Builder, Clone, Debug, Deserialize, Serialize)]
@@ -18,7 +19,7 @@ pub struct CheatGetPlayerRequest {
   pub player: Option<PlayerId>,
 }
 
-#[derive(Builder, Clone, Debug, Deserialize, Serialize)]
+#[derive(Builder, Clone, Debug, Deserialize, Serialize, FromWorld)]
 #[serde(rename_all = "camelCase")]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]

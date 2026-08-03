@@ -8,6 +8,7 @@ use nil_payload::request::npc::precursor::*;
 use nil_payload::response::npc::precursor::*;
 
 impl Client {
+  /// Endpoint: `PUT /get-precursor-coords`
   pub async fn get_precursor_coords(
     &self,
     req: GetPrecursorCoordsRequest,
@@ -22,6 +23,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `PUT /get-public-precursor`
   pub async fn get_public_precursor(
     &self,
     req: GetPublicPrecursorRequest,
@@ -36,6 +38,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `PUT /get-public-precursors`
   pub async fn get_public_precursors(
     &self,
     req: GetPublicPrecursorsRequest,

@@ -4,6 +4,7 @@
 mod behavior;
 mod city;
 mod infrastructure;
+mod market;
 mod military;
 mod npc;
 mod player;

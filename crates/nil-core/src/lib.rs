@@ -29,6 +29,7 @@ pub mod ethic;
 pub mod event;
 pub mod hooks;
 pub mod infrastructure;
+pub mod market;
 pub mod military;
 pub mod npc;
 pub mod player;

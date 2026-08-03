@@ -4,6 +4,7 @@
 use crate::error::{Error, Result};
 use crate::ethic::Ethics;
 use crate::resources::Resources;
+use crate::resources::gold::Gold;
 use crate::resources::influence::Influence;
 use crate::ruler::Ruler;
 use derive_more::{Display, From, Into};
@@ -54,6 +55,7 @@ pub struct Bot {
   id: BotId,
   ethics: Ethics,
   resources: Resources,
+  gold: Gold,
   influence: Influence,
 }
 
@@ -62,7 +64,8 @@ impl Bot {
     Self {
       id,
       ethics: Ethics::random(),
-      resources: Resources::BOT.clone(),
+      resources: Resources::BOT,
+      gold: Gold::MIN,
       influence: Influence::MIN,
     }
   }
@@ -83,12 +86,17 @@ impl Bot {
   }
 
   #[inline]
-  pub fn resources(&self) -> &Resources {
-    &self.resources
+  pub fn resources(&self) -> Resources {
+    self.resources
   }
 
   pub(crate) fn resources_mut(&mut self) -> &mut Resources {
     &mut self.resources
+  }
+
+  #[inline]
+  pub fn gold(&self) -> Gold {
+    self.gold
   }
 
   #[inline]
@@ -97,7 +105,9 @@ impl Bot {
   }
 }
 
-#[derive(Debug, Display, PartialEq, Eq, Hash, From, Into, Deserialize, Serialize)]
+#[derive(
+  Debug, Display, PartialEq, Eq, PartialOrd, Ord, Hash, From, Into, Deserialize, Serialize,
+)]
 #[from(String, &str, Arc<str>, Box<str>, Cow<'_, str>)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct BotId(Arc<str>);

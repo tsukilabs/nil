@@ -10,6 +10,7 @@ use crate::player::PlayerId;
 use crate::report::ReportKind;
 use crate::report::battle::BattleReport;
 use crate::report::support::SupportReport;
+use crate::ruler::Ruler;
 use crate::world::World;
 use std::collections::HashSet;
 
@@ -24,18 +25,24 @@ impl World {
     self.emitter.broadcast(event)
   }
 
-  /// Emits the event for a specific player.
+  /// Emits the event to a specific player.
   fn emit_to(&self, target: PlayerId, event: Event) -> Result<()> {
     self.emitter.emit_to(target, event)
   }
 
-  /// Emits the event to the owner of the city at the specified coordinate, if any.
-  fn emit_to_city_owner(&self, coord: Coord, event: Event) -> Result<()> {
-    let city = self.city(coord)?;
-    if let Some(player) = city.player() {
+  /// Emits the event to a specific ruler, if they're a player.
+  fn emit_to_ruler(&self, ruler: &Ruler, event: Event) -> Result<()> {
+    if let Some(player) = ruler.player() {
       self.emitter.emit_to(player.clone(), event)?;
     }
 
+    Ok(())
+  }
+
+  /// Emits the event to the owner of the city at the specified coordinate, if they're a player.
+  fn emit_to_city_owner(&self, coord: Coord, event: Event) -> Result<()> {
+    let city = self.city(coord)?;
+    self.emit_to_ruler(city.owner(), event)?;
     Ok(())
   }
 
@@ -45,7 +52,7 @@ impl World {
     self.broadcast(Event::ChatMessage { world, message })
   }
 
-  /// Emits [`Event::City`] to the city owner.
+  /// Emits [`Event::City`] to the city owner, if they're a player.
   pub(super) fn emit_city(&self, coord: Coord) -> Result<()> {
     let world = self.config.id();
     self.emit_to_city_owner(coord, Event::City { world, coord })
@@ -56,6 +63,12 @@ impl World {
   pub(super) fn emit_drop(&self) -> Result<()> {
     let world = self.config.id();
     self.broadcast(Event::Drop { world })
+  }
+
+  /// Emits [`Event::Market`].
+  pub(super) fn emit_market(&self) -> Result<()> {
+    let world = self.config.id();
+    self.broadcast(Event::Market { world })
   }
 
   /// Emits [`Event::Military`].
@@ -111,6 +124,15 @@ impl World {
   pub(super) fn emit_report(&self, player: PlayerId, report: ReportKind) -> Result<()> {
     let world = self.config.id();
     self.emit_to(player, Event::Report { world, report: Box::new(report) })
+  }
+
+  /// Emits [`Event::Player`] if the ruler is a player.
+  pub(super) fn emit_ruler(&self, ruler: &Ruler) -> Result<()> {
+    if let Some(player) = ruler.player() {
+      self.emit_player(player.clone())?;
+    }
+
+    Ok(())
   }
 
   pub(super) fn emit_battle_report(&self, report: &BattleReport) -> Result<()> {

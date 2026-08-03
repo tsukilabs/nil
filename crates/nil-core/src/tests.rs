@@ -5,6 +5,7 @@ use crate::continent::coord::Coord;
 use crate::error::Result;
 use crate::infrastructure::stats::InfrastructureStats;
 use crate::npc::bot::{Bot, BotId};
+use crate::npc::precursor::PrecursorId;
 use crate::player::{PlayerId, PlayerOptions};
 use crate::resources::Resources;
 use crate::ruler::Ruler;
@@ -21,6 +22,10 @@ pub(crate) static CONFIG: LazyLock<WorldConfig> = LazyLock::new(|| {
 pub(crate) static INFRASTRUCTURE_STATS: LazyLock<InfrastructureStats> =
   LazyLock::new(|| InfrastructureStats::new(&CONFIG));
 
+pub(crate) fn get_first_bot(world: &World) -> BotId {
+  world.bots().next().unwrap().id()
+}
+
 pub(crate) fn get_first_coord<R>(world: &World, ruler: R) -> Coord
 where
   R: Into<Ruler>,
@@ -30,6 +35,10 @@ where
     .coords_of(ruler)
     .next()
     .unwrap()
+}
+
+pub(crate) fn get_first_precursor(world: &World) -> PrecursorId {
+  world.precursors().next().unwrap().id()
 }
 
 pub(crate) fn make_world() -> Result<World> {

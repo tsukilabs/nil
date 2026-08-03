@@ -6,6 +6,7 @@ use nil_core::military::army::personnel::ArmyPersonnel;
 use nil_core::npc::bot::BotId;
 use nil_core::npc::precursor::PrecursorId;
 use nil_core::player::PlayerId;
+use nil_core::ruler::Ruler;
 use nil_core::world::config::{WorldConfig, WorldId};
 use nil_core::world::stats::WorldStats;
 use nil_server_types::world::RemoteWorld;
@@ -73,6 +74,12 @@ pub struct GetWorldPlayersResponse(pub Vec<PlayerId>);
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct GetWorldPrecursorsResponse(pub Vec<PrecursorId>);
+
+#[derive(Clone, Debug, Deref, DerefMut, From, Into, Deserialize, Serialize)]
+#[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
+pub struct GetWorldRulersResponse(pub Vec<Ruler>);
 
 #[derive(Clone, Debug, Deref, DerefMut, From, Into, Deserialize, Serialize)]
 #[cfg_attr(feature = "axum", derive(IntoJsonResponse))]

@@ -4,8 +4,8 @@
 import { go } from "@/router";
 import * as commands from "@/commands";
 import { formatInt } from "@/lib/intl";
+import type { ProfileScene } from "@/types/scene";
 import type { DeepReadonly } from "es-toolkit/types";
-import type { ProfileScene } from "@/types/scene/game";
 import { CoordImpl } from "@/core/model/continent/coord";
 import type { ContinentKey } from "@/types/core/continent";
 import type { PublicCity, Ruler } from "@tsukilabs/nil-bindings";

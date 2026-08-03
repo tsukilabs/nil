@@ -102,7 +102,7 @@ impl World {
       self
         .ruler_mut(&ruler)?
         .resources_mut()
-        .add_within_capacity(&resources, &capacity);
+        .add_within_capacity(resources, capacity);
     }
 
     Ok(())

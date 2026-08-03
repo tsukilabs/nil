@@ -1,13 +1,13 @@
 <!-- Copyright (C) Call of Nil contributors -->
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
-<script vapor lang="ts">
+<script setup lang="ts">
 import { go } from "@/router";
 import { useI18n } from "vue-i18n";
 import { useRoute } from "vue-router";
 import { MenuIcon } from "@lucide/vue";
 import { useBreakpoints } from "@tb-dev/vue";
-import type { WarRoomScene } from "@/types/scene/game";
+import type { WarRoomScene } from "@/types/scene";
 import { Button, type ButtonVariant } from "@ui/button";
 import {
   DropdownMenu,

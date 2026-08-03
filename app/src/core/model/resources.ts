@@ -104,6 +104,15 @@ export class ResourcesImpl implements DeepReadonly<Resources> {
     return ResourcesImpl.isEmpty(this);
   }
 
+  public toJSON(): Required<Resources> {
+    return {
+      food: this.food,
+      iron: this.iron,
+      stone: this.stone,
+      wood: this.wood,
+    };
+  }
+
   public static create(resources?: PartialNullish<Resources>) {
     if (resources instanceof ResourcesImpl) {
       return resources;
@@ -127,11 +136,6 @@ export class ResourcesImpl implements DeepReadonly<Resources> {
   }
 
   public static isEmpty(resources: PartialNullish<Resources>) {
-    return (
-      (resources.food ?? 0) <= 0 &&
-      (resources.iron ?? 0) <= 0 &&
-      (resources.stone ?? 0) <= 0 &&
-      (resources.wood ?? 0) <= 0
-    );
+    return Object.values(resources).every((amount) => (amount ?? 0) <= 0);
   }
 }

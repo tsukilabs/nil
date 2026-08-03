@@ -17,6 +17,7 @@ defineProps<{
   workforce: number;
   limit?: Option<Partial<Resources>>;
   alwaysLiteral?: boolean;
+  hideAmount?: boolean;
   iconClass?: ClassValue;
   textClass?: ClassValue;
 }>();
@@ -28,6 +29,7 @@ defineProps<{
       :amount="resources.wood"
       :limit="limit?.wood"
       :always-literal
+      :hide-amount
       :icon-class
       :text-class
     />
@@ -35,6 +37,7 @@ defineProps<{
       :amount="resources.stone"
       :limit="limit?.stone"
       :always-literal
+      :hide-amount
       :icon-class
       :text-class
     />
@@ -42,18 +45,21 @@ defineProps<{
       :amount="resources.iron"
       :limit="limit?.iron"
       :always-literal
+      :hide-amount
       :icon-class
       :text-class
     />
     <Food
       :amount="maintenance"
       :always-literal
+      :hide-amount
       :icon-class
       :text-class
     />
     <Workforce
       :amount="workforce"
       :always-literal
+      :hide-amount
       :icon-class
       :text-class
     />

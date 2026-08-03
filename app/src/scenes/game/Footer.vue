@@ -4,8 +4,8 @@
 <script vapor lang="ts">
 import { computed } from "vue";
 import { useBreakpoints } from "@tb-dev/vue";
+import type { GameScene } from "@/types/scene";
 import Resources from "@/scenes/game/Resources.vue";
-import type { GameScene } from "@/types/scene/game";
 import FooterChat from "@/scenes/game/FooterChat.vue";
 import ButtonIcon from "@/components/button/ButtonIcon.vue";
 import ButtonBadge from "@/components/button/ButtonBadge.vue";

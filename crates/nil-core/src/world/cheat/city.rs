@@ -53,7 +53,7 @@ pub fn set_stability(
 
   let coord = key.into_coord(world.continent.size())?;
   let city = world.city_mut(coord)?;
-  *city.stability_mut() = stability;
+  *city.stability_mut() = stability.clamped();
 
   world.emit_city(coord)?;
 

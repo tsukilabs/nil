@@ -15,11 +15,11 @@ import { router } from "@/router";
 import { createPinia } from "pinia";
 import { handleError } from "@/lib/error";
 import { initEntities } from "@/core/entity";
+import { createApp, vaporInteropPlugin } from "vue";
 import { TauriPluginPinia } from "@tauri-store/pinia";
-import { createVaporApp, vaporInteropPlugin } from "vue";
 import { setCurrentApp, setErrorHandler } from "@tb-dev/vue";
 
-const app = createVaporApp(App);
+const app = createApp(App);
 const pinia = createPinia();
 
 setCurrentApp(app);

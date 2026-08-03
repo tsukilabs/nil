@@ -128,7 +128,7 @@ where
     let owner = world.continent().owner_of(self.coord)?;
     let ruler_ref = world.ruler(owner)?;
 
-    if !ruler_ref.has_resources(&chunk.resources()) {
+    if !ruler_ref.has_resources(chunk.resources()) {
       return Ok(BehaviorScore::MIN);
     }
 

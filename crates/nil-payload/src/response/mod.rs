@@ -8,6 +8,7 @@ pub mod cheat;
 pub mod city;
 pub mod continent;
 pub mod infrastructure;
+pub mod market;
 pub mod military;
 pub mod npc;
 pub mod player;
@@ -25,6 +26,7 @@ pub mod prelude {
   pub use super::city::*;
   pub use super::continent::*;
   pub use super::infrastructure::prelude::*;
+  pub use super::market::*;
   pub use super::military::*;
   pub use super::npc::prelude::*;
   pub use super::player::*;

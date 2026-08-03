@@ -3,8 +3,8 @@
 
 <script vapor lang="ts">
 import { useI18n } from "vue-i18n";
+import type { InfrastructureScene } from "@/types/scene";
 import type { BuildingId, BuildingLevel } from "@tsukilabs/nil-bindings";
-import type { InfrastructureScene } from "@/types/scene/game/infrastructure";
 
 defineProps<{
   building: BuildingId;

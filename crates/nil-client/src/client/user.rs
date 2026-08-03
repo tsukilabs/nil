@@ -8,6 +8,7 @@ use nil_payload::request::user::*;
 use nil_payload::response::user::*;
 
 impl Client {
+  /// Endpoint: `POST /create-user`
   pub async fn create_user(&self, req: CreateUserRequest) -> Result<()> {
     http::post("create-user")
       .body(req)
@@ -18,6 +19,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `PUT /user-exists`
   pub async fn user_exists(&self, req: UserExistsRequest) -> Result<UserExistsResponse> {
     http::json_put("user-exists")
       .body(req)

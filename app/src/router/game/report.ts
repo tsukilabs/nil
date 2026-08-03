@@ -1,8 +1,8 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { ReportScene } from "@/types/scene";
 import type { RouteRecordRaw } from "vue-router";
-import type { ReportScene } from "@/types/scene/game";
 
 export const reportRoutes: RouteRecordRaw[] = [
   {

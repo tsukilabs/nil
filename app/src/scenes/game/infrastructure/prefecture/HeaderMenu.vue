@@ -7,8 +7,8 @@ import { useI18n } from "vue-i18n";
 import { useRoute } from "vue-router";
 import { MenuIcon } from "@lucide/vue";
 import { useBreakpoints } from "@tb-dev/vue";
+import type { PrefectureScene } from "@/types/scene";
 import { Button, type ButtonVariant } from "@ui/button";
-import type { PrefectureScene } from "@/types/scene/game/infrastructure";
 import enUS from "@/locale/en-US/scenes/game/infrastructure/prefecture.json";
 import ptBR from "@/locale/pt-BR/scenes/game/infrastructure/prefecture.json";
 import {

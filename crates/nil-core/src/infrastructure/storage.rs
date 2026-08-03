@@ -172,8 +172,8 @@ const impl SubAssign<u32> for StorageCapacity {
   }
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
-#[derive_const(Default, PartialEq, Eq)]
+#[derive(Copy, Debug, Deserialize, Serialize)]
+#[derive_const(Clone, Default, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct OverallStorageCapacity {

@@ -8,6 +8,7 @@ use nil_payload::request::infrastructure::prefecture::*;
 use nil_payload::response::infrastructure::prefecture::*;
 
 impl Client {
+  /// Endpoint: `POST /add-prefecture-build-order`
   pub async fn add_prefecture_build_order(
     &self,
     req: AddPrefectureBuildOrderRequest,
@@ -22,6 +23,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `POST /cancel-prefecture-build-order`
   pub async fn cancel_prefecture_build_order(
     &self,
     req: CancelPrefectureBuildOrderRequest,
@@ -36,6 +38,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `PUT /get-prefecture-build-catalog`
   pub async fn get_prefecture_build_catalog(
     &self,
     req: GetPrefectureBuildCatalogRequest,

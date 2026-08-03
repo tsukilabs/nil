@@ -3,14 +3,17 @@
 
 pub mod cost;
 pub mod diff;
+pub mod gold;
 pub mod influence;
 pub mod maintenance;
 pub mod prelude;
 pub mod workforce;
 
 use crate::city::stability::Stability;
+use crate::error::{Error, Result};
 use crate::infrastructure::mine::MineProduction;
 use crate::infrastructure::storage::{OverallStorageCapacity, StorageCapacity};
+use crate::market::fee::MarketFee;
 use bon::Builder;
 use derive_more::Display;
 use diff::{FoodDiff, IronDiff, ResourcesDiff, StoneDiff, WoodDiff};
@@ -22,7 +25,8 @@ use std::cmp::Ordering;
 use std::num::NonZeroU32;
 use std::ops::{Add, AddAssign, Mul, MulAssign, Sub, SubAssign};
 
-#[derive(Builder, Debug, Deserialize, Serialize)]
+/// Basic resources, such as food.
+#[derive(Builder, Copy, Debug, Deserialize, Serialize)]
 #[derive_const(Clone, PartialEq, Eq)]
 #[serde(default, rename_all = "camelCase")]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
@@ -69,7 +73,7 @@ impl Resources {
   #[inline]
   #[must_use]
   pub const fn new() -> Self {
-    Self::MIN.clone()
+    Self::MIN
   }
 
   #[must_use]
@@ -84,26 +88,26 @@ impl Resources {
 
   #[inline]
   #[must_use]
-  pub const fn with_food(&self, food: Food) -> Self {
-    Self { food, ..self.clone() }
+  pub const fn with_food(self, food: Food) -> Self {
+    Self { food, ..self }
   }
 
   #[inline]
   #[must_use]
-  pub const fn with_iron(&self, iron: Iron) -> Self {
-    Self { iron, ..self.clone() }
+  pub const fn with_iron(self, iron: Iron) -> Self {
+    Self { iron, ..self }
   }
 
   #[inline]
   #[must_use]
-  pub const fn with_stone(&self, stone: Stone) -> Self {
-    Self { stone, ..self.clone() }
+  pub const fn with_stone(self, stone: Stone) -> Self {
+    Self { stone, ..self }
   }
 
   #[inline]
   #[must_use]
-  pub const fn with_wood(&self, wood: Wood) -> Self {
-    Self { wood, ..self.clone() }
+  pub const fn with_wood(self, wood: Wood) -> Self {
+    Self { wood, ..self }
   }
 
   #[must_use]
@@ -126,10 +130,11 @@ impl Resources {
     }
   }
 
+  /// Adds resources, respecting the storage capacity.
   pub const fn add_within_capacity(
     &mut self,
-    diff: &ResourcesDiff,
-    capacity: &OverallStorageCapacity,
+    diff: ResourcesDiff,
+    capacity: OverallStorageCapacity,
   ) {
     macro_rules! add {
       ($($resource:ident => $storage:ident),+ $(,)?) => {
@@ -144,9 +149,13 @@ impl Resources {
     add!(food => silo, iron => warehouse, stone => warehouse, wood => warehouse);
   }
 
+  pub fn set(&mut self, resources: impl Into<Resources>) {
+    *self = resources.into();
+  }
+
   /// Checked resource subtraction.
   /// Returns `None` if there are not enough resources available.
-  pub const fn checked_sub(&self, rhs: &Self) -> Option<Self> {
+  pub const fn checked_sub(&self, rhs: Resources) -> Option<Self> {
     Some(Self {
       food: self.food.checked_sub(rhs.food)?,
       iron: self.iron.checked_sub(rhs.iron)?,
@@ -185,6 +194,12 @@ const impl Default for Resources {
   }
 }
 
+const impl From<u32> for Resources {
+  fn from(value: u32) -> Self {
+    Self::splat(value)
+  }
+}
+
 const impl Add for Resources {
   type Output = Self;
 
@@ -198,32 +213,8 @@ const impl Add for Resources {
   }
 }
 
-const impl Add<&Resources> for Resources {
-  type Output = Self;
-
-  fn add(self, rhs: &Resources) -> Self {
-    Self {
-      food: self.food + rhs.food,
-      iron: self.iron + rhs.iron,
-      stone: self.stone + rhs.stone,
-      wood: self.wood + rhs.wood,
-    }
-  }
-}
-
 const impl AddAssign for Resources {
   fn add_assign(&mut self, rhs: Self) {
-    *self = Self {
-      food: self.food + rhs.food,
-      iron: self.iron + rhs.iron,
-      stone: self.stone + rhs.stone,
-      wood: self.wood + rhs.wood,
-    };
-  }
-}
-
-const impl AddAssign<&Resources> for Resources {
-  fn add_assign(&mut self, rhs: &Resources) {
     *self = Self {
       food: self.food + rhs.food,
       iron: self.iron + rhs.iron,
@@ -246,19 +237,6 @@ const impl Sub for Resources {
   }
 }
 
-const impl Sub<&Resources> for Resources {
-  type Output = Self;
-
-  fn sub(self, rhs: &Resources) -> Self {
-    Self {
-      food: self.food - rhs.food,
-      iron: self.iron - rhs.iron,
-      stone: self.stone - rhs.stone,
-      wood: self.wood - rhs.wood,
-    }
-  }
-}
-
 const impl SubAssign for Resources {
   fn sub_assign(&mut self, rhs: Self) {
     *self = Self {
@@ -270,18 +248,7 @@ const impl SubAssign for Resources {
   }
 }
 
-const impl SubAssign<&Resources> for Resources {
-  fn sub_assign(&mut self, rhs: &Resources) {
-    *self = Self {
-      food: self.food - rhs.food,
-      iron: self.iron - rhs.iron,
-      stone: self.stone - rhs.stone,
-      wood: self.wood - rhs.wood,
-    };
-  }
-}
-
-const impl Mul<u32> for &Resources {
+const impl Mul<u32> for Resources {
   type Output = Resources;
 
   fn mul(self, rhs: u32) -> Self::Output {
@@ -294,11 +261,24 @@ const impl Mul<u32> for &Resources {
   }
 }
 
-const impl Mul<NonZeroU32> for &Resources {
+const impl Mul<NonZeroU32> for Resources {
   type Output = Resources;
 
   fn mul(self, rhs: NonZeroU32) -> Self::Output {
     self * rhs.get()
+  }
+}
+
+const impl Mul<MarketFee> for Resources {
+  type Output = Resources;
+
+  fn mul(self, rhs: MarketFee) -> Self::Output {
+    Self {
+      food: self.food * rhs,
+      iron: self.iron * rhs,
+      stone: self.stone * rhs,
+      wood: self.wood * rhs,
+    }
   }
 }
 
@@ -377,6 +357,28 @@ macro_rules! decl_resource {
           }
         }
 
+        const impl From<$resource> for Resources {
+          fn from(value: $resource) -> Self {
+            let mut resources = Resources::new();
+            resources.[<$resource:snake>] = value;
+            resources
+          }
+        }
+
+        impl TryFrom<$resource> for i32 {
+          type Error = $crate::error::Error;
+
+          fn try_from(value: $resource) -> Result<Self> {
+            match i32::try_from(value.0) {
+              Ok(value) => Ok(value),
+              Err(_) =>  {
+                let resources = Resources::from(value);
+                Err(Error::TooManyResources(resources))
+              },
+            }
+          }
+        }
+
         const impl PartialEq<u32> for $resource {
           fn eq(&self, other: &u32) -> bool {
             self.0.eq(other)
@@ -449,6 +451,14 @@ macro_rules! decl_resource {
           }
         }
 
+        const impl Mul<MarketFee> for $resource {
+          type Output = Self;
+
+          fn mul(self, rhs: MarketFee) -> Self::Output {
+            Self::from(self.mul_ceil(*rhs))
+          }
+        }
+
         const impl Mul<Stability> for $resource {
           type Output = $resource;
 
@@ -459,6 +469,12 @@ macro_rules! decl_resource {
 
         const impl MulAssign<u32> for $resource {
           fn mul_assign(&mut self, rhs: u32) {
+            *self = *self * rhs;
+          }
+        }
+
+        const impl MulAssign<MarketFee> for $resource {
+          fn mul_assign(&mut self, rhs: MarketFee) {
             *self = *self * rhs;
           }
         }

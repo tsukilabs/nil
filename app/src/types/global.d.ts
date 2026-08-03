@@ -3,16 +3,27 @@
 
 /* eslint-disable no-inner-declarations */
 
+import type { App } from "vue";
 import type { go } from "@/router";
 import type { commands } from "@/lib/api";
-import type { App, DeepReadonly } from "vue";
 import type { ChatEntity } from "@/core/entity/chat";
 import type { CityEntity } from "@/core/entity/city";
+import type { DeepReadonly } from "es-toolkit/types";
 import type { RoundEntity } from "@/core/entity/round";
 import type { WorldEntity } from "@/core/entity/world";
 import type { PlayerEntity } from "@/core/entity/player";
 import type { ReportEntity } from "@/core/entity/report";
 import type { MilitaryEntity } from "@/core/entity/military";
+import type {
+  app_Settings,
+  BotAdvancedStartRatio,
+  BotDensity,
+  ContinentSize,
+  MarketFee,
+  RoundDuration,
+  WorldSpeed,
+  WorldUnitSpeed,
+} from "@tsukilabs/nil-bindings";
 
 declare global {
   var __DEBUG_ASSERTIONS__: boolean;
@@ -31,19 +42,23 @@ declare global {
     readonly u16Max: number;
     readonly u32Max: number;
 
-    readonly defaultSettings: DeepReadonly<Settings>;
-
-    readonly botDensityMin: BotDensity;
-    readonly botDensityMax: BotDensity;
-    readonly botDensityDefault: BotDensity;
+    readonly defaultSettings: DeepReadonly<app_Settings>;
 
     readonly botAdvancedStartRatioMin: BotAdvancedStartRatio;
     readonly botAdvancedStartRatioMax: BotAdvancedStartRatio;
     readonly botAdvancedStartRatioDefault: BotAdvancedStartRatio;
 
+    readonly botDensityMin: BotDensity;
+    readonly botDensityMax: BotDensity;
+    readonly botDensityDefault: BotDensity;
+
     readonly continentSizeMin: ContinentSize;
     readonly continentSizeMax: ContinentSize;
     readonly continentSizeDefault: ContinentSize;
+
+    readonly marketFeeMin: MarketFee;
+    readonly marketFeeMax: MarketFee;
+    readonly marketFeeDefault: MarketFee;
 
     readonly roundDurationMin: RoundDuration;
     readonly roundDurationMax: RoundDuration;
@@ -76,6 +91,7 @@ declare global {
       readonly getProduction: (typeof CityEntity)["getProduction"];
       readonly refs: (typeof CityEntity)["refs"];
       readonly setCoord: (typeof CityEntity)["setCoord"];
+      readonly update: (typeof CityEntity)["update"];
       readonly use: (typeof CityEntity)["use"];
     };
 
@@ -135,6 +151,10 @@ declare global {
       readonly getWallStatsWithLevel: (typeof WorldEntity)["getWallStatsWithLevel"];
       readonly refs: (typeof WorldEntity)["refs"];
       readonly setId: (typeof WorldEntity)["setId"];
+      readonly update: (typeof WorldEntity)["update"];
+      readonly updateConfig: (typeof WorldEntity)["updateConfig"];
+      readonly updateStats: (typeof WorldEntity)["updateStats"];
+      readonly updateContinentSize: (typeof WorldEntity)["updateContinentSize"];
       readonly use: (typeof WorldEntity)["use"];
     };
   };

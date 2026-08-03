@@ -12,6 +12,8 @@ use crate::npc::bot::BotId;
 use crate::npc::precursor::PrecursorId;
 use crate::player::PlayerId;
 use crate::report::ReportId;
+use crate::resources::Resources;
+use crate::ruler::Ruler;
 use serde::Serialize;
 use serde::ser::Serializer;
 use std::result::Result as StdResult;
@@ -120,6 +122,9 @@ pub enum Error {
   #[error("Report not found")]
   ReportNotFound(ReportId),
 
+  #[error("Cannot send resources to self")]
+  ResourceReceiverIsSender(Ruler),
+
   #[error("Round already started")]
   RoundAlreadyStarted,
 
@@ -134,6 +139,9 @@ pub enum Error {
 
   #[error("No stats found for storage \"{0}\" at level {1}")]
   StorageStatsNotFoundForLevel(StorageId, BuildingLevel),
+
+  #[error("Too many resources")]
+  TooManyResources(Resources),
 
   #[error("Expected \"{0}\", got \"{1}\"")]
   UnexpectedUnit(UnitId, UnitId),

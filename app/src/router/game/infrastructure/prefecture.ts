@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { RouteRecordRaw } from "vue-router";
-import type { PrefectureScene } from "@/types/scene/game/infrastructure";
+import type { PrefectureScene } from "@/types/scene";
 
 export const prefectureRoutes: RouteRecordRaw[] = [
   {

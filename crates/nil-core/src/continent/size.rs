@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use derive_more::Display;
-use nil_util::ConstDeref;
+use nil_util::{ClampNew, ConstDeref};
 use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
 use std::num::NonZeroU8;
 
-#[derive(Copy, Debug, Display, Deserialize, Serialize, ConstDeref)]
+#[derive(Copy, Debug, Display, Deserialize, Serialize, ClampNew, ConstDeref)]
 #[derive_const(Clone, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct ContinentSize(NonZeroU8);
@@ -26,14 +26,11 @@ impl ContinentSize {
 
   /// # Safety
   ///
-  /// The size must be between [`ContinentSize::MIN`] and [`ContinentSize::MAX`].
+  /// The size must be between [`ContinentSize::MIN`] and [`ContinentSize::MAX`],
+  /// and be a multiple of 10.
   #[inline]
   pub const unsafe fn new_unchecked(size: u8) -> Self {
     Self(unsafe { NonZeroU8::new_unchecked(size) })
-  }
-
-  pub const fn clamp(&mut self) {
-    *self = Self(self.0.clamp(Self::MIN.0, Self::MAX.0));
   }
 }
 

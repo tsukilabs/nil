@@ -1,14 +1,14 @@
 <!-- Copyright (C) Call of Nil contributors -->
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
-<script vapor lang="ts">
+<script setup lang="ts">
 import Menu from "./Menu.vue";
 import Field from "./Field.vue";
 import { until } from "@vueuse/core";
 import { useRoute } from "vue-router";
 import Navigation from "./Navigation.vue";
 import { Card, CardContent } from "@ui/card";
-import type { GameScene } from "@/types/scene/game";
+import type { GameScene } from "@/types/scene";
 import { CoordImpl } from "@/core/model/continent/coord";
 import { useBreakpoints, useElementSize } from "@tb-dev/vue";
 import { useContinent } from "@/composables/continent/useContinent";

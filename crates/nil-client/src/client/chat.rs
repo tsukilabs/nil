@@ -8,6 +8,7 @@ use nil_payload::request::chat::*;
 use nil_payload::response::chat::*;
 
 impl Client {
+  /// Endpoint: `PUT /get-chat-history`
   pub async fn get_chat_history(
     &self,
     req: GetChatHistoryRequest,
@@ -23,6 +24,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `POST /push-chat-message`
   pub async fn push_chat_message(
     &self,
     req: PushChatMessageRequest,

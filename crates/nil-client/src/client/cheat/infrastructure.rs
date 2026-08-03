@@ -8,6 +8,7 @@ use nil_payload::request::cheat::infrastructure::*;
 use nil_payload::response::cheat::infrastructure::*;
 
 impl Client {
+  /// Endpoint: `PUT /cheat-get-academy-recruit-queue`
   pub async fn cheat_get_academy_recruit_queue(
     &self,
     req: CheatGetAcademyRecruitQueueRequest,
@@ -23,6 +24,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `PUT /cheat-get-academy-recruit-queues`
   pub async fn cheat_get_academy_recruit_queues(
     &self,
     req: CheatGetAcademyRecruitQueuesRequest,
@@ -38,6 +40,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `PUT /cheat-get-all-academy-recruit-queues`
   pub async fn cheat_get_all_academy_recruit_queues(
     &self,
     req: CheatGetAllAcademyRecruitQueuesRequest,
@@ -53,6 +56,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `PUT /cheat-get-all-prefecture-build-queues`
   pub async fn cheat_get_all_prefecture_build_queues(
     &self,
     req: CheatGetAllPrefectureBuildQueuesRequest,
@@ -68,6 +72,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `PUT /cheat-get-all-stable-recruit-queues`
   pub async fn cheat_get_all_stable_recruit_queues(
     &self,
     req: CheatGetAllStableRecruitQueuesRequest,
@@ -83,6 +88,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `PUT /cheat-get-infrastructure`
   pub async fn cheat_get_infrastructure(
     &self,
     req: CheatGetInfrastructureRequest,
@@ -98,6 +104,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `PUT /cheat-get-prefecture-build-queue`
   pub async fn cheat_get_prefecture_build_queue(
     &self,
     req: CheatGetPrefectureBuildQueueRequest,
@@ -113,6 +120,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `PUT /cheat-get-prefecture-build-queues`
   pub async fn cheat_get_prefecture_build_queues(
     &self,
     req: CheatGetPrefectureBuildQueuesRequest,
@@ -128,6 +136,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `PUT /cheat-get-stable-recruit-queue`
   pub async fn cheat_get_stable_recruit_queue(
     &self,
     req: CheatGetStableRecruitQueueRequest,
@@ -143,6 +152,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `PUT /cheat-get-stable-recruit-queues`
   pub async fn cheat_get_stable_recruit_queues(
     &self,
     req: CheatGetStableRecruitQueuesRequest,
@@ -158,6 +168,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `PUT /cheat-get-storage-capacity`
   pub async fn cheat_get_storage_capacity(
     &self,
     req: CheatGetStorageCapacityRequest,
@@ -173,6 +184,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `POST /cheat-set-building-level`
   pub async fn cheat_set_building_level(&self, req: CheatSetBuildingLevelRequest) -> Result<()> {
     http::post("cheat-set-building-level")
       .body(req)
@@ -184,6 +196,7 @@ impl Client {
       .await
   }
 
+  /// Endpoint: `POST /cheat-set-max-infrastructure`
   pub async fn cheat_set_max_infrastructure(
     &self,
     req: CheatSetMaxInfrastructureRequest,

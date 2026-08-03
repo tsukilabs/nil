@@ -95,19 +95,15 @@ macro_rules! decl_recruit_queue {
         pub(crate) fn recruit(
           &mut self,
           request: &[<$building RecruitOrderRequest>],
-          current_resources: Option<&Resources>,
+          available_resources: Resources,
         ) -> Result<&[<$building RecruitOrder>]> {
           let unit = UnitBox::from(request.unit);
           let chunk = unit.as_dyn().chunk();
           let size = SquadSize::new(chunk.size() * request.chunks);
-          let resources = &chunk.resources() * request.chunks;
+          let resources = chunk.resources() * request.chunks;
           let workforce = chunk.workforce() * request.chunks;
 
-          if let Some(current_resources) = current_resources
-            && current_resources
-              .checked_sub(&resources)
-              .is_none()
-          {
+          if available_resources.checked_sub(resources).is_none() {
             return Err(Error::InsufficientResources);
           }
 
@@ -174,8 +170,8 @@ macro_rules! decl_recruit_queue {
         }
 
         #[inline]
-        pub fn resources(&self) -> &Resources {
-          &self.resources
+        pub fn resources(&self) -> Resources {
+          self.resources
         }
       }
 

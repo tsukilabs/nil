@@ -4,6 +4,7 @@
 use crate::chat::Chat;
 use crate::continent::Continent;
 use crate::error::{AnyResult, Error, Result};
+use crate::market::Market;
 use crate::military::Military;
 use crate::npc::bot::BotManager;
 use crate::npc::precursor::PrecursorManager;
@@ -41,6 +42,7 @@ pub struct Savedata {
   pub(crate) bot_manager: BotManager,
   pub(crate) precursor_manager: PrecursorManager,
   pub(crate) military: Military,
+  pub(crate) market: Market,
   pub(crate) ranking: Ranking,
   pub(crate) chat: Chat,
 

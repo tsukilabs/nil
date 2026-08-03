@@ -304,6 +304,11 @@ void nil_cheat_set_food(RequestId request_id, const char *json_req);
 void nil_cheat_set_iron(RequestId request_id, const char *json_req);
 
 /**
+ * [`Client::cheat_set_market_fee`](nil_client::Client::cheat_set_market_fee)
+ */
+void nil_cheat_set_market_fee(RequestId request_id, const char *json_req);
+
+/**
  * [`Client::cheat_set_max_food`](nil_client::Client::cheat_set_max_food)
  */
 void nil_cheat_set_max_food(RequestId request_id, const char *json_req);
@@ -468,6 +473,16 @@ void nil_get_idle_armies_coords(RequestId request_id, const char *json_req);
  * [`Client::get_maneuver`](nil_client::Client::get_maneuver)
  */
 void nil_get_maneuver(RequestId request_id, const char *json_req);
+
+/**
+ * [`Client::get_market`](nil_client::Client::get_market)
+ */
+void nil_get_market(RequestId request_id, const char *json_req);
+
+/**
+ * [`Client::get_market_fee`](nil_client::Client::get_market_fee)
+ */
+void nil_get_market_fee(RequestId request_id, const char *json_req);
 
 /**
  * [`Client::get_player`](nil_client::Client::get_player)
@@ -645,6 +660,11 @@ void nil_get_world_players(RequestId request_id, const char *json_req);
 void nil_get_world_precursors(RequestId request_id, const char *json_req);
 
 /**
+ * [`Client::get_world_rulers`](nil_client::Client::get_world_rulers)
+ */
+void nil_get_world_rulers(RequestId request_id, const char *json_req);
+
+/**
  * [`Client::get_world_stats`](nil_client::Client::get_world_stats)
  */
 void nil_get_world_stats(RequestId request_id, const char *json_req);
@@ -683,6 +703,11 @@ void nil_search_city(RequestId request_id, const char *json_req);
  * [`Client::search_public_city`](nil_client::Client::search_public_city)
  */
 void nil_search_public_city(RequestId request_id, const char *json_req);
+
+/**
+ * [`Client::send_resources`](nil_client::Client::send_resources)
+ */
+void nil_send_resources(RequestId request_id, const char *json_req);
 
 /**
  * [`Client::version`](nil_client::Client::version)

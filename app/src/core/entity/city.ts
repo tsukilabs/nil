@@ -105,6 +105,10 @@ export class CityEntity extends Entity {
     } as const;
   }
 
+  public static update() {
+    return this.use().update();
+  }
+
   public static getCoord() {
     return this.use().coord.value ?? null;
   }
@@ -138,6 +142,7 @@ export class CityEntity extends Entity {
         getProduction: CityEntity.getProduction.bind(CityEntity),
         refs: CityEntity.refs.bind(CityEntity),
         setCoord: CityEntity.setCoord.bind(CityEntity),
+        update: CityEntity.update.bind(CityEntity),
         use: CityEntity.use.bind(CityEntity),
       };
 

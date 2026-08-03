@@ -1,16 +1,13 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-pub mod config;
-pub mod stats;
-
 mod battle;
 mod chat;
-pub mod cheat;
 mod city;
 mod continent;
 mod event;
 mod infrastructure;
+mod market;
 mod military;
 mod npc;
 mod player;
@@ -20,12 +17,18 @@ mod resources;
 mod round;
 mod savedata;
 
+pub mod cheat;
+pub mod config;
+pub mod stats;
+
 use crate::chat::Chat;
 use crate::continent::Continent;
 use crate::continent::size::ContinentSize;
 use crate::error::{Error, Result};
 use crate::event::Emitter;
 use crate::hooks::OnNextRound;
+use crate::market::Market;
+use crate::market::fee::MarketFee;
 use crate::military::Military;
 use crate::npc::bot::BotManager;
 use crate::npc::precursor::PrecursorManager;
@@ -49,6 +52,7 @@ pub struct World {
   bot_manager: BotManager,
   precursor_manager: PrecursorManager,
   military: Military,
+  market: Market,
   ranking: Ranking,
   chat: Chat,
 
@@ -64,12 +68,14 @@ pub struct World {
 impl World {
   pub fn new(mut options: WorldOptions) -> Result<Self> {
     WorldOptions::clamp(&mut options);
+    options.name = options.name.trim().into();
 
     let config = WorldConfig::new(&options);
     let stats = WorldStats::new(&config);
     let continent = Continent::new(options.size.unwrap_or_default());
     let precursor_manager = PrecursorManager::new(continent.size());
     let military = Military::new(continent.size());
+    let market = Market::new(options.market_fee.unwrap_or_default());
 
     let mut world = Self {
       round: Round::default(),
@@ -78,6 +84,7 @@ impl World {
       bot_manager: BotManager::default(),
       precursor_manager,
       military,
+      market,
       ranking: Ranking::default(),
       config: Arc::new(config),
       stats,
@@ -148,11 +155,6 @@ impl World {
       .chain(self.precursors().map(RulerRef::from))
   }
 
-  #[inline]
-  pub fn military(&self) -> &Military {
-    &self.military
-  }
-
   /// Schedules a save to be performed at the end of the current round.
   /// If a save is already scheduled, it will be overwritten.
   pub fn save<F>(&mut self, f: F)
@@ -218,28 +220,31 @@ pub struct WorldOptions {
   #[serde(default)]
   #[builder(into)]
   pub bot_advanced_start_ratio: Option<BotAdvancedStartRatio>,
+
+  #[serde(default)]
+  #[builder(into)]
+  pub market_fee: Option<MarketFee>,
 }
 
 impl WorldOptions {
   pub fn clamp(&mut self) {
-    if let Some(value) = self.size.as_mut() {
-      ContinentSize::clamp(value);
+    macro_rules! clamp {
+      ($($field_ty:ident => $field:ident),* $(,)?) => {
+        $(
+          if let Some(value) = self.$field.as_mut() {
+            $field_ty::clamp(value);
+          }
+        )*
+      };
     }
 
-    if let Some(value) = self.speed.as_mut() {
-      WorldSpeed::clamp(value);
-    }
-
-    if let Some(value) = self.unit_speed.as_mut() {
-      WorldUnitSpeed::clamp(value);
-    }
-
-    if let Some(value) = self.bot_density.as_mut() {
-      BotDensity::clamp(value);
-    }
-
-    if let Some(value) = self.bot_advanced_start_ratio.as_mut() {
-      BotAdvancedStartRatio::clamp(value);
-    }
+    clamp!(
+      ContinentSize => size,
+      WorldSpeed => speed,
+      WorldUnitSpeed => unit_speed,
+      BotDensity => bot_density,
+      BotAdvancedStartRatio => bot_advanced_start_ratio,
+      MarketFee => market_fee,
+    );
   }
 }

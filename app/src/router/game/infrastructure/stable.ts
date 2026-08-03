@@ -1,8 +1,8 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { StableScene } from "@/types/scene";
 import type { RouteRecordRaw } from "vue-router";
-import type { StableScene } from "@/types/scene/game/infrastructure";
 
 export const stableRoutes: RouteRecordRaw[] = [
   {
