@@ -48,11 +48,7 @@ impl World {
     self.emit_ruler(from)?;
     self.emit_ruler(to)?;
 
-    self
-      .market_mut()
-      .vault_mut()
-      .update_resources(fee.try_into()?);
-
+    self.market_mut().vault_mut().store(fee);
     self.emit_market()?;
 
     Ok(())

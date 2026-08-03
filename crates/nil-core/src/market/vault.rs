@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::resources::Resources;
-use crate::resources::diff::ResourcesDiff;
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, Default, Deserialize, Serialize)]
@@ -18,7 +17,8 @@ impl MarketVault {
     self.resources
   }
 
-  pub(crate) fn update_resources(&mut self, resources: ResourcesDiff) {
+  /// Adds resources to the vault.
+  pub(crate) fn store(&mut self, resources: Resources) {
     self.resources += resources;
   }
 }
