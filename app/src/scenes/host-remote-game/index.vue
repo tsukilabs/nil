@@ -101,7 +101,7 @@ function key(name: string) {
       </CardHeader>
 
       <CardContent class="card-form">
-        <InputWorldName v-model="worldOptions.name" :disabled="locked" />
+        <InputWorldName v-model="worldOptions" :disabled="locked" />
         <InputWorldPassword v-model="worldPassword" :disabled="locked" />
         <TextareaWorldDescription v-model="description" :disabled="locked" />
         <SliderWorldSize v-model="worldOptions" :disabled="locked" />

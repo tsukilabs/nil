@@ -6,12 +6,13 @@ import { Input } from "@ui/input";
 import { Label } from "@ui/label";
 import { useI18n } from "vue-i18n";
 import type { Option } from "@tb-dev/utils";
+import type { PlayerId } from "@tsukilabs/nil-bindings";
 
 defineProps<{
   disabled?: boolean;
 }>();
 
-const name = defineModel<Option<string>>({ required: true });
+const name = defineModel<Option<PlayerId>>({ required: true });
 
 const { t } = useI18n();
 </script>

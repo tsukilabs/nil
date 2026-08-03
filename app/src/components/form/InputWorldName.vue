@@ -5,15 +5,15 @@
 import { Input } from "@ui/input";
 import { Label } from "@ui/label";
 import { useI18n } from "vue-i18n";
-import type { Option } from "@tb-dev/utils";
 import enUS from "@/locale/en-US/scenes/host-game.json";
 import ptBR from "@/locale/pt-BR/scenes/host-game.json";
+import type { WorldOptions } from "@tsukilabs/nil-bindings";
 
 defineProps<{
   disabled: boolean;
 }>();
 
-const name = defineModel<Option<string>>({ required: true });
+const worldOptions = defineModel<Partial<WorldOptions>>({ required: true });
 
 const { t } = useI18n({
   messages: {
@@ -28,7 +28,7 @@ const { t } = useI18n({
     <span>{{ t("world-name") }}</span>
     <Input
       id="input-world-name"
-      v-model="name"
+      v-model="worldOptions.name"
       type="text"
       :disabled
       :minlength="1"
