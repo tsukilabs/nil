@@ -18,7 +18,7 @@ import ptBR_hostGame from "@/locale/pt-BR/scenes/host-game.json";
 import { localRef, useBreakpoints, useMutex } from "@tb-dev/vue";
 import ButtonSpinner from "@/components/button/ButtonSpinner.vue";
 import InputWorldName from "@/components/form/InputWorldName.vue";
-import InputWorldSize from "@/components/form/InputWorldSize.vue";
+import SliderWorldSize from "@/components/form/SliderWorldSize.vue";
 import SliderBotDensity from "@/components/form/SliderBotDensity.vue";
 import SliderWorldSpeed from "@/components/form/SliderWorldSpeed.vue";
 import { isValidNullishPassword, isWorldOptions } from "@/lib/schema";
@@ -102,9 +102,9 @@ function key(name: string) {
 
       <CardContent class="card-form">
         <InputWorldName v-model="worldOptions.name" :disabled="locked" />
-        <InputWorldSize v-model="worldOptions.size" :disabled="locked" />
         <InputWorldPassword v-model="worldPassword" :disabled="locked" />
         <TextareaWorldDescription v-model="description" :disabled="locked" />
+        <SliderWorldSize v-model="worldOptions" :disabled="locked" />
         <SliderWorldSpeed v-model="worldOptions" :disabled="locked" />
         <SliderWorldUnitSpeed v-model="worldOptions" :disabled="locked" />
         <SliderBotDensity v-model="worldOptions" :disabled="locked" />

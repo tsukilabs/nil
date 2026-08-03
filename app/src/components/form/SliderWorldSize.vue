@@ -18,9 +18,9 @@ defineProps<{
 const worldOptions = defineModel<Partial<WorldOptions>>({ required: true });
 
 const sliderValue = computed({
-  get: () => [worldOptions.value.unitSpeed ?? CONSTS.worldUnitSpeedDefault],
+  get: () => [worldOptions.value.size ?? CONSTS.continentSizeDefault],
   set: (value) => {
-    worldOptions.value.unitSpeed = value.at(0) ?? CONSTS.worldUnitSpeedDefault;
+    worldOptions.value.size = value.at(0) ?? CONSTS.continentSizeDefault;
   },
 });
 
@@ -30,28 +30,21 @@ const { t } = useI18n({
     "pt-BR": ptBR,
   },
 });
-
-const intl = new Intl.NumberFormat(undefined, {
-  style: "decimal",
-  minimumFractionDigits: 1,
-  maximumFractionDigits: 1,
-  useGrouping: false,
-});
 </script>
 
 <template>
-  <Label for="slider-world-unit-speed">
-    <span>{{ t("world-unit-speed") }}</span>
+  <Label for="slider-world-size">
+    <span>{{ t("world-size") }}</span>
     <div>
       <Slider
-        id="slider-world-unit-speed"
+        id="slider-world-size"
         v-model:model-value="sliderValue"
         :disabled
-        :min="CONSTS.worldUnitSpeedMin"
-        :max="CONSTS.worldUnitSpeedMax"
-        :step="0.1"
+        :min="CONSTS.continentSizeMin"
+        :max="CONSTS.continentSizeMax"
+        :step="10"
       />
-      <span>{{ `${intl.format(sliderValue[0])}x` }}</span>
+      <span>{{ sliderValue[0] }}</span>
     </div>
   </Label>
 </template>

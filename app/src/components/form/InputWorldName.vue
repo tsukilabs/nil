@@ -24,9 +24,10 @@ const { t } = useI18n({
 </script>
 
 <template>
-  <Label>
+  <Label for="input-world-name">
     <span>{{ t("world-name") }}</span>
     <Input
+      id="input-world-name"
       v-model="name"
       type="text"
       :disabled

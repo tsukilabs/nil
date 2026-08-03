@@ -40,10 +40,11 @@ const intl = new Intl.NumberFormat(undefined, {
 </script>
 
 <template>
-  <Label>
+  <Label for="slider-world-speed">
     <span>{{ t("world-speed") }}</span>
     <div>
       <Slider
+        id="slider-world-speed"
         v-model:model-value="sliderValue"
         :disabled
         :min="CONSTS.worldSpeedMin"
