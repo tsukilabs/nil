@@ -1,9 +1,9 @@
 {
   "name": "@tsukilabs/nil-bindings",
-  "version": "0.7.12",
+  "version": "0.7.13",
   "description": "TypeScript bindings for Call of Nil",
   "type": "module",
-  "packageManager": "pnpm@11.19.0",
+  "packageManager": "pnpm@11.20.0",
   "license": "AGPL-3.0-only",
   "private": false,
   "homepage": "https://nil.dev.br",

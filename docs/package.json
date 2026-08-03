@@ -1,8 +1,8 @@
 {
   "name": "docs",
-  "version": "0.7.12",
+  "version": "0.7.13",
   "type": "module",
-  "packageManager": "pnpm@11.19.0",
+  "packageManager": "pnpm@11.20.0",
   "license": "AGPL-3.0-only",
   "private": true,
   "scripts": {
