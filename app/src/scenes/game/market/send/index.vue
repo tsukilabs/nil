@@ -74,7 +74,7 @@ function clear() {
 </script>
 
 <template>
-  <div class="w-full min-w-max flex flex-col gap-4">
+  <div class="size-full flex flex-col gap-4">
     <div class="w-full lg:min-w-max lg:max-w-1/2 grid grid-cols-1 gap-8">
       <Rulers v-model="recipient" :rulers :loading="isLoadingRulers" />
       <ResourcesGrid v-model="resources" :market-fee="market?.fee ?? 0" />

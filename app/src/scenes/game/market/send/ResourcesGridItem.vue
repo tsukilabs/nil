@@ -48,7 +48,7 @@ function toggleMax() {
         <Wood v-else-if="kind === 'wood'" hide-amount />
         <div>
           <span>{{ t(kind) }}</span>
-          <span class="cursor-pointer" @click="toggleMax">
+          <span class="cursor-pointer" @click.stop="toggleMax">
             {{ ` (${formatInt(available)})` }}
           </span>
         </div>
