@@ -22,6 +22,8 @@ jobs:
 
       - name: Install Rust
         uses: dtolnay/rust-toolchain@nightly
+        with:
+          toolchain: nightly-2026-07-20
 
       - name: Install dependencies
         run: pnpm ci
@@ -64,6 +66,8 @@ jobs:
 
       - name: Install Rust
         uses: dtolnay/rust-toolchain@nightly
+        with:
+          toolchain: nightly-2026-07-20
 
       - name: Install dependencies (Ubuntu)
         if: matrix.platform == 'ubuntu-24.04'
@@ -115,6 +119,8 @@ jobs:
 
       - name: Install Rust
         uses: dtolnay/rust-toolchain@nightly
+        with:
+          toolchain: nightly-2026-07-20
 
       - name: Install dependencies (Ubuntu)
         run: sudo apt-get update
