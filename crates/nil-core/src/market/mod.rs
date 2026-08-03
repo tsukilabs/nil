@@ -38,7 +38,7 @@ impl Market {
     self.fee
   }
 
-  pub(crate) fn fee_mut(&mut self) -> &mut MarketFee {
-    &mut self.fee
+  pub(crate) fn set_fee(&mut self, fee: MarketFee) {
+    self.fee = fee.clamped();
   }
 }
