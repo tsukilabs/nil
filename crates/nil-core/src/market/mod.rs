@@ -6,43 +6,100 @@ pub mod vault;
 
 use crate::market::fee::MarketFee;
 use crate::market::vault::MarketVault;
+use crate::resources::gold::Gold;
+use crate::resources::{Food, Iron, Stone, Wood};
 use serde::{Deserialize, Serialize};
+use std::marker::PhantomData;
 
-#[derive(Clone, Debug, Default, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive_const(Default)]
 #[serde(rename_all = "camelCase")]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Market {
   vault: MarketVault,
   fee: MarketFee,
+
+  // We don't *strictly* need to include the market price here,
+  // since it can be derived from the resources themselves.
+  // However, including it simplifies things for downstream consumers,
+  // as they don't need to query the resources separately to obtain it.
+  #[cfg_attr(feature = "typescript", ts(as = "MarketPrice"))]
+  #[cfg_attr(
+    not(feature = "typescript"),
+    serde(skip_deserializing, serialize_with = "serialize_market_price")
+  )]
+  price: PhantomData<MarketPrice>,
 }
 
 impl Market {
-  pub fn new(fee: MarketFee) -> Self {
+  pub const fn new(fee: MarketFee) -> Self {
     Self {
       vault: MarketVault::default(),
       fee: fee.clamped(),
+      price: PhantomData,
     }
   }
 
   #[inline]
-  pub fn vault(&self) -> &MarketVault {
+  pub const fn vault(&self) -> &MarketVault {
     &self.vault
   }
 
-  pub(crate) fn vault_mut(&mut self) -> &mut MarketVault {
+  pub(crate) const fn vault_mut(&mut self) -> &mut MarketVault {
     &mut self.vault
   }
 
   #[inline]
-  pub fn fee(&self) -> MarketFee {
+  pub const fn fee(&self) -> MarketFee {
     self.fee
+  }
+
+  #[inline]
+  pub const fn price(&self) -> MarketPrice {
+    MarketPrice::default()
   }
 
   /// Sets the market fee, clamping it to the valid range.
   ///
   /// As the fee is not expected to be changed throughout the game,
   /// this should only be used to execute cheats or for testing purposes.
-  pub(crate) fn set_fee(&mut self, fee: MarketFee) {
+  pub(crate) const fn set_fee(&mut self, fee: MarketFee) {
     self.fee = fee.clamped();
   }
+}
+
+#[derive(Copy, Debug, Deserialize, Serialize)]
+#[derive_const(Clone, PartialEq, Eq)]
+#[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
+pub struct MarketPrice {
+  food: Gold,
+  iron: Gold,
+  stone: Gold,
+  wood: Gold,
+}
+
+impl MarketPrice {
+  pub const fn new() -> Self {
+    Self::default()
+  }
+}
+
+const impl Default for MarketPrice {
+  fn default() -> Self {
+    Self {
+      food: Food::MARKET_PRICE,
+      iron: Iron::MARKET_PRICE,
+      stone: Stone::MARKET_PRICE,
+      wood: Wood::MARKET_PRICE,
+    }
+  }
+}
+
+#[cfg(not(feature = "typescript"))]
+fn serialize_market_price<S>(_: &PhantomData<MarketPrice>, serializer: S) -> Result<S::Ok, S::Error>
+where
+  S: serde::Serializer,
+{
+  MarketPrice::default().serialize(serializer)
 }
