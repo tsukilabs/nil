@@ -296,6 +296,8 @@ macro_rules! decl_resource {
           pub const MIN: Self = Self::new(0);
           pub const MAX: Self = Self::new(u32::MAX);
 
+          pub const MARKET_PRICE: Gold = Gold::new(1);
+
           #[inline]
           pub const fn new(value: u32) -> Self {
             Self(value)
@@ -493,19 +495,3 @@ macro_rules! decl_resource {
 }
 
 decl_resource!(Food, Iron, Stone, Wood);
-
-impl Food {
-  pub const MARKET_PRICE: Gold = Gold::new(1);
-}
-
-impl Iron {
-  pub const MARKET_PRICE: Gold = Gold::new(1);
-}
-
-impl Stone {
-  pub const MARKET_PRICE: Gold = Gold::new(1);
-}
-
-impl Wood {
-  pub const MARKET_PRICE: Gold = Gold::new(1);
-}

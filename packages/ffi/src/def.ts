@@ -65,6 +65,7 @@ nil_cheat_set_building_level: { arguments: [ffi.types.UINT_32, ffi.types.POINTER
 nil_cheat_set_food: { arguments: [ffi.types.UINT_32, ffi.types.POINTER], return: ffi.types.VOID },
 nil_cheat_set_iron: { arguments: [ffi.types.UINT_32, ffi.types.POINTER], return: ffi.types.VOID },
 nil_cheat_set_market_fee: { arguments: [ffi.types.UINT_32, ffi.types.POINTER], return: ffi.types.VOID },
+nil_cheat_set_market_vault_resources: { arguments: [ffi.types.UINT_32, ffi.types.POINTER], return: ffi.types.VOID },
 nil_cheat_set_max_food: { arguments: [ffi.types.UINT_32, ffi.types.POINTER], return: ffi.types.VOID },
 nil_cheat_set_max_infrastructure: { arguments: [ffi.types.UINT_32, ffi.types.POINTER], return: ffi.types.VOID },
 nil_cheat_set_max_iron: { arguments: [ffi.types.UINT_32, ffi.types.POINTER], return: ffi.types.VOID },

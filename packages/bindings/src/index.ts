@@ -108,6 +108,7 @@ export type { CheatSetBuildingLevelRequest } from './CheatSetBuildingLevelReques
 export type { CheatSetFoodRequest } from './CheatSetFoodRequest';
 export type { CheatSetIronRequest } from './CheatSetIronRequest';
 export type { CheatSetMarketFeeRequest } from './CheatSetMarketFeeRequest';
+export type { CheatSetMarketVaultResourcesRequest } from './CheatSetMarketVaultResourcesRequest';
 export type { CheatSetMaxFoodRequest } from './CheatSetMaxFoodRequest';
 export type { CheatSetMaxInfrastructureRequest } from './CheatSetMaxInfrastructureRequest';
 export type { CheatSetMaxIronRequest } from './CheatSetMaxIronRequest';

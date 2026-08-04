@@ -555,6 +555,15 @@ pub unsafe extern "C" fn nil_cheat_set_market_fee(request_id: RequestId, json_re
   send!(request_id, cheat_set_market_fee, json_req);
 }
 
+/// [`Client::cheat_set_market_vault_resources`](nil_client::Client::cheat_set_market_vault_resources)
+#[unsafe(no_mangle)]
+pub unsafe extern "C" fn nil_cheat_set_market_vault_resources(
+  request_id: RequestId,
+  json_req: *const c_char,
+) {
+  send!(request_id, cheat_set_market_vault_resources, json_req);
+}
+
 /// [`Client::cheat_set_max_food`](nil_client::Client::cheat_set_max_food)
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn nil_cheat_set_max_food(request_id: RequestId, json_req: *const c_char) {

@@ -358,6 +358,12 @@ namespace CsBindgen
         public static extern void nil_cheat_set_market_fee(uint request_id, byte* json_req);
 
         /// <summary>
+        ///  [`Client::cheat_set_market_vault_resources`](nil_client::Client::cheat_set_market_vault_resources)
+        /// </summary>
+        [DllImport(__DllName, EntryPoint = "nil_cheat_set_market_vault_resources", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void nil_cheat_set_market_vault_resources(uint request_id, byte* json_req);
+
+        /// <summary>
         ///  [`Client::cheat_set_max_food`](nil_client::Client::cheat_set_max_food)
         /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_cheat_set_max_food", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]

@@ -3,8 +3,8 @@
 
 use crate::app::App;
 use crate::middleware::authorization::CurrentPlayer;
-use crate::res;
-use crate::response::EitherExt;
+use crate::response::from_err;
+use crate::{bail_if_player_is_not_pending, res};
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
 use nil_core::ruler::Ruler;
@@ -32,12 +32,20 @@ pub async fn send_resources(
   Extension(player): Extension<CurrentPlayer>,
   Json(req): Json<SendResourcesRequest>,
 ) -> Response {
-  let sender = Ruler::from(player.0);
-  app
-    .world_mut(req.world, move |world| {
-      world.send_resources(&sender, &req.recipient, req.resources)
-    })
-    .await
-    .try_map_left(|()| res!(OK))
-    .into_inner()
+  match app.get(req.world) {
+    Ok(world) => {
+      let result = try {
+        let mut world = world.write().await;
+        bail_if_player_is_not_pending!(world, &player.0);
+
+        let sender = Ruler::from(player.0);
+        world.send_resources(&sender, &req.recipient, req.resources)?;
+      };
+
+      result
+        .map(|()| res!(OK))
+        .unwrap_or_else(from_err)
+    }
+    Err(err) => from_err(err),
+  }
 }

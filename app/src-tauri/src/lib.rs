@@ -72,6 +72,7 @@ pub fn run() {
       command::cheat::infrastructure::cheat_set_building_level,
       command::cheat::infrastructure::cheat_set_max_infrastructure,
       command::cheat::market::cheat_set_market_fee,
+      command::cheat::market::cheat_set_market_vault_resources,
       command::cheat::military::cheat_get_idle_armies_at,
       command::cheat::military::cheat_get_idle_personnel_at,
       command::cheat::military::cheat_get_maneuvers,

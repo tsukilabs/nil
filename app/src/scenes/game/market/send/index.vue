@@ -16,6 +16,7 @@ import { onKeyDown, useBreakpoints } from "@tb-dev/vue";
 import { useRulers } from "@/composables/ruler/useRulers";
 import Rulers from "@/scenes/game/market/send/Rulers.vue";
 import { useMarket } from "@/composables/market/useMarket";
+import { usePlayerTurn } from "@/composables/player/usePlayerTurn";
 import ResourcesGrid from "@/scenes/game/market/send/ResourcesGrid.vue";
 
 const { t } = useI18n();
@@ -26,8 +27,11 @@ const { rulers, load: loadRulers, loading: isLoadingRulers } = useRulers();
 const recipient = ref<Option<Ruler>>();
 const resources = ref(ResourcesImpl.splat(0));
 
+const isPlayerTurn = usePlayerTurn();
+
 const canSend = computed(() => {
   return (
+    isPlayerTurn.value &&
     market.value &&
     rulers.value.length > 1 &&
     !isLoadingMarket.value &&

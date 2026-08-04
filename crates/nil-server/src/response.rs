@@ -88,6 +88,7 @@ fn from_core_err(err: CoreError) -> Response {
     ManeuverNotFound(..) => res!(NOT_FOUND, text),
     MineStatsNotFound(..) => res!(NOT_FOUND, text),
     MineStatsNotFoundForLevel(..) => res!(NOT_FOUND, text),
+    NotEnoughResourcesInMarketVault => res!(BAD_REQUEST, text),
     NotWaitingPlayer(..) => res!(BAD_REQUEST, text),
     OriginIsDestination(..) => res!(BAD_REQUEST, text),
     PlayerAlreadySpawned(..) => res!(CONFLICT, text),

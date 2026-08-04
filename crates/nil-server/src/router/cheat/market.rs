@@ -19,3 +19,16 @@ pub async fn set_fee(
     .try_map_left(|()| res!(OK))
     .into_inner()
 }
+
+pub async fn set_vault_resources(
+  State(app): State<App>,
+  Json(req): Json<CheatSetMarketVaultResourcesRequest>,
+) -> Response {
+  app
+    .world_mut(req.world, |world| {
+      cheat::set_market_vault_resources(world, req.resources)
+    })
+    .await
+    .try_map_left(|()| res!(OK))
+    .into_inner()
+}

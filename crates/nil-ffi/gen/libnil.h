@@ -309,6 +309,12 @@ void nil_cheat_set_iron(RequestId request_id, const char *json_req);
 void nil_cheat_set_market_fee(RequestId request_id, const char *json_req);
 
 /**
+ * [`Client::cheat_set_market_vault_resources`](nil_client::Client::cheat_set_market_vault_resources)
+ */
+void nil_cheat_set_market_vault_resources(RequestId request_id,
+                                          const char *json_req);
+
+/**
  * [`Client::cheat_set_max_food`](nil_client::Client::cheat_set_max_food)
  */
 void nil_cheat_set_max_food(RequestId request_id, const char *json_req);

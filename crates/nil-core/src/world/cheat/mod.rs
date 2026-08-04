@@ -28,7 +28,7 @@ pub use infrastructure::{
   set_building_level,
   set_max_infrastructure,
 };
-pub use market::set_market_fee;
+pub use market::{set_market_fee, set_market_vault_resources};
 pub use military::{
   get_idle_armies_at,
   get_idle_personnel_at,

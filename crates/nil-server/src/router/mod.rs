@@ -74,6 +74,7 @@ pub(crate) fn create() -> Router<App> {
     .route("/cheat-set-food", post(cheat::resources::set_food))
     .route("/cheat-set-iron", post(cheat::resources::set_iron))
     .route("/cheat-set-market-fee", post(cheat::market::set_fee))
+    .route("/cheat-set-market-vault-resources", post(cheat::market::set_vault_resources))
     .route("/cheat-set-max-food", post(cheat::resources::set_max_food))
     .route("/cheat-set-max-infrastructure", post(cheat::infrastructure::set_max_infrastructure))
     .route("/cheat-set-max-iron", post(cheat::resources::set_max_iron))
