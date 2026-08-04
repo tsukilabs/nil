@@ -289,6 +289,17 @@ impl<'a> RulerRefMut<'a> {
       Self::Precursor(precursor) => precursor.gold_mut(),
     }
   }
+
+  /// Withdraws the specified amount of gold from the ruler.
+  pub fn withdraw_gold(&mut self, gold: Gold) -> Result<()> {
+    let ruler_gold = self.gold_mut();
+    match ruler_gold.checked_sub(gold) {
+      Some(result) => *ruler_gold = result,
+      None => return Err(Error::InsufficientGold),
+    }
+
+    Ok(())
+  }
 }
 
 impl<'a> From<&'a mut Bot> for RulerRefMut<'a> {

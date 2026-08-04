@@ -7,6 +7,7 @@ mod tests;
 use crate::error::{Error, Result};
 use crate::market::Market;
 use crate::resources::Resources;
+use crate::resources::gold::Gold;
 use crate::ruler::Ruler;
 use crate::world::World;
 use std::ops::AddAssign;
@@ -18,6 +19,22 @@ impl World {
 
   pub(crate) fn market_mut(&mut self) -> &mut Market {
     &mut self.market
+  }
+
+  pub fn buy_resources(&mut self, ruler: &Ruler, resources: Resources) -> Result<()> {
+    let cost = resources * self.market().fee();
+    self
+      .ruler_mut(ruler)?
+      .withdraw_gold(Gold::from(cost))?;
+
+    self.market.vault_mut().withdraw(resources)?;
+
+    self.add_resources_within_capacity(ruler.clone(), resources)?;
+
+    self.emit_ruler(ruler)?;
+    self.emit_market()?;
+
+    Ok(())
   }
 
   /// Sells resources to the market.

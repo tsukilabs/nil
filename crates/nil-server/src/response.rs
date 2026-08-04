@@ -80,6 +80,7 @@ fn from_core_err(err: CoreError) -> Response {
     FieldNotEmpty(..) => res!(BAD_REQUEST, text),
     Forbidden => res!(FORBIDDEN, text),
     IndexOutOfBounds(..) => res!(BAD_REQUEST, text),
+    InsufficientGold => res!(BAD_REQUEST, text),
     InsufficientResources => res!(BAD_REQUEST, text),
     InsufficientUnits => res!(BAD_REQUEST, text),
     ManeuverIsDone(..) => res!(BAD_REQUEST, text),

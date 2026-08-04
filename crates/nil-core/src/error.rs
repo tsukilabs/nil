@@ -80,6 +80,9 @@ pub enum Error {
   #[error("Index out of bounds: {0}")]
   IndexOutOfBounds(ContinentIndex),
 
+  #[error("Insufficient gold")]
+  InsufficientGold,
+
   #[error("Insufficient resources")]
   InsufficientResources,
 

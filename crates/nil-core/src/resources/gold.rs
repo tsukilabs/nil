@@ -63,7 +63,7 @@ const impl From<Gold> for f64 {
 const impl From<Resources> for Gold {
   fn from(value: Resources) -> Self {
     // It's better to destructure here so the compiler will warn us
-    // if we add new resources in the future and forget to update this conversion.
+    // if we add new resources in the future and forget to update this.
     let Resources { food, iron, stone, wood } = value;
 
     Gold(0)
