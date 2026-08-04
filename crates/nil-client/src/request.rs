@@ -156,6 +156,7 @@ dispatch_unit!(
   cheat_set_food,
   cheat_set_iron,
   cheat_set_market_fee,
+  cheat_set_market_vault_resources,
   cheat_set_max_food,
   cheat_set_max_infrastructure,
   cheat_set_max_iron,
