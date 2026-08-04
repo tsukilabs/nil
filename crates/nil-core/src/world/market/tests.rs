@@ -162,6 +162,7 @@ fn send_resources() -> Result<()> {
 
   let remaining_resources_a = world.ruler(&ruler_a)?.resources();
   let fee = resources_to_send * world.market().fee();
+
   assert_eq!(
     remaining_resources_a,
     initial_resources_a

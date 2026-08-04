@@ -3,7 +3,6 @@
 
 <script setup lang="ts">
 import { useI18n } from "vue-i18n";
-import * as commands from "@/commands";
 import { handleError } from "@/lib/error";
 import type { Option } from "@tb-dev/utils";
 import { computed, nextTick, ref } from "vue";
@@ -54,7 +53,7 @@ async function send() {
   await nextTick();
   if (canSend.value && market.value && recipient.value) {
     try {
-      await commands.sendResources(
+      await market.value.send(
         recipient.value,
         resources.value.toJSON(),
       );
