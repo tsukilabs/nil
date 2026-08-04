@@ -62,11 +62,15 @@ const impl From<Gold> for f64 {
 
 const impl From<Resources> for Gold {
   fn from(value: Resources) -> Self {
+    // It's better to destructure here so the compiler will warn us
+    // if we add new resources in the future and forget to update this conversion.
+    let Resources { food, iron, stone, wood } = value;
+
     Gold(0)
-      .add(Gold::from(value.food))
-      .add(Gold::from(value.iron))
-      .add(Gold::from(value.stone))
-      .add(Gold::from(value.wood))
+      .add(Gold::from(food))
+      .add(Gold::from(iron))
+      .add(Gold::from(stone))
+      .add(Gold::from(wood))
   }
 }
 

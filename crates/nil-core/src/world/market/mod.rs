@@ -20,6 +20,7 @@ impl World {
     &mut self.market
   }
 
+  /// Sells resources to the market.
   pub fn sell_resources(&mut self, ruler: &Ruler, resources: Resources) -> Result<()> {
     self
       .ruler_mut(ruler)?
