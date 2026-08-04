@@ -262,7 +262,8 @@ impl<'a> RulerRefMut<'a> {
     }
   }
 
-  pub fn remove_resources(&'a mut self, resources: Resources) -> Result<()> {
+  /// Withdraws the specified resources from the ruler.
+  pub fn withdraw_resources(&'a mut self, resources: Resources) -> Result<()> {
     let ruler_resources = self.resources_mut();
     match ruler_resources.checked_sub(resources) {
       Some(result) => *ruler_resources = result,

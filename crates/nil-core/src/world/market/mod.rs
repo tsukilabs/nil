@@ -22,7 +22,7 @@ impl World {
   pub fn sell_resources(&mut self, ruler: &Ruler, resources: Resources) -> Result<()> {
     self
       .ruler_mut(ruler)?
-      .remove_resources(resources)?;
+      .withdraw_resources(resources)?;
 
     self
       .market_mut()
@@ -46,7 +46,7 @@ impl World {
 
     self
       .ruler_mut(from)?
-      .remove_resources(total)?;
+      .withdraw_resources(total)?;
 
     self.add_resources_within_capacity(to.clone(), resources)?;
 
