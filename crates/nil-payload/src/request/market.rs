@@ -8,6 +8,17 @@ use nil_core::world::config::WorldId;
 use nil_payload_macros::FromWorld;
 use serde::{Deserialize, Serialize};
 
+#[derive(Builder, Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
+pub struct BuyResourcesRequest {
+  #[builder(start_fn, into)]
+  pub world: WorldId,
+  #[builder(into)]
+  pub resources: Resources,
+}
+
 #[derive(Builder, Clone, Debug, Deserialize, Serialize, FromWorld)]
 #[serde(rename_all = "camelCase")]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
@@ -24,6 +35,17 @@ pub struct GetMarketRequest {
 pub struct GetMarketFeeRequest {
   #[builder(start_fn, into)]
   pub world: WorldId,
+}
+
+#[derive(Builder, Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
+pub struct SellResourcesRequest {
+  #[builder(start_fn, into)]
+  pub world: WorldId,
+  #[builder(into)]
+  pub resources: Resources,
 }
 
 #[derive(Builder, Clone, Debug, Deserialize, Serialize)]

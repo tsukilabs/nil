@@ -300,6 +300,12 @@ pub unsafe extern "C" fn nil_authorize(request_id: RequestId, json_req: *const c
   send!(request_id, authorize, json_req);
 }
 
+/// [`Client::buy_resources`](nil_client::Client::buy_resources)
+#[unsafe(no_mangle)]
+pub unsafe extern "C" fn nil_buy_resources(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, buy_resources, json_req);
+}
+
 /// [`Client::cancel_academy_recruit_order`](nil_client::Client::cancel_academy_recruit_order)
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn nil_cancel_academy_recruit_order(
@@ -1069,6 +1075,12 @@ pub unsafe extern "C" fn nil_search_city(request_id: RequestId, json_req: *const
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn nil_search_public_city(request_id: RequestId, json_req: *const c_char) {
   send!(request_id, search_public_city, json_req);
+}
+
+/// [`Client::sell_resources`](nil_client::Client::sell_resources)
+#[unsafe(no_mangle)]
+pub unsafe extern "C" fn nil_sell_resources(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, sell_resources, json_req);
 }
 
 /// [`Client::send_resources`](nil_client::Client::send_resources)
