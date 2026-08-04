@@ -167,11 +167,13 @@ impl Resources {
   }
 
   pub const fn sum(&self) -> u32 {
+    let Self { food, iron, stone, wood } = *self;
+
     0u32
-      .saturating_add(self.food.0)
-      .saturating_add(self.iron.0)
-      .saturating_add(self.stone.0)
-      .saturating_add(self.wood.0)
+      .saturating_add(food.0)
+      .saturating_add(iron.0)
+      .saturating_add(stone.0)
+      .saturating_add(wood.0)
   }
 
   #[inline]
@@ -290,6 +292,15 @@ impl Sum<Resources> for Resources {
     I: Iterator<Item = Resources>,
   {
     iter.fold(Resources::default(), |acc, resources| acc + resources)
+  }
+}
+
+impl Sum<Resources> for u32 {
+  fn sum<I>(iter: I) -> Self
+  where
+    I: Iterator<Item = Resources>,
+  {
+    iter.fold(0u32, |acc, resources| acc.saturating_add(resources.sum()))
   }
 }
 
