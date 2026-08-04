@@ -95,7 +95,12 @@ impl World {
     Ok(resources)
   }
 
-  pub(crate) fn take_resources_of<R>(&mut self, ruler: R, resources: &mut Resources) -> Result<()>
+  /// Withdraws up to the requested resources, storing the amount withdrawn in `resources`.
+  pub(crate) fn withdraw_resources_up_to<R>(
+    &mut self,
+    ruler: R,
+    resources: &mut Resources,
+  ) -> Result<()>
   where
     R: Into<Ruler>,
   {
