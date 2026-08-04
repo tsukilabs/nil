@@ -9,6 +9,34 @@ use crate::tests::{make_world, spawn_player};
 use std::assert_matches;
 
 #[test]
+fn sell_resources() -> Result<()> {
+  let mut world = make_world()?;
+  let player = PlayerId::from("Player A");
+  spawn_player(&mut world, player.as_str())?;
+
+  let ruler = Ruler::from(player);
+  let initial_resources = Resources::splat(5000);
+  world
+    .ruler_mut(&ruler)?
+    .resources_mut()
+    .set(initial_resources);
+
+  let resources_to_sell = Resources::splat(1000);
+  world.sell_resources(&ruler, resources_to_sell)?;
+
+  assert_eq!(
+    world.ruler(&ruler)?.resources(),
+    initial_resources
+      .checked_sub(resources_to_sell)
+      .ok_or(Error::InsufficientResources)?
+  );
+  assert_eq!(world.market().vault().resources(), resources_to_sell);
+  assert_eq!(world.ruler(&ruler)?.gold(), resources_to_sell.into());
+
+  Ok(())
+}
+
+#[test]
 fn send_resources() -> Result<()> {
   let mut world = make_world()?;
   let player_a = PlayerId::from("Player A");
