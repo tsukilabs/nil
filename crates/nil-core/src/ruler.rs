@@ -1,6 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+use crate::error::{Error, Result};
 use crate::ethic::Ethics;
 use crate::npc::bot::{Bot, BotId};
 use crate::npc::precursor::{Precursor, PrecursorId};
@@ -261,11 +262,30 @@ impl<'a> RulerRefMut<'a> {
     }
   }
 
+  pub fn remove_resources(&'a mut self, resources: Resources) -> Result<()> {
+    let ruler_resources = self.resources_mut();
+    match ruler_resources.checked_sub(resources) {
+      Some(result) => *ruler_resources = result,
+      None => return Err(Error::InsufficientResources),
+    }
+
+    Ok(())
+  }
+
+  /// Takes all resources from the ruler, leaving them with nothing.
   pub fn take_resources(&mut self) -> Resources {
     match self {
       Self::Bot(bot) => mem::take(bot.resources_mut()),
       Self::Player(player) => mem::take(player.resources_mut()),
       Self::Precursor(precursor) => mem::take(precursor.resources_mut()),
+    }
+  }
+
+  pub fn gold_mut(&mut self) -> &mut Gold {
+    match self {
+      Self::Bot(bot) => bot.gold_mut(),
+      Self::Player(player) => player.gold_mut(),
+      Self::Precursor(precursor) => precursor.gold_mut(),
     }
   }
 }

@@ -7,7 +7,6 @@ mod tests;
 use crate::error::{Error, Result};
 use crate::market::Market;
 use crate::resources::Resources;
-use crate::resources::diff::ResourcesDiff;
 use crate::ruler::Ruler;
 use crate::world::World;
 
@@ -20,6 +19,22 @@ impl World {
     &mut self.market
   }
 
+  pub fn sell_resources(&mut self, ruler: &Ruler, resources: Resources) -> Result<()> {
+    self
+      .ruler_mut(ruler)?
+      .remove_resources(resources)?;
+
+    self
+      .market_mut()
+      .vault_mut()
+      .store(resources);
+
+    self.emit_ruler(ruler)?;
+    self.emit_market()?;
+
+    Ok(())
+  }
+
   /// Sends resources from one ruler to another, also deducting the current market fee from the sender's resources.
   pub fn send_resources(&mut self, from: &Ruler, to: &Ruler, resources: Resources) -> Result<()> {
     if from == to {
@@ -29,21 +44,11 @@ impl World {
     let fee = resources * self.market().fee();
     let total = resources + fee;
 
-    let capacity = self.get_storage_capacity(to.clone())?;
-    let resources_diff = ResourcesDiff::try_from(resources)?;
-
-    let mut ruler_ref = self.ruler_mut(from)?;
-    let ruler_resources = ruler_ref.resources_mut();
-
-    match ruler_resources.checked_sub(total) {
-      Some(new) => *ruler_resources = new,
-      None => return Err(Error::InsufficientResources),
-    }
-
     self
-      .ruler_mut(to)?
-      .resources_mut()
-      .add_within_capacity(resources_diff, capacity);
+      .ruler_mut(from)?
+      .remove_resources(total)?;
+
+    self.add_resources_within_capacity(to.clone(), resources)?;
 
     self.emit_ruler(from)?;
     self.emit_ruler(to)?;

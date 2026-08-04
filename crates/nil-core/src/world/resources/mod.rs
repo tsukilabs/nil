@@ -6,6 +6,7 @@ mod tests;
 
 use crate::continent::index::ContinentKey;
 use crate::error::Result;
+use crate::resources::diff::ResourcesDiff;
 use crate::resources::maintenance::MaintenanceBalance;
 use crate::resources::prelude::Maintenance;
 use crate::resources::{Food, Resources};
@@ -14,6 +15,27 @@ use crate::world::World;
 use nil_num::mul_ceil::MulCeil;
 
 impl World {
+  /// Increases the resources of a ruler, ensuring their storage do not overflow.
+  pub(crate) fn add_resources_within_capacity<R>(
+    &mut self,
+    ruler: R,
+    resources: Resources,
+  ) -> Result<()>
+  where
+    R: Into<Ruler>,
+  {
+    let ruler: Ruler = ruler.into();
+    let capacity = self.get_storage_capacity(ruler.clone())?;
+    let resources_diff = ResourcesDiff::try_from(resources)?;
+
+    self
+      .ruler_mut(&ruler)?
+      .resources_mut()
+      .add_within_capacity(resources_diff, capacity);
+
+    Ok(())
+  }
+
   pub(crate) fn get_maintenance<R>(&self, ruler: R) -> Result<Maintenance>
   where
     R: Into<Ruler>,
@@ -79,8 +101,8 @@ impl World {
   {
     let mut ruler = self.ruler_mut(&ruler.into())?;
     let current_resources = ruler.take_resources();
-    if let Some(res) = current_resources.checked_sub(*resources) {
-      *ruler.resources_mut() = res;
+    if let Some(result) = current_resources.checked_sub(*resources) {
+      *ruler.resources_mut() = result;
     } else {
       *resources = current_resources;
     }

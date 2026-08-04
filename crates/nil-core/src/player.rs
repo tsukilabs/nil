@@ -117,6 +117,10 @@ impl Player {
     self.gold
   }
 
+  pub(crate) fn gold_mut(&mut self) -> &mut Gold {
+    &mut self.gold
+  }
+
   #[inline]
   pub fn influence(&self) -> Influence {
     self.influence
