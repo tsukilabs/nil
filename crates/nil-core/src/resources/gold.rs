@@ -2,12 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::market::fee::MarketFee;
+use crate::resources::Resources;
 use derive_more::Display;
 use nil_num::impl_mul_ceil;
 use nil_num::mul_ceil::MulCeil;
 use nil_util::{ConstDeref, F64Math};
 use serde::{Deserialize, Serialize};
-use std::ops::Mul;
+use std::iter::Sum;
+use std::ops::{Add, AddAssign, Mul, Sub, SubAssign};
 
 /// Gold is a special resource used to trade in the market.
 #[derive(Copy, Debug, Display, Deserialize, Serialize, ConstDeref, F64Math)]
@@ -58,10 +60,88 @@ const impl From<Gold> for f64 {
   }
 }
 
+const impl From<Resources> for Gold {
+  fn from(value: Resources) -> Self {
+    Gold(0)
+      .add(Gold::from(value.food))
+      .add(Gold::from(value.iron))
+      .add(Gold::from(value.stone))
+      .add(Gold::from(value.wood))
+  }
+}
+
+const impl Add for Gold {
+  type Output = Gold;
+
+  fn add(self, rhs: Gold) -> Self::Output {
+    Self::new(self.0.saturating_add(rhs.0))
+  }
+}
+
+const impl Add<Resources> for Gold {
+  type Output = Gold;
+
+  fn add(self, rhs: Resources) -> Self::Output {
+    self + Gold::from(rhs)
+  }
+}
+
+const impl AddAssign for Gold {
+  fn add_assign(&mut self, rhs: Gold) {
+    *self = *self + rhs;
+  }
+}
+
+const impl AddAssign<Resources> for Gold {
+  fn add_assign(&mut self, rhs: Resources) {
+    *self = *self + rhs;
+  }
+}
+
+const impl Sub for Gold {
+  type Output = Gold;
+
+  fn sub(self, rhs: Gold) -> Self::Output {
+    Self::new(self.0.saturating_sub(rhs.0))
+  }
+}
+
+const impl SubAssign for Gold {
+  fn sub_assign(&mut self, rhs: Gold) {
+    *self = *self - rhs;
+  }
+}
+
+const impl Mul<u32> for Gold {
+  type Output = Gold;
+
+  fn mul(self, rhs: u32) -> Self::Output {
+    Self::new(self.0.saturating_mul(rhs))
+  }
+}
+
 const impl Mul<MarketFee> for Gold {
   type Output = Gold;
 
   fn mul(self, rhs: MarketFee) -> Self::Output {
     Self::from(self.mul_ceil(*rhs))
+  }
+}
+
+impl Sum<Gold> for Gold {
+  fn sum<I>(iter: I) -> Self
+  where
+    I: Iterator<Item = Gold>,
+  {
+    iter.fold(Gold::default(), |acc, gold| acc + gold)
+  }
+}
+
+impl Sum<Resources> for Gold {
+  fn sum<I>(iter: I) -> Self
+  where
+    I: Iterator<Item = Resources>,
+  {
+    iter.fold(Gold::default(), |acc, resources| acc + resources)
   }
 }

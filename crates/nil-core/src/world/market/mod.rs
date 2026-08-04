@@ -9,6 +9,7 @@ use crate::market::Market;
 use crate::resources::Resources;
 use crate::ruler::Ruler;
 use crate::world::World;
+use std::ops::AddAssign;
 
 impl World {
   pub fn market(&self) -> &Market {
@@ -28,6 +29,11 @@ impl World {
       .market_mut()
       .vault_mut()
       .store(resources);
+
+    self
+      .ruler_mut(ruler)?
+      .gold_mut()
+      .add_assign(resources);
 
     self.emit_ruler(ruler)?;
     self.emit_market()?;

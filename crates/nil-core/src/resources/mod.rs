@@ -23,6 +23,7 @@ use nil_num::mul_ceil::MulCeil;
 use nil_util::{ConstDeref, F64Math};
 use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
+use std::iter::Sum;
 use std::num::NonZeroU32;
 use std::ops::{Add, AddAssign, Mul, MulAssign, Sub, SubAssign};
 
@@ -283,6 +284,15 @@ const impl Mul<MarketFee> for Resources {
   }
 }
 
+impl Sum<Resources> for Resources {
+  fn sum<I>(iter: I) -> Self
+  where
+    I: Iterator<Item = Resources>,
+  {
+    iter.fold(Resources::default(), |acc, resources| acc + resources)
+  }
+}
+
 macro_rules! decl_resource {
   ($($resource:ident),+ $(,)?) => {
     paste::paste! {
@@ -365,6 +375,12 @@ macro_rules! decl_resource {
             let mut resources = Resources::new();
             resources.[<$resource:snake>] = value;
             resources
+          }
+        }
+
+        const impl From<$resource> for Gold {
+          fn from(value: $resource) -> Self {
+            $resource::MARKET_PRICE * value.0
           }
         }
 
