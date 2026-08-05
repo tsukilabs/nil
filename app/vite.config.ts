@@ -27,6 +27,10 @@ export default defineConfig({
     sourcemap: false,
     minify,
     rolldownOptions: {
+      output: {
+        comments: !minify,
+        postBanner: license(),
+      },
       experimental: {
         attachDebugInfo: minify ? "none" : "simple",
       },
@@ -41,3 +45,9 @@ export default defineConfig({
     },
   },
 });
+
+function license() {
+  let value = "// Copyright (C) Call of Nil contributors\n";
+  value += "// SPDX-License-Identifier: AGPL-3.0-only\n";
+  return value;
+}
