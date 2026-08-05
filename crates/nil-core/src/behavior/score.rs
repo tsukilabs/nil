@@ -2,11 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use derive_more::Into;
+use nil_util::ClampNew;
 use std::cmp::Ordering;
 use std::fmt::Debug;
 use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Sub, SubAssign};
 
-#[derive(Copy, Debug, Into)]
+#[derive(Copy, Debug, Into, ClampNew)]
 #[derive_const(Clone)]
 pub struct BehaviorScore(f64);
 
