@@ -2,8 +2,8 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { useI18n } from "@tsukilabs/nil-i18n";
 import { handleError } from "@/lib/error";
+import { useI18n } from "@tsukilabs/nil-i18n";
 import { computed, nextTick, ref } from "vue";
 import { Button } from "@/components/ui/button";
 import { ListenerSet } from "@/lib/listener-set";

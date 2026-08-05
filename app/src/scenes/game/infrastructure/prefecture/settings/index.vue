@@ -5,20 +5,13 @@
 import { ref } from "vue";
 import { Input } from "@ui/input";
 import { Label } from "@ui/label";
-import { useI18n } from "@tsukilabs/nil-i18n";
 import { Button } from "@ui/button";
 import { renameCity } from "@/commands";
 import { Checkbox } from "@ui/checkbox";
+import { useI18n } from "@tsukilabs/nil-i18n";
 import { useSettings } from "@/stores/settings";
-import enUS from "@/locale/en-US/scenes/game/infrastructure/prefecture.json";
-import ptBR from "@/locale/pt-BR/scenes/game/infrastructure/prefecture.json";
 
-const { t } = useI18n({
-  messages: {
-    "en-US": enUS,
-    "pt-BR": ptBR,
-  },
-});
+const { t } = useI18n();
 
 const { coord, city } = NIL.city.refs();
 
@@ -39,17 +32,17 @@ function rename() {
       <div class="flex flex-col gap-2">
         <Label>
           <Checkbox v-model="settings.prefecture.hideMaxed" />
-          <span>{{ t("hide-fully-constructed") }}</span>
+          <span>{{ t("prefecture.hide-fully-constructed") }}</span>
         </Label>
 
         <Label>
           <Checkbox v-model="settings.prefecture.hideUnmet" />
-          <span>{{ t("hide-unavailable-buildings") }}</span>
+          <span>{{ t("prefecture.hide-unavailable-buildings") }}</span>
         </Label>
       </div>
 
       <Label class="max-w-96 py-1">
-        <span class="text-muted-foreground">{{ t("rename-city") }}</span>
+        <span class="text-muted-foreground">{{ t("prefecture.rename-city") }}</span>
         <div class="flex items-center gap-2">
           <Input
             v-model.trim="cityName"

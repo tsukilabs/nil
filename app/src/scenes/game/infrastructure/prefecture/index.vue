@@ -6,16 +6,9 @@ import { useI18n } from "@tsukilabs/nil-i18n";
 import Loading from "@/components/Loading.vue";
 import { Card, CardContent, CardHeader, CardTitle } from "@ui/card";
 import { usePrefecture } from "@/composables/infrastructure/useBuilding";
-import enUS from "@/locale/en-US/scenes/game/infrastructure/prefecture.json";
-import ptBR from "@/locale/pt-BR/scenes/game/infrastructure/prefecture.json";
 import HeaderMenu from "@/scenes/game/infrastructure/prefecture/HeaderMenu.vue";
 
-const { t } = useI18n({
-  messages: {
-    "en-US": enUS,
-    "pt-BR": ptBR,
-  },
-});
+const { t } = useI18n();
 
 const prefecture = usePrefecture();
 </script>

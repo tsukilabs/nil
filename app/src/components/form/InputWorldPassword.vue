@@ -4,10 +4,8 @@
 <script vapor lang="ts">
 import { Input } from "@ui/input";
 import { Label } from "@ui/label";
-import { useI18n } from "@tsukilabs/nil-i18n";
 import type { Option } from "@tb-dev/utils";
-import enUS from "@/locale/en-US/scenes/online.json";
-import ptBR from "@/locale/pt-BR/scenes/online.json";
+import { useI18n } from "@tsukilabs/nil-i18n";
 
 defineProps<{
   disabled: boolean;
@@ -16,17 +14,12 @@ defineProps<{
 
 const password = defineModel<Option<string>>({ required: true });
 
-const { t } = useI18n({
-  messages: {
-    "en-US": enUS,
-    "pt-BR": ptBR,
-  },
-});
+const { t } = useI18n();
 </script>
 
 <template>
   <Label for="input-world-password">
-    <span>{{ t("world-password") }}</span>
+    <span>{{ t("online.world-password") }}</span>
     <Input
       id="input-world-password"
       v-model="password"

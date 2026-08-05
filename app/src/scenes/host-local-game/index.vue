@@ -5,14 +5,12 @@
 import { go } from "@/router";
 import { computed } from "vue";
 import { Label } from "@ui/label";
-import { useI18n } from "@tsukilabs/nil-i18n";
 import { Button } from "@ui/button";
 import { Switch } from "@ui/switch";
 import { useRouter } from "vue-router";
 import { hostLocalGame } from "@/core/game";
+import { useI18n } from "@tsukilabs/nil-i18n";
 import { useSettings } from "@/stores/settings";
-import enUS from "@/locale/en-US/scenes/host-game.json";
-import ptBR from "@/locale/pt-BR/scenes/host-game.json";
 import { isPlayerOptions, isWorldOptions } from "@/lib/schema";
 import { localRef, useBreakpoints, useMutex } from "@tb-dev/vue";
 import InputWorldName from "@/components/form/InputWorldName.vue";
@@ -26,12 +24,7 @@ import SliderWorldUnitSpeed from "@/components/form/SliderWorldUnitSpeed.vue";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@ui/card";
 import SliderBotAdvancedStartRatio from "@/components/form/SliderBotAdvancedStartRatio.vue";
 
-const { t } = useI18n({
-  messages: {
-    "en-US": enUS,
-    "pt-BR": ptBR,
-  },
-});
+const { t } = useI18n();
 
 const router = useRouter();
 const settings = useSettings();
@@ -102,7 +95,7 @@ function key(name: string) {
         <div class="flex items-center justify-center py-1">
           <Label>
             <Switch v-model="worldOptions.allowCheats" :disabled="locked" />
-            <span>{{ t("allow-cheats") }}</span>
+            <span>{{ t("host-game.allow-cheats") }}</span>
           </Label>
         </div>
       </CardContent>

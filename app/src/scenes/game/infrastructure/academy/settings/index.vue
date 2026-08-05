@@ -3,18 +3,11 @@
 
 <script vapor lang="ts">
 import { Label } from "@ui/label";
-import { useI18n } from "@tsukilabs/nil-i18n";
 import { Checkbox } from "@ui/checkbox";
+import { useI18n } from "@tsukilabs/nil-i18n";
 import { useSettings } from "@/stores/settings";
-import enUS from "@/locale/en-US/scenes/game/infrastructure/infrastructure.json";
-import ptBR from "@/locale/pt-BR/scenes/game/infrastructure/infrastructure.json";
 
-const { t } = useI18n({
-  messages: {
-    "en-US": enUS,
-    "pt-BR": ptBR,
-  },
-});
+const { t } = useI18n();
 
 const settings = useSettings();
 </script>
@@ -24,7 +17,7 @@ const settings = useSettings();
     <div class="flex flex-col">
       <Label>
         <Checkbox v-model="settings.academy.hideUnmet" />
-        <span>{{ t("hide-unavailable-units") }}</span>
+        <span>{{ t("infrastructure.hide-unavailable-units") }}</span>
       </Label>
     </div>
   </div>

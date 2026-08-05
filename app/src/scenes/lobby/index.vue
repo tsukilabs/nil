@@ -3,15 +3,13 @@
 
 <script vapor lang="ts">
 import { computed } from "vue";
-import { useI18n } from "@tsukilabs/nil-i18n";
 import { Button } from "@ui/button";
 import { formatDate } from "date-fns";
 import { LockIcon } from "@lucide/vue";
+import { useI18n } from "@tsukilabs/nil-i18n";
 import Loading from "@/components/Loading.vue";
 import { throttle } from "es-toolkit/function";
 import { useSettings } from "@/stores/settings";
-import enUS from "@/locale/en-US/scenes/online.json";
-import ptBR from "@/locale/pt-BR/scenes/online.json";
 import { useToken } from "@/composables/auth/useToken";
 import type { WorldId } from "@tsukilabs/nil-bindings";
 import { onKeyDown, useBreakpoints } from "@tb-dev/vue";
@@ -21,12 +19,7 @@ import { useRemoteWorlds } from "@/composables/world/useRemoteWorlds";
 import { useRemoteWorldLimit } from "@/composables/world/useRemoteWorldLimit";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@ui/table";
 
-const { t } = useI18n({
-  messages: {
-    "en-US": enUS,
-    "pt-BR": ptBR,
-  },
-});
+const { t } = useI18n();
 
 const settings = useSettings();
 const { sm, md, xl } = useBreakpoints();
@@ -105,8 +98,8 @@ function countCurrentPlayerWorlds() {
             <TableRow class="hover:bg-card">
               <TableHead>{{ t("name") }}</TableHead>
               <TableHead>{{ t("round") }}</TableHead>
-              <TableHead v-if="md">{{ t("active-players") }}</TableHead>
-              <TableHead>{{ md ? t("total-players") : t("player", 2) }}</TableHead>
+              <TableHead v-if="md">{{ t("online.active-players") }}</TableHead>
+              <TableHead>{{ md ? t("online.total-players") : t("player", 2) }}</TableHead>
               <TableHead v-if="xl">{{ t("size") }}</TableHead>
               <TableHead>{{ t("created-by") }}</TableHead>
               <TableHead v-if="xl">{{ t("created-at") }}</TableHead>

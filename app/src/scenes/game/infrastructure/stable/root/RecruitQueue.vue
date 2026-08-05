@@ -4,10 +4,10 @@
 <script vapor lang="ts">
 import { cn } from "@ui/utils";
 import { computed } from "vue";
-import { useI18n } from "@tsukilabs/nil-i18n";
 import { Button } from "@ui/button";
 import { formatInt } from "@/lib/intl";
 import { useBreakpoints } from "@tb-dev/vue";
+import { useI18n } from "@tsukilabs/nil-i18n";
 import type { MaybePromise } from "@tb-dev/utils";
 import Workforce from "@/components/resources/Workforce.vue";
 import { Table, TableBody, TableCell, TableRow } from "@ui/table";

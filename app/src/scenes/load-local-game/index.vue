@@ -2,10 +2,10 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script vapor lang="ts">
-import { useI18n } from "@tsukilabs/nil-i18n";
 import { Button } from "@ui/button";
 import { formatDate } from "date-fns";
 import type { Option } from "@tb-dev/utils";
+import { useI18n } from "@tsukilabs/nil-i18n";
 import { useRouteQuery } from "@vueuse/router";
 import { computed, nextTick, ref, watch } from "vue";
 import { hostLocalGameWithSavedata } from "@/core/game";

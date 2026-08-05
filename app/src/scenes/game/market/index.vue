@@ -2,8 +2,8 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { useI18n } from "@tsukilabs/nil-i18n";
 import HeaderMenu from "./HeaderMenu.vue";
+import { useI18n } from "@tsukilabs/nil-i18n";
 import Loading from "@/components/Loading.vue";
 import { Card, CardContent, CardHeader, CardTitle } from "@ui/card";
 

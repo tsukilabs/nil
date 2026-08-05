@@ -3,11 +3,9 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
-import { useI18n } from "@tsukilabs/nil-i18n";
 import { Button } from "@ui/button";
 import type { Option } from "@tb-dev/utils";
-import enUS from "@/locale/en-US/scenes/game/continent.json";
-import ptBR from "@/locale/pt-BR/scenes/game/continent.json";
+import { useI18n } from "@tsukilabs/nil-i18n";
 import { usePublicCity } from "@/composables/city/usePublicCity";
 import type { Coord, PrecursorId } from "@tsukilabs/nil-bindings";
 import type { PublicFieldImpl } from "@/core/model/continent/public-field";
@@ -21,12 +19,7 @@ const props = defineProps<{
   currentCoord: Option<Coord>;
 }>();
 
-const { t } = useI18n({
-  messages: {
-    "en-US": enUS,
-    "pt-BR": ptBR,
-  },
-});
+const { t } = useI18n();
 
 const { city } = usePublicCity(() => props.field.coord);
 const owner = computed(() => city.value?.owner);
@@ -124,7 +117,7 @@ function getPrecursorColor(id: PrecursorId) {
               tabindex="0"
               @click.stop="() => city?.goToWarRoom('destination')"
             >
-              <span>{{ t("send-troops") }}</span>
+              <span>{{ t("continent.send-troops") }}</span>
             </Button>
           </div>
         </div>

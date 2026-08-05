@@ -6,17 +6,10 @@ import { useI18n } from "@tsukilabs/nil-i18n";
 import Food from "@/components/resources/Food.vue";
 import { useFarm } from "@/composables/infrastructure/useBuilding";
 import { Card, CardContent, CardHeader, CardTitle } from "@ui/card";
-import enUS from "@/locale/en-US/scenes/game/infrastructure/mine.json";
-import ptBR from "@/locale/pt-BR/scenes/game/infrastructure/mine.json";
 import { useMineStats } from "@/composables/infrastructure/useMineStats";
 import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from "@ui/table";
 
-const { t } = useI18n({
-  messages: {
-    "en-US": enUS,
-    "pt-BR": ptBR,
-  },
-});
+const { t } = useI18n();
 
 const farm = useFarm();
 const { level, stats, actual, base, stabilityLoss } = useMineStats(farm);
@@ -45,7 +38,7 @@ const { level, stats, actual, base, stabilityLoss } = useMineStats(farm);
 
           <TableBody>
             <TableRow>
-              <TableCell>{{ t("base-production") }}</TableCell>
+              <TableCell>{{ t("mine.base-production") }}</TableCell>
               <TableCell>
                 <Food :amount="base.current" />
               </TableCell>
@@ -55,7 +48,7 @@ const { level, stats, actual, base, stabilityLoss } = useMineStats(farm);
             </TableRow>
 
             <TableRow>
-              <TableCell>{{ t("loss-by-stability") }}</TableCell>
+              <TableCell>{{ t("mine.loss-by-stability") }}</TableCell>
               <TableCell>
                 <Food :amount="stabilityLoss.current" />
               </TableCell>
@@ -65,7 +58,7 @@ const { level, stats, actual, base, stabilityLoss } = useMineStats(farm);
             </TableRow>
 
             <TableRow>
-              <TableCell>{{ t("current-production") }}</TableCell>
+              <TableCell>{{ t("mine.current-production") }}</TableCell>
               <TableCell>
                 <Food :amount="actual.current" />
               </TableCell>

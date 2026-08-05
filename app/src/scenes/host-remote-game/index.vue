@@ -2,19 +2,14 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script vapor lang="ts">
-import { useI18n } from "@tsukilabs/nil-i18n";
 import { Button } from "@ui/button";
 import { computed, ref } from "vue";
 import { useRouter } from "vue-router";
 import type { Option } from "@tb-dev/utils";
 import { hostRemoteGame } from "@/core/game";
-import { toMerged } from "es-toolkit/object";
+import { useI18n } from "@tsukilabs/nil-i18n";
 import { useSettings } from "@/stores/settings";
-import enUS_online from "@/locale/en-US/scenes/online.json";
-import ptBR_online from "@/locale/pt-BR/scenes/online.json";
 import type { WorldOptions } from "@tsukilabs/nil-bindings";
-import enUS_hostGame from "@/locale/en-US/scenes/host-game.json";
-import ptBR_hostGame from "@/locale/pt-BR/scenes/host-game.json";
 import { localRef, useBreakpoints, useMutex } from "@tb-dev/vue";
 import ButtonSpinner from "@/components/button/ButtonSpinner.vue";
 import InputWorldName from "@/components/form/InputWorldName.vue";
@@ -30,12 +25,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@ui/card";
 import TextareaWorldDescription from "@/components/form/TextareaWorldDescription.vue";
 import SliderBotAdvancedStartRatio from "@/components/form/SliderBotAdvancedStartRatio.vue";
 
-const { t } = useI18n({
-  messages: {
-    "en-US": toMerged(enUS_hostGame, enUS_online),
-    "pt-BR": toMerged(ptBR_hostGame, ptBR_online),
-  },
-});
+const { t } = useI18n();
 
 const router = useRouter();
 const settings = useSettings();

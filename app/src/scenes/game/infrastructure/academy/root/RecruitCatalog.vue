@@ -3,8 +3,8 @@
 
 <script vapor lang="ts">
 import { computed } from "vue";
-import { useI18n } from "@tsukilabs/nil-i18n";
 import { useBreakpoints } from "@tb-dev/vue";
+import { useI18n } from "@tsukilabs/nil-i18n";
 import type { MaybePromise } from "@tb-dev/utils";
 import RecruitCatalogRow from "./RecruitCatalogRow.vue";
 import { usePlayerTurn } from "@/composables/player/usePlayerTurn";

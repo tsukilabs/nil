@@ -3,25 +3,18 @@
 
 <script setup lang="ts">
 import { Label } from "@ui/label";
-import { useI18n } from "@tsukilabs/nil-i18n";
 import Section from "./Section.vue";
 import { Button } from "@ui/button";
 import { DESKTOP } from "@/lib/global";
 import { useRouter } from "vue-router";
 import { Checkbox } from "@ui/checkbox";
 import { useBreakpoints } from "@tb-dev/vue";
+import { useI18n } from "@tsukilabs/nil-i18n";
 import { useSettings } from "@/stores/settings";
-import enUS from "@/locale/en-US/scenes/settings.json";
-import ptBR from "@/locale/pt-BR/scenes/settings.json";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@ui/select";
 
-const { t } = useI18n({
-  messages: {
-    "en-US": enUS,
-    "pt-BR": ptBR,
-  },
-});
+const { t } = useI18n();
 
 const router = useRouter();
 const settings = useSettings();
@@ -37,21 +30,21 @@ const { sm, md } = useBreakpoints();
       </CardHeader>
 
       <CardContent class="w-full flex flex-col gap-4 overflow-auto max-md:px-2">
-        <Section :title="t('general')" title-id="general">
+        <Section :title="t('settings.general')" title-id="general">
           <div class="w-full flex flex-col gap-2">
             <div v-if="DESKTOP" class="flex flex-col items-start justify-center gap-1 py-1">
               <Label>
                 <Checkbox v-model="settings.general.hideOnClose" />
-                <span>{{ t("hide-on-close") }}</span>
+                <span>{{ t("settings.hide-on-close") }}</span>
               </Label>
               <Label>
                 <Checkbox v-model="settings.general.autoUpdate" />
-                <span>{{ t("auto-update") }}</span>
+                <span>{{ t("settings.auto-update") }}</span>
               </Label>
             </div>
 
             <Label>
-              <span>{{ t("language") }}</span>
+              <span>{{ t("settings.language") }}</span>
               <Select v-model="settings.general.locale">
                 <SelectTrigger class="w-full">
                   <SelectValue />
@@ -65,17 +58,17 @@ const { sm, md } = useBreakpoints();
           </div>
         </Section>
 
-        <Section :title="t('appearance')" title-id="appearance">
+        <Section :title="t('settings.appearance')" title-id="appearance">
           <div class="w-full flex flex-col gap-2">
             <Label>
-              <span>{{ t("mode") }}</span>
+              <span>{{ t("settings.mode") }}</span>
               <Select v-model="settings.appearance.colorMode">
                 <SelectTrigger class="w-full">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="light">{{ t("light") }}</SelectItem>
-                  <SelectItem value="dark">{{ t("dark") }}</SelectItem>
+                  <SelectItem value="light">{{ t("settings.light") }}</SelectItem>
+                  <SelectItem value="dark">{{ t("settings.dark") }}</SelectItem>
                 </SelectContent>
               </Select>
             </Label>
