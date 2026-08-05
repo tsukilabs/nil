@@ -1,0 +1,39 @@
+{
+  "name": "@tsukilabs/nil-i18n",
+  "version": "0.7.15",
+  "description": "Internationalization support for Call of Nil",
+  "type": "module",
+  "packageManager": "pnpm@11.20.0",
+  "license": "AGPL-3.0-only",
+  "private": false,
+  "homepage": "https://nil.dev.br",
+  "contributors": [{
+    "name": "Andrew Ferreira",
+    "email": "andrew.shien2@gmail.com",
+    "url": "https://tb.dev.br"
+  }, {
+    "name": "Danilo Soares",
+    "email": "danilofs18@gmail.com",
+    "url": "https://github.com/danilofs18"
+  }],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tsukilabs/nil"
+  },
+  "bugs": {
+    "url": "https://github.com/tsukilabs/nil/issues"
+  },
+  "keywords": ["call-of-nil", "tsukilabs", "i18n"],
+  "scripts": {
+    "build": "vite build",
+    "type-check": "tsc --noEmit",
+    "typedoc": "typedoc --plugin typedoc-plugin-mdn-links"
+  },
+  "dependencies": {
+    "@tsukilabs/nil-bindings": "^0.7.14",
+    "vue-i18n": "^11.4.8"
+  },
+  "files": ["dist"],
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts"
+}

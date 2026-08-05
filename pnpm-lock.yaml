@@ -162,6 +162,9 @@ importers:
       '@tsukilabs/nil-bindings':
         specifier: workspace:*
         version: link:../packages/bindings
+      '@tsukilabs/nil-i18n':
+        specifier: workspace:*
+        version: link:../packages/i18n
     devDependencies:
       tailwindcss:
         specifier: '=4.3.3'
@@ -186,6 +189,15 @@ importers:
       es-toolkit:
         specifier: ^1.50.0
         version: 1.50.0
+
+  packages/i18n:
+    dependencies:
+      '@tsukilabs/nil-bindings':
+        specifier: ^0.7.14
+        version: 0.7.14
+      vue-i18n:
+        specifier: ^11.4.8
+        version: 11.4.8(vue@3.6.0-rc.2)
 
 packages:
 
