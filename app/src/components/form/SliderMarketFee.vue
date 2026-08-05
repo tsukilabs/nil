@@ -28,7 +28,7 @@ const { t } = useI18n();
 
 <template>
   <Label for="slider-market-fee">
-    <span>{{ t("host-game.market-fee") }}</span>
+    <span>{{ t("market-fee") }}</span>
     <div>
       <Slider
         id="slider-market-fee"
