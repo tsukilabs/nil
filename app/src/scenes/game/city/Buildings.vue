@@ -2,7 +2,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script vapor lang="ts">
-import { useI18n } from "vue-i18n";
+import { useI18n } from "@tsukilabs/nil-i18n";
 import type { CityImpl } from "@/core/model/city/city";
 import type { InfrastructureScene } from "@/types/scene";
 import { Table, TableBody, TableCell, TableRow } from "@ui/table";

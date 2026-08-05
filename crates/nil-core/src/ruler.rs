@@ -163,6 +163,7 @@ impl PartialOrd for Ruler {
 
 impl Ord for Ruler {
   fn cmp(&self, other: &Self) -> cmp::Ordering {
+    #[allow(clippy::match_same_arms)]
     match (self, other) {
       (Self::Bot { id: a }, Self::Bot { id: b }) => a.cmp(b),
       (Self::Player { id: a }, Self::Player { id: b }) => a.cmp(b),

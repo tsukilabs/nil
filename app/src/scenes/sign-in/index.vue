@@ -4,27 +4,20 @@
 <script vapor lang="ts">
 import { Input } from "@ui/input";
 import { Label } from "@ui/label";
-import { useI18n } from "vue-i18n";
-import { Button } from "@ui/button";
 import * as commands from "@/commands";
 import { useRouter } from "vue-router";
 import type { Option } from "@tb-dev/utils";
+import { useI18n } from "@tsukilabs/nil-i18n";
 import { computed, onBeforeMount } from "vue";
+import { Button } from "@/components/ui/button";
 import { useSettings } from "@/stores/settings";
 import { localRef, useMutex } from "@tb-dev/vue";
-import enUS from "@/locale/en-US/scenes/online.json";
-import ptBR from "@/locale/pt-BR/scenes/online.json";
 import { isValidPassword, isValidPlayerId } from "@/lib/schema";
 import ButtonSpinner from "@/components/button/ButtonSpinner.vue";
 import { go, QUERY_SIGN_IN_USER, QUERY_SIGN_UP_USER } from "@/router";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@ui/card";
 
-const { t } = useI18n({
-  messages: {
-    "en-US": enUS,
-    "pt-BR": ptBR,
-  },
-});
+const { t } = useI18n();
 
 const router = useRouter();
 const settings = useSettings();
@@ -83,7 +76,7 @@ function key(name: string) {
   <div class="card-layout">
     <Card>
       <CardHeader>
-        <CardTitle>{{ t("sign-in") }}</CardTitle>
+        <CardTitle>{{ t("online.sign-in") }}</CardTitle>
       </CardHeader>
 
       <CardContent class="max-md:px-2">
@@ -113,7 +106,7 @@ function key(name: string) {
 
       <CardFooter class="grid grid-cols-3">
         <ButtonSpinner :loading="locked" :disabled="locked || !canSignIn" @click="signIn">
-          {{ t("sign-in") }}
+          {{ t("online.sign-in") }}
         </ButtonSpinner>
 
         <Button
@@ -123,7 +116,7 @@ function key(name: string) {
           tabindex="0"
           @click="goToSignUpScene"
         >
-          <span>{{ t("sign-up") }}</span>
+          <span>{{ t("online.sign-up") }}</span>
         </Button>
 
         <Button variant="secondary" :disabled="locked" @click="() => router.back()">

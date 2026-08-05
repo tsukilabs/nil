@@ -4,12 +4,10 @@
 <script vapor lang="ts">
 import { computed } from "vue";
 import { Label } from "@ui/label";
-import { useI18n } from "vue-i18n";
 import { Slider } from "@ui/slider";
 import { CONSTS } from "@/lib/global";
 import { formatPercent } from "@/lib/intl";
-import enUS from "@/locale/en-US/scenes/host-game.json";
-import ptBR from "@/locale/pt-BR/scenes/host-game.json";
+import { useI18n } from "@tsukilabs/nil-i18n";
 import type { WorldOptions } from "@tsukilabs/nil-bindings";
 
 defineProps<{
@@ -25,17 +23,12 @@ const sliderValue = computed({
   },
 });
 
-const { t } = useI18n({
-  messages: {
-    "en-US": enUS,
-    "pt-BR": ptBR,
-  },
-});
+const { t } = useI18n();
 </script>
 
 <template>
   <Label for="slider-bot-density">
-    <span>{{ t("bot-density") }}</span>
+    <span>{{ t("host-game.bot-density") }}</span>
     <div>
       <Slider
         id="slider-bot-density"

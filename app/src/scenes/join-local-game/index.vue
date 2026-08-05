@@ -3,11 +3,11 @@
 
 <script vapor lang="ts">
 import { computed } from "vue";
-import { useI18n } from "vue-i18n";
 import { Button } from "@ui/button";
 import { useRouter } from "vue-router";
 import { joinLocalGame } from "@/core/game";
 import type { Option } from "@tb-dev/utils";
+import { useI18n } from "@tsukilabs/nil-i18n";
 import { isPlayerOptions } from "@/lib/schema";
 import { SocketAddrV4 } from "@/lib/net/addr-v4";
 import { localRef, useBreakpoints, useMutex } from "@tb-dev/vue";

@@ -2,22 +2,15 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script vapor lang="ts">
-import { useI18n } from "vue-i18n";
 import { formatInt } from "@/lib/intl";
+import { useI18n } from "@tsukilabs/nil-i18n";
 import Food from "@/components/resources/Food.vue";
 import { useSilo } from "@/composables/infrastructure/useBuilding";
 import { Card, CardContent, CardHeader, CardTitle } from "@ui/card";
-import enUS from "@/locale/en-US/scenes/game/infrastructure/storage.json";
-import ptBR from "@/locale/pt-BR/scenes/game/infrastructure/storage.json";
 import { useStorageStats } from "@/composables/infrastructure/useStorageStats";
 import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from "@ui/table";
 
-const { t } = useI18n({
-  messages: {
-    "en-US": enUS,
-    "pt-BR": ptBR,
-  },
-});
+const { t } = useI18n();
 
 const silo = useSilo();
 const { level, stats } = useStorageStats(silo);
@@ -37,14 +30,14 @@ const { level, stats } = useStorageStats(silo);
           <TableHeader>
             <TableRow class="bg-card hover:bg-card">
               <TableHead></TableHead>
-              <TableHead>{{ t("capacity") }}</TableHead>
+              <TableHead>{{ t("storage.capacity") }}</TableHead>
             </TableRow>
           </TableHeader>
 
           <TableBody>
             <TableRow>
               <TableCell class="w-72">
-                <span>{{ t("current-capacity") }}</span>
+                <span>{{ t("storage.current-capacity") }}</span>
               </TableCell>
               <TableCell>
                 <span>{{ formatInt(stats.current.capacity) }}</span>
@@ -53,7 +46,7 @@ const { level, stats } = useStorageStats(silo);
 
             <TableRow v-if="stats.next && !level.isMax">
               <TableCell class="w-72">
-                <span>{{ t("capacity-on-level-x", [level.next]) }}</span>
+                <span>{{ t("storage.capacity-on-level-x", [level.next]) }}</span>
               </TableCell>
               <TableCell>
                 <span>{{ formatInt(stats.next.capacity) }}</span>

@@ -2,8 +2,8 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script vapor lang="ts">
-import { useI18n } from "vue-i18n";
 import { onKeyDown } from "@tb-dev/vue";
+import { useI18n } from "@tsukilabs/nil-i18n";
 import Loading from "@/components/Loading.vue";
 import { throttle } from "es-toolkit/function";
 import CityTable from "@/components/CityTable.vue";

@@ -10,10 +10,10 @@ import "@/assets/style/main.css";
 import "@/assets/style/layout.css";
 import "@/lib/prototype";
 import App from "@/App.vue";
-import { i18n } from "@/locale";
 import { router } from "@/router";
 import { createPinia } from "pinia";
 import { handleError } from "@/lib/error";
+import { i18n } from "@tsukilabs/nil-i18n";
 import { initEntities } from "@/core/entity";
 import { createApp, vaporInteropPlugin } from "vue";
 import { TauriPluginPinia } from "@tauri-store/pinia";
@@ -32,6 +32,10 @@ pinia.use(TauriPluginPinia({
   saveInterval: 1000,
   hooks: { error: handleError },
 }));
+
+router.onError((error) => {
+  handleError(error);
+});
 
 app.use(vaporInteropPlugin);
 app.use(i18n());

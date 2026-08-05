@@ -3,11 +3,9 @@
 
 <script vapor lang="ts">
 import { Label } from "@ui/label";
-import { useI18n } from "vue-i18n";
 import { Textarea } from "@ui/textarea";
 import type { Option } from "@tb-dev/utils";
-import enUS from "@/locale/en-US/scenes/online.json";
-import ptBR from "@/locale/pt-BR/scenes/online.json";
+import { useI18n } from "@tsukilabs/nil-i18n";
 
 defineProps<{
   disabled: boolean;
@@ -15,17 +13,12 @@ defineProps<{
 
 const description = defineModel<Option<string>>({ required: true });
 
-const { t } = useI18n({
-  messages: {
-    "en-US": enUS,
-    "pt-BR": ptBR,
-  },
-});
+const { t } = useI18n();
 </script>
 
 <template>
   <Label for="textarea-world-description">
-    <span>{{ t("world-description") }}</span>
+    <span>{{ t("host-game.world-description") }}</span>
     <Textarea
       id="textarea-world-description"
       v-model="description"

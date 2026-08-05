@@ -2,9 +2,9 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { useI18n } from "vue-i18n";
 import { handleError } from "@/lib/error";
 import type { Option } from "@tb-dev/utils";
+import { useI18n } from "@tsukilabs/nil-i18n";
 import { computed, nextTick, ref } from "vue";
 import { throttle } from "es-toolkit/function";
 import { Button } from "@/components/ui/button";
@@ -101,6 +101,7 @@ function clear() {
       <Button
         variant="secondary"
         :size="sm ? 'default' : 'sm'"
+        :disabled="resources.isEmpty()"
         @click.stop="clear"
       >
         <span>{{ t("clear") }}</span>

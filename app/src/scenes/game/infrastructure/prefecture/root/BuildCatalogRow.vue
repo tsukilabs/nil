@@ -2,11 +2,11 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script vapor lang="ts">
-import { useI18n } from "vue-i18n";
 import { clamp } from "es-toolkit/math";
 import { computed, nextTick } from "vue";
 import type { Option } from "@tb-dev/utils";
 import { useBreakpoints } from "@tb-dev/vue";
+import { useI18n } from "@tsukilabs/nil-i18n";
 import { useSettings } from "@/stores/settings";
 import { TableCell, TableRow } from "@ui/table";
 import type { InfrastructureScene } from "@/types/scene";
@@ -14,8 +14,6 @@ import CostGrid from "@/components/resources/CostGrid.vue";
 import type { ResourcesImpl } from "@/core/model/resources";
 import BuildCatalogRowAction from "./BuildCatalogRowAction.vue";
 import BuildingTitle from "@/components/infrastructure/BuildingTitle.vue";
-import enUS from "@/locale/en-US/scenes/game/infrastructure/prefecture.json";
-import ptBR from "@/locale/pt-BR/scenes/game/infrastructure/prefecture.json";
 import type { BuildingImpl } from "@/core/model/infrastructure/building/abstract";
 import { useResolvedBuildingLevel } from "@/composables/infrastructure/useResolvedBuildingLevel";
 import type { PrefectureImpl } from "@/core/model/infrastructure/building/prefecture/prefecture";
@@ -33,12 +31,7 @@ const props = defineProps<{
   onToggle: () => void;
 }>();
 
-const { t } = useI18n({
-  messages: {
-    "en-US": enUS,
-    "pt-BR": ptBR,
-  },
-});
+const { t } = useI18n();
 
 const { player } = NIL.player.refs();
 
@@ -154,7 +147,7 @@ function resolveNextLevel() {
     <TableCell :colspan="sm ? 2 : 1">
       <div class="text-muted-foreground flex w-full items-center justify-center text-sm">
         <span v-if="entry.kind === 'maxed'">
-          {{ t("building-fully-constructed") }}
+          {{ t("prefecture.building-fully-constructed") }}
         </span>
         <span v-else-if="entry.kind === 'unmet'">
           {{ t("not-yet-available") }}

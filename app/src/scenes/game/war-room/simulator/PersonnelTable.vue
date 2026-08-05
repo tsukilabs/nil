@@ -2,8 +2,8 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script vapor lang="ts">
-import { useI18n } from "vue-i18n";
 import type { Option } from "@tb-dev/utils";
+import { useI18n } from "@tsukilabs/nil-i18n";
 import PersonnelTableRow from "./PersonnelTableRow.vue";
 import type { ArmyPersonnel, BuildingLevel, Luck } from "@tsukilabs/nil-bindings";
 import { NumberField, NumberFieldContent, NumberFieldInput } from "@ui/number-field";

@@ -1,6 +1,6 @@
 {
   "name": "@tsukilabs/nil-bindings",
-  "version": "0.7.14",
+  "version": "0.7.15",
   "description": "TypeScript bindings for Call of Nil",
   "type": "module",
   "packageManager": "pnpm@11.20.0",
@@ -23,7 +23,7 @@
   "bugs": {
     "url": "https://github.com/tsukilabs/nil/issues"
   },
-  "keywords": ["call-of-nil"],
+  "keywords": ["call-of-nil", "tsukilabs"],
   "scripts": {
     "build": "vite build",
     "type-check": "tsc --noEmit",

@@ -1,12 +1,12 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { enUS } from "@tsukilabs/nil-i18n";
 import { getPublicCities } from "@/commands/city";
 import type { ComposerTranslation } from "vue-i18n";
 import type { DeepReadonly } from "es-toolkit/types";
 import { CoordImpl } from "@/core/model/continent/coord";
 import { ReportImpl } from "@/core/model/report/abstract";
-import enUS from "@/locale/en-US/scenes/game/report.json";
 import { ArmyPersonnelImpl } from "@/core/model/military/army-personnel";
 import type {
   Coord,
@@ -53,7 +53,7 @@ export class SupportReportImpl extends ReportImpl implements DeepReadonly<Suppor
   }
 
   public override getTitle(t: ComposerTranslation<typeof enUS>) {
-    return t("support-report-title", {
+    return t("report.support-report-title", {
       sender: this.sender.id,
       destination: this.destination.format(),
       destinationName: this.destinationCity.name,

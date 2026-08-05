@@ -2,25 +2,18 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { useI18n } from "vue-i18n";
 import { Button } from "@ui/button";
 import { computed, ref } from "vue";
 import { handleError } from "@/lib/error";
 import { toI8, toU8 } from "@/lib/number";
 import type { Option } from "@tb-dev/utils";
+import { useI18n } from "@tsukilabs/nil-i18n";
 import PersonnelTable from "./PersonnelTable.vue";
 import BattleResultTable from "./BattleResultTable.vue";
-import enUS from "@/locale/en-US/scenes/game/war-room.json";
-import ptBR from "@/locale/pt-BR/scenes/game/war-room.json";
 import { BattleResultImpl } from "@/core/model/battle-result";
 import { ArmyPersonnelImpl } from "@/core/model/military/army-personnel";
 
-const { t } = useI18n({
-  messages: {
-    "en-US": enUS,
-    "pt-BR": ptBR,
-  },
-});
+const { t } = useI18n();
 
 const { stats } = NIL.world.refs();
 

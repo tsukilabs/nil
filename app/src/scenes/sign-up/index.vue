@@ -4,14 +4,12 @@
 <script vapor lang="ts">
 import { Input } from "@ui/input";
 import { Label } from "@ui/label";
-import { useI18n } from "vue-i18n";
 import { Button } from "@ui/button";
 import * as commands from "@/commands";
 import { useMutex } from "@tb-dev/vue";
 import { useRouter } from "vue-router";
 import type { Option } from "@tb-dev/utils";
-import enUS from "@/locale/en-US/scenes/online.json";
-import ptBR from "@/locale/pt-BR/scenes/online.json";
+import { useI18n } from "@tsukilabs/nil-i18n";
 import type { PlayerId } from "@tsukilabs/nil-bindings";
 import { computed, onBeforeMount, reactive } from "vue";
 import { isValidPassword, isValidPlayerId } from "@/lib/schema";
@@ -19,12 +17,7 @@ import ButtonSpinner from "@/components/button/ButtonSpinner.vue";
 import { go, QUERY_SIGN_IN_USER, QUERY_SIGN_UP_USER } from "@/router";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@ui/card";
 
-const { t } = useI18n({
-  messages: {
-    "en-US": enUS,
-    "pt-BR": ptBR,
-  },
-});
+const { t } = useI18n();
 
 const router = useRouter();
 
@@ -72,7 +65,7 @@ async function signUp() {
   <div class="card-layout">
     <Card>
       <CardHeader>
-        <CardTitle>{{ t("sign-up") }}</CardTitle>
+        <CardTitle>{{ t("online.sign-up") }}</CardTitle>
       </CardHeader>
 
       <CardContent class="max-md:px-2">
@@ -99,7 +92,7 @@ async function signUp() {
           />
         </Label>
         <Label>
-          <span>{{ t("confirm-password") }}</span>
+          <span>{{ t("online.confirm-password") }}</span>
           <Input
             v-model="newUser.password2"
             type="password"

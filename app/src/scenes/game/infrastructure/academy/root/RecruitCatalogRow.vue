@@ -3,9 +3,9 @@
 
 <script vapor lang="ts">
 import { computed } from "vue";
-import { useI18n } from "vue-i18n";
 import type { Option } from "@tb-dev/utils";
 import { useBreakpoints } from "@tb-dev/vue";
+import { useI18n } from "@tsukilabs/nil-i18n";
 import { useSettings } from "@/stores/settings";
 import { TableCell, TableRow } from "@ui/table";
 import { ResourcesImpl } from "@/core/model/resources";

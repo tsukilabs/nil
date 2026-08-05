@@ -3,14 +3,12 @@
 
 <script vapor lang="ts">
 import { go } from "@/router";
-import { useI18n } from "vue-i18n";
 import { useRoute } from "vue-router";
 import { MenuIcon } from "@lucide/vue";
 import { useBreakpoints } from "@tb-dev/vue";
+import { useI18n } from "@tsukilabs/nil-i18n";
 import type { PrefectureScene } from "@/types/scene";
 import { Button, type ButtonVariant } from "@ui/button";
-import enUS from "@/locale/en-US/scenes/game/infrastructure/prefecture.json";
-import ptBR from "@/locale/pt-BR/scenes/game/infrastructure/prefecture.json";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,12 +17,7 @@ import {
   DropdownMenuTrigger,
 } from "@ui/dropdown-menu";
 
-const { t } = useI18n({
-  messages: {
-    "en-US": enUS,
-    "pt-BR": ptBR,
-  },
-});
+const { t } = useI18n();
 
 const route = useRoute();
 const { md } = useBreakpoints();

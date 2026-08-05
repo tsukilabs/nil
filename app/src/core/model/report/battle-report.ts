@@ -1,13 +1,13 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { enUS } from "@tsukilabs/nil-i18n";
 import { getPublicCities } from "@/commands/city";
 import type { ComposerTranslation } from "vue-i18n";
 import type { DeepReadonly } from "es-toolkit/types";
 import { ResourcesImpl } from "@/core/model/resources";
 import { CoordImpl } from "@/core/model/continent/coord";
 import { ReportImpl } from "@/core/model/report/abstract";
-import enUS from "@/locale/en-US/scenes/game/report.json";
 import { BattleResultImpl } from "@/core/model/battle-result";
 import type {
   BattleReport,
@@ -56,7 +56,7 @@ export class BattleReportImpl extends ReportImpl implements DeepReadonly<BattleR
   }
 
   public override getTitle(t: ComposerTranslation<typeof enUS>) {
-    return t("battle-report-title", {
+    return t("report.battle-report-title", {
       attacker: this.attacker.id,
       destination: this.destination.format(),
       destinationName: this.destinationCity.name,

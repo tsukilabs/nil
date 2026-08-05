@@ -10,7 +10,8 @@
     "type-check": "vue-tsc --noEmit"
   },
   "dependencies": {
-    "@tsukilabs/nil-bindings": "workspace:*"
+    "@tsukilabs/nil-bindings": "workspace:*",
+    "@tsukilabs/nil-i18n": "workspace:*"
   },
   "devDependencies": {
     "tailwindcss": "=4.3.3"

@@ -1,10 +1,11 @@
 set windows-shell := ["powershell.exe", "-NoLogo", "-Command"]
 
-alias build := build-client
+alias app := build-app
 alias clear := clean
 alias ffi := build-ffi
 alias ffi-pkg := build-ffi-package
-alias format := fmt
+alias fmt := format
+alias i18n := build-i18n
 
 help:
   @just --list
@@ -17,7 +18,10 @@ init:
   @cargo install diesel_cli --no-default-features --features "sqlite-bundled"
   @just generate-bindings --force
 
-fmt:
+build-i18n:
+  @pnpm run -F @tsukilabs/nil-i18n build
+
+format:
   @dprint fmt
   @cargo fmt --all
   @just --fmt --indentation "  " --quiet
@@ -62,8 +66,8 @@ rsx FILE *ARGS:
   @cargo -Zscript scripts/{{ FILE }}.rs {{ ARGS }}
 
 [group("rsx")]
-build-client *ARGS:
-  @just rsx build-client {{ ARGS }}
+build-app *ARGS:
+  @just rsx build-app {{ ARGS }}
 
 [group("ffi")]
 [group("rsx")]
@@ -101,7 +105,7 @@ miri:
 
 [group("rsx")]
 preview:
-  @just rsx build-client --preview
+  @just rsx build-app --preview
 
 [group("rsx")]
 server:

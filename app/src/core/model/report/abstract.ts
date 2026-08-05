@@ -3,10 +3,10 @@
 
 import { go } from "@/router";
 import type { Option } from "@tb-dev/utils";
+import type { enUS } from "@tsukilabs/nil-i18n";
 import type { Report_ } from "@/types/core/report";
 import { formatToday, fromZoned } from "@/lib/date";
 import type { ComposerTranslation } from "vue-i18n";
-import enUS from "@/locale/en-US/scenes/game/report.json";
 import type { PlayerId, ReportId, ReportKind, RoundId } from "@tsukilabs/nil-bindings";
 
 export abstract class ReportImpl implements Report_ {

@@ -3,6 +3,7 @@ packages:
   - "docs"
   - "packages/bindings"
   - "packages/ffi"
+  - "packages/i18n"
 
 dedupePeers: true
 ignoreWorkspaceRootCheck: true

@@ -3,7 +3,6 @@
 
 <script vapor lang="ts">
 import { Input } from "@ui/input";
-import { useI18n } from "vue-i18n";
 import { Button } from "@ui/button";
 import { computed, ref } from "vue";
 import { formatDate } from "date-fns";
@@ -12,12 +11,11 @@ import { useRouter } from "vue-router";
 import { Trash2Icon } from "@lucide/vue";
 import type { Option } from "@tb-dev/utils";
 import { joinRemoteGame } from "@/core/game";
+import { useI18n } from "@tsukilabs/nil-i18n";
 import Loading from "@/components/Loading.vue";
 import { isValidPassword } from "@/lib/schema";
 import { useRouteQuery } from "@vueuse/router";
 import { useSettings } from "@/stores/settings";
-import enUS from "@/locale/en-US/scenes/online.json";
-import ptBR from "@/locale/pt-BR/scenes/online.json";
 import { useToken } from "@/composables/auth/useToken";
 import { useBreakpoints, useMutex } from "@tb-dev/vue";
 import type { WorldId } from "@tsukilabs/nil-bindings";
@@ -28,12 +26,7 @@ import { useRemoteWorld } from "@/composables/world/useRemoteWorld";
 import { Table, TableBody, TableCell, TableHead, TableRow } from "@ui/table";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@ui/card";
 
-const { t } = useI18n({
-  messages: {
-    "en-US": enUS,
-    "pt-BR": ptBR,
-  },
-});
+const { t } = useI18n();
 
 const router = useRouter();
 const worldId = useRouteQuery<Option<WorldId>>(QUERY_JOIN_REMOTE_GAME_WORLD_ID, null);
@@ -118,12 +111,12 @@ async function deleteGame() {
             </TableRow>
 
             <TableRow class="hover:bg-card">
-              <TableHead class="max-w-max pr-4">{{ t("active-players") }}</TableHead>
+              <TableHead class="max-w-max pr-4">{{ t("online.active-players") }}</TableHead>
               <TableCell class="w-full">{{ remoteWorld.activePlayers }}</TableCell>
             </TableRow>
 
             <TableRow class="hover:bg-card">
-              <TableHead class="max-w-max pr-4">{{ t("total-players") }}</TableHead>
+              <TableHead class="max-w-max pr-4">{{ t("online.total-players") }}</TableHead>
               <TableCell class="w-full">{{ remoteWorld.totalPlayers }}</TableCell>
             </TableRow>
 
@@ -149,7 +142,7 @@ async function deleteGame() {
             </TableRow>
 
             <TableRow v-if="remoteWorld.description" class="hover:bg-card">
-              <TableHead class="max-w-max pr-4">{{ t("world-description") }}</TableHead>
+              <TableHead class="max-w-max pr-4">{{ t("online.world-description") }}</TableHead>
               <TableCell class="w-full wrap-anywhere whitespace-normal">
                 {{ remoteWorld.description }}
               </TableCell>
@@ -176,7 +169,7 @@ async function deleteGame() {
             {{ t("join") }}
           </ButtonSpinner>
           <Button variant="secondary" :disabled="locked" @click="() => router.back()">
-            <span>{{ t("cancel") }}</span>
+            {{ t("cancel") }}
           </Button>
         </div>
       </CardFooter>

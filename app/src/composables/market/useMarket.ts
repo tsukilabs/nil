@@ -9,7 +9,9 @@ import type { Resources, Ruler } from "@tsukilabs/nil-bindings";
 
 export function useMarket() {
   const market = asyncRef(null, () => MarketImpl.load());
-  const throttledLoad = throttle(market.load, 1000);
+  const throttledLoad = throttle(market.load, 1000, {
+    edges: ["leading", "trailing"],
+  });
 
   const { locked, lock } = useMutex();
 

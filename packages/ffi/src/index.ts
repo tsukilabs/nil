@@ -20,6 +20,7 @@ import type {
   AddWorkshopRecruitOrderRequest,
   AuthorizeRequest,
   AuthorizeResponse,
+  BuyResourcesRequest,
   CancelAcademyRecruitOrderRequest,
   CancelManeuverRequest,
   CancelPrefectureBuildOrderRequest,
@@ -75,6 +76,7 @@ import type {
   CheatSetFoodRequest,
   CheatSetIronRequest,
   CheatSetMarketFeeRequest,
+  CheatSetMarketVaultResourcesRequest,
   CheatSetMaxFoodRequest,
   CheatSetMaxInfrastructureRequest,
   CheatSetMaxIronRequest,
@@ -211,6 +213,7 @@ import type {
   SearchCityResponse,
   SearchPublicCityRequest,
   SearchPublicCityResponse,
+  SellResourcesRequest,
   SendResourcesRequest,
   ServerAddr,
   SetPlayerReadyRequest,
@@ -359,6 +362,13 @@ export class Nil implements AsyncDisposable {
   public async authorize(req: AuthorizeRequest) {
     return this.queue.request<AuthorizeResponse>((requestId) => {
       this.functions.nil_authorize(requestId, JSON.stringify(req));
+    });
+  }
+
+  @ThrowIfClosed
+  public async buyResources(req: BuyResourcesRequest) {
+    return this.queue.request((requestId) => {
+      this.functions.nil_buy_resources(requestId, JSON.stringify(req));
     });
   }
 
@@ -590,6 +600,13 @@ export class Nil implements AsyncDisposable {
   public async cheatSetMarketFee(req: CheatSetMarketFeeRequest) {
     return this.queue.request((requestId) => {
       this.functions.nil_cheat_set_market_fee(requestId, JSON.stringify(req));
+    });
+  }
+
+  @ThrowIfClosed
+  public async cheatSetMarketVaultResources(req: CheatSetMarketVaultResourcesRequest) {
+    return this.queue.request((requestId) => {
+      this.functions.nil_cheat_set_market_vault_resources(requestId, JSON.stringify(req));
     });
   }
 
@@ -1234,6 +1251,13 @@ export class Nil implements AsyncDisposable {
   public async searchPublicCity(req: SearchPublicCityRequest) {
     return this.queue.request<SearchPublicCityResponse>((requestId) => {
       this.functions.nil_search_public_city(requestId, JSON.stringify(req));
+    });
+  }
+
+  @ThrowIfClosed
+  public async sellResources(req: SellResourcesRequest) {
+    return this.queue.request((requestId) => {
+      this.functions.nil_sell_resources(requestId, JSON.stringify(req));
     });
   }
 

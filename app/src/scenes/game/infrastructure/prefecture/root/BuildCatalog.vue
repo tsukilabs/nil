@@ -3,14 +3,12 @@
 
 <script vapor lang="ts">
 import { computed } from "vue";
-import { useI18n } from "vue-i18n";
 import { useBreakpoints } from "@tb-dev/vue";
+import { useI18n } from "@tsukilabs/nil-i18n";
 import type { MaybePromise } from "@tb-dev/utils";
 import BuildCatalogRow from "./BuildCatalogRow.vue";
 import { usePlayerTurn } from "@/composables/player/usePlayerTurn";
 import { usePlayerResources } from "@/composables/player/usePlayerResources";
-import enUS from "@/locale/en-US/scenes/game/infrastructure/prefecture.json";
-import ptBR from "@/locale/pt-BR/scenes/game/infrastructure/prefecture.json";
 import { Table, TableBody, TableHead, TableHeader, TableRow } from "@ui/table";
 import type { InfrastructureImpl } from "@/core/model/infrastructure/infrastructure";
 import type { BuildingId, PrefectureBuildCatalog, PrefectureBuildOrderKind } from "@tsukilabs/nil-bindings";
@@ -23,12 +21,7 @@ const props = defineProps<{
   onToggle: (id: BuildingId, enabled: boolean) => MaybePromise<void>;
 }>();
 
-const { t } = useI18n({
-  messages: {
-    "en-US": enUS,
-    "pt-BR": ptBR,
-  },
-});
+const { t } = useI18n();
 
 const isPlayerTurn = usePlayerTurn();
 const playerResources = usePlayerResources();

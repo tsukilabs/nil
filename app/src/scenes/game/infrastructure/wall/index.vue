@@ -2,22 +2,15 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script vapor lang="ts">
-import { useI18n } from "vue-i18n";
+import { useI18n } from "@tsukilabs/nil-i18n";
 import Food from "@/components/resources/Food.vue";
 import { formatInt, formatPercent } from "@/lib/intl";
 import { useWall } from "@/composables/infrastructure/useBuilding";
 import { Card, CardContent, CardHeader, CardTitle } from "@ui/card";
-import enUS from "@/locale/en-US/scenes/game/infrastructure/wall.json";
-import ptBR from "@/locale/pt-BR/scenes/game/infrastructure/wall.json";
 import { useWallStats } from "@/composables/infrastructure/useWallStats";
 import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from "@ui/table";
 
-const { t } = useI18n({
-  messages: {
-    "en-US": enUS,
-    "pt-BR": ptBR,
-  },
-});
+const { t } = useI18n();
 
 const wall = useWall();
 const { level, stats } = useWallStats(wall);
@@ -46,7 +39,7 @@ const { level, stats } = useWallStats(wall);
 
           <TableBody>
             <TableRow>
-              <TableCell>{{ t("basic-defense") }}</TableCell>
+              <TableCell>{{ t("wall.basic-defense") }}</TableCell>
               <TableCell>
                 <span>{{ formatInt(stats.current.defense) }}</span>
               </TableCell>
@@ -56,7 +49,7 @@ const { level, stats } = useWallStats(wall);
             </TableRow>
 
             <TableRow>
-              <TableCell>{{ t("defensive-bonus") }}</TableCell>
+              <TableCell>{{ t("wall.defensive-bonus") }}</TableCell>
               <TableCell>
                 <span>{{ formatPercent(stats.current.defensePercent / 100) }}</span>
               </TableCell>

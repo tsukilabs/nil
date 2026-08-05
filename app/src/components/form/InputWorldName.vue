@@ -4,9 +4,7 @@
 <script vapor lang="ts">
 import { Input } from "@ui/input";
 import { Label } from "@ui/label";
-import { useI18n } from "vue-i18n";
-import enUS from "@/locale/en-US/scenes/host-game.json";
-import ptBR from "@/locale/pt-BR/scenes/host-game.json";
+import { useI18n } from "@tsukilabs/nil-i18n";
 import type { WorldOptions } from "@tsukilabs/nil-bindings";
 
 defineProps<{
@@ -15,17 +13,12 @@ defineProps<{
 
 const worldOptions = defineModel<Partial<WorldOptions>>({ required: true });
 
-const { t } = useI18n({
-  messages: {
-    "en-US": enUS,
-    "pt-BR": ptBR,
-  },
-});
+const { t } = useI18n();
 </script>
 
 <template>
   <Label for="input-world-name">
-    <span>{{ t("world-name") }}</span>
+    <span>{{ t("host-game.world-name") }}</span>
     <Input
       id="input-world-name"
       v-model="worldOptions.name"

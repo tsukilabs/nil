@@ -2,22 +2,15 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script vapor lang="ts">
-import { useI18n } from "vue-i18n";
+import { useI18n } from "@tsukilabs/nil-i18n";
 import Loading from "@/components/Loading.vue";
 import { throttle } from "es-toolkit/function";
 import { onKeyDown, useBreakpoints } from "@tb-dev/vue";
-import enUS from "@/locale/en-US/scenes/game/report.json";
-import ptBR from "@/locale/pt-BR/scenes/game/report.json";
 import { useReports } from "@/composables/report/useReports";
 import { Card, CardContent, CardHeader, CardTitle } from "@ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@ui/table";
 
-const { t } = useI18n({
-  messages: {
-    "en-US": enUS,
-    "pt-BR": ptBR,
-  },
-});
+const { t } = useI18n();
 
 const { reports, loading, loadReports } = useReports();
 

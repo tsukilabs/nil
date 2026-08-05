@@ -4,11 +4,9 @@
 <script vapor lang="ts">
 import { computed } from "vue";
 import { Label } from "@ui/label";
-import { useI18n } from "vue-i18n";
 import { Slider } from "@ui/slider";
 import { CONSTS } from "@/lib/global";
-import enUS from "@/locale/en-US/scenes/host-game.json";
-import ptBR from "@/locale/pt-BR/scenes/host-game.json";
+import { useI18n } from "@tsukilabs/nil-i18n";
 import type { WorldOptions } from "@tsukilabs/nil-bindings";
 
 defineProps<{
@@ -24,12 +22,7 @@ const sliderValue = computed({
   },
 });
 
-const { t } = useI18n({
-  messages: {
-    "en-US": enUS,
-    "pt-BR": ptBR,
-  },
-});
+const { t } = useI18n();
 
 const intl = new Intl.NumberFormat(undefined, {
   style: "decimal",
@@ -41,7 +34,7 @@ const intl = new Intl.NumberFormat(undefined, {
 
 <template>
   <Label for="slider-world-unit-speed">
-    <span>{{ t("world-unit-speed") }}</span>
+    <span>{{ t("host-game.world-unit-speed") }}</span>
     <div>
       <Slider
         id="slider-world-unit-speed"

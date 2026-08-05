@@ -3,8 +3,8 @@
 
 <script vapor lang="ts">
 import { computed } from "vue";
-import { useI18n } from "vue-i18n";
 import type { Option } from "@tb-dev/utils";
+import { useI18n } from "@tsukilabs/nil-i18n";
 import type { Ruler } from "@tsukilabs/nil-bindings";
 import { useRulersByKind } from "@/composables/ruler/useRulersByKind";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@ui/select";

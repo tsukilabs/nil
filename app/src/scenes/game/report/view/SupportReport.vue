@@ -2,10 +2,8 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script vapor lang="ts">
-import { useI18n } from "vue-i18n";
+import { useI18n } from "@tsukilabs/nil-i18n";
 import { CoordImpl } from "@/core/model/continent/coord";
-import enUS from "@/locale/en-US/scenes/game/report.json";
-import ptBR from "@/locale/pt-BR/scenes/game/report.json";
 import SupportReportPersonnel from "./SupportReportPersonnel.vue";
 import type { SupportReportImpl } from "@/core/model/report/support-report";
 import { Table, TableBody, TableCell, TableHead, TableRow } from "@ui/table";
@@ -16,12 +14,7 @@ const props = defineProps<{
   report: SupportReportImpl;
 }>();
 
-const { t } = useI18n({
-  messages: {
-    "en-US": enUS,
-    "pt-BR": ptBR,
-  },
-});
+const { t } = useI18n();
 
 const toRulerProfile = useCityOwnerSceneLink(() => props.report.sender);
 const toOriginProfile = useCityProfileSceneLink(() => props.report.originCity);
