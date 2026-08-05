@@ -101,6 +101,7 @@ function clear() {
       <Button
         variant="secondary"
         :size="sm ? 'default' : 'sm'"
+        :disabled="resources.isEmpty()"
         @click.stop="clear"
       >
         <span>{{ t("clear") }}</span>
