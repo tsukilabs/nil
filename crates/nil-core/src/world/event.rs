@@ -4,7 +4,7 @@
 use crate::chat::ChatMessage;
 use crate::continent::coord::Coord;
 use crate::error::Result;
-use crate::event::{Event, Listener};
+use crate::event::{Event, EventId, Listener};
 use crate::military::maneuver::ManeuverId;
 use crate::player::PlayerId;
 use crate::report::ReportKind;
@@ -49,32 +49,38 @@ impl World {
   /// Emits [`Event::ChatMessage`].
   pub(super) fn emit_chat_message(&self, message: ChatMessage) -> Result<()> {
     let world = self.config.id();
-    self.broadcast(Event::ChatMessage { world, message })
+    self.broadcast(Event::ChatMessage { id: EventId::new(), world, message })
   }
 
   /// Emits [`Event::City`] to the city owner, if they're a player.
   pub(super) fn emit_city(&self, coord: Coord) -> Result<()> {
     let world = self.config.id();
-    self.emit_to_city_owner(coord, Event::City { world, coord })
+    self.emit_to_city_owner(coord, Event::City { id: EventId::new(), world, coord })
   }
 
   /// Emits [`Event::Drop`].
   /// This should never be called manually.
   pub(super) fn emit_drop(&self) -> Result<()> {
     let world = self.config.id();
-    self.broadcast(Event::Drop { world })
+    self.broadcast(Event::Drop { id: EventId::new(), world })
   }
 
   /// Emits [`Event::Market`].
   pub(super) fn emit_market(&self) -> Result<()> {
     let world = self.config.id();
-    self.broadcast(Event::Market { world })
+    self.broadcast(Event::Market { id: EventId::new(), world })
   }
 
   /// Emits [`Event::Military`].
   pub(super) fn emit_military(&self, player: PlayerId) -> Result<()> {
     let world = self.config.id();
-    self.emit_to(player.clone(), Event::Military { world, player })
+    let event = Event::Military {
+      id: EventId::new(),
+      world,
+      player: player.clone(),
+    };
+
+    self.emit_to(player, event)
   }
 
   /// Emits [`Event::Military`] to all players participating in the specified maneuver.
@@ -109,13 +115,19 @@ impl World {
   /// Emits [`Event::Player`].
   pub(super) fn emit_player(&self, player: PlayerId) -> Result<()> {
     let world = self.config.id();
-    self.emit_to(player.clone(), Event::Player { world, player })
+    let event = Event::Player {
+      id: EventId::new(),
+      world,
+      player: player.clone(),
+    };
+
+    self.emit_to(player, event)
   }
 
   /// Emits [`Event::PublicCity`] **and** [`Event::City`].
   pub(super) fn emit_public_city(&self, coord: Coord) -> Result<()> {
     let world = self.config.id();
-    self.broadcast(Event::PublicCity { world, coord })?;
+    self.broadcast(Event::PublicCity { id: EventId::new(), world, coord })?;
     self.emit_city(coord)?;
     Ok(())
   }
@@ -123,7 +135,13 @@ impl World {
   /// Emits [`Event::Report`].
   pub(super) fn emit_report(&self, player: PlayerId, report: ReportKind) -> Result<()> {
     let world = self.config.id();
-    self.emit_to(player, Event::Report { world, report: Box::new(report) })
+    let event = Event::Report {
+      id: EventId::new(),
+      world,
+      report: Box::new(report),
+    };
+
+    self.emit_to(player, event)
   }
 
   /// Emits [`Event::Player`] if the ruler is a player.
@@ -173,6 +191,6 @@ impl World {
   pub(super) fn emit_round(&self) -> Result<()> {
     let world = self.config.id();
     let round = self.round.clone();
-    self.broadcast(Event::Round { world, round })
+    self.broadcast(Event::Round { id: EventId::new(), world, round })
   }
 }
