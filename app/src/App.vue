@@ -71,6 +71,7 @@ function setColorMode(mode: BasicColorSchema) {
 
 function setLocale(value: Locale) {
   i18n.locale.value = value;
+  document.querySelector("html")?.setAttribute("lang", value);
 }
 </script>
 

@@ -23,7 +23,7 @@
   "bugs": {
     "url": "https://github.com/tsukilabs/nil/issues"
   },
-  "keywords": ["call-of-nil"],
+  "keywords": ["call-of-nil", "tsukilabs"],
   "scripts": {
     "build": "vite build",
     "type-check": "tsc --noEmit",

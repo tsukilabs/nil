@@ -23,7 +23,7 @@
   "bugs": {
     "url": "https://github.com/tsukilabs/nil/issues"
   },
-  "keywords": ["call-of-nil", "ffi"],
+  "keywords": ["call-of-nil", "tsukilabs", "ffi"],
   "scripts": {
     "build": "vite build",
     "type-check": "tsc --noEmit",
@@ -31,7 +31,7 @@
   },
   "dependencies": {
     "@tb-dev/utils": "^8.1.2",
-    "@tsukilabs/nil-bindings": "^0.7.13",
+    "@tsukilabs/nil-bindings": "^0.7.14",
     "es-toolkit": "^1.50.0"
   },
   "files": ["dist"],
