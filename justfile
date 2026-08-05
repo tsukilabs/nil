@@ -4,7 +4,8 @@ alias app := build-app
 alias clear := clean
 alias ffi := build-ffi
 alias ffi-pkg := build-ffi-package
-alias format := fmt
+alias fmt := format
+alias i18n := build-i18n
 
 help:
   @just --list
@@ -17,7 +18,10 @@ init:
   @cargo install diesel_cli --no-default-features --features "sqlite-bundled"
   @just generate-bindings --force
 
-fmt:
+build-i18n:
+  @pnpm run -F @tsukilabs/nil-i18n build
+
+format:
   @dprint fmt
   @cargo fmt --all
   @just --fmt --indentation "  " --quiet
