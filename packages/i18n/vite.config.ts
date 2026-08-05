@@ -10,8 +10,6 @@ export default defineConfig({
     }),
   ],
   build: {
-    target: "node26",
-    ssr: "node",
     outDir: "dist",
     emptyOutDir: true,
     minify: false,
@@ -21,7 +19,7 @@ export default defineConfig({
       fileName: "index",
     },
     rolldownOptions: {
-      external: [/^@tb-dev/, /^@tsukilabs/, /^es-toolkit/],
+      external: [/^@tb-dev/, /^@tsukilabs/, "vue-i18n"],
     },
   },
 });
