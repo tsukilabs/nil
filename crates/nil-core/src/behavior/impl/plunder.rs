@@ -30,8 +30,8 @@ pub struct PlunderBehavior {
 }
 
 impl PlunderBehavior {
-  const MAX_DISTANCE: Distance = Distance::new(20);
-  const MIN_IDLE_POWER: AttackPower = Axeman::STATS.attack() * 100;
+  pub const MAX_DISTANCE: Distance = Distance::new(20);
+  pub const MIN_IDLE_POWER: AttackPower = Axeman::STATS.attack() * 100;
 }
 
 impl Behavior for PlunderBehavior {

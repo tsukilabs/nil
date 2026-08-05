@@ -28,7 +28,7 @@ pub struct RecruitBehavior {
 }
 
 impl RecruitBehavior {
-  const MAX_IN_QUEUE: u8 = 10;
+  pub const MAX_IN_QUEUE: u8 = 10;
 }
 
 impl Behavior for RecruitBehavior {

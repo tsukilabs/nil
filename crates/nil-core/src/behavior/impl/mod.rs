@@ -5,3 +5,4 @@ pub mod build;
 pub mod idle;
 pub mod plunder;
 pub mod recruit;
+pub mod trade;

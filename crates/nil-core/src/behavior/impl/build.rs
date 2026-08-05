@@ -34,7 +34,7 @@ pub struct BuildBehavior {
 }
 
 impl BuildBehavior {
-  const MAX_IN_QUEUE: u8 = 5;
+  pub const MAX_IN_QUEUE: u8 = 5;
 }
 
 impl Behavior for BuildBehavior {
@@ -106,7 +106,7 @@ impl<T> BuildBuildingBehavior<T>
 where
   T: Building + Debug,
 {
-  const STORAGE_CAPACITY_THRESHOLD: f64 = 0.8;
+  pub const STORAGE_CAPACITY_THRESHOLD: f64 = 0.8;
 }
 
 impl<T> Behavior for BuildBuildingBehavior<T>
