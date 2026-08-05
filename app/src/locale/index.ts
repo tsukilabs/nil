@@ -1,10 +1,10 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { createI18n } from "vue-i18n";
-import enUS from "./en-US/global.json";
-import ptBR from "./pt-BR/global.json";
+import enUS from "./en-US.json";
+import ptBR from "./pt-BR.json";
 import type { Locale } from "@tsukilabs/nil-bindings";
+import { createI18n, useI18n as use } from "vue-i18n";
 
 export function i18n() {
   return createI18n<[typeof enUS], Locale>({
@@ -18,4 +18,8 @@ export function i18n() {
       "pt-BR": ptBR,
     },
   });
+}
+
+export function useI18n() {
+  return use<[typeof enUS], Locale>();
 }

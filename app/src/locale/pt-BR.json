@@ -149,5 +149,35 @@
   "world": "Mundo",
   "x-per-turn": "{0} por turno",
   "yes": "Sim",
-  "your-turn": "Seu turno"
+  "your-turn": "Seu turno",
+
+  "home.update-available": "Atualização disponível",
+  "home.whats-new": "O que há de novo",
+  "home.version-ready": "Versão {0} está pronta para download",
+
+  "host-game.advanced-bots-ratio": "Proporção de bots avançados",
+  "host-game.allow-cheats": "Permitir trapaças",
+  "host-game.bot-density": "Densidade de bots",
+  "host-game.round-duration": "Duração do round",
+  "host-game.world-name": "Nome do mundo",
+  "host-game.world-size": "Tamanho do mundo",
+  "host-game.world-speed": "Velocidade do mundo",
+  "host-game.world-unit-speed": "Velocidade das unidades",
+
+  "online.active-players": "Jogadores ativos",
+  "online.confirm-password": "Confirmar senha",
+  "online.sign-in": "Entrar",
+  "online.sign-up": "Registrar",
+  "online.total-players": "Total de jogadores",
+  "online.world-description": "Descrição do mundo",
+  "online.world-password": "Senha do mundo",
+
+  "settings.appearance": "Aparência",
+  "settings.auto-update": "Atualizar automaticamente",
+  "settings.dark": "Escuro",
+  "settings.general": "Geral",
+  "settings.hide-on-close": "Ocultar ao fechar",
+  "settings.language": "Idioma",
+  "settings.light": "Claro",
+  "settings.mode": "Modo"
 }
