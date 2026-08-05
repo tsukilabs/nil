@@ -13,6 +13,7 @@ use serde::{Deserialize, Serialize};
 use std::fmt;
 use strum::Display;
 use tokio::sync::broadcast::{Receiver, Sender, channel};
+use uuid::Uuid;
 
 pub type Listener = Receiver<(Bytes, EventTarget)>;
 
@@ -70,6 +71,7 @@ impl fmt::Debug for Emitter {
 pub enum Event {
   /// A new message has been sent in the chat.
   ChatMessage {
+    id: EventId,
     world: WorldId,
     message: ChatMessage,
   },
@@ -79,23 +81,35 @@ pub enum Event {
   /// This event is only emitted to the city owner.
   /// If you believe that all players should be notified,
   /// consider using [`Event::PublicCity`] instead.
-  City { world: WorldId, coord: Coord },
+  City {
+    id: EventId,
+    world: WorldId,
+    coord: Coord,
+  },
 
   /// Signals that all active players should disconnect, as the world is about to be dropped.
   ///
   /// This event **MUST** only be emitted inside the `Drop` implementation of the `World` struct.
-  Drop { world: WorldId },
+  Drop { id: EventId, world: WorldId },
 
   /// Indicates that the market prices have changed.
-  Market { world: WorldId },
+  Market { id: EventId, world: WorldId },
 
   /// Indicates that the player's military has changed.
   /// It usually means new maneuvers have been initiated,
   /// since the armies themselves are processed at the end of the round.
-  Military { world: WorldId, player: PlayerId },
+  Military {
+    id: EventId,
+    world: WorldId,
+    player: PlayerId,
+  },
 
   /// Indicates that there has been a change in some of the player's data, be it public or not.
-  Player { world: WorldId, player: PlayerId },
+  Player {
+    id: EventId,
+    world: WorldId,
+    player: PlayerId,
+  },
 
   /// Indicates that there has been a change in public data for the city.
   ///
@@ -104,10 +118,15 @@ pub enum Event {
   ///
   /// As a rule, whenever the situation requires this event to be emitted,
   /// [`Event::City`] should also be emitted, but the opposite is not true!
-  PublicCity { world: WorldId, coord: Coord },
+  PublicCity {
+    id: EventId,
+    world: WorldId,
+    coord: Coord,
+  },
 
   /// A report was generated.
   Report {
+    id: EventId,
     world: WorldId,
     report: Box<ReportKind>,
   },
@@ -118,60 +137,73 @@ pub enum Event {
   /// When emitted at the start of the game or at the end of a round,
   /// [`Event::Round`] typically makes it unnecessary to emit other events,
   /// as this situation naturally prompts all entities to update themselves.
-  Round { world: WorldId, round: Round },
+  Round {
+    id: EventId,
+    world: WorldId,
+    round: Round,
+  },
 }
 
 impl fmt::Debug for Event {
   fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
     match self {
-      Self::ChatMessage { world, message } => {
+      Self::ChatMessage { id, world, message } => {
         f.debug_struct("ChatMessage")
+          .field("id", id)
           .field("world", world)
           .field("message", &message.id())
           .finish()
       }
-      Self::City { world, coord } => {
+      Self::City { id, world, coord } => {
         f.debug_struct("City")
+          .field("id", id)
           .field("world", world)
           .field("coord", coord)
           .finish()
       }
-      Self::Drop { world } => {
+      Self::Drop { id, world } => {
         f.debug_struct("Drop")
+          .field("id", id)
           .field("world", world)
           .finish()
       }
-      Self::Market { world } => {
+      Self::Market { id, world } => {
         f.debug_struct("Market")
+          .field("id", id)
           .field("world", world)
           .finish()
       }
-      Self::Military { world, player } => {
+      Self::Military { id, world, player } => {
         f.debug_struct("Military")
+          .field("id", id)
           .field("world", world)
           .field("player", player)
           .finish()
       }
-      Self::Player { world, player } => {
+      Self::Player { id, world, player } => {
         f.debug_struct("Player")
+          .field("id", id)
           .field("world", world)
           .field("player", player)
           .finish()
       }
-      Self::PublicCity { world, coord } => {
+      Self::PublicCity { id, world, coord } => {
         f.debug_struct("PublicCity")
+          .field("id", id)
           .field("world", world)
           .field("coord", coord)
           .finish()
       }
-      Self::Report { world, report } => {
+      Self::Report { id, world, report } => {
         f.debug_struct("Report")
+          .field("id", id)
           .field("world", world)
           .field("report", &report.id())
           .finish()
       }
-      Self::Round { world, round } => {
+      Self::Round { id, world, round } => {
         f.debug_struct("Round")
+          .field("id", id)
           .field("world", world)
           .field("round", &round.id())
           .finish()
@@ -201,6 +233,36 @@ impl TryFrom<Event> for Bytes {
         tracing::error!("Failed to serialize event: {err}");
         Error::FailedToSerializeEvent
       })
+  }
+}
+
+#[derive(
+  Clone,
+  Copy,
+  Debug,
+  derive_more::Deref,
+  derive_more::Display,
+  PartialEq,
+  Eq,
+  PartialOrd,
+  Ord,
+  Hash,
+  Deserialize,
+  Serialize,
+)]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
+pub struct EventId(Uuid);
+
+impl EventId {
+  #[must_use]
+  pub fn new() -> Self {
+    Self(Uuid::now_v7())
+  }
+}
+
+impl Default for EventId {
+  fn default() -> Self {
+    Self::new()
   }
 }
 

@@ -144,6 +144,7 @@ export type { EthicPowerAxis } from './EthicPowerAxis';
 export type { Ethics } from './Ethics';
 export type { EthicTruthAxis } from './EthicTruthAxis';
 export type { Event } from './Event';
+export type { EventId } from './EventId';
 export type { Farm } from './Farm';
 export type { ffi_QueueEntry } from './ffi_QueueEntry';
 export type { ffi_QueueEntryKind } from './ffi_QueueEntryKind';
