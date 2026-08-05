@@ -1,7 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import enUS from "@tsukilabs/nil-i18n";
+import { enUS } from "@tsukilabs/nil-i18n";
 import { getPublicCities } from "@/commands/city";
 import type { ComposerTranslation } from "vue-i18n";
 import type { DeepReadonly } from "es-toolkit/types";
