@@ -79,6 +79,7 @@ jobs:
         run: |
           pnpm ci
           pnpm run -F @tsukilabs/nil-bindings build
+          pnpm run -F @tsukilabs/nil-i18n build
 
       - name: Run tests
         run: cargo -Zscript scripts/test.rs

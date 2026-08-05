@@ -28,7 +28,7 @@
   "js/ts.tsdk.path": "node_modules/typescript/lib",
   "rust-analyzer.linkedProjects": [
     "./Cargo.toml",
-    "./scripts/build-client.rs",
+    "./scripts/build-app.rs",
     "./scripts/build-docs.rs",
     "./scripts/build-ffi.rs",
     "./scripts/build-server.rs",

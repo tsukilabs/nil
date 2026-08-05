@@ -1,6 +1,6 @@
 set windows-shell := ["powershell.exe", "-NoLogo", "-Command"]
 
-alias build := build-client
+alias app := build-app
 alias clear := clean
 alias ffi := build-ffi
 alias ffi-pkg := build-ffi-package
@@ -62,8 +62,8 @@ rsx FILE *ARGS:
   @cargo -Zscript scripts/{{ FILE }}.rs {{ ARGS }}
 
 [group("rsx")]
-build-client *ARGS:
-  @just rsx build-client {{ ARGS }}
+build-app *ARGS:
+  @just rsx build-app {{ ARGS }}
 
 [group("ffi")]
 [group("rsx")]
@@ -101,7 +101,7 @@ miri:
 
 [group("rsx")]
 preview:
-  @just rsx build-client --preview
+  @just rsx build-app --preview
 
 [group("rsx")]
 server:
