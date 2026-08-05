@@ -1,7 +1,7 @@
 /** @type {import('typedoc').TypeDocOptions} */
 export default {
   entryPoints: ["src/index.ts"],
-  out: "../../docs/dist/js-docs/ffi",
+  out: "../../docs/dist/js-docs/i18n",
   readme: "../../README.md",
   favicon: "../../docs/dist/favicon.png",
   includeVersion: true,
