@@ -4,11 +4,19 @@
 use crate::bail_if_cheats_are_not_allowed;
 use crate::error::Result;
 use crate::market::fee::MarketFee;
+use crate::resources::Resources;
 use crate::world::World;
 
 pub fn set_market_fee(world: &mut World, fee: MarketFee) -> Result<()> {
   bail_if_cheats_are_not_allowed!(world);
-  *world.market_mut().fee_mut() = fee.clamped();
+  world.market_mut().set_fee(fee);
+  world.emit_market()?;
+  Ok(())
+}
+
+pub fn set_market_vault_resources(world: &mut World, resources: Resources) -> Result<()> {
+  bail_if_cheats_are_not_allowed!(world);
+  world.market_mut().vault_mut().set(resources);
   world.emit_market()?;
   Ok(())
 }

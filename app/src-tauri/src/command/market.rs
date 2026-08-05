@@ -8,6 +8,14 @@ use nil_payload::response::market::*;
 use tauri::AppHandle;
 
 #[tauri::command]
+pub async fn buy_resources(app: AppHandle, req: BuyResourcesRequest) -> Result<()> {
+  app
+    .client(async |cl| cl.buy_resources(req).await)
+    .await
+    .map_err(Into::into)
+}
+
+#[tauri::command]
 pub async fn get_market(app: AppHandle, req: GetMarketRequest) -> Result<GetMarketResponse> {
   app
     .client(async |cl| cl.get_market(req).await)
@@ -22,6 +30,14 @@ pub async fn get_market_fee(
 ) -> Result<GetMarketFeeResponse> {
   app
     .client(async |cl| cl.get_market_fee(req).await)
+    .await
+    .map_err(Into::into)
+}
+
+#[tauri::command]
+pub async fn sell_resources(app: AppHandle, req: SellResourcesRequest) -> Result<()> {
+  app
+    .client(async |cl| cl.sell_resources(req).await)
     .await
     .map_err(Into::into)
 }

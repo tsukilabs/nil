@@ -3,13 +3,36 @@
 
 use crate::app::App;
 use crate::middleware::authorization::CurrentPlayer;
-use crate::res;
-use crate::response::EitherExt;
+use crate::response::from_err;
+use crate::{bail_if_player_is_not_pending, res};
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
 use nil_core::ruler::Ruler;
 use nil_payload::request::market::*;
 use nil_payload::response::market::*;
+
+pub async fn buy(
+  State(app): State<App>,
+  Extension(player): Extension<CurrentPlayer>,
+  Json(req): Json<BuyResourcesRequest>,
+) -> Response {
+  match app.get(req.world) {
+    Ok(world) => {
+      let result = try {
+        let mut world = world.write().await;
+        bail_if_player_is_not_pending!(world, &player.0);
+
+        let ruler = Ruler::from(player.0);
+        world.buy_resources(&ruler, req.resources)?;
+      };
+
+      result
+        .map(|()| res!(OK))
+        .unwrap_or_else(from_err)
+    }
+    Err(err) => from_err(err),
+  }
+}
 
 pub async fn fee(State(app): State<App>, Json(req): Json<GetMarketFeeRequest>) -> Response {
   app
@@ -27,17 +50,48 @@ pub async fn get(State(app): State<App>, Json(req): Json<GetMarketRequest>) -> R
     .into_inner()
 }
 
-pub async fn send_resources(
+pub async fn sell(
+  State(app): State<App>,
+  Extension(player): Extension<CurrentPlayer>,
+  Json(req): Json<SellResourcesRequest>,
+) -> Response {
+  match app.get(req.world) {
+    Ok(world) => {
+      let result = try {
+        let mut world = world.write().await;
+        bail_if_player_is_not_pending!(world, &player.0);
+
+        let ruler = Ruler::from(player.0);
+        world.sell_resources(&ruler, req.resources)?;
+      };
+
+      result
+        .map(|()| res!(OK))
+        .unwrap_or_else(from_err)
+    }
+    Err(err) => from_err(err),
+  }
+}
+
+pub async fn send(
   State(app): State<App>,
   Extension(player): Extension<CurrentPlayer>,
   Json(req): Json<SendResourcesRequest>,
 ) -> Response {
-  let sender = Ruler::from(player.0);
-  app
-    .world_mut(req.world, move |world| {
-      world.send_resources(&sender, &req.recipient, req.resources)
-    })
-    .await
-    .try_map_left(|()| res!(OK))
-    .into_inner()
+  match app.get(req.world) {
+    Ok(world) => {
+      let result = try {
+        let mut world = world.write().await;
+        bail_if_player_is_not_pending!(world, &player.0);
+
+        let sender = Ruler::from(player.0);
+        world.send_resources(&sender, &req.recipient, req.resources)?;
+      };
+
+      result
+        .map(|()| res!(OK))
+        .unwrap_or_else(from_err)
+    }
+    Err(err) => from_err(err),
+  }
 }

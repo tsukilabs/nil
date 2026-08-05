@@ -3,14 +3,25 @@
 
 import { invoke } from "@tauri-apps/api/core";
 import type {
+  BuyResourcesRequest,
   GetMarketFeeRequest,
   GetMarketFeeResponse,
   GetMarketRequest,
   GetMarketResponse,
   Resources,
   Ruler,
+  SellResourcesRequest,
   SendResourcesRequest,
 } from "@tsukilabs/nil-bindings";
+
+export async function buyResources(resources: Resources) {
+  const req: BuyResourcesRequest = {
+    world: NIL.world.getIdStrict(),
+    resources,
+  };
+
+  await invoke("buy_resources", { req });
+}
 
 export async function getMarket() {
   const req: GetMarketRequest = {
@@ -26,6 +37,15 @@ export async function getMarketFee() {
   };
 
   return invoke<GetMarketFeeResponse>("get_market_fee", { req });
+}
+
+export async function sellResources(resources: Resources) {
+  const req: SellResourcesRequest = {
+    world: NIL.world.getIdStrict(),
+    resources,
+  };
+
+  await invoke("sell_resources", { req });
 }
 
 export async function sendResources(recipient: Ruler, resources: Resources) {

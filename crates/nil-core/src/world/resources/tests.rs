@@ -9,7 +9,7 @@ use tap::TryConv;
 
 #[test]
 #[cfg_attr(miri, ignore)]
-fn take_resources_of() -> Result<()> {
+fn withdraw_resources_up_to() -> Result<()> {
   let mut world = WorldOptions::builder("World")
     .build()
     .try_conv::<World>()?;
@@ -21,11 +21,11 @@ fn take_resources_of() -> Result<()> {
 
   let mut buf = res(8000);
 
-  world.take_resources_of(&player, &mut buf)?;
+  world.withdraw_resources_up_to(&player, &mut buf)?;
   assert_eq!(world.player(&player)?.resources(), res(2_000));
   assert_eq!(buf, res(8000));
 
-  world.take_resources_of(&player, &mut buf)?;
+  world.withdraw_resources_up_to(&player, &mut buf)?;
   assert_eq!(world.player(&player)?.resources(), res(0));
   assert_eq!(buf, res(2_000));
 

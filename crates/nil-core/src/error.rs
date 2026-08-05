@@ -80,6 +80,9 @@ pub enum Error {
   #[error("Index out of bounds: {0}")]
   IndexOutOfBounds(ContinentIndex),
 
+  #[error("Insufficient gold")]
+  InsufficientGold,
+
   #[error("Insufficient resources")]
   InsufficientResources,
 
@@ -103,6 +106,9 @@ pub enum Error {
 
   #[error("No stats found for mine \"{0}\" at level {1}")]
   MineStatsNotFoundForLevel(MineId, BuildingLevel),
+
+  #[error("Not enough resources in the market vault")]
+  NotEnoughResourcesInMarketVault,
 
   #[error("Player \"{0}\" has already taken their turn")]
   NotWaitingPlayer(PlayerId),

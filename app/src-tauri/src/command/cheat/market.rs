@@ -13,3 +13,17 @@ pub async fn cheat_set_market_fee(app: AppHandle, req: CheatSetMarketFeeRequest)
     .await
     .map_err(Into::into)
 }
+
+#[tauri::command]
+pub async fn cheat_set_market_vault_resources(
+  app: AppHandle,
+  req: CheatSetMarketVaultResourcesRequest,
+) -> Result<()> {
+  app
+    .client(async |cl| {
+      cl.cheat_set_market_vault_resources(req)
+        .await
+    })
+    .await
+    .map_err(Into::into)
+}

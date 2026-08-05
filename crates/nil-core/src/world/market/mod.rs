@@ -7,9 +7,10 @@ mod tests;
 use crate::error::{Error, Result};
 use crate::market::Market;
 use crate::resources::Resources;
-use crate::resources::diff::ResourcesDiff;
+use crate::resources::gold::Gold;
 use crate::ruler::Ruler;
 use crate::world::World;
+use std::ops::AddAssign;
 
 impl World {
   pub fn market(&self) -> &Market {
@@ -18,6 +19,46 @@ impl World {
 
   pub(crate) fn market_mut(&mut self) -> &mut Market {
     &mut self.market
+  }
+
+  /// Buys resources from the market.
+  ///
+  /// The total gold cost is calculated as `resources + (resources * market_fee)`.
+  pub fn buy_resources(&mut self, ruler: &Ruler, resources: Resources) -> Result<()> {
+    let fee = resources * self.market().fee();
+    let gold = Gold::from(resources + fee);
+    self.ruler_mut(ruler)?.withdraw_gold(gold)?;
+
+    self.market.vault_mut().withdraw(resources)?;
+
+    self.add_resources_within_capacity(ruler.clone(), resources)?;
+
+    self.emit_ruler(ruler)?;
+    self.emit_market()?;
+
+    Ok(())
+  }
+
+  /// Sells resources to the market.
+  pub fn sell_resources(&mut self, ruler: &Ruler, resources: Resources) -> Result<()> {
+    self
+      .ruler_mut(ruler)?
+      .withdraw_resources(resources)?;
+
+    self
+      .market_mut()
+      .vault_mut()
+      .store(resources);
+
+    self
+      .ruler_mut(ruler)?
+      .gold_mut()
+      .add_assign(resources);
+
+    self.emit_ruler(ruler)?;
+    self.emit_market()?;
+
+    Ok(())
   }
 
   /// Sends resources from one ruler to another, also deducting the current market fee from the sender's resources.
@@ -29,30 +70,16 @@ impl World {
     let fee = resources * self.market().fee();
     let total = resources + fee;
 
-    let capacity = self.get_storage_capacity(to.clone())?;
-    let resources_diff = ResourcesDiff::try_from(resources)?;
-
-    let mut ruler_ref = self.ruler_mut(from)?;
-    let ruler_resources = ruler_ref.resources_mut();
-
-    match ruler_resources.checked_sub(total) {
-      Some(new) => *ruler_resources = new,
-      None => return Err(Error::InsufficientResources),
-    }
-
     self
-      .ruler_mut(to)?
-      .resources_mut()
-      .add_within_capacity(resources_diff, capacity);
+      .ruler_mut(from)?
+      .withdraw_resources(total)?;
+
+    self.add_resources_within_capacity(to.clone(), resources)?;
 
     self.emit_ruler(from)?;
     self.emit_ruler(to)?;
 
-    self
-      .market_mut()
-      .vault_mut()
-      .update_resources(fee.try_into()?);
-
+    self.market_mut().vault_mut().store(fee);
     self.emit_market()?;
 
     Ok(())

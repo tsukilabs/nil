@@ -88,7 +88,7 @@ impl World {
 
     let haul = self.military.army(army_id)?.haul();
     let mut hauled_resources = calculate_hauled_resources(self, destination, haul)?;
-    self.take_resources_of(rulers.destination_ruler.clone(), &mut hauled_resources)?;
+    self.withdraw_resources_up_to(rulers.destination_ruler.clone(), &mut hauled_resources)?;
 
     if self.military.army(army_id)?.is_empty() {
       self.military.remove_army(army_id)?;

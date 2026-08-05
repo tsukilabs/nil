@@ -160,6 +160,12 @@ namespace CsBindgen
         public static extern void nil_authorize(uint request_id, byte* json_req);
 
         /// <summary>
+        ///  [`Client::buy_resources`](nil_client::Client::buy_resources)
+        /// </summary>
+        [DllImport(__DllName, EntryPoint = "nil_buy_resources", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void nil_buy_resources(uint request_id, byte* json_req);
+
+        /// <summary>
         ///  [`Client::cancel_academy_recruit_order`](nil_client::Client::cancel_academy_recruit_order)
         /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_cancel_academy_recruit_order", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -356,6 +362,12 @@ namespace CsBindgen
         /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_cheat_set_market_fee", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_cheat_set_market_fee(uint request_id, byte* json_req);
+
+        /// <summary>
+        ///  [`Client::cheat_set_market_vault_resources`](nil_client::Client::cheat_set_market_vault_resources)
+        /// </summary>
+        [DllImport(__DllName, EntryPoint = "nil_cheat_set_market_vault_resources", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void nil_cheat_set_market_vault_resources(uint request_id, byte* json_req);
 
         /// <summary>
         ///  [`Client::cheat_set_max_food`](nil_client::Client::cheat_set_max_food)
@@ -830,6 +842,12 @@ namespace CsBindgen
         /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_search_public_city", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_search_public_city(uint request_id, byte* json_req);
+
+        /// <summary>
+        ///  [`Client::sell_resources`](nil_client::Client::sell_resources)
+        /// </summary>
+        [DllImport(__DllName, EntryPoint = "nil_sell_resources", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void nil_sell_resources(uint request_id, byte* json_req);
 
         /// <summary>
         ///  [`Client::send_resources`](nil_client::Client::send_resources)

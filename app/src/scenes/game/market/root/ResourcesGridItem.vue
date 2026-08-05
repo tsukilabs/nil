@@ -5,17 +5,21 @@
 import { computed } from "vue";
 import { Label } from "@ui/label";
 import { useI18n } from "vue-i18n";
+import { CONSTS } from "@/lib/global";
 import { formatInt } from "@/lib/intl";
+import type { Option } from "@tb-dev/utils";
 import Food from "@/components/resources/Food.vue";
 import Iron from "@/components/resources/Iron.vue";
 import Wood from "@/components/resources/Wood.vue";
 import Stone from "@/components/resources/Stone.vue";
-import type { MarketFee, Resources } from "@tsukilabs/nil-bindings";
+import type { Resources } from "@tsukilabs/nil-bindings";
+import type { MarketImpl } from "@/core/model/market/market";
 import { NumberField, NumberFieldContent, NumberFieldInput } from "@ui/number-field";
 
 const props = defineProps<{
   kind: keyof Resources;
-  marketFee: MarketFee;
+  market?: Option<MarketImpl>;
+  limitToAvailable?: boolean;
 }>();
 
 const amount = defineModel<number>({ required: true });
@@ -25,7 +29,17 @@ const { t } = useI18n();
 const { player } = NIL.player.refs();
 const available = computed(() => {
   const value = player.value?.resources[props.kind] ?? 0;
-  return Math.max(0, value - (value * props.marketFee));
+  if (
+    typeof props.market?.fee === "number" &&
+    Number.isFinite(props.market.fee) &&
+    props.market.fee >= CONSTS.marketFeeMin &&
+    props.market.fee <= CONSTS.marketFeeMax
+  ) {
+    return Math.ceil(Math.max(0, value - (value * props.market.fee)));
+  }
+  else {
+    return value;
+  }
 });
 
 function toggleMax() {
@@ -48,16 +62,20 @@ function toggleMax() {
         <Wood v-else-if="kind === 'wood'" hide-amount />
         <div>
           <span>{{ t(kind) }}</span>
-          <span class="cursor-pointer" @click.stop="toggleMax">
+          <span
+            v-if="market && limitToAvailable"
+            class="cursor-pointer"
+            @click.stop="toggleMax"
+          >
             {{ ` (${formatInt(available)})` }}
           </span>
         </div>
       </div>
       <NumberField
         v-model="amount"
-        :disabled="!player || available <= 0"
+        :disabled="!player || (limitToAvailable && available <= 0)"
         :min="0"
-        :max="available"
+        :max="limitToAvailable ? available : undefined"
         :step="1"
         :default-value="0"
         invert-wheel-change

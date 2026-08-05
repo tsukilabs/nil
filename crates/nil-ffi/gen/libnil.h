@@ -138,6 +138,11 @@ void nil_add_workshop_recruit_order(RequestId request_id, const char *json_req);
 void nil_authorize(RequestId request_id, const char *json_req);
 
 /**
+ * [`Client::buy_resources`](nil_client::Client::buy_resources)
+ */
+void nil_buy_resources(RequestId request_id, const char *json_req);
+
+/**
  * [`Client::cancel_academy_recruit_order`](nil_client::Client::cancel_academy_recruit_order)
  */
 void nil_cancel_academy_recruit_order(RequestId request_id, const char *json_req);
@@ -307,6 +312,12 @@ void nil_cheat_set_iron(RequestId request_id, const char *json_req);
  * [`Client::cheat_set_market_fee`](nil_client::Client::cheat_set_market_fee)
  */
 void nil_cheat_set_market_fee(RequestId request_id, const char *json_req);
+
+/**
+ * [`Client::cheat_set_market_vault_resources`](nil_client::Client::cheat_set_market_vault_resources)
+ */
+void nil_cheat_set_market_vault_resources(RequestId request_id,
+                                          const char *json_req);
 
 /**
  * [`Client::cheat_set_max_food`](nil_client::Client::cheat_set_max_food)
@@ -703,6 +714,11 @@ void nil_search_city(RequestId request_id, const char *json_req);
  * [`Client::search_public_city`](nil_client::Client::search_public_city)
  */
 void nil_search_public_city(RequestId request_id, const char *json_req);
+
+/**
+ * [`Client::sell_resources`](nil_client::Client::sell_resources)
+ */
+void nil_sell_resources(RequestId request_id, const char *json_req);
 
 /**
  * [`Client::send_resources`](nil_client::Client::send_resources)

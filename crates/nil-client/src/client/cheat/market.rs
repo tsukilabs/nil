@@ -18,4 +18,19 @@ impl Client {
       .send()
       .await
   }
+
+  /// Endpoint: `POST /cheat-set-market-vault-resources`
+  pub async fn cheat_set_market_vault_resources(
+    &self,
+    req: CheatSetMarketVaultResourcesRequest,
+  ) -> Result<()> {
+    http::post("cheat-set-market-vault-resources")
+      .body(req)
+      .server(self.server)
+      .maybe_authorization(self.authorization.as_ref())
+      .circuit_breaker(self.circuit_breaker())
+      .user_agent(&self.user_agent)
+      .send()
+      .await
+  }
 }

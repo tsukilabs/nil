@@ -3,7 +3,6 @@
 
 <script setup lang="ts">
 import { useI18n } from "vue-i18n";
-import * as commands from "@/commands";
 import { handleError } from "@/lib/error";
 import type { Option } from "@tb-dev/utils";
 import { computed, nextTick, ref } from "vue";
@@ -16,22 +15,36 @@ import { onKeyDown, useBreakpoints } from "@tb-dev/vue";
 import { useRulers } from "@/composables/ruler/useRulers";
 import Rulers from "@/scenes/game/market/send/Rulers.vue";
 import { useMarket } from "@/composables/market/useMarket";
-import ResourcesGrid from "@/scenes/game/market/send/ResourcesGrid.vue";
+import { usePlayerTurn } from "@/composables/player/usePlayerTurn";
+import ResourcesGrid from "@/scenes/game/market/root/ResourcesGrid.vue";
 
 const { t } = useI18n();
 
-const { market, load: loadMarket, loading: isLoadingMarket } = useMarket();
+const {
+  market,
+  load: loadMarket,
+  throttledLoad: throttledLoadMarket,
+  loading: isLoadingMarket,
+  sendResources,
+} = useMarket();
+
 const { rulers, load: loadRulers, loading: isLoadingRulers } = useRulers();
 
 const recipient = ref<Option<Ruler>>();
 const resources = ref(ResourcesImpl.splat(0));
 
+const isPlayerTurn = usePlayerTurn();
+
+const loading = computed(() => {
+  return isLoadingMarket.value || isLoadingRulers.value;
+});
+
 const canSend = computed(() => {
   return (
+    isPlayerTurn.value &&
     market.value &&
     rulers.value.length > 1 &&
-    !isLoadingMarket.value &&
-    !isLoadingRulers.value &&
+    !loading.value &&
     recipient.value &&
     !resources.value.isEmpty()
   );
@@ -40,7 +53,7 @@ const canSend = computed(() => {
 const { sm } = useBreakpoints();
 
 const listener = new ListenerSet();
-listener.event.onMarket(throttle(loadMarket, 1000));
+listener.event.onMarket(throttledLoadMarket);
 
 if (__DESKTOP__) {
   onKeyDown("F5", throttle(load, 1000));
@@ -48,13 +61,9 @@ if (__DESKTOP__) {
 
 async function send() {
   await nextTick();
-  if (canSend.value && market.value && recipient.value) {
+  if (canSend.value && recipient.value) {
     try {
-      await commands.sendResources(
-        recipient.value,
-        resources.value.toJSON(),
-      );
-
+      await sendResources(recipient.value, resources.value);
       resources.value = ResourcesImpl.splat(0);
     }
     catch (err) {
@@ -76,8 +85,8 @@ function clear() {
 <template>
   <div class="size-full flex flex-col gap-4">
     <div class="w-full lg:min-w-max lg:max-w-1/2 grid grid-cols-1 gap-8">
-      <Rulers v-model="recipient" :rulers :loading="isLoadingRulers" />
-      <ResourcesGrid v-model="resources" :market-fee="market?.fee ?? 0" />
+      <Rulers v-model="recipient" :rulers :loading />
+      <ResourcesGrid v-model="resources" :market-fee="market?.fee" limit-to-available />
     </div>
 
     <div class="max-sm:w-full sm:max-w-max grid grid-cols-2 items-center justify-center sm:justify-start gap-4">

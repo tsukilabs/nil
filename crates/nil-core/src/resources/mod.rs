@@ -14,6 +14,7 @@ use crate::error::{Error, Result};
 use crate::infrastructure::mine::MineProduction;
 use crate::infrastructure::storage::{OverallStorageCapacity, StorageCapacity};
 use crate::market::fee::MarketFee;
+use crate::resources::gold::Gold;
 use bon::Builder;
 use derive_more::Display;
 use diff::{FoodDiff, IronDiff, ResourcesDiff, StoneDiff, WoodDiff};
@@ -22,6 +23,7 @@ use nil_num::mul_ceil::MulCeil;
 use nil_util::{ConstDeref, F64Math};
 use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
+use std::iter::Sum;
 use std::num::NonZeroU32;
 use std::ops::{Add, AddAssign, Mul, MulAssign, Sub, SubAssign};
 
@@ -165,11 +167,13 @@ impl Resources {
   }
 
   pub const fn sum(&self) -> u32 {
+    let Self { food, iron, stone, wood } = *self;
+
     0u32
-      .saturating_add(self.food.0)
-      .saturating_add(self.iron.0)
-      .saturating_add(self.stone.0)
-      .saturating_add(self.wood.0)
+      .saturating_add(food.0)
+      .saturating_add(iron.0)
+      .saturating_add(stone.0)
+      .saturating_add(wood.0)
   }
 
   #[inline]
@@ -282,6 +286,24 @@ const impl Mul<MarketFee> for Resources {
   }
 }
 
+impl Sum<Resources> for Resources {
+  fn sum<I>(iter: I) -> Self
+  where
+    I: Iterator<Item = Resources>,
+  {
+    iter.fold(Resources::default(), |acc, resources| acc + resources)
+  }
+}
+
+impl Sum<Resources> for u32 {
+  fn sum<I>(iter: I) -> Self
+  where
+    I: Iterator<Item = Resources>,
+  {
+    iter.fold(0u32, |acc, resources| acc.saturating_add(resources.sum()))
+  }
+}
+
 macro_rules! decl_resource {
   ($($resource:ident),+ $(,)?) => {
     paste::paste! {
@@ -294,6 +316,8 @@ macro_rules! decl_resource {
         impl $resource {
           pub const MIN: Self = Self::new(0);
           pub const MAX: Self = Self::new(u32::MAX);
+
+          pub const MARKET_PRICE: Gold = Gold::new(1);
 
           #[inline]
           pub const fn new(value: u32) -> Self {
@@ -362,6 +386,12 @@ macro_rules! decl_resource {
             let mut resources = Resources::new();
             resources.[<$resource:snake>] = value;
             resources
+          }
+        }
+
+        const impl From<$resource> for Gold {
+          fn from(value: $resource) -> Self {
+            $resource::MARKET_PRICE * value.0
           }
         }
 
