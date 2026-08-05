@@ -1,5 +1,5 @@
 {
-  "name": "ui",
+  "name": "app",
   "type": "module",
   "packageManager": "pnpm@11.20.0",
   "license": "AGPL-3.0-only",
