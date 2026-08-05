@@ -33,6 +33,10 @@ pinia.use(TauriPluginPinia({
   hooks: { error: handleError },
 }));
 
+router.onError((error) => {
+  handleError(error);
+});
+
 app.use(vaporInteropPlugin);
 app.use(i18n());
 app.use(router);
