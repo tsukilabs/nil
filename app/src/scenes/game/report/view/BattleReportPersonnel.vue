@@ -3,8 +3,6 @@
 
 <script vapor lang="ts">
 import { useI18n } from "@tsukilabs/nil-i18n";
-import enUS from "@/locale/en-US/scenes/game/report.json";
-import ptBR from "@/locale/pt-BR/scenes/game/report.json";
 import type { ArmyPersonnel } from "@tsukilabs/nil-bindings";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@ui/table";
 
@@ -13,12 +11,7 @@ const props = defineProps<{
   losses: ArmyPersonnel;
 }>();
 
-const { t } = useI18n({
-  messages: {
-    "en-US": enUS,
-    "pt-BR": ptBR,
-  },
-});
+const { t } = useI18n();
 </script>
 
 <template>

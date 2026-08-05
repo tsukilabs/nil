@@ -8,8 +8,6 @@ import Food from "@/components/resources/Food.vue";
 import Iron from "@/components/resources/Iron.vue";
 import Wood from "@/components/resources/Wood.vue";
 import Stone from "@/components/resources/Stone.vue";
-import enUS from "@/locale/en-US/scenes/game/report.json";
-import ptBR from "@/locale/pt-BR/scenes/game/report.json";
 import { useBattleLosses } from "@/composables/battle/useBattleLosses";
 import type { BattleReportImpl } from "@/core/model/report/battle-report";
 import { useBattleWallLevel } from "@/composables/battle/useBattleWallLevel";
@@ -20,12 +18,7 @@ const props = defineProps<{
   report: BattleReportImpl;
 }>();
 
-const { t } = useI18n({
-  messages: {
-    "en-US": enUS,
-    "pt-BR": ptBR,
-  },
-});
+const { t } = useI18n();
 
 const result = computed(() => props.report.result);
 const losses = useBattleLosses(result);
@@ -55,12 +48,12 @@ const wallLevel = useBattleWallLevel(result);
     <Table class="max-w-[800px]">
       <TableBody>
         <TableRow class="hover:bg-card">
-          <TableHead>{{ t("attacker-luck") }}</TableHead>
+          <TableHead>{{ t("report.attacker-luck") }}</TableHead>
           <TableCell>{{ report.result.formatLuck() }}</TableCell>
         </TableRow>
 
         <TableRow v-if="report.result.wallLevel > 0" class="hover:bg-card">
-          <TableHead>{{ t("wall-level") }}</TableHead>
+          <TableHead>{{ t("report.wall-level") }}</TableHead>
           <TableCell v-if="wallLevel.didChange">
             {{ wallLevel.original }} → {{ wallLevel.current }}
           </TableCell>

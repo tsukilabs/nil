@@ -3,25 +3,18 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
-import { useI18n } from "@tsukilabs/nil-i18n";
 import { Button } from "@ui/button";
 import { onKeyDown } from "@tb-dev/vue";
 import type { Option } from "@tb-dev/utils";
+import { useI18n } from "@tsukilabs/nil-i18n";
 import { throttle } from "es-toolkit/function";
 import { useRouteParams } from "@vueuse/router";
-import enUS from "@/locale/en-US/scenes/game/profile.json";
-import ptBR from "@/locale/pt-BR/scenes/game/profile.json";
 import { usePublicCity } from "@/composables/city/usePublicCity";
 import { Card, CardContent, CardHeader, CardTitle } from "@ui/card";
 import { useCityOwnerSceneLink } from "@/composables/city/useCityOwnerSceneLink";
 import { Table, TableBody, TableCell, TableFooter, TableHead, TableRow } from "@ui/table";
 
-const { t } = useI18n({
-  messages: {
-    "en-US": enUS,
-    "pt-BR": ptBR,
-  },
-});
+const { t } = useI18n();
 
 const ckeyParam = useRouteParams<Option<string>>("ckey", null);
 const continentKey = computed(() => {
@@ -85,7 +78,7 @@ if (__DESKTOP__) {
                       :disabled="loading"
                       @click.stop="() => city?.goToContinent()"
                     >
-                      <span>{{ t("show-on-map") }}</span>
+                      <span>{{ t("profile.show-on-map") }}</span>
                     </Button>
 
                     <Button
@@ -93,7 +86,7 @@ if (__DESKTOP__) {
                       :disabled="loading"
                       @click.stop="() => city?.goToWarRoom('destination')"
                     >
-                      <span>{{ t("send-troops") }}</span>
+                      <span>{{ t("profile.send-troops") }}</span>
                     </Button>
                   </div>
                 </TableCell>

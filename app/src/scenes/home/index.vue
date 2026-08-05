@@ -3,26 +3,19 @@
 
 <script vapor lang="ts">
 import { go } from "@/router";
-import { useI18n } from "@tsukilabs/nil-i18n";
 import { Button } from "@ui/button";
 import { computed, ref } from "vue";
 import { exitGame } from "@/core/game";
 import { DESKTOP } from "@/lib/global";
 import { handleError } from "@/lib/error";
 import { useBreakpoints } from "@tb-dev/vue";
+import { useI18n } from "@tsukilabs/nil-i18n";
 import { useSettings } from "@/stores/settings";
-import enUS from "@/locale/en-US/scenes/home.json";
-import ptBR from "@/locale/pt-BR/scenes/home.json";
 import { useUpdate } from "@/composables/useUpdate";
 import { Alert, AlertDescription, AlertTitle } from "@ui/alert";
 import ButtonSpinner from "@/components/button/ButtonSpinner.vue";
 
-const { t } = useI18n({
-  messages: {
-    "en-US": enUS,
-    "pt-BR": ptBR,
-  },
-});
+const { t } = useI18n();
 
 const update = useUpdate();
 const { sm, md } = useBreakpoints();
@@ -122,9 +115,9 @@ async function goToOnlineScene() {
     </div>
 
     <Alert v-if="update && md" class="w-max fixed bottom-safe-4 right-safe-4 py-4">
-      <AlertTitle>{{ t("update-available") }}</AlertTitle>
+      <AlertTitle>{{ t("home.update-available") }}</AlertTitle>
       <AlertDescription class="gap-2">
-        <span>{{ t("version-ready", [update.version]) }}</span>
+        <span>{{ t("home.version-ready", [update.version]) }}</span>
         <div class="grid grid-cols-2 items-center gap-2 justify-self-end">
           <Button
             variant="default"
@@ -141,7 +134,7 @@ async function goToOnlineScene() {
             @click.stop="() => update?.openChangelog()"
             @keydown.enter.stop="() => update?.openChangelog()"
           >
-            <span>{{ t("whats-new") }}</span>
+            <span>{{ t("home.whats-new") }}</span>
           </Button>
         </div>
       </AlertDescription>

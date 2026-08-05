@@ -5,8 +5,6 @@
 import { Badge } from "@ui/badge";
 import { useI18n } from "@tsukilabs/nil-i18n";
 import { CoordImpl } from "@/core/model/continent/coord";
-import enUS from "@/locale/en-US/scenes/game/report.json";
-import ptBR from "@/locale/pt-BR/scenes/game/report.json";
 import { Table, TableBody, TableCell, TableHead, TableRow } from "@ui/table";
 import { useCityOwnerSceneLink } from "@/composables/city/useCityOwnerSceneLink";
 import { useCityProfileSceneLink } from "@/composables/city/useCityProfileSceneLink";
@@ -22,12 +20,7 @@ const props = defineProps<{
   city: PublicCity;
 }>();
 
-const { t } = useI18n({
-  messages: {
-    "en-US": enUS,
-    "pt-BR": ptBR,
-  },
-});
+const { t } = useI18n();
 
 const toRulerProfile = useCityOwnerSceneLink(() => props.ruler);
 const toCityProfile = useCityProfileSceneLink(() => props.city);

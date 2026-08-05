@@ -3,24 +3,14 @@
 
 <script vapor lang="ts">
 import { useI18n } from "@tsukilabs/nil-i18n";
-import { toMerged } from "es-toolkit/object";
 import BattleResultTableRow from "./BattleResultTableRow.vue";
-import enUS_report from "@/locale/en-US/scenes/game/report.json";
-import ptBR_report from "@/locale/pt-BR/scenes/game/report.json";
 import type { BattleResultImpl } from "@/core/model/battle-result";
-import enUS_warRoom from "@/locale/en-US/scenes/game/war-room.json";
-import ptBR_warRoom from "@/locale/pt-BR/scenes/game/war-room.json";
 import { useBattleWallLevel } from "@/composables/battle/useBattleWallLevel";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@ui/table";
 
 const props = defineProps<{ result: BattleResultImpl; }>();
 
-const { t } = useI18n({
-  messages: {
-    "en-US": toMerged(enUS_report, enUS_warRoom),
-    "pt-BR": toMerged(ptBR_report, ptBR_warRoom),
-  },
-});
+const { t } = useI18n();
 
 const wallLevel = useBattleWallLevel(() => props.result);
 </script>
@@ -43,22 +33,22 @@ const wallLevel = useBattleWallLevel(() => props.result);
 
       <TableBody>
         <BattleResultTableRow
-          :head="t('attacker-units')"
+          :head="t('war-room.attacker-units')"
           :personnel="result.attackerPersonnel"
         />
 
         <BattleResultTableRow
-          :head="t('attacker-losses')"
+          :head="t('war-room.attacker-losses')"
           :personnel="result.getAttackerLosses()"
         />
 
         <BattleResultTableRow
-          :head="t('defender-units')"
+          :head="t('war-room.defender-units')"
           :personnel="result.defenderPersonnel"
         />
 
         <BattleResultTableRow
-          :head="t('defender-losses')"
+          :head="t('war-room.defender-losses')"
           :personnel="result.getDefenderLosses()"
         />
       </TableBody>
@@ -67,7 +57,7 @@ const wallLevel = useBattleWallLevel(() => props.result);
     <Table v-if="wallLevel.didChange" class="md:w-max">
       <TableBody>
         <TableRow class="hover:bg-card">
-          <TableHead>{{ t("wall-level") }}</TableHead>
+          <TableHead>{{ t("report.wall-level") }}</TableHead>
           <TableCell>{{ wallLevel.original }} → {{ wallLevel.current }}</TableCell>
         </TableRow>
       </TableBody>

@@ -2,10 +2,10 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script vapor lang="ts">
-import { useI18n } from "@tsukilabs/nil-i18n";
 import { Button } from "@ui/button";
 import { computed, ref } from "vue";
 import type { Option } from "@tb-dev/utils";
+import { useI18n } from "@tsukilabs/nil-i18n";
 import { useRouteParams } from "@vueuse/router";
 import type { ReportScene } from "@/types/scene";
 import { useRoute, useRouter } from "vue-router";
