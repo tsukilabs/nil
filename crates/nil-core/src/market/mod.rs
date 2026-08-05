@@ -97,6 +97,7 @@ const impl Default for MarketPrice {
 }
 
 #[cfg(not(feature = "typescript"))]
+#[allow(clippy::trivially_copy_pass_by_ref)]
 fn serialize_market_price<S>(_: &PhantomData<MarketPrice>, serializer: S) -> Result<S::Ok, S::Error>
 where
   S: serde::Serializer,
