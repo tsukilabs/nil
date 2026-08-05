@@ -2,7 +2,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { useI18n } from "vue-i18n";
+import { useI18n } from "@tsukilabs/nil-i18n";
 import { onKeyDown } from "@tb-dev/vue";
 import type { Option } from "@tb-dev/utils";
 import { throttle } from "es-toolkit/function";

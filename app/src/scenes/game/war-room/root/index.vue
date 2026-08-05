@@ -2,7 +2,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { useI18n } from "vue-i18n";
+import { useI18n } from "@tsukilabs/nil-i18n";
 import { Button } from "@ui/button";
 import * as commands from "@/commands";
 import { handleError } from "@/lib/error";

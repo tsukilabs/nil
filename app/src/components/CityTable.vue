@@ -2,7 +2,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script vapor lang="ts">
-import { useI18n } from "vue-i18n";
+import { useI18n } from "@tsukilabs/nil-i18n";
 import { computed, ref } from "vue";
 import { PLACEHOLDER } from "@/lib/string";
 import type { Option } from "@tb-dev/utils";

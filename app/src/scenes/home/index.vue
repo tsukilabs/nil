@@ -3,7 +3,7 @@
 
 <script vapor lang="ts">
 import { go } from "@/router";
-import { useI18n } from "vue-i18n";
+import { useI18n } from "@tsukilabs/nil-i18n";
 import { Button } from "@ui/button";
 import { computed, ref } from "vue";
 import { exitGame } from "@/core/game";

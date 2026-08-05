@@ -2,7 +2,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script vapor lang="ts">
-import { useI18n } from "vue-i18n";
+import { useI18n } from "@tsukilabs/nil-i18n";
 import { TableCell, TableRow } from "@ui/table";
 import type { Squad } from "@tsukilabs/nil-bindings";
 import { NumberField, NumberFieldContent, NumberFieldInput } from "@ui/number-field";

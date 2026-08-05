@@ -3,7 +3,7 @@
 
 <script vapor lang="ts">
 import { go } from "@/router";
-import { useI18n } from "vue-i18n";
+import { useI18n } from "@tsukilabs/nil-i18n";
 import { Table, TableBody, TableCell, TableRow } from "@ui/table";
 import { Card, CardContent, CardHeader, CardTitle } from "@ui/card";
 

@@ -5,7 +5,7 @@
 import { go } from "@/router";
 import { computed } from "vue";
 import { Label } from "@ui/label";
-import { useI18n } from "vue-i18n";
+import { useI18n } from "@tsukilabs/nil-i18n";
 import { Button } from "@ui/button";
 import { Switch } from "@ui/switch";
 import { useRouter } from "vue-router";

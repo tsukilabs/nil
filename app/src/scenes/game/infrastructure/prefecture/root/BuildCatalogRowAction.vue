@@ -3,7 +3,7 @@
 
 <script vapor lang="ts">
 import { cn } from "@ui/utils";
-import { useI18n } from "vue-i18n";
+import { useI18n } from "@tsukilabs/nil-i18n";
 import { Button } from "@ui/button";
 import { useBreakpoints } from "@tb-dev/vue";
 import type { MaybePromise } from "@tb-dev/utils";

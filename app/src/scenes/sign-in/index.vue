@@ -4,7 +4,7 @@
 <script vapor lang="ts">
 import { Input } from "@ui/input";
 import { Label } from "@ui/label";
-import { useI18n } from "vue-i18n";
+import { useI18n } from "@tsukilabs/nil-i18n";
 import { Button } from "@ui/button";
 import * as commands from "@/commands";
 import { useRouter } from "vue-router";

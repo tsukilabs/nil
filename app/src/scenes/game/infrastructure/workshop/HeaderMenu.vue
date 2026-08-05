@@ -3,7 +3,7 @@
 
 <script vapor lang="ts">
 import { go } from "@/router";
-import { useI18n } from "vue-i18n";
+import { useI18n } from "@tsukilabs/nil-i18n";
 import { useRoute } from "vue-router";
 import { MenuIcon } from "@lucide/vue";
 import { useBreakpoints } from "@tb-dev/vue";

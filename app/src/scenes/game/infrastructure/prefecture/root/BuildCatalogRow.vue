@@ -2,7 +2,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script vapor lang="ts">
-import { useI18n } from "vue-i18n";
+import { useI18n } from "@tsukilabs/nil-i18n";
 import { clamp } from "es-toolkit/math";
 import { computed, nextTick } from "vue";
 import type { Option } from "@tb-dev/utils";

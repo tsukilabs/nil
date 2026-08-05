@@ -2,7 +2,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script vapor lang="ts">
-import { useI18n } from "vue-i18n";
+import { useI18n } from "@tsukilabs/nil-i18n";
 import { formatInt } from "@/lib/intl";
 import Food from "@/components/resources/Food.vue";
 import { useSilo } from "@/composables/infrastructure/useBuilding";

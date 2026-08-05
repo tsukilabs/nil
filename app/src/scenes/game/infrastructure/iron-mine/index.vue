@@ -2,7 +2,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script vapor lang="ts">
-import { useI18n } from "vue-i18n";
+import { useI18n } from "@tsukilabs/nil-i18n";
 import Food from "@/components/resources/Food.vue";
 import Iron from "@/components/resources/Iron.vue";
 import { Card, CardContent, CardHeader, CardTitle } from "@ui/card";

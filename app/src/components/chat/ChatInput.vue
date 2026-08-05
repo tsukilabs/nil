@@ -3,7 +3,7 @@
 
 <script vapor lang="ts">
 import { Input } from "@ui/input";
-import { useI18n } from "vue-i18n";
+import { useI18n } from "@tsukilabs/nil-i18n";
 import { Button } from "@ui/button";
 import type { MaybePromise } from "@tb-dev/utils";
 import { useChatInput } from "@/composables/chat/useChatInput";

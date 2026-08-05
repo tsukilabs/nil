@@ -3,7 +3,7 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
-import { useI18n } from "vue-i18n";
+import { useI18n } from "@tsukilabs/nil-i18n";
 import { Button } from "@ui/button";
 import { onKeyDown } from "@tb-dev/vue";
 import type { Option } from "@tb-dev/utils";

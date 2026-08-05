@@ -3,7 +3,7 @@
 
 <script vapor lang="ts">
 import { Label } from "@ui/label";
-import { useI18n } from "vue-i18n";
+import { useI18n } from "@tsukilabs/nil-i18n";
 import { Checkbox } from "@ui/checkbox";
 import { useSettings } from "@/stores/settings";
 import enUS from "@/locale/en-US/scenes/game/infrastructure/infrastructure.json";

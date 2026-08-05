@@ -4,7 +4,7 @@
 <script vapor lang="ts">
 import { computed } from "vue";
 import { Label } from "@ui/label";
-import { useI18n } from "vue-i18n";
+import { useI18n } from "@tsukilabs/nil-i18n";
 import { CONSTS } from "@/lib/global";
 import { formatInt } from "@/lib/intl";
 import type { Option } from "@tb-dev/utils";

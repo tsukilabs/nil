@@ -4,7 +4,7 @@
 <script vapor lang="ts">
 import { go } from "@/router";
 import { nextTick } from "vue";
-import { useI18n } from "vue-i18n";
+import { useI18n } from "@tsukilabs/nil-i18n";
 import { handleError } from "@/lib/error";
 import type { Coord } from "@tsukilabs/nil-bindings";
 import { Card, CardContent, CardHeader, CardTitle } from "@ui/card";

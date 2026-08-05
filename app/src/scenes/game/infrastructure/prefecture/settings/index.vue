@@ -5,7 +5,7 @@
 import { ref } from "vue";
 import { Input } from "@ui/input";
 import { Label } from "@ui/label";
-import { useI18n } from "vue-i18n";
+import { useI18n } from "@tsukilabs/nil-i18n";
 import { Button } from "@ui/button";
 import { renameCity } from "@/commands";
 import { Checkbox } from "@ui/checkbox";

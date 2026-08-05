@@ -4,7 +4,7 @@
 <script vapor lang="ts">
 import { Input } from "@ui/input";
 import { Label } from "@ui/label";
-import { useI18n } from "vue-i18n";
+import { useI18n } from "@tsukilabs/nil-i18n";
 import enUS from "@/locale/en-US/scenes/host-game.json";
 import ptBR from "@/locale/pt-BR/scenes/host-game.json";
 import type { WorldOptions } from "@tsukilabs/nil-bindings";

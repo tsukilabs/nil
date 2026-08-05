@@ -2,7 +2,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script vapor lang="ts">
-import { useI18n } from "vue-i18n";
+import { useI18n } from "@tsukilabs/nil-i18n";
 import type { MaybePromise } from "@tb-dev/utils";
 import type { ManeuverId } from "@tsukilabs/nil-bindings";
 import type { CoordImpl } from "@/core/model/continent/coord";

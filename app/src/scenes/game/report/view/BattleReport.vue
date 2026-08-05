@@ -3,7 +3,7 @@
 
 <script vapor lang="ts">
 import { computed } from "vue";
-import { useI18n } from "vue-i18n";
+import { useI18n } from "@tsukilabs/nil-i18n";
 import Food from "@/components/resources/Food.vue";
 import Iron from "@/components/resources/Iron.vue";
 import Wood from "@/components/resources/Wood.vue";
