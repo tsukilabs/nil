@@ -26,7 +26,8 @@ fn buy_resources() -> Result<()> {
   *world.ruler_mut(&ruler)?.gold_mut() = initial_gold;
 
   let resources_to_buy = Resources::splat(1000);
-  let cost = Gold::from(resources_to_buy * world.market().fee());
+  let fee = resources_to_buy * world.market().fee();
+  let cost = Gold::from(resources_to_buy + fee);
 
   world
     .market_mut()
@@ -85,13 +86,16 @@ fn sell_then_buy_resources() -> Result<()> {
   spawn_player(&mut world, buyer.as_str())?;
 
   let seller = Ruler::from(seller);
-  let buyer = Ruler::from(buyer);
   let seller_initial_resources = Resources::splat(5000);
-  let buyer_initial_resources = Resources::splat(1000);
   let seller_initial_gold = Gold::new(1000);
+
+  let buyer = Ruler::from(buyer);
+  let buyer_initial_resources = Resources::splat(1000);
   let buyer_initial_gold = Gold::new(10_000);
+
   let resources_to_trade = Resources::splat(1000);
-  let cost = Gold::from(resources_to_trade * world.market().fee());
+  let fee = resources_to_trade * world.market().fee();
+  let cost = Gold::from(resources_to_trade + fee);
 
   world
     .ruler_mut(&seller)?

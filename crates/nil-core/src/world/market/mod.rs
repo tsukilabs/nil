@@ -21,11 +21,13 @@ impl World {
     &mut self.market
   }
 
+  /// Buys resources from the market.
+  ///
+  /// The total gold cost is calculated as `resources + (resources * market_fee)`.
   pub fn buy_resources(&mut self, ruler: &Ruler, resources: Resources) -> Result<()> {
-    let cost = resources * self.market().fee();
-    self
-      .ruler_mut(ruler)?
-      .withdraw_gold(Gold::from(cost))?;
+    let fee = resources * self.market().fee();
+    let gold = Gold::from(resources + fee);
+    self.ruler_mut(ruler)?.withdraw_gold(gold)?;
 
     self.market.vault_mut().withdraw(resources)?;
 
