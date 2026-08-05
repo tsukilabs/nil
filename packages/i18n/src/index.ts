@@ -24,4 +24,4 @@ export function useI18n() {
   return use<[typeof enUS], Locale>();
 }
 
-export { enUS, ptBR };
+export { enUS, type Locale, ptBR };
