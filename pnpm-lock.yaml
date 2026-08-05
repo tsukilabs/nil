@@ -184,8 +184,8 @@ importers:
         specifier: ^8.1.2
         version: 8.1.2
       '@tsukilabs/nil-bindings':
-        specifier: ^0.7.14
-        version: 0.7.14
+        specifier: ^0.7.15
+        version: 0.7.15
       es-toolkit:
         specifier: ^1.50.0
         version: 1.50.0
@@ -193,8 +193,8 @@ importers:
   packages/i18n:
     dependencies:
       '@tsukilabs/nil-bindings':
-        specifier: ^0.7.14
-        version: 0.7.14
+        specifier: ^0.7.15
+        version: 0.7.15
       vue-i18n:
         specifier: ^11.4.8
         version: 11.4.8(vue@3.6.0-rc.2)
@@ -1057,8 +1057,8 @@ packages:
   '@ts-morph/common@0.29.0':
     resolution: {integrity: sha512-35oUmphHbJvQ/+UTwFNme/t2p3FoKiGJ5auTjjpNTop2dyREspirjMy82PLSC1pnDJ8ah1GU98hwpVt64YXQsg==}
 
-  '@tsukilabs/nil-bindings@0.7.14':
-    resolution: {integrity: sha512-u3A7+qLVmMsS4b0eCDagIT+D+zgJN91/76izmxDjk6GtlfN9k5D9ZuN2muDJAuzoB3OLy18UI6UMauwpbzE5CQ==}
+  '@tsukilabs/nil-bindings@0.7.15':
+    resolution: {integrity: sha512-5fuNhgDZ/nUCEeyHL3mAiRdH9/Lpal3VejKJfSFrdv++lLRL0/RNqQOgnx8F0svzz4ZtvmDtRh54jo2XKRdlkA==}
 
   '@tybys/wasm-util@0.10.3':
     resolution: {integrity: sha512-F3fo1MYrRJYL3zER0OUOmkutjr1Vp23m7OsSgp7nq4SP6OqX6C/56XFIPAl5bt3zaBRjmW7SGz3u/6LwFpYcOg==}
@@ -4167,7 +4167,7 @@ snapshots:
       path-browserify: 1.0.1
       tinyglobby: 0.2.17
 
-  '@tsukilabs/nil-bindings@0.7.14': {}
+  '@tsukilabs/nil-bindings@0.7.15': {}
 
   '@tybys/wasm-util@0.10.3':
     dependencies:
