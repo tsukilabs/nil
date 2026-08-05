@@ -12,12 +12,13 @@ import Food from "@/components/resources/Food.vue";
 import Iron from "@/components/resources/Iron.vue";
 import Wood from "@/components/resources/Wood.vue";
 import Stone from "@/components/resources/Stone.vue";
-import type { MarketFee, Resources } from "@tsukilabs/nil-bindings";
+import type { Resources } from "@tsukilabs/nil-bindings";
+import type { MarketImpl } from "@/core/model/market/market";
 import { NumberField, NumberFieldContent, NumberFieldInput } from "@ui/number-field";
 
 const props = defineProps<{
   kind: keyof Resources;
-  marketFee?: Option<MarketFee>;
+  market?: Option<MarketImpl>;
   limitToAvailable?: boolean;
 }>();
 
@@ -29,12 +30,12 @@ const { player } = NIL.player.refs();
 const available = computed(() => {
   const value = player.value?.resources[props.kind] ?? 0;
   if (
-    typeof props.marketFee === "number" &&
-    Number.isFinite(props.marketFee) &&
-    props.marketFee >= CONSTS.marketFeeMin &&
-    props.marketFee <= CONSTS.marketFeeMax
+    typeof props.market?.fee === "number" &&
+    Number.isFinite(props.market.fee) &&
+    props.market.fee >= CONSTS.marketFeeMin &&
+    props.market.fee <= CONSTS.marketFeeMax
   ) {
-    return Math.ceil(Math.max(0, value - (value * props.marketFee)));
+    return Math.ceil(Math.max(0, value - (value * props.market.fee)));
   }
   else {
     return value;
@@ -62,7 +63,7 @@ function toggleMax() {
         <div>
           <span>{{ t(kind) }}</span>
           <span
-            v-if="limitToAvailable"
+            v-if="market && limitToAvailable"
             class="cursor-pointer"
             @click.stop="toggleMax"
           >

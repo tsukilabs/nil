@@ -3,11 +3,12 @@
 
 <script vapor lang="ts">
 import type { Option } from "@tb-dev/utils";
-import type { MarketFee, Resources } from "@tsukilabs/nil-bindings";
+import type { Resources } from "@tsukilabs/nil-bindings";
+import type { MarketImpl } from "@/core/model/market/market";
 import ResourcesGridItem from "@/scenes/game/market/root/ResourcesGridItem.vue";
 
 const props = defineProps<{
-  marketFee?: Option<MarketFee>;
+  market?: Option<MarketImpl>;
   limitToAvailable?: boolean;
 }>();
 
@@ -16,9 +17,9 @@ const resources = defineModel<Resources>({ required: true });
 
 <template>
   <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
-    <ResourcesGridItem v-model="resources.wood" kind="wood" :market-fee :limit-to-available />
-    <ResourcesGridItem v-model="resources.stone" kind="stone" :market-fee :limit-to-available />
-    <ResourcesGridItem v-model="resources.iron" kind="iron" :market-fee :limit-to-available />
-    <ResourcesGridItem v-model="resources.food" kind="food" :market-fee :limit-to-available />
+    <ResourcesGridItem v-model="resources.wood" kind="wood" :market :limit-to-available />
+    <ResourcesGridItem v-model="resources.stone" kind="stone" :market :limit-to-available />
+    <ResourcesGridItem v-model="resources.iron" kind="iron" :market :limit-to-available />
+    <ResourcesGridItem v-model="resources.food" kind="food" :market :limit-to-available />
   </div>
 </template>

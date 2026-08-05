@@ -35,13 +35,16 @@ const resources = ref(ResourcesImpl.splat(0));
 
 const isPlayerTurn = usePlayerTurn();
 
+const loading = computed(() => {
+  return isLoadingMarket.value || isLoadingRulers.value;
+});
+
 const canSend = computed(() => {
   return (
     isPlayerTurn.value &&
     market.value &&
     rulers.value.length > 1 &&
-    !isLoadingMarket.value &&
-    !isLoadingRulers.value &&
+    !loading.value &&
     recipient.value &&
     !resources.value.isEmpty()
   );
@@ -82,7 +85,7 @@ function clear() {
 <template>
   <div class="size-full flex flex-col gap-4">
     <div class="w-full lg:min-w-max lg:max-w-1/2 grid grid-cols-1 gap-8">
-      <Rulers v-model="recipient" :rulers :loading="isLoadingRulers" />
+      <Rulers v-model="recipient" :rulers :loading />
       <ResourcesGrid v-model="resources" :market-fee="market?.fee" limit-to-available />
     </div>
 
