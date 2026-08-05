@@ -5,7 +5,9 @@
 import { computed } from "vue";
 import { Label } from "@ui/label";
 import { useI18n } from "vue-i18n";
+import { CONSTS } from "@/lib/global";
 import { formatInt } from "@/lib/intl";
+import type { Option } from "@tb-dev/utils";
 import Food from "@/components/resources/Food.vue";
 import Iron from "@/components/resources/Iron.vue";
 import Wood from "@/components/resources/Wood.vue";
@@ -15,7 +17,8 @@ import { NumberField, NumberFieldContent, NumberFieldInput } from "@ui/number-fi
 
 const props = defineProps<{
   kind: keyof Resources;
-  marketFee: MarketFee;
+  marketFee?: Option<MarketFee>;
+  limitToAvailable?: boolean;
 }>();
 
 const amount = defineModel<number>({ required: true });
@@ -25,7 +28,17 @@ const { t } = useI18n();
 const { player } = NIL.player.refs();
 const available = computed(() => {
   const value = player.value?.resources[props.kind] ?? 0;
-  return Math.max(0, value - (value * props.marketFee));
+  if (
+    typeof props.marketFee === "number" &&
+    Number.isFinite(props.marketFee) &&
+    props.marketFee >= CONSTS.marketFeeMin &&
+    props.marketFee <= CONSTS.marketFeeMax
+  ) {
+    return Math.ceil(Math.max(0, value - (value * props.marketFee)));
+  }
+  else {
+    return value;
+  }
 });
 
 function toggleMax() {
@@ -48,16 +61,20 @@ function toggleMax() {
         <Wood v-else-if="kind === 'wood'" hide-amount />
         <div>
           <span>{{ t(kind) }}</span>
-          <span class="cursor-pointer" @click.stop="toggleMax">
+          <span
+            v-if="limitToAvailable"
+            class="cursor-pointer"
+            @click.stop="toggleMax"
+          >
             {{ ` (${formatInt(available)})` }}
           </span>
         </div>
       </div>
       <NumberField
         v-model="amount"
-        :disabled="!player || available <= 0"
+        :disabled="!player || (limitToAvailable && available <= 0)"
         :min="0"
-        :max="available"
+        :max="limitToAvailable ? available : undefined"
         :step="1"
         :default-value="0"
         invert-wheel-change

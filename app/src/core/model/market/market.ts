@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as commands from "@/commands";
+import type { PartialNullish } from "@tb-dev/utils";
 import type { DeepReadonly } from "es-toolkit/types";
 import { MarketPriceImpl } from "@/core/model/market/market-price";
 import { MarketVaultImpl } from "@/core/model/market/market-vault";
@@ -28,6 +29,10 @@ export class MarketImpl implements DeepReadonly<Market> {
 
   public async send(recipient: Ruler, resources: Resources) {
     return commands.sendResources(recipient, resources);
+  }
+
+  public hasResourcesInVault(resources: PartialNullish<Resources>) {
+    return this.vault.hasResources(resources);
   }
 
   public static create(market: Market) {
