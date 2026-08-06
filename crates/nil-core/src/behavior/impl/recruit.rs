@@ -59,6 +59,7 @@ impl Behavior for RecruitBehavior {
 
   fn behave(&self, world: &mut World) -> Result<ControlFlow<()>> {
     let mut behaviors = vec![IdleBehavior.boxed()];
+
     macro_rules! push {
       ($unit:ident, $id:expr) => {{
         let behavior = RecruitUnitBehavior::builder()

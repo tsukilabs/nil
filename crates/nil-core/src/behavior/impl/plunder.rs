@@ -82,7 +82,7 @@ impl Behavior for PlunderBehavior {
 
     let mut behaviors = vec![IdleBehavior.boxed()];
 
-    let attack = world.military().attack_of(ruler.clone());
+    let attack = world.military().attack_of(ruler);
     let mut defense_cache = HashMap::new();
 
     for target in targets {
