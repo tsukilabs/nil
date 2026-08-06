@@ -71,7 +71,7 @@ fn sell_resources() -> Result<()> {
   );
 
   assert_eq!(world.market().vault().resources(), resources_to_sell);
-  assert_eq!(world.ruler(&ruler)?.gold(), resources_to_sell.into());
+  assert_eq!(world.ruler(&ruler)?.gold(), Gold::from(resources_to_sell));
 
   Ok(())
 }

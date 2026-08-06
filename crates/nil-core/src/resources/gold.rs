@@ -8,6 +8,7 @@ use nil_num::impl_mul_ceil;
 use nil_num::mul_ceil::MulCeil;
 use nil_util::{ConstDeref, F64Math};
 use serde::{Deserialize, Serialize};
+use std::cmp::Ordering;
 use std::iter::Sum;
 use std::ops::{Add, AddAssign, Mul, Sub, SubAssign};
 
@@ -71,6 +72,18 @@ const impl From<Resources> for Gold {
       .add(Gold::from(iron))
       .add(Gold::from(stone))
       .add(Gold::from(wood))
+  }
+}
+
+const impl PartialEq<u32> for Gold {
+  fn eq(&self, other: &u32) -> bool {
+    self.0.eq(other)
+  }
+}
+
+const impl PartialOrd<u32> for Gold {
+  fn partial_cmp(&self, other: &u32) -> Option<Ordering> {
+    self.0.partial_cmp(other)
   }
 }
 

@@ -132,6 +132,15 @@ impl Resources {
     }
   }
 
+  #[inline]
+  pub fn is_empty(&self) -> bool {
+    self.sum() == 0
+  }
+
+  pub fn set(&mut self, resources: impl Into<Resources>) {
+    *self = resources.into();
+  }
+
   /// Adds resources, respecting the storage capacity.
   pub const fn add_within_capacity(
     &mut self,
@@ -151,10 +160,6 @@ impl Resources {
     add!(food => silo, iron => warehouse, stone => warehouse, wood => warehouse);
   }
 
-  pub fn set(&mut self, resources: impl Into<Resources>) {
-    *self = resources.into();
-  }
-
   /// Checked resource subtraction.
   /// Returns `None` if there are not enough resources available.
   pub const fn checked_sub(&self, rhs: Resources) -> Option<Self> {
@@ -166,29 +171,27 @@ impl Resources {
     })
   }
 
-  pub const fn sum(&self) -> u32 {
+  pub gen fn values(&self) -> u32 {
     let Self { food, iron, stone, wood } = *self;
-
-    0u32
-      .saturating_add(food.0)
-      .saturating_add(iron.0)
-      .saturating_add(stone.0)
-      .saturating_add(wood.0)
+    yield food.0;
+    yield iron.0;
+    yield stone.0;
+    yield wood.0;
   }
 
   #[inline]
-  pub const fn sum_silo(&self) -> u32 {
+  pub fn sum(&self) -> u32 {
+    self.values().sum()
+  }
+
+  #[inline]
+  pub fn sum_silo(&self) -> u32 {
     self.silo().sum()
   }
 
   #[inline]
-  pub const fn sum_warehouse(&self) -> u32 {
+  pub fn sum_warehouse(&self) -> u32 {
     self.warehouse().sum()
-  }
-
-  #[inline]
-  pub const fn is_empty(&self) -> bool {
-    self.sum() == 0
   }
 }
 
