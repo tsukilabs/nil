@@ -11,6 +11,7 @@ use crate::world::World;
 use bon::Builder;
 use nil_num::mul_ceil::MulCeil;
 use nil_util::iter::IterExt;
+use nil_util::ops::TryExt;
 use std::fmt::Debug;
 use std::marker::PhantomData;
 use std::ops::{ControlFlow, Sub};
@@ -218,15 +219,63 @@ where
   marker: PhantomData<T>,
 }
 
+impl<T> SellResourcesBehavior<T>
+where
+  T: Resource + Debug,
+{
+  fn threshold(&self, world: &World) -> Result<f64> {
+    let capacity = world
+      .get_storage_capacity_for(&self.ruler, self.resource)?
+      .conv::<f64>();
+
+    Ok(capacity.mul_ceil(TradeBehavior::SELL_THRESHOLD))
+  }
+
+  fn surplus(&self, world: &World, threshold: Option<f64>) -> Result<f64> {
+    let resource = world
+      .ruler(&self.ruler)?
+      .resources()
+      .get(self.resource)
+      .as_f64();
+
+    let threshold = threshold.unwrap_or_try_else(|| self.threshold(world))?;
+
+    Ok(resource.sub(threshold).max(0.0))
+  }
+}
+
 impl<T> Behavior for SellResourcesBehavior<T>
 where
   T: Resource + Debug + 'static,
 {
   fn score(&self, world: &World) -> Result<BehaviorScore> {
-    todo!()
+    let threshold = self.threshold(world)?;
+    let surplus = self.surplus(world, Some(threshold))?;
+
+    if threshold <= 0.0 || surplus <= 0.0 {
+      return Ok(BehaviorScore::MIN);
+    }
+
+    Ok(BehaviorScore::new(surplus / threshold))
   }
 
   fn behave(&self, world: &mut World) -> Result<ControlFlow<()>> {
+    let surplus = self.surplus(world, None)?.floor();
+    if surplus < 1.0 {
+      return Ok(ControlFlow::Break(()));
+    }
+
+    let sell_amount = match self.resource {
+      ResourceId::Food => Food::from(surplus).as_resources(),
+      ResourceId::Iron => Iron::from(surplus).as_resources(),
+      ResourceId::Stone => Stone::from(surplus).as_resources(),
+      ResourceId::Wood => Wood::from(surplus).as_resources(),
+    };
+
+    if !sell_amount.is_empty() {
+      world.sell_resources(&self.ruler, sell_amount)?;
+    }
+
     Ok(ControlFlow::Break(()))
   }
 }
