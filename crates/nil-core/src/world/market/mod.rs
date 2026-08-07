@@ -24,7 +24,17 @@ impl World {
   /// Buys resources from the market.
   ///
   /// The total gold cost is calculated as `resources + (resources * market_fee)`.
+  #[inline]
   pub fn buy_resources(&mut self, ruler: &Ruler, resources: Resources) -> Result<()> {
+    self.buy_resources_with_emit(ruler, resources, true)
+  }
+
+  pub(crate) fn buy_resources_with_emit(
+    &mut self,
+    ruler: &Ruler,
+    resources: Resources,
+    emit: bool,
+  ) -> Result<()> {
     let gold = self.market.price_of(Buy, resources);
     self.ruler_mut(ruler)?.withdraw_gold(gold)?;
 
@@ -32,14 +42,26 @@ impl World {
 
     self.add_resources_within_capacity(ruler.clone(), resources)?;
 
-    self.emit_ruler(ruler)?;
-    self.emit_market()?;
+    if emit {
+      self.emit_ruler(ruler)?;
+      self.emit_market()?;
+    }
 
     Ok(())
   }
 
   /// Sells resources to the market.
+  #[inline]
   pub fn sell_resources(&mut self, ruler: &Ruler, resources: Resources) -> Result<()> {
+    self.sell_resources_with_emit(ruler, resources, true)
+  }
+
+  pub(crate) fn sell_resources_with_emit(
+    &mut self,
+    ruler: &Ruler,
+    resources: Resources,
+    emit: bool,
+  ) -> Result<()> {
     self
       .ruler_mut(ruler)?
       .withdraw_resources(resources)?;
@@ -55,8 +77,10 @@ impl World {
       .gold_mut()
       .add_assign(gold);
 
-    self.emit_ruler(ruler)?;
-    self.emit_market()?;
+    if emit {
+      self.emit_ruler(ruler)?;
+      self.emit_market()?;
+    }
 
     Ok(())
   }

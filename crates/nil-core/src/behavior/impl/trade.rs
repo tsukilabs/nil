@@ -202,7 +202,7 @@ where
     debug_assert!(Gold::from(buy_amount) <= gold);
 
     if !buy_amount.is_empty() {
-      world.buy_resources(&self.ruler, buy_amount)?;
+      world.buy_resources_with_emit(&self.ruler, buy_amount, false)?;
     }
 
     Ok(ControlFlow::Break(()))
@@ -273,7 +273,7 @@ where
     };
 
     if !sell_amount.is_empty() {
-      world.sell_resources(&self.ruler, sell_amount)?;
+      world.sell_resources_with_emit(&self.ruler, sell_amount, false)?;
     }
 
     Ok(ControlFlow::Break(()))

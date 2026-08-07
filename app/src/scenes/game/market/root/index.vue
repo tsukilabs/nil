@@ -58,7 +58,9 @@ const vaultResourceIconClass = computed(() => !sm.value ? "size-2 min-h-2 min-w-
 const vaultResourceTextClass = computed(() => !sm.value ? "text-sm" : null);
 
 const listener = new ListenerSet();
-listener.event.onMarket(throttledLoad);
+listener.event
+  .onMarket(throttledLoad)
+  .onRound(throttledLoad);
 
 if (__DESKTOP__) {
   onKeyDown("F5", throttledLoad);
