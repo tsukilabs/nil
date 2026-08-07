@@ -192,12 +192,6 @@ pub struct OverallStorageCapacity {
 }
 
 impl OverallStorageCapacity {
-  pub gen fn values(&self) -> StorageCapacity {
-    let Self { silo, warehouse } = *self;
-    yield silo;
-    yield warehouse;
-  }
-
   pub const fn mean(&self) -> f64 {
     let Self { silo, warehouse } = *self;
     let total = f64::from(silo) + f64::from(warehouse);

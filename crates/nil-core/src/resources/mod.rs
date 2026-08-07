@@ -208,18 +208,26 @@ impl Resources {
     })
   }
 
-  pub gen fn values(&self) -> u32 {
-    let Self { food, iron, stone, wood } = *self;
-    yield food.0;
-    yield iron.0;
-    yield stone.0;
-    yield wood.0;
+  pub gen fn iter(&self) -> &dyn Resource {
+    let Self { food, iron, stone, wood } = self;
+    yield food.as_dyn();
+    yield iron.as_dyn();
+    yield stone.as_dyn();
+    yield wood.as_dyn();
+  }
+
+  pub gen fn iter_mut(&mut self) -> &mut dyn Resource {
+    let Self { food, iron, stone, wood } = self;
+    yield food.as_dyn_mut();
+    yield iron.as_dyn_mut();
+    yield stone.as_dyn_mut();
+    yield wood.as_dyn_mut();
   }
 
   /// Returns the total amount of resources, ignoring their type.
   #[inline]
   pub fn sum(&self) -> u32 {
-    self.values().sum()
+    self.iter().map(Resource::as_u32).sum()
   }
 
   /// Returns the total amount of resources in the silo, ignoring their type.
@@ -374,6 +382,11 @@ macro_rules! decl_resource {
           }
 
           #[inline]
+          pub const fn as_dyn_mut(&mut self) -> &mut dyn Resource {
+            self
+          }
+
+          #[inline]
           pub const fn checked_sub(self, rhs: Self) -> Option<Self> {
             self.0.checked_sub(rhs.0).map(Self::new)
           }
@@ -401,20 +414,12 @@ macro_rules! decl_resource {
             Self::MARKET_PRICE
           }
 
-          fn set(&mut self, value: u32) {
-            *self = Self::new(value);
-          }
-
-          fn add_assign(&mut self, value: u32) {
-            AddAssign::add_assign(self, Self::new(value));
-          }
-
-          fn sub_assign(&mut self, value: u32) {
-            SubAssign::sub_assign(self, Self::new(value));
-          }
-
           fn as_u32(&self) -> u32 {
             self.0
+          }
+
+          fn set(&mut self, value: u32) {
+            *self = Self::new(value);
           }
         }
 
@@ -611,12 +616,21 @@ pub trait Resource: Send + Sync {
   fn market_price(&self) -> Gold;
 
   fn set(&mut self, value: u32);
-  fn add_assign(&mut self, value: u32);
-  fn sub_assign(&mut self, value: u32);
+  fn clamp(&mut self, min: u32, max: u32) {
+    let value = self.as_u32();
+    self.set(value.clamp(min, max));
+  }
 
   fn as_u32(&self) -> u32;
   fn as_f64(&self) -> f64 {
     f64::from(self.as_u32())
+  }
+
+  fn as_resources(&self) -> Resources
+  where
+    Self: Sized,
+  {
+    Resources::with_resource(self)
   }
 
   fn is_silo_resource(&self) -> bool {
@@ -634,6 +648,7 @@ pub trait Resource: Send + Sync {
 #[serde(rename_all = "kebab-case")]
 #[strum(serialize_all = "kebab-case")]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 pub enum ResourceId {
   #[subenum(SiloResourceId)]
   Food,
