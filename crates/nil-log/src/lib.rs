@@ -54,6 +54,7 @@ fn setup_(
   }
 
   add_directive!(NIL, "nil");
+  add_directive!(NIL, "nil_lib");
   add_directive!(NIL_CLIENT, "nil_client");
   add_directive!(NIL_CORE, "nil_core");
   add_directive!(NIL_CRYPTO, "nil_crypto");
