@@ -20,7 +20,7 @@ fn buy_resources() -> Result<()> {
   world
     .ruler_mut(&ruler)?
     .resources_mut()
-    .set(initial_resources);
+    .replace(initial_resources);
 
   let initial_gold = Gold::new(10_000);
   *world.ruler_mut(&ruler)?.gold_mut() = initial_gold;
@@ -58,7 +58,7 @@ fn sell_resources() -> Result<()> {
   world
     .ruler_mut(&ruler)?
     .resources_mut()
-    .set(initial_resources);
+    .replace(initial_resources);
 
   let resources_to_sell = Resources::splat(1000);
   world.sell_resources(&ruler, resources_to_sell)?;
@@ -100,14 +100,14 @@ fn sell_then_buy_resources() -> Result<()> {
   world
     .ruler_mut(&seller)?
     .resources_mut()
-    .set(seller_initial_resources);
+    .replace(seller_initial_resources);
 
   *world.ruler_mut(&seller)?.gold_mut() = seller_initial_gold;
 
   world
     .ruler_mut(&buyer)?
     .resources_mut()
-    .set(buyer_initial_resources);
+    .replace(buyer_initial_resources);
 
   *world.ruler_mut(&buyer)?.gold_mut() = buyer_initial_gold;
 
@@ -154,12 +154,12 @@ fn send_resources() -> Result<()> {
   world
     .ruler_mut(&ruler_a)?
     .resources_mut()
-    .set(initial_resources_a);
+    .replace(initial_resources_a);
 
   world
     .ruler_mut(&ruler_b)?
     .resources_mut()
-    .set(initial_resources_b);
+    .replace(initial_resources_b);
 
   let resources_to_send = Resources::splat(1000);
   world.send_resources(&ruler_a, &ruler_b, resources_to_send)?;
@@ -197,12 +197,12 @@ fn fee_is_stored_in_vault() -> Result<()> {
   world
     .ruler_mut(&ruler_a)?
     .resources_mut()
-    .set(initial_resources_a);
+    .replace(initial_resources_a);
 
   world
     .ruler_mut(&ruler_b)?
     .resources_mut()
-    .set(initial_resources_b);
+    .replace(initial_resources_b);
 
   let resources_to_send = Resources::splat(1000);
   let fee = resources_to_send * world.market().fee();

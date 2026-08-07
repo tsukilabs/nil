@@ -26,6 +26,8 @@ use std::cmp::Ordering;
 use std::iter::Sum;
 use std::num::NonZeroU32;
 use std::ops::{Add, AddAssign, Mul, MulAssign, Sub, SubAssign};
+use strum::{EnumIs, EnumIter};
+use subenum::subenum;
 
 /// Basic resources, such as food.
 #[derive(Builder, Copy, Debug, Deserialize, Serialize)]
@@ -88,28 +90,40 @@ impl Resources {
     }
   }
 
-  #[inline]
-  #[must_use]
-  pub const fn with_food(self, food: Food) -> Self {
-    Self { food, ..self }
+  pub fn with_resource<T>(resource: &T) -> Self
+  where
+    T: Resource,
+  {
+    match resource.id() {
+      ResourceId::Food => Self::with_food(Food::new(resource.as_u32())),
+      ResourceId::Iron => Self::with_iron(Iron::new(resource.as_u32())),
+      ResourceId::Stone => Self::with_stone(Stone::new(resource.as_u32())),
+      ResourceId::Wood => Self::with_wood(Wood::new(resource.as_u32())),
+    }
   }
 
   #[inline]
   #[must_use]
-  pub const fn with_iron(self, iron: Iron) -> Self {
-    Self { iron, ..self }
+  pub const fn with_food(food: Food) -> Self {
+    Self { food, ..Self::default() }
   }
 
   #[inline]
   #[must_use]
-  pub const fn with_stone(self, stone: Stone) -> Self {
-    Self { stone, ..self }
+  pub const fn with_iron(iron: Iron) -> Self {
+    Self { iron, ..Self::default() }
   }
 
   #[inline]
   #[must_use]
-  pub const fn with_wood(self, wood: Wood) -> Self {
-    Self { wood, ..self }
+  pub const fn with_stone(stone: Stone) -> Self {
+    Self { stone, ..Self::default() }
+  }
+
+  #[inline]
+  #[must_use]
+  pub const fn with_wood(wood: Wood) -> Self {
+    Self { wood, ..Self::default() }
   }
 
   #[must_use]
@@ -137,8 +151,31 @@ impl Resources {
     self.sum() == 0
   }
 
-  pub fn set(&mut self, resources: impl Into<Resources>) {
+  pub fn replace(&mut self, resources: impl Into<Resources>) {
     *self = resources.into();
+  }
+
+  pub const fn get(&self, id: ResourceId) -> &dyn Resource {
+    match id {
+      ResourceId::Food => self.food.as_dyn(),
+      ResourceId::Iron => self.iron.as_dyn(),
+      ResourceId::Stone => self.stone.as_dyn(),
+      ResourceId::Wood => self.wood.as_dyn(),
+    }
+  }
+
+  pub const fn get_mut(&mut self, id: ResourceId) -> &mut dyn Resource {
+    match id {
+      ResourceId::Food => &mut self.food,
+      ResourceId::Iron => &mut self.iron,
+      ResourceId::Stone => &mut self.stone,
+      ResourceId::Wood => &mut self.wood,
+    }
+  }
+
+  #[inline]
+  pub fn set(&mut self, id: ResourceId, value: u32) {
+    self.get_mut(id).set(value);
   }
 
   /// Adds resources, respecting the storage capacity.
@@ -179,16 +216,19 @@ impl Resources {
     yield wood.0;
   }
 
+  /// Returns the total amount of resources, ignoring their type.
   #[inline]
   pub fn sum(&self) -> u32 {
     self.values().sum()
   }
 
+  /// Returns the total amount of resources in the silo, ignoring their type.
   #[inline]
   pub fn sum_silo(&self) -> u32 {
     self.silo().sum()
   }
 
+  /// Returns the total amount of resources in the warehouse, ignoring their type.
   #[inline]
   pub fn sum_warehouse(&self) -> u32 {
     self.warehouse().sum()
@@ -289,12 +329,12 @@ const impl Mul<MarketFee> for Resources {
   }
 }
 
-impl Sum<Resources> for Resources {
+impl Sum for Resources {
   fn sum<I>(iter: I) -> Self
   where
-    I: Iterator<Item = Resources>,
+    I: Iterator<Item = Self>,
   {
-    iter.fold(Resources::default(), |acc, resources| acc + resources)
+    iter.fold(Self::default(), |acc, resources| acc + resources)
   }
 }
 
@@ -320,11 +360,17 @@ macro_rules! decl_resource {
           pub const MIN: Self = Self::new(0);
           pub const MAX: Self = Self::new(u32::MAX);
 
+          pub const ID: ResourceId = ResourceId::$resource;
           pub const MARKET_PRICE: Gold = Gold::new(1);
 
           #[inline]
           pub const fn new(value: u32) -> Self {
             Self(value)
+          }
+
+          #[inline]
+          pub const fn as_dyn(&self) -> &dyn Resource {
+            self
           }
 
           #[inline]
@@ -343,6 +389,32 @@ macro_rules! decl_resource {
               let capacity = $resource::from(capacity);
               *self = (*self + diff).min(capacity);
             }
+          }
+        }
+
+        impl Resource for $resource {
+          fn id(&self) -> ResourceId {
+            Self::ID
+          }
+
+          fn market_price(&self) -> Gold {
+            Self::MARKET_PRICE
+          }
+
+          fn set(&mut self, value: u32) {
+            *self = Self::new(value);
+          }
+
+          fn add_assign(&mut self, value: u32) {
+            AddAssign::add_assign(self, Self::new(value));
+          }
+
+          fn sub_assign(&mut self, value: u32) {
+            SubAssign::sub_assign(self, Self::new(value));
+          }
+
+          fn as_u32(&self) -> u32 {
+            self.0
           }
         }
 
@@ -395,6 +467,14 @@ macro_rules! decl_resource {
         const impl From<$resource> for Gold {
           fn from(value: $resource) -> Self {
             $resource::MARKET_PRICE * value.0
+          }
+        }
+
+        const impl From<Gold> for $resource {
+          fn from(value: Gold) -> Self {
+            debug_assert!($resource::MARKET_PRICE > 0u32);
+            let gold = value / $resource::MARKET_PRICE;
+            Self::new(u32::from(gold))
           }
         }
 
@@ -525,3 +605,55 @@ macro_rules! decl_resource {
 }
 
 decl_resource!(Food, Iron, Stone, Wood);
+
+pub trait Resource: Send + Sync {
+  fn id(&self) -> ResourceId;
+  fn market_price(&self) -> Gold;
+
+  fn set(&mut self, value: u32);
+  fn add_assign(&mut self, value: u32);
+  fn sub_assign(&mut self, value: u32);
+
+  fn as_u32(&self) -> u32;
+  fn as_f64(&self) -> f64 {
+    f64::from(self.as_u32())
+  }
+
+  fn is_silo_resource(&self) -> bool {
+    self.id().is_silo_resource()
+  }
+
+  fn is_warehouse_resource(&self) -> bool {
+    self.id().is_warehouse_resource()
+  }
+}
+
+#[subenum(SiloResourceId, WarehouseResourceId)]
+#[derive(Copy, Debug, strum::Display, EnumIs, EnumIter, Hash, Deserialize, Serialize)]
+#[derive_const(Clone, PartialEq, Eq)]
+#[serde(rename_all = "kebab-case")]
+#[strum(serialize_all = "kebab-case")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
+pub enum ResourceId {
+  #[subenum(SiloResourceId)]
+  Food,
+
+  #[subenum(WarehouseResourceId)]
+  Iron,
+
+  #[subenum(WarehouseResourceId)]
+  Stone,
+
+  #[subenum(WarehouseResourceId)]
+  Wood,
+}
+
+impl ResourceId {
+  pub fn is_silo_resource(self) -> bool {
+    SiloResourceId::try_from(self).is_ok()
+  }
+
+  pub fn is_warehouse_resource(self) -> bool {
+    WarehouseResourceId::try_from(self).is_ok()
+  }
+}

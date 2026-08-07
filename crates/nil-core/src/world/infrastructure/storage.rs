@@ -6,8 +6,10 @@ use crate::error::Result;
 use crate::infrastructure::storage::{
   OverallStorageCapacity,
   OverallStorageCapacityWeight,
+  StorageCapacity,
   StorageCapacityWeight,
 };
+use crate::resources::ResourceId;
 use crate::ruler::Ruler;
 use crate::world::World;
 
@@ -24,6 +26,21 @@ impl World {
         acc += city.storage_capacity(stats)?;
         Ok(acc)
       })
+  }
+
+  pub fn get_storage_capacity_for<R>(
+    &self,
+    ruler: R,
+    resource: ResourceId,
+  ) -> Result<StorageCapacity>
+  where
+    R: Into<Ruler>,
+  {
+    let capacity = self.get_storage_capacity(ruler)?;
+    match resource {
+      ResourceId::Food => Ok(capacity.silo),
+      ResourceId::Iron | ResourceId::Stone | ResourceId::Wood => Ok(capacity.warehouse),
+    }
   }
 
   pub fn get_storage_capacity_weight<K>(&self, key: K) -> Result<OverallStorageCapacityWeight>

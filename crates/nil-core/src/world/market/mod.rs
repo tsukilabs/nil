@@ -6,8 +6,8 @@ mod tests;
 
 use crate::error::{Error, Result};
 use crate::market::Market;
+use crate::market::MarketOperation::{Buy, Sell};
 use crate::resources::Resources;
-use crate::resources::gold::Gold;
 use crate::ruler::Ruler;
 use crate::world::World;
 use std::ops::AddAssign;
@@ -25,8 +25,7 @@ impl World {
   ///
   /// The total gold cost is calculated as `resources + (resources * market_fee)`.
   pub fn buy_resources(&mut self, ruler: &Ruler, resources: Resources) -> Result<()> {
-    let fee = resources * self.market().fee();
-    let gold = Gold::from(resources + fee);
+    let gold = self.market.price_of(Buy, resources);
     self.ruler_mut(ruler)?.withdraw_gold(gold)?;
 
     self.market.vault_mut().withdraw(resources)?;
@@ -50,10 +49,11 @@ impl World {
       .vault_mut()
       .store(resources);
 
+    let gold = self.market.price_of(Sell, resources);
     self
       .ruler_mut(ruler)?
       .gold_mut()
-      .add_assign(resources);
+      .add_assign(gold);
 
     self.emit_ruler(ruler)?;
     self.emit_market()?;

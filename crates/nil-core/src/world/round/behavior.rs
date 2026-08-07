@@ -5,6 +5,7 @@ use crate::behavior::r#impl::build::BuildBehavior;
 use crate::behavior::r#impl::idle::IdleBehavior;
 use crate::behavior::r#impl::plunder::PlunderBehavior;
 use crate::behavior::r#impl::recruit::RecruitBehavior;
+use crate::behavior::r#impl::trade::TradeBehavior;
 use crate::behavior::{Behavior, BehaviorProcessor};
 use crate::error::Result;
 use crate::ruler::Ruler;
@@ -29,8 +30,16 @@ impl World {
     bots.shuffle(&mut rand::rng());
 
     for bot in bots {
-      let mut behaviors = vec![IdleBehavior.boxed()];
+      let mut behaviors = vec![
+        IdleBehavior.boxed(),
+        TradeBehavior::builder()
+          .ruler(bot.clone())
+          .build()
+          .boxed(),
+      ];
+
       behaviors.extend(with_coords(self, &bot));
+
       BehaviorProcessor::new(self, behaviors).try_each()?;
     }
 
@@ -48,6 +57,7 @@ impl World {
     for precursor in precursors {
       let mut behaviors = vec![IdleBehavior.boxed()];
       behaviors.extend(with_coords(self, &precursor));
+
       BehaviorProcessor::new(self, behaviors).try_each()?;
     }
 

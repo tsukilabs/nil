@@ -14,6 +14,7 @@
   const_trait_impl,
   const_try,
   derive_const,
+  int_roundings,
   iter_collect_into,
   gen_blocks,
   str_as_str,

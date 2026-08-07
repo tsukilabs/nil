@@ -120,9 +120,8 @@ pub trait Building: Send + Sync {
 }
 
 #[subenum(CivilBuildingId, MilitaryBuildingId, MineId, StorageId)]
-#[derive(
-  Clone, Copy, Debug, strum::Display, EnumIs, EnumIter, PartialEq, Eq, Hash, Deserialize, Serialize,
-)]
+#[derive(Copy, Debug, strum::Display, EnumIs, EnumIter, Hash, Deserialize, Serialize)]
+#[derive_const(Clone, PartialEq, Eq)]
 #[serde(rename_all = "kebab-case")]
 #[strum(serialize_all = "kebab-case")]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]

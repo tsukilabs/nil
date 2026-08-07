@@ -62,9 +62,8 @@ impl<'a> Sum<&'a Squad> for Maintenance {
   where
     I: Iterator<Item = &'a Squad>,
   {
-    iter.fold(Maintenance::default(), |mut acc, squad| {
-      acc += squad.maintenance();
-      acc
+    iter.fold(Maintenance::default(), |acc, squad| {
+      acc + squad.maintenance()
     })
   }
 }
