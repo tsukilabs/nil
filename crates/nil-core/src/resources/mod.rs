@@ -478,8 +478,8 @@ macro_rules! decl_resource {
         const impl From<Gold> for $resource {
           fn from(value: Gold) -> Self {
             debug_assert!($resource::MARKET_PRICE > 0u32);
-            let gold = value / $resource::MARKET_PRICE;
-            Self::new(u32::from(gold))
+            let resource = value / $resource::MARKET_PRICE;
+            Self::new(u32::from(resource))
           }
         }
 

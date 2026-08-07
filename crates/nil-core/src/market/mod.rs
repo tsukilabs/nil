@@ -74,6 +74,15 @@ impl Market {
       MarketOperation::Sell => Gold::from(resources),
     }
   }
+
+  /// Maximum amount of a resource that can be bought with the given amount of gold.
+  pub fn buyable_amount(&self, market_price: Gold, gold: Gold) -> u32 {
+    let fee = f64::from(self.fee());
+    let market_price = f64::from(market_price);
+    let gold = f64::from(gold);
+    let resource = gold / (market_price * (1.0 + fee));
+    resource.floor().max(0.0) as u32
+  }
 }
 
 #[derive(Copy, Debug, strum::Display, Hash, Deserialize, Serialize)]

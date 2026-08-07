@@ -16,7 +16,7 @@ use std::fmt::Debug;
 use std::marker::PhantomData;
 use std::ops::{ControlFlow, Sub};
 use strum::IntoEnumIterator;
-use tap::Conv;
+use tap::{Conv, Pipe};
 
 #[derive(Builder, Debug)]
 pub struct TradeBehavior {
@@ -169,11 +169,21 @@ where
     let ruler_ref = world.ruler(&self.ruler)?;
     let gold = ruler_ref.gold();
 
+    macro_rules! buyable_amount {
+      ($resource:ident) => {{
+        world
+          .market()
+          .buyable_amount($resource::MARKET_PRICE, gold)
+          .pipe($resource::new)
+          .as_resources()
+      }};
+    }
+
     let mut buy_amount = match self.resource {
-      ResourceId::Food => Food::from(gold).as_resources(),
-      ResourceId::Iron => Iron::from(gold).as_resources(),
-      ResourceId::Stone => Stone::from(gold).as_resources(),
-      ResourceId::Wood => Wood::from(gold).as_resources(),
+      ResourceId::Food => buyable_amount!(Food),
+      ResourceId::Iron => buyable_amount!(Iron),
+      ResourceId::Stone => buyable_amount!(Stone),
+      ResourceId::Wood => buyable_amount!(Wood),
     };
 
     let shortage = self.shortage(world)?.floor();
@@ -198,8 +208,6 @@ where
       let in_vault = vault_resources.get(resource.id());
       Resource::clamp(resource, 0, in_vault.as_u32());
     });
-
-    debug_assert!(Gold::from(buy_amount) <= gold);
 
     if !buy_amount.is_empty() {
       world.buy_resources_with_emit(&self.ruler, buy_amount, false)?;
