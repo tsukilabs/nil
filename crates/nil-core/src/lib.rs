@@ -15,6 +15,7 @@
   const_try,
   derive_const,
   iter_collect_into,
+  gen_blocks,
   str_as_str,
   try_blocks
 )]

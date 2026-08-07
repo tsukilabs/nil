@@ -32,7 +32,7 @@ fn prefecture_build_order_deducts_player_resources() -> Result<()> {
   world
     .ruler_mut(&ruler)?
     .resources_mut()
-    .set(initial_resources);
+    .replace(initial_resources);
 
   let coord = get_first_coord(&world, ruler.clone());
 
@@ -65,7 +65,7 @@ fn cancel_prefecture_build_order_refunds_player_resources() -> Result<()> {
   world
     .ruler_mut(&ruler)?
     .resources_mut()
-    .set(initial_resources);
+    .replace(initial_resources);
 
   let coord = get_first_coord(&world, ruler.clone());
 
@@ -88,7 +88,7 @@ fn prefecture_build_order_deducts_bot_resources() -> Result<()> {
   world
     .ruler_mut(&ruler)?
     .resources_mut()
-    .set(initial_resources);
+    .replace(initial_resources);
 
   let coord = get_first_coord(&world, ruler.clone());
   world
@@ -125,7 +125,7 @@ fn cancel_prefecture_build_order_refunds_bot_resources() -> Result<()> {
   world
     .ruler_mut(&ruler)?
     .resources_mut()
-    .set(initial_resources);
+    .replace(initial_resources);
 
   let coord = get_first_coord(&world, ruler.clone());
   world
@@ -153,7 +153,7 @@ fn prefecture_build_order_deducts_precursor_resources() -> Result<()> {
   world
     .ruler_mut(&ruler)?
     .resources_mut()
-    .set(initial_resources);
+    .replace(initial_resources);
 
   let coord = get_first_coord(&world, ruler.clone());
   world
@@ -190,7 +190,7 @@ fn cancel_prefecture_build_order_refunds_precursor_resources() -> Result<()> {
   world
     .ruler_mut(&ruler)?
     .resources_mut()
-    .set(initial_resources);
+    .replace(initial_resources);
 
   let coord = get_first_coord(&world, ruler.clone());
   world

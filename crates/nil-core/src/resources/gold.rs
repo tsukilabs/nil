@@ -8,8 +8,9 @@ use nil_num::impl_mul_ceil;
 use nil_num::mul_ceil::MulCeil;
 use nil_util::{ConstDeref, F64Math};
 use serde::{Deserialize, Serialize};
+use std::cmp::Ordering;
 use std::iter::Sum;
-use std::ops::{Add, AddAssign, Mul, Sub, SubAssign};
+use std::ops::{Add, AddAssign, Div, Mul, Sub, SubAssign};
 
 /// Gold is a special resource used to trade in the market.
 #[derive(Copy, Debug, Display, Deserialize, Serialize, ConstDeref, F64Math)]
@@ -74,6 +75,18 @@ const impl From<Resources> for Gold {
   }
 }
 
+const impl PartialEq<u32> for Gold {
+  fn eq(&self, other: &u32) -> bool {
+    self.0.eq(other)
+  }
+}
+
+const impl PartialOrd<u32> for Gold {
+  fn partial_cmp(&self, other: &u32) -> Option<Ordering> {
+    self.0.partial_cmp(other)
+  }
+}
+
 const impl Add for Gold {
   type Output = Gold;
 
@@ -129,6 +142,19 @@ const impl Mul<MarketFee> for Gold {
 
   fn mul(self, rhs: MarketFee) -> Self::Output {
     Self::from(self.mul_ceil(*rhs))
+  }
+}
+
+const impl Div for Gold {
+  type Output = Gold;
+
+  fn div(self, rhs: Gold) -> Self::Output {
+    debug_assert!(rhs.0 != 0);
+    self
+      .0
+      .checked_div(rhs.0)
+      .map(Self::new)
+      .unwrap_or_default()
   }
 }
 

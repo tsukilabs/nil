@@ -4,19 +4,19 @@
 import * as commands from "@/commands";
 import type { PartialNullish } from "@tb-dev/utils";
 import type { DeepReadonly } from "es-toolkit/types";
-import { MarketPriceImpl } from "@/core/model/market/market-price";
 import { MarketVaultImpl } from "@/core/model/market/market-vault";
+import { MarketPriceTableImpl } from "@/core/model/market/market-price";
 import type { Market, MarketFee, Resources, Ruler } from "@tsukilabs/nil-bindings";
 
 export class MarketImpl implements DeepReadonly<Market> {
   public readonly vault: MarketVaultImpl;
   public readonly fee: MarketFee;
-  public readonly price: MarketPriceImpl;
+  public readonly priceTable: MarketPriceTableImpl;
 
   private constructor(market: Market) {
     this.vault = MarketVaultImpl.create(market.vault);
     this.fee = market.fee;
-    this.price = MarketPriceImpl.create(market.price);
+    this.priceTable = MarketPriceTableImpl.create(market.priceTable);
   }
 
   public async buy(resources: Resources) {

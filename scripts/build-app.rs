@@ -64,7 +64,7 @@ fn main() -> Result<()> {
 
   if args.only_ui {
     env.push((Var::MinifySource, "false"));
-    return spawn!("pnpm run -F ui build", env);
+    return spawn!("pnpm run -F app build", env);
   }
 
   let mut command = if args.android {

@@ -53,7 +53,9 @@ const canSend = computed(() => {
 const { sm } = useBreakpoints();
 
 const listener = new ListenerSet();
-listener.event.onMarket(throttledLoadMarket);
+listener.event
+  .onMarket(throttledLoadMarket)
+  .onRound(throttledLoadMarket);
 
 if (__DESKTOP__) {
   onKeyDown("F5", throttle(load, 1000));

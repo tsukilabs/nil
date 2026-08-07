@@ -10,18 +10,17 @@ use serde::{Deserialize, Serialize};
 use std::borrow::Cow;
 use std::fmt;
 use std::ops::Deref;
-use std::sync::Arc;
 use tap::Pipe;
 
 #[derive(Clone, Default, From, Into, PartialEq, Eq, Hash, Deserialize, Serialize)]
-#[from(String, &str, Arc<str>, Box<str>, Cow<'_, str>)]
+#[from(String, &str, Box<str>, Cow<'_, str>)]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
-pub struct Password(Arc<str>);
+pub struct Password(Box<str>);
 
 impl Password {
   #[inline]
   pub fn new(password: &str) -> Self {
-    Self(Arc::from(password))
+    Self(Box::from(password))
   }
 
   pub fn hash(&self) -> Result<Box<str>> {

@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::error::{Error, Result};
+use crate::market::MarketOperation::{Buy, Sell};
 use crate::player::PlayerId;
 use crate::resources::Resources;
 use crate::resources::gold::Gold;
@@ -20,14 +21,15 @@ fn buy_resources() -> Result<()> {
   world
     .ruler_mut(&ruler)?
     .resources_mut()
-    .set(initial_resources);
+    .replace(initial_resources);
 
   let initial_gold = Gold::new(10_000);
   *world.ruler_mut(&ruler)?.gold_mut() = initial_gold;
 
   let resources_to_buy = Resources::splat(1000);
-  let fee = resources_to_buy * world.market().fee();
-  let cost = Gold::from(resources_to_buy + fee);
+  let price = world
+    .market()
+    .price_of(Buy, resources_to_buy);
 
   world
     .market_mut()
@@ -41,7 +43,7 @@ fn buy_resources() -> Result<()> {
     initial_resources + resources_to_buy
   );
 
-  assert_eq!(world.ruler(&ruler)?.gold(), initial_gold - cost);
+  assert_eq!(world.ruler(&ruler)?.gold(), initial_gold - price);
   assert_eq!(world.market().vault().resources(), Resources::splat(0));
 
   Ok(())
@@ -58,7 +60,7 @@ fn sell_resources() -> Result<()> {
   world
     .ruler_mut(&ruler)?
     .resources_mut()
-    .set(initial_resources);
+    .replace(initial_resources);
 
   let resources_to_sell = Resources::splat(1000);
   world.sell_resources(&ruler, resources_to_sell)?;
@@ -71,7 +73,12 @@ fn sell_resources() -> Result<()> {
   );
 
   assert_eq!(world.market().vault().resources(), resources_to_sell);
-  assert_eq!(world.ruler(&ruler)?.gold(), resources_to_sell.into());
+  assert_eq!(
+    world.ruler(&ruler)?.gold(),
+    world
+      .market()
+      .price_of(Sell, resources_to_sell)
+  );
 
   Ok(())
 }
@@ -94,20 +101,21 @@ fn sell_then_buy_resources() -> Result<()> {
   let buyer_initial_gold = Gold::new(10_000);
 
   let resources_to_trade = Resources::splat(1000);
-  let fee = resources_to_trade * world.market().fee();
-  let cost = Gold::from(resources_to_trade + fee);
+  let price = world
+    .market()
+    .price_of(Buy, resources_to_trade);
 
   world
     .ruler_mut(&seller)?
     .resources_mut()
-    .set(seller_initial_resources);
+    .replace(seller_initial_resources);
 
   *world.ruler_mut(&seller)?.gold_mut() = seller_initial_gold;
 
   world
     .ruler_mut(&buyer)?
     .resources_mut()
-    .set(buyer_initial_resources);
+    .replace(buyer_initial_resources);
 
   *world.ruler_mut(&buyer)?.gold_mut() = buyer_initial_gold;
 
@@ -123,7 +131,10 @@ fn sell_then_buy_resources() -> Result<()> {
 
   assert_eq!(
     world.ruler(&seller)?.gold(),
-    seller_initial_gold + resources_to_trade
+    seller_initial_gold
+      + world
+        .market()
+        .price_of(Sell, resources_to_trade)
   );
 
   assert_eq!(
@@ -131,7 +142,7 @@ fn sell_then_buy_resources() -> Result<()> {
     buyer_initial_resources + resources_to_trade
   );
 
-  assert_eq!(world.ruler(&buyer)?.gold(), buyer_initial_gold - cost);
+  assert_eq!(world.ruler(&buyer)?.gold(), buyer_initial_gold - price);
   assert_eq!(world.market().vault().resources(), Resources::splat(0));
 
   Ok(())
@@ -154,12 +165,12 @@ fn send_resources() -> Result<()> {
   world
     .ruler_mut(&ruler_a)?
     .resources_mut()
-    .set(initial_resources_a);
+    .replace(initial_resources_a);
 
   world
     .ruler_mut(&ruler_b)?
     .resources_mut()
-    .set(initial_resources_b);
+    .replace(initial_resources_b);
 
   let resources_to_send = Resources::splat(1000);
   world.send_resources(&ruler_a, &ruler_b, resources_to_send)?;
@@ -197,12 +208,12 @@ fn fee_is_stored_in_vault() -> Result<()> {
   world
     .ruler_mut(&ruler_a)?
     .resources_mut()
-    .set(initial_resources_a);
+    .replace(initial_resources_a);
 
   world
     .ruler_mut(&ruler_b)?
     .resources_mut()
-    .set(initial_resources_b);
+    .replace(initial_resources_b);
 
   let resources_to_send = Resources::splat(1000);
   let fee = resources_to_send * world.market().fee();

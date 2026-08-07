@@ -1,11 +1,11 @@
 {
   "$schema": "https://schema.tauri.app/config/2.0.0",
   "productName": "Call of Nil",
-  "version": "0.7.15",
+  "version": "0.7.16",
   "identifier": "tsukilabs.nil",
   "build": {
-    "beforeDevCommand": "pnpm run -F ui dev",
-    "beforeBuildCommand": "pnpm run -F ui build",
+    "beforeDevCommand": "pnpm run -F app dev",
+    "beforeBuildCommand": "pnpm run -F app build",
     "devUrl": "http://localhost:1420",
     "frontendDist": "../dist",
     "removeUnusedCommands": true

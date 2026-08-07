@@ -10,6 +10,7 @@ use nil_num::growth::growth;
 use nil_util::ConstDeref;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
+use std::iter::Sum;
 use std::ops::{Add, AddAssign, Sub, SubAssign};
 
 /// A building that stores resources.
@@ -172,6 +173,15 @@ const impl SubAssign<u32> for StorageCapacity {
   }
 }
 
+impl Sum for StorageCapacity {
+  fn sum<I>(iter: I) -> Self
+  where
+    I: Iterator<Item = Self>,
+  {
+    iter.fold(Self::default(), |acc, capacity| acc + capacity)
+  }
+}
+
 #[derive(Copy, Debug, Deserialize, Serialize)]
 #[derive_const(Clone, Default, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
@@ -179,6 +189,14 @@ const impl SubAssign<u32> for StorageCapacity {
 pub struct OverallStorageCapacity {
   pub silo: StorageCapacity,
   pub warehouse: StorageCapacity,
+}
+
+impl OverallStorageCapacity {
+  pub const fn mean(&self) -> f64 {
+    let Self { silo, warehouse } = *self;
+    let total = f64::from(silo) + f64::from(warehouse);
+    total / 2.0
+  }
 }
 
 const impl Add for OverallStorageCapacity {

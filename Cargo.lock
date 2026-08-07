@@ -52,9 +52,9 @@ checksum = "683d7910e743518b0e34f1186f92494becacb047c7b6bf616c96772180fef923"
 
 [[package]]
 name = "android_system_properties"
-version = "0.1.5"
+version = "0.1.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "819e7219dbd41043ac279b19830f2efc897156490d7fd6ea916720117ee66311"
+checksum = "ae221649c9976a6f6c56ae1facf410f3ddb33cc661c4b7b61020a912d4237fbc"
 dependencies = [
  "libc",
 ]
@@ -762,9 +762,9 @@ dependencies = [
 
 [[package]]
 name = "cc"
-version = "1.4.0"
+version = "1.4.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5add81bb678e6cb321aff7fa0dc7689ad82b112dbc032cea19f91d6b8e3582b9"
+checksum = "9066c49992464636f92905fa096ec58baaa4d57ec19a5c096c68d3e25ef3d136"
 dependencies = [
  "find-msvc-tools",
  "shlex",
@@ -834,18 +834,18 @@ dependencies = [
 
 [[package]]
 name = "clap"
-version = "4.6.5"
+version = "4.6.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "301b56658598e48f3648647ac6fc887be7e7108eddfa4e9b63fcf3ec58c0cadf"
+checksum = "473c7e07f409a8d772161724aa8db6a765a2532a70f9667eeb7b49d3d02fbdca"
 dependencies = [
  "clap_builder",
 ]
 
 [[package]]
 name = "clap_builder"
-version = "4.6.5"
+version = "4.6.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "94a65403d1a1bd28f7dc68eb8506e8874808ee5eecb59298de588e2e1407a078"
+checksum = "7b48fea5a88e9ae728a2dcbedbfc0e730f7d60da42e1cb049a83c9fb8b789889"
 dependencies = [
  "anstream",
  "anstyle",
@@ -1477,9 +1477,9 @@ dependencies = [
 
 [[package]]
 name = "diesel"
-version = "2.3.11"
+version = "2.3.12"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e54d1f576cd3a3460f212a4615fd12ce1b6303c095b79a44449ffbe627753dc1"
+checksum = "715377c6e464cb44bb89bd8487584240516c8d5052bc645d6babc50bb8be46c3"
 dependencies = [
  "diesel_derives",
  "downcast-rs 2.0.2",
@@ -2011,9 +2011,9 @@ dependencies = [
 
 [[package]]
 name = "find-msvc-tools"
-version = "0.1.9"
+version = "0.1.10"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5baebc0774151f905a1a2cc41989300b1e6fbb29aff0ceffa1064fdd3088d582"
+checksum = "26b73573e6edcd2af0cdf47bd6cb58f0b3839491263c314eaad1ccf24430e1de"
 
 [[package]]
 name = "fixedbitset"
@@ -3344,9 +3344,9 @@ dependencies = [
 
 [[package]]
 name = "libsqlite3-sys"
-version = "0.37.0"
+version = "0.38.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b1f111c8c41e7c61a49cd34e44c7619462967221a6443b0ec299e0ac30cfb9b1"
+checksum = "f6c19a05435c21ac299d71b6a9c13db3e3f47c520517d58990a462a1397a61db"
 dependencies = [
  "cc",
  "pkg-config",
@@ -3593,7 +3593,7 @@ checksum = "650eef8c711430f1a879fdd01d4745a7deea475becfb90269c06775983bbf086"
 
 [[package]]
 name = "nil"
-version = "0.7.15"
+version = "0.7.16"
 dependencies = [
  "anyhow",
  "bon",
@@ -3634,7 +3634,7 @@ dependencies = [
 
 [[package]]
 name = "nil-client"
-version = "0.7.15"
+version = "0.7.16"
 dependencies = [
  "anyhow",
  "bon",
@@ -3669,7 +3669,7 @@ dependencies = [
 
 [[package]]
 name = "nil-core"
-version = "0.7.15"
+version = "0.7.16"
 dependencies = [
  "anyhow",
  "bon",
@@ -3703,7 +3703,7 @@ dependencies = [
 
 [[package]]
 name = "nil-core-macros"
-version = "0.7.15"
+version = "0.7.16"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -3712,7 +3712,7 @@ dependencies = [
 
 [[package]]
 name = "nil-crypto"
-version = "0.7.15"
+version = "0.7.16"
 dependencies = [
  "anyhow",
  "argon2",
@@ -3726,7 +3726,7 @@ dependencies = [
 
 [[package]]
 name = "nil-env"
-version = "0.7.15"
+version = "0.7.16"
 dependencies = [
  "anyhow",
  "serde",
@@ -3737,7 +3737,7 @@ dependencies = [
 
 [[package]]
 name = "nil-ffi"
-version = "0.7.15"
+version = "0.7.16"
 dependencies = [
  "anyhow",
  "cbindgen",
@@ -3761,7 +3761,7 @@ dependencies = [
 
 [[package]]
 name = "nil-ffi-node"
-version = "0.7.15"
+version = "0.7.16"
 dependencies = [
  "anyhow",
  "bon",
@@ -3770,7 +3770,7 @@ dependencies = [
 
 [[package]]
 name = "nil-log"
-version = "0.7.15"
+version = "0.7.16"
 dependencies = [
  "anyhow",
  "bitflags 2.13.1",
@@ -3784,7 +3784,7 @@ dependencies = [
 
 [[package]]
 name = "nil-namegen"
-version = "0.7.15"
+version = "0.7.16"
 dependencies = [
  "itertools",
  "rand 0.10.2",
@@ -3793,7 +3793,7 @@ dependencies = [
 
 [[package]]
 name = "nil-num"
-version = "0.7.15"
+version = "0.7.16"
 dependencies = [
  "bon",
  "num-traits",
@@ -3803,7 +3803,7 @@ dependencies = [
 
 [[package]]
 name = "nil-payload"
-version = "0.7.15"
+version = "0.7.16"
 dependencies = [
  "axum",
  "bon",
@@ -3819,7 +3819,7 @@ dependencies = [
 
 [[package]]
 name = "nil-payload-macros"
-version = "0.7.15"
+version = "0.7.16"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -3828,7 +3828,7 @@ dependencies = [
 
 [[package]]
 name = "nil-server"
-version = "0.7.15"
+version = "0.7.16"
 dependencies = [
  "anyhow",
  "axum",
@@ -3867,7 +3867,7 @@ dependencies = [
 
 [[package]]
 name = "nil-server-database"
-version = "0.7.15"
+version = "0.7.16"
 dependencies = [
  "anyhow",
  "bon",
@@ -3893,7 +3893,7 @@ dependencies = [
 
 [[package]]
 name = "nil-server-types"
-version = "0.7.15"
+version = "0.7.16"
 dependencies = [
  "derive_more",
  "jiff",
@@ -3905,7 +3905,7 @@ dependencies = [
 
 [[package]]
 name = "nil-util"
-version = "0.7.15"
+version = "0.7.16"
 dependencies = [
  "anyhow",
  "nil-util-macros",
@@ -3913,7 +3913,7 @@ dependencies = [
 
 [[package]]
 name = "nil-util-macros"
-version = "0.7.15"
+version = "0.7.16"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -4306,9 +4306,9 @@ checksum = "384b8ab6d37215f3c5301a95a4accb5d64aa607f1fcb26a11b5303878451b4fe"
 
 [[package]]
 name = "open"
-version = "5.4.0"
+version = "5.4.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a0b3d059e795d52b8a72fef45658620edd4d9c359b338564aa14391ffa511ed5"
+checksum = "f9cfef937e9c486488c7e3d949ae31c0f1d06bdacd75b99c086cb35356e30408"
 dependencies = [
  "dunce",
  "is-wsl",
@@ -8714,18 +8714,18 @@ dependencies = [
 
 [[package]]
 name = "zerocopy"
-version = "0.8.55"
+version = "0.8.56"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b5a105cd7b140f6eeec8acff2ea38135d3cab283ada58540f629fe51e46696eb"
+checksum = "556764e583adb45a9f8d413c2a147fa7e8d821e48e12b14fd560b607998b75eb"
 dependencies = [
  "zerocopy-derive",
 ]
 
 [[package]]
 name = "zerocopy-derive"
-version = "0.8.55"
+version = "0.8.56"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0fe976fb70c78cd64cccfe3a6fc142244e8a77b70959b30faf9d0ac37ee228eb"
+checksum = "f2ab42fc20575779bd240faa45f94a74256f755c0fa9e89f0ede20d91d0cdfc1"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -8832,9 +8832,9 @@ checksum = "29666d0abbfad1e3dc4dcf6144730dd3a3ab225bbbdac83319345b1b44ccfc1b"
 
 [[package]]
 name = "zune-core"
-version = "0.5.1"
+version = "0.5.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "cb8a0807f7c01457d0379ba880ba6322660448ddebc890ce29bb64da71fb40f9"
+checksum = "d56377fd46368984a170bc5aac5567e52ca5da874caa60bea39fcbca78fb658b"
 
 [[package]]
 name = "zune-jpeg"

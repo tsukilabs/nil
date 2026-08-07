@@ -5,12 +5,14 @@ use crate::behavior::r#impl::build::BuildBehavior;
 use crate::behavior::r#impl::idle::IdleBehavior;
 use crate::behavior::r#impl::plunder::PlunderBehavior;
 use crate::behavior::r#impl::recruit::RecruitBehavior;
+use crate::behavior::r#impl::trade::TradeBehavior;
 use crate::behavior::{Behavior, BehaviorProcessor};
 use crate::error::Result;
 use crate::ruler::Ruler;
 use crate::world::World;
 use itertools::Itertools;
 use nil_util::iter::IterExt;
+use rand::seq::SliceRandom;
 
 impl World {
   pub(super) fn process_npc_behavior(&mut self) -> Result<()> {
@@ -20,14 +22,24 @@ impl World {
   }
 
   fn process_bot_behavior(&mut self) -> Result<()> {
-    let bots = self
+    let mut bots = self
       .bots()
       .map(|bot| Ruler::from(bot.id()))
       .collect_vec();
 
+    bots.shuffle(&mut rand::rng());
+
     for bot in bots {
-      let mut behaviors = vec![IdleBehavior.boxed()];
+      let mut behaviors = vec![
+        IdleBehavior.boxed(),
+        TradeBehavior::builder()
+          .ruler(bot.clone())
+          .build()
+          .boxed(),
+      ];
+
       behaviors.extend(with_coords(self, &bot));
+
       BehaviorProcessor::new(self, behaviors).try_each()?;
     }
 
@@ -35,14 +47,17 @@ impl World {
   }
 
   fn process_precursor_behavior(&mut self) -> Result<()> {
-    let precursors = self
+    let mut precursors = self
       .precursors()
       .map(|precursor| Ruler::from(precursor.id()))
       .collect_vec();
 
+    precursors.shuffle(&mut rand::rng());
+
     for precursor in precursors {
       let mut behaviors = vec![IdleBehavior.boxed()];
       behaviors.extend(with_coords(self, &precursor));
+
       BehaviorProcessor::new(self, behaviors).try_each()?;
     }
 

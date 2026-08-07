@@ -135,6 +135,12 @@ impl From<PrecursorId> for Ruler {
   }
 }
 
+impl From<&Ruler> for Ruler {
+  fn from(ruler: &Ruler) -> Self {
+    ruler.clone()
+  }
+}
+
 impl From<RulerRef<'_>> for Ruler {
   fn from(ruler: RulerRef<'_>) -> Self {
     match ruler {

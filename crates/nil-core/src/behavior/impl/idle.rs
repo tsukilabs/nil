@@ -11,7 +11,7 @@ use std::ops::ControlFlow;
 pub struct IdleBehavior;
 
 impl IdleBehavior {
-  const SCORE: BehaviorScore = BehaviorScore::new(0.1);
+  pub const SCORE: BehaviorScore = BehaviorScore::new(0.1);
 }
 
 impl Behavior for IdleBehavior {

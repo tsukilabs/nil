@@ -7,7 +7,7 @@ pub mod vault;
 use crate::market::fee::MarketFee;
 use crate::market::vault::MarketVault;
 use crate::resources::gold::Gold;
-use crate::resources::{Food, Iron, Stone, Wood};
+use crate::resources::{Food, Iron, Resources, Stone, Wood};
 use serde::{Deserialize, Serialize};
 use std::marker::PhantomData;
 
@@ -19,16 +19,16 @@ pub struct Market {
   vault: MarketVault,
   fee: MarketFee,
 
-  // We don't *strictly* need to include the market price here,
+  // We don't really need to include the market price here,
   // since it can be derived from the resources themselves.
   // However, including it simplifies things for downstream consumers,
   // as they don't need to query the resources separately to obtain it.
-  #[cfg_attr(feature = "typescript", ts(as = "MarketPrice"))]
+  #[cfg_attr(feature = "typescript", ts(as = "MarketPriceTable"))]
   #[cfg_attr(
     not(feature = "typescript"),
-    serde(skip_deserializing, serialize_with = "serialize_market_price")
+    serde(skip_deserializing, serialize_with = "serialize_market_price_table")
   )]
-  price: PhantomData<MarketPrice>,
+  price_table: PhantomData<MarketPriceTable>,
 }
 
 impl Market {
@@ -36,7 +36,7 @@ impl Market {
     Self {
       vault: MarketVault::default(),
       fee: fee.clamped(),
-      price: PhantomData,
+      price_table: PhantomData,
     }
   }
 
@@ -54,11 +54,6 @@ impl Market {
     self.fee
   }
 
-  #[inline]
-  pub const fn price(&self) -> MarketPrice {
-    MarketPrice::default()
-  }
-
   /// Sets the market fee, clamping it to the valid range.
   ///
   /// As the fee is not expected to be changed throughout the game,
@@ -66,26 +61,58 @@ impl Market {
   pub(crate) const fn set_fee(&mut self, fee: MarketFee) {
     self.fee = fee.clamped();
   }
+
+  #[inline]
+  pub const fn price_table(&self) -> MarketPriceTable {
+    MarketPriceTable::default()
+  }
+
+  #[inline]
+  pub const fn price_of(&self, op: MarketOperation, resources: Resources) -> Gold {
+    match op {
+      MarketOperation::Buy => Gold::from(resources + (resources * self.fee())),
+      MarketOperation::Sell => Gold::from(resources),
+    }
+  }
+
+  /// Maximum amount of a resource that can be bought with the given amount of gold.
+  pub fn buyable_amount(&self, market_price: Gold, gold: Gold) -> u32 {
+    let fee = f64::from(self.fee());
+    let market_price = f64::from(market_price);
+    let gold = f64::from(gold);
+    let resource = gold / (market_price * (1.0 + fee));
+    resource.floor().max(0.0) as u32
+  }
+}
+
+#[derive(Copy, Debug, strum::Display, Hash, Deserialize, Serialize)]
+#[derive_const(Clone, PartialEq, Eq)]
+#[serde(rename_all = "kebab-case")]
+#[strum(serialize_all = "kebab-case")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
+pub enum MarketOperation {
+  Buy,
+  Sell,
 }
 
 #[derive(Copy, Debug, Deserialize, Serialize)]
 #[derive_const(Clone, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
-pub struct MarketPrice {
+pub struct MarketPriceTable {
   food: Gold,
   iron: Gold,
   stone: Gold,
   wood: Gold,
 }
 
-impl MarketPrice {
+impl MarketPriceTable {
   pub const fn new() -> Self {
     Self::default()
   }
 }
 
-const impl Default for MarketPrice {
+const impl Default for MarketPriceTable {
   fn default() -> Self {
     Self {
       food: Food::MARKET_PRICE,
@@ -98,9 +125,12 @@ const impl Default for MarketPrice {
 
 #[cfg(not(feature = "typescript"))]
 #[allow(clippy::trivially_copy_pass_by_ref)]
-fn serialize_market_price<S>(_: &PhantomData<MarketPrice>, serializer: S) -> Result<S::Ok, S::Error>
+fn serialize_market_price_table<S>(
+  _: &PhantomData<MarketPriceTable>,
+  serializer: S,
+) -> Result<S::Ok, S::Error>
 where
   S: serde::Serializer,
 {
-  MarketPrice::default().serialize(serializer)
+  MarketPriceTable::default().serialize(serializer)
 }
