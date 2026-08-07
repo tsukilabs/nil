@@ -52,6 +52,16 @@ pub fn impl_building(ast: &DeriveInput) -> TokenStream {
           let level = rand::random_range(min..=max);
           #name::with_level(BuildingLevel::new(level))
         }
+
+        #[inline]
+        pub fn as_dyn(&self) -> &dyn Building {
+          self
+        }
+
+        #[inline]
+        pub fn as_dyn_mut(&mut self) -> &mut dyn Building {
+          self
+        }
       }
 
       #[automatically_derived]

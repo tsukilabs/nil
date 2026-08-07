@@ -108,6 +108,62 @@ impl Infrastructure {
     }
   }
 
+  pub gen fn iter(&self) -> &dyn Building {
+    let Self {
+      academy,
+      farm,
+      iron_mine,
+      prefecture,
+      quarry,
+      sawmill,
+      silo,
+      stable,
+      wall,
+      warehouse,
+      workshop,
+    } = self;
+
+    yield academy.as_dyn();
+    yield farm.as_dyn();
+    yield iron_mine.as_dyn();
+    yield prefecture.as_dyn();
+    yield quarry.as_dyn();
+    yield sawmill.as_dyn();
+    yield silo.as_dyn();
+    yield stable.as_dyn();
+    yield wall.as_dyn();
+    yield warehouse.as_dyn();
+    yield workshop.as_dyn();
+  }
+
+  pub gen fn iter_mut(&mut self) -> &mut dyn Building {
+    let Self {
+      academy,
+      farm,
+      iron_mine,
+      prefecture,
+      quarry,
+      sawmill,
+      silo,
+      stable,
+      wall,
+      warehouse,
+      workshop,
+    } = self;
+
+    yield academy.as_dyn_mut();
+    yield farm.as_dyn_mut();
+    yield iron_mine.as_dyn_mut();
+    yield prefecture.as_dyn_mut();
+    yield quarry.as_dyn_mut();
+    yield sawmill.as_dyn_mut();
+    yield silo.as_dyn_mut();
+    yield stable.as_dyn_mut();
+    yield wall.as_dyn_mut();
+    yield warehouse.as_dyn_mut();
+    yield workshop.as_dyn_mut();
+  }
+
   pub fn score(&self, stats: &InfrastructureStats) -> Result<Score> {
     let mut score = Score::default();
     for id in BuildingId::iter() {
