@@ -149,8 +149,12 @@ const impl Div for Gold {
   type Output = Gold;
 
   fn div(self, rhs: Gold) -> Self::Output {
-    debug_assert!(rhs.0 > 0);
-    Self::new(self.0.div_floor(rhs.0))
+    debug_assert!(rhs.0 != 0);
+    self
+      .0
+      .checked_div(rhs.0)
+      .map(Self::new)
+      .unwrap_or_default()
   }
 }
 
