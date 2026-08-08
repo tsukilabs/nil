@@ -44,10 +44,10 @@ pub(crate) fn clear() {
   queue.shrink_to_fit();
 }
 
-pub(crate) fn push_event(event: Event) {
+pub(crate) fn push_event(event: &Event) {
   let entry = QueueEntry {
     kind: QueueEntryKind::Event,
-    json_str: serialize(&event).expect("`Event` must always serialize"),
+    json_str: serialize(event).expect("`Event` must always serialize"),
   };
 
   QUEUE.lock().push_back(entry);

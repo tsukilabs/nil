@@ -8,7 +8,7 @@ use jiff::Zoned;
 use serde::{Deserialize, Serialize};
 use std::borrow::Cow;
 use std::collections::VecDeque;
-use std::num::NonZeroUsize;
+use std::num::NonZeroU16;
 use std::sync::Arc;
 use strum::EnumIs;
 use uuid::Uuid;
@@ -38,16 +38,16 @@ impl Chat {
 pub struct ChatHistory {
   #[cfg_attr(feature = "typescript", ts(as = "Vec<ChatMessage>"))]
   queue: VecDeque<ChatMessage>,
-  size: NonZeroUsize,
+  size: NonZeroU16,
 }
 
 impl ChatHistory {
-  pub const MIN: NonZeroUsize = NonZeroUsize::new(100).unwrap();
-  pub const MAX: NonZeroUsize = NonZeroUsize::new(500).unwrap();
+  pub const MIN: NonZeroU16 = NonZeroU16::new(100).unwrap();
+  pub const MAX: NonZeroU16 = NonZeroU16::new(500).unwrap();
 
-  const fn new(size: usize) -> Self {
+  const fn new(size: u16) -> Self {
     let size = size.clamp(Self::MIN.get(), Self::MAX.get());
-    let size = unsafe { NonZeroUsize::new_unchecked(size) };
+    let size = unsafe { NonZeroU16::new_unchecked(size) };
     Self { queue: VecDeque::new(), size }
   }
 
@@ -57,8 +57,8 @@ impl ChatHistory {
   }
 
   fn prune(&mut self) {
-    let size = self.size.get();
     let len = self.queue.len();
+    let size = usize::from(self.size.get());
     if len >= size {
       self.queue.drain(..=(len - size));
     }
