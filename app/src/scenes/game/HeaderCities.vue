@@ -2,9 +2,9 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script vapor lang="ts">
-import { useI18n } from "@tsukilabs/nil-i18n";
 import { computed, nextTick } from "vue";
 import { cn } from "@/components/ui/utils";
+import { useI18n } from "@tsukilabs/nil-i18n";
 import type { CityImpl } from "@/core/model/city/city";
 import { CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@ui/command";
 

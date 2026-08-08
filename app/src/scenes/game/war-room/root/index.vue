@@ -2,10 +2,10 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script setup lang="ts">
-import { useI18n } from "@tsukilabs/nil-i18n";
 import { Button } from "@ui/button";
 import * as commands from "@/commands";
 import { handleError } from "@/lib/error";
+import { useI18n } from "@tsukilabs/nil-i18n";
 import { computed, nextTick, ref } from "vue";
 import { throttle } from "es-toolkit/function";
 import Cities from "@/scenes/game/war-room/root/Cities.vue";
