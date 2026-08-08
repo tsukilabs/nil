@@ -26,4 +26,13 @@ pub struct GetPublicFieldResponse(pub PublicField);
 #[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
-pub struct GetPublicFieldsResponse(pub Vec<(Coord, PublicField)>);
+pub struct GetPublicFieldsResponse(pub Vec<GetPublicFieldsResponseItem>);
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
+pub struct GetPublicFieldsResponseItem {
+  pub coord: Coord,
+  pub field: PublicField,
+}

@@ -39,7 +39,10 @@ pub async fn get_public_fields(
 
         for coord in req.coords {
           let field = continent.field(coord)?;
-          fields.push((coord, PublicField::from(field)));
+          fields.push(GetPublicFieldsResponseItem {
+            coord,
+            field: PublicField::from(field),
+          });
         }
 
         fields
