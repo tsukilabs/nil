@@ -24,7 +24,7 @@ pub struct TradeBehavior {
 }
 
 impl TradeBehavior {
-  pub const BUY_THRESHOLD: f64 = 0.1;
+  pub const BUY_THRESHOLD: f64 = 0.3;
   pub const SELL_THRESHOLD: f64 = 0.9;
 }
 
@@ -84,19 +84,26 @@ impl Behavior for TradeBehavior {
 
       let in_vault = vault.get(id).as_u32();
 
-      if in_vault > 0 && gold > 0 && amount < capacity * Self::BUY_THRESHOLD {
+      if in_vault > 0 && gold > 0 && amount < (capacity * Self::BUY_THRESHOLD) {
         match id {
           ResourceId::Food => push!(BuyResourcesBehavior, Food),
           ResourceId::Iron => push!(BuyResourcesBehavior, Iron),
           ResourceId::Stone => push!(BuyResourcesBehavior, Stone),
           ResourceId::Wood => push!(BuyResourcesBehavior, Wood),
         }
-      } else if amount > capacity * Self::SELL_THRESHOLD {
-        match id {
-          ResourceId::Food => push!(SellResourcesBehavior, Food),
-          ResourceId::Iron => push!(SellResourcesBehavior, Iron),
-          ResourceId::Stone => push!(SellResourcesBehavior, Stone),
-          ResourceId::Wood => push!(SellResourcesBehavior, Wood),
+      } else {
+        let threshold = capacity * Self::SELL_THRESHOLD;
+        let surplus = (amount - threshold).floor().max(0.0) as u32;
+        if surplus > 0
+          && in_vault.saturating_add(surplus) < u32::MAX
+          && gold.saturating_add(surplus) < u32::MAX
+        {
+          match id {
+            ResourceId::Food => push!(SellResourcesBehavior, Food),
+            ResourceId::Iron => push!(SellResourcesBehavior, Iron),
+            ResourceId::Stone => push!(SellResourcesBehavior, Stone),
+            ResourceId::Wood => push!(SellResourcesBehavior, Wood),
+          }
         }
       }
     }
