@@ -20,7 +20,7 @@ use tokio::task::spawn_blocking;
 #[derive(Identifiable, Queryable, Selectable, Clone)]
 #[diesel(table_name = crate::schema::game)]
 #[diesel(check_for_backend(diesel::sqlite::Sqlite))]
-#[diesel(belongs_to(UserData, foreign_key = created_by))]
+#[diesel(belongs_to(User, foreign_key = created_by))]
 pub struct Game {
   pub id: GameId,
   pub password: Option<HashedPassword>,
@@ -60,7 +60,7 @@ impl fmt::Debug for Game {
 #[derive(Identifiable, Queryable, Selectable, Clone)]
 #[diesel(table_name = crate::schema::game)]
 #[diesel(check_for_backend(diesel::sqlite::Sqlite))]
-#[diesel(belongs_to(UserData, foreign_key = created_by))]
+#[diesel(belongs_to(User, foreign_key = created_by))]
 pub struct GameWithBlob {
   pub id: GameId,
   pub password: Option<HashedPassword>,
