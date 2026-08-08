@@ -62,6 +62,9 @@ fn main() -> Result<()> {
   let args = Args::parse();
   let mut env = Vec::new();
 
+  spawn!("pnpm run -F @tsukilabs/nil-bindings build")?;
+  spawn!("pnpm run -F @tsukilabs/nil-i18n build")?;
+
   if args.only_ui {
     env.push((Var::MinifySource, "false"));
     return spawn!("pnpm run -F app build", env);

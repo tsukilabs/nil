@@ -1,6 +1,6 @@
 {
   "name": "@tsukilabs/nil-bindings",
-  "version": "0.7.17",
+  "version": "0.7.18",
   "description": "TypeScript bindings for Call of Nil",
   "type": "module",
   "packageManager": "pnpm@11.20.0",

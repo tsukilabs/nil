@@ -1,6 +1,6 @@
 {
   "name": "nil",
-  "version": "0.7.17",
+  "version": "0.7.18",
   "type": "module",
   "packageManager": "pnpm@11.20.0",
   "license": "AGPL-3.0-only",
@@ -9,7 +9,7 @@
     "lint": "eslint . --config eslint.config.ts"
   },
   "dependencies": {
-    "@lucide/vue": "=1.28.0",
+    "@lucide/vue": "=1.30.0",
     "@tauri-apps/api": "=2.11.1",
     "@tauri-apps/plugin-clipboard-manager": "=2.3.2",
     "@tauri-apps/plugin-dialog": "=2.7.2",
@@ -19,10 +19,10 @@
     "@tauri-apps/plugin-process": "=2.3.1",
     "@tauri-apps/plugin-updater": "=2.10.1",
     "@tauri-store/pinia": "=5.0.2",
-    "@tb-dev/prototype-dom": "=7.0.53",
-    "@tb-dev/utils": "=8.1.2",
-    "@tb-dev/vue": "=4.0.30",
-    "@tb-dev/vue-sonner": "=1.0.10",
+    "@tb-dev/prototype-dom": "=7.0.54",
+    "@tb-dev/utils": "=8.1.3",
+    "@tb-dev/vue": "=4.0.32",
+    "@tb-dev/vue-sonner": "=1.0.11",
     "@vueuse/components": "=14.4.0",
     "@vueuse/core": "=14.4.0",
     "@vueuse/math": "=14.4.0",
@@ -44,7 +44,7 @@
   "devDependencies": {
     "@tailwindcss/vite": "=4.3.3",
     "@tauri-apps/cli": "=2.11.4",
-    "@tb-dev/eslint-config": "=10.3.2",
+    "@tb-dev/eslint-config": "=10.3.3",
     "@types/node": "=26.1.2",
     "@vitejs/plugin-vue": "=6.0.8",
     "eslint": "=10.8.0",
