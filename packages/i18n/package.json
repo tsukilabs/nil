@@ -30,7 +30,7 @@
     "typedoc": "typedoc --plugin typedoc-plugin-mdn-links"
   },
   "dependencies": {
-    "@tsukilabs/nil-bindings": "^0.7.17",
+    "@tsukilabs/nil-bindings": "^0.7.18",
     "vue-i18n": "^11.4.8"
   },
   "files": ["dist"],

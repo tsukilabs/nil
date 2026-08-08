@@ -1,7 +1,7 @@
 <!-- Copyright (C) Call of Nil contributors -->
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
-<script vapor lang="ts">
+<script setup lang="ts">
 import { computed } from "vue";
 import type { Option } from "@tb-dev/utils";
 import { useI18n } from "@tsukilabs/nil-i18n";

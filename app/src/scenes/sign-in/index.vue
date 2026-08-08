@@ -40,7 +40,10 @@ const canSignIn = computed(() => {
 
 onBeforeMount(() => {
   const url = new URL(window.location.href);
-  userName.value = url.searchParams.get(QUERY_SIGN_IN_USER);
+  const signInUser = url.searchParams.get(QUERY_SIGN_IN_USER)?.trim();
+  if (signInUser) {
+    userName.value = signInUser;
+  }
 });
 
 async function signIn() {
