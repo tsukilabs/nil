@@ -133,7 +133,7 @@ export class PublicFieldImpl {
       let counter = 0;
       if (coords.length > 0) {
         const publicFields = await getPublicFields(coords, world);
-        for (const [coord, field] of publicFields) {
+        for (const { coord, field } of publicFields) {
           const impl = fields.find((it) => it.coord.is(coord));
           if (impl) {
             impl.init(field.kind);

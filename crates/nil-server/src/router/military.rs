@@ -51,7 +51,12 @@ pub async fn get_armies(
         .military()
         .indexed_armies_of(player)
         .into_iter()
-        .map(|(index, army)| Ok((index.to_coord(k_size)?, army.clone())))
+        .map(|(index, army)| {
+          Ok(GetArmiesResponseItem {
+            coord: index.to_coord(k_size)?,
+            army: army.clone(),
+          })
+        })
         .try_collect::<_, _, CoreError>()
     })
     .await

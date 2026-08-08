@@ -23,25 +23,67 @@ pub struct CheatGetAcademyRecruitQueueResponse(pub AcademyRecruitQueue);
 #[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
-pub struct CheatGetAcademyRecruitQueuesResponse(pub Vec<(Coord, AcademyRecruitQueue)>);
+pub struct CheatGetAcademyRecruitQueuesResponse(pub Vec<CheatGetAcademyRecruitQueuesResponseItem>);
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
+pub struct CheatGetAcademyRecruitQueuesResponseItem {
+  pub coord: Coord,
+  pub queue: AcademyRecruitQueue,
+}
 
 #[derive(Clone, Debug, Deref, DerefMut, From, Into, Deserialize, Serialize)]
 #[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
-pub struct CheatGetAllAcademyRecruitQueuesResponse(pub Vec<(Coord, AcademyRecruitQueue)>);
+pub struct CheatGetAllAcademyRecruitQueuesResponse(
+  pub Vec<CheatGetAllAcademyRecruitQueuesResponseItem>,
+);
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
+pub struct CheatGetAllAcademyRecruitQueuesResponseItem {
+  pub coord: Coord,
+  pub queue: AcademyRecruitQueue,
+}
 
 #[derive(Clone, Debug, Deref, DerefMut, From, Into, Deserialize, Serialize)]
 #[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
-pub struct CheatGetAllPrefectureBuildQueuesResponse(pub Vec<(Coord, PrefectureBuildQueue)>);
+pub struct CheatGetAllPrefectureBuildQueuesResponse(
+  pub Vec<CheatGetAllPrefectureBuildQueuesResponseItem>,
+);
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
+pub struct CheatGetAllPrefectureBuildQueuesResponseItem {
+  pub coord: Coord,
+  pub queue: PrefectureBuildQueue,
+}
 
 #[derive(Clone, Debug, Deref, DerefMut, From, Into, Deserialize, Serialize)]
 #[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
-pub struct CheatGetAllStableRecruitQueuesResponse(pub Vec<(Coord, StableRecruitQueue)>);
+pub struct CheatGetAllStableRecruitQueuesResponse(
+  pub Vec<CheatGetAllStableRecruitQueuesResponseItem>,
+);
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
+pub struct CheatGetAllStableRecruitQueuesResponseItem {
+  pub coord: Coord,
+  pub queue: StableRecruitQueue,
+}
 
 #[derive(Clone, Debug, Deref, DerefMut, From, Into, Deserialize, Serialize)]
 #[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
@@ -59,7 +101,18 @@ pub struct CheatGetPrefectureBuildQueueResponse(pub PrefectureBuildQueue);
 #[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
-pub struct CheatGetPrefectureBuildQueuesResponse(pub Vec<(Coord, PrefectureBuildQueue)>);
+pub struct CheatGetPrefectureBuildQueuesResponse(
+  pub Vec<CheatGetPrefectureBuildQueuesResponseItem>,
+);
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
+pub struct CheatGetPrefectureBuildQueuesResponseItem {
+  pub coord: Coord,
+  pub queue: PrefectureBuildQueue,
+}
 
 #[derive(Clone, Debug, Deref, DerefMut, From, Into, Deserialize, Serialize)]
 #[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
@@ -71,7 +124,16 @@ pub struct CheatGetStableRecruitQueueResponse(pub StableRecruitQueue);
 #[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
-pub struct CheatGetStableRecruitQueuesResponse(pub Vec<(Coord, StableRecruitQueue)>);
+pub struct CheatGetStableRecruitQueuesResponse(pub Vec<CheatGetStableRecruitQueuesResponseItem>);
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
+pub struct CheatGetStableRecruitQueuesResponseItem {
+  pub coord: Coord,
+  pub queue: StableRecruitQueue,
+}
 
 #[derive(Clone, Debug, Deref, DerefMut, From, Into, Deserialize, Serialize)]
 #[cfg_attr(feature = "axum", derive(IntoJsonResponse))]

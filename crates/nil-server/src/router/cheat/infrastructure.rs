@@ -2,15 +2,18 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::app::App;
+use crate::error::CoreError;
 use crate::middleware::authorization::CurrentPlayer;
 use crate::res;
 use crate::response::EitherExt;
 use axum::extract::{Extension, Json, State};
 use axum::response::Response;
+use itertools::Itertools;
 use nil_core::ruler::Ruler;
 use nil_core::world::cheat;
 use nil_payload::request::cheat::infrastructure::*;
 use nil_payload::response::cheat::infrastructure::*;
+use tap::Pipe;
 
 pub async fn get_academy_recruit_queue(
   State(app): State<App>,
@@ -35,7 +38,11 @@ pub async fn get_academy_recruit_queues(
 
   app
     .world_blocking(req.world, move |world| {
-      cheat::get_academy_recruit_queues(world, &req.coords, req.filter_empty)
+      cheat::get_academy_recruit_queues(world, &req.coords, req.filter_empty)?
+        .into_iter()
+        .map(|(coord, queue)| CheatGetAcademyRecruitQueuesResponseItem { coord, queue })
+        .collect_vec()
+        .pipe(Ok::<_, CoreError>)
     })
     .await
     .try_map_left(|queues| res!(OK, CheatGetAcademyRecruitQueuesResponse(queues)))
@@ -48,7 +55,11 @@ pub async fn get_all_academy_recruit_queues(
 ) -> Response {
   app
     .world_blocking(req.world, move |world| {
-      cheat::get_all_academy_recruit_queues(world, req.filter_empty)
+      cheat::get_all_academy_recruit_queues(world, req.filter_empty)?
+        .into_iter()
+        .map(|(coord, queue)| CheatGetAllAcademyRecruitQueuesResponseItem { coord, queue })
+        .collect_vec()
+        .pipe(Ok::<_, CoreError>)
     })
     .await
     .try_map_left(|queues| res!(OK, CheatGetAllAcademyRecruitQueuesResponse(queues)))
@@ -61,7 +72,11 @@ pub async fn get_all_prefecture_build_queues(
 ) -> Response {
   app
     .world_blocking(req.world, move |world| {
-      cheat::get_all_prefecture_build_queues(world, req.filter_empty)
+      cheat::get_all_prefecture_build_queues(world, req.filter_empty)?
+        .into_iter()
+        .map(|(coord, queue)| CheatGetAllPrefectureBuildQueuesResponseItem { coord, queue })
+        .collect_vec()
+        .pipe(Ok::<_, CoreError>)
     })
     .await
     .try_map_left(|queues| res!(OK, CheatGetAllPrefectureBuildQueuesResponse(queues)))
@@ -74,7 +89,11 @@ pub async fn get_all_stable_recruit_queues(
 ) -> Response {
   app
     .world_blocking(req.world, move |world| {
-      cheat::get_all_stable_recruit_queues(world, req.filter_empty)
+      cheat::get_all_stable_recruit_queues(world, req.filter_empty)?
+        .into_iter()
+        .map(|(coord, queue)| CheatGetAllStableRecruitQueuesResponseItem { coord, queue })
+        .collect_vec()
+        .pipe(Ok::<_, CoreError>)
     })
     .await
     .try_map_left(|queues| res!(OK, CheatGetAllStableRecruitQueuesResponse(queues)))
@@ -117,7 +136,11 @@ pub async fn get_prefecture_build_queues(
 
   app
     .world_blocking(req.world, move |world| {
-      cheat::get_prefecture_build_queues(world, &req.coords, req.filter_empty)
+      cheat::get_prefecture_build_queues(world, &req.coords, req.filter_empty)?
+        .into_iter()
+        .map(|(coord, queue)| CheatGetPrefectureBuildQueuesResponseItem { coord, queue })
+        .collect_vec()
+        .pipe(Ok::<_, CoreError>)
     })
     .await
     .try_map_left(|queues| res!(OK, CheatGetPrefectureBuildQueuesResponse(queues)))
@@ -147,7 +170,11 @@ pub async fn get_stable_recruit_queues(
 
   app
     .world_blocking(req.world, move |world| {
-      cheat::get_stable_recruit_queues(world, &req.coords, req.filter_empty)
+      cheat::get_stable_recruit_queues(world, &req.coords, req.filter_empty)?
+        .into_iter()
+        .map(|(coord, queue)| CheatGetStableRecruitQueuesResponseItem { coord, queue })
+        .collect_vec()
+        .pipe(Ok::<_, CoreError>)
     })
     .await
     .try_map_left(|queues| res!(OK, CheatGetStableRecruitQueuesResponse(queues)))

@@ -16,7 +16,16 @@ use nil_payload_macros::IntoJsonResponse;
 #[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
-pub struct GetArmiesResponse(pub Vec<(Coord, Army)>);
+pub struct GetArmiesResponse(pub Vec<GetArmiesResponseItem>);
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
+pub struct GetArmiesResponseItem {
+  pub coord: Coord,
+  pub army: Army,
+}
 
 #[derive(Clone, Debug, Deref, DerefMut, From, Into, Deserialize, Serialize)]
 #[cfg_attr(feature = "axum", derive(IntoJsonResponse))]
