@@ -144,19 +144,19 @@ pub enum ChatMessageAuthor {
   #[default]
   System,
   Player {
-    id: PlayerId,
+    player: PlayerId,
   },
 }
 
 impl From<PlayerId> for ChatMessageAuthor {
   fn from(id: PlayerId) -> Self {
-    Self::Player { id }
+    Self::Player { player: id }
   }
 }
 
 impl From<&PlayerId> for ChatMessageAuthor {
   fn from(id: &PlayerId) -> Self {
-    Self::Player { id: id.clone() }
+    Self::Player { player: id.clone() }
   }
 }
 

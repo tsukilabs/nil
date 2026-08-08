@@ -41,7 +41,7 @@ function onChatMessage({ message }: ChatMessagePayload) {
     !isChatOpen.value &&
     route.name !== ("chat" satisfies GameScene) &&
     message.author.kind === "player" &&
-    message.author.id !== player.value?.id
+    message.author.player !== player.value?.id
   ) {
     hasUnread.value = true;
   }
