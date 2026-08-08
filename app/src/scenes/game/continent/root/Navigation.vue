@@ -1,7 +1,7 @@
 <!-- Copyright (C) Call of Nil contributors -->
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
-<script vapor lang="ts">
+<script setup lang="ts">
 import { computed } from "vue";
 import { Button } from "@ui/button";
 import { type Option, toPixel } from "@tb-dev/utils";
