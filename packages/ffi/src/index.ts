@@ -311,7 +311,8 @@ export class Nil implements AsyncDisposable {
       return filePath;
     }
 
-    const response = await fetch(`https://tsukilabs.dev.br/download/nil/${file}`, {
+    const url = `https://tsukilabs.dev.br/download/nil/${file}`;
+    const response = await fetch(new URL(url), {
       headers: { "User-Agent": USER_AGENT },
     });
 
