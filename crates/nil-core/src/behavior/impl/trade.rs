@@ -95,8 +95,8 @@ impl Behavior for TradeBehavior {
         let threshold = capacity * Self::SELL_THRESHOLD;
         let surplus = (amount - threshold).floor().max(0.0) as u32;
         if surplus > 0
-          && in_vault.saturating_add(surplus) < u32::MAX
-          && gold.saturating_add(surplus) < u32::MAX
+          && in_vault.checked_add(surplus).is_some()
+          && gold.checked_add(surplus).is_some()
         {
           match id {
             ResourceId::Food => push!(SellResourcesBehavior, Food),
