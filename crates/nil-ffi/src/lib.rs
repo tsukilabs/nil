@@ -16,10 +16,8 @@ mod status;
 
 use crate::runtime::RUNTIME;
 use crate::server::SERVER;
-use client::CLIENT;
-use futures::future::BoxFuture;
+use client::{CLIENT, on_event};
 use json::serialize;
-use nil_core::event::Event;
 use std::ffi::{CString, c_char};
 use std::ptr;
 use tap::TryConv;
@@ -182,12 +180,11 @@ pub unsafe extern "C" fn nil_stop_client(request_id: RequestId) {
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn nil_update_client(request_id: RequestId, json_options: *const c_char) {
   let f = |options| {
-    type OnEvent = fn(Event) -> BoxFuture<'static, ()>;
     RUNTIME.spawn(async move {
       let result = CLIENT
         .write()
         .await
-        .update(options, None::<OnEvent>)
+        .update(options, Some(on_event()))
         .await;
 
       queue::push_result(request_id, Result::from(result));

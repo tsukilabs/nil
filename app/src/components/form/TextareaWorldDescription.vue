@@ -18,7 +18,7 @@ const { t } = useI18n();
 
 <template>
   <Label for="textarea-world-description">
-    <span>{{ t("host-game.world-description") }}</span>
+    <span>{{ t("online.world-description") }}</span>
     <Textarea
       id="textarea-world-description"
       v-model="description"
