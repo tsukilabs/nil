@@ -4,10 +4,7 @@ import { defineConfig } from "vite";
 
 export default defineConfig({
   plugins: [
-    dts({
-      entryRoot: "src",
-      bundleTypes: false,
-    }),
+    dts({ entryRoot: "src", bundleTypes: false }),
   ],
   build: {
     outDir: "dist",

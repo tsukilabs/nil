@@ -2,9 +2,9 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script vapor lang="ts">
-import { useI18n } from "@tsukilabs/nil-i18n";
 import { compare } from "@/lib/intl";
 import { computed, nextTick } from "vue";
+import { useI18n } from "@tsukilabs/nil-i18n";
 import type { GameScene } from "@/types/scene";
 import { CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@ui/command";
 

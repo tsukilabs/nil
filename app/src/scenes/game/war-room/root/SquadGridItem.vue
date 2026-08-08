@@ -3,8 +3,8 @@
 
 <script vapor lang="ts">
 import { Label } from "@ui/label";
-import { useI18n } from "@tsukilabs/nil-i18n";
 import { formatInt } from "@/lib/intl";
+import { useI18n } from "@tsukilabs/nil-i18n";
 import type { Squad } from "@tsukilabs/nil-bindings";
 import { NumberField, NumberFieldContent, NumberFieldInput } from "@ui/number-field";
 

@@ -2,8 +2,8 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script vapor lang="ts">
-import { useI18n } from "@tsukilabs/nil-i18n";
 import { Button } from "@ui/button";
+import { useI18n } from "@tsukilabs/nil-i18n";
 import RoundState from "@/scenes/game/RoundState.vue";
 import { useBreakpoints, useMutex } from "@tb-dev/vue";
 

@@ -17,6 +17,7 @@ init:
   @cargo install tauri-cli dprint miho
   @cargo install diesel_cli --no-default-features --features "sqlite-bundled"
   @just generate-bindings --force
+  @just build-i18n
 
 build-i18n:
   @pnpm run -F @tsukilabs/nil-i18n build

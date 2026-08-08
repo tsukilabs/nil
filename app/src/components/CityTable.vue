@@ -2,10 +2,10 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 <script vapor lang="ts">
-import { useI18n } from "@tsukilabs/nil-i18n";
 import { computed, ref } from "vue";
 import { PLACEHOLDER } from "@/lib/string";
 import type { Option } from "@tb-dev/utils";
+import { useI18n } from "@tsukilabs/nil-i18n";
 import { compare, formatInt } from "@/lib/intl";
 import type { Coord } from "@tsukilabs/nil-bindings";
 import type { PublicCityImpl } from "@/core/model/city/public-city";

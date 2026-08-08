@@ -46,6 +46,7 @@ impl fmt::Debug for User {
 
 #[derive(Insertable, Clone)]
 #[diesel(table_name = crate::schema::user)]
+#[diesel(check_for_backend(diesel::sqlite::Sqlite))]
 pub struct NewUser {
   player_id: db_PlayerId,
   password: HashedPassword,
