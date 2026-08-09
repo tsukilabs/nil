@@ -29,8 +29,8 @@ pub fn impl_precursor(ast: &DeriveInput) -> TokenStream {
           Self::ID
         }
 
-        fn ethics(&self) -> &Ethics {
-          &Self::ETHICS
+        fn ethics(&self) -> Ethics {
+          Self::ETHICS
         }
 
         fn origin(&self) -> Coord {

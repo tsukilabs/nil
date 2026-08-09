@@ -76,8 +76,8 @@ impl Bot {
   }
 
   #[inline]
-  pub fn ethics(&self) -> &Ethics {
-    &self.ethics
+  pub fn ethics(&self) -> Ethics {
+    self.ethics
   }
 
   #[inline]

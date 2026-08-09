@@ -191,8 +191,8 @@ pub enum RulerRef<'a> {
   Precursor(&'a dyn Precursor),
 }
 
-impl<'a> RulerRef<'a> {
-  pub fn ethics(&self) -> Option<&'a Ethics> {
+impl RulerRef<'_> {
+  pub fn ethics(&self) -> Option<Ethics> {
     match self {
       Self::Bot(bot) => Some(bot.ethics()),
       Self::Player(..) => None,

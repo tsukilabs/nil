@@ -23,7 +23,7 @@ pub use crate::npc::precursor::b::B;
 
 pub const trait Precursor: Send + Sync {
   fn id(&self) -> PrecursorId;
-  fn ethics(&self) -> &Ethics;
+  fn ethics(&self) -> Ethics;
   fn origin(&self) -> Coord;
   fn resources(&self) -> Resources;
   fn resources_mut(&mut self) -> &mut Resources;
