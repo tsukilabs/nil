@@ -1,6 +1,6 @@
 {
   "name": "@tsukilabs/nil-i18n",
-  "version": "0.7.20",
+  "version": "0.7.21",
   "description": "Internationalization support for Call of Nil",
   "type": "module",
   "packageManager": "pnpm@11.20.0",
