@@ -17,10 +17,6 @@ impl World {
     &self.market
   }
 
-  pub(crate) fn market_mut(&mut self) -> &mut Market {
-    &mut self.market
-  }
-
   /// Buys resources from the market.
   ///
   /// The total gold cost is calculated as `resources + (resources * market_fee)`.
@@ -38,7 +34,7 @@ impl World {
     let gold = self.market.price_of(Buy, resources);
     self.ruler_mut(ruler)?.withdraw_gold(gold)?;
 
-    self.market.vault_mut().withdraw(resources)?;
+    self.market.vault.withdraw(resources)?;
 
     self.add_resources_within_capacity(ruler.clone(), resources)?;
 
@@ -66,10 +62,7 @@ impl World {
       .ruler_mut(ruler)?
       .withdraw_resources(resources)?;
 
-    self
-      .market_mut()
-      .vault_mut()
-      .store(resources);
+    self.market.vault.resources += resources;
 
     let gold = self.market.price_of(Sell, resources);
     self
@@ -103,7 +96,7 @@ impl World {
     self.emit_ruler(from)?;
     self.emit_ruler(to)?;
 
-    self.market_mut().vault_mut().store(fee);
+    self.market.vault.resources += fee;
     self.emit_market()?;
 
     Ok(())

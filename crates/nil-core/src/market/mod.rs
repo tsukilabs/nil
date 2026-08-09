@@ -9,26 +9,14 @@ use crate::market::vault::MarketVault;
 use crate::resources::gold::Gold;
 use crate::resources::{Food, Iron, Resources, Stone, Wood};
 use serde::{Deserialize, Serialize};
-use std::marker::PhantomData;
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[derive_const(Default)]
 #[serde(rename_all = "camelCase")]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Market {
-  vault: MarketVault,
-  fee: MarketFee,
-
-  // We don't really need to include the market price here,
-  // since it can be derived from the resources themselves.
-  // However, including it simplifies things for downstream consumers,
-  // as they don't need to query the resources separately to obtain it.
-  #[cfg_attr(feature = "typescript", ts(as = "MarketPriceTable"))]
-  #[cfg_attr(
-    not(feature = "typescript"),
-    serde(skip_deserializing, serialize_with = "serialize_market_price_table")
-  )]
-  price_table: PhantomData<MarketPriceTable>,
+  pub(crate) vault: MarketVault,
+  pub(crate) fee: MarketFee,
 }
 
 impl Market {
@@ -36,7 +24,6 @@ impl Market {
     Self {
       vault: MarketVault::default(),
       fee: fee.clamped(),
-      price_table: PhantomData,
     }
   }
 
@@ -45,21 +32,9 @@ impl Market {
     &self.vault
   }
 
-  pub(crate) const fn vault_mut(&mut self) -> &mut MarketVault {
-    &mut self.vault
-  }
-
   #[inline]
   pub const fn fee(&self) -> MarketFee {
     self.fee
-  }
-
-  /// Sets the market fee, clamping it to the valid range.
-  ///
-  /// As the fee is not expected to be changed throughout the game,
-  /// this should only be used to execute cheats or for testing purposes.
-  pub(crate) const fn set_fee(&mut self, fee: MarketFee) {
-    self.fee = fee.clamped();
   }
 
   #[inline]
@@ -121,16 +96,4 @@ const impl Default for MarketPriceTable {
       wood: Wood::MARKET_PRICE,
     }
   }
-}
-
-#[cfg(not(feature = "typescript"))]
-#[allow(clippy::trivially_copy_pass_by_ref)]
-fn serialize_market_price_table<S>(
-  _: &PhantomData<MarketPriceTable>,
-  serializer: S,
-) -> Result<S::Ok, S::Error>
-where
-  S: serde::Serializer,
-{
-  MarketPriceTable::default().serialize(serializer)
 }

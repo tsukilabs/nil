@@ -27,14 +27,9 @@ fn buy_resources() -> Result<()> {
   *world.ruler_mut(&ruler)?.gold_mut() = initial_gold;
 
   let resources_to_buy = Resources::splat(1000);
-  let price = world
-    .market()
-    .price_of(Buy, resources_to_buy);
+  let price = world.market.price_of(Buy, resources_to_buy);
 
-  world
-    .market_mut()
-    .vault_mut()
-    .set(resources_to_buy);
+  world.market.vault.resources = resources_to_buy;
 
   world.buy_resources(&ruler, resources_to_buy)?;
 
@@ -44,7 +39,7 @@ fn buy_resources() -> Result<()> {
   );
 
   assert_eq!(world.ruler(&ruler)?.gold(), initial_gold - price);
-  assert_eq!(world.market().vault().resources(), Resources::splat(0));
+  assert_eq!(world.market.vault.resources(), Resources::splat(0));
 
   Ok(())
 }
@@ -72,11 +67,11 @@ fn sell_resources() -> Result<()> {
       .ok_or(Error::InsufficientResources)?
   );
 
-  assert_eq!(world.market().vault().resources(), resources_to_sell);
+  assert_eq!(world.market.vault.resources, resources_to_sell);
   assert_eq!(
     world.ruler(&ruler)?.gold(),
     world
-      .market()
+      .market
       .price_of(Sell, resources_to_sell)
   );
 
@@ -102,7 +97,7 @@ fn sell_then_buy_resources() -> Result<()> {
 
   let resources_to_trade = Resources::splat(1000);
   let price = world
-    .market()
+    .market
     .price_of(Buy, resources_to_trade);
 
   world
@@ -133,7 +128,7 @@ fn sell_then_buy_resources() -> Result<()> {
     world.ruler(&seller)?.gold(),
     seller_initial_gold
       + world
-        .market()
+        .market
         .price_of(Sell, resources_to_trade)
   );
 
@@ -143,7 +138,7 @@ fn sell_then_buy_resources() -> Result<()> {
   );
 
   assert_eq!(world.ruler(&buyer)?.gold(), buyer_initial_gold - price);
-  assert_eq!(world.market().vault().resources(), Resources::splat(0));
+  assert_eq!(world.market.vault.resources(), Resources::splat(0));
 
   Ok(())
 }
@@ -176,7 +171,7 @@ fn send_resources() -> Result<()> {
   world.send_resources(&ruler_a, &ruler_b, resources_to_send)?;
 
   let remaining_resources_a = world.ruler(&ruler_a)?.resources();
-  let fee = resources_to_send * world.market().fee();
+  let fee = resources_to_send * world.market.fee();
 
   assert_eq!(
     remaining_resources_a,
@@ -216,11 +211,10 @@ fn fee_is_stored_in_vault() -> Result<()> {
     .replace(initial_resources_b);
 
   let resources_to_send = Resources::splat(1000);
-  let fee = resources_to_send * world.market().fee();
+  let fee = resources_to_send * world.market.fee();
   world.send_resources(&ruler_a, &ruler_b, resources_to_send)?;
 
-  let market_vault = world.market().vault();
-  assert_eq!(market_vault.resources(), fee);
+  assert_eq!(world.market.vault.resources, fee);
 
   Ok(())
 }
