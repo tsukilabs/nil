@@ -21,6 +21,7 @@ const items = computed<FinderItem[]>(() => {
   const _items: FinderItem[] = [
     { value: "academy", label: t("academy") },
     { value: "academy-settings", label: t("academy-settings") },
+    { value: "capital", label: t("capital") },
     { value: "city", label: t("city") },
     { value: "continent", label: t("continent-map") },
     { value: "continent-cities", label: t("continent-cities") },

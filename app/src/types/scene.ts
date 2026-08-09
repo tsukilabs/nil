@@ -22,6 +22,7 @@ export type GameScene =
   | ProfileScene
   | ReportScene
   | WarRoomScene
+  | "capital"
   | "chat"
   | "city"
   | "continent"

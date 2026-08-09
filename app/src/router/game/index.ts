@@ -12,6 +12,11 @@ import { infrastructureRoutes } from "./infrastructure";
 
 export const gameRoutes: RouteRecordRaw[] = [
   {
+    component: () => import("@/scenes/game/capital/index.vue"),
+    path: "capital",
+    name: "capital" satisfies GameScene,
+  },
+  {
     component: () => import("@/scenes/game/chat/index.vue"),
     path: "chat",
     name: "chat" satisfies GameScene,
