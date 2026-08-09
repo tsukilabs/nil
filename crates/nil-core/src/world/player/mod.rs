@@ -4,6 +4,7 @@
 #[cfg(test)]
 mod tests;
 
+use crate::capital::Capital;
 use crate::city::City;
 use crate::error::{Error, Result};
 use crate::military::Military;
@@ -85,13 +86,8 @@ impl World {
   }
 
   pub fn set_player_status(&mut self, id: &PlayerId, status: PlayerStatus) -> Result<()> {
-    *self
-      .player_manager
-      .player_mut(id)?
-      .status_mut() = status;
-
+    self.player_manager.player_mut(id)?.status = status;
     self.emit_player(id.clone())?;
-
     Ok(())
   }
 
@@ -107,7 +103,8 @@ impl World {
         .build()
         .into();
 
-      *player.status_mut() = PlayerStatus::Active;
+      player.status = PlayerStatus::Active;
+      player.capital = Capital::new(coord);
       self.player_manager.manage(player)?;
 
       self.emit_public_city(coord)?;

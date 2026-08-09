@@ -16,7 +16,7 @@ pub fn get_ethics(world: &World, ruler: &Ruler) -> Result<Option<Ethics>> {
 
 pub fn set_bot_ethics(world: &mut World, id: &BotId, ethics: Ethics) -> Result<()> {
   bail_if_cheats_are_not_allowed!(world);
-  *world.bot_mut(id)?.ethics_mut() = ethics;
+  world.bot_mut(id)?.ethics = ethics;
   Ok(())
 }
 

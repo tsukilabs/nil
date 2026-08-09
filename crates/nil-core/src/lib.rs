@@ -22,6 +22,7 @@
 
 pub mod battle;
 pub mod behavior;
+pub mod capital;
 pub mod chat;
 pub mod city;
 pub mod continent;

@@ -27,7 +27,12 @@ export class PublicPlayerImpl extends RulerImpl implements DeepReadonly<PublicPl
   };
 
   protected constructor(args: PublicPlayerImplConstructorArgs) {
-    super({ coords: args.coords, ranking: args.ranking });
+    super({
+      capital: args.player.capital,
+      coords: args.coords,
+      ranking: args.ranking,
+    });
+
     this.id = args.player.id;
     this.status = args.player.status;
   }

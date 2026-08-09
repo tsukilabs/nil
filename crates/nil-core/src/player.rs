@@ -1,6 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+use crate::capital::{Capital, PublicCapital};
 use crate::error::{Error, Result};
 use crate::resources::Resources;
 use crate::resources::gold::Gold;
@@ -68,10 +69,11 @@ impl PlayerManager {
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Player {
   id: PlayerId,
-  status: PlayerStatus,
-  resources: Resources,
-  gold: Gold,
-  influence: Influence,
+  pub(crate) status: PlayerStatus,
+  pub(crate) capital: Capital,
+  pub(crate) resources: Resources,
+  pub(crate) gold: Gold,
+  pub(crate) influence: Influence,
 }
 
 impl Player {
@@ -79,6 +81,7 @@ impl Player {
     Self {
       id: options.id,
       status: PlayerStatus::Active,
+      capital: Capital::default(),
       resources: Resources::PLAYER,
       gold: Gold::MIN,
       influence: Influence::MIN,
@@ -99,8 +102,9 @@ impl Player {
     self.status
   }
 
-  pub(crate) fn status_mut(&mut self) -> &mut PlayerStatus {
-    &mut self.status
+  #[inline]
+  pub fn capital(&self) -> &Capital {
+    &self.capital
   }
 
   #[inline]
@@ -108,17 +112,9 @@ impl Player {
     self.resources
   }
 
-  pub(crate) fn resources_mut(&mut self) -> &mut Resources {
-    &mut self.resources
-  }
-
   #[inline]
   pub fn gold(&self) -> Gold {
     self.gold
-  }
-
-  pub(crate) fn gold_mut(&mut self) -> &mut Gold {
-    &mut self.gold
   }
 
   #[inline]
@@ -215,6 +211,7 @@ impl PlayerOptions {
 pub struct PublicPlayer {
   id: PlayerId,
   status: PlayerStatus,
+  capital: PublicCapital,
 }
 
 impl From<&Player> for PublicPlayer {
@@ -222,6 +219,7 @@ impl From<&Player> for PublicPlayer {
     Self {
       id: player.id.clone(),
       status: player.status,
+      capital: PublicCapital::from(&player.capital),
     }
   }
 }

@@ -1,9 +1,10 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
-mod a;
-mod b;
+pub mod a;
+pub mod b;
 
+use crate::capital::{Capital, PublicCapital};
 use crate::continent::coord::Coord;
 use crate::continent::distance::Distance;
 use crate::continent::size::ContinentSize;
@@ -13,18 +14,18 @@ use crate::resources::Resources;
 use crate::resources::gold::Gold;
 use crate::resources::influence::Influence;
 use crate::ruler::Ruler;
+use a::A;
+use b::B;
 use derive_more::Deref;
 use serde::{Deserialize, Serialize};
 use std::cmp;
 use strum::{AsRefStr, Display, EnumIter, EnumString, IntoEnumIterator};
 
-pub use crate::npc::precursor::a::A;
-pub use crate::npc::precursor::b::B;
-
-pub const trait Precursor: Send + Sync {
+pub trait Precursor: Send + Sync {
   fn id(&self) -> PrecursorId;
   fn ethics(&self) -> Ethics;
   fn origin(&self) -> Coord;
+  fn capital(&self) -> &Capital;
   fn resources(&self) -> Resources;
   fn resources_mut(&mut self) -> &mut Resources;
   fn gold(&self) -> Gold;
@@ -40,18 +41,18 @@ pub struct PrecursorManager {
 }
 
 impl PrecursorManager {
-  pub const fn new(size: ContinentSize) -> Self {
+  pub fn new(size: ContinentSize) -> Self {
     Self { a: A::new(size), b: B::new(size) }
   }
 
-  pub const fn precursor(&self, id: PrecursorId) -> &dyn Precursor {
+  pub fn precursor(&self, id: PrecursorId) -> &dyn Precursor {
     match id {
       PrecursorId::A => &self.a,
       PrecursorId::B => &self.b,
     }
   }
 
-  pub(crate) const fn precursor_mut(&mut self, id: PrecursorId) -> &mut dyn Precursor {
+  pub(crate) fn precursor_mut(&mut self, id: PrecursorId) -> &mut dyn Precursor {
     match id {
       PrecursorId::A => &mut self.a,
       PrecursorId::B => &mut self.b,
@@ -142,16 +143,18 @@ impl Ord for PrecursorId {
 pub struct PublicPrecursor {
   id: PrecursorId,
   origin: Coord,
+  capital: PublicCapital,
 }
 
 impl PublicPrecursor {
-  pub const fn new<T>(precursor: &T) -> Self
+  pub fn new<T>(precursor: &T) -> Self
   where
-    T: [const] Precursor + ?Sized,
+    T: Precursor + ?Sized,
   {
     Self {
       id: precursor.id(),
       origin: precursor.origin(),
+      capital: PublicCapital::from(precursor.capital()),
     }
   }
 }
@@ -162,9 +165,9 @@ impl From<&dyn Precursor> for PublicPrecursor {
   }
 }
 
-const impl<T> From<&T> for PublicPrecursor
+impl<T> From<&T> for PublicPrecursor
 where
-  T: [const] Precursor,
+  T: Precursor,
 {
   fn from(precursor: &T) -> Self {
     Self::new(precursor)

@@ -1,6 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+use crate::capital::Capital;
 use crate::continent::coord::Coord;
 use crate::continent::size::ContinentSize;
 use crate::ethic::{EthicPowerAxis, EthicTruthAxis, Ethics};
@@ -15,6 +16,7 @@ use serde::{Deserialize, Serialize};
 #[serde(rename_all = "camelCase")]
 pub struct A {
   origin: Coord,
+  capital: Capital,
   resources: Resources,
   gold: Gold,
   influence: Influence,
@@ -27,9 +29,11 @@ impl A {
     .truth(EthicTruthAxis::FanaticMaterialist)
     .build();
 
-  pub const fn new(size: ContinentSize) -> Self {
+  pub fn new(size: ContinentSize) -> Self {
+    let origin = origin(size);
     Self {
-      origin: origin(size),
+      origin,
+      capital: Capital::new(origin),
       resources: Resources::PRECURSOR,
       gold: Gold::MIN,
       influence: Influence::MAX,

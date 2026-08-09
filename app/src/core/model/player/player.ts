@@ -5,6 +5,7 @@ import * as commands from "@/commands";
 import type { PartialNullish } from "@tb-dev/utils";
 import type { DeepReadonly } from "es-toolkit/types";
 import { ResourcesImpl } from "@/core/model/resources";
+import { CapitalImpl } from "@/core/model/capital/capital";
 import { PublicPlayerImpl, type PublicPlayerImplConstructorArgs } from "./public-player";
 import { OverallStorageCapacityImpl } from "@/core/model/infrastructure/storage-capacity";
 import type {
@@ -17,6 +18,7 @@ import type {
 } from "@tsukilabs/nil-bindings";
 
 export class PlayerImpl extends PublicPlayerImpl implements DeepReadonly<Player> {
+  public override readonly capital: CapitalImpl;
   public readonly resources: ResourcesImpl;
   public readonly gold: Gold;
   public readonly influence: Influence;
@@ -24,6 +26,7 @@ export class PlayerImpl extends PublicPlayerImpl implements DeepReadonly<Player>
 
   private constructor(args: PlayerImplConstructorArgs) {
     super(args);
+    this.capital = CapitalImpl.create(args.player.capital);
     this.resources = ResourcesImpl.create(args.player.resources);
     this.gold = args.player.gold;
     this.influence = args.player.influence;

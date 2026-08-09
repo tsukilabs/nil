@@ -53,6 +53,7 @@ export type { CancelManeuverRequest } from './CancelManeuverRequest';
 export type { CancelPrefectureBuildOrderRequest } from './CancelPrefectureBuildOrderRequest';
 export type { CancelStableRecruitOrderRequest } from './CancelStableRecruitOrderRequest';
 export type { CancelWorkshopRecruitOrderRequest } from './CancelWorkshopRecruitOrderRequest';
+export type { Capital } from './Capital';
 export type { ChatHistory } from './ChatHistory';
 export type { ChatMessage } from './ChatMessage';
 export type { ChatMessageAuthor } from './ChatMessageAuthor';
@@ -311,6 +312,7 @@ export type { PrefectureBuildOrderRequest } from './PrefectureBuildOrderRequest'
 export type { PrefectureBuildOrderState } from './PrefectureBuildOrderState';
 export type { PrefectureBuildQueue } from './PrefectureBuildQueue';
 export type { PublicBot } from './PublicBot';
+export type { PublicCapital } from './PublicCapital';
 export type { PublicCity } from './PublicCity';
 export type { PublicField } from './PublicField';
 export type { PublicPlayer } from './PublicPlayer';

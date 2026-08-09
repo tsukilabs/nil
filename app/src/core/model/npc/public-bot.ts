@@ -19,7 +19,12 @@ export class PublicBotImpl extends RulerImpl implements DeepReadonly<PublicBot> 
   };
 
   protected constructor(args: PublicBotImplConstructorArgs) {
-    super({ coords: args.coords, ranking: args.ranking });
+    super({
+      capital: args.bot.capital,
+      coords: args.coords,
+      ranking: args.ranking,
+    });
+
     this.id = args.bot.id;
   }
 

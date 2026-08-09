@@ -263,8 +263,8 @@ pub enum RulerRefMut<'a> {
 impl<'a> RulerRefMut<'a> {
   pub fn resources_mut(&'a mut self) -> &'a mut Resources {
     match self {
-      Self::Bot(bot) => bot.resources_mut(),
-      Self::Player(player) => player.resources_mut(),
+      Self::Bot(bot) => &mut bot.resources,
+      Self::Player(player) => &mut player.resources,
       Self::Precursor(precursor) => precursor.resources_mut(),
     }
   }
@@ -283,16 +283,16 @@ impl<'a> RulerRefMut<'a> {
   /// Takes all resources from the ruler, leaving them with nothing.
   pub fn take_resources(&mut self) -> Resources {
     match self {
-      Self::Bot(bot) => mem::take(bot.resources_mut()),
-      Self::Player(player) => mem::take(player.resources_mut()),
+      Self::Bot(bot) => mem::take(&mut bot.resources),
+      Self::Player(player) => mem::take(&mut player.resources),
       Self::Precursor(precursor) => mem::take(precursor.resources_mut()),
     }
   }
 
   pub fn gold_mut(&mut self) -> &mut Gold {
     match self {
-      Self::Bot(bot) => bot.gold_mut(),
-      Self::Player(player) => player.gold_mut(),
+      Self::Bot(bot) => &mut bot.gold,
+      Self::Player(player) => &mut player.gold,
       Self::Precursor(precursor) => precursor.gold_mut(),
     }
   }
