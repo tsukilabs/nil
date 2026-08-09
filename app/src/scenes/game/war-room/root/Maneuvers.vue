@@ -27,26 +27,27 @@ function shouldShowManeuver(maneuver: ManeuverImpl) {
 </script>
 
 <template>
-  <Table class="min-w-max">
-    <TableHeader>
-      <TableRow>
-        <TableHead></TableHead>
-        <TableHead>{{ t("origin") }}</TableHead>
-        <TableHead>{{ t("destination") }}</TableHead>
-        <TableHead>{{ t("distance") }}</TableHead>
-        <TableHead></TableHead>
-      </TableRow>
-    </TableHeader>
-
-    <TableBody>
-      <template v-for="maneuver of maneuvers" :key="maneuver.id">
-        <Maneuver
-          v-if="shouldShowManeuver(maneuver)"
-          :maneuver
-          :war-room-origin
-          @cancel-maneuver="() => onCancelManeuver(maneuver.id)"
-        />
-      </template>
-    </TableBody>
-  </Table>
+  <div class="w-full overflow-x-auto overflow-y-hidden">
+    <Table class="min-w-max">
+      <TableHeader>
+        <TableRow>
+          <TableHead></TableHead>
+          <TableHead>{{ t("origin") }}</TableHead>
+          <TableHead>{{ t("destination") }}</TableHead>
+          <TableHead>{{ t("distance") }}</TableHead>
+          <TableHead></TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        <template v-for="maneuver of maneuvers" :key="maneuver.id">
+          <Maneuver
+            v-if="shouldShowManeuver(maneuver)"
+            :maneuver
+            :war-room-origin
+            @cancel-maneuver="() => onCancelManeuver(maneuver.id)"
+          />
+        </template>
+      </TableBody>
+    </Table>
+  </div>
 </template>
