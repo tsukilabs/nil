@@ -16,9 +16,9 @@ import type { Locale } from "@tsukilabs/nil-bindings";
 import { setDragDropEventListener } from "@/lib/event";
 import { createTrayIcon, showWindow } from "@/commands";
 import { onAltKeyDown, onKeyDown, useBreakpoints } from "@tb-dev/vue";
-import { defineGlobalCheats, defineGlobalCommands } from "@/lib/global";
 import { getCurrentWebviewWindow } from "@tauri-apps/api/webviewWindow";
 import { type BasicColorSchema, useColorMode, watchImmediate } from "@vueuse/core";
+import { defineGlobalCheats, defineGlobalCommands, freezeGlobalConstants } from "@/lib/global";
 
 const i18n = useI18n();
 
@@ -50,6 +50,7 @@ if (__DESKTOP__) {
 
 onMounted(async () => {
   try {
+    freezeGlobalConstants();
     defineGlobalCommands();
     defineGlobalCheats();
 

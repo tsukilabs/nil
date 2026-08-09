@@ -922,9 +922,9 @@ dependencies = [
 
 [[package]]
 name = "cookie"
-version = "0.18.1"
+version = "0.18.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4ddef33a339a91ea89fb53151bd0a4689cfce27055c291dfa69945475d22c747"
+checksum = "1a373e3602691c3cdea496d2f0ee5935151e6168fe87739483c463db1b2f2f87"
 dependencies = [
  "time",
  "version_check",
@@ -3344,9 +3344,9 @@ dependencies = [
 
 [[package]]
 name = "libsqlite3-sys"
-version = "0.38.1"
+version = "0.38.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f6c19a05435c21ac299d71b6a9c13db3e3f47c520517d58990a462a1397a61db"
+checksum = "f1d20bef17f513b9b3004532233187769cd072d790971f4e4da0e346eb6401e8"
 dependencies = [
  "cc",
  "pkg-config",
@@ -3593,7 +3593,7 @@ checksum = "650eef8c711430f1a879fdd01d4745a7deea475becfb90269c06775983bbf086"
 
 [[package]]
 name = "nil"
-version = "0.7.19"
+version = "0.7.20"
 dependencies = [
  "anyhow",
  "bon",
@@ -3634,7 +3634,7 @@ dependencies = [
 
 [[package]]
 name = "nil-client"
-version = "0.7.19"
+version = "0.7.20"
 dependencies = [
  "anyhow",
  "bon",
@@ -3669,7 +3669,7 @@ dependencies = [
 
 [[package]]
 name = "nil-core"
-version = "0.7.19"
+version = "0.7.20"
 dependencies = [
  "anyhow",
  "bon",
@@ -3703,7 +3703,7 @@ dependencies = [
 
 [[package]]
 name = "nil-core-macros"
-version = "0.7.19"
+version = "0.7.20"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -3712,7 +3712,7 @@ dependencies = [
 
 [[package]]
 name = "nil-crypto"
-version = "0.7.19"
+version = "0.7.20"
 dependencies = [
  "anyhow",
  "argon2",
@@ -3726,7 +3726,7 @@ dependencies = [
 
 [[package]]
 name = "nil-env"
-version = "0.7.19"
+version = "0.7.20"
 dependencies = [
  "anyhow",
  "serde",
@@ -3737,7 +3737,7 @@ dependencies = [
 
 [[package]]
 name = "nil-ffi"
-version = "0.7.19"
+version = "0.7.20"
 dependencies = [
  "anyhow",
  "cbindgen",
@@ -3761,7 +3761,7 @@ dependencies = [
 
 [[package]]
 name = "nil-ffi-node"
-version = "0.7.19"
+version = "0.7.20"
 dependencies = [
  "anyhow",
  "bon",
@@ -3770,7 +3770,7 @@ dependencies = [
 
 [[package]]
 name = "nil-log"
-version = "0.7.19"
+version = "0.7.20"
 dependencies = [
  "anyhow",
  "bitflags 2.13.1",
@@ -3784,7 +3784,7 @@ dependencies = [
 
 [[package]]
 name = "nil-namegen"
-version = "0.7.19"
+version = "0.7.20"
 dependencies = [
  "itertools",
  "rand 0.10.2",
@@ -3793,7 +3793,7 @@ dependencies = [
 
 [[package]]
 name = "nil-num"
-version = "0.7.19"
+version = "0.7.20"
 dependencies = [
  "bon",
  "num-traits",
@@ -3803,7 +3803,7 @@ dependencies = [
 
 [[package]]
 name = "nil-payload"
-version = "0.7.19"
+version = "0.7.20"
 dependencies = [
  "axum",
  "bon",
@@ -3819,7 +3819,7 @@ dependencies = [
 
 [[package]]
 name = "nil-payload-macros"
-version = "0.7.19"
+version = "0.7.20"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -3828,7 +3828,7 @@ dependencies = [
 
 [[package]]
 name = "nil-server"
-version = "0.7.19"
+version = "0.7.20"
 dependencies = [
  "anyhow",
  "axum",
@@ -3867,7 +3867,7 @@ dependencies = [
 
 [[package]]
 name = "nil-server-database"
-version = "0.7.19"
+version = "0.7.20"
 dependencies = [
  "anyhow",
  "bon",
@@ -3893,7 +3893,7 @@ dependencies = [
 
 [[package]]
 name = "nil-server-types"
-version = "0.7.19"
+version = "0.7.20"
 dependencies = [
  "derive_more",
  "jiff",
@@ -3905,7 +3905,7 @@ dependencies = [
 
 [[package]]
 name = "nil-util"
-version = "0.7.19"
+version = "0.7.20"
 dependencies = [
  "anyhow",
  "nil-util-macros",
@@ -3913,7 +3913,7 @@ dependencies = [
 
 [[package]]
 name = "nil-util-macros"
-version = "0.7.19"
+version = "0.7.20"
 dependencies = [
  "proc-macro2",
  "quote",

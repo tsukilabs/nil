@@ -16,7 +16,7 @@ const datetime = computed(() => props.message.formatDate());
   <div class="flex w-full flex-col gap-1 overflow-hidden">
     <div class="text-muted-foreground flex items-center justify-between gap-4 text-xs">
       <span v-if="message.author.kind === 'player'" class="ellipsis">
-        {{ message.author.id }}
+        {{ message.author.player }}
       </span>
       <span class="hidden md:block">{{ datetime }}</span>
     </div>

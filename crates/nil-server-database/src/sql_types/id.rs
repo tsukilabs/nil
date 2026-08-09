@@ -1,3 +1,6 @@
+// Copyright (C) Call of Nil contributors
+// SPDX-License-Identifier: AGPL-3.0-only
+
 use diesel::backend::Backend;
 use diesel::deserialize::{self as de, FromSql, FromSqlRow};
 use diesel::expression::AsExpression;

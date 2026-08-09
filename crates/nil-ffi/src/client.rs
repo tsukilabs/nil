@@ -11,5 +11,5 @@ use tokio::sync::RwLock;
 pub(crate) static CLIENT: LazyLock<RwLock<Client>> = LazyLock::new(RwLock::default);
 
 pub(crate) fn on_event() -> impl Fn(Event) -> BoxFuture<'static, ()> {
-  move |event: Event| Box::pin(async move { push_event(event) })
+  move |event: Event| Box::pin(async move { push_event(&event) })
 }

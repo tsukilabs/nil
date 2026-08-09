@@ -3,5 +3,5 @@ import type { PlayerId } from "./PlayerId";
 
 export type ChatMessageAuthor = { "kind": "system" } | {
   "kind": "player";
-  id: PlayerId;
+  player: PlayerId;
 };

@@ -9,9 +9,10 @@ import { EventEmitter } from "node:events";
 import { isNil } from "es-toolkit/predicate";
 import type { nil, Option } from "@tb-dev/utils";
 import { allocBuffer, readBufferPtr } from "./ptr";
-import type { ErrorHandler, Handle, QueueOptions } from "./types";
 import { HandleClosedError, NilError, UnknownResponseError } from "./error";
+import type { ErrorHandler, EventHandler, Handle, QueueOptions } from "./types";
 import {
+  type Event,
   type ffi_QueueEntry,
   type ffi_RequestId,
   type ffi_Response,
@@ -20,12 +21,14 @@ import {
 
 class QueueEmitter extends EventEmitter {
   public override emit(event: "error", error: unknown): boolean;
+  public override emit(event: "event", payload: Event): boolean;
   public override emit(event: "response", response: ffi_Response): boolean;
   public override emit(event: QueueEvent, ...args: any[]): boolean {
     return super.emit(event, ...args);
   }
 
   public override on(event: "error", listener: (error: unknown) => void): this;
+  public override on(event: "event", listener: (payload: Event) => void): this;
   public override on(event: "response", listener: (response: ffi_Response) => void): this;
   public override on(event: QueueEvent, listener: (...args: any[]) => void): this {
     return super.on(event, listener);
@@ -45,12 +48,15 @@ export class Queue implements Disposable {
   private timer: Option<ReturnType<typeof setTimeout>>;
 
   private readonly errorHandler: ErrorHandler;
+  private readonly eventHandler: EventHandler;
 
   constructor(handle: Handle, options?: QueueOptions) {
     this.functions = handle.functions;
     this.errorHandler = options?.onError ?? console.error;
+    this.eventHandler = options?.onEvent ?? console.log;
 
     this.emitter.on("error", this.errorHandler);
+    this.emitter.on("event", this.eventHandler);
     this.emitter.on("response", this.onResponse.bind(this));
 
     this.timer = setTimeout(() => this.drain(), 0);
@@ -138,7 +144,11 @@ export class Queue implements Disposable {
 
   private dispatch(entry: ffi_QueueEntry) {
     switch (entry.kind) {
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+      case "event": {
+        const event = JSON.parse(entry.jsonStr) as Event;
+        this.emitter.emit("event", event);
+        break;
+      }
       case "response": {
         const response = JSON.parse(entry.jsonStr) as ffi_Response;
         this.emitter.emit("response", response);
@@ -181,7 +191,7 @@ export class Queue implements Disposable {
   }
 }
 
-type QueueEvent = "error" | "response";
+type QueueEvent = "error" | "event" | "response";
 type RequestFn = (requestId: ffi_RequestId) => void;
 
 interface Pending<T> {
