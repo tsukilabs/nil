@@ -12,9 +12,9 @@ use std::sync::Arc;
 #[serde(rename_all = "camelCase")]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct WorldStats {
-  pub(crate) infrastructure: Arc<InfrastructureStats>,
-  pub(crate) market_price_table: MarketPriceTable,
-  pub(crate) influence_resource_cost: InfluenceResourceCost,
+  pub(super) infrastructure: Arc<InfrastructureStats>,
+  market_price_table: MarketPriceTable,
+  influence_resource_cost: InfluenceResourceCost,
 }
 
 impl WorldStats {
