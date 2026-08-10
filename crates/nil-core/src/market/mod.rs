@@ -38,11 +38,6 @@ impl Market {
   }
 
   #[inline]
-  pub const fn price_table(&self) -> MarketPriceTable {
-    MarketPriceTable::default()
-  }
-
-  #[inline]
   pub const fn price_of(&self, op: MarketOperation, resources: Resources) -> Gold {
     match op {
       MarketOperation::Buy => Gold::from(resources + (resources * self.fee())),
@@ -51,7 +46,7 @@ impl Market {
   }
 
   /// Maximum amount of a resource that can be bought with the given amount of gold.
-  pub fn buyable_amount(&self, market_price: Gold, gold: Gold) -> u32 {
+  pub const fn buyable_amount(&self, market_price: Gold, gold: Gold) -> u32 {
     let fee = f64::from(self.fee());
     let market_price = f64::from(market_price);
     let gold = f64::from(gold);
@@ -65,6 +60,7 @@ impl Market {
 #[serde(rename_all = "kebab-case")]
 #[strum(serialize_all = "kebab-case")]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 pub enum MarketOperation {
   Buy,
   Sell,
@@ -75,25 +71,25 @@ pub enum MarketOperation {
 #[serde(rename_all = "camelCase")]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct MarketPriceTable {
-  food: Gold,
-  iron: Gold,
-  stone: Gold,
-  wood: Gold,
+  pub food: Gold,
+  pub iron: Gold,
+  pub stone: Gold,
+  pub wood: Gold,
 }
 
 impl MarketPriceTable {
   pub const fn new() -> Self {
-    Self::default()
-  }
-}
-
-const impl Default for MarketPriceTable {
-  fn default() -> Self {
     Self {
       food: Food::MARKET_PRICE,
       iron: Iron::MARKET_PRICE,
       stone: Stone::MARKET_PRICE,
       wood: Wood::MARKET_PRICE,
     }
+  }
+}
+
+const impl Default for MarketPriceTable {
+  fn default() -> Self {
+    Self::new()
   }
 }
