@@ -27,7 +27,8 @@ export async function cheatGetBotInfluence(id: BotId) {
   return cheatGetInfluence({ kind: "bot", id });
 }
 
-export async function cheatGetPlayerInfluence(id: PlayerId) {
+export async function cheatGetPlayerInfluence(id: Option<PlayerId>) {
+  id ??= NIL.player.getIdStrict();
   return cheatGetInfluence({ kind: "player", id });
 }
 
@@ -49,7 +50,8 @@ export async function cheatSetBotInfluence(id: BotId, influence: Influence) {
   return cheatSetInfluence({ kind: "bot", id }, influence);
 }
 
-export async function cheatSetPlayerInfluence(id: PlayerId, influence: Influence) {
+export async function cheatSetPlayerInfluence(id: Option<PlayerId>, influence: Influence) {
+  id ??= NIL.player.getIdStrict();
   return cheatSetInfluence({ kind: "player", id }, influence);
 }
 
