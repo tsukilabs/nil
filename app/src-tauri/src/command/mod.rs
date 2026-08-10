@@ -4,6 +4,7 @@
 #![expect(clippy::needless_pass_by_value, clippy::wildcard_imports)]
 
 pub mod battle;
+pub mod capital;
 pub mod chat;
 pub mod cheat;
 pub mod city;

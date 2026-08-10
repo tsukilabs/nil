@@ -307,6 +307,14 @@ impl<'a> RulerRefMut<'a> {
 
     Ok(())
   }
+
+  pub fn influence_mut(&mut self) -> &mut Influence {
+    match self {
+      Self::Bot(bot) => &mut bot.influence,
+      Self::Player(player) => &mut player.influence,
+      Self::Precursor(precursor) => precursor.influence_mut(),
+    }
+  }
 }
 
 impl<'a> From<&'a mut Bot> for RulerRefMut<'a> {

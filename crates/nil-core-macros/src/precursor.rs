@@ -42,6 +42,10 @@ pub fn impl_precursor(ast: &DeriveInput) -> TokenStream {
           &self.capital
         }
 
+        fn capital_mut(&mut self) -> &mut Capital {
+          &mut self.capital
+        }
+
         fn resources(&self) -> Resources {
           self.resources
         }
@@ -60,6 +64,10 @@ pub fn impl_precursor(ast: &DeriveInput) -> TokenStream {
 
         fn influence(&self) -> Influence {
           self.influence
+        }
+
+        fn influence_mut(&mut self) -> &mut Influence {
+          &mut self.influence
         }
       }
     }

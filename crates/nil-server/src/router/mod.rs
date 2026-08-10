@@ -5,6 +5,7 @@
 
 mod auth;
 mod battle;
+mod capital;
 mod chat;
 mod cheat;
 mod city;
@@ -73,6 +74,7 @@ pub(crate) fn create() -> Router<App> {
     .route("/cheat-set-bot-ethics", post(cheat::npc::set_bot_ethics))
     .route("/cheat-set-building-level", post(cheat::infrastructure::set_building_level))
     .route("/cheat-set-food", post(cheat::resources::set_food))
+    .route("/cheat-set-influence", post(cheat::capital::set_influence))
     .route("/cheat-set-iron", post(cheat::resources::set_iron))
     .route("/cheat-set-market-fee", post(cheat::market::set_fee))
     .route("/cheat-set-market-vault-resources", post(cheat::market::set_vault_resources))
@@ -102,6 +104,7 @@ pub(crate) fn create() -> Router<App> {
     .route("/get-chat-history", put(chat::get))
     .route("/get-cities", put(city::get_cities))
     .route("/get-city", put(city::get_city))
+    .route("/get-city-limit", put(capital::city_limit))
     .route("/get-idle-armies-at", put(military::get_idle_armies_at))
     .route("/get-idle-armies-coords", put(military::get_idle_armies_coords))
     .route("/get-maneuver", put(military::get_maneuver))

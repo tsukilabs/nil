@@ -3,6 +3,7 @@
 
 pub mod auth;
 pub mod battle;
+pub mod capital;
 pub mod chat;
 pub mod cheat;
 pub mod city;
@@ -21,6 +22,7 @@ pub mod world;
 pub mod prelude {
   pub use super::auth::*;
   pub use super::battle::*;
+  pub use super::capital::*;
   pub use super::chat::*;
   pub use super::cheat::prelude::*;
   pub use super::city::*;

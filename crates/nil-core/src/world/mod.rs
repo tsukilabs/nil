@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 mod battle;
+mod capital;
 mod chat;
 mod city;
 mod continent;

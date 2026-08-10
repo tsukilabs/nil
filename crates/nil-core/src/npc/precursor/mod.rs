@@ -26,11 +26,13 @@ pub trait Precursor: Send + Sync {
   fn ethics(&self) -> Ethics;
   fn origin(&self) -> Coord;
   fn capital(&self) -> &Capital;
+  fn capital_mut(&mut self) -> &mut Capital;
   fn resources(&self) -> Resources;
   fn resources_mut(&mut self) -> &mut Resources;
   fn gold(&self) -> Gold;
   fn gold_mut(&mut self) -> &mut Gold;
   fn influence(&self) -> Influence;
+  fn influence_mut(&mut self) -> &mut Influence;
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]

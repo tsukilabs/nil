@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 mod behavior;
+mod capital;
 mod city;
 mod infrastructure;
 mod market;

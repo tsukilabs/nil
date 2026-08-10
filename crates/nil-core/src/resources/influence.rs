@@ -40,6 +40,7 @@ impl Influence {
     unsafe { Self(NonZeroU32::new_unchecked(value)) }
   }
 
+  /// How many cities can be controlled with this amount of influence.
   #[inline]
   pub fn city_limit(&self) -> u32 {
     nearest_triangle(self.0.get())

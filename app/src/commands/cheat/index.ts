@@ -6,6 +6,7 @@ export * from "./city";
 export * from "./round";
 export * from "./market";
 export * from "./player";
+export * from "./capital";
 export * from "./behavior";
 export * from "./military";
 export * from "./resources";
