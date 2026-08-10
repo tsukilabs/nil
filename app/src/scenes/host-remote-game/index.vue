@@ -8,9 +8,10 @@ import { useRouter } from "vue-router";
 import type { Option } from "@tb-dev/utils";
 import { hostRemoteGame } from "@/core/game";
 import { useI18n } from "@tsukilabs/nil-i18n";
+import { lref } from "@/composables/cache/lref";
 import { useSettings } from "@/stores/settings";
+import { useBreakpoints, useMutex } from "@tb-dev/vue";
 import type { WorldOptions } from "@tsukilabs/nil-bindings";
-import { localRef, useBreakpoints, useMutex } from "@tb-dev/vue";
 import ButtonSpinner from "@/components/button/ButtonSpinner.vue";
 import InputWorldName from "@/components/form/InputWorldName.vue";
 import SliderMarketFee from "@/components/form/SliderMarketFee.vue";
@@ -32,25 +33,22 @@ const settings = useSettings();
 
 const { md } = useBreakpoints();
 
-const worldOptions = localRef<Partial<WorldOptions>>(
-  key("world"),
-  {
-    name: undefined,
-    size: __CONSTS__.continentSizeDefault,
-    locale: settings.general.locale,
-    allowCheats: false,
-    speed: __CONSTS__.worldSpeedDefault,
-    unitSpeed: __CONSTS__.worldUnitSpeedDefault,
-    botDensity: __CONSTS__.botDensityDefault,
-    botAdvancedStartRatio: __CONSTS__.botAdvancedStartRatioDefault,
-  },
-);
+const worldOptions = lref<Partial<WorldOptions>>("world", {
+  name: undefined,
+  size: __CONSTS__.continentSizeDefault,
+  locale: settings.general.locale,
+  allowCheats: false,
+  speed: __CONSTS__.worldSpeedDefault,
+  unitSpeed: __CONSTS__.worldUnitSpeedDefault,
+  botDensity: __CONSTS__.botDensityDefault,
+  botAdvancedStartRatio: __CONSTS__.botAdvancedStartRatioDefault,
+});
 
 const worldPassword = ref<Option<string>>();
 const description = ref<Option<string>>();
 
-const roundDuration = localRef(key("round-duration"), __CONSTS__.roundDurationDefault);
-const isRoundDurationEnabled = localRef(key("round-duration-enabled"), false);
+const roundDuration = lref("round-duration", __CONSTS__.roundDurationDefault);
+const isRoundDurationEnabled = lref("round-duration-enabled", false);
 
 const { locked, lock } = useMutex();
 
@@ -77,10 +75,6 @@ async function host() {
       });
     }
   });
-}
-
-function key(name: string) {
-  return `host-remote-game:${name}`;
 }
 </script>
 

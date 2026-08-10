@@ -10,9 +10,10 @@ import { Switch } from "@ui/switch";
 import { useRouter } from "vue-router";
 import { hostLocalGame } from "@/core/game";
 import { useI18n } from "@tsukilabs/nil-i18n";
+import { lref } from "@/composables/cache/lref";
 import { useSettings } from "@/stores/settings";
+import { useBreakpoints, useMutex } from "@tb-dev/vue";
 import { isPlayerOptions, isWorldOptions } from "@/lib/schema";
-import { localRef, useBreakpoints, useMutex } from "@tb-dev/vue";
 import InputWorldName from "@/components/form/InputWorldName.vue";
 import InputPlayerName from "@/components/form/InputPlayerName.vue";
 import SliderMarketFee from "@/components/form/SliderMarketFee.vue";
@@ -31,26 +32,20 @@ const settings = useSettings();
 
 const { md } = useBreakpoints();
 
-const worldOptions = localRef<Partial<WorldOptions>>(
-  key("world"),
-  {
-    name: undefined,
-    size: __CONSTS__.continentSizeDefault,
-    locale: settings.general.locale,
-    allowCheats: false,
-    speed: __CONSTS__.worldSpeedDefault,
-    unitSpeed: __CONSTS__.worldUnitSpeedDefault,
-    botDensity: __CONSTS__.botDensityDefault,
-    botAdvancedStartRatio: __CONSTS__.botAdvancedStartRatioDefault,
-  },
-);
+const worldOptions = lref<Partial<WorldOptions>>("world", {
+  name: undefined,
+  size: __CONSTS__.continentSizeDefault,
+  locale: settings.general.locale,
+  allowCheats: false,
+  speed: __CONSTS__.worldSpeedDefault,
+  unitSpeed: __CONSTS__.worldUnitSpeedDefault,
+  botDensity: __CONSTS__.botDensityDefault,
+  botAdvancedStartRatio: __CONSTS__.botAdvancedStartRatioDefault,
+});
 
-const playerOptions = localRef<Partial<PlayerOptions>>(
-  key("player"),
-  {
-    id: undefined,
-  },
-);
+const playerOptions = lref<Partial<PlayerOptions>>("player", {
+  id: undefined,
+});
 
 const { locked, lock } = useMutex();
 
@@ -68,10 +63,6 @@ async function host() {
       });
     }
   });
-}
-
-function key(name: string) {
-  return `host-local-game:${name}`;
 }
 </script>
 

@@ -2,13 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { computed } from "vue";
+import { useMutex } from "@tb-dev/vue";
 import { throttle } from "es-toolkit/function";
-import { asyncRef, useMutex } from "@tb-dev/vue";
+import { wref } from "@/composables/cache/wref";
 import { MarketImpl } from "@/core/model/market/market";
 import type { Resources, Ruler } from "@tsukilabs/nil-bindings";
 
 export function useMarket() {
-  const market = asyncRef(null, () => MarketImpl.load());
+  const market = wref("market", null, () => MarketImpl.load());
   const throttledLoad = throttle(market.load, 1000, {
     edges: ["leading", "trailing"],
   });
