@@ -268,6 +268,12 @@ namespace CsBindgen
         public static extern void nil_cheat_get_idle_personnel_at(uint request_id, byte* json_req);
 
         /// <summary>
+        ///  [`Client::cheat_get_influence`](nil_client::Client::cheat_get_influence)
+        /// </summary>
+        [DllImport(__DllName, EntryPoint = "nil_cheat_get_influence", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void nil_cheat_get_influence(uint request_id, byte* json_req);
+
+        /// <summary>
         ///  [`Client::cheat_get_infrastructure`](nil_client::Client::cheat_get_infrastructure)
         /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_cheat_get_infrastructure", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]

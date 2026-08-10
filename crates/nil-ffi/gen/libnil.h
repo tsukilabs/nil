@@ -232,6 +232,11 @@ void nil_cheat_get_idle_armies_at(RequestId request_id, const char *json_req);
 void nil_cheat_get_idle_personnel_at(RequestId request_id, const char *json_req);
 
 /**
+ * [`Client::cheat_get_influence`](nil_client::Client::cheat_get_influence)
+ */
+void nil_cheat_get_influence(RequestId request_id, const char *json_req);
+
+/**
  * [`Client::cheat_get_infrastructure`](nil_client::Client::cheat_get_infrastructure)
  */
 void nil_cheat_get_infrastructure(RequestId request_id, const char *json_req);

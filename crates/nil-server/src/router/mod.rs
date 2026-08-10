@@ -60,6 +60,7 @@ pub(crate) fn create() -> Router<App> {
     .route("/cheat-get-ethics", put(cheat::npc::get_ethics))
     .route("/cheat-get-idle-armies-at", put(cheat::military::get_idle_armies_at))
     .route("/cheat-get-idle-personnel-at", put(cheat::military::get_idle_personnel_at))
+    .route("/cheat-get-influence", put(cheat::capital::get_influence))
     .route("/cheat-get-infrastructure", put(cheat::infrastructure::get_infrastructure))
     .route("/cheat-get-maneuvers", put(cheat::military::get_maneuvers))
     .route("/cheat-get-maneuvers-of", put(cheat::military::get_maneuvers_of))

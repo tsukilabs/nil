@@ -5,12 +5,35 @@ import type { Option } from "@tb-dev/utils";
 import { invoke } from "@tauri-apps/api/core";
 import type {
   BotId,
+  CheatGetInfluenceRequest,
+  CheatGetInfluenceResponse,
   CheatSetInfluenceRequest,
   Influence,
   PlayerId,
   PrecursorId,
   Ruler,
 } from "@tsukilabs/nil-bindings";
+
+export async function cheatGetInfluence(ruler: Option<Ruler>) {
+  const req: CheatGetInfluenceRequest = {
+    world: NIL.world.getIdStrict(),
+    ruler: ruler ?? null,
+  };
+
+  return invoke<CheatGetInfluenceResponse>("cheat_get_influence", { req });
+}
+
+export async function cheatGetBotInfluence(id: BotId) {
+  return cheatGetInfluence({ kind: "bot", id });
+}
+
+export async function cheatGetPlayerInfluence(id: PlayerId) {
+  return cheatGetInfluence({ kind: "player", id });
+}
+
+export async function cheatGetPrecursorInfluence(id: PrecursorId) {
+  return cheatGetInfluence({ kind: "precursor", id });
+}
 
 export async function cheatSetInfluence(ruler: Option<Ruler>, influence: Influence) {
   const req: CheatSetInfluenceRequest = {

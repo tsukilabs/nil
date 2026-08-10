@@ -438,6 +438,12 @@ pub unsafe extern "C" fn nil_cheat_get_idle_personnel_at(
   send!(request_id, cheat_get_idle_personnel_at, json_req);
 }
 
+/// [`Client::cheat_get_influence`](nil_client::Client::cheat_get_influence)
+#[unsafe(no_mangle)]
+pub unsafe extern "C" fn nil_cheat_get_influence(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, cheat_get_influence, json_req);
+}
+
 /// [`Client::cheat_get_infrastructure`](nil_client::Client::cheat_get_infrastructure)
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn nil_cheat_get_infrastructure(

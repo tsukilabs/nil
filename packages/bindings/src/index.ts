@@ -87,6 +87,8 @@ export type { CheatGetIdleArmiesAtRequest } from './CheatGetIdleArmiesAtRequest'
 export type { CheatGetIdleArmiesAtResponse } from './CheatGetIdleArmiesAtResponse';
 export type { CheatGetIdlePersonnelAtRequest } from './CheatGetIdlePersonnelAtRequest';
 export type { CheatGetIdlePersonnelAtResponse } from './CheatGetIdlePersonnelAtResponse';
+export type { CheatGetInfluenceRequest } from './CheatGetInfluenceRequest';
+export type { CheatGetInfluenceResponse } from './CheatGetInfluenceResponse';
 export type { CheatGetInfrastructureRequest } from './CheatGetInfrastructureRequest';
 export type { CheatGetInfrastructureResponse } from './CheatGetInfrastructureResponse';
 export type { CheatGetManeuversOfRequest } from './CheatGetManeuversOfRequest';

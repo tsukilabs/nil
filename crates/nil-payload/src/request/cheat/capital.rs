@@ -11,6 +11,18 @@ use serde::{Deserialize, Serialize};
 #[serde(rename_all = "camelCase")]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 #[cfg_attr(feature = "typescript", ts(export, optional_fields = nullable))]
+pub struct CheatGetInfluenceRequest {
+  #[builder(start_fn, into)]
+  pub world: WorldId,
+  #[serde(default)]
+  #[builder(into)]
+  pub ruler: Option<Ruler>,
+}
+
+#[derive(Builder, Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
+#[cfg_attr(feature = "typescript", ts(export, optional_fields = nullable))]
 pub struct CheatSetInfluenceRequest {
   #[builder(start_fn, into)]
   pub world: WorldId,

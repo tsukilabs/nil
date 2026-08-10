@@ -50,6 +50,7 @@ nil_cheat_get_city: { arguments: [ffi.types.UINT_32, ffi.types.POINTER], return:
 nil_cheat_get_ethics: { arguments: [ffi.types.UINT_32, ffi.types.POINTER], return: ffi.types.VOID },
 nil_cheat_get_idle_armies_at: { arguments: [ffi.types.UINT_32, ffi.types.POINTER], return: ffi.types.VOID },
 nil_cheat_get_idle_personnel_at: { arguments: [ffi.types.UINT_32, ffi.types.POINTER], return: ffi.types.VOID },
+nil_cheat_get_influence: { arguments: [ffi.types.UINT_32, ffi.types.POINTER], return: ffi.types.VOID },
 nil_cheat_get_infrastructure: { arguments: [ffi.types.UINT_32, ffi.types.POINTER], return: ffi.types.VOID },
 nil_cheat_get_maneuvers: { arguments: [ffi.types.UINT_32, ffi.types.POINTER], return: ffi.types.VOID },
 nil_cheat_get_maneuvers_of: { arguments: [ffi.types.UINT_32, ffi.types.POINTER], return: ffi.types.VOID },
