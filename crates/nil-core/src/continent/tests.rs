@@ -3,7 +3,7 @@
 
 use crate::city::{City, CityName};
 use crate::continent::{Continent, ContinentSize, Coord};
-use crate::npc::precursor::A;
+use crate::npc::precursor::a::A;
 use std::ops::Not;
 
 #[test]

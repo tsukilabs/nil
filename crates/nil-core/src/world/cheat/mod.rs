@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 mod behavior;
+mod capital;
 mod city;
 mod infrastructure;
 mod market;
@@ -12,6 +13,7 @@ mod resources;
 mod round;
 
 pub use behavior::get_build_steps;
+pub use capital::{get_influence, set_influence};
 pub use city::{fill_world, get_city, set_stability, spawn_city};
 pub use infrastructure::{
   get_academy_recruit_queue,

@@ -18,6 +18,7 @@ export * from "./market";
 export * from "./player";
 export * from "./report";
 export * from "./server";
+export * from "./capital";
 export * from "./ranking";
 export * from "./military";
 export * from "./continent";

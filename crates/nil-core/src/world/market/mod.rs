@@ -10,15 +10,10 @@ use crate::market::MarketOperation::{Buy, Sell};
 use crate::resources::Resources;
 use crate::ruler::Ruler;
 use crate::world::World;
-use std::ops::AddAssign;
 
 impl World {
   pub fn market(&self) -> &Market {
     &self.market
-  }
-
-  pub(crate) fn market_mut(&mut self) -> &mut Market {
-    &mut self.market
   }
 
   /// Buys resources from the market.
@@ -38,7 +33,7 @@ impl World {
     let gold = self.market.price_of(Buy, resources);
     self.ruler_mut(ruler)?.withdraw_gold(gold)?;
 
-    self.market.vault_mut().withdraw(resources)?;
+    self.market.vault.withdraw(resources)?;
 
     self.add_resources_within_capacity(ruler.clone(), resources)?;
 
@@ -66,16 +61,10 @@ impl World {
       .ruler_mut(ruler)?
       .withdraw_resources(resources)?;
 
-    self
-      .market_mut()
-      .vault_mut()
-      .store(resources);
+    self.market.vault.resources += resources;
 
     let gold = self.market.price_of(Sell, resources);
-    self
-      .ruler_mut(ruler)?
-      .gold_mut()
-      .add_assign(gold);
+    *self.ruler_mut(ruler)?.gold_mut() += gold;
 
     if emit {
       self.emit_ruler(ruler)?;
@@ -103,7 +92,7 @@ impl World {
     self.emit_ruler(from)?;
     self.emit_ruler(to)?;
 
-    self.market_mut().vault_mut().store(fee);
+    self.market.vault.resources += fee;
     self.emit_market()?;
 
     Ok(())

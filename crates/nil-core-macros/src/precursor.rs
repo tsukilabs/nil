@@ -10,6 +10,7 @@ pub fn impl_precursor(ast: &DeriveInput) -> TokenStream {
   let stream = quote! {
     mod __impl_precursor {
       use super::#name;
+      use crate::capital::Capital;
       use crate::continent::coord::Coord;
       use crate::ethic::Ethics;
       use crate::npc::precursor::{Precursor, PrecursorBox, PrecursorId};
@@ -24,17 +25,25 @@ pub fn impl_precursor(ast: &DeriveInput) -> TokenStream {
       }
 
       #[automatically_derived]
-      const impl Precursor for #name {
+      impl Precursor for #name {
         fn id(&self) -> PrecursorId {
           Self::ID
         }
 
-        fn ethics(&self) -> &Ethics {
-          &Self::ETHICS
+        fn ethics(&self) -> Ethics {
+          Self::ETHICS
         }
 
         fn origin(&self) -> Coord {
           self.origin
+        }
+
+        fn capital(&self) -> &Capital {
+          &self.capital
+        }
+
+        fn capital_mut(&mut self) -> &mut Capital {
+          &mut self.capital
         }
 
         fn resources(&self) -> Resources {
@@ -55,6 +64,10 @@ pub fn impl_precursor(ast: &DeriveInput) -> TokenStream {
 
         fn influence(&self) -> Influence {
           self.influence
+        }
+
+        fn influence_mut(&mut self) -> &mut Influence {
+          &mut self.influence
         }
       }
     }

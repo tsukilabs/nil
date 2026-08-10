@@ -40,16 +40,7 @@ impl Influence {
     unsafe { Self(NonZeroU32::new_unchecked(value)) }
   }
 
-  /// Resources required to acquire one unit of influence.
-  pub const fn resources() -> Resources {
-    Resources {
-      food: Food::from((Self::COST * Self::FOOD_RATIO).round()),
-      iron: Iron::from((Self::COST * Self::IRON_RATIO).round()),
-      stone: Stone::from((Self::COST * Self::STONE_RATIO).round()),
-      wood: Wood::from((Self::COST * Self::WOOD_RATIO).round()),
-    }
-  }
-
+  /// How many cities can be controlled with this amount of influence.
   #[inline]
   pub fn city_limit(&self) -> u32 {
     nearest_triangle(self.0.get())
@@ -68,3 +59,26 @@ check_total_resource_ratio!(
   Influence::STONE_RATIO,
   Influence::WOOD_RATIO
 );
+
+/// Resources required to acquire one unit of influence.
+#[derive(Copy, Debug, Deserialize, Serialize, ConstDeref)]
+#[derive_const(Clone, PartialEq, Eq)]
+#[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
+pub struct InfluenceResourceCost(Resources);
+
+impl InfluenceResourceCost {
+  pub const fn new() -> Self {
+    Self(Resources {
+      food: Food::from((Influence::COST * Influence::FOOD_RATIO).round()),
+      iron: Iron::from((Influence::COST * Influence::IRON_RATIO).round()),
+      stone: Stone::from((Influence::COST * Influence::STONE_RATIO).round()),
+      wood: Wood::from((Influence::COST * Influence::WOOD_RATIO).round()),
+    })
+  }
+}
+
+const impl Default for InfluenceResourceCost {
+  fn default() -> Self {
+    Self::new()
+  }
+}

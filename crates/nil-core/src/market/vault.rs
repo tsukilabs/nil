@@ -10,18 +10,13 @@ use serde::{Deserialize, Serialize};
 #[serde(rename_all = "camelCase")]
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct MarketVault {
-  resources: Resources,
+  pub(crate) resources: Resources,
 }
 
 impl MarketVault {
   #[inline]
   pub fn resources(&self) -> Resources {
     self.resources
-  }
-
-  /// Adds resources to the vault.
-  pub(crate) fn store(&mut self, resources: Resources) {
-    self.resources += resources;
   }
 
   pub(crate) fn withdraw(&mut self, resources: Resources) -> Result<()> {
@@ -31,12 +26,5 @@ impl MarketVault {
       .ok_or(Error::NotEnoughResourcesInMarketVault)?;
 
     Ok(())
-  }
-
-  /// Sets the resources in the vault.
-  ///
-  /// This should only be used to execute cheats or for testing purposes.
-  pub(crate) fn set(&mut self, resources: Resources) {
-    self.resources = resources;
   }
 }

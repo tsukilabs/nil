@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 use crate::infrastructure::stats::InfrastructureStats;
+use crate::market::MarketPriceTable;
+use crate::resources::influence::InfluenceResourceCost;
 use crate::world::config::WorldConfig;
 use serde::{Deserialize, Serialize};
 use std::sync::Arc;
@@ -11,17 +13,31 @@ use std::sync::Arc;
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct WorldStats {
   pub(super) infrastructure: Arc<InfrastructureStats>,
+  market_price_table: MarketPriceTable,
+  influence_resource_cost: InfluenceResourceCost,
 }
 
 impl WorldStats {
   pub fn new(config: &WorldConfig) -> Self {
     Self {
       infrastructure: Arc::new(InfrastructureStats::new(config)),
+      market_price_table: MarketPriceTable::new(),
+      influence_resource_cost: InfluenceResourceCost::new(),
     }
   }
 
   #[inline]
   pub fn infrastructure(&self) -> Arc<InfrastructureStats> {
     Arc::clone(&self.infrastructure)
+  }
+
+  #[inline]
+  pub fn market_price_table(&self) -> MarketPriceTable {
+    self.market_price_table
+  }
+
+  #[inline]
+  pub fn influence_resource_cost(&self) -> InfluenceResourceCost {
+    self.influence_resource_cost
   }
 }

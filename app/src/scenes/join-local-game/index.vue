@@ -9,8 +9,9 @@ import { joinLocalGame } from "@/core/game";
 import type { Option } from "@tb-dev/utils";
 import { useI18n } from "@tsukilabs/nil-i18n";
 import { isPlayerOptions } from "@/lib/schema";
+import { lref } from "@/composables/cache/lref";
 import { SocketAddrV4 } from "@/lib/net/addr-v4";
-import { localRef, useBreakpoints, useMutex } from "@tb-dev/vue";
+import { useBreakpoints, useMutex } from "@tb-dev/vue";
 import InputPlayerName from "@/components/form/InputPlayerName.vue";
 import type { PlayerOptions, ServerAddr } from "@tsukilabs/nil-bindings";
 import InputServerAddress from "@/components/form/InputServerAddress.vue";
@@ -22,14 +23,11 @@ const router = useRouter();
 
 const { md } = useBreakpoints();
 
-const playerOptions = localRef<Partial<PlayerOptions>>(
-  key("player"),
-  {
-    id: undefined,
-  },
-);
+const playerOptions = lref<Partial<PlayerOptions>>("player", {
+  id: undefined,
+});
 
-const server = localRef<string>(key("server"), "");
+const server = lref<string>("server", "");
 const serverAddr = computed<Option<ServerAddr>>(() => {
   const addr = SocketAddrV4.tryParse(server.value);
   if (addr) {
@@ -55,10 +53,6 @@ async function join() {
       });
     }
   });
-}
-
-function key(name: string) {
-  return `join-local-game:${name}`;
 }
 </script>
 

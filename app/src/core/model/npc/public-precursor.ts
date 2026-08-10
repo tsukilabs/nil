@@ -26,7 +26,12 @@ export class PublicPrecursorImpl extends RulerImpl implements DeepReadonly<Publi
   };
 
   protected constructor(args: PublicPrecursorImplConstructorArgs) {
-    super({ coords: args.coords, ranking: args.ranking });
+    super({
+      capital: args.precursor.capital,
+      coords: args.coords,
+      ranking: args.ranking,
+    });
+
     this.id = args.precursor.id;
     this.origin = args.precursor.origin;
   }

@@ -5,6 +5,7 @@
 
 mod auth;
 mod battle;
+mod capital;
 mod chat;
 mod cheat;
 mod city;

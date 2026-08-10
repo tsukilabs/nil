@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as commands from "@/commands";
-import { asyncRef } from "@tb-dev/vue";
+import { wref } from "@/composables/cache/wref";
 
 export function useRulers() {
-  const rulers = asyncRef([], () => commands.getWorldRulers());
+  const rulers = wref("rulers", [], () => commands.getWorldRulers());
 
   return {
     rulers: rulers.state,

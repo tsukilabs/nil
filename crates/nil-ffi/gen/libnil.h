@@ -232,6 +232,11 @@ void nil_cheat_get_idle_armies_at(RequestId request_id, const char *json_req);
 void nil_cheat_get_idle_personnel_at(RequestId request_id, const char *json_req);
 
 /**
+ * [`Client::cheat_get_influence`](nil_client::Client::cheat_get_influence)
+ */
+void nil_cheat_get_influence(RequestId request_id, const char *json_req);
+
+/**
  * [`Client::cheat_get_infrastructure`](nil_client::Client::cheat_get_infrastructure)
  */
 void nil_cheat_get_infrastructure(RequestId request_id, const char *json_req);
@@ -302,6 +307,11 @@ void nil_cheat_set_building_level(RequestId request_id, const char *json_req);
  * [`Client::cheat_set_food`](nil_client::Client::cheat_set_food)
  */
 void nil_cheat_set_food(RequestId request_id, const char *json_req);
+
+/**
+ * [`Client::cheat_set_influence`](nil_client::Client::cheat_set_influence)
+ */
+void nil_cheat_set_influence(RequestId request_id, const char *json_req);
 
 /**
  * [`Client::cheat_set_iron`](nil_client::Client::cheat_set_iron)
@@ -459,6 +469,11 @@ void nil_get_cities(RequestId request_id, const char *json_req);
  * [`Client::get_city`](nil_client::Client::get_city)
  */
 void nil_get_city(RequestId request_id, const char *json_req);
+
+/**
+ * [`Client::get_city_limit`](nil_client::Client::get_city_limit)
+ */
+void nil_get_city_limit(RequestId request_id, const char *json_req);
 
 /**
  * [`Client::get_city_score`](nil_client::Client::get_city_score)

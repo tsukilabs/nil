@@ -268,6 +268,12 @@ namespace CsBindgen
         public static extern void nil_cheat_get_idle_personnel_at(uint request_id, byte* json_req);
 
         /// <summary>
+        ///  [`Client::cheat_get_influence`](nil_client::Client::cheat_get_influence)
+        /// </summary>
+        [DllImport(__DllName, EntryPoint = "nil_cheat_get_influence", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void nil_cheat_get_influence(uint request_id, byte* json_req);
+
+        /// <summary>
         ///  [`Client::cheat_get_infrastructure`](nil_client::Client::cheat_get_infrastructure)
         /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_cheat_get_infrastructure", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -350,6 +356,12 @@ namespace CsBindgen
         /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_cheat_set_food", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_cheat_set_food(uint request_id, byte* json_req);
+
+        /// <summary>
+        ///  [`Client::cheat_set_influence`](nil_client::Client::cheat_set_influence)
+        /// </summary>
+        [DllImport(__DllName, EntryPoint = "nil_cheat_set_influence", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void nil_cheat_set_influence(uint request_id, byte* json_req);
 
         /// <summary>
         ///  [`Client::cheat_set_iron`](nil_client::Client::cheat_set_iron)
@@ -536,6 +548,12 @@ namespace CsBindgen
         /// </summary>
         [DllImport(__DllName, EntryPoint = "nil_get_city", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void nil_get_city(uint request_id, byte* json_req);
+
+        /// <summary>
+        ///  [`Client::get_city_limit`](nil_client::Client::get_city_limit)
+        /// </summary>
+        [DllImport(__DllName, EntryPoint = "nil_get_city_limit", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void nil_get_city_limit(uint request_id, byte* json_req);
 
         /// <summary>
         ///  [`Client::get_city_score`](nil_client::Client::get_city_score)

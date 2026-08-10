@@ -53,7 +53,7 @@ const { sm } = useBreakpoints();
       class="max-w-32"
       @click="() => onOrder('demolition')"
     >
-      <span>{{ t("demolish") }}</span>
+      <span>{{ t("prefecture.demolish") }}</span>
     </Button>
   </div>
 </template>

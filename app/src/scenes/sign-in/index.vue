@@ -5,13 +5,14 @@
 import { Input } from "@ui/input";
 import { Label } from "@ui/label";
 import * as commands from "@/commands";
+import { useMutex } from "@tb-dev/vue";
 import { useRouter } from "vue-router";
 import type { Option } from "@tb-dev/utils";
 import { useI18n } from "@tsukilabs/nil-i18n";
 import { computed, onBeforeMount } from "vue";
 import { Button } from "@/components/ui/button";
+import { lref } from "@/composables/cache/lref";
 import { useSettings } from "@/stores/settings";
-import { localRef, useMutex } from "@tb-dev/vue";
 import { isValidPassword, isValidPlayerId } from "@/lib/schema";
 import ButtonSpinner from "@/components/button/ButtonSpinner.vue";
 import { go, QUERY_SIGN_IN_USER, QUERY_SIGN_UP_USER } from "@/router";
@@ -27,8 +28,8 @@ interface User {
   password: Option<string>;
 }
 
-const userName = localRef<User["name"]>(key("user.name"), null);
-const userPassword = localRef<User["password"]>(key("user.password"), null);
+const userName = lref<User["name"]>("user.name", null);
+const userPassword = lref<User["password"]>("user.password", null);
 
 const { locked, lock } = useMutex();
 const canSignIn = computed(() => {
@@ -68,10 +69,6 @@ async function signIn() {
 
 async function goToSignUpScene() {
   await go("sign-up", { query: { [QUERY_SIGN_UP_USER]: userName.value } });
-}
-
-function key(name: string) {
-  return `sign-in:${name}`;
 }
 </script>
 

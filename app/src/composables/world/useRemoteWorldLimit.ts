@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as commands from "@/commands";
-import { localRef } from "@tb-dev/vue";
 import { handleError } from "@/lib/error";
 import type { Option } from "@tb-dev/utils";
 import type { DeepReadonly, Ref } from "vue";
+import { lref } from "@/composables/cache/lref";
 
 interface Limit {
   readonly version: string;
@@ -14,7 +14,7 @@ interface Limit {
 }
 
 export function useRemoteWorldLimit() {
-  const limit = localRef("remote-world-limit", defaultLimit(), {
+  const limit = lref("remote-world-limit", defaultLimit(), {
     initOnMounted: false,
     mergeDefaults: true,
     writeDefaults: true,

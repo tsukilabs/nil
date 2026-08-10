@@ -438,6 +438,12 @@ pub unsafe extern "C" fn nil_cheat_get_idle_personnel_at(
   send!(request_id, cheat_get_idle_personnel_at, json_req);
 }
 
+/// [`Client::cheat_get_influence`](nil_client::Client::cheat_get_influence)
+#[unsafe(no_mangle)]
+pub unsafe extern "C" fn nil_cheat_get_influence(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, cheat_get_influence, json_req);
+}
+
 /// [`Client::cheat_get_infrastructure`](nil_client::Client::cheat_get_infrastructure)
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn nil_cheat_get_infrastructure(
@@ -544,6 +550,12 @@ pub unsafe extern "C" fn nil_cheat_set_building_level(
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn nil_cheat_set_food(request_id: RequestId, json_req: *const c_char) {
   send!(request_id, cheat_set_food, json_req);
+}
+
+/// [`Client::cheat_set_influence`](nil_client::Client::cheat_set_influence)
+#[unsafe(no_mangle)]
+pub unsafe extern "C" fn nil_cheat_set_influence(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, cheat_set_influence, json_req);
 }
 
 /// [`Client::cheat_set_iron`](nil_client::Client::cheat_set_iron)
@@ -748,6 +760,12 @@ pub unsafe extern "C" fn nil_get_cities(request_id: RequestId, json_req: *const 
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn nil_get_city(request_id: RequestId, json_req: *const c_char) {
   send!(request_id, get_city, json_req);
+}
+
+/// [`Client::get_city_limit`](nil_client::Client::get_city_limit)
+#[unsafe(no_mangle)]
+pub unsafe extern "C" fn nil_get_city_limit(request_id: RequestId, json_req: *const c_char) {
+  send!(request_id, get_city_limit, json_req);
 }
 
 /// [`Client::get_city_score`](nil_client::Client::get_city_score)

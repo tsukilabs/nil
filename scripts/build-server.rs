@@ -7,7 +7,7 @@ anyhow = "1.0"
 octocrab = "=0.54.1"
 serde_json = "1.0"
 tempfile = "3.27"
-ureq = "3.3"
+ureq = "3.4"
 
 [dependencies.clap]
 version = "4.6"

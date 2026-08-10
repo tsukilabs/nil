@@ -17,7 +17,7 @@ fn withdraw_resources_up_to() -> Result<()> {
   let player = PlayerId::from("Player A");
   spawn_player(&mut world, player.as_str())?;
 
-  *world.player_mut(&player)?.resources_mut() = res(10_000);
+  world.player_mut(&player)?.resources = res(10_000);
 
   let mut buf = res(8000);
 

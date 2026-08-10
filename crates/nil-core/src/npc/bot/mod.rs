@@ -1,6 +1,7 @@
 // Copyright (C) Call of Nil contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 
+use crate::capital::{Capital, PublicCapital};
 use crate::error::{Error, Result};
 use crate::ethic::Ethics;
 use crate::resources::Resources;
@@ -53,17 +54,19 @@ impl BotManager {
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct Bot {
   id: BotId,
-  ethics: Ethics,
-  resources: Resources,
-  gold: Gold,
-  influence: Influence,
+  pub(crate) ethics: Ethics,
+  pub(crate) capital: Capital,
+  pub(crate) resources: Resources,
+  pub(crate) gold: Gold,
+  pub(crate) influence: Influence,
 }
 
 impl Bot {
-  pub(crate) fn new(id: BotId) -> Self {
+  pub fn new(id: BotId) -> Self {
     Self {
       id,
       ethics: Ethics::random(),
+      capital: Capital::default(),
       resources: Resources::BOT,
       gold: Gold::MIN,
       influence: Influence::MIN,
@@ -76,13 +79,13 @@ impl Bot {
   }
 
   #[inline]
-  pub fn ethics(&self) -> &Ethics {
-    &self.ethics
+  pub fn ethics(&self) -> Ethics {
+    self.ethics
   }
 
   #[inline]
-  pub(crate) fn ethics_mut(&mut self) -> &mut Ethics {
-    &mut self.ethics
+  pub fn capital(&self) -> &Capital {
+    &self.capital
   }
 
   #[inline]
@@ -90,17 +93,9 @@ impl Bot {
     self.resources
   }
 
-  pub(crate) fn resources_mut(&mut self) -> &mut Resources {
-    &mut self.resources
-  }
-
   #[inline]
   pub fn gold(&self) -> Gold {
     self.gold
-  }
-
-  pub(crate) fn gold_mut(&mut self) -> &mut Gold {
-    &mut self.gold
   }
 
   #[inline]
@@ -159,10 +154,14 @@ impl PartialEq<Ruler> for BotId {
 #[cfg_attr(feature = "typescript", derive(ts_rs::TS))]
 pub struct PublicBot {
   id: BotId,
+  capital: PublicCapital,
 }
 
 impl From<&Bot> for PublicBot {
   fn from(bot: &Bot) -> Self {
-    Self { id: bot.id.clone() }
+    Self {
+      id: bot.id.clone(),
+      capital: PublicCapital::from(&bot.capital),
+    }
   }
 }
