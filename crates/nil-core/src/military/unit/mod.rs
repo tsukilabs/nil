@@ -21,7 +21,7 @@ use std::ops::Mul;
 use strum::EnumIter;
 use subenum::subenum;
 
-pub trait Unit: Send + Sync {
+pub impl(crate) trait Unit: Send + Sync {
   fn id(&self) -> UnitId;
 
   fn kind(&self) -> UnitKind;

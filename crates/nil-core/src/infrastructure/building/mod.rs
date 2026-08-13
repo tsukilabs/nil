@@ -15,7 +15,7 @@ use std::collections::HashMap;
 use strum::{EnumIs, EnumIter};
 use subenum::subenum;
 
-pub trait Building: Send + Sync {
+pub impl(crate) trait Building: Send + Sync {
   fn id(&self) -> BuildingId;
 
   /// Checks whether the building is enabled.

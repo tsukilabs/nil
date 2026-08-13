@@ -611,7 +611,7 @@ macro_rules! decl_resource {
 
 decl_resource!(Food, Iron, Stone, Wood);
 
-pub trait Resource: Send + Sync {
+pub impl(crate) trait Resource: Send + Sync {
   fn id(&self) -> ResourceId;
   fn market_price(&self) -> Gold;
 
