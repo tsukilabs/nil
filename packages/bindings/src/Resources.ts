@@ -5,6 +5,8 @@ import type { Stone } from "./Stone";
 import type { Wood } from "./Wood";
 
 /**
- * Basic resources, such as food.
+ * Basic resources, such as [food].
+ *
+ * [food]: crate::resources::Food
  */
 export type Resources = { food: Food; iron: Iron; stone: Stone; wood: Wood };
