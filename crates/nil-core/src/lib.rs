@@ -17,7 +17,7 @@
   impl_restriction,
   iter_collect_into,
   gen_blocks,
-  mut_restriction,
+  // mut_restriction,
   str_as_str,
   try_blocks
 )]
