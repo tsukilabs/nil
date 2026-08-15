@@ -13,9 +13,13 @@ where
   Key: AsRef<OsStr>,
   Value: AsRef<OsStr>,
 {
-  let mut command = if cfg!(windows) { Command::new("pwsh") } else { Command::new(program) };
+  let mut command = if cfg!(any(target_os = "windows", feature = "pwsh")) {
+    Command::new("pwsh")
+  } else {
+    Command::new(program)
+  };
 
-  if cfg!(windows) {
+  if cfg!(any(target_os = "windows", feature = "pwsh")) {
     command
       .args(["-Command", program])
       .args(args);

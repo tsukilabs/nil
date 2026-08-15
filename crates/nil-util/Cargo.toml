@@ -27,11 +27,12 @@ anyhow = { workspace = true, optional = true }
 nil-util-macros = { workspace = true, optional = true }
 
 [features]
-default = ["iter", "macros", "ops", "process", "string", "vec"]
+default = ["iter", "macros", "ops", "process", "pwsh", "string", "vec"]
 
 iter = []
 macros = ["dep:nil-util-macros"]
 ops = []
 process = ["dep:anyhow"]
+pwsh = []
 string = []
 vec = []
