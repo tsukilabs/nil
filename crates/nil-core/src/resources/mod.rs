@@ -29,7 +29,9 @@ use std::ops::{Add, AddAssign, Mul, MulAssign, Sub, SubAssign};
 use strum::{EnumIs, EnumIter};
 use subenum::subenum;
 
-/// Basic resources, such as food.
+/// Basic resources, such as [food].
+///
+/// [food]: crate::resources::Food
 #[derive(Builder, Copy, Debug, Deserialize, Serialize)]
 #[derive_const(Clone, PartialEq, Eq)]
 #[serde(default, rename_all = "camelCase")]
@@ -611,7 +613,7 @@ macro_rules! decl_resource {
 
 decl_resource!(Food, Iron, Stone, Wood);
 
-pub trait Resource: Send + Sync {
+pub impl(crate) trait Resource: Send + Sync {
   fn id(&self) -> ResourceId;
   fn market_price(&self) -> Gold;
 

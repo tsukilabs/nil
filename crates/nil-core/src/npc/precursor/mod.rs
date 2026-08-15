@@ -21,7 +21,7 @@ use serde::{Deserialize, Serialize};
 use std::cmp;
 use strum::{AsRefStr, Display, EnumIter, EnumString, IntoEnumIterator};
 
-pub trait Precursor: Send + Sync {
+pub impl(crate) trait Precursor: Send + Sync {
   fn id(&self) -> PrecursorId;
   fn ethics(&self) -> Ethics;
   fn origin(&self) -> Coord;

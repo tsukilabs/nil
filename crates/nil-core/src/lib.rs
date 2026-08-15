@@ -14,8 +14,10 @@
   const_trait_impl,
   const_try,
   derive_const,
+  impl_restriction,
   iter_collect_into,
   gen_blocks,
+  // mut_restriction,
   str_as_str,
   try_blocks
 )]

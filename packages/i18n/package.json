@@ -1,9 +1,9 @@
 {
   "name": "@tsukilabs/nil-i18n",
-  "version": "0.7.21",
+  "version": "0.7.22",
   "description": "Internationalization support for Call of Nil",
   "type": "module",
-  "packageManager": "pnpm@11.21.0",
+  "packageManager": "pnpm@11.22.0",
   "license": "AGPL-3.0-only",
   "private": false,
   "homepage": "https://nil.dev.br",
@@ -30,7 +30,7 @@
     "typedoc": "typedoc --plugin typedoc-plugin-mdn-links"
   },
   "dependencies": {
-    "@tsukilabs/nil-bindings": "^0.7.20",
+    "@tsukilabs/nil-bindings": "^0.7.21",
     "vue-i18n": "^11.4.8"
   },
   "files": ["dist"],

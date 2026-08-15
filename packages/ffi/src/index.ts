@@ -49,6 +49,8 @@ import type {
   CheatGetIdleArmiesAtResponse,
   CheatGetIdlePersonnelAtRequest,
   CheatGetIdlePersonnelAtResponse,
+  CheatGetInfluenceRequest,
+  CheatGetInfluenceResponse,
   CheatGetInfrastructureRequest,
   CheatGetInfrastructureResponse,
   CheatGetManeuversOfRequest,
@@ -74,6 +76,7 @@ import type {
   CheatSetBotEthicsRequest,
   CheatSetBuildingLevelRequest,
   CheatSetFoodRequest,
+  CheatSetInfluenceRequest,
   CheatSetIronRequest,
   CheatSetMarketFeeRequest,
   CheatSetMarketVaultResourcesRequest,
@@ -114,6 +117,8 @@ import type {
   GetChatHistoryResponse,
   GetCitiesRequest,
   GetCitiesResponse,
+  GetCityLimitRequest,
+  GetCityLimitResponse,
   GetCityRequest,
   GetCityResponse,
   GetCityScoreRequest,
@@ -493,6 +498,13 @@ export class Nil implements AsyncDisposable {
   }
 
   @ThrowIfClosed
+  public async cheatGetInfluence(req: CheatGetInfluenceRequest) {
+    return this.queue.request<CheatGetInfluenceResponse>((requestId) => {
+      this.functions.nil_cheat_get_influence(requestId, JSON.stringify(req));
+    });
+  }
+
+  @ThrowIfClosed
   public async cheatGetInfrastructure(req: CheatGetInfrastructureRequest) {
     return this.queue.request<CheatGetInfrastructureResponse>((requestId) => {
       this.functions.nil_cheat_get_infrastructure(requestId, JSON.stringify(req));
@@ -587,6 +599,13 @@ export class Nil implements AsyncDisposable {
   public async cheatSetFood(req: CheatSetFoodRequest) {
     return this.queue.request((requestId) => {
       this.functions.nil_cheat_set_food(requestId, JSON.stringify(req));
+    });
+  }
+
+  @ThrowIfClosed
+  public async cheatSetInfluence(req: CheatSetInfluenceRequest) {
+    return this.queue.request((requestId) => {
+      this.functions.nil_cheat_set_influence(requestId, JSON.stringify(req));
     });
   }
 
@@ -804,6 +823,13 @@ export class Nil implements AsyncDisposable {
   public async getCity(req: GetCityRequest) {
     return this.queue.request<GetCityResponse>((requestId) => {
       this.functions.nil_get_city(requestId, JSON.stringify(req));
+    });
+  }
+
+  @ThrowIfClosed
+  public async getCityLimit(req: GetCityLimitRequest) {
+    return this.queue.request<GetCityLimitResponse>((requestId) => {
+      this.functions.nil_get_city_limit(requestId, JSON.stringify(req));
     });
   }
 

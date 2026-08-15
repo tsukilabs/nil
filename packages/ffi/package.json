@@ -1,9 +1,9 @@
 {
   "name": "@tsukilabs/nil-ffi",
-  "version": "0.7.21",
+  "version": "0.7.22",
   "description": "FFI bindings for Call of Nil",
   "type": "module",
-  "packageManager": "pnpm@11.21.0",
+  "packageManager": "pnpm@11.22.0",
   "license": "AGPL-3.0-only",
   "private": false,
   "homepage": "https://nil.dev.br",
@@ -30,8 +30,8 @@
     "typedoc": "typedoc --plugin typedoc-plugin-mdn-links"
   },
   "dependencies": {
-    "@tb-dev/utils": "^8.1.3",
-    "@tsukilabs/nil-bindings": "^0.7.20",
+    "@tb-dev/utils": "^8.1.4",
+    "@tsukilabs/nil-bindings": "^0.7.21",
     "es-toolkit": "^1.50.0"
   },
   "files": ["dist"],
