@@ -23,9 +23,9 @@ members = [
 
 [workspace.package]
 description = "Multiplayer strategy game"
-version = "0.7.22"
+version = "0.7.23"
 edition = "2024"
-rust-version = "1.99"
+rust-version = "1.100"
 license = "AGPL-3.0-only"
 readme = "./README.md"
 homepage = "https://nil.dev.br"

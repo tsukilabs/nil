@@ -1,7 +1,12 @@
 [build]
-target-dir = "target"
 rustflags = []
 
+[unstable]
+# See: https://github.com/rust-lang/cargo/issues/17009
+min-publish-age = true
+
+[registry]
+global-min-publish-age = "3 days"
+
 [env]
-CARGO_TARGET_DIR = "target"
 TS_RS_EXPORT_DIR = { value = "packages/bindings/src", relative = true }

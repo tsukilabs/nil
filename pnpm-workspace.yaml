@@ -8,7 +8,7 @@ packages:
 dedupePeers: true
 ignoreWorkspaceRootCheck: true
 
-minimumReleaseAge: 1440
+minimumReleaseAge: 4320
 minimumReleaseAgeStrict: true
 minimumReleaseAgeExclude:
   - "@tauri-store/*"

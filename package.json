@@ -1,6 +1,6 @@
 {
   "name": "nil",
-  "version": "0.7.22",
+  "version": "0.7.23",
   "type": "module",
   "packageManager": "pnpm@11.22.0",
   "license": "AGPL-3.0-only",
@@ -30,7 +30,7 @@
     "class-variance-authority": "=0.7.1",
     "clsx": "=2.1.1",
     "date-fns": "=4.4.0",
-    "es-toolkit": "=1.50.0",
+    "es-toolkit": "=1.51.0",
     "pinia": "=4.0.3",
     "reka-ui": "=2.10.3",
     "shadcn-vue": "=2.8.2",
